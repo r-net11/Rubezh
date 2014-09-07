@@ -24,7 +24,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlGkDeviceArguments = controlGkDeviceArguments;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
+			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1);
 			Variable1.UpdateVariableTypeHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);

@@ -17,8 +17,8 @@ namespace AutomationModule.ViewModels
 		{
 			ForeachArguments = foreachArguments;
 			Procedure = procedure;
-			ListVariable = new ArithmeticParameterViewModel(ForeachArguments.ListVariable, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
-			ItemVariable = new ArithmeticParameterViewModel(ForeachArguments.ItemVariable, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			ListVariable = new ArithmeticParameterViewModel(ForeachArguments.ListVariable, false);
+			ItemVariable = new ArithmeticParameterViewModel(ForeachArguments.ItemVariable, false);
 			UpdateContent();
 		}
 

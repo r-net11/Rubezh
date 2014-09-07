@@ -25,7 +25,7 @@ namespace AutomationModule.ViewModels
 			{
 				CameraCommandType.StartRecord, CameraCommandType.StopRecord
 			};
-			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
+			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectCameraCommand = new RelayCommand(OnSelectCamera);
 			UpdateContent();

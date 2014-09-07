@@ -8,7 +8,7 @@
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 		<Label Content="Пауза" />
-		<ComboBox  DataContext="{Binding Pause}" ItemsSource="{Binding VariableTypes}" 
+		<ComboBox DataContext="{Binding Pause}" ItemsSource="{Binding VariableTypes}" 
 				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>

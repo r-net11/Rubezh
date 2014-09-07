@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
-	public class PersonInspectionStepViewModel: BaseViewModel, IStepViewModel
+	public class PersonInspectionStepViewModel : BaseViewModel, IStepViewModel
 	{
 		public ArithmeticParameterViewModel CardNumber { get; set; }
 		public Procedure Procedure { get; private set; }
@@ -12,8 +12,7 @@ namespace AutomationModule.ViewModels
 		public PersonInspectionStepViewModel(PersonInspectionArguments personInspectionArguments, Procedure procedure)
 		{
 			Procedure = procedure;
-			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue };
-			CardNumber = new ArithmeticParameterViewModel(personInspectionArguments.CardNumber, variableTypes);
+			CardNumber = new ArithmeticParameterViewModel(personInspectionArguments.CardNumber);
 			UpdateContent();
 		}
 

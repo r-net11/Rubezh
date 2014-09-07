@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 			ControlDirectionArguments = controlDirectionArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlDirectionArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlDirectionArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirection);
 			UpdateContent();

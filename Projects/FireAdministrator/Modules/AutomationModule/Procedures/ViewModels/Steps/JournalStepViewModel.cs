@@ -19,8 +19,7 @@ namespace AutomationModule.ViewModels
 		{
 			JournalArguments = journalArguments;
 			Procedure = procedure;
-			var variableTypes = Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList();
-			Variable = new ArithmeticParameterViewModel(journalArguments.Variable, variableTypes);
+			Variable = new ArithmeticParameterViewModel(journalArguments.Variable);
 			ValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
 			SelectedValueType = JournalArguments.ValueType;
 			UpdateDescriptionHandler = updateDescriptionHandler;

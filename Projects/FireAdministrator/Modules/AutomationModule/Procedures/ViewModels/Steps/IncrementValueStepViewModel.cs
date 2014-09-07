@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 			IncrementValueArguments = incrementGlobalValueArguments;
 			Procedure = procedure;
 			IncrementTypes = new ObservableCollection<IncrementType> { IncrementType.Inc, IncrementType.Dec };
-			Variable1 = new ArithmeticParameterViewModel(IncrementValueArguments.Variable1, new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable });
+			Variable1 = new ArithmeticParameterViewModel(IncrementValueArguments.Variable1, false);
 			UpdateContent();
 		}
 		

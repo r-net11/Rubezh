@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 			ShowMessageArguments = showMessageArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(ShowMessageArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ShowMessageArguments.Variable1);
 			ValueTypes = new ObservableCollection<ValueType> (ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
 			UpdateContent();
 		}

@@ -176,9 +176,9 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
-			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, ProcedureHelper.GetEnumList<VariableType>());
+			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2);
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			SelectedValueType = Condition.ValueType;
 		}

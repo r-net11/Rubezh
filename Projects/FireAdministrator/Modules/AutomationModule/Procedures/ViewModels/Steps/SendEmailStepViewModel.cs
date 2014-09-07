@@ -24,9 +24,9 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			EMailTitleValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
 			EMailContentValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
-			EMailAddress = new ArithmeticParameterViewModel(SendEmailArguments.EMailAddress, ProcedureHelper.GetEnumList<VariableType>());
-			EMailTitle = new ArithmeticParameterViewModel(SendEmailArguments.EMailTitle, ProcedureHelper.GetEnumList<VariableType>());
-			EMailContent = new ArithmeticParameterViewModel(SendEmailArguments.EMailContent, ProcedureHelper.GetEnumList<VariableType>());
+			EMailAddress = new ArithmeticParameterViewModel(SendEmailArguments.EMailAddress);
+			EMailTitle = new ArithmeticParameterViewModel(SendEmailArguments.EMailTitle);
+			EMailContent = new ArithmeticParameterViewModel(SendEmailArguments.EMailContent);
 			UpdateContent();
 		}
 

@@ -139,7 +139,7 @@ namespace AutomationModule.ViewModels
 		{
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, new List<VariableType>());
+			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;

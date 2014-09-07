@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 		{
 			ExitArguments = exitArguments;
 			Procedure = procedure;
-			ExitCode = new ArithmeticParameterViewModel(exitArguments.ExitCode, ProcedureHelper.GetEnumList<VariableType>());
+			ExitCode = new ArithmeticParameterViewModel(exitArguments.ExitCode);
 			UpdateContent();
 		}
 

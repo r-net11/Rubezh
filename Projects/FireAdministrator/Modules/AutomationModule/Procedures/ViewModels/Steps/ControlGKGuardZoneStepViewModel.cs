@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 			ControlGKGuardZoneArguments = controlGKGuardZoneArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();

@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 			PauseArguments = pauseArguments;
 			Procedure = procedure;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
-			Pause = new ArithmeticParameterViewModel(PauseArguments.Pause, ProcedureHelper.GetEnumList<VariableType>());
+			Pause = new ArithmeticParameterViewModel(PauseArguments.Pause);
 			UpdateContent();
 		}
 

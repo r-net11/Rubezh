@@ -25,7 +25,7 @@ namespace AutomationModule.ViewModels
 			ControlSKDDeviceArguments = controlSKDDeviceArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.Variable1);
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 			UpdateContent();
 		}

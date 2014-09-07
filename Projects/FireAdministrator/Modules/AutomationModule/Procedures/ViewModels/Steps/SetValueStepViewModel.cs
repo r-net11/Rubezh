@@ -20,14 +20,15 @@ namespace AutomationModule.ViewModels
 		{
 			SetValueArguments = setValueArguments;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(SetValueArguments.Variable1, new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue });
-			Result = new ArithmeticParameterViewModel(SetValueArguments.Result, new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable });
+			Variable1 = new ArithmeticParameterViewModel(SetValueArguments.Variable1);
+			Result = new ArithmeticParameterViewModel(SetValueArguments.Result, false);
 			ValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
 			SelectedValueType = SetValueArguments.ValueType;
 			UpdateContent();
 		}
 
 		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+
 		public ValueType SelectedValueType
 		{
 			get { return SetValueArguments.ValueType; }

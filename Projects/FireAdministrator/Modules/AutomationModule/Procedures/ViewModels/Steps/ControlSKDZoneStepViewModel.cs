@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 			ControlSKDZoneArguments = controlSKDZoneArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<SKDZoneCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlSKDZoneArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlSKDZoneArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();

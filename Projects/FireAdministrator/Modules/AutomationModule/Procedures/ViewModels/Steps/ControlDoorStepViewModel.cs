@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 			ControlDoorArguments = controlDoorArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectDoorCommand = new RelayCommand(OnSelectDoor);
 			UpdateContent();

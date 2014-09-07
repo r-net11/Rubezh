@@ -25,9 +25,9 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ArithmeticArguments = arithmeticArguments;
-			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
-			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
-			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, ProcedureHelper.GetEnumList<VariableType>());
+			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, false);
+			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1);
+			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2);
 			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
@@ -167,8 +167,16 @@ namespace AutomationModule.ViewModels
 		public Action UpdateVariableTypeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
 
-		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<VariableType> availableVariableTypes)
+		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, bool allowImplicitValue = true)
 		{
+			var availableVariableTypes = new List<VariableType>();
+			availableVariableTypes.Add(VariableType.IsGlobalVariable);
+			availableVariableTypes.Add(VariableType.IsLocalVariable);
+			if (allowImplicitValue)
+			{
+				availableVariableTypes.Add(VariableType.IsValue);
+			}
+
 			ArithmeticParameter = arithmeticParameter;
 			VariableTypes = new ObservableCollection<VariableType>(availableVariableTypes);
 			OnPropertyChanged(() => VariableTypes);
@@ -190,6 +198,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<VariableType> VariableTypes { get; set; }
+
 		public VariableType SelectedVariableType
 		{
 			get { return ArithmeticParameter.VariableType; }
@@ -262,7 +271,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private List<VariableViewModel> Variables { get; set; }
+		List<VariableViewModel> Variables { get; set; }
+
 		public ObservableCollection<VariableViewModel> LocalVariables 
 		{ 
 			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => !x.IsGlobal)); }

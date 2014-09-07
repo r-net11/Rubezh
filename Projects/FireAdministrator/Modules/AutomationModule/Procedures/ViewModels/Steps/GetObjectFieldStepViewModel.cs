@@ -20,9 +20,9 @@ namespace AutomationModule.ViewModels
 		{
 			GetObjectFieldArguments = getObjectFieldArguments;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			Variable1 = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, false);
 			Variable1.UpdateVariableHandler += UpdateProperies;
-			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Result, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Result, false);
 			UpdateContent();
 		}
 
