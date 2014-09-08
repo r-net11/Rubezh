@@ -4,7 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 
-namespace SKDModule.PassCard.ViewModels
+namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplatePropertiesViewModel : SaveCancelDialogViewModel
 	{

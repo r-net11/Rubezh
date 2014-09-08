@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SKDModule.PassCard.Views
+namespace SKDModule.PassCardDesigner.Views
 {
 	public partial class PassCardTextPropertyView : UserControl
 	{

@@ -3,9 +3,9 @@ using FiresecAPI.SKD;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using SKDModule.PassCard.ViewModels;
+using SKDModule.PassCardDesigner.ViewModels;
 
-namespace SKDModule.PassCard.Designer
+namespace SKDModule.PassCardDesigner.Designer
 {
 	public class DesignerCanvas : Infrastructure.Designer.DesignerCanvas
 	{
@@ -67,7 +67,7 @@ namespace SKDModule.PassCard.Designer
 		public override void DesignerChanged()
 		{
 			base.DesignerChanged();
-			ServiceFactory.SaveService.SKDPassCardLibraryChanged = true;
+			//ServiceFactory.SaveService.SKDPassCardLibraryChanged = true;
 		}
 	}
 }

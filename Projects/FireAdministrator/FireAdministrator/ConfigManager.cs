@@ -124,8 +124,6 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1);
-				if (ServiceFactory.SaveService.SKDPassCardLibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "SKDPassCardLibraryConfiguration.xml", SKDManager.SKDPassCardLibraryConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.LayoutsChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
 

@@ -3,9 +3,9 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
-using SKDModule.PassCard.ViewModels;
+using SKDModule.PassCardDesigner.ViewModels;
 
-namespace SKDModule.PassCard.InstrumentAdorners
+namespace SKDModule.PassCardDesigner.InstrumentAdorners
 {
 	public class PassCardTextPropertyAdorner : BaseRectangleAdorner
 	{

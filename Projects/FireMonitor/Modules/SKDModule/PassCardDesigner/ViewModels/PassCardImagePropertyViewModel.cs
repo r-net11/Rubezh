@@ -7,7 +7,7 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 
-namespace SKDModule.PassCard.ViewModels
+namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardImagePropertyViewModel : RectanglePropertiesViewModel
 	{

@@ -101,7 +101,6 @@
     <Compile Include="Layout\Views\LayoutPartPropertyVerificationPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyVerificationPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PassCard\Designer\DesignerCanvas.cs" />
     <Compile Include="Devices\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ReaderPropertiesViewModel.cs" />
@@ -117,7 +116,6 @@
     </Compile>
     <Compile Include="Events\CreateSKDZoneEvent.cs" />
     <Compile Include="Events\EditSKDZoneEvent.cs" />
-    <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
     <Compile Include="Events\ShowSKDLidraryEvent.cs" />
@@ -165,17 +163,6 @@
     </Compile>
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PassCard\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
-    <Compile Include="PassCard\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
-    <Compile Include="PassCard\Painter\PassCardImagePropertyPainter.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardImagePropertyViewModel.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardTextPropertyViewModel.cs" />
-    <Compile Include="PassCard\Views\PassCardImagePropertyView.xaml.cs">
-      <DependentUpon>PassCardImagePropertyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PassCard\Views\PassCardTextPropertyView.xaml.cs">
-      <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\DoorPainter.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
@@ -271,16 +258,6 @@
     <Compile Include="Validation\TimeIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.TimeIntervals.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardTemplatePropertiesViewModel.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardDesignerViewModel.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardsDesignerViewModel.cs" />
-    <Compile Include="PassCard\ViewModels\PassCardTemplateViewModel.cs" />
-    <Compile Include="PassCard\Views\PassCardsDesignerView.xaml.cs">
-      <DependentUpon>PassCardsDesignerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PassCard\Views\PassCardTemplatePropertiesView.xaml.cs">
-      <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Validation\WeeklyIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.WeeklyIntervals.cs" />
     <Compile Include="Validation\SlideDayIntervalValidationError.cs" />
@@ -449,14 +426,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PassCard\Views\PassCardImagePropertyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PassCard\Views\PassCardTextPropertyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -537,14 +506,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PassCard\Views\PassCardsDesignerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PassCard\Views\PassCardTemplatePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -578,12 +539,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Doors\Views\DoorsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="PassCard\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

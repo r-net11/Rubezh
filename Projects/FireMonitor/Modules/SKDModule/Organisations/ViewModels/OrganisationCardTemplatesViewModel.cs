@@ -10,11 +10,11 @@ namespace SKDModule.ViewModels
 			: base(organisation)
 		{
 			Items = new ObservableCollection<OrganisationCardTemplateViewModel>();
-			foreach (var cardTemplate in SKDManager.SKDPassCardLibraryConfiguration.Templates)
-			{
-				var CardTemplateViewModel = new OrganisationCardTemplateViewModel(organisation, cardTemplate);
-				Items.Add(CardTemplateViewModel);
-			}
+			//foreach (var cardTemplate in SKDManager.SKDPassCardLibraryConfiguration.Templates)
+			//{
+			//    var CardTemplateViewModel = new OrganisationCardTemplateViewModel(organisation, cardTemplate);
+			//    Items.Add(CardTemplateViewModel);
+			//}
 			SelectedItem = Items.FirstOrDefault();
 		}
 	}

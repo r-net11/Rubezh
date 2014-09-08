@@ -6,10 +6,10 @@ using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using SKDModule.PassCard.Designer;
-using SKDModule.PassCard.Painter;
+using SKDModule.PassCardDesigner.Designer;
+using SKDModule.PassCardDesigner.Painter;
 
-namespace SKDModule.PassCard.ViewModels
+namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
 	{

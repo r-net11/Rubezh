@@ -5,7 +5,7 @@ using FiresecAPI.SKD;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
 
-namespace SKDModule.PassCard.Painter
+namespace SKDModule.PassCardDesigner.Painter
 {
 	public class PassCardImagePropertyPainter : RectanglePainter
 	{

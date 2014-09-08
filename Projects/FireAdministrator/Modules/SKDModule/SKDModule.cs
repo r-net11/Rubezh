@@ -14,7 +14,6 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Designer;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
-using SKDModule.PassCard.ViewModels;
 using SKDModule.Plans;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
@@ -33,7 +32,6 @@ namespace SKDModule
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
-		PassCardsDesignerViewModel PassCardDesignerViewModel;
 		SettingsViewModel SettingsViewModel;
 		LibraryViewModel LibraryViewModel;
 		SKDPlanExtension _planExtension;
@@ -45,7 +43,6 @@ namespace SKDModule
 			ServiceFactory.Events.GetEvent<CreateDoorEvent>().Subscribe(OnCreateDoor);
 			ServiceFactory.Events.GetEvent<EditDoorEvent>().Subscribe(OnEditDoor);
 
-			PassCardDesignerViewModel = new PassCardsDesignerViewModel();
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
@@ -61,7 +58,6 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
-			PassCardDesignerViewModel.Initialize();
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
@@ -85,7 +81,6 @@ namespace SKDModule
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
-					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков", "/Controls;component/Images/PassCardDesigner.png", null, null, Guid.Empty),
 					new NavigationItem("Графики", "/Controls;component/Images/ShedulesW.png", new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, -1),
@@ -113,12 +108,10 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Doors/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Library/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeIntervals/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
-			DesignerLoader.RegisterResource();
 		}
 
 		#region IValidationModule Members

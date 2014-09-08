@@ -194,17 +194,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _skdPassCardLibraryChanged;
-		public bool SKDPassCardLibraryChanged
-		{
-			get { return _skdPassCardLibraryChanged; }
-			set
-			{
-				_skdPassCardLibraryChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _layoutsChanged;
 		public bool LayoutsChanged
 		{
@@ -238,7 +227,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || SKDPassCardLibraryChanged || LayoutsChanged || AutomationChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -269,7 +258,6 @@ namespace Infrastructure
 			OPCChanged = value;
 			SKDChanged = value;
 			SKDLibraryChanged = value;
-			SKDPassCardLibraryChanged = value;
 			EmailsChanged = value;
 			LayoutsChanged = value;
 			AutomationChanged = value;

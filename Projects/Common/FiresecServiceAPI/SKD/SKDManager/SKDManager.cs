@@ -9,13 +9,11 @@ namespace FiresecAPI.SKD
 	{
 		public static SKDConfiguration SKDConfiguration { get; set; }
 		public static SKDLibraryConfiguration SKDLibraryConfiguration { get; set; }
-		public static SKDPassCardLibraryConfiguration SKDPassCardLibraryConfiguration { get; set; }
 		public static List<SKDDriver> Drivers { get; set; }
 
 		static SKDManager()
 		{
 			SKDConfiguration = new SKDConfiguration();
-			SKDPassCardLibraryConfiguration = new SKDPassCardLibraryConfiguration();
 			CreateDrivers();
 		}
 
@@ -44,8 +42,6 @@ namespace FiresecAPI.SKD
 			SKDConfiguration = new SKDConfiguration();
 			SKDConfiguration.ValidateVersion();
 			UpdateConfiguration();
-
-			SKDPassCardLibraryConfiguration.Templates = new List<PassCardTemplate>();
 		}
 
 		public static void UpdateConfiguration()

@@ -10,14 +10,13 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
-using Infrastructure.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Services;
-using SKDModule.PassCard.InstrumentAdorners;
+using SKDModule.PassCardDesigner.InstrumentAdorners;
 
-namespace SKDModule.PassCard.ViewModels
+namespace SKDModule.PassCardDesigner.ViewModels
 {
-	public class PassCardsDesignerViewModel : MenuViewPartViewModel, ISelectable<Guid>
+	public class PassCardsDesignerViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public const string PassCardImagePropertiesGroup = "PassCardImagePropertiesGroup";
 		public const string PassCardTextPropertiesGroup = "PassCardTextPropertiesGroup";
@@ -44,22 +43,22 @@ namespace SKDModule.PassCard.ViewModels
 			Menu = new MenuViewModel()
 			{
 				Items = new ObservableCollection<BaseViewModel>()
-				{
-					new MenuButtonViewModel(AddCommand, "/Controls;component/Images/Add.png" , "Добавить"),
-					new MenuButtonViewModel(EditCommand, "/Controls;component/Images/Edit.png" , "Редактировать"),
-					new MenuButtonViewModel(RemoveCommand, "/Controls;component/Images/Delete.png" , "Удалить"),
-					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "/Controls;component/Images/Copy.png" , "Копировать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "/Controls;component/Images/Cut.png" , "Вырезать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "/Controls;component/Images/Paste.png" , "Вставить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "/Controls;component/Images/Undo.png" , "Отменить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "/Controls;component/Images/Redo.png" , "Применить"),
-					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "/Controls;component/Images/MoveForward.png" , "Вверх"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "/Controls;component/Images/MoveBackward.png" , "Вниз"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "/Controls;component/Images/MoveFront.png" , "Выше"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "/Controls;component/Images/MoveBack.png" , "Ниже"),
-				}
+			    {
+			        new MenuButtonViewModel(AddCommand, "/Controls;component/Images/Add.png" , "Добавить"),
+			        new MenuButtonViewModel(EditCommand, "/Controls;component/Images/Edit.png" , "Редактировать"),
+			        new MenuButtonViewModel(RemoveCommand, "/Controls;component/Images/Delete.png" , "Удалить"),
+			        //new MenuSeparatorViewModel(),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "/Controls;component/Images/Copy.png" , "Копировать"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "/Controls;component/Images/Cut.png" , "Вырезать"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "/Controls;component/Images/Paste.png" , "Вставить"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "/Controls;component/Images/Undo.png" , "Отменить"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "/Controls;component/Images/Redo.png" , "Применить"),
+			        //new MenuSeparatorViewModel(),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "/Controls;component/Images/MoveForward.png" , "Вверх"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "/Controls;component/Images/MoveBackward.png" , "Вниз"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "/Controls;component/Images/MoveFront.png" , "Выше"),
+			        new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "/Controls;component/Images/MoveBack.png" , "Ниже"),
+			    }
 			};
 			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 		}
@@ -69,10 +68,12 @@ namespace SKDModule.PassCard.ViewModels
 			using (new TimeCounter("PassCardsDesignerViewModel.Initialize: {0}"))
 			{
 				PassCardTemplates = new ObservableCollection<PassCardTemplateViewModel>();
-				SKDManager.SKDPassCardLibraryConfiguration.Templates.ForEach(item => PassCardTemplates.Add(new PassCardTemplateViewModel(item)));
+				//SKDManager.SKDPassCardLibraryConfiguration.Templates.ForEach(item => PassCardTemplates.Add(new PassCardTemplateViewModel(item)));
 				SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
 			}
 		}
+
+		public MenuViewModel Menu { get; private set; }
 
 		private ObservableCollection<PassCardTemplateViewModel> _passCardTemplates;
 		public ObservableCollection<PassCardTemplateViewModel> PassCardTemplates
@@ -141,7 +142,7 @@ namespace SKDModule.PassCard.ViewModels
 					var passCardTemplateViewModel = new PassCardTemplateViewModel(dialog.PassCardTemplate);
 					PassCardTemplates.Add(passCardTemplateViewModel);
 					SelectedPassCardTemplate = passCardTemplateViewModel;
-					SKDManager.SKDPassCardLibraryConfiguration.Templates.Add(dialog.PassCardTemplate);
+					//SKDManager.SKDPassCardLibraryConfiguration.Templates.Add(dialog.PassCardTemplate);
 					DesignerCanvas.DesignerChanged();
 				}
 		}
@@ -152,7 +153,7 @@ namespace SKDModule.PassCard.ViewModels
 			if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
 				using (new WaitWrapper())
 				{
-					SKDManager.SKDPassCardLibraryConfiguration.Templates.Remove(SelectedPassCardTemplate.PassCardTemplate);
+					//SKDManager.SKDPassCardLibraryConfiguration.Templates.Remove(SelectedPassCardTemplate.PassCardTemplate);
 					PassCardTemplates.Remove(SelectedPassCardTemplate);
 					DesignerCanvas.DesignerChanged();
 					SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();

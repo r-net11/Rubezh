@@ -17,8 +17,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
+using SKDModule.PassCardDesigner.ViewModels;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
+using Infrastructure.Designer;
 
 namespace SKDModule
 {
@@ -35,6 +37,7 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		TimeTrackingViewModel _timeTrackingViewModel;
+		PassCardsDesignerViewModel PassCardDesignerViewModel;
 		PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
@@ -54,6 +57,7 @@ namespace SKDModule
 			ScheduleSchemesMonthlyViewModel = new ScheduleSchemesMonthlyViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
+			PassCardDesignerViewModel = new PassCardsDesignerViewModel();
 			_timeTrackingViewModel = new TimeTrackingViewModel();
 
 			SubscribeShowDelailsEvent();
@@ -109,6 +113,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+						new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков", "/Controls;component/Images/PassCardDesigner.png", null, null, Guid.Empty),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
 						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
 						{
@@ -131,6 +136,7 @@ namespace SKDModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
+			PassCardDesignerViewModel.Initialize();
 		}
 
 		public override string Name
@@ -156,6 +162,8 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
+			DesignerLoader.RegisterResource();
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

@@ -348,7 +348,6 @@
     <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
-    <Compile Include="SKD\PassCardLibrary\SKDPassCardLibraryConfiguration.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Position\Position.cs" />
     <Compile Include="SKD\Position\PositionFilter.cs" />
