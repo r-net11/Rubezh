@@ -24,7 +24,13 @@ namespace FiresecAPI.Automation
 		{
 			Name = name;
 		}
-		
+
+		[DataMember]
+		public Guid Uid { get; set; }
+
+		[DataMember]
+		public ValueType ValueType { get; set; }
+
 		[DataMember]
 		public bool IsList { get; set; }
 
@@ -63,12 +69,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid UidValue { get; set; }
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
-		[DataMember]
-		public ValueType ValueType { get; set; }
 
 		[DataMember]
 		public ObjectType ObjectType { get; set; }

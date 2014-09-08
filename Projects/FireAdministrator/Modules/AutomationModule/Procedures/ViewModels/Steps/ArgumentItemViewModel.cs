@@ -38,6 +38,16 @@ namespace AutomationModule.ViewModels
 			SelectedVariableType = ArithmeticParameter.VariableType;
 		}
 
+		public void Update()
+		{
+			//UpdateVariables();
+			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
+			if (SelectedVariable != null)
+			{
+				SelectedVariable.Update();
+			}
+		}
+
 		public ObservableCollection<VariableType> VariableTypes { get; private set; }
 
 		public VariableType SelectedVariableType
@@ -49,42 +59,45 @@ namespace AutomationModule.ViewModels
 				if (UpdateVariableTypeHandler != null)
 					UpdateVariableTypeHandler();
 				OnPropertyChanged(() => SelectedVariableType);
-
-				Variables = new ObservableCollection<VariableViewModel>();
-				switch(value)
-				{
-					case VariableType.IsLocalVariable:
-						foreach (var argumrnt in Procedure.Arguments)
-						{
-							if (ValueTypes.Contains(argumrnt.ValueType))
-							{
-								var variableViewModel = new VariableViewModel(argumrnt);
-								Variables.Add(variableViewModel);
-							}
-						}
-						foreach (var variable in Procedure.Variables)
-						{
-							if (ValueTypes.Contains(variable.ValueType))
-							{
-								var variableViewModel = new VariableViewModel(variable);
-								Variables.Add(variableViewModel);
-							}
-						}
-						break;
-
-					case VariableType.IsGlobalVariable:
-						foreach (var variable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
-						{
-							if (ValueTypes.Contains(variable.ValueType))
-							{
-								var variableViewModel = new VariableViewModel(variable);
-								Variables.Add(variableViewModel);
-							}
-						}
-						break;
-				}
+				UpdateVariables();	
 				ShowVariables = value != VariableType.IsValue;
-				NotShowVariables = !ShowVariables;
+			}
+		}
+
+		void UpdateVariables()
+		{
+			Variables = new ObservableCollection<VariableViewModel>();
+			switch (SelectedVariableType)
+			{
+				case VariableType.IsLocalVariable:
+					foreach (var argumrnt in Procedure.Arguments)
+					{
+						if (ValueTypes.Contains(argumrnt.ValueType))
+						{
+							var variableViewModel = new VariableViewModel(argumrnt);
+							Variables.Add(variableViewModel);
+						}
+					}
+					foreach (var variable in Procedure.Variables)
+					{
+						if (ValueTypes.Contains(variable.ValueType))
+						{
+							var variableViewModel = new VariableViewModel(variable);
+							Variables.Add(variableViewModel);
+						}
+					}
+					break;
+
+				case VariableType.IsGlobalVariable:
+					foreach (var variable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+					{
+						if (ValueTypes.Contains(variable.ValueType))
+						{
+							var variableViewModel = new VariableViewModel(variable);
+							Variables.Add(variableViewModel);
+						}
+					}
+					break;
 			}
 		}
 
@@ -110,17 +123,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _notShowVariables;
-		public bool NotShowVariables
-		{
-			get { return _notShowVariables; }
-			set
-			{
-				_notShowVariables = value;
-				OnPropertyChanged(() => NotShowVariables);
-			}
-		}
-
 		VariableViewModel _selectedVariable;
 		public VariableViewModel SelectedVariable
 		{
@@ -128,7 +130,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedVariable = value;
-				if (_selectedVariable != null)
+				if (value != null)
 				{
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
 					if (UpdateVariableHandler != null)

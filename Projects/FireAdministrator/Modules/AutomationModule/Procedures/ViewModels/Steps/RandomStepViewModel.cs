@@ -17,13 +17,13 @@ namespace AutomationModule.ViewModels
 			: base(updateDescriptionHandler)
 		{
 			RandomArguments = randomArguments;
-			MaxValue = new ArgumentItemViewModel(procedure, randomArguments.MaxValue, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
 			Procedure = procedure;
-			UpdateContent();
+			MaxValue = new ArgumentItemViewModel(procedure, randomArguments.MaxValue, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
+			MaxValue.Update();
 		}
 
 		public override string Description

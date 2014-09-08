@@ -1,43 +1,14 @@
 ﻿<UserControl x:Class="AutomationModule.Views.PauseStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 		<Label Content="Пауза" />
-        <StackPanel Orientation="Horizontal" DataContext="{Binding Pause}">
-		    <ComboBox ItemsSource="{Binding VariableTypes}" SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}">
-			    <ComboBox.ItemTemplate>
-				    <DataTemplate>
-					    <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-				    </DataTemplate>
-			    </ComboBox.ItemTemplate>
-		    </ComboBox>
-		    <ComboBox ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-				      Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			    ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}">
-			    <ComboBox.ItemTemplate>
-				    <DataTemplate>
-					    <TextBlock Text="{Binding Name}" />
-				    </DataTemplate>
-			    </ComboBox.ItemTemplate>
-		    </ComboBox>
-		    <ComboBox ItemsSource="{Binding LocalVariables}" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-				      Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			    ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}">
-			    <ComboBox.ItemTemplate>
-				    <DataTemplate>
-					    <TextBlock Text="{Binding Name}" />
-				    </DataTemplate>
-			    </ComboBox.ItemTemplate>
-		    </ComboBox>
-		    <extToolkit:IntegerUpDown Value="{Binding IntValue}"
-				Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			    ConverterParameter={x:Static automation:VariableType.IsValue}}" Minimum="1" />
-        </StackPanel>
+        <Views:ArgumentItemView DataContext="{Binding Pause}" Margin="2" />
+
         <ComboBox ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>

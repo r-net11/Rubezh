@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 	{
 		private Procedure Procedure { get; set; }
 		public PauseArguments PauseArguments { get; private set; }
-		public ArithmeticParameterViewModel Pause { get; set; }
+		public ArgumentItemViewModel Pause { get; set; }
 
 		public PauseStepViewModel(PauseArguments pauseArguments, Procedure procedure, Action updateDescriptionHandler)
 			: base(updateDescriptionHandler)
@@ -19,13 +19,13 @@ namespace AutomationModule.ViewModels
 			PauseArguments = pauseArguments;
 			Procedure = procedure;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
-			Pause = new ArithmeticParameterViewModel(PauseArguments.Pause);
+			Pause = new ArgumentItemViewModel(procedure, PauseArguments.Pause, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
 			UpdateContent();
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
-			Pause.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer));
+			Pause.Update();
 		}
 
 		public override string Description
@@ -34,6 +34,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<TimeType> TimeTypes { get; private set; }
+
 		public TimeType SelectedTimeType
 		{
 			get { return PauseArguments.TimeType; }

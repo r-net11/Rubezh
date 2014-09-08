@@ -19,6 +19,9 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
+		public Guid VariableUid { get; set; }
+
+		[DataMember]
 		public VariableType VariableType { get; set; }
 
 		[DataMember]
@@ -38,8 +41,5 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public string TypeValue { get; set; }
-
-		[DataMember]
-		public Guid VariableUid { get; set; }
 	}
 }
