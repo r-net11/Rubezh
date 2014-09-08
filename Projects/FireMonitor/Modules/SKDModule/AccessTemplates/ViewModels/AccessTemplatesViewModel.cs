@@ -5,7 +5,7 @@ using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-    public class AccessTemplatesViewModel : CartothequeTabItemCopyPasteBase<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>
+    public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>
 	{
 		protected override IEnumerable<AccessTemplate> GetModels(AccessTemplateFilter filter)
 		{

@@ -272,21 +272,21 @@ namespace ChinaSKDDriver
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
-		public static OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID)
+		public static OperationResult<DoorType> GetControllerDoorType(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<SKDControllerDirectionType>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+					return new OperationResult<DoorType>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
-				var directionType = deviceProcessor.Wrapper.GetControllerDirectionType();
-				return new OperationResult<SKDControllerDirectionType>() { Result = directionType };
+				var doorType = deviceProcessor.Wrapper.GetControllerDoorType();
+				return new OperationResult<DoorType>() { Result = doorType };
 			}
-			return new OperationResult<SKDControllerDirectionType>("Не найден контроллер в конфигурации");
+			return new OperationResult<DoorType>("Не найден контроллер в конфигурации");
 		}
 
-		public static OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType)
+		public static OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
@@ -294,7 +294,7 @@ namespace ChinaSKDDriver
 				if (!deviceProcessor.IsConnected)
 					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
-				var result = deviceProcessor.Wrapper.SetControllerDirectionType(directionType);
+				var result = deviceProcessor.Wrapper.SetControllerDoorType(doorType);
 				//deviceProcessor.Reconnect();
 				if (result)
 					return new OperationResult<bool>() { Result = true };
@@ -313,6 +313,78 @@ namespace ChinaSKDDriver
 					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetControllerPassword(name, oldPassword, password);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+			}
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<SKDControllerTimeSettings>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var doorType = deviceProcessor.Wrapper.GetControllerTimeSettings();
+				return new OperationResult<SKDControllerTimeSettings>() { Result = doorType };
+			}
+			return new OperationResult<SKDControllerTimeSettings>("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var result = deviceProcessor.Wrapper.SetControllerTimeSettings(controllerTimeSettings);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+			}
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<SKDControllerNetworkSettings>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
+				var controllerNetworkSettings = new SKDControllerNetworkSettings();
+				controllerNetworkSettings.Address = deviceNetInfo.IP;
+				controllerNetworkSettings.Mask = deviceNetInfo.SubnetMask;
+				controllerNetworkSettings.DefaultGateway = deviceNetInfo.DefaultGateway;
+				controllerNetworkSettings.MTU = deviceNetInfo.MTU;
+				return new OperationResult<SKDControllerNetworkSettings>() { Result = controllerNetworkSettings };
+			}
+			return new OperationResult<SKDControllerNetworkSettings>("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var deviceNetInfo = new DeviceNetInfo();
+				deviceNetInfo.IP = controllerNetworkSettings.Address;
+				deviceNetInfo.SubnetMask = controllerNetworkSettings.Mask;
+				deviceNetInfo.DefaultGateway = controllerNetworkSettings.DefaultGateway;
+				deviceNetInfo.MTU = controllerNetworkSettings.MTU;
+				var result = deviceProcessor.Wrapper.SetDeviceNetInfo(deviceNetInfo);
 				if (result)
 					return new OperationResult<bool>() { Result = true };
 				else

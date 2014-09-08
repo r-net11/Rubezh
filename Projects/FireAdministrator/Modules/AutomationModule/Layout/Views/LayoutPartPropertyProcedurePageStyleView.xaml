@@ -53,5 +53,4 @@
 			<CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UseCustomStyle}" />
 		</Grid>
 	</Border>
-
 </UserControl>

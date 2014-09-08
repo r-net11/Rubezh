@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class Schedule : OrganisationElementBase, IWithName, IWithOrganisationUID, IWithUID
+    public class Schedule : OrganisationElementBase, IOrganisationElement
 	{
 		public Schedule()
 		{
@@ -32,5 +32,7 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<ScheduleZone> Zones { get; set; }
+
+        public string Description { get { return ""; } }
 	}
 }

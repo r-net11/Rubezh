@@ -9,20 +9,21 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class GetObjectFieldStepViewModel: BaseViewModel, IStepViewModel
+	public class GetObjectFieldStepViewModel: BaseStepViewModel
 	{
 		GetObjectFieldArguments GetObjectFieldArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		public ArithmeticParameterViewModel Result { get; private set; }
 
-		public GetObjectFieldStepViewModel(GetObjectFieldArguments getObjectFieldArguments, Procedure procedure)
+		public GetObjectFieldStepViewModel(GetObjectFieldArguments getObjectFieldArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			GetObjectFieldArguments = getObjectFieldArguments;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			Variable1 = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, false);
 			Variable1.UpdateVariableHandler += UpdateProperies;
-			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Result, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Result, false);
 			UpdateContent();
 		}
 
@@ -50,7 +51,7 @@ namespace AutomationModule.ViewModels
 			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SchedulesViewModel : CartothequeTabItemCopyPasteBase<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>
+	public class SchedulesViewModel : OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>
 	{
 		bool _isInitialized;
 		
@@ -37,6 +37,12 @@ namespace SKDModule.ViewModels
         {
             if (_isInitialized)
                 base.OnOrganisationUsersChanged(newOrganisation);
+        }
+
+        protected override void OnRemoveOrganisation(Guid organisationUID)
+        {
+            if (_isInitialized)
+                base.OnRemoveOrganisation(organisationUID);
         }
 
 		public override void OnShow()

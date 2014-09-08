@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 				foreach (var additionalColumnType in additionalColumnTypes)
 				{
 					var textColumn = Model.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
-					var columnValue = textColumn != null ? textColumn.Text : "";
+                    var columnValue = textColumn != null ? textColumn.Text : "";
 					result[i] = columnValue;
 					i++;
 				}

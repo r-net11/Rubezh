@@ -16,21 +16,24 @@ namespace SKDModule.ViewModels
 			{
 				if (skdDevice.DriverType == SKDDriverType.Reader)
 				{
-					if (doorType == DoorType.TwoWay)
+					if (skdDevice.Parent != null && skdDevice.Parent.DoorType == doorType)
 					{
-						if (skdDevice.IntAddress % 2 == 1)
+						if (doorType == DoorType.TwoWay)
+						{
+							if (skdDevice.IntAddress % 2 == 1)
+								continue;
+							var outReader = SKDManager.Devices.FirstOrDefault(x => x.Parent != null && skdDevice.Parent != null && x.Parent.UID == skdDevice.Parent.UID && x.IntAddress == skdDevice.IntAddress + 1);
+							if (outReader == null)
+								continue;
+							if (outReader.Door != null)
+								continue;
+						}
+
+						if (skdDevice.Door != null)
 							continue;
-						var outReader = SKDManager.Devices.FirstOrDefault(x => x.Parent != null && skdDevice.Parent != null && x.Parent.UID == skdDevice.Parent.UID && x.IntAddress == skdDevice.IntAddress + 1);
-						if(outReader == null)
-							continue;
-						if (outReader.Door != null)
-						continue;
+
+						Devices.Add(skdDevice);
 					}
-
-					if (skdDevice.Door != null)
-						continue;
-
-					Devices.Add(skdDevice);
 				}
 			}
 			SelectedDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);

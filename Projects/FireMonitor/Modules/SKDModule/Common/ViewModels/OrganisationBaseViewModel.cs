@@ -9,30 +9,37 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class CartothequeTabItemBase<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel
+	public abstract class OrganisationBaseViewModel<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel
 		where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
-		where ModelT : class, IWithOrganisationUID, IWithUID, IWithName, new()
+        where ModelT : class, IOrganisationElement, new()
 		where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
 		where FilterT : OrganisationFilterBase
 	{
-		public CartothequeTabItemBase()
+        public OrganisationBaseViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+            CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
-		}
+            ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+            ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
+        }
 
-		protected abstract IEnumerable<ModelT> GetModels(FilterT filter);
+        protected ModelT _clipboard;
+        protected abstract IEnumerable<ModelT> GetModels(FilterT filter);
 		protected abstract IEnumerable<ModelT> GetModelsByOrganisation(Guid organisauinUID);
 		protected abstract bool MarkDeleted(Guid uid);
+        protected abstract bool Save(ModelT item);
 
 		protected ModelT ShowDetails(Organisation organisation, ModelT model = null)
 		{
@@ -49,14 +56,16 @@ namespace SKDModule.ViewModels
 		public virtual void Initialize(FilterT filter)
 		{
 			var result = InitializeOrganisations(filter);
-			if (!result)
-				return;
-			var models = GetModels(filter);
-			if (models == null)
-				return;
-			InitializeModels(models);
-			OnPropertyChanged(() => Organisations);
-			SelectedItem = Organisations.FirstOrDefault();
+            if (result)
+            {
+                var models = GetModels(filter);
+                if (models != null)
+                {
+                    InitializeModels(models);
+                    OnPropertyChanged(() => Organisations);
+                    SelectedItem = Organisations.FirstOrDefault();
+                }
+            }
 		}
 
 		protected virtual bool InitializeOrganisations(FilterT filter)
@@ -66,7 +75,7 @@ namespace SKDModule.ViewModels
 			if (organisations == null)
 				return false;
 			Organisations = new ObservableCollection<ViewModelT>();
-			foreach (var organisation in organisations)
+			foreach (var organisation in organisations) 
 			{
 				var organisationViewModel = new ViewModelT();
 				organisationViewModel.InitializeOrganisation(organisation, this);
@@ -98,7 +107,6 @@ namespace SKDModule.ViewModels
 			{
 				organisation.Update(newOrganisation);
 			}
-			OnPropertyChanged(() => Organisations);
 		}
 
 		protected virtual void OnOrganisationUsersChanged(Organisation newOrganisation)
@@ -112,7 +120,6 @@ namespace SKDModule.ViewModels
 				if (models == null)
 					return;
 				InitializeModels(models);
-				OnPropertyChanged(() => Organisations);
 			}
 			else
 			{
@@ -120,12 +127,29 @@ namespace SKDModule.ViewModels
 				if (organisationViewModel != null)
 				{
 					Organisations.Remove(organisationViewModel);
-					OnPropertyChanged(() => Organisations);
 				}
 			}
 		}
 
-		public ObservableCollection<ViewModelT> Organisations { get; private set; }
+        protected virtual void OnRemoveOrganisation(Guid organisationUID)
+        {
+            var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == organisationUID);
+            if (organisationViewModel != null)
+            {
+                Organisations.Remove(organisationViewModel);
+            }
+        }
+
+        ObservableCollection<ViewModelT> _organisations;
+        public ObservableCollection<ViewModelT> Organisations 
+        {
+            get { return _organisations; } 
+            private set
+            {
+                _organisations = value;
+                OnPropertyChanged(() => Organisations);
+            }
+        }
 
 		ViewModelT _selectedItem;
 		public ViewModelT SelectedItem
@@ -230,6 +254,42 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedItem != null && SelectedItem.Parent != null && !SelectedItem.IsOrganisation;
+		}
+
+        public RelayCommand CopyCommand { get; private set; }
+		protected virtual void OnCopy()
+		{
+			_clipboard = CopyModel(SelectedItem.Model, false);
+		}
+		protected virtual bool CanCopy()
+		{
+			return SelectedItem != null && !SelectedItem.IsOrganisation;
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		protected virtual void OnPaste()
+		{
+			var newItem = CopyModel(_clipboard);
+			if (Save(newItem))
+			{
+				var itemVireModel = new ViewModelT();
+				itemVireModel.InitializeModel(SelectedItem.Organisation, newItem, this);
+				ParentOrganisation.AddChild(itemVireModel);
+				SelectedItem = itemVireModel;
+			}
+		}
+		protected virtual bool CanPaste()
+		{
+			return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
+		}
+
+		protected virtual ModelT CopyModel(ModelT source, bool newName = true)
+		{
+			var copy = new ModelT();
+			copy.UID = Guid.NewGuid();
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
+			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
+			return copy;
 		}
 	}
 }

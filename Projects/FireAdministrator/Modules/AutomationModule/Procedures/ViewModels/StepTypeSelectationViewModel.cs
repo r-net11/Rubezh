@@ -76,7 +76,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
 							new StepTypeViewModel(ProcedureStepType.PersonInspection),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
-							new StepTypeViewModel(ProcedureStepType.GetObjectField)
+							new StepTypeViewModel(ProcedureStepType.GetObjectField),
+							new StepTypeViewModel(ProcedureStepType.Random)
 						}),
 						new StepTypeViewModel("Интерактивная логика",
 						new List<StepTypeViewModel>()
@@ -93,7 +94,6 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
 							new StepTypeViewModel(ProcedureStepType.IncrementValue),
-							new StepTypeViewModel(ProcedureStepType.GetString),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
 						}),

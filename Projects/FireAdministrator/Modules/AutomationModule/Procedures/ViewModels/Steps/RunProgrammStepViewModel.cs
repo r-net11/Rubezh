@@ -6,13 +6,14 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class RunProgrammStepViewModel : BaseViewModel, IStepViewModel
+	public class RunProgrammStepViewModel : BaseStepViewModel
 	{
 		RunProgrammArguments RunProgrammArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		Procedure Procedure { get; set; }
 
 		public RunProgrammStepViewModel(RunProgrammArguments runProgrammArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			RunProgrammArguments = runProgrammArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
@@ -45,7 +46,7 @@ namespace AutomationModule.ViewModels
 			
 		}
 
-		public string Description
+		public override string Description
 		{
 			get
 			{

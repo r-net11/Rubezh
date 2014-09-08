@@ -24,7 +24,13 @@ namespace FiresecAPI.Automation
 		{
 			Name = name;
 		}
-		
+
+		[DataMember]
+		public Guid Uid { get; set; }
+
+		[DataMember]
+		public ValueType ValueType { get; set; }
+
 		[DataMember]
 		public bool IsList { get; set; }
 
@@ -65,12 +71,6 @@ namespace FiresecAPI.Automation
 		public Guid UidValue { get; set; }
 
 		[DataMember]
-		public Guid Uid { get; set; }
-
-		[DataMember]
-		public ValueType ValueType { get; set; }
-
-		[DataMember]
 		public ObjectType ObjectType { get; set; }
 
 		[DataMember]
@@ -79,24 +79,24 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public List<VariableItem> VariableItems { get; set; }
 
-		public string CurrentValue
-		{
-			get
-			{
-				if (!IsList && ValueType == ValueType.Boolean)
-					return BoolValue.ToString();
-				if (!IsList && ValueType == ValueType.DateTime)
-					return DateTimeValue.ToString();
-				if (!IsList && ValueType == ValueType.Integer)
-					return IntValue.ToString();
-				if (!IsList && ValueType == ValueType.String)
-					return StringValue;
-				if (ValueType == ValueType.Object)
-					return ObjectType.ToString();
+		//public string CurrentValue
+		//{
+		//    get
+		//    {
+		//        if (!IsList && ValueType == ValueType.Boolean)
+		//            return BoolValue.ToString();
+		//        if (!IsList && ValueType == ValueType.DateTime)
+		//            return DateTimeValue.ToString();
+		//        if (!IsList && ValueType == ValueType.Integer)
+		//            return IntValue.ToString();
+		//        if (!IsList && ValueType == ValueType.String)
+		//            return StringValue;
+		//        if (ValueType == ValueType.Object)
+		//            return ObjectType.ToString();
 
-				return "Неизветсное значение";
-			}
-		}
+		//        return "Неизветсное значение";
+		//    }
+		//}
 
 		public void ResetValue()
 		{

@@ -48,7 +48,7 @@ namespace AutomationModule
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ValueType valueType)
 		{
 			if ((valueType == ValueType.Integer) || (valueType == ValueType.DateTime) || (valueType == ValueType.Object))
-				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess};
+				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
 			if (valueType == ValueType.Boolean || valueType == ValueType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 			if (valueType == ValueType.String)

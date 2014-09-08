@@ -4,21 +4,23 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
+using System;
 
 namespace AutomationModule.ViewModels
 {
-	public class IncrementValueStepViewModel: BaseViewModel, IStepViewModel
+	public class IncrementValueStepViewModel: BaseStepViewModel
 	{
 		IncrementValueArguments IncrementValueArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public IncrementValueStepViewModel(IncrementValueArguments incrementGlobalValueArguments, Procedure procedure)
+		public IncrementValueStepViewModel(IncrementValueArguments incrementGlobalValueArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			IncrementValueArguments = incrementGlobalValueArguments;
 			Procedure = procedure;
 			IncrementTypes = new ObservableCollection<IncrementType> { IncrementType.Inc, IncrementType.Dec };
-			Variable1 = new ArithmeticParameterViewModel(IncrementValueArguments.Variable1, new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable });
+			Variable1 = new ArithmeticParameterViewModel(IncrementValueArguments.Variable1, false);
 			UpdateContent();
 		}
 		
@@ -35,9 +37,9 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{			
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ValueType.Integer));
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == FiresecAPI.Automation.ValueType.Integer));
 		}
 
-		public string Description { get { return ""; } }
+		public override string Description { get { return ""; } }
 	}
 }

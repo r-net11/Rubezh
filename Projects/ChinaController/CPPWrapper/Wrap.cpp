@@ -60,25 +60,57 @@ BOOL CALL_METHOD WRAP_Set_NetInfo(int loginID, char* ip, char* mask, char* gate,
 		return FALSE;
 	}
 
-	int nError = 0;
-	CFG_NETWORK_INFO stuNetwork = {0};
-	memset(stuNetwork.stuInterfaces[0].szIP, 0, MAX_ADDRESS_LEN);
-	memcpy(stuNetwork.stuInterfaces[0].szIP, ip, sizeof(ip));
-	memset(stuNetwork.stuInterfaces[0].szSubnetMask, 0, MAX_ADDRESS_LEN);
-	memcpy(stuNetwork.stuInterfaces[0].szSubnetMask, mask, sizeof(mask));
-	memset(stuNetwork.stuInterfaces[0].szDefGateway, 0, MAX_ADDRESS_LEN);
-	memcpy(stuNetwork.stuInterfaces[0].szDefGateway, gate, sizeof(gate));
-	stuNetwork.stuInterfaces->nMTU = mtu;
+	CFG_NETWORK_INFO m_stuNetwork_in = {0};
+	char szJsonBuf_in[1024] = {0};
+	int nErr_in = 0;
+	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_NETWORK, -1, szJsonBuf_in, sizeof(szJsonBuf_in), &nErr_in, 0);
+	CFG_NETWORK_INFO stNetworkInfo = {0};
+	DWORD dwRetLen = 0;
+	bRet = CLIENT_ParseData(CFG_CMD_NETWORK, szJsonBuf_in, &stNetworkInfo, sizeof(stNetworkInfo), &dwRetLen);
+	memcpy(&m_stuNetwork_in, &stNetworkInfo, sizeof(CFG_NETWORK_INFO));
 
-	char szOutBuffer[32 * 1024] = {0};
-	int nRestart = 0;
-	BOOL bRet = CLIENT_PacketData(CFG_CMD_NETWORK, &stuNetwork, sizeof(stuNetwork), szOutBuffer, 32 * 1024);
-	if (bRet)
+
+	CFG_NETWORK_INFO& stuNetworkPara = m_stuNetwork_in;
+	stuNetworkPara.nInterfaceNum = 1;
+	stuNetworkPara.stuInterfaces[0].nMTU = mtu;
+	strncpy(stuNetworkPara.stuInterfaces[0].szIP, ip, MAX_ADDRESS_LEN-1);
+	strncpy(stuNetworkPara.stuInterfaces[0].szSubnetMask, mask, MAX_ADDRESS_LEN-1);
+	strncpy(stuNetworkPara.stuInterfaces[0].szDefGateway, gate, MAX_ADDRESS_LEN-1);
+
+	char szJsonBuf[1024] = {0};
+	BOOL nRet = CLIENT_PacketData(CFG_CMD_NETWORK, &stuNetworkPara, sizeof(CFG_NETWORK_INFO), szJsonBuf, sizeof(szJsonBuf));
+	if (!nRet)
 	{
-		bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_NETWORK, -1, szOutBuffer, 32 * 1024, &nError, &nRestart, 3000);
-		return bRet;
+		return FALSE;
 	}
-	return FALSE;
+
+	int nErr = 0, nRestart = 0;
+	nRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_NETWORK, -1, szJsonBuf, strlen(szJsonBuf), &nErr, &nRestart, 0);
+	if (!nRet)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+
+
+
+	//int nError = 0;
+	//CFG_NETWORK_INFO stuNetwork = {0};
+	//memcpy(stuNetwork.stuInterfaces[0].szIP, ip, sizeof(ip));
+	//memcpy(stuNetwork.stuInterfaces[0].szSubnetMask, mask, sizeof(mask));
+	//memcpy(stuNetwork.stuInterfaces[0].szDefGateway, gate, sizeof(gate));
+	//stuNetwork.stuInterfaces[0].nMTU = mtu;
+
+	//char szOutBuffer[32 * 1024] = {0};
+	//int nRestart = 0;
+	//BOOL bRet = CLIENT_PacketData(CFG_CMD_NETWORK, &stuNetwork, sizeof(stuNetwork), szOutBuffer, 32 * 1024);
+	//if (bRet)
+	//{
+	//	bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_NETWORK, -1, szOutBuffer, 32 * 1024, &nError, &nRestart, 3000);
+	//	return bRet;
+	//}
+	//return FALSE;
 }
 
 BOOL CALL_METHOD WRAP_GetMacAddress(int loginID, WRAP_DevConfig_MAC_Result* result)
@@ -204,6 +236,50 @@ BOOL CALL_METHOD WRAP_SetControllerPassword(int loginID, char name[], char oldPa
 
 	BOOL bRet = CLIENT_OperateUserInfoNew(loginID, 6, &stuModifiedInfo, &stuOldInfo, NULL, SDK_API_WAITTIME);
 	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_GetControllerTimeConfiguration(int loginID, CFG_NTP_INFO* result)
+{
+	char szJsonBuf[1024 * 10] = {0};
+	int nErr = 0, nRestart = 0;
+	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_NTP, -1, szJsonBuf, sizeof(szJsonBuf), &nErr, SDK_API_WAITTIME);
+	if (bRet)
+	{
+		CFG_NTP_INFO stuInfo = {sizeof(CFG_NTP_INFO)};  
+		
+		DWORD dwRetLen = 0;
+		bRet = CLIENT_ParseData(CFG_CMD_NTP, szJsonBuf, (void*)&stuInfo, sizeof(stuInfo), &dwRetLen);
+		if (!bRet)
+		{
+			return FALSE;
+		}
+		else
+		{
+			memcpy(result, &stuInfo, sizeof(CFG_NTP_INFO));
+		}
+	}
+	else
+	{			
+		return FALSE;
+	}
+	return TRUE;
+}
+
+BOOL CALL_METHOD WRAP_SetControllerTimeConfiguration(int loginID, CFG_NTP_INFO cfg_NTP_INFO)
+{
+	char szJsonBuf[1024 * 10] = {0};
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_NTP, &cfg_NTP_INFO, sizeof(cfg_NTP_INFO), szJsonBuf, sizeof(szJsonBuf));
+	if (bRet)
+	{
+		int nErr = 0, nRestart = 0;
+		BOOL bRetSetupCfg = CLIENT_SetNewDevConfig(loginID, CFG_CMD_NTP, -1, szJsonBuf, strlen(szJsonBuf), &nErr, &nRestart, SDK_API_WAITTIME);
+		return bRetSetupCfg;
+	} 
+	else
+	{
+		return FALSE;
+	}
+	return TRUE;
 }
 
 BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result)

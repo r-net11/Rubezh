@@ -26,6 +26,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<BlockCardEvent>().Subscribe(OnBlockCard);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
 		}
@@ -54,7 +56,7 @@ namespace SKDModule.ViewModels
 			RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem).AddChild(new CardViewModel(newCard));
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
-		}
+		} 
 
 		void OnEditOrganisation(Organisation newOrganisation)
 		{
@@ -91,6 +93,17 @@ namespace SKDModule.ViewModels
 					OnPropertyChanged(() => RootItems);
 					OnPropertyChanged(() => RootItemsArray);
 				}
+			}
+		}
+
+		protected virtual void OnRemoveOrganisation(Guid organisationUID)
+		{
+			var organisationViewModel = RootItems.FirstOrDefault(x => x.IsOrganisation && x.Organisation.UID == organisationUID);
+			if (organisationViewModel != null)
+			{
+				RootItems.Remove(organisationViewModel);
+				OnPropertyChanged(() => RootItems);
+				OnPropertyChanged(() => RootItemsArray);
 			}
 		}
 

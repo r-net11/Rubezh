@@ -14,7 +14,7 @@
 			<tree:TreeList Name="_devicesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
-                        <GridViewColumn Width="Auto" Header="Устройство" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
+                        <GridViewColumn Header="Устройство" Width="250" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<Views:DeviceView />

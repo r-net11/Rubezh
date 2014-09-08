@@ -144,10 +144,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="Models\Automation\ArithmeticParameter.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectFieldArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\GetStringArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
@@ -157,6 +157,8 @@
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PersonInspectionArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
+    <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgrammArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowMessageArguments.cs" />
@@ -216,10 +218,12 @@
     <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
-    <Compile Include="SKD\Device\ControllerDirectionType.cs" />
+    <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
     <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
     <Compile Include="SKD\Device\SKDProperty.cs" />
+    <Compile Include="SKD\Device\SKDControllerNetworkSettings.cs" />
+    <Compile Include="SKD\Device\SKDTimeZoneType.cs" />
     <Compile Include="SKD\Door\Door.cs" />
     <Compile Include="SKD\Door\DoorType.cs" />
     <Compile Include="SKD\Driver\SKDDriverProperty.cs" />

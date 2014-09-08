@@ -18,7 +18,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
@@ -131,9 +131,9 @@
 						</Hyperlink>
 					</TextBlock>
 
-                    <Label Grid.Row="9" Grid.Column="0" Content="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" />
-                    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
-                </Grid>
+					<Label Grid.Row="9" Grid.Column="0" Content="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" />
+					<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
+				</Grid>
 				<ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
@@ -227,7 +227,7 @@
 				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
 			</Grid>
 		</TabItem>
-        <TabItem Header="Охранные зоны" DataContext="{Binding EmployeeGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabItem Header="Охранные зоны" DataContext="{Binding EmployeeGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -250,8 +250,8 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}" Margin="0 4 0 0">
-                    <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
-                    <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
+					<CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
+					<CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
 				</StackPanel>
 			</Grid>
 		</TabItem>

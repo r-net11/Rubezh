@@ -7,7 +7,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentsViewModel : CartothequeTabItemCopyPasteBase<ShortDepartment, DepartmentFilter, DepartmentViewModel, DepartmentDetailsViewModel>
+	public class DepartmentsViewModel : OrganisationBaseViewModel<ShortDepartment, DepartmentFilter, DepartmentViewModel, DepartmentDetailsViewModel>
 	{
 		protected override void InitializeModels(IEnumerable<ShortDepartment> models)
 		{

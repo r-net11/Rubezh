@@ -44,6 +44,8 @@ namespace SKDModule.Validation
 							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
 					}
 				}
+
+				ValidateDoorReaderDoorType(door);
 			}
 		}
 
@@ -78,6 +80,14 @@ namespace SKDModule.Validation
 						Errors.Add(new DoorValidationError(door, "Одно и то же устройство привязано к разным точкам доступа", ValidationErrorLevel.CannotSave));
 					}
 				}
+			}
+		}
+
+		void ValidateDoorReaderDoorType(SKDDoor door)
+		{
+			if (door.InDevice.Parent != null && door.InDevice.Parent.DoorType != door.DoorType)
+			{
+				Errors.Add(new DoorValidationError(door, "Тип контроллер не совпадает с типом точки доступа", ValidationErrorLevel.CannotSave));
 			}
 		}
 	}

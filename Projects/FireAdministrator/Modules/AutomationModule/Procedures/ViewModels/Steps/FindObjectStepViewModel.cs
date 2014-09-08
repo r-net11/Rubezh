@@ -13,13 +13,14 @@ using System.Reflection.Emit;
 
 namespace AutomationModule.ViewModels
 {
-	public class FindObjectStepViewModel : BaseViewModel, IStepViewModel
+	public class FindObjectStepViewModel : BaseStepViewModel
 	{
 		FindObjectArguments FindObjectArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
 
-		public FindObjectStepViewModel(FindObjectArguments findObjectArguments, Procedure procedure)
+		public FindObjectStepViewModel(FindObjectArguments findObjectArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			FindObjectArguments = findObjectArguments;
 			Procedure = procedure;
@@ -38,7 +39,6 @@ namespace AutomationModule.ViewModels
 			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
 			UpdateContent();
-			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public RelayCommand<FindObjectConditionViewModel> RemoveCommand { get; private set; }
@@ -48,7 +48,6 @@ namespace AutomationModule.ViewModels
 			FindObjectArguments.FindObjectConditions.Remove(findObjectConditionViewModel.FindObjectCondition);
 			OnPropertyChanged(() => FindObjectConditions);
 			UpdateContent();
-			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public RelayCommand ChangeJoinOperatorCommand { get; private set; }
@@ -88,7 +87,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}
@@ -100,7 +99,6 @@ namespace AutomationModule.ViewModels
 			{
 				FindObjectArguments.JoinOperator = value;
 				OnPropertyChanged(() => JoinOperator);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -124,7 +122,6 @@ namespace AutomationModule.ViewModels
 					FindObjectConditionViewModel.Types = new ObservableCollection<string>(ProcedureHelper.ObjectTypeToTypesList(value.ObjectType));
 					FindObjectArguments.ResultUid = value.Variable.Uid;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}
 		}
@@ -139,7 +136,7 @@ namespace AutomationModule.ViewModels
 		{
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, new List<VariableType>());
+			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;
@@ -178,7 +175,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => ConditionTypes);
 				OnPropertyChanged(() => MinValue);
 				OnPropertyChanged(() => MaxValue);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -190,7 +186,6 @@ namespace AutomationModule.ViewModels
 			{
 				FindObjectCondition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -203,7 +198,6 @@ namespace AutomationModule.ViewModels
 			{
 				FindObjectCondition.IntValue = value;
 				OnPropertyChanged(() => IntValue);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -214,7 +208,6 @@ namespace AutomationModule.ViewModels
 			{
 				FindObjectCondition.StringValue = value;
 				OnPropertyChanged(() => StringValue);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

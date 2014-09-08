@@ -1,33 +1,48 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class PauseStepViewModel : BaseViewModel, IStepViewModel
+	public class PauseStepViewModel : BaseStepViewModel
 	{
 		private Procedure Procedure { get; set; }
 		public PauseArguments PauseArguments { get; private set; }
-		public ArithmeticParameterViewModel Variable { get; set; }
+		public ArgumentItemViewModel Pause { get; set; }
 
-		public PauseStepViewModel(PauseArguments pauseArguments, Procedure procedure)
+		public PauseStepViewModel(PauseArguments pauseArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			PauseArguments = pauseArguments;
 			Procedure = procedure;
-			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue };
-			Variable = new ArithmeticParameterViewModel(PauseArguments.Variable, variableTypes);
+			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
+			Pause = new ArgumentItemViewModel(procedure, PauseArguments.Pause, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
 			UpdateContent();
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer);
-			Variable.Update(allVariables);
+			Pause.Update();
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
+		}
+
+		public ObservableCollection<TimeType> TimeTypes { get; private set; }
+
+		public TimeType SelectedTimeType
+		{
+			get { return PauseArguments.TimeType; }
+			set
+			{
+				PauseArguments.TimeType = value;
+				OnPropertyChanged(() => SelectedTimeType);
+			}
 		}
 	}
 }

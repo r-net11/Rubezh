@@ -14,7 +14,6 @@ namespace FiresecAPI.Automation
 			SoundArguments = new SoundArguments();
 			ShowMessageArguments = new ShowMessageArguments();
 			ArithmeticArguments = new ArithmeticArguments();
-			GetStringArguments = new GetStringArguments();
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
@@ -36,6 +35,7 @@ namespace FiresecAPI.Automation
 			GetObjectFieldArguments = new GetObjectFieldArguments();
 			SendEmailArguments = new SendEmailArguments();
 			RunProgrammArguments = new RunProgrammArguments();
+			RandomArguments = new RandomArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -63,9 +63,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
-
-		[DataMember]
-		public GetStringArguments GetStringArguments { get; set; }
 
 		[DataMember]
 		public ConditionArguments ConditionArguments { get; set; }
@@ -129,5 +126,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RunProgrammArguments RunProgrammArguments { get; set; }
+
+		[DataMember]
+		public RandomArguments RandomArguments { get; set; }
 	}
 }

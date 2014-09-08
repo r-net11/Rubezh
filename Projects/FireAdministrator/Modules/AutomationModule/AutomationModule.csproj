@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>DeadCodeRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -101,6 +102,9 @@
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ArgumentItemViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DirectionSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DoorSelectionViewModel.cs" />
@@ -129,9 +133,8 @@
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\GetObjectFieldStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\GetStringStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\BaseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PauseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PersonInspectionStepViewModel.cs" />
@@ -173,6 +176,9 @@
     </Compile>
     <Compile Include="Procedures\Views\SKDZoneSelectionView.xaml.cs">
       <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\ArgumentItemView.xaml.cs">
+      <DependentUpon>ArgumentItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\ControlCameraStepView.xaml.cs">
       <DependentUpon>ControlCameraStepView.xaml</DependentUpon>
@@ -225,9 +231,6 @@
     <Compile Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml.cs">
       <DependentUpon>GetObjectFieldStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\GetStringStepView.xaml.cs">
-      <DependentUpon>GetStringStepView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Procedures\Views\Steps\IncrementValueStepView.xaml.cs">
       <DependentUpon>IncrementValueStepView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ProcedureSelectionStepView.xaml.cs">
       <DependentUpon>ProcedureSelectionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\RandomStepView.xaml.cs">
+      <DependentUpon>RandomStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\RunProgrammStepView.xaml.cs">
       <DependentUpon>RunProgrammStepView.xaml</DependentUpon>
@@ -324,6 +330,7 @@
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
+    <Compile Include="Validation\ProcedureStepValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
@@ -332,6 +339,7 @@
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
+    <Compile Include="Validation\VariableValidationError.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -417,6 +425,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\ProcedurePropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\ArgumentItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\ProcedureResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -516,10 +532,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\GetStringStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Procedures\Views\Steps\IncrementValueStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -537,6 +549,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ProcedureSelectionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\RandomStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -641,6 +657,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DeadCodeRules.ruleset" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

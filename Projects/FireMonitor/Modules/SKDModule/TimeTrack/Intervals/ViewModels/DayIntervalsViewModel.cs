@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalsViewModel : CartothequeTabItemCopyPasteBase<DayInterval, DayIntervalFilter, DayIntervalViewModel, DayIntervalDetailsViewModel> , ISelectable<Guid>
+	public class DayIntervalsViewModel : OrganisationBaseViewModel<DayInterval, DayIntervalFilter, DayIntervalViewModel, DayIntervalDetailsViewModel> , ISelectable<Guid>
 	{
 		bool _isInitialized;
 
@@ -39,6 +39,12 @@ namespace SKDModule.ViewModels
         {
             if (_isInitialized)
                 base.OnOrganisationUsersChanged(newOrganisation);
+        }
+        
+        protected override void OnRemoveOrganisation(Guid organisationUID)
+        {
+            if (_isInitialized)
+                base.OnRemoveOrganisation(organisationUID);
         }
 
 		public void Select(Guid dayIntervalUID)

@@ -9,7 +9,7 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeesViewModel : CartothequeTabItemBase<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
+	public class EmployeesViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
 	{
 		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
@@ -33,12 +33,10 @@ namespace SKDModule.ViewModels
 			var columnTypes = AdditionalColumnTypeHelper.GetByCurrentUser();
 			if (columnTypes == null)
 				return;
-			columnTypes = columnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text);
-			AdditionalColumnTypes = columnTypes != null ? columnTypes.ToList() : new List<ShortAdditionalColumnType>();
-			foreach (var additionalColumnType in AdditionalColumnTypes)
+			AdditionalColumnTypes = columnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text && x.IsInGrid).ToList();
+			foreach (var columnType in AdditionalColumnTypes)
 			{
-				if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
-					AdditionalColumnNames.Add(additionalColumnType.Name);
+				AdditionalColumnNames.Add(columnType.Name);
 			}
 			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
 		}
@@ -68,7 +66,7 @@ namespace SKDModule.ViewModels
 			return EmployeeHelper.MarkDeleted(uid);
 		}
 
-		public bool IsEmployeeSelected
+		public bool IsEmployeeSelected 
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation; }
 		}
@@ -86,5 +84,10 @@ namespace SKDModule.ViewModels
 		{
 			get { return "сотрудника"; }
 		}
-	}
+
+        protected override bool Save(ShortEmployee item)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

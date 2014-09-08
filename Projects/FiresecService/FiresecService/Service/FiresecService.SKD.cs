@@ -620,24 +620,24 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID)
+		public OperationResult<DoorType> GetControllerDoorType(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_направления_контроллера, device);
-				return ChinaSKDDriver.Processor.GetDirectionType(deviceUID);
+				return ChinaSKDDriver.Processor.GetControllerDoorType(deviceUID);
 			}
-			return new OperationResult<SKDControllerDirectionType>("Устройство не найдено в конфигурации");
+			return new OperationResult<DoorType>("Устройство не найдено в конфигурации");
 		}
 
-		public OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType)
+		public OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_направления_контроллера, device);
-				return ChinaSKDDriver.Processor.SetDirectionType(deviceUID, directionType);
+				return ChinaSKDDriver.Processor.SetControllerDoorType(deviceUID, doorType);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -649,6 +649,50 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запись_пароля_контроллера, device);
 				return ChinaSKDDriver.Processor.SetControllerPassword(deviceUID, name, oldPassword, password);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запрос_временных_настроек_контроллера, device);
+				return ChinaSKDDriver.Processor.GetControllerTimeSettings(deviceUID);
+			}
+			return new OperationResult<SKDControllerTimeSettings>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_временных_настроек_контроллера, device);
+				return ChinaSKDDriver.Processor.SetControllerTimeSettings(deviceUID, controllerTimeSettings);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запрос_сетевых_настроек_контроллера, device);
+				return ChinaSKDDriver.Processor.GetControllerNetworkSettings(deviceUID);
+			}
+			return new OperationResult<SKDControllerNetworkSettings>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_сетевых_настроек_контроллера, device);
+				return ChinaSKDDriver.Processor.SetControllerNetworkSettings(deviceUID, controllerNetworkSettings);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -688,6 +732,10 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+				if (device.State != null)
+				{
+					device.State.OpenAlwaysTimeIndex = 1;
+				}
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
 			}
 			else
@@ -703,6 +751,10 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+				if (device.State != null)
+				{
+					device.State.OpenAlwaysTimeIndex = 0;
+				}
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
 			}
 			else

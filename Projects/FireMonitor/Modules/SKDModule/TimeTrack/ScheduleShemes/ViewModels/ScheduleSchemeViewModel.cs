@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -41,19 +42,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DayIntervals);
 		}
 
-        public override string Description
-        {
-            get { return IsOrganisation ? Organisation.Description : Model.Description; }
-            protected set
-            {
-                if (IsOrganisation)
-                    Organisation.Description = value;
-                else
-                    Model.Description = value;
-            }
-        }
-
-		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
+        public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
 		public ObservableCollection<DayInterval> DayIntervals
 		{
 			get { return ScheduleSchemesViewModel.GetDayIntervals(Organisation.UID); }
@@ -63,6 +52,11 @@ namespace SKDModule.ViewModels
 		{
             get { return Model != null && Model.Type == ScheduleSchemeType.SlideDay; }
 		}
+
+        public string Type
+        {
+            get { return IsOrganisation? "" : Model.Type.ToDescription(); }
+        }
 
 		SheduleDayIntervalViewModel _selectedDayInterval;
 		public SheduleDayIntervalViewModel SelectedSheduleDayInterval

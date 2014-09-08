@@ -31,6 +31,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public XStateClass StateClass { get; set; }
 
+		[DataMember]
+		public int OpenAlwaysTimeIndex { get; set; }
+
 		public SKDDevice Device { get; private set; }
 		public bool IsSuspending { get; set; }
 		public bool IsInitialState { get; set; }

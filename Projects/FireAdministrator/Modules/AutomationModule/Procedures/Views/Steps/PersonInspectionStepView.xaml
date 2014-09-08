@@ -14,7 +14,7 @@
 		</Grid.RowDefinitions>
 		<Label Grid.Row="0" Grid.Column="0" Content="Номер карты" HorizontalAlignment="Right" />
 		<ComboBox Grid.Row="0" Grid.Column="1" DataContext="{Binding CardNumber}" ItemsSource="{Binding VariableTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
+				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -24,7 +24,7 @@
 		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
+			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -34,7 +34,7 @@
 		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >
+			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />

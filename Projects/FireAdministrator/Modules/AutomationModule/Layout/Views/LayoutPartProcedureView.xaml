@@ -7,4 +7,3 @@
 		<TextBlock VerticalAlignment="Center" Text="{Binding ProcedureTitle}" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
 	</controls:AlignableWrapPanel>
 </UserControl>
-

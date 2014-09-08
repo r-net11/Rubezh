@@ -126,7 +126,7 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public SKDControllerDirectionType GetControllerDirectionType()
+		public DoorType GetControllerDoorType()
 		{
 			NativeWrapper.WRAP_ControllerDirectionType outResult;
 			var result = NativeWrapper.WRAP_GetControllerDirectionType(LoginID, out outResult);
@@ -134,19 +134,19 @@ namespace ChinaSKDDriver
 			{
 				var accessProperty = outResult.emAccessProperty;
 				if (accessProperty == NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_BIDIRECT)
-					return SKDControllerDirectionType.Bidirect;
+					return DoorType.TwoWay;
 				if (accessProperty == NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT)
-					return SKDControllerDirectionType.Unidirect;
+					return DoorType.OneWay;
 			}
-			return SKDControllerDirectionType.Bidirect;
+			return DoorType.TwoWay;
 		}
 
-		public bool SetControllerDirectionType(SKDControllerDirectionType controllerDirectionType)
+		public bool SetControllerDoorType(DoorType doorType)
 		{
 			NativeWrapper.CFG_ACCESS_PROPERTY_TYPE nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
-			if (controllerDirectionType == SKDControllerDirectionType.Bidirect)
+			if (doorType == DoorType.TwoWay)
 				nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_BIDIRECT;
-			if (controllerDirectionType == SKDControllerDirectionType.Unidirect)
+			if (doorType == DoorType.OneWay)
 				nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
 			var result = NativeWrapper.WRAP_SetControllerDirectionType(LoginID, nativeControllerDirectionType);
 			return result;
@@ -155,6 +155,36 @@ namespace ChinaSKDDriver
 		public bool SetControllerPassword(string name, string oldPassword, string password)
 		{
 			var result = NativeWrapper.WRAP_SetControllerPassword(LoginID, name, oldPassword, password);
+			return result;
+		}
+
+		public SKDControllerTimeSettings GetControllerTimeSettings()
+		{
+			NativeWrapper.CFG_NTP_INFO outResult;
+			var result = NativeWrapper.WRAP_GetControllerTimeConfiguration(LoginID, out outResult);
+			var controllerTimeSettings = new SKDControllerTimeSettings();
+			if (result)
+			{
+				controllerTimeSettings.IsEnabled = outResult.bEnable;
+				controllerTimeSettings.Name = outResult.szAddress;
+				controllerTimeSettings.Description = outResult.szTimeZoneDesc;
+				controllerTimeSettings.Port = outResult.nPort;
+				controllerTimeSettings.UpdatePeriod = outResult.nUpdatePeriod;
+				controllerTimeSettings.TimeZone = outResult.emTimeZoneType;
+			}
+			return controllerTimeSettings;
+		}
+
+		public bool SetControllerTimeSettings(SKDControllerTimeSettings controllerTimeSettings)
+		{
+			var cfg_NTP_INFO = new ChinaSKDDriverNativeApi.NativeWrapper.CFG_NTP_INFO();
+			cfg_NTP_INFO.bEnable = controllerTimeSettings.IsEnabled;
+			cfg_NTP_INFO.szAddress = controllerTimeSettings.Name;
+			cfg_NTP_INFO.szTimeZoneDesc = controllerTimeSettings.Description;
+			cfg_NTP_INFO.nPort = controllerTimeSettings.Port;
+			cfg_NTP_INFO.nUpdatePeriod = controllerTimeSettings.UpdatePeriod;
+			cfg_NTP_INFO.emTimeZoneType = controllerTimeSettings.TimeZone;
+			var result = NativeWrapper.WRAP_SetControllerTimeConfiguration(LoginID, cfg_NTP_INFO);
 			return result;
 		}
 

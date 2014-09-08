@@ -11,18 +11,19 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlDoorStepViewModel : BaseViewModel, IStepViewModel
+	public class ControlDoorStepViewModel : BaseStepViewModel
 	{
 		ControlDoorArguments ControlDoorArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public ControlDoorStepViewModel(ControlDoorArguments controlDoorArguments, Procedure procedure)
+		public ControlDoorStepViewModel(ControlDoorArguments controlDoorArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlDoorArguments = controlDoorArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectDoorCommand = new RelayCommand(OnSelectDoor);
 			UpdateContent();
@@ -39,7 +40,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlDoorArguments.DoorCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -55,7 +55,6 @@ namespace AutomationModule.ViewModels
 				{
 					Variable1.UidValue = _selectedDoor.Door.UID;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDoor);
 			}
 		}
@@ -81,7 +80,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

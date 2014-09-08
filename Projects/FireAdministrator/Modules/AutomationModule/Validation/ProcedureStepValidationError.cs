@@ -1,0 +1,37 @@
+﻿using System;
+using AutomationModule.Events;
+using FiresecAPI.Automation;
+using Infrastructure.Common.Validation;
+using FiresecAPI;
+
+namespace AutomationModule.Validation
+{
+	class ProcedureStepValidationError : ObjectValidationError<ProcedureStep, ShowProceduresEvent, Guid>
+	{
+		public ProcedureStepValidationError(ProcedureStep procedureStep, string error, ValidationErrorLevel level)
+			: base(procedureStep, error, level)
+		{
+		}
+
+		public override string Module
+		{
+			get { return "AutomationModule"; }
+		}
+		protected override Guid Key
+		{
+			get { return Object.UID; }
+		}
+		public override string Address
+		{
+			get { return ""; }
+		}
+		public override string Source
+		{
+			get { return Object.ProcedureStepType.ToDescription(); }
+		}
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/ProcedureYellow.png"; }
+		}
+	}
+}

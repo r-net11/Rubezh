@@ -53,6 +53,10 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetControllerDirectionType(int login
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetControllerPassword(int loginID, char name[], char oldPassword[], char password[]);
 
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetControllerTimeConfiguration(int loginID, CFG_NTP_INFO* result);
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetControllerTimeConfiguration(int loginID, CFG_NTP_INFO cfg_NTP_INFO);
+
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);

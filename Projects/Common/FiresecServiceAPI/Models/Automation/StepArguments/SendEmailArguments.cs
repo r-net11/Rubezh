@@ -25,6 +25,12 @@ namespace FiresecAPI.Automation
 		public ArithmeticParameter EMailContent { get; set; }
 
 		[DataMember]
+		public ValueType SelectedEMailTitleValueType { get; set; }
+
+		[DataMember]
+		public ValueType SelectedEMailContentValueType { get; set; }		
+
+		[DataMember]
 		public string Email { get; set; }
 
 		[DataMember]
@@ -34,7 +40,7 @@ namespace FiresecAPI.Automation
 		public string Port { get; set; }
 
 		[DataMember]
-		public string UserName { get; set; }
+		public string Login { get; set; }
 
 		[DataMember]
 		public string Password { get; set; }

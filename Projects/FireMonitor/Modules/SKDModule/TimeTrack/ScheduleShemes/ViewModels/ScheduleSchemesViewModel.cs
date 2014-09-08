@@ -10,9 +10,8 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class ScheduleSchemesViewModel : CartothequeTabItemCopyPasteBase<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>
+	public class ScheduleSchemesViewModel : OrganisationBaseViewModel<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>
 	{
-		public abstract ScheduleSchemeType Type { get; }
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
 
@@ -24,11 +23,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var filter = new ScheduleSchemeFilter()
-			{
-				UserUID = FiresecManager.CurrentUser.UID,
-				Type = Type,
-			};
+			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			Initialize(filter);
 		}
 
@@ -54,6 +49,12 @@ namespace SKDModule.ViewModels
 			if(_isInitialized)
 				base.OnOrganisationUsersChanged(newOrganisation);
 		}
+
+        protected override void OnRemoveOrganisation(Guid organisationUID)
+        {
+            if (_isInitialized)
+                base.OnRemoveOrganisation(organisationUID);
+        }
 
 		public void ReloadDayIntervals()
 		{
@@ -98,7 +99,7 @@ namespace SKDModule.ViewModels
 		protected override ScheduleScheme CopyModel(ScheduleScheme source, bool newName = true)
 		{
 			var copy = base.CopyModel(source, newName);
-			copy.Type = Type;
+			copy.Type = source.Type;
 			copy.Description = source.Description;
 			foreach (var day in source.DayIntervals)
 			{

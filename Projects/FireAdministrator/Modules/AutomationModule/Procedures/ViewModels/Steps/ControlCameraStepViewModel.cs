@@ -11,13 +11,14 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlCameraStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlCameraStepViewModel: BaseStepViewModel
 	{
 		ControlCameraArguments ControlCameraArguments { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		Procedure Procedure { get; set; }
 
-		public ControlCameraStepViewModel(ControlCameraArguments controlCameraArguments, Procedure procedure)
+		public ControlCameraStepViewModel(ControlCameraArguments controlCameraArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlCameraArguments = controlCameraArguments;
 			Procedure = procedure;
@@ -25,7 +26,7 @@ namespace AutomationModule.ViewModels
 			{
 				CameraCommandType.StartRecord, CameraCommandType.StopRecord
 			};
-			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
+			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectCameraCommand = new RelayCommand(OnSelectCamera);
 			UpdateContent();
@@ -42,7 +43,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlCameraArguments.CameraCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -58,7 +58,6 @@ namespace AutomationModule.ViewModels
 				{
 					Variable1.UidValue = _selectedCamera.Camera.UID;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
@@ -84,7 +83,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

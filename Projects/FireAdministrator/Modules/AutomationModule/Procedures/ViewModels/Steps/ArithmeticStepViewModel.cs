@@ -11,57 +11,50 @@ using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArithmeticStepViewModel : BaseViewModel, IStepViewModel
+	public class ArithmeticStepViewModel : BaseStepViewModel
 	{
 		public ArithmeticArguments ArithmeticArguments { get; private set; }
 		public Procedure Procedure { get; private set; }
 		public ArithmeticParameterViewModel Variable1 { get; set; }
 		public ArithmeticParameterViewModel Variable2 { get; set; }
 		public ArithmeticParameterViewModel Result { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
 
 		public ArithmeticStepViewModel(ArithmeticArguments arithmeticArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			Procedure = procedure;
-			UpdateDescriptionHandler = updateDescriptionHandler;
-			ArithmeticArguments = arithmeticArguments;			
-			var variablesAndArguments = new List<Variable>(Procedure.Variables);
-			variablesAndArguments.AddRange(Procedure.Arguments);
-			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
-			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, variableTypes);
-			variableTypes.Add(VariableType.IsValue);
-			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, variableTypes);
-			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, variableTypes);
-			ArithmeticValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
-			TimeTypes = new ObservableCollection<TimeType>(Enum.GetValues(typeof(TimeType)).Cast<TimeType>().ToList());
+			ArithmeticArguments = arithmeticArguments;
+			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, false);
+			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1);
+			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2);
+			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
+			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			Result.UpdateDescriptionHandler = updateDescriptionHandler;
-			SelectedArithmeticValueType = ArithmeticArguments.ArithmeticValueType;
+			SelectedValueType = ArithmeticArguments.ValueType;
 		}
 
-		public void UpdateContent()
+		public new void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedArithmeticValueType);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedValueType);
 			var allVariables2 = new List<Variable>(allVariables);
-			
-			if (SelectedArithmeticValueType == ValueType.DateTime)
+			if (SelectedValueType == ValueType.DateTime)
 				allVariables2 = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ValueType.Integer);
-
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables2);
 			Result.Update(allVariables);
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
 
-		public string Description
+		public override string Description
 		{
 			get
 			{
 				var var1 = "пусто";
 				var var2 = "пусто";
 				var res = "пусто";
-				switch(SelectedArithmeticValueType)
+				switch(SelectedValueType)
 				{
 					case ValueType.Boolean:
 						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.BoolValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
@@ -90,7 +83,6 @@ namespace AutomationModule.ViewModels
 				switch (SelectedArithmeticOperationType)
 				{
 					case ArithmeticOperationType.Add:
-					case ArithmeticOperationType.Concat:
 						op = "+";
 						break;
 					case ArithmeticOperationType.Sub:
@@ -121,7 +113,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticArguments.ArithmeticOperationType = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedArithmeticOperationType);
 			}
 		}
@@ -133,39 +124,30 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticArguments.TimeType = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedTimeType);
 			}
 		}
 
-		public ObservableCollection<ValueType> ArithmeticValueTypes { get; private set; }
-		public ValueType SelectedArithmeticValueType
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		public ValueType SelectedValueType
 		{
-			get { return ArithmeticArguments.ArithmeticValueType; }
+			get { return ArithmeticArguments.ValueType; }
 			set
 			{
-				ArithmeticArguments.ArithmeticValueType = value;
+				ArithmeticArguments.ValueType = value;
 				ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType>();
 				if (value == ValueType.Boolean)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.And, ArithmeticOperationType.Or };
 				if (value == ValueType.DateTime)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub };
 				if (value == ValueType.String)
-					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Concat};
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add };
 				if (value == ValueType.Integer)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div};
 				OnPropertyChanged(() => ArithmeticOperationTypes);
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedArithmeticValueType);
+				OnPropertyChanged(() => SelectedValueType);
 				UpdateContent();
 			}
-		}
-
-		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
-		{
-			base.OnPropertyChanged(propertyExpression);
-			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
 		}
 	}
 
@@ -176,8 +158,16 @@ namespace AutomationModule.ViewModels
 		public Action UpdateVariableTypeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
 
-		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<VariableType> availableVariableTypes)
+		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, bool allowImplicitValue = true)
 		{
+			var availableVariableTypes = new List<VariableType>();
+			availableVariableTypes.Add(VariableType.IsGlobalVariable);
+			availableVariableTypes.Add(VariableType.IsLocalVariable);
+			if (allowImplicitValue)
+			{
+				availableVariableTypes.Add(VariableType.IsValue);
+			}
+
 			ArithmeticParameter = arithmeticParameter;
 			VariableTypes = new ObservableCollection<VariableType>(availableVariableTypes);
 			OnPropertyChanged(() => VariableTypes);
@@ -199,6 +189,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<VariableType> VariableTypes { get; set; }
+
 		public VariableType SelectedVariableType
 		{
 			get { return ArithmeticParameter.VariableType; }
@@ -207,7 +198,6 @@ namespace AutomationModule.ViewModels
 				ArithmeticParameter.VariableType = value;
 				if (UpdateVariableTypeHandler != null)
 					UpdateVariableTypeHandler();
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariableType);
 			}
 		}
@@ -218,7 +208,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.BoolValue = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => BoolValue);
 			}
 		}
@@ -229,7 +218,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.DateTimeValue = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => DateTimeValue);
 			}
 		}
@@ -240,7 +228,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.IntValue = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IntValue);
 			}
 		}
@@ -251,7 +238,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.StringValue = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => StringValue);
 			}
 		}
@@ -262,7 +248,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.UidValue = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => UidValue);
 			}
 		}
@@ -273,26 +258,20 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.TypeValue = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => TypeValue);
 			}
 		}
 
-		private List<VariableViewModel> Variables { get; set; }
+		List<VariableViewModel> Variables { get; set; }
+
 		public ObservableCollection<VariableViewModel> LocalVariables 
 		{ 
-			get
-			{
-				return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => !x.IsGlobal));
-			}
+			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => !x.IsGlobal)); }
 		}
 
 		public ObservableCollection<VariableViewModel> GlobalVariables
 		{
-			get
-			{
-				return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.IsGlobal));
-			}
+			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.IsGlobal)); }
 		}
 
 		VariableViewModel _selectedVariable;
@@ -312,13 +291,13 @@ namespace AutomationModule.ViewModels
 				{
 					ArithmeticParameter.VariableUid = Guid.Empty;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}
 		}
 
 		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
 		{
+			ServiceFactory.SaveService.AutomationChanged = true;
 			base.OnPropertyChanged(propertyExpression);
 			if (UpdateDescriptionHandler != null)
 				UpdateDescriptionHandler();

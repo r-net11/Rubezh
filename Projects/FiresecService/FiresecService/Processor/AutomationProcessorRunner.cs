@@ -75,10 +75,10 @@ namespace FiresecService.Processor
 					var variablesAndArguments = new List<Variable>(procedure.Variables);
 					variablesAndArguments.AddRange(procedure.Arguments);
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariableUid) ??
-						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariableUid);
-					var itemVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariableUid) ??
-						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariableUid);
+					var listVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid) ??
+						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid);
+					var itemVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid) ??
+						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid);
 					foreach (var itemUid in listVariable.VariableItems.Select(x => x.ObjectUid))
 					{
 						itemVariable.UidValue = itemUid;
@@ -95,7 +95,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.Pause:
-					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Variable.IntValue));
+					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Pause.IntValue));
 					break;
 
 				case ProcedureStepType.AddJournalItem:
@@ -105,10 +105,6 @@ namespace FiresecService.Processor
 					journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
 					//journalItem.DescriptionText = procedureStep.JournalArguments.Message;
 					Service.FiresecService.AddCommonJournalItem(journalItem);
-					break;
-
-				case ProcedureStepType.GetString:
-					ProcedureHelper.GetString(procedureStep, procedure);
 					break;
 
 				case ProcedureStepType.ShowMessage:

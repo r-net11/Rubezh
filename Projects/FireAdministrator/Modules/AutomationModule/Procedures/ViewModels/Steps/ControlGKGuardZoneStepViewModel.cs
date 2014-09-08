@@ -11,18 +11,19 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlGKGuardZoneStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlGKGuardZoneStepViewModel: BaseStepViewModel
 	{
 		ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public ControlGKGuardZoneStepViewModel(ControlGKGuardZoneArguments controlGKGuardZoneArguments, Procedure procedure)
+		public ControlGKGuardZoneStepViewModel(ControlGKGuardZoneArguments controlGKGuardZoneArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlGKGuardZoneArguments = controlGKGuardZoneArguments;
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			Variable1 = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.Variable1);
 			OnPropertyChanged(() => Commands);
 			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();
@@ -39,7 +40,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlGKGuardZoneArguments.GuardZoneCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -55,7 +55,6 @@ namespace AutomationModule.ViewModels
 				{
 					Variable1.UidValue = _selectedZone.GuardZone.UID;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedZone);
 			}
 		}
@@ -81,7 +80,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

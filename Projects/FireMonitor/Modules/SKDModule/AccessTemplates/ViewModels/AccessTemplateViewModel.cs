@@ -7,18 +7,7 @@ namespace SKDModule.ViewModels
 	public class AccessTemplateViewModel : CartothequeTabItemElementBase<AccessTemplateViewModel, AccessTemplate>
 	{
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
-        public override string Description
-        {
-            get { return IsOrganisation ? Organisation.Description : Model.Description; }
-            protected set
-            {
-                if (IsOrganisation)
-                    Organisation.Description = value;
-                else
-                    Model.Description = value;
-            }
-        }
-
+        
         public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);

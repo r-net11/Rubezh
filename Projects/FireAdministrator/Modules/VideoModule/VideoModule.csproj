@@ -67,7 +67,6 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="Vlc.DotNet.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL" />
-    <Reference Include="Vlc.DotNet.Core.Interops, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Vlc.DotNet.Wpf">
       <HintPath>..\..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Wpf.dll</HintPath>
     </Reference>

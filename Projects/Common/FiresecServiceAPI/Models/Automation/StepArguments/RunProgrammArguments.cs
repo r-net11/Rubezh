@@ -10,14 +10,13 @@ namespace FiresecAPI.Automation
 	{
 		public RunProgrammArguments()
 		{
-			
+
 		}
 
 		[DataMember]
-		public string Path{ get; set; }
+		public string Path { get; set; }
 
 		[DataMember]
-		public string Parameters{ get; set; }
+		public string Parameters { get; set; }
 	}
 }
-

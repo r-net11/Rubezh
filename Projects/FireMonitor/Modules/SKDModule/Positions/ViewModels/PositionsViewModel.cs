@@ -5,7 +5,7 @@ using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionsViewModel : CartothequeTabItemCopyPasteBase<ShortPosition, PositionFilter, PositionViewModel, PositionDetailsViewModel>
+	public class PositionsViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionViewModel, PositionDetailsViewModel>
 	{
 		protected override IEnumerable<ShortPosition> GetModels(PositionFilter filter)
 		{

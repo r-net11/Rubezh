@@ -7,15 +7,17 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace AutomationModule.ViewModels
 {
-	public class ProcedureSelectionStepViewModel : BaseViewModel, IStepViewModel
+	public class ProcedureSelectionStepViewModel : BaseStepViewModel
 	{
 		ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
 		Procedure Procedure { get; set; }
 
-		public ProcedureSelectionStepViewModel(ProcedureSelectionArguments procedureSelectionArguments, Procedure procedure)
+		public ProcedureSelectionStepViewModel(ProcedureSelectionArguments procedureSelectionArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ProcedureSelectionArguments = procedureSelectionArguments;
 			Procedure = procedure;
@@ -52,7 +54,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

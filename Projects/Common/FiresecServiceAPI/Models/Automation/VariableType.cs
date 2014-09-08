@@ -9,7 +9,7 @@ namespace FiresecAPI.Automation
 
 		[Description("Локальная переменная")]
 		IsLocalVariable,
-		
+
 		[Description("Явное значение")]
 		IsValue
 	}

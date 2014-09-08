@@ -26,7 +26,7 @@
 				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}"
 							   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ToolBarButton.ToolTip>
-						<StackPanel Orientation="Horizontal" >
+						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Условия объединены по " VerticalAlignment="Center" />
 							<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" />
 						</StackPanel>
@@ -38,7 +38,7 @@
 		<ItemsControl Grid.Row="1" ItemsSource="{Binding FindObjectConditions}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<StackPanel Orientation="Horizontal" >
+					<StackPanel Orientation="Horizontal">
 						<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
 
@@ -61,7 +61,7 @@
 
 						<StackPanel Orientation="Horizontal">
 							<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding VariableTypes}" Margin="2"
-									  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" Width="163" >
+									  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" Width="163">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -71,7 +71,7 @@
 							<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 									  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 									  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-								ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" Width="163" >
+								ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" Width="163">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Name}" />
@@ -81,7 +81,7 @@
 							<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding LocalVariables}" Margin="2"
 									  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 									  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-								ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" Width="163" >
+								ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" Width="163">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding Name}" />
@@ -90,7 +90,7 @@
 							</ComboBox>
 
 							<StackPanel Margin="2" Visibility="{Binding Path=Variable2.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-								ConverterParameter={x:Static automation:VariableType.IsValue}}" Width="163" >
+								ConverterParameter={x:Static automation:VariableType.IsValue}}" Width="163">
 								<extToolkit:IntegerUpDown Value="{Binding Variable2.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ValueType.Integer}}" Height="28" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" />
 								<CheckBox IsChecked="{Binding Variable2.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
@@ -99,7 +99,7 @@
 									ConverterParameter={x:Static automation:ValueType.String}}" Height="28" VerticalContentAlignment="Center" />
 								<ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding Variable2.TypeValue, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ValueType.Enum}}" >
+									ConverterParameter={x:Static automation:ValueType.Enum}}">
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<TextBlock Text="{Binding .}" />

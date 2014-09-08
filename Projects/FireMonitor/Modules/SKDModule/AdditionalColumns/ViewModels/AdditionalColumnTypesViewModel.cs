@@ -5,7 +5,7 @@ using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-    public class AdditionalColumnTypesViewModel : CartothequeTabItemCopyPasteBase<ShortAdditionalColumnType, AdditionalColumnTypeFilter, AdditionalColumnTypeViewModel, AdditionalColumnTypeDetailsViewModel>
+    public class AdditionalColumnTypesViewModel : OrganisationBaseViewModel<ShortAdditionalColumnType, AdditionalColumnTypeFilter, AdditionalColumnTypeViewModel, AdditionalColumnTypeDetailsViewModel>
 	{
         protected override IEnumerable<ShortAdditionalColumnType> GetModels(AdditionalColumnTypeFilter filter)
         {

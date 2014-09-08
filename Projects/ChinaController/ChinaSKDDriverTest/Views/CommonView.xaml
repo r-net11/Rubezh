@@ -43,5 +43,9 @@
             </StackPanel>
             <Button Content="SetPassword" Command="{Binding SetPasswordCommand}" Width="300" Margin="2" />
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetTimeSettings" Command="{Binding GetTimeSettingsCommand}" Width="300" Margin="2" />
+            <Button Content="SetTimeSettings" Command="{Binding SetTimeSettingsCommand}" Width="300" Margin="2" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

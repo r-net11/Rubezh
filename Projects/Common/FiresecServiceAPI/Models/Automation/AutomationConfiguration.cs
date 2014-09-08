@@ -33,6 +33,7 @@ namespace FiresecAPI.Automation
 				foreach (var step in procedure.Steps)
 				{
 					UpdateStep(step, procedure);
+					InvalidateStep(step, procedure);
 				}
 			}
 		}
@@ -40,6 +41,17 @@ namespace FiresecAPI.Automation
 		public void UpdateStep(ProcedureStep step, Procedure procedure)
 		{
 
+		}
+
+		public void InvalidateStep(ProcedureStep step, Procedure procedure)
+		{
+			if (step.SoundArguments != null && step.SoundArguments.ProcedureLayoutCollection != null)
+			{
+				foreach (var layoutsUID in step.SoundArguments.ProcedureLayoutCollection.LayoutsUIDs)
+				{
+					//
+				}
+			}
 		}
 	}
 }

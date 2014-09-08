@@ -14,17 +14,18 @@ using System.ComponentModel;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlGKDeviceStepViewModel : BaseViewModel, IStepViewModel
+	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
 		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		Procedure Procedure { get; set; }
 
-		public ControlGKDeviceStepViewModel(ControlGKDeviceArguments controlGkDeviceArguments, Procedure procedure)
+		public ControlGKDeviceStepViewModel(ControlGKDeviceArguments controlGkDeviceArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlGkDeviceArguments = controlGkDeviceArguments;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
+			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1);
 			Variable1.UpdateVariableTypeHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
@@ -52,7 +53,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlGkDeviceArguments.Command = CommandTypeToXStateBit(value);
 				OnPropertyChanged(() => SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -69,7 +69,6 @@ namespace AutomationModule.ViewModels
 					Variable1.UidValue = _selectedDevice.Device.UID;
 					InitializeCommands(_selectedDevice.Device);
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
@@ -151,7 +150,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

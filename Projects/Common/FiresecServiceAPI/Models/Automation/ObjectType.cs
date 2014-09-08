@@ -22,15 +22,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Охранная зона")]
 		GuardZone,
 		
-		[DescriptionAttribute("Карта")]
-		Card,
-
-		[DescriptionAttribute("Человек")]
-		Person,
-
-		[DescriptionAttribute("Графический план")]
-		Plan,
-
 		[DescriptionAttribute("Видеоустройство")]
 		VideoDevice,
 

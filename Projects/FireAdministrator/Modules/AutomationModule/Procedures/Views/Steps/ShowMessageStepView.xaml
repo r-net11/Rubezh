@@ -2,9 +2,9 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended" >
-	<DockPanel VerticalAlignment="Top" >
-		<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2" VerticalAlignment="Top" SelectedItem="{Binding ValueType, UpdateSourceTrigger=PropertyChanged}" >
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+	<DockPanel VerticalAlignment="Top">
+		<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2" VerticalAlignment="Top" SelectedItem="{Binding ValueType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -41,7 +41,7 @@
 		</ComboBox>
 
 		<StackPanel Margin="2" Visibility="{Binding Path=Variable1.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-								ConverterParameter={x:Static automation:VariableType.IsValue}}" HorizontalAlignment="Left" Width="200" >
+								ConverterParameter={x:Static automation:VariableType.IsValue}}" HorizontalAlignment="Left" Width="200">
 			<extToolkit:IntegerUpDown Value="{Binding Variable1.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ValueType.Integer}}" Height="25" VerticalAlignment="Center" />
 			<CheckBox IsChecked="{Binding Variable1.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 

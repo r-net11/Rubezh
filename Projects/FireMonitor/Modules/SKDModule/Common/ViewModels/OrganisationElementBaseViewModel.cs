@@ -6,7 +6,7 @@ namespace SKDModule.ViewModels
 {
 	public class CartothequeTabItemElementBase<T, ModelT> : TreeNodeViewModel<T>
 		where T : TreeNodeViewModel<T>
-		where ModelT : class, IWithName, IWithOrganisationUID, IWithUID, new()
+		where ModelT : class, IOrganisationElement, new()
 	{
 		public Organisation Organisation { get; protected set; }
 		public ModelT Model { get; protected set; }
@@ -21,15 +21,17 @@ namespace SKDModule.ViewModels
 					return Model.Name;
 			}
 		}
-		public virtual string Description
+		public string Description
 		{
-			get { return IsOrganisation ? Organisation.Description : ""; }
-			protected set
+			get
 			{
 				if (IsOrganisation)
-					Organisation.Description = value;
+					return Organisation.Description;
+				else
+					return Model.Description;
 			}
 		}
+		
 		protected ViewPartViewModel ParentViewModel;
 
 		public CartothequeTabItemElementBase() { }

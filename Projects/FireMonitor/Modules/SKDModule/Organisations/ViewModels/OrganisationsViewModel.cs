@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -156,8 +155,9 @@ namespace SKDModule.ViewModels
 				var removeResult = OrganisationHelper.MarkDeleted(organisation);
 				if (removeResult == false)
 					return;
-				Organisations.Remove(SelectedOrganisation);
-				SelectedOrganisation = Organisations.FirstOrDefault();
+                Organisations.Remove(SelectedOrganisation);
+                SelectedOrganisation = Organisations.FirstOrDefault();
+                ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 			}
 		}
 

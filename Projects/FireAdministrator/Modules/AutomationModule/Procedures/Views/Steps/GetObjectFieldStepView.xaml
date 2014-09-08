@@ -5,10 +5,10 @@
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
 	<Grid>
 		<StackPanel>
-			<StackPanel Orientation="Horizontal" >
+			<StackPanel Orientation="Horizontal">
 				<Label Content="Объект" Margin="2" Width="100" />
 				<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
-								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163" >
+								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -37,10 +37,10 @@
 				</ComboBox>
 			</StackPanel>
 
-			<StackPanel Orientation="Horizontal" >
+			<StackPanel Orientation="Horizontal">
 				<Label Content="Поле" Margin="2" Width="100" />
 				<ComboBox ItemsSource="{Binding Properties}" Margin="2"
-								  SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163" >
+								  SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -49,7 +49,7 @@
 				</ComboBox>
 			</StackPanel>
 
-			<StackPanel Orientation="Horizontal" >
+			<StackPanel Orientation="Horizontal">
 				<Label Content="Результат" Margin="2" Width="100" />
 				<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
 								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">

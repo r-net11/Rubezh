@@ -54,29 +54,6 @@ namespace FiresecService.Processor
 			return result;
 		}
 
-		public static void GetString(ProcedureStep procedureStep, Procedure procedure)
-		{
-			var getStringArguments = procedureStep.GetStringArguments;
-			var resultVariable = procedure.Variables.FirstOrDefault(x => x.Uid == getStringArguments.ResultVariableUid) ??
-					procedure.Arguments.FirstOrDefault(x => x.Uid == getStringArguments.ResultVariableUid);
-			var variable = procedure.Variables.FirstOrDefault(x => x.Uid == getStringArguments.VariableUid) ??
-				procedure.Arguments.FirstOrDefault(x => x.Uid == getStringArguments.VariableUid);
-			if ((resultVariable == null) || (variable == null))
-				return;
-			int intPropertyValue = 0;
-			string stringPropertyValue = "";
-			var item = new object();
-			var itemUid = Guid.Empty;
-			InitializeItem(ref item, variable.UidValue, variable.ObjectType);
-			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
-			if (getStringArguments.StringOperation == StringOperation.Is)
-				resultVariable.VariableItems = new List<VariableItem>();
-			if (getStringArguments.Property != Property.Description)
-				resultVariable.VariableItems.Add(new VariableItem { StringValue = intPropertyValue.ToString() });
-			else
-				resultVariable.VariableItems.Add(new VariableItem { StringValue = stringPropertyValue });
-		}
-
 		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep, Procedure procedure)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
@@ -105,7 +82,7 @@ namespace FiresecService.Processor
 			object variable1;
 			object variable2;
 			var resultVariable = GetAllVariables(procedure).FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
-			switch (arithmeticArguments.ArithmeticValueType)
+			switch (arithmeticArguments.ValueType)
 			{
 				case ValueType.Boolean:
 					{

@@ -24,6 +24,8 @@ namespace ControllerSDK.ViewModels
 			SetCurrentTimeCommand = new RelayCommand(OnSetCurrentTime);
 			GetControllerDirectionTypeCommand = new RelayCommand(OnGetControllerDirectionType);
 			SetControllerDirectionTypeCommand = new RelayCommand(OnSetControllerDirectionType);
+			GetTimeSettingsCommand = new RelayCommand(OnGetTimeSettings);
+			SetTimeSettingsCommand = new RelayCommand(OnSetTimeSettings);
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 			ReBootCommand = new RelayCommand(OnReBoot);
@@ -32,9 +34,9 @@ namespace ControllerSDK.ViewModels
 			SetPasswordCommand = new RelayCommand(OnSetPassword);
 			TestCommand = new RelayCommand(OnTest);
 
-			AvailableControllerDirectionTypes = new ObservableCollection<SKDControllerDirectionType>();
-			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Unidirect);
-			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Bidirect);
+			AvailableControllerDirectionTypes = new ObservableCollection<DoorType>();
+			AvailableControllerDirectionTypes.Add(DoorType.OneWay);
+			AvailableControllerDirectionTypes.Add(DoorType.TwoWay);
 
 			Login = "system";
 			OldPassword = "123456";
@@ -151,13 +153,13 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetControllerDirectionTypeCommand { get; private set; }
 		void OnGetControllerDirectionType()
 		{
-			SelectedControllerDirectionType = MainViewModel.Wrapper.GetControllerDirectionType();
+			SelectedControllerDirectionType = MainViewModel.Wrapper.GetControllerDoorType();
 		}
 
 		public RelayCommand SetControllerDirectionTypeCommand { get; private set; }
 		void OnSetControllerDirectionType()
 		{
-			var result = MainViewModel.Wrapper.SetControllerDirectionType(SelectedControllerDirectionType);
+			var result = MainViewModel.Wrapper.SetControllerDoorType(SelectedControllerDirectionType);
 			if (result)
 			{
 				MessageBox.Show("Success");
@@ -168,10 +170,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<SKDControllerDirectionType> AvailableControllerDirectionTypes { get; private set; }
+		public ObservableCollection<DoorType> AvailableControllerDirectionTypes { get; private set; }
 
-		SKDControllerDirectionType _selectedControllerDirectionType;
-		public SKDControllerDirectionType SelectedControllerDirectionType
+		DoorType _selectedControllerDirectionType;
+		public DoorType SelectedControllerDirectionType
 		{
 			get { return _selectedControllerDirectionType; }
 			set
@@ -179,6 +181,20 @@ namespace ControllerSDK.ViewModels
 				_selectedControllerDirectionType = value;
 				OnPropertyChanged(() => SelectedControllerDirectionType);
 			}
+		}
+
+		public RelayCommand GetTimeSettingsCommand { get; private set; }
+		void OnGetTimeSettings()
+		{
+			var controllerTimeSettings = MainViewModel.Wrapper.GetControllerTimeSettings();
+		}
+
+		public RelayCommand SetTimeSettingsCommand { get; private set; }
+		void OnSetTimeSettings()
+		{
+			var controllerTimeSettings = new SKDControllerTimeSettings();
+			controllerTimeSettings.Name = "___Name___";
+			var result = MainViewModel.Wrapper.SetControllerTimeSettings(controllerTimeSettings);
 		}
 
 		DoorConfiguration DoorConfiguration;

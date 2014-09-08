@@ -8,16 +8,14 @@ namespace FiresecAPI.Automation
 	{
 		public ForeachArguments()
 		{
-			Uid = Guid.NewGuid();
+			ListVariable = new ArithmeticParameter();
+			ItemVariable = new ArithmeticParameter();
 		}
 
 		[DataMember]
-		public Guid Uid { get; set; }
+		public ArithmeticParameter ListVariable { get; set; }
 
 		[DataMember]
-		public Guid ListVariableUid { get; set; }
-
-		[DataMember]
-		public Guid ItemVariableUid { get; set; }
+		public ArithmeticParameter ItemVariable { get; set; }
 	}
 }
