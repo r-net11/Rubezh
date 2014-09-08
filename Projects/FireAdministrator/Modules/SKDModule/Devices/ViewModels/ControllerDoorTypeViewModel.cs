@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 
 		public ControllerDoorTypeViewModel(DeviceViewModel deviceViewModel)
 		{
-			Title = "Задание пароля контроллера";
+			Title = "Задание типа контроллера";
 			DeviceViewModel = deviceViewModel;
 
 			GetDoorTypeCommand = new RelayCommand(OnGetDoorType);

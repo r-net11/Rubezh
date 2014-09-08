@@ -23,13 +23,13 @@ namespace SKDModule.ViewModels
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
 			DevicesViewModel = devicesViewModel;
-			ShowControllerConfigurationCommand = new RelayCommand(OnShowControllerConfiguration, CanShowControllerConfiguration);
-			ShowControllerPasswordCommand = new RelayCommand(OnShowControllerPassword, CanShowControllerPassword);
-			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowControllerTimeSettings);
-			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowControllerNetwork);
-			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType, CanShowControllerDoorType);
+			ShowControllerConfigurationCommand = new RelayCommand(OnShowControllerConfiguration, CanShowController);
+			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType, CanShowController);
+			ShowControllerPasswordCommand = new RelayCommand(OnShowControllerPassword, CanShowController);
+			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowController);
+			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowController);
 			ShowLockConfigurationCommand = new RelayCommand(OnShowLockConfiguration, CanShowLockConfiguration);
-			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
+			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanShowController);
 			WriteAllTimeSheduleConfigurationCommand = new RelayCommand(OnWriteAllTimeSheduleConfiguration);
 		}
 
@@ -52,49 +52,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning(deviceInfoResult.Error);
 			}
 		}
-		bool CanShowControllerConfiguration()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
-		}
-
-		public RelayCommand ShowControllerPasswordCommand { get; private set; }
-		void OnShowControllerPassword()
-		{
-			var controllerPaswordViewModel = new ControllerPaswordViewModel(SelectedDevice);
-			if (DialogService.ShowModalWindow(controllerPaswordViewModel))
-			{
-
-			}
-		}
-		bool CanShowControllerPassword()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
-		}
-
-		public RelayCommand ShowControllerTimeSettingsCommand { get; private set; }
-		void OnShowControllerTimeSettings()
-		{
-			var controllerTimeSettingsViewModel = new ControllerTimeSettingsViewModel(SelectedDevice);
-			if (DialogService.ShowModalWindow(controllerTimeSettingsViewModel))
-			{
-
-			}
-		}
-		bool CanShowControllerTimeSettings()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
-		}
-
-		public RelayCommand ShowControllerNetworkCommand { get; private set; }
-		void OnShowControllerNetwork()
-		{
-			var controllerNetSettingsViewModel = new ControllerNetSettingsViewModel(SelectedDevice);
-			if (DialogService.ShowModalWindow(controllerNetSettingsViewModel))
-			{
-
-			}
-		}
-		bool CanShowControllerNetwork()
+		bool CanShowController()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
@@ -108,9 +66,35 @@ namespace SKDModule.ViewModels
 
 			}
 		}
-		bool CanShowControllerDoorType()
+
+		public RelayCommand ShowControllerPasswordCommand { get; private set; }
+		void OnShowControllerPassword()
 		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+			var controllerPaswordViewModel = new ControllerPaswordViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerPaswordViewModel))
+			{
+
+			}
+		}
+
+		public RelayCommand ShowControllerNetworkCommand { get; private set; }
+		void OnShowControllerNetwork()
+		{
+			var controllerNetSettingsViewModel = new ControllerNetSettingsViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerNetSettingsViewModel))
+			{
+
+			}
+		}
+
+		public RelayCommand ShowControllerTimeSettingsCommand { get; private set; }
+		void OnShowControllerTimeSettings()
+		{
+			var controllerTimeSettingsViewModel = new ControllerTimeSettingsViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerTimeSettingsViewModel))
+			{
+
+			}
 		}
 
 		public RelayCommand ShowLockConfigurationCommand { get; private set; }
@@ -158,10 +142,6 @@ namespace SKDModule.ViewModels
 					thread.Start();
 				}
 			}
-		}
-		bool CanWriteTimeSheduleConfiguration()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
 		public RelayCommand WriteAllTimeSheduleConfigurationCommand { get; private set; }

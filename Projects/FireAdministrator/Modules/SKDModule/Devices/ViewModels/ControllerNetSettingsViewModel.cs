@@ -23,6 +23,9 @@ namespace SKDModule.ViewModels
 
 			WriteCommand = new RelayCommand(OnWrite);
 			ReadCommand = new RelayCommand(OnRead);
+
+			OnRead();
+			HasChanged = false;
 		}
 
 		string _address;
@@ -58,13 +61,46 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		int _mtu;
+		public int MTU
+		{
+			get { return _mtu; }
+			set
+			{
+				_mtu = value;
+				OnPropertyChanged(() => MTU);
+			}
+		}
+
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
+			if (string.IsNullOrEmpty(Address))
+			{
+				MessageBoxService.ShowWarning("Не задан адрес");
+				return;
+			}
+			if (string.IsNullOrEmpty(Mask))
+			{
+				MessageBoxService.ShowWarning("Не задана маска");
+				return;
+			}
+			if (string.IsNullOrEmpty(DefaultGateway))
+			{
+				MessageBoxService.ShowWarning("Не задан шлюз по умолчанию");
+				return;
+			}
+			if (MTU <= 0)
+			{
+				MessageBoxService.ShowWarning("Значение MTU должно быть положительным числом");
+				return;
+			}
+
 			var controllerNetworkSettings = new SKDControllerNetworkSettings();
 			controllerNetworkSettings.Address = Address;
 			controllerNetworkSettings.Mask = Mask;
 			controllerNetworkSettings.DefaultGateway = DefaultGateway;
+			controllerNetworkSettings.MTU = MTU;
 			var result = FiresecManager.FiresecService.SetControllerNetworkSettings(DeviceViewModel.Device, controllerNetworkSettings);
 			if (result.HasError)
 			{
@@ -92,6 +128,7 @@ namespace SKDModule.ViewModels
 				Address = controllerNetworkSettings.Address;
 				Mask = controllerNetworkSettings.Mask;
 				DefaultGateway = controllerNetworkSettings.DefaultGateway;
+				MTU = controllerNetworkSettings.MTU;
 				HasChanged = true;
 			}
 		}
@@ -100,7 +137,7 @@ namespace SKDModule.ViewModels
 		{
 			if (HasChanged)
 			{
-				var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
 				if (addressProperty == null)
 				{
 					MessageBoxService.ShowWarning("У контроллера отсутствует адрес");

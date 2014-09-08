@@ -321,8 +321,6 @@ namespace ChinaSKDDriver
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
-		//***********************************************************
-
 		public static OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -367,6 +365,7 @@ namespace ChinaSKDDriver
 				controllerNetworkSettings.Address = deviceNetInfo.IP;
 				controllerNetworkSettings.Mask = deviceNetInfo.SubnetMask;
 				controllerNetworkSettings.DefaultGateway = deviceNetInfo.DefaultGateway;
+				controllerNetworkSettings.MTU = deviceNetInfo.MTU;
 				return new OperationResult<SKDControllerNetworkSettings>() { Result = controllerNetworkSettings };
 			}
 			return new OperationResult<SKDControllerNetworkSettings>("Не найден контроллер в конфигурации");
@@ -384,6 +383,7 @@ namespace ChinaSKDDriver
 				deviceNetInfo.IP = controllerNetworkSettings.Address;
 				deviceNetInfo.SubnetMask = controllerNetworkSettings.Mask;
 				deviceNetInfo.DefaultGateway = controllerNetworkSettings.DefaultGateway;
+				deviceNetInfo.MTU = controllerNetworkSettings.MTU;
 				var result = deviceProcessor.Wrapper.SetDeviceNetInfo(deviceNetInfo);
 				if (result)
 					return new OperationResult<bool>() { Result = true };

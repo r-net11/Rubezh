@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common;
 using FiresecClient;
 using FiresecAPI.SKD;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -22,6 +23,10 @@ namespace SKDModule.ViewModels
 
 			WriteCommand = new RelayCommand(OnWrite);
 			ReadCommand = new RelayCommand(OnRead);
+
+			AvailableTimeZoneTypes = new ObservableCollection<SKDTimeZoneType>(Enum.GetValues(typeof(SKDTimeZoneType)).Cast<SKDTimeZoneType>());
+			OnRead();
+			HasChanged = false;
 		}
 
 		bool _isEnabled;
@@ -79,14 +84,25 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		SKDTimeZoneType _timeZone;
-		public SKDTimeZoneType TimeZone
+		ObservableCollection<SKDTimeZoneType> _availableTimeZoneTypes;
+		public ObservableCollection<SKDTimeZoneType> AvailableTimeZoneTypes
 		{
-			get { return _timeZone; }
+			get { return _availableTimeZoneTypes; }
 			set
 			{
-				_timeZone = value;
-				OnPropertyChanged(() => TimeZone);
+				_availableTimeZoneTypes = value;
+				OnPropertyChanged(() => AvailableTimeZoneTypes);
+			}
+		}
+
+		SKDTimeZoneType _selectedTimeZoneType;
+		public SKDTimeZoneType SelectedTimeZoneType
+		{
+			get { return _selectedTimeZoneType; }
+			set
+			{
+				_selectedTimeZoneType = value;
+				OnPropertyChanged(() => SelectedTimeZoneType);
 			}
 		}
 
@@ -99,7 +115,7 @@ namespace SKDModule.ViewModels
 			controllerTimeSettings.Description = Description;
 			controllerTimeSettings.Port = Port;
 			controllerTimeSettings.UpdatePeriod = UpdatePeriod;
-			controllerTimeSettings.TimeZone = TimeZone;
+			controllerTimeSettings.TimeZone = SelectedTimeZoneType;
 
 			var result = FiresecManager.FiresecService.SetControllerTimeSettings(DeviceViewModel.Device, controllerTimeSettings);
 			if (result.HasError)
@@ -130,7 +146,7 @@ namespace SKDModule.ViewModels
 				Description = controllerTimeSettings.Description;
 				Port = controllerTimeSettings.Port;
 				UpdatePeriod = controllerTimeSettings.UpdatePeriod;
-				TimeZone = controllerTimeSettings.TimeZone;
+				SelectedTimeZoneType = controllerTimeSettings.TimeZone;
 				HasChanged = true;
 			}
 		}

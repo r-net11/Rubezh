@@ -19,7 +19,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsEnabled}" Margin="2" />
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsEnabled}" Content="Разрешить" Foreground="White" Margin="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Название" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
@@ -34,7 +34,7 @@
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding UpdatePeriod}" Margin="2" />
 
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Временная зона" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding TimeZones}" SelectedItem="{Binding SelectedTimeZone}" Margin="2">
+                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding AvailableTimeZoneTypes}" SelectedItem="{Binding SelectedTimeZoneType}" Margin="2">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -43,8 +43,8 @@
                 </ComboBox>
 
                 <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
-                    <Button Content="Считать" Command="{Binding GetDoorTypeCommand}" Width="150" Margin="2" />
-                    <Button Content="Записать" Command="{Binding SetDoorTypeCommand}" Width="150" Margin="2" />
+                    <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+                    <Button Content="Записать" Command="{Binding WriteCommand}" Width="100" Margin="2" />
                 </StackPanel>
             </Grid>
         </TabItem>
