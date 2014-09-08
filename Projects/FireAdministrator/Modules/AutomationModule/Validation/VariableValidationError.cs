@@ -6,10 +6,10 @@ using FiresecAPI;
 
 namespace AutomationModule.Validation
 {
-	class ProcedureValidationError : ObjectValidationError<Procedure, ShowProceduresEvent, Guid>
+	class VariableValidationError : ObjectValidationError<Variable, ShowProceduresEvent, Guid>
 	{
-		public ProcedureValidationError(Procedure procedure, string error, ValidationErrorLevel level)
-			: base(procedure, error, level)
+		public VariableValidationError(Variable variable, string error, ValidationErrorLevel level)
+			: base(variable, error, level)
 		{
 		}
 

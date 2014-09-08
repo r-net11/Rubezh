@@ -134,7 +134,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\GetObjectFieldStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\BaseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PauseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PersonInspectionStepViewModel.cs" />
@@ -330,6 +330,7 @@
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
+    <Compile Include="Validation\ProcedureStepValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
@@ -338,6 +339,7 @@
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
+    <Compile Include="Validation\VariableValidationError.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">

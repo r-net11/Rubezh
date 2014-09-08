@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
-	public class SendEmailStepViewModel : BaseViewModel, IStepViewModel
+	public class SendEmailStepViewModel : BaseStepViewModel
 	{
 		SendEmailArguments SendEmailArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
@@ -18,6 +18,7 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel EMailContent { get; private set; }
 
 		public SendEmailStepViewModel(SendEmailArguments sendEmailArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			SendEmailArguments = sendEmailArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
@@ -39,7 +40,6 @@ namespace AutomationModule.ViewModels
 				SendEmailArguments.SelectedEMailTitleValueType = value;
 				OnPropertyChanged(() => SelectedEMailTitleValueType);
 				UpdateContent();
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -51,7 +51,6 @@ namespace AutomationModule.ViewModels
 			{
 				SendEmailArguments.SelectedEMailContentValueType = value;
 				OnPropertyChanged(() => SelectedEMailContentValueType);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -127,7 +126,7 @@ namespace AutomationModule.ViewModels
 			EMailContent.Update(allEMailContentVariables);
 		}
 
-		public string Description
+		public override string Description
 		{
 			get
 			{

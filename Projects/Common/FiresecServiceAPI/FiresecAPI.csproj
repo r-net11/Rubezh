@@ -144,6 +144,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="Models\Automation\ArithmeticParameter.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectFieldArguments.cs" />

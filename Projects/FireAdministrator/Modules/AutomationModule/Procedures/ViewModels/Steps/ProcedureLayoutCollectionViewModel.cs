@@ -55,9 +55,7 @@ namespace AutomationModule.ViewModels
 					ProcedureLayoutCollection.LayoutsUIDs.Add(Layout.UID);
 				else if (!value)
 					ProcedureLayoutCollection.LayoutsUIDs.Remove(Layout.UID);
-
 				OnPropertyChanged(() => IsChecked);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 	}

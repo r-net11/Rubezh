@@ -14,13 +14,14 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlSKDDeviceStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlSKDDeviceStepViewModel: BaseStepViewModel
 	{
 		ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public ControlSKDDeviceStepViewModel(ControlSKDDeviceArguments controlSKDDeviceArguments, Procedure procedure)
+		public ControlSKDDeviceStepViewModel(ControlSKDDeviceArguments controlSKDDeviceArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlSKDDeviceArguments = controlSKDDeviceArguments;
 			Procedure = procedure;
@@ -41,7 +42,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlSKDDeviceArguments.Command = value;
 				OnPropertyChanged(()=>SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -57,7 +57,6 @@ namespace AutomationModule.ViewModels
 				{
 					Variable1.UidValue = _selectedDevice.SKDDevice.UID;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
@@ -84,7 +83,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

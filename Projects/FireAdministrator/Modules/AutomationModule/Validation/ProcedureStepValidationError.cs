@@ -6,10 +6,10 @@ using FiresecAPI;
 
 namespace AutomationModule.Validation
 {
-	class ProcedureValidationError : ObjectValidationError<Procedure, ShowProceduresEvent, Guid>
+	class ProcedureStepValidationError : ObjectValidationError<ProcedureStep, ShowProceduresEvent, Guid>
 	{
-		public ProcedureValidationError(Procedure procedure, string error, ValidationErrorLevel level)
-			: base(procedure, error, level)
+		public ProcedureStepValidationError(ProcedureStep procedureStep, string error, ValidationErrorLevel level)
+			: base(procedureStep, error, level)
 		{
 		}
 
@@ -19,7 +19,7 @@ namespace AutomationModule.Validation
 		}
 		protected override Guid Key
 		{
-			get { return Object.Uid; }
+			get { return Object.UID; }
 		}
 		public override string Address
 		{
@@ -27,7 +27,7 @@ namespace AutomationModule.Validation
 		}
 		public override string Source
 		{
-			get { return Object.Name; }
+			get { return Object.ProcedureStepType.ToDescription(); }
 		}
 		public override string ImageSource
 		{

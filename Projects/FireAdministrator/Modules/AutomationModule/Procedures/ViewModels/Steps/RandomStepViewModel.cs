@@ -7,13 +7,14 @@ using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
-	public class RandomStepViewModel : BaseViewModel, IStepViewModel
+	public class RandomStepViewModel : BaseStepViewModel
 	{
 		Procedure Procedure { get; set; }
 		public RandomArguments RandomArguments { get; private set; }
 		public ArgumentItemViewModel MaxValue { get; private set; }
 
-		public RandomStepViewModel(RandomArguments randomArguments, Procedure procedure)
+		public RandomStepViewModel(RandomArguments randomArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			RandomArguments = randomArguments;
 			MaxValue = new ArgumentItemViewModel(procedure, randomArguments.MaxValue, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
@@ -25,7 +26,7 @@ namespace AutomationModule.ViewModels
 		{
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

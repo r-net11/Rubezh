@@ -11,7 +11,7 @@ using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {
-	public class ShowMessageStepViewModel : BaseViewModel, IStepViewModel
+	public class ShowMessageStepViewModel : BaseStepViewModel
 	{
 		ShowMessageArguments ShowMessageArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
@@ -19,6 +19,7 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
 		public ShowMessageStepViewModel(ShowMessageArguments showMessageArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ShowMessageArguments = showMessageArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
@@ -46,7 +47,7 @@ namespace AutomationModule.ViewModels
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
 		}
 
-		public string Description
+		public override string Description
 		{
 			get 
 			{

@@ -9,13 +9,14 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ExitStepViewModel: BaseViewModel, IStepViewModel
+	public class ExitStepViewModel: BaseStepViewModel
 	{
 		Procedure Procedure { get; set; }
 		ExitArguments ExitArguments { get; set; }
 		public ArithmeticParameterViewModel ExitCode { get; private set; }
 
-		public ExitStepViewModel(ExitArguments exitArguments, Procedure procedure)
+		public ExitStepViewModel(ExitArguments exitArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ExitArguments = exitArguments;
 			Procedure = procedure;
@@ -29,7 +30,7 @@ namespace AutomationModule.ViewModels
 			ExitCode.Update(allVariables);
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

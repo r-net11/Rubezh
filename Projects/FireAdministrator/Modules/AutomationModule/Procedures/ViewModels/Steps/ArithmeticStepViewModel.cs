@@ -11,19 +11,18 @@ using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArithmeticStepViewModel : BaseViewModel, IStepViewModel
+	public class ArithmeticStepViewModel : BaseStepViewModel
 	{
 		public ArithmeticArguments ArithmeticArguments { get; private set; }
 		public Procedure Procedure { get; private set; }
 		public ArithmeticParameterViewModel Variable1 { get; set; }
 		public ArithmeticParameterViewModel Variable2 { get; set; }
 		public ArithmeticParameterViewModel Result { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
 
 		public ArithmeticStepViewModel(ArithmeticArguments arithmeticArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			Procedure = procedure;
-			UpdateDescriptionHandler = updateDescriptionHandler;
 			ArithmeticArguments = arithmeticArguments;
 			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, false);
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1);
@@ -36,7 +35,7 @@ namespace AutomationModule.ViewModels
 			SelectedValueType = ArithmeticArguments.ValueType;
 		}
 
-		public void UpdateContent()
+		public new void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedValueType);
 			var allVariables2 = new List<Variable>(allVariables);
@@ -48,7 +47,7 @@ namespace AutomationModule.ViewModels
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
 
-		public string Description
+		public override string Description
 		{
 			get
 			{
@@ -149,14 +148,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedValueType);
 				UpdateContent();
 			}
-		}
-
-		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
-		{
-			base.OnPropertyChanged(propertyExpression);
-			ServiceFactory.SaveService.AutomationChanged = true;
-			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
 		}
 	}
 

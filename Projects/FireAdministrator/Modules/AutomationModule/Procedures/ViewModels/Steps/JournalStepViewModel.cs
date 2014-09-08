@@ -8,14 +8,15 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class JournalStepViewModel : BaseViewModel, IStepViewModel
+	public class JournalStepViewModel : BaseStepViewModel
 	{
 		JournalArguments JournalArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		public ArithmeticParameterViewModel Variable { get; set; }
 		Procedure Procedure { get; set; }
 
-		public JournalStepViewModel(JournalArguments journalArguments, Action updateDescriptionHandler, Procedure procedure)
+		public JournalStepViewModel(JournalArguments journalArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			JournalArguments = journalArguments;
 			Procedure = procedure;
@@ -33,7 +34,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				JournalArguments.ValueType = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedValueType);
 				UpdateContent();
 			}
@@ -61,7 +61,7 @@ namespace AutomationModule.ViewModels
 			Variable.Update(allVariables);
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

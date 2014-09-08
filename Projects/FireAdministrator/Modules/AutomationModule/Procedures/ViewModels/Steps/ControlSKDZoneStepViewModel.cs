@@ -12,13 +12,14 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlSKDZoneStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlSKDZoneStepViewModel: BaseStepViewModel
 	{
 		ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public ControlSKDZoneStepViewModel(ControlSKDZoneArguments controlSKDZoneArguments, Procedure procedure)
+		public ControlSKDZoneStepViewModel(ControlSKDZoneArguments controlSKDZoneArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlSKDZoneArguments = controlSKDZoneArguments;
 			Procedure = procedure;
@@ -40,7 +41,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlSKDZoneArguments.SKDZoneCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -56,7 +56,6 @@ namespace AutomationModule.ViewModels
 				{
 					Variable1.UidValue = _selectedZone.SKDZone.UID;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedZone);
 			}
 		}
@@ -82,7 +81,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

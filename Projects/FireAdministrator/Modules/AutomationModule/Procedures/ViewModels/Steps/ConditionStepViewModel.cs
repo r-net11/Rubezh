@@ -12,16 +12,13 @@ using System.Linq.Expressions;
 
 namespace AutomationModule.ViewModels
 {
-	public class ConditionStepViewModel : BaseViewModel, IStepViewModel
+	public class ConditionStepViewModel : BaseStepViewModel
 	{
 		public ConditionArguments ConditionArguments { get; private set; }
 		public ObservableCollection<ConditionViewModel> Conditions { get; private set; }
 		Procedure Procedure { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
-
-		public ConditionStepViewModel(ConditionArguments conditionArguments, Procedure procedure, Action updateDescriptionHandler)
+		public ConditionStepViewModel(ConditionArguments conditionArguments, Procedure procedure, Action updateDescriptionHandler) : base(updateDescriptionHandler)
 		{
-			UpdateDescriptionHandler = updateDescriptionHandler;
 			ConditionArguments = conditionArguments;
 			Procedure = procedure;
 			Conditions = new ObservableCollection<ConditionViewModel>();
@@ -93,7 +90,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
-		public string Description
+		public override string Description
 		{
 			get
 			{
@@ -151,14 +148,6 @@ namespace AutomationModule.ViewModels
 
 				return var1 + " " + op + " " + var2 + " " + end;
 			}
-		}
-
-		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
-		{
-			base.OnPropertyChanged(propertyExpression);
-			ServiceFactory.SaveService.AutomationChanged = true;
-			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
 		}
 	}
 

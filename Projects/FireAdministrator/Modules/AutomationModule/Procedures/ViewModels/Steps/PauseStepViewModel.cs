@@ -2,16 +2,19 @@
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class PauseStepViewModel : BaseViewModel, IStepViewModel
+	public class PauseStepViewModel : BaseStepViewModel
 	{
 		private Procedure Procedure { get; set; }
 		public PauseArguments PauseArguments { get; private set; }
 		public ArithmeticParameterViewModel Pause { get; set; }
 
-		public PauseStepViewModel(PauseArguments pauseArguments, Procedure procedure)
+		public PauseStepViewModel(PauseArguments pauseArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			PauseArguments = pauseArguments;
 			Procedure = procedure;
@@ -25,7 +28,7 @@ namespace AutomationModule.ViewModels
 			Pause.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer));
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}

@@ -8,20 +8,21 @@ using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
-	public class SoundStepViewModel : BaseViewModel, IStepViewModel
+	public class SoundStepViewModel : BaseStepViewModel
 	{
 		public SoundArguments SoundArguments { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
 
 		public SoundStepViewModel(SoundArguments soundArguments, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			SoundArguments = soundArguments;
 			UpdateContent();
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return SelectedSound == null ? "нет" : SelectedSound.Name; }
 		}
@@ -59,7 +60,6 @@ namespace AutomationModule.ViewModels
 					UpdateDescriptionHandler();
 
 				OnPropertyChanged(() => SelectedSound);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 	}

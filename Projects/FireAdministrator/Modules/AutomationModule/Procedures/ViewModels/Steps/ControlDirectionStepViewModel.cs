@@ -11,13 +11,14 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlDirectionStepViewModel : BaseViewModel, IStepViewModel
+	public class ControlDirectionStepViewModel : BaseStepViewModel
 	{
 		ControlDirectionArguments ControlDirectionArguments { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		Procedure Procedure { get; set; }
 
-		public ControlDirectionStepViewModel(ControlDirectionArguments controlDirectionArguments, Procedure procedure)
+		public ControlDirectionStepViewModel(ControlDirectionArguments controlDirectionArguments, Procedure procedure, Action updateDescriptionHandler)
+			: base(updateDescriptionHandler)
 		{
 			ControlDirectionArguments = controlDirectionArguments;
 			Procedure = procedure;
@@ -39,7 +40,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlDirectionArguments.DirectionCommandType = value;
 				OnPropertyChanged(() => SelectedCommand);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -55,7 +55,6 @@ namespace AutomationModule.ViewModels
 				{
 					Variable1.UidValue = _selectedDirection.Direction.UID;
 				}
-				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
@@ -81,7 +80,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Description
+		public override string Description
 		{
 			get { return ""; }
 		}
