@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 			get { return SelectedSound == null ? "нет" : SelectedSound.Name; }
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Sounds = new ObservableCollection<SoundViewModel>();
 			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)

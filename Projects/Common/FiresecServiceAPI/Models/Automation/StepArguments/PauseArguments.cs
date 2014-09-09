@@ -9,7 +9,7 @@ namespace FiresecAPI.Automation
 		public PauseArguments()
 		{
 			Pause = new ArithmeticParameter();
-			Pause.IntValue = 1;
+			Pause.VariableItem.IntValue = 1;
 		}
 
 		[DataMember]

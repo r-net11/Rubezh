@@ -41,7 +41,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			
 		}

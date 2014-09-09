@@ -38,19 +38,22 @@
 						<DataTemplate>
 							<StackPanel>
 								<StackPanel Visibility="{Binding Path=IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-									<TextBlock Text="{Binding DefaultBoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+									<TextBlock Text="{Binding VariableItem.BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 									 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ValueType.Boolean}}" />
-									<TextBlock Text="{Binding DefaultDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
+									<TextBlock Text="{Binding VariableItem.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ValueType.DateTime}}" />
-									<TextBlock Text="{Binding DefaultIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+									<TextBlock Text="{Binding VariableItem.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ValueType.Integer}}" />
 									<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ValueType.Object}}" />
-									<TextBlock Text="{Binding DefaultStringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+									<TextBlock Text="{Binding EnumType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.Enum}}" />
+									<TextBlock Text="{Binding VariableItem.StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ValueType.String}}" />
 								</StackPanel>
@@ -59,6 +62,9 @@
 									<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ValueType.Object}}" />
+									<TextBlock Text="{Binding EnumType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.Enum}}" />
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>

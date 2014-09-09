@@ -61,7 +61,7 @@ namespace AutomationModule.ViewModels
 			get { return FindObjectConditions.Count > 1; }
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
 			Variables = new ObservableCollection<VariableViewModel>();
@@ -118,8 +118,7 @@ namespace AutomationModule.ViewModels
 						FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
 						OnPropertyChanged(() => FindObjectConditions);
 					}
-					FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(value.ObjectType));
-					FindObjectConditionViewModel.Types = new ObservableCollection<string>(ProcedureHelper.ObjectTypeToTypesList(value.ObjectType));
+					FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(value.Variable.ObjectType));
 					FindObjectArguments.ResultUid = value.Variable.Uid;
 				}
 				OnPropertyChanged(() => SelectedVariable);
@@ -132,6 +131,7 @@ namespace AutomationModule.ViewModels
 		public FindObjectCondition FindObjectCondition { get; private set; }
 		public ArithmeticParameterViewModel Variable2 { get; private set; }
 		Procedure Procedure { get; set; }
+
 		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure)
 		{
 			FindObjectCondition = findObjectCondition;
@@ -139,8 +139,6 @@ namespace AutomationModule.ViewModels
 			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
-			IntValue = FindObjectCondition.IntValue;
-			StringValue = FindObjectCondition.StringValue;
 		}
 
 		public static ObservableCollection<Property> Properties { get; set; }
@@ -155,23 +153,10 @@ namespace AutomationModule.ViewModels
 				if (value == Property.ShleifNo)
 				{ MinValue = 1; MaxValue = 8; }
 				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ValueType));
-				Variable2.VariableTypes = new ObservableCollection<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue };
-				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList);
-				if (ValueType == ValueType.Boolean)
-				{
-					allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
-				}
-				if ((ValueType == ValueType.Integer) ||  (ValueType == ValueType.Object))
-				{
-					allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
-				}
-				if (ValueType == ValueType.String)
-				{
-					allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
-				}
-				Variable2.Update(allVariables);
+				Variable2.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ValueType && x.EnumType == EnumType));
+				Variable2.ValueType = ValueType;
+				Variable2.EnumType = EnumType;
 				OnPropertyChanged(() => SelectedProperty);
-				OnPropertyChanged(() => ValueType);
 				OnPropertyChanged(() => ConditionTypes);
 				OnPropertyChanged(() => MinValue);
 				OnPropertyChanged(() => MaxValue);
@@ -186,28 +171,6 @@ namespace AutomationModule.ViewModels
 			{
 				FindObjectCondition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
-			}
-		}
-
-		public static ObservableCollection<string> Types { get; set; }
-
-		public int IntValue
-		{
-			get { return FindObjectCondition.IntValue; }
-			set
-			{
-				FindObjectCondition.IntValue = value;
-				OnPropertyChanged(() => IntValue);
-			}
-		}
-
-		public string StringValue
-		{
-			get { return FindObjectCondition.StringValue; }
-			set
-			{
-				FindObjectCondition.StringValue = value;
-				OnPropertyChanged(() => StringValue);
 			}
 		}
 
@@ -233,13 +196,25 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public EnumType EnumType
+		{
+			get
+			{
+				if (SelectedProperty == Property.Type)
+					return EnumType.DeviceType;
+				if (SelectedProperty == Property.DeviceState)
+					return EnumType.StateClass;
+				return EnumType.StateClass;
+			}
+		}
+
 		public ValueType ValueType
 		{
 			get
 			{
 				if (SelectedProperty == Property.Description)
 					return ValueType.String;
-				if (SelectedProperty == Property.Type)
+				if ((SelectedProperty == Property.Type)||(SelectedProperty == Property.DeviceState))
 					return ValueType.Enum;
 				return ValueType.Integer;
 			}

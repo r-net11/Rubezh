@@ -13,11 +13,13 @@ namespace AutomationModule.ViewModels
 	{
 		public Argument Argument { get; private set; }
 		Procedure Procedure { get; set; }
+		public VariableItemViewModel CurrentVariableItem { get; private set; }
+
 		public ArgumentViewModel(Argument argument, Procedure procedure)
 		{
 			Argument = argument;
 			Procedure = procedure;
-			SelectedVariableItem = new VariableItemViewModel(new VariableItem { ObjectUid = Argument.UidValue });
+			CurrentVariableItem = new VariableItemViewModel(argument.VariableItem);
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			ChangeItemCommand = new RelayCommand(OnChangeItem);
 		}
@@ -25,21 +27,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ChangeItemCommand { get; private set; }
 		public void OnChangeItem()
 		{
-			SelectedVariableItem = ProcedureHelper.SelectObject(Argument.ObjectType, SelectedVariableItem);
+			CurrentVariableItem = ProcedureHelper.SelectObject(Argument.ObjectType, CurrentVariableItem);
 		}
 
-		VariableItemViewModel _selectedVariableItem;
-		public VariableItemViewModel SelectedVariableItem
-		{
-			get { return _selectedVariableItem; }
-			set
-			{
-				_selectedVariableItem = value;
-				if (value != null)
-					Argument.UidValue = _selectedVariableItem.VariableItem.ObjectUid;
-				OnPropertyChanged(() => SelectedVariableItem);
-			}
-		}
 
 		public bool IsList
 		{
@@ -57,43 +47,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public bool BoolValue
-		{
-			get { return Argument.BoolValue; }
-			set
-			{
-				Argument.BoolValue = value;
-				OnPropertyChanged(() => BoolValue);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-
-		public DateTime DateTimeValue
-		{
-			get { return Argument.DateTimeValue; }
-			set
-			{
-				var dateTimeValue = DateTimeValue.AddMilliseconds(-DateTimeValue.Millisecond);
-				value = value.AddMilliseconds(-DateTimeValue.Millisecond);
-				if (dateTimeValue != value)
-					ServiceFactory.SaveService.AutomationChanged = true;
-				Argument.DateTimeValue = value;
-				OnPropertyChanged(() => DateTimeValue);
-
-			}
-		}
-
-		public int IntValue
-		{
-			get { return Argument.IntValue; }
-			set
-			{
-				Argument.IntValue = value;
-				OnPropertyChanged(() => IntValue);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-
 		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
 		public ObjectType ObjectType
 		{
@@ -106,17 +59,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string StringValue
-		{
-			get { return Argument.StringValue; }
-			set
-			{
-				Argument.StringValue = value;
-				OnPropertyChanged(() => StringValue);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-
 		public ValueType ValueType
 		{
 			get { return Argument.ValueType; }
@@ -124,17 +66,6 @@ namespace AutomationModule.ViewModels
 			{
 				Argument.ValueType = value;
 				OnPropertyChanged(() => ValueType);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-
-		public VariableType VariableType
-		{
-			get { return Argument.VariableType; }
-			set
-			{
-				Argument.VariableType = value;
-				OnPropertyChanged(() => VariableType);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

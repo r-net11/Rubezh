@@ -38,13 +38,6 @@ namespace AutomationModule
 			return new List<Property>();
 		}
 
-		public static List<string> ObjectTypeToTypesList(ObjectType objectType)
-		{
-			if (objectType == ObjectType.Device)
-				return XManager.Drivers.Select(x => x.Name).ToList();
-			return new List<string>();
-		}
-
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ValueType valueType)
 		{
 			if ((valueType == ValueType.Integer) || (valueType == ValueType.DateTime) || (valueType == ValueType.Object))
@@ -70,61 +63,61 @@ namespace AutomationModule
 		{
 			var variableItem = new VariableItem();
 			variableItem.ValueType = ValueType.Object;
-			variableItem.ObjectUid = currentVariableItem.VariableItem.ObjectUid;
+			variableItem.UidValue = currentVariableItem.VariableItem.UidValue;
 			if (objectType == ObjectType.Device)
 			{
 				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentVariableItem.Device != null ? currentVariableItem.Device : null);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-					variableItem.ObjectUid = deviceSelectationViewModel.SelectedDevice.Device.UID;
+					variableItem.UidValue = deviceSelectationViewModel.SelectedDevice.Device.UID;
 			}
 
 			if (objectType == ObjectType.Zone)
 			{
 				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentVariableItem.Zone != null ? currentVariableItem.Zone : null);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-					variableItem.ObjectUid = zoneSelectationViewModel.SelectedZone.Zone.UID;
+					variableItem.UidValue = zoneSelectationViewModel.SelectedZone.Zone.UID;
 			}
 
 			if (objectType == ObjectType.GuardZone)
 			{
 				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentVariableItem.GuardZone != null ? currentVariableItem.GuardZone : null);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
-					variableItem.ObjectUid = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID;
+					variableItem.UidValue = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID;
 			}
 
 			if (objectType == ObjectType.SKDDevice)
 			{
 				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentVariableItem.SKDDevice != null ? currentVariableItem.SKDDevice : null);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
-					variableItem.ObjectUid = skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID;
+					variableItem.UidValue = skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID;
 			}
 
 			if (objectType == ObjectType.SKDZone)
 			{
 				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentVariableItem.SKDZone != null ? currentVariableItem.SKDZone : null);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
-					variableItem.ObjectUid = skdZoneSelectationViewModel.SelectedZone.SKDZone.UID;
+					variableItem.UidValue = skdZoneSelectationViewModel.SelectedZone.SKDZone.UID;
 			}
 
 			if (objectType == ObjectType.ControlDoor)
 			{
 				var doorSelectationViewModel = new DoorSelectionViewModel(currentVariableItem.SKDDoor != null ? currentVariableItem.SKDDoor : null);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-					variableItem.ObjectUid = doorSelectationViewModel.SelectedDoor.Door.UID;
+					variableItem.UidValue = doorSelectationViewModel.SelectedDoor.Door.UID;
 			}
 
 			if (objectType == ObjectType.Direction)
 			{
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentVariableItem.Direction != null ? currentVariableItem.Direction : null);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
-					variableItem.ObjectUid = directionSelectationViewModel.SelectedDirection.Direction.UID;
+					variableItem.UidValue = directionSelectationViewModel.SelectedDirection.Direction.UID;
 			}
 
 			if (objectType == ObjectType.VideoDevice)
 			{
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentVariableItem.Camera != null ? currentVariableItem.Camera : null);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
-					variableItem.ObjectUid = cameraSelectionViewModel.SelectedCamera.Camera.UID;
+					variableItem.UidValue = cameraSelectionViewModel.SelectedCamera.Camera.UID;
 			}
 
 			return new VariableItemViewModel(variableItem);

@@ -26,18 +26,19 @@ namespace AutomationModule.ViewModels
 			ControlGkDeviceArguments = controlGkDeviceArguments;
 			Procedure = procedure;
 			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1);
+			Variable1.ObjectType = ObjectType.Device;
+			Variable1.ValueType = ValueType.Object;
 			Variable1.UpdateVariableTypeHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
-			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 			UpdateContent();
 		}
 
 		public void Update()
 		{
 			if (Variable1.SelectedVariableType != VariableType.IsValue)
-				Commands = new ObservableCollection<CommandType>(Enum.GetValues(typeof(CommandType)).Cast<CommandType>().ToList());
-			else if (_selectedDevice != null)
-				InitializeCommands(_selectedDevice.Device);
+				Commands = ProcedureHelper.GetEnumObs<CommandType>();
+			else if (Variable1.CurrentVariableItem.Device != null)
+				InitializeCommands(Variable1.CurrentVariableItem.Device);
 			SelectedCommand = Commands.FirstOrDefault();
 			OnPropertyChanged(() => Commands);
 		}
@@ -53,23 +54,6 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlGkDeviceArguments.Command = CommandTypeToXStateBit(value);
 				OnPropertyChanged(() => SelectedCommand);
-			}
-		}
-
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
-		{
-			get { return _selectedDevice; }
-			set
-			{
-				_selectedDevice = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedDevice != null)
-				{
-					Variable1.UidValue = _selectedDevice.Device.UID;
-					InitializeCommands(_selectedDevice.Device);
-				}
-				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -128,26 +112,10 @@ namespace AutomationModule.ViewModels
 			return device.DriverType == XDriverType.AMP_1 || device.DriverType == XDriverType.RSR2_MAP4;
 		}
 
-		public RelayCommand SelectDeviceCommand { get; private set; }
-		private void OnSelectDevice()
-		{
-			var deviceSelectationViewModel = new DeviceSelectionViewModel(SelectedDevice != null ? SelectedDevice.Device : null);
-			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-			{
-				SelectedDevice = deviceSelectationViewModel.SelectedDevice;
-			}
-		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
-			if ((Variable1.SelectedVariableType == VariableType.IsValue) && (Variable1.UidValue != Guid.Empty))
-			{
-				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedDevice = device != null ? new DeviceViewModel(device) : null;
-				if (SelectedDevice != null)
-					SelectedCommand = XStateBitToCommandType(ControlGkDeviceArguments.Command);
-			}
 		}
 
 		public override string Description
@@ -195,17 +163,17 @@ namespace AutomationModule.ViewModels
 			switch (stateString)
 			{
 				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(SelectedDevice.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
+					return IsTriStateControl(Variable1.CurrentVariableItem.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
 				case XStateBit.SetRegime_Manual:
 					return CommandType.SetRegime_Manual;
 				case XStateBit.SetRegime_Off:
 					return CommandType.SetRegime_Off;
 				case XStateBit.TurnOn_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
+					return (Variable1.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
 				case XStateBit.TurnOnNow_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
+					return (Variable1.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
 				case XStateBit.TurnOff_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
+					return (Variable1.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
 				case XStateBit.Stop_InManual:
 					return CommandType.Stop_InManual;
 				case XStateBit.Reset:

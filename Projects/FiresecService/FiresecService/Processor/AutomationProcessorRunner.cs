@@ -79,9 +79,9 @@ namespace FiresecService.Processor
 						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid);
 					var itemVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid) ??
 						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid);
-					foreach (var itemUid in listVariable.VariableItems.Select(x => x.ObjectUid))
+					foreach (var itemUid in listVariable.VariableItems.Select(x => x.UidValue))
 					{
-						itemVariable.UidValue = itemUid;
+						itemVariable.VariableItem.UidValue = itemUid;
 						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 							return false;
 					}
@@ -95,7 +95,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.Pause:
-					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Pause.IntValue));
+					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Pause.VariableItem.IntValue));
 					break;
 
 				case ProcedureStepType.AddJournalItem:

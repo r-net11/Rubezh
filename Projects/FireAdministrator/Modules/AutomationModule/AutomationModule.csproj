@@ -273,6 +273,9 @@
     <Compile Include="Procedures\Views\VariableDetailsView.xaml.cs">
       <DependentUpon>VariableDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\ArithmeticParameterView.xaml.cs">
+      <DependentUpon>ArithmeticParameterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
     </Compile>
@@ -585,6 +588,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Procedures\Views\VariableDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ArithmeticParameterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

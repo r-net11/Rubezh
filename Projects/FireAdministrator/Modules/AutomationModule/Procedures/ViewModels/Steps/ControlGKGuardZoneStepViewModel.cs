@@ -24,13 +24,12 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
 			Variable1 = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.Variable1);
-			OnPropertyChanged(() => Commands);
-			SelectZoneCommand = new RelayCommand(OnSelectZone);
+			Variable1.ObjectType = ObjectType.GuardZone;
+			Variable1.ValueType = ValueType.Object;
 			UpdateContent();
 		}
 
 		public ObservableCollection<GuardZoneCommandType> Commands { get; private set; }
-
 		GuardZoneCommandType _selectedCommand;
 		public GuardZoneCommandType SelectedCommand
 		{
@@ -42,42 +41,10 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(()=>SelectedCommand);
 			}
 		}
-
-		ZoneViewModel _selectedZone;
-		public ZoneViewModel SelectedZone
-		{
-			get { return _selectedZone; }
-			set
-			{
-				_selectedZone = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedZone != null)
-				{
-					Variable1.UidValue = _selectedZone.GuardZone.UID;
-				}
-				OnPropertyChanged(() => SelectedZone);
-			}
-		}
-		
-		public RelayCommand SelectZoneCommand { get; private set; }
-		private void OnSelectZone()
-		{
-			var zoneSelectationViewModel = new GuardZoneSelectionViewModel(SelectedZone != null ? SelectedZone.GuardZone : null);
-			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-			{
-				SelectedZone = zoneSelectationViewModel.SelectedZone;
-			}
-		}
-
-		public void UpdateContent()
+	
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.GuardZone, false));
-			if (Variable1.UidValue != Guid.Empty)
-			{
-				var zone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedZone = zone != null ? new ZoneViewModel(zone) : null;
-				SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
-			}
 		}
 
 		public override string Description

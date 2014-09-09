@@ -17,6 +17,7 @@ namespace AutomationModule.ViewModels
 		public ConditionArguments ConditionArguments { get; private set; }
 		public ObservableCollection<ConditionViewModel> Conditions { get; private set; }
 		Procedure Procedure { get; set; }
+
 		public ConditionStepViewModel(ConditionArguments conditionArguments, Procedure procedure, Action updateDescriptionHandler) : base(updateDescriptionHandler)
 		{
 			ConditionArguments = conditionArguments;
@@ -81,7 +82,7 @@ namespace AutomationModule.ViewModels
 			get { return Conditions.Count > 1; }
 		}
 		
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			foreach (var conditionViewModel in Conditions)
 			{
@@ -103,22 +104,8 @@ namespace AutomationModule.ViewModels
 				var Variable1 = conditionViewModel.Variable1;
 				var Variable2 = conditionViewModel.Variable2;
 
-				var1 = Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто";
-				switch (conditionViewModel.SelectedValueType)
-				{
-					case ValueType.Boolean:						
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						break;
-					case ValueType.DateTime:
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.DateTimeValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						break;
-					case ValueType.Integer:
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						break;
-					case ValueType.String:
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.StringValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						break;
-				}
+				var1 = Variable1.Description;
+				var2 = Variable2.Description;
 
 				var op = "";
 				switch (conditionViewModel.SelectedConditionType)
@@ -165,8 +152,9 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1);
+			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, false);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
+			Variable1.UpdateVariableHandler += UpdateVariable2;
 			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2);
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			SelectedValueType = Condition.ValueType;
@@ -191,7 +179,19 @@ namespace AutomationModule.ViewModels
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == SelectedValueType && !x.IsList);
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables);
+			Variable1.ValueType = SelectedValueType;
+			Variable2.ValueType = SelectedValueType;
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
+		}
+
+		void UpdateVariable2()
+		{
+			if (Variable1.ValueType == ValueType.Enum)
+			{
+				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == SelectedValueType && !x.IsList && x.EnumType == Variable1.EnumType);
+				Variable2.Update(allVariables);
+				Variable2.EnumType = Variable1.EnumType;
+			}
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

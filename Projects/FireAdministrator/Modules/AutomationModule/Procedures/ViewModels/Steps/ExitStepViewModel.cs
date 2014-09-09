@@ -21,12 +21,13 @@ namespace AutomationModule.ViewModels
 			ExitArguments = exitArguments;
 			Procedure = procedure;
 			ExitCode = new ArithmeticParameterViewModel(exitArguments.ExitCode);
+			ExitCode.ValueType = ValueType.Integer;
 			UpdateContent();
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer && !x.IsList);
 			ExitCode.Update(allVariables);
 		}
 

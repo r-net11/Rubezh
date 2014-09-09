@@ -54,42 +54,75 @@
 						</ComboBox>
 					</StackPanel>
 
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.Enum}}" HorizontalAlignment="Right" Height="28">
+						<Label Content="Тип" />
+						<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding SelectedEnumType}" Width="200" Margin="2"
+								  IsEnabled="{Binding DataContext.IsEditMode, Converter={StaticResource InverseBooleanConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+
 					<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ValueType.Integer}}" HorizontalAlignment="Right" Height="28">
-						<Label Content="Значение" />
-						<extToolkit:IntegerUpDown Width="200" Value="{Binding DefaultIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					</StackPanel>
+							<Label Content="Значение" />
+							<extToolkit:IntegerUpDown Width="200" Value="{Binding CurrentVariableItem.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+						</StackPanel>
 
 						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 						ConverterParameter={x:Static automation:ValueType.Boolean}}" HorizontalAlignment="Right" Height="28">
-						<Label Content="Значение" HorizontalAlignment="Left" />
-						<CheckBox IsChecked="{Binding DefaultBoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
-					</StackPanel>
+							<Label Content="Значение" HorizontalAlignment="Left" />
+							<CheckBox IsChecked="{Binding CurrentVariableItem.BoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
+						</StackPanel>
 
 						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ValueType.String}}" HorizontalAlignment="Right" Height="28">
-						<Label Content="Значение" />
-						<TextBox Text="{Binding DefaultStringValue, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" Width="200" Margin="2" />
-					</StackPanel>
+							<Label Content="Значение" />
+							<TextBox Text="{Binding CurrentVariableItem.StringValue, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Width="200" Margin="2" />
+						</StackPanel>
 
 						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ValueType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
-						<Label Content="Значение" />
-						<extToolkit:DateTimePicker Value = "{Binding DefaultDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
-					</StackPanel>
+							<Label Content="Значение" />
+							<extToolkit:DateTimePicker Value = "{Binding CurrentVariableItem.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+						</StackPanel>
 
-					<StackPanel Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.Enum}}" HorizontalAlignment="Right" Height="28"  >
+							<ComboBox ItemsSource="{Binding CurrentVariableItem.StateClassValues}" SelectedItem="{Binding CurrentVariableItem.StateClassValue}" Width="200" Margin="2"
+									  Visibility="{Binding Path=SelectedEnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateClass}}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+							<ComboBox ItemsSource="{Binding CurrentVariableItem.DeviceTypes}" SelectedItem="{Binding CurrentVariableItem.DeviceType}" Width="200" Margin="2"
+									  Visibility="{Binding Path=SelectedEnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DeviceType}}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding .}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+						</StackPanel>
+
+						<StackPanel Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ValueType.Object}}">
-						<TextBlock Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top">
+							<TextBlock Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top">
 							<Hyperlink Command="{Binding SelectCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding SelectedVariableItem.PresentationName}" Visibility="{Binding SelectedVariableItem.IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+								<TextBlock Text="{Binding CurrentVariableItem.PresentationName}" Visibility="{Binding CurrentVariableItem.IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 								<TextBlock Text="Нажмите для выбора объекта">
 									<TextBlock.Style>
 										<Style>
 											<Setter Property="TextBlock.Visibility" Value="Collapsed" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding SelectedVariableItem.IsEmpty}" Value="True">
+												<DataTrigger Binding="{Binding CurrentVariableItem.IsEmpty}" Value="True">
 													<Setter Property="TextBlock.Visibility" Value="Visible" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -98,8 +131,8 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
+						</StackPanel>
 					</StackPanel>
-				</StackPanel>
 				</StackPanel>
 
 				<Grid Height="Auto" Grid.Column="2" Grid.Row="1" Margin="2" Visibility="{Binding IsList, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -148,7 +181,7 @@
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<CheckBox IsChecked="{Binding SelectedBoolValue}" Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top" />
+										<CheckBox IsChecked="{Binding BoolValue}" Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -163,7 +196,7 @@
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<extToolkit:DateTimePicker Value = "{Binding SelectedDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
+										<extToolkit:DateTimePicker Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -178,7 +211,7 @@
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<extToolkit:IntegerUpDown Width="200" Value="{Binding SelectedIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Right" />
+										<extToolkit:IntegerUpDown Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Right" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -193,12 +226,47 @@
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<TextBox Text="{Binding SelectedStringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
+										<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
 					</ScrollViewer>
+
+					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.Enum}}" >
+						<ItemsControl ItemsSource="{Binding VariableEnums}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel>
+										<DockPanel Visibility="{Binding Path=DataContext.SelectedEnumType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateClass}}">
+											<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
+											<ComboBox ItemsSource="{Binding StateClassValues}" SelectedItem="{Binding StateClassValue}" Width="200" Margin="2" HorizontalAlignment="Right" >
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+										</DockPanel>
+										<DockPanel Visibility="{Binding Path=DataContext.SelectedEnumType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DeviceType}}">
+											<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
+											<ComboBox ItemsSource="{Binding DeviceTypes}" SelectedItem="{Binding DeviceType}" Width="200" Margin="2" HorizontalAlignment="Right">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding .}" />
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+										</DockPanel>
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+
 				</Grid>
 			</Grid>
 		</TabItem>

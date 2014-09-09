@@ -8,6 +8,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using ValueType = FiresecAPI.Automation.ValueType;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.GK;
+using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {
@@ -27,7 +29,7 @@ namespace AutomationModule.ViewModels
 			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, false);
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1);
 			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2);
-			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
+			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
@@ -35,7 +37,7 @@ namespace AutomationModule.ViewModels
 			SelectedValueType = ArithmeticArguments.ValueType;
 		}
 
-		public new void UpdateContent()
+		public override void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedValueType);
 			var allVariables2 = new List<Variable>(allVariables);
@@ -57,24 +59,24 @@ namespace AutomationModule.ViewModels
 				switch(SelectedValueType)
 				{
 					case ValueType.Boolean:
-						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.BoolValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.CurrentVariableItem.VariableItem.BoolValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.CurrentVariableItem.VariableItem.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
 						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
 						break;
 					case ValueType.DateTime:
-						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.DateTimeValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.CurrentVariableItem.VariableItem.DateTimeValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.CurrentVariableItem.VariableItem.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
 						var2 = var2 + " " + SelectedTimeType.ToDescription();;
 						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
 						break;
 					case ValueType.Integer:
-						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.IntValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.CurrentVariableItem.VariableItem.IntValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.CurrentVariableItem.VariableItem.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
 						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
 						break;
 					case ValueType.String:
-						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.StringValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.StringValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.CurrentVariableItem.VariableItem.StringValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.CurrentVariableItem.VariableItem.StringValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
 						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
 						break;
 				}
@@ -135,6 +137,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticArguments.ValueType = value;
+				Variable1.ValueType = value;
+				Variable2.ValueType = value == ValueType.DateTime ? ValueType.Integer : value;
 				ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType>();
 				if (value == ValueType.Boolean)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.And, ArithmeticOperationType.Or };
@@ -154,23 +158,74 @@ namespace AutomationModule.ViewModels
 	public class ArithmeticParameterViewModel : BaseViewModel
 	{
 		public ArithmeticParameter ArithmeticParameter { get; private set; }
-		public Action UpdateDescriptionHandler { get; set; }
 		public Action UpdateVariableTypeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
+		public VariableItemViewModel CurrentVariableItem { get; private set; }
 
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, bool allowImplicitValue = true)
 		{
-			var availableVariableTypes = new List<VariableType>();
-			availableVariableTypes.Add(VariableType.IsGlobalVariable);
-			availableVariableTypes.Add(VariableType.IsLocalVariable);
-			if (allowImplicitValue)
-			{
-				availableVariableTypes.Add(VariableType.IsValue);
-			}
-
+			CurrentVariableItem = new VariableItemViewModel(arithmeticParameter.VariableItem);
+			Variables = new List<VariableViewModel>();
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ValueTypes = ProcedureHelper.GetEnumObs<ValueType>();
+			var availableVariableTypes = ProcedureHelper.GetEnumList<VariableType>().FindAll(x => allowImplicitValue || x != VariableType.IsValue);
 			ArithmeticParameter = arithmeticParameter;
 			VariableTypes = new ObservableCollection<VariableType>(availableVariableTypes);
 			OnPropertyChanged(() => VariableTypes);
+			ChangeItemCommand = new RelayCommand(OnChangeItem);
+		}
+
+		public RelayCommand ChangeItemCommand { get; private set; }
+		public void OnChangeItem()
+		{
+			CurrentVariableItem = ProcedureHelper.SelectObject(ObjectType, CurrentVariableItem);
+			UpdateVariableTypeHandler();
+			OnPropertyChanged(() => CurrentVariableItem);
+		}
+
+		public ObservableCollection<EnumType> EnumTypes { get; private set; }
+		public EnumType EnumType
+		{
+			get { return ArithmeticParameter.EnumType; }
+			set
+			{
+				ArithmeticParameter.EnumType = value;
+				OnPropertyChanged(() => EnumType);
+			}
+		}
+
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		public ValueType ValueType
+		{
+			get { return ArithmeticParameter.ValueType; }
+			set
+			{
+				ArithmeticParameter.ValueType = value;
+				OnPropertyChanged(() => ValueType);
+			}
+		}
+
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+		public ObjectType ObjectType
+		{
+			get { return ArithmeticParameter.ObjectType; }
+			set
+			{
+				ArithmeticParameter.ObjectType = value;
+				OnPropertyChanged(() => ObjectType);
+			}
+		}
+
+		Action _updateDescriptionHandler;
+		public Action UpdateDescriptionHandler
+		{
+			get { return _updateDescriptionHandler; }
+			set
+			{
+				_updateDescriptionHandler = value;
+				CurrentVariableItem.UpdateDescriptionHandler = value;
+			}
 		}
 
 		public void Update(List<Variable> variables)
@@ -181,7 +236,6 @@ namespace AutomationModule.ViewModels
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
 			}
-
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
 			SelectedVariableType = ArithmeticParameter.VariableType;
 			OnPropertyChanged(() => LocalVariables);
@@ -189,7 +243,6 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<VariableType> VariableTypes { get; set; }
-
 		public VariableType SelectedVariableType
 		{
 			get { return ArithmeticParameter.VariableType; }
@@ -202,76 +255,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public bool BoolValue
-		{
-			get { return ArithmeticParameter.BoolValue; }
-			set
-			{
-				ArithmeticParameter.BoolValue = value;
-				OnPropertyChanged(() => BoolValue);
-			}
-		}
-
-		public DateTime DateTimeValue
-		{
-			get { return ArithmeticParameter.DateTimeValue; }
-			set
-			{
-				ArithmeticParameter.DateTimeValue = value;
-				OnPropertyChanged(() => DateTimeValue);
-			}
-		}
-
-		public int IntValue
-		{
-			get { return ArithmeticParameter.IntValue; }
-			set
-			{
-				ArithmeticParameter.IntValue = value;
-				OnPropertyChanged(() => IntValue);
-			}
-		}
-
-		public string StringValue
-		{
-			get { return ArithmeticParameter.StringValue; }
-			set
-			{
-				ArithmeticParameter.StringValue = value;
-				OnPropertyChanged(() => StringValue);
-			}
-		}
-
-		public Guid UidValue
-		{
-			get { return ArithmeticParameter.UidValue; }
-			set
-			{
-				ArithmeticParameter.UidValue = value;
-				OnPropertyChanged(() => UidValue);
-			}
-		}
-
-		public string TypeValue
-		{
-			get { return ArithmeticParameter.TypeValue; }
-			set
-			{
-				ArithmeticParameter.TypeValue = value;
-				OnPropertyChanged(() => TypeValue);
-			}
-		}
-
 		List<VariableViewModel> Variables { get; set; }
-
 		public ObservableCollection<VariableViewModel> LocalVariables 
 		{ 
-			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => !x.IsGlobal)); }
+			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => !x.Variable.IsGlobal)); }
 		}
 
 		public ObservableCollection<VariableViewModel> GlobalVariables
 		{
-			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.IsGlobal)); }
+			get { return new ObservableCollection<VariableViewModel>(Variables.FindAll(x => x.Variable.IsGlobal)); }
 		}
 
 		VariableViewModel _selectedVariable;
@@ -284,6 +276,7 @@ namespace AutomationModule.ViewModels
 				if (_selectedVariable != null)
 				{
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
+					EnumType = value.EnumType;
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}
@@ -292,6 +285,47 @@ namespace AutomationModule.ViewModels
 					ArithmeticParameter.VariableUid = Guid.Empty;
 				}
 				OnPropertyChanged(() => SelectedVariable);
+			}
+		}
+
+		public string Description
+		{
+			get
+			{
+				if (SelectedVariableType != VariableType.IsValue)
+				{
+					if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableType == VariableType.IsLocalVariable)
+						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableType == VariableType.IsGlobalVariable))
+						return "пусто";
+					else
+						return SelectedVariable.Name;
+				}
+
+				var description = "";
+				switch (ValueType)
+				{
+					case ValueType.Boolean:
+						description = CurrentVariableItem.VariableItem.BoolValue.ToString();
+						break;
+					case ValueType.DateTime:
+						description = CurrentVariableItem.VariableItem.DateTimeValue.ToString();
+						break;
+					case ValueType.Integer:
+						description = CurrentVariableItem.VariableItem.IntValue.ToString();
+						break;
+					case ValueType.String:
+						description = CurrentVariableItem.VariableItem.StringValue.ToString();
+						break;
+					case ValueType.Enum:
+						{
+							if (EnumType == EnumType.StateClass)
+								description = CurrentVariableItem.VariableItem.StateClassValue.ToDescription();
+							if (EnumType == EnumType.DeviceType)
+								description = CurrentVariableItem.VariableItem.DeviceType;
+						}
+						break;
+				}
+				return description;
 			}
 		}
 

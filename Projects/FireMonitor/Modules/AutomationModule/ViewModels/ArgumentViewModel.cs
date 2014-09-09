@@ -45,30 +45,30 @@ namespace AutomationModule.ViewModels
 
 		public bool BoolValue
 		{
-			get { return Argument.BoolValue; }
+			get { return Argument.VariableItem.BoolValue; }
 			set
 			{
-				Argument.BoolValue = value;
+				Argument.VariableItem.BoolValue = value;
 				OnPropertyChanged(() => BoolValue);
 			}
 		}
 
 		public DateTime DateTimeValue
 		{
-			get { return Argument.DateTimeValue; }
+			get { return Argument.VariableItem.DateTimeValue; }
 			set
 			{
-				Argument.DateTimeValue = value;
+				Argument.VariableItem.DateTimeValue = value;
 				OnPropertyChanged(() => DateTimeValue);
 			}
 		}
 
 		public int IntValue
 		{
-			get { return Argument.IntValue; }
+			get { return Argument.VariableItem.IntValue; }
 			set
 			{
-				Argument.IntValue = value;
+				Argument.VariableItem.IntValue = value;
 				OnPropertyChanged(() => IntValue);
 			}
 		}
@@ -86,10 +86,10 @@ namespace AutomationModule.ViewModels
 
 		public string StringValue
 		{
-			get { return Argument.StringValue; }
+			get { return Argument.VariableItem.StringValue; }
 			set
 			{
-				Argument.StringValue = value;
+				Argument.VariableItem.StringValue = value;
 				OnPropertyChanged(() => StringValue);
 			}
 		}

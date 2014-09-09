@@ -54,19 +54,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		VariableItemViewModel _selectedVariableItem;
-		public VariableItemViewModel SelectedVariableItem
-		{
-			get { return _selectedVariableItem; }
-			set
-			{
-				_selectedVariableItem = value;
-				if (value != null)
-					EMailContent.UidValue = _selectedVariableItem.VariableItem.ObjectUid;
-				OnPropertyChanged(() => SelectedVariableItem);
-			}
-		}
-
 		public string Email
 		{
 			get { return SendEmailArguments.Email; }
@@ -117,7 +104,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			var allEMailTitleVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedEMailTitleValueType);
 			var allEMailContentVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedEMailContentValueType);

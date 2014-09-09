@@ -146,61 +146,51 @@ namespace AutomationModule.ViewModels
 
 		public bool BoolValue
 		{
-			get { return ArithmeticParameter.BoolValue; }
+			get { return ArithmeticParameter.VariableItem.BoolValue; }
 			set
 			{
-				ArithmeticParameter.BoolValue = value;
+				ArithmeticParameter.VariableItem.BoolValue = value;
 				OnPropertyChanged(() => BoolValue);
 			}
 		}
 
 		public DateTime DateTimeValue
 		{
-			get { return ArithmeticParameter.DateTimeValue; }
+			get { return ArithmeticParameter.VariableItem.DateTimeValue; }
 			set
 			{
-				ArithmeticParameter.DateTimeValue = value;
+				ArithmeticParameter.VariableItem.DateTimeValue = value;
 				OnPropertyChanged(() => DateTimeValue);
 			}
 		}
 
 		public int IntValue
 		{
-			get { return ArithmeticParameter.IntValue; }
+			get { return ArithmeticParameter.VariableItem.IntValue; }
 			set
 			{
-				ArithmeticParameter.IntValue = value;
+				ArithmeticParameter.VariableItem.IntValue = value;
 				OnPropertyChanged(() => IntValue);
 			}
 		}
 
 		public string StringValue
 		{
-			get { return ArithmeticParameter.StringValue; }
+			get { return ArithmeticParameter.VariableItem.StringValue; }
 			set
 			{
-				ArithmeticParameter.StringValue = value;
+				ArithmeticParameter.VariableItem.StringValue = value;
 				OnPropertyChanged(() => StringValue);
 			}
 		}
 
 		public Guid UIDValue
 		{
-			get { return ArithmeticParameter.UidValue; }
+			get { return ArithmeticParameter.VariableItem.UidValue; }
 			set
 			{
-				ArithmeticParameter.UidValue = value;
+				ArithmeticParameter.VariableItem.UidValue = value;
 				OnPropertyChanged(() => UIDValue);
-			}
-		}
-
-		public string TypeValue
-		{
-			get { return ArithmeticParameter.TypeValue; }
-			set
-			{
-				ArithmeticParameter.TypeValue = value;
-				OnPropertyChanged(() => TypeValue);
 			}
 		}
 

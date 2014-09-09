@@ -9,23 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public FindObjectCondition()
 		{
-			Uid = new Guid();
-			IntValue = 1;
-			StringValue = "";
 			Variable2 = new ArithmeticParameter();
 		}
 
 		[DataMember]
-		public Guid Uid { get; set; }
-
-		[DataMember]
 		public ConditionType ConditionType { get; set; }
-
-		[DataMember]
-		public int IntValue{ get; set; }
-
-		[DataMember]
-		public string StringValue { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter Variable2 { get; set; }

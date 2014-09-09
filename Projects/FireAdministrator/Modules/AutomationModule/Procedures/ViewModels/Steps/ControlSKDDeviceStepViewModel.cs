@@ -27,12 +27,12 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
 			Variable1 = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.Variable1);
-			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
+			Variable1.ObjectType = ObjectType.SKDDevice;
+			Variable1.ValueType = ValueType.Object;
 			UpdateContent();
 		}
 
 		public ObservableCollection<SKDDeviceCommandType> Commands { get; private set; }
-
 		SKDDeviceCommandType _selectedCommand;
 		public SKDDeviceCommandType SelectedCommand
 		{
@@ -45,42 +45,9 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
-		{
-			get { return _selectedDevice; }
-			set
-			{
-				_selectedDevice = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedDevice != null)
-				{
-					Variable1.UidValue = _selectedDevice.SKDDevice.UID;
-				}
-				OnPropertyChanged(() => SelectedDevice);
-			}
-		}
-
-		public RelayCommand SelectDeviceCommand { get; private set; }
-		private void OnSelectDevice()
-		{
-			var deviceSelectationViewModel = new SKDDeviceSelectionViewModel(SelectedDevice != null ? SelectedDevice.SKDDevice : null);
-			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-			{
-				SelectedDevice = deviceSelectationViewModel.SelectedDevice;
-			}
-		}
-
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.SKDDevice, false));
-			if (Variable1.UidValue != Guid.Empty)
-			{
-				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedDevice = device != null ? new DeviceViewModel(device) : null;
-				if (SelectedDevice != null)
-					SelectedCommand = ControlSKDDeviceArguments.Command;
-			}
 		}
 
 		public override string Description

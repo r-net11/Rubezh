@@ -1,61 +1,13 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ControlGKFireZoneStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
+			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<Grid>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal" Margin="2">
 				<Label Content="Зона: " VerticalAlignment="Top" Width="100" />
-				<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" 
-				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" Width="165">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="8 0, 0, 0"
-				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-						  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-					ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" Width="165">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="8 0, 0, 0"
-				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-						  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-					ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" Width="165">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<StackPanel Margin="2" Orientation="Horizontal" Visibility="{Binding Path=Variable1.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsValue}}">
-				<Image Width="16" Height="16" Margin="5, 5, 5, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Controls;component/Images/Zone.png"
-					   Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
-				<TextBlock Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-				<Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-					<TextBlock Text="{Binding SelectedZone.Zone.PresentationName}" Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
-					<TextBlock Text="Нажмите для выбора зоны">
-						<TextBlock.Style>
-							<Style>
-								<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding SelectedZone}" Value="{x:Null}">
-										<Setter Property="TextBlock.Visibility" Value="Visible" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</TextBlock.Style>
-					</TextBlock>
-				</Hyperlink>
-			</TextBlock>
-			</StackPanel>
+				<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Margin="2, 4">
 				<Label Content="Команда:" Width="100" />
