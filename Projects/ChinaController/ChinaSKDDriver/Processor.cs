@@ -45,7 +45,7 @@ namespace ChinaSKDDriver
 
 		public static void Start()
 		{
-			SKDManager.CreateStates();
+			Wrapper.Initialize();
 
 			DeviceProcessors = new List<DeviceProcessor>();
 			foreach (var device in SKDManager.SKDConfiguration.RootDevice.Children)
@@ -54,9 +54,6 @@ namespace ChinaSKDDriver
 				DeviceProcessors.Add(deviceProcessor);
 				deviceProcessor.Start();
 			}
-
-			Wrapper.Initialize();
-			//Wrapper.WrapStart();
 		}
 
 		public static void Stop()
@@ -67,7 +64,6 @@ namespace ChinaSKDDriver
 			}
 
 			Wrapper.Deinitialize();
-			//Wrapper.WrapStop();
 		}
 
 		#region Callback

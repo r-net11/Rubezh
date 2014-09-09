@@ -96,7 +96,19 @@ namespace SKDModule.ViewModels
 		bool Validate()
 		{
 			var dayIntervalParts = CloneDayIntervalPart();
-			var currentDateTime = new TimeSpan(0, 0, -1);
+
+			var currentDateTime = TimeSpan.Zero;
+			foreach (var dayIntervalPart in dayIntervalParts)
+			{
+				if(dayIntervalPart.BeginTime < currentDateTime)
+				{
+					MessageBoxService.ShowWarning("Интервалы должны идти последовательно");
+					return false;
+				}
+				currentDateTime = dayIntervalPart.BeginTime;
+			}
+
+			currentDateTime = TimeSpan.Zero;
 			foreach (var dayIntervalPart in dayIntervalParts)
 			{
 				var beginTime = dayIntervalPart.BeginTime;
@@ -121,7 +133,7 @@ namespace SKDModule.ViewModels
 				currentDateTime = beginTime;
 				if (endTime < currentDateTime)
 				{
-					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
+					MessageBoxService.ShowWarning("Начало интервала не может быть раньше его окончания");
 					return false;
 				}
 				if (endTime == currentDateTime)

@@ -32,6 +32,7 @@ namespace FiresecService
 				{
 					SKDManager.CreateDrivers();
 					SKDManager.UpdateConfiguration();
+					SKDManager.CreateStates();
 				}
 				ChinaSKDDriver.Processor.Start();
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)

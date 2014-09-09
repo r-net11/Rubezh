@@ -349,13 +349,24 @@ namespace SKDModule.ViewModels
 			}
 			if(Number <= 0)
 			{
-				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 - " + Int32.MaxValue.ToString());
+				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах от 1 до " + Int32.MaxValue.ToString());
 				return false;
 			}
 			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
-				MessageBoxService.ShowWarning("Количество проходов для разовой карты должно быть больше 0");
+				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
 				return false;
+			}
+			if (!string.IsNullOrEmpty(Password))
+			{
+				foreach (char c in Password)
+				{
+					if (!Char.IsDigit(c))
+					{
+						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
+						return false;
+					}
+				}
 			}
 
 			if (UseStopList && SelectedStopListCard != null)
@@ -381,7 +392,6 @@ namespace SKDModule.ViewModels
 				Card.AccessTemplateUID = null;
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
-
 		}
 	}
 }

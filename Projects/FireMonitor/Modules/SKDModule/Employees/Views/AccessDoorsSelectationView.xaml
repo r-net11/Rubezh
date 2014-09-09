@@ -34,7 +34,7 @@
 						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedEnterTimeCreteria}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Margin="2" Text="{Binding Description}" />
+                                    <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
@@ -48,12 +48,12 @@
 					</StackPanel>
 				</StackPanel>
 				<StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left"/>
+					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
 					<StackPanel Orientation="Horizontal">
 						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedExitTimeCreteria}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Margin="2" Text="{Binding Description}" />
+									<TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
