@@ -21,20 +21,22 @@ namespace AutomationModule.ViewModels
 
 		public VariableDetailsViewModel(Variable variable, string defaultName, string title)
 		{
-			Variable = new Variable();
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
-			ValueTypes = ProcedureHelper.GetEnumObs<ValueType>();
-			CurrentVariableItem = new VariableItemViewModel(new VariableItem());
-			VariableItems = new List<VariableItemViewModel>();
 			Name = defaultName;
 			Title = title;
-			if (variable != null)
-				Copy(variable);
 			SelectCommand = new RelayCommand(OnSelect);
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<VariableItemViewModel>(OnRemove);
 			ChangeItemCommand = new RelayCommand<VariableItemViewModel>(OnChangeItem);
+
+			Variable = new Variable();
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
+			ValueTypes = ProcedureHelper.GetEnumObs<ValueType>();
+			SelectedValueType = ValueTypes.FirstOrDefault();
+			CurrentVariableItem = new VariableItemViewModel(new VariableItem());
+			VariableItems = new List<VariableItemViewModel>();
+			if (variable != null)
+				Copy(variable);
 		}
 
 		void Copy(Variable variable)
@@ -53,6 +55,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+
 		ValueType _selectedValueType;
 		public ValueType SelectedValueType
 		{

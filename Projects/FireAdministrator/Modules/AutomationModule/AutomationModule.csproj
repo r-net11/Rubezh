@@ -72,9 +72,6 @@
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
-    <Compile Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml.cs">
-      <DependentUpon>GlobalVariableDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
       <DependentUpon>GlobalVariablesMenuView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +100,7 @@
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArgumentItemViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ArithmeticParameterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
@@ -395,10 +393,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -664,9 +658,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DeadCodeRules.ruleset" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,6 @@ namespace AutomationModule.ViewModels
 	public class SendEmailStepViewModel : BaseStepViewModel
 	{
 		SendEmailArguments SendEmailArguments { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel EMailAddress { get; private set; }
 		public ArithmeticParameterViewModel EMailTitle { get; private set; }
@@ -21,7 +20,6 @@ namespace AutomationModule.ViewModels
 			: base(updateDescriptionHandler)
 		{
 			SendEmailArguments = sendEmailArguments;
-			UpdateDescriptionHandler = updateDescriptionHandler;
 			Procedure = procedure;
 			EMailTitleValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
 			EMailContentValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));

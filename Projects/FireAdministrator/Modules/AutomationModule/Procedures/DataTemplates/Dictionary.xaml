@@ -3,7 +3,7 @@
 					xmlns:Views="clr-namespace:AutomationModule.Views"
 					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
 
-	<DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
 		<Views:ProceduresView />
 	</DataTemplate>
 
