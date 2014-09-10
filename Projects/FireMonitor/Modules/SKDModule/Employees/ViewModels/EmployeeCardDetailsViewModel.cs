@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
 			ShowUSBCardReaderCommand = new RelayCommand(OnShowUSBCardReader);
 
-			Organisation = organisation;
+			Organisation = OrganisationHelper.GetSingle(organisation.UID);
 			Card = card;
 			if (card == null)
 			{

@@ -31,13 +31,6 @@ namespace SKDModule.ViewModels
             return AdditionalColumnTypeHelper.Save(AdditionalColumnType);
         }
 
-        protected override ShortAdditionalColumnType CopyModel(ShortAdditionalColumnType source, bool newName = true)
-        {
-            var copy = base.CopyModel(source, newName);
-            copy.Description = source.Description;
-            return copy;
-        }
-
         protected override string ItemRemovingName
         {
             get { return "дополнительную колонку"; }

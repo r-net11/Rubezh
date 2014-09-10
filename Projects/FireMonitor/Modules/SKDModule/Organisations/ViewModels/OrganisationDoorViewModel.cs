@@ -1,5 +1,7 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Linq;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -22,22 +24,36 @@ namespace SKDModule.ViewModels
 			get { return _isChecked; }
 			set
 			{
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
-
-				if (value)
+                if (value)
 				{
 					if (!Organisation.DoorUIDs.Contains(Door.UID))
 						Organisation.DoorUIDs.Add(Door.UID);
 				}
 				else
 				{
-					if (Organisation.DoorUIDs.Contains(Door.UID))
-						Organisation.DoorUIDs.Remove(Door.UID);
+                    if (HasLinkedCards())
+                    {
+                        MessageBoxService.Show("Не могу удалить. \nСуществуют карты, привязанные к данной точке доступа");
+                        OnPropertyChanged(() => IsChecked);
+                        return;
+                    }    
+                    if (Organisation.DoorUIDs.Contains(Door.UID))
+                    {
+                        Organisation.DoorUIDs.Remove(Door.UID);
+                    }
 				}
-
+                _isChecked = value;
+                OnPropertyChanged(() => IsChecked);
 				var saveResult = OrganisationHelper.SaveDoors(Organisation);
 			}
 		}
+
+        bool HasLinkedCards()
+        {
+            var cards = CardHelper.Get(new CardFilter());
+            if (cards == null)
+                return false;
+            return cards.Any(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == Door.UID));
+        }
 	}
 }

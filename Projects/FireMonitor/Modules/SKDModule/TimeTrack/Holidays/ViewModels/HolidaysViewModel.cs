@@ -29,9 +29,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-        protected override Holiday CopyModel(Holiday source, bool newName = true)
+        protected override Holiday CopyModel(Holiday source)
         {
-            var copy = base.CopyModel(source, newName);
+            var copy = base.CopyModel(source);
             copy.Type = source.Type;
             copy.Date = source.Date;
             copy.TransferDate = source.TransferDate;

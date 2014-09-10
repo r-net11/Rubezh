@@ -29,7 +29,7 @@ namespace FiresecAPI.SKD
 	{
         Guid UID { get; set; }
         string Name { get; set; }
-        string Description { get; }
+        string Description { get; set; }
         Guid OrganisationUID { get; set; }
 	}
 }

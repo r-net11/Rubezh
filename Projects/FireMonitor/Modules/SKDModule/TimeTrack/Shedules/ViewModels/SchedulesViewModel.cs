@@ -71,9 +71,9 @@ namespace SKDModule.ViewModels
 			SelectedItem.Initialize();
 		}
 
-        protected override Schedule CopyModel(Schedule source, bool newName = true)
+        protected override Schedule CopyModel(Schedule source)
 		{
-            var copy = base.CopyModel(source, newName);
+            var copy = base.CopyModel(source);
             copy.ScheduleSchemeUID = source.ScheduleSchemeUID;
 			copy.IsIgnoreHoliday = source.IsIgnoreHoliday;
 			copy.IsOnlyFirstEnter = source.IsOnlyFirstEnter;

@@ -180,11 +180,9 @@ namespace SKDModule.ViewModels
 				ViewModelT organisationViewModel = SelectedItem;
 				if (!organisationViewModel.IsOrganisation)
 					organisationViewModel = SelectedItem.Parent;
-
-				if (organisationViewModel.Organisation != null)
+                if (organisationViewModel.Organisation != null)
 					return organisationViewModel;
-
-				return null;
+                return null;
 			}
 		}
 
@@ -263,7 +261,7 @@ namespace SKDModule.ViewModels
         public RelayCommand CopyCommand { get; private set; }
 		protected virtual void OnCopy()
 		{
-			_clipboard = CopyModel(SelectedItem.Model, false);
+			_clipboard = CopyModel(SelectedItem.Model);
 		}
 		protected virtual bool CanCopy()
 		{
@@ -274,6 +272,7 @@ namespace SKDModule.ViewModels
 		protected virtual void OnPaste()
 		{
 			var newItem = CopyModel(_clipboard);
+            newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
 			if (Save(newItem))
 			{
 				var itemVireModel = new ViewModelT();
@@ -287,11 +286,12 @@ namespace SKDModule.ViewModels
 			return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
 		}
 
-		protected virtual ModelT CopyModel(ModelT source, bool newName = true)
+		protected virtual ModelT CopyModel(ModelT source)
 		{
 			var copy = new ModelT();
 			copy.UID = Guid.NewGuid();
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
+			copy.Name = source.Name;
+            copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			return copy;
 		}
