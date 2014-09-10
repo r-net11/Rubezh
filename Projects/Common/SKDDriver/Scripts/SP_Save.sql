@@ -4,17 +4,17 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveDay]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveScheduleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveScheduleDay]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveHoliday]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveHoliday]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveInterval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveInterval]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveDayIntervalPart]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveDayIntervalPart]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveNamedInterval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveNamedInterval]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveDayInterval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveDayInterval]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveSchedule]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveSchedule]
@@ -65,7 +65,7 @@ IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SavePa
 DROP PROCEDURE [dbo].[SavePassJournal]
 
 GO
-CREATE PROCEDURE [dbo].[SaveInterval]
+CREATE PROCEDURE [dbo].[SaveDayIntervalPart]
 	@Uid uniqueidentifier,
 	@BeginTime int = 0,
 	@EndTime int = 0,
@@ -75,7 +75,7 @@ CREATE PROCEDURE [dbo].[SaveInterval]
 
 AS
 BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[Interval] WHERE Uid = @Uid)
+	IF EXISTS(SELECT Uid FROM [dbo].[DayIntervalPart] WHERE Uid = @Uid)
 		UPDATE [dbo].[Interval]   SET 
 			Uid = @Uid,
 			BeginTime = @BeginTime,
@@ -86,11 +86,11 @@ BEGIN
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[Interval] (
+			INSERT INTO [dbo].[DayIntervalPart] (
 				Uid,
 				BeginTime,
 				EndTime,
-				NamedIntervalUid,
+				DayIntervalUid,
 				IsDeleted,
 				RemovalDate)
 			VALUES (
@@ -103,7 +103,7 @@ BEGIN
 		END
 END
 GO
-CREATE PROCEDURE [dbo].[SaveNamedInterval]
+CREATE PROCEDURE [dbo].[SaveDayInterval]
 	@Uid uniqueidentifier,
 	@OrganisationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
@@ -112,8 +112,8 @@ CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@RemovalDate datetime = '01/01/1900' 
 AS
 BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[NamedInterval] WHERE Uid = @Uid)
-		UPDATE [dbo].[NamedInterval]  SET 
+	IF EXISTS(SELECT Uid FROM [dbo].[DayInterval] WHERE Uid = @Uid)
+		UPDATE [dbo].[DayInterval]  SET 
 			Uid = @Uid,
 			Name = @Name,
 			IsDeleted = @IsDeleted,
@@ -123,7 +123,7 @@ BEGIN
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[NamedInterval] (
+			INSERT INTO [dbo].[DayInterval] (
 				Uid,
 				Name,
 				IsDeleted,
@@ -140,9 +140,9 @@ BEGIN
 		END
 END
 GO
-CREATE PROCEDURE [dbo].[SaveDay]
+CREATE PROCEDURE [dbo].[SaveScheduleDay]
 	@Uid uniqueidentifier,
-	@NamedIntervalUid uniqueidentifier = NULL,
+	@DayIntervalUid uniqueidentifier = NULL,
 	@ScheduleSchemeUid uniqueidentifier = NULL,
 	@Number int = NULL,
 	@IsDeleted bit = 0,
@@ -150,10 +150,10 @@ CREATE PROCEDURE [dbo].[SaveDay]
 
 AS
 BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[Day] WHERE Uid = @Uid)
-		UPDATE [dbo].[Day] SET 
+	IF EXISTS(SELECT Uid FROM [dbo].[ScheduleDay] WHERE Uid = @Uid)
+		UPDATE [dbo].[ScheduleDay] SET 
 			Uid = @Uid,
-			NamedIntervalUid = @NamedIntervalUid,
+			DayIntervalUid = @DayIntervalUid,
 			ScheduleSchemeUid = @ScheduleSchemeUid,
 			Number = @Number,
 			IsDeleted = @IsDeleted,
@@ -161,16 +161,16 @@ BEGIN
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[Day] (
+			INSERT INTO [dbo].[ScheduleDay] (
 				Uid,
-				NamedIntervalUid,
+				DayIntervalUid,
 				ScheduleSchemeUid,
 				Number,
 				IsDeleted,
 				RemovalDate)
 			VALUES	(
 				@Uid,
-				@NamedIntervalUid,
+				@DayIntervalUid,
 				@ScheduleSchemeUid,
 				@Number,
 				@IsDeleted,
@@ -313,7 +313,6 @@ CREATE PROCEDURE [dbo].[SaveEmployee]
 	@DepartmentUid [uniqueidentifier] = NULL,
 	@ScheduleUid [uniqueidentifier] = NULL,
 	@Appointed [datetime] = NULL,
-	@Dismissed [datetime] = NULL,
 	@IsDeleted [bit] = NULL,
 	@RemovalDate [datetime] = NULL
 
@@ -328,7 +327,6 @@ BEGIN
 			[DepartmentUid] ,
 			[ScheduleUid] ,
 			[Appointed] ,
-			[Dismissed] ,
 			[IsDeleted] ,
 			[RemovalDate],
 			OrganisationUid,
@@ -355,7 +353,6 @@ BEGIN
 			@DepartmentUid ,
 			@ScheduleUid ,
 			@Appointed ,
-			@Dismissed ,
 			@IsDeleted ,
 			@RemovalDate,
 			@OrganisationUid,
@@ -395,7 +392,6 @@ BEGIN
 				[DepartmentUid] ,
 				[ScheduleUid] ,
 				[Appointed] ,
-				[Dismissed] ,
 				[IsDeleted] ,
 				[RemovalDate],
 				OrganisationUid,
@@ -421,7 +417,6 @@ BEGIN
 				NULL ,
 				NULL ,
 				NULL ,
-				'01/01/1900' ,
 				'01/01/1900' ,
 				@IsDeleted ,
 				@RemovalDate,
@@ -707,8 +702,8 @@ CREATE PROCEDURE SaveCard
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,CardType)
-	VALUES (@UID,@IsDeleted,@RemovalDate,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason,0)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,CardType,UserTime)
+	VALUES (@UID,@IsDeleted,@RemovalDate,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason,0,-1)
 END
 
 GO

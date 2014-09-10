@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 	{
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
-
+        
 		public ScheduleSchemesViewModel()
 			:base()
 		{
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			Initialize(filter);
-		}
+        }
 
 		public override void OnShow()
 		{

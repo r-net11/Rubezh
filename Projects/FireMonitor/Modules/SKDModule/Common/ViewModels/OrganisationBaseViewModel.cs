@@ -111,25 +111,29 @@ namespace SKDModule.ViewModels
 
 		protected virtual void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
-			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
-			{
-				var organisationViewModel = new ViewModelT();
-				organisationViewModel.InitializeOrganisation(newOrganisation, this);
-				Organisations.Add(organisationViewModel);
-				var models = GetModelsByOrganisation(newOrganisation.UID);
-				if (models == null)
-					return;
-				InitializeModels(models);
-			}
-			else
-			{
-				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
-				if (organisationViewModel != null)
-				{
-					Organisations.Remove(organisationViewModel);
-				}
-			}
-		}
+            if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+            {
+                if (!Organisations.Any(x => x.Organisation.UID == newOrganisation.UID))
+                {
+                    var organisationViewModel = new ViewModelT();
+                    organisationViewModel.InitializeOrganisation(newOrganisation, this);
+                    Organisations.Add(organisationViewModel);
+                    var models = GetModelsByOrganisation(newOrganisation.UID);
+                    if (models != null)
+                    {
+                        InitializeModels(models);
+                    }
+                }
+            }
+            else
+            {
+                var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+                if (organisationViewModel != null)
+                {
+                    Organisations.Remove(organisationViewModel);
+                }
+            }
+        }
 
         protected virtual void OnRemoveOrganisation(Guid organisationUID)
         {
