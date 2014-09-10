@@ -99,7 +99,6 @@
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ArgumentItemViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArithmeticParameterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
@@ -174,9 +173,6 @@
     </Compile>
     <Compile Include="Procedures\Views\SKDZoneSelectionView.xaml.cs">
       <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Procedures\Views\Steps\ArgumentItemView.xaml.cs">
-      <DependentUpon>ArgumentItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\ControlCameraStepView.xaml.cs">
       <DependentUpon>ControlCameraStepView.xaml</DependentUpon>
@@ -422,10 +418,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\ProcedurePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Procedures\Views\Steps\ArgumentItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

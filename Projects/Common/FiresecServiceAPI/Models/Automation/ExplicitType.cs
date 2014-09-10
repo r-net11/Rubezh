@@ -2,7 +2,7 @@
 
 namespace FiresecAPI.Automation
 {
-	public enum ValueType
+	public enum ExplicitType
 	{
 		[DescriptionAttribute("Целое")]
 		Integer,

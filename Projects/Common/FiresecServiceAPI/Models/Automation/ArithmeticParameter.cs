@@ -16,7 +16,7 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
-		public VariableType VariableType { get; set; }
+		public VariableScope VariableScope { get; set; }
 
 		[DataMember]
 		public VariableItem VariableItem { get; set; }
@@ -25,7 +25,7 @@ namespace FiresecAPI.Automation
 		public EnumType EnumType { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ExplicitType ExplicitType { get; set; }
 
 		[DataMember]
 		public ObjectType ObjectType { get; set; }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
-using ValueType = FiresecAPI.Automation.ValueType;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient;
@@ -34,13 +33,13 @@ namespace AutomationModule.ViewModels
 		{
 			Name = Variable.Name;
 			IsList = Variable.IsList;
-			ValueType = Variable.ValueType;
+			ExplicitType = Variable.ExplicitType;
 			EnumType = Variable.EnumType;
 			ObjectType = Variable.ObjectType;
 
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => IsList);
-			OnPropertyChanged(() => ValueType);
+			OnPropertyChanged(() => ExplicitType);
 			OnPropertyChanged(() => EnumType);
 			OnPropertyChanged(() => ObjectType);
 		}
@@ -67,14 +66,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		ValueType _valueType;
-		public ValueType ValueType
+		ExplicitType _ExplicitType;
+		public ExplicitType ExplicitType
 		{
-			get { return _valueType; }
+			get { return _ExplicitType; }
 			set
 			{
-				_valueType = value;
-				OnPropertyChanged(() => ValueType);
+				_ExplicitType = value;
+				OnPropertyChanged(() => ExplicitType);
 			}
 		}
 
@@ -243,7 +242,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 			base.OnPropertyChanged(propertyExpression);
 			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
+			    UpdateDescriptionHandler();
 		}
 	}
 }

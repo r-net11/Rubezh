@@ -5,7 +5,6 @@ using System.Text;
 using FiresecAPI.Automation;
 using FiresecClient;
 using FiresecAPI.GK;
-using ValueType = FiresecAPI.Automation.ValueType;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
@@ -22,9 +21,9 @@ namespace AutomationModule
 			return allVariables;
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure, ValueType valueType, ObjectType objectType, bool isList)
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType ExplicitType, ObjectType objectType, bool isList)
 		{
-			return GetAllVariables(procedure).FindAll(x => x.ValueType == valueType && x.ObjectType == objectType && x.IsList == isList);
+			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == ExplicitType && x.ObjectType == objectType && x.IsList == isList);
 		}
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
@@ -38,13 +37,13 @@ namespace AutomationModule
 			return new List<Property>();
 		}
 
-		public static List<ConditionType> ObjectTypeToConditionTypesList(ValueType valueType)
+		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
 		{
-			if ((valueType == ValueType.Integer) || (valueType == ValueType.DateTime) || (valueType == ValueType.Object))
+			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object))
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if (valueType == ValueType.Boolean || valueType == ValueType.Enum)
+			if (ExplicitType == ExplicitType.Boolean || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
-			if (valueType == ValueType.String)
+			if (ExplicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
 			return new List<ConditionType>();
 		}
@@ -62,7 +61,7 @@ namespace AutomationModule
 		public static VariableItemViewModel SelectObject(ObjectType objectType, VariableItemViewModel currentVariableItem)
 		{
 			var variableItem = new VariableItem();
-			variableItem.ValueType = ValueType.Object;
+			variableItem.ExplicitType = ExplicitType.Object;
 			variableItem.UidValue = currentVariableItem.VariableItem.UidValue;
 			if (objectType == ObjectType.Device)
 			{

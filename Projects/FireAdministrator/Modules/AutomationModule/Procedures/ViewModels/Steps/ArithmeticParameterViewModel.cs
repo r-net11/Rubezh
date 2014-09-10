@@ -5,7 +5,6 @@ using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using ValueType = FiresecAPI.Automation.ValueType;
 using System.Linq.Expressions;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -16,21 +15,24 @@ namespace AutomationModule.ViewModels
 	public class ArithmeticParameterViewModel : BaseViewModel
 	{
 		public ArithmeticParameter ArithmeticParameter { get; private set; }
-		public Action UpdateVariableTypeHandler { get; set; }
-		public Action UpdateVariableHandler { get; set; }
 		public VariableItemViewModel CurrentVariableItem { get; private set; }
+		public Action UpdateVariableScopeHandler { get; set; }
+		public Action UpdateVariableHandler { get; set; }
+		Action UpdateDescriptionHandler { get; set; }
 
-		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, bool allowImplicitValue = true)
+		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, Action updateDescriptionHandler, bool allowImplicitValue = true)
 		{
+			UpdateDescriptionHandler = updateDescriptionHandler;
 			CurrentVariableItem = new VariableItemViewModel(arithmeticParameter.VariableItem);
+			CurrentVariableItem.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variables = new List<VariableViewModel>();
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
-			ValueTypes = ProcedureHelper.GetEnumObs<ValueType>();
-			var availableVariableTypes = ProcedureHelper.GetEnumList<VariableType>().FindAll(x => allowImplicitValue || x != VariableType.IsValue);
+			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
+			var availableVariableScopes = ProcedureHelper.GetEnumList<VariableScope>().FindAll(x => allowImplicitValue || x != VariableScope.ExplicitValue);
 			ArithmeticParameter = arithmeticParameter;
-			VariableTypes = new ObservableCollection<VariableType>(availableVariableTypes);
-			OnPropertyChanged(() => VariableTypes);
+			VariableScopes = new ObservableCollection<VariableScope>(availableVariableScopes);
+			OnPropertyChanged(() => VariableScopes);
 			ChangeItemCommand = new RelayCommand(OnChangeItem);
 		}
 
@@ -38,7 +40,8 @@ namespace AutomationModule.ViewModels
 		void OnChangeItem()
 		{
 			CurrentVariableItem = ProcedureHelper.SelectObject(ObjectType, CurrentVariableItem);
-			UpdateVariableTypeHandler();
+			if (UpdateVariableScopeHandler != null)
+				UpdateVariableScopeHandler();
 			OnPropertyChanged(() => CurrentVariableItem);
 		}
 
@@ -53,14 +56,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-		public ValueType ValueType
+		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
+		public ExplicitType ExplicitType
 		{
-			get { return ArithmeticParameter.ValueType; }
+			get { return ArithmeticParameter.ExplicitType; }
 			set
 			{
-				ArithmeticParameter.ValueType = value;
-				OnPropertyChanged(() => ValueType);
+				ArithmeticParameter.ExplicitType = value;
+				OnPropertyChanged(() => ExplicitType);
 			}
 		}
 
@@ -73,18 +76,7 @@ namespace AutomationModule.ViewModels
 				ArithmeticParameter.ObjectType = value;
 				OnPropertyChanged(() => ObjectType);
 			}
-		}
-
-		Action _updateDescriptionHandler;
-		public Action UpdateDescriptionHandler
-		{
-			get { return _updateDescriptionHandler; }
-			set
-			{
-				_updateDescriptionHandler = value;
-				CurrentVariableItem.UpdateDescriptionHandler = value;
-			}
-		}
+		}	
 
 		public void Update(List<Variable> variables)
 		{
@@ -95,21 +87,21 @@ namespace AutomationModule.ViewModels
 				Variables.Add(variableViewModel);
 			}
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
-			SelectedVariableType = ArithmeticParameter.VariableType;
+			SelectedVariableScope = ArithmeticParameter.VariableScope;
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);
 		}
 
-		public ObservableCollection<VariableType> VariableTypes { get; set; }
-		public VariableType SelectedVariableType
+		public ObservableCollection<VariableScope> VariableScopes { get; set; }
+		public VariableScope SelectedVariableScope
 		{
-			get { return ArithmeticParameter.VariableType; }
+			get { return ArithmeticParameter.VariableScope; }
 			set
 			{
-				ArithmeticParameter.VariableType = value;
-				if (UpdateVariableTypeHandler != null)
-					UpdateVariableTypeHandler();
-				OnPropertyChanged(() => SelectedVariableType);
+				ArithmeticParameter.VariableScope = value;
+				if (UpdateVariableScopeHandler != null)
+					UpdateVariableScopeHandler();
+				OnPropertyChanged(() => SelectedVariableScope);
 			}
 		}
 
@@ -150,31 +142,31 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (SelectedVariableType != VariableType.IsValue)
+				if (SelectedVariableScope != VariableScope.ExplicitValue)
 				{
-					if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableType == VariableType.IsLocalVariable)
-						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableType == VariableType.IsGlobalVariable))
-						return "пусто";
+					if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.LocalVariable)
+						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
+						return "<пусто>";
 					else
-						return SelectedVariable.Name;
+						return "<" + SelectedVariable.Name + ">";
 				}
 
 				var description = "";
-				switch (ValueType)
+				switch (ExplicitType)
 				{
-					case ValueType.Boolean:
+					case ExplicitType.Boolean:
 						description = CurrentVariableItem.VariableItem.BoolValue.ToString();
 						break;
-					case ValueType.DateTime:
+					case ExplicitType.DateTime:
 						description = CurrentVariableItem.VariableItem.DateTimeValue.ToString();
 						break;
-					case ValueType.Integer:
+					case ExplicitType.Integer:
 						description = CurrentVariableItem.VariableItem.IntValue.ToString();
 						break;
-					case ValueType.String:
+					case ExplicitType.String:
 						description = CurrentVariableItem.VariableItem.StringValue.ToString();
 						break;
-					case ValueType.Enum:
+					case ExplicitType.Enum:
 						{
 							if (EnumType == EnumType.StateClass)
 								description = CurrentVariableItem.VariableItem.StateClassValue.ToDescription();
@@ -192,7 +184,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 			base.OnPropertyChanged(propertyExpression);
 			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
+			    UpdateDescriptionHandler();
 		}
 	}
 }

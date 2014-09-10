@@ -2,31 +2,31 @@
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class PersonInspectionStepViewModel : BaseStepViewModel
 	{
 		public ArithmeticParameterViewModel CardNumber { get; set; }
-		public Procedure Procedure { get; private set; }
 
-		public PersonInspectionStepViewModel(PersonInspectionArguments personInspectionArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public PersonInspectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			Procedure = procedure;
-			CardNumber = new ArithmeticParameterViewModel(personInspectionArguments.CardNumber);
+			CardNumber = new ArithmeticParameterViewModel(stepViewModel.Step.PersonInspectionArguments.CardNumber, stepViewModel.Update);
+			CardNumber.ExplicitType = ExplicitType.Integer;
 			UpdateContent();
 		}
 
 		public new void UpdateContent()
 		{
-			CardNumber.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer && !x.IsList));
+			CardNumber.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
 		}
 
 		public override string Description 
 		{ 
-			get { return ""; } 
+			get 
+			{ 
+				return "Номер карты: " + CardNumber.Description; 
+			} 
 		}
 	}
 }

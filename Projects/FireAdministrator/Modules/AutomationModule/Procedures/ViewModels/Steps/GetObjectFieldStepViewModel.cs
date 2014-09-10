@@ -5,25 +5,21 @@ using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class GetObjectFieldStepViewModel: BaseStepViewModel
 	{
 		GetObjectFieldArguments GetObjectFieldArguments { get; set; }
-		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		public ArithmeticParameterViewModel Result { get; private set; }
 
-		public GetObjectFieldStepViewModel(GetObjectFieldArguments getObjectFieldArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public GetObjectFieldStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			GetObjectFieldArguments = getObjectFieldArguments;
-			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, false);
+			GetObjectFieldArguments = stepViewModel.Step.GetObjectFieldArguments;
+			Variable1 = new ArithmeticParameterViewModel(GetObjectFieldArguments.Variable1, stepViewModel.Update, false);
 			Variable1.UpdateVariableHandler += UpdateProperies;
-			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Result, false);
+			Result = new ArithmeticParameterViewModel(GetObjectFieldArguments.Result, stepViewModel.Update, false);
 			UpdateContent();
 		}
 
@@ -41,19 +37,22 @@ namespace AutomationModule.ViewModels
 			{
 				GetObjectFieldArguments.Property = value;
 				OnPropertyChanged(() => SelectedProperty);
-				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && x.EnumType == EnumType && !x.IsList));
+				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && !x.IsList));
-			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && x.EnumType == EnumType && !x.IsList));
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && !x.IsList));
+			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
 		}
 
 		public override string Description
 		{
-			get { return ""; }
+			get 
+			{ 
+				return Result.Description + " = " + Variable1.Description + "." + SelectedProperty; 
+			}
 		}
 
 		public EnumType EnumType
@@ -68,15 +67,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ValueType ValueType
+		public ExplicitType ExplicitType
 		{
 			get
 			{
 				if (SelectedProperty == Property.Description)
-					return ValueType.String;
+					return ExplicitType.String;
 				if ((SelectedProperty == Property.Type) || (SelectedProperty == Property.DeviceState))
-					return ValueType.Enum;
-				return ValueType.Integer;
+					return ExplicitType.Enum;
+				return ExplicitType.Integer;
 			}
 		}
 	}

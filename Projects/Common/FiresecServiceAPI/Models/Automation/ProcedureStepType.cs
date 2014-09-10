@@ -22,7 +22,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Функция выбора процедур")]
 		ProcedureSelection,
 
-		[DescriptionAttribute("Получить значение поля объекта")]
+		[DescriptionAttribute("Получить значение свойства объекта")]
 		GetObjectField,
 
 		[DescriptionAttribute("Проигрывание звука")]
@@ -49,7 +49,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Задание значения переменной")]
 		SetValue,
 
-		[DescriptionAttribute("Запуск программ")]
+		[DescriptionAttribute("Запуск программы")]
 		RunProgramm,
 
 		[DescriptionAttribute("Инкремент значения переменной")]

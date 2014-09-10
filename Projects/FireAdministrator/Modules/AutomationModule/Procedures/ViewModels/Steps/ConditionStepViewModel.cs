@@ -7,7 +7,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using FiresecClient;
-using ValueType = FiresecAPI.Automation.ValueType;
 using System.Linq.Expressions;
 
 namespace AutomationModule.ViewModels
@@ -16,19 +15,17 @@ namespace AutomationModule.ViewModels
 	{
 		public ConditionArguments ConditionArguments { get; private set; }
 		public ObservableCollection<ConditionViewModel> Conditions { get; private set; }
-		Procedure Procedure { get; set; }
 
-		public ConditionStepViewModel(ConditionArguments conditionArguments, Procedure procedure, Action updateDescriptionHandler) : base(updateDescriptionHandler)
+		public ConditionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			ConditionArguments = conditionArguments;
-			Procedure = procedure;
+			ConditionArguments = stepViewModel.Step.ConditionArguments;
 			Conditions = new ObservableCollection<ConditionViewModel>();
-			conditionArguments.Conditions.ForEach (condition => Conditions.Add(new ConditionViewModel(condition, procedure, updateDescriptionHandler)));
+			ConditionArguments.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update)));
 			if (Conditions.Count == 0)
 			{
 				var condition = new Condition();
 				ConditionArguments.Conditions.Add(condition);
-				var conditionViewModel = new ConditionViewModel(condition, procedure, updateDescriptionHandler);
+				var conditionViewModel = new ConditionViewModel(condition, Procedure, stepViewModel.Update);
 				Conditions.Add(conditionViewModel);
 			}
 			JoinOperator = ConditionArguments.JoinOperator;
@@ -99,13 +96,8 @@ namespace AutomationModule.ViewModels
 				if (conditionViewModel == null)
 					return "";
 
-				var var1 = "пусто";
-				var var2 = "пусто";
-				var Variable1 = conditionViewModel.Variable1;
-				var Variable2 = conditionViewModel.Variable2;
-
-				var1 = Variable1.Description;
-				var2 = Variable2.Description;
+				var var1 = conditionViewModel.Variable1.Description;
+				var var2 = conditionViewModel.Variable2.Description;
 
 				var op = "";
 				switch (conditionViewModel.SelectedConditionType)
@@ -151,44 +143,42 @@ namespace AutomationModule.ViewModels
 			Condition = condition;
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, false);
-			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
+			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, updateDescriptionHandler, false);
 			Variable1.UpdateVariableHandler += UpdateVariable2;
-			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2);
-			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
-			SelectedValueType = Condition.ValueType;
+			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, updateDescriptionHandler);
+			SelectedExplicitType = Condition.ExplicitType;
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-		public ValueType SelectedValueType
+		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
+		public ExplicitType SelectedExplicitType
 		{
-			get { return Condition.ValueType; }
+			get { return Condition.ExplicitType; }
 			set
 			{
-				Condition.ValueType = value;
-				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(SelectedValueType));
+				Condition.ExplicitType = value;
+				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(SelectedExplicitType));
 				OnPropertyChanged(() => ConditionTypes);
 				UpdateContent();
-				OnPropertyChanged(() => SelectedValueType);
+				OnPropertyChanged(() => SelectedExplicitType);
 			}
 		}
 
 		public void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == SelectedValueType && !x.IsList);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables);
-			Variable1.ValueType = SelectedValueType;
-			Variable2.ValueType = SelectedValueType;
+			Variable1.ExplicitType = SelectedExplicitType;
+			Variable2.ExplicitType = SelectedExplicitType;
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
 		}
 
 		void UpdateVariable2()
 		{
-			if (Variable1.ValueType == ValueType.Enum)
+			if (Variable1.ExplicitType == ExplicitType.Enum)
 			{
-				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == SelectedValueType && !x.IsList && x.EnumType == Variable1.EnumType);
+				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Variable1.EnumType);
 				Variable2.Update(allVariables);
 				Variable2.EnumType = Variable1.EnumType;
 			}

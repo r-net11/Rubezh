@@ -153,7 +153,7 @@ namespace AutomationModule.Validation
 				if (prop.PropertyType == typeof(ArithmeticParameter))
 				{
 					var arithmeticParameter = (ArithmeticParameter)prop.GetValue(stepArguments, null);
-					if (arithmeticParameter.VariableType != VariableType.IsValue && arithmeticParameter.VariableUid == Guid.Empty)
+					if (arithmeticParameter.VariableScope != VariableScope.ExplicitValue && arithmeticParameter.VariableUid == Guid.Empty)
 					{
 						Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
 						return;

@@ -12,13 +12,10 @@ namespace AutomationModule.ViewModels
 	{
 		public SoundArguments SoundArguments { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
-		public Action UpdateDescriptionHandler { get; set; }
 
-		public SoundStepViewModel(SoundArguments soundArguments, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public SoundStepViewModel(StepViewModel stepViewModel): base(stepViewModel)
 		{
-			UpdateDescriptionHandler = updateDescriptionHandler;
-			SoundArguments = soundArguments;
+			SoundArguments = stepViewModel.Step.SoundArguments;
 			UpdateContent();
 		}
 

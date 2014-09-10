@@ -4,66 +4,48 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using System.Linq;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class JournalStepViewModel : BaseStepViewModel
 	{
 		JournalArguments JournalArguments { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
-		public ArithmeticParameterViewModel Variable { get; set; }
-		Procedure Procedure { get; set; }
+		public ArithmeticParameterViewModel Variable1 { get; set; }
 
-		public JournalStepViewModel(JournalArguments journalArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			JournalArguments = journalArguments;
-			Procedure = procedure;
-			Variable = new ArithmeticParameterViewModel(journalArguments.Variable);
-			ValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
-			SelectedValueType = JournalArguments.ValueType;
-			UpdateDescriptionHandler = updateDescriptionHandler;
+			JournalArguments = stepViewModel.Step.JournalArguments;
+			Variable1 = new ArithmeticParameterViewModel(JournalArguments.Variable1, stepViewModel.Update);
+			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			SelectedExplicitType = JournalArguments.ExplicitType;
 			UpdateContent();
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-		public ValueType SelectedValueType
+		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
+		public ExplicitType SelectedExplicitType
 		{
-			get { return JournalArguments.ValueType; }
+			get { return JournalArguments.ExplicitType; }
 			set
 			{
-				JournalArguments.ValueType = value;
-				OnPropertyChanged(() => SelectedValueType);
+				JournalArguments.ExplicitType = value;
+				Variable1.ExplicitType = value;
+				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList);
-			if (SelectedValueType == ValueType.Boolean)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
-			}
-			if (SelectedValueType == ValueType.Integer)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
-			}
-			if (SelectedValueType == ValueType.DateTime)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.DateTime);
-			}
-			if (SelectedValueType == ValueType.String)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
-			}
-			Variable.Update(allVariables);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
+			Variable1.Update(allVariables);
 		}
 
 		public override string Description
 		{
-			get { return ""; }
+			get 
+			{ 
+				return "Сообщение: " + Variable1.Description; 
+			}
 		}
 	}
 }

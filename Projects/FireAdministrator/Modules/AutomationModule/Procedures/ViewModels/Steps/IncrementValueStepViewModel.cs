@@ -5,22 +5,20 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System;
+using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
 	public class IncrementValueStepViewModel: BaseStepViewModel
 	{
 		IncrementValueArguments IncrementValueArguments { get; set; }
-		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public IncrementValueStepViewModel(IncrementValueArguments incrementGlobalValueArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public IncrementValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			IncrementValueArguments = incrementGlobalValueArguments;
-			Procedure = procedure;
+			IncrementValueArguments = stepViewModel.Step.IncrementValueArguments;
 			IncrementTypes = new ObservableCollection<IncrementType> { IncrementType.Inc, IncrementType.Dec };
-			Variable1 = new ArithmeticParameterViewModel(IncrementValueArguments.Variable1, false);
+			Variable1 = new ArithmeticParameterViewModel(IncrementValueArguments.Variable1, stepViewModel.Update, false);
 			UpdateContent();
 		}
 		
@@ -37,9 +35,15 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{			
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == FiresecAPI.Automation.ValueType.Integer));
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == FiresecAPI.Automation.ExplicitType.Integer));
 		}
 
-		public override string Description { get { return ""; } }
+		public override string Description 
+		{
+			get 
+			{
+				return "Переменная: " + Variable1.Description + " Значение: " + SelectedIncrementType.ToDescription();
+			}
+		}
 	}
 }

@@ -7,20 +7,23 @@ using Infrastructure.Common;
 using FiresecClient;
 using FiresecAPI.SKD;
 using System;
-using ValueType = FiresecAPI.Automation.ValueType;
 using System.Collections.Generic;
 using FiresecAPI.GK;
+using FiresecAPI;
+using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
+		bool automationChanged;
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; private set; }
 		public VariableItemViewModel CurrentVariableItem { get; private set; }
 
 		public VariableDetailsViewModel(Variable variable, string defaultName, string title)
 		{
+			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Name = defaultName;
 			Title = title;
 			SelectCommand = new RelayCommand(OnSelect);
@@ -31,8 +34,12 @@ namespace AutomationModule.ViewModels
 			Variable = new Variable();
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
-			ValueTypes = ProcedureHelper.GetEnumObs<ValueType>();
-			SelectedValueType = ValueTypes.FirstOrDefault();
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>();
+			foreach (var explicitType in ProcedureHelper.GetEnumObs<ExplicitType>())
+			{
+				ExplicitTypes.Add(new ExplicitTypeViewModel(explicitType));
+			}
+			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
 			CurrentVariableItem = new VariableItemViewModel(new VariableItem());
 			VariableItems = new List<VariableItemViewModel>();
 			if (variable != null)
@@ -43,10 +50,10 @@ namespace AutomationModule.ViewModels
 		{
 			Name = variable.Name;
 			IsList = variable.IsList;
-			SelectedValueType = variable.ValueType;
+			SelectedExplicitType = new ExplicitTypeViewModel(variable.ExplicitType);
 			SelectedObjectType = variable.ObjectType;
 			SelectedEnumType = variable.EnumType;
-			ValueTypes = new ObservableCollection<ValueType> { variable.ValueType };
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel> { SelectedExplicitType };
 			Variable.IsGlobal = variable.IsGlobal;
 			IsEditMode = true;
 			CurrentVariableItem = new VariableItemViewModel(variable.DefaultVariableItem);
@@ -54,18 +61,18 @@ namespace AutomationModule.ViewModels
 				VariableItems.Add(new VariableItemViewModel(variableItem));
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; private set; }
 
-		ValueType _selectedValueType;
-		public ValueType SelectedValueType
+		ExplicitTypeViewModel _selectedExplicitType;
+		public ExplicitTypeViewModel SelectedExplicitType
 		{
-			get { return _selectedValueType; }
+			get { return _selectedExplicitType; }
 			set
 			{
-				_selectedValueType = value;
+				_selectedExplicitType = value;
 				VariableItems = new List<VariableItemViewModel>();
 				UpdateVariableItems();
-				OnPropertyChanged(() => SelectedValueType);
+				OnPropertyChanged(() => SelectedExplicitType);
 			}
 		}
 
@@ -137,27 +144,27 @@ namespace AutomationModule.ViewModels
 		public List<VariableItemViewModel> VariableItems { get; private set; }
 		public ObservableCollection<VariableItemViewModel> VariableObjects
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Object)); }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Object)); }
 		}
 		public ObservableCollection<VariableItemViewModel> VariableBools
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Boolean)); }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Boolean)); }
 		}
 		public ObservableCollection<VariableItemViewModel> VariableDateTimes
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.DateTime)); }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.DateTime)); }
 		}
 		public ObservableCollection<VariableItemViewModel> VariableIntegers
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Integer)); }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Integer)); }
 		}
 		public ObservableCollection<VariableItemViewModel> VariableStrings
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.String)); }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.String)); }
 		}
 		public ObservableCollection<VariableItemViewModel> VariableEnums
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Enum)); }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Enum)); }
 		}
 		#endregion
 
@@ -165,7 +172,7 @@ namespace AutomationModule.ViewModels
 		void OnAdd()
 		{
 			var variableItemViewModel = SelectItem();
-			if (variableItemViewModel.VariableItem.ValueType != ValueType.Object || !variableItemViewModel.IsEmpty)
+			if (variableItemViewModel.VariableItem.ExplicitType != ExplicitType.Object || !variableItemViewModel.IsEmpty)
 				VariableItems.Add(variableItemViewModel);
 			UpdateVariableItems();
 		}
@@ -182,8 +189,8 @@ namespace AutomationModule.ViewModels
 		VariableItemViewModel SelectItem(VariableItemViewModel currentVariableItem = null)
 		{
 			if (currentVariableItem == null)
-				currentVariableItem = new VariableItemViewModel(new VariableItem() {ValueType = SelectedValueType});
-			if (SelectedValueType != ValueType.Object)
+				currentVariableItem = new VariableItemViewModel(new VariableItem() {ExplicitType = SelectedExplicitType.ExplicitType});
+			if (SelectedExplicitType.ExplicitType != ExplicitType.Object)
 			{
 				return currentVariableItem;
 			}
@@ -200,6 +207,12 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => VariableEnums);
 		}
 
+		public override bool OnClosing(bool isCanceled)
+		{
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+			return base.OnClosing(isCanceled);
+		}
+
 		protected override bool Save()
 		{
 			if (string.IsNullOrEmpty(Name))
@@ -209,7 +222,7 @@ namespace AutomationModule.ViewModels
 			}
 			Variable.Name = Name;
 			Variable.DefaultVariableItem = CurrentVariableItem.VariableItem;
-			Variable.ValueType = SelectedValueType;
+			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
 			Variable.ObjectType = SelectedObjectType;
 			Variable.EnumType = SelectedEnumType;
 			Variable.IsList = IsList;
@@ -217,6 +230,21 @@ namespace AutomationModule.ViewModels
 			foreach (var variableItemViewModel in VariableItems)
 				Variable.VariableItems.Add(variableItemViewModel.VariableItem);
 			return base.Save();
+		}
+
+		public class ExplicitTypeViewModel : BaseViewModel
+		{
+			public ExplicitType ExplicitType{ get; private set; }
+
+			public ExplicitTypeViewModel(ExplicitType explicitType)
+			{
+				ExplicitType = explicitType;
+			}
+
+			public string Name
+			{
+				get { return ExplicitType.ToDescription(); }
+			}
 		}
 	}
 }

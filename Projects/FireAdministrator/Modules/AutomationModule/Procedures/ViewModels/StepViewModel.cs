@@ -19,103 +19,103 @@ namespace AutomationModule.ViewModels
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
-					Content = new SoundStepViewModel(step.SoundArguments, Update);
+					Content = new SoundStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ShowMessage:
-					Content = new ShowMessageStepViewModel(step.ShowMessageArguments, procedure, Update);
+					Content = new ShowMessageStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Arithmetics:
-					Content = new ArithmeticStepViewModel(step.ArithmeticArguments, procedure, Update);
+					Content = new ArithmeticStepViewModel(this);
 					break;
 
 				case ProcedureStepType.If:
-					Content = new ConditionStepViewModel(step.ConditionArguments, procedure, Update);
+					Content = new ConditionStepViewModel(this);
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					Content = new JournalStepViewModel(step.JournalArguments, procedure, Update);
+					Content = new JournalStepViewModel(this);
 					break;
 
 				case ProcedureStepType.FindObjects:
-					Content = new FindObjectStepViewModel(step.FindObjectArguments, procedure, Update);
+					Content = new FindObjectStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Foreach:
-					Content = new ForeachStepViewModel(step.ForeachArguments, procedure, Update);
+					Content = new ForeachStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Pause:
-					Content = new PauseStepViewModel(step.PauseArguments, procedure, Update);
+					Content = new PauseStepViewModel(this);
 					break;
 				
 				case ProcedureStepType.ProcedureSelection:
-					Content = new ProcedureSelectionStepViewModel(step.ProcedureSelectionArguments, procedure, Update);
+					Content = new ProcedureSelectionStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Exit:
-					Content = new ExitStepViewModel(step.ExitArguments, procedure, Update);
+					Content = new ExitStepViewModel(this);
 					break;
 					
 				case ProcedureStepType.PersonInspection:
-					Content = new PersonInspectionStepViewModel(step.PersonInspectionArguments, procedure, Update);
+					Content = new PersonInspectionStepViewModel(this);
 					break;
 				
 				case ProcedureStepType.SetValue:
-					Content = new SetValueStepViewModel(step.SetValueArguments, procedure, Update);
+					Content = new SetValueStepViewModel(this);
 					break;
 				
 				case ProcedureStepType.IncrementValue:
-					Content = new IncrementValueStepViewModel(step.IncrementValueArguments, procedure, Update);
+					Content = new IncrementValueStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Random:
-					Content = new RandomStepViewModel(step.RandomArguments, procedure, Update);
+					Content = new RandomStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
-					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments, procedure, Update);
+					Content = new ControlGKDeviceStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
-					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments, procedure, Update);
+					Content = new ControlSKDDeviceStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments, procedure, Update);
+					Content = new ControlGKFireZoneStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
-					Content = new ControlGKGuardZoneStepViewModel(step.ControlGKGuardZoneArguments, procedure, Update);
+					Content = new ControlGKGuardZoneStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlDirection:
-					Content = new ControlDirectionStepViewModel(step.ControlDirectionArguments, procedure, Update);
+					Content = new ControlDirectionStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlDoor:
-					Content = new ControlDoorStepViewModel(step.ControlDoorArguments, procedure, Update);
+					Content = new ControlDoorStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
-					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments, procedure, Update);
+					Content = new ControlSKDZoneStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlCamera:
-					Content = new ControlCameraStepViewModel(step.ControlCameraArguments, procedure, Update);
+					Content = new ControlCameraStepViewModel(this);
 					break;
 				
 				case ProcedureStepType.GetObjectField:
-					Content = new GetObjectFieldStepViewModel(step.GetObjectFieldArguments, procedure, Update);
+					Content = new GetObjectFieldStepViewModel(this);
 					break;
 
 				case ProcedureStepType.SendEmail:
-					Content = new SendEmailStepViewModel(step.SendEmailArguments, procedure, Update);
+					Content = new SendEmailStepViewModel(this);
 					break;
 
 				case ProcedureStepType.RunProgramm:
-					Content = new RunProgrammStepViewModel(step.RunProgrammArguments, procedure, Update);
+					Content = new RunProgrammStepViewModel(this);
 					break;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

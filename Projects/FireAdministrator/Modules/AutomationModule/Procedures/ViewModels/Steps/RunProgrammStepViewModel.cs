@@ -2,55 +2,36 @@
 using FiresecAPI.Automation;
 using System;
 using System.Collections.ObjectModel;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class RunProgrammStepViewModel : BaseStepViewModel
 	{
 		RunProgrammArguments RunProgrammArguments { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
-		Procedure Procedure { get; set; }
+		public ArithmeticParameterViewModel Path { get; private set; }
+		public ArithmeticParameterViewModel Parameters { get; private set; }
 
-		public RunProgrammStepViewModel(RunProgrammArguments runProgrammArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public RunProgrammStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			RunProgrammArguments = runProgrammArguments;
-			UpdateDescriptionHandler = updateDescriptionHandler;
-			Procedure = procedure;
+			RunProgrammArguments = stepViewModel.Step.RunProgrammArguments;
+			Path = new ArithmeticParameterViewModel(RunProgrammArguments.Path, stepViewModel.Update);
+			Path.ExplicitType = ExplicitType.String;
+			Parameters = new ArithmeticParameterViewModel(RunProgrammArguments.Parameters, stepViewModel.Update);
+			Parameters.ExplicitType = ExplicitType.String;
 			UpdateContent();
-		}
-
-		public string Path
-		{
-			get { return RunProgrammArguments.Path; }
-			set
-			{
-				RunProgrammArguments.Path = value;
-				OnPropertyChanged(() => Path);
-			}
-		}
-
-		public string Parameters
-		{
-			get { return RunProgrammArguments.Parameters; }
-			set
-			{
-				RunProgrammArguments.Parameters = value;
-				OnPropertyChanged(() => Parameters);
-			}
 		}
 
 		public override void UpdateContent()
 		{
-			
+			Path.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			Parameters.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "";
+				return "Путь к программе: " + Path.Description + " Параметры запуска: " + Parameters.Description;
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
 using Infrastructure;
+using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -10,10 +11,12 @@ namespace AutomationModule.ViewModels
 		public virtual void UpdateContent() { }
 		public abstract string Description { get; }
 		public Action UpdateDescriptionHandler;
+		protected Procedure Procedure { get; private set; }
 
-		public BaseStepViewModel(Action updateDescriptionHandler)
+		public BaseStepViewModel(StepViewModel stepViewModel)
 		{
-			UpdateDescriptionHandler = updateDescriptionHandler;
+			UpdateDescriptionHandler = stepViewModel.Update;
+			Procedure = stepViewModel.Procedure;
 		}
 
 		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
@@ -21,7 +24,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 			base.OnPropertyChanged(propertyExpression);
 			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
+			    UpdateDescriptionHandler();
 		}
 	}
 }

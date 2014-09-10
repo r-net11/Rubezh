@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -94,13 +93,13 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ValueType ValueType
+		public ExplicitType ExplicitType
 		{
-			get { return Argument.ValueType; }
+			get { return Argument.ExplicitType; }
 			set
 			{
-				Argument.ValueType = value;
-				OnPropertyChanged(() => ValueType);
+				Argument.ExplicitType = value;
+				OnPropertyChanged(() => ExplicitType);
 			}
 		}
 	}

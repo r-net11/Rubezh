@@ -32,7 +32,7 @@
 						<StackPanel Orientation="Horizontal">
 							<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
-							<ComboBox ItemsSource="{Binding ValueTypes}" SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}">
+							<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

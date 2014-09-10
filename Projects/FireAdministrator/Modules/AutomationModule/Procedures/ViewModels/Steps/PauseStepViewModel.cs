@@ -3,34 +3,35 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System;
-using ValueType = FiresecAPI.Automation.ValueType;
+using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
 	public class PauseStepViewModel : BaseStepViewModel
 	{
-		private Procedure Procedure { get; set; }
 		public PauseArguments PauseArguments { get; private set; }
-		public ArgumentItemViewModel Pause { get; set; }
+		public ArithmeticParameterViewModel Pause { get; set; }
 
-		public PauseStepViewModel(PauseArguments pauseArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public PauseStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			PauseArguments = pauseArguments;
-			Procedure = procedure;
+			PauseArguments = stepViewModel.Step.PauseArguments;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
-			Pause = new ArgumentItemViewModel(procedure, PauseArguments.Pause, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
+			Pause = new ArithmeticParameterViewModel(PauseArguments.Pause, stepViewModel.Update);
+			Pause.ExplicitType = ExplicitType.Integer;
 			UpdateContent();
 		}
 
 		public override void UpdateContent()
 		{
-			Pause.Update();
+			Pause.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
 		}
 
 		public override string Description
 		{
-			get { return ""; }
+			get 
+			{
+				return "Значение: " + Pause.Description + " " + SelectedTimeType.ToDescription(); 
+			}
 		}
 
 		public ObservableCollection<TimeType> TimeTypes { get; private set; }

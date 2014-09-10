@@ -10,7 +10,6 @@ using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
 using Property = FiresecAPI.Automation.Property;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace FiresecService.Processor
 {
@@ -58,16 +57,16 @@ namespace FiresecService.Processor
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
 			//var sendMessageArguments = procedureStep.SendMessageArguments;
-			//if (sendMessageArguments.VariableType == VariableType.IsValue)
+			//if (sendMessageArguments.VariableScope == VariableScope.IsValue)
 			//    automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
-			//if (sendMessageArguments.VariableType == VariableType.IsLocalVariable)
+			//if (sendMessageArguments.VariableScope == VariableScope.IsLocalVariable)
 			//{
 			//    var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
 			//        procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
 			//    if (localVariable != null)
 			//        automationCallbackResult.Message = localVariable.CurrentValue;
 			//}
-			//if (sendMessageArguments.VariableType == VariableType.IsGlobalVariable)
+			//if (sendMessageArguments.VariableScope == VariableScope.IsGlobalVariable)
 			//{
 			//    var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
 			//    if (globalVariable != null)
@@ -82,9 +81,9 @@ namespace FiresecService.Processor
 			object variable1;
 			object variable2;
 			var resultVariable = GetAllVariables(procedure).FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
-			switch (arithmeticArguments.ValueType)
+			switch (arithmeticArguments.ExplicitType)
 			{
-				case ValueType.Boolean:
+				case ExplicitType.Boolean:
 					{
 						variable1 = GetValue<bool>(arithmeticArguments.Variable1, procedure, arguments);
 						variable2 = GetValue<bool>(arithmeticArguments.Variable2, procedure, arguments);
@@ -97,7 +96,7 @@ namespace FiresecService.Processor
 						break;
 					}
 
-				case ValueType.Integer:
+				case ExplicitType.Integer:
 					{
 						variable1 = GetValue<int>(arithmeticArguments.Variable1, procedure, arguments);
 						variable2 = GetValue<int>(arithmeticArguments.Variable2, procedure, arguments);
@@ -114,7 +113,7 @@ namespace FiresecService.Processor
 						break;
 					}
 
-				case ValueType.DateTime:
+				case ExplicitType.DateTime:
 					{
 						variable1 = GetValue<DateTime>(arithmeticArguments.Variable1, procedure, arguments);
 						variable2 = GetValue<int>(arithmeticArguments.Variable2, procedure, arguments);

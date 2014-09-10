@@ -11,7 +11,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Тип значений" />
-			<ComboBox ItemsSource="{Binding ValueTypes}" SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}">
+			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -29,7 +29,7 @@
 			<Label Content="Параметр2" />
 			<Views:ArithmeticParameterView DataContext="{Binding Variable2}" />
 			<ComboBox ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ValueType.DateTime}}">
+				  Visibility="{Binding Path=SelectedExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

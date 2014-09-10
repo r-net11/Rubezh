@@ -26,7 +26,7 @@ namespace FiresecAPI.Automation
 		public Guid VariableUid { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ExplicitType ExplicitType { get; set; }
 
 		[DataMember]
 		public ObjectType ObjectType { get; set; }

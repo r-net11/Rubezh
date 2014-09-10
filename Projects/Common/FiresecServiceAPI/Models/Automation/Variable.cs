@@ -33,7 +33,7 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ExplicitType ExplicitType { get; set; }
 
 		[DataMember]
 		public ObjectType ObjectType { get; set; }
@@ -101,6 +101,6 @@ namespace FiresecAPI.Automation
 		public string DeviceType { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ExplicitType ExplicitType { get; set; }
 	}
 }
