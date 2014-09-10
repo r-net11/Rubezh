@@ -2,39 +2,13 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<Grid>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Объект" Margin="2" Width="100" />
-				<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
-								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="2"
-								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+				<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
@@ -51,34 +25,7 @@
 
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Результат" Margin="2" Width="100" />
-				<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
-								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding LocalVariables}" Margin="2"
-								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+				<Views:ArithmeticParameterView DataContext="{Binding Result}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

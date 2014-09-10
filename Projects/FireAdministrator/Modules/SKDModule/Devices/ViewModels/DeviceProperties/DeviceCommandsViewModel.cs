@@ -60,10 +60,26 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowControllerDoorTypeCommand { get; private set; }
 		void OnShowControllerDoorType()
 		{
+			var previousDoorType = SelectedDevice.Device.DoorType;
+
 			var controllerDoorTypeViewModel = new ControllerDoorTypeViewModel(SelectedDevice);
 			if (DialogService.ShowModalWindow(controllerDoorTypeViewModel))
 			{
-
+				if (previousDoorType != SelectedDevice.Device.DoorType)
+				{
+					foreach (var childDevice in SelectedDevice.Device.Children)
+					{
+						if (childDevice.Door != null)
+						{
+							var doorViewModel = DoorsViewModel.Current.Doors.FirstOrDefault(x => x.Door.UID == childDevice.Door.UID);
+							SKDManager.ChangeDoorDevice(childDevice.Door, null);
+							if (doorViewModel != null)
+							{
+								doorViewModel.Update(doorViewModel.Door);
+							}
+						}
+					}
+				}
 			}
 		}
 

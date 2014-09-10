@@ -14,6 +14,9 @@ namespace ControllerSDK
 			}
 			catch { }
 
+			var connectionSettings = ConnectionSettingsHelper.Get();
+			ConnectionSettingsHelper.Set(connectionSettings);
+
 			//Wrapper.InitializeWatcher();
 			var mainWindow = new MainWindow();
 			mainWindow.Show();

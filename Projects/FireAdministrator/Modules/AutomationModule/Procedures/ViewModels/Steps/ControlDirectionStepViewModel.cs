@@ -24,13 +24,12 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
 			Variable1 = new ArithmeticParameterViewModel(ControlDirectionArguments.Variable1);
-			OnPropertyChanged(() => Commands);
-			SelectDirectionCommand = new RelayCommand(OnSelectDirection);
+			Variable1.ObjectType = ObjectType.Direction;
+			Variable1.ValueType = ValueType.Object;
 			UpdateContent();
 		}
 
 		public ObservableCollection<DirectionCommandType> Commands { get; private set; }
-
 		DirectionCommandType _selectedCommand;
 		public DirectionCommandType SelectedCommand
 		{
@@ -43,41 +42,9 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		DirectionViewModel _selectedDirection;
-		public DirectionViewModel SelectedDirection
-		{
-			get { return _selectedDirection; }
-			set
-			{
-				_selectedDirection = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedDirection != null)
-				{
-					Variable1.UidValue = _selectedDirection.Direction.UID;
-				}
-				OnPropertyChanged(() => SelectedDirection);
-			}
-		}
-
-		public RelayCommand SelectDirectionCommand { get; private set; }
-		private void OnSelectDirection()
-		{
-			var directionSelectationViewModel = new DirectionSelectionViewModel(SelectedDirection != null ? SelectedDirection.Direction : null);
-			if (DialogService.ShowModalWindow(directionSelectationViewModel))
-			{
-				SelectedDirection = directionSelectationViewModel.SelectedDirection;
-			}
-		}
-
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.Direction, false));
-			if (Variable1.UidValue != Guid.Empty)
-			{
-				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedDirection = direction != null ? new DirectionViewModel(direction) : null;
-				SelectedCommand = ControlDirectionArguments.DirectionCommandType;
-			}
 		}
 
 		public override string Description

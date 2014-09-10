@@ -11,7 +11,6 @@ namespace AutomationModule.ViewModels
 	public class SendEmailStepViewModel : BaseStepViewModel
 	{
 		SendEmailArguments SendEmailArguments { get; set; }
-		public Action UpdateDescriptionHandler { get; set; }
 		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel EMailAddress { get; private set; }
 		public ArithmeticParameterViewModel EMailTitle { get; private set; }
@@ -21,7 +20,6 @@ namespace AutomationModule.ViewModels
 			: base(updateDescriptionHandler)
 		{
 			SendEmailArguments = sendEmailArguments;
-			UpdateDescriptionHandler = updateDescriptionHandler;
 			Procedure = procedure;
 			EMailTitleValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
 			EMailContentValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
@@ -51,19 +49,6 @@ namespace AutomationModule.ViewModels
 			{
 				SendEmailArguments.SelectedEMailContentValueType = value;
 				OnPropertyChanged(() => SelectedEMailContentValueType);
-			}
-		}
-
-		VariableItemViewModel _selectedVariableItem;
-		public VariableItemViewModel SelectedVariableItem
-		{
-			get { return _selectedVariableItem; }
-			set
-			{
-				_selectedVariableItem = value;
-				if (value != null)
-					EMailContent.UidValue = _selectedVariableItem.VariableItem.ObjectUid;
-				OnPropertyChanged(() => SelectedVariableItem);
 			}
 		}
 
@@ -117,7 +102,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			var allEMailTitleVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedEMailTitleValueType);
 			var allEMailContentVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedEMailContentValueType);

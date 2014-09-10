@@ -24,8 +24,8 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<ZoneCommandType>();
 			Variable1 = new ArithmeticParameterViewModel(ControlGKFireZoneArguments.Variable1);
-			OnPropertyChanged(() => Commands);
-			SelectZoneCommand = new RelayCommand(OnSelectZone);
+			Variable1.ObjectType = ObjectType.Zone;
+			Variable1.ValueType = ValueType.Object;
 			UpdateContent();
 		}
 
@@ -43,41 +43,9 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		ZoneViewModel _selectedZone;
-		public ZoneViewModel SelectedZone
-		{
-			get { return _selectedZone; }
-			set
-			{
-				_selectedZone = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedZone != null)
-				{
-					Variable1.UidValue = _selectedZone.Zone.UID;
-				}
-				OnPropertyChanged(() => SelectedZone);
-			}
-		}
-		
-		public RelayCommand SelectZoneCommand { get; private set; }
-		private void OnSelectZone()
-		{
-			var zoneSelectationViewModel = new ZoneSelectionViewModel(SelectedZone != null ? SelectedZone.Zone : null);
-			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-			{
-				SelectedZone = zoneSelectationViewModel.SelectedZone;
-			}
-		}
-
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.Zone, false));
-			if (Variable1.UidValue != Guid.Empty)
-			{
-				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedZone = zone != null ? new ZoneViewModel(zone) : null;
-				SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
-			}
 		}
 
 		public override string Description

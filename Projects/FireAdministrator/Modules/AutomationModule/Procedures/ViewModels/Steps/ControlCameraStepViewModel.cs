@@ -22,65 +22,27 @@ namespace AutomationModule.ViewModels
 		{
 			ControlCameraArguments = controlCameraArguments;
 			Procedure = procedure;
-			Commands = new ObservableCollection<CameraCommandType>
-			{
-				CameraCommandType.StartRecord, CameraCommandType.StopRecord
-			};
+			Commands = ProcedureHelper.GetEnumObs<CameraCommandType>();
 			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1);
-			OnPropertyChanged(() => Commands);
-			SelectCameraCommand = new RelayCommand(OnSelectCamera);
+			Variable1.ObjectType = ObjectType.VideoDevice;
+			Variable1.ValueType = ValueType.Object;
 			UpdateContent();
 		}
 
 		public ObservableCollection<CameraCommandType> Commands { get; private set; }
-
-		CameraCommandType _selectedCommand;
 		public CameraCommandType SelectedCommand
 		{
-			get { return _selectedCommand; }
+			get { return ControlCameraArguments.CameraCommandType; }
 			set
 			{
-				_selectedCommand = value;
 				ControlCameraArguments.CameraCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
 			}
 		}
 
-		CameraViewModel _selectedCamera;
-		public CameraViewModel SelectedCamera
-		{
-			get { return _selectedCamera; }
-			set
-			{
-				_selectedCamera = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedCamera != null)
-				{
-					Variable1.UidValue = _selectedCamera.Camera.UID;
-				}
-				OnPropertyChanged(() => SelectedCamera);
-			}
-		}
-		
-		public RelayCommand SelectCameraCommand { get; private set; }
-		private void OnSelectCamera()
-		{
-			var cameraSelectionViewModel = new CameraSelectionViewModel(SelectedCamera != null ? SelectedCamera.Camera : null);
-			if (DialogService.ShowModalWindow(cameraSelectionViewModel))
-			{
-				SelectedCamera = cameraSelectionViewModel.SelectedCamera;
-			}
-		}
-
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && x.ObjectType == ObjectType.VideoDevice && !x.IsList));
-			if (Variable1.UidValue != Guid.Empty)
-			{
-				var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedCamera = camera != null ? new CameraViewModel(camera) : null;
-				SelectedCommand = ControlCameraArguments.CameraCommandType;
-			}
 		}
 
 		public override string Description

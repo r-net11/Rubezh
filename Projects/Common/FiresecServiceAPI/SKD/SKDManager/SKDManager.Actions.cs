@@ -74,11 +74,22 @@ namespace FiresecAPI.SKD
 		public static void ChangeDoorDevice(SKDDoor door, SKDDevice device)
 		{
 			if (door.InDevice != null)
-			{
 				door.InDevice.Door = null;
+			if (door.OutDevice != null)
+				door.OutDevice.Door = null;
+
+			if (device != null)
+			{
+				door.InDeviceUID = device.UID;
+				device.Door = door;
 			}
-			door.InDeviceUID = device.UID;
-			device.Door = door;
+			else
+			{
+				door.InDeviceUID = Guid.Empty;
+				door.InDevice = null;
+				door.OutDeviceUID = Guid.Empty;
+				door.OutDevice = null;
+			}
 			UpdateDoor(door);
 		}
 

@@ -24,7 +24,7 @@ namespace AutomationModule.ViewModels
 			UpdateContent();
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != Procedure.Uid))

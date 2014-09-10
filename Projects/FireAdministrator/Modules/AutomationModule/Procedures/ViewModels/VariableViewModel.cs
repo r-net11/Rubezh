@@ -11,58 +11,38 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using Infrastructure;
+using System.Linq.Expressions;
 
 namespace AutomationModule.ViewModels
 {
 	public class VariableViewModel : BaseViewModel
 	{
 		public Variable Variable { get; set; }
+		public VariableItemViewModel VariableItem { get; private set; }
 
 		public VariableViewModel(Variable variable)
 		{
 			Variable = variable;
-			Update();
-		}
-
-		public VariableViewModel(string name, ValueType valueType)
-		{
-			Variable = new Variable(name);
-			Variable.ValueType = valueType;
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
+			VariableItem = new VariableItemViewModel(variable.DefaultVariableItem);
 			Update();
 		}
 
 		public void Update()
 		{
 			Name = Variable.Name;
-			DefaultBoolValue = Variable.DefaultBoolValue;
-			DefaultDateTimeValue = Variable.DefaultDateTimeValue;
-			DefaultIntValue = Variable.DefaultIntValue;
-			ObjectType = Variable.ObjectType;
-			DefaultStringValue = Variable.DefaultStringValue;
-			ValueType = Variable.ValueType;
 			IsList = Variable.IsList;
-			IsGlobal = Variable.IsGlobal;
-			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ValueType = Variable.ValueType;
+			EnumType = Variable.EnumType;
+			ObjectType = Variable.ObjectType;
 
-			OnPropertyChanged(() => Variable);
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => DefaultBoolValue);
-			OnPropertyChanged(() => DefaultDateTimeValue);
-			OnPropertyChanged(() => DefaultIntValue);
-			OnPropertyChanged(() => ObjectType);
-			OnPropertyChanged(() => DefaultStringValue);
+			OnPropertyChanged(() => IsList);
 			OnPropertyChanged(() => ValueType);
-		}
-
-		bool _isGlobal;
-		public bool IsGlobal
-		{
-			get { return _isGlobal; }
-			set
-			{
-				_isGlobal = value;
-				OnPropertyChanged(() => IsGlobal);
-			}
+			OnPropertyChanged(() => EnumType);
+			OnPropertyChanged(() => ObjectType);
 		}
 
 		bool _isList;
@@ -84,50 +64,6 @@ namespace AutomationModule.ViewModels
 			{
 				_name = value;
 				OnPropertyChanged(() => Name);
-			}
-		}
-
-		bool _defaultBoolValue;
-		public bool DefaultBoolValue
-		{
-			get { return _defaultBoolValue; }
-			set
-			{
-				_defaultBoolValue = value;
-				OnPropertyChanged(() => DefaultBoolValue);
-			}
-		}
-
-		DateTime _defaultDateTimeValue;
-		public DateTime DefaultDateTimeValue
-		{
-			get { return _defaultDateTimeValue; }
-			set
-			{
-				_defaultDateTimeValue = value;
-				OnPropertyChanged(() => DefaultDateTimeValue);
-			}
-		}
-
-		int _defaultIntValue;
-		public int DefaultIntValue
-		{
-			get { return _defaultIntValue; }
-			set
-			{
-				_defaultIntValue = value;
-				OnPropertyChanged(() => DefaultIntValue);
-			}
-		}
-
-		string _defaultStringValue;
-		public string DefaultStringValue
-		{
-			get { return _defaultStringValue; }
-			set
-			{
-				_defaultStringValue = value;
-				OnPropertyChanged(() => DefaultStringValue);
 			}
 		}
 
@@ -153,6 +89,18 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => ObjectType);
 			}
 		}
+
+		public ObservableCollection<EnumType> EnumTypes { get; private set; }
+		EnumType _enumType;
+		public EnumType EnumType
+		{
+			get { return _enumType; }
+			set
+			{
+				_enumType = value;
+				OnPropertyChanged(() => EnumType);
+			}
+		}
 	}
 
 	public class VariableItemViewModel : BaseViewModel
@@ -166,6 +114,7 @@ namespace AutomationModule.ViewModels
 		public SKDDoor SKDDoor { get; private set; }
 		public XDirection Direction { get; private set; }
 		public VariableItem VariableItem { get; private set; }
+		public Action UpdateDescriptionHandler { get; set; }
 
 		public VariableItemViewModel(VariableItem variableItem)
 		{
@@ -176,7 +125,10 @@ namespace AutomationModule.ViewModels
 		public void Initialize(VariableItem variableItem)
 		{
 			VariableItem = (VariableItem)variableItem.Clone();
-			var objectUid = variableItem.ObjectUid;
+			StateClassValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DeviceTypes = new ObservableCollection<string>(XManager.Drivers.Select(x => x.Name));
+			DeviceType = DeviceType ?? DeviceTypes.FirstOrDefault();
+			var objectUid = variableItem.UidValue;
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUid);
 			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUid);
 			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUid);
@@ -211,46 +163,67 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public bool SelectedBoolValue
+		public bool BoolValue
 		{
 			get { return VariableItem.BoolValue; }
 			set
 			{
 				VariableItem.BoolValue = value;
-				OnPropertyChanged(() => SelectedBoolValue);
+				OnPropertyChanged(() => BoolValue);
 			}
 		}
 
-		public DateTime SelectedDateTimeValue
+		public DateTime DateTimeValue
 		{
 			get { return VariableItem.DateTimeValue; }
 			set
 			{
 				VariableItem.DateTimeValue = value;
-				OnPropertyChanged(() => SelectedDateTimeValue);
+				OnPropertyChanged(() => DateTimeValue);
 			}
 		}
 
-		public int SelectedIntValue
+		public int IntValue
 		{
 			get { return VariableItem.IntValue; }
 			set
 			{
 				VariableItem.IntValue = value;
-				OnPropertyChanged(() => SelectedIntValue);
+				OnPropertyChanged(() => IntValue);
 			}
 		}
 
-		public string SelectedStringValue
+		public string StringValue
 		{
 			get { return VariableItem.StringValue; }
 			set
 			{
 				VariableItem.StringValue = value;
-				OnPropertyChanged(() => SelectedStringValue);
+				OnPropertyChanged(() => StringValue);
 			}
 		}
 
+		public ObservableCollection<XStateClass> StateClassValues { get; private set; }
+		public XStateClass StateClassValue
+		{
+			get { return VariableItem.StateClassValue; }
+			set
+			{
+				VariableItem.StateClassValue = value;
+				OnPropertyChanged(() => StateClassValue);
+			}
+		}
+
+		public ObservableCollection<string> DeviceTypes { get; private set; }
+		public string DeviceType
+		{
+			get { return VariableItem.DeviceType; }
+			set
+			{
+				VariableItem.DeviceType = value;
+				OnPropertyChanged(() => DeviceType);
+			}
+		}
 
 		public bool IsEmpty
 		{
@@ -263,6 +236,14 @@ namespace AutomationModule.ViewModels
 				if (value)
 					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null;
 			}
+		}
+
+		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+		{
+			ServiceFactory.SaveService.AutomationChanged = true;
+			base.OnPropertyChanged(propertyExpression);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
 		}
 	}
 }

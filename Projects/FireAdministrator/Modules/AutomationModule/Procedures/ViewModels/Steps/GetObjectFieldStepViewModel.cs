@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		void UpdateProperies()
 		{
-			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(Variable1.SelectedVariable.ObjectType));
+			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(Variable1.SelectedVariable.Variable.ObjectType));
 			OnPropertyChanged(() => Properties);
 		}
 
@@ -41,19 +41,31 @@ namespace AutomationModule.ViewModels
 			{
 				GetObjectFieldArguments.Property = value;
 				OnPropertyChanged(() => SelectedProperty);
-				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
+				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && x.EnumType == EnumType && !x.IsList));
 			}
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && !x.IsList));
-			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
+			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && x.EnumType == EnumType && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get { return ""; }
+		}
+
+		public EnumType EnumType
+		{
+			get
+			{
+				if (SelectedProperty == Property.Type)
+					return EnumType.DeviceType;
+				if (SelectedProperty == Property.DeviceState)
+					return EnumType.StateClass;
+				return EnumType.StateClass;
+			}
 		}
 
 		public ValueType ValueType
@@ -62,8 +74,8 @@ namespace AutomationModule.ViewModels
 			{
 				if (SelectedProperty == Property.Description)
 					return ValueType.String;
-				if (SelectedProperty == Property.Type)
-					return ValueType.Object;
+				if ((SelectedProperty == Property.Type) || (SelectedProperty == Property.DeviceState))
+					return ValueType.Enum;
 				return ValueType.Integer;
 			}
 		}

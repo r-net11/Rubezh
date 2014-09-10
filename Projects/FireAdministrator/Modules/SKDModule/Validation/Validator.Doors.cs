@@ -85,7 +85,7 @@ namespace SKDModule.Validation
 
 		void ValidateDoorReaderDoorType(SKDDoor door)
 		{
-			if (door.InDevice.Parent != null && door.InDevice.Parent.DoorType != door.DoorType)
+			if (door.InDevice != null && door.InDevice.Parent != null && door.InDevice.Parent.DoorType != door.DoorType)
 			{
 				Errors.Add(new DoorValidationError(door, "Тип контроллер не совпадает с типом точки доступа", ValidationErrorLevel.CannotSave));
 			}

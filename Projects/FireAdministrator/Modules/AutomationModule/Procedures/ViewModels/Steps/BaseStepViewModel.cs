@@ -7,11 +7,7 @@ namespace AutomationModule.ViewModels
 {
 	public abstract class BaseStepViewModel : BaseViewModel
 	{
-		public virtual void UpdateContent()
-		{
-
-		}
-
+		public virtual void UpdateContent() { }
 		public abstract string Description { get; }
 		public Action UpdateDescriptionHandler;
 

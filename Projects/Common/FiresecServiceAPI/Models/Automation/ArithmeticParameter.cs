@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.Automation
 {
@@ -11,35 +12,25 @@ namespace FiresecAPI.Automation
 		public ArithmeticParameter()
 		{
 			VariableUid = new Guid();
-			BoolValue = false;
-			DateTimeValue = DateTime.Now;
-			IntValue = 0;
-			StringValue = "";
-			TypeValue = "";
+			VariableItem = new VariableItem();
 		}
-
-		[DataMember]
-		public Guid VariableUid { get; set; }
 
 		[DataMember]
 		public VariableType VariableType { get; set; }
 
 		[DataMember]
-		public bool BoolValue { get; set; }
+		public VariableItem VariableItem { get; set; }
 
 		[DataMember]
-		public DateTime DateTimeValue { get; set; }
+		public EnumType EnumType { get; set; }
 
 		[DataMember]
-		public int IntValue { get; set; }
+		public ValueType ValueType { get; set; }
 
 		[DataMember]
-		public string StringValue { get; set; }
-
+		public ObjectType ObjectType { get; set; }
+	
 		[DataMember]
-		public Guid UidValue { get; set; }
-
-		[DataMember]
-		public string TypeValue { get; set; }
+		public Guid VariableUid { get; set; }
 	}
 }

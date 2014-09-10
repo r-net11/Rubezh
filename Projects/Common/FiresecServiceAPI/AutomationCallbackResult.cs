@@ -6,10 +6,6 @@ namespace FiresecAPI
 	[DataContract]
 	public class AutomationCallbackResult
 	{
-		public AutomationCallbackResult()
-		{
-		}
-
 		[DataMember]
 		public string Message { get; set; }
 

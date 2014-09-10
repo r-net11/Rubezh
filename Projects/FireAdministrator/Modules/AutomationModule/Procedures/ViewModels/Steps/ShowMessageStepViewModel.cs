@@ -29,20 +29,7 @@ namespace AutomationModule.ViewModels
 			UpdateContent();
 		}
 
-		VariableItemViewModel _selectedVariableItem;
-		public VariableItemViewModel SelectedVariableItem
-		{
-			get { return _selectedVariableItem; }
-			set
-			{
-				_selectedVariableItem = value;
-				if (value != null)
-					Variable1.UidValue = _selectedVariableItem.VariableItem.ObjectUid;
-				OnPropertyChanged(() => SelectedVariableItem);
-			}
-		}
-
-		public void UpdateContent()
+		public override void UpdateContent()
 		{			
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
 		}

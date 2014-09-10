@@ -22,14 +22,20 @@ namespace AutomationModule.ViewModels
 			ForeachArguments = foreachArguments;
 			Procedure = procedure;
 			ListVariable = new ArithmeticParameterViewModel(ForeachArguments.ListVariable, false);
+			ListVariable.UpdateVariableHandler += UpdateItemVariable;
 			ItemVariable = new ArithmeticParameterViewModel(ForeachArguments.ItemVariable, false);
 			UpdateContent();
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
-			ListVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && x.IsList));
-			ItemVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && !x.IsList));
+			ListVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
+		}
+
+		void UpdateItemVariable()
+		{
+			ItemVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ListVariable.SelectedVariable.ValueType
+				&& x.ObjectType == ListVariable.ObjectType && x.EnumType == ListVariable.EnumType ));
 		}
 
 		public override string Description

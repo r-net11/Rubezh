@@ -20,12 +20,8 @@ namespace SKDModule.ViewModels
 			CardDoors = cardDoors;
 			OnChecked = onChecked;
 
-			TimeCreterias = new ObservableCollection<IntervalTypeViewModel>();
-			TimeCreterias.Add(new IntervalTypeViewModel(IntervalType.Weekly));
-			//foreach (IntervalType item in Enum.GetValues(typeof(IntervalType)))
-			//{
-			//	TimeCreterias.Add(new IntervalTypeViewModel(item));
-			//}
+			TimeCreterias = new ObservableCollection<IntervalType>();
+			TimeCreterias.Add(IntervalType.Weekly);
 
 			if (CardDoors == null)
 				CardDoors = new List<CardDoor>();
@@ -34,15 +30,21 @@ namespace SKDModule.ViewModels
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.EnterIntervalType);
-				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.ExitIntervalType);
+				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x == cardDoor.EnterIntervalType);
+				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x == cardDoor.ExitIntervalType);
 				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.EnterIntervalID);
+				if (SelectedEnterTimeType == null)
+					SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
 				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.ExitIntervalID);
+				if (SelectedExitTimeType == null)
+					SelectedExitTimeType = ExitTimeTypes.FirstOrDefault();
 			}
 			else
 			{
 				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault();
 				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault();
+				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
+				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault();
 			}
 		}
 
@@ -69,32 +71,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool _isAntiPassback;
-		public bool IsAntiPassback
-		{
-			get { return _isAntiPassback; }
-			set
-			{
-				_isAntiPassback = value;
-				OnPropertyChanged(() => IsAntiPassback);
-			}
-		}
+		public ObservableCollection<IntervalType> TimeCreterias { get; private set; }
 
-		bool _isComission;
-		public bool IsComission
-		{
-			get { return _isComission; }
-			set
-			{
-				_isComission = value;
-				OnPropertyChanged(() => IsComission);
-			}
-		}
-
-		public ObservableCollection<IntervalTypeViewModel> TimeCreterias { get; private set; }
-
-		IntervalTypeViewModel _selectedEnterTimeCreteria;
-		public IntervalTypeViewModel SelectedEnterTimeCreteria
+		IntervalType _selectedEnterTimeCreteria;
+		public IntervalType SelectedEnterTimeCreteria
 		{
 			get { return _selectedEnterTimeCreteria; }
 			set
@@ -105,8 +85,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		IntervalTypeViewModel _selectedExitTimeCreteria;
-		public IntervalTypeViewModel SelectedExitTimeCreteria
+		IntervalType _selectedExitTimeCreteria;
+		public IntervalType SelectedExitTimeCreteria
 		{
 			get { return _selectedExitTimeCreteria; }
 			set
@@ -161,12 +141,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<CardTimeItem> GetTimeTypes(IntervalTypeViewModel timeCriteria)
+		ObservableCollection<CardTimeItem> GetTimeTypes(IntervalType intervalType)
 		{
 			var result = new ObservableCollection<CardTimeItem>();
-			if (timeCriteria != null)
+			result.Add(new CardTimeItem(IntervalType.Time, 0, "<Никогда>"));
+			result.Add(new CardTimeItem(IntervalType.Time, 1, "<Всегда>"));
+			if (intervalType != null)
 			{
-				switch (timeCriteria.IntervalType)
+				switch (intervalType)
 				{
 					case IntervalType.Time:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals)
@@ -190,32 +172,17 @@ namespace SKDModule.ViewModels
 		}
 	}
 
-	public class IntervalTypeViewModel
-	{
-		public IntervalTypeViewModel(IntervalType intervalType)
-		{
-			IntervalType = intervalType;
-		}
-
-		public IntervalType IntervalType { get; private set; }
-
-		public string Description
-		{
-			get { return IntervalType.ToDescription(); }
-		}
-	}
-
 	public class CardTimeItem
 	{
 		public CardTimeItem(IntervalType scheduleType, int scheduleID, string name)
 		{
-			ScheduleID = scheduleID;
 			ScheduleType = scheduleType;
+			ScheduleID = scheduleID;
 			Name = name;
 		}
 
-		public string Name { get; private set; }
 		public IntervalType ScheduleType { get; private set; }
 		public int ScheduleID { get; private set; }
+		public string Name { get; private set; }
 	}
 }

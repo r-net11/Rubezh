@@ -24,8 +24,8 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
 			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1);
-			OnPropertyChanged(() => Commands);
-			SelectDoorCommand = new RelayCommand(OnSelectDoor);
+			Variable1.ObjectType = ObjectType.ControlDoor;
+			Variable1.ValueType = ValueType.Object;
 			UpdateContent();
 		}
 
@@ -42,42 +42,10 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(()=>SelectedCommand);
 			}
 		}
-
-		DoorViewModel _selectedDoor;
-		public DoorViewModel SelectedDoor
-		{
-			get { return _selectedDoor; }
-			set
-			{
-				_selectedDoor = value;
-				Variable1.UidValue = Guid.Empty;
-				if (_selectedDoor != null)
-				{
-					Variable1.UidValue = _selectedDoor.Door.UID;
-				}
-				OnPropertyChanged(() => SelectedDoor);
-			}
-		}
 		
-		public RelayCommand SelectDoorCommand { get; private set; }
-		private void OnSelectDoor()
-		{
-			var doorSelectationViewModel = new DoorSelectionViewModel(SelectedDoor != null ? SelectedDoor.Door : null);
-			if (DialogService.ShowModalWindow(doorSelectationViewModel))
-			{
-				SelectedDoor = doorSelectationViewModel.SelectedDoor;
-			}
-		}
-
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.ControlDoor, false));
-			if (Variable1.UidValue != Guid.Empty)
-			{
-				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == Variable1.UidValue);
-				SelectedDoor = door != null ? new DoorViewModel(door) : null;
-				SelectedCommand = ControlDoorArguments.DoorCommandType;
-			}
 		}
 
 		public override string Description

@@ -35,7 +35,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{			
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == FiresecAPI.Automation.ValueType.Integer));
 		}

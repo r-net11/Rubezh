@@ -72,9 +72,6 @@
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
-    <Compile Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml.cs">
-      <DependentUpon>GlobalVariableDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
       <DependentUpon>GlobalVariablesMenuView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +100,7 @@
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArgumentItemViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ArithmeticParameterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
@@ -273,6 +271,9 @@
     <Compile Include="Procedures\Views\VariableDetailsView.xaml.cs">
       <DependentUpon>VariableDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\ArithmeticParameterView.xaml.cs">
+      <DependentUpon>ArithmeticParameterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
     </Compile>
@@ -389,10 +390,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GlobalVariables\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -588,6 +585,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\ArithmeticParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\VariablesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -657,9 +658,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DeadCodeRules.ruleset" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

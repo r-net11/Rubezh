@@ -39,7 +39,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void UpdateContent()
+		public override void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList);
 			if (SelectedValueType == ValueType.Boolean)
