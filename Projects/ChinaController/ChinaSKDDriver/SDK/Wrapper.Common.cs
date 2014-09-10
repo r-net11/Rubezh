@@ -45,26 +45,26 @@ namespace ChinaSKDDriver
 			return deviceSoftwareInfo;
 		}
 
-		public DeviceNetInfo GetDeviceNetInfo()
+		public SKDControllerNetworkSettings GetDeviceNetInfo()
 		{
 			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
 			var result = NativeWrapper.WRAP_Get_NetInfo(LoginID, out outResult);
 
-			DeviceNetInfo deviceNetInfo = null;
+			SKDControllerNetworkSettings controllerNetworkSettings = null;
 			if (result)
 			{
-				deviceNetInfo = new DeviceNetInfo();
-				deviceNetInfo.IP = outResult.szIP;
-				deviceNetInfo.SubnetMask = outResult.szSubnetMask;
-				deviceNetInfo.DefaultGateway = outResult.szDefGateway;
-				deviceNetInfo.MTU = outResult.nMTU;
+				controllerNetworkSettings = new SKDControllerNetworkSettings();
+				controllerNetworkSettings.Address = outResult.szIP;
+				controllerNetworkSettings.Mask = outResult.szSubnetMask;
+				controllerNetworkSettings.DefaultGateway = outResult.szDefGateway;
+				controllerNetworkSettings.MTU = outResult.nMTU;
 			}
-			return deviceNetInfo;
+			return controllerNetworkSettings;
 		}
 
-		public bool SetDeviceNetInfo(DeviceNetInfo deviceNetInfo)
+		public bool SetDeviceNetInfo(SKDControllerNetworkSettings controllerNetworkSettings)
 		{
-			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, deviceNetInfo.IP, deviceNetInfo.SubnetMask, deviceNetInfo.DefaultGateway, deviceNetInfo.MTU);
+			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, controllerNetworkSettings.Address, controllerNetworkSettings.Mask, controllerNetworkSettings.DefaultGateway, controllerNetworkSettings.MTU);
 			return result;
 		}
 

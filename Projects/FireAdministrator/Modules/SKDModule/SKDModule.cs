@@ -32,7 +32,6 @@ namespace SKDModule
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
-		SettingsViewModel SettingsViewModel;
 		LibraryViewModel LibraryViewModel;
 		SKDPlanExtension _planExtension;
 
@@ -51,7 +50,6 @@ namespace SKDModule
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
-			SettingsViewModel = new SettingsViewModel();
 			LibraryViewModel = new LibraryViewModel();
 			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel, DoorsViewModel);
 		}
@@ -90,7 +88,6 @@ namespace SKDModule
 						//new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/HolidaysW.png", null, null, Guid.Empty),
 					}),
 					#if DEBUG
-					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Settings.png"),
 					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
 					#endif
 				}) {IsExpanded = true},
@@ -109,7 +106,6 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Doors/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Library/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeIntervals/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
 		}

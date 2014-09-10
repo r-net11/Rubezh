@@ -132,7 +132,7 @@ namespace SKDModule.ViewModels
 			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalID == Index));
 			if (!hasReference)
 				hasReference = SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Any(item => item.DayIntervalIDs.Contains(Index));
-			return !hasReference || MessageBoxService.ShowConfirmation2("Данный дневной график используется в одном или нескольких недельных графиках или скользящих посуточных графиках, Вы уверены что хотите его деактивировать?");
+			return !hasReference || MessageBoxService.ShowConfirmation2("Данный дневной график используется в одном или нескольких недельных графиках, Вы уверены что хотите его деактивировать?");
 		}
 	}
 }

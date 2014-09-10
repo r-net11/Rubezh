@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="API\Card.cs" />
     <Compile Include="API\DeviceJournalItem.cs" />
-    <Compile Include="API\DeviceNetInfo.cs" />
     <Compile Include="API\DeviceSoftwareInfo.cs" />
     <Compile Include="API\DoorConfiguration.cs" />
     <Compile Include="API\Holiday.cs" />

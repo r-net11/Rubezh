@@ -11,6 +11,7 @@ namespace SKDModule.ViewModels
 		public Organisation Organisation { get; protected set; }
 		public ModelT Model { get; protected set; }
 		public bool IsOrganisation { get; protected set; }
+
 		public string Name
 		{
 			get

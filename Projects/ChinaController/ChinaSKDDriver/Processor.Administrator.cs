@@ -33,8 +33,8 @@ namespace ChinaSKDDriver
 				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
 				if (deviceNetInfo != null)
 				{
-					deviceInfo.IP = deviceNetInfo.IP;
-					deviceInfo.SubnetMask = deviceNetInfo.SubnetMask;
+					deviceInfo.IP = deviceNetInfo.Address;
+					deviceInfo.SubnetMask = deviceNetInfo.Mask;
 					deviceInfo.DefaultGateway = deviceNetInfo.DefaultGateway;
 					deviceInfo.MTU = deviceNetInfo.MTU;
 				}
@@ -360,12 +360,7 @@ namespace ChinaSKDDriver
 				if (!deviceProcessor.IsConnected)
 					return new OperationResult<SKDControllerNetworkSettings>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
-				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
-				var controllerNetworkSettings = new SKDControllerNetworkSettings();
-				controllerNetworkSettings.Address = deviceNetInfo.IP;
-				controllerNetworkSettings.Mask = deviceNetInfo.SubnetMask;
-				controllerNetworkSettings.DefaultGateway = deviceNetInfo.DefaultGateway;
-				controllerNetworkSettings.MTU = deviceNetInfo.MTU;
+				var controllerNetworkSettings = deviceProcessor.Wrapper.GetDeviceNetInfo();
 				return new OperationResult<SKDControllerNetworkSettings>() { Result = controllerNetworkSettings };
 			}
 			return new OperationResult<SKDControllerNetworkSettings>("Не найден контроллер в конфигурации");
@@ -379,12 +374,7 @@ namespace ChinaSKDDriver
 				if (!deviceProcessor.IsConnected)
 					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
-				var deviceNetInfo = new DeviceNetInfo();
-				deviceNetInfo.IP = controllerNetworkSettings.Address;
-				deviceNetInfo.SubnetMask = controllerNetworkSettings.Mask;
-				deviceNetInfo.DefaultGateway = controllerNetworkSettings.DefaultGateway;
-				deviceNetInfo.MTU = controllerNetworkSettings.MTU;
-				var result = deviceProcessor.Wrapper.SetDeviceNetInfo(deviceNetInfo);
+				var result = deviceProcessor.Wrapper.SetDeviceNetInfo(controllerNetworkSettings);
 				if (result)
 					return new OperationResult<bool>() { Result = true };
 				else

@@ -151,8 +151,8 @@ namespace SKDModule.ViewModels
 				switch (intervalType)
 				{
 					case IntervalType.Time:
-						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals)
-							result.Add(new CardTimeItem(IntervalType.Time, interval.ID, interval.Name));
+						foreach (var dayInterval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals)
+							result.Add(new CardTimeItem(IntervalType.Time, dayInterval.ID, dayInterval.Name));
 						break;
 					case IntervalType.Weekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)

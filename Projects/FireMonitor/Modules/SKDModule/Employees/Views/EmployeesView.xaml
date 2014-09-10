@@ -10,7 +10,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
+        <tree:TreeList Grid.Row="0" Name="_treeList" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" Loaded="treeList_Loaded">
 			<tree:TreeList.View>
 				<GridView>
                     <GridViewColumn Header="ФИО" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">

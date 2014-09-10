@@ -198,14 +198,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings\ViewModels\SettingsDetailsViewModel.cs" />
-    <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
-    <Compile Include="Settings\Views\SettingsDetailsView.xaml.cs">
-      <DependentUpon>SettingsDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Settings\Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidaysMenuViewModel.cs" />
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidaysViewModel.cs" />
@@ -465,18 +457,6 @@
     <Page Include="Plans\Views\ZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Settings\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Settings\Views\SettingsDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Settings\Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeIntervals\Holidays\Views\HolidayDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
