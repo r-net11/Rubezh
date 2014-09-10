@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 		{
 			Parts = new ObservableCollection<SlideDayIntervalPartViewModel>();
 			if (Model != null)
-				for (int i = 0; i < Model.TimeIntervalIDs.Count; i++)
+				for (int i = 0; i < Model.DayIntervalIDs.Count; i++)
 				{
 					var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(_slideDayIntervalsViewModel, Model, i);
 					Parts.Add(slideDayIntervalPartViewModel);
@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 		{
 			IsActive = true;
 			Model.StartDate = interval.StartDate;
-			Model.TimeIntervalIDs = interval.TimeIntervalIDs;
+			Model.DayIntervalIDs = interval.DayIntervalIDs;
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;
 			Update();
@@ -90,8 +90,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			Model.TimeIntervalIDs.Add(0);
-			var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(_slideDayIntervalsViewModel, Model, Model.TimeIntervalIDs.Count - 1);
+			Model.DayIntervalIDs.Add(0);
+			var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(_slideDayIntervalsViewModel, Model, Model.DayIntervalIDs.Count - 1);
 			Parts.Add(slideDayIntervalPartViewModel);
 			SelectedPart = slideDayIntervalPartViewModel;
 			ServiceFactory.SaveService.SKDChanged = true;
@@ -104,7 +104,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			Model.TimeIntervalIDs.RemoveAt(SelectedPart.Index);
+			Model.DayIntervalIDs.RemoveAt(SelectedPart.Index);
 			Parts.RemoveAt(Parts.Count - 1);
 			Parts.ForEach(item => item.Update());
 			ServiceFactory.SaveService.SKDChanged = true;

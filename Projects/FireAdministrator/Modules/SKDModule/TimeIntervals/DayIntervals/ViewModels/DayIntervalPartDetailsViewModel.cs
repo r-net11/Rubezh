@@ -4,17 +4,17 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalPartDetailsViewModel : SaveCancelDialogViewModel
+	public class DayIntervalPartDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public SKDTimeIntervalPart TimeIntervalPart { get; private set; }
+		public SKDDayIntervalPart DayIntervalPart { get; private set; }
 
-		public TimeIntervalPartDetailsViewModel(SKDTimeIntervalPart timeIntervalPart = null)
+		public DayIntervalPartDetailsViewModel(SKDDayIntervalPart dayIntervalPart = null)
 		{
 			Title = "Задание интервала";
-			TimeIntervalPart = timeIntervalPart ?? new SKDTimeIntervalPart();
+			DayIntervalPart = dayIntervalPart ?? new SKDDayIntervalPart();
 
-			StartTime = TimeIntervalPart.StartTime;
-			EndTime = TimeIntervalPart.EndTime;
+			StartTime = DayIntervalPart.StartTime;
+			EndTime = DayIntervalPart.EndTime;
 		}
 
 		TimeSpan _startTime;
@@ -41,12 +41,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return StartTime <= EndTime;
+			return EndTime > StartTime;
 		}
 		protected override bool Save()
 		{
-			TimeIntervalPart.StartTime = StartTime;
-			TimeIntervalPart.EndTime = EndTime;
+			DayIntervalPart.StartTime = StartTime;
+			DayIntervalPart.EndTime = EndTime;
 			return true;
 		}
 	}

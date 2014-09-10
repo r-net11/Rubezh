@@ -27,7 +27,7 @@ namespace SKDModule
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DoorsViewModel DoorsViewModel;
-		TimeIntervalsViewModel TimeIntervalsViewModel;
+		DayIntervalsViewModel DayIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
@@ -46,7 +46,7 @@ namespace SKDModule
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
-			TimeIntervalsViewModel = new TimeIntervalsViewModel();
+			DayIntervalsViewModel = new DayIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
@@ -62,7 +62,7 @@ namespace SKDModule
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
 
-			TimeIntervalsViewModel.Initialize();
+			DayIntervalsViewModel.Initialize();
 			WeeklyIntervalsViewModel.Initialize();
 			SlideDayIntervalsViewModel.Initialize();
 			SlideWeekIntervalsViewModel.Initialize();
@@ -83,7 +83,7 @@ namespace SKDModule
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 					new NavigationItem("Графики", "/Controls;component/Images/ShedulesW.png", new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, -1),
+						new NavigationItem<ShowSKDDayIntervalsEvent, int>(DayIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, -1),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, -1),
 						//new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/SheduleSlideDaylyW.png", null, null, -1),
 						//new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/SheduleSlideWeeklyW.png", null, null, -1),

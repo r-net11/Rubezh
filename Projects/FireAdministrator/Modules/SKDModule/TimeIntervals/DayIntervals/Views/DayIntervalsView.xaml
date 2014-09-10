@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.TimeIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+﻿<UserControl x:Class="SKDModule.Views.DayIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
 	<UserControl.Resources>
 		<Style x:Key="ActiveStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Style.Triggers>
@@ -13,7 +13,7 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<XDataGrid Grid.Column="0" ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
+		<DataGrid Grid.Column="0" ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
@@ -33,7 +33,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-		</XDataGrid>
+		</DataGrid>
 		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsActive}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />

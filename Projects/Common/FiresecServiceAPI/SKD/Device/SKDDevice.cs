@@ -81,7 +81,6 @@ namespace FiresecAPI.SKD
 						case SKDDriverType.Gate:
 						return "";
 
-					case SKDDriverType.ChinaController_1_1:
 					case SKDDriverType.ChinaController_1_2:
 					case SKDDriverType.ChinaController_2_2:
 					case SKDDriverType.ChinaController_2_4:

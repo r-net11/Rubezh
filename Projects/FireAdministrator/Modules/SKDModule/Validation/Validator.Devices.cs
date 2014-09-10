@@ -43,22 +43,25 @@ namespace SKDModule.Validation
 						var startTime = doorDayIntervalPart.StartHour * 60 + doorDayIntervalPart.StartMinute;
 						var endTime = doorDayIntervalPart.EndHour * 60 + doorDayIntervalPart.EndMinute;
 
-						var dayIndex = device.SKDDoorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals.IndexOf(doorDayInterval);
-						var intervalPartIndex = doorDayInterval.DoorDayIntervalParts.IndexOf(doorDayIntervalPart) + 1;
-						var comment = " (" + ViewModels.WeeklyIntervalPartViewModel.IntToWeekDay(dayIndex + 1) + "/" + intervalPartIndex + ")";
-
-						if (endTime < startTime)
+						if (startTime > 0 && endTime > 0)
 						{
-							Errors.Add(new DeviceValidationError(device, "Начало интервала меньше конца интервала в настройке замка" + comment, ValidationErrorLevel.CannotWrite));
-							break;
-						}
+							var dayIndex = device.SKDDoorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals.IndexOf(doorDayInterval);
+							var intervalPartIndex = doorDayInterval.DoorDayIntervalParts.IndexOf(doorDayIntervalPart) + 1;
+							var comment = " (" + ViewModels.WeeklyIntervalPartViewModel.IntToWeekDay(dayIndex + 1) + "/" + intervalPartIndex + ")";
 
-						if (startTime < currentMinutes)
-						{
-							Errors.Add(new DeviceValidationError(device, "Последовательность интервалов в настройке замка не должна быть пересекающейся" + comment, ValidationErrorLevel.CannotWrite));
-							break;
+							if (endTime < startTime)
+							{
+								Errors.Add(new DeviceValidationError(device, "Начало интервала меньше конца интервала в настройке замка" + comment, ValidationErrorLevel.CannotWrite));
+								break;
+							}
+
+							if (startTime < currentMinutes)
+							{
+								Errors.Add(new DeviceValidationError(device, "Последовательность интервалов в настройке замка не должна быть пересекающейся" + comment, ValidationErrorLevel.CannotWrite));
+								break;
+							}
+							currentMinutes = endTime;
 						}
-						currentMinutes = endTime;
 					}
 				}
 			}

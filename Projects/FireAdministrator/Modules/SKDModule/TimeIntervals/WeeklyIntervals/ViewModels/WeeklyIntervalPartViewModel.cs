@@ -17,8 +17,8 @@ namespace SKDModule.ViewModels
 			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
 			_weeklyIntervalsViewModel.PropertyChanged += (s, e) =>
 				{
-					if (e.PropertyName == "AvailableHolidays" || e.PropertyName == "AvailableTimeIntervals")
-						OnPropertyChanged(() => AvailableTimeIntervals);
+					if (e.PropertyName == "AvailableDayIntervals")
+						OnPropertyChanged(() => AvailableDayIntervals);
 				};
 			WeeklyIntervalPart = weeklyIntervalPart;
 			Name = IntToWeekDay(weeklyIntervalPart.No);
@@ -27,23 +27,24 @@ namespace SKDModule.ViewModels
 
 		public string Name { get; private set; }
 
-		public ObservableCollection<object> AvailableTimeIntervals
+		public ObservableCollection<SKDDayInterval> AvailableDayIntervals
 		{
-			get { return new ObservableCollection<object>(_weeklyIntervalsViewModel.AvailableTimeIntervals); }
+			get { return new ObservableCollection<SKDDayInterval>(_weeklyIntervalsViewModel.AvailableDayIntervals); }
 		}
-		object _selectedTimeInterval;
-		public object SelectedTimeInterval
+
+		SKDDayInterval _selectedDayInterval;
+		public SKDDayInterval SelectedDayInterval
 		{
-			get { return _selectedTimeInterval; }
+			get { return _selectedDayInterval; }
 			set
 			{
 				if (value == null)
-					SelectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
+					SelectedDayInterval = AvailableDayIntervals.FirstOrDefault();
 				else
 				{
-					_selectedTimeInterval = value;
-					OnPropertyChanged(() => SelectedTimeInterval);
-					WeeklyIntervalPart.TimeIntervalID = ((SKDTimeInterval)SelectedTimeInterval).ID;
+					_selectedDayInterval = value;
+					OnPropertyChanged(() => SelectedDayInterval);
+					WeeklyIntervalPart.DayIntervalID = ((SKDDayInterval)SelectedDayInterval).ID;
 					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
@@ -52,10 +53,10 @@ namespace SKDModule.ViewModels
 
 		public override void Update()
 		{
-			_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
-			if (_selectedTimeInterval == null)
-				_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
-			OnPropertyChanged(() => SelectedTimeInterval);
+			_selectedDayInterval = _weeklyIntervalsViewModel.AvailableDayIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.DayIntervalID);
+			if (_selectedDayInterval == null)
+				_selectedDayInterval = AvailableDayIntervals.FirstOrDefault();
+			OnPropertyChanged(() => SelectedDayInterval);
 		}
 
 		public static string IntToWeekDay(int dayNo)

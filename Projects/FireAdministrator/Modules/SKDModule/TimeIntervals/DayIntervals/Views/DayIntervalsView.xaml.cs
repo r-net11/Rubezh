@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class TimeIntervalPartDetailsView : UserControl
+	public partial class DayIntervalsView : UserControl
 	{
-		public TimeIntervalPartDetailsView()
+		public DayIntervalsView()
 		{
 			InitializeComponent();
 		}

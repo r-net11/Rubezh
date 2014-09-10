@@ -14,21 +14,21 @@ using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalsViewModel : BaseIntervalsViewModel<TimeIntervalViewModel, TimeIntervalPartViewModel, SKDTimeInterval>
+	public class DayIntervalsViewModel : BaseIntervalsViewModel<DayIntervalViewModel, DayIntervalPartViewModel, SKDDayInterval>
 	{
 		public override void Initialize()
 		{
-			Intervals = new ObservableCollection<TimeIntervalViewModel>();
-			var map = SKDManager.TimeIntervalsConfiguration.TimeIntervals.ToDictionary(item => item.ID);
+			Intervals = new ObservableCollection<DayIntervalViewModel>();
+			var map = SKDManager.TimeIntervalsConfiguration.DayIntervals.ToDictionary(item => item.ID);
 			for (int i = 1; i <= 128; i++)
-				Intervals.Add(new TimeIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null));
+				Intervals.Add(new DayIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null));
 			SelectedInterval = Intervals.FirstOrDefault();
 		}
 
 		protected override void OnEdit()
 		{
-			var timeInrervalDetailsViewModel = new TimeIntervalDetailsViewModel(SelectedInterval.Model);
-			if (DialogService.ShowModalWindow(timeInrervalDetailsViewModel))
+			var dayInrervalDetailsViewModel = new DayIntervalDetailsViewModel(SelectedInterval.Model);
+			if (DialogService.ShowModalWindow(dayInrervalDetailsViewModel))
 			{
 				SelectedInterval.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
@@ -36,21 +36,21 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override SKDTimeInterval CopyInterval(SKDTimeInterval source)
+		protected override SKDDayInterval CopyInterval(SKDDayInterval source)
 		{
-			var copy = new SKDTimeInterval()
+			var copy = new SKDDayInterval()
 			{
 				Name = source.Name,
 				Description = source.Description,
 			};
-			foreach (var timeIntervalPart in source.TimeIntervalParts)
+			foreach (var dayIntervalPart in source.DayIntervalParts)
 			{
-				var copyTimeIntervalPart = new SKDTimeIntervalPart()
+				var copyDayIntervalPart = new SKDDayIntervalPart()
 				{
-					StartTime = timeIntervalPart.StartTime,
-					EndTime = timeIntervalPart.EndTime
+					StartTime = dayIntervalPart.StartTime,
+					EndTime = dayIntervalPart.EndTime
 				};
-				copy.TimeIntervalParts.Add(copyTimeIntervalPart);
+				copy.DayIntervalParts.Add(copyDayIntervalPart);
 			}
 			return copy;
 		}

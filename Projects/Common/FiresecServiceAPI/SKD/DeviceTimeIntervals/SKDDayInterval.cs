@@ -4,11 +4,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDTimeInterval
+	public class SKDDayInterval
 	{
-		public SKDTimeInterval()
+		public SKDDayInterval()
 		{
-			TimeIntervalParts = new List<SKDTimeIntervalPart>();
+			DayIntervalParts = new List<SKDDayIntervalPart>();
 		}
 
 		[DataMember]
@@ -21,12 +21,12 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<SKDTimeIntervalPart> TimeIntervalParts { get; set; }
+		public List<SKDDayIntervalPart> DayIntervalParts { get; set; }
 
 		public override bool Equals(object obj)
 		{
-			if (obj is SKDTimeInterval)
-				return ((SKDTimeInterval)obj).ID == ID;
+			if (obj is SKDDayInterval)
+				return ((SKDDayInterval)obj).ID == ID;
 			return base.Equals(obj);
 		}
 		public override int GetHashCode()

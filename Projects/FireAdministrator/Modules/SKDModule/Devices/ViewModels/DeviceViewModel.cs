@@ -124,6 +124,7 @@ namespace SKDModule.ViewModels
 					var childDeviceViewModel = new DeviceViewModel(childDevice);
 					deviceViewModel.AddChild(childDeviceViewModel);
 					DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+					DevicesViewModel.Current.SelectedDevice = childDeviceViewModel;
 				}
 
 				rootDeviceViewModel.Update();

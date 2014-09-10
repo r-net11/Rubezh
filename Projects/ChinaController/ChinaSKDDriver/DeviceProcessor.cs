@@ -176,6 +176,11 @@ namespace ChinaSKDDriver
 								device.State.StateClass = XStateClass.Unknown;
 								break;
 						}
+						var doorConfiguration = Wrapper.GetDoorConfiguration(device.IntAddress);
+						if (doorConfiguration != null)
+						{
+							device.State.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+						}
 					}
 					else
 					{

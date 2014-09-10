@@ -3,16 +3,16 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
+	public class DayIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public SKDTimeInterval TimeInterval { get; private set; }
+		public SKDDayInterval DayInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(SKDTimeInterval timeInterval)
+		public DayIntervalDetailsViewModel(SKDDayInterval dayInterval)
 		{
 			Title = "Редактирование дневного графика";
-			TimeInterval = timeInterval;
-			Name = TimeInterval.Name;
-			Description = TimeInterval.Description;
+			DayInterval = dayInterval;
+			Name = DayInterval.Name;
+			Description = DayInterval.Description;
 		}
 
 		private string _name;
@@ -44,8 +44,8 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			TimeInterval.Name = Name;
-			TimeInterval.Description = Description;
+			DayInterval.Name = Name;
+			DayInterval.Description = Description;
 			return true;
 		}
 	}

@@ -732,11 +732,15 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
-				if (device.State != null)
+				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				if (!result.HasError && device.State != null)
 				{
 					device.State.OpenAlwaysTimeIndex = 1;
+					var skdStates = new SKDStates();
+					skdStates.DeviceStates.Add(device.State);
+					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 				}
-				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				return result;
 			}
 			else
 			{
@@ -751,11 +755,15 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
-				if (device.State != null)
+				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				if (!result.HasError && device.State != null)
 				{
 					device.State.OpenAlwaysTimeIndex = 0;
+					var skdStates = new SKDStates();
+					skdStates.DeviceStates.Add(device.State);
+					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 				}
-				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				return result;
 			}
 			else
 			{

@@ -31,7 +31,7 @@ namespace FiresecAPI.SKD
 			var list = new List<SKDWeeklyIntervalPart>();
 			for (int i = 1; i <= 7; i++)
 			{
-				list.Add(new SKDWeeklyIntervalPart() { No = i, TimeIntervalID = 0 });
+				list.Add(new SKDWeeklyIntervalPart() { No = i, DayIntervalID = 0 });
 			}
 			return new ReadOnlyCollection<SKDWeeklyIntervalPart>(list);
 		}
@@ -48,11 +48,11 @@ namespace FiresecAPI.SKD
 		}
 		public void InvalidateDayIntervals()
 		{
-			var ids = SKDManager.TimeIntervalsConfiguration.TimeIntervals.Select(item => item.ID).ToList();
+			var ids = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.ID).ToList();
 			WeeklyIntervalParts.ForEach(x =>
 			{
-				if (!ids.Contains(x.TimeIntervalID))
-					x.TimeIntervalID = 0;
+				if (!ids.Contains(x.DayIntervalID))
+					x.DayIntervalID = 0;
 			});
 		}
 	}

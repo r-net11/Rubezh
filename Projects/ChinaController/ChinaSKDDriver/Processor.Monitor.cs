@@ -41,9 +41,20 @@ namespace ChinaSKDDriver
 
 					var result = deviceProcessor.Wrapper.CloseDoor(device.IntAddress);
 					if (result)
+					{
 						return new OperationResult<bool>() { Result = true };
+					}
 					else
-						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					{
+						if (device.State != null && device.State.OpenAlwaysTimeIndex == 1)
+						{
+							return new OperationResult<bool>("Нельзя закрыть замок, находящийся в режиме ВСЕГДА ОТКРЫТО");
+						}
+						else
+						{
+							return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+						}
+					}
 				}
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");

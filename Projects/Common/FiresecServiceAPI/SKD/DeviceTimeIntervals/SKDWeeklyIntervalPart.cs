@@ -9,6 +9,6 @@ namespace FiresecAPI.SKD
 		public int No { get; set; }
 
 		[DataMember]
-		public int TimeIntervalID { get; set; }
+		public int DayIntervalID { get; set; }
 	}
 }

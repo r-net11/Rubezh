@@ -14,7 +14,7 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(weeklyInterval.Name))
 					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Отсутствует название недельного графика", ValidationErrorLevel.CannotWrite));
-				if (weeklyInterval.WeeklyIntervalParts.All(item => item.TimeIntervalID == 0))
+				if (weeklyInterval.WeeklyIntervalParts.All(item => item.DayIntervalID == 0))
 					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Все составляющие части недельного графика пустые", ValidationErrorLevel.CannotWrite));
 			}
 		}

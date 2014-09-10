@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDTimeIntervalPart
+	public class SKDDayIntervalPart
 	{
-		public SKDTimeIntervalPart()
+		public SKDDayIntervalPart()
 		{
 			UID = Guid.NewGuid();
 		}

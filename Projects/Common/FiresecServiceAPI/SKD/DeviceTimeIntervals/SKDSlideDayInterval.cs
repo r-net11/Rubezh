@@ -10,7 +10,7 @@ namespace FiresecAPI.SKD
 	{
 		public SKDSlideDayInterval()
 		{
-			TimeIntervalIDs = new List<int>();
+			DayIntervalIDs = new List<int>();
 		}
 
 		[DataMember]
@@ -29,14 +29,14 @@ namespace FiresecAPI.SKD
 		public bool IsDefault { get; set; }
 
 		[DataMember]
-		public List<int> TimeIntervalIDs { get; set; }
+		public List<int> DayIntervalIDs { get; set; }
 
 		public void InvalidateDayIntervals()
 		{
-			var ids = SKDManager.TimeIntervalsConfiguration.TimeIntervals.Select(item => item.ID).ToList();
-			for (int i = 0; i < TimeIntervalIDs.Count; i++)
-				if (!ids.Contains(TimeIntervalIDs[i]))
-					TimeIntervalIDs[i] = 0;
+			var ids = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.ID).ToList();
+			for (int i = 0; i < DayIntervalIDs.Count; i++)
+				if (!ids.Contains(DayIntervalIDs[i]))
+					DayIntervalIDs[i] = 0;
 		}
 	}
 }

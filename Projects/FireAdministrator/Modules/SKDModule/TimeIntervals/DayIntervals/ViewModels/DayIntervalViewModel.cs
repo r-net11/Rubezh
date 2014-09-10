@@ -9,10 +9,10 @@ using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalViewModel : BaseIntervalViewModel<TimeIntervalPartViewModel, SKDTimeInterval>
+	public class DayIntervalViewModel : BaseIntervalViewModel<DayIntervalPartViewModel, SKDDayInterval>
 	{
-		public TimeIntervalViewModel(int index, SKDTimeInterval timeInterval)
-			: base(index, timeInterval)
+		public DayIntervalViewModel(int index, SKDDayInterval dayInterval)
+			: base(index, dayInterval)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -31,14 +31,14 @@ namespace SKDModule.ViewModels
 		{
 			if (IsActive && Model == null)
 			{
-				Model = new SKDTimeInterval()
+				Model = new SKDDayInterval()
 				{
 					ID = Index,
 					Name = Name,
-					TimeIntervalParts = new List<SKDTimeIntervalPart>(),
+					DayIntervalParts = new List<SKDDayIntervalPart>(),
 				};
 				InitParts();
-				SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(Model);
+				SKDManager.TimeIntervalsConfiguration.DayIntervals.Add(Model);
 				ServiceFactory.SaveService.SKDChanged = true;
 				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
@@ -46,7 +46,7 @@ namespace SKDModule.ViewModels
 			{
 				if (ConfirmDeactivation())
 				{
-					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(Model);
+					SKDManager.TimeIntervalsConfiguration.DayIntervals.Remove(Model);
 					Model = null;
 					InitParts();
 					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			Model.TimeIntervalParts.Remove(SelectedPart.TimeIntervalPart);
+			Model.DayIntervalParts.Remove(SelectedPart.DayIntervalPart);
 			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.SKDChanged = true;
 			ServiceFactory.SaveService.TimeIntervalChanged();
@@ -89,10 +89,10 @@ namespace SKDModule.ViewModels
 			return SelectedPart != null;
 		}
 
-		public override void Paste(SKDTimeInterval timeInterval)
+		public override void Paste(SKDDayInterval dayInterval)
 		{
 			IsActive = true;
-			Model.TimeIntervalParts = timeInterval.TimeIntervalParts;
+			Model.DayIntervalParts = dayInterval.DayIntervalParts;
 			InitParts();
 			ServiceFactory.SaveService.SKDChanged = true;
 			ServiceFactory.SaveService.TimeIntervalChanged();
@@ -100,26 +100,26 @@ namespace SKDModule.ViewModels
 		}
 		private void InitParts()
 		{
-			Parts = new ObservableCollection<TimeIntervalPartViewModel>();
+			Parts = new ObservableCollection<DayIntervalPartViewModel>();
 			if (Model != null)
-				foreach (var timeIntervalPart in Model.TimeIntervalParts)
+				foreach (var dayIntervalPart in Model.DayIntervalParts)
 				{
-					var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
-					Parts.Add(timeIntervalPartViewModel);
+					var dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPart);
+					Parts.Add(dayIntervalPartViewModel);
 				}
 		}
 
-		private void Edit(TimeIntervalPartViewModel timeIntervalPartViewModel)
+		private void Edit(DayIntervalPartViewModel dayIntervalPartViewModel)
 		{
-			var timeIntervalPartDetailsViewModel = new TimeIntervalPartDetailsViewModel(timeIntervalPartViewModel == null ? null : timeIntervalPartViewModel.TimeIntervalPart);
-			if (DialogService.ShowModalWindow(timeIntervalPartDetailsViewModel))
+			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(dayIntervalPartViewModel == null ? null : dayIntervalPartViewModel.DayIntervalPart);
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				if (timeIntervalPartViewModel == null)
+				if (dayIntervalPartViewModel == null)
 				{
-					Model.TimeIntervalParts.Add(timeIntervalPartDetailsViewModel.TimeIntervalPart);
-					timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPartDetailsViewModel.TimeIntervalPart);
-					Parts.Add(timeIntervalPartViewModel);
-					SelectedPart = timeIntervalPartViewModel;
+					Model.DayIntervalParts.Add(dayIntervalPartDetailsViewModel.DayIntervalPart);
+					dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPartDetailsViewModel.DayIntervalPart);
+					Parts.Add(dayIntervalPartViewModel);
+					SelectedPart = dayIntervalPartViewModel;
 				}
 				SelectedPart.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
@@ -129,9 +129,9 @@ namespace SKDModule.ViewModels
 
 		private bool ConfirmDeactivation()
 		{
-			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.TimeIntervalID == Index));
+			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalID == Index));
 			if (!hasReference)
-				hasReference = SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Any(item => item.TimeIntervalIDs.Contains(Index));
+				hasReference = SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Any(item => item.DayIntervalIDs.Contains(Index));
 			return !hasReference || MessageBoxService.ShowConfirmation2("Данный дневной график используется в одном или нескольких недельных графиках или скользящих посуточных графиках, Вы уверены что хотите его деактивировать?");
 		}
 	}
