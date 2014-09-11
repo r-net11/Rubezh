@@ -399,19 +399,6 @@ namespace FiresecAPI.GK
 		{
 			foreach (var code in Codes)
 			{
-				var guardZoneUIDs = new List<Guid>();
-				code.GuardZones = new List<XGuardZone>();
-				if (code.GuardZoneUIDs != null)
-					foreach (var guardZoneUID in code.GuardZoneUIDs)
-					{
-						var guardZone = GuardZones.FirstOrDefault(x => x.BaseUID == guardZoneUID);
-						if (guardZone != null)
-						{
-							code.GuardZones.Add(guardZone);
-							guardZoneUIDs.Add(guardZoneUID);
-						}
-					}
-				code.GuardZoneUIDs = guardZoneUIDs;
 			}
 		}
 

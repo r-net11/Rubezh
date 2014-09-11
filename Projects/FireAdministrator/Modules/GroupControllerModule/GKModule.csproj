@@ -132,6 +132,8 @@
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowXDelayStationEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\CodeSelectionViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDetailsViewModel.cs" />
@@ -144,6 +146,12 @@
     <Compile Include="Guard\ViewModels\CodeViewModel.cs" />
     <Compile Include="Guard\Views\CodeReaderDetailsView.xaml.cs">
       <DependentUpon>CodeReaderDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\CodeReaderSettingsView.xaml.cs">
+      <DependentUpon>CodeReaderSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\CodeSelectionView.xaml.cs">
+      <DependentUpon>CodeSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\CodesMenuView.xaml.cs">
       <DependentUpon>CodesMenuView.xaml</DependentUpon>
@@ -530,6 +538,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guard\Views\CodeReaderDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\CodeReaderSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\CodeSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

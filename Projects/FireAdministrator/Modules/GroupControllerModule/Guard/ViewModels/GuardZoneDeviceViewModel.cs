@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			var codeReaderDetailsViewModel = new CodeReaderDetailsViewModel(GuardZoneDevice.CodeReaderSettings);
 			if (DialogService.ShowModalWindow(codeReaderDetailsViewModel))
 			{
-				
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 	}
