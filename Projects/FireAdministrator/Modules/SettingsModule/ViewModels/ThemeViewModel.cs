@@ -8,19 +8,14 @@ namespace SettingsModule.ViewModels
 {
 	public class ThemeViewModel : BaseViewModel
 	{
-		public static List<Theme> ThemeInitialize()
-		{
-			var themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
-			return themes;
-		}
 		public ThemeViewModel()
 		{
-			Themes = ThemeInitialize();
+			Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
 			if (ThemeHelper.CurrentTheme != null)
 				SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ThemeHelper.CurrentTheme);
 		}
 
-		private Theme _selectedTheme;
+		Theme _selectedTheme;
 		public Theme SelectedTheme
 		{
 			get { return _selectedTheme; }

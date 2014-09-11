@@ -78,7 +78,7 @@
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Width="Auto" Binding="{Binding GuardZoneDevice.Device.DottedPresentationAddress}" Header="Адрес" />
-						<DataGridTemplateColumn Header="Действие" MinWidth="100" Width="Auto">
+						<DataGridTemplateColumn Header="Функция" MinWidth="100" Width="Auto">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<Controls:EditorPresenter>
@@ -98,7 +98,7 @@
                                                         </ComboBox>
                                                     </Grid>
                                                     <TextBlock Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center">
-								                        <Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle}">
+								                        <Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 									                        <TextBlock  Text="Свойства" Margin="2" />
 								                        </Hyperlink>
 							                        </TextBlock>
@@ -109,7 +109,6 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="150" Binding="{Binding GuardZoneDevice.Device.Description}" Header="Примечание" />
 					</DataGrid.Columns>
 				</DataGrid>
 

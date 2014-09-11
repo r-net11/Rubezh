@@ -383,7 +383,7 @@ namespace FiresecAPI.GK
 					var device = Devices.FirstOrDefault(x => x.BaseUID == guardZoneDevice.DeviceUID);
 					if (device != null)
 					{
-						if (device.DriverType == XDriverType.RSR2_HandDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_GuardDetector)
+						if (device.DriverType == XDriverType.RSR2_GuardDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_CodeReader)
 						{
 							guardZoneDevice.Device = device;
 							guardZoneDevices.Add(guardZoneDevice);

@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_GuardDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_HandDetector)
+				if (device.DriverType == XDriverType.RSR2_GuardDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_CodeReader)
 				{
 					var guardZoneDevice = Zone.GuardZoneDevices.FirstOrDefault(x => x.DeviceUID == device.UID);
 					if (guardZoneDevice != null)

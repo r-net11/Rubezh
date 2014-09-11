@@ -52,6 +52,8 @@ namespace GKModule.ViewModels
 			Description = Zone.Description;
 			Level = Zone.Level;
 			Delay = Zone.Delay;
+			ResetDelay = Zone.ResetDelay;
+			AlarmDelay = Zone.AlarmDelay;
 		}
 
 		ushort _no;
@@ -109,6 +111,28 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		int _resetDelay;
+		public int ResetDelay
+		{
+			get { return _resetDelay; }
+			set
+			{
+				_resetDelay = value;
+				OnPropertyChanged(() => ResetDelay);
+			}
+		}
+
+		int _alarmDelay;
+		public int AlarmDelay
+		{
+			get { return _alarmDelay; }
+			set
+			{
+				_alarmDelay = value;
+				OnPropertyChanged(() => AlarmDelay);
+			}
+		}
+
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
@@ -125,6 +149,8 @@ namespace GKModule.ViewModels
 			Zone.Description = Description;
 			Zone.Level = Level;
 			Zone.Delay = Delay;
+			Zone.ResetDelay = ResetDelay;
+			Zone.AlarmDelay = AlarmDelay;
 			return base.Save();
 		}
 	}

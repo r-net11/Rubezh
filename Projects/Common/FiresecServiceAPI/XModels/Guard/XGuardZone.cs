@@ -39,6 +39,12 @@ namespace FiresecAPI.GK
 		public int Delay { get; set; }
 
 		[DataMember]
+		public int ResetDelay { get; set; }
+
+		[DataMember]
+		public int AlarmDelay { get; set; }
+
+		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
 
 		[DataMember]

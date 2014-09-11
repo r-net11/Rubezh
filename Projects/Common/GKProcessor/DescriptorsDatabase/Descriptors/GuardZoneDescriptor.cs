@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.GK;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -25,65 +27,94 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			List<XDevice> onDevices = new List<XDevice>();
-			List<XDevice> offDevices = new List<XDevice>();
-			List<XDevice> alarmDevices = new List<XDevice>();
+			var setAlarmDevices = new List<XGuardZoneDevice>();
+			var setGuardDevices = new List<XGuardZoneDevice>();
+			var resetGuardDevices = new List<XGuardZoneDevice>();
 			foreach (var guardZoneDevice in GuardZone.GuardZoneDevices)
 			{
-				switch(guardZoneDevice.ActionType)
+				switch (guardZoneDevice.Device.DriverType)
 				{
-					case XGuardZoneDeviceActionType.SetGuard:
-						onDevices.Add(guardZoneDevice.Device);
+					case XDriverType.RSR2_AM_1:
+					case XDriverType.RSR2_GuardDetector:
+						switch (guardZoneDevice.ActionType)
+						{
+							case XGuardZoneDeviceActionType.SetAlarm:
+								setAlarmDevices.Add(guardZoneDevice);
+								break;
+
+							case XGuardZoneDeviceActionType.SetGuard:
+								setGuardDevices.Add(guardZoneDevice);
+								break;
+
+							case XGuardZoneDeviceActionType.ResetGuard:
+								resetGuardDevices.Add(guardZoneDevice);
+								break;
+						}
 						break;
 
-					case XGuardZoneDeviceActionType.ResetGuard:
-						offDevices.Add(guardZoneDevice.Device);
-						break;
+					case XDriverType.RSR2_CodeReader:
+						if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType != XCodeReaderEnterType.None)
+						{
+							var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID);
+							if (code != null)
+							{
+								setAlarmDevices.Add(guardZoneDevice);
+							}
+						}
 
-					case XGuardZoneDeviceActionType.SetAlarm:
-						alarmDevices.Add(guardZoneDevice.Device);
-						break;
+						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != XCodeReaderEnterType.None)
+						{
+							var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
+							if (code != null)
+							{
+								setGuardDevices.Add(guardZoneDevice);
+							}
+						}
+
+						if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType != XCodeReaderEnterType.None)
+						{
+							var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUID);
+							if (code != null)
+							{
+								resetGuardDevices.Add(guardZoneDevice);
+							}
+						}
+					    break;
 				}
 			}
 
-			if (onDevices.Count > 0)
+			if (setAlarmDevices.Count > 0)
 			{
 				var count = 0;
-				foreach (var device in onDevices)
+				foreach (var guardDevice in setAlarmDevices)
 				{
-					Formula.AddGetBit(GetDeviceStateBit(device), device);
-					if (count > 0)
+					if (guardDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
 					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-					count++;
-				}
-				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, GuardZone);
-			}
+						var stateBit = XStateBit.Fire1;
+						switch (guardDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType)
+						{
+							case XCodeReaderEnterType.CodeOnly:
+								stateBit = XStateBit.Attention;
+								break;
 
-			if (offDevices.Count > 0)
-			{
-				var count = 0;
-				foreach (var device in offDevices)
-				{
-					Formula.AddGetBit(GetDeviceStateBit(device), device);
-					if (count > 0)
+							case XCodeReaderEnterType.CodeAndOne:
+								stateBit = XStateBit.Fire1;
+								break;
+
+							case XCodeReaderEnterType.CodeAndTwo:
+								stateBit = XStateBit.Fire2;
+								break;
+						}
+
+						Formula.Add(FormulaOperationType.KOD);
+						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.AlarmSettings.CodeUID);
+						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+					}
+					else
 					{
-						Formula.Add(FormulaOperationType.OR);
+						Formula.AddGetBit(XStateBit.Fire1, guardDevice.Device);
 					}
-					count++;
-				}
-				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, GuardZone);
-			}
-
-			if (alarmDevices.Count > 0)
-			{
-				var count = 0;
-				foreach (var device in alarmDevices)
-				{
-					Formula.Add(FormulaOperationType.KOD);
-					Formula.Add(FormulaOperationType.ADD);
-					Formula.AddGetBit(GetDeviceStateBit(device), device);
 					Formula.Add(FormulaOperationType.AND);
 					if (count > 0)
 					{
@@ -97,22 +128,90 @@ namespace GKProcessor
 				Formula.AddPutBit(XStateBit.Fire1, GuardZone);
 			}
 
+			if (setGuardDevices.Count > 0)
+			{
+				var count = 0;
+				foreach (var guardDevice in setGuardDevices)
+				{
+					if (guardDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
+					{
+						var stateBit = XStateBit.Fire1;
+						switch (guardDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType)
+						{
+							case XCodeReaderEnterType.CodeOnly:
+								stateBit = XStateBit.Attention;
+								break;
+
+							case XCodeReaderEnterType.CodeAndOne:
+								stateBit = XStateBit.Fire1;
+								break;
+
+							case XCodeReaderEnterType.CodeAndTwo:
+								stateBit = XStateBit.Fire2;
+								break;
+						}
+
+						Formula.Add(FormulaOperationType.KOD);
+						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
+						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+					}
+					else
+					{
+						Formula.AddGetBit(XStateBit.Fire1, guardDevice.Device);
+					}
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
+				}
+				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, GuardZone);
+			}
+
+			if (resetGuardDevices.Count > 0)
+			{
+				var count = 0;
+				foreach (var guardDevice in resetGuardDevices)
+				{
+					if (guardDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
+					{
+						var stateBit = XStateBit.Fire1;
+						switch (guardDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType)
+						{
+							case XCodeReaderEnterType.CodeOnly:
+								stateBit = XStateBit.Attention;
+								break;
+
+							case XCodeReaderEnterType.CodeAndOne:
+								stateBit = XStateBit.Fire1;
+								break;
+
+							case XCodeReaderEnterType.CodeAndTwo:
+								stateBit = XStateBit.Fire2;
+								break;
+						}
+
+						Formula.Add(FormulaOperationType.KOD);
+						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.ResetGuardSettings.CodeUID);
+						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+					}
+					else
+					{
+						Formula.AddGetBit(XStateBit.Fire1, guardDevice.Device);
+					}
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
+				}
+				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, GuardZone);
+			}
+
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
-		}
-
-		XStateBit GetDeviceStateBit(XDevice device)
-		{
-			switch (device.DriverType)
-			{
-				case XDriverType.RSR2_AM_1:
-				case XDriverType.RSR2_GuardDetector:
-					return XStateBit.Fire1;
-
-				case XDriverType.RSR2_HandDetector:
-					return XStateBit.Fire2;
-			}
-			return XStateBit.Fire1;
 		}
 
 		void SetPropertiesBytes()

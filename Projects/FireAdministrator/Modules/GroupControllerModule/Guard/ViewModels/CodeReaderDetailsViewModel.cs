@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace GKModule.ViewModels
 {
@@ -15,71 +16,70 @@ namespace GKModule.ViewModels
 		public CodeReaderDetailsViewModel(XCodeReaderSettings codeReaderSettings)
 		{
 			Title = "Настройка кодонаборника";
+			SelectAlarmCodeCommand = new RelayCommand(OnSelectAlarmCode);
+
 			CodeReaderSettings = codeReaderSettings;
 
-			AttentionActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>();
-			AttentionActionTypes.Add(XGuardZoneDeviceActionType.SetGuard);
-			AttentionActionTypes.Add(XGuardZoneDeviceActionType.ResetGuard);
-			AttentionActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
-			SelectedAttentionActionType = AttentionActionTypes.FirstOrDefault(x => x == codeReaderSettings.AttentionSettings.GuardZoneDeviceActionType);
+			SetAlarmEnterTypes = Enum.GetValues(typeof(XCodeReaderEnterType)).Cast<XCodeReaderEnterType>().ToList();
+			SelectedSetAlarmEnterType = SetAlarmEnterTypes.FirstOrDefault(x => x == codeReaderSettings.AlarmSettings.CodeReaderEnterType);
 
-			Fire1ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>();
-			Fire1ActionTypes.Add(XGuardZoneDeviceActionType.SetGuard);
-			Fire1ActionTypes.Add(XGuardZoneDeviceActionType.ResetGuard);
-			Fire1ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
-			SelectedFire1ActionType = Fire1ActionTypes.FirstOrDefault(x => x == codeReaderSettings.Fire1Settings.GuardZoneDeviceActionType);
+			SetGuardEnterTypes = Enum.GetValues(typeof(XCodeReaderEnterType)).Cast<XCodeReaderEnterType>().ToList();
+			SelectedSetGuardEnterType = SetGuardEnterTypes.FirstOrDefault(x => x == codeReaderSettings.SetGuardSettings.CodeReaderEnterType);
 
-			Fire2ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>();
-			Fire2ActionTypes.Add(XGuardZoneDeviceActionType.SetGuard);
-			Fire2ActionTypes.Add(XGuardZoneDeviceActionType.ResetGuard);
-			Fire2ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
-			SelectedFire2ActionType = Fire2ActionTypes.FirstOrDefault(x => x == codeReaderSettings.Fire2Settings.GuardZoneDeviceActionType);
+			ResetGuardEnterTypes = Enum.GetValues(typeof(XCodeReaderEnterType)).Cast<XCodeReaderEnterType>().ToList();
+			SelectedResetGuardEnterType = ResetGuardEnterTypes.FirstOrDefault(x => x == codeReaderSettings.ResetGuardSettings.CodeReaderEnterType);
 		}
 
-		public ObservableCollection<XGuardZoneDeviceActionType> AttentionActionTypes { get; private set; }
+		public List<XCodeReaderEnterType> SetAlarmEnterTypes { get; private set; }
 
-		XGuardZoneDeviceActionType _selectedAttentionActionType;
-		public XGuardZoneDeviceActionType SelectedAttentionActionType
+		XCodeReaderEnterType _selectedSetAlarmEnterType;
+		public XCodeReaderEnterType SelectedSetAlarmEnterType
 		{
-			get { return _selectedAttentionActionType; }
+			get { return _selectedSetAlarmEnterType; }
 			set
 			{
-				_selectedAttentionActionType = value;
-				OnPropertyChanged(() => SelectedAttentionActionType);
+				_selectedSetAlarmEnterType = value;
+				OnPropertyChanged(() => SelectedSetAlarmEnterType);
 			}
 		}
 
-		public ObservableCollection<XGuardZoneDeviceActionType> Fire1ActionTypes { get; private set; }
+		public List<XCodeReaderEnterType> SetGuardEnterTypes { get; private set; }
 
-		XGuardZoneDeviceActionType _selectedFire1ActionType;
-		public XGuardZoneDeviceActionType SelectedFire1ActionType
+		XCodeReaderEnterType _selectedSetGuardEnterType;
+		public XCodeReaderEnterType SelectedSetGuardEnterType
 		{
-			get { return _selectedFire1ActionType; }
+			get { return _selectedSetGuardEnterType; }
 			set
 			{
-				_selectedFire1ActionType = value;
-				OnPropertyChanged(() => SelectedFire1ActionType);
+				_selectedSetGuardEnterType = value;
+				OnPropertyChanged(() => SelectedSetGuardEnterType);
 			}
 		}
 
-		public ObservableCollection<XGuardZoneDeviceActionType> Fire2ActionTypes { get; private set; }
+		public List<XCodeReaderEnterType> ResetGuardEnterTypes { get; private set; }
 
-		XGuardZoneDeviceActionType _selectedFire2ActionType;
-		public XGuardZoneDeviceActionType SelectedFire2ActionType
+		XCodeReaderEnterType _selectedResetGuardEnterType;
+		public XCodeReaderEnterType SelectedResetGuardEnterType
 		{
-			get { return _selectedFire2ActionType; }
+			get { return _selectedResetGuardEnterType; }
 			set
 			{
-				_selectedFire2ActionType = value;
-				OnPropertyChanged(() => SelectedFire2ActionType);
+				_selectedResetGuardEnterType = value;
+				OnPropertyChanged(() => SelectedResetGuardEnterType);
 			}
+		}
+
+		public RelayCommand SelectAlarmCodeCommand { get; private set; }
+		void OnSelectAlarmCode()
+		{
+
 		}
 
 		protected override bool Save()
 		{
-			CodeReaderSettings.AttentionSettings.GuardZoneDeviceActionType = SelectedAttentionActionType;
-			CodeReaderSettings.Fire1Settings.GuardZoneDeviceActionType = SelectedFire1ActionType;
-			CodeReaderSettings.Fire2Settings.GuardZoneDeviceActionType = SelectedFire2ActionType;
+			CodeReaderSettings.AlarmSettings.CodeReaderEnterType = SelectedSetAlarmEnterType;
+			CodeReaderSettings.SetGuardSettings.CodeReaderEnterType = SelectedSetGuardEnterType;
+			CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType = SelectedResetGuardEnterType;
 			return base.Save();
 		}
 	}
