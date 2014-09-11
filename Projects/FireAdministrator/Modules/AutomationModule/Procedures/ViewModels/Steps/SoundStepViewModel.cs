@@ -21,7 +21,10 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return SelectedSound == null ? "нет" : SelectedSound.Name; }
+			get 
+			{ 
+				return "Звук: " + (SelectedSound != null ? SelectedSound.Name : "<пусто>") ; 
+			}
 		}
 
 		public override void UpdateContent()
@@ -55,7 +58,6 @@ namespace AutomationModule.ViewModels
 					SoundArguments.SoundUid = value.Sound.Uid;
 				if (UpdateDescriptionHandler != null)
 					UpdateDescriptionHandler();
-
 				OnPropertyChanged(() => SelectedSound);
 			}
 		}

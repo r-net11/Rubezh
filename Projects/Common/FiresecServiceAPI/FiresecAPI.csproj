@@ -146,6 +146,7 @@
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Models\Automation\ArithmeticParameter.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
+    <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectFieldArguments.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
+    <Compile Include="Models\Automation\VariableItem.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />

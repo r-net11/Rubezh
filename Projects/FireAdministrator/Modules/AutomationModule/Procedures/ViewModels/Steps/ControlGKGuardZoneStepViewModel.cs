@@ -48,7 +48,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Зона: " + Variable1.Description + "Команда: " + SelectedCommand.ToDescription();
+				return "Зона: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

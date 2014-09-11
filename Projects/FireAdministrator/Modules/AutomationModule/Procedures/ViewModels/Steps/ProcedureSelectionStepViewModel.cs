@@ -42,11 +42,11 @@ namespace AutomationModule.ViewModels
 			get { return _selectedScheduleProcedure; }
 			set
 			{
+				_selectedScheduleProcedure = value;
 				if (value != null)
-				{
-					_selectedScheduleProcedure = value;
 					ProcedureSelectionArguments.ScheduleProcedure = value.ScheduleProcedure;
-				}
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 				OnPropertyChanged(() => SelectedScheduleProcedure);
 			}
 		}
@@ -55,7 +55,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Процедура: " + SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : "<пусто>"; 
+				return "Процедура: " + (SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : "<пусто>"); 
 			}
 		}
 	}

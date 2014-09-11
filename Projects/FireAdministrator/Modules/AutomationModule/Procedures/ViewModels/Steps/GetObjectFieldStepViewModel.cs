@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -51,7 +52,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{ 
-				return Result.Description + " = " + Variable1.Description + "." + SelectedProperty; 
+				return Result.Description + " = " + Variable1.Description + " Свойство: " + SelectedProperty.ToDescription(); 
 			}
 		}
 

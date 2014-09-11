@@ -9,7 +9,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
-using MiscUtil.Reflection;
 
 namespace AutomationModule.ViewModels
 {

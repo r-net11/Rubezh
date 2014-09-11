@@ -19,6 +19,7 @@ namespace AutomationModule.ViewModels
 	{
 		public Variable Variable { get; set; }
 		public VariableItemViewModel VariableItem { get; private set; }
+		public ObservableCollection<VariableItemViewModel> VariableItems { get; set; }
 
 		public VariableViewModel(Variable variable)
 		{
@@ -26,6 +27,9 @@ namespace AutomationModule.ViewModels
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 			VariableItem = new VariableItemViewModel(variable.DefaultVariableItem);
+			VariableItems = new ObservableCollection<VariableItemViewModel>();
+			foreach (var variableItem in variable.VariableItems)
+				VariableItems.Add(new VariableItemViewModel(variableItem));
 			Update();
 		}
 
@@ -42,6 +46,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitType);
 			OnPropertyChanged(() => EnumType);
 			OnPropertyChanged(() => ObjectType);
+			OnPropertyChanged(() => VariableItem);
 		}
 
 		bool _isList;
@@ -117,13 +122,13 @@ namespace AutomationModule.ViewModels
 
 		public VariableItemViewModel(VariableItem variableItem)
 		{
-			VariableItem = new VariableItem();
+			VariableItem = variableItem;
 			Initialize(variableItem);
 		}
 
 		public void Initialize(VariableItem variableItem)
 		{
-			VariableItem = (VariableItem)variableItem.Clone();
+			PropertyCopy.Copy<VariableItem, VariableItem>(variableItem, VariableItem);
 			StateClassValues = ProcedureHelper.GetEnumObs<XStateClass>();
 			DeviceTypes = new ObservableCollection<string>(XManager.Drivers.Select(x => x.Name));
 			DeviceType = DeviceType ?? DeviceTypes.FirstOrDefault();

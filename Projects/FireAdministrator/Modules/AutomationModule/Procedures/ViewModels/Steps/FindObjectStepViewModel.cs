@@ -9,6 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 using System.Reflection.Emit;
+using FiresecAPI;
+using System.Linq.Expressions;
 
 namespace AutomationModule.ViewModels
 {
@@ -91,10 +93,9 @@ namespace AutomationModule.ViewModels
 			{
 
 				var result = SelectedVariable != null ? "<" + SelectedVariable.Name + ">": "<пусто>";
-				var condition = "";
 				var conditionViewModel = FindObjectConditions.FirstOrDefault();
 				if (conditionViewModel == null)
-					return "Результат: " + result + "Условие поиска: <пусто>";
+					return "Результат: " + result + " Условие поиска: <пусто>";
 
 				var var2 = conditionViewModel.Variable2.Description;
 				var op = "";
@@ -123,7 +124,7 @@ namespace AutomationModule.ViewModels
 				if (FindObjectConditions.Count > 1)
 					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
 
-				return "Результат: " + result + "Условие поиска: " + conditionViewModel.SelectedProperty + " " + op + " " + var2 + " " + end;
+				return "Результат: " + result + " Условие поиска: " + conditionViewModel.SelectedProperty.ToDescription() + " " + op + " " + var2 + " " + end;
 			}
 		}
 
@@ -166,9 +167,11 @@ namespace AutomationModule.ViewModels
 		public FindObjectCondition FindObjectCondition { get; private set; }
 		public ArithmeticParameterViewModel Variable2 { get; private set; }
 		Procedure Procedure { get; set; }
+		Action UpdateDescriptionHandler { get; set; }
 
 		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure, Action updateDescriptionHandler)
 		{
+			UpdateDescriptionHandler = updateDescriptionHandler;
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
 			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, updateDescriptionHandler);
@@ -253,6 +256,14 @@ namespace AutomationModule.ViewModels
 					return ExplicitType.Enum;
 				return ExplicitType.Integer;
 			}
+		}
+
+		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+		{
+			base.OnPropertyChanged(propertyExpression);
+			ServiceFactory.SaveService.AutomationChanged = true;
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
 		}
 	}
 }

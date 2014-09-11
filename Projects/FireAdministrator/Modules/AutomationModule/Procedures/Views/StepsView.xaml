@@ -64,7 +64,7 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock Text="{Binding Description}" />
+											<TextBlock Text="{Binding Description}" ToolTip="{Binding Description}"  />
 										</ControlTemplate>
 									</Controls:EditorPresenter.ViewTemplate>
 								</Controls:EditorPresenter>

@@ -137,7 +137,7 @@
 					<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить объект" Height="32" Width="32" />
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Object}}">
-						<ItemsControl ItemsSource="{Binding VariableObjects}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -169,7 +169,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Boolean}}">
-						<ItemsControl ItemsSource="{Binding VariableBools}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -184,7 +184,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.DateTime}}">
-						<ItemsControl ItemsSource="{Binding VariableDateTimes}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -199,7 +199,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Integer}}">
-						<ItemsControl ItemsSource="{Binding VariableIntegers}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -214,13 +214,13 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.String}}">
-						<ItemsControl ItemsSource="{Binding VariableStrings}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
+										<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" VerticalContentAlignment="Center" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -229,7 +229,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Enum}}" >
-						<ItemsControl ItemsSource="{Binding VariableEnums}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<StackPanel>

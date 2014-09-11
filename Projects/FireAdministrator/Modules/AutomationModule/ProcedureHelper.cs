@@ -61,7 +61,6 @@ namespace AutomationModule
 		public static VariableItemViewModel SelectObject(ObjectType objectType, VariableItemViewModel currentVariableItem)
 		{
 			var variableItem = new VariableItem();
-			variableItem.ExplicitType = ExplicitType.Object;
 			variableItem.UidValue = currentVariableItem.VariableItem.UidValue;
 			if (objectType == ObjectType.Device)
 			{
