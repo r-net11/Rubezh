@@ -13,6 +13,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
 	{
+		public const string PassCardImagePropertiesGroup = "PassCardImagePropertiesGroup";
+		public const string PassCardTextPropertiesGroup = "PassCardTextPropertiesGroup";
+
 		public PassCardTemplate PassCardTemplate { get; private set; }
 		public PassCardDesignerViewModel()
 		{
@@ -72,13 +75,13 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			base.RegisterDesignerItem(designerItem);
 			if (designerItem.Element is ElementPassCardImageProperty)
 			{
-				designerItem.Group = PassCardsDesignerViewModel.PassCardImagePropertiesGroup;
+				designerItem.Group = PassCardDesignerViewModel.PassCardImagePropertiesGroup;
 				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).Text.Replace('\n', ' ');
 				designerItem.UpdateProperties += DesignerItemPropertyChanged;
 			}
 			else if (designerItem.Element is ElementPassCardTextProperty)
 			{
-				designerItem.Group = PassCardsDesignerViewModel.PassCardTextPropertiesGroup;
+				designerItem.Group = PassCardDesignerViewModel.PassCardTextPropertiesGroup;
 				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).Text.Replace('\n', ' ');
 				designerItem.UpdateProperties += DesignerItemPropertyChanged;
 			}

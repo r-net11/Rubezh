@@ -52,12 +52,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveCardTemplates(Organisation organisation)
-		{
-			var result = FiresecManager.FiresecService.SaveOrganisationCardTemplates(organisation);
-			return Common.ShowErrorIfExists(result);
-		}
-
 		public static bool SaveGuardZones(Organisation organisation)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisationGuardZones(organisation);

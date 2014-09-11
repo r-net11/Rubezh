@@ -13,7 +13,6 @@ namespace FiresecAPI.SKD
 			UserUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
 			ZoneUIDs = new List<Guid>();
-			CardTemplateUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -35,9 +34,6 @@ namespace FiresecAPI.SKD
 		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
-		public List<Guid> CardTemplateUIDs { get; set; }
-
-		[DataMember]
 		public List<Guid> UserUIDs { get; set; }
 	}
 
@@ -50,7 +46,6 @@ namespace FiresecAPI.SKD
 			UserUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
 			ZoneUIDs = new List<Guid>();
-			CardTemplateUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -68,9 +63,6 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public List<Guid> UserUIDs { get; set; }
 
-		[DataMember]
-		public List<Guid> CardTemplateUIDs { get; set; }
-		
 		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }
 

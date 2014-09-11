@@ -63,7 +63,6 @@ namespace SKDDriver
 			result.PhotoUID = tableItem.PhotoUID;
 			result.DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID) select x.DoorUID).ToList();
 			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
-			result.CardTemplateUIDs = (from x in Context.OrganisationCardTemplates.Where(x => x.OrganisationUID == result.UID) select x.CardTemplateUID).ToList();
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
 			return result;
@@ -94,7 +93,6 @@ namespace SKDDriver
 						UID = tableItem.UID,
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
-						CardTemplateUIDs = (from x in Context.OrganisationCardTemplates.Where(x => x.OrganisationUID == tableItem.UID) select x.CardTemplateUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
 						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList()
 					};
@@ -180,39 +178,6 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public OperationResult SaveCardTemplates(Organisation apiItem)
-		{
-			return SaveCardTemplatesInternal(apiItem.UID, apiItem.CardTemplateUIDs);
-		}
-
-		public OperationResult SaveCardTemplates(OrganisationDetails apiItem)
-		{
-			return SaveCardTemplatesInternal(apiItem.UID, apiItem.CardTemplateUIDs);
-		}
-
-		OperationResult SaveCardTemplatesInternal(Guid organisationUID, List<Guid> cardTemplateUIDs)
-		{
-			try
-			{
-				var tableOrganisationCardTemplates = Context.OrganisationCardTemplates.Where(x => x.OrganisationUID == organisationUID);
-				Context.OrganisationCardTemplates.DeleteAllOnSubmit(tableOrganisationCardTemplates);
-				foreach (var cardTemplateUID in cardTemplateUIDs)
-				{
-					var tableOrganisationCardTemplate = new DataAccess.OrganisationCardTemplate();
-					tableOrganisationCardTemplate.UID = Guid.NewGuid();
-					tableOrganisationCardTemplate.OrganisationUID = organisationUID;
-					tableOrganisationCardTemplate.CardTemplateUID = cardTemplateUID;
-					Context.OrganisationCardTemplates.InsertOnSubmit(tableOrganisationCardTemplate);
-				}
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
-		}
-
 		public OperationResult SaveGuardZones(Organisation apiItem)
 		{
 			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
@@ -287,9 +252,6 @@ namespace SKDDriver
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
-			var saveCardTemplatesResult = SaveCardTemplates(apiItem);
-			if (saveCardTemplatesResult.HasError)
-				return saveCardTemplatesResult;
 			var saveGuardZonesResult = SaveGuardZones(apiItem);
 			if (saveGuardZonesResult.HasError)
 				return saveGuardZonesResult;
@@ -343,9 +305,9 @@ namespace SKDDriver
 		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(OrganisationFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			if(filter.UserUID != Guid.Empty)
+			if (filter.UserUID != Guid.Empty)
 				result = result.And(e => e.OrganisationUsers.Any(x => x.UserUID == filter.UserUID));
 			return result;
-		}		
+		}
 	}
 }

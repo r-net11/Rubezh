@@ -4,10 +4,6 @@
 		<clientPlans:PlanDesignerView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PassCardsDesignerViewModel}">
-		<Views:PassCardsDesignerView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplatePropertiesViewModel}">
 		<Views:PassCardTemplatePropertiesView />
 	</DataTemplate>
@@ -24,8 +20,8 @@
 		<Views:PassCardTemplatesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplateViewModel}">
-		<Views:PassCardTemplateView />
+	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplateDetailsViewModel}">
+		<Views:PassCardTemplateDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

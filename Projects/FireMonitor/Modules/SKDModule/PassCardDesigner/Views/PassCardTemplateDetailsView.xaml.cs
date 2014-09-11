@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace SKDModule.PassCardDesigner.Views
 {
 	/// <summary>
-	/// Interaction logic for PassCardTemplateView.xaml
+	/// Interaction logic for PassCardTemplateDetailsView.xaml
 	/// </summary>
-	public partial class PassCardTemplateView : UserControl
+	public partial class PassCardTemplateDetailsView : UserControl
 	{
-		public PassCardTemplateView()
+		public PassCardTemplateDetailsView()
 		{
 			InitializeComponent();
 		}

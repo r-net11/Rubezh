@@ -38,6 +38,7 @@ namespace SKDDriver
 			TimeTrackTranslator = new TimeTrackTranslator(this);
 			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
 			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
+			PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
@@ -62,6 +63,7 @@ namespace SKDDriver
 		public TimeTrackTranslator TimeTrackTranslator { get; private set; }
 		public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
 		public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
+		public PassCardTemplateTranslator PassCardTemplateTranslator { get; private set; }
 
 		public void Dispose()
 		{

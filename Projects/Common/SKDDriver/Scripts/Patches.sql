@@ -802,3 +802,36 @@ IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name
 	END
 	INSERT INTO Patches (Id) VALUES ('TimeTrackDocumentType')
 END
+
+
+
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PassCardTemplate')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationCardTemplate')
+	BEGIN
+		DROP TABLE OrganisationCardTemplate
+	END
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'PassCardTemplate')
+	BEGIN
+		CREATE TABLE [dbo].[PassCardTemplate](
+			[UID] [uniqueidentifier] NOT NULL,
+			[Name] [nvarchar](50) NULL,
+			[Description] [nvarchar](max) NULL,
+			[IsDeleted] [bit] NOT NULL,
+			[RemovalDate] [datetime] NOT NULL,
+			[OrganisationUID] [uniqueidentifier] NULL,
+			[Data] [varbinary](max) NULL,
+		CONSTRAINT [PK_PassCardTemplate] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		ALTER TABLE [dbo].[PassCardTemplate] WITH NOCHECK ADD CONSTRAINT [FK_PassCardTemplate_Organisation] FOREIGN KEY([OrganisationUid])
+		REFERENCES [dbo].[Organisation] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[PassCardTemplate] NOCHECK CONSTRAINT [FK_PassCardTemplate_Organisation]
+	END
+	INSERT INTO Patches (Id) VALUES ('PassCardTemplate')	
+END
+GO

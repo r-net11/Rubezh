@@ -15,22 +15,6 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public PassCardTemplatePropertiesViewModel(PassCardTemplate passCardTemplate)
 		{
 			Title = "Свойства элемента: Шаблон пропуска";
-			if (passCardTemplate == null)
-			{
-				passCardTemplate = new PassCardTemplate();
-				var width = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultWidth");
-				var height = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultHeight");
-				var color = RegistrySettingsHelper.GetColor("Administrator.PassCardTemplate.DefaultColor");
-				var border = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultBorder");
-				var borderColor = RegistrySettingsHelper.GetColor("Administrator.PassCardTemplate.DefaultBorderColor");
-				if (width != 0)
-					passCardTemplate.Width = width;
-				if (height != 0)
-					passCardTemplate.Height = height;
-				passCardTemplate.BackgroundColor = color;
-				passCardTemplate.BorderColor = borderColor;
-				passCardTemplate.BorderThickness = border;
-			}
 			PassCardTemplate = passCardTemplate;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(PassCardTemplate);
 			CopyProperties();
@@ -131,12 +115,6 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		}
 		protected override bool Save()
 		{
-			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultWidth", Width);
-			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultHeight", Height);
-			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultColor", BackgroundColor);
-			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultBorder", BorderThickness);
-			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultBorderColor", BorderColor);
-
 			PassCardTemplate.Caption = Caption;
 			PassCardTemplate.Description = Description;
 			PassCardTemplate.Width = Width;

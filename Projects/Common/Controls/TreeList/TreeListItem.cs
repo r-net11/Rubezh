@@ -35,7 +35,7 @@ namespace Controls.TreeList
 					Tree.ItemActivatedCommand.Execute(Tree.ItemActivatedCommandParameter);
 				else
 				{
-					var viewModel = Tree.DataContext as IEditingViewModel;
+					var viewModel = Tree.DataContext as IEditingBaseViewModel;
 					if (viewModel != null && viewModel.EditCommand != null && viewModel.EditCommand.CanExecute(null))
 						viewModel.EditCommand.Execute();
 				}

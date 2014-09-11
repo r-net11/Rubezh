@@ -217,7 +217,6 @@
       <Association Name="Organisation_Employee" Member="Employees" ThisKey="UID" OtherKey="OrganisationUID" Type="Employee" />
       <Association Name="Organisation_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
       <Association Name="Organisation_Holiday" Member="Holidays" ThisKey="UID" OtherKey="OrganisationUID" Type="Holiday" />
-      <Association Name="Organisation_OrganisationCardTemplate" Member="OrganisationCardTemplates" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationCardTemplate" />
       <Association Name="Organisation_OrganisationDoor" Member="OrganisationDoors" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationDoor" />
       <Association Name="Organisation_OrganisationUser" Member="OrganisationUsers" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationUser" />
       <Association Name="Organisation_OrganisationZone" Member="OrganisationZones" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationZone" />
@@ -227,15 +226,8 @@
       <Association Name="Organisation_DayInterval" Member="DayIntervals" ThisKey="UID" OtherKey="OrganisationUID" Type="DayInterval" />
       <Association Name="Organisation_NightSetting" Member="NightSettings" ThisKey="UID" OtherKey="OrganisationUID" Type="NightSetting" />
       <Association Name="Organisation_TimeTrackDocumentType" Member="TimeTrackDocumentTypes" ThisKey="UID" OtherKey="OrganisationUID" Type="TimeTrackDocumentType" />
+      <Association Name="Organisation_PassCardTemplate" Member="PassCardTemplates" ThisKey="UID" OtherKey="OrganisationUID" Type="PassCardTemplate" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.OrganisationCardTemplate" Member="OrganisationCardTemplates">
-    <Type Name="OrganisationCardTemplate">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="Organisation_OrganisationCardTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.OrganisationDoor" Member="OrganisationDoors">
@@ -423,6 +415,18 @@
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_TimeTrackDocumentType" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PassCardTemplate" Member="PassCardTemplates">
+    <Type Name="PassCardTemplate">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Data" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Organisation_PassCardTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

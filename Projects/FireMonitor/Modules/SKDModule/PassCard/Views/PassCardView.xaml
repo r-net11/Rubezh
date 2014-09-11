@@ -10,7 +10,7 @@
 				<DockPanel>
 					<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
 						<TextBlock Margin="2" VerticalAlignment="Center" Foreground="White" Text="Шаблон пропуска: " />
-						<ComboBox Width="200" DisplayMemberPath="Caption" ItemsSource="{Binding PassCardTemplates}" SelectedItem="{Binding SelectedPassCardTemplate}" />
+						<ComboBox Width="200" DisplayMemberPath="Name" ItemsSource="{Binding PassCardTemplates}" SelectedItem="{Binding SelectedPassCardTemplate}" />
 					</StackPanel>
 					<clientPlans:PlanDesignerView />
 				</DockPanel>

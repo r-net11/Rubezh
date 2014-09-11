@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SKDModule.ViewModels;
 using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -11,38 +12,27 @@ namespace SKDModule.PassCardDesigner.ViewModels
 	{
 		protected override IEnumerable<ShortPassCardTemplate> GetModels(PassCardTemplateFilter filter)
 		{
-			//return PassCardTemplateHelper.Get(filter);
-			return Enumerable.Empty<ShortPassCardTemplate>();
+			return PassCardTemplateHelper.Get(filter);
 		}
 		protected override IEnumerable<ShortPassCardTemplate> GetModelsByOrganisation(Guid organisationUID)
 		{
-			//return PassCardTemplateHelper.GetByOrganisation(organisationUID);
-			return Enumerable.Empty<ShortPassCardTemplate>();
+			return PassCardTemplateHelper.GetByOrganisation(organisationUID);
 		}
 		protected override bool MarkDeleted(Guid uid)
 		{
-			//return PassCardTemplateHelper.MarkDeleted(uid);
-			return true;
+			return PassCardTemplateHelper.MarkDeleted(uid);
 		}
 		protected override bool Save(ShortPassCardTemplate item)
 		{
-			//var passCardTemplate = new PassCardTemplate
-			//{
-			//    UID = item.UID,
-			//    Description = item.Description,
-			//    Name = item.Name,
-			//    OrganisationUID = item.OrganisationUID
-			//};
-			//return PassCardTemplateHelper.Save(passCardTemplate);
-			return true;
+			var passCardTemplate = new PassCardTemplate
+			{
+				UID = item.UID,
+				Description = item.Description,
+				Caption = item.Name,
+				OrganisationUID = item.OrganisationUID
+			};
+			return PassCardTemplateHelper.Save(passCardTemplate);
 		}
-
-		protected override ShortPassCardTemplate CopyModel(ShortPassCardTemplate source)
-		//{
-			var copy = base.CopyModel(source);
-		//    //copy.Description = source.Description;
-		//    return copy;
-		//}
 
 		protected override string ItemRemovingName
 		{

@@ -13,36 +13,41 @@ using System.Collections.ObjectModel;
 using Infrustructure.Plans.Designer;
 using Infrastructure.Client.Plans;
 using SKDModule.PassCardDesigner.InstrumentAdorners;
+using Common;
+using Infrastructure.Common.Windows;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplateDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortPassCardTemplate>
 	{
 		private Guid _organisationUID { get; set; }
-		public PassCardTemplate PassCardTemplate { get; private set; }
 
-		public const string PassCardImagePropertiesGroup = "PassCardImagePropertiesGroup";
-		public const string PassCardTextPropertiesGroup = "PassCardTextPropertiesGroup";
+		public PassCardTemplate PassCardTemplate { get; private set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PassCardDesignerViewModel PassCardDesignerViewModel { get; private set; }
 		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
 		{
 			get { return PassCardDesignerViewModel.DesignerCanvas; }
 		}
+		public MenuViewModel Menu { get; private set; }
 
 		public PassCardTemplateDetailsViewModel()
 		{
-			LayerGroupService.Instance.RegisterGroup(PassCardTextPropertiesGroup, "Текстовые свойства", 1);
-			LayerGroupService.Instance.RegisterGroup(PassCardImagePropertiesGroup, "Графические свойства", 2);
+			LayerGroupService.Instance.RegisterGroup(PassCardDesignerViewModel.PassCardTextPropertiesGroup, "Текстовые свойства", 1);
+			LayerGroupService.Instance.RegisterGroup(PassCardDesignerViewModel.PassCardImagePropertiesGroup, "Графические свойства", 2);
 			PassCardDesignerViewModel = new PassCardDesignerViewModel();
 			OnPropertyChanged(() => PassCardDesignerViewModel);
 			PassCardDesignerViewModel.DesignerCanvas.ZoomChanged();
+			EditCommand = new RelayCommand(OnEdit);
 			ElementsViewModel = new ElementsViewModel(PassCardDesignerViewModel.DesignerCanvas);
 
 			Menu = new MenuViewModel()
 			{
 				Items = new ObservableCollection<BaseViewModel>()
 			    {
+					new MenuButtonViewModel(EditCommand, "/Controls;component/Images/Edit.png" , "Редактировать"),
+			        //new MenuSeparatorViewModel(),
 			        new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "/Controls;component/Images/Copy.png" , "Копировать"),
 			        new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "/Controls;component/Images/Cut.png" , "Вырезать"),
 			        new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "/Controls;component/Images/Paste.png" , "Вставить"),
@@ -56,28 +61,6 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			    }
 			};
 			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
-		}
-
-		public MenuViewModel Menu { get; private set; }
-
-		private IEnumerable<IInstrument> GetInstruments()
-		{
-			yield return new InstrumentViewModel()
-			{
-				ImageSource = "/Controls;component/Images/Text.png",
-				ToolTip = "Текстовое свойство",
-				Adorner = new PassCardTextPropertyAdorner(DesignerCanvas),
-				Index = 300,
-				Autostart = true
-			};
-			yield return new InstrumentViewModel()
-			{
-				ImageSource = "/Controls;component/Images/Photo.png",
-				ToolTip = "Графическое свойство",
-				Adorner = new PassCardImagePropertyAdorner(DesignerCanvas),
-				Index = 301,
-				Autostart = true
-			};
 		}
 
 		#region IDetailsViewModel<ShortPassCardTemplate> Members
@@ -107,15 +90,97 @@ namespace SKDModule.PassCardDesigner.ViewModels
 					Caption = "Новая шаблон",
 					OrganisationUID = _organisationUID
 				};
+				LoadDefaultProperties();
+				EditCommand.Execute();
 			}
 			else
 			{
-				//PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
-				Title = string.Format("Шаблон пропусков: {0}", PassCardTemplate.Caption);
+				PassCardTemplate = PassCardTemplateHelper.GetDetails(model.UID);
+				Update();
 			}
-			//CopyProperties();
+			LoadPassCardDesigner();
 		}
 
 		#endregion
+
+		private IEnumerable<IInstrument> GetInstruments()
+		{
+			yield return new InstrumentViewModel()
+			{
+				ImageSource = "/Controls;component/Images/Text.png",
+				ToolTip = "Текстовое свойство",
+				Adorner = new PassCardTextPropertyAdorner(DesignerCanvas),
+				Index = 300,
+				Autostart = true
+			};
+			yield return new InstrumentViewModel()
+			{
+				ImageSource = "/Controls;component/Images/Photo.png",
+				ToolTip = "Графическое свойство",
+				Adorner = new PassCardImagePropertyAdorner(DesignerCanvas),
+				Index = 301,
+				Autostart = true
+			};
+		}
+		private void LoadPassCardDesigner()
+		{
+			using (new TimeCounter("PassCardTemplateDetailsViewModel.SelectedPlan: {0}", true, true))
+			{
+				OnPropertyChanged(() => PassCardTemplate);
+				DesignerCanvas.Toolbox.IsEnabled = PassCardTemplate != null;
+				PassCardDesignerViewModel.Initialize(PassCardTemplate);
+				using (new TimeCounter("\tPassCardsDesignerViewModel.UpdateElements: {0}"))
+					ElementsViewModel.Update();
+				DesignerCanvas.Toolbox.SetDefault();
+				DesignerCanvas.DeselectAll();
+			}
+		}
+		private void LoadDefaultProperties()
+		{
+			var width = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultWidth");
+			var height = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultHeight");
+			var color = RegistrySettingsHelper.GetColor("Administrator.PassCardTemplate.DefaultColor");
+			var border = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultBorder");
+			var borderColor = RegistrySettingsHelper.GetColor("Administrator.PassCardTemplate.DefaultBorderColor");
+			if (width != 0)
+				PassCardTemplate.Width = width;
+			if (height != 0)
+				PassCardTemplate.Height = height;
+			PassCardTemplate.BackgroundColor = color;
+			PassCardTemplate.BorderColor = borderColor;
+			PassCardTemplate.BorderThickness = border;
+		}
+		private void SaveDefaultProperties()
+		{
+			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultWidth", PassCardTemplate.Width);
+			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultHeight", PassCardTemplate.Height);
+			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultColor", PassCardTemplate.BackgroundColor);
+			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultBorder", PassCardTemplate.BorderThickness);
+			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultBorderColor", PassCardTemplate.BorderColor);
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		private void OnEdit()
+		{
+			var dialog = new PassCardTemplatePropertiesViewModel(PassCardTemplate);
+			if (DialogService.ShowModalWindow(dialog))
+			{
+				Update();
+				DesignerCanvas.Update();
+				PassCardDesignerViewModel.Update();
+				DesignerCanvas.Refresh();
+				DesignerCanvas.DesignerChanged();
+			}
+		}
+		private void Update()
+		{
+			Title = string.Format("Шаблон пропусков: {0}", PassCardTemplate.Caption);
+		}
+
+		protected override bool Save()
+		{
+			SaveDefaultProperties();
+			return PassCardTemplateHelper.Save(PassCardTemplate);
+		}
 	}
 }

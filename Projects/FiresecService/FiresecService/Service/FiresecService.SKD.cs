@@ -389,14 +389,6 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveZones(organisation);
 			}
 		}
-		public OperationResult SaveOrganisationCardTemplates(Organisation organisation)
-		{
-			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.OrganisationTranslator.SaveCardTemplates(organisation);
-			}
-		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
@@ -1024,6 +1016,39 @@ namespace FiresecService.Service
 			else
 			{
 				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+			}
+		}
+		#endregion
+
+		#region PassCardTemplate
+		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.GetList(filter);
+			}
+		}
+		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.GetSingle(uid);
+			}
+		}
+		public OperationResult SavePassCardTemplate(PassCardTemplate item)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.Save(item);
+			}
+		}
+		public OperationResult MarkDeletedPassCardTemplate(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
 			}
 		}
 		#endregion

@@ -12,7 +12,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/PassCardDesigner.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/BPassCardDesigner.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 								<TextBlock Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
