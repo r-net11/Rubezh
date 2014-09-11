@@ -29,7 +29,7 @@ namespace FireAdministrator.ViewModels
 			MergeConfigurationCommand = new RelayCommand(OnMergeConfiguration);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 			ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Subscribe(OnSetNewConfiguration);
-			IsMainMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMainMenuVisible", false);
+			IsMainMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMainMenuVisible", true);
 			IsMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMenuVisible", true);
 		}
 
@@ -165,7 +165,7 @@ namespace FireAdministrator.ViewModels
 			mergeConfigurationHelper.Merge();
 		}
 
-		private bool _isMainMenuVisible;
+		bool _isMainMenuVisible;
 		public bool IsMainMenuVisible
 		{
 			get { return _isMainMenuVisible; }
@@ -177,7 +177,7 @@ namespace FireAdministrator.ViewModels
 				OnPropertyChanged(() => IsMainMenuVisible);
 			}
 		}
-		private bool _isMenuVisible;
+		bool _isMenuVisible;
 		public bool IsMenuVisible
 		{
 			get { return _isMenuVisible; }

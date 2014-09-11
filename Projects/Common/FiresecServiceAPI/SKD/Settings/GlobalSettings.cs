@@ -12,7 +12,7 @@ namespace FiresecAPI
 			RemotePort = 8000;
 			Login = "adm";
 			Password = "";
-			AutoConnect = true;
+			AutoConnect = false;
 			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
@@ -118,23 +118,25 @@ namespace FiresecAPI
 			ModuleItems.Add("PlansModule.dll");
 			ModuleItems.Add("PlansModule.Kursk.dll");
 			ModuleItems.Add("SecurityModule.dll");
+			ModuleItems.Add("GKModule.dll");
+			ModuleItems.Add("SKDModule.dll");
+			ModuleItems.Add("VideoModule.dll");
+			ModuleItems.Add("AutomationModule.dll");
+			ModuleItems.Add("LayoutModule.dll");
+			ModuleItems.Add("ReportsModule.dll");
+			ModuleItems.Add("FiltersModule.dll");
+			ModuleItems.Add("JournalModule.dll");
 			ModuleItems.Add("SoundsModule.dll");
 			ModuleItems.Add("SettingsModule.dll");
-			ModuleItems.Add("GKModule.dll");
-			ModuleItems.Add("VideoModule.dll");
 			ModuleItems.Add("DiagnosticsModule.dll");
-			ModuleItems.Add("ReportsModule.dll");
-			ModuleItems.Add("AutomationModule.dll");
-			//ModuleItems.Add("SKDModule.dll");
 
 			//ModuleItems.Add("DevicesModule.dll");
 			//ModuleItems.Add("LibraryModule.dll");
-			//ModuleItems.Add("FiltersModule.dll");
 			//ModuleItems.Add("InstructionsModule.dll");
 			//ModuleItems.Add("NotificationModule.dll");
 			//ModuleItems.Add("AlarmModule.dll");
-			//ModuleItems.Add("JournalModule.dll");
 			//ModuleItems.Add("OPCModule.dll");
+			//ModuleItems.Add("NotificationModule.dll");
 		}
 
 		public bool IsDebug

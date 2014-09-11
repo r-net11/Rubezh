@@ -197,10 +197,5 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => SelectedState);
 			OnPropertyChanged(() => PreviewBrush);
 		}
-
-		public bool IsDebug
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.IsDebug; }
-		}
 	}
 }

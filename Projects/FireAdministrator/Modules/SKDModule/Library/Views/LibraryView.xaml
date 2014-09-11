@@ -60,8 +60,8 @@
 					</ContextMenu>
 				</DataGrid.ContextMenu>
 			</DataGrid>
-			<Grid Grid.Row="1" Height="100" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Margin="0 4 0 0">
-				<TextBox AcceptsReturn="True" AcceptsTab="True" DataContext="{Binding SelectedState.SelectedFrame}" HorizontalScrollBarVisibility="Auto" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" Controls:TextBoxHelper.HighlightTextOnFocus="False" />
+			<Grid Grid.Row="1" Height="250" Margin="0 4 0 0">
+				<TextBox AcceptsReturn="True" AcceptsTab="True" DataContext="{Binding SelectedState.SelectedFrame}" HorizontalScrollBarVisibility="Auto" Text="{Binding Image}" VerticalScrollBarVisibility="Auto" Controls:TextBoxHelper.HighlightTextOnFocus="False" />
 			</Grid>
 			<Grid Grid.Row="2" Margin="0 4 0 0">
 				<Grid.ColumnDefinitions>
@@ -94,8 +94,8 @@
 									<StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}" Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Label VerticalAlignment="Center" Content=" Длительность, мс: " />
 									<ExtToolkit:IntegerUpDown Width="75" Height="20" Increment="100" IsEditable="False" Maximum="10000" Minimum="100" Text="{Binding Duration, Mode=TwoWay}" />
-									<Controls:ToolBarButton Command="{Binding ImportSvgCommand}" ImageSource="/Controls;component/Images/Arrow-up-left.png" ToolTip="Импорт из .svg" />
-									<!--  <Controls:ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="/Controls;component/Images/Arrow-down-right.png" />  -->
+                                    <!--  <Controls:ToolBarButton Command="{Binding ImportSvgCommand}" ImageSource="/Controls;component/Images/Arrow-up-left.png" ToolTip="Импорт из .svg" />
+									<Controls:ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="/Controls;component/Images/Arrow-down-right.png" />  -->
 								</StackPanel>
 								<ContentControl Width="500" Height="500" Margin="0, 0, 150, 0" HorizontalAlignment="Center" Content="{Binding XamlOfImage}">
 									<ContentControl.LayoutTransform>
