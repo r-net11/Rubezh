@@ -36,16 +36,12 @@ namespace GKModule.ViewModels
 		{
 			Name = Code.Name;
 			Password = Code.Password;
-			CanSetZone = Code.CanSetZone;
-			CanUnSetZone = Code.CanUnSetZone;
 		}
 
 		void SaveProperies()
 		{
 			Code.Name = Name;
 			Code.Password = Password;
-			Code.CanSetZone = CanSetZone;
-			Code.CanUnSetZone = CanUnSetZone;
 		}
 
 		string _name;
@@ -69,28 +65,6 @@ namespace GKModule.ViewModels
 			{
 				_password = value;
 				OnPropertyChanged(() => Password);
-			}
-		}
-
-		bool _canSetZone;
-		public bool CanSetZone
-		{
-			get { return _canSetZone; }
-			set
-			{
-				_canSetZone = value;
-				OnPropertyChanged(() => CanSetZone);
-			}
-		}
-
-		bool _canUnSetZone;
-		public bool CanUnSetZone
-		{
-			get { return _canUnSetZone; }
-			set
-			{
-				_canUnSetZone = value;
-				OnPropertyChanged(() => CanUnSetZone);
 			}
 		}
 

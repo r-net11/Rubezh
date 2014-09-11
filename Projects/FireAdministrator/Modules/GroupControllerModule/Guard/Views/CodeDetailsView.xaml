@@ -26,10 +26,6 @@
 							<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="20" Name="nameTextBox" Margin="2" />
 							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" MaxLength="10" Margin="2" />
 						</Grid>
-
-						<Label Content="Права" />
-						<CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
-						<CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
 					</StackPanel>
 					<StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 						<ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadPropertiesCommand}" ImageSource="/Controls;component/Images/Readconfig.png" ToolTip="Считать параметры" />

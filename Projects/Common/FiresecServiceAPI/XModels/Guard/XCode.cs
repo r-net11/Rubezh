@@ -12,7 +12,6 @@ namespace FiresecAPI.GK
 		{
 			UID = Guid.NewGuid();
 			Name = "Новый код";
-			GuardZoneUIDs = new List<Guid>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Code; } }
@@ -31,17 +30,6 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public int Password { get; set; }
-
-		[DataMember]
-		public bool CanSetZone { get; set; }
-
-		[DataMember]
-		public bool CanUnSetZone { get; set; }
-
-		[DataMember]
-		public List<Guid> GuardZoneUIDs { get; set; }
-
-		public List<XGuardZone> GuardZones { get; set; }
 
 		public override string PresentationName
 		{

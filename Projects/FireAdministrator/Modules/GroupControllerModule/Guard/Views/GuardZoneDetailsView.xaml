@@ -41,13 +41,13 @@
                 <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Delay}" Minimum="1" Maximum="65535" Margin="2" />
 
                 <Label Grid.Row="4" Grid.Column="0" Content="Задержка на снятие, с" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="1" Maximum="65535" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="1" Maximum="65535" Margin="2" />
                 
                 <Label Grid.Row="5" Grid.Column="0" Content="Задержка на тревогу, с" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />
                 
                 <Label Grid.Row="6" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
-                <controls:XAutoCompleteBox Grid.Row="4" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
+                <controls:XAutoCompleteBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>
