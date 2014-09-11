@@ -13,6 +13,10 @@ namespace FiresecAPI.Automation
 			EMailAddress = new ArithmeticParameter();
 			EMailTitle = new ArithmeticParameter();
 			EMailContent = new ArithmeticParameter();
+			Host = new ArithmeticParameter();
+			Port = new ArithmeticParameter();
+			Login = new ArithmeticParameter();
+			Password = new ArithmeticParameter();
 		}
 
 		[DataMember]
@@ -25,24 +29,15 @@ namespace FiresecAPI.Automation
 		public ArithmeticParameter EMailContent { get; set; }
 
 		[DataMember]
-		public ValueType SelectedEMailTitleValueType { get; set; }
+		public ArithmeticParameter Host { get; private set; }
 
 		[DataMember]
-		public ValueType SelectedEMailContentValueType { get; set; }		
+		public ArithmeticParameter Port { get; private set; }
 
 		[DataMember]
-		public string Email { get; set; }
+		public ArithmeticParameter Login { get; private set; }
 
 		[DataMember]
-		public string Host { get; set; }
-
-		[DataMember]
-		public string Port { get; set; }
-
-		[DataMember]
-		public string Login { get; set; }
-
-		[DataMember]
-		public string Password { get; set; }
+		public ArithmeticParameter Password { get; private set; }
 	}
 }

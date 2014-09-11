@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 	{
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
-
+        
 		public ScheduleSchemesViewModel()
 			:base()
 		{
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			Initialize(filter);
-		}
+        }
 
 		public override void OnShow()
 		{
@@ -96,11 +96,10 @@ namespace SKDModule.ViewModels
 			SelectedItem.Initialize();
 		}
 
-		protected override ScheduleScheme CopyModel(ScheduleScheme source, bool newName = true)
+		protected override ScheduleScheme CopyModel(ScheduleScheme source)
 		{
-			var copy = base.CopyModel(source, newName);
+			var copy = base.CopyModel(source);
 			copy.Type = source.Type;
-			copy.Description = source.Description;
 			foreach (var day in source.DayIntervals)
 			{
 				if (!day.IsDeleted)

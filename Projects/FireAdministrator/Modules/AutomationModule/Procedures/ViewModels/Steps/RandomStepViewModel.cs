@@ -9,21 +9,19 @@ namespace AutomationModule.ViewModels
 {
 	public class RandomStepViewModel : BaseStepViewModel
 	{
-		Procedure Procedure { get; set; }
 		public RandomArguments RandomArguments { get; private set; }
-		public ArgumentItemViewModel MaxValue { get; private set; }
+		public ArithmeticParameterViewModel MaxValue { get; private set; }
 
-		public RandomStepViewModel(RandomArguments randomArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public RandomStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			RandomArguments = randomArguments;
-			Procedure = procedure;
-			MaxValue = new ArgumentItemViewModel(procedure, randomArguments.MaxValue, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
+			RandomArguments = stepViewModel.Step.RandomArguments;
+			MaxValue = new ArithmeticParameterViewModel(RandomArguments.MaxValue, stepViewModel.Update);
+			MaxValue.ExplicitType = ExplicitType.Integer;
 		}
 
 		public override void UpdateContent()
 		{
-			MaxValue.Update();
+			MaxValue.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
 		}
 
 		public override string Description

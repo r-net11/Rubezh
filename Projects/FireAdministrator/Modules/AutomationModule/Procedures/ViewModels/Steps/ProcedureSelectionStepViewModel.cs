@@ -14,13 +14,10 @@ namespace AutomationModule.ViewModels
 	public class ProcedureSelectionStepViewModel : BaseStepViewModel
 	{
 		ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
-		Procedure Procedure { get; set; }
 
-		public ProcedureSelectionStepViewModel(ProcedureSelectionArguments procedureSelectionArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public ProcedureSelectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			ProcedureSelectionArguments = procedureSelectionArguments;
-			Procedure = procedure;
+			ProcedureSelectionArguments = stepViewModel.Step.ProcedureSelectionArguments;
 			UpdateContent();
 		}
 
@@ -56,7 +53,10 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return ""; }
+			get 
+			{
+				return "Процедура: " + SelectedScheduleProcedure != null ? SelectedScheduleProcedure.Name : "<пусто>"; 
+			}
 		}
 	}
 }

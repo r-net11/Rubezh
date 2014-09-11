@@ -40,11 +40,12 @@ namespace AutomationModule
 
 		public override void Initialize()
 		{
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			SoundsViewModel.Initialize();
 			ProceduresViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 			GlobalVariablesViewModel.Initialize();
-
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			_planExtension.Cache.BuildAllSafe();

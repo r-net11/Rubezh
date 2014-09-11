@@ -186,7 +186,7 @@
     <Compile Include="TimeTrack\Converters\TimeSpanToColorConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\Comparers.cs" />
-    <Compile Include="TimeTrack\Intervals\ViewModels\Comparers.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleDayIntervalViewModel.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
@@ -431,18 +431,18 @@
     <Compile Include="TimeTrack\Holidays\Views\HolidaysView.xaml.cs">
       <DependentUpon>HolidaysView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeTrack\Intervals\ViewModels\DayIntervalDetailsViewModel.cs" />
-    <Compile Include="TimeTrack\Intervals\ViewModels\DayIntervalPartViewModel.cs" />
-    <Compile Include="TimeTrack\Intervals\ViewModels\DayIntervalPartDetailsViewModel.cs" />
-    <Compile Include="TimeTrack\Intervals\ViewModels\DayIntervalsViewModel.cs" />
-    <Compile Include="TimeTrack\Intervals\ViewModels\DayIntervalViewModel.cs" />
-    <Compile Include="TimeTrack\Intervals\Views\DayIntervalPartDetailsView.xaml.cs">
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalPartViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalPartDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalsViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="TimeTrack\DayIntervals\Views\DayIntervalPartDetailsView.xaml.cs">
       <DependentUpon>DayIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeTrack\Intervals\Views\DayIntervalsView.xaml.cs">
+    <Compile Include="TimeTrack\DayIntervals\Views\DayIntervalsView.xaml.cs">
       <DependentUpon>DayIntervalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TimeTrack\Intervals\Views\DayIntervalDetailsView.xaml.cs">
+    <Compile Include="TimeTrack\DayIntervals\Views\DayIntervalDetailsView.xaml.cs">
       <DependentUpon>DayIntervalDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateDetailsViewModel.cs" />
@@ -749,15 +749,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TimeTrack\Intervals\Views\DayIntervalDetailsView.xaml">
+    <Page Include="TimeTrack\DayIntervals\Views\DayIntervalDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TimeTrack\Intervals\Views\DayIntervalPartDetailsView.xaml">
+    <Page Include="TimeTrack\DayIntervals\Views\DayIntervalPartDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TimeTrack\Intervals\Views\DayIntervalsView.xaml">
+    <Page Include="TimeTrack\DayIntervals\Views\DayIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

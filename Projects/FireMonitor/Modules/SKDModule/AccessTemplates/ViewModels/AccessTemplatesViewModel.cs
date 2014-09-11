@@ -24,10 +24,9 @@ namespace SKDModule.ViewModels
 			return AccessTemplateHelper.Save(item);
 		}
 		
-		protected override AccessTemplate CopyModel(AccessTemplate source, bool newName = true)
+		protected override AccessTemplate CopyModel(AccessTemplate source)
 		{
-			var copy = base.CopyModel(source, newName);
-			copy.Description = source.Description;
+			var copy = base.CopyModel(source);
 			foreach (var cardDoor in source.CardDoors)
 			{
 				var copyCardDoor = new CardDoor();

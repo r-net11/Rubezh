@@ -210,9 +210,9 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
-    <Compile Include="Models\Automation\VariableType.cs" />
+    <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
-    <Compile Include="Models\Automation\ValueType.cs" />
+    <Compile Include="Models\Automation\ExplicitType.cs" />
     <Compile Include="Models\Layouts\LayoutPartProcedureProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
     <Compile Include="Models\Plans\ElementProcedure.cs" />

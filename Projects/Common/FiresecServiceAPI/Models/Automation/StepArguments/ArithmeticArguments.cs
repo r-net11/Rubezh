@@ -14,7 +14,7 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ExplicitType ExplicitType { get; set; }
 
 		[DataMember]
 		public ArithmeticOperationType ArithmeticOperationType { get; set; }

@@ -30,14 +30,7 @@ namespace SKDModule.ViewModels
 			};
 			return PositionHelper.Save(position);
 		}
-
-		protected override ShortPosition CopyModel(ShortPosition source, bool newName = true)
-		{
-			var copy = base.CopyModel(source, newName);
-			copy.Description = source.Description;
-			return copy;
-		}
-
+        
         protected override string ItemRemovingName
         {
             get { return "должность"; }

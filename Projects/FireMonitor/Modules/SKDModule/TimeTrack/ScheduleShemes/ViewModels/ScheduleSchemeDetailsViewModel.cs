@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -8,54 +9,50 @@ namespace SKDModule.ViewModels
 	public class ScheduleSchemeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ScheduleScheme>
 	{
 		FiresecAPI.SKD.Organisation Organisation;
-		ScheduleSchemeType ScheduleSchemeType;
+		public ObservableCollection<ScheduleSchemeType> ScheduleSchemeTypes { get; set; }
+		ScheduleSchemeType _selectedScheduleSchemeType;
+		public ScheduleSchemeType SelectedScheduleSchemeType
+		{
+			get { return _selectedScheduleSchemeType; }
+			set
+			{
+				_selectedScheduleSchemeType = value;
+				OnPropertyChanged(() => SelectedScheduleSchemeType);
+			}
+		}
+		public bool IsNew { get; private set; }
 		public ScheduleScheme Model { get; private set; }
 
 		public ScheduleSchemeDetailsViewModel()	{ }
 
-		public void Initialize(Organisation organisation, ScheduleScheme scheduleScheme, ViewPartViewModel parentViewModel)
+		public void Initialize(Organisation organisation, ScheduleScheme model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
-			ScheduleSchemeType = scheduleScheme.Type;
-			var dayCount = 0;
+			ScheduleSchemeTypes = new ObservableCollection<ScheduleSchemeType>();
+			foreach (ScheduleSchemeType scheduleSchemeType in Enum.GetValues(typeof(ScheduleSchemeType)))
+			{
+				ScheduleSchemeTypes.Add(scheduleSchemeType);
+			}
+			IsNew = model == null;
 			var name = string.Empty;
-			switch (ScheduleSchemeType)
+			if (IsNew)
 			{
-				case ScheduleSchemeType.Month:
-					name = "Месячный график работы";
-					Title = scheduleScheme == null ? "Новый месячный график работы" : "Редактирование месячного графика работы";
-					dayCount = 31;
-					break;
-				case ScheduleSchemeType.SlideDay:
-					name = "Суточный график работы";
-					Title = scheduleScheme == null ? "Новый суточный график работы" : "Редактирование скользящего посуточного графика работы";
-					dayCount = 1;
-					break;
-				case ScheduleSchemeType.Week:
-					name = "Недельный график работы";
-					Title = scheduleScheme == null ? "Новый недельный график работы" : "Редактирование недельногор графика работы";
-					dayCount = 7;
-					break;
-			}
-			if (scheduleScheme == null)
-			{
-				scheduleScheme = new ScheduleScheme()
+				Name = "Новый график работы";
+				Description = "";
+				Title = "Новый график работы";
+				SelectedScheduleSchemeType = ScheduleSchemeType.Week;
+				Model = new ScheduleScheme()
 				{
-					OrganisationUID = Organisation.UID,
-					Type = ScheduleSchemeType,
-					Name = name,
+					OrganisationUID = Organisation.UID
 				};
-				for (int i = 0; i < dayCount; i++)
-					scheduleScheme.DayIntervals.Add(new ScheduleDayInterval()
-					{
-						Number = i,
-						ScheduleSchemeUID = scheduleScheme.UID,
-						DayIntervalUID = Guid.Empty,
-					});
 			}
-			Model = scheduleScheme;
-			Name = Model.Name;
-			Description = Model.Description;
+			else
+			{
+				Name = Model.Name;
+				Description = Model.Description;
+				Title = "Редактирование графика работы";
+				Model = model;
+			}
 		}
 
 		string _name;
@@ -88,6 +85,33 @@ namespace SKDModule.ViewModels
 		{
 			Model.Name = Name;
 			Model.Description = Description;
+			if (IsNew)
+			{
+				if (IsNew)
+				{
+					var dayCount = 0;
+					switch (SelectedScheduleSchemeType)
+					{
+						case ScheduleSchemeType.Month:
+							dayCount = 31;
+							break;
+						case ScheduleSchemeType.SlideDay:
+							dayCount = 1;
+							break;
+						case ScheduleSchemeType.Week:
+							dayCount = 7;
+							break;
+					}
+					for (int i = 0; i < dayCount; i++)
+						Model.DayIntervals.Add(new ScheduleDayInterval()
+						{
+							Number = i,
+							ScheduleSchemeUID = Model.UID,
+							DayIntervalUID = Guid.Empty,
+						});
+				}
+				Model.Type = SelectedScheduleSchemeType;
+			}
 			return ScheduleSchemaHelper.Save(Model);
 		}
 	}

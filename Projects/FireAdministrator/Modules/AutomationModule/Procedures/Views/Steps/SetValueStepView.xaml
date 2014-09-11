@@ -2,13 +2,15 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
-	
-		<StackPanel>
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+			 xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Тип значений" Width="100" />
-			<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2"
-					  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}">
+			<Label Content="Тип значений" />
+			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -17,78 +19,12 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Переменная" Width="100" />
-			<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
-					  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-					  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-					  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding LocalVariables}" Margin="2"
-					  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-					  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+			<Label Content="Результат" />
+			<Views:ArithmeticParameterView DataContext="{Binding Result}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Значение" Width="100" />
-			<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
-					  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-					  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-					  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="2"
-					  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-					  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			
-			<StackPanel Margin="2" Visibility="{Binding Path=Variable1.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:VariableType.IsValue}}" MinWidth="163" MaxWidth="163">
-				<extToolkit:IntegerUpDown Value="{Binding Variable1.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-					ConverterParameter={x:Static automation:ValueType.Integer}}" Height="25" />
-				<CheckBox IsChecked="{Binding Variable1.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter}, 
-					ConverterParameter={x:Static automation:ValueType.Boolean}}" Margin="0,7,0,0" />
-				<TextBox Text="{Binding Variable1.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-					ConverterParameter={x:Static automation:ValueType.String}}" Height="25" VerticalContentAlignment="Center" />
-				<extToolkit:DateTimePicker Value="{Binding Variable1.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-					ConverterParameter={x:Static automation:ValueType.DateTime}}" Height="25" />
-			</StackPanel>
+			<Label Content="Значение" />
+			<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

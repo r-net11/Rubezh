@@ -5,7 +5,6 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using System;
-using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -14,41 +13,47 @@ namespace AutomationModule.ViewModels
 		SetValueArguments SetValueArguments { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		public ArithmeticParameterViewModel Result { get; private set; }
-		Procedure Procedure { get; set; }
 
-		public SetValueStepViewModel(SetValueArguments setValueArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public SetValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			SetValueArguments = setValueArguments;
-			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(SetValueArguments.Variable1);
-			Result = new ArithmeticParameterViewModel(SetValueArguments.Result, false);
-			ValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
-			SelectedValueType = SetValueArguments.ValueType;
+			SetValueArguments = stepViewModel.Step.SetValueArguments;
+			Variable1 = new ArithmeticParameterViewModel(SetValueArguments.Variable1, stepViewModel.Update);
+			Result = new ArithmeticParameterViewModel(SetValueArguments.Result, stepViewModel.Update, false);
+			Result.UpdateVariableHandler = UpdateVariable1;
+			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			SelectedExplicitType = SetValueArguments.ExplicitType;
 			UpdateContent();
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-
-		public ValueType SelectedValueType
+		void UpdateVariable1()
 		{
-			get { return SetValueArguments.ValueType; }
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
+			Variable1.ExplicitType = SelectedExplicitType;
+			Variable1.EnumType = Result.EnumType;
+		}
+
+		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
+
+		public ExplicitType SelectedExplicitType
+		{
+			get { return SetValueArguments.ExplicitType; }
 			set
 			{
-				SetValueArguments.ValueType = value;
-				OnPropertyChanged(() => SelectedValueType);
+				SetValueArguments.ExplicitType = value;
+				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
-			allVariables = allVariables.FindAll(x => !x.IsList && x.ValueType == SelectedValueType);
-			Variable1.Update(allVariables);
-			Result.Update(allVariables);
+			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
+			Result.ExplicitType = SelectedExplicitType;
 		}
 
-		public override string Description { get { return ""; } }
+		public override string Description 
+		{ 
+			get { return Result.Description + " = " + Variable1.Description; } 
+		}
 	}
 }

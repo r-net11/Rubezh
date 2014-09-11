@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
 	public class DepartmentsViewModel : OrganisationBaseViewModel<ShortDepartment, DepartmentFilter, DepartmentViewModel, DepartmentDetailsViewModel>
 	{
-		protected override void InitializeModels(IEnumerable<ShortDepartment> models)
+        List<ShortDepartment> _clipboardChildren;
+        
+        protected override void InitializeModels(IEnumerable<ShortDepartment> models)
 		{
 			foreach (var organisation in Organisations)
 			{
@@ -70,6 +71,7 @@ namespace SKDModule.ViewModels
 					Description = item.Description,
 					ParentDepartmentUID = item.ParentDepartmentUID,
 					OrganisationUID = item.OrganisationUID,
+                    ChildDepartmentUIDs = item.ChildDepartmentUIDs
 				};
 			return DepartmentHelper.Save(department);
 		}
@@ -81,29 +83,59 @@ namespace SKDModule.ViewModels
                 parentDepartmentUID = SelectedItem.Parent.Model.UID;
             _clipboard.ParentDepartmentUID = parentDepartmentUID;
             var newItem = CopyModel(_clipboard);
-            if (Save(newItem))
+            var newItemChildren = CopyChildren(newItem, _clipboardChildren);
+            if (Save(newItem) && SaveMany(newItemChildren))
             {
                 var itemViewModel = new DepartmentViewModel();
                 itemViewModel.InitializeModel(SelectedItem.Organisation, newItem, this);
                 SelectedItem.AddChild(itemViewModel);
+                AddChildren(itemViewModel, newItemChildren);
                 SelectedItem = itemViewModel;
             }
+        }
+
+        bool SaveMany(List<ShortDepartment> models)
+        {
+            foreach (var item in models)
+            {
+                var saveResult = Save(item);
+                if (!saveResult)
+                    return false;
+            }
+            return true;
         }
 
         protected override bool CanPaste()
         {
             return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
         }
-        
-        protected override ShortDepartment CopyModel(ShortDepartment source, bool newName = true)
+
+        protected override void OnCopy()
         {
-            var copy = new ShortDepartment();
-            copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
-            copy.Description = source.Description;
+            base.OnCopy();
+            _clipboardChildren = CopyChildren(_clipboard, SelectedItem.Children.Select(x => x.Model));
+        }
+        
+        protected override ShortDepartment CopyModel(ShortDepartment source)
+        {
+            var copy = base.CopyModel(source);
             if (SelectedItem.Model != null)
                 copy.ParentDepartmentUID = SelectedItem.Model.UID;
-            copy.OrganisationUID = ParentOrganisation.Organisation.UID;
             return copy;
+        }
+
+        List<ShortDepartment> CopyChildren(ShortDepartment parent, IEnumerable<ShortDepartment> children)
+        {
+            var result = new List<ShortDepartment>();
+            parent.ChildDepartmentUIDs = new List<Guid>();
+            foreach (var item in children)
+            {
+                var shortDepartment = base.CopyModel(item);
+                shortDepartment.ParentDepartmentUID = parent.UID;
+                result.Add(shortDepartment);
+                parent.ChildDepartmentUIDs.Add(shortDepartment.UID);
+            }
+            return result;
         }
 
         protected override string ItemRemovingName

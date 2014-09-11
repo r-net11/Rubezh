@@ -123,9 +123,14 @@ namespace SKDModule.ViewModels
 		}
 		void OnEdit(SKDDoor door)
 		{
+			var previousDoorType = door.DoorType;
 			var doorDetailsViewModel = new DoorDetailsViewModel(door);
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
+				if (previousDoorType != doorDetailsViewModel.Door.DoorType)
+				{
+					SKDManager.ChangeDoorDevice(doorDetailsViewModel.Door, null);
+				}
 				SelectedDoor.Update(doorDetailsViewModel.Door);
 				doorDetailsViewModel.Door.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;

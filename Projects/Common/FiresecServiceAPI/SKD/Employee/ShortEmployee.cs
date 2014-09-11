@@ -60,7 +60,11 @@ namespace FiresecAPI.SKD
 			}
 		}
 
-        public string Description { get { return ""; } }
+        public string Description 
+        { 
+            get { return ""; }
+            set { return; }
+        }
 	}
 
 	public class TextColumn

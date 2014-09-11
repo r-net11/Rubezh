@@ -80,11 +80,10 @@ namespace SKDModule.ViewModels
 			return DayIntervalHelper.Save(item);
 		}
 
-		protected override DayInterval CopyModel(DayInterval source, bool newName = true)
+		protected override DayInterval CopyModel(DayInterval source)
 		{
-			var copy = base.CopyModel(source, newName);
-			copy.Description = source.Description;
-            copy.DayIntervalParts = source.DayIntervalParts;
+			var copy = base.CopyModel(source);
+			copy.DayIntervalParts = source.DayIntervalParts;
 			return copy;
 		}
 

@@ -16,11 +16,6 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			CardDoors = cardDoors;
 
-			InitializeDoors();
-		}
-
-		void InitializeDoors()
-		{
 			Doors = new ObservableCollection<AccessDoorViewModel>();
 			var organisationDoors = SKDManager.SKDConfiguration.Doors.Where(x => Organisation.DoorUIDs.Any(y => y == x.UID));
 			foreach (var door in organisationDoors)
@@ -54,9 +49,9 @@ namespace SKDModule.ViewModels
 					var cardDoor = new CardDoor()
 					{
 						DoorUID = door.Door.UID,
-						EnterIntervalType = door.SelectedEnterTimeCreteria.IntervalType,
+						EnterIntervalType = door.SelectedEnterTimeCreteria,
 						EnterIntervalID = door.SelectedEnterTimeType != null ? door.SelectedEnterTimeType.ScheduleID : 0,
-						ExitIntervalType = door.SelectedExitTimeCreteria.IntervalType,
+						ExitIntervalType = door.SelectedExitTimeCreteria,
 						ExitIntervalID = door.SelectedExitTimeType != null ? door.SelectedExitTimeType.ScheduleID : 0,
 					};
 					CardDoors.Add(cardDoor);

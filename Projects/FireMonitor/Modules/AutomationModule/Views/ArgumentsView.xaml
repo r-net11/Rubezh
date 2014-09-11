@@ -15,36 +15,36 @@
 
 					<StackPanel Grid.Column="0" Orientation="Horizontal" Margin="2" HorizontalAlignment="Left">
 						<Image Source="/Controls;component/Images/GlobalVariable.png" Width="16" Margin="2 0 0 0" />
-						<TextBlock Text="{Binding ValueType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2 0" Foreground="White" />
+						<TextBlock Text="{Binding ExplicitType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2 0" Foreground="White" />
 						<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" Foreground="White" />
 					</StackPanel>
 
-					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.Integer}}" HorizontalAlignment="Right" Height="28" >
+					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ExplicitType.Integer}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" />
 						<extToolkit:IntegerUpDown Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
-					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
-						ConverterParameter={x:Static automation:ValueType.Boolean}}" HorizontalAlignment="Right" Height="28" >
+					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
+						ConverterParameter={x:Static automation:ExplicitType.Boolean}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" HorizontalAlignment="Left" />
 						<CheckBox IsChecked="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
 					</StackPanel>
 
-					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.String}}" HorizontalAlignment="Right" Height="28" >
+					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ExplicitType.String}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" />
 						<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 					</StackPanel>
 
-					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
+					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ExplicitType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
 						<Label Content="Значение" />
 						<extToolkit:DateTimePicker Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 					</StackPanel>
 
-					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.Object}}" HorizontalAlignment="Right" Height="28" >
+					<StackPanel Grid.Column="1" Orientation="Horizontal" Margin="2" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ExplicitType.Object}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Тип" />
 						<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding ObjectType}" Width="200" Margin="2" >
 							<ComboBox.ItemTemplate>

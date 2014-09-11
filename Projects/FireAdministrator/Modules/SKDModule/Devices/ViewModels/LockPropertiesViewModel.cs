@@ -43,10 +43,10 @@ namespace SKDModule.ViewModels
 			UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 			CloseTimeout = doorConfiguration.CloseTimeout;
 			IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
+			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 
 			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
 			OnPropertyChanged(() => LockIntervalsViewModel);
@@ -112,18 +112,10 @@ namespace SKDModule.ViewModels
 				_isBreakInAlarmEnable = value;
 				OnPropertyChanged(() => IsBreakInAlarmEnable);
 				HasChanged = true;
-			}
-		}
-
-		bool _isRepeatEnterAlarmEnable;
-		public bool IsRepeatEnterAlarmEnable
-					{
-			get { return _isRepeatEnterAlarmEnable; }
-			set
-			{
-				_isRepeatEnterAlarmEnable = value;
-				OnPropertyChanged(() => IsRepeatEnterAlarmEnable);
-				HasChanged = true;
+				if (value)
+				{
+					IsSensorEnable = true;
+				}
 			}
 		}
 
@@ -136,18 +128,10 @@ namespace SKDModule.ViewModels
 				_isDoorNotClosedAlarmEnable = value;
 				OnPropertyChanged(() => IsDoorNotClosedAlarmEnable);
 				HasChanged = true;
-			}
-		}
-
-		bool _isDuressAlarmEnable;
-		public bool IsDuressAlarmEnable
-		{
-			get { return _isDuressAlarmEnable; }
-			set
-			{
-				_isDuressAlarmEnable = value;
-				OnPropertyChanged(() => IsDuressAlarmEnable);
-				HasChanged = true;
+				if (value)
+				{
+					IsSensorEnable = true;
+				}
 			}
 		}
 
@@ -159,6 +143,36 @@ namespace SKDModule.ViewModels
 			{
 				_isSensorEnable = value;
 				OnPropertyChanged(() => IsSensorEnable);
+				HasChanged = true;
+
+				if (!value)
+				{
+					IsBreakInAlarmEnable = false;
+					IsDoorNotClosedAlarmEnable = false;
+				}
+			}
+		}
+
+		bool _isRepeatEnterAlarmEnable;
+		public bool IsRepeatEnterAlarmEnable
+		{
+			get { return _isRepeatEnterAlarmEnable; }
+			set
+			{
+				_isRepeatEnterAlarmEnable = value;
+				OnPropertyChanged(() => IsRepeatEnterAlarmEnable);
+				HasChanged = true;
+			}
+		}
+
+		bool _isDuressAlarmEnable;
+		public bool IsDuressAlarmEnable
+		{
+			get { return _isDuressAlarmEnable; }
+			set
+			{
+				_isDuressAlarmEnable = value;
+				OnPropertyChanged(() => IsDuressAlarmEnable);
 				HasChanged = true;
 			}
 		}
@@ -205,10 +219,10 @@ namespace SKDModule.ViewModels
 			doorConfiguration.UnlockHoldInterval = UnlockHoldInterval;
 			doorConfiguration.CloseTimeout = CloseTimeout;
 			doorConfiguration.IsBreakInAlarmEnable = IsBreakInAlarmEnable;
-			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;
 			doorConfiguration.IsDoorNotClosedAlarmEnable = IsDoorNotClosedAlarmEnable;
-			doorConfiguration.IsDuressAlarmEnable = IsDuressAlarmEnable;
 			doorConfiguration.IsSensorEnable = IsSensorEnable;
+			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;
+			doorConfiguration.IsDuressAlarmEnable = IsDuressAlarmEnable;
 			doorConfiguration.DoorDayIntervalsCollection = LockIntervalsViewModel.GetModel();
 			return doorConfiguration;
 		}

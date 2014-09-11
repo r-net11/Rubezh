@@ -44,7 +44,8 @@ namespace ControllerSDK.ViewModels
 		{
 			Wrapper.Initialize();
 			string error;
-			MainViewModel.Wrapper.Connect("172.16.6.55", 37777, "admin", "123456", out error);
+			var connectionSettings = ConnectionSettingsHelper.Get();
+			MainViewModel.Wrapper.Connect(connectionSettings.Address, connectionSettings.Port, connectionSettings.Login, connectionSettings.Password, out error);
 		}
 
 		public RelayCommand DisconnectCommand { get; private set; }

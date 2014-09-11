@@ -7,8 +7,7 @@
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 		<Label Content="Пауза" />
-        <Views:ArgumentItemView DataContext="{Binding Pause}" Margin="2" />
-
+		<Views:ArithmeticParameterView DataContext="{Binding Pause}" />
         <ComboBox ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>

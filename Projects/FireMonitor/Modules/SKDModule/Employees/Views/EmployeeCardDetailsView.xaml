@@ -26,7 +26,7 @@
 	                    <RowDefinition Height="Auto" />
 	                </Grid.RowDefinitions>
 
-	                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип пропуска" Margin="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" Text="Тип пропуска" Margin="2 4" />
 	                <StackPanel Grid.Row="0" Grid.Column="1" Margin="2">
 	                    <ComboBox ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
 	                        <ComboBox.ItemTemplate>
@@ -38,7 +38,7 @@
 	                    <TextBlock Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}" TextWrapping="Wrap" Foreground="White" Margin="2" />
 	                </StackPanel>
 
-	                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Пароль" Margin="2" />
+	                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Пароль" Margin="2" />
 	                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Margin="2" />
 
 	                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
@@ -53,14 +53,14 @@
 	                    </StackPanel>
 	                </StackPanel>
 
-	                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Контроллер деактивации" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Контроллер деактивации" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 	                <TextBlock Grid.Row="3" Grid.Column="1" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" TextWrapping="Wrap" Margin="2">
 						<Hyperlink Command="{Binding ChangeDeactivationControllerCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock Text="{Binding DeactivationControllerName}" />
 						</Hyperlink>
 					</TextBlock>
 
-	                <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Количество проходов" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Количество проходов" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 	                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding UserTime}" Visibility="{Binding CanSetUserTime, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 	            </Grid>
 
@@ -75,7 +75,7 @@
 	                    <RowDefinition Height="Auto" />
 	                    <RowDefinition Height="Auto" />
 	                </Grid.RowDefinitions>
-	                <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="2" />
 	                <TextBox Grid.Row="0" Grid.Column="1" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" HorizontalAlignment="Left" Width="100" Margin="2" />
 
 	                <CheckBox Grid.Row="1" Grid.Column="0" Content="Из списка деактивированных" IsChecked="{Binding UseStopList}" Foreground="White" VerticalAlignment="Center" Margin="2" />
@@ -88,7 +88,7 @@
 	                </ComboBox>
 
 	                <CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Margin="2" />
-	                <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap">
+                    <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center">
 						<Hyperlink Command="{Binding ChangeReaderCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding IsNewCard}">
 							<TextBlock Text="{Binding ReaderName}" />
 						</Hyperlink>

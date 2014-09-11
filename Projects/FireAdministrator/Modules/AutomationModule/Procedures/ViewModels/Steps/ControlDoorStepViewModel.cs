@@ -7,25 +7,22 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using ValueType = FiresecAPI.Automation.ValueType;
+using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlDoorStepViewModel : BaseStepViewModel
 	{
 		ControlDoorArguments ControlDoorArguments { get; set; }
-		Procedure Procedure { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 
-		public ControlDoorStepViewModel(ControlDoorArguments controlDoorArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public ControlDoorStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			ControlDoorArguments = controlDoorArguments;
-			Procedure = procedure;
+			ControlDoorArguments = stepViewModel.Step.ControlDoorArguments;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1);
+			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.ControlDoor;
-			Variable1.ValueType = ValueType.Object;
+			Variable1.ExplicitType = ExplicitType.Object;
 			UpdateContent();
 		}
 
@@ -45,12 +42,15 @@ namespace AutomationModule.ViewModels
 		
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.ControlDoor, false));
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.ControlDoor, false));
 		}
 
 		public override string Description
 		{
-			get { return ""; }
+			get
+			{
+				return "Точка доступа: " + Variable1.Description + "Команда: " + SelectedCommand.ToDescription();
+			}
 		}
 	}
 }

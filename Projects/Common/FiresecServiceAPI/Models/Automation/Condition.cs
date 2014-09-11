@@ -27,7 +27,7 @@ namespace FiresecAPI.Automation
 		public ConditionType ConditionType { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ExplicitType ExplicitType { get; set; }
 	}
 
 	public enum ConditionType

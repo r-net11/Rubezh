@@ -7,7 +7,6 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using ValueType = FiresecAPI.Automation.ValueType;
 using FiresecAPI.GK;
 using System.Reflection.Emit;
 
@@ -16,14 +15,13 @@ namespace AutomationModule.ViewModels
 	public class FindObjectStepViewModel : BaseStepViewModel
 	{
 		FindObjectArguments FindObjectArguments { get; set; }
-		Procedure Procedure { get; set; }
 		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
+		Action UpdateDescriptionHandler { get; set; }
 
-		public FindObjectStepViewModel(FindObjectArguments findObjectArguments, Procedure procedure, Action updateDescriptionHandler)
-			: base(updateDescriptionHandler)
+		public FindObjectStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			FindObjectArguments = findObjectArguments;
-			Procedure = procedure;
+			FindObjectArguments = stepViewModel.Step.FindObjectArguments;
+			UpdateDescriptionHandler = stepViewModel.Update;
 			UpdateContent();
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<FindObjectConditionViewModel>(OnRemove);
@@ -34,7 +32,7 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var findObjectCondition = new FindObjectCondition();
-			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure);
+			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
 			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
@@ -65,7 +63,7 @@ namespace AutomationModule.ViewModels
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
 			Variables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in allVariables.FindAll(x => ((x.ValueType == ValueType.Object) && (x.IsList))))
+			foreach (var variable in allVariables.FindAll(x => ((x.ExplicitType == ExplicitType.Object) && (x.IsList))))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
@@ -76,7 +74,7 @@ namespace AutomationModule.ViewModels
 			if (SelectedVariable != null)
 				foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 				{
-					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure);
+					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
 					FindObjectConditions.Add(findObjectConditionViewModel);
 				}
 			else
@@ -89,7 +87,44 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return ""; }
+			get 
+			{
+
+				var result = SelectedVariable != null ? "<" + SelectedVariable.Name + ">": "<пусто>";
+				var condition = "";
+				var conditionViewModel = FindObjectConditions.FirstOrDefault();
+				if (conditionViewModel == null)
+					return "Результат: " + result + "Условие поиска: <пусто>";
+
+				var var2 = conditionViewModel.Variable2.Description;
+				var op = "";
+				switch (conditionViewModel.SelectedConditionType)
+				{
+					case ConditionType.IsEqual:
+						op = "==";
+						break;
+					case ConditionType.IsLess:
+						op = "<";
+						break;
+					case ConditionType.IsMore:
+						op = ">";
+						break;
+					case ConditionType.IsNotEqual:
+						op = "!=";
+						break;
+					case ConditionType.IsNotLess:
+						op = "≥";
+						break;
+					case ConditionType.IsNotMore:
+						op = "≤";
+						break;
+				}
+				var end = "";
+				if (FindObjectConditions.Count > 1)
+					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
+
+				return "Результат: " + result + "Условие поиска: " + conditionViewModel.SelectedProperty + " " + op + " " + var2 + " " + end;
+			}
 		}
 
 		public JoinOperator JoinOperator
@@ -132,11 +167,11 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel Variable2 { get; private set; }
 		Procedure Procedure { get; set; }
 
-		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure)
+		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure, Action updateDescriptionHandler)
 		{
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2);
+			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, updateDescriptionHandler);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 		}
@@ -152,9 +187,9 @@ namespace AutomationModule.ViewModels
 				{ MinValue = 1; MaxValue = 255; }
 				if (value == Property.ShleifNo)
 				{ MinValue = 1; MaxValue = 8; }
-				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ValueType));
-				Variable2.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ValueType && x.EnumType == EnumType));
-				Variable2.ValueType = ValueType;
+				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ExplicitType));
+				Variable2.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType && x.EnumType == EnumType));
+				Variable2.ExplicitType = ExplicitType;
 				Variable2.EnumType = EnumType;
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ConditionTypes);
@@ -208,15 +243,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ValueType ValueType
+		public ExplicitType ExplicitType
 		{
 			get
 			{
 				if (SelectedProperty == Property.Description)
-					return ValueType.String;
+					return ExplicitType.String;
 				if ((SelectedProperty == Property.Type)||(SelectedProperty == Property.DeviceState))
-					return ValueType.Enum;
-				return ValueType.Integer;
+					return ExplicitType.Enum;
+				return ExplicitType.Integer;
 			}
 		}
 	}
