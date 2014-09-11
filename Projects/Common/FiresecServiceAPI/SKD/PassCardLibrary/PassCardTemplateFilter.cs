@@ -3,7 +3,7 @@
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class PassCardTemplateFilter : OrganisationFilterBase
+	public class PositionFilter : OrganisationFilterBase
 	{
 	}
 }

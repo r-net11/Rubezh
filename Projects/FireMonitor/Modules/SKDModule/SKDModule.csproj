@@ -100,9 +100,9 @@
     <Compile Include="Events\NewCardEvent.cs" />
     <Compile Include="Events\EditOrganisationEvent.cs" />
     <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
-<Compile Include="Events\RemoveOrganisationEvent.cs" />
-<Compile Include="Events\ShowPassCardDesignerEvent.cs" />    
-<Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
+    <Compile Include="Events\RemoveOrganisationEvent.cs" />
+    <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
+    <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
@@ -155,7 +155,9 @@
     <Compile Include="PassCardDesigner\ViewModels\PassCardDesignerViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardImagePropertyViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardsDesignerViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateDetailsViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatePropertiesViewModel.cs" />
+    <Compile Include="PassCardDesigner\ViewModels\PassCardTemplatesViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardTemplateViewModel.cs" />
     <Compile Include="PassCardDesigner\ViewModels\PassCardTextPropertyViewModel.cs" />
     <Compile Include="PassCardDesigner\Views\PassCardImagePropertyView.xaml.cs">
@@ -166,6 +168,12 @@
     </Compile>
     <Compile Include="PassCardDesigner\Views\PassCardTemplatePropertiesView.xaml.cs">
       <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\PassCardTemplatesView.xaml.cs">
+      <DependentUpon>PassCardTemplatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCardDesigner\Views\PassCardTemplateView.xaml.cs">
+      <DependentUpon>PassCardTemplateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml.cs">
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
@@ -628,6 +636,14 @@
     <Page Include="PassCardDesigner\Views\PassCardTemplatePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardTemplatesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PassCardDesigner\Views\PassCardTemplateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml">
       <Generator>MSBuild:Compile</Generator>

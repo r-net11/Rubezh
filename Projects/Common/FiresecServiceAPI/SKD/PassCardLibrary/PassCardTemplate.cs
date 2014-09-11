@@ -8,7 +8,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class PassCardTemplate : IElementBackground, IElementRectangle, IElementBorder
+	public class PassCardTemplate : OrganisationElementBase, IElementBackground, IElementRectangle, IElementBorder
 	{
 		public PassCardTemplate()
 		{
@@ -39,8 +39,6 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Description { get; set; }
 
-		[DataMember]
-		public Guid UID { get; set; }
 		[DataMember]
 		public double Width { get; set; }
 		[DataMember]

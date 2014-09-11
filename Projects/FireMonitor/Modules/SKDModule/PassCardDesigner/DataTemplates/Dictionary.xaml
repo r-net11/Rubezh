@@ -20,4 +20,12 @@
 		<Views:PassCardImagePropertyView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplatesViewModel}">
+		<Views:PassCardTemplatesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplateViewModel}">
+		<Views:PassCardTemplateView />
+	</DataTemplate>
+
 </ResourceDictionary>

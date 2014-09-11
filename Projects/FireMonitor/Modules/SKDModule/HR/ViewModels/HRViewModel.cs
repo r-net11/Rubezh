@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using System.Linq;
+using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -18,6 +19,7 @@ namespace SKDModule.ViewModels
 		AdditionalColumnTypeFilter AdditionalColumnTypeFilter;
 		CardFilter CardFilter;
 		AccessTemplateFilter AccessTemplateFilter;
+		PassCardTemplateFilter PassCardTemplateFilter;
 
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
@@ -25,6 +27,7 @@ namespace SKDModule.ViewModels
 		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
 		public CardsViewModel CardsViewModel { get; private set; }
 		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
+		public PassCardTemplatesViewModel PassCardTemplatesViewModel { get; private set; }
 		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
 
 		public HRViewModel()
@@ -37,6 +40,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
+			PassCardTemplatesViewModel = new PassCardTemplatesViewModel();
 			OrganisationsViewModel = new OrganisationsViewModel();
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
@@ -133,6 +137,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isPassCardTemplatesSelected;
+		public bool IsPassCardTemplatesSelected
+		{
+			get { return _isPassCardTemplatesSelected; }
+			set
+			{
+				_isPassCardTemplatesSelected = value;
+				OnPropertyChanged(() => IsPassCardTemplatesSelected);
+			}
+		}
+
 		bool _isOrganisationsSelected;
 		public bool IsOrganisationsSelected
 		{
@@ -189,6 +204,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			CardFilter = new CardFilter();
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 
 			EmployeesViewModel.Initialize(EmployeeFilter);
 			DepartmentsViewModel.Initialize(DepartmentFilter);
@@ -196,6 +212,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
 			CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
 			OrganisationsViewModel.Initialize();
 		}
 	}

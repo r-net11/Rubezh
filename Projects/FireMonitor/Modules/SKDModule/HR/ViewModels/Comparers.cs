@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.TreeList;
+using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -53,6 +54,22 @@ namespace SKDModule.ViewModels
 	public class AdditionalColumnTypeViewModelDescriptionComparer : TreeNodeComparer<AdditionalColumnTypeViewModel>
 	{
 		protected override int Compare(AdditionalColumnTypeViewModel x, AdditionalColumnTypeViewModel y)
+		{
+			return string.Compare(x.Description, y.Description);
+		}
+	}
+
+	public class PassCardTemplateViewModelNameComparer : TreeNodeComparer<PassCardTemplateViewModel>
+	{
+		protected override int Compare(PassCardTemplateViewModel x, PassCardTemplateViewModel y)
+		{
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class PassCardTemplateViewModelDescriptionComparer : TreeNodeComparer<PassCardTemplateViewModel>
+	{
+		protected override int Compare(PassCardTemplateViewModel x, PassCardTemplateViewModel y)
 		{
 			return string.Compare(x.Description, y.Description);
 		}
