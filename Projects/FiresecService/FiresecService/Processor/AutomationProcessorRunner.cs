@@ -126,7 +126,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					ProcedureHelper.ControlFireZone(procedureStep);
+					ProcedureHelper.ControlFireZone(procedureStep, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:

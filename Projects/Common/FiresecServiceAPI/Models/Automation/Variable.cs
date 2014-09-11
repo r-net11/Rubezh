@@ -55,7 +55,7 @@ namespace FiresecAPI.Automation
 
 		public void ResetValue()
 		{
-			PropertyCopy.Copy<VariableItem, VariableItem> (VariableItem, DefaultVariableItem);
+			PropertyCopy.Copy<VariableItem, VariableItem>(DefaultVariableItem, VariableItem);
 		}
 
 		public void ResetValue(Argument argument)

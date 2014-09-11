@@ -37,12 +37,12 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			return true;
 		}
 
-		protected override ShortPassCardTemplate CopyModel(ShortPassCardTemplate source, bool newName = true)
-		{
-			var copy = base.CopyModel(source, newName);
-			//copy.Description = source.Description;
-			return copy;
-		}
+		//protected override ShortPassCardTemplate CopyModel(ShortPassCardTemplate source, bool newName = true)
+		//{
+		//    var copy = base.CopyModel(source, newName);
+		//    //copy.Description = source.Description;
+		//    return copy;
+		//}
 
 		protected override string ItemRemovingName
 		{

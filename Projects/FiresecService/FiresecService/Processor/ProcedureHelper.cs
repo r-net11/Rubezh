@@ -379,17 +379,19 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static void ControlFireZone(ProcedureStep procedureStep)
+		public static void ControlFireZone(ProcedureStep procedureStep, Procedure procedure)
 		{
-			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.Variable1.VariableItem.UidValue);
-			if (zone == null)
-				return;
+			var zoneUid = Guid.NewGuid();
+			if (procedureStep.ControlGKFireZoneArguments.Variable1.VariableScope == VariableScope.ExplicitValue)
+				zoneUid = procedureStep.ControlGKFireZoneArguments.Variable1.VariableItem.UidValue;
+			else
+				zoneUid = ProcedureHelper.GetAllVariables(procedure).FirstOrDefault(x => x.Uid == procedureStep.ControlGKFireZoneArguments.Variable1.VariableUid).VariableItem.UidValue;
 			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zone.UID, zone.ObjectType);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, XBaseObjectType.Zone);
 			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.ResetIgnore)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zone.UID, zone.ObjectType);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, XBaseObjectType.Zone);
 			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zone.UID, zone.ObjectType);
+				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, XBaseObjectType.Zone);
 		}
 
 		public static void ControlGuardZone(ProcedureStep procedureStep)
