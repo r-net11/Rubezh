@@ -29,9 +29,9 @@ namespace AutomationModule
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
 			if (objectType == ObjectType.Device)
-				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.DeviceState, Property.Type };
+				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
 			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Type };
+				return new List<Property> { Property.Description, Property.No, Property.Type, Property.State };
 			if (objectType == ObjectType.Direction)
 				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime };
 			return new List<Property>();

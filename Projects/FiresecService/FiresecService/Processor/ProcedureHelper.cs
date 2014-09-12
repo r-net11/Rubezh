@@ -20,14 +20,16 @@ namespace FiresecService.Processor
 			WinFormsPlayers = new List<WinFormsPlayer>();
 		}
 
+		static public Procedure Procedure { get; set; }
+
 		public static bool Compare(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
 			var conditionArguments = procedureStep.ConditionArguments;
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
 			foreach (var condition in conditionArguments.Conditions)
 			{
-				int variable1 = GetValue<int>(condition.Variable1, procedure, arguments);
-				int variable2 = GetValue<int>(condition.Variable2, procedure, arguments);
+				int variable1 = GetValue<int>(condition.Variable1);
+				int variable2 = GetValue<int>(condition.Variable2);
 				switch (condition.ConditionType)
 				{
 					case ConditionType.IsEqual:
@@ -180,26 +182,27 @@ namespace FiresecService.Processor
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
 		}
 
-		static void InitializeProperties(ref int intPropertyValue, ref string stringPropertyValue, ref Guid itemUid, Property property, object item)
+		static object GetPropertyValue(ref Guid itemUid, Property property, object item)
 		{
+			var propertyValue = new object();
 			if (item is XDevice)
 			{
 				switch (property)
 				{
 					case Property.ShleifNo:
-						intPropertyValue = (item as XDevice).ShleifNo;
+						propertyValue = (item as XDevice).ShleifNo;
 						break;
 					case Property.IntAddress:
-						intPropertyValue = (item as XDevice).IntAddress;
+						propertyValue = (item as XDevice).IntAddress;
 						break;
-					case Property.DeviceState:
-						intPropertyValue = (int)(item as XDevice).State.StateClass;
+					case Property.State:
+						propertyValue = (int)(item as XDevice).State.StateClass;
 						break;
 					case Property.Type:
-						stringPropertyValue = (item as XDevice).Driver.Name.Trim();
+						propertyValue = (item as XDevice).Driver.Name.Trim();
 						break;
 					case Property.Description:
-						stringPropertyValue = (item as XDevice).Description.Trim();
+						propertyValue = (item as XDevice).Description.Trim();
 						break;
 				}
 				itemUid = (item as XDevice).UID;
@@ -210,13 +213,16 @@ namespace FiresecService.Processor
 				switch (property)
 				{
 					case Property.No:
-						intPropertyValue = (item as XZone).No;
+						propertyValue = (item as XZone).No;
 						break;
 					case Property.Type:
-						intPropertyValue = (int)(item as XZone).ObjectType;
+						propertyValue = (int)(item as XZone).ObjectType;
+						break;
+					case Property.State:
+						propertyValue = (int)(item as XZone).State.StateClass;
 						break;
 					case Property.Description:
-						stringPropertyValue = (item as XZone).Description.Trim();
+						propertyValue = (item as XZone).Description.Trim();
 						break;
 				}
 				itemUid = (item as XZone).UID;
@@ -227,23 +233,25 @@ namespace FiresecService.Processor
 				switch (property)
 				{
 					case Property.No:
-						intPropertyValue = (item as XDirection).No;
+						propertyValue = (item as XDirection).No;
 						break;
 					case Property.Delay:
-						intPropertyValue = (int)(item as XDirection).Delay;
+						propertyValue = (int)(item as XDirection).Delay;
 						break;
 					case Property.Hold:
-						intPropertyValue = (int)(item as XDirection).Hold;
+						propertyValue = (int)(item as XDirection).Hold;
 						break;
 					case Property.DelayRegime:
-						intPropertyValue = (int)(item as XDirection).DelayRegime;
+						propertyValue = (int)(item as XDirection).DelayRegime;
 						break;
 					case Property.Description:
-						stringPropertyValue = (item as XDirection).Description.Trim();
+						propertyValue = (item as XDirection).Description.Trim();
 						break;
 				}
 				itemUid = (item as XDirection).UID;
 			}
+
+			return propertyValue;
 		}
 
 		static void InitializeItems(ref IEnumerable<object> items, ref Variable result)
@@ -285,29 +293,22 @@ namespace FiresecService.Processor
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
 			var resultObjects = new List<object>();
-			int intPropertyValue = 0;
-			string stringPropertyValue = "";
 			var itemUid = new Guid();
 
 			foreach (var findObjectCondition in findObjectConditions)
 			{
 				foreach (var item in items)
 				{
-					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition.Property, item);
 					if (resultObjects.Contains(item))
 						continue;
-					if (((findObjectCondition.Property != Property.Description) &&
-						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue == findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue != findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue > findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue <= findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue < findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue >= findObjectCondition.Variable2.VariableItem.IntValue)))) ||
-						((findObjectCondition.Property == Property.Description) &&
-						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.Variable2.VariableItem.StringValue))) ||
-						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.Variable2.VariableItem.StringValue))) ||
-						((findObjectCondition.ConditionType == ConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.Variable2.VariableItem.StringValue))))))
-					{ resultObjects.Add(item); result.VariableItems.Add(new VariableItem { UidValue = itemUid }); }
+					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
+					var conditionValue = GetValue<object>(findObjectCondition.Variable2);
+					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
+					if ((comparer != null) && (comparer.Value))
+					{
+						resultObjects.Add(item);
+						result.VariableItems.Add(new VariableItem { UidValue = itemUid });
+					}
 				}
 			}
 		}
@@ -318,30 +319,43 @@ namespace FiresecService.Processor
 			InitializeItems(ref items, ref result);
 			var resultObjects = new List<object>(items);
 			var tempObjects = new List<object>(resultObjects);
-			int intPropertyValue = 0;
-			string stringPropertyValue = "";
 			var itemUid = new Guid();
 
 			foreach (var findObjectCondition in findObjectConditions)
 			{
 				foreach (var item in resultObjects)
 				{
-					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition.Property, item);
-					if (((findObjectCondition.Property != Property.Description) &&
-						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue != findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue == findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue <= findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue > findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue >= findObjectCondition.Variable2.VariableItem.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue < findObjectCondition.Variable2.VariableItem.IntValue)))) ||
-						((findObjectCondition.Property == Property.Description) &&
-						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.Variable2.VariableItem.StringValue))) ||
-						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.Variable2.VariableItem.StringValue))) ||
-						((findObjectCondition.ConditionType == ConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.Variable2.VariableItem.StringValue))))))
-					{ tempObjects.Remove(item); result.VariableItems.RemoveAll(x => x.UidValue == itemUid); }
+					var propertyValue = GetPropertyValue(ref itemUid, findObjectCondition.Property, item);
+					var conditionValue = GetValue<object>(findObjectCondition.Variable2);
+					var comparer = Compare(propertyValue, conditionValue, findObjectCondition.ConditionType);
+					if ((comparer != null) && (!comparer.Value))
+					{
+						tempObjects.Remove(item);
+						result.VariableItems.RemoveAll(x => x.UidValue == itemUid);
+					}
 				}
 				resultObjects = new List<object>(tempObjects);
 			}
+		}
+
+		static bool? Compare(object param1, object param2, ConditionType conditionType)
+		{
+			if (param1.GetType() == typeof(Enum) || param1.GetType() == typeof(int))
+			{
+				return (((conditionType == ConditionType.IsEqual) && ((int)param1 == (int)param2))
+					|| ((conditionType == ConditionType.IsNotEqual) && ((int)param1 != (int)param2))
+					|| ((conditionType == ConditionType.IsMore) && ((int)param1 > (int)param2))
+					|| ((conditionType == ConditionType.IsNotMore) && ((int)param1 <= (int)param2))
+					|| ((conditionType == ConditionType.IsLess) && ((int)param1 < (int)param2))
+					|| ((conditionType == ConditionType.IsNotLess) && ((int)param1 >= (int)param2)));
+			}
+			if (param1.GetType() == typeof(string))
+			{
+				return (((conditionType == ConditionType.StartsWith) && (((string)param1).StartsWith((string)param2)))
+					|| ((conditionType == ConditionType.EndsWith) && (((string)param1).EndsWith((string)param2)))
+					|| ((conditionType == ConditionType.Contains) && (((string)param1).Contains((string)param2))));
+			}
+			return null;
 		}
 
 		public static void ControlGKDevice(ProcedureStep procedureStep)
@@ -379,61 +393,56 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static void ControlFireZone(ProcedureStep procedureStep, Procedure procedure)
+		public static void ControlFireZone(ProcedureStep procedureStep)
 		{
-			var zoneUid = Guid.NewGuid();
-			if (procedureStep.ControlGKFireZoneArguments.Variable1.VariableScope == VariableScope.ExplicitValue)
-				zoneUid = procedureStep.ControlGKFireZoneArguments.Variable1.VariableItem.UidValue;
-			else
-				zoneUid = ProcedureHelper.GetAllVariables(procedure).FirstOrDefault(x => x.Uid == procedureStep.ControlGKFireZoneArguments.Variable1.VariableUid).VariableItem.UidValue;
-			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
+			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.Variable1);
+			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
+			if (zoneCommandType == ZoneCommandType.Ignore)
 				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, XBaseObjectType.Zone);
-			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.ResetIgnore)
+			if (zoneCommandType == ZoneCommandType.ResetIgnore)
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, XBaseObjectType.Zone);
-			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Reset)
+			if (zoneCommandType == ZoneCommandType.Reset)
 				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, XBaseObjectType.Zone);
 		}
 
 		public static void ControlGuardZone(ProcedureStep procedureStep)
 		{
-			var zone = XManager.GuardZones.FirstOrDefault(x => x.UID == procedureStep.ControlGKGuardZoneArguments.Variable1.VariableItem.UidValue);
-			if (zone == null)
-				return;
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zone.UID, zone.ObjectType);
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zone.UID, zone.ObjectType);
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zone.UID, zone.ObjectType);
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zone.UID, zone.ObjectType);
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(zone.UID, zone.ObjectType);
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(zone.UID, zone.ObjectType);
-			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zone.UID, zone.ObjectType);
+			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.Variable1);
+			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
+			if (guardZoneCommandType == GuardZoneCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, XBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, XBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zoneUid, XBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.Reset)
+				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, XBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, XBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(zoneUid, XBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNow)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, XBaseObjectType.GuardZone);
 		}
 
 		public static void ControlDirection(ProcedureStep procedureStep)
 		{
-			var direction = XManager.Directions.FirstOrDefault(x => x.UID == procedureStep.ControlDirectionArguments.Variable1.VariableItem.UidValue);
-			if (direction == null)
-				return;
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(direction.UID, direction.ObjectType);
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(direction.UID, direction.ObjectType);
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(direction.UID, direction.ObjectType);
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(direction.UID, direction.ObjectType);
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(direction.UID, direction.ObjectType);
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(direction.UID, direction.ObjectType);
-			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(direction.UID, direction.ObjectType);
+			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.Variable1);
+			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
+			if (directionCommandType == DirectionCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(directionUid, XBaseObjectType.Direction);
+			if (directionCommandType == DirectionCommandType.ForbidStart)
+				FiresecServiceManager.SafeFiresecService.GKStop(directionUid, XBaseObjectType.Direction);
+			if (directionCommandType == DirectionCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(directionUid, XBaseObjectType.Direction);
+			if (directionCommandType == DirectionCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(directionUid, XBaseObjectType.Direction);
+			if (directionCommandType == DirectionCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(directionUid, XBaseObjectType.Direction);
+			if (directionCommandType == DirectionCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(directionUid, XBaseObjectType.Direction);
+			if (directionCommandType == DirectionCommandType.TurnOnNow)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, XBaseObjectType.Direction);
 		}
 
 		public static void ControlDoor(ProcedureStep procedureStep)
@@ -486,6 +495,35 @@ namespace FiresecService.Processor
 			if (globalVariable == null)
 				return;
 			//globalVariable.IntValue = setValueArguments.Value;
+		}
+
+		static T GetValue<T>(ArithmeticParameter arithmeticParameter)
+		{
+			var result = new object();
+			var variableScope = arithmeticParameter.VariableScope;
+			var explicitType = arithmeticParameter.ExplicitType;
+			var enumType = arithmeticParameter.EnumType;
+			var variableItem = arithmeticParameter.VariableItem;
+			if (variableScope != VariableScope.ExplicitValue)
+				variableItem = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid).VariableItem;
+			if (explicitType == ExplicitType.Boolean)
+				result = variableItem.BoolValue;
+			if (explicitType == ExplicitType.DateTime)
+				result = variableItem.DateTimeValue;
+			if (explicitType == ExplicitType.Integer)
+				result = variableItem.IntValue;
+			if (explicitType == ExplicitType.String)
+				result = variableItem.StringValue;
+			if (explicitType == ExplicitType.Object)
+				result = variableItem.UidValue;
+			if (explicitType == ExplicitType.Enum)
+			{
+				if (enumType == EnumType.DriverType)
+					result = variableItem.DriverTypeValue;
+				if (enumType == EnumType.StateType)
+					result = variableItem.StateTypeValue;
+			}
+			return (T)result;
 		}
 	}
 }

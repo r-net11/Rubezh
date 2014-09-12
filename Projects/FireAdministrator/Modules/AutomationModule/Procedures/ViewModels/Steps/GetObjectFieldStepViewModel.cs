@@ -61,10 +61,10 @@ namespace AutomationModule.ViewModels
 			get
 			{
 				if (SelectedProperty == Property.Type)
-					return EnumType.DeviceType;
-				if (SelectedProperty == Property.DeviceState)
-					return EnumType.StateClass;
-				return EnumType.StateClass;
+					return EnumType.DriverType;
+				if (SelectedProperty == Property.State)
+					return EnumType.StateType;
+				return EnumType.StateType;
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 			{
 				if (SelectedProperty == Property.Description)
 					return ExplicitType.String;
-				if ((SelectedProperty == Property.Type) || (SelectedProperty == Property.DeviceState))
+				if ((SelectedProperty == Property.Type) || (SelectedProperty == Property.State))
 					return ExplicitType.Enum;
 				return ExplicitType.Integer;
 			}

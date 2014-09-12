@@ -37,7 +37,7 @@ namespace FiresecAPI.Automation
 		ShleifNo,
 
 		[Description("Состояние")]
-		DeviceState,
+		State,
 
 		[Description("Номер")]
 		No,

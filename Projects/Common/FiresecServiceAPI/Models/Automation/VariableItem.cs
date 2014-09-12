@@ -34,9 +34,9 @@ namespace FiresecAPI.Automation
 		public string StringValue { get; set; }
 
 		[DataMember]
-		public XStateClass StateClassValue { get; set; }
+		public XStateClass StateTypeValue { get; set; }
 
 		[DataMember]
-		public string DeviceType { get; set; }
+		public XDriverType DriverTypeValue { get; set; }
 	}
 }
