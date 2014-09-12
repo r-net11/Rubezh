@@ -14,12 +14,12 @@ namespace SKDModule.PassCard.Designer
 			: base(designerCanvas, element)
 		{
 			if (data != null)
-				using (var imageStream = new MemoryStream(data))
+				//using (var imageStream = new MemoryStream(data))
 				{
 					BitmapImage bitmapImage = new BitmapImage();
 					bitmapImage.BeginInit();
-					bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-					bitmapImage.StreamSource = imageStream;
+					//bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+					bitmapImage.StreamSource = new MemoryStream(data);
 					bitmapImage.EndInit();
 					_brush = new ImageBrush(bitmapImage)
 					{

@@ -22,6 +22,8 @@ namespace FiresecAPI.SKD
 		StartDate,
 		[Description("Конец срока дейстия")]
 		EndDate,
+		[Description("Номер карты")]
+		CardNumber,
 		[Description("Дополнительно")]
 		Additional,
 	}

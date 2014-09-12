@@ -87,7 +87,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				Title = "Создание шаблона пропусков";
 				PassCardTemplate = new PassCardTemplate()
 				{
-					Caption = "Новая шаблон",
+					Caption = "Новый шаблон",
 					OrganisationUID = _organisationUID
 				};
 				LoadDefaultProperties();

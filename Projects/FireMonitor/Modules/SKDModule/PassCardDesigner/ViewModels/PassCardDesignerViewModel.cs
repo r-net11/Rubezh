@@ -96,6 +96,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		}
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
+			if (args.DesignerCanvas != DesignerCanvas)
+				return;
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
 			if (elementPassCardImageProperty != null)
 				args.Painter = new PassCardImagePropertyPainter(DesignerCanvas, elementPassCardImageProperty);

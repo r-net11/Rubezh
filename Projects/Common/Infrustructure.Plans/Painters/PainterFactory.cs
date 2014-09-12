@@ -25,7 +25,7 @@ namespace Infrustructure.Plans.Painters
 			var primitive = element as IPrimitive;
 			if (primitive != null && primitive.Primitive != Primitive.NotPrimitive)
 				return (IPainter)Activator.CreateInstance(_painters[primitive.Primitive], designerCanvas, element);
-			var args = new PainterFactoryEventArgs(element);
+			var args = new PainterFactoryEventArgs(designerCanvas, element);
 			EventService.EventAggregator.GetEvent<PainterFactoryEvent>().Publish(args);
 			return args.Painter ?? new DefaultPainter(designerCanvas, element);
 		}

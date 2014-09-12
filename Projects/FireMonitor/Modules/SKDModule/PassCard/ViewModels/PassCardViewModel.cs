@@ -170,6 +170,9 @@ namespace SKDModule.PassCard.ViewModels
 				case PassCardTextPropertyType.StartDate:
 					elementTextProperty.Text = _card.EndDate.ToShortDateString();
 					break;
+				case PassCardTextPropertyType.CardNumber:
+					elementTextProperty.Text = _card.Number.ToString();
+					break;
 				case PassCardTextPropertyType.Additional:
 					var columnValue = _employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementTextProperty.AdditionalColumnUID);
 					elementTextProperty.Text = columnValue == null || columnValue.TextData == null ? string.Empty : columnValue.TextData;
@@ -241,6 +244,8 @@ namespace SKDModule.PassCard.ViewModels
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
+			if (args.DesignerCanvas != _passCardCanvas)
+				return;
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
 			if (elementPassCardImageProperty != null)
 			{
