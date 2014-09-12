@@ -112,6 +112,7 @@ namespace GKModule
 						}),
 
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
+					#if DEBUG
 					new NavigationItem("OPC Сервер", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
@@ -119,7 +120,6 @@ namespace GKModule
 							new NavigationItem<ShowXOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 							new NavigationItem<ShowXOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),
 						}),
-					#if DEBUG
 					new NavigationItem<ShowXDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
 					new NavigationItem<ShowXDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Descriptors.png"),
 					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),

@@ -106,9 +106,11 @@ namespace GKProcessor
 								break;
 						}
 
-						Formula.Add(FormulaOperationType.KOD);
+						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.AlarmSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetAlarmLevel, guardDevice.Device.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.OR);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
 					}
 					else
@@ -151,9 +153,11 @@ namespace GKProcessor
 								break;
 						}
 
-						Formula.Add(FormulaOperationType.KOD);
+						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.OR);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
 					}
 					else
@@ -192,9 +196,11 @@ namespace GKProcessor
 								break;
 						}
 
-						Formula.Add(FormulaOperationType.KOD);
+						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.ResetGuardSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.ResetGuardLevel, guardDevice.Device.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.OR);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
 					}
 					else

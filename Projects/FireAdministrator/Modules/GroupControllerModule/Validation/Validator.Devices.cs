@@ -243,7 +243,7 @@ namespace GKModule.Validation
 			{
 				if (device.GuardZone == null)
 				{
-					Errors.Add(new DeviceValidationError(device, string.Format("Охранное устройство но участвует в охранной зоне"), ValidationErrorLevel.Warning));
+					Errors.Add(new DeviceValidationError(device, string.Format("Охранное устройство не участвует в охранной зоне"), ValidationErrorLevel.Warning));
 				}
 			}
 		}
