@@ -33,5 +33,11 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("во всех задержках из")]
 		AllDelays,
+
+		[DescriptionAttribute("в любой охранной зоне из")]
+		AnyGuardZone,
+
+		[DescriptionAttribute("во всех охранных зонах из")]
+		AllGuardZones,
 	}
 }

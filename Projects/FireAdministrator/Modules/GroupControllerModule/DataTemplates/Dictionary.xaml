@@ -20,7 +20,11 @@
 		<Views:ZonesSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DirectionsSelectationViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:GuardZonesSelectationViewModel}">
+        <Views:GuardZonesSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DirectionsSelectationViewModel}">
 		<Views:DirectionsSelectationView />
 	</DataTemplate>
 

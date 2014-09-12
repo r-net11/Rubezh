@@ -130,6 +130,12 @@ namespace GKModule.ViewModels
 						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.BaseUID).ToList();
 						break;
 
+					case ClauseOperationType.AllGuardZones:
+					case ClauseOperationType.AnyGuardZone:
+						clause.GuardZones = clauseViewModel.GuardZones.ToList();
+						clause.GuardZoneUIDs = clauseViewModel.GuardZones.Select(x => x.BaseUID).ToList();
+						break;
+
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
 						clause.Directions = clauseViewModel.Directions.ToList();

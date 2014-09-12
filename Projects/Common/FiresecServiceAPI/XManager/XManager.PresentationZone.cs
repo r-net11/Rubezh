@@ -53,6 +53,7 @@ namespace FiresecClient
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Zones)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.GuardZones)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Directions)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.MPTs)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Delays)));
