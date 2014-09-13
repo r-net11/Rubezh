@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 
 		public AccessTemplateDetailsViewModel() {  }
 		
-		public void Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
 			Organisation = orgnaisation;
 			if (accessTemplate == null)
@@ -32,6 +32,7 @@ namespace SKDModule.ViewModels
 			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(Model, Organisation);
 			CopyProperties();
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
+			return true;
 		}
 
 		public void CopyProperties()

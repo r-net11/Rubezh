@@ -125,7 +125,7 @@ namespace SKDModule.ViewModels
 		}
 
 
-        public void Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
+        public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
         {
             Organisation = organisation;
             if (model == null)
@@ -158,6 +158,7 @@ namespace SKDModule.ViewModels
                 SelectedScheduleType = selectedScheme.Type;
                 SelectedScheduleScheme = selectedScheme;
             }
+			return true;
         }
     }
 }

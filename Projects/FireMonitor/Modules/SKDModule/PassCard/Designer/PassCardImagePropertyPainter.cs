@@ -14,12 +14,12 @@ namespace SKDModule.PassCard.Designer
 			: base(designerCanvas, element)
 		{
 			if (data != null)
-				//using (var imageStream = new MemoryStream(data))
+				using (var imageStream = new MemoryStream(data))
 				{
 					BitmapImage bitmapImage = new BitmapImage();
 					bitmapImage.BeginInit();
-					//bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-					bitmapImage.StreamSource = new MemoryStream(data);
+					bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+					bitmapImage.StreamSource = imageStream;
 					bitmapImage.EndInit();
 					_brush = new ImageBrush(bitmapImage)
 					{
@@ -31,9 +31,10 @@ namespace SKDModule.PassCard.Designer
 				_brush = null;
 
 		}
-		protected override Brush GetBrush()
+		protected override void InnerDraw(DrawingContext drawingContext)
 		{
-			return _brush;
+			base.InnerDraw(drawingContext);
+			drawingContext.DrawGeometry(_brush, Pen, Geometry);
 		}
 	}
 }

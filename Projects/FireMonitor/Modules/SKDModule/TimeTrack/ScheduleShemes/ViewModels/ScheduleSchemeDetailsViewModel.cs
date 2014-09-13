@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 
 		public ScheduleSchemeDetailsViewModel()	{ }
 
-		public void Initialize(Organisation organisation, ScheduleScheme model, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, ScheduleScheme model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
 			ScheduleSchemeTypes = new ObservableCollection<ScheduleSchemeType>();
@@ -53,6 +53,7 @@ namespace SKDModule.ViewModels
 				Name = Model.Name;
 				Description = Model.Description;
 			}
+			return true;
 		}
 
 		string _name;

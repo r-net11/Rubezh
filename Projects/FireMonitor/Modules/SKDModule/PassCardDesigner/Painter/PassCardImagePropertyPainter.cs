@@ -33,23 +33,11 @@ namespace SKDModule.PassCardDesigner.Painter
 			var typeface = new Typeface(SystemFonts.CaptionFontFamily, FontStyles.Normal, FontWeights.Normal, new FontStretch());
 			var formattedText = new FormattedText(((ElementPassCardImageProperty)Element).Text ?? string.Empty, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, SystemFonts.CaptionFontSize, PainterCache.BlackBrush);
 			formattedText.TextAlignment = TextAlignment.Center;
-			Point point = bound.TopLeft;
-			switch (formattedText.TextAlignment)
-			{
-				case TextAlignment.Right:
-					point = bound.TopRight;
-					break;
-				case TextAlignment.Center:
-					point = new Point(bound.Left + bound.Width / 2, bound.Top);
-					break;
-			}
-			if (_scaleTransform != null)
-			{
-				_scaleTransform.CenterX = point.X;
-				_scaleTransform.CenterY = point.Y;
-				_scaleTransform.ScaleX = bound.Width / formattedText.Width;
-				_scaleTransform.ScaleY = bound.Height / formattedText.Height;
-			}
+			Point point = new Point(bound.Left + bound.Width / 2, bound.Top);
+			_scaleTransform.CenterX = point.X;
+			_scaleTransform.CenterY = point.Y;
+			_scaleTransform.ScaleX = bound.Width / formattedText.Width;
+			_scaleTransform.ScaleY = bound.Height / formattedText.Height;
 			_textDrawing.Geometry = formattedText.BuildGeometry(point);
 		}
 		public override void Invalidate()

@@ -184,9 +184,9 @@ namespace SKDModule.PassCard.ViewModels
 		}
 		private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
 		{
-			elementImageProperty.BackgroundColor = Colors.Transparent;
-			elementImageProperty.BackgroundSourceName = null;
-			elementImageProperty.BackgroundImageSource = null;
+			//elementImageProperty.BackgroundColor = Colors.Transparent;
+			//elementImageProperty.BackgroundSourceName = null;
+			//elementImageProperty.BackgroundImageSource = null;
 		}
 
 		#region IPlanDesignerViewModel Members

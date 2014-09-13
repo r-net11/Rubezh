@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 
 		public DepartmentDetailsViewModel() { }
 		
-		public void Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
 			OrganisationUID = organisation.UID;
 
@@ -33,6 +33,7 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства отдела: {0}", Department.Name);
 			}
 			CopyProperties();
+			return true;
 		}
 
 		public void Initialize(Guid organisationUID, Guid? parentDepartmentUID)

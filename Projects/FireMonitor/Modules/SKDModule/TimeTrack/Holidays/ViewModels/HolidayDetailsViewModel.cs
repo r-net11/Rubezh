@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		}
 
 
-        public void Initialize(Organisation organisation, Holiday holiday, ViewPartViewModel parentViewModel)
+        public bool Initialize(Organisation organisation, Holiday holiday, ViewPartViewModel parentViewModel)
         {
             Organisation = organisation;
             var holidaysViewModel = parentViewModel as HolidaysViewModel;
@@ -126,6 +126,7 @@ namespace SKDModule.ViewModels
 
             AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
             HolidayType = holiday.Type;
+			return true;
         }
     }
 }

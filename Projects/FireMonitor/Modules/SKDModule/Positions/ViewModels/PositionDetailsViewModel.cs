@@ -46,7 +46,7 @@ namespace SKDModule.ViewModels
             CopyProperties();
         }
 
-        public void Initialize(Organisation organisation, ShortPosition model, ViewPartViewModel parentViewModel)
+        public bool Initialize(Organisation organisation, ShortPosition model, ViewPartViewModel parentViewModel)
         {
             OrganisationUID = organisation.UID;
             if (model == null)
@@ -64,6 +64,7 @@ namespace SKDModule.ViewModels
                 Title = string.Format("Свойства должности: {0}", Position.Name);
             }
             CopyProperties();
+			return true;
         }
 
         public void CopyProperties()

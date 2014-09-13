@@ -45,11 +45,8 @@ namespace SKDModule.ViewModels
 		{
 			ModelT result = null;
 			var detailsViewModel = new DetailsViewModelT();
-			detailsViewModel.Initialize(organisation, model, this);
-			if (DialogService.ShowModalWindow(detailsViewModel))
-			{
+			if (detailsViewModel.Initialize(organisation, model, this) && DialogService.ShowModalWindow(detailsViewModel))
 				result = detailsViewModel.Model;
-			}
 			return result;
 		}
 

@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 		FiresecAPI.SKD.Organisation Organisation;
 		public DayInterval Model { get; private set; }
 
-        public void Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
+        public bool Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
         {
             Organisation = organisation;
             if (model == null)
@@ -29,6 +29,7 @@ namespace SKDModule.ViewModels
             Name = Model.Name;
             Description = Model.Description;
             ConstantSlideTime = Model.SlideTime;
+			return true;
         }
 
 		string _name;

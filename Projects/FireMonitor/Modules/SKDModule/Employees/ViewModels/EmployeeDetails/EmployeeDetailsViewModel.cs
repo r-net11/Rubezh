@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 
 		public EmployeeDetailsViewModel() { }
 
-		public void Initialize(Organisation orgnaisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation orgnaisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
@@ -64,6 +64,7 @@ namespace SKDModule.ViewModels
 			}
 			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, Organisation);
 			CopyProperties();
+			return true;
 		}
 
 		void CopyProperties()

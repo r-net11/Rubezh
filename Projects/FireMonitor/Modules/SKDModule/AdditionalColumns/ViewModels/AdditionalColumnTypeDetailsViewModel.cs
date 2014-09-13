@@ -119,7 +119,7 @@ namespace SKDModule.ViewModels
 		}
 
 
-		public void Initialize(Organisation organisation, ShortAdditionalColumnType model, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, ShortAdditionalColumnType model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
 			if (model == null)
@@ -139,6 +139,7 @@ namespace SKDModule.ViewModels
 			}
 			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).OfType<AdditionalColumnDataType>());
 			CopyProperties();
+			return true;
 		}
 	}
 }

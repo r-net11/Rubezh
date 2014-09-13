@@ -79,7 +79,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			}
 		}
 
-		public void Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)
 		{
 			_organisationUID = organisation.UID;
 			if (model == null)
@@ -91,7 +91,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 					OrganisationUID = _organisationUID
 				};
 				LoadDefaultProperties();
-				EditCommand.Execute();
+				if (!EditProperties())
+					return false;
 			}
 			else
 			{
@@ -99,6 +100,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				Update();
 			}
 			LoadPassCardDesigner();
+			return true;
 		}
 
 		#endregion
@@ -162,6 +164,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
+			EditProperties();
+		}
+		private bool EditProperties()
+		{
 			var dialog = new PassCardTemplatePropertiesViewModel(PassCardTemplate);
 			if (DialogService.ShowModalWindow(dialog))
 			{
@@ -170,7 +176,9 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				PassCardDesignerViewModel.Update();
 				DesignerCanvas.Refresh();
 				DesignerCanvas.DesignerChanged();
+				return true;
 			}
+			return false;
 		}
 		private void Update()
 		{
