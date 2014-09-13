@@ -60,6 +60,15 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			        new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "/Controls;component/Images/MoveBack.png" , "Ниже"),
 			    }
 			};
+			if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
+			{
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "/Controls;component/Images/shapes-align-hori-left.png", "Выровнять по левому краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "/Controls;component/Images/shapes-align-hori-center.png", "Выровнять по вертикали"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "/Controls;component/Images/shapes-align-hori-right.png", "Выровнять по правому краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "/Controls;component/Images/shapes-align-verti-top.png", "Выровнять по верхнему краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "/Controls;component/Images/shapes-align-verti-middle.png", "Выровнять по горизонтали"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "/Controls;component/Images/shapes-align-verti-bottom.png", "Выровнять по нижнему краю"));
+			}
 			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 		}
 
@@ -135,6 +144,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 					ElementsViewModel.Update();
 				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
+				DesignerCanvas.Toolbox.IsDialog = true;
+				DesignerCanvas.Toolbox.AcceptKeyboard = true;
 			}
 		}
 		private void LoadDefaultProperties()
@@ -189,6 +200,11 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			SaveDefaultProperties();
 			return PassCardTemplateHelper.Save(PassCardTemplate);
+		}
+		public override void OnClosed()
+		{
+			DesignerCanvas.Toolbox.AcceptKeyboard = false;
+			base.OnClosed();
 		}
 	}
 }

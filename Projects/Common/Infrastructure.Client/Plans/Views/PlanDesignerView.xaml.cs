@@ -50,6 +50,10 @@ namespace Infrastructure.Client.Plans
 			_requreRefresh = true;
 			_locked = true;
 			Dispatcher.ShutdownStarted += (s, e) => RegistrySettingsHelper.SetDouble(DeviceZoomSetting, deviceSlider.Value);
+			ZoomInCommand = new RelayCommand(OnZoomIn, CanZoomIn);
+			ZoomOutCommand = new RelayCommand(OnZoomOut, CanZoomOut);
+			DeviceZoomInCommand = new RelayCommand(OnDeviceZoomIn, CanDeviceZoomIn);
+			DeviceZoomOutCommand = new RelayCommand(OnDeviceZoomOut, CanDeviceZoomOut);
 		}
 
 		void OnLayoutUpdated(object sender, EventArgs e)
@@ -105,15 +109,48 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-		private void OnZoomIn(object sender, RoutedEventArgs e)
+		public RelayCommand ZoomInCommand { get; private set; }
+		private void OnZoomIn()
 		{
 			slider.Value += 1;
 		}
-		private void OnZoomOut(object sender, RoutedEventArgs e)
+		private bool CanZoomIn()
+		{
+			return slider.Value < slider.Maximum;
+		}
+		public RelayCommand ZoomOutCommand { get; private set; }
+		private void OnZoomOut()
 		{
 			slider.Value -= 1;
 		}
+		private bool CanZoomOut()
+		{
+			return slider.Value > slider.Minimum;
+		}
 
+		public RelayCommand DeviceZoomOutCommand { get; private set; }
+		private void OnDeviceZoomOut()
+		{
+			deviceSlider.Value--;
+		}
+		private bool CanDeviceZoomOut()
+		{
+			return deviceSlider.Value > deviceSlider.Minimum;
+		}
+		public RelayCommand DeviceZoomInCommand { get; private set; }
+		private void OnDeviceZoomIn()
+		{
+			deviceSlider.Value++;
+		}
+		private bool CanDeviceZoomIn()
+		{
+			return deviceSlider.Value < deviceSlider.Maximum;
+		}
+
+		private void deviceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			((IPlanDesignerViewModel)DataContext).ChangeDeviceZoom(e.NewValue);
+		}
 		void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			if (e.NewValue == 0)
@@ -199,20 +236,6 @@ namespace Infrastructure.Client.Plans
 			}
 			else
 				initialScale = 1;
-		}
-
-		private void OnDeviceZoomOut(object sender, RoutedEventArgs e)
-		{
-			deviceSlider.Value--;
-		}
-		private void OnDeviceZoomIn(object sender, RoutedEventArgs e)
-		{
-			deviceSlider.Value++;
-		}
-
-		private void deviceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-		{
-			((IPlanDesignerViewModel)DataContext).ChangeDeviceZoom(e.NewValue);
 		}
 
 		private Point? lastDragPoint;
