@@ -144,6 +144,8 @@ namespace FiresecAPI.GK
 						LinkXBases(xBase, clauseDevice);
 					foreach (var zone in clause.Zones)
 						LinkXBases(xBase, zone);
+					foreach (var guardZone in clause.GuardZones)
+						LinkXBases(xBase, guardZone);
 					foreach (var direction in clause.Directions)
 						LinkXBases(xBase, direction);
 					foreach (var mpt in clause.MPTs)

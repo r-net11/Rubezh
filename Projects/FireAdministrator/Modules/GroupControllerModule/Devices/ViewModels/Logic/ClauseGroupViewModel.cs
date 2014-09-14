@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 				var clause = new XClause()
 				{
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
-					StateType = clauseViewModel.SelectedStateType,
+					StateType = clauseViewModel.SelectedStateType.StateBit,
 					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
 				};
 				switch (clause.ClauseOperationType)

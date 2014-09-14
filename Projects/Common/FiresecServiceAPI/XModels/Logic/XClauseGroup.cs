@@ -40,6 +40,7 @@ namespace FiresecAPI.GK
 					DirectionUIDs = clause.DirectionUIDs,
 					Devices = clause.Devices,
 					Zones = clause.Zones,
+					GuardZones = clause.GuardZones,
 					Directions = clause.Directions,
 				};
 				result.Clauses.Add(clonedClause);

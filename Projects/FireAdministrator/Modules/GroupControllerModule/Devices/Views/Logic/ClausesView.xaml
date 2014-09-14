@@ -68,8 +68,8 @@
                             <ComboBox Width="150" Height="30" ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}" VerticalAlignment="Center" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
-										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
-										Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                                        <Controls:IconLabel ImageSource="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}"
+										Text="{Binding Name}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>

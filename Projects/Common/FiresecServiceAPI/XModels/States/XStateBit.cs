@@ -10,10 +10,10 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Внимание")]
 		Attention = 1,
 
-		[DescriptionAttribute("Пожар 1")]
+		[DescriptionAttribute("Сработка 1")]
 		Fire1 = 2,
 
-		[DescriptionAttribute("Пожар 2")]
+		[DescriptionAttribute("Сработка 2")]
 		Fire2 = 3,
 
 		[DescriptionAttribute("Тест")]
