@@ -8,15 +8,15 @@ namespace FiresecAPI.SKD
 	[Flags]
 	public enum ScheduleSchemeType
 	{
-		[DescriptionAttribute("Недельная")]
+		[DescriptionAttribute("Недельный")]
 		[EnumMember]
 		Week = 1,
 
-		[DescriptionAttribute("Месячная")]
+		[DescriptionAttribute("Месячный")]
 		[EnumMember]
 		Month = 2,
 
-		[DescriptionAttribute("Сменная")]
+		[DescriptionAttribute("Сменный")]
 		[EnumMember]
 		SlideDay = 4,
 	}

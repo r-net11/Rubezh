@@ -48,7 +48,8 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Name = Model.Name;
+                Model = model;
+                Name = Model.Name;
 				Description = Model.Description;
 				Title = "Редактирование графика работы";
 				Model = model;

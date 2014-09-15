@@ -20,7 +20,8 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Описание" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Тип графика" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ScheduleSchemeTypes}" SelectedItem="{Binding SelectedScheduleSchemeType}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" 
+                          ItemsSource="{Binding ScheduleSchemeTypes}" SelectedItem="{Binding SelectedScheduleSchemeType}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
