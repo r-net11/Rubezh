@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -24,7 +25,9 @@ namespace GKModule.ViewModels
 
 		public GuardZoneViewModel(XGuardZone zone)
 		{
-			SetCommand = new RelayCommand(OnSet, CanSet);
+			TurnOnCommand = new RelayCommand(OnTurnOn);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -53,17 +56,31 @@ namespace GKModule.ViewModels
 		}
 
 
-		public RelayCommand SetCommand { get; private set; }
-		void OnSet()
+		public RelayCommand TurnOnCommand { get; private set; }
+		void OnTurnOn()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.GKSetGuardZone(Zone);
+				FiresecManager.FiresecService.GKTurnOn(Zone);
 			}
 		}
-		bool CanSet()
+
+		public RelayCommand TurnOnNowCommand { get; private set; }
+		void OnTurnOnNow()
 		{
-			return true;
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOnNow(Zone);
+			}
+		}
+
+		public RelayCommand TurnOffCommand { get; private set; }
+		void OnTurnOff()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOff(Zone);
+			}
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
@@ -71,12 +88,12 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.GKResetGuardZone(Zone);
+				FiresecManager.FiresecService.GKReset(Zone);
 			}
 		}
 		bool CanReset()
 		{
-			return true;
+			return State.StateClasses.Contains(XStateClass.Fire1);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

@@ -37,7 +37,16 @@ namespace GKModule.ViewModels
 			SelectedCode = Codes.FirstOrDefault();
 		}
 
-		public ObservableCollection<CodeViewModel> Codes { get; private set; }
+		ObservableCollection<CodeViewModel> _codes;
+		public ObservableCollection<CodeViewModel> Codes
+		{
+			get { return _codes; }
+			set
+			{
+				_codes = value;
+				OnPropertyChanged(() => Codes);
+			}
+		}
 
 		CodeViewModel _selectedCode;
 		public CodeViewModel SelectedCode

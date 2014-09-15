@@ -24,8 +24,8 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
-				<DataGridTextColumn Width="2*" Binding="{Binding Zone.Description}" Header="Примечание" />
+				<DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="Наименование" />
+				<DataGridTextColumn Width="*" Binding="{Binding Zone.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
 

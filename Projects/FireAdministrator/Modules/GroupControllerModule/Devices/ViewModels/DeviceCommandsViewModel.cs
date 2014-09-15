@@ -153,6 +153,10 @@ namespace GKModule.Models
 								{
 									zone.GkDatabaseParent = gkDevice;
 								}
+								foreach (var guardZone in result.Result.GuardZones)
+								{
+									guardZone.GkDatabaseParent = gkDevice;
+								}
 								foreach (var direction in result.Result.Directions)
 								{
 									direction.GkDatabaseParent = gkDevice;
@@ -168,6 +172,10 @@ namespace GKModule.Models
 								foreach (var delay in result.Result.Delays)
 								{
 									delay.GkDatabaseParent = gkDevice;
+								}
+								foreach (var code in result.Result.Codes)
+								{
+									code.GkDatabaseParent = gkDevice;
 								}
 							}
 

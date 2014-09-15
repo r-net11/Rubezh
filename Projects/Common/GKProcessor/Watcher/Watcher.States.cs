@@ -280,6 +280,14 @@ namespace GKProcessor
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_охранной_зоны;
 				}
 			}
+			if (xBase is XCode)
+			{
+				if (descriptorStateHelper.TypeNo != 0x109)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_кода;
+				}
+			}
 
 			var stringLength = Math.Min(xBase.PresentationName.Length, 32);
 			var description = xBase.PresentationName.Substring(0, stringLength);

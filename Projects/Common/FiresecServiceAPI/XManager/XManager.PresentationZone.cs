@@ -49,7 +49,7 @@ namespace FiresecClient
 
 				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
 					stringBuilder.Append("Если НЕ ");
-				stringBuilder.Append(clause.StateType.ToDescription() + " ");
+				stringBuilder.Append(XClause.ClauseToString(clause.ClauseOperationType, clause.StateType) + " ");
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Zones)));

@@ -108,6 +108,12 @@ namespace GKProcessor
 				if (guardZone.GkDatabaseParent == gkDevice)
 					stringBuilder.Append(guardZone.PresentationName).Append("@");
 			}
+			stringBuilder.Append("codes:");
+			foreach (var code in deviceConfiguration.Codes)
+			{
+				if (code.GkDatabaseParent == gkDevice)
+					stringBuilder.Append(code.PresentationName).Append("@");
+			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
 		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration)

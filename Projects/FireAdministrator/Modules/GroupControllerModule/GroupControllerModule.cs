@@ -180,28 +180,9 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 
-			GKProcessorManager.NewJournalItem -= new Action<XJournalItem, bool>(OnNewJournalItems);
-			GKProcessorManager.NewJournalItem += new Action<XJournalItem, bool>(OnNewJournalItems);
-
-			//SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-			//SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			return true;
-		}
-
-		//public override void AfterInitialize()
-		//{
-		//	FiresecManager.StartPoll(true);
-		//}
-
-		void OnNewJournalItems(XJournalItem journalItem, bool isAdministrator)
-		{
-			if (isAdministrator)
-			{
-				//FiresecManager.FiresecService.AddJournalItem(journalItem);
-			}
 		}
 
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
@@ -243,8 +224,6 @@ namespace GKModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 113, "Направления", "Панель направления", "BDirection.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 114, "НС", "Панель НС", "BPumpStation.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 115, "МПТ", "Панель МПТ", "BMPT.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GKJournals, 116, "Журнал событий", "Панель журнал событий", "BBook.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GKArchive, 117, "Архив", "Панель архив", "BArchive.png");
 		}
 
 		#endregion

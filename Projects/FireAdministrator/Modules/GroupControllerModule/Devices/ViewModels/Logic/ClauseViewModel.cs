@@ -32,6 +32,7 @@ namespace GKModule.ViewModels
 			SelectDelaysCommand = new RelayCommand(OnSelectDelays);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
+			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 			SelectedClauseOperationType = clause.ClauseOperationType;
 
 			Devices = clause.Devices.ToList();
@@ -66,7 +67,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedClauseOperationType = value;
-				var oldSelectedStateType = SelectedStateType;
+				var oldSelectedStateType = SelectedStateType != null ? SelectedStateType.StateBit : XStateBit.Test;
 
 				switch (value)
 				{
@@ -132,11 +133,11 @@ namespace GKModule.ViewModels
 						};
 						break;
 				}
-				if (StateTypes.Contains(oldSelectedStateType))
+				if (StateTypes.Any(x=>x.StateBit == oldSelectedStateType))
 				{
-					SelectedStateType = StateTypes.FirstOrDefault(x => x == oldSelectedStateType);
+					SelectedStateType = StateTypes.FirstOrDefault(x => x.StateBit == oldSelectedStateType);
 				}
-				else
+				if (SelectedStateType == null)
 				{
 					SelectedStateType = StateTypes.FirstOrDefault();
 				}
@@ -173,8 +174,6 @@ namespace GKModule.ViewModels
 			get { return _selectedStateType; }
 			set
 			{
-				if (!StateTypes.Contains(value))
-					value = StateTypes.FirstOrDefault();
 				_selectedStateType = value;
 				OnPropertyChanged(() => SelectedStateType);
 			}

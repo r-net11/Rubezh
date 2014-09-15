@@ -107,6 +107,8 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Delays.AddRange(RemoteConfiguration.Delays);
 				LocalConfiguration.GuardZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.GuardZones.AddRange(RemoteConfiguration.GuardZones);
+				LocalConfiguration.Codes.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
@@ -190,6 +192,11 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.GuardZone)
 						{
 							newObject.DifferenceDiscription = GetGuardZonesDifferences(sameObject1, sameObject2);
+							newObject.Name = sameObject1.Name;
+						}
+						if (sameObject1.ObjectType == ObjectType.Code)
+						{
+							newObject.DifferenceDiscription = GetCodesDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 					}
@@ -359,6 +366,21 @@ namespace GKModule.ViewModels
 				guardZonesDifferences.Append("Не совпадает задержка");
 			}
 			return guardZonesDifferences.ToString() == "" ? null : guardZonesDifferences.ToString();
+		}
+
+		string GetCodesDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			var differences = new StringBuilder();
+			if (object1.Name != object2.Name)
+				differences.Append("Не совпадает название");
+			var passwordDiff = object1.Code.Password != object2.Code.Password;
+			if (passwordDiff)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает пароль");
+			}
+			return differences.ToString() == "" ? null : differences.ToString();
 		}
 	}
 }
