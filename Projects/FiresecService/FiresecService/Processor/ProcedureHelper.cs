@@ -10,6 +10,8 @@ using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
 using Property = FiresecAPI.Automation.Property;
+using FiresecAPI.Journal;
+using System.Threading;
 
 namespace FiresecService.Processor
 {
@@ -22,7 +24,17 @@ namespace FiresecService.Processor
 
 		static public Procedure Procedure { get; set; }
 
-		public static bool Compare(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
+		public static void AddJournalItem(ProcedureStep procedureStep)
+		{			
+			var journalItem = new JournalItem();
+			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.DeviceDateTime = DateTime.Now;
+			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
+			journalItem.DescriptionText = GetValue<object>(procedureStep.JournalArguments.Variable1).ToString();
+			Service.FiresecService.AddCommonJournalItem(journalItem);
+		}
+
+		public static bool Compare(ProcedureStep procedureStep)
 		{
 			var conditionArguments = procedureStep.ConditionArguments;
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
@@ -55,40 +67,23 @@ namespace FiresecService.Processor
 			return result;
 		}
 
-		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep, Procedure procedure)
+		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep)
 		{
-			var automationCallbackResult = new AutomationCallbackResult();
-			//var sendMessageArguments = procedureStep.SendMessageArguments;
-			//if (sendMessageArguments.VariableScope == VariableScope.IsValue)
-			//    automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
-			//if (sendMessageArguments.VariableScope == VariableScope.IsLocalVariable)
-			//{
-			//    var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
-			//        procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
-			//    if (localVariable != null)
-			//        automationCallbackResult.Message = localVariable.CurrentValue;
-			//}
-			//if (sendMessageArguments.VariableScope == VariableScope.IsGlobalVariable)
-			//{
-			//    var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
-			//    if (globalVariable != null)
-			//        automationCallbackResult.Message = globalVariable.CurrentValue;
-			//}
-			return automationCallbackResult;
+			return new AutomationCallbackResult() { Message = GetValue<string>(procedureStep.ShowMessageArguments.Variable1) };
 		}
 
-		public static void Calculate(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
+		public static void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
 			object variable1;
 			object variable2;
-			var resultVariable = GetAllVariables(procedure).FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
+			var resultVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
 			switch (arithmeticArguments.ExplicitType)
 			{
 				case ExplicitType.Boolean:
 					{
-						variable1 = GetValue<bool>(arithmeticArguments.Variable1, procedure, arguments);
-						variable2 = GetValue<bool>(arithmeticArguments.Variable2, procedure, arguments);
+						variable1 = GetValue<bool>(arithmeticArguments.Variable1);
+						variable2 = GetValue<bool>(arithmeticArguments.Variable2);
 						bool result = false;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
 							result = (bool)variable1 & (bool)variable2;
@@ -100,8 +95,8 @@ namespace FiresecService.Processor
 
 				case ExplicitType.Integer:
 					{
-						variable1 = GetValue<int>(arithmeticArguments.Variable1, procedure, arguments);
-						variable2 = GetValue<int>(arithmeticArguments.Variable2, procedure, arguments);
+						variable1 = GetValue<int>(arithmeticArguments.Variable1);
+						variable2 = GetValue<int>(arithmeticArguments.Variable2);
 						int result = 0;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
 							result = (int)variable1 + (int)variable2;
@@ -117,54 +112,44 @@ namespace FiresecService.Processor
 
 				case ExplicitType.DateTime:
 					{
-						variable1 = GetValue<DateTime>(arithmeticArguments.Variable1, procedure, arguments);
-						variable2 = GetValue<int>(arithmeticArguments.Variable2, procedure, arguments);
-						var result = new DateTime();
+						variable1 = GetValue<DateTime>(arithmeticArguments.Variable1);
+						variable2 = new TimeSpan();
 						switch (arithmeticArguments.TimeType)
 						{
 							case TimeType.Sec:
-								result = (DateTime)variable1 + TimeSpan.FromSeconds((int)variable2);
+								variable2 = TimeSpan.FromSeconds(GetValue<int>(arithmeticArguments.Variable2));
 								break;
 							case TimeType.Min:
-								result = (DateTime)variable1 + TimeSpan.FromMinutes((int)variable2);
+								variable2 = TimeSpan.FromMinutes(GetValue<int>(arithmeticArguments.Variable2));
 								break;
 							case TimeType.Hour:
-								result = (DateTime)variable1 + TimeSpan.FromHours((int)variable2);
+								variable2 = TimeSpan.FromHours(GetValue<int>(arithmeticArguments.Variable2));
 								break;
 							case TimeType.Day:
-								result = (DateTime)variable1 + TimeSpan.FromDays((int)variable2);
+								variable2 = TimeSpan.FromDays(GetValue<int>(arithmeticArguments.Variable2));
 								break;
 						}
+						var result = new DateTime();
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (DateTime)variable1 + (TimeSpan)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (DateTime)variable1 - (TimeSpan)variable2;
+
 						resultVariable.VariableItem.DateTimeValue = result;
+						break;
+					}
+				case ExplicitType.String:
+					{
+						variable1 = GetValue<string>(arithmeticArguments.Variable1);
+						variable2 = GetValue<string>(arithmeticArguments.Variable2);
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							resultVariable.VariableItem.StringValue = String.Concat((string)variable1, (string)variable2);
 						break;
 					}
 			}
 		}
 
-		static T GetValue<T>(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
-		{
-			T result = default(T);
-			var variable = GetAllVariables(procedure).FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
-			if (typeof(T) == typeof(bool))
-			{
-				result = (T) Convert.ChangeType(variable.VariableItem.BoolValue, typeof(T));
-			}
-			if (typeof(T) == typeof(int))
-			{
-				result = (T)Convert.ChangeType(variable.VariableItem.IntValue, typeof(T));
-			}
-			if (typeof(T) == typeof(DateTime))
-			{
-				result = (T)Convert.ChangeType(variable.VariableItem.DateTimeValue, typeof(T));
-			}
-			if (typeof(T) == typeof(string))
-			{
-				result = (T)Convert.ChangeType(variable.VariableItem.StringValue, typeof(T));
-			}
-			return result;
-		}
-
-		static List<Variable> GetAllVariables(Procedure procedure)
+		public static List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables = new List<Variable>(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables.AddRange(procedure.Variables);
@@ -172,14 +157,25 @@ namespace FiresecService.Processor
 			return allVariables;
 		}
 
-		public static void FindObjects(ProcedureStep procedureStep, Procedure procedure)
+		public static void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
-			var variable = procedure.Variables.FirstOrDefault(x => x.Uid == findObjectArguments.ResultUid);
+			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultUid);
 			if (findObjectArguments.JoinOperator == JoinOperator.Or)
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
+		}
+
+		public static void GetObjectProperty(ProcedureStep procedureStep)
+		{
+			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
+			var target = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getObjectPropertyArguments.Result.VariableUid);
+			var objectUid = GetValue<Guid>(getObjectPropertyArguments.Variable1);
+			var item = InitializeItem(objectUid);
+			var guid = new Guid();
+			var propertyValue = GetPropertyValue(ref guid, getObjectPropertyArguments.Property, item);
+			SetPropertyValue(target, propertyValue);
 		}
 
 		static object GetPropertyValue(ref Guid itemUid, Property property, object item)
@@ -278,14 +274,25 @@ namespace FiresecService.Processor
 			result.VariableItems = variableItems;
 		}
 
-		static void InitializeItem(ref object item, Guid itemUid, ObjectType objectType)
+		static object InitializeItem(Guid itemUid)
 		{
-			if (objectType == ObjectType.Device)
-				item = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			if (objectType == ObjectType.Zone)
-				item = XManager.Zones.FirstOrDefault(x => x.UID == itemUid);
-			if (objectType == ObjectType.Direction)
-				item = XManager.Directions.FirstOrDefault(x => x.UID == itemUid);
+			var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
+			var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
+			var guardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
+			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
+			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == itemUid);
+			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
+			var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
+			if (device != null) return device;
+			if (zone != null) return zone;
+			if (guardZone != null) return guardZone;
+			if (sKDDevice != null) return sKDDevice;
+			if (sKDZone != null) return sKDZone;
+			if (camera != null) return camera;
+			if (sKDDoor != null) return sKDDoor;
+			if (direction != null) return direction;
+			return new object();
 		}
 
 		static void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
@@ -477,24 +484,49 @@ namespace FiresecService.Processor
 				return; // TODO
 		}
 
+		public static void Pause(ProcedureStep procedureStep)
+		{
+			var pauseArguments = procedureStep.PauseArguments;
+			var pause = new TimeSpan();
+			switch (pauseArguments.TimeType)
+			{
+				case TimeType.Sec:
+					pause = TimeSpan.FromSeconds(GetValue<int>(pauseArguments.Pause));
+					break;
+				case TimeType.Min:
+					pause = TimeSpan.FromMinutes(GetValue<int>(pauseArguments.Pause));
+					break;
+				case TimeType.Hour:
+					pause = TimeSpan.FromHours(GetValue<int>(pauseArguments.Pause));
+					break;
+				case TimeType.Day:
+					pause = TimeSpan.FromDays(GetValue<int>(pauseArguments.Pause));
+					break;
+			}
+			Thread.Sleep(pause);
+		}
 		public static void IncrementValue(ProcedureStep procedureStep)
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
-			var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault
-				(x => x.Uid == incrementValueArguments.Variable1.VariableUid);
-			if (globalVariable == null)
-				return;
-			globalVariable.VariableItem.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? globalVariable.VariableItem.IntValue + 1 : globalVariable.VariableItem.IntValue - 1;
+			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == incrementValueArguments.Variable1.VariableUid);
+			if (variable != null)
+				variable.VariableItem.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.VariableItem.IntValue + 1 : variable.VariableItem.IntValue - 1;
 		}
 
 		public static void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
-			var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault
-				(x => x.Uid == setValueArguments.Result.VariableUid);
-			if (globalVariable == null)
-				return;
-			//globalVariable.IntValue = setValueArguments.Value;
+			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.Variable1.VariableUid);
+			if (variable != null)
+				PropertyCopy.Copy<VariableItem, VariableItem>(setValueArguments.Result.VariableItem, variable.VariableItem);
+		}
+
+		static void SetPropertyValue(Variable target, object propertyValue)
+		{
+			if (target.EnumType == EnumType.DriverType)
+				target.VariableItem.DriverTypeValue = (XDriverType)propertyValue;
+			if (target.EnumType == EnumType.StateType)
+				target.VariableItem.StateTypeValue = (XStateClass)propertyValue;
 		}
 
 		static T GetValue<T>(ArithmeticParameter arithmeticParameter)
@@ -505,7 +537,12 @@ namespace FiresecService.Processor
 			var enumType = arithmeticParameter.EnumType;
 			var variableItem = arithmeticParameter.VariableItem;
 			if (variableScope != VariableScope.ExplicitValue)
-				variableItem = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid).VariableItem;
+			{
+				var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
+				variableItem = variable.VariableItem;
+				explicitType = variable.ExplicitType;
+				enumType = variable.EnumType;
+			}
 			if (explicitType == ExplicitType.Boolean)
 				result = variableItem.BoolValue;
 			if (explicitType == ExplicitType.DateTime)

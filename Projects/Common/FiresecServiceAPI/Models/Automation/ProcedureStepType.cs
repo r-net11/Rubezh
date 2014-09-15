@@ -23,7 +23,7 @@ namespace FiresecAPI.Automation
 		ProcedureSelection,
 
 		[DescriptionAttribute("Получить значение свойства объекта")]
-		GetObjectField,
+		GetObjectProperty,
 
 		[DescriptionAttribute("Проигрывание звука")]
 		PlaySound,

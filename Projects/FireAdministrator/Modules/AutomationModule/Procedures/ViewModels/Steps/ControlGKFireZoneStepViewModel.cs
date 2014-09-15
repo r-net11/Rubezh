@@ -23,6 +23,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ControlGKFireZoneArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.Zone;
 			Variable1.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
 			UpdateContent();
 		}
 

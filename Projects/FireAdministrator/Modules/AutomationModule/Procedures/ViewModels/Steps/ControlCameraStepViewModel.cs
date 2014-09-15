@@ -23,6 +23,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.VideoDevice;
 			Variable1.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlCameraArguments.CameraCommandType;
 			UpdateContent();
 		}
 

@@ -106,8 +106,8 @@ namespace AutomationModule.ViewModels
 					Content = new ControlCameraStepViewModel(this);
 					break;
 				
-				case ProcedureStepType.GetObjectField:
-					Content = new GetObjectFieldStepViewModel(this);
+				case ProcedureStepType.GetObjectProperty:
+					Content = new GetObjectPropertyStepViewModel(this);
 					break;
 
 				case ProcedureStepType.SendEmail:

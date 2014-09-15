@@ -9,18 +9,18 @@ using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
-	public class GetObjectFieldStepViewModel: BaseStepViewModel
+	public class GetObjectPropertyStepViewModel: BaseStepViewModel
 	{
-		GetObjectFieldArguments GetObjectFieldArguments { get; set; }
+		GetObjectPropertyArguments GetObjectPropertyArguments { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }
 		public ArithmeticParameterViewModel Result { get; private set; }
 
-		public GetObjectFieldStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			GetObjectFieldArguments = stepViewModel.Step.GetObjectFieldArguments;
-			Variable1 = new ArithmeticParameterViewModel(GetObjectFieldArguments.Variable1, stepViewModel.Update, false);
+			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
+			Variable1 = new ArithmeticParameterViewModel(GetObjectPropertyArguments.Variable1, stepViewModel.Update, false);
 			Variable1.UpdateVariableHandler += UpdateProperies;
-			Result = new ArithmeticParameterViewModel(GetObjectFieldArguments.Result, stepViewModel.Update, false);
+			Result = new ArithmeticParameterViewModel(GetObjectPropertyArguments.Result, stepViewModel.Update, false);
 			UpdateContent();
 		}
 
@@ -33,10 +33,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<Property> Properties { get; private set; }
 		public Property SelectedProperty
 		{
-			get { return GetObjectFieldArguments.Property; }
+			get { return GetObjectPropertyArguments.Property; }
 			set
 			{
-				GetObjectFieldArguments.Property = value;
+				GetObjectPropertyArguments.Property = value;
 				OnPropertyChanged(() => SelectedProperty);
 				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
 			}

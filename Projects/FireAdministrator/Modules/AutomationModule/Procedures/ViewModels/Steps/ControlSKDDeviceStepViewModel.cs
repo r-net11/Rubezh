@@ -10,7 +10,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,6 +25,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.SKDDevice;
 			Variable1.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlSKDDeviceArguments.Command;
 			UpdateContent();
 		}
 

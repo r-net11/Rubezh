@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class GetObjectFieldArguments
+	public class GetObjectPropertyArguments
 	{
-		public GetObjectFieldArguments()
+		public GetObjectPropertyArguments()
 		{
 			Variable1 = new ArithmeticParameter();
 			Result = new ArithmeticParameter();

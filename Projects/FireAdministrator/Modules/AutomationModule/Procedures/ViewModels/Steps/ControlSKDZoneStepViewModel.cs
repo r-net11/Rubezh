@@ -24,6 +24,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ControlSKDZoneArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.SKDZone;
 			Variable1.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlSKDZoneArguments.SKDZoneCommandType;
 			UpdateContent();
 		}
 

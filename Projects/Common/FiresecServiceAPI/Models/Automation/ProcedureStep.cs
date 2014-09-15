@@ -32,7 +32,7 @@ namespace FiresecAPI.Automation
 			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
 			ControlCameraArguments = new ControlCameraArguments();
 			JournalArguments = new JournalArguments();
-			GetObjectFieldArguments = new GetObjectFieldArguments();
+			GetObjectPropertyArguments = new GetObjectPropertyArguments();
 			SendEmailArguments = new SendEmailArguments();
 			RunProgrammArguments = new RunProgrammArguments();
 			RandomArguments = new RandomArguments();
@@ -119,7 +119,7 @@ namespace FiresecAPI.Automation
 		public JournalArguments JournalArguments { get; set; }
 
 		[DataMember]
-		public GetObjectFieldArguments GetObjectFieldArguments { get; set; }
+		public GetObjectPropertyArguments GetObjectPropertyArguments { get; set; }
 
 		[DataMember]
 		public SendEmailArguments SendEmailArguments { get; set; }

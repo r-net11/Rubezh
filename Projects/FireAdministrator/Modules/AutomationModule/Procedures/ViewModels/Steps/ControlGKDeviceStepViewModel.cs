@@ -36,7 +36,9 @@ namespace AutomationModule.ViewModels
 				Commands = ProcedureHelper.GetEnumObs<CommandType>();
 			else if (Variable1.CurrentVariableItem.Device != null)
 				InitializeCommands(Variable1.CurrentVariableItem.Device);
-			SelectedCommand = Commands.FirstOrDefault();
+			SelectedCommand = Commands.FirstOrDefault(x => x == XStateBitToCommandType(ControlGkDeviceArguments.Command));
+			if (SelectedCommand == null)
+				SelectedCommand = Commands.FirstOrDefault();
 			OnPropertyChanged(() => Commands);
 		}
 

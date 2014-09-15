@@ -23,6 +23,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.ControlDoor;
 			Variable1.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlDoorArguments.DoorCommandType;
 			UpdateContent();
 		}
 

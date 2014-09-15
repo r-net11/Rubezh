@@ -23,6 +23,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ControlDirectionArguments.Variable1, stepViewModel.Update);
 			Variable1.ObjectType = ObjectType.Direction;
 			Variable1.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 			UpdateContent();
 		}
 

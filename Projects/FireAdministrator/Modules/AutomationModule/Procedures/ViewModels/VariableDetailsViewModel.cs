@@ -19,13 +19,16 @@ namespace AutomationModule.ViewModels
 		bool automationChanged;
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; private set; }
+		public bool ForbidList { get; private set; }
 		public VariableItemViewModel CurrentVariableItem { get; private set; }
 
-		public VariableDetailsViewModel(Variable variable, string defaultName, string title)
+		public VariableDetailsViewModel(Variable variable, string defaultName, string title, bool forbidList = false)
 		{
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Name = defaultName;
 			Title = title;
+			ForbidList = forbidList;
+			OnPropertyChanged(() => ForbidList);
 			SelectCommand = new RelayCommand(OnSelect);
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<VariableItemViewModel>(OnRemove);

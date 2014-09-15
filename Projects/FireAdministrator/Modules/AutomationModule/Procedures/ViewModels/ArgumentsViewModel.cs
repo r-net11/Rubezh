@@ -51,7 +51,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент"); ;
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент", true);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
@@ -78,7 +78,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент"); ;
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент", true);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);

@@ -36,7 +36,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return ""; }
+			get { return "Список: " + ListVariable.Description + " Элемент: " + ItemVariable.Description; }
 		}
 
 	}

@@ -52,7 +52,7 @@ namespace FiresecService.Processor
 			switch (procedureStep.ProcedureStepType)
 			{
 				case ProcedureStepType.If:
-					if (ProcedureHelper.Compare(procedureStep, procedure, arguments))
+					if (ProcedureHelper.Compare(procedureStep))
 					{
 						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 						{
@@ -68,18 +68,19 @@ namespace FiresecService.Processor
 					}
 					break;
 
+				case ProcedureStepType.GetObjectProperty:
+					ProcedureHelper.GetObjectProperty(procedureStep);
+					break;
+
 				case ProcedureStepType.Arithmetics:
-					ProcedureHelper.Calculate(procedureStep, procedure, arguments);
+					ProcedureHelper.Calculate(procedureStep);
 					break;
 
 				case ProcedureStepType.Foreach:
-					var variablesAndArguments = new List<Variable>(procedure.Variables);
-					variablesAndArguments.AddRange(procedure.Arguments);
+					var allVariables = ProcedureHelper.GetAllVariables(procedure);
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid) ??
-						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid);
-					var itemVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid) ??
-						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid);
+					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid);
+					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid);
 					foreach (var itemUid in listVariable.VariableItems.Select(x => x.UidValue))
 					{
 						itemVariable.VariableItem.UidValue = itemUid;
@@ -96,26 +97,21 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.Pause:
-					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Pause.VariableItem.IntValue));
+					ProcedureHelper.Pause(procedureStep);
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					var journalItem = new JournalItem();
-					journalItem.SystemDateTime = DateTime.Now;
-					journalItem.DeviceDateTime = DateTime.Now;
-					journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
-					//journalItem.DescriptionText = procedureStep.JournalArguments.Message;
-					Service.FiresecService.AddCommonJournalItem(journalItem);
+					ProcedureHelper.AddJournalItem(procedureStep);
 					break;
 
 				case ProcedureStepType.ShowMessage:
-					automationCallbackResult = ProcedureHelper.ShowMessage(procedureStep, procedure);
+					automationCallbackResult = ProcedureHelper.ShowMessage(procedureStep);
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
 
 				case ProcedureStepType.FindObjects:
-					ProcedureHelper.FindObjects(procedureStep, procedure);
+					ProcedureHelper.FindObjects(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
@@ -160,7 +156,6 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.Exit:
 					return false;
-
 			}
 			return true;
 		}
