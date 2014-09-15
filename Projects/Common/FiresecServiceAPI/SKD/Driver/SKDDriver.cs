@@ -21,6 +21,8 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string ShortName { get; set; }
+		public DoorType DefaultDoorType { get; set; }
+		public bool CanChangeDoorType { get; set; }
 
 		public List<SKDDriverProperty> Properties { get; set; }
 		public List<XStateClass> AvailableStateClasses { get; set; }
@@ -38,7 +40,6 @@ namespace FiresecAPI.SKD
 				switch(DriverType)
 				{
 					case SKDDriverType.Controller:
-					case SKDDriverType.ChinaController_1_1:
 					case SKDDriverType.ChinaController_1_2:
 					case SKDDriverType.ChinaController_2_2:
 					case SKDDriverType.ChinaController_2_4:

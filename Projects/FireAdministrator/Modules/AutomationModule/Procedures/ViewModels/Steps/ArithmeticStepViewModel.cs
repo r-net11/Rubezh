@@ -46,34 +46,6 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var var1 = "пусто";
-				var var2 = "пусто";
-				var res = "пусто";
-				switch(SelectedExplicitType)
-				{
-					case ExplicitType.Boolean:
-						var1 = Variable1.SelectedVariableScope == VariableScope.ExplicitValue ? Variable1.CurrentVariableItem.VariableItem.BoolValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableScope == VariableScope.ExplicitValue ? Variable2.CurrentVariableItem.VariableItem.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
-						break;
-					case ExplicitType.DateTime:
-						var1 = Variable1.SelectedVariableScope == VariableScope.ExplicitValue ? Variable1.CurrentVariableItem.VariableItem.DateTimeValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableScope == VariableScope.ExplicitValue ? Variable2.CurrentVariableItem.VariableItem.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						var2 = var2 + " " + SelectedTimeType.ToDescription();;
-						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
-						break;
-					case ExplicitType.Integer:
-						var1 = Variable1.SelectedVariableScope == VariableScope.ExplicitValue ? Variable1.CurrentVariableItem.VariableItem.IntValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableScope == VariableScope.ExplicitValue ? Variable2.CurrentVariableItem.VariableItem.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
-						break;
-					case ExplicitType.String:
-						var1 = Variable1.SelectedVariableScope == VariableScope.ExplicitValue ? Variable1.CurrentVariableItem.VariableItem.StringValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
-						var2 = Variable2.SelectedVariableScope == VariableScope.ExplicitValue ? Variable2.CurrentVariableItem.VariableItem.StringValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
-						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
-						break;
-				}
-
 				var op = "";
 				switch (SelectedArithmeticOperationType)
 				{
@@ -97,7 +69,7 @@ namespace AutomationModule.ViewModels
 						break;
 				}
 
-				return "<" + res + ">" + " = " + "<" + var1 + "> " + op + " <" + var2 + ">";
+				return Result.Description + " = " + Variable1.Description + " " + op + " " + Variable2.Description;
 			}
 		}
 

@@ -119,7 +119,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Устройство: " + Variable1.Description + "Команда: " + SelectedCommand.ToDescription();
+				return "Устройство: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 

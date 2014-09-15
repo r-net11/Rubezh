@@ -43,5 +43,6 @@ namespace SKDDriver.DataAccess
 	public partial class Position : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Schedule : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class ScheduleScheme : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class AccessTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }	
+	public partial class AccessTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
+	public partial class PassCardTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 }

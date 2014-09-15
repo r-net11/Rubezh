@@ -35,7 +35,6 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		TimeTrackingViewModel _timeTrackingViewModel;
-		PassCardsDesignerViewModel PassCardDesignerViewModel;
 		PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
@@ -53,7 +52,6 @@ namespace SKDModule
 			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
-			PassCardDesignerViewModel = new PassCardsDesignerViewModel();
 			_timeTrackingViewModel = new TimeTrackingViewModel();
 
 			SubscribeShowDelailsEvent();
@@ -109,7 +107,6 @@ namespace SKDModule
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
-						new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков", "/Controls;component/Images/PassCardDesigner.png", null, null, Guid.Empty),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
 						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
 						{
@@ -130,7 +127,6 @@ namespace SKDModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
-			PassCardDesignerViewModel.Initialize();
 		}
 
 		public override string Name
@@ -195,6 +191,7 @@ namespace SKDModule
 					{
 						device.State.StateClasses = remoteDeviceState.StateClasses.ToList();
 						device.State.StateClass = remoteDeviceState.StateClass;
+						device.State.OpenAlwaysTimeIndex = remoteDeviceState.OpenAlwaysTimeIndex;
 						device.State.OnStateChanged();
 					}
 				}

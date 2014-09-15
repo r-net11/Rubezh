@@ -4,10 +4,10 @@ namespace FiresecAPI.Automation
 {
 	public enum EnumType
 	{
-		[DescriptionAttribute("Состояния")]
-		StateClass,
+		[DescriptionAttribute("Состояние")]
+		StateType,
 
 		[DescriptionAttribute("Тип устройства")]
-		DeviceType
+		DriverType
 	}
 }

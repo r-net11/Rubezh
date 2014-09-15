@@ -23,7 +23,7 @@
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
       <Feature Id="SKD.Features" Title="СКД" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
-        <Condition Level="2">INSTALL_SKD</Condition>
+        <Condition Level="3">INSTALL_SKD</Condition>
         <ComponentRef Id="Administrator.SKD_MODULE" />
         <ComponentRef Id="Monitor.SKD_MODULE" />
       </Feature>

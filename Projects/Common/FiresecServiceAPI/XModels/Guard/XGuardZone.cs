@@ -33,10 +33,25 @@ namespace FiresecAPI.GK
 		public string Description { get; set; }
 
 		[DataMember]
-		public int Level { get; set; }
+		public int EnterLevel { get; set; }
+
+		[DataMember]
+		public int SetAlarmLevel { get; set; }
+
+		[DataMember]
+		public int SetGuardLevel { get; set; }
+
+		[DataMember]
+		public int ResetGuardLevel { get; set; }
 
 		[DataMember]
 		public int Delay { get; set; }
+
+		[DataMember]
+		public int ResetDelay { get; set; }
+
+		[DataMember]
+		public int AlarmDelay { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }

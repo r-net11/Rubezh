@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalsViewModel : BaseIntervalsViewModel<SlideDayIntervalViewModel, SlideDayIntervalPartViewModel, SKDSlideDayInterval>
 	{
-		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
+		public ObservableCollection<SKDDayInterval> AvailableTimeIntervals { get; private set; }
 
 		public override void Initialize()
 		{
@@ -46,14 +46,14 @@ namespace SKDModule.ViewModels
 				Name = source.Name,
 				Description = source.Description,
 				StartDate = source.StartDate,
-				TimeIntervalIDs = new List<int>(source.TimeIntervalIDs),
+				DayIntervalIDs = new List<int>(source.DayIntervalIDs),
 			};
 		}
 
 		protected override void BuildIntervals()
 		{
-			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>(SKDManager.TimeIntervalsConfiguration.TimeIntervals.OrderBy(item => item.ID));
-			AvailableTimeIntervals.Insert(0, new SKDTimeInterval()
+			AvailableTimeIntervals = new ObservableCollection<SKDDayInterval>(SKDManager.TimeIntervalsConfiguration.DayIntervals.OrderBy(item => item.ID));
+			AvailableTimeIntervals.Insert(0, new SKDDayInterval()
 			{
 				ID = 0,
 				Name = "<Никогда>",

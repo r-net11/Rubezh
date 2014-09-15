@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalsViewModel : BaseIntervalsViewModel<WeeklyIntervalViewModel, WeeklyIntervalPartViewModel, SKDWeeklyInterval>
 	{
-		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
+		public ObservableCollection<SKDDayInterval> AvailableDayIntervals { get; private set; }
 
 		public override void Initialize()
 		{
@@ -50,20 +50,20 @@ namespace SKDModule.ViewModels
 			};
 			for (int i = 0; i < source.WeeklyIntervalParts.Count; i++)
 			{
-				copy.WeeklyIntervalParts[i].TimeIntervalID = source.WeeklyIntervalParts[i].TimeIntervalID;
+				copy.WeeklyIntervalParts[i].DayIntervalID = source.WeeklyIntervalParts[i].DayIntervalID;
 			}
 			return copy;
 		}
 
 		protected override void BuildIntervals()
 		{
-			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>(SKDManager.TimeIntervalsConfiguration.TimeIntervals.OrderBy(item => item.ID));
-			AvailableTimeIntervals.Insert(0, new SKDTimeInterval()
+			AvailableDayIntervals = new ObservableCollection<SKDDayInterval>(SKDManager.TimeIntervalsConfiguration.DayIntervals.OrderBy(item => item.ID));
+			AvailableDayIntervals.Insert(0, new SKDDayInterval()
 			{
 				ID = 0,
 				Name = "<Никогда>",
 			});
-			OnPropertyChanged(() => AvailableTimeIntervals);
+			OnPropertyChanged(() => AvailableDayIntervals);
 			if (SelectedInterval != null)
 				SelectedInterval.Parts.ForEach(item => item.Update());
 		}

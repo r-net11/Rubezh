@@ -12,12 +12,14 @@ namespace FiresecAPI.GK
 			StateType = XStateBit.Fire1;
 			DeviceUIDs = new List<Guid>();
 			ZoneUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 			DirectionUIDs = new List<Guid>();
 			MPTUIDs = new List<Guid>();
 			DelayUIDs = new List<Guid>();
 
 			Devices = new List<XDevice>();
 			Zones = new List<XZone>();
+			GuardZones = new List<XGuardZone>();
 			Directions = new List<XDirection>();
 			MPTs = new List<XMPT>();
 			Delays = new List<XDelay>();
@@ -25,6 +27,7 @@ namespace FiresecAPI.GK
 
 		public List<XDevice> Devices { get; set; }
 		public List<XZone> Zones { get; set; }
+		public List<XGuardZone> GuardZones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XMPT> MPTs { get; set; }
 		public List<XDelay> Delays { get; set; }
@@ -42,6 +45,9 @@ namespace FiresecAPI.GK
 		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
+		public List<Guid> GuardZoneUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }
 
 		[DataMember]
@@ -55,7 +61,7 @@ namespace FiresecAPI.GK
 
 		public bool HasObjects()
 		{
-			return Devices.Count > 0 || Zones.Count > 0 || Directions.Count > 0 || MPTs.Count > 0 || Delays.Count > 0;
+			return Devices.Count > 0 || Zones.Count > 0 || GuardZones.Count > 0 || Directions.Count > 0 || MPTs.Count > 0 || Delays.Count > 0;
 		}
 	}
 }

@@ -13,7 +13,7 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<XDataGrid Grid.Column="0" ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
+		<DataGrid Grid.Column="0" ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
@@ -33,7 +33,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-		</XDataGrid>
+		</DataGrid>
 		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsActive}">
 			<DataGrid IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
@@ -52,13 +52,13 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedTimeInterval.Name}" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedDayInterval.Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 						<DataGridTemplateColumn.CellEditingTemplate>
 							<DataTemplate>
-								<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableTimeIntervals}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
+								<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableDayIntervals}" SelectedItem="{Binding SelectedDayInterval, UpdateSourceTrigger=PropertyChanged}">
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<DockPanel Background="Transparent">

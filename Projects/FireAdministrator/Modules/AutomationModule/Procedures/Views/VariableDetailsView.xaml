@@ -88,19 +88,19 @@
 
 						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Enum}}" HorizontalAlignment="Right" Height="28"  >
-							<ComboBox ItemsSource="{Binding CurrentVariableItem.StateClassValues}" SelectedItem="{Binding CurrentVariableItem.StateClassValue}" Width="200" Margin="2"
-									  Visibility="{Binding Path=SelectedEnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateClass}}">
+							<ComboBox ItemsSource="{Binding CurrentVariableItem.StateTypeValues}" SelectedItem="{Binding CurrentVariableItem.StateTypeValue}" Width="200" Margin="2"
+									  Visibility="{Binding Path=SelectedEnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<ComboBox ItemsSource="{Binding CurrentVariableItem.DeviceTypes}" SelectedItem="{Binding CurrentVariableItem.DeviceType}" Width="200" Margin="2"
-									  Visibility="{Binding Path=SelectedEnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DeviceType}}">
+							<ComboBox ItemsSource="{Binding CurrentVariableItem.DriverTypeValues}" SelectedItem="{Binding CurrentVariableItem.DriverTypeValue}" Width="200" Margin="2"
+									  Visibility="{Binding Path=SelectedEnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding .}" />
+										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
@@ -137,7 +137,7 @@
 					<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить объект" Height="32" Width="32" />
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Object}}">
-						<ItemsControl ItemsSource="{Binding VariableObjects}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -169,7 +169,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Boolean}}">
-						<ItemsControl ItemsSource="{Binding VariableBools}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -184,7 +184,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.DateTime}}">
-						<ItemsControl ItemsSource="{Binding VariableDateTimes}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -199,7 +199,7 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Integer}}">
-						<ItemsControl ItemsSource="{Binding VariableIntegers}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
@@ -214,13 +214,13 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.String}}">
-						<ItemsControl ItemsSource="{Binding VariableStrings}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
+										<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" VerticalContentAlignment="Center" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -229,14 +229,14 @@
 
 					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ExplicitType.Enum}}" >
-						<ItemsControl ItemsSource="{Binding VariableEnums}">
+						<ItemsControl ItemsSource="{Binding VariableItems}">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<StackPanel>
-										<DockPanel Visibility="{Binding Path=DataContext.SelectedEnumType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateClass}}">
+										<DockPanel Visibility="{Binding Path=DataContext.SelectedEnumType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}">
 											<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-											<ComboBox ItemsSource="{Binding StateClassValues}" SelectedItem="{Binding StateClassValue}" Width="200" Margin="2" HorizontalAlignment="Right" >
+											<ComboBox ItemsSource="{Binding StateTypeValues}" SelectedItem="{Binding StateTypeValue}" Width="200" Margin="2" HorizontalAlignment="Right" >
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -244,13 +244,13 @@
 												</ComboBox.ItemTemplate>
 											</ComboBox>
 										</DockPanel>
-										<DockPanel Visibility="{Binding Path=DataContext.SelectedEnumType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DeviceType}}">
+										<DockPanel Visibility="{Binding Path=DataContext.SelectedEnumType, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}">
 											<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-											<ComboBox ItemsSource="{Binding DeviceTypes}" SelectedItem="{Binding DeviceType}" Width="200" Margin="2" HorizontalAlignment="Right">
+											<ComboBox ItemsSource="{Binding DriverTypeValues}" SelectedItem="{Binding DriverTypeValue}" Width="200" Margin="2" HorizontalAlignment="Right">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
-														<TextBlock Text="{Binding .}" />
+														<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 													</DataTemplate>
 												</ComboBox.ItemTemplate>
 											</ComboBox>

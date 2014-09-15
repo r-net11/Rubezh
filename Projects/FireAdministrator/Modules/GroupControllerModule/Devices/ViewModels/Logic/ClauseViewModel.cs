@@ -15,6 +15,7 @@ namespace GKModule.ViewModels
 	{
 		public List<XDevice> Devices { get; set; }
 		public List<XZone> Zones { get; set; }
+		public List<XGuardZone> GuardZones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XMPT> MPTs { get; set; }
 		public List<XDelay> Delays { get; set; }
@@ -25,22 +26,23 @@ namespace GKModule.ViewModels
 			Device = device;
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 			SelectZonesCommand = new RelayCommand(OnSelectZones);
+			SelectGuardZonesCommand = new RelayCommand(OnSelectGuardZones);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
 			SelectMPTsCommand = new RelayCommand(OnSelectMPTs);
 			SelectDelaysCommand = new RelayCommand(OnSelectDelays);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
-			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
-
 			SelectedClauseOperationType = clause.ClauseOperationType;
+
 			Devices = clause.Devices.ToList();
 			Zones = clause.Zones.ToList();
+			GuardZones = clause.GuardZones.ToList();
 			Directions = clause.Directions.ToList();
 			MPTs = clause.MPTs.ToList();
 			Delays = clause.Delays.ToList();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
-			SelectedStateType = clause.StateType;
+			SelectedStateType = StateTypes.FirstOrDefault(x => x.StateBit == clause.StateType);
 		}
 
 		public List<ClauseConditionType> ClauseConditionTypes { get; private set; }
@@ -70,55 +72,63 @@ namespace GKModule.ViewModels
 				{
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
-						StateTypes = new ObservableCollection<XStateBit>();
-						StateTypes.Add(XStateBit.Norm);
-						StateTypes.Add(XStateBit.Fire2);
+						StateTypes = new ObservableCollection<StateTypeViewModel>();
+						StateTypes.Add(new StateTypeViewModel(value, XStateBit.Norm));
+						StateTypes.Add(new StateTypeViewModel(value, XStateBit.Fire2));
 						if (Device.DriverType != XDriverType.MPT)
 						{
-							StateTypes.Add(XStateBit.Fire1);
-							StateTypes.Add(XStateBit.On);
-							StateTypes.Add(XStateBit.Failure);
+							StateTypes.Add(new StateTypeViewModel(value, XStateBit.Fire1));
+							StateTypes.Add(new StateTypeViewModel(value, XStateBit.On));
+							StateTypes.Add(new StateTypeViewModel(value, XStateBit.Failure));
 						}
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
-						StateTypes = new ObservableCollection<XStateBit>();
-						StateTypes.Add(XStateBit.Fire2);
+						StateTypes = new ObservableCollection<StateTypeViewModel>();
+						StateTypes.Add(new StateTypeViewModel(value, XStateBit.Fire2));
 						if (Device.DriverType != XDriverType.MPT)
 						{
-							StateTypes.Add(XStateBit.Fire1);
-							StateTypes.Add(XStateBit.Attention);
+							StateTypes.Add(new StateTypeViewModel(value, XStateBit.Fire1));
+							StateTypes.Add(new StateTypeViewModel(value, XStateBit.Attention));
 						}
+						break;
+
+					case ClauseOperationType.AllGuardZones:
+					case ClauseOperationType.AnyGuardZone:
+						StateTypes = new ObservableCollection<StateTypeViewModel>();
+						StateTypes.Add(new StateTypeViewModel(value, XStateBit.On));
+						StateTypes.Add(new StateTypeViewModel(value, XStateBit.Off));
+						StateTypes.Add(new StateTypeViewModel(value, XStateBit.Attention));
 						break;
 
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
-						StateTypes = new ObservableCollection<XStateBit>()
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
 						{
-							XStateBit.On
+							new StateTypeViewModel(value, XStateBit.On)
 						};
 						break;
 
 					case ClauseOperationType.AllMPTs:
 					case ClauseOperationType.AnyMPT:
-						StateTypes = new ObservableCollection<XStateBit>()
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
 						{
-							XStateBit.On,
-							XStateBit.Off,
-							XStateBit.TurningOn,
-							XStateBit.Norm
+							new StateTypeViewModel(value, XStateBit.On),
+							new StateTypeViewModel(value, XStateBit.Off),
+							new StateTypeViewModel(value, XStateBit.TurningOn),
+							new StateTypeViewModel(value, XStateBit.Norm)
 						};
 						break;
 
 					case ClauseOperationType.AllDelays:
 					case ClauseOperationType.AnyDelay:
-						StateTypes = new ObservableCollection<XStateBit>()
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
 						{
-							XStateBit.On,
-							XStateBit.Off,
-							XStateBit.TurningOn,
-							XStateBit.Norm
+							new StateTypeViewModel(value, XStateBit.On),
+							new StateTypeViewModel(value, XStateBit.Off),
+							new StateTypeViewModel(value, XStateBit.TurningOn),
+							new StateTypeViewModel(value, XStateBit.Norm)
 						};
 						break;
 				}
@@ -133,19 +143,21 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => SelectedClauseOperationType);
 				OnPropertyChanged(() => PresenrationDevices);
 				OnPropertyChanged(() => PresenrationZones);
+				OnPropertyChanged(() => PresenrationGuardZones);
 				OnPropertyChanged(() => PresenrationDirections);
 				OnPropertyChanged(() => PresenrationMPTs);
 				OnPropertyChanged(() => PresenrationDelays);
 				OnPropertyChanged(() => CanSelectDevices);
 				OnPropertyChanged(() => CanSelectZones);
+				OnPropertyChanged(() => CanSelectGuardZones);
 				OnPropertyChanged(() => CanSelectDirections);
 				OnPropertyChanged(() => CanSelectMPTs);
 				OnPropertyChanged(() => CanSelectDelays);
 			}
 		}
 
-		ObservableCollection<XStateBit> _stateTypes;
-		public ObservableCollection<XStateBit> StateTypes
+		ObservableCollection<StateTypeViewModel> _stateTypes;
+		public ObservableCollection<StateTypeViewModel> StateTypes
 		{
 			get { return _stateTypes; }
 			set
@@ -155,8 +167,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XStateBit _selectedStateType;
-		public XStateBit SelectedStateType
+		StateTypeViewModel _selectedStateType;
+		public StateTypeViewModel SelectedStateType
 		{
 			get { return _selectedStateType; }
 			set
@@ -176,6 +188,11 @@ namespace GKModule.ViewModels
 		public string PresenrationZones
 		{
 			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Zones)); }
+		}
+
+		public string PresenrationGuardZones
+		{
+			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(GuardZones)); }
 		}
 
 		public string PresenrationDirections
@@ -201,6 +218,11 @@ namespace GKModule.ViewModels
 		public bool CanSelectZones
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllZones || SelectedClauseOperationType == ClauseOperationType.AnyZone); }
+		}
+
+		public bool CanSelectGuardZones
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllGuardZones || SelectedClauseOperationType == ClauseOperationType.AnyGuardZone); }
 		}
 
 		public bool CanSelectDirections
@@ -233,7 +255,7 @@ namespace GKModule.ViewModels
 				}
 				if (device.BaseUID == Device.BaseUID)
 					continue;
-				if (device.Driver.AvailableStateBits.Contains(SelectedStateType))
+				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
@@ -252,6 +274,17 @@ namespace GKModule.ViewModels
 			{
 				Zones = zonesSelectationViewModel.Zones;
 				OnPropertyChanged(() => PresenrationZones);
+			}
+		}
+
+		public RelayCommand SelectGuardZonesCommand { get; private set; }
+		void OnSelectGuardZones()
+		{
+			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(GuardZones);
+			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
+			{
+				GuardZones = guardZonesSelectationViewModel.Zones;
+				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}
 

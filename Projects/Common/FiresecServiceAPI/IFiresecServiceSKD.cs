@@ -104,9 +104,6 @@ namespace FiresecAPI
 		OperationResult SaveOrganisationZones(Organisation organisation);
 
 		[OperationContract]
-		OperationResult SaveOrganisationCardTemplates(Organisation organisation);
-
-		[OperationContract]
 		OperationResult SaveOrganisationGuardZones(Organisation organisation);
 
 		[OperationContract]
@@ -232,5 +229,19 @@ namespace FiresecAPI
         [OperationContract]
 		OperationResult SaveNightSettings(NightSettings nightSettings);
         #endregion
-    }
+
+		#region PassCardTemplate
+		[OperationContract]
+		OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter);
+
+		[OperationContract]
+		OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid);
+
+		[OperationContract]
+		OperationResult SavePassCardTemplate(PassCardTemplate item);
+
+		[OperationContract]
+		OperationResult MarkDeletedPassCardTemplate(Guid uid);
+		#endregion
+	}
 }

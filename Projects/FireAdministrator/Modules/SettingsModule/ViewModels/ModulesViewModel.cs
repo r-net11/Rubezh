@@ -14,24 +14,24 @@ namespace SettingsModule.ViewModels
 			Modules.Add(new ModuleViewModel("PlansModule.dll", "Планы"));
 			Modules.Add(new ModuleViewModel("PlansModule.Kursk.dll", "Планы. Курск"));
 			Modules.Add(new ModuleViewModel("SecurityModule.dll", "Пользователи"));
-			Modules.Add(new ModuleViewModel("SoundsModule.dll", "Звуки"));
-			Modules.Add(new ModuleViewModel("SettingsModule.dll", "Настройки", false));
 			Modules.Add(new ModuleViewModel("GKModule.dll", "ГК"));
-			Modules.Add(new ModuleViewModel("OPCModule.dll", "OPC сервер"));
-			Modules.Add(new ModuleViewModel("NotificationModule.dll", "Нотификация"));
-			Modules.Add(new ModuleViewModel("VideoModule.dll", "Видео"));
-			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll", "Диагостика"));
-			Modules.Add(new ModuleViewModel("ReportsModule.dll", "Отчеты"));
 			Modules.Add(new ModuleViewModel("SKDModule.dll", "СКД"));
-			Modules.Add(new ModuleViewModel("LayoutModule.dll", "Макеты"));
+			Modules.Add(new ModuleViewModel("VideoModule.dll", "Видео"));
 			Modules.Add(new ModuleViewModel("AutomationModule.dll", "Автоматизация"));
+			Modules.Add(new ModuleViewModel("LayoutModule.dll", "Макеты"));
+			Modules.Add(new ModuleViewModel("ReportsModule.dll", "Отчеты"));
 			Modules.Add(new ModuleViewModel("FiltersModule.dll", "Фильтры"));
 			Modules.Add(new ModuleViewModel("JournalModule.dll", "Журнал событий"));
+			Modules.Add(new ModuleViewModel("SoundsModule.dll", "Звуки"));
+			Modules.Add(new ModuleViewModel("SettingsModule.dll", "Настройки", false));
+			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll", "Диагостика"));
 
-			Modules.Add(new ModuleViewModel("DevicesModule.dll", "Устройства FS1"));
-			Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));			
-			Modules.Add(new ModuleViewModel("InstructionsModule.dll", "Инструкции FS1"));
-			Modules.Add(new ModuleViewModel("AlarmModule.dll", "Состояния FS1"));
+			//Modules.Add(new ModuleViewModel("DevicesModule.dll", "Устройства FS1"));
+			//Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));			
+			//Modules.Add(new ModuleViewModel("InstructionsModule.dll", "Инструкции FS1"));
+			//Modules.Add(new ModuleViewModel("AlarmModule.dll", "Состояния FS1"));
+			//Modules.Add(new ModuleViewModel("OPCModule.dll", "OPC сервер"));
+			//Modules.Add(new ModuleViewModel("NotificationModule.dll", "Нотификация"));
 
 			if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
 				GlobalSettingsHelper.GlobalSettings.SetDefaultModules();

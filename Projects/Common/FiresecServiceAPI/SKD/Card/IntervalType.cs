@@ -4,7 +4,7 @@ namespace FiresecAPI.SKD
 {
 	public enum IntervalType
 	{
-		[DescriptionAttribute("Временные зоны")]
+		[DescriptionAttribute("Дневные графики")]
 		Time,
 
 		[DescriptionAttribute("Недельные графики")]

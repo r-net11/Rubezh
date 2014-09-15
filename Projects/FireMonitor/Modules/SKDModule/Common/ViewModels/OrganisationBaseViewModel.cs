@@ -14,7 +14,7 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class OrganisationBaseViewModel<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel
+	public abstract class OrganisationBaseViewModel<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel, IEditingBaseViewModel
 		where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
         where ModelT : class, IOrganisationElement, new()
 		where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()

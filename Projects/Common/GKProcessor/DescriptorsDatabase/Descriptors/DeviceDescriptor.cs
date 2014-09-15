@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -66,11 +67,12 @@ namespace GKProcessor
 					Formula.AddGetBit(XStateBit.Off, Device.GuardZone);
 					Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
 				}
-				if (Device.DriverType == XDriverType.RSR2_CodeReader)
+				if (Device.DriverType == XDriverType.RSR2_CodeReader && Device.GuardZone != null)
 				{
-					Formula.Add(FormulaOperationType.KOD);
-					Formula.Add(FormulaOperationType.ADD);
-					Formula.AddStandardTurning(Device);
+					Formula.AddGetBit(XStateBit.On, Device.GuardZone);
+					Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(XStateBit.Off, Device.GuardZone);
+					Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
 				}
 			}
 			Formula.Add(FormulaOperationType.END);

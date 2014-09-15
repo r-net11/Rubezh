@@ -5,7 +5,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
 using Infrastructure;
-using MiscUtil.Reflection;
 
 namespace AutomationModule.ViewModels
 {

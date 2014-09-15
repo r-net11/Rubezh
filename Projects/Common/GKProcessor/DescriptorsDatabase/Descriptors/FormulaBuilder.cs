@@ -27,35 +27,25 @@ namespace GKProcessor
 
 		public void AddGetBitOff(XStateBit stateBit, XBase xBase)
 		{
-			Add(FormulaOperationType.GETBIT,
-				(byte)stateBit,
-				xBase.GKDescriptorNo);
-			Add(FormulaOperationType.GETBIT,
-				(byte)XStateBit.Ignore,
-				xBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, xBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)XStateBit.Ignore, xBase.GKDescriptorNo);
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);
 		}
 
 		public void AddGetBit(XStateBit stateBit, XBase xBase)
 		{
-			Add(FormulaOperationType.GETBIT,
-				(byte)stateBit,
-				xBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, xBase.GKDescriptorNo);
 		}
 
 		public void AddPutBit(XStateBit stateBit, XBase xBase)
 		{
-			Add(FormulaOperationType.PUTBIT,
-				(byte)stateBit,
-				xBase.GKDescriptorNo);
+			Add(FormulaOperationType.PUTBIT, (byte)stateBit, xBase.GKDescriptorNo);
 		}
 
 		public void AddArgumentPutBit(byte bit, XBase xBase)
 		{
-			Add(FormulaOperationType.PUTBIT,
-				(byte)bit,
-				xBase.GKDescriptorNo);
+			Add(FormulaOperationType.PUTBIT, (byte)bit, xBase.GKDescriptorNo);
 		}
 
 		public void AddStandardTurning(XBase xBase)
@@ -84,6 +74,10 @@ namespace GKProcessor
 				{
 					xBases.Add(zone);
 				}
+				foreach (var guardZone in clause.GuardZones)
+				{
+					xBases.Add(guardZone);
+				}
 				foreach (var direction in clause.Directions)
 				{
 					xBases.Add(direction);
@@ -108,6 +102,7 @@ namespace GKProcessor
 						{
 							case ClauseOperationType.AllDevices:
 							case ClauseOperationType.AllZones:
+							case ClauseOperationType.AllGuardZones:
 							case ClauseOperationType.AllDirections:
 							case ClauseOperationType.AllMPTs:
 							case ClauseOperationType.AllDelays:
@@ -116,6 +111,7 @@ namespace GKProcessor
 
 							case ClauseOperationType.AnyDevice:
 							case ClauseOperationType.AnyZone:
+							case ClauseOperationType.AnyGuardZone:
 							case ClauseOperationType.AnyDirection:
 							case ClauseOperationType.AnyMPT:
 							case ClauseOperationType.AnyDelay:
@@ -190,6 +186,7 @@ namespace GKProcessor
 					case FormulaOperationType.GETBIT:
 					case FormulaOperationType.GETBYTE:
 					case FormulaOperationType.GETWORD:
+					case FormulaOperationType.ACS:
 						stackDepth += 1;
 						break;
 
@@ -213,6 +210,10 @@ namespace GKProcessor
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
 						stackDepth -= 1;
+						break;
+
+					case FormulaOperationType.CMPKOD:
+						stackDepth -= 2;
 						break;
 
 					case FormulaOperationType.COM:

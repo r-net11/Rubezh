@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 				var clause = new XClause()
 				{
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
-					StateType = clauseViewModel.SelectedStateType,
+					StateType = clauseViewModel.SelectedStateType.StateBit,
 					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
 				};
 				switch (clause.ClauseOperationType)
@@ -128,6 +128,12 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AnyZone:
 						clause.Zones = clauseViewModel.Zones.ToList();
 						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.BaseUID).ToList();
+						break;
+
+					case ClauseOperationType.AllGuardZones:
+					case ClauseOperationType.AnyGuardZone:
+						clause.GuardZones = clauseViewModel.GuardZones.ToList();
+						clause.GuardZoneUIDs = clauseViewModel.GuardZones.Select(x => x.BaseUID).ToList();
 						break;
 
 					case ClauseOperationType.AllDirections:

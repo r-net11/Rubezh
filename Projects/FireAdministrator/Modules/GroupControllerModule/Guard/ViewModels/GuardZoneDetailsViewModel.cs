@@ -50,8 +50,13 @@ namespace GKModule.ViewModels
 			No = Zone.No;
 			Name = Zone.Name;
 			Description = Zone.Description;
-			Level = Zone.Level;
+			EnterLevel = Zone.EnterLevel;
+			SetGuardLevel = Zone.SetGuardLevel;
+			ResetGuardLevel = Zone.ResetGuardLevel;
+			SetAlarmLevel = Zone.SetAlarmLevel;
 			Delay = Zone.Delay;
+			ResetDelay = Zone.ResetDelay;
+			AlarmDelay = Zone.AlarmDelay;
 		}
 
 		ushort _no;
@@ -87,14 +92,47 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		int _level;
-		public int Level
+		int _enterLevel;
+		public int EnterLevel
 		{
-			get { return _level; }
+			get { return _enterLevel; }
 			set
 			{
-				_level = value;
-				OnPropertyChanged(() => Level);
+				_enterLevel = value;
+				OnPropertyChanged(() => EnterLevel);
+			}
+		}
+
+		int _setGuardLevel;
+		public int SetGuardLevel
+		{
+			get { return _setGuardLevel; }
+			set
+			{
+				_setGuardLevel = value;
+				OnPropertyChanged(() => SetGuardLevel);
+			}
+		}
+
+		int _resetGuardLevel;
+		public int ResetGuardLevel
+		{
+			get { return _resetGuardLevel; }
+			set
+			{
+				_resetGuardLevel = value;
+				OnPropertyChanged(() => ResetGuardLevel);
+			}
+		}
+
+		int _setAlarmLevel;
+		public int SetAlarmLevel
+		{
+			get { return _setAlarmLevel; }
+			set
+			{
+				_setAlarmLevel = value;
+				OnPropertyChanged(() => SetAlarmLevel);
 			}
 		}
 
@@ -106,6 +144,28 @@ namespace GKModule.ViewModels
 			{
 				_delay = value;
 				OnPropertyChanged(() => Delay);
+			}
+		}
+
+		int _resetDelay;
+		public int ResetDelay
+		{
+			get { return _resetDelay; }
+			set
+			{
+				_resetDelay = value;
+				OnPropertyChanged(() => ResetDelay);
+			}
+		}
+
+		int _alarmDelay;
+		public int AlarmDelay
+		{
+			get { return _alarmDelay; }
+			set
+			{
+				_alarmDelay = value;
+				OnPropertyChanged(() => AlarmDelay);
 			}
 		}
 
@@ -123,8 +183,13 @@ namespace GKModule.ViewModels
 			Zone.No = No;
 			Zone.Name = Name;
 			Zone.Description = Description;
-			Zone.Level = Level;
+			Zone.EnterLevel = EnterLevel;
+			Zone.SetGuardLevel = SetGuardLevel;
+			Zone.ResetGuardLevel = ResetGuardLevel;
+			Zone.SetAlarmLevel = SetAlarmLevel;
 			Zone.Delay = Delay;
+			Zone.ResetDelay = ResetDelay;
+			Zone.AlarmDelay = AlarmDelay;
 			return base.Save();
 		}
 	}

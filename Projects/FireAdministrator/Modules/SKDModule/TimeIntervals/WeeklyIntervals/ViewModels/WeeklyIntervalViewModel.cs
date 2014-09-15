@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 			IsActive = true;
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
 			{
-				Model.WeeklyIntervalParts[i].TimeIntervalID = interval.WeeklyIntervalParts[i].TimeIntervalID;
+				Model.WeeklyIntervalParts[i].DayIntervalID = interval.WeeklyIntervalParts[i].DayIntervalID;
 			}
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;

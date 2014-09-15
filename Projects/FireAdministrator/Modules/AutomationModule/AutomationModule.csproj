@@ -278,7 +278,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
-    <Compile Include="PropertyCopy.cs" />
     <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ArgumentViewModel.cs" />

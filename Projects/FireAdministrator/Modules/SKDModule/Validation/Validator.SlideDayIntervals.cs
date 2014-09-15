@@ -14,9 +14,9 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(slideDayInterval.Name))
 					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Отсутствует название скользящего посуточного графика", ValidationErrorLevel.CannotWrite));
-				if (slideDayInterval.TimeIntervalIDs.Count == 0 )
+				if (slideDayInterval.DayIntervalIDs.Count == 0 )
 					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Отсутствуют составляющие части скользящего посуточного графика", ValidationErrorLevel.CannotWrite));
-				else if (slideDayInterval.TimeIntervalIDs.All(item => item == 0))
+				else if (slideDayInterval.DayIntervalIDs.All(item => item == 0))
 					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Все составляющие части скользящего посуточного графика пустые", ValidationErrorLevel.CannotWrite));
 			}
 		}

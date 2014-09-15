@@ -67,6 +67,9 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Условие Меньше или равно")]
 		LE = 22,
 
+		[DescriptionAttribute("Сравнение кода")]
+		CMPKOD = 24,
+
 		[DescriptionAttribute("Занести в стек пароль наборника")]
 		KOD = 26,
 

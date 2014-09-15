@@ -16,7 +16,7 @@
 	        <RowDefinition Height="Auto" />
 	        <RowDefinition Height="*" MinHeight="200" />
 	    </Grid.RowDefinitions>
-	    <tree:TreeList Grid.Row="0" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True" Focusable="True">
+        <tree:TreeList Grid.Row="0" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
                     <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1"  tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">

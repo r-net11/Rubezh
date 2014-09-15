@@ -46,7 +46,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{ 
-				return "Камера: " + Variable1.Description + "Команда: " + SelectedCommand.ToDescription(); 
+				return "Камера: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription(); 
 			}
 		}
 	}

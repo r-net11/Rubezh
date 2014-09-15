@@ -99,6 +99,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.VariableScope = value;
+				if (value == VariableScope.ExplicitValue)
+					SelectedVariable = null;
 				if (UpdateVariableScopeHandler != null)
 					UpdateVariableScopeHandler();
 				OnPropertyChanged(() => SelectedVariableScope);
@@ -168,10 +170,15 @@ namespace AutomationModule.ViewModels
 						break;
 					case ExplicitType.Enum:
 						{
-							if (EnumType == EnumType.StateClass)
-								description = CurrentVariableItem.VariableItem.StateClassValue.ToDescription();
-							if (EnumType == EnumType.DeviceType)
-								description = CurrentVariableItem.VariableItem.DeviceType;
+							if (EnumType == EnumType.StateType)
+								description = CurrentVariableItem.VariableItem.StateTypeValue.ToDescription();
+							if (EnumType == EnumType.DriverType)
+								description = CurrentVariableItem.VariableItem.DriverTypeValue.ToDescription();
+						}
+						break;
+					case ExplicitType.Object:
+						{
+							description = CurrentVariableItem.PresentationName;
 						}
 						break;
 				}

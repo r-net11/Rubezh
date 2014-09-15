@@ -24,6 +24,7 @@ namespace FiresecService.Processor
 		{
 			try
 			{
+				ProcedureHelper.Procedure = procedure;
 				if (procedure.Steps.Any(step => !RunStep(step, procedure, arguments)))
 				{
 					return true;

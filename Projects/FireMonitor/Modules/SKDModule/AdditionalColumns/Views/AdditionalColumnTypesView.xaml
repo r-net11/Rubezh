@@ -5,7 +5,7 @@
 		<Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
 	</UserControl.Resources>
 
-	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+    <tree:TreeList Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
                 <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
@@ -26,17 +26,10 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Формат данных" Width="Auto">
+				<GridViewColumn Header="Формат данных" Width="100">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding AdditionalColumnType.DataType, Converter={StaticResource DataTypeToStringConverter}}" />
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-				<GridViewColumn Header="Отображается в списке" Width="Auto">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding IsInGrid}" />
+							<TextBlock Text="{Binding Model.DataType, Converter={StaticResource DataTypeToStringConverter}}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>

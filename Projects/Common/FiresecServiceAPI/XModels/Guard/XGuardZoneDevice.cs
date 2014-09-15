@@ -26,13 +26,13 @@ namespace FiresecAPI.GK
 
 	public enum XGuardZoneDeviceActionType
 	{
-		[Description("Поставить на охрану")]
+		[Description("Поставка на охрану")]
 		SetGuard,
 
-		[Description("Снять с охраны")]
+		[Description("Снятие с охраны")]
 		ResetGuard,
 
-		[Description("Вызвать тревогу")]
-		SetAlarm
+		[Description("Тревожный датчик")]
+		SetAlarm,
 	}
 }

@@ -164,10 +164,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(item));
 		}
-		public OperationResult SaveOrganisationCardTemplates(Organisation item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationCardTemplates(item));
-		}
 		public OperationResult SaveOrganisationGuardZones(Organisation item)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationGuardZones(item));
@@ -374,5 +370,25 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDoorForever(door.UID); }, "SKDCloseDoorForever");
 		}
 		#endregion
+
+		#region PassCardTemplate
+		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<ShortPassCardTemplate>>>(() => FiresecService.GetPassCardTemplateList(filter));
+		}
+		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<PassCardTemplate>>(() => FiresecService.GetPassCardTemplateDetails(uid));
+		}
+		public OperationResult SavePassCardTemplate(PassCardTemplate item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePassCardTemplate(item));
+		}
+		public OperationResult MarkDeletedPassCardTemplate(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.MarkDeletedPassCardTemplate(uid));
+		}
+		#endregion
+
 	}
 }

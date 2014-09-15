@@ -28,7 +28,6 @@ namespace AutomationModule.ViewModels
 		void UpdateVariable1()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
-			Variable1.ExplicitType = SelectedExplicitType;
 			Variable1.EnumType = Result.EnumType;
 		}
 
@@ -49,6 +48,7 @@ namespace AutomationModule.ViewModels
 		{
 			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
 			Result.ExplicitType = SelectedExplicitType;
+			Variable1.ExplicitType = SelectedExplicitType;
 		}
 
 		public override string Description 

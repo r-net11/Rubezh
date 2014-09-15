@@ -49,7 +49,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Точка доступа: " + Variable1.Description + "Команда: " + SelectedCommand.ToDescription();
+				return "Точка доступа: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

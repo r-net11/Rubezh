@@ -56,7 +56,7 @@
 								</ComboBox.ItemTemplate>
 							</ComboBox>
 
-							<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
+							<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="180" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}" 
@@ -65,12 +65,11 @@
 								</ComboBox.ItemTemplate>
 							</ComboBox>
 
-							<ComboBox Width="150" Height="30" VerticalAlignment="Center" Margin="2"
-									ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
+                            <ComboBox Width="150" Height="30" ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}" VerticalAlignment="Center" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
-										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
-										Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                                        <Controls:IconLabel ImageSource="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}"
+										Text="{Binding Name}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
@@ -199,6 +198,32 @@
 									</TextBlock>
 								</Hyperlink>
 							</TextBlock>
+
+                            <TextBlock Visibility="{Binding CanSelectGuardZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectGuardZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationGuardZones}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationGuardZones}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationGuardZones}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора охранных зон" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора охранных зон" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+
 						</StackPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

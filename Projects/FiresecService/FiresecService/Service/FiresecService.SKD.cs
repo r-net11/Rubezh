@@ -389,14 +389,6 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveZones(organisation);
 			}
 		}
-		public OperationResult SaveOrganisationCardTemplates(Organisation organisation)
-		{
-			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.OrganisationTranslator.SaveCardTemplates(organisation);
-			}
-		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
@@ -732,11 +724,15 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
-				if (device.State != null)
+				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				if (!result.HasError && device.State != null)
 				{
 					device.State.OpenAlwaysTimeIndex = 1;
+					var skdStates = new SKDStates();
+					skdStates.DeviceStates.Add(device.State);
+					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 				}
-				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				return result;
 			}
 			else
 			{
@@ -751,11 +747,15 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
-				if (device.State != null)
+				var result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				if (!result.HasError && device.State != null)
 				{
 					device.State.OpenAlwaysTimeIndex = 0;
+					var skdStates = new SKDStates();
+					skdStates.DeviceStates.Add(device.State);
+					ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 				}
-				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+				return result;
 			}
 			else
 			{
@@ -1016,6 +1016,39 @@ namespace FiresecService.Service
 			else
 			{
 				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+			}
+		}
+		#endregion
+
+		#region PassCardTemplate
+		public OperationResult<IEnumerable<ShortPassCardTemplate>> GetPassCardTemplateList(PassCardTemplateFilter filter)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.GetList(filter);
+			}
+		}
+		public OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.GetSingle(uid);
+			}
+		}
+		public OperationResult SavePassCardTemplate(PassCardTemplate item)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.Save(item);
+			}
+		}
+		public OperationResult MarkDeletedPassCardTemplate(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
 			}
 		}
 		#endregion

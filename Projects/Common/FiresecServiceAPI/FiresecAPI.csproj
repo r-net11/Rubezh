@@ -146,6 +146,7 @@
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Models\Automation\ArithmeticParameter.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
+    <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectFieldArguments.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
+    <Compile Include="Models\Automation\VariableItem.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
@@ -231,7 +233,6 @@
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />
     <Compile Include="SKD\PassCardLibrary\ShortPassCardTemplate.cs" />
-    <Compile Include="SKD\SKDManager\ChinaController_1_1Helper.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
+    <Compile Include="XModels\Guard\XCodeReaderEnterType.cs" />
     <Compile Include="XModels\Guard\XCodeReaderSettings.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
@@ -391,9 +393,9 @@
     <Compile Include="SKD\States\SKDZoneState.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDHoliday.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDSlideWeeklyInterval.cs" />
-    <Compile Include="SKD\DeviceTimeIntervals\SKDTimeInterval.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDayInterval.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDSlideDayInterval.cs" />
-    <Compile Include="SKD\DeviceTimeIntervals\SKDTimeIntervalPart.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDayIntervalPart.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDWeeklyIntervalPart.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\TimeIntervalsConfiguration.cs" />

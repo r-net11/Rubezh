@@ -7,6 +7,7 @@ using FiresecAPI.GK;
 
 namespace FiresecAPI.Automation
 {
+	[DataContract]
 	public class ArithmeticParameter
 	{
 		public ArithmeticParameter()

@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 				{
                     if (HasLinkedCards())
                     {
-                        MessageBoxService.Show("Не могу удалить.\nСуществуют карты, привязанные к данной точке доступа");
+                        MessageBoxService.Show("Операция запрещена\nСуществуют карты, привязанные к данной точке доступа");
                         OnPropertyChanged(() => IsChecked);
                         return;
                     }    
@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
                         Organisation.DoorUIDs.Remove(Door.UID);
                     }
 				}
-                _isChecked = value;  
+                _isChecked = value;
                 OnPropertyChanged(() => IsChecked);
 				var saveResult = OrganisationHelper.SaveDoors(Organisation);
 			}

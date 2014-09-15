@@ -21,6 +21,7 @@ namespace FiresecAPI.GK
 
 		public List<XDevice> ClauseInputDevices { get; set; }
 		public List<XZone> ClauseInputZones { get; set; }
+		public List<XGuardZone> ClauseInputGuardZones { get; set; }
 		public List<XDirection> ClauseInputDirections { get; set; }
 		public List<XMPT> ClauseInputMPTs { get; set; }
 		public List<XDelay> ClauseInputDelays { get; set; }
@@ -29,6 +30,7 @@ namespace FiresecAPI.GK
 		{
 			ClauseInputDevices = new List<XDevice>();
 			ClauseInputZones = new List<XZone>();
+			ClauseInputGuardZones = new List<XGuardZone>();
 			ClauseInputDirections = new List<XDirection>();
 			ClauseInputMPTs = new List<XMPT>();
 			ClauseInputDelays = new List<XDelay>();

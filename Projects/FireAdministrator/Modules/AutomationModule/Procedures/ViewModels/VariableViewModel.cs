@@ -19,6 +19,7 @@ namespace AutomationModule.ViewModels
 	{
 		public Variable Variable { get; set; }
 		public VariableItemViewModel VariableItem { get; private set; }
+		public ObservableCollection<VariableItemViewModel> VariableItems { get; set; }
 
 		public VariableViewModel(Variable variable)
 		{
@@ -26,6 +27,9 @@ namespace AutomationModule.ViewModels
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 			VariableItem = new VariableItemViewModel(variable.DefaultVariableItem);
+			VariableItems = new ObservableCollection<VariableItemViewModel>();
+			foreach (var variableItem in variable.VariableItems)
+				VariableItems.Add(new VariableItemViewModel(variableItem));
 			Update();
 		}
 
@@ -42,6 +46,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitType);
 			OnPropertyChanged(() => EnumType);
 			OnPropertyChanged(() => ObjectType);
+			OnPropertyChanged(() => VariableItem);
 		}
 
 		bool _isList;
@@ -117,16 +122,15 @@ namespace AutomationModule.ViewModels
 
 		public VariableItemViewModel(VariableItem variableItem)
 		{
-			VariableItem = new VariableItem();
+			VariableItem = variableItem;
 			Initialize(variableItem);
 		}
 
 		public void Initialize(VariableItem variableItem)
 		{
-			VariableItem = (VariableItem)variableItem.Clone();
-			StateClassValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DeviceTypes = new ObservableCollection<string>(XManager.Drivers.Select(x => x.Name));
-			DeviceType = DeviceType ?? DeviceTypes.FirstOrDefault();
+			PropertyCopy.Copy<VariableItem, VariableItem>(variableItem, VariableItem);
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 			var objectUid = variableItem.UidValue;
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUid);
 			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUid);
@@ -202,25 +206,25 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XStateClass> StateClassValues { get; private set; }
-		public XStateClass StateClassValue
+		public ObservableCollection<XStateClass> StateTypeValues { get; private set; }
+		public XStateClass StateTypeValue
 		{
-			get { return VariableItem.StateClassValue; }
+			get { return VariableItem.StateTypeValue; }
 			set
 			{
-				VariableItem.StateClassValue = value;
-				OnPropertyChanged(() => StateClassValue);
+				VariableItem.StateTypeValue = value;
+				OnPropertyChanged(() => StateTypeValue);
 			}
 		}
 
-		public ObservableCollection<string> DeviceTypes { get; private set; }
-		public string DeviceType
+		public ObservableCollection<XDriverType> DriverTypeValues { get; private set; }
+		public XDriverType DriverTypeValue
 		{
-			get { return VariableItem.DeviceType; }
+			get { return VariableItem.DriverTypeValue; }
 			set
 			{
-				VariableItem.DeviceType = value;
-				OnPropertyChanged(() => DeviceType);
+				VariableItem.DriverTypeValue = value;
+				OnPropertyChanged(() => DriverTypeValue);
 			}
 		}
 

@@ -2,6 +2,7 @@
 
 namespace FiresecAPI.Automation
 {
+	[DataContract]
 	public class JournalArguments
 	{
 		public JournalArguments()

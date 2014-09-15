@@ -31,7 +31,7 @@ namespace AutomationModule.ViewModels
 		void UpdateItemVariable()
 		{
 			ItemVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListVariable.SelectedVariable.ExplicitType
-				&& x.ObjectType == ListVariable.ObjectType && x.EnumType == ListVariable.EnumType ));
+				&& x.ObjectType == ListVariable.SelectedVariable.ObjectType && x.EnumType == ListVariable.SelectedVariable.EnumType ));
 		}
 
 		public override string Description
