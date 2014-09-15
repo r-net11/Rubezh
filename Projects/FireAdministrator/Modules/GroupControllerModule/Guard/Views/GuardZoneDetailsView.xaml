@@ -24,7 +24,7 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
+                <Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />

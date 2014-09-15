@@ -92,6 +92,7 @@
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
     <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\StateTypeViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Plans\Views\GuardZonePropertiesView.xaml.cs">
       <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
@@ -218,6 +220,9 @@
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
+    <Compile Include="Selectation\Views\GuardZonesSelectationView.xaml.cs">
+      <DependentUpon>GuardZonesSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Selectation\Views\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
@@ -570,6 +575,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\GuardZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\GuardZonesSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

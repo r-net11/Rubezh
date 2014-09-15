@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 		public XMPT MPT;
 		public XDelay Delay;
 		public XGuardZone GuardZone;
+		public XCode Code;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
 		public object Clone()
@@ -115,6 +116,16 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.GuardZone;
 		}
 
+		public ObjectViewModel(XCode code)
+		{
+			Code = code;
+			Name = code.PresentationName;
+			ImageSource = "/Controls;component/Images/Code.png";
+			Address = "";
+			PresentationZone = "";
+			ObjectType = ObjectType.Code;
+		}
+
 		int IComparable.CompareTo(object a)
 		{
 			return Compare(this, a);
@@ -189,6 +200,15 @@ namespace GKModule.ViewModels
 					return -1;
 				return 0;
 			}
+
+			if (object1.ObjectType == ObjectType.Code)
+			{
+				if (object1.Code.No > object2.Code.No)
+					return 1;
+				if (object1.Code.No < object2.Code.No)
+					return -1;
+				return 0;
+			}
 			return 0;
 		}
 	}
@@ -202,5 +222,6 @@ namespace GKModule.ViewModels
 		MPT = 4,
 		Delay = 5,
 		GuardZone = 6,
+		Code = 7,
 	}
 }

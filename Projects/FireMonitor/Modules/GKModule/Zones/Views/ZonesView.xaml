@@ -57,7 +57,7 @@
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить все устройства" Command="{Binding SetIgnoreAllCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение всех устройств" Command="{Binding ResetIgnoreAllCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetFireCommand}" />
-												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/Map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 											</ContextMenu>

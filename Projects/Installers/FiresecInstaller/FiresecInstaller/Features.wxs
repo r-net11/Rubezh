@@ -18,12 +18,12 @@
       </Feature>
 
       <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
-        <Condition Level="0">INSTALL_GK</Condition>
+        <Condition Level="2">INSTALL_GK</Condition>
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
       <Feature Id="SKD.Features" Title="СКД" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
-        <Condition Level="3">INSTALL_SKD</Condition>
+        <Condition Level="0">INSTALL_SKD</Condition>
         <ComponentRef Id="Administrator.SKD_MODULE" />
         <ComponentRef Id="Monitor.SKD_MODULE" />
       </Feature>

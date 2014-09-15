@@ -114,6 +114,15 @@ namespace GKModule.ViewModels
 			get { return ControlRegime == DeviceControlRegime.Manual; }
 		}
 
+		public bool HasOnDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
+		}
+
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
@@ -180,15 +189,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool HasOnDelay
-		{
-			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
-		}
-		public bool HasHoldDelay
-		{
-			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
-		}
-
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
@@ -199,7 +199,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanReset()
 		{
-			return State.StateClasses.Contains(XStateClass.Fire2) || State.StateClasses.Contains(XStateClass.Fire1) || State.StateClasses.Contains(XStateClass.Attention);
+			return State.StateClasses.Contains(XStateClass.Fire1);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using Controls;
+using System.Linq;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -21,7 +22,13 @@ namespace GKModule.ViewModels
 			if (code == null)
 			{
 				Title = "Создать код";
-				Code = new XCode();
+				Code = new XCode()
+				{
+					Name = "Новый код",
+					No = 1
+				};
+				if (XManager.DeviceConfiguration.Codes.Count != 0)
+					Code.No = (ushort)(XManager.DeviceConfiguration.Codes.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -34,6 +41,7 @@ namespace GKModule.ViewModels
 
 		void CopyProperies()
 		{
+			No = Code.No;
 			Name = Code.Name;
 			Password = Code.Password;
 		}
@@ -42,6 +50,17 @@ namespace GKModule.ViewModels
 		{
 			Code.Name = Name;
 			Code.Password = Password;
+		}
+
+		ushort _no;
+		public ushort No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged(() => No);
+			}
 		}
 
 		string _name;
@@ -139,6 +158,14 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (Code.No != No && XManager.DeviceConfiguration.Codes.Any(x => x.No == No))
+			{
+				MessageBoxService.Show("Код с таким номером уже существует");
+				return false;
+			}
+
+			Code.No = No;
+
 			if (string.IsNullOrEmpty(Name))
 			{
 				MessageBoxService.Show("Имя не может быть пустым");

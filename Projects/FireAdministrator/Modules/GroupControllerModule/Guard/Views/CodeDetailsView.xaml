@@ -20,11 +20,16 @@
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<Label Grid.Row="0" Grid.Column="0" Content="Название" />
-							<Label Grid.Row="1" Grid.Column="0" Content="Пароль" />
-							<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="20" Name="nameTextBox" Margin="2" />
-							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" MaxLength="10" Margin="2" />
+                            <Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Название" HorizontalAlignment="Right" Margin="2" />
+							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="20" Name="nameTextBox" Margin="2" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Пароль" HorizontalAlignment="Right" Margin="2" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Password, UpdateSourceTrigger=PropertyChanged}" MaxLength="10" Margin="2" />
 						</Grid>
 					</StackPanel>
 					<StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">

@@ -9,12 +9,23 @@ namespace GKModule.Validation
 	{
 		void ValidateCodes()
 		{
+			ValidateCodeNoEquality();
 			ValidateGuardPasswordEquality();
 
 			foreach (var code in XManager.DeviceConfiguration.Codes)
 			{
 				if (IsManyGK())
 					ValidateCodeDifferentGK(code);
+			}
+		}
+
+		void ValidateCodeNoEquality()
+		{
+			var codeNos = new HashSet<int>();
+			foreach (var code in XManager.DeviceConfiguration.Codes)
+			{
+				if (!codeNos.Add(code.No))
+					Errors.Add(new CodeValidationError(code, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

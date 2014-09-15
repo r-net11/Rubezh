@@ -171,6 +171,10 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_1;
 							}
+							if (JournalItem.JournalObjectType == XJournalObjectType.GuardZone)
+							{
+								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_Охранной_Зоны;
+							}
 							JournalItem.Description = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
 

@@ -341,6 +341,11 @@ namespace FireAdministrator.ViewModels
 					var zoneUID = clause.ZoneUIDs[i];
 					clause.ZoneUIDs[i] = ZoneUIDs[zoneUID];
 				}
+				for (int i = 0; i < clause.GuardZoneUIDs.Count; i++)
+				{
+					var guardZoneUID = clause.GuardZoneUIDs[i];
+					clause.GuardZoneUIDs[i] = GuardZoneUIDs[guardZoneUID];
+				}
 				for (int i = 0; i < clause.DeviceUIDs.Count; i++)
 				{
 					var deviceUID = clause.DeviceUIDs[i];

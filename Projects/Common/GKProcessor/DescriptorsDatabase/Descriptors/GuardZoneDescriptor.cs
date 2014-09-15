@@ -117,7 +117,6 @@ namespace GKProcessor
 					{
 						Formula.AddGetBit(XStateBit.Fire1, guardDevice.Device);
 					}
-					Formula.Add(FormulaOperationType.AND);
 					if (count > 0)
 					{
 						Formula.Add(FormulaOperationType.OR);

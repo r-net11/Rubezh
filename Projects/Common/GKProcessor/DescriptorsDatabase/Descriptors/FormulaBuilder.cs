@@ -74,6 +74,10 @@ namespace GKProcessor
 				{
 					xBases.Add(zone);
 				}
+				foreach (var guardZone in clause.GuardZones)
+				{
+					xBases.Add(guardZone);
+				}
 				foreach (var direction in clause.Directions)
 				{
 					xBases.Add(direction);
@@ -98,6 +102,7 @@ namespace GKProcessor
 						{
 							case ClauseOperationType.AllDevices:
 							case ClauseOperationType.AllZones:
+							case ClauseOperationType.AllGuardZones:
 							case ClauseOperationType.AllDirections:
 							case ClauseOperationType.AllMPTs:
 							case ClauseOperationType.AllDelays:
@@ -106,6 +111,7 @@ namespace GKProcessor
 
 							case ClauseOperationType.AnyDevice:
 							case ClauseOperationType.AnyZone:
+							case ClauseOperationType.AnyGuardZone:
 							case ClauseOperationType.AnyDirection:
 							case ClauseOperationType.AnyMPT:
 							case ClauseOperationType.AnyDelay:

@@ -23,8 +23,6 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Directions = new Guid("{020501DC-00A7-4EA7-B251-D4C98B7C796F}");
 		public static readonly Guid PumpStations = new Guid("{C96EB8B0-E6DA-482c-B19C-3BD862768713}");
 		public static readonly Guid MPTs = new Guid("{BE50C86B-75C2-4850-8894-A325B14F946A}");
-		public static readonly Guid GKJournals = new Guid("{7CA2FB98-264B-4157-8BD0-0881723BE0CA}");
-		public static readonly Guid GKArchive = new Guid("{B8202F86-5ADD-4AB2-AAED-CBC10505E25A}");
 		public static readonly Guid Reports = new Guid("{AF658FD9-1EDF-4418-AB5F-AC32426ED114}");
 		public static readonly Guid Diagnostics = new Guid("{FD516EB7-CF78-4783-AFD4-08AC7A840550}");
 		public static readonly Guid CamerasList = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");

@@ -293,6 +293,7 @@ namespace FiresecAPI.GK
 			{
 				clause.Devices = new List<XDevice>();
 				clause.Zones = new List<XZone>();
+				clause.GuardZones = new List<XGuardZone>();
 				clause.Directions = new List<XDirection>();
 				clause.MPTs = new List<XMPT>();
 				clause.Delays = new List<XDelay>();
@@ -324,6 +325,20 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.ZoneUIDs = zoneUIDs;
+
+				var guardZoneUIDs = new List<Guid>();
+				foreach (var guardZoneUID in clause.GuardZoneUIDs)
+				{
+					var guardZone = GuardZones.FirstOrDefault(x => x.BaseUID == guardZoneUID);
+					if (guardZone != null)
+					{
+						guardZoneUIDs.Add(guardZoneUID);
+						clause.GuardZones.Add(guardZone);
+						if (!xBase.ClauseInputGuardZones.Contains(guardZone))
+							xBase.ClauseInputGuardZones.Add(guardZone);
+					}
+				}
+				clause.GuardZoneUIDs = guardZoneUIDs;
 
 				var directionUIDs = new List<Guid>();
 				foreach (var directionUID in clause.DirectionUIDs)

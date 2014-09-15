@@ -11,13 +11,15 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <StackPanel Visibility="{Binding Path=InstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" >
                 <CheckBox Content="SQL" IsChecked="{Binding IsSQLEnabled}" Margin="2" />
+                <CheckBox Content="IsInstallSKD" IsChecked="{Binding IsInstallSKD}" Margin="2" />
+                <!--
                 <CheckBox Content="IsInstallHasp" IsChecked="{Binding IsInstallHasp}" Margin="2" />
                 <CheckBox Content="IsInstallOPC" IsChecked="{Binding IsInstallOPC}" Margin="2" />
                 <CheckBox Content="IsInstallSDK" IsChecked="{Binding IsInstallSDK}" Margin="2" />
                 <CheckBox Content="IsInstallGK" IsChecked="{Binding IsInstallGK}" Margin="2" />
-                <CheckBox Content="IsInstallSKD" IsChecked="{Binding IsInstallSKD}" Margin="2" />
                 <CheckBox Content="IsInstallVideo" IsChecked="{Binding IsInstallVideo}" Margin="2" />
                 <CheckBox Content="IsInstallFiresec2" IsChecked="{Binding IsInstallFiresec2}" Margin="2" />
+                -->
             </StackPanel>
             <StackPanel>
                 <Button Content="Install" Margin="10" Height="20" Width="80"

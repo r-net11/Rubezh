@@ -33,7 +33,7 @@ namespace FiresecAPI.GK
 
 		public override string PresentationName
 		{
-			get { return Name; }
+			get { return No + "." + Name; }
 		}
 	}
 }
