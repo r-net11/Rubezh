@@ -69,7 +69,13 @@ namespace GKModule.ViewModels
 			{
 				_selectedDoor = value;
 				OnPropertyChanged(() => SelectedDoor);
+				OnPropertyChanged(() => HasSelectedDoor);
 			}
+		}
+
+		public bool HasSelectedDoor
+		{
+			get { return SelectedDoor != null; }
 		}
 
 		bool CanEditDelete()

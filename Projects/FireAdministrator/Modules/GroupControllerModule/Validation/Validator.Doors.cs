@@ -30,9 +30,21 @@ namespace GKModule.Validation
 
 		void ValidateDoorHasNoDevices(XDoor door)
 		{
-			if (false)
+			if (door.EnterDevice == null)
 			{
-				Errors.Add(new DoorValidationError(door, "К точке доступа не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new DoorValidationError(door, "К точке доступа не подключено устройство на вход", ValidationErrorLevel.CannotWrite));
+			}
+			if (door.ExitDevice == null)
+			{
+				Errors.Add(new DoorValidationError(door, "К точке доступа не подключено устройство на выход", ValidationErrorLevel.CannotWrite));
+			}
+			if (door.LockDevice == null)
+			{
+				Errors.Add(new DoorValidationError(door, "К точке доступа не подключен замок", ValidationErrorLevel.CannotWrite));
+			}
+			if (door.LockControlDevice == null)
+			{
+				Errors.Add(new DoorValidationError(door, "К точке доступа не подключен датчик контроля двери", ValidationErrorLevel.CannotWrite));
 			}
 		}
 	}

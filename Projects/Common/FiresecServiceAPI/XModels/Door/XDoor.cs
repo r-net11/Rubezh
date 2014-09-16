@@ -11,8 +11,13 @@ namespace FiresecAPI.GK
 	{
 		public XDoor()
 		{
-			UID = Guid.NewGuid();
+
 		}
+
+		public XDevice EnterDevice { get; set; }
+		public XDevice ExitDevice { get; set; }
+		public XDevice LockDevice { get; set; }
+		public XDevice LockControlDevice { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -27,7 +32,16 @@ namespace FiresecAPI.GK
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<Guid> DeviceUIDs { get; set; }
+		public Guid EnterDeviceUID { get; set; }
+
+		[DataMember]
+		public Guid ExitDeviceUID { get; set; }
+
+		[DataMember]
+		public Guid LockDeviceUID { get; set; }
+
+		[DataMember]
+		public Guid LockControlDeviceUID { get; set; }
 
 		public string PresentationName
 		{
