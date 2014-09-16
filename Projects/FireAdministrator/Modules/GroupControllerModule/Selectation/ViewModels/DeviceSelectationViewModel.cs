@@ -10,10 +10,9 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class DeviceSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public DeviceSelectationViewModel(XDevice selectedDevice, List<XDevice> sourceDevices = null)
+		public DeviceSelectationViewModel(XDevice selectedDevice, IEnumerable<XDevice> sourceDevices = null)
 		{
 			Title = "Выбор устройства";
-
 			Devices = new ObservableCollection<XDevice>(sourceDevices);
 			if (selectedDevice != null)
 				SelectedDevice = Devices.FirstOrDefault(x => x.BaseUID == selectedDevice.BaseUID);

@@ -76,6 +76,7 @@ namespace FiresecAPI.GK
 			InitializeDelays();
 			InitializeGuardZones();
 			InitializeCodes();
+			InitializeDoors();
 			UpdateGKChildrenDescription();
 		}
 
@@ -414,6 +415,28 @@ namespace FiresecAPI.GK
 		{
 			foreach (var code in Codes)
 			{
+			}
+		}
+
+		void InitializeDoors()
+		{
+			foreach (var door in Doors)
+			{
+				door.EnterDevice = Devices.FirstOrDefault(x => x.UID == door.EnterDeviceUID);
+				if (door.EnterDevice == null)
+					door.EnterDeviceUID = Guid.Empty;
+
+				door.ExitDevice = Devices.FirstOrDefault(x => x.UID == door.ExitDeviceUID);
+				if (door.ExitDevice == null)
+					door.ExitDeviceUID = Guid.Empty;
+
+				door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
+				if (door.LockDevice == null)
+					door.LockDeviceUID = Guid.Empty;
+
+				door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
+				if (door.LockControlDevice == null)
+					door.LockControlDeviceUID = Guid.Empty;
 			}
 		}
 

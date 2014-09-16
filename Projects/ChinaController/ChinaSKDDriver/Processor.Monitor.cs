@@ -23,7 +23,7 @@ namespace ChinaSKDDriver
 					if (result)
 						return new OperationResult<bool>() { Result = true };
 					else
-						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+						return new OperationResult<bool>("Ошибка при выполнении операции в контроллере");
 				}
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
@@ -52,7 +52,7 @@ namespace ChinaSKDDriver
 						}
 						else
 						{
-							return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+							return new OperationResult<bool>("Ошибка при выполнении операции в контроллере");
 						}
 					}
 				}
@@ -70,7 +70,7 @@ namespace ChinaSKDDriver
 
 				var result = deviceProcessor.Wrapper.RemoveAllCards();
 				if (!result)
-					return new OperationResult<bool>("Ошибка при удалении всех карт в приборе");
+					return new OperationResult<bool>("Ошибка при удалении всех карт в контроллере");
 
 				var cardWriter = new CardWriter();
 				result = cardWriter.RewriteAllCards(device, cards, accessTemplates);

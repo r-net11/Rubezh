@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="GKModule.Views.DoorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
+			 xmlns:Views="clr-namespace:GKModule.Views">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="2 0" Source="/Controls;component/Images/Door.png" />
+                                <TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
+                <DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
+            </DataGrid.Columns>
+        </Controls:XDataGrid>
+        <Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
+            <Grid Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel DataContext="{Binding SelectedDoor}" Margin="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Кодонаборник на вход" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding EnterDevice.PresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding EnterDevice}" Value="{x:Null}">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора кодонаборника на вход" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Кодонаборник на выход" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding ExitDevice.PresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ExitDevice}" Value="{x:Null}">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора кодонаборника на выход" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Замок" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeLockDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding LockDevice.PresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding LockDevice}" Value="{x:Null}">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора замка" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Датчик контроля двери" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeLockControlDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding LockControlDevice.PresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding LockControlDevice}" Value="{x:Null}">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора датчика контроля двери" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

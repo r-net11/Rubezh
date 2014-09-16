@@ -33,6 +33,7 @@ namespace GKModule
 		DelaysViewModel DelaysViewModel;
 		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
+		DoorsViewModel DoorsViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
@@ -60,6 +61,7 @@ namespace GKModule
 			DelaysViewModel = new DelaysViewModel();
 			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
+			DoorsViewModel = new DoorsViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
@@ -81,6 +83,7 @@ namespace GKModule
 			DelaysViewModel.Initialize();
 			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
+			DoorsViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
 			OPCZonesViewModel.Initialize();
@@ -109,6 +112,7 @@ namespace GKModule
 						{
 							new NavigationItem<ShowXGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
 							new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 						}),
 
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
@@ -180,39 +184,39 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			//GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			//GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			return true;
 		}
 
-		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				switch (gkProgressCallback.GKProgressCallbackType)
-				{
-					case GKProgressCallbackType.Start:
-						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-						{
-							LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-						}
-						return;
+		//void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		//{
+		//    ApplicationService.Invoke(() =>
+		//    {
+		//        switch (gkProgressCallback.GKProgressCallbackType)
+		//        {
+		//            case GKProgressCallbackType.Start:
+		//                if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+		//                {
+		//                    LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+		//                }
+		//                return;
 
-					case GKProgressCallbackType.Progress:
-						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-						{
-							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-							if (LoadingService.IsCanceled)
-								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
-						}
-						return;
+		//            case GKProgressCallbackType.Progress:
+		//                if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+		//                {
+		//                    LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+		//                    if (LoadingService.IsCanceled)
+		//                        FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+		//                }
+		//                return;
 
-					case GKProgressCallbackType.Stop:
-						LoadingService.Close();
-						return;
-				}
-			});
-		}
+		//            case GKProgressCallbackType.Stop:
+		//                LoadingService.Close();
+		//                return;
+		//        }
+		//    });
+		//}
 
 		#region ILayoutDeclarationModule Members
 

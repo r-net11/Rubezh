@@ -33,9 +33,6 @@ namespace FiresecAPI.GK
 		public string Description { get; set; }
 
 		[DataMember]
-		public int EnterLevel { get; set; }
-
-		[DataMember]
 		public int SetAlarmLevel { get; set; }
 
 		[DataMember]

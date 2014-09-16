@@ -5,7 +5,7 @@
 		MinWidth="700" MinHeight="400">
 
 	<DataGrid x:Name="dataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-		SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+		SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 		<DataGrid.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
@@ -17,7 +17,7 @@
 			</Style>
 		</DataGrid.ItemContainerStyle>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Выбранные устройства">
+			<DataGridTemplateColumn Header="Наименование">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal" >

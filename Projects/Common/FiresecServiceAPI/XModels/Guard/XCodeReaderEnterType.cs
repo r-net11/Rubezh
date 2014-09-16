@@ -14,10 +14,10 @@ namespace FiresecAPI.GK
 		[Description("* Код #")]
 		CodeOnly,
 
-		[Description("* Код * 1")]
+		[Description("* 1 * Код")]
 		CodeAndOne,
 
-		[Description("* Код * 2 #")]
+		[Description("* 2 * Код #")]
 		CodeAndTwo
 	}
 }

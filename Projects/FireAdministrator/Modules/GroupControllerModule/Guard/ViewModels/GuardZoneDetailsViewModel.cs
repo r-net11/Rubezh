@@ -33,7 +33,6 @@ namespace GKModule.ViewModels
 			}
 			CopyProperties();
 
-
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
 			foreach (var existingZone in XManager.DeviceConfiguration.GuardZones)
@@ -50,7 +49,6 @@ namespace GKModule.ViewModels
 			No = Zone.No;
 			Name = Zone.Name;
 			Description = Zone.Description;
-			EnterLevel = Zone.EnterLevel;
 			SetGuardLevel = Zone.SetGuardLevel;
 			ResetGuardLevel = Zone.ResetGuardLevel;
 			SetAlarmLevel = Zone.SetAlarmLevel;
@@ -89,17 +87,6 @@ namespace GKModule.ViewModels
 			{
 				_description = value;
 				OnPropertyChanged(() => Description);
-			}
-		}
-
-		int _enterLevel;
-		public int EnterLevel
-		{
-			get { return _enterLevel; }
-			set
-			{
-				_enterLevel = value;
-				OnPropertyChanged(() => EnterLevel);
 			}
 		}
 
@@ -183,7 +170,6 @@ namespace GKModule.ViewModels
 			Zone.No = No;
 			Zone.Name = Name;
 			Zone.Description = Description;
-			Zone.EnterLevel = EnterLevel;
 			Zone.SetGuardLevel = SetGuardLevel;
 			Zone.ResetGuardLevel = ResetGuardLevel;
 			Zone.SetAlarmLevel = SetAlarmLevel;
