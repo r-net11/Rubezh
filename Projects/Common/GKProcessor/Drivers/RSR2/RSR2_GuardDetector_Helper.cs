@@ -31,7 +31,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Уровень в ед АЦП, с", 16, 16, 384);
+			GKDriversHelper.AddIntProprety(driver, 0, "Уровень в ед АЦП, с", 128, 128, 384);
 
 			return driver;
 		}

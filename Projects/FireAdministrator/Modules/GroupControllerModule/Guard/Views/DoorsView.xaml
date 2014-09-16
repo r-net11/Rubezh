@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="GKModule.Views.DoorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
+			 xmlns:Views="clr-namespace:GKModule.Views">
+
+    <Grid>
+        <Controls:XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="2 0" Source="/Controls;component/Images/Door.png" />
+                                <TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
+                <DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
+            </DataGrid.Columns>
+        </Controls:XDataGrid>
+    </Grid>
+</UserControl>

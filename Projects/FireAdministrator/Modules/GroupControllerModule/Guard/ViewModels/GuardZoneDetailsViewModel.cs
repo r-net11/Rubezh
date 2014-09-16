@@ -33,7 +33,6 @@ namespace GKModule.ViewModels
 			}
 			CopyProperties();
 
-
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
 			foreach (var existingZone in XManager.DeviceConfiguration.GuardZones)
