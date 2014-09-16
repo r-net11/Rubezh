@@ -18,11 +18,11 @@ namespace AutomationModule.ViewModels
 		public ProcedureSelectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ProcedureSelectionArguments = stepViewModel.Step.ProcedureSelectionArguments;
-			UpdateContent();
+			UpdateContent();			
 		}
 
 		public override void UpdateContent()
-		{
+		{			
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != Procedure.Uid))
 			{
@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 				ScheduleProcedures.Add(new ScheduleProcedureViewModel(scheduleProcedure));
 			}
 			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault(x => x.ScheduleProcedure.ProcedureUid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-			OnPropertyChanged(() => ScheduleProcedures);
+			OnPropertyChanged(() => ScheduleProcedures);			
 		}
 
 		public ObservableCollection<ScheduleProcedureViewModel> ScheduleProcedures { get; private set; }

@@ -5,6 +5,8 @@ using FiresecAPI.Automation;
 using AutomationModule.ViewModels;
 using System;
 using System.Linq;
+using System.Reflection;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.Validation
 {
@@ -61,6 +63,11 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.If:
 					ValidateStepArguments(step.ConditionArguments, step);
+					foreach (var condition in step.ConditionArguments.Conditions)
+					{
+						if (!ValidateStepArguments(condition, step))
+							break;
+					}
 					break;
 
 				case ProcedureStepType.AddJournalItem:
@@ -69,6 +76,11 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.FindObjects:
 					ValidateStepArguments(step.FindObjectArguments, step);
+					foreach (var findObjectCondition in step.FindObjectArguments.FindObjectConditions)
+					{
+						if (!ValidateStepArguments(findObjectCondition, step))
+							break;
+					}
 					break;
 
 				case ProcedureStepType.Foreach:
@@ -142,12 +154,16 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.RunProgramm:
 					ValidateStepArguments(step.RunProgrammArguments, step);
 					break;
+
+				case ProcedureStepType.Random:
+					ValidateStepArguments(step.RandomArguments, step);
+					break;
 			}
 		}
 
-		void ValidateStepArguments(object stepArguments, ProcedureStep step)
+		bool ValidateStepArguments(object stepArguments, ProcedureStep step)
 		{
-			var props = stepArguments.GetType().GetProperties();
+			var props = stepArguments.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 			foreach (var prop in props)
 			{
 				if (prop.PropertyType == typeof(ArithmeticParameter))
@@ -156,10 +172,11 @@ namespace AutomationModule.Validation
 					if (arithmeticParameter.VariableScope != VariableScope.ExplicitValue && arithmeticParameter.VariableUid == Guid.Empty)
 					{
 						Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
-						return;
+						return false;
 					}
 				}
 			}
+			return true;
 		}
 	}
 }

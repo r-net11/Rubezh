@@ -39,7 +39,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ChangeItemCommand { get; private set; }
 		void OnChangeItem()
 		{
-			CurrentVariableItem = ProcedureHelper.SelectObject(ObjectType, CurrentVariableItem);
+			ProcedureHelper.SelectObject(ObjectType, CurrentVariableItem);
 			if (UpdateVariableScopeHandler != null)
 				UpdateVariableScopeHandler();
 			OnPropertyChanged(() => CurrentVariableItem);
@@ -101,6 +101,10 @@ namespace AutomationModule.ViewModels
 				ArithmeticParameter.VariableScope = value;
 				if (value == VariableScope.ExplicitValue)
 					SelectedVariable = null;
+				if (value == VariableScope.LocalVariable)
+					SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
+				if (value == VariableScope.GlobalVariable)
+					SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
 				if (UpdateVariableScopeHandler != null)
 					UpdateVariableScopeHandler();
 				OnPropertyChanged(() => SelectedVariableScope);
@@ -157,23 +161,23 @@ namespace AutomationModule.ViewModels
 				switch (ExplicitType)
 				{
 					case ExplicitType.Boolean:
-						description = CurrentVariableItem.VariableItem.BoolValue.ToString();
+						description = CurrentVariableItem.BoolValue.ToString();
 						break;
 					case ExplicitType.DateTime:
-						description = CurrentVariableItem.VariableItem.DateTimeValue.ToString();
+						description = CurrentVariableItem.DateTimeValue.ToString();
 						break;
 					case ExplicitType.Integer:
-						description = CurrentVariableItem.VariableItem.IntValue.ToString();
+						description = CurrentVariableItem.IntValue.ToString();
 						break;
 					case ExplicitType.String:
-						description = CurrentVariableItem.VariableItem.StringValue.ToString();
+						description = CurrentVariableItem.StringValue.ToString();
 						break;
 					case ExplicitType.Enum:
 						{
 							if (EnumType == EnumType.StateType)
-								description = CurrentVariableItem.VariableItem.StateTypeValue.ToDescription();
+								description = CurrentVariableItem.StateTypeValue.ToDescription();
 							if (EnumType == EnumType.DriverType)
-								description = CurrentVariableItem.VariableItem.DriverTypeValue.ToDescription();
+								description = CurrentVariableItem.DriverTypeValue.ToDescription();
 						}
 						break;
 					case ExplicitType.Object:

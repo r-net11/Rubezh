@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ChangeItemCommand { get; private set; }
 		public void OnChangeItem()
 		{
-			CurrentVariableItem = ProcedureHelper.SelectObject(ObjectType, CurrentVariableItem);
+			ProcedureHelper.SelectObject(ObjectType, CurrentVariableItem);
 		}
 
 
@@ -40,6 +40,11 @@ namespace AutomationModule.ViewModels
 		public ObjectType ObjectType
 		{
 			get { return Variable.ObjectType; }
+		}
+
+		public EnumType EnumType
+		{
+			get { return Variable.EnumType; }
 		}
 
 		public ExplicitType ExplicitType

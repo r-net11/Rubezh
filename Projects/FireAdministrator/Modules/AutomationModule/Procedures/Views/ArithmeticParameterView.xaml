@@ -45,7 +45,7 @@
 					Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.DateTime}}" Style="{StaticResource {x:Type extToolkit:DateTimePicker}}" Width="200" />
 			<StackPanel Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
 				<ComboBox ItemsSource="{Binding CurrentVariableItem.StateTypeValues}" SelectedItem="{Binding CurrentVariableItem.StateTypeValue, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}" Style="{StaticResource {x:Type ComboBox}}" Width="200">
+					Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}" Style="{StaticResource {x:Type ComboBox}}" Width="200">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -53,7 +53,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<ComboBox ItemsSource="{Binding CurrentVariableItem.DriverTypeValues}" SelectedItem="{Binding CurrentVariableItem.DriverTypeValue, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}" Style="{StaticResource {x:Type ComboBox}}" Width="200">
+					Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}" Style="{StaticResource {x:Type ComboBox}}" Width="200">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
                             <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

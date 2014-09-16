@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedExplicitType = value;
 				VariableItems = new ObservableCollection<VariableItemViewModel>();
-				UpdateVariableItems();
+				OnPropertyChanged(() => VariableItems);
 				OnPropertyChanged(() => SelectedExplicitType);
 			}
 		}
@@ -88,7 +88,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedObjectType = value;
 				VariableItems = new ObservableCollection<VariableItemViewModel>();
-				UpdateVariableItems();
+				OnPropertyChanged(() => VariableItems);
 				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
@@ -102,7 +102,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedEnumType = value;
 				VariableItems = new ObservableCollection<VariableItemViewModel>();
-				UpdateVariableItems();
+				OnPropertyChanged(() => VariableItems);
 				OnPropertyChanged(() => SelectedEnumType);
 			}
 		}
@@ -132,53 +132,27 @@ namespace AutomationModule.ViewModels
 		public RelayCommand SelectCommand { get; private set; }
 		void OnSelect()
 		{
-			CurrentVariableItem = SelectItem(CurrentVariableItem);
+			SelectItem(CurrentVariableItem);
 			OnPropertyChanged(()=>CurrentVariableItem);
 		}
 
 		public RelayCommand<VariableItemViewModel> ChangeItemCommand { get; private set; }
 		public void OnChangeItem(VariableItemViewModel variableItemViewModel)
 		{
-			variableItemViewModel.Initialize(SelectItem(variableItemViewModel).VariableItem);
-			UpdateVariableItems();
+			SelectItem(variableItemViewModel);
+			OnPropertyChanged(() => VariableItems);
 		}
 
 		public ObservableCollection<VariableItemViewModel> VariableItems { get; private set; }
-		//#region VariableItems
-		//public List<VariableItemViewModel> VariableItems { get; private set; }
-		//public ObservableCollection<VariableItemViewModel> VariableObjects
-		//{
-		//    get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Object)); }
-		//}
-		//public ObservableCollection<VariableItemViewModel> VariableBools
-		//{
-		//    get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Boolean)); }
-		//}
-		//public ObservableCollection<VariableItemViewModel> VariableDateTimes
-		//{
-		//    get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.DateTime)); }
-		//}
-		//public ObservableCollection<VariableItemViewModel> VariableIntegers
-		//{
-		//    get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Integer)); }
-		//}
-		//public ObservableCollection<VariableItemViewModel> VariableStrings
-		//{
-		//    get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.String)); }
-		//}
-		//public ObservableCollection<VariableItemViewModel> VariableEnums
-		//{
-		//    get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ExplicitType == ExplicitType.Enum)); }
-		//}
-		//#endregion
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableItemViewModel = SelectItem();
+			var variableItemViewModel = new VariableItemViewModel(new VariableItem());
+			SelectItem(variableItemViewModel);
 			if (SelectedExplicitType.ExplicitType != ExplicitType.Object || !variableItemViewModel.IsEmpty)
 				VariableItems.Add(variableItemViewModel);
-			UpdateVariableItems();
+			OnPropertyChanged(() => VariableItems);
 		}
 
 		public RelayCommand<VariableItemViewModel> RemoveCommand { get; private set; }
@@ -187,29 +161,16 @@ namespace AutomationModule.ViewModels
 			if (variableItemViewModel == null)
 				return;
 			VariableItems.Remove(variableItemViewModel);
-			UpdateVariableItems();
+			OnPropertyChanged(() => VariableItems);
 		}
 
-		VariableItemViewModel SelectItem(VariableItemViewModel currentVariableItem = null)
+		void SelectItem(VariableItemViewModel currentVariableItem = null)
 		{
 			if (currentVariableItem == null)
 				currentVariableItem = new VariableItemViewModel(new VariableItem());
 			if (SelectedExplicitType.ExplicitType != ExplicitType.Object)
-			{
-				return currentVariableItem;
-			}
-			return ProcedureHelper.SelectObject(SelectedObjectType, currentVariableItem);
-		}
-
-		void UpdateVariableItems()
-		{
-			OnPropertyChanged(() => VariableItems);
-			//OnPropertyChanged(() => VariableObjects);
-			//OnPropertyChanged(() => VariableBools);
-			//OnPropertyChanged(() => VariableDateTimes);
-			//OnPropertyChanged(() => VariableIntegers);
-			//OnPropertyChanged(() => VariableStrings);
-			//OnPropertyChanged(() => VariableEnums);
+				return;
+			ProcedureHelper.SelectObject(SelectedObjectType, currentVariableItem);
 		}
 
 		public override bool OnClosing(bool isCanceled)

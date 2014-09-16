@@ -13,7 +13,8 @@ namespace FiresecAPI.Automation
 
 		public Argument(Variable variable)
 		{
-			VariableItem = variable.DefaultVariableItem;
+			VariableItem = new VariableItem();
+			PropertyCopy.Copy<VariableItem, VariableItem>(variable.DefaultVariableItem, VariableItem);
 			VariableUid = variable.Uid;
 		}
 

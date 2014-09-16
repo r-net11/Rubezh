@@ -123,29 +123,27 @@ namespace AutomationModule.ViewModels
 		public VariableItemViewModel(VariableItem variableItem)
 		{
 			VariableItem = variableItem;
-			Initialize(variableItem);
+			Initialize(variableItem.UidValue);
 		}
 
-		public void Initialize(VariableItem variableItem)
+		public void Initialize(Guid uidValue)
 		{
-			PropertyCopy.Copy<VariableItem, VariableItem>(variableItem, VariableItem);
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
 			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
-			var objectUid = variableItem.UidValue;
-			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUid);
-			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUid);
-			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUid);
-			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == objectUid);
-			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == objectUid);
-			Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == objectUid);
-			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == objectUid);
-			Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objectUid);
+			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
+			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
+			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
+			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue);
+			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
+			Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == uidValue);
+			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
+			Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 		}
 
 		public string PresentationName
 		{
 			get
-			{
+			{				
 				if (Device != null)
 					return Device.PresentationName;
 				if (Zone != null)
@@ -203,6 +201,17 @@ namespace AutomationModule.ViewModels
 			{
 				VariableItem.StringValue = value;
 				OnPropertyChanged(() => StringValue);
+			}
+		}
+
+		public Guid UidValue
+		{
+			get { return VariableItem.UidValue; }
+			set
+			{
+				VariableItem.UidValue = value;
+				Initialize(value);
+				OnPropertyChanged(() => UidValue);
 			}
 		}
 

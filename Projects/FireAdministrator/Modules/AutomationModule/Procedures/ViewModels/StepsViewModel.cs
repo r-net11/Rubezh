@@ -80,10 +80,12 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			foreach (var step in AllSteps)
 			{
 				step.UpdateContent();
 			}
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		StepViewModel _selectedStep;

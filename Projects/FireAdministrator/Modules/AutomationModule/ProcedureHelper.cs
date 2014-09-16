@@ -58,67 +58,63 @@ namespace AutomationModule
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 
-		public static VariableItemViewModel SelectObject(ObjectType objectType, VariableItemViewModel currentVariableItem)
+		public static void SelectObject(ObjectType objectType, VariableItemViewModel currentVariableItem)
 		{
-			var variableItem = new VariableItem();
-			variableItem.UidValue = currentVariableItem.VariableItem.UidValue;
 			if (objectType == ObjectType.Device)
 			{
 				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentVariableItem.Device != null ? currentVariableItem.Device : null);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-					variableItem.UidValue = deviceSelectationViewModel.SelectedDevice.Device.UID;
+					currentVariableItem.UidValue = deviceSelectationViewModel.SelectedDevice.Device.UID;
 			}
 
 			if (objectType == ObjectType.Zone)
 			{
 				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentVariableItem.Zone != null ? currentVariableItem.Zone : null);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-					variableItem.UidValue = zoneSelectationViewModel.SelectedZone.Zone.UID;
+					currentVariableItem.UidValue = zoneSelectationViewModel.SelectedZone.Zone.UID;
 			}
 
 			if (objectType == ObjectType.GuardZone)
 			{
 				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentVariableItem.GuardZone != null ? currentVariableItem.GuardZone : null);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
-					variableItem.UidValue = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID;
+					currentVariableItem.UidValue = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID;
 			}
 
 			if (objectType == ObjectType.SKDDevice)
 			{
 				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentVariableItem.SKDDevice != null ? currentVariableItem.SKDDevice : null);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
-					variableItem.UidValue = skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID;
+					currentVariableItem.UidValue = skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID;
 			}
 
 			if (objectType == ObjectType.SKDZone)
 			{
 				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentVariableItem.SKDZone != null ? currentVariableItem.SKDZone : null);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
-					variableItem.UidValue = skdZoneSelectationViewModel.SelectedZone.SKDZone.UID;
+					currentVariableItem.UidValue = skdZoneSelectationViewModel.SelectedZone.SKDZone.UID;
 			}
 
 			if (objectType == ObjectType.ControlDoor)
 			{
 				var doorSelectationViewModel = new DoorSelectionViewModel(currentVariableItem.SKDDoor != null ? currentVariableItem.SKDDoor : null);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-					variableItem.UidValue = doorSelectationViewModel.SelectedDoor.Door.UID;
+					currentVariableItem.UidValue = doorSelectationViewModel.SelectedDoor.Door.UID;
 			}
 
 			if (objectType == ObjectType.Direction)
 			{
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentVariableItem.Direction != null ? currentVariableItem.Direction : null);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
-					variableItem.UidValue = directionSelectationViewModel.SelectedDirection.Direction.UID;
+					currentVariableItem.UidValue = directionSelectationViewModel.SelectedDirection.Direction.UID;
 			}
 
 			if (objectType == ObjectType.VideoDevice)
 			{
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentVariableItem.Camera != null ? currentVariableItem.Camera : null);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
-					variableItem.UidValue = cameraSelectionViewModel.SelectedCamera.Camera.UID;
+					currentVariableItem.UidValue = cameraSelectionViewModel.SelectedCamera.Camera.UID;
 			}
-
-			return new VariableItemViewModel(variableItem);
 		}
 	}
 }

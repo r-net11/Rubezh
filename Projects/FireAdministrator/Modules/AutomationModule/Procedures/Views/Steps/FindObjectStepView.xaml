@@ -36,33 +36,35 @@
 				</ToolBarButton>
 			</StackPanel>
 		</StackPanel>
-		<ItemsControl Grid.Row="1" ItemsSource="{Binding FindObjectConditions}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
-						<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+			<ItemsControl ItemsSource="{Binding FindObjectConditions}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
 
-						<ComboBox ItemsSource="{Binding Properties}" Margin="2" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}"
+							<ComboBox ItemsSource="{Binding Properties}" Margin="2" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}"
 								  MinWidth="163" MaxWidth="163">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
 
-						<ComboBox ItemsSource="{Binding ConditionTypes}" Margin="2" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}" MinWidth="130" MaxWidth="130">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-						<Views:ArithmeticParameterView DataContext="{Binding SourceParameter}" />
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+							<ComboBox ItemsSource="{Binding ConditionTypes}" Margin="2" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}" MinWidth="130" MaxWidth="130">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
+							<Views:ArithmeticParameterView DataContext="{Binding SourceParameter}" />
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
 	</Grid>
 </UserControl>
