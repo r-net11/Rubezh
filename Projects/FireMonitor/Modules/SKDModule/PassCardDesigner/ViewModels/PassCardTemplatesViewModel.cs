@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SKDModule.ViewModels;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using SKDModule.ViewModels;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -24,14 +22,12 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		}
 		protected override bool Save(ShortPassCardTemplate item)
 		{
-			var passCardTemplate = new PassCardTemplate
-			{
-				UID = item.UID,
-				Description = item.Description,
-				Caption = item.Name,
-				OrganisationUID = item.OrganisationUID
-			};
-			return PassCardTemplateHelper.Save(passCardTemplate);
+			var position = PassCardTemplateHelper.GetDetails(item.UID);
+			position.UID = item.UID;
+			position.Description = item.Description;
+			position.Caption = item.Name;
+			position.OrganisationUID = item.OrganisationUID;
+			return PassCardTemplateHelper.Save(position);
 		}
 
 		protected override string ItemRemovingName

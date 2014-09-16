@@ -8,16 +8,16 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-    public class DayIntervalViewModel : CartothequeTabItemElementBase<DayIntervalViewModel, DayInterval>, IEditingViewModel
+	public class DayIntervalViewModel : CartothequeTabItemElementBase<DayIntervalViewModel, DayInterval>, IEditingViewModel
 	{
 		bool _isInitialized;
 		
 		public DayIntervalViewModel(): base()
 		{
-            AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-            _isInitialized = false;
+			_isInitialized = false;
 		}
 		
 		public void Initialize()
@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 					}
 					SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
 				}
-                OnPropertyChanged(() => DayIntervalParts);
+				OnPropertyChanged(() => DayIntervalParts);
 			}
 		}
 		
@@ -55,28 +55,28 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-            var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
+			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && DayIntervalPartHelper.Save(dayIntervalPartDetailsViewModel.DayIntervalPart))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
-                Model.DayIntervalParts.Add(dayIntervalPart);
+				Model.DayIntervalParts.Add(dayIntervalPart);
 				var dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPart);
 				DayIntervalParts.Add(dayIntervalPartViewModel);
 				DayIntervalParts.Sort(item => item.BeginTime);
 				SelectedDayIntervalPart = dayIntervalPartViewModel;
 			}
 		}
-        bool CanAdd()
-        {
-            return !IsOrganisation;
-        }
+		bool CanAdd()
+		{
+			return !IsOrganisation;
+		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
 			if (DayIntervalPartHelper.MarkDeleted(SelectedDayIntervalPart.DayIntervalPart))
 			{
-                Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
+				Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
 				DayIntervalParts.Remove(SelectedDayIntervalPart);
 			}
 		}
@@ -88,7 +88,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-            var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
+			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
 				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart);

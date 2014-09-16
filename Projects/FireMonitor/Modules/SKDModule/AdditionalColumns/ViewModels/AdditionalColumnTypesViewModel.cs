@@ -21,14 +21,12 @@ namespace SKDModule.ViewModels
         }
         protected override bool Save(ShortAdditionalColumnType item)
         {
-            var AdditionalColumnType = new AdditionalColumnType
-            {
-                UID = item.UID,
-                Description = item.Description,
-                Name = item.Name,
-                OrganisationUID = item.OrganisationUID
-            };
-            return AdditionalColumnTypeHelper.Save(AdditionalColumnType);
+			var additionalColumnType = AdditionalColumnTypeHelper.GetDetails(_clipboardUID);
+			additionalColumnType.UID = item.UID;
+			additionalColumnType.Description = item.Description;
+			additionalColumnType.Name = item.Name;
+			additionalColumnType.OrganisationUID = item.OrganisationUID;
+            return AdditionalColumnTypeHelper.Save(additionalColumnType);
         }
 
         protected override string ItemRemovingName

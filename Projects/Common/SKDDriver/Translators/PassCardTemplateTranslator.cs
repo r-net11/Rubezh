@@ -1,9 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using System.Runtime.Serialization;
-using System.IO;
 
 namespace SKDDriver
 {
@@ -16,15 +16,18 @@ namespace SKDDriver
 			_serializer = new DataContractSerializer(typeof(PassCardTemplate));
 		}
 
-		protected override OperationResult CanSave(PassCardTemplate PassCardTemplate)
+		protected override OperationResult CanSave(PassCardTemplate item)
 		{
-			bool hasSameName = Table.Any(x => x.Name == PassCardTemplate.Caption &&
-				x.OrganisationUID == PassCardTemplate.OrganisationUID &&
-				x.UID != PassCardTemplate.UID &&
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
+			bool hasSameName = Table.Any(x => x.Name == item.Caption &&
+				x.OrganisationUID == item.OrganisationUID &&
+				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
 				return new OperationResult("Попытка добавления шаблон пропуска с совпадающим наименованием");
-			return base.CanSave(PassCardTemplate);
+			return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

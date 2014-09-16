@@ -18,13 +18,17 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(AccessTemplate accessTemplate)
 		{
+			var result = base.CanSave(accessTemplate);
+			if (result.HasError)
+				return result;
 			bool hasSameName = Table.Any(x => x.Name == accessTemplate.Name &&
 				x.OrganisationUID == accessTemplate.OrganisationUID &&
 				x.UID != accessTemplate.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Попытка добавить шаблон доступа с совпадающим именем");
-			return base.CanSave(accessTemplate);
+				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
+			else
+				return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

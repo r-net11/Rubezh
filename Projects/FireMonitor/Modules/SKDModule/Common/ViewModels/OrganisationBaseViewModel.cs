@@ -36,6 +36,7 @@ namespace SKDModule.ViewModels
         }
 
         protected ModelT _clipboard;
+		protected Guid _clipboardUID;
         protected abstract IEnumerable<ModelT> GetModels(FilterT filter);
 		protected abstract IEnumerable<ModelT> GetModelsByOrganisation(Guid organisauinUID);
 		protected abstract bool MarkDeleted(Guid uid);
@@ -259,6 +260,7 @@ namespace SKDModule.ViewModels
 		protected virtual void OnCopy()
 		{
 			_clipboard = CopyModel(SelectedItem.Model);
+			_clipboardUID = SelectedItem.Model.UID;
 		}
 		protected virtual bool CanCopy()
 		{
@@ -268,8 +270,9 @@ namespace SKDModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		protected virtual void OnPaste()
 		{
-			var newItem = CopyModel(_clipboard);
+			var newItem = _clipboard;
             newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
+			newItem.OrganisationUID = ParentOrganisation.Organisation.UID;
 			if (Save(newItem))
 			{
 				var itemVireModel = new ViewModelT();

@@ -17,12 +17,16 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
 			bool isSameNumber = Table.Any(x => x.Number == item.Number &&
 				!x.IsDeleted &&
 				x.UID != item.UID);
 			if (isSameNumber)
 				return new OperationResult("Попытка добавить карту с повторяющимся номером");
-			return base.CanSave(item);
+			else
+				return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

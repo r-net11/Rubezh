@@ -64,15 +64,13 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save(ShortDepartment item)
 		{
-			var department = new Department()
-				{
-					UID = item.UID,
-					Name = item.Name,
-					Description = item.Description,
-					ParentDepartmentUID = item.ParentDepartmentUID,
-					OrganisationUID = item.OrganisationUID,
-                    ChildDepartmentUIDs = item.ChildDepartmentUIDs
-				};
+			var department = DepartmentHelper.GetDetails(_clipboardUID);
+			department.UID = item.UID;
+			department.Name = item.Name;
+			department.Description = item.Description;
+			department.ParentDepartmentUID = item.ParentDepartmentUID;
+			department.OrganisationUID = item.OrganisationUID;
+			department.ChildDepartmentUIDs = item.ChildDepartmentUIDs;
 			return DepartmentHelper.Save(department);
 		}
          

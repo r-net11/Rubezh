@@ -31,6 +31,9 @@ namespace SKDDriver.Translators
 
 		protected override OperationResult CanSave(DayIntervalPart item)
 		{
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
 			if (item.BeginTime == item.EndTime)
 				return new OperationResult("Интервал не может иметь нулевую длительность");
 			var intervals = Table.Where(x => x.DayIntervalUID == item.DayIntervalUID && x.UID != item.UID && !x.IsDeleted);
@@ -45,7 +48,7 @@ namespace SKDDriver.Translators
 			foreach (var interval in intervals)
 				if ((interval.BeginTime >= beginTime && interval.BeginTime <= endTime) || (interval.EndTime >= beginTime && interval.EndTime <= endTime))
 					return new OperationResult("Последовательность интервалов не должна быть пересекающейся");
-			return base.CanSave(item);
+			return new OperationResult();
 		}
 
 		protected override DayIntervalPart Translate(DataAccess.DayIntervalPart tableItem)

@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 		
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
-			Organisation = orgnaisation;
+			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID); ;
 			if (accessTemplate == null)
 			{
 				Title = "Создание шаблона доступа";

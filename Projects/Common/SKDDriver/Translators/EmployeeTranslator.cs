@@ -6,7 +6,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
-using SKDDriver.Translators;
 
 namespace SKDDriver
 {
@@ -19,7 +18,10 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(Employee employee)
 		{
-			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName &&
+			var result = base.CanSave(employee);
+			if(result.HasError)
+				return result;
+			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName && 
 				x.SecondName == employee.SecondName &&
 				x.LastName == employee.LastName &&
 				x.OrganisationUID == employee.OrganisationUID &&
@@ -27,7 +29,8 @@ namespace SKDDriver
 				x.IsDeleted == false);
 			if (hasSameName)
 				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
-			return base.CanSave(employee);
+			else
+				return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

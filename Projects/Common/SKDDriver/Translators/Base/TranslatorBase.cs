@@ -32,6 +32,8 @@ namespace SKDDriver
 
 		protected virtual OperationResult CanSave(ApiT item)
 		{
+			if (item == null)
+				return new OperationResult("Попытка сохранить пустую запись");
 			return new OperationResult();
 		}
 		protected virtual OperationResult CanDelete(Guid uid)
@@ -41,28 +43,18 @@ namespace SKDDriver
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
+			if (apiItems == null || apiItems.Count() == 0)
+				return new OperationResult();
+			foreach (var apiItem in apiItems)
+			{
+				var verifyResult = CanSave(apiItem);
+				if (verifyResult.HasError)
+					return verifyResult;
+			}
 			try
 			{
-				if (apiItems == null || apiItems.Count() == 0)
-					return new OperationResult();
 				foreach (var apiItem in apiItems)
-				{
-					if (apiItem == null)
-						continue;
-					var verifyResult = CanSave(apiItem);
-					if (verifyResult.HasError)
-						return verifyResult;
-					var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
-					if (tableItem == null)
-					{
-						tableItem = new TableT();
-						tableItem.UID = apiItem.UID;
-						TranslateBack(tableItem, apiItem);
-						Table.InsertOnSubmit(tableItem);
-					}
-					else
-						TranslateBack(tableItem, apiItem);
-				}
+					OnSave(apiItem);
 				Table.Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -74,23 +66,12 @@ namespace SKDDriver
 
 		public virtual OperationResult Save(ApiT apiItem)
 		{
+			var verifyResult = CanSave(apiItem);
+			if (verifyResult.HasError)
+				return verifyResult;
 			try
 			{
-				if (apiItem == null)
-					return new OperationResult("Попытка сохранить пустую запись");
-				var verifyResult = CanSave(apiItem);
-				if (verifyResult.HasError)
-					return verifyResult;
-				var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
-				if (tableItem == null)
-				{
-					tableItem = new TableT();
-					tableItem.UID = apiItem.UID;
-					TranslateBack(tableItem, apiItem);
-					Table.InsertOnSubmit(tableItem);
-				}
-				else
-					TranslateBack(tableItem, apiItem);
+				OnSave(apiItem);
 				Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -98,6 +79,20 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		void OnSave(ApiT apiItem)
+		{
+			var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
+			if (tableItem == null)
+			{
+				tableItem = new TableT();
+				tableItem.UID = apiItem.UID;
+				TranslateBack(tableItem, apiItem);
+				Table.InsertOnSubmit(tableItem);
+			}
+			else
+				TranslateBack(tableItem, apiItem);
 		}
 
 		protected virtual int Comparer(TableT item1, TableT item2)

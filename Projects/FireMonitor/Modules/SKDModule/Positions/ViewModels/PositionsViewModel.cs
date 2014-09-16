@@ -21,13 +21,11 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save(ShortPosition item)
 		{
-			var position = new Position
-			{
-				UID = item.UID,
-				Description = item.Description,
-				Name = item.Name,
-				OrganisationUID = item.OrganisationUID
-			};
+			var position = PositionHelper.GetDetails(_clipboardUID);
+			position.UID = item.UID;
+			position.Description = item.Description;
+			position.Name = item.Name;
+			position.OrganisationUID = item.OrganisationUID;
 			return PositionHelper.Save(position);
 		}
         

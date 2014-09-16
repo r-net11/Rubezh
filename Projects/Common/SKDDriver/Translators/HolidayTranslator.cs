@@ -30,13 +30,16 @@ namespace SKDDriver.Translators
 
 		protected override OperationResult CanSave(Holiday item)
 		{
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
 			if (item.Reduction.TotalHours > 2)
 				return new OperationResult("Величина сокращения не может быть больше двух часов");
 			//if (item.Type == HolidayType.WorkingHoliday && item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
 			//	return new OperationResult("Дата переноса устанавливается только на субботу или воскресенье");
 			if (Table.Any(x => x.UID != item.UID && x.OrganisationUID == item.OrganisationUID && x.Date.Date == item.Date.Date))
 				return new OperationResult("Дата праздника совпадает с введенным ранее");
-			return base.CanSave(item);
+			return new OperationResult();
 		}
 		protected override Holiday Translate(DataAccess.Holiday tableItem)
 		{

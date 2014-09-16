@@ -17,13 +17,17 @@ namespace SKDDriver
 		}
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
 			bool hasSameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
-				x.IsDeleted == false);
+				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Тип колонки с таким же названием уже содержится в базе данных");
-			return base.CanSave(item);
+				return new OperationResult("Тип колонки с таким же ФИО уже содержится в базе данных");
+			else
+				return new OperationResult();
 		}
 
 		protected override AdditionalColumnType Translate(DataAccess.AdditionalColumnType tableItem)

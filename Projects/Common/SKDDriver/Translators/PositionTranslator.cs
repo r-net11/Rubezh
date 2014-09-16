@@ -12,15 +12,18 @@ namespace SKDDriver
 		{
 		}
 
-		protected override OperationResult CanSave(Position position)
+		protected override OperationResult CanSave(Position item)
 		{
-			bool hasSameName = Table.Any(x => x.Name == position.Name && 
-				x.OrganisationUID == position.OrganisationUID && 
-				x.UID != position.UID &&
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
+			bool hasSameName = Table.Any(x => x.Name == item.Name &&
+				x.OrganisationUID == item.OrganisationUID &&
+				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
-			return base.CanSave(position);
+			return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

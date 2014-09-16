@@ -24,10 +24,13 @@ namespace SKDDriver.Translators
 
 		protected override OperationResult CanSave(ScheduleZone item)
 		{
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
 			var scheduleZones = Table.Where(x => x.ScheduleUID == item.ScheduleUID && x.UID != item.UID && !x.IsDeleted);
 			if (scheduleZones.Any(x => x.ZoneUID == item.ZoneUID))
 				return new OperationResult("Выбранная зона уже включена");
-			return base.CanSave(item);
+			return new OperationResult();
 		}
 
 		protected override ScheduleZone Translate(DataAccess.ScheduleZone tableItem)

@@ -13,16 +13,20 @@ namespace SKDDriver
 		{
 		}
 
-		protected override OperationResult CanSave(Department department)
+		protected override OperationResult CanSave(Department item)
 		{
-			bool hasSameName = Table.Any(x => x.Name == department.Name &&
-				x.OrganisationUID == department.OrganisationUID &&
-				x.UID != department.UID &&
-				x.ParentDepartmentUID == department.ParentDepartmentUID &&
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
+			bool hasSameName = Table.Any(x => x.Name == item.Name &&
+				x.OrganisationUID == item.OrganisationUID &&
+				x.UID != item.UID &&
+				x.ParentDepartmentUID == item.ParentDepartmentUID &&
 				x.IsDeleted == false);
 			if (hasSameName)
 				return new OperationResult("Отдел с таким же названием уже содержится в базе данных");
-			return base.CanSave(department);
+			else
+				return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

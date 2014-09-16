@@ -30,9 +30,13 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(ApiT item)
 		{
+			var result = base.CanSave(item);
+			if (result.HasError)
+				return result;
 			if (item.OrganisationUID == Guid.Empty)
 				return new OperationResult("Не указана организация");
-			return base.CanSave(item);
+			else
+				return new OperationResult();
 		}
 
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
