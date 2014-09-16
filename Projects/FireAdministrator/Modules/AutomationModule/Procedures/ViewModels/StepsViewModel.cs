@@ -376,7 +376,10 @@ namespace AutomationModule.ViewModels
 			if (SelectedStep.Parent == null)
 				nextStep = RootSteps[SelectedStep.Index + 1].Step;
 			else
-				nextStep = SelectedStep.Parent[SelectedStep.Index + 1].Step;
+			{
+				var childrenCount = SelectedStep.Parent.ChildrenCount;
+				nextStep = SelectedStep.Parent[SelectedStep.Index].Step;
+			}
 
 			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.Foreach));
 		}

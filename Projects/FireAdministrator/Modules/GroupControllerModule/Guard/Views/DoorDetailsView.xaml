@@ -12,6 +12,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -31,7 +32,10 @@
 
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
                 <controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
-			</Grid>
+
+                <Label Grid.Row="3" Grid.Column="0" Content="Минимальный уровень на проход" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding EnterLevel}" Minimum="0" Maximum="255" Margin="2" />
+            </Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

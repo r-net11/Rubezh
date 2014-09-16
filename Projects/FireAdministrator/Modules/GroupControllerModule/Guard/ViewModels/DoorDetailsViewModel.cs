@@ -49,6 +49,7 @@ namespace GKModule.ViewModels
 			No = Door.No;
 			Name = Door.Name;
 			Description = Door.Description;
+			EnterLevel = Door.EnterLevel;
 		}
 
 		ushort _no;
@@ -84,6 +85,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		int _enterLevel;
+		public int EnterLevel
+		{
+			get { return _enterLevel; }
+			set
+			{
+				_enterLevel = value;
+				OnPropertyChanged(() => EnterLevel);
+			}
+		}
+
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
@@ -98,6 +110,7 @@ namespace GKModule.ViewModels
 			Door.No = No;
 			Door.Name = Name;
 			Door.Description = Description;
+			Door.EnterLevel = EnterLevel;
 			return base.Save();
 		}
 	}

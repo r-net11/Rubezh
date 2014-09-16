@@ -11,19 +11,13 @@ namespace GKModule.ViewModels
 {
 	public class GuardZoneViewModel : BaseViewModel
 	{
-		public XGuardZone Zone { get; private set; }
-		public XGuardZone GuardZone { get { return Zone; } }
+		public XGuardZone GuardZone { get; private set; }
 		public XState State
 		{
-			get
-			{
-				if (Zone.State == null)
-					Zone.State = new XState();
-				return Zone.State;
-			}
+			get { return GuardZone.State; }
 		}
 
-		public GuardZoneViewModel(XGuardZone zone)
+		public GuardZoneViewModel(XGuardZone guardZone)
 		{
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
@@ -32,8 +26,9 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 
-			Zone = zone;
+			GuardZone = guardZone;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -41,18 +36,26 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
-			OnPropertyChanged(() => Zone);
 			OnPropertyChanged(() => GuardZone);
+		}
+
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+		void OnShowOnPlanOrProperties()
+		{
+			if (CanShowOnPlan())
+				ShowOnPlanHelper.ShowGuardZone(GuardZone);
+			else
+				DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		public void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowGuardZone(Zone);
+			ShowOnPlanHelper.ShowGuardZone(GuardZone);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowGuardZone(Zone);
+			return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
 		}
 
 
@@ -61,7 +64,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOn(Zone);
+				FiresecManager.FiresecService.GKTurnOn(GuardZone);
 			}
 		}
 
@@ -70,7 +73,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNow(Zone);
+				FiresecManager.FiresecService.GKTurnOnNow(GuardZone);
 			}
 		}
 
@@ -79,7 +82,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOff(Zone);
+				FiresecManager.FiresecService.GKTurnOff(GuardZone);
 			}
 		}
 
@@ -88,7 +91,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKReset(Zone);
+				FiresecManager.FiresecService.GKReset(GuardZone);
 			}
 		}
 		bool CanReset()
@@ -101,7 +104,7 @@ namespace GKModule.ViewModels
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
-				GuardZone = Zone
+				GuardZone = GuardZone
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
@@ -109,7 +112,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			DialogService.ShowWindow(new GuardZoneDetailsViewModel(Zone));
+			DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
 		}
 	}
 }

@@ -9,11 +9,6 @@ namespace FiresecAPI.GK
 {
 	public class XDoor : INamedBase, IIdentity
 	{
-		public XDoor()
-		{
-
-		}
-
 		public XDevice EnterDevice { get; set; }
 		public XDevice ExitDevice { get; set; }
 		public XDevice LockDevice { get; set; }
@@ -30,6 +25,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public string Description { get; set; }
+
+		[DataMember]
+		public int EnterLevel { get; set; }
 
 		[DataMember]
 		public Guid EnterDeviceUID { get; set; }

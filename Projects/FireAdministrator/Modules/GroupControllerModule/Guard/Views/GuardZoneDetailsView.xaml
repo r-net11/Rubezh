@@ -40,26 +40,23 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
                 <controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 
-                <Label Grid.Row="3" Grid.Column="0" Content="Минимальный уровень на проход" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding EnterLevel}" Minimum="0" Maximum="255" Margin="2" />
+                <Label Grid.Row="3" Grid.Column="0" Content="Минимальный уровень на постановку" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SetGuardLevel}" Minimum="0" Maximum="255" Margin="2" />
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Минимальный уровень на постановку" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding SetGuardLevel}" Minimum="0" Maximum="255" Margin="2" />
+                <Label Grid.Row="4" Grid.Column="0" Content="Минимальный уровень на снятие" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding ResetGuardLevel}" Minimum="0" Maximum="255" Margin="2" />
 
-                <Label Grid.Row="5" Grid.Column="0" Content="Минимальный уровень на снятие" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding ResetGuardLevel}" Minimum="0" Maximum="255" Margin="2" />
+                <Label Grid.Row="5" Grid.Column="0" Content="Минимальный уровень на тревогу" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding SetAlarmLevel}" Minimum="0" Maximum="255" Margin="2" />
 
-                <Label Grid.Row="6" Grid.Column="0" Content="Минимальный уровень на тревогу" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding SetAlarmLevel}" Minimum="0" Maximum="255" Margin="2" />
+                <Label Grid.Row="6" Grid.Column="0" Content="Задержка на постановку, с" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Delay}" Minimum="1" Maximum="65535" Margin="2" />
 
-                <Label Grid.Row="7" Grid.Column="0" Content="Задержка на постановку, с" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Value="{Binding Delay}" Minimum="1" Maximum="65535" Margin="2" />
-
-                <Label Grid.Row="8" Grid.Column="0" Content="Задержка на снятие, с" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="1" Maximum="65535" Margin="2" />
+                <Label Grid.Row="7" Grid.Column="0" Content="Задержка на снятие, с" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Value="{Binding ResetDelay}" Minimum="1" Maximum="65535" Margin="2" />
                 
-                <Label Grid.Row="9" Grid.Column="0" Content="Задержка на тревогу, с" HorizontalAlignment="Right" />
-                <extToolkit:IntegerUpDown Grid.Row="9" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />
+                <Label Grid.Row="8" Grid.Column="0" Content="Задержка на тревогу, с" HorizontalAlignment="Right" />
+                <extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Value="{Binding AlarmDelay}" Minimum="1" Maximum="65535" Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>

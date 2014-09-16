@@ -16,14 +16,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Действие для вызова тревоги" VerticalAlignment="Center" Foreground="White" Margin="2" />
-                <Views:CodeReaderSettingsView Grid.Row="0" Grid.Column="1" DataContext="{Binding AlarmSettingsViewModel}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Действие для постановки на охрану" VerticalAlignment="Center" Foreground="White" Margin="2" />
+                <Views:CodeReaderSettingsView Grid.Row="0" Grid.Column="1" DataContext="{Binding SetGuardSettingsViewModel}" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Действие для постановки на охрану" VerticalAlignment="Center" Foreground="White" Margin="2" />
-                <Views:CodeReaderSettingsView Grid.Row="1" Grid.Column="1" DataContext="{Binding SetGuardSettingsViewModel}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Действие для снятия с охраны" VerticalAlignment="Center" Foreground="White" Margin="2" />
+                <Views:CodeReaderSettingsView Grid.Row="1" Grid.Column="1" DataContext="{Binding ResetGuardSettingsViewModel}" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Действие для снятия с охраны" VerticalAlignment="Center" Foreground="White" Margin="2" />
-                <Views:CodeReaderSettingsView Grid.Row="2" Grid.Column="1" DataContext="{Binding ResetGuardSettingsViewModel}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Действие для вызова тревоги" VerticalAlignment="Center" Foreground="White" Margin="2" />
+                <Views:CodeReaderSettingsView Grid.Row="2" Grid.Column="1" DataContext="{Binding AlarmSettingsViewModel}" />
             </Grid>
         </TabItem>
     </TabControl>
