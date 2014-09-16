@@ -42,17 +42,35 @@ namespace Infrustructure.Plans.Painters
 			var formattedText = new FormattedText(elementText.Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, elementText.FontSize, PainterCache.BlackBrush);
 			formattedText.TextAlignment = (TextAlignment)elementText.TextAlignment;
 			Point point = bound.TopLeft;
-			switch (formattedText.TextAlignment)
-			{
-				case TextAlignment.Right:
-					point = bound.TopRight;
-					break;
-				case TextAlignment.Center:
-					point = new Point(bound.Left + bound.Width / 2, bound.Top);
-					break;
-			}
+			if (!elementText.WordWrap || _scaleTransform != null)
+				switch (formattedText.TextAlignment)
+				{
+					case TextAlignment.Right:
+						point = bound.TopRight;
+						break;
+					case TextAlignment.Center:
+						point = new Point(bound.Left + bound.Width / 2, bound.Top);
+						break;
+				}
 			if (_clipGeometry != null)
+			{
 				_clipGeometry.Rect = bound;
+				if (elementText.WordWrap)
+				{
+					formattedText.MaxTextWidth = bound.Width;
+					formattedText.MaxTextHeight = bound.Height;
+				}
+				var valign = (VerticalAlignment)elementText.VerticalAlignment;
+				switch (valign)
+				{
+					case VerticalAlignment.Center:
+						point.Y = bound.Top + (bound.Height - formattedText.Height) / 2;
+						break;
+					case VerticalAlignment.Bottom:
+						point.Y = bound.Bottom - formattedText.Height;
+						break;
+				}
+			}
 			if (_scaleTransform != null)
 			{
 				_scaleTransform.CenterX = point.X;

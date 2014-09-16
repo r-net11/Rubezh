@@ -11,6 +11,8 @@ namespace FiresecAPI.Models
 		{
 			Stretch = false;
 			TextAlignment = 0;
+			VerticalAlignment = 0;
+			WordWrap = false;
 			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;
 		}
@@ -31,6 +33,10 @@ namespace FiresecAPI.Models
 		public bool Stretch { get; set; }
 		[DataMember]
 		public int TextAlignment { get; set; }
+		[DataMember]
+		public int VerticalAlignment { get; set; }
+		[DataMember]
+		public bool WordWrap { get; set; }
 
 		public override ElementBase Clone()
 		{

@@ -11,6 +11,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		private const int MaxFontSize = 1000;
 		public List<string> Fonts { get; private set; }
 		public List<string> TextAlignments { get; private set; }
+		public List<string> VerticalAlignments { get; private set; }
 		protected IElementTextBlock ElementTextBlock { get; private set; }
 
 		public TextBlockPropertiesViewModel(IElementTextBlock elementTextBlock)
@@ -28,6 +29,12 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 				"По правому краю",
 				"По центру",
 			};
+			VerticalAlignments = new List<string>()
+			{
+				"По верхнему краю",
+				"По середине",
+				"По нижнему краю",
+			};
 		}
 
 		protected virtual void CopyProperties()
@@ -43,64 +50,66 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			FontFamilyName = ElementTextBlock.FontFamilyName;
 			Stretch = ElementTextBlock.Stretch;
 			TextAlignment = ElementTextBlock.TextAlignment;
+			VerticalAlignment = ElementTextBlock.VerticalAlignment;
+			WordWrap = ElementTextBlock.WordWrap;
 		}
 
-		string _text;
+		private string _text;
 		public string Text
 		{
 			get { return _text; }
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 			}
 		}
 
-		Color _backgroundColor;
+		private Color _backgroundColor;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }
 			set
 			{
 				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
+				OnPropertyChanged(() => BackgroundColor);
 			}
 		}
 
-		Color _foregroundColor;
+		private Color _foregroundColor;
 		public Color ForegroundColor
 		{
 			get { return _foregroundColor; }
 			set
 			{
 				_foregroundColor = value;
-				OnPropertyChanged("ForegroundColor");
+				OnPropertyChanged(() => ForegroundColor);
 			}
 		}
 
-		Color _borderColor;
+		private Color _borderColor;
 		public Color BorderColor
 		{
 			get { return _borderColor; }
 			set
 			{
 				_borderColor = value;
-				OnPropertyChanged("BorderColor");
+				OnPropertyChanged(() => BorderColor);
 			}
 		}
 
-		double _strokeThickness;
+		private double _strokeThickness;
 		public double StrokeThickness
 		{
 			get { return _strokeThickness; }
 			set
 			{
 				_strokeThickness = value;
-				OnPropertyChanged("StrokeThickness");
+				OnPropertyChanged(() => StrokeThickness);
 			}
 		}
 
-		double _fontSize;
+		private double _fontSize;
 		public double FontSize
 		{
 			get { return _fontSize; }
@@ -113,58 +122,81 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			}
 		}
 
-		bool _fontBold;
+		private bool _fontBold;
 		public bool FontBold
 		{
 			get { return _fontBold; }
 			set
 			{
 				_fontBold = value;
-				OnPropertyChanged("FontBold");
+				OnPropertyChanged(() => FontBold);
 			}
 		}
 
-		bool _fontItalic;
+		private bool _fontItalic;
 		public bool FontItalic
 		{
 			get { return _fontItalic; }
 			set
 			{
 				_fontItalic = value;
-				OnPropertyChanged("FontItalic");
+				OnPropertyChanged(() => FontItalic);
 			}
 		}
 
-		bool _stretch;
+		private bool _stretch;
 		public bool Stretch
 		{
 			get { return _stretch; }
 			set
 			{
 				_stretch = value;
-				OnPropertyChanged("Stretch");
+				OnPropertyChanged(() => Stretch);
 			}
 		}
 
-		int _textAlignment;
+		private int _textAlignment;
 		public int TextAlignment
 		{
-			get{return _textAlignment;}
+			get { return _textAlignment; }
 			set
 			{
 				_textAlignment = value;
-				OnPropertyChanged("TextAlignment");
+				OnPropertyChanged(() => TextAlignment);
 			}
 		}
 
-		string _fontFamilyName;
+		private int _verticalAlignment;
+		public int VerticalAlignment
+		{
+			get { return _verticalAlignment; }
+			set
+			{
+				_verticalAlignment = value;
+				OnPropertyChanged(() => VerticalAlignment);
+			}
+		}
+
+		private bool _wordWrap;
+		public bool WordWrap
+		{
+			get { return _wordWrap; }
+			set
+			{
+				_wordWrap = value;
+				OnPropertyChanged(() => WordWrap);
+			}
+		}
+		
+
+		private string _fontFamilyName;
 		public string FontFamilyName
 		{
 			get { return _fontFamilyName; }
 			set
 			{
 				_fontFamilyName = value;
-				OnPropertyChanged("FontFamilyName");
+				OnPropertyChanged(() => FontFamilyName);
 			}
 		}
 
@@ -180,6 +212,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			ElementTextBlock.FontItalic = FontItalic;
 			ElementTextBlock.FontFamilyName = FontFamilyName;
 			ElementTextBlock.TextAlignment = TextAlignment;
+			ElementTextBlock.VerticalAlignment = VerticalAlignment;
+			ElementTextBlock.WordWrap = WordWrap;
 			ElementTextBlock.Stretch = Stretch;
 			return base.Save();
 		}
