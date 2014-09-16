@@ -8,10 +8,10 @@ namespace FiresecAPI.Automation
 	{
 		public ExitArguments()
 		{
-			ExitCode = new ArithmeticParameter();
+			ExitCodeParameter = new ArithmeticParameter();
 		}
 
 		[DataMember]
-		public ArithmeticParameter ExitCode { get; set; }
+		public ArithmeticParameter ExitCodeParameter { get; set; }
 	}
 }

@@ -16,15 +16,15 @@ namespace AutomationModule.ViewModels
 	public class ControlSKDDeviceStepViewModel: BaseStepViewModel
 	{
 		ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		public ArithmeticParameterViewModel SKDDeviceParameter { get; private set; }
 
 		public ControlSKDDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlSKDDeviceArguments = stepViewModel.Step.ControlSKDDeviceArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.Variable1, stepViewModel.Update);
-			Variable1.ObjectType = ObjectType.SKDDevice;
-			Variable1.ExplicitType = ExplicitType.Object;
+			SKDDeviceParameter = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.SKDDeviceParameter, stepViewModel.Update);
+			SKDDeviceParameter.ObjectType = ObjectType.SKDDevice;
+			SKDDeviceParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDDeviceArguments.Command;
 			UpdateContent();
 		}
@@ -44,14 +44,14 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.SKDDevice, false));
+			SKDDeviceParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.SKDDevice, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Устройство: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Устройство: " + SKDDeviceParameter.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

@@ -17,28 +17,29 @@ namespace AutomationModule.ViewModels
 	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
 		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		public ArithmeticParameterViewModel GKDeviceParameter { get; private set; }
 
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
-			Variable1 = new ArithmeticParameterViewModel(ControlGkDeviceArguments.Variable1, stepViewModel.Update);
-			Variable1.ObjectType = ObjectType.Device;
-			Variable1.ExplicitType = ExplicitType.Object;
-			Variable1.UpdateVariableScopeHandler = Update;
+			GKDeviceParameter = new ArithmeticParameterViewModel(ControlGkDeviceArguments.GKDeviceParameter, stepViewModel.Update);
+			GKDeviceParameter.ObjectType = ObjectType.Device;
+			GKDeviceParameter.ExplicitType = ExplicitType.Object;
+			GKDeviceParameter.UpdateVariableScopeHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
 			UpdateContent();
 		}
 
 		public void Update()
 		{
-			if (Variable1.SelectedVariableScope != VariableScope.ExplicitValue)
+			if (GKDeviceParameter.SelectedVariableScope != VariableScope.ExplicitValue)
+			{
 				Commands = ProcedureHelper.GetEnumObs<CommandType>();
-			else if (Variable1.CurrentVariableItem.Device != null)
-				InitializeCommands(Variable1.CurrentVariableItem.Device);
+				Commands.Remove(CommandType.Unknown);
+			}
+			else if (GKDeviceParameter.CurrentVariableItem.Device != null)
+				InitializeCommands(GKDeviceParameter.CurrentVariableItem.Device);
 			SelectedCommand = Commands.FirstOrDefault(x => x == XStateBitToCommandType(ControlGkDeviceArguments.Command));
-			if (SelectedCommand == null)
-				SelectedCommand = Commands.FirstOrDefault();
 			OnPropertyChanged(() => Commands);
 		}
 
@@ -114,14 +115,14 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
+			GKDeviceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Устройство: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Устройство: " + GKDeviceParameter.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 
@@ -162,28 +163,32 @@ namespace AutomationModule.ViewModels
 
 		CommandType XStateBitToCommandType(XStateBit stateString)
 		{
+			if (GKDeviceParameter.CurrentVariableItem.Device == null)
+				return CommandType.Unknown;
 			switch (stateString)
 			{
 				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(Variable1.CurrentVariableItem.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
+					return IsTriStateControl(GKDeviceParameter.CurrentVariableItem.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
 				case XStateBit.SetRegime_Manual:
 					return CommandType.SetRegime_Manual;
 				case XStateBit.SetRegime_Off:
 					return CommandType.SetRegime_Off;
 				case XStateBit.TurnOn_InManual:
-					return (Variable1.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
+					return (GKDeviceParameter.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
 				case XStateBit.TurnOnNow_InManual:
-					return (Variable1.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
+					return (GKDeviceParameter.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
 				case XStateBit.TurnOff_InManual:
-					return (Variable1.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
+					return (GKDeviceParameter.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
 				case XStateBit.Stop_InManual:
 					return CommandType.Stop_InManual;
 				case XStateBit.Reset:
 					return CommandType.Reset;
 				case XStateBit.ForbidStart_InManual:
 					return CommandType.ForbidStart_InManual;
+				case XStateBit.TurnOffNow_InManual:
+					return CommandType.TurnOffNow_InManual;
 				default:
-					return (CommandType) 111;
+					return CommandType.Unknown;
 			}
 		}
 	}
@@ -220,6 +225,9 @@ namespace AutomationModule.ViewModels
 		[Description("Закрыть")]
 		TurnOff_InManual2,
 
+		[Description("Выключить немедленно")]
+		TurnOffNow_InManual,
+
 		[Description("Остановить")]
 		Stop_InManual,
 
@@ -228,5 +236,8 @@ namespace AutomationModule.ViewModels
 
 		[Description("Запретить пуск")]
 		ForbidStart_InManual,
+
+		[Description("Неизвестная команда")]
+		Unknown
 	}
 }

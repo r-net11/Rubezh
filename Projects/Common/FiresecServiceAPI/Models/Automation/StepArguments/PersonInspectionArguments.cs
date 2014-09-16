@@ -10,13 +10,13 @@ namespace FiresecAPI.Automation
 		public PersonInspectionArguments()
 		{
 			Uid = new Guid();
-			CardNumber = new ArithmeticParameter();
+			CardNumberParameter = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 		
 		[DataMember]
-		public ArithmeticParameter CardNumber { get; set; }
+		public ArithmeticParameter CardNumberParameter { get; set; }
 	}
 }

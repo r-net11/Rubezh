@@ -6,7 +6,6 @@ using FiresecAPI.Journal;
 using GKProcessor;
 using FiresecAPI;
 using System;
-using VariableScope = FiresecAPI.Automation.VariableScope;
 
 namespace FiresecService.Processor
 {
@@ -79,8 +78,8 @@ namespace FiresecService.Processor
 				case ProcedureStepType.Foreach:
 					var allVariables = ProcedureHelper.GetAllVariables(procedure);
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListVariable.VariableUid);
-					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariable.VariableUid);
+					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListParameter.VariableUid);
+					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemParameter.VariableUid);
 					foreach (var itemUid in listVariable.VariableItems.Select(x => x.UidValue))
 					{
 						itemVariable.VariableItem.UidValue = itemUid;

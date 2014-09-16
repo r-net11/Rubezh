@@ -12,21 +12,21 @@ namespace AutomationModule.ViewModels
 	public class GetObjectPropertyStepViewModel: BaseStepViewModel
 	{
 		GetObjectPropertyArguments GetObjectPropertyArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; private set; }
-		public ArithmeticParameterViewModel Result { get; private set; }
+		public ArithmeticParameterViewModel ObjectParameter { get; private set; }
+		public ArithmeticParameterViewModel ResultParameter { get; private set; }
 
 		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
-			Variable1 = new ArithmeticParameterViewModel(GetObjectPropertyArguments.Variable1, stepViewModel.Update, false);
-			Variable1.UpdateVariableHandler += UpdateProperies;
-			Result = new ArithmeticParameterViewModel(GetObjectPropertyArguments.Result, stepViewModel.Update, false);
+			ObjectParameter = new ArithmeticParameterViewModel(GetObjectPropertyArguments.ObjectParameter, stepViewModel.Update, false);
+			ObjectParameter.UpdateVariableHandler += UpdateProperies;
+			ResultParameter = new ArithmeticParameterViewModel(GetObjectPropertyArguments.ResultParameter, stepViewModel.Update, false);
 			UpdateContent();
 		}
 
 		void UpdateProperies()
 		{
-			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(Variable1.SelectedVariable.Variable.ObjectType));
+			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ObjectParameter.SelectedVariable.Variable.ObjectType));
 			OnPropertyChanged(() => Properties);
 		}
 
@@ -38,21 +38,21 @@ namespace AutomationModule.ViewModels
 			{
 				GetObjectPropertyArguments.Property = value;
 				OnPropertyChanged(() => SelectedProperty);
-				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
+				ResultParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && !x.IsList));
-			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
+			ObjectParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && !x.IsList));
+			ResultParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get 
 			{ 
-				return Result.Description + " = " + Variable1.Description + " Свойство: " + SelectedProperty.ToDescription(); 
+				return ResultParameter.Description + " = " + ObjectParameter.Description + " Свойство: " + SelectedProperty.ToDescription(); 
 			}
 		}
 

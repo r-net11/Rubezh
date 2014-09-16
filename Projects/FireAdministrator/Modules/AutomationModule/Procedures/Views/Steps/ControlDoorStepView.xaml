@@ -7,7 +7,7 @@
 		<StackPanel>
 			<StackPanel Orientation="Horizontal" Margin="2">
 				<Label Content="Точка доступа: " VerticalAlignment="Top" Width="100" />
-				<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
+				<Views:ArithmeticParameterView DataContext="{Binding DoorParameter}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Margin="2, 4">
 				<Label Content="Команда:" Width="100" />

@@ -10,14 +10,14 @@ namespace FiresecAPI.Automation
 		public ControlSKDZoneArguments()
 		{
 			Uid = Guid.NewGuid();
-			Variable1 = new ArithmeticParameter();
+			SKDZoneParameter = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Variable1 { get; set; }
+		public ArithmeticParameter SKDZoneParameter { get; set; }
 
 		[DataMember]
 		public SKDZoneCommandType SKDZoneCommandType { get; set; }

@@ -14,15 +14,15 @@ namespace AutomationModule.ViewModels
 	public class ControlGKGuardZoneStepViewModel: BaseStepViewModel
 	{
 		ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		public ArithmeticParameterViewModel GKGuardZoneParameter { get; private set; }
 
 		public ControlGKGuardZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGKGuardZoneArguments = stepViewModel.Step.ControlGKGuardZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.Variable1, stepViewModel.Update);
-			Variable1.ObjectType = ObjectType.GuardZone;
-			Variable1.ExplicitType = ExplicitType.Object;
+			GKGuardZoneParameter = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.GKGuardZoneParameter, stepViewModel.Update);
+			GKGuardZoneParameter.ObjectType = ObjectType.GuardZone;
+			GKGuardZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
 			UpdateContent();
 		}
@@ -42,14 +42,14 @@ namespace AutomationModule.ViewModels
 	
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.GuardZone, false));
+			GKGuardZoneParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.GuardZone, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Зона: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Зона: " + GKGuardZoneParameter.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

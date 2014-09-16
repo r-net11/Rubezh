@@ -7,25 +7,25 @@ namespace AutomationModule.ViewModels
 {
 	public class PersonInspectionStepViewModel : BaseStepViewModel
 	{
-		public ArithmeticParameterViewModel CardNumber { get; set; }
+		public ArithmeticParameterViewModel CardNumberParameter { get; set; }
 
 		public PersonInspectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			CardNumber = new ArithmeticParameterViewModel(stepViewModel.Step.PersonInspectionArguments.CardNumber, stepViewModel.Update);
-			CardNumber.ExplicitType = ExplicitType.Integer;
+			CardNumberParameter = new ArithmeticParameterViewModel(stepViewModel.Step.PersonInspectionArguments.CardNumberParameter, stepViewModel.Update);
+			CardNumberParameter.ExplicitType = ExplicitType.Integer;
 			UpdateContent();
 		}
 
 		public new void UpdateContent()
 		{
-			CardNumber.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			CardNumberParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
 		}
 
 		public override string Description 
 		{ 
 			get 
 			{ 
-				return "Номер карты: " + CardNumber.Description; 
+				return "Номер карты: " + CardNumberParameter.Description; 
 			} 
 		}
 	}

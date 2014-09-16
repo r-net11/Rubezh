@@ -14,15 +14,15 @@ namespace AutomationModule.ViewModels
 	public class ControlDirectionStepViewModel : BaseStepViewModel
 	{
 		ControlDirectionArguments ControlDirectionArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		public ArithmeticParameterViewModel DirectionParameter { get; private set; }
 
 		public ControlDirectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlDirectionArguments = stepViewModel.Step.ControlDirectionArguments;
 			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlDirectionArguments.Variable1, stepViewModel.Update);
-			Variable1.ObjectType = ObjectType.Direction;
-			Variable1.ExplicitType = ExplicitType.Object;
+			DirectionParameter = new ArithmeticParameterViewModel(ControlDirectionArguments.DirectionParameter, stepViewModel.Update);
+			DirectionParameter.ObjectType = ObjectType.Direction;
+			DirectionParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 			UpdateContent();
 		}
@@ -42,14 +42,14 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.Direction, false));
+			DirectionParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.Direction, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Направление: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Направление: " + DirectionParameter.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

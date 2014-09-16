@@ -9,18 +9,18 @@ namespace FiresecAPI.Automation
 		public SetValueArguments()
 		{
 			Uid = Guid.NewGuid();
-			Variable1 = new ArithmeticParameter();
-			Result = new ArithmeticParameter();
+			SourceParameter = new ArithmeticParameter();
+			TargetParameter = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Result { get; set; }
+		public ArithmeticParameter TargetParameter { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Variable1 { get; set; }
+		public ArithmeticParameter SourceParameter { get; set; }
 
 		[DataMember]
 		public ExplicitType ExplicitType { get; set; }

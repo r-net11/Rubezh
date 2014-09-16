@@ -9,6 +9,6 @@
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 		<Label Content="Код выхода" />
-		<Views:ArithmeticParameterView DataContext="{Binding ExitCode}" />
+		<Views:ArithmeticParameterView DataContext="{Binding ExitCodeParameter}" />
 	</StackPanel>
 </UserControl>

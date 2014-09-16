@@ -10,12 +10,12 @@ namespace AutomationModule.ViewModels
 	public class JournalStepViewModel : BaseStepViewModel
 	{
 		JournalArguments JournalArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; set; }
+		public ArithmeticParameterViewModel MessageParameter { get; set; }
 
 		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
-			Variable1 = new ArithmeticParameterViewModel(JournalArguments.Variable1, stepViewModel.Update);
+			MessageParameter = new ArithmeticParameterViewModel(JournalArguments.MessageParameter, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			SelectedExplicitType = JournalArguments.ExplicitType;
 			UpdateContent();
@@ -28,7 +28,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				JournalArguments.ExplicitType = value;
-				Variable1.ExplicitType = value;
+				MessageParameter.ExplicitType = value;
 				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();
 			}
@@ -37,14 +37,14 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
-			Variable1.Update(allVariables);
+			MessageParameter.Update(allVariables);
 		}
 
 		public override string Description
 		{
 			get 
 			{ 
-				return "Сообщение: " + Variable1.Description; 
+				return "Сообщение: " + MessageParameter.Description; 
 			}
 		}
 	}

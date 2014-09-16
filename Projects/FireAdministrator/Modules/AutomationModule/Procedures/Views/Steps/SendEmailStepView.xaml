@@ -12,31 +12,31 @@
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Адрес" />
-					<Views:ArithmeticParameterView DataContext="{Binding EMailAddress}" />
+					<Views:ArithmeticParameterView DataContext="{Binding EMailAddressParameter}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Заголовок" />
-					<Views:ArithmeticParameterView DataContext="{Binding EMailTitle}" />
+					<Views:ArithmeticParameterView DataContext="{Binding EMailTitleParameter}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Текст" />
-					<Views:ArithmeticParameterView DataContext="{Binding EMailContent}" />
+					<Views:ArithmeticParameterView DataContext="{Binding EMailContentParameter}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Хост" />
-					<Views:ArithmeticParameterView DataContext="{Binding Host}" />
+					<Views:ArithmeticParameterView DataContext="{Binding HostParameter}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Порт" />
-					<Views:ArithmeticParameterView DataContext="{Binding Port}" />
+					<Views:ArithmeticParameterView DataContext="{Binding PortParameter}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Логин" />
-					<Views:ArithmeticParameterView DataContext="{Binding Login}" />
+					<Views:ArithmeticParameterView DataContext="{Binding LoginParameter}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Пароль" />
-					<Views:ArithmeticParameterView DataContext="{Binding Password}" />
+					<Views:ArithmeticParameterView DataContext="{Binding PasswordParameter}" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>

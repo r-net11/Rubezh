@@ -10,14 +10,14 @@ namespace FiresecAPI.Automation
 		public ControlDirectionArguments()
 		{
 			Uid = Guid.NewGuid();
-			Variable1 = new ArithmeticParameter();
+			DirectionParameter = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Variable1 { get; set; }
+		public ArithmeticParameter DirectionParameter { get; set; }
 
 		[DataMember]
 		public DirectionCommandType DirectionCommandType { get; set; }
