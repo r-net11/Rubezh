@@ -20,11 +20,11 @@
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Результат" />
-			<Views:ArithmeticParameterView DataContext="{Binding Result}" />
+			<Views:ArithmeticParameterView DataContext="{Binding TargetParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Значение" />
-			<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
+			<Views:ArithmeticParameterView DataContext="{Binding SourceParameter}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

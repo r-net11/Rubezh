@@ -14,15 +14,16 @@ namespace AutomationModule.ViewModels
 	public class ControlDoorStepViewModel : BaseStepViewModel
 	{
 		ControlDoorArguments ControlDoorArguments { get; set; }
-		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		public ArithmeticParameterViewModel DoorParameter { get; private set; }
 
 		public ControlDoorStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlDoorArguments = stepViewModel.Step.ControlDoorArguments;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
-			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1, stepViewModel.Update);
-			Variable1.ObjectType = ObjectType.ControlDoor;
-			Variable1.ExplicitType = ExplicitType.Object;
+			DoorParameter = new ArithmeticParameterViewModel(ControlDoorArguments.DoorParameter, stepViewModel.Update);
+			DoorParameter.ObjectType = ObjectType.ControlDoor;
+			DoorParameter.ExplicitType = ExplicitType.Object;
+			SelectedCommand = ControlDoorArguments.DoorCommandType;
 			UpdateContent();
 		}
 
@@ -42,14 +43,14 @@ namespace AutomationModule.ViewModels
 		
 		public override void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.ControlDoor, false));
+			DoorParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.ControlDoor, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Точка доступа: " + Variable1.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Точка доступа: " + DoorParameter.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

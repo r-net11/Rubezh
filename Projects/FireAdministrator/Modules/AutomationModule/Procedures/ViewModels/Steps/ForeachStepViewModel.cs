@@ -11,32 +11,32 @@ namespace AutomationModule.ViewModels
 	public class ForeachStepViewModel : BaseStepViewModel
 	{
 		public ForeachArguments ForeachArguments { get; private set; }
-		public ArithmeticParameterViewModel ListVariable { get; private set; }
-		public ArithmeticParameterViewModel ItemVariable { get; private set; }
+		public ArithmeticParameterViewModel ListParameter { get; private set; }
+		public ArithmeticParameterViewModel ItemParameter { get; private set; }
 
 		public ForeachStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ForeachArguments = stepViewModel.Step.ForeachArguments;
-			ListVariable = new ArithmeticParameterViewModel(ForeachArguments.ListVariable, stepViewModel.Update, false);
-			ListVariable.UpdateVariableHandler += UpdateItemVariable;
-			ItemVariable = new ArithmeticParameterViewModel(ForeachArguments.ItemVariable, stepViewModel.Update, false);
+			ListParameter = new ArithmeticParameterViewModel(ForeachArguments.ListParameter, stepViewModel.Update, false);
+			ListParameter.UpdateVariableHandler += UpdateItemVariable;
+			ItemParameter = new ArithmeticParameterViewModel(ForeachArguments.ItemParameter, stepViewModel.Update, false);
 			UpdateContent();
 		}
 
 		public override void UpdateContent()
 		{
-			ListVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
+			ListParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemVariable.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListVariable.SelectedVariable.ExplicitType
-				&& x.ObjectType == ListVariable.SelectedVariable.ObjectType && x.EnumType == ListVariable.SelectedVariable.EnumType ));
+			ItemParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListParameter.SelectedVariable.ExplicitType
+				&& x.ObjectType == ListParameter.SelectedVariable.ObjectType && x.EnumType == ListParameter.SelectedVariable.EnumType ));
 		}
 
 		public override string Description
 		{
-			get { return ""; }
+			get { return "Список: " + ListParameter.Description + " Элемент: " + ItemParameter.Description; }
 		}
 
 	}

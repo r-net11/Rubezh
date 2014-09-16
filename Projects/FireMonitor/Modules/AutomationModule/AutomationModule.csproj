@@ -83,6 +83,7 @@
     <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="ViewModels\VariableItemViewModel.cs" />
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
       <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
     </Compile>

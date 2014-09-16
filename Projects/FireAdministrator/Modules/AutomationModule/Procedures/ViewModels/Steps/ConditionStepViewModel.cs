@@ -96,8 +96,8 @@ namespace AutomationModule.ViewModels
 				if (conditionViewModel == null)
 					return "";
 
-				var var1 = conditionViewModel.Variable1.Description;
-				var var2 = conditionViewModel.Variable2.Description;
+				var var1 = conditionViewModel.Parameter1.Description;
+				var var2 = conditionViewModel.Parameter2.Description;
 
 				var op = "";
 				switch (conditionViewModel.SelectedConditionType)
@@ -133,8 +133,8 @@ namespace AutomationModule.ViewModels
 	public class ConditionViewModel : BaseViewModel
 	{
 		public Condition Condition { get; private set; }
-		public ArithmeticParameterViewModel Variable1 { get; set; }
-		public ArithmeticParameterViewModel Variable2 { get; set; }
+		public ArithmeticParameterViewModel Parameter1 { get; set; }
+		public ArithmeticParameterViewModel Parameter2 { get; set; }
 		Procedure Procedure { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 
@@ -144,9 +144,9 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, updateDescriptionHandler, false);
-			Variable1.UpdateVariableHandler += UpdateVariable2;
-			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, updateDescriptionHandler);
+			Parameter1 = new ArithmeticParameterViewModel(Condition.Parameter1, updateDescriptionHandler, false);
+			Parameter1.UpdateVariableHandler += UpdateParameter2;
+			Parameter2 = new ArithmeticParameterViewModel(Condition.Parameter2, updateDescriptionHandler);
 			SelectedExplicitType = Condition.ExplicitType;
 		}
 
@@ -167,20 +167,20 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
-			Variable1.Update(allVariables);
-			Variable2.Update(allVariables);
-			Variable1.ExplicitType = SelectedExplicitType;
-			Variable2.ExplicitType = SelectedExplicitType;
+			Parameter1.Update(allVariables);
+			Parameter2.Update(allVariables);
+			Parameter1.ExplicitType = SelectedExplicitType;
+			Parameter2.ExplicitType = SelectedExplicitType;
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
 		}
 
-		void UpdateVariable2()
+		void UpdateParameter2()
 		{
-			if (Variable1.ExplicitType == ExplicitType.Enum)
+			if (Parameter1.ExplicitType == ExplicitType.Enum)
 			{
-				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Variable1.EnumType);
-				Variable2.Update(allVariables);
-				Variable2.EnumType = Variable1.EnumType;
+				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Parameter1.EnumType);
+				Parameter2.Update(allVariables);
+				Parameter2.EnumType = Parameter1.EnumType;
 			}
 		}
 

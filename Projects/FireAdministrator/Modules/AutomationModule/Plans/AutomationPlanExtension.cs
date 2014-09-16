@@ -65,7 +65,7 @@ namespace AutomationModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/Procedure.png",
+							ImageSource="/Controls;component/Images/ProcedureYellow.png",
 							ToolTip="Процедура",
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,
@@ -102,7 +102,7 @@ namespace AutomationModule.Plans
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementProcedure)
-				RegisterDesignerItem<Procedure>(designerItem, "Procedure", "/Controls;component/Images/Procedure.png");
+				RegisterDesignerItem<Procedure>(designerItem, "Procedure", "/Controls;component/Images/ProcedureYellow.png");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)

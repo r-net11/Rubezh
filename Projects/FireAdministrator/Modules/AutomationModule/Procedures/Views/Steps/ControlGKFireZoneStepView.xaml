@@ -7,7 +7,7 @@
 		<StackPanel>
 			<StackPanel Orientation="Horizontal" Margin="2">
 				<Label Content="Зона: " VerticalAlignment="Top" Width="100" />
-				<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
+				<Views:ArithmeticParameterView DataContext="{Binding GKFireZoneParameter}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Margin="2, 4">
 				<Label Content="Команда:" Width="100" />

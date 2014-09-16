@@ -76,7 +76,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
 							new StepTypeViewModel(ProcedureStepType.PersonInspection),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
-							new StepTypeViewModel(ProcedureStepType.GetObjectField),
+							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.Random)
 						}),
 						new StepTypeViewModel("Интерактивная логика",

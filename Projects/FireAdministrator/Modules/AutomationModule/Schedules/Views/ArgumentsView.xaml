@@ -26,42 +26,42 @@
 
 							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 								ConverterParameter={x:Static automation:ExplicitType.Integer}}">
-								<extToolkit:IntegerUpDown Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="180" />
+								<extToolkit:IntegerUpDown Value="{Binding CurrentVariableItem.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="180" />
 							</StackPanel>
 
 							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
 								ConverterParameter={x:Static automation:ExplicitType.Boolean}}">
-								<CheckBox IsChecked="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2,7,0,0" Width="180"/>
+								<CheckBox IsChecked="{Binding CurrentVariableItem.BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2,7,0,0" Width="180"/>
 							</StackPanel>
 
 							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 								ConverterParameter={x:Static automation:ExplicitType.String}}">
-								<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="180"/>
+								<TextBox Text="{Binding CurrentVariableItem.StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="180"/>
 							</StackPanel>
 
 							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 								ConverterParameter={x:Static automation:ExplicitType.DateTime}}">
-								<extToolkit:DateTimePicker Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="180"/>
+								<extToolkit:DateTimePicker Value = "{Binding CurrentVariableItem.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="180"/>
 							</StackPanel>
 
 							<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}">
 								<TextBlock Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top">
-											<Hyperlink  Command="{Binding ChangeItemCommand}" CommandParameter="{Binding}" Style="{StaticResource HyperlinkStyle}">
-												<TextBlock Text="{Binding SelectedVariableItem.PresentationName}" Visibility="{Binding SelectedVariableItem.IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
-												<TextBlock Text="Нажмите для выбора объекта">
-													<TextBlock.Style>
-														<Style>
-															<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-															<Style.Triggers>
-																<DataTrigger Binding="{Binding SelectedVariableItem.IsEmpty}" Value="True">
-																	<Setter Property="TextBlock.Visibility" Value="Visible" />
-																</DataTrigger>
-															</Style.Triggers>
-														</Style>
-													</TextBlock.Style>
-												</TextBlock>
-											</Hyperlink>
+									<Hyperlink  Command="{Binding ChangeItemCommand}" CommandParameter="{Binding}" Style="{StaticResource HyperlinkStyle}">
+										<TextBlock Text="{Binding CurrentVariableItem.PresentationName}" Visibility="{Binding CurrentVariableItem.IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+										<TextBlock Text="Нажмите для выбора объекта">
+											<TextBlock.Style>
+												<Style>
+													<Setter Property="TextBlock.Visibility" Value="Collapsed" />
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding CurrentVariableItem.IsEmpty}" Value="True">
+															<Setter Property="TextBlock.Visibility" Value="Visible" />
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
 										</TextBlock>
+									</Hyperlink>
+								</TextBlock>
 							</StackPanel>
 						</Grid>
 					</DataTemplate>

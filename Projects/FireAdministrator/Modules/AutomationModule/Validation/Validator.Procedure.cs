@@ -131,8 +131,8 @@ namespace AutomationModule.Validation
 					ValidateStepArguments(step.ControlCameraArguments, step);
 					break;
 
-				case ProcedureStepType.GetObjectField:
-					ValidateStepArguments(step.GetObjectFieldArguments, step);
+				case ProcedureStepType.GetObjectProperty:
+					ValidateStepArguments(step.GetObjectPropertyArguments, step);
 					break;
 
 				case ProcedureStepType.SendEmail:

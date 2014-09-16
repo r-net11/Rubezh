@@ -32,7 +32,7 @@
 
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
 						<Label Content="Список" HorizontalAlignment="Left" />
-						<CheckBox Width="202" IsChecked="{Binding IsList}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
+						<CheckBox Width="202" IsChecked="{Binding IsList}" IsEnabled="{Binding ForbidList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter},

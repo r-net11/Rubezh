@@ -7,6 +7,6 @@
 	</UserControl.Resources>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
         <Label Content="Мксимальное значение" />
-		<Views:ArithmeticParameterView DataContext="{Binding MaxValue}" />
+		<Views:ArithmeticParameterView DataContext="{Binding MaxValueParameter}" />
     </StackPanel>
 </UserControl>

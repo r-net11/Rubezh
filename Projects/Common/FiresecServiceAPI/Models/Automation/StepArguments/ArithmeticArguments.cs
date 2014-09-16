@@ -9,9 +9,9 @@ namespace FiresecAPI.Automation
 	{
 		public ArithmeticArguments()
 		{
-			Variable1 = new ArithmeticParameter();
-			Variable2 = new ArithmeticParameter();
-			Result = new ArithmeticParameter();
+			Parameter1 = new ArithmeticParameter();
+			Parameter2 = new ArithmeticParameter();
+			ResultParameter = new ArithmeticParameter();
 		}
 
 		[DataMember]
@@ -24,13 +24,13 @@ namespace FiresecAPI.Automation
 		public TimeType TimeType { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Variable1 { get; set; }
+		public ArithmeticParameter Parameter1 { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Variable2 { get; set; }
+		public ArithmeticParameter Parameter2 { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Result { get; set; }
+		public ArithmeticParameter ResultParameter { get; set; }
 	}
 
 	public enum ArithmeticOperationType

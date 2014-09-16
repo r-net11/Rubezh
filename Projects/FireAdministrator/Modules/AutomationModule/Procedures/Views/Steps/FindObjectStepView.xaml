@@ -59,7 +59,7 @@
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
-						<Views:ArithmeticParameterView DataContext="{Binding Variable2}" />
+						<Views:ArithmeticParameterView DataContext="{Binding SourceParameter}" />
 					</StackPanel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

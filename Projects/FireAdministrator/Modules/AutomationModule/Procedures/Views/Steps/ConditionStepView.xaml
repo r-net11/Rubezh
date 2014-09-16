@@ -39,7 +39,7 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<Views:ArithmeticParameterView DataContext="{Binding Variable1}" />
+							<Views:ArithmeticParameterView DataContext="{Binding Parameter1}" />
 							<ComboBox ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -47,7 +47,7 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<Views:ArithmeticParameterView DataContext="{Binding Variable2}" />
+							<Views:ArithmeticParameterView DataContext="{Binding Parameter2}" />
 						</StackPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

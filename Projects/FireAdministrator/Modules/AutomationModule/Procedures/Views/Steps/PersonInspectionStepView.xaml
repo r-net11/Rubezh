@@ -9,6 +9,6 @@
 	</UserControl.Resources>
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 		<Label Content="Номер карты" />
-		<Views:ArithmeticParameterView DataContext="{Binding CardNumber}" />
+		<Views:ArithmeticParameterView DataContext="{Binding CardNumberParameter}" />
 	</StackPanel>
 </UserControl>

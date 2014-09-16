@@ -129,7 +129,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ExitStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\GetObjectFieldStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\GetObjectPropertyStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\BaseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
@@ -222,8 +222,8 @@
     <Compile Include="Procedures\Views\Steps\ForeachStepView.xaml.cs">
       <DependentUpon>ForeachStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml.cs">
-      <DependentUpon>GetObjectFieldStepView.xaml</DependentUpon>
+    <Compile Include="Procedures\Views\Steps\GetObjectPropertyStepView.xaml.cs">
+      <DependentUpon>GetObjectPropertyStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\IncrementValueStepView.xaml.cs">
       <DependentUpon>IncrementValueStepView.xaml</DependentUpon>
@@ -516,7 +516,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml">
+    <Page Include="Procedures\Views\Steps\GetObjectPropertyStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

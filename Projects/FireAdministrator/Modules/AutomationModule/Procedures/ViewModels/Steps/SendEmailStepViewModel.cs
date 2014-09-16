@@ -10,50 +10,50 @@ namespace AutomationModule.ViewModels
 	public class SendEmailStepViewModel : BaseStepViewModel
 	{
 		SendEmailArguments SendEmailArguments { get; set; }
-		public ArithmeticParameterViewModel EMailAddress { get; private set; }
-		public ArithmeticParameterViewModel EMailTitle { get; private set; }
-		public ArithmeticParameterViewModel EMailContent { get; private set; }
-		public ArithmeticParameterViewModel Host { get; private set; }
-		public ArithmeticParameterViewModel Port { get; private set; }
-		public ArithmeticParameterViewModel Login { get; private set; }
-		public ArithmeticParameterViewModel Password { get; private set; }
+		public ArithmeticParameterViewModel EMailAddressParameter { get; private set; }
+		public ArithmeticParameterViewModel EMailTitleParameter { get; private set; }
+		public ArithmeticParameterViewModel EMailContentParameter { get; private set; }
+		public ArithmeticParameterViewModel HostParameter { get; private set; }
+		public ArithmeticParameterViewModel PortParameter { get; private set; }
+		public ArithmeticParameterViewModel LoginParameter { get; private set; }
+		public ArithmeticParameterViewModel PasswordParameter { get; private set; }
 
 		public SendEmailStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SendEmailArguments = stepViewModel.Step.SendEmailArguments;
-			EMailAddress = new ArithmeticParameterViewModel(SendEmailArguments.EMailAddress, stepViewModel.Update);
-			EMailAddress.ExplicitType = ExplicitType.String;
-			EMailTitle = new ArithmeticParameterViewModel(SendEmailArguments.EMailTitle, stepViewModel.Update);
-			EMailTitle.ExplicitType = ExplicitType.String;
-			EMailContent = new ArithmeticParameterViewModel(SendEmailArguments.EMailContent, stepViewModel.Update);
-			EMailContent.ExplicitType = ExplicitType.String;
-			Host = new ArithmeticParameterViewModel(SendEmailArguments.Host, stepViewModel.Update);
-			Host.ExplicitType = ExplicitType.String;
-			Port = new ArithmeticParameterViewModel(SendEmailArguments.Port, stepViewModel.Update);
-			Port.ExplicitType = ExplicitType.Integer;
-			Login = new ArithmeticParameterViewModel(SendEmailArguments.Login, stepViewModel.Update);
-			Login.ExplicitType = ExplicitType.String;
-			Password = new ArithmeticParameterViewModel(SendEmailArguments.Password, stepViewModel.Update);
-			Password.ExplicitType = ExplicitType.String;
+			EMailAddressParameter = new ArithmeticParameterViewModel(SendEmailArguments.EMailAddressParameter, stepViewModel.Update);
+			EMailAddressParameter.ExplicitType = ExplicitType.String;
+			EMailTitleParameter = new ArithmeticParameterViewModel(SendEmailArguments.EMailTitleParameter, stepViewModel.Update);
+			EMailTitleParameter.ExplicitType = ExplicitType.String;
+			EMailContentParameter = new ArithmeticParameterViewModel(SendEmailArguments.EMailContentParameter, stepViewModel.Update);
+			EMailContentParameter.ExplicitType = ExplicitType.String;
+			HostParameter = new ArithmeticParameterViewModel(SendEmailArguments.HostParameter, stepViewModel.Update);
+			HostParameter.ExplicitType = ExplicitType.String;
+			PortParameter = new ArithmeticParameterViewModel(SendEmailArguments.PortParameter, stepViewModel.Update);
+			PortParameter.ExplicitType = ExplicitType.Integer;
+			LoginParameter = new ArithmeticParameterViewModel(SendEmailArguments.LoginParameter, stepViewModel.Update);
+			LoginParameter.ExplicitType = ExplicitType.String;
+			PasswordParameter = new ArithmeticParameterViewModel(SendEmailArguments.PasswordParameter, stepViewModel.Update);
+			PasswordParameter.ExplicitType = ExplicitType.String;
 			UpdateContent();
 		}
 
 		public override void UpdateContent()
 		{
-			EMailAddress.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			EMailTitle.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			EMailContent.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			Host.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			Port.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
-			Login.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			Password.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailAddressParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailTitleParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailContentParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			HostParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			PortParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			LoginParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			PasswordParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Email: " + EMailAddress.Description + " Заголовок: " + EMailTitle.Description + " Текст: " + EMailContent.Description;
+				return "Email: " + EMailAddressParameter.Description + " Заголовок: " + EMailTitleParameter.Description + " Текст: " + EMailContentParameter.Description;
 			}
 		}
 	}

@@ -8,14 +8,14 @@ namespace FiresecAPI.Automation
 	{
 		public PauseArguments()
 		{
-			Pause = new ArithmeticParameter();
-			Pause.VariableItem.IntValue = 1;
+			PauseParameter = new ArithmeticParameter();
+			PauseParameter.VariableItem.IntValue = 1;
 		}
 
 		[DataMember]
 		public TimeType TimeType { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Pause { get; set; }
+		public ArithmeticParameter PauseParameter { get; set; }
 	}
 }

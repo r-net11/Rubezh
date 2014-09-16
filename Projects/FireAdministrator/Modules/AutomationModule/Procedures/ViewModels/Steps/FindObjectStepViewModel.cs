@@ -97,7 +97,7 @@ namespace AutomationModule.ViewModels
 				if (conditionViewModel == null)
 					return "Результат: " + result + " Условие поиска: <пусто>";
 
-				var var2 = conditionViewModel.Variable2.Description;
+				var var2 = conditionViewModel.SourceParameter.Description;
 				var op = "";
 				switch (conditionViewModel.SelectedConditionType)
 				{
@@ -165,7 +165,7 @@ namespace AutomationModule.ViewModels
 	public class FindObjectConditionViewModel : BaseViewModel
 	{
 		public FindObjectCondition FindObjectCondition { get; private set; }
-		public ArithmeticParameterViewModel Variable2 { get; private set; }
+		public ArithmeticParameterViewModel SourceParameter { get; private set; }
 		Procedure Procedure { get; set; }
 		Action UpdateDescriptionHandler { get; set; }
 
@@ -174,7 +174,7 @@ namespace AutomationModule.ViewModels
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, updateDescriptionHandler);
+			SourceParameter = new ArithmeticParameterViewModel(findObjectCondition.SourceParameter, updateDescriptionHandler);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 		}
@@ -191,9 +191,9 @@ namespace AutomationModule.ViewModels
 				if (value == Property.ShleifNo)
 				{ MinValue = 1; MaxValue = 8; }
 				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ExplicitType));
-				Variable2.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType && x.EnumType == EnumType));
-				Variable2.ExplicitType = ExplicitType;
-				Variable2.EnumType = EnumType;
+				SourceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType && x.EnumType == EnumType));
+				SourceParameter.ExplicitType = ExplicitType;
+				SourceParameter.EnumType = EnumType;
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ConditionTypes);
 				OnPropertyChanged(() => MinValue);

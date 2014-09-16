@@ -10,11 +10,11 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Список" />
-			<Views:ArithmeticParameterView DataContext="{Binding ListVariable}" />
+			<Views:ArithmeticParameterView DataContext="{Binding ListParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Элемент" />
-			<Views:ArithmeticParameterView DataContext="{Binding ItemVariable}" />
+			<Views:ArithmeticParameterView DataContext="{Binding ItemParameter}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>
