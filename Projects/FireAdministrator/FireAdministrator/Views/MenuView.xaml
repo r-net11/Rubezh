@@ -15,7 +15,7 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Horizontal" Visibility="{Binding IsMainMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Controls:ToolBarButton Command="{Binding CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" ToolTip="Создать новую конфигурацию" />
+			<ToolBarButton Command="{Binding CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" ToolTip="Создать новую конфигурацию" />
 			<Controls:ToolBarButton Command="{Binding LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" ToolTip="Открыть конфигурацию из файла" />
 			<Controls:ToolBarButton Command="{Binding SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" ToolTip="Сохранить конфигурацию в файл" />
 			<Controls:ToolBarButton Command="{Binding ValidateCommand}" ImageSource="/Controls;component/Images/check.png" ToolTip="Проверить конфигурацию" />

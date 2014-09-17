@@ -48,36 +48,66 @@ namespace FiresecAPI.GK
 			return this.MemberwiseClone();
 		}
 
+		/// <summary>
+		/// Идентификатор
+		/// </summary>
 		[DataMember]
 		public Guid UID { get; set; }
 
+		/// <summary>
+		/// Идентификатор драйвера
+		/// </summary>
 		[DataMember]
 		public Guid DriverUID { get; set; }
 
+		/// <summary>
+		/// Адрес
+		/// </summary>
 		[DataMember]
 		public byte IntAddress { get; set; }
 
+		/// <summary>
+		/// Описание
+		/// </summary>
 		[DataMember]
 		public string Description { get; set; }
 
 		[DataMember]
 		public string PredefinedName { get; set; }
 
+		/// <summary>
+		/// Идентификаторы дочерних устройств
+		/// </summary>
 		[DataMember]
 		public List<XDevice> Children { get; set; }
 
+		/// <summary>
+		/// Свойства, настроенные в системе
+		/// </summary>
 		[DataMember]
 		public List<XProperty> Properties { get; set; }
 
+		/// <summary>
+		/// Свойства, настроенные в приборе
+		/// </summary>
 		[DataMember]
 		public List<XProperty> DeviceProperties { get; set; }
 
+		/// <summary>
+		/// Идентификатор зоны
+		/// </summary>
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
 
+		/// <summary>
+		/// Логика сработки
+		/// </summary>
 		[DataMember]
 		public XDeviceLogic DeviceLogic { get; set; }
 
+		/// <summary>
+		/// Логика насосной станции
+		/// </summary>
 		[DataMember]
 		public XDeviceLogic NSLogic { get; set; }
 

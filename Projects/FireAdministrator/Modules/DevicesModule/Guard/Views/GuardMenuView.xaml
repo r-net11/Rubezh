@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">		
-		<Controls:ToolBarButton Command="{Binding ReadGuardUserCommand}" ToolTip="Считать охранную конфигурацию из устройства" ImageSource="/Controls;component/Images/read.png" />
+		<ToolBarButton Command="{Binding ReadGuardUserCommand}" ToolTip="Считать охранную конфигурацию из устройства" ImageSource="/Controls;component/Images/read.png" />
 		<Controls:ToolBarButton Command="{Binding WriteGuardUserCommand}" ToolTip="Записать охранную конфигурацию в устройство" ImageSource="/Controls;component/Images/write.png" />
 		<Controls:ToolBarButton Command="{Binding ShowSynchronizationCommand}" ToolTip="Синхронизация" ImageSource="/Controls;component/Images/Settings.png" Visibility="Collapsed" />
 	</StackPanel>

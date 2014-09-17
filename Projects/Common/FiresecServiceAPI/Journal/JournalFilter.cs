@@ -13,6 +13,7 @@ namespace FiresecAPI.Journal
 			UID = Guid.NewGuid();
 			JournalSubsystemTypes = new List<JournalSubsystemType>();
 			JournalEventNameTypes = new List<JournalEventNameType>();
+			JournalEventDescriptionType = new List<JournalEventDescriptionType>();
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 			LastItemsCount = 100;
@@ -35,6 +36,9 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+
+		[DataMember]
+		public List<JournalEventDescriptionType> JournalEventDescriptionType { get; set; }
 
 		[DataMember]
 		public List<JournalObjectType> JournalObjectTypes { get; set; }

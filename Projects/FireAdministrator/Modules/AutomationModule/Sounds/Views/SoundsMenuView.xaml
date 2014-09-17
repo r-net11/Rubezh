@@ -5,7 +5,7 @@
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 		<Button Name="playButton" Command="{Binding PlaySoundCommand}" Style="{StaticResource ToolBarButtonStyle}">
 			<ContentControl>

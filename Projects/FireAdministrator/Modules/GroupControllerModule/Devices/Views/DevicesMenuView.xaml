@@ -6,7 +6,7 @@
 		<Controls:ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/add.png" />
 		<Controls:ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/edit.png" />
 		<Controls:ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/delete.png" />
-		<Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" ImageSource="/Controls;component/Images/copy.png" />
+		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" ImageSource="/Controls;component/Images/copy.png" />
 		<Controls:ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать (Ctrl+Х)" ImageSource="/Controls;component/Images/cut.png" />
 		<Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" ImageSource="/Controls;component/Images/paste.png" />
 		<Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">

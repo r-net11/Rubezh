@@ -51,7 +51,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 			<StackPanel Grid.Row="1" Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/ArrowUp.png" />
+				<ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/ArrowUp.png" />
 				<Controls:ToolBarButton Command="{Binding RemoveUserCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/ArrowDown.png" />
 				<Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand}" ToolTip="Создать пользователя" ImageSource="/Controls;component/Images/Add.png" Margin="20,0,0,0"/>
 				<Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />

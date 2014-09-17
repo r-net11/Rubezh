@@ -93,6 +93,12 @@ namespace GKModule.Validation
 			if (device.IsInMPT)
 				return;
 
+			if (device.DriverType == XDriverType.RSR2_AM_1)
+			{
+				if (device.Properties.Any(x => x.Name == "Сообщение для нормы" || x.Name == "Сообщение для сработки 1" || x.Name == "Сообщение для сработки 2"))
+					return;
+			}
+
 			if (device.Driver.HasZone)
 			{
 				if (device.Zones.Count == 0)

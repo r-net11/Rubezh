@@ -144,6 +144,28 @@ namespace FiresecService
 				query += ")";
 			}
 
+			if (journalFilter.JournalEventDescriptionType.Count > 0)
+			{
+				if (!hasWhere)
+				{
+					query += "\n Where (";
+					hasWhere = true;
+				}
+				else
+				{
+					query += "\n AND (";
+				}
+				int index = 0;
+				foreach (var journalEventDescriptionType in journalFilter.JournalEventDescriptionType)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "Description = '" + journalEventDescriptionType + "'";
+				}
+				query += ")";
+			}
+
 			if (journalFilter.JournalSubsystemTypes.Count > 0)
 			{
 				if (!hasWhere)

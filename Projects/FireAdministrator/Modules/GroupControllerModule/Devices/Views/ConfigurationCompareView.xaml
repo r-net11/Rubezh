@@ -112,7 +112,7 @@
 		</Grid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" >
 			<Button Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
-			<Controls:ToolBarButton ImageSource="/Controls;component/Images/nextDifference.png" ToolTip="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
+			<ToolBarButton ImageSource="/Controls;component/Images/nextDifference.png" ToolTip="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
 			<Controls:ToolBarButton ImageSource="/Controls;component/Images/previousDifference.png" ToolTip="Предыдущее несовпадение" Command="{Binding PreviousDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
 		</StackPanel>
 	</Grid>

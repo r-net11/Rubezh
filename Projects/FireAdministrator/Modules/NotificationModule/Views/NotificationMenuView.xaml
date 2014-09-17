@@ -6,7 +6,7 @@
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 		<Controls:ToolBarButton Command="{Binding TestCommand}" ToolTip="Тест" ImageSource="/Controls;component/Images/Alarm_main_7_Auto.png" />
 		<Controls:ToolBarButton Command="{Binding EditSenderCommand}" ToolTip="Конфигурация сервера отправки" ImageSource="/Controls;component/Images/Alarm_main_6_Service.png" />
 	</StackPanel>

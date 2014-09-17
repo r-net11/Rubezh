@@ -31,7 +31,7 @@
 
 		<StackPanel Grid.Column="1" Margin="2">
 			<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить в группу" ImageSource="/Controls;component/Images/Left.png" />
-			<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить из группы" ImageSource="/Controls;component/Images/Right.png" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить из группы" ImageSource="/Controls;component/Images/Right.png" />
 		</StackPanel>
 
 		<DataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
