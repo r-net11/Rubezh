@@ -20,11 +20,20 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
+                <DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="2 0" Source="/Controls;component/Images/Door.png" />
+                                <TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 				<DataGridTemplateColumn Width="*" Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="2 0" Source="/Controls;component/Images/Door.png" />
 								<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Door.Name}" />
 							</StackPanel>
 						</DataTemplate>

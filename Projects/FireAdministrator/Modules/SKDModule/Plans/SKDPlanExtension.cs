@@ -220,12 +220,12 @@ namespace SKDModule.Plans
 			else if (typeof(TItem) == typeof(SKDZone))
 			{
 				var zone = item as SKDZone;
-				designerItem.Title = zone == null ? "Несвязанная зона" : zone.Name;
+				designerItem.Title = zone == null ? "Несвязанная зона" : zone.PresentationName;
 			}
 			else if (typeof(TItem) == typeof(SKDDoor))
 			{
 				var door = item as SKDDoor;
-				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
+				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.PresentationName;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

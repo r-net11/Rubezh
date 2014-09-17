@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
-			Title = Door.Name;
+			Title = Door.PresentationName;
 			TopMost = true;
 		}
 

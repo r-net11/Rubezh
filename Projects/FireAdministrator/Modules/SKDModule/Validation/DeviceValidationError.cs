@@ -26,7 +26,7 @@ namespace SKDModule.Validation
 		}
 		public override string Address
 		{
-			get { return ""; }
+			get { return Object.Address; }
 		}
 		public override string ImageSource
 		{

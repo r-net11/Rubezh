@@ -1,6 +1,8 @@
 ﻿using FiresecAPI.SKD;
+using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -16,7 +18,10 @@ namespace SKDModule.ViewModels
 				Door = new SKDDoor()
 				{
 					Name = "Новая точка доступа",
+					No = 1,
 				};
+				if (SKDManager.Doors.Count != 0)
+					Door.No = (ushort)(SKDManager.Doors.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -33,9 +38,21 @@ namespace SKDModule.ViewModels
 
 		public void CopyProperties()
 		{
+			No = Door.No;
 			Name = Door.Name;
 			Description = Door.Description;
 			SelectedDoorType = Door.DoorType;
+		}
+
+		int _no;
+		public int No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged("No");
+			}
 		}
 
 		string _name;
@@ -75,11 +92,18 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Неконтролируемая территория";
+			return !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()
 		{
+			if (Door.No != No && SKDManager.Doors.Any(x => x.No == No))
+			{
+				MessageBoxService.Show("Точка доступа с таким номером уже существует");
+				return false;
+			}
+
+			Door.No = No;
 			Door.Name = Name;
 			Door.Description = Description;
 			Door.DoorType = SelectedDoorType;

@@ -60,7 +60,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private ZoneViewModel _selectedZone;
+		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
@@ -83,19 +83,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool CanEditRemove()
+		bool CanEditRemove()
 		{
 			return SelectedZone != null;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
+		void OnAdd()
 		{
 			OnAddZone();
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		private void OnDelete()
+		void OnDelete()
 		{
 			var index = Zones.IndexOf(SelectedZone);
 			SKDManager.RemoceZone(SelectedZone.Zone);
@@ -107,12 +107,12 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			OnEdit(SelectedZone);
 		}
 
-		private void RegisterShortcuts()
+		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
 			{
@@ -147,7 +147,7 @@ namespace SKDModule.ViewModels
 			_lockSelection = false;
 		}
 
-		private void SubscribeEvents()
+		void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
@@ -159,7 +159,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
-		private void OnZoneChanged(Guid zoneUID)
+		void OnZoneChanged(Guid zoneUID)
 		{
 			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
@@ -171,7 +171,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-		private void OnElementChanged(List<ElementBase> elements)
+		void OnElementChanged(List<ElementBase> elements)
 		{
 			_lockSelection = true;
 			elements.ForEach(element =>
@@ -182,7 +182,7 @@ namespace SKDModule.ViewModels
 			});
 			_lockSelection = false;
 		}
-		private void OnElementSelected(ElementBase element)
+		void OnElementSelected(ElementBase element)
 		{
 			var elementZone = GetElementSKDZone(element);
 			if (elementZone != null)
@@ -192,7 +192,7 @@ namespace SKDModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		private IElementZone GetElementSKDZone(ElementBase element)
+		IElementZone GetElementSKDZone(ElementBase element)
 		{
 			IElementZone elementZone = element as ElementRectangleSKDZone;
 			if (elementZone == null)
@@ -217,7 +217,7 @@ namespace SKDModule.ViewModels
 			RibbonItems[0][1].Command = SelectedZone == null ? null : EditCommand;
 			RibbonItems[0][2].Command = SelectedZone == null ? null : DeleteCommand;
 		}
-		private void SetRibbonItems()
+		void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
@@ -242,7 +242,7 @@ namespace SKDModule.ViewModels
 				OnEdit(zoneViewModel);
 		}
 
-		private void OnEdit(ZoneViewModel viewModel)
+		void OnEdit(ZoneViewModel viewModel)
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
@@ -252,7 +252,7 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		private ZoneViewModel OnAddZone()
+		ZoneViewModel OnAddZone()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))

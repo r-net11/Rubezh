@@ -8,13 +8,25 @@ namespace SKDModule.Validation
 	{
 		void ValidateZones()
 		{
+			ValidateZoneNoEquality();
 			ValidateZonesEquality();
+
 			foreach (var zone in SKDManager.Zones)
 			{
 				if (string.IsNullOrEmpty(zone.Name))
 				{
 					Errors.Add(new ZoneValidationError(zone, "Отсутствует название зоны", ValidationErrorLevel.CannotSave));
 				}
+			}
+		}
+
+		void ValidateZoneNoEquality()
+		{
+			var zoneNos = new HashSet<int>();
+			foreach (var zone in SKDManager.Zones)
+			{
+				if (!zoneNos.Add(zone.No))
+					Errors.Add(new ZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

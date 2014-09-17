@@ -10,7 +10,8 @@ namespace SKDModule.Validation
 	{
 		void ValidateDoors()
 		{
-			ValidateDoorsEquality();
+			ValidateDoorsNoEquality();
+			ValidateDoorNamesEquality();
 			ValidateDoorsReadersUnique();
 
 			foreach (var door in SKDManager.Doors)
@@ -49,7 +50,17 @@ namespace SKDModule.Validation
 			}
 		}
 
-		void ValidateDoorsEquality()
+		void ValidateDoorsNoEquality()
+		{
+			var doorNos = new HashSet<int>();
+			foreach (var door in SKDManager.Doors)
+			{
+				if (!doorNos.Add(door.No))
+					Errors.Add(new DoorValidationError(door, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateDoorNamesEquality()
 		{
 			var doorNames = new HashSet<string>();
 			foreach (var door in SKDManager.Doors)

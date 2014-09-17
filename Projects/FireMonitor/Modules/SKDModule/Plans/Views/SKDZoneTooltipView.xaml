@@ -10,7 +10,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 	        <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-	        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Zone.Name}" />
+            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Zone.PresentationName}" />
 	    </StackPanel>
 		<ItemsControl ItemsSource="{Binding Zone.State.StateClasses}">
 			<ItemsControl.ItemTemplate>

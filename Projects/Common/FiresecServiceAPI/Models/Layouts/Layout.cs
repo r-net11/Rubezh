@@ -13,7 +13,7 @@ namespace FiresecAPI.Models.Layouts
 			UID = Guid.NewGuid();
 			Users = new List<Guid>();
 			Parts = new List<LayoutPart>();
-			IPs = new List<string>();
+			HostNameOrAddressList = new List<string>();
 			Caption = "Макет";
 			SplitterSize = 4;
 			SplitterColor = Colors.Transparent;
@@ -27,7 +27,7 @@ namespace FiresecAPI.Models.Layouts
 		[DataMember]
 		public List<LayoutPart> Parts { get; set; }
 		[DataMember]
-		public List<string> IPs { get; set; }
+		public List<string> HostNameOrAddressList { get; set; }
 		[DataMember]
 		public Guid UID { get; set; }
 		[DataMember]

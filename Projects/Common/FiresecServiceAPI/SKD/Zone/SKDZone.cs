@@ -25,6 +25,9 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 
 		[DataMember]
+		public int No { get; set; }
+
+		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
@@ -35,7 +38,12 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
-		
+
+		public string PresentationName
+		{
+			get { return No.ToString() + "." + Name; }
+		}
+
 		public void OnChanged()
 		{
 			if (Changed != null)

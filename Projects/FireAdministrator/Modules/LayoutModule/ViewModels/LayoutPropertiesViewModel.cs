@@ -14,6 +14,7 @@ namespace LayoutModule.ViewModels
 		}
 		public Layout Layout { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
+		public IPFilterViewModel IPFilterViewModel { get; private set; }
 
 		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel)
 		{
@@ -21,6 +22,7 @@ namespace LayoutModule.ViewModels
 			Layout = layout ?? new Layout();
 			LayoutUsersViewModel = layoutUsersViewModel;
 			LayoutUsersViewModel.Update(Layout);
+			IPFilterViewModel = new IPFilterViewModel(Layout.HostNameOrAddressList);
 			CopyProperties();
 		}
 
@@ -34,8 +36,6 @@ namespace LayoutModule.ViewModels
 			BorderThickness = Layout.BorderThickness;
 			BackgroundColor = Layout.BackgroundColor;
 			Padding = Layout.Padding;
-			IPs = new ObservableCollection<IPObject>();
-			Layout.IPs.ForEach(ip => IPs.Add(new IPObject() { IP = ip }));
 			IsRibbonEnabled = Layout.IsRibbonEnabled;
 		}
 
@@ -136,9 +136,6 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-
-		public ObservableCollection<IPObject> IPs { get; private set; }
-
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Caption);
@@ -148,13 +145,13 @@ namespace LayoutModule.ViewModels
 			Layout.Caption = Caption;
 			Layout.Description = Description;
 			LayoutUsersViewModel.Save();
+			Layout.HostNameOrAddressList = IPFilterViewModel.GetModel();
 			Layout.SplitterColor = SplitterColor;
 			Layout.SplitterSize = SplitterSize;
 			Layout.BorderColor = BorderColor;
 			Layout.BorderThickness = BorderThickness;
 			Layout.BackgroundColor = BackgroundColor;
 			Layout.Padding = Padding;
-			Layout.IPs = IPs.Select(item => item.IP).ToList();
 			Layout.IsRibbonEnabled = IsRibbonEnabled;
 			return base.Save();
 		}

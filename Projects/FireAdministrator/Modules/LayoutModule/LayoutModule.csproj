@@ -130,6 +130,8 @@
     <Compile Include="ViewModels\MonitorLayoutsTreeViewModel.cs" />
     <Compile Include="ViewModels\LayoutDesignerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
+    <Compile Include="ViewModels\IPFilterViewModel.cs" />
+    <Compile Include="ViewModels\IPFilterDetailsViewModel.cs" />
     <Compile Include="Views\LayoutPartPropertyTemplateContainerPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTemplateContainerPageView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +179,9 @@
     </Compile>
     <Compile Include="Views\MonitorLayoutView.xaml.cs">
       <DependentUpon>MonitorLayoutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IPFilterDetailsView.xaml.cs">
+      <DependentUpon>IPFilterDetailsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +306,10 @@
     <Page Include="Views\MonitorLayoutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\IPFilterDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,14 +7,18 @@ namespace GKModule.ViewModels
 {
 	public class DescriptorLogicItem : BaseViewModel
 	{
-		public FormulaOperation FormulaOperation { get; private set; }
 		DescriptorsViewModel DescriptorsViewModel;
+		public FormulaOperation FormulaOperation { get; private set; }
+		public string FirstOperand { get; private set; }
+		public string SecondOperand { get; private set; }
+		public bool IsBold { get; private set; }
+		public string StateIcon { get; private set; }
+		public string DescriptorIcon { get; private set; }
 
 		public DescriptorLogicItem(FormulaOperation formulaOperation, DescriptorsViewModel descriptorsViewModel)
 		{
 			FormulaOperation = formulaOperation;
 			DescriptorsViewModel = descriptorsViewModel;
-
 			FirstOperand = FormulaOperation.FirstOperand.ToString();
 			SecondOperand = FormulaOperation.SecondOperand.ToString();
 
@@ -36,7 +40,6 @@ namespace GKModule.ViewModels
 				case FormulaOperationType.OR:
 				case FormulaOperationType.SUB:
 				case FormulaOperationType.XOR:
-				case FormulaOperationType.KOD:
 					FirstOperand = "";
 					SecondOperand = "";
 					break;
@@ -60,15 +63,30 @@ namespace GKModule.ViewModels
 						DescriptorIcon = descriptorViewModel.ImageSource;
 						SecondOperand = descriptorViewModel.Descriptor.XBase.PresentationName;
 					}
+					else
+					{
+						SecondOperand = "<Не найдено в конфигурации>";
+					}
 					break;
 			}
-		}
 
-		public string FirstOperand { get; private set; }
-		public string SecondOperand { get; private set; }
-		public bool IsBold { get; private set; }
-		public string StateIcon { get; private set; }
-		public string DescriptorIcon { get; private set; }
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.KOD)
+			{
+				FirstOperand = "";
+			}
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.CMPKOD)
+			{
+				StateIcon = null;
+				if (FormulaOperation.FirstOperand == 1)
+					FirstOperand = "если равно";
+				if (FormulaOperation.FirstOperand == 2)
+					FirstOperand = "если не равно";
+			}
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.ACS)
+			{
+				FirstOperand = FormulaOperation.FirstOperand.ToString();
+			}
+		}
 
 		public string StackIcon
 		{

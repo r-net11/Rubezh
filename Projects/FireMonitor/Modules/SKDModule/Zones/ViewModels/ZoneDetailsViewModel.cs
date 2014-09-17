@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
-			Title = Zone.Name;
+			Title = Zone.PresentationName;
 			TopMost = true;
 		}
 

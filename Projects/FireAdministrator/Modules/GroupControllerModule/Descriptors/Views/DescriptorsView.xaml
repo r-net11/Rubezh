@@ -158,7 +158,7 @@
 							<DataGridTemplateColumn Header="Операция" Width="Auto">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding FormulaOperation.FormulaOperationType}">
+										<TextBlock Text="{Binding FormulaOperation.FormulaOperationType}" Margin="2 0">
 											<TextBlock.Style>
 												<Style>
 													<Style.Triggers>

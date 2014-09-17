@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Shell = FireMonitor;
 using Infrastructure.Events;
+using System.Net;
 
 namespace FireMonitor.Layout
 {
@@ -98,7 +99,7 @@ namespace FireMonitor.Layout
 		{
 			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.IPs.Contains(ip))).ToList();
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).ToList();
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)

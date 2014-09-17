@@ -8,7 +8,7 @@ namespace SKDModule.ViewModels
 		public CardRemovalReasonViewModel()
 		{
 			Title = "Причина деактивации";
-			RemovalReason = "Утеряна " + DateTime.Now.ToString();
+			RemovalReason = "Утерян " + DateTime.Now.ToString();
 		}
 
 		string _removalReason;
@@ -20,6 +20,11 @@ namespace SKDModule.ViewModels
 				_removalReason = value;
 				OnPropertyChanged(() => RemovalReason);
 			}
+		}
+
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(RemovalReason);
 		}
 	}
 }

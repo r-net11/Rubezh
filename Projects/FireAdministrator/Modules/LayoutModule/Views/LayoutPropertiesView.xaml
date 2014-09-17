@@ -22,21 +22,30 @@
 		<TabItem Header="Пользователи">
 			<ContentPresenter Margin="-5" Content="{Binding LayoutUsersViewModel}" />
 		</TabItem>
-		<TabItem Header="Фильтр IP">
-			<DataGrid Margin="-5" CanUserAddRows="True" CanUserDeleteRows="True" IsReadOnly="False" ItemsSource="{Binding IPs}">
-				<DataGrid.Columns>
-					<DataGridTextColumn Width="*">
-						<DataGridTextColumn.Binding>
-							<Binding Path="IP" UpdateSourceTrigger="LostFocus" ValidatesOnDataErrors="True" ValidatesOnExceptions="True">
-								<Binding.ValidationRules>
-									<IPValidationRule />
-								</Binding.ValidationRules>
-							</Binding>
-						</DataGridTextColumn.Binding>
-					</DataGridTextColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-		</TabItem>
+        <TabItem Header="Фильтр IP">
+            <Grid DataContext="{Binding IPFilterViewModel}" Margin="-5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="IP адрес или имя компьютнра" Binding="{Binding .}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
+                        <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+                        <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </TabItem>
 		<TabItem Header="Стиль">
 			<Grid>
 				<Grid.ColumnDefinitions>

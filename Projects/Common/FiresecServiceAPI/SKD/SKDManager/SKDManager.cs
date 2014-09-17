@@ -72,7 +72,7 @@ namespace FiresecAPI.SKD
 		public static string GetPresentationZone(SKDDevice device)
 		{
 			if (device.Zone != null)
-				return device.Zone.Name;
+				return device.Zone.PresentationName;
 			return "";
 		}
 

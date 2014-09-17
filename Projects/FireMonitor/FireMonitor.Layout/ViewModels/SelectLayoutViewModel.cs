@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models.Layouts;
 
 namespace FireMonitor.Layout.ViewModels
 {

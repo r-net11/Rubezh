@@ -38,6 +38,5 @@ namespace SKDModule.Plans.ViewModels
 				OnPropertyChanged(() => IsDeviceExists);
 			}
 		}
-
 	}
 }

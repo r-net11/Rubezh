@@ -1,5 +1,7 @@
 ﻿using FiresecAPI.SKD;
+using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -15,7 +17,10 @@ namespace SKDModule.ViewModels
 				Zone = new SKDZone()
 				{
 					Name = "Новая зона",
+					No = 1,
 				};
+				if (SKDManager.Zones.Count != 0)
+					Zone.No = (ushort)(SKDManager.Zones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -27,8 +32,20 @@ namespace SKDModule.ViewModels
 
 		public void CopyProperties()
 		{
+			No = Zone.No;
 			Name = Zone.Name;
 			Description = Zone.Description;
+		}
+
+		int _no;
+		public int No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged("No");
+			}
 		}
 
 		string _name;
@@ -61,11 +78,18 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Неконтролируемая территория";
+			return !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()
 		{
+			if (Zone.No != No && SKDManager.Zones.Any(x => x.No == No))
+			{
+				MessageBoxService.Show("Зона с таким номером уже существует");
+				return false;
+			}
+
+			Zone.No = No;
 			Zone.Name = Name;
 			Zone.Description = Description;
 			return true;
