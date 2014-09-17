@@ -133,6 +133,7 @@ namespace AutomationModule.ViewModels
 				{
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
 					EnumType = value.EnumType;
+					ObjectType = value.ObjectType;
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}

@@ -9,13 +9,9 @@ namespace FiresecAPI.Automation
 	{
 		public FindObjectArguments()
 		{
-			Uid = Guid.NewGuid();
 			FindObjectConditions = new List<FindObjectCondition>();
-			ResultUid = new Guid();
+			ResultParameter = new ArithmeticParameter();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public List<FindObjectCondition> FindObjectConditions { get; set; }
@@ -24,6 +20,6 @@ namespace FiresecAPI.Automation
 		public JoinOperator JoinOperator { get; set; }
 
 		[DataMember]
-		public Guid ResultUid { get; set; }
+		public ArithmeticParameter ResultParameter { get; set; }
 	}
 }

@@ -10,7 +10,7 @@ namespace AutomationModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			XManager.UpdateConfiguration();
+			FiresecManager.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateGlobalVariableName();
 			ValidateProcedureName();

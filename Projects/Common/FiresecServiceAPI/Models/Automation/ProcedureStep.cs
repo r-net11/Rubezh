@@ -20,7 +20,6 @@ namespace FiresecAPI.Automation
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 			ExitArguments = new ExitArguments();
-			PersonInspectionArguments = new PersonInspectionArguments();
 			SetValueArguments = new SetValueArguments();
 			IncrementValueArguments = new IncrementValueArguments();
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
@@ -81,9 +80,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExitArguments ExitArguments { get; set; }
-
-		[DataMember]
-		public PersonInspectionArguments PersonInspectionArguments { get; set; }
 
 		[DataMember]
 		public SetValueArguments SetValueArguments { get; set; }

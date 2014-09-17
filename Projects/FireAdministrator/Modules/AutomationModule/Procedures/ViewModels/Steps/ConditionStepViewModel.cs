@@ -29,7 +29,6 @@ namespace AutomationModule.ViewModels
 				Conditions.Add(conditionViewModel);
 			}
 			JoinOperator = ConditionArguments.JoinOperator;
-
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ConditionViewModel>(OnRemove, CanRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);

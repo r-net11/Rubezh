@@ -26,7 +26,10 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return ""; }
+			get 
+			{
+				return "Максимальное значение: " + MaxValueParameter.Description;
+			}
 		}
 	}
 }

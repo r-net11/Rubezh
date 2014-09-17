@@ -99,10 +99,6 @@
 		<Views:ExitStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="personInspectionTemplate">
-		<Views:PersonInspectionStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="setValueTemplate">
 		<Views:SetValueStepView />
 	</DataTemplate>
@@ -170,7 +166,6 @@
 		PauseTemplate="{StaticResource pauseTemplate}"
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"
-		PersonInspectionTemplate="{StaticResource personInspectionTemplate}"
 		SetValueTemplate="{StaticResource setValueTemplate}"
 		IncrementValueTemplate="{StaticResource incrementGlobalValueTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"

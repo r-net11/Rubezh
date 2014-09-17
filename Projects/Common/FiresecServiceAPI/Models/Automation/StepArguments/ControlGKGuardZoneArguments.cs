@@ -9,12 +9,8 @@ namespace FiresecAPI.Automation
 	{
 		public ControlGKGuardZoneArguments()
 		{
-			Uid = Guid.NewGuid();
 			GKGuardZoneParameter = new ArithmeticParameter();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter GKGuardZoneParameter { get; set; }

@@ -50,132 +50,229 @@ namespace AutomationModule.Validation
 			switch (step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
-					ValidateStepArguments(step.SoundArguments, step);
+					{
+						var soundArguments = step.SoundArguments;
+						if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.All(x => x.Uid != soundArguments.SoundUid))
+							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+					}
 					break;
 
 				case ProcedureStepType.ShowMessage:
-					ValidateStepArguments(step.ShowMessageArguments, step);
+					{
+						var showMessageArguments = step.ShowMessageArguments;
+						ValidateArithmeticParameter(step, showMessageArguments.MessageParameter);
+					}
 					break;
 
 				case ProcedureStepType.Arithmetics:
-					ValidateStepArguments(step.ArithmeticArguments, step);
+					{
+						var arithmeticArguments = step.ArithmeticArguments;
+						if (!ValidateArithmeticParameter(step, arithmeticArguments.Parameter1))
+							break;
+						if (!ValidateArithmeticParameter(step, arithmeticArguments.Parameter2))
+							break;
+						ValidateArithmeticParameter(step, arithmeticArguments.ResultParameter);
+					}
 					break;
 
 				case ProcedureStepType.If:
-					ValidateStepArguments(step.ConditionArguments, step);
-					foreach (var condition in step.ConditionArguments.Conditions)
 					{
-						if (!ValidateStepArguments(condition, step))
-							break;
+						var conditionArguments = step.ConditionArguments;
+						foreach (var condition in conditionArguments.Conditions)
+						{
+							if (!ValidateArithmeticParameter(step, condition.Parameter1))
+								break;
+							ValidateArithmeticParameter(step, condition.Parameter2);
+						}
 					}
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					ValidateStepArguments(step.JournalArguments, step);
+					{
+						var journalArguments = step.JournalArguments;
+						ValidateArithmeticParameter(step, journalArguments.MessageParameter);
+					}
 					break;
 
 				case ProcedureStepType.FindObjects:
-					ValidateStepArguments(step.FindObjectArguments, step);
-					foreach (var findObjectCondition in step.FindObjectArguments.FindObjectConditions)
 					{
-						if (!ValidateStepArguments(findObjectCondition, step))
+						var findObjectArguments = step.FindObjectArguments;
+						if (!ValidateArithmeticParameter(step, findObjectArguments.ResultParameter))
 							break;
+						foreach (var findObjectCondition in findObjectArguments.FindObjectConditions)
+						{
+							if (!ValidateArithmeticParameter(step, findObjectCondition.SourceParameter))
+								break;
+						}
 					}
 					break;
 
 				case ProcedureStepType.Foreach:
-					ValidateStepArguments(step.ForeachArguments, step);
+					{
+						var foreachArguments = step.ForeachArguments;
+						if (!ValidateArithmeticParameter(step, foreachArguments.ItemParameter))
+							break;
+						ValidateArithmeticParameter(step, foreachArguments.ListParameter);
+					}
 					break;
 
 				case ProcedureStepType.Pause:
-					ValidateStepArguments(step.PauseArguments, step);
+					{
+						var pauseArguments = step.PauseArguments;
+						ValidateArithmeticParameter(step, pauseArguments.PauseParameter);
+					}
 					break;
 
 				case ProcedureStepType.ProcedureSelection:
-					ValidateStepArguments(step.ProcedureSelectionArguments, step);
+					{
+						var procedureSelectionArguments = step.ProcedureSelectionArguments;
+						if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
+							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+					}
 					break;
 
 				case ProcedureStepType.Exit:
-					ValidateStepArguments(step.ExitArguments, step);
-					break;
-
-				case ProcedureStepType.PersonInspection:
-					ValidateStepArguments(step.PersonInspectionArguments, step);
+					{
+						var exitArguments = step.ExitArguments;
+						ValidateArithmeticParameter(step, exitArguments.ExitCodeParameter);
+					}
 					break;
 
 				case ProcedureStepType.SetValue:
-					ValidateStepArguments(step.SetValueArguments, step);
+					{
+						var setValueArguments = step.SetValueArguments;
+						if (!ValidateArithmeticParameter(step, setValueArguments.SourceParameter))
+							break;
+						ValidateArithmeticParameter(step, setValueArguments.TargetParameter);
+					}
 					break;
 
 				case ProcedureStepType.IncrementValue:
-					ValidateStepArguments(step.IncrementValueArguments, step);
+					{
+						var incrementValueArguments = step.IncrementValueArguments;
+						ValidateArithmeticParameter(step, incrementValueArguments.ResultParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
-					ValidateStepArguments(step.ControlGKDeviceArguments, step);
+					{
+						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
+						ValidateArithmeticParameter(step, controlGKDeviceArguments.GKDeviceParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
-					ValidateStepArguments(step.ControlSKDDeviceArguments, step);
+					{
+						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;
+						ValidateArithmeticParameter(step, controlSKDDeviceArguments.SKDDeviceParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					ValidateStepArguments(step.ControlGKFireZoneArguments, step);
+					{
+						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
+						ValidateArithmeticParameter(step, controlGKFireZoneArguments.GKFireZoneParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
-					ValidateStepArguments(step.ControlGKGuardZoneArguments, step);
+					{
+						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
+						ValidateArithmeticParameter(step, controlGKGuardZoneArguments.GKGuardZoneParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlDirection:
-					ValidateStepArguments(step.ControlDirectionArguments, step);
+					{
+						var controlDirectionArguments = step.ControlDirectionArguments;
+						ValidateArithmeticParameter(step, controlDirectionArguments.DirectionParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlDoor:
-					ValidateStepArguments(step.ControlDoorArguments, step);
+					{
+						var controlDoorArguments = step.ControlDoorArguments;
+						ValidateArithmeticParameter(step, controlDoorArguments.DoorParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
-					ValidateStepArguments(step.ControlSKDZoneArguments, step);
+					{
+						var controlSKDZoneArguments = step.ControlSKDZoneArguments;
+						ValidateArithmeticParameter(step, controlSKDZoneArguments.SKDZoneParameter);
+					}
 					break;
 
 				case ProcedureStepType.ControlCamera:
-					ValidateStepArguments(step.ControlCameraArguments, step);
+					{
+						var controlCameraArguments = step.ControlCameraArguments;
+						ValidateArithmeticParameter(step, controlCameraArguments.CameraParameter);
+					}
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
-					ValidateStepArguments(step.GetObjectPropertyArguments, step);
+					{
+						var getObjectPropertyArguments = step.GetObjectPropertyArguments;
+						if (!ValidateArithmeticParameter(step, getObjectPropertyArguments.ObjectParameter))
+							break;
+						ValidateArithmeticParameter(step, getObjectPropertyArguments.ResultParameter);
+					}
 					break;
 
 				case ProcedureStepType.SendEmail:
-					ValidateStepArguments(step.SendEmailArguments, step);
+					{
+						var sendEmailArguments = step.SendEmailArguments;
+						if (!ValidateArithmeticParameter(step, sendEmailArguments.EMailAddressParameter))
+							break;
+						if (!ValidateArithmeticParameter(step, sendEmailArguments.EMailContentParameter))
+							break;
+						if (!ValidateArithmeticParameter(step, sendEmailArguments.EMailTitleParameter))
+							break;
+						if (!ValidateArithmeticParameter(step, sendEmailArguments.HostParameter))
+							break;
+						if (!ValidateArithmeticParameter(step, sendEmailArguments.LoginParameter))
+							break;
+						if (!ValidateArithmeticParameter(step, sendEmailArguments.PasswordParameter))
+							break;
+						ValidateArithmeticParameter(step, sendEmailArguments.PortParameter);
+					}
 					break;
 
 				case ProcedureStepType.RunProgramm:
-					ValidateStepArguments(step.RunProgrammArguments, step);
+					{
+						var runProgrammArguments = step.RunProgrammArguments;
+						if (!ValidateArithmeticParameter(step, runProgrammArguments.ParametersParameter))
+							break;
+						ValidateArithmeticParameter(step, runProgrammArguments.PathParameter);
+					}
 					break;
 
 				case ProcedureStepType.Random:
-					ValidateStepArguments(step.RandomArguments, step);
+					{
+						var randomArguments = step.RandomArguments;
+						ValidateArithmeticParameter(step, randomArguments.MaxValueParameter);
+					}
 					break;
 			}
 		}
 
-		bool ValidateStepArguments(object stepArguments, ProcedureStep step)
+
+		bool ValidateArithmeticParameter(ProcedureStep step, ArithmeticParameter arithmeticParameter)
 		{
-			var props = stepArguments.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-			foreach (var prop in props)
-			{
-				if (prop.PropertyType == typeof(ArithmeticParameter))
+			var localVariables = new List<Variable>(Procedure.Variables);
+			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
+			if (arithmeticParameter.VariableScope == VariableScope.GlobalVariable)
+				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != arithmeticParameter.VariableUid))
 				{
-					var arithmeticParameter = (ArithmeticParameter)prop.GetValue(stepArguments, null);
-					if (arithmeticParameter.VariableScope != VariableScope.ExplicitValue && arithmeticParameter.VariableUid == Guid.Empty)
-					{
-						Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
-						return false;
-					}
+					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+					return false;
 				}
-			}
+			if (arithmeticParameter.VariableScope == VariableScope.LocalVariable)
+				if (localVariables.All(x => x.Uid != arithmeticParameter.VariableUid))
+				{
+					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+					return false;
+				}
 			return true;
 		}
 	}

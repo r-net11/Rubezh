@@ -3,22 +3,23 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
-	<Grid>
-		<StackPanel>
-			<StackPanel Orientation="Horizontal" Margin="2">
-				<Label Content="Зона: " VerticalAlignment="Top" Width="100" />
-				<Views:ArithmeticParameterView DataContext="{Binding GKFireZoneParameter}" />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Margin="2, 4">
-				<Label Content="Команда:" Width="100" />
-				<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}" Width="165">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</StackPanel>
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Зона" />
+			<Views:ArithmeticParameterView DataContext="{Binding GKFireZoneParameter}" />
 		</StackPanel>
-	</Grid>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Команда" />
+			<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+	</StackPanel>
 </UserControl>

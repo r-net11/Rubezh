@@ -9,12 +9,8 @@ namespace FiresecAPI.Automation
 	{
 		public ControlSKDDeviceArguments()
 		{
-			Uid = Guid.NewGuid();
 			SKDDeviceParameter = new ArithmeticParameter();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter SKDDeviceParameter { get; set; }

@@ -4,10 +4,21 @@
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Тип значений" Width="100" />
-			<ComboBox ItemsSource="{Binding ExplicitTypes}" Margin="2" VerticalAlignment="Top" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
+			<Label Content="Тип значений" />
+			<ComboBox ItemsSource="{Binding ExplicitTypes}" Margin="2" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}"
+				Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" Width="200">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

@@ -9,12 +9,8 @@ namespace FiresecAPI.Automation
 	{
 		public IncrementValueArguments()
 		{
-			Uid = Guid.NewGuid();
 			ResultParameter = new ArithmeticParameter();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter ResultParameter { get; set; }

@@ -6,7 +6,7 @@
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-        <Label Content="Мксимальное значение" />
+        <Label Content="Мксимальное значение" Width="150" />
 		<Views:ArithmeticParameterView DataContext="{Binding MaxValueParameter}" />
     </StackPanel>
 </UserControl>

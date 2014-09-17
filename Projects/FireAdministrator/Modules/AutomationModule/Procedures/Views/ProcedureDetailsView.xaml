@@ -16,7 +16,7 @@
 				<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" Margin="2" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2 0" />
 			</Grid>
 		</TabItem>
 	</TabControl>

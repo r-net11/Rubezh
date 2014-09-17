@@ -74,7 +74,6 @@ namespace AutomationModule.ViewModels
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
-							new StepTypeViewModel(ProcedureStepType.PersonInspection),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.Random)

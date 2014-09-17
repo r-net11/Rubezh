@@ -10,12 +10,20 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Тип значений" />
-			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-				</DataTemplate>
-			</ComboBox.ItemTemplate>
+			<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}"
+				Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" Width="200">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">

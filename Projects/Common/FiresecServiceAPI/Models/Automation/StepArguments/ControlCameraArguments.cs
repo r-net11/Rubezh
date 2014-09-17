@@ -9,12 +9,8 @@ namespace FiresecAPI.Automation
 	{
 		public ControlCameraArguments()
 		{
-			Uid = Guid.NewGuid();
 			CameraParameter = new ArithmeticParameter();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter CameraParameter { get; set; }

@@ -4,16 +4,19 @@
 			 xmlns:views="clr-namespace:AutomationModule.Views">
 	<Grid>
 		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="240" MinWidth="240" />
 			<ColumnDefinition />
-			<ColumnDefinition Width="2*" />
 		</Grid.ColumnDefinitions>
-		<ComboBox Grid.Column="0" VerticalAlignment="Top" ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text ="{Binding Name}" />
-				</DataTemplate>
-			</ComboBox.ItemTemplate>
-		</ComboBox>
+		<StackPanel Grid.Column="0" Orientation="Horizontal">
+			<Label Content="Процедура" Margin="2" />
+			<ComboBox VerticalAlignment="Top" ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}" Width="163">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text ="{Binding Name}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
 		<views:ArgumentsView Grid.Column="1" DataContext="{Binding SelectedScheduleProcedure}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" />
 	</Grid>
 </UserControl>

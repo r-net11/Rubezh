@@ -138,6 +138,7 @@ namespace AutomationModule.ViewModels
 			Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
+			base.OnPropertyChanged(() => PresentationName);
 		}
 
 		public string PresentationName
@@ -145,7 +146,7 @@ namespace AutomationModule.ViewModels
 			get
 			{				
 				if (Device != null)
-					return Device.PresentationName;
+					return (Device.PresentationName);
 				if (Zone != null)
 					return Zone.PresentationName;
 				if (GuardZone != null)

@@ -18,12 +18,22 @@ namespace AutomationModule.ViewModels
 	{
 		FindObjectArguments FindObjectArguments { get; set; }
 		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
-		Action UpdateDescriptionHandler { get; set; }
+		public ArithmeticParameterViewModel ResultParameter { get; private set; }
 
 		public FindObjectStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			FindObjectArguments = stepViewModel.Step.FindObjectArguments;
-			UpdateDescriptionHandler = stepViewModel.Update;
+			ResultParameter = new ArithmeticParameterViewModel(FindObjectArguments.ResultParameter, stepViewModel.Update, false);
+			ResultParameter.ExplicitType = ExplicitType.Object;
+			ResultParameter.UpdateVariableHandler = UpdateConditions;
+			JoinOperator = FindObjectArguments.JoinOperator;
+			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
+			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultParameter.ObjectType));
+			foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
+			{
+				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
+				FindObjectConditions.Add(findObjectConditionViewModel);
+			}
 			UpdateContent();
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<FindObjectConditionViewModel>(OnRemove);
@@ -38,7 +48,7 @@ namespace AutomationModule.ViewModels
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
 			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
-			UpdateContent();
+			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
 		public RelayCommand<FindObjectConditionViewModel> RemoveCommand { get; private set; }
@@ -47,7 +57,7 @@ namespace AutomationModule.ViewModels
 			FindObjectConditions.Remove(findObjectConditionViewModel);
 			FindObjectArguments.FindObjectConditions.Remove(findObjectConditionViewModel.FindObjectCondition);
 			OnPropertyChanged(() => FindObjectConditions);
-			UpdateContent();
+			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
 		public RelayCommand ChangeJoinOperatorCommand { get; private set; }
@@ -63,27 +73,9 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
-			Variables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in allVariables.FindAll(x => ((x.ExplicitType == ExplicitType.Object) && (x.IsList))))
-			{
-				var variableViewModel = new VariableViewModel(variable);
-				Variables.Add(variableViewModel);
-			}
-			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == FindObjectArguments.ResultUid);
-			JoinOperator = FindObjectArguments.JoinOperator;
-			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
-			if (SelectedVariable != null)
-				foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
-				{
-					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
-					FindObjectConditions.Add(findObjectConditionViewModel);
-				}
-			else
-				FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
-			OnPropertyChanged(() => Variables);
-			OnPropertyChanged(() => SelectedVariable);
-			OnPropertyChanged(() => FindObjectConditions);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.IsList);
+			variableUidValidator = ResultParameter.ArithmeticParameter.VariableUid;
+			ResultParameter.Update(allVariables);
 			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
@@ -92,10 +84,9 @@ namespace AutomationModule.ViewModels
 			get 
 			{
 
-				var result = SelectedVariable != null ? "<" + SelectedVariable.Name + ">": "<пусто>";
 				var conditionViewModel = FindObjectConditions.FirstOrDefault();
 				if (conditionViewModel == null)
-					return "Результат: " + result + " Условие поиска: <пусто>";
+					return "Результат: " + ResultParameter.Description + " Условие поиска: <пусто>";
 
 				var var2 = conditionViewModel.SourceParameter.Description;
 				var op = "";
@@ -123,8 +114,7 @@ namespace AutomationModule.ViewModels
 				var end = "";
 				if (FindObjectConditions.Count > 1)
 					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
-
-				return "Результат: " + result + " Условие поиска: " + conditionViewModel.SelectedProperty.ToDescription() + " " + op + " " + var2 + " " + end;
+				return "Результат: " + ResultParameter.Description + " Условие поиска: " + conditionViewModel.SelectedProperty.ToDescription() + " " + op + " " + var2 + " " + end;
 			}
 		}
 
@@ -138,26 +128,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<VariableViewModel> Variables { get; private set; }
-		VariableViewModel _selectedVariable;
-		public VariableViewModel SelectedVariable
+		Guid variableUidValidator;
+		void UpdateConditions()
 		{
-			get { return _selectedVariable; }
-			set
+			if (ResultParameter.ArithmeticParameter.VariableUid != variableUidValidator)
 			{
-				_selectedVariable = value;
-				if (value != null)
-				{
-					if (FindObjectArguments.ResultUid != value.Variable.Uid)
-					{
-						FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
-						FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
-						OnPropertyChanged(() => FindObjectConditions);
-					}
-					FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(value.Variable.ObjectType));
-					FindObjectArguments.ResultUid = value.Variable.Uid;
-				}
-				OnPropertyChanged(() => SelectedVariable);
+				variableUidValidator = ResultParameter.ArithmeticParameter.VariableUid;
+				FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
+				FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
+				FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultParameter.ObjectType));
+				OnPropertyChanged(() => FindObjectConditions);
 			}
 		}
 	}

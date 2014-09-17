@@ -160,7 +160,7 @@ namespace FiresecService.Processor
 		public static void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
-			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultUid);
+			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultParameter.VariableUid);
 			if (findObjectArguments.JoinOperator == JoinOperator.Or)
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else

@@ -19,7 +19,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Тело цикла")]
 		ForeachBody,
 
-		[DescriptionAttribute("Функция выбора процедур")]
+		[DescriptionAttribute("Функция выбора процедуры")]
 		ProcedureSelection,
 
 		[DescriptionAttribute("Получить значение свойства объекта")]
@@ -30,9 +30,6 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Арифметическая операция")]
 		Arithmetics,
-
-		[DescriptionAttribute("Выборочный личный досмотр персонала")]
-		PersonInspection,
 
 		[DescriptionAttribute("Найти объекты")]
 		FindObjects,

@@ -9,12 +9,8 @@ namespace FiresecAPI.Automation
 	{
 		public ConditionArguments()
 		{
-			Uid = Guid.NewGuid();
 			Conditions = new List<Condition>();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public List<Condition> Conditions { get; set; }

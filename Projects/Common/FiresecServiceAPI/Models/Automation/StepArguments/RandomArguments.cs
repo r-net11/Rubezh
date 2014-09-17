@@ -11,12 +11,8 @@ namespace FiresecAPI.Automation
 	{
 		public RandomArguments()
 		{
-			Uid = Guid.NewGuid();
 			MaxValueParameter = new ArithmeticParameter();
 		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter MaxValueParameter { get; set; }

@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,27 +18,47 @@ namespace AutomationModule.ViewModels
 			JournalArguments = stepViewModel.Step.JournalArguments;
 			MessageParameter = new ArithmeticParameterViewModel(JournalArguments.MessageParameter, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
-			SelectedExplicitType = JournalArguments.ExplicitType;
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 			UpdateContent();
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
-		public ExplicitType SelectedExplicitType
+		public ExplicitType ExplicitType
 		{
 			get { return JournalArguments.ExplicitType; }
 			set
 			{
-				JournalArguments.ExplicitType = value;
-				MessageParameter.ExplicitType = value;
-				OnPropertyChanged(() => SelectedExplicitType);
+				JournalArguments.ExplicitType = value;				
 				UpdateContent();
+				OnPropertyChanged(() => ExplicitType);
+			}
+		}
+
+		public ObservableCollection<EnumType> EnumTypes { get; private set; }
+		public EnumType EnumType
+		{
+			get
+			{
+				return JournalArguments.EnumType;
+			}
+			set
+			{
+				JournalArguments.EnumType = value;
+				UpdateContent();
+				OnPropertyChanged(() => EnumType);
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
+			var allVariables = new List<Variable>();
+			if (ExplicitType == ExplicitType.Enum)
+				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList && x.EnumType == EnumType);
+			else
+				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
 			MessageParameter.Update(allVariables);
+			MessageParameter.ExplicitType = ExplicitType;
+			MessageParameter.EnumType = EnumType;
 		}
 
 		public override string Description

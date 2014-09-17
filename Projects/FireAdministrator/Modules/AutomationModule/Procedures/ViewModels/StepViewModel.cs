@@ -56,12 +56,8 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Exit:
 					Content = new ExitStepViewModel(this);
-					break;
-					
-				case ProcedureStepType.PersonInspection:
-					Content = new PersonInspectionStepViewModel(this);
-					break;
-				
+					break;					
+			
 				case ProcedureStepType.SetValue:
 					Content = new SetValueStepViewModel(this);
 					break;
