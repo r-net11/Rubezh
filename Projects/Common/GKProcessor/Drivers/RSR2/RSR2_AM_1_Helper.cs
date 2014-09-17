@@ -62,6 +62,36 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter5);
 			driver.Properties.Add(property1);
 
+			var property2 = new XDriverProperty()
+			{
+				IsAUParameter = false,
+				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				Name = "Сообщение для нормы",
+				Caption = "Сообщение для нормы",
+				StringDefault = "Сообщение для нормы"
+			};
+			driver.Properties.Add(property2);
+
+			var property3 = new XDriverProperty()
+			{
+				IsAUParameter = false,
+				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				Name = "Сообщение для сработки 1",
+				Caption = "Сообщение для сработки 1",
+				StringDefault = "Сообщение для сработки 1"
+			};
+			driver.Properties.Add(property3);
+
+			var property4 = new XDriverProperty()
+			{
+				IsAUParameter = false,
+				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				Name = "Сообщение для сработки 2",
+				Caption = "Сообщение для сработки 2",
+				StringDefault = "Сообщение для сработки 2"
+			};
+			driver.Properties.Add(property4);
+
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
 
 			return driver;

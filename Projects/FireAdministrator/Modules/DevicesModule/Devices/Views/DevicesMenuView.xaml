@@ -5,7 +5,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
+		<ToolBarButton Name="addButton" Command="{Binding AddCommand, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
 		<Controls:ToolBarButton Name="showPropertiesButton" Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
 		<Controls:ToolBarButton Name="removeButton" Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
 		<Controls:ToolBarButton Name="copyButton" Command="{Binding CopyCommand, UpdateSourceTrigger=PropertyChanged}" ToolTip="Копировать" ImageSource="/Controls;component/Images/copy.png" />

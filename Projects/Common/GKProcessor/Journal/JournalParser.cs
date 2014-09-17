@@ -401,6 +401,34 @@ namespace GKProcessor
 					JournalItem.ObjectUID = GuardZone.BaseUID;
 					JournalItem.ObjectName = GuardZone.PresentationName;
 				}
+
+				if (Device != null && Device.DriverType == XDriverType.RSR2_AM_1)
+				{
+					if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
+					{
+						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+						if (property != null)
+						{
+							JournalItem.Description = property.StringValue;
+						}
+					}
+					if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_1)
+					{
+						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 1");
+						if (property != null)
+						{
+							JournalItem.Description = property.StringValue;
+						}
+					}
+					if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
+					{
+						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
+						if (property != null)
+						{
+							JournalItem.Description = property.StringValue;
+						}
+					}
+				}
 			}
 		}
 

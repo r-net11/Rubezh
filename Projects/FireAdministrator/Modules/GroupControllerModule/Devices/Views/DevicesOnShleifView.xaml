@@ -32,7 +32,7 @@
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить все" ImageSource="/Controls;component/Images/SelectAll.png" />
 			<Controls:ToolBarButton Command="{Binding DeSelectAllCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
-			<Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/Copy.png" />
+			<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/Copy.png" />
 			<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 		</StackPanel>
 	</Grid>

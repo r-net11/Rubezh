@@ -182,7 +182,7 @@
 							<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 						</Grid.ColumnDefinitions>
 						<StackPanel Orientation="Horizontal" Grid.Column="1">
-							<Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" Margin="5 0" />
+							<ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" Margin="5 0" />
 							<Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" Margin="5 0" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Grid.Column="2">

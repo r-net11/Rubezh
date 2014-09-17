@@ -40,7 +40,7 @@
 		<StackPanel Grid.Column="1" Margin="2">
 			<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные МПТ" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 			<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные МПТ" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-			<Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все МПТ" ImageSource="/Controls;component/Images/LeftLeft.png" />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все МПТ" ImageSource="/Controls;component/Images/LeftLeft.png" />
 			<Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все МПТ" ImageSource="/Controls;component/Images/RightRight.png" />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceMPTs}" SelectedItem="{Binding SelectedSourceMPT}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"

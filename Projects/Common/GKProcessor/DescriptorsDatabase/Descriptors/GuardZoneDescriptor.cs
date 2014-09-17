@@ -112,6 +112,7 @@ namespace GKProcessor
 						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetAlarmLevel, guardDevice.Device.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{
@@ -158,6 +159,7 @@ namespace GKProcessor
 						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{
@@ -201,6 +203,7 @@ namespace GKProcessor
 						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.ResetGuardLevel, guardDevice.Device.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{

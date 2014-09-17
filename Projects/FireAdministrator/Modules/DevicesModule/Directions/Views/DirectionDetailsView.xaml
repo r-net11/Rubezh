@@ -53,7 +53,7 @@
 					</TextBlock>
 
 					<StackPanel Grid.Column="1" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding ResetRmCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" HorizontalAlignment="Right" />
+						<ToolBarButton Command="{Binding ResetRmCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" HorizontalAlignment="Right" />
 					</StackPanel>
 				</Grid>
 

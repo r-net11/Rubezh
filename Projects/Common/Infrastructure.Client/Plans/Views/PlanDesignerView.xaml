@@ -27,7 +27,7 @@
 			</Grid.ColumnDefinitions>
 			<DockPanel Grid.Column="0" Visibility="{Binding AllowScalePoint, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Controls:ToolBarButton Command="{Binding DeviceZoomOutCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
-				<Controls:ToolBarButton Command="{Binding DeviceZoomInCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
+				<ToolBarButton Command="{Binding DeviceZoomInCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
 				<Slider x:Name="deviceSlider" VerticalAlignment="Center" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True" Maximum="50"
 						Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None" ToolTip="Изменить размер устройства"
 						Value="30" />

@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/add.png" />
+		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/add.png" />
 		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/edit.png" />
 		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/delete.png" />
 		<Controls:ToolBarButton Command="{Binding DeleteAllCommand}" ToolTip="Удалить все инструкции" ImageSource="/Controls;component/Images/DeleteAll.png" />

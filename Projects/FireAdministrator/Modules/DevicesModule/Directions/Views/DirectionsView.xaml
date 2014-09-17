@@ -40,7 +40,7 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-					<Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/ArrowUp.png" />
+					<ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/ArrowUp.png" />
 					<Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/ArrowDown.png" />
 				</StackPanel>
 			</Grid>

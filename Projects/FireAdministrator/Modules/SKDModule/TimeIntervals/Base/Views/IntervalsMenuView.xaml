@@ -4,7 +4,7 @@
 			<Controls:ToolBarButton.ToolTip>
 				<ToolTip Content="{Binding SelectedInterval.ActivateActionTitle}" ContentStringFormat="{}{0} (Ctrl+A)" />
 			</Controls:ToolBarButton.ToolTip>
-		</Controls:ToolBarButton>
+		</ToolBarButton>
 		<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
 		<Controls:ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать (Ctrl+C)" />
 		<Controls:ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить (Ctrl+V)" />

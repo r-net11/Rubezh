@@ -13,6 +13,7 @@ namespace FiresecAPI.Journal
 		}
 
 		public JournalSubsystemType JournalSubsystemType { get; set; }
+		public JournalEventNameType JournalEventNameType { get; set; }
 		public string Name { get; set; }
 		public XStateClass StateClass { get; set; }
 	}
