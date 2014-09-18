@@ -82,5 +82,21 @@ namespace GKModule
 			}
 			return false;
 		}
+
+		public static void ShowDoor(XDoor door)
+		{
+			ServiceFactory.Events.GetEvent<ShowXDoorOnPlanEvent>().Publish(door);
+		}
+		public static bool CanShowDoor(XDoor door)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				//if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == door.BaseUID))
+				//    return true;
+				//if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == door.BaseUID))
+				//    return true;
+			}
+			return false;
+		}
 	}
 }

@@ -124,4 +124,11 @@
 		<Views:GuardZoneToolTipView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
+        <Views:DoorsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
+        <Views:DoorDetailsView />
+    </DataTemplate>
 </ResourceDictionary>

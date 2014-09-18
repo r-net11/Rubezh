@@ -17,5 +17,6 @@ namespace GKModule.Events
 		public XDelay Delay { get; set; }
 		public XPim Pim { get; set; }
 		public XGuardZone GuardZone { get; set; }
+		public XDoor Door { get; set; }
 	}
 }

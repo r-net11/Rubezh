@@ -510,6 +510,7 @@
     <Compile Include="XModels\PumpStation\XPumpStation.cs" />
     <Compile Include="XModels\SKD\XDoorType.cs" />
     <Compile Include="XModels\SKD\XSchedule.cs" />
+    <Compile Include="XModels\States\XDoorInternalState.cs" />
     <Compile Include="XModels\States\GKStates.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseInternalState.cs" />

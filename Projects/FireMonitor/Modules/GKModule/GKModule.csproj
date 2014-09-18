@@ -88,6 +88,18 @@
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
+    <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
+    <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
+    <Compile Include="Doors\ViewModels\DoorViewModel.cs" />
+    <Compile Include="Doors\Views\DoorDetailsView.xaml.cs">
+      <DependentUpon>DoorDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Doors\Views\DoorsView.xaml.cs">
+      <DependentUpon>DoorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Doors\Views\DoorToolTipView.xaml.cs">
+      <DependentUpon>DoorToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\ShowXAlarmsEvent.cs" />
     <Compile Include="Events\ShowXArchiveEvent.cs" />
     <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
@@ -347,6 +359,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\Views\DoorDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\Views\DoorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\Views\DoorToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

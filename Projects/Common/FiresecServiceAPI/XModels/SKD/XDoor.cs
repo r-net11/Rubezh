@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
-	public class XDoor : INamedBase, IIdentity
+	public class XDoor : XBase, INamedBase, IIdentity
 	{
 		public XDevice EnterDevice { get; set; }
 		public XDevice ExitDevice { get; set; }
@@ -47,10 +47,12 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public Guid LockControlDeviceUID { get; set; }
 
-		public string PresentationName
+		public override string PresentationName
 		{
 			get { return No + "." + Name; }
 		}
+
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Door; } }
 
 		public void OnChanged()
 		{
