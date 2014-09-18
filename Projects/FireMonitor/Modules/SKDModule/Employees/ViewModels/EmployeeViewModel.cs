@@ -28,6 +28,20 @@ namespace SKDModule.ViewModels
 			base.InitializeOrganisation(organisation, parentViewModel);
 		}
 
+		public bool IsOrganisationChief
+		{
+			get
+			{
+				Organisation = OrganisationHelper.GetSingle(Organisation.UID);
+				return !IsOrganisation && Organisation.ChiefUID == Model.UID;
+			}
+			set
+			{
+				if (value)
+					OrganisationHelper.SaveChief(Organisation.UID, Model.UID);
+			}
+		}
+
 		public string[] AdditionalColumnValues 
 		{ 
 			get
@@ -40,7 +54,7 @@ namespace SKDModule.ViewModels
 				foreach (var additionalColumnType in additionalColumnTypes)
 				{
 					var textColumn = Model.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
-                    var columnValue = textColumn != null ? textColumn.Text : "";
+					var columnValue = textColumn != null ? textColumn.Text : "";
 					result[i] = columnValue;
 					i++;
 				}
@@ -93,6 +107,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => AdditionalColumnValues);
+			OnPropertyChanged(() => IsOrganisationChief);
 		}
 
 		#region Cards

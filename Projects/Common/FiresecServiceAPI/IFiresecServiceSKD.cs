@@ -37,6 +37,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult MarkDeletedDepartment(Guid uid);
+
+		[OperationContract]
+		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID);
 		#endregion
 
 		#region Position
@@ -111,6 +114,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
+
+		[OperationContract]
+		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID);
 		#endregion
 
 		#region AdditionalColumnType

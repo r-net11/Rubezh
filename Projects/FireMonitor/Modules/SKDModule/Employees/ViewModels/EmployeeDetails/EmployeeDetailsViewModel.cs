@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
 			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 
-			Organisation = orgnaisation;
+			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID);
 			var employeesViewModel = (parentViewModel as EmployeesViewModel);
 			HRViewModel = employeesViewModel.HRViewModel;
 			PersonType = employeesViewModel.PersonType;
@@ -89,6 +89,7 @@ namespace SKDModule.ViewModels
 				Appointed = Employee.Appointed;
 				CredentialsStartDate = Employee.CredentialsStartDate;
 				TabelNo = Employee.TabelNo;
+				IsOrganisationChief = Organisation.ChiefUID == Employee.UID;
 			}
 			else
 			{
@@ -327,6 +328,20 @@ namespace SKDModule.ViewModels
 				{
 					_tabelNo = value;
 					OnPropertyChanged(() => TabelNo);
+				}
+			}
+		}
+
+		bool _isOrganisationChief;
+		public bool IsOrganisationChief
+		{
+			get { return _isOrganisationChief; }
+			set
+			{
+				if (_isOrganisationChief != value)
+				{
+					_isOrganisationChief = value;
+					OnPropertyChanged(() => IsOrganisationChief);
 				}
 			}
 		}
@@ -700,6 +715,10 @@ namespace SKDModule.ViewModels
 				Employee.Appointed = Appointed;
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
+				if (IsOrganisationChief && Organisation.ChiefUID != Employee.UID)
+					OrganisationHelper.SaveChief(Organisation.UID, Employee.UID);
+				else if (Organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
+					OrganisationHelper.SaveChief(Organisation.UID, Guid.Empty);
 			}
 			else
 			{

@@ -49,6 +49,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(uid));
 		}
+		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID));
+		}
 		#endregion
 
 		#region Position
@@ -175,6 +179,10 @@ namespace FiresecClient
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
+		}
+		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID));
 		}
 		#endregion
 

@@ -9,7 +9,7 @@
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
-		</Grid.RowDefinitions>
+        </Grid.RowDefinitions>
         <tree:TreeList Grid.Row="0" Name="_treeList" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" Loaded="treeList_Loaded">
 			<tree:TreeList.View>
 				<GridView>
@@ -28,6 +28,17 @@
 					</GridViewColumn>
                     <GridViewColumn Header="Отдел" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding DepartmentName}" />
                     <GridViewColumn Header="Должность" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding PositionName}" />
+                    <GridViewColumn Header="Руководитель огранизации" ListViewLayoutManager.StarWidth="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton GroupName="Chief" HorizontalAlignment="Center" Width="16"
+									    IsChecked="{Binding IsOrganisationChief, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
 				</GridView>
 			</tree:TreeList.View> 
 		</tree:TreeList>

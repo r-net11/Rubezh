@@ -46,5 +46,11 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.GetDepartmentDetails(uid.Value);
 			return Common.ShowErrorIfExists(result);
 		}
+
+		public static bool SaveChief(Guid uid, Guid chiefUID)
+		{
+			var result = FiresecManager.FiresecService.SaveDepartmentChief(uid, chiefUID);
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

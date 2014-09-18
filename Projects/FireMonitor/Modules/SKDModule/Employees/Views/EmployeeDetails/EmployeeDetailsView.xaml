@@ -19,6 +19,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
@@ -133,7 +134,10 @@
 
 					<Label Grid.Row="9" Grid.Column="0" Content="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" />
 					<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
-				</Grid>
+
+                    <Label Grid.Row="10" Grid.Column="0" Content="Руководитель организации" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <CheckBox Grid.Row="10" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
 				<ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>

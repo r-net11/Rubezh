@@ -90,20 +90,19 @@ namespace SKDModule.ViewModels
 			{
 				if (IsNew)
 				{
-					var dayCount = 0;
 					switch (SelectedScheduleSchemeType)
 					{
 						case ScheduleSchemeType.Month:
-							dayCount = 31;
+							Model.DaysCount = 31;
 							break;
 						case ScheduleSchemeType.SlideDay:
-							dayCount = 1;
+							Model.DaysCount = 1;
 							break;
-						case ScheduleSchemeType.Week:
-							dayCount = 7;
+						default:
+							Model.DaysCount = 7;
 							break;
 					}
-					for (int i = 0; i < dayCount; i++)
+					for (int i = 0; i < Model.DaysCount; i++)
 						Model.DayIntervals.Add(new ScheduleDayInterval()
 						{
 							Number = i,

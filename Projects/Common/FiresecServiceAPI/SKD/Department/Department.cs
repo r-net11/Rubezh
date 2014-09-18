@@ -37,5 +37,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> PhoneUIDs { get; set; }
+
+		[DataMember]
+		public Guid ChiefUID { get; set; }
 	}
 }

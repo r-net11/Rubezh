@@ -22,5 +22,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<ScheduleDayInterval> DayIntervals { get; set; }
+
+		[DataMember]
+		public int DaysCount { get; set; }
 	}
 }

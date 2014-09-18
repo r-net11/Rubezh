@@ -7,7 +7,6 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
-using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -106,6 +105,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.MarkDeleted(uid);
+			}
+		}
+		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
 			}
 		}
 		#endregion
@@ -410,6 +417,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.GetDetails(uid);
+			}
+		}
+		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
 		#endregion
