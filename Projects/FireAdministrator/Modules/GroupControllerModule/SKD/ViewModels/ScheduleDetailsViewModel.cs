@@ -31,6 +31,7 @@ namespace GKModule.ViewModels
 				Title = string.Format("Свойства графика работ: {0}", schedule.PresentationName);
 				Schedule = schedule;
 			}
+
 			CopyProperties();
 
 			var availableNames = new HashSet<string>();

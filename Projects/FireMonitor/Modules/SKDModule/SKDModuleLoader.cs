@@ -34,12 +34,12 @@ namespace SKDModule
 		ScheduleSchemesViewModel ScheduleSchemesViewModel;
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
-		TimeTrackingViewModel _timeTrackingViewModel;
-		PlanPresenter _planPresenter;
+		TimeTrackingViewModel TimeTrackingViewModel;
+		PlanPresenter PlanPresenter;
 
 		public SKDModuleLoader()
 		{
-			_planPresenter = new PlanPresenter();
+			PlanPresenter = new PlanPresenter();
 		}
 
 		public override void CreateViewModels()
@@ -52,7 +52,7 @@ namespace SKDModule
 			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
-			_timeTrackingViewModel = new TimeTrackingViewModel();
+			TimeTrackingViewModel = new TimeTrackingViewModel();
 
 			SubscribeShowDelailsEvent();
 		}
@@ -114,7 +114,7 @@ namespace SKDModule
 							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/HolidaysW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(_timeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", null, null),
+							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", null, null),
 						}),
 					})
 				};
@@ -122,8 +122,8 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
-			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
+			PlanPresenter.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
@@ -224,7 +224,6 @@ namespace SKDModule
 		}
 
 		#region ILayoutProviderModule Members
-
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
@@ -232,11 +231,11 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => HRViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, "Дневные графики", "Tree.png", (p) => DayIntervalsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyScheduleSchemes, "Графики", "Tree.png", (p) => ScheduleSchemesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, "Графики", "Tree.png", (p) => ScheduleSchemesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учета рабочего времени", "Tree.png", (p) => _timeTrackingViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Графики работ", "Tree.png", (p) => SchedulesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учета рабочего времени", "Tree.png", (p) => TimeTrackingViewModel);
 		}
-
 		#endregion
 	}
 }

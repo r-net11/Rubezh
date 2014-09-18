@@ -63,6 +63,21 @@ namespace GKModule.ViewModels
 			LockDevice = XManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
 			LockControlDevice = XManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
 
+			if (ExitDevice != null)
+			{
+				if (Door.DoorType == XDoorType.OneWay && ExitDevice.DriverType != XDriverType.AM_1)
+				{
+					Door.ExitDeviceUID = Guid.Empty;
+					ExitDevice = null;
+				}
+				if (Door.DoorType == XDoorType.TwoWay && ExitDevice.DriverType != XDriverType.RSR2_CodeReader)
+				{
+					Door.ExitDeviceUID = Guid.Empty;
+					ExitDevice = null;
+				}
+			}
+
+
 			OnPropertyChanged(() => EnterDevice);
 			OnPropertyChanged(() => ExitDevice);
 			OnPropertyChanged(() => LockDevice);
@@ -89,7 +104,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeExitDeviceCommand { get; private set; }
 		void OnChangeExitDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, XManager.Devices.Where(x => x.DriverType == XDriverType.RSR2_CodeReader));
+			var driverType = Door.DoorType == XDoorType.OneWay ? XDriverType.AM_1 : XDriverType.RSR2_CodeReader;
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, XManager.Devices.Where(x => x.DriverType == driverType));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.ExitDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
@@ -101,7 +117,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeLockDeviceCommand { get; private set; }
 		void OnChangeLockDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, XManager.Devices.Where(x => x.DriverType == XDriverType.RSR2_RM_1));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, XManager.Devices.Where(x => x.DriverType == XDriverType.RSR2_RM_1 || x.DriverType == XDriverType.RSR2_MVK8));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.LockDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;

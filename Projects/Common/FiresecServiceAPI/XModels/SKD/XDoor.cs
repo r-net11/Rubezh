@@ -30,6 +30,9 @@ namespace FiresecAPI.GK
 		public XDoorType DoorType { get; set; }
 
 		[DataMember]
+		public int Delay { get; set; }
+
+		[DataMember]
 		public int EnterLevel { get; set; }
 
 		[DataMember]

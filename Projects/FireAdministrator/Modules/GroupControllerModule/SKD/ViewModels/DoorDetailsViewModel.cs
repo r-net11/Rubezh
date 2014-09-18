@@ -31,6 +31,12 @@ namespace GKModule.ViewModels
 				Title = string.Format("Свойства точки доступа: {0}", door.PresentationName);
 				Door = door;
 			}
+
+			AvailableDoorTypes = new ObservableCollection<XDoorType>();
+			AvailableDoorTypes.Add(XDoorType.OneWay);
+			AvailableDoorTypes.Add(XDoorType.TwoWay);
+			SelectedDoorType = Door.DoorType;
+
 			CopyProperties();
 
 			var availableNames = new HashSet<string>();
@@ -49,6 +55,7 @@ namespace GKModule.ViewModels
 			No = Door.No;
 			Name = Door.Name;
 			Description = Door.Description;
+			Delay = Door.Delay;
 			EnterLevel = Door.EnterLevel;
 		}
 
@@ -85,6 +92,30 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<XDoorType> AvailableDoorTypes { get; private set; }
+
+		XDoorType _selectedDoorType;
+		public XDoorType SelectedDoorType
+		{
+			get { return _selectedDoorType; }
+			set
+			{
+				_selectedDoorType = value;
+				OnPropertyChanged(() => SelectedDoorType);
+			}
+		}
+
+		int _delay;
+		public int Delay
+		{
+			get { return _delay; }
+			set
+			{
+				_delay = value;
+				OnPropertyChanged(() => Delay);
+			}
+		}
+
 		int _enterLevel;
 		public int EnterLevel
 		{
@@ -110,6 +141,7 @@ namespace GKModule.ViewModels
 			Door.No = No;
 			Door.Name = Name;
 			Door.Description = Description;
+			Door.Delay = Delay;
 			Door.EnterLevel = EnterLevel;
 			return base.Save();
 		}
