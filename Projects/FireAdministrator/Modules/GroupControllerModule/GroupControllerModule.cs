@@ -34,6 +34,7 @@ namespace GKModule
 		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		DoorsViewModel DoorsViewModel;
+		SchedulesViewModel SchedulesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
@@ -62,6 +63,7 @@ namespace GKModule
 			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
+			SchedulesViewModel = new SchedulesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
@@ -84,6 +86,7 @@ namespace GKModule
 			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
+			SchedulesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
 			OPCZonesViewModel.Initialize();
@@ -112,7 +115,13 @@ namespace GKModule
 						{
 							new NavigationItem<ShowXGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
 							new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+						}),
+
+											new NavigationItem("СКД", "/Controls;component/Images/tree.png",
+						new List<NavigationItem>()
+						{
 							new NavigationItem<ShowXDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXScheduleEvent, Guid>(SchedulesViewModel, "Графики", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
 						}),
 
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),

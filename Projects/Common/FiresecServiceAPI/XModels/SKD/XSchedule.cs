@@ -7,13 +7,8 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
-	public class XDoor : INamedBase, IIdentity
+	public class XSchedule : INamedBase, IIdentity
 	{
-		public XDevice EnterDevice { get; set; }
-		public XDevice ExitDevice { get; set; }
-		public XDevice LockDevice { get; set; }
-		public XDevice LockControlDevice { get; set; }
-
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -25,21 +20,6 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public string Description { get; set; }
-
-		[DataMember]
-		public int EnterLevel { get; set; }
-
-		[DataMember]
-		public Guid EnterDeviceUID { get; set; }
-
-		[DataMember]
-		public Guid ExitDeviceUID { get; set; }
-
-		[DataMember]
-		public Guid LockDeviceUID { get; set; }
-
-		[DataMember]
-		public Guid LockControlDeviceUID { get; set; }
 
 		public string PresentationName
 		{

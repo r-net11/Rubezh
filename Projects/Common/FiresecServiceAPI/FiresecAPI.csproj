@@ -263,7 +263,7 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
-    <Compile Include="XModels\Door\XDoor.cs" />
+    <Compile Include="XModels\SKD\XDoor.cs" />
     <Compile Include="XModels\Guard\XCodeReaderEnterType.cs" />
     <Compile Include="XModels\Guard\XCodeReaderSettings.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
@@ -508,6 +508,8 @@
     <Compile Include="XModels\MPT\XMPT.cs" />
     <Compile Include="XModels\PIM\XPim.cs" />
     <Compile Include="XModels\PumpStation\XPumpStation.cs" />
+    <Compile Include="XModels\SKD\XDoorType.cs" />
+    <Compile Include="XModels\SKD\XSchedule.cs" />
     <Compile Include="XModels\States\GKStates.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseInternalState.cs" />

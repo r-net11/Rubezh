@@ -77,6 +77,7 @@ namespace FiresecAPI.GK
 			InitializeGuardZones();
 			InitializeCodes();
 			InitializeDoors();
+			InitializeSchedules();
 			UpdateGKChildrenDescription();
 		}
 
@@ -437,6 +438,14 @@ namespace FiresecAPI.GK
 				door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
 				if (door.LockControlDevice == null)
 					door.LockControlDeviceUID = Guid.Empty;
+			}
+		}
+
+		void InitializeSchedules()
+		{
+			foreach (var schedule in Schedules)
+			{
+
 			}
 		}
 

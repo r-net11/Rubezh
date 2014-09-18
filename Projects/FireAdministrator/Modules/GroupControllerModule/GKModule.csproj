@@ -134,12 +134,13 @@
     <Compile Include="Events\ShowXDelayStationEvent.cs" />
     <Compile Include="Events\ShowXDoorEvent.cs" />
     <Compile Include="Events\CreateXDoorEvent.cs" />
+    <Compile Include="Events\ShowXScheduleEvent.cs" />
+    <Compile Include="Events\CreateXScheduleEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeSelectionViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesViewModel.cs" />
-    <Compile Include="Guard\ViewModels\DoorsViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDevicesViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDeviceViewModel.cs" />
@@ -148,9 +149,6 @@
     <Compile Include="Guard\ViewModels\GuardZoneViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeViewModel.cs" />
-    <Compile Include="Guard\ViewModels\DoorsMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\DoorViewModel.cs" />
-    <Compile Include="Guard\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="Guard\Views\CodeReaderDetailsView.xaml.cs">
       <DependentUpon>CodeReaderDetailsView.xaml</DependentUpon>
     </Compile>
@@ -166,9 +164,6 @@
     <Compile Include="Guard\Views\CodesView.xaml.cs">
       <DependentUpon>CodesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\DoorsView.xaml.cs">
-      <DependentUpon>DoorsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Guard\Views\GuardZoneDetailsView.xaml.cs">
       <DependentUpon>GuardZoneDetailsView.xaml</DependentUpon>
     </Compile>
@@ -180,12 +175,6 @@
     </Compile>
     <Compile Include="Guard\Views\CodeDetailsView.xaml.cs">
       <DependentUpon>CodeDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\DoorsMenuView.xaml.cs">
-      <DependentUpon>DoorsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\DoorDetailsView.xaml.cs">
-      <DependentUpon>DoorDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
@@ -402,6 +391,32 @@
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DoorViewModel.cs" />
+    <Compile Include="SKD\ViewModels\ScheduleDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SchedulesMenuViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SchedulesViewModel.cs" />
+    <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="SKD\Views\DoorDetailsView.xaml.cs">
+      <DependentUpon>DoorDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DoorsMenuView.xaml.cs">
+      <DependentUpon>DoorsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DoorsView.xaml.cs">
+      <DependentUpon>DoorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\ScheduleDetailsView.xaml.cs">
+      <DependentUpon>ScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\SchedulesMenuView.xaml.cs">
+      <DependentUpon>SchedulesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\SchedulesView.xaml.cs">
+      <DependentUpon>SchedulesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
     <Compile Include="Validation\Validator.Codes.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
@@ -421,6 +436,8 @@
     <Compile Include="Validation\Validator.GuardZones.cs" />
     <Compile Include="Validation\Validator.Doors.cs" />
     <Compile Include="Validation\DoorValidationError.cs" />
+    <Compile Include="Validation\ScheduleValidationError.cs" />
+    <Compile Include="Validation\Validator.Schedules.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
@@ -571,10 +588,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\DoorsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Guard\Views\GuardZoneDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -584,14 +597,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Guard\Views\GuardZonesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Guard\Views\DoorsMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Guard\Views\DoorDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -748,6 +753,30 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\DelaysSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DoorDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DoorsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DoorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\ScheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\SchedulesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\SchedulesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
