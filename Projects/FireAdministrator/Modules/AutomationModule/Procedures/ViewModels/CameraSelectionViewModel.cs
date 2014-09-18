@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -11,6 +12,7 @@ namespace AutomationModule.ViewModels
 	{
 		public CameraSelectionViewModel(Camera camera)
 		{
+			Title = "Выбор видеоустройства";
 			var cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var cam in FiresecManager.SystemConfiguration.Cameras)
 			{
@@ -18,10 +20,13 @@ namespace AutomationModule.ViewModels
 				cameras.Add(cameraViewModel);
 			}
 			RootCameras = cameras.ToArray();
+
 			if (camera != null)
-				SelectedCamera = RootCameras.FirstOrDefault(x => x.Camera.UID == camera.UID);
+				SelectedCamera = AllCameras.FirstOrDefault(x => x.Camera.UID == camera.UID);
 			if (SelectedCamera == null)
-				SelectedCamera = RootCameras.FirstOrDefault();
+				SelectedCamera = AllCameras.FirstOrDefault();
+			if (SelectedCamera != null)
+				SelectedCamera.ExpandToThis();
 		}
 
 		CameraViewModel AddCameraInternal(Camera camera, CameraViewModel parentCameraViewModel)
@@ -48,9 +53,22 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		List<CameraViewModel> AllCameras 
+		{ 
+			get
+			{
+				var cameras = new List<CameraViewModel>();
+				foreach (var rootCamera in RootCameras)
+				{
+					cameras.AddRange(rootCamera.GetAllChildren());
+				}
+				return cameras;
+			}
+		}
+
 		protected override bool CanSave()
 		{
-			return ((SelectedCamera != null) && (!SelectedCamera.IsDvr));
+			return ((SelectedCamera == null) || (!SelectedCamera.IsDvr));
 		}
 	}
 }

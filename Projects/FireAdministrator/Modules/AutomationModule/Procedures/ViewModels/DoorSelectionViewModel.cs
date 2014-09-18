@@ -30,10 +30,5 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedDoor);
 			}
 		}
-
-		protected override bool CanSave()
-		{
-			return SelectedDoor != null;
-		}
 	}
 }

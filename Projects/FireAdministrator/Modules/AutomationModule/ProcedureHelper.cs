@@ -64,56 +64,56 @@ namespace AutomationModule
 			{
 				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentVariableItem.Device != null ? currentVariableItem.Device : null);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-					currentVariableItem.UidValue = deviceSelectationViewModel.SelectedDevice.Device.UID;
+					currentVariableItem.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.Zone)
 			{
 				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentVariableItem.Zone != null ? currentVariableItem.Zone : null);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-					currentVariableItem.UidValue = zoneSelectationViewModel.SelectedZone.Zone.UID;
+					currentVariableItem.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.GuardZone)
 			{
 				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentVariableItem.GuardZone != null ? currentVariableItem.GuardZone : null);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
-					currentVariableItem.UidValue = guardZoneSelectationViewModel.SelectedZone.GuardZone.UID;
+					currentVariableItem.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.SKDDevice)
 			{
 				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentVariableItem.SKDDevice != null ? currentVariableItem.SKDDevice : null);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
-					currentVariableItem.UidValue = skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID;
+					currentVariableItem.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.SKDZone)
 			{
 				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentVariableItem.SKDZone != null ? currentVariableItem.SKDZone : null);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
-					currentVariableItem.UidValue = skdZoneSelectationViewModel.SelectedZone.SKDZone.UID;
+					currentVariableItem.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.ControlDoor)
 			{
 				var doorSelectationViewModel = new DoorSelectionViewModel(currentVariableItem.SKDDoor != null ? currentVariableItem.SKDDoor : null);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-					currentVariableItem.UidValue = doorSelectationViewModel.SelectedDoor.Door.UID;
+					currentVariableItem.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.Direction)
 			{
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentVariableItem.Direction != null ? currentVariableItem.Direction : null);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
-					currentVariableItem.UidValue = directionSelectationViewModel.SelectedDirection.Direction.UID;
+					currentVariableItem.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
 			}
 
 			if (objectType == ObjectType.VideoDevice)
 			{
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentVariableItem.Camera != null ? currentVariableItem.Camera : null);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
-					currentVariableItem.UidValue = cameraSelectionViewModel.SelectedCamera.Camera.UID;
+					currentVariableItem.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
 			}
 		}
 	}

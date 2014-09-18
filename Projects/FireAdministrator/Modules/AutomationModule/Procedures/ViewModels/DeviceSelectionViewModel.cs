@@ -59,7 +59,7 @@ namespace AutomationModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return ((SelectedDevice != null) && ((SelectedDevice.Device.Driver.IsControlDevice) || (SelectedDevice.Device.Driver.IsDeviceOnShleif)));
+			return ((SelectedDevice == null) || ((SelectedDevice.Device.Driver.IsControlDevice) || (SelectedDevice.Device.Driver.IsDeviceOnShleif)));
 		}
 	}
 }

@@ -4,11 +4,11 @@ namespace FiresecAPI.Automation
 {
 	public enum VariableScope
 	{
-		[Description("Глобальная переменная")]
-		GlobalVariable,
-
 		[Description("Локальная переменная")]
 		LocalVariable,
+
+		[Description("Глобальная переменная")]
+		GlobalVariable,
 
 		[Description("Явное значение")]
 		ExplicitValue

@@ -31,10 +31,5 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedZone);
 			}
 		}
-
-		protected override bool CanSave()
-		{
-			return SelectedZone != null;
-		}
 	}
 }

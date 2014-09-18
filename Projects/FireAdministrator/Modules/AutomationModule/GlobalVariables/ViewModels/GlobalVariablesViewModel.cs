@@ -9,17 +9,20 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace AutomationModule.ViewModels
 {
 	public class GlobalVariablesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public GlobalVariablesViewModel()
-		{
+		{			
 			Menu = new GlobalVariablesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -109,6 +112,13 @@ namespace AutomationModule.ViewModels
 			{
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(item => item.Variable.Uid == globalVariableUid);
 			}
+		}
+
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 	}
 }

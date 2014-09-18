@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="AutomationModule.Views.VariablesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -12,9 +13,9 @@
 			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
+		<Controls:XDataGrid Grid.Row="1" CanUserSortColumns="True" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Имя" Width="*">
+				<DataGridTemplateColumn Header="Имя" Width="*" SortMemberPath="Name" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -78,6 +79,6 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-		</DataGrid>
+		</Controls:XDataGrid>
 	</Grid>
 </UserControl>

@@ -140,6 +140,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ShowMessageStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariablesMenuViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
@@ -265,6 +266,9 @@
     </Compile>
     <Compile Include="Procedures\Views\ArithmeticParameterView.xaml.cs">
       <DependentUpon>ArithmeticParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariablesMenuView.xaml.cs">
+      <DependentUpon>VariablesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
@@ -569,6 +573,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\ArithmeticParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\VariablesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

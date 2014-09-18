@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
 
-	<DataGrid ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
+	<XDataGrid ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Имя" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
@@ -55,5 +55,5 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>
-	</DataGrid>
+	</XDataGrid>
 </UserControl>

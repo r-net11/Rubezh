@@ -88,6 +88,8 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedObjectType = value;
 				VariableItems = new ObservableCollection<VariableItemViewModel>();
+				CurrentVariableItem = new VariableItemViewModel(new VariableItem());
+				OnPropertyChanged(() => CurrentVariableItem);
 				OnPropertyChanged(() => VariableItems);
 				OnPropertyChanged(() => SelectedObjectType);
 			}

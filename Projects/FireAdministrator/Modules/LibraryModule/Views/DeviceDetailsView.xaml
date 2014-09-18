@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="LibraryModule.Views.DeviceDeailsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 MinWidth="600" MinHeight="600">
 	<DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" CanUserSortColumns="True">
 		<DataGrid.Resources>

@@ -31,10 +31,5 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
-
-		protected override bool CanSave()
-		{
-			return SelectedDirection != null;
-		}
 	}
 }

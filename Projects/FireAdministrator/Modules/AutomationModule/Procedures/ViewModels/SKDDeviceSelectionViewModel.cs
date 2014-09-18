@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.SKDDevice.DriverType == SKDDriverType.Lock));
+			return ((SelectedDevice == null) || (SelectedDevice.SKDDevice.DriverType == SKDDriverType.Lock));
 		}
 	}
 }
