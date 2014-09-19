@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
-				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
-				if (descriptionAttributes.Length > 0)
+				EventNameAttribute[] eventNameAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
+				if (eventNameAttributes.Length > 0)
 				{
-					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
-					Name = eventDescriptionAttribute.Name;
-					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
-					StateClass = eventDescriptionAttribute.StateClass;
+					EventNameAttribute eventNameAttribute = eventNameAttributes[0];
+					Name = eventNameAttribute.Name;
+					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
+					StateClass = eventNameAttribute.StateClass;
 				}
 			}
 

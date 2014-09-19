@@ -7,13 +7,13 @@ namespace GKModule.ViewModels
 {
 	public class ArchiveDescriptionViewModel : CheckBoxItemViewModel
 	{
-		public ArchiveDescriptionViewModel(Description description, List<string> distinctDatabaseDescriptions)
+		public ArchiveDescriptionViewModel(string description, List<string> distinctDatabaseDescriptions)
 		{
 			Description = description;
-			IsEnabled = distinctDatabaseDescriptions.Any(x => x == description.Name);
+			IsEnabled = distinctDatabaseDescriptions.Any(x => x == description);
 		}
 
-		public Description Description { get; private set; }
+		public string Description { get; private set; }
 
 		bool _isEnabled;
 		public bool IsEnabled
@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 				return -1;
 			if (!x.IsEnabled && y.IsEnabled)
 				return 1;
-			return x.Description.Name.CompareTo(y.Description.Name);
+			return x.Description.CompareTo(y.Description);
 		}
 	}
 }

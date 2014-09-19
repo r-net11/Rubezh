@@ -141,7 +141,7 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Уточнение" FontWeight="Bold">
+					<TextBlock Text="Уточнение" FontWeight="Bold" Visibility="Collapsed">
 						<TextBlock.Style>
 							<Style>
 								<Style.Triggers>
@@ -162,7 +162,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal"  IsEnabled="{Binding IsEnabled}">
 								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-								<TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2" />
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
