@@ -13,16 +13,26 @@ namespace SKDModule.ViewModels
 
 		public EmployeeSelectionViewModel(Guid selectedEmployeeUID, EmployeeFilter filter)
 		{
-			Title = "Выбор руководителя";
-			_filter = filter;
-			var employeeModels = EmployeeHelper.Get(_filter);
-			if (employeeModels == null)
-				return;	
-			Employees = new ObservableCollection<ShortEmployee>(employeeModels);
+			Initialize(filter);
 			if (selectedEmployeeUID != Guid.Empty)
 			{
 				SelectedEmployee = Employees.FirstOrDefault(x => x.UID == selectedEmployeeUID);
 			}
+		}
+
+		public EmployeeSelectionViewModel(EmployeeFilter filter)
+		{
+			Initialize(filter);
+		}
+
+		void Initialize(EmployeeFilter filter)
+		{
+			Title = "Выбор руководителя";
+			_filter = filter;
+			var employeeModels = EmployeeHelper.Get(_filter);
+			if (employeeModels == null)
+				return;
+			Employees = new ObservableCollection<ShortEmployee>(employeeModels);
 		}
 
 		public ObservableCollection<ShortEmployee> Employees { get; set; }

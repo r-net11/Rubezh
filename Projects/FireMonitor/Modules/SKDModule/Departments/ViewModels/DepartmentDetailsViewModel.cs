@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -130,4 +132,6 @@ namespace SKDModule.ViewModels
 			return DepartmentHelper.Save(Department);
 		}
 	}
+
+	
 }

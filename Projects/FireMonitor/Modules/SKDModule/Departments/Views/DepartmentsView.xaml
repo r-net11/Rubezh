@@ -8,31 +8,70 @@
 		<viewModel:DepartmentViewModelNameComparer x:Key="DepartmentViewModelNameComparer" />
 		<viewModel:DepartmentViewModelDescriptionComparer x:Key="DepartmentViewModelDescriptionComparer" />
 	</UserControl.Resources>
-
-    <tree:TreeList Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
-		<tree:TreeList.View>
-			<GridView>
-                <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelNameComparer}">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-								<Image Width="16" Source="/Controls;component/Images/Department.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-								<TextBlock Text="{Binding Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-                <GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelDescriptionComparer}">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Description}" />
-							</StackPanel>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-			</GridView>
-		</tree:TreeList.View>
-	</tree:TreeList>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="200" />
+		</Grid.RowDefinitions>
+		<tree:TreeList Grid.Row="0" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelNameComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<Image Width="16" Source="/Controls;component/Images/Department.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<TextBlock Text="{Binding Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelDescriptionComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Description}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+		<Grid Grid.Row="2" DataContext="{Binding SelectedItem}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" ItemsSource="{Binding DepartmentEmployeeListViewModel.Employees}" SelectedItem="{Binding DepartmentEmployeeListViewModel.SelectedEmployee}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="ФИО" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<!--<RadioButton GroupName="Chief" HorizontalAlignment="Center" Width="16" Margin="2 0"
+										IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
+									<TextBlock Text="{Binding ShortEmployee.Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<!--<DataGridTextColumn Header="Отдел" Width="*" Binding="{Binding ShortEmployee.DepartmentName}" />-->
+					<DataGridTextColumn Header="Должность" Width="*" Binding="{Binding ShortEmployee.PositionName}" />
+				</DataGrid.Columns>
+			</DataGrid>
+			<StackPanel Grid.Row="1" Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
+                    <ToolBarButton Command="{Binding DepartmentEmployeeListViewModel.AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" />
+                    <ToolBarButton Command="{Binding DepartmentEmployeeListViewModel.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" />
+                    <ToolBarButton Command="{Binding DepartmentEmployeeListViewModel.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" />
+				</StackPanel>
+			</StackPanel>
+		</Grid>
+		
+	</Grid>
 </UserControl>

@@ -113,8 +113,6 @@ namespace Controls
 				stream.Close();
 				return;
 			}
-
-
 			string fileName = null;
 			foreach (var item in Clipboard.GetFileDropList())
 			{
@@ -122,7 +120,12 @@ namespace Controls
 				break;
 			}
 			if (fileName != null)
-				Data = System.IO.File.ReadAllBytes(fileName);
+			{
+				if (Path.GetExtension(fileName) == "" || System.Drawing.Image.FromFile(fileName) != null)
+					MessageBoxService.Show("В буфере обмена не отсутствуют изображения");
+				else
+					Data = System.IO.File.ReadAllBytes(fileName);
+			}
 		}
 
 		void ScannerButton_Click(object sender, RoutedEventArgs e)

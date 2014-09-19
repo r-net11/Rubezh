@@ -119,12 +119,14 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="ChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="HRChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Department_Department" Member="Departments" ThisKey="UID" OtherKey="ParentDepartmentUID" Type="Department" />
       <Association Name="Department_Employee" Member="Employees" ThisKey="UID" OtherKey="DepartmentUID" Type="Employee" />
       <Association Name="Department_Department" Member="Department1" ThisKey="ParentDepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" />
       <Association Name="Employee_Department" Member="Employee" ThisKey="ChiefUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Employee_Department1" Member="Employee1" ThisKey="ContactEmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Employee_Department2" Member="Employee2" ThisKey="AttendantUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+      <Association Name="Employee_Department3" Member="Employee3" ThisKey="HRChiefUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Organisation_Department" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
       <Association Name="Photo_Department" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
@@ -163,6 +165,7 @@
       <Association Name="Employee_Department" Member="Departments" ThisKey="UID" OtherKey="ChiefUID" Type="Department" />
       <Association Name="Employee_Department1" Member="Departments1" ThisKey="UID" OtherKey="ContactEmployeeUID" Type="Department" />
       <Association Name="Employee_Department2" Member="Departments2" ThisKey="UID" OtherKey="AttendantUID" Type="Department" />
+      <Association Name="Employee_Department3" Member="Departments3" ThisKey="UID" OtherKey="HRChiefUID" Type="Department" />
       <Association Name="Employee_Employee" Member="Employees" ThisKey="UID" OtherKey="EscortUID" Type="Employee" />
       <Association Name="Employee_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
       <Association Name="Employee_Organisation" Member="Organisations" ThisKey="UID" OtherKey="ChiefUID" Type="Organisation" />

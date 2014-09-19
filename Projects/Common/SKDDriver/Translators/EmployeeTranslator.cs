@@ -210,5 +210,35 @@ namespace SKDDriver
 			}
 			return new OperationResult();
 		}
+
+		public OperationResult SaveDepartment(Guid uid, Guid departmentUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.DepartmentUID = departmentUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		public OperationResult SavePosition(Guid uid, Guid positionUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.PositionUID = positionUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
 	}
 }

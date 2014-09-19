@@ -74,6 +74,22 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
+			}
+		}
+		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
+			}
+		}
 		#endregion
 
 		#region Department
@@ -113,6 +129,15 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
+			}
+		}
+
+		public OperationResult SaveDepartmentHRChief(Guid uid, Guid hrChiefUID)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.SaveHRChief(uid, hrChiefUID);
 			}
 		}
 		#endregion

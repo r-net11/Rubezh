@@ -41,10 +41,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectChiefCommand { get; private set; }
 		void OnSelectChief()
 		{
-			var positionSelectionViewModel = new EmployeeSelectionViewModel(HasChief ? Chief.UID : Guid.Empty, _filter);
-			if (DialogService.ShowModalWindow(positionSelectionViewModel))
+			var employeeSelectionViewModel = new EmployeeSelectionViewModel(HasChief ? Chief.UID : Guid.Empty, _filter);
+			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
-				Chief = positionSelectionViewModel.SelectedEmployee;
+				Chief = employeeSelectionViewModel.SelectedEmployee;
 			}
 		}
 	}

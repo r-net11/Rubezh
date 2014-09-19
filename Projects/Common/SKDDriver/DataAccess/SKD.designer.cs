@@ -2796,6 +2796,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _ChiefUID;
 		
+		private System.Guid _HRChiefUID;
+		
 		private EntitySet<Department> _Departments;
 		
 		private EntitySet<Employee> _Employees;
@@ -2807,6 +2809,8 @@ namespace SKDDriver.DataAccess
 		private EntityRef<Employee> _Employee1;
 		
 		private EntityRef<Employee> _Employee2;
+		
+		private EntityRef<Employee> _Employee3;
 		
 		private EntityRef<Organisation> _Organisation;
 		
@@ -2838,6 +2842,8 @@ namespace SKDDriver.DataAccess
     partial void OnOrganisationUIDChanged();
     partial void OnChiefUIDChanging(System.Guid value);
     partial void OnChiefUIDChanged();
+    partial void OnHRChiefUIDChanging(System.Guid value);
+    partial void OnHRChiefUIDChanged();
     #endregion
 		
 		public Department()
@@ -2848,6 +2854,7 @@ namespace SKDDriver.DataAccess
 			this._Employee = default(EntityRef<Employee>);
 			this._Employee1 = default(EntityRef<Employee>);
 			this._Employee2 = default(EntityRef<Employee>);
+			this._Employee3 = default(EntityRef<Employee>);
 			this._Organisation = default(EntityRef<Organisation>);
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
@@ -3097,6 +3104,30 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRChiefUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid HRChiefUID
+		{
+			get
+			{
+				return this._HRChiefUID;
+			}
+			set
+			{
+				if ((this._HRChiefUID != value))
+				{
+					if (this._Employee3.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnHRChiefUIDChanging(value);
+					this.SendPropertyChanging();
+					this._HRChiefUID = value;
+					this.SendPropertyChanged("HRChiefUID");
+					this.OnHRChiefUIDChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Department", Storage="_Departments", ThisKey="UID", OtherKey="ParentDepartmentUID")]
 		public EntitySet<Department> Departments
 		{
@@ -3255,6 +3286,40 @@ namespace SKDDriver.DataAccess
 						this._AttendantUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Employee2");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department3", Storage="_Employee3", ThisKey="HRChiefUID", OtherKey="UID", IsForeignKey=true)]
+		public Employee Employee3
+		{
+			get
+			{
+				return this._Employee3.Entity;
+			}
+			set
+			{
+				Employee previousValue = this._Employee3.Entity;
+				if (((previousValue != value) 
+							|| (this._Employee3.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Employee3.Entity = null;
+						previousValue.Departments3.Remove(this);
+					}
+					this._Employee3.Entity = value;
+					if ((value != null))
+					{
+						value.Departments3.Add(this);
+						this._HRChiefUID = value.UID;
+					}
+					else
+					{
+						this._HRChiefUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Employee3");
 				}
 			}
 		}
@@ -3442,6 +3507,8 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Department> _Departments2;
 		
+		private EntitySet<Department> _Departments3;
+		
 		private EntitySet<Employee> _Employees;
 		
 		private EntitySet<GuardZone> _GuardZones;
@@ -3531,6 +3598,7 @@ namespace SKDDriver.DataAccess
 			this._Departments = new EntitySet<Department>(new Action<Department>(this.attach_Departments), new Action<Department>(this.detach_Departments));
 			this._Departments1 = new EntitySet<Department>(new Action<Department>(this.attach_Departments1), new Action<Department>(this.detach_Departments1));
 			this._Departments2 = new EntitySet<Department>(new Action<Department>(this.attach_Departments2), new Action<Department>(this.detach_Departments2));
+			this._Departments3 = new EntitySet<Department>(new Action<Department>(this.attach_Departments3), new Action<Department>(this.detach_Departments3));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
 			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
 			this._Organisations = new EntitySet<Organisation>(new Action<Organisation>(this.attach_Organisations), new Action<Organisation>(this.detach_Organisations));
@@ -4174,6 +4242,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department3", Storage="_Departments3", ThisKey="UID", OtherKey="HRChiefUID")]
+		public EntitySet<Department> Departments3
+		{
+			get
+			{
+				return this._Departments3;
+			}
+			set
+			{
+				this._Departments3.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Employee", Storage="_Employees", ThisKey="UID", OtherKey="EscortUID")]
 		public EntitySet<Employee> Employees
 		{
@@ -4521,6 +4602,18 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Employee2 = null;
+		}
+		
+		private void attach_Departments3(Department entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee3 = this;
+		}
+		
+		private void detach_Departments3(Department entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee3 = null;
 		}
 		
 		private void attach_Employees(Employee entity)
