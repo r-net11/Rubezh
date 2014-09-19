@@ -145,14 +145,11 @@
     <Compile Include="Drivers\RSR2\RSR2_FirePump_Helper.cs" />
     <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
-    <Compile Include="Journal\Description.cs" />
-    <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.Common.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelperNamesDescriptions.cs" />
     <Compile Include="Journal\JournalParser.cs" />
-    <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />
     <Compile Include="Patching\Patch.cs" />

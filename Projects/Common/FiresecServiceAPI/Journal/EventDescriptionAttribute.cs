@@ -1,20 +1,19 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.GK;
+using System.Collections.Generic;
 
 namespace FiresecAPI.Journal
 {
 	public class EventDescriptionAttribute : Attribute
 	{
-		public EventDescriptionAttribute(JournalSubsystemType journalSubsystemType, string name, XStateClass stateClass)
+		public EventDescriptionAttribute(string name, params JournalEventNameType[] journalEventNameTypes)
 		{
-			JournalSubsystemType = journalSubsystemType;
 			Name = name;
-			StateClass = stateClass;
+			JournalEventNameTypes = journalEventNameTypes.ToList();
 		}
 
-		public JournalSubsystemType JournalSubsystemType { get; set; }
-		public JournalEventNameType JournalEventNameType { get; set; }
 		public string Name { get; set; }
-		public XStateClass StateClass { get; set; }
+		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
 	}
 }

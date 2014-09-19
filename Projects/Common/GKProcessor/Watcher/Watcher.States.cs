@@ -253,7 +253,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x106)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_НС;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_МПТ;
 				}
 			}
 			if (xBase is XDelay)

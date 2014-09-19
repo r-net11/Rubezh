@@ -67,7 +67,7 @@ namespace GKProcessor
 
 						case 7:
 							JournalItem.JournalEventNameType = JournalEventNameType.Вход_пользователя_в_прибор;
-							JournalItem.Description = JournalStringsHelper.ToUser(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
 							bytes1.AddRange(bytes2);
@@ -77,7 +77,7 @@ namespace GKProcessor
 
 						case 8:
 							JournalItem.JournalEventNameType = JournalEventNameType.Выход_пользователя_из_прибора;
-							JournalItem.Description = JournalStringsHelper.ToUser(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
@@ -175,7 +175,7 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_Охранной_Зоны;
 							}
-							JournalItem.Description = JournalStringsHelper.ToFire(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 3:
@@ -184,7 +184,7 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_2;
 							}
-							JournalItem.Description = JournalStringsHelper.ToFire(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 4:
@@ -201,11 +201,11 @@ namespace GKProcessor
 							switch (JournalItem.DescriptorType)
 							{
 								case 0xD6:
-									JournalItem.Description = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
+									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
 									break;
 
 								default:
-									JournalItem.Description = JournalStringsHelper.ToFailure(bytes[32 + 15]);
+									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15]);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
 									{
 										var firstAdditionalDescription = bytes[32 + 16];
@@ -229,11 +229,11 @@ namespace GKProcessor
 							switch (bytes[32 + 15])
 							{
 								case 1:
-									JournalItem.Description = "Кнопка";
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Кнопка;
 									break;
 
 								case 2:
-									JournalItem.Description = "Указка";
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Указка;
 									break;
 							}
 							break;
@@ -248,18 +248,18 @@ namespace GKProcessor
 							switch (bytes[32 + 15])
 							{
 								case 1:
-									JournalItem.Description = "Предварительная";
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Предварительная;
 									break;
 
 								case 2:
-									JournalItem.Description = "Критическая";
+									JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Критическая;
 									break;
 							}
 							break;
 
 						case 8:
 							JournalItem.JournalEventNameType = JournalEventNameType.Информация;
-							JournalItem.Description = JournalStringsHelper.ToInformation(bytes[32 + 15]);
+							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToInformation(bytes[32 + 15]);
 							break;
 
 						case 9:
@@ -308,7 +308,10 @@ namespace GKProcessor
 			}
 
 			JournalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(JournalItem.JournalEventNameType);
-			JournalItem.Name = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventNameType);
+			if (JournalItem.JournalEventNameType != JournalEventNameType.NULL)
+				JournalItem.Name = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventNameType);
+			if (JournalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
+				JournalItem.Description = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventDescriptionType);
 
 			//if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
 			//{

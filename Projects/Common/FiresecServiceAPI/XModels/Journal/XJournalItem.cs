@@ -27,6 +27,8 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public JournalEventNameType JournalEventNameType { get; set; }
 		[DataMember]
+		public JournalEventDescriptionType JournalEventDescriptionType { get; set; }
+		[DataMember]
 		public string Name { get; set; }
 		[DataMember]
 		public string Description { get; set; }

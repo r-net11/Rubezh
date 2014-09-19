@@ -26,10 +26,10 @@ namespace FiltersModule.ViewModels
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
-				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
+				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
 				if (descriptionAttributes.Length > 0)
 				{
-					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
+					EventNameAttribute eventDescriptionAttribute = descriptionAttributes[0];
 					Name = eventDescriptionAttribute.Name;
 					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
 					StateClass = eventDescriptionAttribute.StateClass;

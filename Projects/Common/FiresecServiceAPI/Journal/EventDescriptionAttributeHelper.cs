@@ -11,6 +11,22 @@ namespace FiresecAPI.Journal
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
+				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
+				if (descriptionAttributes.Length > 0)
+				{
+					EventNameAttribute eventDescriptionAttribute = descriptionAttributes[0];
+					name = eventDescriptionAttribute.Name;
+				}
+			}
+			return name;
+		}
+
+		public static string ToName(JournalEventDescriptionType journalEventDescriptionType)
+		{
+			string name = null;
+			FieldInfo fieldInfo = journalEventDescriptionType.GetType().GetField(journalEventDescriptionType.ToString());
+			if (fieldInfo != null)
+			{
 				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
 				if (descriptionAttributes.Length > 0)
 				{
@@ -27,10 +43,10 @@ namespace FiresecAPI.Journal
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
-				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
+				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
 				if (descriptionAttributes.Length > 0)
 				{
-					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
+					EventNameAttribute eventDescriptionAttribute = descriptionAttributes[0];
 					subsystemType = eventDescriptionAttribute.JournalSubsystemType;
 				}
 			}
@@ -43,10 +59,10 @@ namespace FiresecAPI.Journal
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
-				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
+				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
 				if (descriptionAttributes.Length > 0)
 				{
-					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
+					EventNameAttribute eventDescriptionAttribute = descriptionAttributes[0];
 					stateClass = eventDescriptionAttribute.StateClass;
 				}
 			}
