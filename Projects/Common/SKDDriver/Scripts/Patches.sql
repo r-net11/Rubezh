@@ -884,3 +884,21 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('OrganisationChiefUID')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DepartmentChiefUID_NOCHECK')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		ALTER TABLE [dbo].Department NOCHECK CONSTRAINT [FK_Department_Employee]
+	END
+	INSERT INTO Patches (Id) VALUES ('DepartmentChiefUID_NOCHECK')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationChiefUID_NOCHECK')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
+	BEGIN
+		ALTER TABLE [dbo].Organisation NOCHECK CONSTRAINT [FK_Organisation_Employee]
+	END
+	INSERT INTO Patches (Id) VALUES ('OrganisationChiefUID_NOCHECK')
+END

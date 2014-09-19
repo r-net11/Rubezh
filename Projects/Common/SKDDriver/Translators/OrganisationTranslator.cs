@@ -252,8 +252,7 @@ namespace SKDDriver
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				var employee = Context.Employees.FirstOrDefault(x => x.UID == chiefUID);
-				tableItem.Employee = employee;
+				tableItem.ChiefUID = chiefUID;
 				Table.Context.SubmitChanges();
 			}
 			catch (Exception e)
