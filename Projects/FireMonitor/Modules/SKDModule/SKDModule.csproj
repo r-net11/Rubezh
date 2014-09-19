@@ -74,6 +74,7 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
+    <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
@@ -117,7 +118,7 @@
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\PositionSelectionViewModel.cs" />
+    <Compile Include="Common\ViewModels\PositionSelectionViewModel.cs" />
     <Compile Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml.cs">
       <DependentUpon>DocumentTypeSelectionView.xaml</DependentUpon>
     </Compile>
@@ -136,7 +137,7 @@
     <Compile Include="Employees\Views\EmployeeDetails\DepartmentSelectionView.xaml.cs">
       <DependentUpon>DepartmentSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml.cs">
+    <Compile Include="Common\Views\PositionSelectionView.xaml.cs">
       <DependentUpon>PositionSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
@@ -148,6 +149,10 @@
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\EmployeeSelectionViewModel.cs" />
+    <Compile Include="Organisations\Views\EmployeeSelectionView.xaml.cs">
+      <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PassCardDesigner\Designer\DesignerCanvas.cs" />
     <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
     <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
@@ -601,7 +606,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml">
+    <Page Include="Common\Views\PositionSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -615,6 +620,10 @@
     <Resource Include="Reports\T13_2.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Organisations\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PassCardDesigner\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

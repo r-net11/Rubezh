@@ -108,6 +108,13 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => AdditionalColumnValues);
 			OnPropertyChanged(() => IsOrganisationChief);
+			if (IsOrganisation)
+			{
+				foreach (var child in Children)
+				{
+					child.Update();
+				}
+			}
 		}
 
 		#region Cards

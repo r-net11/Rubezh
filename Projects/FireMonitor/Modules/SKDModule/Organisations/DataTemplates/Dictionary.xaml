@@ -4,4 +4,8 @@
 		<Views:OrganisationDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeSelectionViewModel}">
+		<Views:EmployeeSelectionView />
+	</DataTemplate>
+
 </ResourceDictionary>

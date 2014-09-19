@@ -300,6 +300,7 @@ namespace SKDDriver
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
 					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+					tableItem.ChiefUID = apiItem.ChiefUID;
 					Table.InsertOnSubmit(tableItem);
 				}
 				else
@@ -310,6 +311,7 @@ namespace SKDDriver
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
 					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+					tableItem.ChiefUID = apiItem.ChiefUID;
 				}
 				Context.SubmitChanges();
 				return new OperationResult();
