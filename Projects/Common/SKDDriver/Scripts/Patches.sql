@@ -884,4 +884,3 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('OrganisationChiefUID')
 END
-GO
