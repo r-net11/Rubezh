@@ -14,6 +14,7 @@ namespace FiresecAPI.Journal
 			UseDeviceDateTime = false;
 			JournalSubsystemTypes = new List<JournalSubsystemType>();
 			JournalEventNameTypes = new List<JournalEventNameType>();
+			JournalEventDescriptionTypes = new List<JournalEventDescriptionType>();
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 		}
@@ -32,6 +33,9 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+
+		[DataMember]
+		public List<JournalEventDescriptionType> JournalEventDescriptionTypes { get; set; }
 
 		[DataMember]
 		public List<JournalObjectType> JournalObjectTypes { get; set; }

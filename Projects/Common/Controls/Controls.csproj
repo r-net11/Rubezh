@@ -992,7 +992,7 @@
     <Resource Include="Images\BArchive.png" />
     <Resource Include="FSIcons\RSR2_Siren.png" />
     <Resource Include="FSIcons\RSR2_Table.png" />
-    <Resource Include="Images\blank.png" />
+    <Resource Include="Images\Blank.png" />
     <Resource Include="GKIcons\Battery.png" />
     <Resource Include="Images\NextDifference.png" />
     <Resource Include="Images\previousDifference.png" />

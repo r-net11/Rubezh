@@ -16,6 +16,7 @@ namespace FiltersModule.ViewModels
 			{
 				Title = "Добавить фильтр";
 				Filter = new JournalFilter();
+				Name = "Новый фильтр";
 			}
 			else
 			{
@@ -80,8 +81,9 @@ namespace FiltersModule.ViewModels
 			Filter.LastItemsCount = LastItemsCount;
 
 			var namesFilter = FilterNamesViewModel.GetModel();
-			Filter.JournalEventNameTypes = namesFilter.JournalEventNameTypes;
 			Filter.JournalSubsystemTypes = namesFilter.JournalSubsystemTypes;
+			Filter.JournalEventNameTypes = namesFilter.JournalEventNameTypes;
+			Filter.JournalEventDescriptionTypes = namesFilter.JournalEventDescriptionTypes;
 
 			var objectsFilter = FilterObjectsViewModel.GetModel();
 			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)

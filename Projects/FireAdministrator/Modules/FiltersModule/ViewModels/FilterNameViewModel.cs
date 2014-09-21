@@ -5,15 +5,23 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using Infrastructure.Common.TreeList;
 using Controls.Converters;
+using System;
 
 namespace FiltersModule.ViewModels
 {
 	public class FilterNameViewModel : TreeNodeViewModel<FilterNameViewModel>
 	{
+		public JournalSubsystemType JournalSubsystemType { get; private set; }
+		public JournalEventNameType JournalEventNameType { get; private set; }
+		public JournalEventDescriptionType JournalEventDescriptionType { get; private set; }
+
+		public string Name { get; private set; }
+		public string ImageSource { get; private set; }
+		public XStateClass StateClass { get; private set; }
+
 		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
 		{
 			JournalSubsystemType = journalSubsystemType;
-			IsSubsystem = true;
 			Name = journalSubsystemType.ToDescription();
 			var converter = new JournalSubsystemTypeToIconConverter();
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
@@ -26,28 +34,27 @@ namespace FiltersModule.ViewModels
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
-				EventNameAttribute[] descriptionAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
-				if (descriptionAttributes.Length > 0)
+				EventNameAttribute[] eventNameAttributes = (EventNameAttribute[])fieldInfo.GetCustomAttributes(typeof(EventNameAttribute), false);
+				if (eventNameAttributes.Length > 0)
 				{
-					EventNameAttribute eventDescriptionAttribute = descriptionAttributes[0];
-					Name = eventDescriptionAttribute.Name;
-					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
-					StateClass = eventDescriptionAttribute.StateClass;
+					EventNameAttribute eventNameAttribute = eventNameAttributes[0];
+					Name = eventNameAttribute.Name;
+					JournalSubsystemType = eventNameAttribute.JournalSubsystemType;
+					StateClass = eventNameAttribute.StateClass;
 					if (StateClass == XStateClass.Norm)
 						ImageSource = null;
 					else
 						ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
 				}
 			}
-			IsSubsystem = false;
 		}
 
-		public JournalEventNameType JournalEventNameType { get; private set; }
-		public string Name { get; private set; }
-		public string ImageSource { get; private set; }
-		public XStateClass StateClass { get; private set; }
-		public JournalSubsystemType JournalSubsystemType { get; private set; }
-		public bool IsSubsystem { get; private set; }
+		public FilterNameViewModel(JournalEventDescriptionType journalEventDescriptionType, string name)
+		{
+			JournalEventDescriptionType = journalEventDescriptionType;
+			Name = name;
+			ImageSource = "/Controls;component/Images/Blank.png";
+		}
 
 		bool _isChecked;
 		public bool IsChecked
@@ -55,25 +62,32 @@ namespace FiltersModule.ViewModels
 			get { return _isChecked; }
 			set
 			{
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
-
-				if (IsSubsystem)
-				{
-					foreach (var child in Children)
-					{
-						child.SetIsChecked(value);
-					}
-				}
-				else if (Parent != null)
-				{
-					var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
-					Parent.SetIsChecked(isAllChecked);
-				}
+				SetIsChecked(value);
+				PropogateDown(value);
+				PropogateUp(value);
 			}
 		}
 
-		public void SetIsChecked(bool value)
+		void PropogateDown(bool value)
+		{
+			foreach (var child in Children)
+			{
+				child.SetIsChecked(value);
+				child.PropogateDown(value);
+			}
+		}
+
+		void PropogateUp(bool value)
+		{
+			if (Parent != null)
+			{
+				var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
+				Parent.SetIsChecked(isAllChecked);
+				Parent.PropogateUp(value);
+			}
+		}
+
+		void SetIsChecked(bool value)
 		{
 			_isChecked = value;
 			OnPropertyChanged(() => IsChecked);

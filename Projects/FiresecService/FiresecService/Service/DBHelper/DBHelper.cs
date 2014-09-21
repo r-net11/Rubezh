@@ -144,7 +144,7 @@ namespace FiresecService
 				query += ")";
 			}
 
-			if (journalFilter.JournalEventDescriptionType.Count > 0)
+			if (journalFilter.JournalEventDescriptionTypes.Count > 0)
 			{
 				if (!hasWhere)
 				{
@@ -156,7 +156,7 @@ namespace FiresecService
 					query += "\n AND (";
 				}
 				int index = 0;
-				foreach (var journalEventDescriptionType in journalFilter.JournalEventDescriptionType)
+				foreach (var journalEventDescriptionType in journalFilter.JournalEventDescriptionTypes)
 				{
 					if (index > 0)
 						query += "\n OR ";
