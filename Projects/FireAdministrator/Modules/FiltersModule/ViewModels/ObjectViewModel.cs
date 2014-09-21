@@ -10,11 +10,19 @@ using Controls.Converters;
 
 namespace FiltersModule.ViewModels
 {
-	public class FilterObjectViewModel : TreeNodeViewModel<FilterObjectViewModel>
+	public class ObjectViewModel : TreeNodeViewModel<ObjectViewModel>
 	{
 		public Guid UID { get; private set; }
+		public JournalEventNameType JournalEventNameType { get; private set; }
+		public string Name { get; private set; }
+		public string ImageSource { get; private set; }
+		public XStateClass StateClass { get; private set; }
+		public JournalSubsystemType JournalSubsystemType { get; private set; }
+		public bool IsSubsystem { get; private set; }
+		public bool IsObjectGroup { get; private set; }
+		public JournalObjectType JournalObjectType { get; private set; }
 
-		public FilterObjectViewModel(JournalSubsystemType journalSubsystemType)
+		public ObjectViewModel(JournalSubsystemType journalSubsystemType)
 		{
 			JournalSubsystemType = journalSubsystemType;
 			IsSubsystem = true;
@@ -23,7 +31,7 @@ namespace FiltersModule.ViewModels
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
 		}
 
-		public FilterObjectViewModel(JournalObjectType journalObjectType)
+		public ObjectViewModel(JournalObjectType journalObjectType)
 		{
 			JournalObjectType = journalObjectType;
 			Name = journalObjectType.ToDescription();
@@ -58,6 +66,9 @@ namespace FiltersModule.ViewModels
 					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
+				case JournalObjectType.GKDoor:
+					break;
+
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
@@ -76,91 +87,89 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		public FilterObjectViewModel(XDevice device)
+		public ObjectViewModel(XDevice device)
 		{
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
 
-		public FilterObjectViewModel(XZone zone)
+		public ObjectViewModel(XZone zone)
 		{
 			Name = zone.PresentationName;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
-		public FilterObjectViewModel(XDirection direction)
+		public ObjectViewModel(XDirection direction)
 		{
 			Name = direction.PresentationName;
 			UID = direction.UID;
 			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 
-		public FilterObjectViewModel(XMPT mpt)
+		public ObjectViewModel(XMPT mpt)
 		{
 			Name = mpt.PresentationName;
 			UID = mpt.BaseUID;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
-		public FilterObjectViewModel(XPumpStation pumpStation)
+		public ObjectViewModel(XPumpStation pumpStation)
 		{
 			Name = pumpStation.PresentationName;
 			UID = pumpStation.UID;
 			ImageSource = "/Controls;component/Images/BPumpStation.png";
 		}
 
-		public FilterObjectViewModel(XDelay delay)
+		public ObjectViewModel(XDelay delay)
 		{
 			Name = delay.PresentationName;
 			UID = delay.BaseUID;
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 
-		public FilterObjectViewModel(XGuardZone guardZone)
+		public ObjectViewModel(XGuardZone guardZone)
 		{
 			Name = guardZone.PresentationName;
 			UID = guardZone.UID;
 			ImageSource = "/Controls;component/Images/GuardZone.png";
 		}
 
-		public FilterObjectViewModel(SKDDevice device)
+		public ObjectViewModel(XDoor door)
+		{
+			Name = door.PresentationName;
+			UID = door.UID;
+			ImageSource = "/Controls;component/Images/Door.png";
+		}
+
+		public ObjectViewModel(SKDDevice device)
 		{
 			Name = device.Name;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
 
-		public FilterObjectViewModel(SKDZone zone)
+		public ObjectViewModel(SKDZone zone)
 		{
 			Name = zone.Name;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
-		public FilterObjectViewModel(SKDDoor door)
+		public ObjectViewModel(SKDDoor door)
 		{
 			Name = door.Name;
 			UID = door.UID;
 			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
-		public FilterObjectViewModel(FiresecAPI.Models.Camera camera)
+		public ObjectViewModel(FiresecAPI.Models.Camera camera)
 		{
 			Name = camera.Name;
 			UID = camera.UID;
 			ImageSource = "/Controls;component/Images/Camera.png";
 		}
-
-		public JournalEventNameType JournalEventNameType { get; private set; }
-		public string Name { get; private set; }
-		public string ImageSource { get; private set; }
-		public XStateClass StateClass { get; private set; }
-		public JournalSubsystemType JournalSubsystemType { get; private set; }
-		public bool IsSubsystem { get; private set; }
-		public bool IsObjectGroup { get; private set; }
-		public JournalObjectType JournalObjectType { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

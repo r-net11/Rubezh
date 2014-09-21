@@ -9,7 +9,7 @@ using System;
 
 namespace FiltersModule.ViewModels
 {
-	public class FilterNameViewModel : TreeNodeViewModel<FilterNameViewModel>
+	public class NameViewModel : TreeNodeViewModel<NameViewModel>
 	{
 		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public JournalEventNameType JournalEventNameType { get; private set; }
@@ -19,7 +19,7 @@ namespace FiltersModule.ViewModels
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
 
-		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
+		public NameViewModel(JournalSubsystemType journalSubsystemType)
 		{
 			JournalSubsystemType = journalSubsystemType;
 			Name = journalSubsystemType.ToDescription();
@@ -27,7 +27,7 @@ namespace FiltersModule.ViewModels
 			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
 		}
 
-		public FilterNameViewModel(JournalEventNameType journalEventNameType)
+		public NameViewModel(JournalEventNameType journalEventNameType)
 		{
 			JournalEventNameType = journalEventNameType;
 
@@ -49,7 +49,7 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		public FilterNameViewModel(JournalEventDescriptionType journalEventDescriptionType, string name)
+		public NameViewModel(JournalEventDescriptionType journalEventDescriptionType, string name)
 		{
 			JournalEventDescriptionType = journalEventDescriptionType;
 			Name = name;

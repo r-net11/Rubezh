@@ -31,6 +31,9 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Охранные Зоны ГК")]
 		GKGuardZone,
 
+		[DescriptionAttribute("Точки доступа ГК")]
+		GKDoor,
+
 		[DescriptionAttribute("Устройства СКД")]
 		SKDDevice,
 
