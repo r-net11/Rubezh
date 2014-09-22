@@ -26,6 +26,7 @@ namespace AutomationModule.ViewModels
 			GKDeviceParameter.SelectedObjectType = ObjectType.Device;
 			GKDeviceParameter.ExplicitType = ExplicitType.Object;
 			GKDeviceParameter.UpdateVariableScopeHandler = Update;
+			GKDeviceParameter.ExplicitValue.UpdateObjectHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
 			UpdateContent();
 		}

@@ -27,6 +27,7 @@ namespace AutomationModule.ViewModels
 		public XDirection Direction { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
+		public Action UpdateObjectHandler { get; set; }
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
@@ -120,6 +121,8 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.UidValue = value;
 				Initialize(value);
+				if (UpdateObjectHandler != null)
+					UpdateObjectHandler();
 				OnPropertyChanged(() => UidValue);
 			}
 		}
