@@ -31,7 +31,7 @@ namespace FiresecService.Processor
 						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 							continue;
 
-						AutomationProcessorRunner.Run(procedure, new List<Argument>());
+						AutomationProcessorRunner.Run(procedure, new List<Variable>());
 					}
 				}
 			}
