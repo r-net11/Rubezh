@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecService.Processor;
 
 namespace FiresecService.Service
 {
@@ -64,6 +65,10 @@ namespace FiresecService.Service
 
 				case XJournalObjectType.GuardZone:
 					journalItem.JournalObjectType = JournalObjectType.GKGuardZone;
+					break;
+
+				case XJournalObjectType.Door:
+					journalItem.JournalObjectType = JournalObjectType.GKDoor;
 					break;
 			}
 
@@ -150,6 +155,7 @@ namespace FiresecService.Service
 		{
 			DBHelper.Add(journalItem);
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+			AutomationProcessorRunner.RunOnJournal(journalItem);
 		}
 
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)

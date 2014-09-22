@@ -11,6 +11,39 @@ namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
+		public static void RunOnJournal(JournalItem journalItem)
+		{
+			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
+			{
+				foreach (var filtersUID in procedure.FiltersUids)
+				{
+					var filter = ConfigurationCashHelper.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == filtersUID);
+					if (filter != null)
+					{
+						if (filter.JournalSubsystemTypes.Count > 0 && !filter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
+							continue;
+						if (filter.JournalEventNameTypes.Count > 0 && !filter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
+							continue;
+						if (filter.JournalEventDescriptionTypes.Count > 0 && !filter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
+							continue;
+						if (filter.JournalObjectTypes.Count > 0 && !filter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+							continue;
+						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
+							continue;
+
+						AutomationProcessorRunner.Run(procedure, new List<Argument>());
+					}
+				}
+			}
+		}
+
+		public static void RunOnStateChanged()
+		{
+			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
+			{
+			}
+		}
+
 		public static List<Thread> ProceduresThreads { get; private set; }
 
 		static AutomationProcessorRunner()

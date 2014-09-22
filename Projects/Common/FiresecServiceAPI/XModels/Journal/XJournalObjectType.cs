@@ -47,6 +47,10 @@ namespace FiresecAPI.GK
 		GuardZone,
 
 		[EnumMember]
+		[DescriptionAttribute("Точка доступа")]
+		Door,
+
+		[EnumMember]
 		[DescriptionAttribute("Пользователь прибора")]
 		GkUser
 	}
