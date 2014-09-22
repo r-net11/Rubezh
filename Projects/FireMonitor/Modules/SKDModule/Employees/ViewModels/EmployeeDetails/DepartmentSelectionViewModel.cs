@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -85,7 +84,6 @@ namespace SKDModule.ViewModels
 			var hasParentDepartment = SelectedDepartment != null;
 			if (hasParentDepartment)
 				parentDepartmentUID = SelectedDepartment.Department.UID;
-			//var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationUID, null, parentDepartmentUID);
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
 			departmentDetailsViewModel.Initialize(OrganisationUID, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
@@ -102,7 +100,8 @@ namespace SKDModule.ViewModels
 				}
 				departmentViewModel.ExpandToThis();
 				SelectedDepartment = departmentViewModel;
-				HRViewModel.UpdateDepartments();
+				if(HRViewModel != null)
+					HRViewModel.UpdateDepartments();
 			}
 		}
 

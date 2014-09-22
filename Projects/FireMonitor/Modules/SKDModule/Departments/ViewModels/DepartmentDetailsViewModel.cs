@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -19,7 +17,6 @@ namespace SKDModule.ViewModels
 		public bool Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
 			OrganisationUID = organisation.UID;
-
 			if (shortDepartment == null)
 			{
 				Title = "Создание отдела";
@@ -52,6 +49,7 @@ namespace SKDModule.ViewModels
 				OrganisationUID = OrganisationUID
 			};
 			CopyProperties();
+			ChiefViewModel = new ChiefViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 		}
 
 		public void CopyProperties()

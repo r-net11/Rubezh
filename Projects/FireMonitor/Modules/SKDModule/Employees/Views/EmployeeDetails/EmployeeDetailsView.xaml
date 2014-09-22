@@ -33,9 +33,9 @@
 					
 					<Label Grid.Row="2" Grid.Column="0" Content="Отчество" HorizontalAlignment="Right" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					
-					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" />
@@ -53,9 +53,9 @@
 							</Hyperlink>
 						</TextBlock>
 					</StackPanel>
-					
-					<Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" />
-					<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+
+                    <Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />

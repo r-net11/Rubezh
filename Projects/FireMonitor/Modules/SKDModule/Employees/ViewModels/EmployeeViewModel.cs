@@ -28,20 +28,6 @@ namespace SKDModule.ViewModels
 			base.InitializeOrganisation(organisation, parentViewModel);
 		}
 
-		public bool IsOrganisationChief
-		{
-			get
-			{
-				Organisation = OrganisationHelper.GetSingle(Organisation.UID);
-				return !IsOrganisation && Organisation.ChiefUID == Model.UID;
-			}
-			set
-			{
-				if (value)
-					OrganisationHelper.SaveChief(Organisation.UID, Model.UID);
-			}
-		}
-
 		public string[] AdditionalColumnValues 
 		{ 
 			get
@@ -107,7 +93,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => AdditionalColumnValues);
-			OnPropertyChanged(() => IsOrganisationChief);
 			if (IsOrganisation)
 			{
 				foreach (var child in Children)

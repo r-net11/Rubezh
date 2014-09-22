@@ -63,7 +63,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool SetPosition(Guid employeeUID, Guid positionUID)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveEmployeeDepartment(employeeUID, positionUID);
+			var operationResult = FiresecManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID);
 			return Common.ShowErrorIfExists(operationResult); 
 		}
 

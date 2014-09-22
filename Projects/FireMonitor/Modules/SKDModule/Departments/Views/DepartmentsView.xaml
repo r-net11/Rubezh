@@ -3,7 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+			 xmlns:Views="clr-namespace:SKDModule.Views">
 	<UserControl.Resources>
 		<viewModel:DepartmentViewModelNameComparer x:Key="DepartmentViewModelNameComparer" />
 		<viewModel:DepartmentViewModelDescriptionComparer x:Key="DepartmentViewModelDescriptionComparer" />
@@ -41,37 +42,7 @@
 			</tree:TreeList.View>
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Grid Grid.Row="2" DataContext="{Binding SelectedItem}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding DepartmentEmployeeListViewModel.Employees}" SelectedItem="{Binding DepartmentEmployeeListViewModel.SelectedEmployee}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="ФИО" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<!--<RadioButton GroupName="Chief" HorizontalAlignment="Center" Width="16" Margin="2 0"
-										IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
-									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
-									<TextBlock Text="{Binding ShortEmployee.Name}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<!--<DataGridTextColumn Header="Отдел" Width="*" Binding="{Binding ShortEmployee.DepartmentName}" />-->
-					<DataGridTextColumn Header="Должность" Width="*" Binding="{Binding ShortEmployee.PositionName}" />
-				</DataGrid.Columns>
-			</DataGrid>
-			<StackPanel Grid.Row="1" Orientation="Horizontal">
-				<StackPanel Orientation="Horizontal">
-                    <ToolBarButton Command="{Binding DepartmentEmployeeListViewModel.AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" />
-                    <ToolBarButton Command="{Binding DepartmentEmployeeListViewModel.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" />
-                    <ToolBarButton Command="{Binding DepartmentEmployeeListViewModel.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" />
-				</StackPanel>
-			</StackPanel>
-		</Grid>
-		
+		<Views:EmployeeListView Grid.Row="2" DataContext="{Binding SelectedItem.EmployeeListViewModel}" 
+			  Visibility="{Binding DataContext.SelectedItem.IsOrganisation, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 	</Grid>
 </UserControl>

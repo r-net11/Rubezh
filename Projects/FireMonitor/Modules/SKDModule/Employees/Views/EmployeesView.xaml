@@ -28,16 +28,6 @@
 					</GridViewColumn>
                     <GridViewColumn Header="Отдел" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding DepartmentName}" />
                     <GridViewColumn Header="Должность" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding PositionName}" />
-                    <GridViewColumn Header="Руководитель огранизации" ListViewLayoutManager.StarWidth="1">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <RadioButton GroupName="Chief" HorizontalAlignment="Center" Width="16"
-									    IsChecked="{Binding IsOrganisationChief, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                 </GridView>
 			</tree:TreeList.View> 
 		</tree:TreeList>
