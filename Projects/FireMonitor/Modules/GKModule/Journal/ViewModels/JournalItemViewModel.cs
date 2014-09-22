@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
@@ -8,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using FiresecAPI.Journal;
 
 namespace GKModule.ViewModels
 {
@@ -16,6 +18,8 @@ namespace GKModule.ViewModels
 		public XJournalItem JournalItem { get; private set; }
 		public bool IsExistsInConfig { get; private set; }
 		public string PresentationName { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
@@ -32,7 +36,30 @@ namespace GKModule.ViewModels
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowInTree);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+
 			JournalItem = journalItem;
+
+			if (journalItem.JournalEventNameType != JournalEventNameType.NULL)
+			{
+				Name = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
+			}
+			else
+			{
+				Name = journalItem.Name;
+			}
+
+			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
+			{
+				Description = journalItem.JournalEventDescriptionType.ToDescription();
+			}
+			else
+			{
+				Description = journalItem.Description;
+
+				if (!string.IsNullOrEmpty(JournalItem.AdditionalDescription))
+					Description = JournalItem.Description + " " + JournalItem.AdditionalDescription;
+				Description = JournalItem.Description;
+			}
 
 			try
 			{
@@ -160,16 +187,6 @@ namespace GKModule.ViewModels
 			catch (Exception e)
 			{
 				Logger.Error(e, "JournalItemViewModel ctr");
-			}
-		}
-
-		public string Description
-		{
-			get
-			{
-				if (!string.IsNullOrEmpty(JournalItem.AdditionalDescription))
-					return JournalItem.Description + " " + JournalItem.AdditionalDescription;
-				return JournalItem.Description;
 			}
 		}
 
