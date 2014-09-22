@@ -16,14 +16,14 @@ namespace AutomationModule.ViewModels
 	public class ControlSKDDeviceStepViewModel: BaseStepViewModel
 	{
 		ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
-		public ArithmeticParameterViewModel SKDDeviceParameter { get; private set; }
+		public ArgumentViewModel SKDDeviceParameter { get; private set; }
 
 		public ControlSKDDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlSKDDeviceArguments = stepViewModel.Step.ControlSKDDeviceArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
-			SKDDeviceParameter = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.SKDDeviceParameter, stepViewModel.Update);
-			SKDDeviceParameter.ObjectType = ObjectType.SKDDevice;
+			SKDDeviceParameter = new ArgumentViewModel(ControlSKDDeviceArguments.SKDDeviceParameter, stepViewModel.Update);
+			SKDDeviceParameter.SelectedObjectType = ObjectType.SKDDevice;
 			SKDDeviceParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDDeviceArguments.Command;
 			UpdateContent();

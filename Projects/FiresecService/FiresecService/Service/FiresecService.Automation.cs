@@ -9,7 +9,7 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
-		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
+		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Variable> args)
 		{
 			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
 			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);

@@ -5,8 +5,14 @@
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-        <Label Content="Мксимальное значение" Width="150" />
-		<Views:ArithmeticParameterView DataContext="{Binding MaxValueParameter}" />
-    </StackPanel>
+	<StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Результат" Width="150" />
+			<Views:ArgumentView DataContext="{Binding ResultParameter}" />
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Максимальное значение" Width="150" />
+			<Views:ArgumentView DataContext="{Binding MaxValueParameter}" />
+		</StackPanel>
+	</StackPanel>
 </UserControl>

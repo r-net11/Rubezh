@@ -9,7 +9,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Зона" />
-			<Views:ArithmeticParameterView DataContext="{Binding GKFireZoneParameter}" />
+			<Views:ArgumentView DataContext="{Binding GKFireZoneParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

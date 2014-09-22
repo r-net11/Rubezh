@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlGKDeviceArguments()
 		{
-			GKDeviceParameter = new ArithmeticParameter();
+			GKDeviceParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter GKDeviceParameter { get; set; }
+		public Variable GKDeviceParameter { get; set; }
 
 		[DataMember]
 		public XStateBit Command { get; set; }

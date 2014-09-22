@@ -11,15 +11,15 @@ namespace AutomationModule.ViewModels
 	public class ForeachStepViewModel : BaseStepViewModel
 	{
 		public ForeachArguments ForeachArguments { get; private set; }
-		public ArithmeticParameterViewModel ListParameter { get; private set; }
-		public ArithmeticParameterViewModel ItemParameter { get; private set; }
+		public ArgumentViewModel ListParameter { get; private set; }
+		public ArgumentViewModel ItemParameter { get; private set; }
 
 		public ForeachStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ForeachArguments = stepViewModel.Step.ForeachArguments;
-			ListParameter = new ArithmeticParameterViewModel(ForeachArguments.ListParameter, stepViewModel.Update, false);
+			ListParameter = new ArgumentViewModel(ForeachArguments.ListParameter, stepViewModel.Update, false);
 			ListParameter.UpdateVariableHandler += UpdateItemVariable;
-			ItemParameter = new ArithmeticParameterViewModel(ForeachArguments.ItemParameter, stepViewModel.Update, false);
+			ItemParameter = new ArgumentViewModel(ForeachArguments.ItemParameter, stepViewModel.Update, false);
 			UpdateContent();
 		}
 
@@ -31,7 +31,7 @@ namespace AutomationModule.ViewModels
 		void UpdateItemVariable()
 		{
 			ItemParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListParameter.SelectedVariable.ExplicitType
-				&& x.ObjectType == ListParameter.SelectedVariable.ObjectType && x.EnumType == ListParameter.SelectedVariable.EnumType ));
+				&& x.ObjectType == ListParameter.SelectedVariable.SelectedObjectType && x.EnumType == ListParameter.SelectedVariable.SelectedEnumType));
 		}
 
 		public override string Description

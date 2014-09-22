@@ -14,14 +14,14 @@ namespace AutomationModule.ViewModels
 	public class ControlDirectionStepViewModel : BaseStepViewModel
 	{
 		ControlDirectionArguments ControlDirectionArguments { get; set; }
-		public ArithmeticParameterViewModel DirectionParameter { get; private set; }
+		public ArgumentViewModel DirectionParameter { get; private set; }
 
 		public ControlDirectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlDirectionArguments = stepViewModel.Step.ControlDirectionArguments;
 			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
-			DirectionParameter = new ArithmeticParameterViewModel(ControlDirectionArguments.DirectionParameter, stepViewModel.Update);
-			DirectionParameter.ObjectType = ObjectType.Direction;
+			DirectionParameter = new ArgumentViewModel(ControlDirectionArguments.DirectionParameter, stepViewModel.Update);
+			DirectionParameter.SelectedObjectType = ObjectType.Direction;
 			DirectionParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 			UpdateContent();

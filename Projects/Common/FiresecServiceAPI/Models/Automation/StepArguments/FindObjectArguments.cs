@@ -10,7 +10,7 @@ namespace FiresecAPI.Automation
 		public FindObjectArguments()
 		{
 			FindObjectConditions = new List<FindObjectCondition>();
-			ResultParameter = new ArithmeticParameter();
+			ResultParameter = new Variable();
 		}
 
 		[DataMember]
@@ -20,6 +20,6 @@ namespace FiresecAPI.Automation
 		public JoinOperator JoinOperator { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter ResultParameter { get; set; }
+		public Variable ResultParameter { get; set; }
 	}
 }

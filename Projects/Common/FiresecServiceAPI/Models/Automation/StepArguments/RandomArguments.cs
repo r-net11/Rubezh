@@ -11,10 +11,14 @@ namespace FiresecAPI.Automation
 	{
 		public RandomArguments()
 		{
-			MaxValueParameter = new ArithmeticParameter();
+			MaxValueParameter = new Variable();
+			ResultParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter MaxValueParameter { get; set; }
+		public Variable MaxValueParameter { get; set; }
+
+		[DataMember]
+		public Variable ResultParameter { get; set; }
 	}
 }

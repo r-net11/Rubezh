@@ -11,30 +11,68 @@ namespace AutomationModule.ViewModels
 		public ScheduleProcedure ScheduleProcedure { get; private set; }
 		public List<ArgumentViewModel> Arguments { get; private set; }
 		public Procedure Procedure { get; private set; }
-		public ScheduleProcedureViewModel(ScheduleProcedure scheduleProcedure)
+		public Procedure CallingProcedure { get; private set; }
+
+		public ScheduleProcedureViewModel(ScheduleProcedure scheduleProcedure, Procedure callingProcedure = null)
 		{
+			CallingProcedure = callingProcedure;
 			ScheduleProcedure = scheduleProcedure;
 			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-			ScheduleProcedure.ProcedureUid = scheduleProcedure.ProcedureUid;
 			if (Procedure != null)
-				UpdateArguments(Procedure);
+				UpdateArguments();
 		}
 
-		public void UpdateArguments(Procedure procedure)
+		public void UpdateArguments()
 		{
 			Arguments = new List<ArgumentViewModel>();
-			var tempArguments = new List<Argument>();
-			foreach (var variable in procedure.Arguments)
+			var tempArguments = new List<Variable>();
+			foreach (var variable in Procedure.Arguments)
 			{
-				var argument = new Argument(variable);
-				if (ScheduleProcedure.Arguments.Any(x => x.VariableUid == variable.Uid))
-					argument = ScheduleProcedure.Arguments.FirstOrDefault(x => x.VariableUid == variable.Uid);
-				var argumentViewModel = new ArgumentViewModel(argument, procedure);
+				var argument = new Variable();
+				argument.ArgumentUid = variable.Uid;
+				argument.ExplicitType = variable.ExplicitType;
+				argument.EnumType = variable.EnumType;
+				argument.ObjectType = variable.ObjectType;
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
+				argument.ExplicitValues = new List<ExplicitValue>();
+				foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+				{
+					var explicitValue = new ExplicitValue();
+					PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
+					argument.ExplicitValues.Add(explicitValue);
+				}
+				var scheduleProcedure = ScheduleProcedure.Arguments.FirstOrDefault(x => x.ArgumentUid == variable.Uid && x.IsList == variable.IsList);
+				if (scheduleProcedure != null)
+					argument = scheduleProcedure;
+				else if (CallingProcedure == null)
+					argument.VariableScope = VariableScope.GlobalVariable;
+				argument.Name = variable.Name;
+				argument.IsList = variable.IsList;
 				tempArguments.Add(argument);
-				Arguments.Add(argumentViewModel);
+				var argumentViewModel = new ArgumentViewModel(argument, null, true, false);
+				var allVariables = GetVariables(argument);
+				if (CallingProcedure != null)
+					argumentViewModel = new ArgumentViewModel(argument, null);
+				argumentViewModel.Update(allVariables);
+				Arguments.Add(argumentViewModel);				
 			}
-			ScheduleProcedure.Arguments = new List<Argument>(tempArguments);
+			ScheduleProcedure.Arguments = new List<Variable>(tempArguments);
 			OnPropertyChanged(() => Arguments);
+		}
+
+		List<Variable> GetVariables(Variable argument)
+		{
+			var allVariables = new List<Variable>();
+			if (CallingProcedure != null)
+				allVariables = ProcedureHelper.GetAllVariables(CallingProcedure);
+			else
+				allVariables = new List<Variable>(FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			allVariables = allVariables.FindAll(x => x.ExplicitType == argument.ExplicitType && x.IsList == argument.IsList);
+			if (argument.ExplicitType == ExplicitType.Object)
+				allVariables = allVariables.FindAll(x => x.ObjectType == argument.ObjectType);
+			if (argument.ExplicitType == ExplicitType.Enum)
+				allVariables = allVariables.FindAll(x => x.EnumType == argument.EnumType);
+			return allVariables;
 		}
 
 		public string Name

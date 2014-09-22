@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 		void OnRun()
 		{
 			FiresecManager.FiresecService.RunProcedure(Procedure.Uid,
-				ArgumentsViewModel.Arguments.Select(x => x.Argument).ToList());
+				ArgumentsViewModel.Arguments.Select(x => x.Variable).ToList());
 		}
 
 		public string Name

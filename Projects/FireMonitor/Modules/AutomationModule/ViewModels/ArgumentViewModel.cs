@@ -1,42 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq.Expressions;
+using FiresecAPI;
+using FiresecAPI.GK;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArgumentViewModel : BaseViewModel
+	public class ArgumentViewModel : VariableViewModel
 	{
-		public Variable Variable { get; private set; }
-		public VariableItemViewModel CurrentVariableItem { get; private set; }
-		public Argument Argument { get; private set; }
-		public ArgumentViewModel(Argument argument, Procedure procedure)
+		public ArgumentViewModel(Variable argument)
+			: base(argument)
 		{
-			Argument = argument;
-			Variable = procedure.Arguments.FirstOrDefault(x => x.Uid == argument.VariableUid);
-			CurrentVariableItem = new VariableItemViewModel(argument.VariableItem);
-		}
-
-		public bool IsList
-		{
-			get { return Variable.IsList; }
-		}
-
-		public string Name
-		{
-			get { return Variable.Name; }
-		}
-
-		public ObjectType ObjectType
-		{
-			get { return Variable.ObjectType; }
-		}
-
-		public ExplicitType ExplicitType
-		{
-			get { return Variable.ExplicitType; }
+			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
+			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
+			foreach (var explicitValue in argument.ExplicitValues)
+				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 		}
 	}
 }

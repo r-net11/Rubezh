@@ -65,6 +65,7 @@ namespace AutomationModule.ViewModels
 				Procedure.Variables.Add(varialbeViewModel.Variable);
 				Variables.Add(varialbeViewModel);
 				SelectedVariable = varialbeViewModel;
+				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

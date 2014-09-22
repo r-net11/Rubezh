@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 				var scheduleProcedure = new ScheduleProcedure() { ProcedureUid = procedure.Uid };
 				if (procedure.Uid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid)
 					scheduleProcedure = ProcedureSelectionArguments.ScheduleProcedure;
-				ScheduleProcedures.Add(new ScheduleProcedureViewModel(scheduleProcedure));
+				ScheduleProcedures.Add(new ScheduleProcedureViewModel(scheduleProcedure, Procedure));
 			}
 			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault(x => x.ScheduleProcedure.ProcedureUid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
 			OnPropertyChanged(() => ScheduleProcedures);			

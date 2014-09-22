@@ -14,14 +14,14 @@ namespace AutomationModule.ViewModels
 	public class ControlGKGuardZoneStepViewModel: BaseStepViewModel
 	{
 		ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
-		public ArithmeticParameterViewModel GKGuardZoneParameter { get; private set; }
+		public ArgumentViewModel GKGuardZoneParameter { get; private set; }
 
 		public ControlGKGuardZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGKGuardZoneArguments = stepViewModel.Step.ControlGKGuardZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
-			GKGuardZoneParameter = new ArithmeticParameterViewModel(ControlGKGuardZoneArguments.GKGuardZoneParameter, stepViewModel.Update);
-			GKGuardZoneParameter.ObjectType = ObjectType.GuardZone;
+			GKGuardZoneParameter = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneParameter, stepViewModel.Update);
+			GKGuardZoneParameter.SelectedObjectType = ObjectType.GuardZone;
 			GKGuardZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
 			UpdateContent();

@@ -9,7 +9,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Направление" />
-			<Views:ArithmeticParameterView DataContext="{Binding DirectionParameter}" />
+			<Views:ArgumentView DataContext="{Binding DirectionParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

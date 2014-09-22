@@ -14,14 +14,14 @@ namespace AutomationModule.ViewModels
 	public class ControlCameraStepViewModel: BaseStepViewModel
 	{
 		ControlCameraArguments ControlCameraArguments { get; set; }
-		public ArithmeticParameterViewModel CameraParameter { get; private set; }
+		public ArgumentViewModel CameraParameter { get; private set; }
 
 		public ControlCameraStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlCameraArguments = stepViewModel.Step.ControlCameraArguments;
 			Commands = ProcedureHelper.GetEnumObs<CameraCommandType>();
-			CameraParameter = new ArithmeticParameterViewModel(ControlCameraArguments.CameraParameter, stepViewModel.Update);
-			CameraParameter.ObjectType = ObjectType.VideoDevice;
+			CameraParameter = new ArgumentViewModel(ControlCameraArguments.CameraParameter, stepViewModel.Update);
+			CameraParameter.SelectedObjectType = ObjectType.VideoDevice;
 			CameraParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlCameraArguments.CameraCommandType;
 			UpdateContent();

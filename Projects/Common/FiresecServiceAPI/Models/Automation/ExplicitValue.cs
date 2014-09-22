@@ -8,9 +8,9 @@ using FiresecAPI.GK;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class VariableItem
+	public class ExplicitValue
 	{
-		public VariableItem()
+		public ExplicitValue()
 		{
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;

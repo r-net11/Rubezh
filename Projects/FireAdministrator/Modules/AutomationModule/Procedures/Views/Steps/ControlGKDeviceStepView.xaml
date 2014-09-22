@@ -9,7 +9,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Устройство" />
-			<Views:ArithmeticParameterView DataContext="{Binding GKDeviceParameter}" />
+			<Views:ArgumentView DataContext="{Binding GKDeviceParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

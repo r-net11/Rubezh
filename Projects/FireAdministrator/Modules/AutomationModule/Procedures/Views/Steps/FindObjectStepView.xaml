@@ -15,7 +15,7 @@
 		<StackPanel Grid.Row="0">
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Результат: " HorizontalAlignment="Right" VerticalAlignment="Center"/>
-				<Views:ArithmeticParameterView DataContext="{Binding ResultParameter}" />
+				<Views:ArgumentView DataContext="{Binding ResultParameter}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
 				<Label Content="Условия поиска: " HorizontalAlignment="Right" VerticalAlignment="Center"/>
@@ -55,7 +55,7 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<Views:ArithmeticParameterView DataContext="{Binding SourceParameter}" />
+							<Views:ArgumentView DataContext="{Binding SourceParameter}" />
 						</StackPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

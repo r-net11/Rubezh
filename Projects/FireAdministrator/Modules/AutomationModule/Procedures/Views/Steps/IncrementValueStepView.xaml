@@ -10,7 +10,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Переменная" HorizontalAlignment="Right" />
-			<Views:ArithmeticParameterView DataContext="{Binding ResultParameter}" />
+			<Views:ArgumentView DataContext="{Binding ResultParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Значение" />

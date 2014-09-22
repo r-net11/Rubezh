@@ -14,14 +14,14 @@ namespace AutomationModule.ViewModels
 	public class ControlDoorStepViewModel : BaseStepViewModel
 	{
 		ControlDoorArguments ControlDoorArguments { get; set; }
-		public ArithmeticParameterViewModel DoorParameter { get; private set; }
+		public ArgumentViewModel DoorParameter { get; private set; }
 
 		public ControlDoorStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlDoorArguments = stepViewModel.Step.ControlDoorArguments;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
-			DoorParameter = new ArithmeticParameterViewModel(ControlDoorArguments.DoorParameter, stepViewModel.Update);
-			DoorParameter.ObjectType = ObjectType.ControlDoor;
+			DoorParameter = new ArgumentViewModel(ControlDoorArguments.DoorParameter, stepViewModel.Update);
+			DoorParameter.SelectedObjectType = ObjectType.ControlDoor;
 			DoorParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDoorArguments.DoorCommandType;
 			UpdateContent();

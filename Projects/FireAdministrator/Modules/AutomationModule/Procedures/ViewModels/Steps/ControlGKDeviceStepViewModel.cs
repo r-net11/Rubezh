@@ -17,13 +17,13 @@ namespace AutomationModule.ViewModels
 	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
 		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
-		public ArithmeticParameterViewModel GKDeviceParameter { get; private set; }
+		public ArgumentViewModel GKDeviceParameter { get; private set; }
 
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
-			GKDeviceParameter = new ArithmeticParameterViewModel(ControlGkDeviceArguments.GKDeviceParameter, stepViewModel.Update);
-			GKDeviceParameter.ObjectType = ObjectType.Device;
+			GKDeviceParameter = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceParameter, stepViewModel.Update);
+			GKDeviceParameter.SelectedObjectType = ObjectType.Device;
 			GKDeviceParameter.ExplicitType = ExplicitType.Object;
 			GKDeviceParameter.UpdateVariableScopeHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
@@ -37,8 +37,8 @@ namespace AutomationModule.ViewModels
 				Commands = ProcedureHelper.GetEnumObs<CommandType>();
 				Commands.Remove(CommandType.Unknown);
 			}
-			else if (GKDeviceParameter.CurrentVariableItem.Device != null)
-				InitializeCommands(GKDeviceParameter.CurrentVariableItem.Device);
+			else if (GKDeviceParameter.ExplicitValue.Device != null)
+				InitializeCommands(GKDeviceParameter.ExplicitValue.Device);
 			SelectedCommand = Commands.FirstOrDefault(x => x == XStateBitToCommandType(ControlGkDeviceArguments.Command));
 			OnPropertyChanged(() => Commands);
 		}
@@ -163,22 +163,22 @@ namespace AutomationModule.ViewModels
 
 		CommandType XStateBitToCommandType(XStateBit stateString)
 		{
-			if (GKDeviceParameter.CurrentVariableItem.Device == null)
+			if (GKDeviceParameter.ExplicitValue.Device == null)
 				return CommandType.Unknown;
 			switch (stateString)
 			{
 				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(GKDeviceParameter.CurrentVariableItem.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
+					return IsTriStateControl(GKDeviceParameter.ExplicitValue.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
 				case XStateBit.SetRegime_Manual:
 					return CommandType.SetRegime_Manual;
 				case XStateBit.SetRegime_Off:
 					return CommandType.SetRegime_Off;
 				case XStateBit.TurnOn_InManual:
-					return (GKDeviceParameter.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
+					return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
 				case XStateBit.TurnOnNow_InManual:
-					return (GKDeviceParameter.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
+					return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
 				case XStateBit.TurnOff_InManual:
-					return (GKDeviceParameter.CurrentVariableItem.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
+					return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
 				case XStateBit.Stop_InManual:
 					return CommandType.Stop_InManual;
 				case XStateBit.Reset:

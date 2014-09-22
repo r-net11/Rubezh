@@ -10,13 +10,13 @@ namespace AutomationModule.ViewModels
 	public class PauseStepViewModel : BaseStepViewModel
 	{
 		public PauseArguments PauseArguments { get; private set; }
-		public ArithmeticParameterViewModel PauseParameter { get; set; }
+		public ArgumentViewModel PauseParameter { get; set; }
 
 		public PauseStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			PauseArguments = stepViewModel.Step.PauseArguments;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
-			PauseParameter = new ArithmeticParameterViewModel(PauseArguments.PauseParameter, stepViewModel.Update);
+			PauseParameter = new ArgumentViewModel(PauseArguments.PauseParameter, stepViewModel.Update);
 			PauseParameter.ExplicitType = ExplicitType.Integer;
 			UpdateContent();
 		}

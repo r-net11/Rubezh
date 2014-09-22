@@ -18,17 +18,17 @@ namespace AutomationModule.ViewModels
 	{
 		FindObjectArguments FindObjectArguments { get; set; }
 		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
-		public ArithmeticParameterViewModel ResultParameter { get; private set; }
+		public ArgumentViewModel ResultParameter { get; private set; }
 
 		public FindObjectStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			FindObjectArguments = stepViewModel.Step.FindObjectArguments;
-			ResultParameter = new ArithmeticParameterViewModel(FindObjectArguments.ResultParameter, stepViewModel.Update, false);
+			ResultParameter = new ArgumentViewModel(FindObjectArguments.ResultParameter, stepViewModel.Update, false);
 			ResultParameter.ExplicitType = ExplicitType.Object;
 			ResultParameter.UpdateVariableHandler = UpdateConditions;
 			JoinOperator = FindObjectArguments.JoinOperator;
 			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
-			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultParameter.ObjectType));
+			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultParameter.SelectedObjectType));
 			foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 			{
 				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.IsList);
-			variableUidValidator = ResultParameter.ArithmeticParameter.VariableUid;
+			variableUidValidator = ResultParameter.Variable.VariableUid;
 			ResultParameter.Update(allVariables);
 			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
@@ -131,12 +131,12 @@ namespace AutomationModule.ViewModels
 		Guid variableUidValidator;
 		void UpdateConditions()
 		{
-			if (ResultParameter.ArithmeticParameter.VariableUid != variableUidValidator)
+			if (ResultParameter.Variable.VariableUid != variableUidValidator)
 			{
-				variableUidValidator = ResultParameter.ArithmeticParameter.VariableUid;
+				variableUidValidator = ResultParameter.Variable.VariableUid;
 				FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
 				FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
-				FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultParameter.ObjectType));
+				FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultParameter.SelectedObjectType));
 				OnPropertyChanged(() => FindObjectConditions);
 			}
 		}
@@ -145,7 +145,7 @@ namespace AutomationModule.ViewModels
 	public class FindObjectConditionViewModel : BaseViewModel
 	{
 		public FindObjectCondition FindObjectCondition { get; private set; }
-		public ArithmeticParameterViewModel SourceParameter { get; private set; }
+		public ArgumentViewModel SourceParameter { get; private set; }
 		Procedure Procedure { get; set; }
 		Action UpdateDescriptionHandler { get; set; }
 
@@ -154,7 +154,7 @@ namespace AutomationModule.ViewModels
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			SourceParameter = new ArithmeticParameterViewModel(findObjectCondition.SourceParameter, updateDescriptionHandler);
+			SourceParameter = new ArgumentViewModel(findObjectCondition.SourceParameter, updateDescriptionHandler);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 		}
@@ -173,7 +173,7 @@ namespace AutomationModule.ViewModels
 				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ExplicitType));
 				SourceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType && x.EnumType == EnumType));
 				SourceParameter.ExplicitType = ExplicitType;
-				SourceParameter.EnumType = EnumType;
+				SourceParameter.SelectedEnumType = EnumType;
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ConditionTypes);
 				OnPropertyChanged(() => MinValue);

@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlSKDZoneArguments()
 		{
-			SKDZoneParameter = new ArithmeticParameter();
+			SKDZoneParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter SKDZoneParameter { get; set; }
+		public Variable SKDZoneParameter { get; set; }
 
 		[DataMember]
 		public SKDZoneCommandType SKDZoneCommandType { get; set; }

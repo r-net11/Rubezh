@@ -146,7 +146,6 @@
     </Compile>
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
-    <Compile Include="Models\Automation\ArithmeticParameter.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
@@ -203,7 +202,6 @@
     <Compile Include="Models\Automation\GlobalVariable.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
-    <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ExitArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
@@ -211,7 +209,7 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
-    <Compile Include="Models\Automation\VariableItem.cs" />
+    <Compile Include="Models\Automation\ExplicitValue.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />

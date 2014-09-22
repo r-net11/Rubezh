@@ -15,16 +15,16 @@ namespace AutomationModule.ViewModels
 	public class ArithmeticStepViewModel : BaseStepViewModel
 	{
 		public ArithmeticArguments ArithmeticArguments { get; private set; }
-		public ArithmeticParameterViewModel Parameter1 { get; set; }
-		public ArithmeticParameterViewModel Parameter2 { get; set; }
-		public ArithmeticParameterViewModel ResultParameter { get; set; }
+		public ArgumentViewModel Parameter1 { get; set; }
+		public ArgumentViewModel Parameter2 { get; set; }
+		public ArgumentViewModel ResultParameter { get; set; }
 
 		public ArithmeticStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ArithmeticArguments = stepViewModel.Step.ArithmeticArguments;
-			ResultParameter = new ArithmeticParameterViewModel(ArithmeticArguments.ResultParameter, stepViewModel.Update, false);
-			Parameter1 = new ArithmeticParameterViewModel(ArithmeticArguments.Parameter1, stepViewModel.Update);
-			Parameter2 = new ArithmeticParameterViewModel(ArithmeticArguments.Parameter2, stepViewModel.Update);
+			ResultParameter = new ArgumentViewModel(ArithmeticArguments.ResultParameter, stepViewModel.Update, false);
+			Parameter1 = new ArgumentViewModel(ArithmeticArguments.Parameter1, stepViewModel.Update);
+			Parameter2 = new ArgumentViewModel(ArithmeticArguments.Parameter2, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			SelectedExplicitType = ArithmeticArguments.ExplicitType;

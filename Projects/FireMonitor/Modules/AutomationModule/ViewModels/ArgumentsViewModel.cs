@@ -15,8 +15,7 @@ namespace AutomationModule.ViewModels
 			Arguments = new ObservableCollection<ArgumentViewModel>();
 			foreach (var variable in procedure.Arguments)
 			{
-				var argument = new Argument(variable);
-				var argumentViewModel = new ArgumentViewModel(argument, Procedure);
+				var argumentViewModel = new ArgumentViewModel(variable);
 				Arguments.Add(argumentViewModel);
 			}
 			SelectedArgument = Arguments.FirstOrDefault();

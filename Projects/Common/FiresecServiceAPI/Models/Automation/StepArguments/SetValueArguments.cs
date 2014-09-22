@@ -8,15 +8,15 @@ namespace FiresecAPI.Automation
 	{
 		public SetValueArguments()
 		{
-			SourceParameter = new ArithmeticParameter();
-			TargetParameter = new ArithmeticParameter();
+			SourceParameter = new Variable();
+			TargetParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter TargetParameter { get; set; }
+		public Variable TargetParameter { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter SourceParameter { get; set; }
+		public Variable SourceParameter { get; set; }
 
 		[DataMember]
 		public ExplicitType ExplicitType { get; set; }

@@ -52,7 +52,7 @@ namespace FiresecService.Processor
 
 		}
 
-		public static bool RunInThread(Procedure procedure, List<Argument> arguments)
+		public static bool RunInThread(Procedure procedure, List<Variable> arguments)
 		{
 			try
 			{
@@ -69,7 +69,7 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		public static bool Run(Procedure procedure, List<Argument> arguments)
+		public static bool Run(Procedure procedure, List<Variable> arguments)
 		{
 			procedure.ResetVariables(arguments);
 			var procedureThread = new Thread(() => RunInThread(procedure, arguments));
@@ -79,7 +79,7 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		static bool RunStep(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
+		static bool RunStep(ProcedureStep procedureStep, Procedure procedure, List<Variable> arguments)
 		{
 			switch (procedureStep.ProcedureStepType)
 			{
@@ -113,9 +113,9 @@ namespace FiresecService.Processor
 					var foreachArguments = procedureStep.ForeachArguments;
 					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListParameter.VariableUid);
 					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemParameter.VariableUid);
-					foreach (var itemUid in listVariable.VariableItems.Select(x => x.UidValue))
+					foreach (var itemUid in listVariable.ExplicitValues.Select(x => x.UidValue))
 					{
-						itemVariable.VariableItem.UidValue = itemUid;
+						itemVariable.ExplicitValue.UidValue = itemUid;
 						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 							return false;
 					}
@@ -184,6 +184,10 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.SetValue:
 					ProcedureHelper.SetValue(procedureStep);
+					break;
+
+				case ProcedureStepType.Random:
+					ProcedureHelper.GetRandomValue(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:

@@ -44,18 +44,18 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public bool IsActive { get; set; }
 
-		public void ResetVariables(List<Argument> arguments)
+		public void ResetVariables(List<Variable> arguments) //TODO
 		{
-			foreach (var variable in Variables)
-				variable.ResetValue();
-			foreach (var variable in Arguments)
-			{
-				var argument = arguments.FirstOrDefault(x => x.VariableUid == variable.Uid);
-				if (argument == null)
-					variable.ResetValue();
-				else
-					variable.ResetValue(argument);
-			}
+			//foreach (var variable in Variables)
+			//    variable.ResetValue();
+			//foreach (var variable in Arguments)
+			//{
+			//    var argument = arguments.FirstOrDefault(x => x.Parameter.VariableUid == variable.Uid);
+			//    if (argument == null)
+			//        variable.ResetValue();
+			//    else
+			//        variable.ResetValue(argument);
+			//}
 		}
 
 		#region IIdentity Members

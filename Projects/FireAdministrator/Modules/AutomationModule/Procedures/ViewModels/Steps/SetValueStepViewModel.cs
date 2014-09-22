@@ -11,14 +11,14 @@ namespace AutomationModule.ViewModels
 	public class SetValueStepViewModel : BaseStepViewModel
 	{
 		SetValueArguments SetValueArguments { get; set; }
-		public ArithmeticParameterViewModel SourceParameter { get; private set; }
-		public ArithmeticParameterViewModel TargetParameter { get; private set; }
+		public ArgumentViewModel SourceParameter { get; private set; }
+		public ArgumentViewModel TargetParameter { get; private set; }
 
 		public SetValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SetValueArguments = stepViewModel.Step.SetValueArguments;
-			SourceParameter = new ArithmeticParameterViewModel(SetValueArguments.SourceParameter, stepViewModel.Update);
-			TargetParameter = new ArithmeticParameterViewModel(SetValueArguments.TargetParameter, stepViewModel.Update, false);
+			SourceParameter = new ArgumentViewModel(SetValueArguments.SourceParameter, stepViewModel.Update);
+			TargetParameter = new ArgumentViewModel(SetValueArguments.TargetParameter, stepViewModel.Update, false);
 			TargetParameter.UpdateVariableHandler = UpdateSourceParameter;
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			SelectedExplicitType = SetValueArguments.ExplicitType;
@@ -28,7 +28,7 @@ namespace AutomationModule.ViewModels
 		void UpdateSourceParameter()
 		{
 			SourceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
-			SourceParameter.EnumType = TargetParameter.EnumType;
+			SourceParameter.SelectedEnumType = TargetParameter.SelectedEnumType;
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }

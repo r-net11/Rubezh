@@ -62,6 +62,7 @@
     <Compile Include="Events\ShowAutomationEvent.cs" />
     <Compile Include="Plans\Designer\ProcedurePainter.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
+    <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -77,13 +78,27 @@
     </Compile>
     <Compile Include="AutomationModuleLoader.cs" />
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
+    <Compile Include="ViewModels\CameraSelectionViewModel.cs" />
+    <Compile Include="ViewModels\CameraViewModel.cs" />
+    <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\DirectionSelectionViewModel.cs" />
+    <Compile Include="ViewModels\DirectionViewModel.cs" />
+    <Compile Include="ViewModels\DoorSelectionViewModel.cs" />
+    <Compile Include="ViewModels\DoorViewModel.cs" />
+    <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
+    <Compile Include="ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
     <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
     <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
-    <Compile Include="ViewModels\VariableItemViewModel.cs" />
+    <Compile Include="ViewModels\SKDDeviceSelectionViewModel.cs" />
+    <Compile Include="ViewModels\SKDZoneSelectionViewModel.cs" />
+    <Compile Include="ViewModels\VariableViewModel.cs" />
+    <Compile Include="ViewModels\ZoneSelectionViewModel.cs" />
+    <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
       <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
     </Compile>

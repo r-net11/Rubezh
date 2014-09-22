@@ -257,7 +257,7 @@ namespace AutomationModule.Validation
 		}
 
 
-		bool ValidateArithmeticParameter(ProcedureStep step, ArithmeticParameter arithmeticParameter)
+		bool ValidateArithmeticParameter(ProcedureStep step, Variable arithmeticParameter)
 		{
 			var localVariables = new List<Variable>(Procedure.Variables);
 			localVariables.AddRange(new List<Variable>(Procedure.Arguments));

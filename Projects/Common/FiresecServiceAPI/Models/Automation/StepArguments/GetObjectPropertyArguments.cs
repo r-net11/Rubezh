@@ -8,15 +8,15 @@ namespace FiresecAPI.Automation
 	{
 		public GetObjectPropertyArguments()
 		{
-			ObjectParameter = new ArithmeticParameter();
-			ResultParameter = new ArithmeticParameter();
+			ObjectParameter = new Variable();
+			ResultParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter ObjectParameter { get; set; }
+		public Variable ObjectParameter { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter ResultParameter { get; set; }
+		public Variable ResultParameter { get; set; }
 
 		[DataMember]
 		public Property Property { get; set; }
