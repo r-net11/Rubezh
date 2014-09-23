@@ -11,7 +11,8 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class EmployeeListBaseViewModel : BaseViewModel
+	public abstract class EmployeeListBaseViewModel<TItem> : BaseViewModel
+		where TItem:EmployeeListItemViewModel, new()
 	{
 		protected abstract EmployeeFilter Filter { get; }
 		protected abstract EmployeeFilter EmptyFilter { get; }
@@ -19,21 +20,21 @@ namespace SKDModule.ViewModels
 		public virtual bool CanEditPosition { get { return false; } }
 		protected Guid _parentUID;
 		protected Guid _organisationUID;
-		protected HRViewModel _hrViewModel;
-		public ObservableCollection<EmployeeListItemViewModel> Employees { get; private set; }
+		public ObservableCollection<TItem> Employees { get; private set; }
 
-		public EmployeeListBaseViewModel(Guid parentUID, Guid organisationUID, HRViewModel hrViewModel)
+		public EmployeeListBaseViewModel(Guid parentUID, Guid organisationUID)
 		{
 			_parentUID = parentUID;
 			_organisationUID = organisationUID;
-			_hrViewModel = hrViewModel;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)
 				return;
-			Employees = new ObservableCollection<EmployeeListItemViewModel>();
+			Employees = new ObservableCollection<TItem>();
 			foreach (var employee in employeeModels)
 			{
-				Employees.Add(new EmployeeListItemViewModel(employee));
+				var viewModel = new TItem();
+				viewModel.Initialize(employee);
+				Employees.Add(viewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
 			AddCommand = new RelayCommand(OnAdd);
@@ -45,8 +46,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 		}
 
-		EmployeeListItemViewModel _selectedEmployee;
-		public EmployeeListItemViewModel SelectedEmployee
+		TItem _selectedEmployee;
+		public TItem SelectedEmployee
 		{
 			get { return _selectedEmployee; }
 			set
@@ -62,12 +63,13 @@ namespace SKDModule.ViewModels
 			var employeeSelectionViewModel = new EmployeeSelectionViewModel(EmptyFilter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
-				var employeeListItemViewModel = new EmployeeListItemViewModel(employeeSelectionViewModel.SelectedEmployee);
-				var result = AddToParent(employeeListItemViewModel.Employee.UID);
+				var viewModel = new TItem();
+				viewModel.Initialize(employeeSelectionViewModel.SelectedEmployee);
+				var result = AddToParent(viewModel.Employee.UID);
 				if (!result)
 					return;
-				Employees.Add(employeeListItemViewModel);
-				SelectedEmployee = employeeListItemViewModel;
+				Employees.Add(viewModel);
+				SelectedEmployee = viewModel;
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
 			}
 		}
@@ -94,7 +96,7 @@ namespace SKDModule.ViewModels
 		void OnEdit()
 		{
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel();
-			if (employeeDetailsViewModel.Initialize(_organisationUID, SelectedEmployee.Employee, _hrViewModel, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
+			if (employeeDetailsViewModel.Initialize(_organisationUID, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
 				DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.Model);
@@ -118,7 +120,9 @@ namespace SKDModule.ViewModels
 				var shortEmployee = EmployeeHelper.GetSingleShort(employee.UID);
 				if (shortEmployee != null)
 				{
-					Employees.Add(new EmployeeListItemViewModel(shortEmployee));
+					var viewModel = new TItem();
+					viewModel.Initialize(shortEmployee);
+					Employees.Add(viewModel);
 				}
 			}
 			else if (employeeListItemViewModel != null && GetParentUID(employee) != _parentUID)
@@ -145,7 +149,9 @@ namespace SKDModule.ViewModels
 	{
 		public ShortEmployee Employee { get; private set; }
 		
-		public EmployeeListItemViewModel(ShortEmployee employee)
+		public EmployeeListItemViewModel() { }
+
+		public void Initialize(ShortEmployee employee)
 		{
 			Employee = employee;
 		}
@@ -154,17 +160,6 @@ namespace SKDModule.ViewModels
 		{
 			Employee = employee;
 			OnPropertyChanged(() => Employee);
-		}
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
-			}
 		}
 	}
 }

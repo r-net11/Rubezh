@@ -1,11 +1,11 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
-using System.Linq;
 using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 
-			EmployeesViewModel = new EmployeesViewModel(this);
+			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
@@ -59,16 +59,6 @@ namespace SKDModule.ViewModels
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
 			InitializeFilters();
-		}
-
-		public void UpdateDepartments()
-		{
-			DepartmentsViewModel.Initialize(DepartmentFilter);
-		}
-
-		public void UpdatePositions()
-		{
-			PositionsViewModel.Initialize(PositionFilter);
 		}
 
 		bool _isEmployeesSelected;

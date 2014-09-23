@@ -29,5 +29,11 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
+
+		[DataMember]
+		public Guid ChiefUID { get; set; }
+
+		[DataMember]
+		public Guid HRChiefUID { get; set; }
 	}
 }

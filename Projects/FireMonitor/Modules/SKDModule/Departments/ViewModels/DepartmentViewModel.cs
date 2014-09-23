@@ -9,8 +9,7 @@ namespace SKDModule.ViewModels
 		public override void InitializeModel(Organisation organisation, ShortDepartment model, Infrastructure.Common.Windows.ViewModels.ViewPartViewModel parentViewModel)
 		{
 			base.InitializeModel(organisation, model, parentViewModel);
-			var departmentsViewModel = parentViewModel as DepartmentsViewModel;
-			EmployeeListViewModel = new DepartmentEmployeeListViewModel(Model.UID, organisation.UID, null);
+			EmployeeListViewModel = new DepartmentEmployeeListViewModel(Model, organisation.UID);
 		}
 	}
 }

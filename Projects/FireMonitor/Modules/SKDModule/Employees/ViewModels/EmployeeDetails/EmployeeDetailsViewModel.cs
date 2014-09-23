@@ -16,7 +16,6 @@ namespace SKDModule.ViewModels
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortEmployee>
 	{
 		Organisation _organisation;
-		HRViewModel _hrViewModel;
 		PersonType _personType;
 
 		public EmployeeDetailsViewModel() { }
@@ -24,10 +23,10 @@ namespace SKDModule.ViewModels
 		public bool Initialize(Organisation organisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
 			var employeesViewModel = (parentViewModel as EmployeesViewModel);
-			return Initialize(organisation.UID, employee, employeesViewModel.HRViewModel, employeesViewModel.PersonType);
+			return Initialize(organisation.UID, employee, employeesViewModel.PersonType);
 		}
 
-		public bool Initialize(Guid organisationUID, ShortEmployee employee, HRViewModel hrViewModel, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true)
+		public bool Initialize(Guid organisationUID, ShortEmployee employee, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
@@ -45,7 +44,6 @@ namespace SKDModule.ViewModels
 			_canEditPosition = canEditPosition;
 
 			_organisation = OrganisationHelper.GetSingle(organisationUID);
-			_hrViewModel = hrViewModel;
 			_personType = personType;
 			IsEmployee = _personType == PersonType.Employee;
 			if (employee == null)
@@ -648,7 +646,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment, _hrViewModel);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment);
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
@@ -658,7 +656,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectPositionCommand { get; private set; }
 		void OnSelectPosition()
 		{
-			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition, _hrViewModel);
+			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition);
 			if (DialogService.ShowModalWindow(positionSelectionViewModel))
 			{
 				SelectedPosition = positionSelectionViewModel.SelectedPosition;

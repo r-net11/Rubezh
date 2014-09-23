@@ -85,7 +85,9 @@ namespace SKDDriver
 				Name = tableItem.Name,
 				Description = tableItem.Description,
 				ParentDepartmentUID = tableItem.ParentDepartmentUID,
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty
+				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty, 
+				ChiefUID = tableItem.ChiefUID,
+				HRChiefUID = tableItem.HRChiefUID
 			};
 			shortDepartment.ChildDepartmentUIDs = new List<Guid>();
 			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -11,6 +13,7 @@ namespace SKDModule.ViewModels
 		Guid OrganisationUID { get; set; }
 		Department Department { get; set; }
 		public ChiefViewModel ChiefViewModel { get; private set; }
+		public ChiefViewModel HRChiefViewModel { get; private set; }
 
 		public DepartmentDetailsViewModel() { }
 		
@@ -35,6 +38,7 @@ namespace SKDModule.ViewModels
 			}
 			CopyProperties();
 			ChiefViewModel = new ChiefViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
+			HRChiefViewModel = new ChiefViewModel(Department.HRChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			return true;
 		}
 
@@ -127,7 +131,15 @@ namespace SKDModule.ViewModels
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
 			Department.ChiefUID = ChiefViewModel.ChiefUID;
-			return DepartmentHelper.Save(Department);
+			Department.HRChiefUID = HRChiefViewModel.ChiefUID;
+			var saveResult = DepartmentHelper.Save(Department);
+			if (saveResult)
+			{
+				ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Publish(Department);
+				return true;
+			}
+			else
+				return false;
 		}
 	}
 

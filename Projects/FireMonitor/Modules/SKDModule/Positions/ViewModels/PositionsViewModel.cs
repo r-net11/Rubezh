@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
 	public class PositionsViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionViewModel, PositionDetailsViewModel>
 	{
+		public PositionsViewModel():base()
+		{
+			ServiceFactory.Events.GetEvent<NewPositionEvent>().Unsubscribe(OnNewPosition);
+			ServiceFactory.Events.GetEvent<NewPositionEvent>().Subscribe(OnNewPosition);
+		}
+		
 		protected override IEnumerable<ShortPosition> GetModels(PositionFilter filter)
 		{
 			return PositionHelper.Get(filter);
@@ -28,10 +37,21 @@ namespace SKDModule.ViewModels
 			position.OrganisationUID = item.OrganisationUID;
 			return PositionHelper.Save(position);
 		}
-        
-        protected override string ItemRemovingName
-        {
-            get { return "должность"; }
-        }
+		
+		protected override string ItemRemovingName
+		{
+			get { return "должность"; }
+		}
+
+		public void OnNewPosition(ShortPosition model) 
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == model.OrganisationUID);
+			if (organisation != null)
+			{
+				var viewModel = new PositionViewModel();
+				viewModel.InitializeModel(organisation.Organisation, model, this);
+				organisation.AddChild(viewModel);
+			}
+		}
 	}
 }

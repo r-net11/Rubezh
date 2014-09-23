@@ -13,11 +13,9 @@ namespace SKDModule.ViewModels
 	{
 		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		public HRViewModel HRViewModel { get; private set; }
-
-		public EmployeesViewModel(HRViewModel hrViewModel):base()
+		
+		public EmployeesViewModel():base()
 		{
-			HRViewModel = hrViewModel;
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 		}

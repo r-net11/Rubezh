@@ -31,7 +31,7 @@
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IsInGrid}" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IsInGrid}" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

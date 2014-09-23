@@ -4,22 +4,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
 	public class DepartmentSelectionViewModel : SaveCancelDialogViewModel
 	{
 		Guid OrganisationUID;
-		HRViewModel HRViewModel;
-
-		public DepartmentSelectionViewModel(Employee employee, ShortDepartment shortDepartment, HRViewModel hrViewModel)
+		
+		public DepartmentSelectionViewModel(Employee employee, ShortDepartment shortDepartment)
 		{
 			Title = "Выбор отдела";
 			OrganisationUID = employee.OrganisationUID;
-			HRViewModel = hrViewModel;
 			AddCommand = new RelayCommand(OnAdd);
 
 			AllDepartments = new List<DepartmentSelectionItemViewModel>();
@@ -88,7 +88,8 @@ namespace SKDModule.ViewModels
 			departmentDetailsViewModel.Initialize(OrganisationUID, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
-				var departmentViewModel = new DepartmentSelectionItemViewModel(departmentDetailsViewModel.Model);
+				var department = departmentDetailsViewModel.Model;
+				var departmentViewModel = new DepartmentSelectionItemViewModel(department);
 				if (hasParentDepartment)
 				{
 					SelectedDepartment.AddChild(departmentViewModel);
@@ -100,8 +101,7 @@ namespace SKDModule.ViewModels
 				}
 				departmentViewModel.ExpandToThis();
 				SelectedDepartment = departmentViewModel;
-				if(HRViewModel != null)
-					HRViewModel.UpdateDepartments();
+				ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Publish(department);
 			}
 		}
 

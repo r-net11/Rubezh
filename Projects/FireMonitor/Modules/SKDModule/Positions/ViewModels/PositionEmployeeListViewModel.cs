@@ -5,9 +5,9 @@ using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionEmployeeListViewModel : EmployeeListBaseViewModel
+	public class PositionEmployeeListViewModel : EmployeeListBaseViewModel<EmployeeListItemViewModel>
 	{
-		public PositionEmployeeListViewModel(Guid parentUID, Guid organisationUID, HRViewModel hrViewModel) : base(parentUID, organisationUID, hrViewModel) { }
+		public PositionEmployeeListViewModel(Guid parentUID, Guid organisationUID) : base(parentUID, organisationUID) { }
 
 		protected override bool AddToParent(Guid uid)
 		{

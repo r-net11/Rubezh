@@ -244,7 +244,7 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 										<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
 									</StackPanel>
 								</DataTemplate>
@@ -254,8 +254,8 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}" Margin="0 4 0 0">
-					<CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
-					<CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
+                    <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
+                    <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
 				</StackPanel>
 			</Grid>
 		</TabItem>
