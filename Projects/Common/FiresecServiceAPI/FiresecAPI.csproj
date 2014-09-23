@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
@@ -269,7 +270,6 @@
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
-    <Compile Include="XModels\INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />
     <Compile Include="Models\Binary\BinaryDirection.cs" />

@@ -6,18 +6,13 @@ using Common;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public abstract class XBase : IStateProvider
+	public abstract class XBase : ModelBase, IStateProvider
 	{
 		public XBase()
 		{
 			ClearDescriptor();
-			BaseUID = Guid.NewGuid();
-
 			ClearClauseDependencies();
 		}
-
-		[DataMember]
-		public Guid BaseUID { get; set; }
 
 		public List<XDevice> ClauseInputDevices { get; set; }
 		public List<XZone> ClauseInputZones { get; set; }
@@ -57,7 +52,6 @@ namespace FiresecAPI.GK
 			get { return ObjectType.ToDescription() + " " + PresentationName; }
 		}
 
-		public abstract string PresentationName { get; }
 		public XBaseInternalState InternalState { get; set; }
 		public XState State { get; set; }
 
@@ -70,7 +64,7 @@ namespace FiresecAPI.GK
 
 		Guid IIdentity.UID
 		{
-			get { return BaseUID; }
+			get { return UID; }
 		}
 
 		#endregion

@@ -111,7 +111,7 @@ namespace FiltersModule.ViewModels
 		public ObjectViewModel(XMPT mpt)
 		{
 			Name = mpt.PresentationName;
-			UID = mpt.BaseUID;
+			UID = mpt.UID;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
@@ -125,7 +125,7 @@ namespace FiltersModule.ViewModels
 		public ObjectViewModel(XDelay delay)
 		{
 			Name = delay.PresentationName;
-			UID = delay.BaseUID;
+			UID = delay.UID;
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 

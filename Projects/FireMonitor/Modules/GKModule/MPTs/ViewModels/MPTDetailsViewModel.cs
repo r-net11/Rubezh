@@ -177,7 +177,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXMPTEvent>().Publish(MPT.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXMPTEvent>().Publish(MPT.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -209,7 +209,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return MPT.BaseUID.ToString(); }
+			get { return MPT.UID.ToString(); }
 		}
 		#endregion
 

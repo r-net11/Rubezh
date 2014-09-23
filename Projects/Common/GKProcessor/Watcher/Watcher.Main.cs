@@ -461,7 +461,7 @@ namespace GKProcessor
 				xBase.InternalState.CopyToXState(xBase.State);
 				if (xBase is XDevice)
 				{
-					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
+					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.UID);
 					gkStates.DeviceStates.Add(xBase.State);
 				}
 				if (xBase is XZone)

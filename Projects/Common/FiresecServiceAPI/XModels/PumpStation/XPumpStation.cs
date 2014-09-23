@@ -5,11 +5,10 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XPumpStation : XBase, INamedBase
+	public class XPumpStation : XBase
 	{
 		public XPumpStation()
 		{
-			UID = BaseUID;
 			Delay = 10;
 			Hold = 60;
 			DelayRegime = DelayRegime.Off;
@@ -25,18 +24,6 @@ namespace FiresecAPI.GK
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.PumpStation; } }
 		public List<XDevice> NSDevices { get; set; }
-
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public ushort No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
 
 		[DataMember]
 		public ushort Delay { get; set; }
@@ -69,12 +56,5 @@ namespace FiresecAPI.GK
 		{
 			get { return "0" + No + "." + Name; }
 		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 	}
 }

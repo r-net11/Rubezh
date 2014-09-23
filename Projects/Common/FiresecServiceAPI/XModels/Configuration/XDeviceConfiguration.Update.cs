@@ -129,7 +129,7 @@ namespace FiresecAPI.GK
 				{
 					foreach (var zoneUID in device.ZoneUIDs)
 					{
-						var zone = Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 						if (zone != null)
 						{
 							zoneUIDs.Add(zoneUID);
@@ -190,7 +190,7 @@ namespace FiresecAPI.GK
 				{
 					if (directionDevice.DeviceUID != Guid.Empty)
 					{
-						var device = Devices.FirstOrDefault(x => x.BaseUID == directionDevice.DeviceUID);
+						var device = Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
 						directionDevice.Device = device;
 						if (device != null)
 						{
@@ -207,7 +207,7 @@ namespace FiresecAPI.GK
 				{
 					if (directionZone.ZoneUID != Guid.Empty)
 					{
-						var zone = Zones.FirstOrDefault(x => x.BaseUID == directionZone.ZoneUID);
+						var zone = Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
 						directionZone.Zone = zone;
 						if (zone != null)
 						{
@@ -228,10 +228,10 @@ namespace FiresecAPI.GK
 				var nsDeviceUIDs = new List<Guid>();
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
-					var nsDevice = Devices.FirstOrDefault(x => x.BaseUID == nsDeviceUID);
+					var nsDevice = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
 					if (nsDevice != null && (nsDevice.DriverType == XDriverType.FirePump || nsDevice.DriverType == XDriverType.JockeyPump || nsDevice.DriverType == XDriverType.RSR2_Bush))
 					{
-						nsDeviceUIDs.Add(nsDevice.BaseUID);
+						nsDeviceUIDs.Add(nsDevice.UID);
 						pumpStation.NSDevices.Add(nsDevice);
 					}
 				}
@@ -251,7 +251,7 @@ namespace FiresecAPI.GK
 				var mptDevices = new List<MPTDevice>();
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					var device = Devices.FirstOrDefault(x => x.BaseUID == mptDevice.DeviceUID);
+					var device = Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
 					if (device != null && MPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(device.DriverType))
 					{
 						mptDevice.Device = device;
@@ -303,7 +303,7 @@ namespace FiresecAPI.GK
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
-					var clauseDevice = Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+					var clauseDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
 					if (clauseDevice != null && !clauseDevice.IsNotUsed)
 					{
 						deviceUIDs.Add(deviceUID);
@@ -317,7 +317,7 @@ namespace FiresecAPI.GK
 				var zoneUIDs = new List<Guid>();
 				foreach (var zoneUID in clause.ZoneUIDs)
 				{
-					var zone = Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						zoneUIDs.Add(zoneUID);
@@ -331,7 +331,7 @@ namespace FiresecAPI.GK
 				var guardZoneUIDs = new List<Guid>();
 				foreach (var guardZoneUID in clause.GuardZoneUIDs)
 				{
-					var guardZone = GuardZones.FirstOrDefault(x => x.BaseUID == guardZoneUID);
+					var guardZone = GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
 					if (guardZone != null)
 					{
 						guardZoneUIDs.Add(guardZoneUID);
@@ -345,7 +345,7 @@ namespace FiresecAPI.GK
 				var directionUIDs = new List<Guid>();
 				foreach (var directionUID in clause.DirectionUIDs)
 				{
-					var direction = Directions.FirstOrDefault(x => x.BaseUID == directionUID);
+					var direction = Directions.FirstOrDefault(x => x.UID == directionUID);
 					if (direction != null)
 					{
 						directionUIDs.Add(directionUID);
@@ -359,7 +359,7 @@ namespace FiresecAPI.GK
 				var mptUIDs = new List<Guid>();
 				foreach (var mptUID in clause.MPTUIDs)
 				{
-					var mpt = MPTs.FirstOrDefault(x => x.BaseUID == mptUID);
+					var mpt = MPTs.FirstOrDefault(x => x.UID == mptUID);
 					if (mpt != null)
 					{
 						mptUIDs.Add(mptUID);
@@ -373,7 +373,7 @@ namespace FiresecAPI.GK
 				var delayUIDs = new List<Guid>();
 				foreach (var delayUID in clause.DelayUIDs)
 				{
-					var delay = Delays.FirstOrDefault(x => x.BaseUID == delayUID);
+					var delay = Delays.FirstOrDefault(x => x.UID == delayUID);
 					if (delay != null)
 					{
 						delayUIDs.Add(delayUID);
@@ -397,7 +397,7 @@ namespace FiresecAPI.GK
 				var guardZoneDevices = new List<XGuardZoneDevice>();
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					var device = Devices.FirstOrDefault(x => x.BaseUID == guardZoneDevice.DeviceUID);
+					var device = Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
 					if (device != null)
 					{
 						if (device.DriverType == XDriverType.RSR2_GuardDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_CodeReader)

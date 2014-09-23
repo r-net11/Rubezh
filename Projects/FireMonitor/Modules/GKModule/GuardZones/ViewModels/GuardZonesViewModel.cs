@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		{
 			if (zoneUID != Guid.Empty)
 			{
-				SelectedZone = Zones.FirstOrDefault(x => x.GuardZone.BaseUID == zoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.GuardZone.UID == zoneUID);
 			}
 		}
 	}

@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 		{
 			if (zoneUID != Guid.Empty)
 			{
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 					{
 						foreach (var clauseZone in clause.Zones)
 						{
-							if (clauseZone.BaseUID == SelectedZone.Zone.BaseUID)
+							if (clauseZone.UID == SelectedZone.Zone.UID)
 							{
 								device.AllParents.ForEach(x => { devices.Add(x); });
 								devices.Add(device);
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasZone)
 				{
-					if (device.ZoneUIDs.Contains(SelectedZone.Zone.BaseUID))
+					if (device.ZoneUIDs.Contains(SelectedZone.Zone.UID))
 					{
 						device.AllParents.ForEach(x => { devices.Add(x); });
 						devices.Add(device);
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.Device.Parent != null)
 				{
-					var parent = deviceViewModels.FirstOrDefault(x => x.Device.BaseUID == device.Device.Parent.BaseUID);
+					var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
 					parent.AddChild(device);
 				}
 			}

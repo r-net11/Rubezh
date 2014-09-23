@@ -46,7 +46,7 @@ namespace GKModule.Validation
 			{
 				foreach (var device in pumpStation.NSDevices)
 				{
-					if (!nsDevices.Add(device.BaseUID))
+					if (!nsDevices.Add(device.UID))
 						Errors.Add(new PumpStationValidationError(pumpStation, "Устройство " + device.PresentationName + " участвует в различных НС", ValidationErrorLevel.CannotWrite));
 				}
 			}

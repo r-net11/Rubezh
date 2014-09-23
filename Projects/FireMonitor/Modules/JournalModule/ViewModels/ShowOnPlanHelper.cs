@@ -18,7 +18,7 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementXDevices.Any(x => x.XDeviceUID == device.BaseUID))
+				if (plan.ElementXDevices.Any(x => x.XDeviceUID == device.UID))
 				{
 					return true;
 				}
@@ -34,9 +34,9 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
+				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
-				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
+				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
 			}
 			return false;
@@ -50,9 +50,9 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
+				if (plan.ElementPolygonXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
-				if (plan.ElementRectangleXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
+				if (plan.ElementRectangleXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
 			}
 			return false;
@@ -66,9 +66,9 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == direction.BaseUID))
+				if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == direction.UID))
 					return true;
-				if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == direction.BaseUID))
+				if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == direction.UID))
 					return true;
 			}
 			return false;

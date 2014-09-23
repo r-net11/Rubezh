@@ -85,8 +85,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ushort _no;
-		public ushort No
+		int _no;
+		public int No
 		{
 			get { return _no; }
 			set

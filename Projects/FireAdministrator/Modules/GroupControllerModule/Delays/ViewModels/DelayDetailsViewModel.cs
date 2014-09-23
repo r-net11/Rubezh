@@ -55,8 +55,8 @@ namespace GKModule.ViewModels
 			DelayRegime = Delay.DelayRegime;
 		}
 
-		ushort _no;
-		public ushort No
+		int _no;
+		public int No
 		{
 			get { return _no; }
 			set
@@ -127,7 +127,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (XManager.Delays.Any(x => x.No == No && x.BaseUID != Delay.BaseUID))
+			if (XManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
 			{
 				MessageBoxService.Show("Задержка с таким номером уже существует");
 				return false;

@@ -63,7 +63,7 @@ namespace GKProcessor
 		{
 			if (gkParentDevice != null)
 			{
-				var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == gkParentDevice.BaseUID);
+				var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkParentDevice.UID);
 				if (watcher != null)
 				{
 					watcher.AddTask(() =>
@@ -74,7 +74,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					Logger.Error("WatcherManager.Send watcher = null " + gkParentDevice.BaseUID.ToString());
+					Logger.Error("WatcherManager.Send watcher = null " + gkParentDevice.UID.ToString());
 				}
 			}
 			else

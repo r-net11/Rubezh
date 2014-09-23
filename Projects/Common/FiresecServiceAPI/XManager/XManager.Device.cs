@@ -15,7 +15,7 @@ namespace FiresecClient
 
 			if (fullCopy)
 			{
-				newDevice.BaseUID = device.BaseUID;
+				newDevice.UID = device.UID;
 			}
 
 			return newDevice;

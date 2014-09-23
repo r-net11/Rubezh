@@ -14,7 +14,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			Title = "Изменение зон устройств на плане";
 			var map = new Dictionary<Guid, XZone>();
-			XManager.Zones.ForEach(item => map.Add(item.BaseUID, item));
+			XManager.Zones.ForEach(item => map.Add(item.UID, item));
 			DeviceInZones = new List<DeviceInZoneViewModel>();
 			foreach (var x in deviceInZones.ToList())
 			{

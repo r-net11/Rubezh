@@ -16,7 +16,7 @@ namespace GKProcessor
 				var commonDatabase = GetCommonDatabase(xBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == xBase.UID);
 					if (descriptor != null)
 					{
 						return SetDeviceParameters(commonDatabase, descriptor, parameterBytes);
@@ -37,7 +37,7 @@ namespace GKProcessor
 				var commonDatabase = GetCommonDatabase(xBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == xBase.UID);
 					if (descriptor != null)
 					{
 						var result = GetDeviceParameters(commonDatabase, descriptor);
@@ -203,7 +203,7 @@ namespace GKProcessor
 			var commonDatabase = GetCommonDatabase(xBase);
 			if (commonDatabase != null)
 			{
-				return commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
+				return commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == xBase.UID);
 			}
 			return null;
 		}

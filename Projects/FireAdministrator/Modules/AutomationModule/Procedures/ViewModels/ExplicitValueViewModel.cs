@@ -63,11 +63,11 @@ namespace AutomationModule.ViewModels
 				if (SKDDevice != null)
 					return SKDDevice.Name;
 				if (SKDZone != null)
-					return SKDZone.Name;
+					return SKDZone.PresentationName;
 				if (Camera != null)
-					return Camera.Name;
+					return Camera.PresentationName;
 				if (SKDDoor != null)
-					return SKDDoor.Name;
+					return SKDDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
 				return "";

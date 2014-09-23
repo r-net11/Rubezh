@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 			if (deviceUID != Guid.Empty)
 			{
 				FillAllDevices();
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpandToThis();
 				SelectedDevice = deviceViewModel;

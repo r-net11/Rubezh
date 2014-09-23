@@ -19,7 +19,7 @@ namespace GKModule.Validation
 
 		protected override Guid Key
 		{
-			get { return Object.BaseUID; }
+			get { return Object.UID; }
 		}
 
 		public override string Source

@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 						case XStateClass.TurningOn:
 							if (device.Driver.IsControlDevice)
 							{
-								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.BaseUID == device.BaseUID))
+								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.UID == device.UID))
 								{
 									alarms.Add(new Alarm(XAlarmType.Turning, device));
 								}

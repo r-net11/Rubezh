@@ -149,21 +149,21 @@ namespace FiresecAPI.GK
 			}
 			foreach (var device in Devices)
 			{
-				device.BaseUID = device.UID;
+				device.UID = device.UID;
 				result &= ValidateDeviceLogic(device.DeviceLogic);
 				result &= ValidateDeviceLogic(device.NSLogic);
 			}
 			foreach (var zone in Zones)
 			{
-				zone.BaseUID = zone.UID;
+				zone.UID = zone.UID;
 			}
 			foreach (var direction in Directions)
 			{
-				direction.BaseUID = direction.UID;
+				direction.UID = direction.UID;
 			}
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.BaseUID = pumpStation.UID;
+				pumpStation.UID = pumpStation.UID;
 				result &= ValidateDeviceLogic(pumpStation.StartLogic);
 				result &= ValidateDeviceLogic(pumpStation.StopLogic);
 				result &= ValidateDeviceLogic(pumpStation.AutomaticOffLogic);
@@ -172,7 +172,7 @@ namespace FiresecAPI.GK
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					deviceParameterTemplate.XDevice.BaseUID = deviceParameterTemplate.XDevice.UID;
+					deviceParameterTemplate.XDevice.UID = deviceParameterTemplate.XDevice.UID;
 					result &= ValidateDeviceLogic(deviceParameterTemplate.XDevice.DeviceLogic);
 					result &= ValidateDeviceLogic(deviceParameterTemplate.XDevice.NSLogic);
 				}

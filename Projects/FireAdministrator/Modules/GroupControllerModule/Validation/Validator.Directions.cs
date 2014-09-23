@@ -94,7 +94,7 @@ namespace GKModule.Validation
 		{
 			foreach (var device in direction.OutputDevices)
 			{
-				if (direction.InputDevices.Any(x => x.BaseUID == device.BaseUID))
+				if (direction.InputDevices.Any(x => x.UID == device.UID))
 				{
 					Errors.Add(new DirectionValidationError(direction, "Устройство " + device.PresentationName + " участвует во входных и выходных зависимостях направления", ValidationErrorLevel.CannotWrite));
 				}

@@ -31,7 +31,7 @@ namespace GKModule.Plans.ViewModels
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
-			if (device.BaseUID == _elementXDevice.XDeviceUID)
+			if (device.UID == _elementXDevice.XDeviceUID)
 				SelectedDevice = deviceViewModel;
 			return deviceViewModel;
 		}
@@ -75,7 +75,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		private DeviceViewModel Update(Guid deviceUID)
 		{
-			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
+			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
 				device.Update();
 			return device;

@@ -10,6 +10,7 @@ namespace AutomationModule.ViewModels
 		public ProcedureStep Step { get; private set; }
 		public StepsViewModel StepsViewModel { get; private set; }
 		public Procedure Procedure { get; private set; }
+
 		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step, Procedure procedure)
 		{
 			Procedure = procedure;

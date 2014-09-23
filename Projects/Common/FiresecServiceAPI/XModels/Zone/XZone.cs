@@ -7,11 +7,10 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XZone : XBase, INamedBase, IIdentity, IPlanPresentable
+	public class XZone : XBase, IPlanPresentable
 	{
 		public XZone()
 		{
-			UID = BaseUID;// Guid.NewGuid();
 			Fire1Count = 2;
 			Fire2Count = 3;
 			PlanElementUIDs = new List<Guid>();
@@ -27,18 +26,6 @@ namespace FiresecAPI.GK
 		public List<XDevice> DevicesInLogic { get; set; }
 
 		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public ushort No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
-
-		[DataMember]
 		public int Fire1Count { get; set; }
 
 		[DataMember]
@@ -47,17 +34,6 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
-		public override string PresentationName
-		{
-			get { return No + "." + Name; }
-		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

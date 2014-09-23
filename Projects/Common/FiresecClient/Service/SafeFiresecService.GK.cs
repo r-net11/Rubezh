@@ -28,7 +28,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GKWriteConfiguration(device.BaseUID), "GKWriteConfiguration");
+				return SafeOperationCall(() => FiresecService.GKWriteConfiguration(device.UID), "GKWriteConfiguration");
 			}
 			else
 			{
@@ -43,7 +43,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GKReadConfiguration(device.BaseUID), "GKReadConfiguration");
+				return SafeOperationCall(() => FiresecService.GKReadConfiguration(device.UID), "GKReadConfiguration");
 			}
 			else
 			{
@@ -55,7 +55,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GKReadConfigurationFromGKFile(device.BaseUID), "GKReadConfigurationFromGKFile");
+				return SafeOperationCall(() => FiresecService.GKReadConfigurationFromGKFile(device.UID), "GKReadConfigurationFromGKFile");
 			}
 			else
 			{
@@ -67,7 +67,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.BaseUID, fileName), "GKUpdateFirmware");
+				return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.UID, fileName), "GKUpdateFirmware");
 			}
 			else
 			{
@@ -82,7 +82,7 @@ namespace FiresecClient
 				var deviceUIDs = new List<Guid>();
 				foreach (var device in devices)
 				{
-					deviceUIDs.Add(device.BaseUID);
+					deviceUIDs.Add(device.UID);
 				}
 				var result = SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
 				return result;
@@ -97,7 +97,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(device.BaseUID); }, "GKSyncronyseTime");
+				return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(device.UID); }, "GKSyncronyseTime");
 			}
 			else
 			{
@@ -109,7 +109,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(device.BaseUID); }, "GKGetDeviceInfo");
+				return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(device.UID); }, "GKGetDeviceInfo");
 			}
 			else
 			{
@@ -121,7 +121,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(device.BaseUID); }, "GKGetJournalItemsCount");
+				return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(device.UID); }, "GKGetJournalItemsCount");
 			}
 			else
 			{
@@ -133,7 +133,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device.BaseUID, no); }, "GKReadJournalItem");
+				return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device.UID, no); }, "GKReadJournalItem");
 			}
 			else
 			{
@@ -145,7 +145,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(xBase.BaseUID, parameterBytes); }, "SetSingleParameter");
+				return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(xBase.UID, parameterBytes); }, "SetSingleParameter");
 			}
 			else
 			{
@@ -157,7 +157,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall<List<XProperty>>(() => { return FiresecService.GKGetSingleParameter(xBase.BaseUID); }, "GetSingleParameter");
+				return SafeOperationCall<List<XProperty>>(() => { return FiresecService.GKGetSingleParameter(xBase.UID); }, "GetSingleParameter");
 			}
 			else
 			{
@@ -169,7 +169,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall<List<byte>>(() => { return FiresecService.GKGKHash(device.BaseUID); }, "GKGKHash");
+				return SafeOperationCall<List<byte>>(() => { return FiresecService.GKGKHash(device.UID); }, "GKGKHash");
 			}
 			else
 			{
@@ -193,7 +193,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(device.BaseUID, stateBit); }, "GKExecuteDeviceCommand");
+				SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(device.UID, stateBit); }, "GKExecuteDeviceCommand");
 			}
 			else
 			{
@@ -205,7 +205,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKReset(xBase.BaseUID, xBase.ObjectType); }, "GKReset");
+				SafeOperationCall(() => { FiresecService.GKReset(xBase.UID, xBase.ObjectType); }, "GKReset");
 			}
 			else
 			{
@@ -217,7 +217,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKResetFire1(zone.BaseUID); }, "GKResetFire1");
+				SafeOperationCall(() => { FiresecService.GKResetFire1(zone.UID); }, "GKResetFire1");
 			}
 			else
 			{
@@ -229,7 +229,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKResetFire2(zone.BaseUID); }, "GKResetFire2");
+				SafeOperationCall(() => { FiresecService.GKResetFire2(zone.UID); }, "GKResetFire2");
 			}
 			else
 			{
@@ -241,7 +241,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase.BaseUID, xBase.ObjectType); }, "GKSetAutomaticRegime");
+				SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase.UID, xBase.ObjectType); }, "GKSetAutomaticRegime");
 			}
 			else
 			{
@@ -253,7 +253,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase.BaseUID, xBase.ObjectType); }, "GKSetManualRegime");
+				SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase.UID, xBase.ObjectType); }, "GKSetManualRegime");
 			}
 			else
 			{
@@ -265,7 +265,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(xBase.UID, xBase.ObjectType); }, "GKTurnOn");
 			}
 			else
 			{
@@ -277,7 +277,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.UID, xBase.ObjectType); }, "GKTurnOn");
 			}
 			else
 			{
@@ -289,7 +289,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOnNow");
+				SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase.UID, xBase.ObjectType); }, "GKTurnOnNow");
 			}
 			else
 			{
@@ -301,7 +301,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOff(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOff");
+				SafeOperationCall(() => { FiresecService.GKTurnOff(xBase.UID, xBase.ObjectType); }, "GKTurnOff");
 			}
 			else
 			{
@@ -313,7 +313,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOffNow");
+				SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase.UID, xBase.ObjectType); }, "GKTurnOffNow");
 			}
 			else
 			{
@@ -325,7 +325,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStop(xBase.BaseUID, xBase.ObjectType); }, "GKStop");
+				SafeOperationCall(() => { FiresecService.GKStop(xBase.UID, xBase.ObjectType); }, "GKStop");
 			}
 			else
 			{
@@ -337,7 +337,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(device.BaseUID); }, "GKStartMeasureMonitoring");
+				SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(device.UID); }, "GKStartMeasureMonitoring");
 			}
 			else
 			{
@@ -349,7 +349,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(device.BaseUID); }, "GKStopMeasureMonitoring");
+				SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(device.UID); }, "GKStopMeasureMonitoring");
 			}
 			else
 			{

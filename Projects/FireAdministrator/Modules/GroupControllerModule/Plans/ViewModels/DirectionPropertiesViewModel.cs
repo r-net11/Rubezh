@@ -32,7 +32,7 @@ namespace GKModule.Plans.ViewModels
 				XDirections.Add(directionViewModel);
 			}
 			if (_element.DirectionUID != Guid.Empty)
-				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.BaseUID == _element.DirectionUID);
+				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
 		}
 
 		public ObservableCollection<DirectionViewModel> XDirections { get; private set; }
@@ -55,7 +55,7 @@ namespace GKModule.Plans.ViewModels
 			var createDirectionEventArg = new CreateXDirectionEventArg();
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
 			if (createDirectionEventArg.Direction != null)
-				_element.DirectionUID = createDirectionEventArg.Direction.BaseUID;
+				_element.DirectionUID = createDirectionEventArg.Direction.UID;
 			GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
 			GKPlanExtension.Instance.SetItem<XDirection>(_element);
 			UpdateDirections(xdirectionUID);
@@ -66,7 +66,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.Direction.BaseUID);
+			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
 			SelectedXDirection.Update(SelectedXDirection.Direction);
 		}
 		private bool CanEdit()
@@ -93,7 +93,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		private void Update(Guid directionUID)
 		{
-			var direction = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+			var direction = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (direction != null)
 				direction.Update();
 		}

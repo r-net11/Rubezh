@@ -311,7 +311,7 @@ namespace GKModule.ViewModels
 			IsSelected = true;
 			var plansElement = new ElementXDevice
 				{
-					XDeviceUID = Device.BaseUID
+					XDeviceUID = Device.UID
 				};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
@@ -410,7 +410,7 @@ namespace GKModule.ViewModels
 			var zone = Device.Zones.FirstOrDefault();
 			if (zone != null)
 			{
-				ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.BaseUID);
+				ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
 			}
 		}
 		bool CanShowZone()
@@ -548,7 +548,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.BaseUID);
+			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
 		}
 		bool CanShowParent()
 		{
@@ -561,7 +561,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.BaseUID == Device.BaseUID));
+				var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
 				if (mpt != null)
 					return mpt.Name;
 				return null;
@@ -571,9 +571,9 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowMPTCommand { get; private set; }
 		void OnShowMPT()
 		{
-			var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.BaseUID == Device.BaseUID));
+			var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
 			if (mpt != null)
-				ServiceFactoryBase.Events.GetEvent<ShowXMPTEvent>().Publish(mpt.BaseUID);
+				ServiceFactoryBase.Events.GetEvent<ShowXMPTEvent>().Publish(mpt.UID);
 		}
 		bool CanShowMPT()
 		{

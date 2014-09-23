@@ -183,7 +183,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -207,7 +207,7 @@ namespace GKModule.ViewModels
 			Plans = new ObservableCollection<PlanLinkViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				ElementBase elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Direction.BaseUID);
+				ElementBase elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -216,7 +216,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Direction.BaseUID);
+				elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -234,7 +234,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Direction.BaseUID.ToString(); }
+			get { return Direction.UID.ToString(); }
 		}
 		#endregion
 

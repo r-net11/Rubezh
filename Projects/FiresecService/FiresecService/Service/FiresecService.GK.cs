@@ -24,7 +24,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				return GKProcessorManager.GKWriteConfiguration(device, UserName);
@@ -37,7 +37,7 @@ namespace FiresecService.Service
 
 		public OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				DescriptorsManager.Create();
@@ -51,7 +51,7 @@ namespace FiresecService.Service
 
 		public OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				DescriptorsManager.Create();
@@ -65,7 +65,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				return GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
@@ -81,7 +81,7 @@ namespace FiresecService.Service
 			var devices = new List<XDevice>();
 			foreach (var deviceUID in deviceUIDs)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device == null)
 				{
 					return new OperationResult<bool>("Не найдено устройство в конфигурации");
@@ -93,7 +93,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
@@ -110,7 +110,7 @@ namespace FiresecService.Service
 
 		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				return new OperationResult<string>() { Result = GKProcessorManager.GKGetDeviceInfo(device, UserName) };
@@ -123,7 +123,7 @@ namespace FiresecService.Service
 
 		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				return GKProcessorManager.GKGetJournalItemsCount(device);
@@ -136,7 +136,7 @@ namespace FiresecService.Service
 
 		public OperationResult<XJournalItem> GKReadJournalItem(Guid deviceUID, int no)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				return GKProcessorManager.GKReadJournalItem(device, no);
@@ -150,14 +150,14 @@ namespace FiresecService.Service
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
 			XBase xBase = null;
-			xBase = XManager.Devices.FirstOrDefault(x => x.BaseUID == objectUID);
+			xBase = XManager.Devices.FirstOrDefault(x => x.UID == objectUID);
 			if (xBase == null)
 			{
-				xBase = XManager.Directions.FirstOrDefault(x => x.BaseUID == objectUID);
+				xBase = XManager.Directions.FirstOrDefault(x => x.UID == objectUID);
 			}
 			if (xBase == null)
 			{
-				xBase = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.BaseUID == objectUID);
+				xBase = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
 			}
 
 			if (xBase != null)
@@ -173,14 +173,14 @@ namespace FiresecService.Service
 		public OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID)
 		{
 			XBase xBase = null;
-			xBase = XManager.Devices.FirstOrDefault(x => x.BaseUID == objectUID);
+			xBase = XManager.Devices.FirstOrDefault(x => x.UID == objectUID);
 			if (xBase == null)
 			{
-				xBase = XManager.Directions.FirstOrDefault(x => x.BaseUID == objectUID);
+				xBase = XManager.Directions.FirstOrDefault(x => x.UID == objectUID);
 			}
 			if (xBase == null)
 			{
-				xBase = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.BaseUID == objectUID);
+				xBase = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
 			}
 
 			if (xBase != null)
@@ -195,7 +195,7 @@ namespace FiresecService.Service
 
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == gkDeviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
 			if (device != null)
 			{
 				return GKProcessorManager.GKGKHash(device);
@@ -213,7 +213,7 @@ namespace FiresecService.Service
 
 		public void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, UserName);
@@ -231,7 +231,7 @@ namespace FiresecService.Service
 
 		public void GKResetFire1(Guid zoneUID)
 		{
-			var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
 				GKProcessorManager.GKResetFire1(zone, UserName);
@@ -240,7 +240,7 @@ namespace FiresecService.Service
 
 		public void GKResetFire2(Guid zoneUID)
 		{
-			var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
 				GKProcessorManager.GKResetFire2(zone, UserName);
@@ -324,28 +324,28 @@ namespace FiresecService.Service
 			switch (objectType)
 			{
 				case XBaseObjectType.Deivce:
-					return XManager.Devices.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.Devices.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.Direction:
-					return XManager.Directions.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.Directions.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.Zone:
-					return XManager.Zones.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.Zones.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.PumpStation:
-					return XManager.PumpStations.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.PumpStations.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.MPT:
-					return XManager.MPTs.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.MPTs.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.Pim:
-					return XManager.AutoGeneratedPims.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.AutoGeneratedPims.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.Delay:
-					return XManager.AutoGeneratedDelays.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.AutoGeneratedDelays.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.GuardZone:
-					return XManager.GuardZones.FirstOrDefault(x => x.BaseUID == uid);
+					return XManager.GuardZones.FirstOrDefault(x => x.UID == uid);
 			}
 			return null;
 		}
 
 		public void GKStartMeasureMonitoring(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				GKProcessorManager.GKStartMeasureMonitoring(device);
@@ -354,7 +354,7 @@ namespace FiresecService.Service
 
 		public void GKStopMeasureMonitoring(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				GKProcessorManager.GKStopMeasureMonitoring(device);
@@ -364,7 +364,7 @@ namespace FiresecService.Service
 		#region Users
 		public OperationResult<bool> GKAddUser(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				var result = GKProcessorManager.GKAddUser(device, UserName);

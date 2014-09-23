@@ -121,37 +121,37 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
 						clause.Devices = clauseViewModel.Devices.ToList();
-						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.BaseUID).ToList();
+						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
 						clause.Zones = clauseViewModel.Zones.ToList();
-						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.BaseUID).ToList();
+						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllGuardZones:
 					case ClauseOperationType.AnyGuardZone:
 						clause.GuardZones = clauseViewModel.GuardZones.ToList();
-						clause.GuardZoneUIDs = clauseViewModel.GuardZones.Select(x => x.BaseUID).ToList();
+						clause.GuardZoneUIDs = clauseViewModel.GuardZones.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
 						clause.Directions = clauseViewModel.Directions.ToList();
-						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.BaseUID).ToList();
+						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllMPTs:
 					case ClauseOperationType.AnyMPT:
 						clause.MPTs = clauseViewModel.MPTs.ToList();
-						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.BaseUID).ToList();
+						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllDelays:
 					case ClauseOperationType.AnyDelay:
 						clause.Delays = clauseViewModel.Delays.ToList();
-						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.BaseUID).ToList();
+						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.UID).ToList();
 						break;
 				}
 				if (clause.HasObjects())

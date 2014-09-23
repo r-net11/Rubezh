@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		{
 			if (pimUID != Guid.Empty)
 			{
-				SelectedPim = Pims.FirstOrDefault(x => x.Pim.BaseUID == pimUID);
+				SelectedPim = Pims.FirstOrDefault(x => x.Pim.UID == pimUID);
 			}
 		}
 	}

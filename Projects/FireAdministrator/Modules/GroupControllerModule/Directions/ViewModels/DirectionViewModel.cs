@@ -170,7 +170,7 @@ namespace GKModule.ViewModels
 				foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 				{
 					clause.Directions.RemoveAll(x => x == Direction);
-					clause.DirectionUIDs.RemoveAll(x => x == Direction.BaseUID);
+					clause.DirectionUIDs.RemoveAll(x => x == Direction.UID);
 				}
 				device.DeviceLogic.ClausesGroup.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
 				device.OnChanged();
@@ -189,7 +189,7 @@ namespace GKModule.ViewModels
 						if (!clause.Directions.Contains(Direction))
 						{
 							clause.Directions.Add(Direction);
-							clause.DirectionUIDs.Add(Direction.BaseUID);
+							clause.DirectionUIDs.Add(Direction.UID);
 							device.Directions.Add(Direction);
 							device.OnChanged();
 						}
@@ -202,7 +202,7 @@ namespace GKModule.ViewModels
 						ClauseOperationType = ClauseOperationType.AnyDirection,
 						StateType = XStateBit.On,
 						Directions = new List<XDirection>() { Direction },
-						DirectionUIDs = new List<Guid>() { Direction.BaseUID }
+						DirectionUIDs = new List<Guid>() { Direction.UID }
 					};
 
 					device.DeviceLogic.ClausesGroup.Clauses.Add(clause);
@@ -221,7 +221,7 @@ namespace GKModule.ViewModels
 				foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 				{
 					clause.Directions.RemoveAll(x => x == Direction);
-					clause.DirectionUIDs.RemoveAll(x => x == Direction.BaseUID);
+					clause.DirectionUIDs.RemoveAll(x => x == Direction.UID);
 				}
 				device.DeviceLogic.ClausesGroup.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
 				device.OnChanged();
@@ -238,7 +238,7 @@ namespace GKModule.ViewModels
 						if (!clause.Directions.Contains(Direction))
 						{
 							clause.Directions.Add(Direction);
-							clause.DirectionUIDs.Add(Direction.BaseUID);
+							clause.DirectionUIDs.Add(Direction.UID);
 							device.Directions.Add(Direction);
 							device.OnChanged();
 						}
@@ -251,7 +251,7 @@ namespace GKModule.ViewModels
 						ClauseOperationType = ClauseOperationType.AnyDirection,
 						StateType = XStateBit.On,
 						Directions = new List<XDirection>() { Direction },
-						DirectionUIDs = new List<Guid>() { Direction.BaseUID }
+						DirectionUIDs = new List<Guid>() { Direction.UID }
 					};
 
 					device.DeviceLogic.ClausesGroup.Clauses.Add(clause);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Data;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI;
 
 namespace GKModule.Converters
 {
@@ -17,11 +18,11 @@ namespace GKModule.Converters
 			var directions = new List<XDirection>();
 			foreach (var uid in directionUIDs)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == uid);
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
 				if (direction != null)
 					directions.Add(direction);
 			}
-			return XManager.GetCommaSeparatedObjects(new List<INamedBase>(directions));
+			return XManager.GetCommaSeparatedObjects(new List<ModelBase>(directions));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -186,27 +187,27 @@ namespace GKModule.ViewModels
 
 		public string PresenrationZones
 		{
-			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Zones)); }
+			get { return XManager.GetCommaSeparatedObjects(new List<ModelBase>(Zones)); }
 		}
 
 		public string PresenrationGuardZones
 		{
-			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(GuardZones)); }
+			get { return XManager.GetCommaSeparatedObjects(new List<ModelBase>(GuardZones)); }
 		}
 
 		public string PresenrationDirections
 		{
-			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Directions)); }
+			get { return XManager.GetCommaSeparatedObjects(new List<ModelBase>(Directions)); }
 		}
 
 		public string PresenrationMPTs
 		{
-			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(MPTs)); }
+			get { return XManager.GetCommaSeparatedObjects(new List<ModelBase>(MPTs)); }
 		}
 
 		public string PresenrationDelays
 		{
-			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Delays)); }
+			get { return XManager.GetCommaSeparatedObjects(new List<ModelBase>(Delays)); }
 		}
 
 		public bool CanSelectDevices
@@ -252,7 +253,7 @@ namespace GKModule.ViewModels
 					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
 						continue;
 				}
-				if (device.BaseUID == Device.BaseUID)
+				if (device.UID == Device.UID)
 					continue;
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);

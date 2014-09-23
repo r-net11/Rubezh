@@ -22,7 +22,7 @@ namespace FiresecClient
 				else if (device.Zones.Count > 1)
 				{
 					stringBuilder.Append("зоны: ");
-					stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(device.Zones)));
+					stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones)));
 				}
 				return stringBuilder.ToString();
 			}
@@ -52,11 +52,11 @@ namespace FiresecClient
 				stringBuilder.Append(XClause.ClauseToString(clause.ClauseOperationType, clause.StateType) + " ");
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Zones)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.GuardZones)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Directions)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.MPTs)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Delays)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Zones)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.GuardZones)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Directions)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.MPTs)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Delays)));
 				index++;
 			}
 
@@ -87,7 +87,7 @@ namespace FiresecClient
 			return stringBuilder.ToString();
 		}
 
-		public static string GetCommaSeparatedObjects(List<INamedBase> baseObject)
+		public static string GetCommaSeparatedObjects(List<ModelBase> baseObject)
 		{
 			if (baseObject.Count == 1)
 			{

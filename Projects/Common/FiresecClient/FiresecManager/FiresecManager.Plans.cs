@@ -43,7 +43,7 @@ namespace FiresecClient
 							elementDevices.Add(elementDevice);
 					Plan.ElementDevices = elementDevices;
 
-					keys = XManager.Zones.Select(item => item.BaseUID).ToList();
+					keys = XManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleXZones = new List<ElementRectangleXZone>();
 					foreach (var elementRectangleXZone in Plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
 						if (keys.Contains(elementRectangleXZone.ZoneUID))
@@ -56,7 +56,7 @@ namespace FiresecClient
 							elementPolygonXZones.Add(elementPolygonXZone);
 					Plan.ElementPolygonXZones = elementPolygonXZones;
 
-					keys = XManager.DeviceConfiguration.GuardZones.Select(item => item.BaseUID).ToList();
+					keys = XManager.DeviceConfiguration.GuardZones.Select(item => item.UID).ToList();
 					var elementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
 					foreach (var elementRectangleXGuardZone in Plan.ElementRectangleXGuardZones.Where(x => x.ZoneUID != Guid.Empty))
 						if (keys.Contains(elementRectangleXGuardZone.ZoneUID))
@@ -69,7 +69,7 @@ namespace FiresecClient
 							elementPolygonXGuardZones.Add(elementPolygonXGuardZone);
 					Plan.ElementPolygonXGuardZones = elementPolygonXGuardZones;
 
-					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
+					keys = XManager.Devices.Select(item => item.UID).ToList();
 					var elementXDevices = new List<ElementXDevice>();
 					foreach (var elementXDevice in Plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
 						if (keys.Contains(elementXDevice.XDeviceUID))
@@ -103,7 +103,7 @@ namespace FiresecClient
 							elementDoors.Add(elementDoor);
 					Plan.ElementDoors = elementDoors;
 
-					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
+					keys = XManager.Devices.Select(item => item.UID).ToList();
 					var cameraKeys = SystemConfiguration.AllCameras.Select(item => item.UID).ToList();
 					var procedureKeys = SystemConfiguration.AutomationConfiguration.Procedures.Select(item => item.Uid).ToList();
 					var elementExtensions = new List<ElementBase>();

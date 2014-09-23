@@ -21,6 +21,7 @@ namespace FireAdministrator.ViewModels
 	{
 		public PlansConfiguration PlansConfiguration;
 		public XDeviceConfiguration XDeviceConfiguration;
+		public SKDConfiguration SKDConfiguration;
 
 		public void Merge()
 		{
@@ -48,14 +49,12 @@ namespace FireAdministrator.ViewModels
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ServiceFactory.Layout.Close();
-				if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
-					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-				else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+				if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
 
-				ServiceFactory.SaveService.FSChanged = true;
 				ServiceFactory.SaveService.PlansChanged = true;
 				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 				ServiceFactory.Layout.ShowFooter(null);
 			}
 		}
@@ -87,12 +86,16 @@ namespace FireAdministrator.ViewModels
 				{
 					switch (zipConfigurationItem.Name)
 					{
+						case "PlansConfiguration.xml":
+							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
+							break;
+
 						case "XDeviceConfiguration.xml":
 							XDeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName);
 							break;
 
-						case "PlansConfiguration.xml":
-							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
+						case "SKDConfiguration.xml":
+							SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName);
 							break;
 					}
 				}
@@ -108,6 +111,7 @@ namespace FireAdministrator.ViewModels
 			zipFile.Dispose();
 
 			MergeXDeviceConfiguration();
+			MergeSKDConfiguration();
 		}
 
 		void MergeXDeviceConfiguration()
@@ -116,6 +120,10 @@ namespace FireAdministrator.ViewModels
 			var maxZoneNo = 0;
 			if (XManager.Zones.Count > 0)
 				maxZoneNo = XManager.Zones.Max(x=>x.No);
+
+			var maxGuardZoneNo = 0;
+			if (XManager.GuardZones.Count > 0)
+				maxZoneNo = XManager.GuardZones.Max(x => x.No);
 
 			var maxDirectionNo = 0;
 			if (XManager.Directions.Count > 0)
@@ -170,6 +178,11 @@ namespace FireAdministrator.ViewModels
 				zone.No = (ushort)(zone.No + maxZoneNo);
 				XManager.Zones.Add(zone);
 			}
+			foreach (var guardZone in XDeviceConfiguration.GuardZones)
+			{
+				guardZone.No = (ushort)(guardZone.No + maxGuardZoneNo);
+				XManager.GuardZones.Add(guardZone);
+			}
 			foreach (var direction in XDeviceConfiguration.Directions)
 			{
 				direction.No = (ushort)(direction.No + maxDirectionNo);
@@ -192,31 +205,36 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
+		void MergeSKDConfiguration()
+		{
+
+		}
+
 		void CreateNewUIDs()
 		{
 			foreach (var device in XDeviceConfiguration.Devices)
 			{
 				var uid = Guid.NewGuid();
-				DeviceUIDs.Add(device.BaseUID, uid);
-				device.BaseUID = uid;
+				DeviceUIDs.Add(device.UID, uid);
+				device.UID = uid;
 			}
 			foreach (var zone in XDeviceConfiguration.Zones)
 			{
 				var uid = Guid.NewGuid();
-				ZoneUIDs.Add(zone.BaseUID, uid);
-				zone.BaseUID = uid;
+				ZoneUIDs.Add(zone.UID, uid);
+				zone.UID = uid;
 			}
-			foreach (var zone in XDeviceConfiguration.GuardZones)
+			foreach (var guardZone in XDeviceConfiguration.GuardZones)
 			{
 				var uid = Guid.NewGuid();
-				GuardZoneUIDs.Add(zone.BaseUID, uid);
-				zone.BaseUID = uid;
+				GuardZoneUIDs.Add(guardZone.UID, uid);
+				guardZone.UID = uid;
 			}
 			foreach (var direction in XDeviceConfiguration.Directions)
 			{
 				var uid = Guid.NewGuid();
-				DirectionUIDs.Add(direction.BaseUID, uid);
-				direction.BaseUID = uid;
+				DirectionUIDs.Add(direction.UID, uid);
+				direction.UID = uid;
 			}
 
 			foreach (var device in XDeviceConfiguration.Devices)

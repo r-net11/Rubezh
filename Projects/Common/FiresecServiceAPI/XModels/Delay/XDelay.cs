@@ -4,22 +4,12 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDelay : XBase, INamedBase
+	public class XDelay : XBase
 	{
 		public XDelay()
 		{
-			//UID = BaseUID;
 			DeviceLogic = new XDeviceLogic();
 		}
-
-		[DataMember]
-		public ushort No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
 
 		[DataMember]
 		public ushort DelayTime { get; set; }

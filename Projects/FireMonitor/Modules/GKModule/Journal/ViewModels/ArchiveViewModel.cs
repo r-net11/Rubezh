@@ -79,23 +79,23 @@ namespace GKModule.ViewModels
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 
 			if (showXArchiveEventArgs.Device != null)
-				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.BaseUID);
+				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.UID);
 			if (showXArchiveEventArgs.Zone != null)
-				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.BaseUID);
+				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
 			if (showXArchiveEventArgs.Direction != null)
-				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.BaseUID);
+				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
 			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
 			if (showXArchiveEventArgs.Pim != null)
-				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.BaseUID);
+				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.UID);
 			if (showXArchiveEventArgs.PumpStation != null)
-				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.BaseUID);
+				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.UID);
 			if (showXArchiveEventArgs.MPT != null)
-				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.BaseUID);
+				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.UID);
 			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
 			if (showXArchiveEventArgs.GuardZone != null)
-				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GuardZone.BaseUID);
+				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GuardZone.UID);
 
 			IsFilterOn = true;
 			OnPropertyChanged(() => IsFilterExists);

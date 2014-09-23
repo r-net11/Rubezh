@@ -123,7 +123,7 @@ namespace JournalModule.ViewModels
 		public FilterObjectViewModel(XMPT mpt)
 		{
 			Name = mpt.PresentationName;
-			UID = mpt.BaseUID;
+			UID = mpt.UID;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
@@ -137,7 +137,7 @@ namespace JournalModule.ViewModels
 		public FilterObjectViewModel(XDelay delay)
 		{
 			Name = delay.PresentationName;
-			UID = delay.BaseUID;
+			UID = delay.UID;
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 

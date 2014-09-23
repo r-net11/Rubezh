@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid delayUID)
 		{
 			if (delayUID != Guid.Empty)
-				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.BaseUID == delayUID);
+				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
 		}
 
 		public override void OnShow()

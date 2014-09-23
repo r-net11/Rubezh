@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 		{
 			if (deviceUID != Guid.Empty)
 			{
-				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
+				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			}
 		}
 		#endregion

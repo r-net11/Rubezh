@@ -135,7 +135,7 @@ namespace GKProcessor
 				gkDevice = GetGKDevice(gkDevice);
 				if (WatcherManager.Watchers != null && gkDevice != null)
 				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == gkDevice.BaseUID);
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
 					if (watcher != null)
 						watcher.Suspend();
 				}
@@ -149,7 +149,7 @@ namespace GKProcessor
 				gkDevice = GetGKDevice(gkDevice);
 				if (WatcherManager.Watchers != null && gkDevice != null)
 				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == gkDevice.BaseUID);
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
 					if (watcher != null)
 						watcher.Resume();
 				}
@@ -413,7 +413,7 @@ namespace GKProcessor
 
 		public static void GKStartMeasureMonitoring(XDevice device)
 		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == device.GkDatabaseParent.BaseUID);
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
 			if (watcher != null)
 			{
 				watcher.StartDeviceMeasure(device);
@@ -422,7 +422,7 @@ namespace GKProcessor
 
 		public static void GKStopMeasureMonitoring(XDevice device)
 		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == device.GkDatabaseParent.BaseUID);
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
 			if (watcher != null)
 			{
 				watcher.StopDeviceMeasure(device);
@@ -449,7 +449,7 @@ namespace GKProcessor
 			var journalObjectType = XJournalObjectType.System;
 			if (xBase != null)
 			{
-				uid = xBase.BaseUID;
+				uid = xBase.UID;
 				if (xBase is XDevice)
 				{
 					journalObjectType = XJournalObjectType.Device;

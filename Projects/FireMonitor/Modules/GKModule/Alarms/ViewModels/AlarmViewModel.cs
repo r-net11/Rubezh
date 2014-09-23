@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 				ElementBase elementBase;
 				if (Alarm.Device != null)
 				{
-					elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Alarm.Device.BaseUID);
+					elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Alarm.Device.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 				}
 				if (Alarm.Zone != null)
 				{
-					elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.BaseUID);
+					elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 						continue;
 					}
 
-					elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.BaseUID);
+					elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 				}
 				if (Alarm.Direction != null)
 				{
-					elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.BaseUID);
+					elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 						continue;
 					}
 
-					elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.BaseUID);
+					elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -148,15 +148,15 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Alarm.Device.BaseUID);
+				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Alarm.Device.UID);
 			}
 			if (Alarm.Zone != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Alarm.Zone.BaseUID);
+				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Alarm.Zone.UID);
 			}
 			if (Alarm.Direction != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Alarm.Direction.BaseUID);
+				ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Alarm.Direction.UID);
 			}
 		}
 

@@ -10,11 +10,10 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDevice : XBase, IIdentity, IPlanPresentable
+	public class XDevice : XBase, IPlanPresentable
 	{
 		public XDevice()
 		{
-			UID = BaseUID;// Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
 			DeviceProperties = new List<XProperty>();
@@ -49,12 +48,6 @@ namespace FiresecAPI.GK
 		}
 
 		/// <summary>
-		/// Идентификатор
-		/// </summary>
-		[DataMember]
-		public Guid UID { get; set; }
-
-		/// <summary>
 		/// Идентификатор драйвера
 		/// </summary>
 		[DataMember]
@@ -65,12 +58,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public byte IntAddress { get; set; }
-
-		/// <summary>
-		/// Описание
-		/// </summary>
-		[DataMember]
-		public string Description { get; set; }
 
 		[DataMember]
 		public string PredefinedName { get; set; }

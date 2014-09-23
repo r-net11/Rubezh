@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 		{
 			if (mptUID != Guid.Empty)
 			{
-				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.BaseUID == mptUID);
+				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
 			}
 		}
 	}

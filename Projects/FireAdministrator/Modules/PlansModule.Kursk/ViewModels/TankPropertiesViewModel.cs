@@ -20,7 +20,7 @@ namespace PlansModule.Kursk.ViewModels
 
 			Devices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush));
 			if (_element.XDeviceUID != Guid.Empty)
-				SelectedDevice = Devices.FirstOrDefault(x => x.BaseUID == _element.XDeviceUID);
+				SelectedDevice = Devices.FirstOrDefault(x => x.UID == _element.XDeviceUID);
 		}
 
 		public ObservableCollection<XDevice> Devices { get; private set; }

@@ -61,7 +61,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Device = device;
-			UID = device.BaseUID;
+			UID = device.UID;
 			BaseObjectType = XBaseObjectType.Deivce;
 		}
 
@@ -69,7 +69,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Zone = zone;
-			UID = zone.BaseUID;
+			UID = zone.UID;
 			BaseObjectType = XBaseObjectType.Zone;
 		}
 
@@ -77,7 +77,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Direction = direction;
-			UID = direction.BaseUID;
+			UID = direction.UID;
 			BaseObjectType = XBaseObjectType.Direction;
 		}
 
@@ -85,7 +85,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			PumpStation = pumpStation;
-			UID = pumpStation.BaseUID;
+			UID = pumpStation.UID;
 			BaseObjectType = XBaseObjectType.PumpStation;
 		}
 
@@ -93,7 +93,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			MPT = mpt;
-			UID = mpt.BaseUID;
+			UID = mpt.UID;
 			BaseObjectType = XBaseObjectType.PumpStation;
 		}
 
@@ -101,7 +101,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Delay = delay;
-			UID = delay.BaseUID;
+			UID = delay.UID;
 			BaseObjectType = XBaseObjectType.Delay;
 		}
 
@@ -109,7 +109,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Pim = pim;
-			UID = pim.BaseUID;
+			UID = pim.UID;
 			BaseObjectType = XBaseObjectType.Pim;
 		}
 
@@ -117,7 +117,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			GuardZone = guardZone;
-			UID = guardZone.BaseUID;
+			UID = guardZone.UID;
 			BaseObjectType = XBaseObjectType.GuardZone;
 		}
 
@@ -125,7 +125,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Code = code;
-			UID = code.BaseUID;
+			UID = code.UID;
 			BaseObjectType = XBaseObjectType.Code;
 		}
 
@@ -133,7 +133,7 @@ namespace FiresecAPI.GK
 			: this()
 		{
 			Door = door;
-			UID = door.BaseUID;
+			UID = door.UID;
 			BaseObjectType = XBaseObjectType.GuardZone;
 		}
 

@@ -9,11 +9,10 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDevice : IStateProvider, IIdentity, IPlanPresentable
+	public class SKDDevice : ModelBase, IStateProvider, IPlanPresentable
 	{
 		public SKDDevice()
 		{
-			UID = Guid.NewGuid();
 			Children = new List<SKDDevice>();
 			Properties = new List<SKDProperty>();
 			PlanElementUIDs = new List<Guid>();
@@ -32,16 +31,10 @@ namespace FiresecAPI.SKD
 		public SKDDoor Door { get; set; }
 
 		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
 		public Guid DriverUID { get; set; }
 
 		[DataMember]
 		public int IntAddress { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
 
 		[DataMember]
 		public List<SKDDevice> Children { get; set; }
@@ -139,13 +132,6 @@ namespace FiresecAPI.SKD
 				return result;
 			}
 		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 
 		#region IStateProvider Members
 

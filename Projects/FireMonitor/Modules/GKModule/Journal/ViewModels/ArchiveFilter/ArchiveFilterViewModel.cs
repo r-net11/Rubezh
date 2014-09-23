@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var zoneUID in archiveFilter.ZoneUIDs)
 			{
-				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.BaseUID == zoneUID);
+				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.UID == zoneUID);
 				if (archiveZone != null)
 				{
 					archiveZone.IsChecked = true;
@@ -153,7 +153,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var directionUID in archiveFilter.DirectionUIDs)
 			{
-				var archiveDirection = ArchiveDirections.Items.FirstOrDefault(x => (x as ArchiveDirectionViewModel).Direction.BaseUID == directionUID);
+				var archiveDirection = ArchiveDirections.Items.FirstOrDefault(x => (x as ArchiveDirectionViewModel).Direction.UID == directionUID);
 				if (archiveDirection != null)
 				{
 					archiveDirection.IsChecked = true;
@@ -188,7 +188,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var uid in archiveFilter.PumpStationUIDs)
 			{
-				var pumpStation = PumpStations.Items.FirstOrDefault(x => x.PumpStation.BaseUID == uid);
+				var pumpStation = PumpStations.Items.FirstOrDefault(x => x.PumpStation.UID == uid);
 				if (pumpStation != null)
 				{
 					pumpStation.IsChecked = true;
@@ -206,7 +206,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var uid in archiveFilter.MPTUIDs)
 			{
-				var mpt = MPTs.Items.FirstOrDefault(x => x.MPT.BaseUID == uid);
+				var mpt = MPTs.Items.FirstOrDefault(x => x.MPT.UID == uid);
 				if (mpt != null)
 				{
 					mpt.IsChecked = true;
@@ -224,7 +224,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var uid in archiveFilter.DelayUIDs)
 			{
-				var delay = Delays.Items.FirstOrDefault(x => x.Delay.BaseUID == uid);
+				var delay = Delays.Items.FirstOrDefault(x => x.Delay.UID == uid);
 				if (delay != null)
 				{
 					delay.IsChecked = true;
@@ -242,7 +242,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var uid in archiveFilter.PimUIDs)
 			{
-				var pim = PIMs.Items.FirstOrDefault(x => x.Pim.BaseUID == uid);
+				var pim = PIMs.Items.FirstOrDefault(x => x.Pim.UID == uid);
 				if (pim != null)
 				{
 					pim.IsChecked = true;
@@ -260,7 +260,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var guardZoneUID in archiveFilter.GuardZoneUIDs)
 			{
-				var archiveGuardZone = ArchiveGuardZones.Items.FirstOrDefault(x => (x as ArchiveGuardZoneViewModel).GuardZone.BaseUID == guardZoneUID);
+				var archiveGuardZone = ArchiveGuardZones.Items.FirstOrDefault(x => (x as ArchiveGuardZoneViewModel).GuardZone.UID == guardZoneUID);
 				if (archiveGuardZone != null)
 				{
 					archiveGuardZone.IsChecked = true;
@@ -282,7 +282,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (ArchiveDeviceViewModel archiveDevice in AllDevices.Items)
 				{
-					if (archiveDevice.Device.BaseUID == deviceUID)
+					if (archiveDevice.Device.UID == deviceUID)
 					{
 						archiveDevice.IsChecked = true;
 						archiveDevice.ExpandToThis();
@@ -316,7 +316,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (ArchiveDeviceViewModel archiveDevice in AllDevices.Items)
 				{
-					if (archiveDevice.Device.BaseUID == deviceUID)
+					if (archiveDevice.Device.UID == deviceUID)
 					{
 						archiveDevice.ExpandToThis();
 						SelectedDevice = archiveDevice;
@@ -463,17 +463,17 @@ namespace GKModule.ViewModels
 			foreach (var archiveDevice in AllDevices.Items)
 			{
 				if (archiveDevice.IsChecked)
-					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.BaseUID);
+					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.UID);
 			}
 			foreach (var archiveZone in ArchiveZones.Items)
 			{
 				if (archiveZone.IsChecked)
-					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.BaseUID);
+					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.UID);
 			}
 			foreach (var archiveDirection in ArchiveDirections.Items)
 			{
 				if (archiveDirection.IsChecked)
-					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.BaseUID);
+					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.UID);
 			}
 			foreach (var subsystemType in SubsystemTypes.Items)
 			{
@@ -483,27 +483,27 @@ namespace GKModule.ViewModels
 			foreach (var pumpStation in PumpStations.Items)
 			{
 				if (pumpStation.IsChecked)
-					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.BaseUID);
+					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.UID);
 			}
 			foreach (var mpt in MPTs.Items)
 			{
 				if (mpt.IsChecked)
-					archiveFilter.MPTUIDs.Add(mpt.MPT.BaseUID);
+					archiveFilter.MPTUIDs.Add(mpt.MPT.UID);
 			}
 			foreach (var delay in Delays.Items)
 			{
 				if (delay.IsChecked)
-					archiveFilter.DelayUIDs.Add(delay.Delay.BaseUID);
+					archiveFilter.DelayUIDs.Add(delay.Delay.UID);
 			}
 			foreach (var pim in PIMs.Items)
 			{
 				if (pim.IsChecked)
-					archiveFilter.PimUIDs.Add(pim.Pim.BaseUID);
+					archiveFilter.PimUIDs.Add(pim.Pim.UID);
 			}
 			foreach (var archiveGuardZone in ArchiveGuardZones.Items)
 			{
 				if (archiveGuardZone.IsChecked)
-					archiveFilter.GuardZoneUIDs.Add(archiveGuardZone.GuardZone.BaseUID);
+					archiveFilter.GuardZoneUIDs.Add(archiveGuardZone.GuardZone.UID);
 			}
 			return archiveFilter;
 		}

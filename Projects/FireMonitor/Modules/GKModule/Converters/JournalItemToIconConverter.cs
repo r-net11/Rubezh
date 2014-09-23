@@ -14,7 +14,7 @@ namespace GKModule.Converters
 			switch (journalItem.JournalObjectType)
 			{
 				case XJournalObjectType.Device:
-					var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (device == null)
 						return "/Controls;component/Images/Blank.png";
 					return device.Driver.ImageSource;

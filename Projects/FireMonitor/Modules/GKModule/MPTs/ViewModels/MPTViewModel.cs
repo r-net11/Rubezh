@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var pim in gkDatabase.Pims)
 				{
-					if (pim.MPTUID == MPT.BaseUID)
+					if (pim.MPTUID == MPT.UID)
 					{
 						if (pim.Name.StartsWith("АО Р "))
 						{

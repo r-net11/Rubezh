@@ -131,26 +131,26 @@ namespace FiresecClient
 				var xDeviceMap = new Dictionary<Guid, XDevice>();
 				foreach (var xDevice in XManager.Devices)
 				{
-					if (!xDeviceMap.ContainsKey(xDevice.BaseUID))
-						xDeviceMap.Add(xDevice.BaseUID, xDevice);
+					if (!xDeviceMap.ContainsKey(xDevice.UID))
+						xDeviceMap.Add(xDevice.UID, xDevice);
 				}
 				var xZoneMap = new Dictionary<Guid, XZone>();
 				foreach (var xzone in XManager.Zones)
 				{
-					if (!xZoneMap.ContainsKey(xzone.BaseUID))
-					xZoneMap.Add(xzone.BaseUID, xzone);
+					if (!xZoneMap.ContainsKey(xzone.UID))
+					xZoneMap.Add(xzone.UID, xzone);
 				}
 				var xGuardZoneMap = new Dictionary<Guid, XGuardZone>();
 				foreach (var xGuardZone in XManager.DeviceConfiguration.GuardZones)
 				{
-					if (!xGuardZoneMap.ContainsKey(xGuardZone.BaseUID))
-						xGuardZoneMap.Add(xGuardZone.BaseUID, xGuardZone);
+					if (!xGuardZoneMap.ContainsKey(xGuardZone.UID))
+						xGuardZoneMap.Add(xGuardZone.UID, xGuardZone);
 				}
 				var xDirectionMap = new Dictionary<Guid, XDirection>();
 				foreach (var xdirection in XManager.Directions)
 				{
-					if (!xDirectionMap.ContainsKey(xdirection.BaseUID))
-						xDirectionMap.Add(xdirection.BaseUID, xdirection);
+					if (!xDirectionMap.ContainsKey(xdirection.UID))
+						xDirectionMap.Add(xdirection.UID, xdirection);
 				}
 
 				var doorMap = new Dictionary<Guid, SKDDoor>();

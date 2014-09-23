@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid pumpStationUID)
 		{
 			if (pumpStationUID != Guid.Empty)
-				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.BaseUID == pumpStationUID);
+				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
 		}
 
 		public override void OnShow()

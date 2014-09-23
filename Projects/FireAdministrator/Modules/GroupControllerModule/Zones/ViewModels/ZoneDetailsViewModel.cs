@@ -58,8 +58,8 @@ namespace GKModule.ViewModels
 			Fire2Count = Zone.Fire2Count;
 		}
 
-		ushort _no;
-		public ushort No
+		int _no;
+		public int No
 		{
 			get { return _no; }
 			set

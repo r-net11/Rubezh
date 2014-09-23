@@ -8,26 +8,9 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDoor : IStateProvider, IDeviceState<XStateClass>, IIdentity, IPlanPresentable
+	public class SKDDoor : ModelBase, IStateProvider, IDeviceState<XStateClass>, IPlanPresentable
 	{
-		public SKDDoor()
-		{
-			UID = Guid.NewGuid();
-		}
-
 		public SKDDoorState State { get; set; }
-
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public int No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
 
 		[DataMember]
 		public DoorType DoorType { get; set; }
@@ -44,20 +27,8 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 
-		public string PresentationName
-		{
-			get { return No.ToString() + "." + Name; }
-		}
-
 		public SKDDevice InDevice { get; set; }
 		public SKDDevice OutDevice { get; set; }
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 
 		#region IStateProvider Members
 		IDeviceState<XStateClass> IStateProvider.StateClass

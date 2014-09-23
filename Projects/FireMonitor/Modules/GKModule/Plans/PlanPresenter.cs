@@ -108,7 +108,7 @@ namespace GKModule.Plans
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementXDevices)
-					if (element.XDeviceUID == device.BaseUID)
+					if (element.XDeviceUID == device.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
@@ -119,13 +119,13 @@ namespace GKModule.Plans
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleXZones)
-					if (element.ZoneUID == zone.BaseUID)
+					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 				foreach (var element in plan.ElementPolygonXZones)
-					if (element.ZoneUID == zone.BaseUID)
+					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
@@ -137,13 +137,13 @@ namespace GKModule.Plans
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleXGuardZones)
-					if (element.ZoneUID == zone.BaseUID)
+					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 				foreach (var element in plan.ElementPolygonXGuardZones)
-					if (element.ZoneUID == zone.BaseUID)
+					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
@@ -155,13 +155,13 @@ namespace GKModule.Plans
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleXDirections)
-					if (element.DirectionUID == direction.BaseUID)
+					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 				foreach (var element in plan.ElementPolygonXDirections)
-					if (element.DirectionUID == direction.BaseUID)
+					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;

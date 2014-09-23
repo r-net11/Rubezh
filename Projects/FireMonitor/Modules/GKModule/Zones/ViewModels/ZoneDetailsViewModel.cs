@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
+				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
+				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Zone.BaseUID.ToString(); }
+			get { return Zone.UID.ToString(); }
 		}
 		#endregion
 

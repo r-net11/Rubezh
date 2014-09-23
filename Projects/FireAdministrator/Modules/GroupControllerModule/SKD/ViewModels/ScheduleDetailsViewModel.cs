@@ -52,8 +52,8 @@ namespace GKModule.ViewModels
 			Description = Schedule.Description;
 		}
 
-		ushort _no;
-		public ushort No
+		int _no;
+		public int No
 		{
 			get { return _no; }
 			set

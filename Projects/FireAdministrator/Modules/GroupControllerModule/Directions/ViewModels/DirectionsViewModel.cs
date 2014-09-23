@@ -229,13 +229,13 @@ namespace GKModule.ViewModels
 			else
 			{
 				createDirectionEventArg.Cancel = false;
-				createDirectionEventArg.DirectionUID = result.Direction.BaseUID;
+				createDirectionEventArg.DirectionUID = result.Direction.UID;
 				createDirectionEventArg.Direction = result.Direction;
 			}
 		}
 		public void EditDirection(Guid directionUID)
 		{
-			var directionViewModel = directionUID == Guid.Empty ? null : Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+			var directionViewModel = directionUID == Guid.Empty ? null : Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (directionViewModel != null)
 				OnEdit(directionViewModel.Direction);
 		}
@@ -254,7 +254,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid directionUID)
 		{
 			if (directionUID != Guid.Empty)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 		#endregion
 
@@ -286,7 +286,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnDirectionChanged(Guid directionUID)
 		{
-			var direction = Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (direction != null)
 			{
 				direction.Update();

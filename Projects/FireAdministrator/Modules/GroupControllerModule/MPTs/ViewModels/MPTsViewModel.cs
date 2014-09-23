@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid mptUID)
 		{
 			if (mptUID != Guid.Empty)
-				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.BaseUID == mptUID);
+				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
 		}
 
 		public override void OnShow()

@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var instruction in availableStateTypeInstructions)
 				{
-					if (instruction.Devices.Contains(device.BaseUID))
+					if (instruction.Devices.Contains(device.UID))
 					{
 						return instruction;
 					}
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var instruction in availableStateTypeInstructions)
 				{
-					if (instruction.ZoneUIDs.Contains(zone.BaseUID))
+					if (instruction.ZoneUIDs.Contains(zone.UID))
 					{
 						return instruction;
 					}
@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 				{
 					if (instruction.Directions == null)
 						break;
-					if (instruction.Directions.Contains(direction.BaseUID))
+					if (instruction.Directions.Contains(direction.UID))
 					{
 						return instruction;
 					}

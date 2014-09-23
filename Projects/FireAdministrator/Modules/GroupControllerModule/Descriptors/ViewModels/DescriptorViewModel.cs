@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 		public RelayCommand NavigateCommand { get; private set; }
 		void OnNavigate()
 		{
-			var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.BaseUID == Descriptor.XBase.BaseUID);
+			var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.UID == Descriptor.XBase.UID);
 			if (descriptorViewModel != null)
 			{
 				DescriptorsViewModel.SelectedDescriptor = descriptorViewModel;

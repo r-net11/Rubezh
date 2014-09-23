@@ -7,11 +7,10 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDirection : XBase, INamedBase, IIdentity, IPlanPresentable
+	public class XDirection : XBase, IPlanPresentable
 	{
 		public XDirection()
 		{
-			UID = BaseUID;// Guid.NewGuid();
 			DirectionZones = new List<XDirectionZone>();
 			DirectionDevices = new List<XDirectionDevice>();
 			DelayRegime = DelayRegime.Off;
@@ -27,18 +26,6 @@ namespace FiresecAPI.GK
 		public List<XDevice> InputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> OutputDevices { get; set; }
-
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public ushort No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
 
 		[DataMember]
 		public ushort Delay { get; set; }
@@ -58,17 +45,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
-		public override string PresentationName
-		{
-			get { return No + "." + Name; }
-		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
+		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

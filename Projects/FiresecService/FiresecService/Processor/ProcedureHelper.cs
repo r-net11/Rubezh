@@ -370,7 +370,7 @@ namespace FiresecService.Processor
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.GKDeviceParameter.ExplicitValue.UidValue);
 			if (device == null)
 				return;
-			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.BaseUID, procedureStep.ControlGKDeviceArguments.Command);
+			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
 		public static List<WinFormsPlayer> WinFormsPlayers { get; private set; }

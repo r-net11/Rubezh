@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		{
 			if (delayUID != Guid.Empty)
 			{
-				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.BaseUID == delayUID);
+				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
 			}
 		}
 	}

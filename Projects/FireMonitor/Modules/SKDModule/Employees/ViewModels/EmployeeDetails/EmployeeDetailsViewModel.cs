@@ -748,7 +748,7 @@ namespace SKDModule.ViewModels
 				{
 					var guardZoneAccess = new XGuardZoneAccess()
 					{
-						ZoneUID = guardZone.GuardZone.BaseUID,
+						ZoneUID = guardZone.GuardZone.UID,
 						CanSet = guardZone.CanSetZone,
 						CanReset = guardZone.CanUnSetZone
 					};

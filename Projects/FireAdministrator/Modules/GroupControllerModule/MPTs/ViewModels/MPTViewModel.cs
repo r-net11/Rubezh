@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 					{
 						foreach (var mpt in XManager.MPTs)
 						{
-							if (mpt.BaseUID != MPT.BaseUID)
+							if (mpt.UID != MPT.UID)
 							{
 								foreach (var mptDevice in mpt.MPTDevices)
 								{
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 
 				var selectedDevice = deviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
-				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.BaseUID : Guid.Empty;
+				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.UID : Guid.Empty;
 				XManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice);
 				XManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = selectedDevice;
@@ -160,7 +160,7 @@ namespace GKModule.ViewModels
 			if (device != null)
 			{
 				device.IsInMPT = isInMPT;
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == device.BaseUID);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.UpdateProperties();
