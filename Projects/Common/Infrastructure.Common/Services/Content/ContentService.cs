@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xaml;
 using Common;
 using Infrustructure.Plans.Painters;
 
@@ -50,7 +50,10 @@ namespace Infrastructure.Common.Services.Content
 		public Stream GetContentStream(string guid)
 		{
 			if (_streams.ContainsKey(guid))
+			{
+				_streams[guid].Position = 0;
 				return _streams[guid];
+			}
 			var fileName = GetContentFileName(guid);
 			if (!File.Exists(fileName))
 				return null;
@@ -88,7 +91,7 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public T GetObject<T>(string guid)
 		{
-			return (T)XamlReader.Load(GetContentStream(guid));
+			return (T)XamlServices.Load(GetContentStream(guid));
 		}
 		public Drawing GetDrawing(Guid guid)
 		{
@@ -122,7 +125,7 @@ namespace Infrastructure.Common.Services.Content
 			var guid = Guid.NewGuid();
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
 			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
-				XamlWriter.Save(data, fileStream);
+				XamlServices.Save(fileStream, data);
 			return guid;
 		}
 

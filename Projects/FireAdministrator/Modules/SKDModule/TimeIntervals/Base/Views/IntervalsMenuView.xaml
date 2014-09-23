@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="SKDModule.Intervals.Base.Views.IntervalsMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
-		<Controls:ToolBarButton Command="{Binding ActivateCommand}" ImageSource="{Binding SelectedInterval.ActivateActionImage}">
+		<ToolBarButton Command="{Binding ActivateCommand}" ImageSource="{Binding SelectedInterval.ActivateActionImage}">
 			<Controls:ToolBarButton.ToolTip>
 				<ToolTip Content="{Binding SelectedInterval.ActivateActionTitle}" ContentStringFormat="{}{0} (Ctrl+A)" />
 			</Controls:ToolBarButton.ToolTip>
 		</ToolBarButton>
-		<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
-		<Controls:ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать (Ctrl+C)" />
-		<Controls:ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить (Ctrl+V)" />
+		<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
+		<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать (Ctrl+C)" />
+		<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить (Ctrl+V)" />
 	</StackPanel>
 </UserControl>
