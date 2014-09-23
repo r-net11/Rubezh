@@ -12,13 +12,13 @@ namespace AutomationModule.ViewModels
 	public class IncrementValueStepViewModel: BaseStepViewModel
 	{
 		IncrementValueArguments IncrementValueArguments { get; set; }
-		public ArithmeticParameterViewModel ResultParameter { get; private set; }
+		public ArgumentViewModel ResultParameter { get; private set; }
 
 		public IncrementValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			IncrementValueArguments = stepViewModel.Step.IncrementValueArguments;
 			IncrementTypes = new ObservableCollection<IncrementType> { IncrementType.Inc, IncrementType.Dec };
-			ResultParameter = new ArithmeticParameterViewModel(IncrementValueArguments.ResultParameter, stepViewModel.Update, false);
+			ResultParameter = new ArgumentViewModel(IncrementValueArguments.ResultParameter, stepViewModel.Update, false);
 			UpdateContent();
 		}
 		

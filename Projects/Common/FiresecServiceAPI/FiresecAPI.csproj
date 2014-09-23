@@ -144,8 +144,8 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
-    <Compile Include="Models\Automation\ArithmeticParameter.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
@@ -166,7 +166,7 @@
     <Compile Include="Models\Automation\StepArguments\ShowMessageArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SetValueArguments.cs" />
     <Compile Include="CallbackResult.cs" />
-    <Compile Include="Journal\EventDescriptionAttribute.cs" />
+    <Compile Include="Journal\EventNameAttribute.cs" />
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Journal\JournalEventNameType.cs" />
     <Compile Include="Journal\JournalSubsystemType.cs" />
@@ -202,7 +202,6 @@
     <Compile Include="Models\Automation\GlobalVariable.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
-    <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ExitArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
@@ -210,7 +209,7 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
-    <Compile Include="Models\Automation\VariableItem.cs" />
+    <Compile Include="Models\Automation\ExplicitValue.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
@@ -263,7 +262,7 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
-    <Compile Include="XModels\Door\XDoor.cs" />
+    <Compile Include="XModels\SKD\XDoor.cs" />
     <Compile Include="XModels\Guard\XCodeReaderEnterType.cs" />
     <Compile Include="XModels\Guard\XCodeReaderSettings.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
@@ -508,6 +507,9 @@
     <Compile Include="XModels\MPT\XMPT.cs" />
     <Compile Include="XModels\PIM\XPim.cs" />
     <Compile Include="XModels\PumpStation\XPumpStation.cs" />
+    <Compile Include="XModels\SKD\XDoorType.cs" />
+    <Compile Include="XModels\SKD\XSchedule.cs" />
+    <Compile Include="XModels\States\XDoorInternalState.cs" />
     <Compile Include="XModels\States\GKStates.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseInternalState.cs" />

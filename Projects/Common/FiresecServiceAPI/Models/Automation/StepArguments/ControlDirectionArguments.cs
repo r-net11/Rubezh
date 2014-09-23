@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlDirectionArguments()
 		{
-			DirectionParameter = new ArithmeticParameter();
+			DirectionParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter DirectionParameter { get; set; }
+		public Variable DirectionParameter { get; set; }
 
 		[DataMember]
 		public DirectionCommandType DirectionCommandType { get; set; }

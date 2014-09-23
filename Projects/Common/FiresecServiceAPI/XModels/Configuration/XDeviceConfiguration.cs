@@ -19,7 +19,7 @@ namespace FiresecAPI.GK
 			Instructions = new List<XInstruction>();
 			Codes = new List<XCode>();
 			GuardZones = new List<XGuardZone>();
-			Doors = new List<XDoor>();
+			Schedules = new List<XSchedule>();
 			ParameterTemplates = new List<XParameterTemplate>();
 		}
 
@@ -57,6 +57,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<XDoor> Doors { get; set; }
+
+		[DataMember]
+		public List<XSchedule> Schedules { get; set; }
 
 		[DataMember]
 		public List<XParameterTemplate> ParameterTemplates { get; set; }
@@ -198,6 +201,12 @@ namespace FiresecAPI.GK
 			if (Doors == null)
 			{
 				Doors = new List<XDoor>();
+				result = false;
+			}
+
+			if (Schedules == null)
+			{
+				Schedules = new List<XSchedule>();
 				result = false;
 			}
 

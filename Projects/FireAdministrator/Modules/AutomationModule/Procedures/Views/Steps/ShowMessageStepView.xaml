@@ -28,7 +28,7 @@
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Сообщение" Width="100" />
-			<Views:ArithmeticParameterView DataContext="{Binding MessageParameter}" />
+			<Views:ArgumentView DataContext="{Binding MessageParameter}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

@@ -123,12 +123,6 @@ namespace AutomationModule.ViewModels
 				Content.UpdateContent();
 		}
 
-		void OnChanged()
-		{
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
-		}
-
 		public void Update(ProcedureStep step)
 		{
 			Step = step;

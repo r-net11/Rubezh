@@ -18,6 +18,8 @@ namespace SKDModule.ViewModels
 		public EmployeesViewModel(HRViewModel hrViewModel):base()
 		{
 			HRViewModel = hrViewModel;
+			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 		}
 
 		public override void Initialize(EmployeeFilter filter)
@@ -85,9 +87,20 @@ namespace SKDModule.ViewModels
 			get { return "сотрудника"; }
 		}
 
-        protected override bool Save(ShortEmployee item)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		protected override bool Save(ShortEmployee item)
+		{
+			throw new NotImplementedException();
+		}
+
+		void OnEditEmployee(Guid employeeUID)
+		{
+			var viewModel = Organisations.SelectMany(x => x.Children).FirstOrDefault(x => x.Model.UID == employeeUID);
+			if (viewModel != null)
+			{
+				var model = EmployeeHelper.GetSingleShort(employeeUID);
+				if(model != null)
+					viewModel.Update(model);
+			}
+		}
+	}
 }

@@ -29,6 +29,14 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
 		}
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeDepartment(uid, departmentUid));
+		}
+		public OperationResult SaveEmployeePosition(Guid uid, Guid positionUid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid));
+		}
 		#endregion
 
 		#region Department
@@ -47,6 +55,14 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedDepartment(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(uid));
+		}
+		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID));
+		}
+		public OperationResult SaveDepartmentHRChief(Guid uid, Guid chiefUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentHRChief(uid, chiefUID));
 		}
 		#endregion
 
@@ -147,6 +163,10 @@ namespace FiresecService.Service
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
+		}
+		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID));
 		}
 		#endregion
 

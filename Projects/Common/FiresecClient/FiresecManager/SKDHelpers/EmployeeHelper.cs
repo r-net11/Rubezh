@@ -54,5 +54,18 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetEmployeeList(new EmployeeFilter { OrganisationUIDs = new List<Guid> { organisationUID } });
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+		public static bool SetDepartment(Guid employeeUID, Guid departmentUID)
+		{
+			var operationResult = FiresecManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID);
+			return Common.ShowErrorIfExists(operationResult); 
+		}
+
+		public static bool SetPosition(Guid employeeUID, Guid positionUID)
+		{
+			var operationResult = FiresecManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID);
+			return Common.ShowErrorIfExists(operationResult); 
+		}
+
 	}
 }

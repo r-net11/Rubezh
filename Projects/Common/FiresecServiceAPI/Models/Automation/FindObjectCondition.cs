@@ -9,14 +9,14 @@ namespace FiresecAPI.Automation
 	{
 		public FindObjectCondition()
 		{
-			SourceParameter = new ArithmeticParameter();
+			SourceParameter = new Variable();
 		}
 
 		[DataMember]
 		public ConditionType ConditionType { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter SourceParameter { get; set; }
+		public Variable SourceParameter { get; set; }
 
 		[DataMember]
 		public Property Property { get; set; }

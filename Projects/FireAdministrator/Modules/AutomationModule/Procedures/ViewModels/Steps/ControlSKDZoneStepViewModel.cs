@@ -15,14 +15,14 @@ namespace AutomationModule.ViewModels
 	public class ControlSKDZoneStepViewModel: BaseStepViewModel
 	{
 		ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }
-		public ArithmeticParameterViewModel SKDZoneParameter { get; private set; }
+		public ArgumentViewModel SKDZoneParameter { get; private set; }
 
 		public ControlSKDZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlSKDZoneArguments = stepViewModel.Step.ControlSKDZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDZoneCommandType>();
-			SKDZoneParameter = new ArithmeticParameterViewModel(ControlSKDZoneArguments.SKDZoneParameter, stepViewModel.Update);
-			SKDZoneParameter.ObjectType = ObjectType.SKDZone;
+			SKDZoneParameter = new ArgumentViewModel(ControlSKDZoneArguments.SKDZoneParameter, stepViewModel.Update);
+			SKDZoneParameter.SelectedObjectType = ObjectType.SKDZone;
 			SKDZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDZoneArguments.SKDZoneCommandType;
 			UpdateContent();

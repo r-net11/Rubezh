@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
 
 namespace SKDModule.ViewModels
 {
@@ -59,7 +59,8 @@ namespace SKDModule.ViewModels
 			{
 				Positions.Add(positionDetailsViewModel.Model);
 				SelectedPosition = Positions.LastOrDefault();
-				HRViewModel.UpdatePositions();
+				if(HRViewModel != null)
+					HRViewModel.UpdatePositions();
 			}
 		}
 	}

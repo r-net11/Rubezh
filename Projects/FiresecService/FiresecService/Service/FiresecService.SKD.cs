@@ -7,7 +7,6 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
-using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -75,6 +74,22 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
+			}
+		}
+		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
+			}
+		}
 		#endregion
 
 		#region Department
@@ -106,6 +121,23 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.MarkDeleted(uid);
+			}
+		}
+		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
+			}
+		}
+
+		public OperationResult SaveDepartmentHRChief(Guid uid, Guid hrChiefUID)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.SaveHRChief(uid, hrChiefUID);
 			}
 		}
 		#endregion
@@ -410,6 +442,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.GetDetails(uid);
+			}
+		}
+		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
 		#endregion

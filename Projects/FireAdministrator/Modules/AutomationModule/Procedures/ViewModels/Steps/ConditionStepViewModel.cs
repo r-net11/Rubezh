@@ -132,8 +132,8 @@ namespace AutomationModule.ViewModels
 	public class ConditionViewModel : BaseViewModel
 	{
 		public Condition Condition { get; private set; }
-		public ArithmeticParameterViewModel Parameter1 { get; set; }
-		public ArithmeticParameterViewModel Parameter2 { get; set; }
+		public ArgumentViewModel Parameter1 { get; set; }
+		public ArgumentViewModel Parameter2 { get; set; }
 		Procedure Procedure { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 
@@ -143,9 +143,9 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
-			Parameter1 = new ArithmeticParameterViewModel(Condition.Parameter1, updateDescriptionHandler, false);
+			Parameter1 = new ArgumentViewModel(Condition.Parameter1, updateDescriptionHandler, false);
 			Parameter1.UpdateVariableHandler += UpdateParameter2;
-			Parameter2 = new ArithmeticParameterViewModel(Condition.Parameter2, updateDescriptionHandler);
+			Parameter2 = new ArgumentViewModel(Condition.Parameter2, updateDescriptionHandler);
 			SelectedExplicitType = Condition.ExplicitType;
 		}
 
@@ -177,9 +177,9 @@ namespace AutomationModule.ViewModels
 		{
 			if (Parameter1.ExplicitType == ExplicitType.Enum)
 			{
-				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Parameter1.EnumType);
+				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Parameter1.SelectedEnumType);
 				Parameter2.Update(allVariables);
-				Parameter2.EnumType = Parameter1.EnumType;
+				Parameter2.SelectedEnumType = Parameter1.SelectedEnumType;
 			}
 		}
 

@@ -142,9 +142,9 @@ namespace SKDModule.ViewModels
 				var removeResult = OrganisationHelper.MarkDeleted(organisation);
 				if (removeResult == false)
 					return;
-                Organisations.Remove(SelectedOrganisation);
-                SelectedOrganisation = Organisations.FirstOrDefault();
-                ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
+				Organisations.Remove(SelectedOrganisation);
+				SelectedOrganisation = Organisations.FirstOrDefault();
+				ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 			}
 		}
 
@@ -158,7 +158,7 @@ namespace SKDModule.ViewModels
 				SelectedOrganisation.Organisation = organisation;
 				SelectedOrganisation.Update();
 				ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Publish(organisation);
-            }
+			}
 		}
 	}
 }

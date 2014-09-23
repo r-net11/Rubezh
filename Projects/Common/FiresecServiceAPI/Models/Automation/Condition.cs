@@ -10,18 +10,18 @@ namespace FiresecAPI.Automation
 		public Condition()
 		{
 			Uid = new Guid();
-			Parameter1 = new ArithmeticParameter();
-			Parameter2 = new ArithmeticParameter();
+			Parameter1 = new Variable();
+			Parameter2 = new Variable();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Parameter1 { get; set; }
+		public Variable Parameter1 { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Parameter2 { get; set; }
+		public Variable Parameter2 { get; set; }
 
 		[DataMember]
 		public ConditionType ConditionType { get; set; }

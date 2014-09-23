@@ -10,18 +10,24 @@ namespace AutomationModule.ViewModels
 	public class RandomStepViewModel : BaseStepViewModel
 	{
 		public RandomArguments RandomArguments { get; private set; }
-		public ArithmeticParameterViewModel MaxValueParameter { get; private set; }
+		public ArgumentViewModel MaxValueParameter { get; private set; }
+		public ArgumentViewModel ResultParameter { get; private set; }
 
 		public RandomStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			RandomArguments = stepViewModel.Step.RandomArguments;
-			MaxValueParameter = new ArithmeticParameterViewModel(RandomArguments.MaxValueParameter, stepViewModel.Update);
+			MaxValueParameter = new ArgumentViewModel(RandomArguments.MaxValueParameter, stepViewModel.Update);
 			MaxValueParameter.ExplicitType = ExplicitType.Integer;
+			ResultParameter = new ArgumentViewModel(RandomArguments.ResultParameter, stepViewModel.Update, false);
+			ResultParameter.ExplicitType = ExplicitType.Integer;
+			UpdateContent();
 		}
 
 		public override void UpdateContent()
 		{
-			MaxValueParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList);
+			MaxValueParameter.Update(allVariables);
+			ResultParameter.Update(allVariables);
 		}
 
 		public override string Description

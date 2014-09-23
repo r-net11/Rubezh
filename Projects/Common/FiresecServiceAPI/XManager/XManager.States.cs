@@ -36,6 +36,11 @@ namespace FiresecClient
 				guardZone.InternalState = new XGuardZoneInternalState(guardZone);
 				guardZone.State = new XState(guardZone);
 			}
+			foreach (var door in Doors)
+			{
+				door.InternalState = new XDoorInternalState(door);
+				door.State = new XState(door);
+			}
 			foreach (var code in DeviceConfiguration.Codes)
 			{
 				code.InternalState = new XCodeInternalState(code);

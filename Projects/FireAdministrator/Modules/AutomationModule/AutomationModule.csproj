@@ -99,7 +99,10 @@
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ArithmeticParameterViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ShowMessageStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariablesMenuViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
@@ -152,6 +156,12 @@
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Procedures\Views\ArgumentDetailsView.xaml.cs">
+      <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
+      <DependentUpon>ArgumentsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\CameraSelectionView.xaml.cs">
       <DependentUpon>CameraSelectionView.xaml</DependentUpon>
     </Compile>
@@ -263,11 +273,17 @@
     <Compile Include="Procedures\Views\VariableDetailsView.xaml.cs">
       <DependentUpon>VariableDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\ArithmeticParameterView.xaml.cs">
-      <DependentUpon>ArithmeticParameterView.xaml</DependentUpon>
+    <Compile Include="Procedures\Views\ArgumentView.xaml.cs">
+      <DependentUpon>ArgumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariablesMenuView.xaml.cs">
+      <DependentUpon>VariablesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariableView.xaml.cs">
+      <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ZoneSelectionView.xaml.cs">
       <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
@@ -276,14 +292,10 @@
     <Compile Include="AutomationModule.cs" />
     <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
-    <Compile Include="Schedules\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleProcedureViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleViewModel.cs" />
-    <Compile Include="Schedules\Views\ArgumentsView.xaml.cs">
-      <DependentUpon>ArgumentsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Schedules\Views\ProcedureSelectionView.xaml.cs">
       <DependentUpon>ProcedureSelectionView.xaml</DependentUpon>
     </Compile>
@@ -415,6 +427,14 @@
     <Page Include="Plans\Views\ProcedurePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ArgumentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ArgumentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Procedures\Views\Steps\ProcedureResources.xaml">
       <SubType>Designer</SubType>
@@ -568,11 +588,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\ArithmeticParameterView.xaml">
+    <Page Include="Procedures\Views\ArgumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\VariablesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\VariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\VariableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -581,10 +609,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Schedules\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Schedules\Views\ArgumentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

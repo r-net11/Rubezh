@@ -11,12 +11,12 @@ namespace AutomationModule.ViewModels
 	public class JournalStepViewModel : BaseStepViewModel
 	{
 		JournalArguments JournalArguments { get; set; }
-		public ArithmeticParameterViewModel MessageParameter { get; set; }
+		public ArgumentViewModel MessageParameter { get; set; }
 
 		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
-			MessageParameter = new ArithmeticParameterViewModel(JournalArguments.MessageParameter, stepViewModel.Update);
+			MessageParameter = new ArgumentViewModel(JournalArguments.MessageParameter, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 			UpdateContent();
@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
 			MessageParameter.Update(allVariables);
 			MessageParameter.ExplicitType = ExplicitType;
-			MessageParameter.EnumType = EnumType;
+			MessageParameter.SelectedEnumType = EnumType;
 		}
 
 		public override string Description

@@ -74,6 +74,8 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
+    <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
+    <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
@@ -81,8 +83,12 @@
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Views\EmployeeListView.xaml.cs">
+      <DependentUpon>EmployeeListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
@@ -97,6 +103,8 @@
       <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
+    <Compile Include="Events\EditEmployeeEvent.cs" />
+    <Compile Include="Events\EditEmployeePositionDepartmentEvent.cs" />
     <Compile Include="Events\NewCardEvent.cs" />
     <Compile Include="Events\EditOrganisationEvent.cs" />
     <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
@@ -148,6 +156,10 @@
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
+    <Compile Include="Common\ViewModels\EmployeeSelectionViewModel.cs" />
+    <Compile Include="Common\Views\EmployeeSelectionView.xaml.cs">
+      <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PassCardDesigner\Designer\DesignerCanvas.cs" />
     <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
     <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
@@ -174,6 +186,7 @@
     <Compile Include="PassCardDesigner\Views\PassCardTextPropertyView.xaml.cs">
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
@@ -517,6 +530,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\Views\EmployeeListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Employees\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -615,6 +632,10 @@
     <Resource Include="Reports\T13_2.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Common\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PassCardDesigner\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

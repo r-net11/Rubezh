@@ -11,6 +11,10 @@
 		<Views:ProceduresMenuView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:VariablesMenuViewModel}">
+		<Views:VariablesMenuView />
+	</DataTemplate> 
+	
 	<DataTemplate DataType="{x:Type ViewModels:ProcedureDetailsViewModel}">
 		<Views:ProcedureDetailsView />
 	</DataTemplate>
@@ -23,6 +27,10 @@
 		<Views:VariableDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
+		<Views:ArgumentDetailsView />
+	</DataTemplate>
+	
 	<DataTemplate DataType="{x:Type ViewModels:FilterSelectionViewModel}">
 		<Views:FilterSelectionView />
 	</DataTemplate>

@@ -11,12 +11,12 @@ namespace AutomationModule.ViewModels
 	public class ExitStepViewModel: BaseStepViewModel
 	{
 		ExitArguments ExitArguments { get; set; }
-		public ArithmeticParameterViewModel ExitCodeParameter { get; private set; }
+		public ArgumentViewModel ExitCodeParameter { get; private set; }
 
 		public ExitStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ExitArguments = stepViewModel.Step.ExitArguments;
-			ExitCodeParameter = new ArithmeticParameterViewModel(ExitArguments.ExitCodeParameter, stepViewModel.Update);
+			ExitCodeParameter = new ArgumentViewModel(ExitArguments.ExitCodeParameter, stepViewModel.Update);
 			ExitCodeParameter.ExplicitType = ExplicitType.Integer;
 			UpdateContent();
 		}

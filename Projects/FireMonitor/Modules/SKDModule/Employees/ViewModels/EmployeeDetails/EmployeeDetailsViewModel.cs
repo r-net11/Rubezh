@@ -5,27 +5,34 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortEmployee>
 	{
-		Organisation Organisation;
-		HRViewModel HRViewModel;
-		PersonType PersonType;
+		Organisation _organisation;
+		HRViewModel _hrViewModel;
+		PersonType _personType;
 
 		public EmployeeDetailsViewModel() { }
 
-		public bool Initialize(Organisation orgnaisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
+		public bool Initialize(Organisation organisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
+		{
+			var employeesViewModel = (parentViewModel as EmployeesViewModel);
+			return Initialize(organisation.UID, employee, employeesViewModel.HRViewModel, employeesViewModel.PersonType);
+		}
+
+		public bool Initialize(Guid organisationUID, ShortEmployee employee, HRViewModel hrViewModel, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
 			SelectEscortCommand = new RelayCommand(OnSelectEscort);
-
 			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
 			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
 			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
@@ -34,15 +41,17 @@ namespace SKDModule.ViewModels
 			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
 			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 
-			Organisation = orgnaisation;
-			var employeesViewModel = (parentViewModel as EmployeesViewModel);
-			HRViewModel = employeesViewModel.HRViewModel;
-			PersonType = employeesViewModel.PersonType;
-			IsEmployee = PersonType == PersonType.Employee;
+			CanEditDepartment = canEditDepartment;
+			_canEditPosition = canEditPosition;
+
+			_organisation = OrganisationHelper.GetSingle(organisationUID);
+			_hrViewModel = hrViewModel;
+			_personType = personType;
+			IsEmployee = _personType == PersonType.Employee;
 			if (employee == null)
 			{
 				Employee = new Employee();
-				Employee.OrganisationUID = orgnaisation.UID;
+				Employee.OrganisationUID = organisationUID;
 				Title = IsEmployee ? "Добавить сотрудника" : "Добавить посетителя";
 				Employee.BirthDate = DateTime.Now;
 				Employee.Appointed = DateTime.Now;
@@ -62,7 +71,7 @@ namespace SKDModule.ViewModels
 				else
 					Title = string.Format("Свойства посетителя: {0}", employee.FIO);
 			}
-			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, Organisation);
+			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, _organisation);
 			CopyProperties();
 			return true;
 		}
@@ -89,6 +98,7 @@ namespace SKDModule.ViewModels
 				Appointed = Employee.Appointed;
 				CredentialsStartDate = Employee.CredentialsStartDate;
 				TabelNo = Employee.TabelNo;
+				IsOrganisationChief = _organisation.ChiefUID == Employee.UID;
 			}
 			else
 			{
@@ -143,7 +153,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 		public bool IsEmployee { get; private set; }
+		public bool CanEditDepartment { get; private set; }
 
+		bool _canEditPosition;
+		public bool CanEditPosition 
+		{
+			get { return IsEmployee && _canEditPosition ; } 
+		}
+		
 		ShortDepartment selectedDepartment;
 		public ShortDepartment SelectedDepartment
 		{
@@ -327,6 +344,20 @@ namespace SKDModule.ViewModels
 				{
 					_tabelNo = value;
 					OnPropertyChanged(() => TabelNo);
+				}
+			}
+		}
+
+		bool _isOrganisationChief;
+		public bool IsOrganisationChief
+		{
+			get { return _isOrganisationChief; }
+			set
+			{
+				if (_isOrganisationChief != value)
+				{
+					_isOrganisationChief = value;
+					OnPropertyChanged(() => IsOrganisationChief);
 				}
 			}
 		}
@@ -617,7 +648,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment, HRViewModel);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment, _hrViewModel);
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
@@ -627,7 +658,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectPositionCommand { get; private set; }
 		void OnSelectPosition()
 		{
-			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition, HRViewModel);
+			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition, _hrViewModel);
 			if (DialogService.ShowModalWindow(positionSelectionViewModel))
 			{
 				SelectedPosition = positionSelectionViewModel.SelectedPosition;
@@ -661,6 +692,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			bool isLaunchEvent = IsLaunchEvent();
 			Employee.FirstName = FirstName;
 			Employee.SecondName = SecondName;
 			Employee.LastName = LastName;
@@ -673,7 +705,7 @@ namespace SKDModule.ViewModels
 			Employee.DocumentValidTo = ValidTo;
 			Employee.Citizenship = Citizenship;
 			Employee.DocumentType = DocumentType;
-			Employee.OrganisationUID = Organisation.UID;
+			Employee.OrganisationUID = _organisation.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
 			foreach (var item in GraphicsColumns)
 			{
@@ -691,7 +723,7 @@ namespace SKDModule.ViewModels
 			}
 
 			Employee.Department = SelectedDepartment;
-
+			
 			if (IsEmployee)
 			{
 				Employee.Position = SelectedPosition;
@@ -700,12 +732,16 @@ namespace SKDModule.ViewModels
 				Employee.Appointed = Appointed;
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
+				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
+					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID);
+				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
+					OrganisationHelper.SaveChief(_organisation.UID, Guid.Empty);
 			}
 			else
 			{
 				Employee.EscortUID = SelectedEscort != null ? SelectedEscort.UID : (Guid?)null;
 			}
-			Employee.Type = PersonType;
+			Employee.Type = _personType;
 
 			var guardZoneAccesses = new List<XGuardZoneAccess>();
 			foreach (var guardZone in EmployeeGuardZones.GuardZones)
@@ -722,7 +758,21 @@ namespace SKDModule.ViewModels
 				}
 			}
 			Employee.GuardZoneAccesses = guardZoneAccesses;
-			return EmployeeHelper.Save(Employee);
+			var saveResult = EmployeeHelper.Save(Employee);
+			if (saveResult && isLaunchEvent)
+				ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
+			return saveResult;
+		}
+
+		bool IsLaunchEvent()
+		{
+			if((Employee.Department == null && SelectedDepartment != null) ||
+				(Employee.Position == null && SelectedPosition != null))
+				return true;
+			if ((Employee.Department.UID != SelectedDepartment.UID) ||
+				(Employee.Position.UID != SelectedPosition.UID))
+				return true;
+			return false;
 		}
 	}
 }

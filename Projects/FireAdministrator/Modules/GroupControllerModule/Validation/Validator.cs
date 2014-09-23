@@ -22,6 +22,8 @@ namespace GKModule.Validation
 			ValidateDelays();
 			ValidateCodes();
 			ValidateGuardZones();
+			ValidateDoors();
+			ValidateSchedules();
 			return Errors;
 		}
 

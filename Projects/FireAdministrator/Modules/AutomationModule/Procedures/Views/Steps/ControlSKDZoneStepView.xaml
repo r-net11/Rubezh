@@ -9,7 +9,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Зона" />
-			<Views:ArithmeticParameterView DataContext="{Binding SKDZoneParameter}" />
+			<Views:ArgumentView DataContext="{Binding SKDZoneParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

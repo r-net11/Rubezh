@@ -35,7 +35,6 @@ namespace AutomationModule.ViewModels
 				if (procedure != null)
 				{
 					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);
-					scheduleProcedureViewModel.UpdateArguments(procedure);
 					ScheduleProcedures.Add(scheduleProcedureViewModel);
 				}
 			}
@@ -284,10 +283,11 @@ namespace AutomationModule.ViewModels
 				{
 					var scheduleProcedure = new ScheduleProcedure();
 					scheduleProcedure.ProcedureUid = procedureSelectionViewModel.SelectedProcedure.Procedure.Uid;
-					scheduleProcedure.Arguments = new List<Argument>();
+					scheduleProcedure.Arguments = new List<Variable>();
 					foreach (var variable in procedureSelectionViewModel.SelectedProcedure.Procedure.Arguments)
 					{
-						var argument = new Argument(variable);
+						var argument = new Variable();
+						argument.VariableUid = variable.Uid;
 						scheduleProcedure.Arguments.Add(argument);
 					}
 					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);

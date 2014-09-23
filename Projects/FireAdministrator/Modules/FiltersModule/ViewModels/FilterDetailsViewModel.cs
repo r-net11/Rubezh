@@ -7,8 +7,8 @@ namespace FiltersModule.ViewModels
 	public class FilterDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public JournalFilter Filter { get; private set; }
-		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
-		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
+		public NamesViewModel NamesViewModel { get; private set; }
+		public ObjectsViewModel ObjectsViewModel { get; private set; }
 
 		public FilterDetailsViewModel(JournalFilter filter = null)
 		{
@@ -16,14 +16,15 @@ namespace FiltersModule.ViewModels
 			{
 				Title = "Добавить фильтр";
 				Filter = new JournalFilter();
+				Name = "Новый фильтр";
 			}
 			else
 			{
 				Title = "Свойства фильтра";
 				Filter = filter;
 			}
-			FilterNamesViewModel = new FilterNamesViewModel(Filter);
-			FilterObjectsViewModel = new FilterObjectsViewModel(Filter);
+			NamesViewModel = new NamesViewModel(Filter);
+			ObjectsViewModel = new ObjectsViewModel(Filter);
 			CopyProperties();
 		}
 
@@ -79,11 +80,12 @@ namespace FiltersModule.ViewModels
 			Filter.Description = Description;
 			Filter.LastItemsCount = LastItemsCount;
 
-			var namesFilter = FilterNamesViewModel.GetModel();
-			Filter.JournalEventNameTypes = namesFilter.JournalEventNameTypes;
+			var namesFilter = NamesViewModel.GetModel();
 			Filter.JournalSubsystemTypes = namesFilter.JournalSubsystemTypes;
+			Filter.JournalEventNameTypes = namesFilter.JournalEventNameTypes;
+			Filter.JournalEventDescriptionTypes = namesFilter.JournalEventDescriptionTypes;
 
-			var objectsFilter = FilterObjectsViewModel.GetModel();
+			var objectsFilter = ObjectsViewModel.GetModel();
 			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
 			{
 				if (!Filter.JournalSubsystemTypes.Contains(journalSubsystemTypes))

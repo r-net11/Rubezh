@@ -105,10 +105,10 @@
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.Filter.cs" />
     <Compile Include="ViewModels\FilterDetailsViewModel.cs" />
-    <Compile Include="ViewModels\FilterNamesViewModel.cs" />
-    <Compile Include="ViewModels\FilterNameViewModel.cs" />
-    <Compile Include="ViewModels\FilterObjectsViewModel.cs" />
-    <Compile Include="ViewModels\FilterObjectViewModel.cs" />
+    <Compile Include="ViewModels\NamesViewModel.cs" />
+    <Compile Include="ViewModels\NameViewModel.cs" />
+    <Compile Include="ViewModels\ObjectsViewModel.cs" />
+    <Compile Include="ViewModels\ObjectViewModel.cs" />
     <Compile Include="ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="ViewModels\FiltersViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />

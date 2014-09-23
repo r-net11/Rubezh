@@ -7,11 +7,11 @@
 	<StackPanel>
 		<DockPanel Margin="2">
 			<Label Content="Путь к программе" Width="120" />
-			<Views:ArithmeticParameterView DataContext="{Binding PathParameter}" />
+			<Views:ArgumentView DataContext="{Binding PathParameter}" />
 		</DockPanel>
 		<DockPanel Margin="2">
 			<Label Content="Параметры запуска" Width="120" />
-			<Views:ArithmeticParameterView DataContext="{Binding ParametersParameter}" />
+			<Views:ArgumentView DataContext="{Binding ParametersParameter}" />
 		</DockPanel>
 	</StackPanel>
 </UserControl>

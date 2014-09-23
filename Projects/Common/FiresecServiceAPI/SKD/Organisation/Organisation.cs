@@ -35,6 +35,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> UserUIDs { get; set; }
+
+		[DataMember]
+		public Guid ChiefUID { get; set; }
 	}
 
 	[DataContract]
@@ -68,6 +71,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
+		public Guid ChiefUID { get; set; }
 	}
 
 }

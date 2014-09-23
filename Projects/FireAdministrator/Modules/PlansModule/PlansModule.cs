@@ -78,15 +78,13 @@ namespace PlansModule
 		}
 
 		#region ILayoutDeclarationModule Members
-
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Plans, LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png")
 			{
 				Factory = (p) => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),
 			};
 		}
-
 		#endregion
 	}
 }

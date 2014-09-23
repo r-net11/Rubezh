@@ -5,16 +5,16 @@ namespace GKProcessor
 {
 	public static class JournalStringsHelper
 	{
-		public static string ToFire(byte b)
+		public static JournalEventDescriptionType ToFire(byte b)
 		{
 			switch (b)
 			{
-				case 1: return "Ручник сорван";
-				case 2: return "Срабатывание по дыму";
-				case 3: return "Срабатывание по температуре";
-				case 4: return "Срабатывание по градиенту температуры";
+				case 1: return JournalEventDescriptionType.Ручник_сорван;
+				case 2: return JournalEventDescriptionType.Срабатывание_по_дыму;
+				case 3: return JournalEventDescriptionType.Срабатывание_по_температуре;
+				case 4: return JournalEventDescriptionType.Срабатывание_по_градиенту_температуры;
 			}
-			return "";
+			return JournalEventDescriptionType.NULL;
 		}
 
 		public static JournalEventNameType ToState(byte b)
@@ -57,291 +57,290 @@ namespace GKProcessor
 			return JournalEventNameType.Состояние_Неизвестно;
 		}
 
-		public static string ToFailure(byte b)
+		public static JournalEventDescriptionType ToFailure(byte b)
 		{
 			switch (b)
 			{
-				case 1: return "Напряжение питания устройства не в норме"; // РМК, МПТ, МРО-2М
-				case 2: return "Оптический канал или фотоусилитель"; // ИЗВЕЩАТЕЛИ
-				case 3: return "Температурный канал"; // ИЗВЕЩАТЕЛИ
-				case 4: return "КЗ ШС"; // МПТ, АМ
-				case 5: return "Обрыв ШС"; // МПТ, АМ
-				case 6: return "";
-				case 7: return "";
-				case 8: return "Вскрытие корпуса"; // АМ, ШУН, ШУЗ, КАУ, ГК
-				case 9: return "Контакт не переключается"; // РМ
-				case 10: return "Напряжение запуска реле ниже нормы"; // РМК
-				case 11: return "КЗ выхода"; // РМК
-				case 12: return "Обрыв выхода"; // РМК
-				case 13: return "Напряжение питания ШС ниже нормы"; // МПТ
-				case 14: return "Ошибка памяти"; // МПТ
-				case 15: return "КЗ выхода 1"; // МПТ
-				case 16: return "КЗ выхода 2"; // МПТ
-				case 17: return "КЗ выхода 3"; // МПТ
-				case 18: return "КЗ выхода 4"; // МПТ
-				case 19: return "КЗ выхода 5"; // МПТ
-				case 20: return "Обрыв выхода 1"; // МПТ
-				case 21: return "Обрыв выхода 2"; // МПТ
-				case 22: return "Обрыв выхода 3"; // МПТ
-				case 23: return "Обрыв выхода 4"; // МПТ
-				case 24: return "Обрыв выхода 5"; // МПТ
-				case 25: return "Блокировка пуска"; // МДУ
-				case 26: return "Низкое напряжение питания привода"; // МДУ
-				case 27: return "Обрыв кнопки НОРМА"; // МДУ
-				case 28: return "КЗ кнопки НОРМА"; // МДУ
-				case 29: return "Обрыв кнопка ЗАЩИТА"; // МДУ
-				case 30: return "КЗ кнопки ЗАЩИТА"; // МДУ
-				case 31: return "Обрыв концевого выключателя ОТКРЫТО"; // МДУ
-				case 32: return "Обрыв концевого выключателя ЗАКРЫТО"; // МДУ
-				case 33: return "Обрыв цепи 1 ДВИГАТЕЛЯ"; // МДУ
-				case 34: return "Замкнуты/разомкнуты оба концевика"; // МДУ
-				case 35: return "Превышение времени хода"; // МДУ, ШУЗ
-				case 36: return "Обрыв в линии РЕЛЕ";
-				case 37: return "КЗ в линии РЕЛЕ";
-				case 38: return "Выход 1";
-				case 39: return "Выход 2";
-				case 40: return "Выход 3";
-				case 41: return "";
-				case 42: return "Обрыв концевого выключателя ОТКРЫТО"; // ШУЗ
-				case 43: return "КЗ концевого выключателя ОТКРЫТО"; // ШУЗ
-				case 44: return "Обрыв муфтового выключателя ОТКРЫТО"; // ШУЗ
-				case 45: return "КЗ муфтового выключателя ОТКРЫТО"; // ШУЗ
-				case 46: return "Обрыв концевого выключателя ЗАКРЫТО"; // ШУЗ
-				case 47: return "КЗ концевого выключателя ЗАКРЫТО"; // ШУЗ
-				case 48: return "Обрыв муфтового выключателя ЗАКРЫТО"; // ШУЗ
-				case 49: return "КЗ муфтового выключателя ЗАКРЫТО"; // ШУЗ
-				case 50: return "Обрыв кнопки Открыть УЗЗ/Закрыть УЗЗ"; // ШУЗ
-				case 51: return "КЗ кнопки Открыть УЗЗ/Закрыть УЗЗ"; // ШУЗ
-				case 52: return "Обрыв кнопки СТОП УЗЗ"; // ШУЗ
-				case 53: return "КЗ кнопки СТОП УЗЗ"; // ШУЗ
-				case 54: return "Обрыв давление низкое ";
-				case 55: return "КЗ давление низкое  ";
-				case 56: return "Таймаут по давлению ";
-				case 57: return "КВ/МВ"; // ШУЗ
-				case 58: return "Не задан режим"; // ШУЗ
-				case 59: return "Отказ ШУЗ"; // ШУЗ
-				case 60: return "ДУ/ДД"; // ШУН
-				case 61: return "Обрыв входа 1"; // ШУН
-				case 62: return "КЗ входа 1"; // ШУН
-				case 63: return "Обрыв входа 2"; // ШУН
-				case 64: return "КЗ входа 2"; // ШУН
-				case 65: return "Обрыв входа 3"; // ШУН
-				case 66: return "КЗ входа 3"; // ШУН
-				case 67: return "Обрыв входа 4"; // ШУН
-				case 68: return "КЗ входа 4"; // ШУН
-				case 69: return "Не задан тип"; // ШУН
-				case 70: return "Отказ ПН"; // ШУН
-				case 71: return "Отказ ШУН"; // ШУН
-				case 72: return "Питание 1"; // КАУ, ГК
-				case 73: return "Питание 2"; // КАУ, ГК
-				case 74: return "Отказ АЛС 1 или 2"; // КАУ
-				case 75: return "Отказ АЛС 3 или 4"; // КАУ
-				case 76: return "Отказ АЛС 5 или 6"; // КАУ
-				case 77: return "Отказ АЛС 7 или 8"; // КАУ
-				case 78: return "Обрыв цепи 2 ДВИГАТЕЛЯ"; // МДУ
-				case 79: return "КЗ АЛС 1"; // КАУ
-				case 80: return "КЗ АЛС 2"; // КАУ
-				case 81: return "КЗ АЛС 3"; // КАУ
-				case 82: return "КЗ АЛС 4"; // КАУ
-				case 83: return "КЗ АЛС 5"; // КАУ
-				case 84: return "КЗ АЛС 6"; // КАУ
-				case 85: return "КЗ АЛС 7"; // КАУ
-				case 86: return "КЗ АЛС 8"; // КАУ
-				case 87: return "Истекло время вкл";
-				case 88: return "Истекло время выкл";
-				case 89: return "Контакт реле 1";
-				case 90: return "Контакт реле 2";
-				case 91: return "Обрыв кнопки ПУСК"; // МРО-2М
-				case 92: return "КЗ кнопки ПУСК"; // МРО-2М
-				case 93: return "Обрыв кнопки СТОП"; // МРО-2М
-				case 94: return "КЗ кнопки СТОП"; // МРО-2М
-				case 95: return "Отсутствуют или испорчены сообщения для воспроизведения"; // МРО-2М
-				case 96: return "Выход";
-				case 97: return "Обрыв Низкий уровень"; // ППУ
-				case 98: return "КЗ Низкий уровень"; // ППУ
-				case 99: return "Обрыв Высокий уровень"; // ППУ
-				case 100: return "КЗ Высокий уровень"; // ППУ
-				case 101: return "Обрыв Аварийный уровень"; // ППУ
-				case 102: return "КЗ Аварийный уровень"; // ППУ
-				case 103: return "Аварийный уровень"; // ППУ
-				case 104: return "Питание силовое"; // ППУ
-				case 105: return "Питание контроллера"; // ППУ
-				case 106: return "Несовместимость сигналов"; // ППУ
-				case 107: return "Неисправность одной или обеих фаз(контроль нагрузки)"; // ППУ
-				case 108: return "Обрыв Давление на выходе"; // ППУ
-				case 109: return "КЗ Давление на выходе"; // ППУ
-				case 110: return "Обрыв ДУ ПУСК"; // ППУ
-				case 111: return "КЗ ДУ ПУСК"; // ППУ
-				case 112: return "Обрыв ДУ СТОП"; // ППУ
-				case 113: return "КЗ ДУ СТОП"; // ППУ
-				case 148: return "АЛС 1 Неизвестное устройство";
-				case 149: return "АЛС 2 Неизвестное устройство";
-				case 150: return "АЛС 3 Неизвестное устройство";
-				case 151: return "АЛС 4 Неизвестное устройство";
-				case 152: return "АЛС 5 Неизвестное устройство";
-				case 153: return "АЛС 6 Неизвестное устройство";
-				case 154: return "АЛС 7 Неизвестное устройство";
-				case 155: return "АЛС 8 Неизвестное устройство";
-				case 156: return "АЛС 1 Неизвестный тип устройства";
-				case 157: return "АЛС 2 Неизвестный тип устройства";
-				case 158: return "АЛС 3 Неизвестный тип устройства";
-				case 159: return "АЛС 4 Неизвестный тип устройства";
-				case 160: return "АЛС 5 Неизвестный тип устройства";
-				case 161: return "АЛС 6 Неизвестный тип устройства";
-				case 162: return "АЛС 7 Неизвестный тип устройства";
-				case 163: return "АЛС 8 Неизвестный тип устройства";
-				case 164: return "АЛС 1 Другой тип устройства";
-				case 165: return "АЛС 2 Другой тип устройства";
-				case 166: return "АЛС 3 Другой тип устройства";
-				case 167: return "АЛС 4 Другой тип устройства";
-				case 168: return "АЛС 5 Другой тип устройства";
-				case 169: return "АЛС 6 Другой тип устройства";
-				case 170: return "АЛС 7 Другой тип устройства";
-				case 171: return "АЛС 8 Другой тип устройства";
-				case 241: return "Обрыв АЛС 1-2";
-				case 242: return "Обрыв АЛС 3-4";
-				case 243: return "Обрыв АЛС 5-6";
-				case 244: return "Обрыв АЛС 7-8";
-				case 245: return "Обрыв АЛС 1";
-				case 246: return "Обрыв АЛС 2";
-				case 247: return "Обрыв АЛС 3";
-				case 248: return "Обрыв АЛС 4";
-				case 249: return "Обрыв АЛС 5";
-				case 250: return "Обрыв АЛС 6";
-				case 251: return "Обрыв АЛС 7";
-				case 252: return "Обрыв АЛС 8";
-				case 253: return "ОЛС"; // ГК
-				case 254: return "РЛС"; // ГК
-				case 255: return "Потеря связи";
+				case 1: return JournalEventDescriptionType.Напряжение_питания_устройства_не_в_норме; // РМК, МПТ, МРО-2М
+				case 2: return JournalEventDescriptionType.Оптический_канал_или_фотоусилитель; // ИЗВЕЩАТЕЛИ
+				case 3: return JournalEventDescriptionType.Температурный_канал; // ИЗВЕЩАТЕЛИ
+				case 4: return JournalEventDescriptionType.КЗ_ШС; // МПТ, АМ
+				case 5: return JournalEventDescriptionType.Обрыв_ШС; // МПТ, АМ
+				//case 6: return "";
+				//case 7: return "";
+				case 8: return JournalEventDescriptionType.Вскрытие_корпуса; // АМ, ШУН, ШУЗ, КАУ, ГК
+				case 9: return JournalEventDescriptionType.Контакт_не_переключается; // РМ
+				case 10: return JournalEventDescriptionType.Напряжение_запуска_реле_ниже_нормы; // РМК
+				case 11: return JournalEventDescriptionType.КЗ_выхода; // РМК
+				case 12: return JournalEventDescriptionType.Обрыв_выхода; // РМК
+				case 13: return JournalEventDescriptionType.Напряжение_питания_ШС_ниже_нормы; // МПТ
+				case 14: return JournalEventDescriptionType.Ошибка_памяти; // МПТ
+				case 15: return JournalEventDescriptionType.КЗ_выхода_1; // МПТ
+				case 16: return JournalEventDescriptionType.КЗ_выхода_2; // МПТ
+				case 17: return JournalEventDescriptionType.КЗ_выхода_3; // МПТ
+				case 18: return JournalEventDescriptionType.КЗ_выхода_4; // МПТ
+				case 19: return JournalEventDescriptionType.КЗ_выхода_5; // МПТ
+				case 20: return JournalEventDescriptionType.Обрыв_выхода_1; // МПТ
+				case 21: return JournalEventDescriptionType.Обрыв_выхода_2; // МПТ
+				case 22: return JournalEventDescriptionType.Обрыв_выхода_3; // МПТ
+				case 23: return JournalEventDescriptionType.Обрыв_выхода_4; // МПТ
+				case 24: return JournalEventDescriptionType.Обрыв_выхода_5; // МПТ
+				case 25: return JournalEventDescriptionType.Блокировка_пуска; // МДУ
+				case 26: return JournalEventDescriptionType.Низкое_напряжение_питания_привода; // МДУ
+				case 27: return JournalEventDescriptionType.Обрыв_кнопки_НОРМА; // МДУ
+				case 28: return JournalEventDescriptionType.КЗ_кнопки_НОРМА; // МДУ
+				case 29: return JournalEventDescriptionType.Обрыв_кнопка_ЗАЩИТА; // МДУ
+				case 30: return JournalEventDescriptionType.КЗ_кнопки_ЗАЩИТА; // МДУ
+				case 31: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО; // МДУ
+				case 32: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО; // МДУ
+				case 33: return JournalEventDescriptionType.Обрыв_цепи_1_ДВИГАТЕЛЯ; // МДУ
+				case 34: return JournalEventDescriptionType.Замкнуты_разомкнуты_оба_концевика; // МДУ
+				case 35: return JournalEventDescriptionType.Превышение_времени_хода; // МДУ, ШУЗ
+				case 36: return JournalEventDescriptionType.Обрыв_в_линии_РЕЛЕ;
+				case 37: return JournalEventDescriptionType.КЗ_в_линии_РЕЛЕ;
+				case 38: return JournalEventDescriptionType.Выход_1;
+				case 39: return JournalEventDescriptionType.Выход_2;
+				case 40: return JournalEventDescriptionType.Выход_3;
+				//case 41: return "";
+				case 42: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ОТКРЫТО; // ШУЗ
+				case 43: return JournalEventDescriptionType.КЗ_концевого_выключателя_ОТКРЫТО; // ШУЗ
+				case 44: return JournalEventDescriptionType.Обрыв_муфтового_выключателя_ОТКРЫТО; // ШУЗ
+				case 45: return JournalEventDescriptionType.КЗ_муфтового_выключателя_ОТКРЫТО; // ШУЗ
+				case 46: return JournalEventDescriptionType.Обрыв_концевого_выключателя_ЗАКРЫТО; // ШУЗ
+				case 47: return JournalEventDescriptionType.КЗ_концевого_выключателя_ЗАКРЫТО; // ШУЗ
+				case 48: return JournalEventDescriptionType.Обрыв_муфтового_выключателя_ЗАКРЫТО; // ШУЗ
+				case 49: return JournalEventDescriptionType.КЗ_муфтового_выключателя_ЗАКРЫТО; // ШУЗ
+				case 50: return JournalEventDescriptionType.Обрыв_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ; // ШУЗ
+				case 51: return JournalEventDescriptionType.КЗ_кнопки_Открыть_УЗЗ_Закрыть_УЗЗ; // ШУЗ
+				case 52: return JournalEventDescriptionType.Обрыв_кнопки_СТОП_УЗЗ; // ШУЗ
+				case 53: return JournalEventDescriptionType.КЗ_кнопки_СТОП_УЗЗ; // ШУЗ
+				case 54: return JournalEventDescriptionType.Обрыв_давление_низкое;
+				case 55: return JournalEventDescriptionType.КЗ_давление_низкое;
+				case 56: return JournalEventDescriptionType.Таймаут_по_давлению;
+				case 57: return JournalEventDescriptionType.КВ_МВ; // ШУЗ
+				case 58: return JournalEventDescriptionType.Не_задан_режим; // ШУЗ
+				case 59: return JournalEventDescriptionType.Отказ_ШУЗ; // ШУЗ
+				case 60: return JournalEventDescriptionType.ДУ_ДД; // ШУН
+				case 61: return JournalEventDescriptionType.Обрыв_входа_1; // ШУН
+				case 62: return JournalEventDescriptionType.КЗ_входа_1; // ШУН
+				case 63: return JournalEventDescriptionType.Обрыв_входа_2; // ШУН
+				case 64: return JournalEventDescriptionType.КЗ_входа_2; // ШУН
+				case 65: return JournalEventDescriptionType.Обрыв_входа_3; // ШУН
+				case 66: return JournalEventDescriptionType.КЗ_входа_3; // ШУН
+				case 67: return JournalEventDescriptionType.Обрыв_входа_4; // ШУН
+				case 68: return JournalEventDescriptionType.КЗ_входа_4; // ШУН
+				case 69: return JournalEventDescriptionType.Не_задан_тип; // ШУН
+				case 70: return JournalEventDescriptionType.Отказ_ПН; // ШУН
+				case 71: return JournalEventDescriptionType.Отказ_ШУН; // ШУН
+				case 72: return JournalEventDescriptionType.Питание_1; // КАУ, ГК
+				case 73: return JournalEventDescriptionType.Питание_2; // КАУ, ГК
+				case 74: return JournalEventDescriptionType.Отказ_АЛС_1_или_2; // КАУ
+				case 75: return JournalEventDescriptionType.Отказ_АЛС_3_или_4; // КАУ
+				case 76: return JournalEventDescriptionType.Отказ_АЛС_5_или_6; // КАУ
+				case 77: return JournalEventDescriptionType.Отказ_АЛС_7_или_8; // КАУ
+				case 78: return JournalEventDescriptionType.Обрыв_цепи_2_ДВИГАТЕЛЯ; // МДУ
+				case 79: return JournalEventDescriptionType.КЗ_АЛС_1; // КАУ
+				case 80: return JournalEventDescriptionType.КЗ_АЛС_2; // КАУ
+				case 81: return JournalEventDescriptionType.КЗ_АЛС_3; // КАУ
+				case 82: return JournalEventDescriptionType.КЗ_АЛС_4; // КАУ
+				case 83: return JournalEventDescriptionType.КЗ_АЛС_5; // КАУ
+				case 84: return JournalEventDescriptionType.КЗ_АЛС_6; // КАУ
+				case 85: return JournalEventDescriptionType.КЗ_АЛС_7; // КАУ
+				case 86: return JournalEventDescriptionType.КЗ_АЛС_8; // КАУ
+				case 87: return JournalEventDescriptionType.Истекло_время_вкл;
+				case 88: return JournalEventDescriptionType.Истекло_время_выкл;
+				case 89: return JournalEventDescriptionType.Контакт_реле_1;
+				case 90: return JournalEventDescriptionType.Контакт_реле_2;
+				case 91: return JournalEventDescriptionType.Обрыв_кнопки_ПУСК; // МРО-2М
+				case 92: return JournalEventDescriptionType.КЗ_кнопки_ПУСК; // МРО-2М
+				case 93: return JournalEventDescriptionType.Обрыв_кнопки_СТОП; // МРО-2М
+				case 94: return JournalEventDescriptionType.КЗ_кнопки_СТОП; // МРО-2М
+				case 95: return JournalEventDescriptionType.Отсутствуют_или_испорчены_сообщения_для_воспроизведения; // МРО-2М
+				case 96: return JournalEventDescriptionType.Выход;
+				case 97: return JournalEventDescriptionType.Обрыв_Низкий_уровень; // ППУ
+				case 98: return JournalEventDescriptionType.КЗ_Низкий_уровень; // ППУ
+				case 99: return JournalEventDescriptionType.Обрыв_Высокий_уровень; // ППУ
+				case 100: return JournalEventDescriptionType.КЗ_Высокий_уровень; // ППУ
+				case 101: return JournalEventDescriptionType.Обрыв_Аварийный_уровень; // ППУ
+				case 102: return JournalEventDescriptionType.КЗ_Аварийный_уровень; // ППУ
+				case 103: return JournalEventDescriptionType.Аварийный_уровень; // ППУ
+				case 104: return JournalEventDescriptionType.Питание_силовое; // ППУ
+				case 105: return JournalEventDescriptionType.Питание_контроллера; // ППУ
+				case 106: return JournalEventDescriptionType.Несовместимость_сигналов; // ППУ
+				case 107: return JournalEventDescriptionType.Неисправность_одной_или_обеих_фаз_контроль_нагрузки; // ППУ
+				case 108: return JournalEventDescriptionType.Обрыв_Давление_на_выходе; // ППУ
+				case 109: return JournalEventDescriptionType.КЗ_Давление_на_выходе; // ППУ
+				case 110: return JournalEventDescriptionType.Обрыв_ДУ_ПУСК; // ППУ
+				case 111: return JournalEventDescriptionType.КЗ_ДУ_ПУСК; // ППУ
+				case 112: return JournalEventDescriptionType.Обрыв_ДУ_СТОП; // ППУ
+				case 113: return JournalEventDescriptionType.КЗ_ДУ_СТОП; // ППУ
+				case 148: return JournalEventDescriptionType.АЛС_1_Неизвестное_устройство;
+				case 149: return JournalEventDescriptionType.АЛС_2_Неизвестное_устройство;
+				case 150: return JournalEventDescriptionType.АЛС_3_Неизвестное_устройство;
+				case 151: return JournalEventDescriptionType.АЛС_4_Неизвестное_устройство;
+				case 152: return JournalEventDescriptionType.АЛС_5_Неизвестное_устройство;
+				case 153: return JournalEventDescriptionType.АЛС_6_Неизвестное_устройство;
+				case 154: return JournalEventDescriptionType.АЛС_7_Неизвестное_устройство;
+				case 155: return JournalEventDescriptionType.АЛС_8_Неизвестное_устройство;
+				case 156: return JournalEventDescriptionType.АЛС_1_Неизвестный_тип_устройства;
+				case 157: return JournalEventDescriptionType.АЛС_2_Неизвестный_тип_устройства;
+				case 158: return JournalEventDescriptionType.АЛС_3_Неизвестный_тип_устройства;
+				case 159: return JournalEventDescriptionType.АЛС_4_Неизвестный_тип_устройства;
+				case 160: return JournalEventDescriptionType.АЛС_5_Неизвестный_тип_устройства;
+				case 161: return JournalEventDescriptionType.АЛС_6_Неизвестный_тип_устройства;
+				case 162: return JournalEventDescriptionType.АЛС_7_Неизвестный_тип_устройства;
+				case 163: return JournalEventDescriptionType.АЛС_8_Неизвестный_тип_устройства;
+				case 164: return JournalEventDescriptionType.АЛС_1_Другой_тип_устройства;
+				case 165: return JournalEventDescriptionType.АЛС_2_Другой_тип_устройства;
+				case 166: return JournalEventDescriptionType.АЛС_3_Другой_тип_устройства;
+				case 167: return JournalEventDescriptionType.АЛС_4_Другой_тип_устройства;
+				case 168: return JournalEventDescriptionType.АЛС_5_Другой_тип_устройства;
+				case 169: return JournalEventDescriptionType.АЛС_6_Другой_тип_устройства;
+				case 170: return JournalEventDescriptionType.АЛС_7_Другой_тип_устройства;
+				case 171: return JournalEventDescriptionType.АЛС_8_Другой_тип_устройства;
+				case 241: return JournalEventDescriptionType.Обрыв_АЛС_1_2;
+				case 242: return JournalEventDescriptionType.Обрыв_АЛС_3_4;
+				case 243: return JournalEventDescriptionType.Обрыв_АЛС_5_6;
+				case 244: return JournalEventDescriptionType.Обрыв_АЛС_7_8;
+				case 245: return JournalEventDescriptionType.Обрыв_АЛС_1;
+				case 246: return JournalEventDescriptionType.Обрыв_АЛС_2;
+				case 247: return JournalEventDescriptionType.Обрыв_АЛС_3;
+				case 248: return JournalEventDescriptionType.Обрыв_АЛС_4;
+				case 249: return JournalEventDescriptionType.Обрыв_АЛС_5;
+				case 250: return JournalEventDescriptionType.Обрыв_АЛС_6;
+				case 251: return JournalEventDescriptionType.Обрыв_АЛС_7;
+				case 252: return JournalEventDescriptionType.Обрыв_АЛС_8;
+				case 253: return JournalEventDescriptionType.ОЛС; // ГК
+				case 254: return JournalEventDescriptionType.РЛС; // ГК
+				case 255: return JournalEventDescriptionType.Потеря_связи;
 			}
-			return "";
+			return JournalEventDescriptionType.NULL;
 		}
 
-		public static string ToBUSHFailure(byte b)
+		//public static string ToBUSHFailure(byte b)
+		//{
+		//    switch (b)
+		//    {
+		//        //case 0: return "Вскрытие"; //
+		//        case 1: return "Неисправность контакта"; //
+		//        //case 2: return "Обрыв Низкий уровень"; //
+		//        //case 3: return "КЗ Низкий уровень"; //
+		//        //case 4: return "Обрыв Высокий уровень"; //
+		//        //case 5: return "КЗ Высокий уровень"; //
+		//        //case 6: return "Обрыв Аварийный уровень"; //
+		//        //case 7: return "КЗ Аварийный уровень"; //
+		//        //case 8: return "Аварийный уровень"; //
+		//        //case 9: return "Питание силовое"; //
+		//        //case 10: return "Питание контроллера"; //
+		//        //case 11: return "Несовместимость сигналов"; //
+		//        //case 12: return "Неисправность одной или обеих фаз(контроль нагрузки)"; //
+		//        case 13: return "Обрыв Давление низкое"; //
+		//        case 14: return "КЗ Давление низкое"; // 
+		//        case 15: return "Таймаут по давлению"; //
+		//        //case 16: return "Обрыв Давление на выходе"; //
+		//        //case 17: return "КЗ Давление на выходе"; //
+		//        //case 18: return "Обрыв ДУ ПУСК"; //
+		//        //case 19: return "КЗ ДУ ПУСК"; //
+		//        //case 20: return "Обрыв ДУ СТОП"; //
+		//        //case 21: return "КЗ ДУ СТОП"; //
+		//        //case 255: return "Потеря связи"; //
+		//    }
+		//    return "";
+		//}
+
+		public static JournalEventDescriptionType ToBatteryFailure(byte b)
 		{
 			switch (b)
 			{
-				//case 0: return "Вскрытие"; //
-				case 1: return "Неисправность контакта"; //
-				//case 2: return "Обрыв Низкий уровень"; //
-				//case 3: return "КЗ Низкий уровень"; //
-				//case 4: return "Обрыв Высокий уровень"; //
-				//case 5: return "КЗ Высокий уровень"; //
-				//case 6: return "Обрыв Аварийный уровень"; //
-				//case 7: return "КЗ Аварийный уровень"; //
-				//case 8: return "Аварийный уровень"; //
-				//case 9: return "Питание силовое"; //
-				//case 10: return "Питание контроллера"; //
-				//case 11: return "Несовместимость сигналов"; //
-				//case 12: return "Неисправность одной или обеих фаз(контроль нагрузки)"; //
-				case 13: return "Обрыв Давление низкое"; //
-				case 14: return "КЗ Давление низкое"; // 
-				case 15: return "Таймаут по давлению"; //
-				//case 16: return "Обрыв Давление на выходе"; //
-				//case 17: return "КЗ Давление на выходе"; //
-				//case 18: return "Обрыв ДУ ПУСК"; //
-				//case 19: return "КЗ ДУ ПУСК"; //
-				//case 20: return "Обрыв ДУ СТОП"; //
-				//case 21: return "КЗ ДУ СТОП"; //
-				//case 255: return "Потеря связи"; //
+				case 1: return JournalEventDescriptionType.Отсутствие_сетевого_напряжения;//
+				case 2: return JournalEventDescriptionType.Выход_1;
+				case 3: return JournalEventDescriptionType.КЗ_Выхода_1;//
+				case 4: return JournalEventDescriptionType.Перегрузка_Выхода_1;//
+				case 5: return JournalEventDescriptionType.Напряжение_Выхода_1_выше_нормы;//
+				case 6: return JournalEventDescriptionType.Выход_2;
+				case 7: return JournalEventDescriptionType.КЗ_Выхода_2;//
+				case 8: return JournalEventDescriptionType.Перегрузка_Выхода_2;//
+				case 9: return JournalEventDescriptionType.Напряжение_Выхода_2_выше_нормы;//
+				case 10: return JournalEventDescriptionType.АКБ_1;
+				case 11: return JournalEventDescriptionType.АКБ_1_Разряд;//
+				case 12: return JournalEventDescriptionType.АКБ_1_Глубокий_Разряд;//
+				case 13: return JournalEventDescriptionType.АКБ_1_Отсутствие;//
+				case 14: return JournalEventDescriptionType.АКБ_2;
+				case 15: return JournalEventDescriptionType.АКБ_2_Разряд;//
+				case 16: return JournalEventDescriptionType.АКБ_2_Глубокий_Разряд;//
+				case 17: return JournalEventDescriptionType.АКБ_2_Отсутствие;//
+				case 255: return JournalEventDescriptionType.Потеря_связи;//
 			}
-			return "";
+			return JournalEventDescriptionType.NULL;
 		}
 
-		public static string ToBatteryFailure(byte b)
+		public static JournalEventDescriptionType ToInformation(byte b)
 		{
 			switch (b)
 			{
-				case 0: return "";
-				case 1: return "Отсутствие сетевого напряжения";//
-				case 2: return "Выход 1";
-				case 3: return "КЗ Выхода 1";//
-				case 4: return "Перегрузка Выхода 1";//
-				case 5: return "Напряжение Выхода 1 выше нормы";//
-				case 6: return "Выход 2";
-				case 7: return "КЗ Выхода 2";//
-				case 8: return "Перегрузка Выхода 2";//
-				case 9: return "Напряжение Выхода 2 выше нормы";//
-				case 10: return "АКБ 1";
-				case 11: return "АКБ 1 Разряд";//
-				case 12: return "АКБ 1 Глубокий Разряд";//
-				case 13: return "АКБ 1 Отсутствие";//
-				case 14: return "АКБ 2";
-				case 15: return "АКБ 2 Разряд";//
-				case 16: return "АКБ 2 Глубокий Разряд";//
-				case 17: return "АКБ 2 Отсутствие";//
-				case 255: return "Потеря связи";//
+				case 1: return JournalEventDescriptionType.Команда_от_прибора;
+				case 2: return JournalEventDescriptionType.Команда_от_кнопки;
+				case 3: return JournalEventDescriptionType.Изменение_автоматики_по_неисправности;
+				case 4: return JournalEventDescriptionType.Изменение_автомат_по_СТОП;
+				case 5: return JournalEventDescriptionType.Изменение_автоматики_по_Д_О;
+				case 6: return JournalEventDescriptionType.Изменение_автоматики_по_ТМ;
+				case 7: return JournalEventDescriptionType.Ручной_пуск;
+				case 8: return JournalEventDescriptionType.Отлож_пуск_АУП_Д_О;
+				case 9: return JournalEventDescriptionType.Пуск_АУП_завершен;
+				case 10: return JournalEventDescriptionType.Стоп_по_кнопке_СТОП;
+				case 11: return JournalEventDescriptionType.Программирование_мастер_ключа;
+				case 12: return JournalEventDescriptionType.Датчик_ДАВЛЕНИЕ;
+				case 13: return JournalEventDescriptionType.Датчик_МАССА;
+				case 14: return JournalEventDescriptionType.Сигнал_из_памяти;
+				case 15: return JournalEventDescriptionType.Сигнал_аналог_входа;
+				case 16: return JournalEventDescriptionType.Замена_списка_на_1;
+				case 17: return JournalEventDescriptionType.Замена_списка_на_2;
+				case 18: return JournalEventDescriptionType.Замена_списка_на_3;
+				case 19: return JournalEventDescriptionType.Замена_списка_на_4;
+				case 20: return JournalEventDescriptionType.Замена_списка_на_5;
+				case 21: return JournalEventDescriptionType.Замена_списка_на_6;
+				case 22: return JournalEventDescriptionType.Замена_списка_на_7;
+				case 23: return JournalEventDescriptionType.Замена_списка_на_8;
+				case 24: return JournalEventDescriptionType.Низкий_уровень;
+				case 25: return JournalEventDescriptionType.Высокий_уровень;
+				case 26: return JournalEventDescriptionType.Уровень_норма;
+				case 27: return JournalEventDescriptionType.Перевод_в_автоматический_режим_со_шкафа;
+				case 28: return JournalEventDescriptionType.Перевод_в_ручной_режим_со_шкафа;
+				case 29: return JournalEventDescriptionType.Перевод_в_отключенный_режим_со_шкафа;
+				case 30: return JournalEventDescriptionType.Неопределено;
+				case 31: return JournalEventDescriptionType.Пуск_невозможен;
+				case 32: return JournalEventDescriptionType.Авария_пневмоемкости;
+				case 33: return JournalEventDescriptionType.Аварийный_уровень_Информация;
+				case 34: return JournalEventDescriptionType.Запрет_пуска_НС;
+				case 35: return JournalEventDescriptionType.Запрет_пуска_компрессора;
+				case 36: return JournalEventDescriptionType.Ввод_1;
+				case 37: return JournalEventDescriptionType.Ввод_2;
+				case 38: return JournalEventDescriptionType.Команда_от_логики;
+				case 39: return JournalEventDescriptionType.Команда_от_ДУ;
+				case 40: return JournalEventDescriptionType.Давление_низкое;
+				case 41: return JournalEventDescriptionType.Давление_высокое;
+				case 42: return JournalEventDescriptionType.Давление_норма;
+				case 43: return JournalEventDescriptionType.Давление_неопределен;
+				case 44: return JournalEventDescriptionType.Давление_на_выходе_есть;
+				case 45: return JournalEventDescriptionType.Давления_на_выходе_нет;
+				case 46: return JournalEventDescriptionType.Выключить_Информация;
+				case 47: return JournalEventDescriptionType.Стоп;
+				case 48: return JournalEventDescriptionType.Запрет_пуска;
+				case 49: return JournalEventDescriptionType.Ручной_пуск;
 			}
-			return "";
+			return JournalEventDescriptionType.NULL;
 		}
 
-		public static string ToInformation(byte b)
+		public static JournalEventDescriptionType ToUser(byte b)
 		{
 			switch (b)
 			{
-				case 1: return "Команда от прибора";
-				case 2: return "Команда от кнопки";
-				case 3: return "Изменение автоматики по неисправности";
-				case 4: return "Изменение автомат по СТОП";
-				case 5: return "Изменение автоматики по Д-О";
-				case 6: return "Изменение автоматики по ТМ";
-				case 7: return "Ручной пуск";
-				case 8: return "Отлож пуск АУП Д-О";
-				case 9: return "Пуск АУП завершен";
-				case 10: return "Стоп по кнопке СТОП";
-				case 11: return "Программирование мастер-ключа";
-				case 12: return "Датчик ДАВЛЕНИЕ";
-				case 13: return "Датчик МАССА";
-				case 14: return "Сигнал из памяти";
-				case 15: return "Сигнал аналог входа";
-				case 16: return "Замена списка на 1";
-				case 17: return "Замена списка на 2";
-				case 18: return "Замена списка на 3";
-				case 19: return "Замена списка на 4";
-				case 20: return "Замена списка на 5";
-				case 21: return "Замена списка на 6";
-				case 22: return "Замена списка на 7";
-				case 23: return "Замена списка на 8";
-				case 24: return "Низкий уровень";
-				case 25: return "Высокий уровень";
-				case 26: return "Уровень норма";
-				case 27: return "Перевод в автоматический режим со шкафа";
-				case 28: return "Перевод в ручной режим со шкафа";
-				case 29: return "Перевод в отключенный режим со шкафа";
-				case 30: return "Неопределено";
-				case 31: return "Пуск невозможен";
-				case 32: return "Авария пневмоемкости";
-				case 33: return "Аварийный уровень";
-				case 34: return "Запрет пуска НС";
-				case 35: return "Запрет пуска компрессора";
-				case 36: return "Ввод 1";
-				case 37: return "Ввод 2";
-				case 38: return "Команда от логики";
-				case 39: return "Команда от ДУ";
-				case 40: return "Давление низкое";
-				case 41: return "Давление высокое";
-				case 42: return "Давление норма";
-				case 43: return "Давление неопределен";
-				case 44: return "Давление на выходе есть";
-				case 45: return "Давления на выходе нет";
-				case 46: return "Выключить";
-				case 47: return "Стоп";
-				case 48: return "Запрет пуска";
-				case 49: return "Ручной пуск";
+				case 0: return JournalEventDescriptionType.Оператор;
+				case 1: return JournalEventDescriptionType.Администратор;
+				case 2: return JournalEventDescriptionType.Инсталлятор;
+				case 3: return JournalEventDescriptionType.Изготовитель;
 			}
-			return "";
-		}
-
-		public static string ToUser(byte b)
-		{
-			switch (b)
-			{
-				case 0: return "Оператор";
-				case 1: return "Администратор";
-				case 2: return "Инсталлятор";
-				case 3: return "Изготовитель";
-			}
-			return "";
+			return JournalEventDescriptionType.NULL;
 		}
 
 		public static string GetPumpFailureMessage(string name, int pumpType)

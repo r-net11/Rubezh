@@ -8,50 +8,25 @@ using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArgumentsViewModel : BaseViewModel
+	public class ArgumentsViewModel : VariablesViewModel
 	{
-		public Procedure Procedure { get; private set; }
-
-		public ArgumentsViewModel(Procedure procedure)
+		public ArgumentsViewModel(Procedure procedure) : base(procedure)
 		{
-			Procedure = procedure;
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Variables = new ObservableCollection<VariableViewModel>();
 			foreach (var variable in procedure.Arguments)
 			{
 				var argumentViewModel = new VariableViewModel(variable);
 				Variables.Add(argumentViewModel);
 			}
-			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 		}
-
-		VariableViewModel _selectedVariable;
-		public VariableViewModel SelectedVariable
-		{
-			get { return _selectedVariable; }
-			set
-			{
-				_selectedVariable = value;
-				OnPropertyChanged(() => SelectedVariable);
-			}
-		}
-
-		ObservableCollection<VariableViewModel> _variables;
-		public ObservableCollection<VariableViewModel> Variables
-		{
-			get { return _variables; }
-			set
-			{
-				_variables = value;
-				OnPropertyChanged(() => Variables);
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
+		
+		public new RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент", true);
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
@@ -62,7 +37,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand DeleteCommand { get; private set; }
+		public new RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
 			Procedure.Arguments.Remove(SelectedVariable.Variable);
@@ -75,10 +50,10 @@ namespace AutomationModule.ViewModels
 			return SelectedVariable != null;
 		}
 
-		public RelayCommand EditCommand { get; private set; }
+		public new RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент", true);
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "аргумент", "Редактировать аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);

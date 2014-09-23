@@ -195,7 +195,9 @@ namespace GKModule.ViewModels
 						var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
 						var device = PasteDevice(pasteDevice);
 						if (device != null)
+						{
 							cache.UpdateDeviceBinding(device);
+						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 					{

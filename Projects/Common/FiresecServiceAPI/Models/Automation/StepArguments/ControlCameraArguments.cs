@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlCameraArguments()
 		{
-			CameraParameter = new ArithmeticParameter();
+			CameraParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter CameraParameter { get; set; }
+		public Variable CameraParameter { get; set; }
 
 		[DataMember]
 		public CameraCommandType CameraCommandType { get; set; }

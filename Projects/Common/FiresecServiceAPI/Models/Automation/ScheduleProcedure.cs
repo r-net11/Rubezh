@@ -9,12 +9,12 @@ namespace FiresecAPI.Automation
 	{
 		public ScheduleProcedure()
 		{
-			Arguments = new List<Argument>();
+			Arguments = new List<Variable>();
 			Uid = Guid.NewGuid();
 		}
 
 		[DataMember]
-		public List<Argument> Arguments { get; set; }
+		public List<Variable> Arguments { get; set; }
 
 		[DataMember]
 		public Guid Uid { get; set; }

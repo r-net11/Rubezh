@@ -9,7 +9,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Точка доступа" />
-			<Views:ArithmeticParameterView DataContext="{Binding DoorParameter}" />
+			<Views:ArgumentView DataContext="{Binding DoorParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

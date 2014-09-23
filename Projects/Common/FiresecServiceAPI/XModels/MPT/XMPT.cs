@@ -11,7 +11,6 @@ namespace FiresecAPI.GK
 			StartLogic = new XDeviceLogic();
 			MPTDevices = new List<MPTDevice>();
 			Delay = 10;
-
 			Devices = new List<XDevice>();
 		}
 

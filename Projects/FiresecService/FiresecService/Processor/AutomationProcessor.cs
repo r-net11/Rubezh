@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecService.Processor;
+using System.Diagnostics;
 
 namespace FiresecService
 {
@@ -22,7 +23,7 @@ namespace FiresecService
 
 		public static void Start()
 		{
-			timeValidator = 0;
+			timeValidator = -1;
 			startTime = DateTime.Now;
 			Thread = new Thread(OnRun);
 			Thread.Start();
@@ -54,7 +55,7 @@ namespace FiresecService
 			while (true)
 			{
 				var shedules = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules;
-				
+				Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
 				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 				{
 					return;
@@ -63,6 +64,7 @@ namespace FiresecService
 				timeValidator++;
 				foreach (var schedule in shedules)
 				{
+					//Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
 					if (timeValidator <= TimeDelta)
 					{
 						var dateList = new List<DateTime>();
@@ -80,18 +82,29 @@ namespace FiresecService
 						}
 					}
 				}
+				timeValidator--;
 			}
 		}
 
 		static bool CheckSchedule(AutomationSchedule schedule, DateTime dateTime)
 		{
-			return (((schedule.Year == dateTime.Year) || (schedule.Year == -1)) &&
-					((schedule.Month == dateTime.Month) || (schedule.Month == -1)) &&
-					((schedule.Day == dateTime.Day) || (schedule.Day == -1)) &&
-					((schedule.Hour == dateTime.Hour) || (schedule.Hour == -1)) &&
-					((schedule.Minute == dateTime.Minute) || (schedule.Minute == -1)) &&
-					((schedule.Second == dateTime.Second) || (schedule.Second == -1)) &&
-					((schedule.DayOfWeek.ToString() == dateTime.DayOfWeek.ToString()) || (schedule.DayOfWeek == DayOfWeekType.Any)));
+			if ((schedule.DayOfWeek.ToString() != dateTime.DayOfWeek.ToString()) && (schedule.DayOfWeek != DayOfWeekType.Any))
+				return false;
+
+			if (!schedule.IsPeriodSelected)
+				return (((schedule.Year == dateTime.Year) || (schedule.Year == -1)) &&
+						((schedule.Month == dateTime.Month) || (schedule.Month == -1)) &&
+						((schedule.Day == dateTime.Day) || (schedule.Day == -1)) &&
+						((schedule.Hour == dateTime.Hour) || (schedule.Hour == -1)) &&
+						((schedule.Minute == dateTime.Minute) || (schedule.Minute == -1)) &&
+						((schedule.Second == dateTime.Second) || (schedule.Second == -1)));
+			else
+			{
+				var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second, 0);
+				var delta = (int)Math.Abs((dateTime - scheduleDateTime).TotalSeconds);
+				var period = schedule.PeriodDay * 24*3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
+				return (delta % period == 0);
+			}
 		}
 
 		static void RunProcedures(AutomationSchedule schedule)

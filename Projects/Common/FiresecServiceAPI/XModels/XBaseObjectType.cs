@@ -30,5 +30,8 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Код")]
 		Code,
+
+		[DescriptionAttribute("Точка доступа")]
+		Door,
 	}
 }

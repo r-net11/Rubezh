@@ -13,12 +13,12 @@ namespace AutomationModule.ViewModels
 	public class ShowMessageStepViewModel : BaseStepViewModel
 	{
 		ShowMessageArguments ShowMessageArguments { get; set; }
-		public ArithmeticParameterViewModel MessageParameter { get; private set; }
+		public ArgumentViewModel MessageParameter { get; private set; }
 
 		public ShowMessageStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
-			MessageParameter = new ArithmeticParameterViewModel(ShowMessageArguments.MessageParameter, stepViewModel.Update);
+			MessageParameter = new ArgumentViewModel(ShowMessageArguments.MessageParameter, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType> (ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 			UpdateContent();
@@ -33,7 +33,7 @@ namespace AutomationModule.ViewModels
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
 			MessageParameter.Update(allVariables);
 			MessageParameter.ExplicitType = ExplicitType;
-			MessageParameter.EnumType = EnumType;
+			MessageParameter.SelectedEnumType = EnumType;
 		}
 
 		public override string Description

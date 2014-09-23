@@ -3,11 +3,11 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 MinWidth="400" MinHeight="400">
-
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
 				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
@@ -16,10 +16,30 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
-				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
-
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				
+				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+				<Label Grid.Row="2" Grid.Column="0" Content="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" />
+				<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+					<TextBlock VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ChiefViewModel.SelectChiefCommand}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock Text="{Binding ChiefViewModel.Chief.Name}" TextDecorations="Underline" />
+								<TextBlock>
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ChiefViewModel.HasChief}" Value="false">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора руководителя" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+				</StackPanel>
 			</Grid>
 		</TabItem>
 		<TabItem Header="Иконка">

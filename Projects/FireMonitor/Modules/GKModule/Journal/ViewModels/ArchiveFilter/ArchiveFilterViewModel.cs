@@ -110,14 +110,14 @@ namespace GKModule.ViewModels
 		public void InitializeDescriptions(XArchiveFilter archiveFilter)
 		{
 			ArchiveDescriptions = new CheckBoxItemList<ArchiveDescriptionViewModel>();
-			foreach (var description in DescriptionsHelper.GetAllDescriptions())
-			{
-				ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
-			}
+			//foreach (var description in DescriptionsHelper.GetAllDescriptions())
+			//{
+			//    ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
+			//}
 			ArchiveDescriptions.Items.Sort(ArchiveDescriptionViewModel.Compare);
 			foreach (var description in archiveFilter.Descriptions)
 			{
-				var descriptionViewModel = ArchiveDescriptions.Items.FirstOrDefault(x => (x as ArchiveDescriptionViewModel).Description.Name == description);
+				var descriptionViewModel = ArchiveDescriptions.Items.FirstOrDefault(x => (x as ArchiveDescriptionViewModel).Description == description);
 				if (descriptionViewModel != null)
 				{
 					descriptionViewModel.IsChecked = true;
@@ -458,7 +458,7 @@ namespace GKModule.ViewModels
 			foreach (var description in ArchiveDescriptions.Items)
 			{
 				if (description.IsChecked)
-					archiveFilter.Descriptions.Add(description.Description.Name);
+					archiveFilter.Descriptions.Add(description.Description);
 			}
 			foreach (var archiveDevice in AllDevices.Items)
 			{

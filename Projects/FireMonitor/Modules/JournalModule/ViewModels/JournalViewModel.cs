@@ -76,6 +76,8 @@ namespace JournalModule.ViewModels
 					continue;
 				if (JournalFilter.JournalEventNameTypes.Count > 0 && !JournalFilter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
 					continue;
+				if (JournalFilter.JournalEventDescriptionTypes.Count > 0 && !JournalFilter.JournalEventDescriptionTypes.Contains(journalItem.JournalEventDescriptionType))
+					continue;
 				if (JournalFilter.JournalObjectTypes.Count > 0 && !JournalFilter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
 					continue;
 				if (JournalFilter.ObjectUIDs.Count > 0 && !JournalFilter.ObjectUIDs.Contains(journalItem.ObjectUID))

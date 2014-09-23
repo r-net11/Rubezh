@@ -32,6 +32,7 @@ namespace GKModule
 		static PimsViewModel PimsViewModel;
 		static PumpStationsViewModel PumpStationsViewModel;
 		static MPTsViewModel MPTsViewModel;
+		static DoorsViewModel DoorsViewModel;
 		static JournalsViewModel JournalsViewModel;
 		static ArchiveViewModel ArchiveViewModel;
 		static AlarmsViewModel AlarmsViewModel;
@@ -42,6 +43,7 @@ namespace GKModule
 		NavigationItem _pimsNavigationItem;
 		NavigationItem _pumpStationsNavigationItem;
 		NavigationItem _mptsNavigationItem;
+		NavigationItem _doorsNavigationItem;
 		NavigationItem _journalNavigationItem;
 		private PlanPresenter _planPresenter;
 
@@ -68,6 +70,7 @@ namespace GKModule
 			PimsViewModel = new PimsViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
+			DoorsViewModel = new DoorsViewModel();
 			JournalsViewModel = new JournalsViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
@@ -235,6 +238,8 @@ namespace GKModule
 			_delaysNavigationItem.IsVisible = DelaysViewModel.Delays.Count > 0;
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
+			DoorsViewModel.Initialize();
+			_doorsNavigationItem.IsVisible = XManager.DeviceConfiguration.Doors.Count > 0;
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 		}
@@ -247,6 +252,7 @@ namespace GKModule
 			_pimsNavigationItem = new NavigationItem<ShowXPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Pim_White.png", null, null, Guid.Empty);
 			_pumpStationsNavigationItem = new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
 			_mptsNavigationItem = new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty);
+			_doorsNavigationItem = new NavigationItem<ShowXDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty);
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 
@@ -264,6 +270,7 @@ namespace GKModule
 						_pimsNavigationItem,
 						_pumpStationsNavigationItem,
 						_mptsNavigationItem,
+						_doorsNavigationItem,
 						_journalNavigationItem,
 						new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
 					})
@@ -305,7 +312,6 @@ namespace GKModule
 		}
 
 		#region ILayoutProviderModule Members
-
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
@@ -316,7 +322,6 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) => MPTsViewModel);
 		}
-
 		#endregion
 	}
 }

@@ -41,8 +41,6 @@ namespace SKDDriver
 			return base.CanDelete(uid);
 		}
 
-
-
 		protected override Department Translate(DataAccess.Department tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -60,6 +58,8 @@ namespace SKDDriver
 			result.ContactEmployeeUID = tableItem.ContactEmployeeUID;
 			result.AttendantEmployeeUID = tableItem.AttendantUID;
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.ChiefUID = tableItem.ChiefUID;
+			result.HRChiefUID = tableItem.HRChiefUID;
 			return result;
 		}
 
@@ -73,6 +73,8 @@ namespace SKDDriver
 			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
 			if(apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
+			tableItem.ChiefUID = apiItem.ChiefUID;
+			tableItem.HRChiefUID = apiItem.HRChiefUID;
 		}
 
 		protected override ShortDepartment TranslateToShort(DataAccess.Department tableItem)
@@ -99,6 +101,36 @@ namespace SKDDriver
 			if(tableItem == null)
 				return "";
 			return tableItem.Name;
+		}
+
+		public OperationResult SaveChief(Guid uid, Guid chiefUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.ChiefUID = chiefUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		public OperationResult SaveHRChief(Guid uid, Guid hrChiefUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.HRChiefUID = hrChiefUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
 		}
 
 		public override OperationResult Save(Department apiItem)

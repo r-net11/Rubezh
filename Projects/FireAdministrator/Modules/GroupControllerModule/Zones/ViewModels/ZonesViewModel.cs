@@ -234,6 +234,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
+
 		private void OnZoneChanged(Guid zoneUID)
 		{
 			var zone = Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);

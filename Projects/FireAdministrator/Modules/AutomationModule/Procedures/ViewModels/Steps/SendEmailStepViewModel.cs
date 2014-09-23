@@ -10,30 +10,30 @@ namespace AutomationModule.ViewModels
 	public class SendEmailStepViewModel : BaseStepViewModel
 	{
 		SendEmailArguments SendEmailArguments { get; set; }
-		public ArithmeticParameterViewModel EMailAddressParameter { get; private set; }
-		public ArithmeticParameterViewModel EMailTitleParameter { get; private set; }
-		public ArithmeticParameterViewModel EMailContentParameter { get; private set; }
-		public ArithmeticParameterViewModel HostParameter { get; private set; }
-		public ArithmeticParameterViewModel PortParameter { get; private set; }
-		public ArithmeticParameterViewModel LoginParameter { get; private set; }
-		public ArithmeticParameterViewModel PasswordParameter { get; private set; }
+		public ArgumentViewModel EMailAddressParameter { get; private set; }
+		public ArgumentViewModel EMailTitleParameter { get; private set; }
+		public ArgumentViewModel EMailContentParameter { get; private set; }
+		public ArgumentViewModel HostParameter { get; private set; }
+		public ArgumentViewModel PortParameter { get; private set; }
+		public ArgumentViewModel LoginParameter { get; private set; }
+		public ArgumentViewModel PasswordParameter { get; private set; }
 
 		public SendEmailStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SendEmailArguments = stepViewModel.Step.SendEmailArguments;
-			EMailAddressParameter = new ArithmeticParameterViewModel(SendEmailArguments.EMailAddressParameter, stepViewModel.Update);
+			EMailAddressParameter = new ArgumentViewModel(SendEmailArguments.EMailAddressParameter, stepViewModel.Update);
 			EMailAddressParameter.ExplicitType = ExplicitType.String;
-			EMailTitleParameter = new ArithmeticParameterViewModel(SendEmailArguments.EMailTitleParameter, stepViewModel.Update);
+			EMailTitleParameter = new ArgumentViewModel(SendEmailArguments.EMailTitleParameter, stepViewModel.Update);
 			EMailTitleParameter.ExplicitType = ExplicitType.String;
-			EMailContentParameter = new ArithmeticParameterViewModel(SendEmailArguments.EMailContentParameter, stepViewModel.Update);
+			EMailContentParameter = new ArgumentViewModel(SendEmailArguments.EMailContentParameter, stepViewModel.Update);
 			EMailContentParameter.ExplicitType = ExplicitType.String;
-			HostParameter = new ArithmeticParameterViewModel(SendEmailArguments.HostParameter, stepViewModel.Update);
+			HostParameter = new ArgumentViewModel(SendEmailArguments.HostParameter, stepViewModel.Update);
 			HostParameter.ExplicitType = ExplicitType.String;
-			PortParameter = new ArithmeticParameterViewModel(SendEmailArguments.PortParameter, stepViewModel.Update);
+			PortParameter = new ArgumentViewModel(SendEmailArguments.PortParameter, stepViewModel.Update);
 			PortParameter.ExplicitType = ExplicitType.Integer;
-			LoginParameter = new ArithmeticParameterViewModel(SendEmailArguments.LoginParameter, stepViewModel.Update);
+			LoginParameter = new ArgumentViewModel(SendEmailArguments.LoginParameter, stepViewModel.Update);
 			LoginParameter.ExplicitType = ExplicitType.String;
-			PasswordParameter = new ArithmeticParameterViewModel(SendEmailArguments.PasswordParameter, stepViewModel.Update);
+			PasswordParameter = new ArgumentViewModel(SendEmailArguments.PasswordParameter, stepViewModel.Update);
 			PasswordParameter.ExplicitType = ExplicitType.String;
 			UpdateContent();
 		}

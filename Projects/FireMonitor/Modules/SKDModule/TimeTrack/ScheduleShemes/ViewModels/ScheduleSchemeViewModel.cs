@@ -85,6 +85,7 @@ namespace SKDModule.ViewModels
 				SheduleDayIntervals.Add(viewModel);
 				Sort();
 				SelectedSheduleDayInterval = viewModel;
+				UpdateDaysCount();
 			}
 		}
 		bool CanAdd()
@@ -104,6 +105,7 @@ namespace SKDModule.ViewModels
 				SheduleDayIntervals.Remove(SelectedSheduleDayInterval);
 				SheduleDayIntervals.ForEach(item => item.Update());
 				SelectedSheduleDayInterval = number < SheduleDayIntervals.Count ? SheduleDayIntervals[number] : SheduleDayIntervals.LastOrDefault();
+				UpdateDaysCount();
 			}
 		}
 		bool CanDelete()
@@ -114,6 +116,12 @@ namespace SKDModule.ViewModels
 		void Sort()
 		{
 			SheduleDayIntervals.Sort(item => item.Model.Number);
+		}
+
+		void UpdateDaysCount()
+		{
+			Model.DaysCount = Model.DayIntervals.Count;
+			ScheduleSchemaHelper.Save(Model);
 		}
 	}
 }

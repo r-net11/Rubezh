@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -11,7 +12,8 @@ namespace SKDModule.ViewModels
 	{
 		OrganisationsViewModel OrganisationsViewModel;
 		public OrganisationDetails OrganisationDetails { get; private set; }
-
+		public ChiefViewModel ChiefViewModel { get; private set; }
+		
 		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, Organisation organisation = null)
 		{
 			OrganisationsViewModel = organisationsViewModel;
@@ -30,6 +32,7 @@ namespace SKDModule.ViewModels
 				OrganisationDetails = OrganisationHelper.GetDetails(organisation.UID);
 			}
 			CopyProperties();
+			ChiefViewModel = new ChiefViewModel(OrganisationDetails.ChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
 		}
 
 		void CopyProperties()
@@ -110,6 +113,7 @@ namespace SKDModule.ViewModels
 				OrganisationDetails.Photo = new Photo();
 				OrganisationDetails.Photo.Data = PhotoData;
 			}
+			OrganisationDetails.ChiefUID = ChiefViewModel.ChiefUID;
 			return OrganisationHelper.Save(OrganisationDetails);
 		}
 	}

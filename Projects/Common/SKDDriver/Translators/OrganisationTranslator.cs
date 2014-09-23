@@ -65,6 +65,7 @@ namespace SKDDriver
 			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
+			result.ChiefUID = tableItem.ChiefUID;
 			return result;
 		}
 
@@ -73,6 +74,7 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
+			tableItem.ChiefUID = apiItem.ChiefUID;
 		}
 
 		public OperationResult<OrganisationDetails> GetDetails(Guid uid)
@@ -94,7 +96,8 @@ namespace SKDDriver
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
-						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList()
+						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList(),
+						ChiefUID = tableItem.ChiefUID
 					};
 				var photoResult = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
@@ -244,6 +247,21 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
+		public OperationResult SaveChief(Guid uid, Guid chiefUID)
+		{
+			try
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
+				tableItem.ChiefUID = chiefUID;
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
 		public OperationResult Save(OrganisationDetails apiItem)
 		{
 			var saveDoorsResult = SaveDoors(apiItem);
@@ -282,6 +300,7 @@ namespace SKDDriver
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
 					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+					tableItem.ChiefUID = apiItem.ChiefUID;
 					Table.InsertOnSubmit(tableItem);
 				}
 				else
@@ -292,6 +311,7 @@ namespace SKDDriver
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
 					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+					tableItem.ChiefUID = apiItem.ChiefUID;
 				}
 				Context.SubmitChanges();
 				return new OperationResult();

@@ -9,7 +9,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Зона" />
-			<Views:ArithmeticParameterView DataContext="{Binding GKGuardZoneParameter}" />
+			<Views:ArgumentView DataContext="{Binding GKGuardZoneParameter}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

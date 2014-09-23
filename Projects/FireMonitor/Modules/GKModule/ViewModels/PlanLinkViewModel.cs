@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 		public XZone Zone { get; set; }
 		public XGuardZone GuardZone { get; set; }
 		public XDirection Direction { get; set; }
+		public XDoor Door { get; set; }
 
 		public string Name
 		{

@@ -241,16 +241,16 @@ namespace FiresecAPI.Automation
 			}
 		}
 
-		void InvalidateArithmeticParameter(Procedure procedure, ArithmeticParameter arithmeticParameter)
+		void InvalidateArithmeticParameter(Procedure procedure, Variable variable)
 		{
 			var localVariables = new List<Variable>(procedure.Variables);
 			localVariables.AddRange(new List<Variable>(procedure.Arguments));
-			if (arithmeticParameter.VariableScope == VariableScope.GlobalVariable)
-				if (GlobalVariables.All(x => x.Uid != arithmeticParameter.VariableUid))
-					arithmeticParameter.VariableUid = Guid.Empty;
-			if (arithmeticParameter.VariableScope == VariableScope.LocalVariable)
-				if (localVariables.All(x => x.Uid != arithmeticParameter.VariableUid))
-					arithmeticParameter.VariableUid = Guid.Empty;
+			if (variable.VariableScope == VariableScope.GlobalVariable)
+				if (GlobalVariables.All(x => x.Uid != variable.VariableUid))
+					variable.VariableUid = Guid.Empty;
+			if (variable.VariableScope == VariableScope.LocalVariable)
+				if (localVariables.All(x => x.Uid != variable.VariableUid))
+					variable.VariableUid = Guid.Empty;
 		}
 	}
 }

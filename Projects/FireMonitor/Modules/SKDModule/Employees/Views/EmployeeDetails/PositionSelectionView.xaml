@@ -8,7 +8,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
-            <DataGrid ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
+			<DataGrid ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

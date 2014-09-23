@@ -12,15 +12,15 @@ namespace AutomationModule.ViewModels
 	public class GetObjectPropertyStepViewModel: BaseStepViewModel
 	{
 		GetObjectPropertyArguments GetObjectPropertyArguments { get; set; }
-		public ArithmeticParameterViewModel ObjectParameter { get; private set; }
-		public ArithmeticParameterViewModel ResultParameter { get; private set; }
+		public ArgumentViewModel ObjectParameter { get; private set; }
+		public ArgumentViewModel ResultParameter { get; private set; }
 
 		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
-			ObjectParameter = new ArithmeticParameterViewModel(GetObjectPropertyArguments.ObjectParameter, stepViewModel.Update, false);
+			ObjectParameter = new ArgumentViewModel(GetObjectPropertyArguments.ObjectParameter, stepViewModel.Update, false);
 			ObjectParameter.UpdateVariableHandler += UpdateProperies;
-			ResultParameter = new ArithmeticParameterViewModel(GetObjectPropertyArguments.ResultParameter, stepViewModel.Update, false);
+			ResultParameter = new ArgumentViewModel(GetObjectPropertyArguments.ResultParameter, stepViewModel.Update, false);
 			UpdateContent();
 		}
 

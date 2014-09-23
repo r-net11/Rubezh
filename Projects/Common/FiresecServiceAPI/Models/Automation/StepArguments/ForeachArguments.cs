@@ -8,14 +8,14 @@ namespace FiresecAPI.Automation
 	{
 		public ForeachArguments()
 		{
-			ListParameter = new ArithmeticParameter();
-			ItemParameter = new ArithmeticParameter();
+			ListParameter = new Variable();
+			ItemParameter = new Variable();
 		}
 
 		[DataMember]
-		public ArithmeticParameter ListParameter { get; set; }
+		public Variable ListParameter { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter ItemParameter { get; set; }
+		public Variable ItemParameter { get; set; }
 	}
 }

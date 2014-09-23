@@ -8,7 +8,7 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
+		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Variable> args)
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.RunProcedure(procedureUID, args));
 		}

@@ -65,7 +65,7 @@ namespace AutomationModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ProcedureYellow.png",
+							ImageSource="/Controls;component/Images/Procedure.png",
 							ToolTip="Процедура",
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,

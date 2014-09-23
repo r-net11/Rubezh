@@ -129,6 +129,14 @@ namespace FiresecAPI.GK
 			BaseObjectType = XBaseObjectType.Code;
 		}
 
+		public XState(XDoor door)
+			: this()
+		{
+			Door = door;
+			UID = door.BaseUID;
+			BaseObjectType = XBaseObjectType.GuardZone;
+		}
+
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
@@ -138,6 +146,7 @@ namespace FiresecAPI.GK
 		public XPim Pim { get; private set; }
 		public XGuardZone GuardZone { get; private set; }
 		public XCode Code { get; private set; }
+		public XDoor Door { get; private set; }
 		public XBaseObjectType BaseObjectType { get; private set; }
 
 		public void CopyTo(XState state)

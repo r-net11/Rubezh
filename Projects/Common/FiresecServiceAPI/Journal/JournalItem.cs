@@ -22,7 +22,10 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public DateTime DeviceDateTime { get; set; }
-		
+
+		[DataMember]
+		public JournalSubsystemType JournalSubsystemType { get; set; }
+
 		[DataMember]
 		public JournalEventNameType JournalEventNameType { get; set; }
 
@@ -37,9 +40,6 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public XStateClass StateClass { get; set; }
-
-		[DataMember]
-		public JournalSubsystemType JournalSubsystemType { get; set; }
 
 		[DataMember]
 		public JournalObjectType JournalObjectType { get; set; }

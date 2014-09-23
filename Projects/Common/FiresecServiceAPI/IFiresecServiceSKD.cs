@@ -23,6 +23,12 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
+
+		[OperationContract]
+		OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid);
+
+		[OperationContract]
+		OperationResult SaveEmployeePosition(Guid uid, Guid positionUid);
 		#endregion
 
 		#region Department
@@ -37,6 +43,12 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult MarkDeletedDepartment(Guid uid);
+
+		[OperationContract]
+		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID);
+		
+		[OperationContract]
+		OperationResult SaveDepartmentHRChief(Guid uid, Guid chiefUID);
 		#endregion
 
 		#region Position
@@ -111,6 +123,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
+
+		[OperationContract]
+		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID);
 		#endregion
 
 		#region AdditionalColumnType
