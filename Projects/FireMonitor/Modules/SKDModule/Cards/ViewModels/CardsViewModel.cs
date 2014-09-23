@@ -42,6 +42,14 @@ namespace SKDModule.ViewModels
 				cardViewModel.Update(newCard);
 			else
 				rootItem.AddChild(new CardViewModel(newCard));
+			if (!newCard.IsInStopList)
+			{
+				var deactivatedRoot = RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem);
+				var blockedCard = deactivatedRoot.Children.FirstOrDefault(x => x.Card.UID == newCard.UID);
+				if (blockedCard != null)
+					deactivatedRoot.RemoveChild(blockedCard);
+			}
+			rootItem.IsExpanded = true;
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
 		}
