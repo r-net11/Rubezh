@@ -14,75 +14,12 @@
 		<TabItem Header="Отладка">
 			<Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
 				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<StackPanel Grid.Row="0" Margin="10">
-						<Button Width="300" Command="{Binding SetConfigCommand}" Content="Применять" Margin="2" />
-						<Button Width="300" Command="{Binding WriteConfigCommand}" Content="Записывать" Margin="2" />
-						<!--<Button Width="300" Command="{Binding TestCommand}" Content="Test" Margin="2" />-->
-					</StackPanel>
-					<ScrollViewer Grid.Row="1">
-						<TextBox Text="{Binding Text}" />
-					</ScrollViewer>
-				</Grid>
+                    <StackPanel>
+                        <Button Command="{Binding SaveCommand}" Content="Save" Width="100" Margin="2" />
+                        <Button Command="{Binding LoadCommand}" Content="Load" Width="100" Margin="2" />
+                    </StackPanel>
+                </Grid>
 			</Border>
-		</TabItem>
-		<TabItem Header="Test">
-			<ListView Name="ProportionalDateListView" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
-				<ListView.View>
-					<GridView>
-						<GridViewColumn DisplayMemberBinding="{Binding Path=Ticks}" Header="A" ListViewLayoutManager.CanUserResize="False"/>
-						<GridViewColumn Width="150" DisplayMemberBinding="{Binding Path=DayOfWeek}" Header="B" />
-						<GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=TimeOfDay}" Header="C" ListViewLayoutManager.CanUserResize="False" />
-						<GridViewColumn Width="50" DisplayMemberBinding="{Binding Path=DayOfYear}" Header="D" />
-						<GridViewColumn DisplayMemberBinding="{Binding Path=Year}" Header="E" ListViewLayoutManager.StarWidth="1" />
-						<GridViewColumn DisplayMemberBinding="{Binding Path=Month}" Header="F" ListViewLayoutManager.StarWidth="2" />
-						<GridViewColumn DisplayMemberBinding="{Binding Path=Day}" Header="G" />
-					</GridView>
-				</ListView.View>
-				<ListView.ItemsSource>
-					<s:ArrayList>
-						<p:DateTime>1990/1/1 12:22:02</p:DateTime>
-						<p:DateTime>1990/1/2 13:2:01</p:DateTime>
-						<p:DateTime>1990/1/3 2:1:6</p:DateTime>
-						<p:DateTime>1990/1/4 13:6:55</p:DateTime>
-						<p:DateTime>1990/2/1 12:22:02</p:DateTime>
-						<p:DateTime>1990/2/2 13:2:01</p:DateTime>
-						<p:DateTime>1990/2/3 2:1:6</p:DateTime>
-						<p:DateTime>1990/2/4 13:6:55</p:DateTime>
-						<p:DateTime>1990/3/1 12:22:02</p:DateTime>
-						<p:DateTime>1990/3/2 13:2:01</p:DateTime>
-						<p:DateTime>1990/3/3 2:1:6</p:DateTime>
-						<p:DateTime>1990/3/4 13:6:55</p:DateTime>
-						<p:DateTime>1995/1/1 12:22:02</p:DateTime>
-						<p:DateTime>1995/10/2 13:2:01</p:DateTime>
-						<p:DateTime>1995/10/3 2:1:6</p:DateTime>
-						<p:DateTime>1995/10/4 13:6:55</p:DateTime>
-						<p:DateTime>1995/2/10 12:22:02</p:DateTime>
-						<p:DateTime>1995/2/20 13:2:01</p:DateTime>
-						<p:DateTime>1995/2/3 2:1:6</p:DateTime>
-						<p:DateTime>1996/2/4 13:6:55</p:DateTime>
-						<p:DateTime>1996/3/1 12:22:02</p:DateTime>
-						<p:DateTime>1996/3/2 13:2:01</p:DateTime>
-						<p:DateTime>1996/3/3 2:1:6</p:DateTime>
-						<p:DateTime>1996/3/4 13:6:55</p:DateTime>
-						<p:DateTime>1997/1/1 12:22:02</p:DateTime>
-						<p:DateTime>1997/1/2 13:2:01</p:DateTime>
-						<p:DateTime>1997/1/3 2:1:6</p:DateTime>
-						<p:DateTime>1997/1/4 13:6:55</p:DateTime>
-						<p:DateTime>1997/2/1 12:22:02</p:DateTime>
-						<p:DateTime>1997/2/2 13:2:01</p:DateTime>
-						<p:DateTime>2000/2/3 2:1:6</p:DateTime>
-						<p:DateTime>2000/2/4 13:6:55</p:DateTime>
-						<p:DateTime>2000/3/1 12:22:02</p:DateTime>
-						<p:DateTime>2000/3/2 13:2:01</p:DateTime>
-						<p:DateTime>2000/3/3 2:1:6</p:DateTime>
-						<p:DateTime>2000/3/4 13:6:55</p:DateTime>
-					</s:ArrayList>
-				</ListView.ItemsSource>
-			</ListView>
 		</TabItem>
 	</TabControl>
 </UserControl>

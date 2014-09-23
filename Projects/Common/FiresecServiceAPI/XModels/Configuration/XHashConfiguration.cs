@@ -11,6 +11,7 @@ namespace FiresecAPI.GK
 			RootDevice = deviceConfiguration.RootDevice;
 			Devices = deviceConfiguration.Devices;
 			Zones = deviceConfiguration.Zones;
+			GuardZones = deviceConfiguration.GuardZones;
 			Directions = deviceConfiguration.Directions;
 			PumpStations = deviceConfiguration.PumpStations;
 		}
@@ -23,6 +24,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<XZone> Zones { get; set; }
+
+		[DataMember]
+		public List<XGuardZone> GuardZones { get; set; }
 
 		[DataMember]
 		public List<XDirection> Directions { get; set; }

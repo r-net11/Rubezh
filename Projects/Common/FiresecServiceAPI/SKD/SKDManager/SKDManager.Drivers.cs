@@ -26,7 +26,6 @@ namespace FiresecAPI.SKD
 			Drivers.Add(ChinaController_2_4Helper.Create());
 			Drivers.Add(ChinaController_4_4Helper.Create());
 			Drivers.Add(ReaderHelper.Create());
-			Drivers.Add(GateHelper.Create());
 			Drivers.Add(LockHelper.Create());
 			Drivers.Add(LockControlHelper.Create());
 			Drivers.Add(ButtonHelper.Create());

@@ -57,19 +57,20 @@ namespace GKProcessor
 
 		public void WriteFileToGK(XDevice gkDevice)
 		{
-			var bytesList = new List<byte>();
 			var gkFileInfo = new GKFileInfo();
 			gkFileInfo.Initialize(XManager.DeviceConfiguration, gkDevice);
+
+			var bytesList = new List<byte>();
 			bytesList.AddRange(gkFileInfo.InfoBlock);
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			if (sendResult.HasError)
-				{ Error = "Невозможно начать процедуру записи "; return; }
+			{ Error = "Невозможно начать процедуру записи "; return; }
 			bytesList.AddRange(gkFileInfo.FileBytes);
 			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
 				if (progressCallback.IsCanceled)
-					{ Error = "Операция отменена"; return; }
+				{ Error = "Операция отменена"; return; }
 				GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
@@ -80,10 +81,10 @@ namespace GKProcessor
 					break;
 				}
 			}
-			var endBlock = BitConverter.GetBytes((uint) (bytesList.Count()/256 + 1)).ToList();
+			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
 			sendResult = SendManager.Send(gkDevice, 0, 22, 0, endBlock);
 			if (sendResult.HasError)
-				{ Error = "Невозможно завершить запись файла "; }
+			{ Error = "Невозможно завершить запись файла "; }
 		}
 
 		public GKFileInfo ReadInfoBlock(XDevice gkDevice)
@@ -95,16 +96,16 @@ namespace GKProcessor
 				if (sendResult.HasError)
 				{ Error = "Устройство недоступно"; return null; }
 				if (sendResult.Bytes.Count == 0)
-					{ Error = "Информационный блок отсутствует"; return null; }
+				{ Error = "Информационный блок отсутствует"; return null; }
 				if (sendResult.Bytes.Count < 256)
-					{ Error = "Информационный блок поврежден"; return null; }
+				{ Error = "Информационный блок поврежден"; return null; }
 				var infoBlock = GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
 				if (GKFileInfo.Error != null)
-					{ Error = GKFileInfo.Error; return null; }
+				{ Error = GKFileInfo.Error; return null; }
 				return infoBlock;
 			}
 			catch (Exception e)
-				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }
+			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }
 		}
 	}
 }

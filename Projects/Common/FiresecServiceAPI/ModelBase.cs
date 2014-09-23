@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using Common;
 
-namespace FiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public class ModelBase : IIdentity

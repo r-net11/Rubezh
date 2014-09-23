@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using DiagnosticsModule.Models;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -22,53 +23,20 @@ namespace DiagnosticsModule.ViewModels
 
 		public DiagnosticsViewModel()
 		{
-			SetConfigCommand = new RelayCommand(OnSetConfig);
-			WriteConfigCommand = new RelayCommand(OnWriteConfig);
+			SaveCommand = new RelayCommand(OnSave);
+			LoadCommand = new RelayCommand(OnLoad);
 		}
 
-		public RelayCommand SetConfigCommand { get; private set; }
-		void OnSetConfig()
+		public RelayCommand SaveCommand { get; private set; }
+		void OnSave()
 		{
-			var thread = new Thread(() =>
-				{
-					while (true)
-					{
-						Dispatcher.Invoke(new Action(() =>
-							{
-								SetNewConfig();
-
-								Count++;
-								Text = "SetNewConfig count = " + Count;
-
-								Thread.Sleep(TimeSpan.FromSeconds(15));
-							}));
-					}
-				}
-				);
-			thread.Start();
+			SerializerHelper.Save();
 		}
 
-		public RelayCommand WriteConfigCommand { get; private set; }
-		void OnWriteConfig()
+		public RelayCommand LoadCommand { get; private set; }
+		void OnLoad()
 		{
-			var thread = new Thread(() =>
-			{
-				while (true)
-				{
-					Dispatcher.Invoke(new Action(() =>
-					{
-						var gkdevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-						var result = FiresecManager.FiresecService.GKWriteConfiguration(gkdevice);
-
-						Count++;
-						Text = "SetNewConfig count = " + Count;
-
-						Thread.Sleep(TimeSpan.FromSeconds(1));
-					}));
-				}
-			}
-				);
-			thread.Start();
+			SerializerHelper.Load();
 		}
 
 
@@ -88,10 +56,6 @@ namespace DiagnosticsModule.ViewModels
 				OnPropertyChanged(() => Text);
 			}
 		}
-
-
-
-
 
 		public static bool SetNewConfig()
 		{

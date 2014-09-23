@@ -151,7 +151,6 @@ namespace FiresecAPI.GK
 				if (shleifNo != 0)
 					return shleifNo.ToString() + "." + IntAddress.ToString();
 				return IntAddress.ToString();
-				;
 			}
 		}
 
