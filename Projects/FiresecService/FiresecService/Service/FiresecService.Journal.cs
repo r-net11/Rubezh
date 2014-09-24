@@ -29,6 +29,7 @@ namespace FiresecService.Service
 			journalItem.ObjectName = xJournalItem.ObjectName;
 			journalItem.StateClass = xJournalItem.StateClass;
 			journalItem.UserName = xJournalItem.UserName;
+			journalItem.JournalEventDescriptionType = xJournalItem.JournalEventDescriptionType;
 
 			switch (xJournalItem.JournalObjectType)
 			{

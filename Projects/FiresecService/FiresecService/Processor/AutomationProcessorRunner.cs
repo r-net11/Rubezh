@@ -30,8 +30,7 @@ namespace FiresecService.Processor
 							continue;
 						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 							continue;
-
-						AutomationProcessorRunner.Run(procedure, new List<Variable>());
+						AutomationProcessorRunner.Run(procedure, new List<Argument>(), null, null);
 					}
 				}
 			}
@@ -52,7 +51,7 @@ namespace FiresecService.Processor
 
 		}
 
-		public static bool RunInThread(Procedure procedure, List<Variable> arguments)
+		public static bool RunInThread(Procedure procedure, List<Argument> arguments)
 		{
 			try
 			{
@@ -69,9 +68,9 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		public static bool Run(Procedure procedure, List<Variable> arguments)
+		public static bool Run(Procedure procedure, List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables)
 		{
-			procedure.ResetVariables(arguments);
+			procedure.ResetVariables(arguments, callingProcedure, globalVariables);
 			var procedureThread = new Thread(() => RunInThread(procedure, arguments));
 			procedureThread.Start();
 			ProceduresThreads.Add(procedureThread);
@@ -79,7 +78,7 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		static bool RunStep(ProcedureStep procedureStep, Procedure procedure, List<Variable> arguments)
+		static bool RunStep(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
 			switch (procedureStep.ProcedureStepType)
 			{
@@ -174,7 +173,7 @@ namespace FiresecService.Processor
 					{
 						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
 								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-						Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments);
+						Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, procedure, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 					}
 					break;
 

@@ -56,6 +56,7 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
+			SKDManager.SetEmptyConfiguration(); //TODO Comment
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();

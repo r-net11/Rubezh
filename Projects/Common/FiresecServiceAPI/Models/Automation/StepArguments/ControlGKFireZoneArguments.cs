@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlGKFireZoneArguments()
 		{
-			GKFireZoneParameter = new Variable();
+			GKFireZoneParameter = new Argument();
 		}
 
 		[DataMember]
-		public Variable GKFireZoneParameter { get; set; }
+		public Argument GKFireZoneParameter { get; set; }
 
 		[DataMember]
 		public ZoneCommandType ZoneCommandType { get; set; }

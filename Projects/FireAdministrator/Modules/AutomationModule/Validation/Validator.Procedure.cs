@@ -257,18 +257,18 @@ namespace AutomationModule.Validation
 		}
 
 
-		bool ValidateArithmeticParameter(ProcedureStep step, Variable arithmeticParameter)
+		bool ValidateArithmeticParameter(ProcedureStep step, Argument argument)
 		{
 			var localVariables = new List<Variable>(Procedure.Variables);
 			localVariables.AddRange(new List<Variable>(Procedure.Arguments));
-			if (arithmeticParameter.VariableScope == VariableScope.GlobalVariable)
-				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != arithmeticParameter.VariableUid))
+			if (argument.VariableScope == VariableScope.GlobalVariable)
+				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
 				{
 					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
 					return false;
 				}
-			if (arithmeticParameter.VariableScope == VariableScope.LocalVariable)
-				if (localVariables.All(x => x.Uid != arithmeticParameter.VariableUid))
+			if (argument.VariableScope == VariableScope.LocalVariable)
+				if (localVariables.All(x => x.Uid != argument.VariableUid))
 				{
 					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
 					return false;

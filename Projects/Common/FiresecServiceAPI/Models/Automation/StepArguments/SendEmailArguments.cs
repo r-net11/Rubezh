@@ -11,34 +11,34 @@ namespace FiresecAPI.Automation
 	{
 		public SendEmailArguments()
 		{
-			EMailAddressParameter = new Variable();
-			EMailTitleParameter = new Variable();
-			EMailContentParameter = new Variable();
-			HostParameter = new Variable();
-			PortParameter = new Variable();
-			LoginParameter = new Variable();
-			PasswordParameter = new Variable();
+			EMailAddressParameter = new Argument();
+			EMailTitleParameter = new Argument();
+			EMailContentParameter = new Argument();
+			HostParameter = new Argument();
+			PortParameter = new Argument();
+			LoginParameter = new Argument();
+			PasswordParameter = new Argument();
 		}
 
 		[DataMember]
-		public Variable EMailAddressParameter { get; set; }
+		public Argument EMailAddressParameter { get; set; }
 
 		[DataMember]
-		public Variable EMailTitleParameter { get; set; }
+		public Argument EMailTitleParameter { get; set; }
 
 		[DataMember]
-		public Variable EMailContentParameter { get; set; }
+		public Argument EMailContentParameter { get; set; }
 
 		[DataMember]
-		public Variable HostParameter { get; private set; }
+		public Argument HostParameter { get; private set; }
 
 		[DataMember]
-		public Variable PortParameter { get; private set; }
+		public Argument PortParameter { get; private set; }
 
 		[DataMember]
-		public Variable LoginParameter { get; private set; }
+		public Argument LoginParameter { get; private set; }
 
 		[DataMember]
-		public Variable PasswordParameter { get; private set; }
+		public Argument PasswordParameter { get; private set; }
 	}
 }

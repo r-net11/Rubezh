@@ -282,14 +282,7 @@ namespace AutomationModule.ViewModels
 				if (procedureSelectionViewModel.SelectedProcedure != null)
 				{
 					var scheduleProcedure = new ScheduleProcedure();
-					scheduleProcedure.ProcedureUid = procedureSelectionViewModel.SelectedProcedure.Procedure.Uid;
-					scheduleProcedure.Arguments = new List<Variable>();
-					foreach (var variable in procedureSelectionViewModel.SelectedProcedure.Procedure.Arguments)
-					{
-						var argument = new Variable();
-						argument.VariableUid = variable.Uid;
-						scheduleProcedure.Arguments.Add(argument);
-					}
+					scheduleProcedure.ProcedureUid = procedureSelectionViewModel.SelectedProcedure.Procedure.Uid;					
 					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);
 					ScheduleProcedures.Add(scheduleProcedureViewModel);
 					Schedule.ScheduleProcedures.Add(scheduleProcedureViewModel.ScheduleProcedure);

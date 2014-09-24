@@ -37,7 +37,7 @@
 							<TextBlock Text="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ExplicitType.Integer}}" />
-							<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+							<TextBlock Text="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ExplicitType.Object}}" />
 							<TextBlock Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 

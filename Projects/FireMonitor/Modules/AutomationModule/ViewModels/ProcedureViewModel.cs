@@ -21,8 +21,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand RunCommand { get; private set; }
 		void OnRun()
 		{
-			FiresecManager.FiresecService.RunProcedure(Procedure.Uid,
-				ArgumentsViewModel.Arguments.Select(x => x.Variable).ToList());
+			FiresecManager.FiresecService.RunProcedure(Procedure.Uid, ArgumentsViewModel.Arguments.Select(x => x.Argument).ToList());
 		}
 
 		public string Name

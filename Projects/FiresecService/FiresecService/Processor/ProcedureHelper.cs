@@ -538,7 +538,7 @@ namespace FiresecService.Processor
 				target.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
 		}
 
-		static T GetValue<T>(Variable variable)
+		static T GetValue<T>(Argument variable)
 		{
 			var result = new object();
 			var variableScope = variable.VariableScope;

@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 			ControlGKFireZoneArguments = stepViewModel.Step.ControlGKFireZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<ZoneCommandType>();
 			GKFireZoneParameter = new ArgumentViewModel(ControlGKFireZoneArguments.GKFireZoneParameter, stepViewModel.Update);
-			GKFireZoneParameter.SelectedObjectType = ObjectType.Zone;
+			GKFireZoneParameter.ObjectType = ObjectType.Zone;
 			GKFireZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
 			UpdateContent();

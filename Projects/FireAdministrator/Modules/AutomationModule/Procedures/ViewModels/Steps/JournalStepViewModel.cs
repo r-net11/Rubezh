@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
 			MessageParameter.Update(allVariables);
 			MessageParameter.ExplicitType = ExplicitType;
-			MessageParameter.SelectedEnumType = EnumType;
+			MessageParameter.EnumType = EnumType;
 		}
 
 		public override string Description

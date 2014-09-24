@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
 			GKDeviceParameter = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceParameter, stepViewModel.Update);
-			GKDeviceParameter.SelectedObjectType = ObjectType.Device;
+			GKDeviceParameter.ObjectType = ObjectType.Device;
 			GKDeviceParameter.ExplicitType = ExplicitType.Object;
 			GKDeviceParameter.UpdateVariableScopeHandler = Update;
 			GKDeviceParameter.ExplicitValue.UpdateObjectHandler = Update;
@@ -164,32 +164,61 @@ namespace AutomationModule.ViewModels
 
 		CommandType XStateBitToCommandType(XStateBit stateString)
 		{
-			if (GKDeviceParameter.ExplicitValue.Device == null)
-				return CommandType.Unknown;
-			switch (stateString)
+			if (GKDeviceParameter.ExplicitValue.Device != null)
 			{
-				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(GKDeviceParameter.ExplicitValue.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
-				case XStateBit.SetRegime_Manual:
-					return CommandType.SetRegime_Manual;
-				case XStateBit.SetRegime_Off:
-					return CommandType.SetRegime_Off;
-				case XStateBit.TurnOn_InManual:
-					return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
-				case XStateBit.TurnOnNow_InManual:
-					return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
-				case XStateBit.TurnOff_InManual:
-					return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
-				case XStateBit.Stop_InManual:
-					return CommandType.Stop_InManual;
-				case XStateBit.Reset:
-					return CommandType.Reset;
-				case XStateBit.ForbidStart_InManual:
-					return CommandType.ForbidStart_InManual;
-				case XStateBit.TurnOffNow_InManual:
-					return CommandType.TurnOffNow_InManual;
-				default:
-					return CommandType.Unknown;
+				switch (stateString)
+				{
+					case XStateBit.SetRegime_Automatic:
+						return IsTriStateControl(GKDeviceParameter.ExplicitValue.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
+					case XStateBit.SetRegime_Manual:
+						return CommandType.SetRegime_Manual;
+					case XStateBit.SetRegime_Off:
+						return CommandType.SetRegime_Off;
+					case XStateBit.TurnOn_InManual:
+						return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
+					case XStateBit.TurnOnNow_InManual:
+						return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
+					case XStateBit.TurnOff_InManual:
+						return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
+					case XStateBit.Stop_InManual:
+						return CommandType.Stop_InManual;
+					case XStateBit.Reset:
+						return CommandType.Reset;
+					case XStateBit.ForbidStart_InManual:
+						return CommandType.ForbidStart_InManual;
+					case XStateBit.TurnOffNow_InManual:
+						return CommandType.TurnOffNow_InManual;
+					default:
+						return CommandType.Unknown;
+				}
+			}
+			else
+			{
+				switch (stateString)
+				{
+					case XStateBit.SetRegime_Automatic:
+						return CommandType.SetRegime_Automatic;
+					case XStateBit.SetRegime_Manual:
+						return CommandType.SetRegime_Manual;
+					case XStateBit.SetRegime_Off:
+						return CommandType.SetRegime_Off;
+					case XStateBit.TurnOn_InManual:
+						return CommandType.TurnOn_InManual;
+					case XStateBit.TurnOnNow_InManual:
+						return CommandType.TurnOnNow_InManual;
+					case XStateBit.TurnOff_InManual:
+						return CommandType.TurnOff_InManual;
+					case XStateBit.Stop_InManual:
+						return CommandType.Stop_InManual;
+					case XStateBit.Reset:
+						return CommandType.Reset;
+					case XStateBit.ForbidStart_InManual:
+						return CommandType.ForbidStart_InManual;
+					case XStateBit.TurnOffNow_InManual:
+						return CommandType.TurnOffNow_InManual;
+					default:
+						return CommandType.Unknown;
+				}
 			}
 		}
 	}

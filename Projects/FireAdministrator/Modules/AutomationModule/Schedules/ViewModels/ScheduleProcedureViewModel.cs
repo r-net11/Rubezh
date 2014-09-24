@@ -25,42 +25,69 @@ namespace AutomationModule.ViewModels
 		public void UpdateArguments()
 		{
 			Arguments = new List<ArgumentViewModel>();
-			var tempArguments = new List<Variable>();
+			int i = 0;
+			if (ScheduleProcedure.Arguments == null)
+				ScheduleProcedure.Arguments = new List<Argument>();		
 			foreach (var variable in Procedure.Arguments)
 			{
-				var argument = new Variable();
-				argument.ArgumentUid = variable.Uid;
-				argument.ExplicitType = variable.ExplicitType;
-				argument.EnumType = variable.EnumType;
-				argument.ObjectType = variable.ObjectType;
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
-				argument.ExplicitValues = new List<ExplicitValue>();
-				foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+				var argument = new Argument();
+				if (ScheduleProcedure.Arguments.Count <= i)
 				{
-					var explicitValue = new ExplicitValue();
-					PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
-					argument.ExplicitValues.Add(explicitValue);
+					argument = InitializeArgumemt(variable);
 				}
-				var scheduleProcedure = ScheduleProcedure.Arguments.FirstOrDefault(x => x.ArgumentUid == variable.Uid && x.IsList == variable.IsList);
-				if (scheduleProcedure != null)
-					argument = scheduleProcedure;
-				else if (CallingProcedure == null)
-					argument.VariableScope = VariableScope.GlobalVariable;
-				argument.Name = variable.Name;
-				argument.IsList = variable.IsList;
-				tempArguments.Add(argument);
-				var argumentViewModel = new ArgumentViewModel(argument, null, true, false);
-				var allVariables = GetVariables(argument);
-				if (CallingProcedure != null)
-					argumentViewModel = new ArgumentViewModel(argument, null);
-				argumentViewModel.Update(allVariables);
-				Arguments.Add(argumentViewModel);				
+				else
+				{
+					if (!CheckSignature(ScheduleProcedure.Arguments[i], variable))
+					{
+						argument = InitializeArgumemt(variable);
+					}
+					else
+						argument = ScheduleProcedure.Arguments[i];
+				}
+				var argumentViewModel = new ArgumentViewModel(argument, null);
+				argumentViewModel.Name = variable.Name;
+				argumentViewModel.IsList = variable.IsList;
+				argumentViewModel.Update(GetVariables(argumentViewModel));
+				Arguments.Add(argumentViewModel);
+				i++;
 			}
-			ScheduleProcedure.Arguments = new List<Variable>(tempArguments);
+			ScheduleProcedure.Arguments = new List<Argument>();
+			foreach (var argument in Arguments)
+				ScheduleProcedure.Arguments.Add(argument.Argument);
 			OnPropertyChanged(() => Arguments);
 		}
 
-		List<Variable> GetVariables(Variable argument)
+		bool CheckSignature(Argument argument, Variable variable)
+		{
+			if (argument.ExplicitType != variable.ExplicitType)
+				return false;
+			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
+				return true;
+			if (argument.ExplicitType != ExplicitType.Object)
+				return (argument.ObjectType == variable.ObjectType);
+			if (argument.ExplicitType != ExplicitType.Enum)
+				return (argument.EnumType == variable.EnumType);
+			return false;
+		}
+
+		Argument InitializeArgumemt(Variable variable)
+		{
+			var argument = new Argument();
+			argument.ExplicitType = variable.ExplicitType;
+			argument.EnumType = variable.EnumType;
+			argument.ObjectType = variable.ObjectType;
+			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
+			argument.ExplicitValues = new List<ExplicitValue>();
+			foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+			{
+				var explicitValue = new ExplicitValue();
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
+				argument.ExplicitValues.Add(explicitValue);
+			}
+			return argument;
+		}
+
+		List<Variable> GetVariables(ArgumentViewModel argument)
 		{
 			var allVariables = new List<Variable>();
 			if (CallingProcedure != null)

@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 			ControlCameraArguments = stepViewModel.Step.ControlCameraArguments;
 			Commands = ProcedureHelper.GetEnumObs<CameraCommandType>();
 			CameraParameter = new ArgumentViewModel(ControlCameraArguments.CameraParameter, stepViewModel.Update);
-			CameraParameter.SelectedObjectType = ObjectType.VideoDevice;
+			CameraParameter.ObjectType = ObjectType.VideoDevice;
 			CameraParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlCameraArguments.CameraCommandType;
 			UpdateContent();

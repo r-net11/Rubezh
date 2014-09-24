@@ -29,6 +29,11 @@ namespace AutomationModule.ViewModels
 		public Action UpdateDescriptionHandler { get; set; }
 		public Action UpdateObjectHandler { get; set; }
 
+		public ExplicitValueViewModel()
+		{
+
+		}
+
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;

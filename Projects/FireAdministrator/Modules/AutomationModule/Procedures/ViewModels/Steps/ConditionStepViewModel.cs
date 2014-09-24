@@ -177,9 +177,9 @@ namespace AutomationModule.ViewModels
 		{
 			if (Parameter1.ExplicitType == ExplicitType.Enum)
 			{
-				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Parameter1.SelectedEnumType);
+				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Parameter1.EnumType);
 				Parameter2.Update(allVariables);
-				Parameter2.SelectedEnumType = Parameter1.SelectedEnumType;
+				Parameter2.EnumType = Parameter1.EnumType;
 			}
 		}
 

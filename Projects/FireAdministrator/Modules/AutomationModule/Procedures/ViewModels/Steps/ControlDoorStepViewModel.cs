@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 			ControlDoorArguments = stepViewModel.Step.ControlDoorArguments;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
 			DoorParameter = new ArgumentViewModel(ControlDoorArguments.DoorParameter, stepViewModel.Update);
-			DoorParameter.SelectedObjectType = ObjectType.ControlDoor;
+			DoorParameter.ObjectType = ObjectType.ControlDoor;
 			DoorParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDoorArguments.DoorCommandType;
 			UpdateContent();

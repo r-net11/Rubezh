@@ -28,7 +28,7 @@ namespace AutomationModule.ViewModels
 		void UpdateSourceParameter()
 		{
 			SourceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
-			SourceParameter.SelectedEnumType = TargetParameter.SelectedEnumType;
+			SourceParameter.EnumType = TargetParameter.EnumType;
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }

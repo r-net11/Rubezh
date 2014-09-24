@@ -39,7 +39,6 @@ namespace FiresecService
 				{
 					Thread.Join(TimeSpan.FromSeconds(2));
 				}
-
 			}
 		}
 
@@ -55,7 +54,7 @@ namespace FiresecService
 			while (true)
 			{
 				var shedules = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules;
-				Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
+				//Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
 				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 				{
 					return;
@@ -101,7 +100,9 @@ namespace FiresecService
 			else
 			{
 				var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second, 0);
-				var delta = (int)Math.Abs((dateTime - scheduleDateTime).TotalSeconds);
+				var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
+				if (delta <= 0)
+					return false;
 				var period = schedule.PeriodDay * 24*3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
 				return (delta % period == 0);
 			}
@@ -115,7 +116,7 @@ namespace FiresecService
 			{
 				var scheduleProcedure = schedule.ScheduleProcedures.FirstOrDefault(x => (x.ProcedureUid == procedure.Uid));
 				if (scheduleProcedure != null)
-					AutomationProcessorRunner.Run(procedure, scheduleProcedure.Arguments);
+					AutomationProcessorRunner.Run(procedure, scheduleProcedure.Arguments, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			}
 		}
 	}

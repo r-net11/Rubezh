@@ -13,14 +13,18 @@ using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArgumentViewModel : VariableViewModel
+	public class ArgumentViewModel : BaseViewModel
 	{
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
 		Action UpdateDescriptionHandler { get; set; }
+		public ExplicitValueViewModel ExplicitValue { get; protected set; }
+		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
+		public Argument Argument { get; private set; }
 
-		public ArgumentViewModel(Variable argument, Action updateDescriptionHandler, bool allowExplicitValue = true, bool allowLocalValue = true) : base (argument)
+		public ArgumentViewModel(Argument argument, Action updateDescriptionHandler, bool allowExplicitValue = true, bool allowLocalValue = true)
 		{
+			Argument = argument;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
@@ -33,36 +37,100 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
+			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 		}
 
-		public new RelayCommand AddCommand { get; private set; }
+		public ExplicitType ExplicitType
+		{
+			get { return Argument.ExplicitType; }
+			set
+			{
+				Argument.ExplicitType = value;
+				OnPropertyChanged(() => ExplicitType);
+			}
+		}
+
+		public EnumType EnumType
+		{
+			get { return Argument.EnumType; }
+			set
+			{
+				Argument.EnumType = value;
+				OnPropertyChanged(() => EnumType);
+			}
+		}
+
+		public ObjectType ObjectType
+		{
+			get { return Argument.ObjectType; }
+			set
+			{
+				Argument.ObjectType = value;
+				OnPropertyChanged(() => ObjectType);
+			}
+		}
+
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged(() => Name);
+			}
+		}
+
+		bool _isList;
+		public bool IsList
+		{
+			get { return _isList; }
+			set
+			{
+				_isList = value;
+				OnPropertyChanged(() => IsList);
+			}
+		}
+
+		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var explicitValueViewModel = new ExplicitValueViewModel(new ExplicitValue());
+			var explicitValue = new ExplicitValueViewModel();
 			if (ExplicitType == ExplicitType.Object)
-				ProcedureHelper.SelectObject(SelectedObjectType, explicitValueViewModel);
-			ExplicitValues.Add(explicitValueViewModel);
-			Variable.ExplicitValues.Add(explicitValueViewModel.ExplicitValue);
+				ProcedureHelper.SelectObject(ObjectType, explicitValue);
+			ExplicitValues.Add(explicitValue);
+			Argument.ExplicitValues.Add(explicitValue.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
-		public new RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
+		public RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
 		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
 		{
 			ExplicitValues.Remove(explicitValueViewModel);
-			Variable.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
+			Argument.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
-		public new RelayCommand EditCommand { get; private set; }
+		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new ArgumentDetailsViewModel(Variable);
-			if (DialogService.ShowModalWindow(variableDetailsViewModel))
+			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
+			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
 			{
-				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, Variable);
+				PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
+		}
+
+		public RelayCommand<ExplicitValueViewModel> ChangeCommand { get; private set; }
+		void OnChange(ExplicitValueViewModel explicitValueViewModel)
+		{
+			if (IsList)
+				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+			else
+				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
+			OnPropertyChanged(() => ExplicitValues);
+			OnPropertyChanged(() => ExplicitValue);
 		}
 
 		public void Update(List<Variable> variables)
@@ -73,8 +141,8 @@ namespace AutomationModule.ViewModels
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
 			}
-			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Variable.VariableUid);
-			SelectedVariableScope = Variable.VariableScope;
+			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
+			SelectedVariableScope = Argument.VariableScope;
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);
 		}
@@ -82,16 +150,16 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<VariableScope> VariableScopes { get; set; }
 		public VariableScope SelectedVariableScope
 		{
-			get { return Variable.VariableScope; }
+			get { return Argument.VariableScope; }
 			set
 			{
-				Variable.VariableScope = value;
+				Argument.VariableScope = value;
 				if (value == VariableScope.ExplicitValue)
 					SelectedVariable = null;
 				if (value == VariableScope.LocalVariable)
-					SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.Uid == Variable.VariableUid);
+					SelectedVariable = LocalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
 				if (value == VariableScope.GlobalVariable)
-					SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == Variable.VariableUid);
+					SelectedVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
 				if (UpdateVariableScopeHandler != null)
 					UpdateVariableScopeHandler();
 				OnPropertyChanged(() => SelectedVariableScope);
@@ -119,15 +187,13 @@ namespace AutomationModule.ViewModels
 				_selectedVariable = value;
 				if (_selectedVariable != null)
 				{
-					Variable.VariableUid = value.Variable.Uid;
-					SelectedEnumType = value.SelectedEnumType;
-					SelectedObjectType = value.SelectedObjectType;
+					Argument.VariableUid = value.Variable.Uid;
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}
 				else
 				{
-					Variable.VariableUid = Guid.Empty;
+					Argument.VariableUid = Guid.Empty;
 				}
 				OnPropertyChanged(() => SelectedVariable);
 			}
@@ -165,9 +231,9 @@ namespace AutomationModule.ViewModels
 							break;
 						case ExplicitType.Enum:
 							{
-								if (SelectedEnumType == EnumType.StateType)
+								if (EnumType == EnumType.StateType)
 									description = ExplicitValue.StateTypeValue.ToDescription();
-								if (SelectedEnumType == EnumType.DriverType)
+								if (EnumType == EnumType.DriverType)
 									description = ExplicitValue.DriverTypeValue.ToDescription();
 							}
 							break;
@@ -179,7 +245,6 @@ namespace AutomationModule.ViewModels
 					}
 					return description;
 				}
-
 				else return "Список";
 			}
 		}
