@@ -103,96 +103,96 @@
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitValueViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\DirectionSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\DoorSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\DoorViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureLayoutCollectionViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\RandomStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlCameraStepViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\DoorViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\GuardZoneSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\SKDDeviceSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\SKDZoneSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\CameraSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ConditionStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlDirectionStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlDoorStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlGKDeviceStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlGKFireZoneStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\SKDZoneSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\CameraViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ConditionStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlDirectionStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlDoorStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlGKDeviceStepViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlGKFireZoneStepViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ArithmeticStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlGKGuardZoneStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlSKDDeviceStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ControlSKDZoneStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ExitStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\GetObjectPropertyStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\BaseStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\PauseStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ProcedureSelectionStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\RunProgrammStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\SendEmailStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\ShowMessageStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\SetValueStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ArithmeticStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlGKGuardZoneStepViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\DirectionViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlSKDDeviceStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ControlSKDZoneStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ExitStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\FindObjectStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ForeachStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\GetObjectPropertyStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\IncrementValueStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\BaseStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\JournalStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\PauseStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\RunProgrammStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\SendEmailStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\ShowMessageStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\SetValueStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\SoundLayoutViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesMenuViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\SoundStepViewModel.cs" />
+    <Compile Include="Procedures\Steps\ViewModels\SoundStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Procedures\ObjectSelection\ViewModels\ZoneViewModel.cs" />
     <Compile Include="Procedures\Views\ArgumentDetailsView.xaml.cs">
       <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
       <DependentUpon>ArgumentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\CameraSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\CameraSelectionView.xaml.cs">
       <DependentUpon>CameraSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\DirectionSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\DirectionSelectionView.xaml.cs">
       <DependentUpon>DirectionSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\DoorSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\DoorSelectionView.xaml.cs">
       <DependentUpon>DoorSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\GuardZoneSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\GuardZoneSelectionView.xaml.cs">
       <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\SKDDeviceSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\SKDDeviceSelectionView.xaml.cs">
       <DependentUpon>SKDDeviceSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\SKDZoneSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\SKDZoneSelectionView.xaml.cs">
       <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlCameraStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlCameraStepView.xaml.cs">
       <DependentUpon>ControlCameraStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlDirectionStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlDoorStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlDoorStepView.xaml.cs">
       <DependentUpon>ControlDoorStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlGKDeviceStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlGKDeviceStepView.xaml.cs">
       <DependentUpon>ControlGKDeviceStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
@@ -201,67 +201,67 @@
     <Compile Include="Procedures\Views\FilterSelectionView.xaml.cs">
       <DependentUpon>FilterSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ArithmeticStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ArithmeticStepView.xaml.cs">
       <DependentUpon>ArithmeticStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ConditionStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ConditionStepView.xaml.cs">
       <DependentUpon>ConditionStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\DeviceSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlGKFireZoneStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlGKFireZoneStepView.xaml.cs">
       <DependentUpon>ControlGKFireZoneStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlGKGuardZoneStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlGKGuardZoneStepView.xaml.cs">
       <DependentUpon>ControlGKGuardZoneStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlSKDDeviceStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlSKDDeviceStepView.xaml.cs">
       <DependentUpon>ControlSKDDeviceStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ControlSKDZoneStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ControlSKDZoneStepView.xaml.cs">
       <DependentUpon>ControlSKDZoneStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ExitStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ExitStepView.xaml.cs">
       <DependentUpon>ExitStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\FindObjectStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\FindObjectStepView.xaml.cs">
       <DependentUpon>FindObjectStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ForeachStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ForeachStepView.xaml.cs">
       <DependentUpon>ForeachStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\GetObjectPropertyStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\GetObjectPropertyStepView.xaml.cs">
       <DependentUpon>GetObjectPropertyStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\IncrementValueStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\IncrementValueStepView.xaml.cs">
       <DependentUpon>IncrementValueStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\JournalStepView.xaml.cs">
       <DependentUpon>JournalStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\PauseStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\PauseStepView.xaml.cs">
       <DependentUpon>PauseStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ProcedureSelectionStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ProcedureSelectionStepView.xaml.cs">
       <DependentUpon>ProcedureSelectionStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\RandomStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\RandomStepView.xaml.cs">
       <DependentUpon>RandomStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\RunProgrammStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\RunProgrammStepView.xaml.cs">
       <DependentUpon>RunProgrammStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\SendEmailStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\SendEmailStepView.xaml.cs">
       <DependentUpon>SendEmailStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\ShowMessageStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\ShowMessageStepView.xaml.cs">
       <DependentUpon>ShowMessageStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\SetValueStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\SetValueStepView.xaml.cs">
       <DependentUpon>SetValueStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\SoundStepView.xaml.cs">
+    <Compile Include="Procedures\Steps\Views\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\StepTypeSelectationView.xaml.cs">
@@ -285,7 +285,7 @@
     <Compile Include="Procedures\Views\VariableView.xaml.cs">
       <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\ZoneSelectionView.xaml.cs">
+    <Compile Include="Procedures\ObjectSelection\Views\ZoneSelectionView.xaml.cs">
       <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -436,11 +436,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Procedures\Views\Steps\ProcedureResources.xaml">
+    <Page Include="Procedures\Steps\Views\ProcedureResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\CameraSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\CameraSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -448,39 +448,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\DirectionSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\DirectionSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\DoorSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\DoorSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\GuardZoneSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\GuardZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\SKDDeviceSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\SKDDeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\SKDZoneSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\SKDZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlCameraStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlCameraStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlDirectionStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlDirectionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlDoorStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlDoorStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlGKDeviceStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlGKDeviceStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -492,87 +492,87 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ArithmeticStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ArithmeticStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ConditionStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ConditionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\DeviceSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\DeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlGKFireZoneStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlGKFireZoneStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlGKGuardZoneStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlGKGuardZoneStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlSKDDeviceStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlSKDDeviceStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ControlSKDZoneStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ControlSKDZoneStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ExitStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ExitStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\FindObjectStepView.xaml">
+    <Page Include="Procedures\Steps\Views\FindObjectStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ForeachStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ForeachStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\GetObjectPropertyStepView.xaml">
+    <Page Include="Procedures\Steps\Views\GetObjectPropertyStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\IncrementValueStepView.xaml">
+    <Page Include="Procedures\Steps\Views\IncrementValueStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\JournalStepView.xaml">
+    <Page Include="Procedures\Steps\Views\JournalStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\PauseStepView.xaml">
+    <Page Include="Procedures\Steps\Views\PauseStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ProcedureSelectionStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ProcedureSelectionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\RandomStepView.xaml">
+    <Page Include="Procedures\Steps\Views\RandomStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\RunProgrammStepView.xaml">
+    <Page Include="Procedures\Steps\Views\RunProgrammStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\SendEmailStepView.xaml">
+    <Page Include="Procedures\Steps\Views\SendEmailStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\ShowMessageStepView.xaml">
+    <Page Include="Procedures\Steps\Views\ShowMessageStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\SetValueStepView.xaml">
+    <Page Include="Procedures\Steps\Views\SetValueStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\SoundStepView.xaml">
+    <Page Include="Procedures\Steps\Views\SoundStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -604,7 +604,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\ZoneSelectionView.xaml">
+    <Page Include="Procedures\ObjectSelection\Views\ZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
