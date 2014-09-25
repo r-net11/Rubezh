@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using System.Linq;
 
 namespace FiresecAPI.Automation
 {
@@ -58,25 +59,57 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public List<ExplicitValue> DefaultExplicitValues { get; set; }
 
-		[DataMember]
-		public VariableScope VariableScope { get; set; }
-
-		[DataMember]
-		public Guid VariableUid { get; set; }
-
-		[DataMember]
-		public Guid ArgumentUid { get; set; }
-
 		public void ResetValue()
 		{
 			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(DefaultExplicitValue, ExplicitValue);
-			ExplicitValues = new List<ExplicitValue>(DefaultExplicitValues);
+			ExplicitValues = new List<ExplicitValue>();
+			foreach (var defaultExplicitValue in DefaultExplicitValues)
+			{
+				var newExplicitValue = new ExplicitValue();
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValue, newExplicitValue);
+				ExplicitValues.Add(newExplicitValue);
+			}
 		}
 
-		public void CopyValue(Variable variable)
+		public void CopyValue(Argument argument, Procedure callingProcedure, List<Variable> globalVariables)
 		{
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.ExplicitValue, ExplicitValue);
-			ExplicitValues = new List<ExplicitValue>(variable.ExplicitValues);
+			ExplicitValues = new List<ExplicitValue>();
+			if (argument.VariableScope == VariableScope.ExplicitValue)
+			{
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(argument.ExplicitValue, ExplicitValue);				
+				foreach (var explicitValue in argument.ExplicitValues)
+				{
+					var newExplicitValue = new ExplicitValue();
+					PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
+					ExplicitValues.Add(newExplicitValue);
+				}
+			}
+			else
+			{
+				var variable = new Variable();
+				if (argument.VariableScope == VariableScope.LocalVariable)
+				{
+					if (callingProcedure == null)
+						return;
+					var allLocalVariables = new List<Variable>(callingProcedure.Variables);
+					allLocalVariables.AddRange(new List<Variable>(callingProcedure.Arguments));
+					variable = allLocalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+				}
+				if (argument.VariableScope == VariableScope.GlobalVariable) //TODO
+				{
+					if (globalVariables == null)
+						return;
+					variable = globalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+				}
+
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.ExplicitValue, ExplicitValue);
+				foreach (var explicitValue in variable.ExplicitValues)
+				{					
+					var newExplicitValue = new ExplicitValue();
+					PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
+					ExplicitValues.Add(newExplicitValue);
+				}
+			}
 		}
 	}
 }

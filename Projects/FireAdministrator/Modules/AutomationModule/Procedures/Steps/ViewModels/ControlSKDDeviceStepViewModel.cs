@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 			ControlSKDDeviceArguments = stepViewModel.Step.ControlSKDDeviceArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
 			SKDDeviceParameter = new ArgumentViewModel(ControlSKDDeviceArguments.SKDDeviceParameter, stepViewModel.Update);
-			SKDDeviceParameter.SelectedObjectType = ObjectType.SKDDevice;
+			SKDDeviceParameter.ObjectType = ObjectType.SKDDevice;
 			SKDDeviceParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDDeviceArguments.Command;
 			UpdateContent();

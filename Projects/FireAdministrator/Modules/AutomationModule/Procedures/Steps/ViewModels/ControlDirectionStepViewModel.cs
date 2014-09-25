@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 			ControlDirectionArguments = stepViewModel.Step.ControlDirectionArguments;
 			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
 			DirectionParameter = new ArgumentViewModel(ControlDirectionArguments.DirectionParameter, stepViewModel.Update);
-			DirectionParameter.SelectedObjectType = ObjectType.Direction;
+			DirectionParameter.ObjectType = ObjectType.Direction;
 			DirectionParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 			UpdateContent();

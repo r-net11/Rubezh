@@ -35,7 +35,25 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
+		}
 
+		public VariableViewModel(Argument argument, bool isList)
+		{
+			Variable = new Variable();
+			Variable.IsList = isList;
+			Variable.ExplicitType = argument.ExplicitType;
+			Variable.EnumType = argument.EnumType;
+			Variable.ObjectType = argument.ObjectType;
+			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
+			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
+			foreach (var explicitValue in argument.ExplicitValues)
+				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
+			OnPropertyChanged(() => ExplicitValues);
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			AddCommand = new RelayCommand(OnAdd);
+			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
+			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 		}
 
 		public bool IsList

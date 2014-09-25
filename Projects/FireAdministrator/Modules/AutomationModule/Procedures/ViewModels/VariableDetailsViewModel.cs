@@ -24,10 +24,7 @@ namespace AutomationModule.ViewModels
 		{
 			Title = title;
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if (this is ArgumentDetailsViewModel)
-				VariableViewModel = new ArgumentViewModel(new Variable(), null);
-			else
-				VariableViewModel = new VariableViewModel(new Variable());
+			VariableViewModel = new VariableViewModel(new Variable());
 			VariableViewModel.Name = defaultName;			
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>();
 			foreach (var explicitType in ProcedureHelper.GetEnumObs<ExplicitType>())
@@ -43,10 +40,7 @@ namespace AutomationModule.ViewModels
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
 			var newVariable = new Variable();
 			PropertyCopy.Copy<Variable, Variable>(variable, newVariable);
-			if (this is ArgumentDetailsViewModel)
-				VariableViewModel = new ArgumentViewModel(newVariable, null);
-			else
-				VariableViewModel = new VariableViewModel(newVariable);
+			VariableViewModel = new VariableViewModel(newVariable);
 			VariableViewModel.IsEditMode = true;
 		}
 

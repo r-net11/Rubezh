@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 			ControlGKGuardZoneArguments = stepViewModel.Step.ControlGKGuardZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
 			GKGuardZoneParameter = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneParameter, stepViewModel.Update);
-			GKGuardZoneParameter.SelectedObjectType = ObjectType.GuardZone;
+			GKGuardZoneParameter.ObjectType = ObjectType.GuardZone;
 			GKGuardZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
 			UpdateContent();

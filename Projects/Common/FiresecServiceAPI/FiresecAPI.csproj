@@ -147,6 +147,7 @@
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="ModelBase.cs" />
+    <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
@@ -200,7 +201,6 @@
     <Compile Include="Models\Automation\ProcedureObject.cs" />
     <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
     <Compile Include="Models\Automation\DayOfWeekType.cs" />
-    <Compile Include="Models\Automation\GlobalVariable.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />

@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 			ControlSKDZoneArguments = stepViewModel.Step.ControlSKDZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDZoneCommandType>();
 			SKDZoneParameter = new ArgumentViewModel(ControlSKDZoneArguments.SKDZoneParameter, stepViewModel.Update);
-			SKDZoneParameter.SelectedObjectType = ObjectType.SKDZone;
+			SKDZoneParameter.ObjectType = ObjectType.SKDZone;
 			SKDZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDZoneArguments.SKDZoneCommandType;
 			UpdateContent();

@@ -77,6 +77,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="AutomationModuleLoader.cs" />
+    <Compile Include="ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="ViewModels\CameraSelectionViewModel.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
