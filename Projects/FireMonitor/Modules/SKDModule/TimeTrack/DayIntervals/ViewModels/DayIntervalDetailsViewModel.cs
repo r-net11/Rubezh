@@ -74,6 +74,8 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.Description = Description;
 			Model.SlideTime = ConstantSlideTime;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return DayIntervalHelper.Save(Model);
 		}
     }

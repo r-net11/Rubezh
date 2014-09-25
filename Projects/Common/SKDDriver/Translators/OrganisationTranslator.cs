@@ -66,6 +66,7 @@ namespace SKDDriver
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
 			result.ChiefUID = tableItem.ChiefUID;
+			result.Phone = tableItem.Phone;
 			return result;
 		}
 
@@ -75,6 +76,7 @@ namespace SKDDriver
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.ChiefUID = apiItem.ChiefUID;
+			tableItem.Phone = apiItem.Phone;
 		}
 
 		public OperationResult<OrganisationDetails> GetDetails(Guid uid)
@@ -97,7 +99,8 @@ namespace SKDDriver
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
 						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList(),
-						ChiefUID = tableItem.ChiefUID
+						ChiefUID = tableItem.ChiefUID,
+						Phone = tableItem.Phone
 					};
 				var photoResult = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
@@ -301,6 +304,7 @@ namespace SKDDriver
 					tableItem.IsDeleted = apiItem.IsDeleted;
 					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
 					tableItem.ChiefUID = apiItem.ChiefUID;
+					tableItem.Phone = apiItem.Phone;
 					Table.InsertOnSubmit(tableItem);
 				}
 				else
@@ -312,6 +316,7 @@ namespace SKDDriver
 					tableItem.IsDeleted = apiItem.IsDeleted;
 					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
 					tableItem.ChiefUID = apiItem.ChiefUID;
+					tableItem.Phone = apiItem.Phone;
 				}
 				Context.SubmitChanges();
 				return new OperationResult();

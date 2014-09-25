@@ -5,7 +5,16 @@
 
 	<Controls:XDataGrid ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}">
 		<DataGrid.Columns>
-			<DataGridTextColumn Header="Название" Width="*" Binding="{Binding Role.Name}" />
-		</DataGrid.Columns>
-	</Controls:XDataGrid>
+			<DataGridTemplateColumn Header="Название" Width="*" >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/AccessTemplate.png" />
+                            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Role.Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </Controls:XDataGrid>
 </UserControl>

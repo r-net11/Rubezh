@@ -73,6 +73,7 @@ namespace SKDDriver
 			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
+			result.Phone = tableItem.Phone;
 			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in guardZones)
 			{
@@ -99,7 +100,8 @@ namespace SKDDriver
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
 				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
 				TabelNo = tableItem.TabelNo,
-				TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
+				TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID), 
+				Phone = tableItem.Phone
 			};
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
@@ -136,6 +138,7 @@ namespace SKDDriver
 			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
 			tableItem.Citizenship = apiItem.Citizenship;
 			tableItem.DocumentType = (int)apiItem.DocumentType;
+			tableItem.Phone = apiItem.Phone;
 		}
 
 		public override OperationResult Save(Employee apiItem)

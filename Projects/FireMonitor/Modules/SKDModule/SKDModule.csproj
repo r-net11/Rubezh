@@ -74,6 +74,7 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
+    <Compile Include="Common\DetailsValidateHelper.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />

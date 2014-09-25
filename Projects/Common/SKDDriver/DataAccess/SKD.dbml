@@ -120,6 +120,7 @@
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="ChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="HRChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Department_Department" Member="Departments" ThisKey="UID" OtherKey="ParentDepartmentUID" Type="Department" />
       <Association Name="Department_Employee" Member="Employees" ThisKey="UID" OtherKey="DepartmentUID" Type="Employee" />
       <Association Name="Department_Department" Member="Department1" ThisKey="ParentDepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" />
@@ -160,6 +161,7 @@
       <Column Name="DocumentDepartmentCode" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="Citizenship" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Employee_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
       <Association Name="Employee_Card" Member="Cards" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
       <Association Name="Employee_Department" Member="Departments" ThisKey="UID" OtherKey="ChiefUID" Type="Department" />
@@ -255,6 +257,7 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Association Name="Organisation_AccessTemplate" Member="AccessTemplates" ThisKey="UID" OtherKey="OrganisationUID" Type="AccessTemplate" />
       <Association Name="Organisation_AdditionalColumnType" Member="AdditionalColumnTypes" ThisKey="UID" OtherKey="OrganisationUID" Type="AdditionalColumnType" />
       <Association Name="Organisation_DayInterval" Member="DayIntervals" ThisKey="UID" OtherKey="OrganisationUID" Type="DayInterval" />

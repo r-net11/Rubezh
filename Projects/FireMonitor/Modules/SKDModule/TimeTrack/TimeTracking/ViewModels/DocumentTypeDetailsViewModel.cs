@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
+using System.Linq;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -161,7 +159,16 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из ранее введенным");
 				return false;
 			}
-
+			if (Name.Length > 4000)
+			{
+				MessageBoxService.ShowWarning("Значение поля 'Название' не может быть длиннее 4000 символов");
+				return false;
+			}
+			if (ShortName.Length > 50)
+			{
+				MessageBoxService.ShowWarning("Значение поля 'Сокращённое название' не может быть длиннее 50 символов");
+				return false;
+			}
 			TimeTrackDocumentType.Name = Name;
 			TimeTrackDocumentType.ShortName = ShortName;
 			TimeTrackDocumentType.Code = Code;

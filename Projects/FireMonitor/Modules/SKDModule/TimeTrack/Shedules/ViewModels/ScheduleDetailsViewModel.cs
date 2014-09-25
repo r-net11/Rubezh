@@ -158,6 +158,8 @@ namespace SKDModule.ViewModels
                 SelectedScheduleType = selectedScheme.Type;
                 SelectedScheduleScheme = selectedScheme;
             }
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return true;
         }
     }

@@ -33,14 +33,14 @@
                 <ToolBarButton ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
                 <ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
                 <ToolBarButton ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Edit.png" ToolTip="Назначить руководителя" 
-                               Command="{Binding SetChiefCommand}" Visibility="{Binding SelectedEmployee.IsChief, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Add.png" ToolTip="Снять руководителя" 
-                               Command="{Binding UnSetChiefCommand}" Visibility="{Binding SelectedEmployee.IsChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Edit.png" ToolTip="Назначить руководителя отдела кадров" 
-                               Command="{Binding SetHRChiefCommand}" Visibility="{Binding SelectedEmployee.IsHRChief, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Add.png" ToolTip="Снять руководителя отдела кадров" 
-                               Command="{Binding UnSetHRChiefCommand}"  Visibility="{Binding SelectedEmployee.IsHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToolBarButton ImageSource="/Controls;component/Images/ChiefW.png" ToolTip="Назначить руководителя" 
+                               Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя" 
+                               Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToolBarButton ImageSource="/Controls;component/Images/HRChiefW.png" ToolTip="Назначить руководителя отдела кадров" 
+                               Command="{Binding SetHRChiefCommand}" Visibility="{Binding CanSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя отдела кадров" 
+                               Command="{Binding UnSetHRChiefCommand}"  Visibility="{Binding CanUnSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
             </StackPanel>
         </StackPanel>
     </Grid>

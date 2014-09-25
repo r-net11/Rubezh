@@ -9,9 +9,9 @@
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding EmployeesViewModel}" Orientation="Horizontal">
 					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-						<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" />
-						<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" />
-						<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" />
+						<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="{Binding AddCommandToolTip}" />
+						<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="{Binding RemoveCommandToolTip}" />
+						<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="{Binding EditCommandToolTip}" />
 					</StackPanel>
 					<ToolBarButton Command="{Binding SelectedItem.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пропуск" />
 					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">

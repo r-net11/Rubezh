@@ -96,6 +96,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<XGuardZoneAccess> GuardZoneAccesses { get; set; }
+
+		[DataMember]
+		public string Phone { get; set; }
 	}
 
 	public enum Gender

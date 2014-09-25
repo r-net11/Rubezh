@@ -11,6 +11,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -61,6 +62,9 @@
 							</Hyperlink>
 						</TextBlock>
 				</StackPanel>
+
+				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Иконка">

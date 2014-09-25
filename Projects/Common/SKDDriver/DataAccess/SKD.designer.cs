@@ -2798,6 +2798,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _HRChiefUID;
 		
+		private string _Phone;
+		
 		private EntitySet<Department> _Departments;
 		
 		private EntitySet<Employee> _Employees;
@@ -2844,6 +2846,8 @@ namespace SKDDriver.DataAccess
     partial void OnChiefUIDChanged();
     partial void OnHRChiefUIDChanging(System.Guid value);
     partial void OnHRChiefUIDChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
     #endregion
 		
 		public Department()
@@ -3124,6 +3128,26 @@ namespace SKDDriver.DataAccess
 					this._HRChiefUID = value;
 					this.SendPropertyChanged("HRChiefUID");
 					this.OnHRChiefUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(50)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
 				}
 			}
 		}
@@ -3497,6 +3521,8 @@ namespace SKDDriver.DataAccess
 		
 		private int _DocumentType;
 		
+		private string _Phone;
+		
 		private EntitySet<AdditionalColumn> _AdditionalColumns;
 		
 		private EntitySet<Card> _Cards;
@@ -3589,6 +3615,8 @@ namespace SKDDriver.DataAccess
     partial void OnCitizenshipChanged();
     partial void OnDocumentTypeChanging(int value);
     partial void OnDocumentTypeChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
     #endregion
 		
 		public Employee()
@@ -4173,6 +4201,26 @@ namespace SKDDriver.DataAccess
 					this._DocumentType = value;
 					this.SendPropertyChanged("DocumentType");
 					this.OnDocumentTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(50)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
 				}
 			}
 		}
@@ -5982,6 +6030,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _ChiefUID;
 		
+		private string _Phone;
+		
 		private EntitySet<AccessTemplate> _AccessTemplates;
 		
 		private EntitySet<AdditionalColumnType> _AdditionalColumnTypes;
@@ -6036,6 +6086,8 @@ namespace SKDDriver.DataAccess
     partial void OnRemovalDateChanged();
     partial void OnChiefUIDChanging(System.Guid value);
     partial void OnChiefUIDChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
     #endregion
 		
 		public Organisation()
@@ -6205,6 +6257,26 @@ namespace SKDDriver.DataAccess
 					this._ChiefUID = value;
 					this.SendPropertyChanged("ChiefUID");
 					this.OnChiefUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(50)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
 				}
 			}
 		}

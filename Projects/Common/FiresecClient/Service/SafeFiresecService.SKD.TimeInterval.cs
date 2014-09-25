@@ -111,7 +111,7 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.AddTimeTrackDocument(timeTrackDocument));
 		}
-		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument) 
 		{
 			return SafeContext.Execute(() => FiresecService.EditTimeTrackDocument(timeTrackDocument));
 		}

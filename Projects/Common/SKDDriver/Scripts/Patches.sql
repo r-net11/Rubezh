@@ -915,3 +915,30 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('HRChiefUID')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DepartmentPhone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		ALTER TABLE Department ADD [Phone] [nvarchar](50) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('DepartmentPhone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationPhone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
+	BEGIN
+		ALTER TABLE Organisation ADD [Phone] [nvarchar](50) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('OrganisationPhone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'EmployeePhone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Employee')
+	BEGIN
+		ALTER TABLE Employee ADD [Phone] [nvarchar](50) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('EmployeePhone')
+END

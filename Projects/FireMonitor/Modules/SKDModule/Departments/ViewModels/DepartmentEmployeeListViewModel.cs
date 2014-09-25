@@ -24,10 +24,10 @@ namespace SKDModule.ViewModels
 			{
 				hrChief.IsHRChief = true;
 			}
-			SetChiefCommand = new RelayCommand(OnSetChief, CanSetChief);
-			UnSetChiefCommand = new RelayCommand(OnUnSetChief, CanUnSetChief);
-			SetHRChiefCommand = new RelayCommand(OnSetHRChief, CanSetHRChief);
-			UnSetHRChiefCommand = new RelayCommand(OnUnSetHRChief, CanUnSetHRChief);
+			SetChiefCommand = new RelayCommand(OnSetChief, () => CanSetChief);
+			UnSetChiefCommand = new RelayCommand(OnUnSetChief, () => CanUnSetChief);
+			SetHRChiefCommand = new RelayCommand(OnSetHRChief, () => CanSetHRChief);
+			UnSetHRChiefCommand = new RelayCommand(OnUnSetHRChief, () => CanUnSetHRChief);
 			ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Unsubscribe(OnChangeDepartmentChief);
 			ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Subscribe(OnChangeDepartmentChief);
 		}
@@ -78,10 +78,11 @@ namespace SKDModule.ViewModels
 				Chief.IsChief = false;
 			SelectedEmployee.IsChief = true;
 			DepartmentHelper.SaveChief(_parentUID, SelectedEmployee.Employee.UID);
+			UpdateCanSet();
 		}
-		bool CanSetChief()
+		public bool CanSetChief
 		{
-			return SelectedEmployee != null && !SelectedEmployee.IsChief;
+			get { return SelectedEmployee != null && !SelectedEmployee.IsChief; }
 		}
 
 		public RelayCommand UnSetChiefCommand { get; private set; }
@@ -89,10 +90,11 @@ namespace SKDModule.ViewModels
 		{
 			Chief.IsChief = false;
 			DepartmentHelper.SaveChief(_parentUID, Guid.Empty);
+			UpdateCanSet();
 		}
-		bool CanUnSetChief()
+		public bool CanUnSetChief
 		{
-			return SelectedEmployee != null && SelectedEmployee.IsChief;
+			get { return SelectedEmployee != null && SelectedEmployee.IsChief; }
 		}
 
 		public RelayCommand SetHRChiefCommand { get; private set; }
@@ -102,10 +104,11 @@ namespace SKDModule.ViewModels
 				HRChief.IsHRChief = false;
 			SelectedEmployee.IsHRChief = true;
 			DepartmentHelper.SaveHRChief(_parentUID, SelectedEmployee.Employee.UID);
+			UpdateCanSet();
 		}
-		bool CanSetHRChief()
+		public bool CanSetHRChief
 		{
-			return SelectedEmployee != null && !SelectedEmployee.IsHRChief;
+			get { return SelectedEmployee != null && !SelectedEmployee.IsHRChief; }
 		}
 
 		public RelayCommand UnSetHRChiefCommand { get; private set; }
@@ -113,10 +116,25 @@ namespace SKDModule.ViewModels
 		{
 			HRChief.IsHRChief = false;
 			DepartmentHelper.SaveHRChief(_parentUID, Guid.Empty);
+			UpdateCanSet();
 		}
-		bool CanUnSetHRChief()
+		public bool CanUnSetHRChief
 		{
-			return SelectedEmployee != null && SelectedEmployee.IsHRChief;
+			get { return SelectedEmployee != null && SelectedEmployee.IsHRChief; }
+		}
+
+		protected override void Update()
+		{
+			base.Update();
+			UpdateCanSet();
+		}
+
+		void UpdateCanSet()
+		{
+			OnPropertyChanged(() => CanSetChief);
+			OnPropertyChanged(() => CanUnSetChief);
+			OnPropertyChanged(() => CanSetHRChief);
+			OnPropertyChanged(() => CanUnSetHRChief);
 		}
 		#endregion
 

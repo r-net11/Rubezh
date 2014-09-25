@@ -96,6 +96,8 @@ namespace SKDModule.ViewModels
 			Model.Type = HolidayType;
 			Model.Reduction = Reduction;
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return HolidayHelper.Save(Model);
 		}
 

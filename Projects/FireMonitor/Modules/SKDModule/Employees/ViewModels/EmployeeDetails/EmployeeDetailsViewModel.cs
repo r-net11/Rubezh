@@ -88,6 +88,7 @@ namespace SKDModule.ViewModels
 			ValidTo = Employee.DocumentValidTo;
 			Citizenship = Employee.Citizenship;
 			DocumentType = Employee.DocumentType;
+			Phone = Employee.Phone;
 			if (IsEmployee)
 			{
 				SelectedPosition = Employee.Position;
@@ -290,6 +291,20 @@ namespace SKDModule.ViewModels
 				{
 					_lastName = value;
 					OnPropertyChanged(() => LastName);
+				}
+			}
+		}
+
+		string _phone;
+		public string Phone
+		{
+			get { return _phone; }
+			set
+			{
+				if (_phone != value)
+				{
+					_phone = value;
+					OnPropertyChanged(() => Phone);
 				}
 			}
 		}
@@ -705,6 +720,7 @@ namespace SKDModule.ViewModels
 			Employee.DocumentType = DocumentType;
 			Employee.OrganisationUID = _organisation.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
+			Employee.Phone = Phone;
 			foreach (var item in GraphicsColumns)
 			{
 				var graphicsColumnViewModel = item as GraphicsColumnViewModel;
@@ -756,6 +772,8 @@ namespace SKDModule.ViewModels
 				}
 			}
 			Employee.GuardZoneAccesses = guardZoneAccesses;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			var saveResult = EmployeeHelper.Save(Employee);
 			if (saveResult && isLaunchEvent)
 				ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
@@ -764,6 +782,9 @@ namespace SKDModule.ViewModels
 
 		bool IsLaunchEvent()
 		{
+			if ((Employee.Department == null && SelectedDepartment == null) ||
+				(Employee.Position == null && SelectedPosition == null))
+				return true;
 			if((Employee.Department == null && SelectedDepartment != null) ||
 				(Employee.Position == null && SelectedPosition != null))
 				return true;
@@ -772,5 +793,52 @@ namespace SKDModule.ViewModels
 				return true;
 			return false;
 		}
+
+		bool Validate()
+		{
+			if(Employee.FirstName.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.SecondName.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Отчество' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.LastName.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Фамилия' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.DocumentNumber.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Номер документа' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.Phone.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.DocumentGivenBy.Length > 4000)
+			{
+				MessageBoxService.Show("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
+				return false;
+			}
+			if (Employee.BirthPlace.Length > 4000)
+			{
+				MessageBoxService.Show("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
+				return false;
+			}
+			if (Employee.Citizenship.Length > 4000)
+			{
+				MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
+				return false;
+			}
+
+			return true;
+		}
+	
 	}
 }

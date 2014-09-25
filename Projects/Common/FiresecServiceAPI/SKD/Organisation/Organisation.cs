@@ -38,6 +38,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid ChiefUID { get; set; }
+
+		[DataMember]
+		public string Phone { get; set; }
 	}
 
 	[DataContract]
@@ -74,6 +77,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid ChiefUID { get; set; }
+
+		[DataMember]
+		public string Phone { get; set; }
 	}
 
 }

@@ -54,8 +54,11 @@ namespace SKDModule.ViewModels
 			{
 				_selectedEmployee = value;
 				OnPropertyChanged(() => SelectedEmployee);
+				Update();
 			}
 		}
+
+		protected virtual void Update() { }
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()

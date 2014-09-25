@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.ViewModels;
-using FiresecAPI.SKD;
-using Controls.Menu.ViewModels;
-using Infrastructure.Common;
-using Infrustructure.Plans.Services;
-using Infrastructure.Designer.ViewModels;
 using System.Collections.ObjectModel;
-using Infrustructure.Plans.Designer;
-using Infrastructure.Client.Plans;
-using SKDModule.PassCardDesigner.InstrumentAdorners;
 using Common;
-using Infrastructure.Common.Windows;
+using Controls.Menu.ViewModels;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Client.Plans;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Designer.ViewModels;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Services;
+using SKDModule.PassCardDesigner.InstrumentAdorners;
+using SKDModule.ViewModels;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -199,6 +197,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		protected override bool Save()
 		{
 			SaveDefaultProperties();
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return PassCardTemplateHelper.Save(PassCardTemplate);
 		}
 		public override void OnClosed()
