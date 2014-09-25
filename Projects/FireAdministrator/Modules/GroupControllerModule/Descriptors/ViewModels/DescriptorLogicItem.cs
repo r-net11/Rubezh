@@ -88,6 +88,8 @@ namespace GKModule.ViewModels
 			}
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.BR)
 			{
+				StateIcon = null;
+				DescriptorIcon = null;
 				switch(FormulaOperation.FirstOperand)
 				{
 					case 0:

@@ -125,7 +125,7 @@ namespace FiresecAPI.GK
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					LinkXBases(guardZone, guardZoneDevice.Device);
-					if (guardZoneDevice.Device.DriverType == XDriverType.RSR2_GuardDetector)
+					if (guardZoneDevice.Device.DriverType == XDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
 					{
 						LinkXBases(guardZoneDevice.Device, guardZone);
 					}

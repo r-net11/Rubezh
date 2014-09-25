@@ -111,6 +111,7 @@ namespace AutomationModule.ViewModels
 
 		public void Update()
 		{
+			OnPropertyChanged(() => Variable);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => IsList);
 			OnPropertyChanged(() => ExplicitValue);

@@ -92,7 +92,7 @@ namespace GKProcessor
 					{
 						var stateBit = CodeReaderEnterTypeToStateBit(guardDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
-						Formula.Add(FormulaOperationType.BR, 1, 4);
+						Formula.Add(FormulaOperationType.BR, 1, 5);
 						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.AlarmSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
@@ -124,7 +124,7 @@ namespace GKProcessor
 					{
 						var stateBit = CodeReaderEnterTypeToStateBit(guardDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
-						Formula.Add(FormulaOperationType.BR, 1, 4);
+						Formula.Add(FormulaOperationType.BR, 1, 5);
 						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
@@ -153,7 +153,7 @@ namespace GKProcessor
 					{
 						var stateBit = CodeReaderEnterTypeToStateBit(guardDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType);
 						Formula.AddGetBit(stateBit, guardDevice.Device);
-						Formula.Add(FormulaOperationType.BR, 1, 4);
+						Formula.Add(FormulaOperationType.BR, 1, 5);
 						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.ResetGuardSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);

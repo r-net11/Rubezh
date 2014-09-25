@@ -11,11 +11,6 @@ namespace AutomationModule.ViewModels
 		public FilterSelectionViewModel(Procedure procedure)
 		{
 			Title = "Выбор фильтра";
-			Initialize(procedure);
-		}
-
-		void Initialize(Procedure procedure)
-		{
 			Filters = new ObservableCollection<FilterViewModel>();
 			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters.FindAll(x => !procedure.FiltersUids.Contains(x.UID)))
 			{
@@ -26,6 +21,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<FilterViewModel> Filters { get; private set; }
+
 		FilterViewModel _selectedFilter;
 		public FilterViewModel SelectedFilter
 		{
