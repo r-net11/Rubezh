@@ -78,13 +78,31 @@ namespace GKModule.ViewModels
 			{
 				StateIcon = null;
 				if (FormulaOperation.FirstOperand == 1)
-					FirstOperand = "если равно";
+					FirstOperand = "Если равно";
 				if (FormulaOperation.FirstOperand == 2)
-					FirstOperand = "если не равно";
+					FirstOperand = "Если не равно";
 			}
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.ACS)
 			{
 				FirstOperand = FormulaOperation.FirstOperand.ToString();
+			}
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.BR)
+			{
+				switch(FormulaOperation.FirstOperand)
+				{
+					case 0:
+						FirstOperand = "Безусловный переход";
+						break;
+
+					case 1:
+						FirstOperand = "Переход, если в стеке 0";
+						break;
+
+					case 2:
+						FirstOperand = "Переход, если в стеке не 0";
+						break;
+				}
+				SecondOperand = FormulaOperation.SecondOperand.ToString();
 			}
 		}
 

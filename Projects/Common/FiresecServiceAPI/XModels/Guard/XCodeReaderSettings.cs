@@ -12,9 +12,12 @@ namespace FiresecAPI.GK
 	{
 		public XCodeReaderSettings()
 		{
-			AlarmSettings = new XCodeReaderSettingsPart();
 			SetGuardSettings = new XCodeReaderSettingsPart();
 			ResetGuardSettings = new XCodeReaderSettingsPart();
+			AlarmSettings = new XCodeReaderSettingsPart();
+
+			SetGuardSettings.CodeReaderEnterType = XCodeReaderEnterType.CodeAndOne;
+			ResetGuardSettings.CodeReaderEnterType = XCodeReaderEnterType.CodeAndTwo;
 		}
 
 		[DataMember]

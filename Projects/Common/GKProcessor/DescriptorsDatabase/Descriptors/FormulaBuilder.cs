@@ -219,6 +219,7 @@ namespace GKProcessor
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:
 					case FormulaOperationType.NEG:
+					case FormulaOperationType.BR:
 						stackDepth += 0;
 						break;
 				}
