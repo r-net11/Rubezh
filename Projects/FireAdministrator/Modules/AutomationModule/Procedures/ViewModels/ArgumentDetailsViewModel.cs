@@ -20,6 +20,7 @@ namespace AutomationModule.ViewModels
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Title = "Редактировать аргумент";
 			Argument = new Argument();
+			Argument.VariableScope = argument.VariableScope;
 			Copy(argument, isList);
 		}
 
@@ -48,7 +49,7 @@ namespace AutomationModule.ViewModels
 		protected override bool Save()
 		{
 			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(VariableViewModel.ExplicitValue.ExplicitValue, Argument.ExplicitValue);
-			Argument.ExplicitValues = new List<ExplicitValue>();			
+			Argument.ExplicitValues = new List<ExplicitValue>();		
 			foreach (var explicitValue in VariableViewModel.ExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();

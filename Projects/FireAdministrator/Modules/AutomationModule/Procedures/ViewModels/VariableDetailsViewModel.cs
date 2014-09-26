@@ -43,6 +43,7 @@ namespace AutomationModule.ViewModels
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
 			var newVariable = new Variable();
 			newVariable.Name = variable.Name;
+			newVariable.IsList = variable.IsList;
 			newVariable.ExplicitType = variable.ExplicitType;
 			newVariable.EnumType = variable.EnumType;
 			newVariable.ObjectType = variable.ObjectType;
@@ -51,7 +52,7 @@ namespace AutomationModule.ViewModels
 			{
 				var newExplicitValue = new ExplicitValue();
 				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValue, newExplicitValue);
-				newVariable.ExplicitValues.Add(newExplicitValue);
+				newVariable.DefaultExplicitValues.Add(newExplicitValue);
 			}
 			VariableViewModel = new VariableViewModel(newVariable);
 			IsEditMode = true;

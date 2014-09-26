@@ -155,6 +155,8 @@ namespace AutomationModule.ViewModels
 					return XStateBit.Reset;
 				case CommandType.ForbidStart_InManual:
 					return XStateBit.ForbidStart_InManual;
+				case CommandType.TurnOffNow_InManual:
+					return XStateBit.TurnOffNow_InManual;
 				default:
 					return new XStateBit();
 			}
