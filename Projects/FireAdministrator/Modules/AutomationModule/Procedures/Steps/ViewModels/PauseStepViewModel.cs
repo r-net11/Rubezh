@@ -18,7 +18,6 @@ namespace AutomationModule.ViewModels
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			PauseParameter = new ArgumentViewModel(PauseArguments.PauseParameter, stepViewModel.Update);
 			PauseParameter.ExplicitType = ExplicitType.Integer;
-			UpdateContent();
 		}
 
 		public override void UpdateContent()

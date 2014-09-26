@@ -20,10 +20,23 @@ namespace AutomationModule.ViewModels
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Title = "Редактировать аргумент";
 			Argument = new Argument();
-			PropertyCopy.Copy<Argument, Argument>(argument, Argument);
+			Copy(argument, isList);
+		}
+
+		void Copy(Argument argument, bool isList)
+		{
 			var newArgument = new Argument();
-			PropertyCopy.Copy<Argument, Argument>(argument, newArgument);
-			VariableViewModel = new VariableViewModel(argument, isList);
+			newArgument.ExplicitType = argument.ExplicitType;
+			newArgument.EnumType = argument.EnumType;
+			newArgument.ObjectType = argument.ObjectType;
+			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(argument.ExplicitValue, newArgument.ExplicitValue);
+			foreach (var explicitValue in argument.ExplicitValues)
+			{
+				var newExplicitValue = new ExplicitValue();
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
+				newArgument.ExplicitValues.Add(newExplicitValue);
+			}
+			VariableViewModel = new VariableViewModel(newArgument, isList);
 		}
 
 		public override bool OnClosing(bool isCanceled)

@@ -48,7 +48,7 @@
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
 													<Image VerticalAlignment="Center" Source="/Controls;component/Images/Step.png" Margin="1 0 0 0" />
-													<TextBlock VerticalAlignment="Center" Text="{Binding Name}" Margin="2" />
+													<TextBlock VerticalAlignment="Center" Text="{Binding Step.ProcedureStepType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
@@ -64,7 +64,7 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock Text="{Binding Description}" ToolTip="{Binding Description}"  />
+											<TextBlock Text="{Binding Content.Description}" ToolTip="{Binding Content.Description}"  />
 										</ControlTemplate>
 									</Controls:EditorPresenter.ViewTemplate>
 								</Controls:EditorPresenter>

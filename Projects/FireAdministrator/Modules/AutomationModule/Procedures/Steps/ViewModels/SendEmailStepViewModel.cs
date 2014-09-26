@@ -35,7 +35,6 @@ namespace AutomationModule.ViewModels
 			LoginParameter.ExplicitType = ExplicitType.String;
 			PasswordParameter = new ArgumentViewModel(SendEmailArguments.PasswordParameter, stepViewModel.Update);
 			PasswordParameter.ExplicitType = ExplicitType.String;
-			UpdateContent();
 		}
 
 		public override void UpdateContent()

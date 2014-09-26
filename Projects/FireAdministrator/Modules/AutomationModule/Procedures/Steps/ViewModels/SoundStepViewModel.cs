@@ -16,7 +16,6 @@ namespace AutomationModule.ViewModels
 		public SoundStepViewModel(StepViewModel stepViewModel): base(stepViewModel)
 		{
 			SoundArguments = stepViewModel.Step.SoundArguments;
-			UpdateContent();
 		}
 
 		public override string Description

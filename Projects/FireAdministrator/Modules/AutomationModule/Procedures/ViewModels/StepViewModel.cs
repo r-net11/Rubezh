@@ -115,6 +115,7 @@ namespace AutomationModule.ViewModels
 					Content = new RunProgrammStepViewModel(this);
 					break;
 			}
+			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
@@ -124,33 +125,10 @@ namespace AutomationModule.ViewModels
 				Content.UpdateContent();
 		}
 
-		public void Update(ProcedureStep step)
-		{
-			Step = step;
-			OnPropertyChanged(() => Step);
-			OnPropertyChanged(() => Name);
-			Update();
-		}
-
 		public void Update()
 		{
-			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => Content);
 			OnPropertyChanged(() => HasChildren);
-		}
-
-		public string Name
-		{
-			get { return Step.ProcedureStepType.ToDescription(); }
-		}
-
-		public string Description
-		{
-			get
-			{
-				if (Content != null)
-					return Content.Description;
-				return "";
-			}
 		}
 
 		public BaseStepViewModel Content { get; private set; }

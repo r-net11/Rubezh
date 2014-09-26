@@ -122,6 +122,8 @@ namespace FiresecAPI.Automation
 						var procedureSelectionArguments = step.ProcedureSelectionArguments;
 						if (Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
 							procedureSelectionArguments.ScheduleProcedure.ProcedureUid = Guid.Empty;
+						foreach (var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
+							InvalidateArgument(procedure, argument);
 					}
 					break;
 

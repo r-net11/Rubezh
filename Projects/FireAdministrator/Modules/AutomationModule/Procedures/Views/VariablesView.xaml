@@ -20,7 +20,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="/Controls;component/Images/GlobalVariable.png" Width="16" Margin="2 0 0 0" />
-                                <TextBlock Text="{Binding Variable.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+								<TextBlock Text="{Binding Variable.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -29,7 +29,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Variable.ExplicitType, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+								<TextBlock Text="{Binding ExplicitType, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -48,10 +48,10 @@
 									<TextBlock Text="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ExplicitType.Integer}}" />
-									<TextBlock Text="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+									<TextBlock Text="{Binding Variable.ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ExplicitType.Object}}" />
-									<TextBlock Text="{Binding SelectedEnumType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+									<TextBlock Text="{Binding Variable.EnumType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ExplicitType.Enum}}" />
 									<TextBlock Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
@@ -60,10 +60,10 @@
 								</StackPanel>
 
 								<StackPanel Visibility="{Binding Path=IsList, Converter={StaticResource BoolToVisibilityConverter}}">
-									<TextBlock Text="{Binding SelectedObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+									<TextBlock Text="{Binding Variable.ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ExplicitType.Object}}" />
-									<TextBlock Text="{Binding SelectedEnumType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+									<TextBlock Text="{Binding Variable.EnumType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ExplicitType.Enum}}" />
 								</StackPanel>

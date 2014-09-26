@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			CameraParameter.ObjectType = ObjectType.VideoDevice;
 			CameraParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlCameraArguments.CameraCommandType;
-			UpdateContent();
 		}
 
 		public ObservableCollection<CameraCommandType> Commands { get; private set; }

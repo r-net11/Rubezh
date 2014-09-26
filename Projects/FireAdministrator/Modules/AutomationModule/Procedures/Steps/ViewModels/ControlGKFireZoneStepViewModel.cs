@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			GKFireZoneParameter.ObjectType = ObjectType.Zone;
 			GKFireZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
-			UpdateContent();
 		}
 
 		public ObservableCollection<ZoneCommandType> Commands { get; private set; }

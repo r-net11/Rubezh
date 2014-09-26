@@ -20,7 +20,6 @@ namespace AutomationModule.ViewModels
 			MaxValueParameter.ExplicitType = ExplicitType.Integer;
 			ResultParameter = new ArgumentViewModel(RandomArguments.ResultParameter, stepViewModel.Update, false);
 			ResultParameter.ExplicitType = ExplicitType.Integer;
-			UpdateContent();
 		}
 
 		public override void UpdateContent()

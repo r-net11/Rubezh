@@ -21,7 +21,7 @@
 				</DataGrid>
 
 				<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch">
-
+					
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
 						<Label Content="Имя" />
 						<TextBox Text= "{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="200"/>
@@ -31,6 +31,29 @@
 						<Label Content="Список" HorizontalAlignment="Left" />
 						<CheckBox Width="202" IsChecked="{Binding IsList}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}" HorizontalAlignment="Right" Height="28">
+						<Label Content="Тип" />
+						<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding SelectedObjectType}" Width="200" Margin="2" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" HorizontalAlignment="Right" Height="28">
+						<Label Content="Тип" />
+						<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding SelectedEnumType}" Width="200" Margin="2" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					
 					<Views:VariableView DataContext="{Binding VariableViewModel}" />
 				</StackPanel>
 			</Grid>
