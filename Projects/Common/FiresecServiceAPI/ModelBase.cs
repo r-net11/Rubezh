@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using Common;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -27,6 +28,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public string Description { get; set; }
 
+		[XmlIgnore]
 		public virtual string PresentationName
 		{
 			get { return No + "." + Name; }

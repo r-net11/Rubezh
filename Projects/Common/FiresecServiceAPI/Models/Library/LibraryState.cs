@@ -10,7 +10,6 @@ namespace FiresecAPI.Models
 		public LibraryState()
 		{
 			Frames = new List<LibraryFrame>();
-			Frames.Add(new LibraryFrame() { Id = 0 });
 			Layer = 0;
 		}
 

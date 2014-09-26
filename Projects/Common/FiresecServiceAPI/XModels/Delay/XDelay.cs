@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -29,8 +30,10 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public Guid PumpStationUID { get; set; }
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Delay; } }
 
+		[XmlIgnore]
 		public override string PresentationName
 		{
 			get { return Name; }

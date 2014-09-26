@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -12,6 +13,7 @@ namespace FiresecAPI.GK
 			CodeReaderSettings = new XCodeReaderSettings();
 		}
 
+		[XmlIgnore]
 		public XDevice Device { get; set; }
 
 		[DataMember]

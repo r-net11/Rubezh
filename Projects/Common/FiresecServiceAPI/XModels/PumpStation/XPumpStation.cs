@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -22,7 +23,9 @@ namespace FiresecAPI.GK
 			NSDeviceUIDs = new List<Guid>();
 		}
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.PumpStation; } }
+		[XmlIgnore]
 		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
@@ -52,6 +55,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public XDeviceLogic AutomaticOffLogic { get; set; }
 
+		[XmlIgnore]
 		public override string PresentationName
 		{
 			get { return "0" + No + "." + Name; }

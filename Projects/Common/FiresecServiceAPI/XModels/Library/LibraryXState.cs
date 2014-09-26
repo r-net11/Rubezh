@@ -10,7 +10,6 @@ namespace FiresecAPI.GK
 		public LibraryXState()
 		{
 			XFrames = new List<LibraryXFrame>();
-			XFrames.Add(new LibraryXFrame() { Id = 0 });
 			Layer = 0;
 		}
 

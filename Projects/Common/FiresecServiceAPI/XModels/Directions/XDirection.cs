@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -21,10 +22,14 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Direction; } }
 
+		[XmlIgnore]
 		public List<XDevice> InputDevices { get; set; }
+		[XmlIgnore]
 		public List<XZone> InputZones { get; set; }
+		[XmlIgnore]
 		public List<XDevice> OutputDevices { get; set; }
 
 		[DataMember]

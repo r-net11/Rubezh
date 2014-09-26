@@ -43,7 +43,7 @@ namespace FiresecAPI.Automation
 
 		[Description("Задержка")]
 		Delay,
-		
+
 		[Description("Удержание")]
 		Hold,
 

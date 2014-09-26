@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -16,8 +17,9 @@ namespace FiresecAPI.SKD
 			Devices = new List<SKDDevice>();
 		}
 
-		public SKDZone Parent { get; set; }
+		[XmlIgnore]
 		public SKDZoneState State { get; set; }
+		[XmlIgnore]
 		public List<SKDDevice> Devices { get; set; }
 
 		[DataMember]

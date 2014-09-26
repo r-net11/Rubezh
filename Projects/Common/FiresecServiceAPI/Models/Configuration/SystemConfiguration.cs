@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -67,6 +68,7 @@ namespace FiresecAPI.Models
 			return result;
 		}
 
+		[XmlIgnore]
 		public List<Camera> AllCameras
 		{
 			get

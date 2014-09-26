@@ -11,7 +11,6 @@ namespace FiresecAPI.SKD
 		public SKDLibraryState()
 		{
 			Frames = new List<SKDLibraryFrame>();
-			Frames.Add(new SKDLibraryFrame() { Id = 0 });
 			Layer = 0;
 		}
 

@@ -30,15 +30,15 @@ namespace FiresecAPI.Automation
 		public Argument EMailContentParameter { get; set; }
 
 		[DataMember]
-		public Argument HostParameter { get; private set; }
+		public Argument HostParameter { get; set; }
 
 		[DataMember]
-		public Argument PortParameter { get; private set; }
+		public Argument PortParameter { get; set; }
 
 		[DataMember]
-		public Argument LoginParameter { get; private set; }
+		public Argument LoginParameter { get; set; }
 
 		[DataMember]
-		public Argument PasswordParameter { get; private set; }
+		public Argument PasswordParameter { get; set; }
 	}
 }

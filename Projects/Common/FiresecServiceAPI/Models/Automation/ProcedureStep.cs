@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -37,6 +38,7 @@ namespace FiresecAPI.Automation
 			RandomArguments = new RandomArguments();
 		}
 
+		[XmlIgnore]
 		public ProcedureStep Parent { get; set; }
 
 		[DataMember]

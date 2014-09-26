@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -26,9 +27,12 @@ namespace FiresecAPI.Models
 			PlanElementUIDs = new List<Guid>();
 		}
 
+		[XmlIgnore]
 		public ZoneState ZoneState { get; set; }
+		[XmlIgnore]
 		public Guid SecPanelUID { get; set; }
 
+		[XmlIgnore]
 		List<Device> _devicesInZone;
 		public List<Device> DevicesInZone
 		{
@@ -41,6 +45,7 @@ namespace FiresecAPI.Models
 			set { _devicesInZone = value; }
 		}
 
+		[XmlIgnore]
 		List<Device> _devicesInZoneLogic;
 		public List<Device> DevicesInZoneLogic
 		{
@@ -53,6 +58,7 @@ namespace FiresecAPI.Models
 			set { _devicesInZoneLogic = value; }
 		}
 
+		[XmlIgnore]
 		List<Device> _indicatorsInZone;
 		public List<Device> IndicatorsInZone
 		{
@@ -110,13 +116,16 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<string> ShapeIds { get; set; }
 
+		[XmlIgnore]
 		public int LocalDeviceNo { get; set; }
 
+		[XmlIgnore]
 		public string PresentationName
 		{
 			get { return No + "." + Name; }
 		}
 
+		[XmlIgnore]
 		public string FullPresentationName
 		{
 			get
@@ -170,6 +179,8 @@ namespace FiresecAPI.Models
 				ColorTypeChanged();
 		}
 		public event Action ColorTypeChanged;
+
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

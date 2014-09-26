@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -20,14 +21,20 @@ namespace FiresecAPI.SKD
 			DoorType = DoorType.OneWay;
 		}
 
+		[XmlIgnore]
 		public SKDDriver Driver { get; set; }
+		[XmlIgnore]
 		public SKDDriverType DriverType
 		{
 			get { return Driver.DriverType; }
 		}
+		[XmlIgnore]
 		public SKDDevice Parent { get; set; }
+		[XmlIgnore]
 		public SKDDeviceState State { get; set; }
+		[XmlIgnore]
 		public SKDZone Zone { get; set; }
+		[XmlIgnore]
 		public SKDDoor Door { get; set; }
 
 		[DataMember]
@@ -63,6 +70,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid CameraUID { get; set; }
 
+		[XmlIgnore]
 		public string Address
 		{
 			get
@@ -97,6 +105,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
 		public bool IsRealDevice
 		{
 			get
@@ -107,6 +116,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
 		public List<SKDDevice> AllParents
 		{
 			get
@@ -120,6 +130,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
 		public string NameWithParent
 		{
 			get

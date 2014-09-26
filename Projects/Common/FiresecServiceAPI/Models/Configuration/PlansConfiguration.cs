@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
+using System.Xml.Serialization;
 namespace FiresecAPI.Models
 {
 	[DataContract]
@@ -17,6 +18,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<Plan> Plans { get; set; }
 
+		[XmlIgnore]
 		public List<Plan> AllPlans { get; set; }
 
 		public void Update()

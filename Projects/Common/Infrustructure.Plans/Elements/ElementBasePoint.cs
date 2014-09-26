@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -15,6 +16,7 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public double Top { get; set; }
 
+		[XmlIgnore]
 		public override ElementType Type
 		{
 			get { return ElementType.Point; }

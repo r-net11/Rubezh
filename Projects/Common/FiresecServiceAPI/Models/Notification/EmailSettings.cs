@@ -7,7 +7,6 @@ namespace FiresecAPI.Models
 	{
 		public EmailSettings()
 		{
-			;
 		}
 
 		[DataMember]

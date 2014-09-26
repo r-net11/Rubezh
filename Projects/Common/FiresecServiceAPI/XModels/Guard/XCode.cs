@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -13,6 +14,7 @@ namespace FiresecAPI.GK
 			Name = "Новый код";
 		}
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Code; } }
 
 		[DataMember]

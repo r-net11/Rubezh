@@ -8,13 +8,7 @@ namespace FiresecAPI.Models
 	{
 		public LibraryDevicePresenter()
 		{
-			States = new List<LibraryState>()
-			{
-				new LibraryState()
-				{
-					StateType = StateType.No
-				}
-			};
+			States = new List<LibraryState>();
 		}
 
 		[DataMember]

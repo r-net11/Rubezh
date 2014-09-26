@@ -6,6 +6,7 @@ using System.Text;
 using Common;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -28,19 +29,29 @@ namespace FiresecAPI.GK
 			Directions = new List<XDirection>();
 		}
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Deivce; } }
 
+		[XmlIgnore]
 		public XDriver Driver { get; set; }
+		[XmlIgnore]
 		public XDriverType DriverType
 		{
 			get { return Driver.DriverType; }
 		}
+		[XmlIgnore]
 		public XDevice Parent { get; set; }
+		[XmlIgnore]
 		public List<XZone> Zones { get; set; }
+		[XmlIgnore]
 		public XGuardZone GuardZone { get; set; }
+		[XmlIgnore]
 		public List<XDirection> Directions { get; set; }
+		[XmlIgnore]
 		public bool HasDifferences { get; set; }
+		[XmlIgnore]
 		public bool HasMissingDifferences { get; set; }
+		[XmlIgnore]
 		public bool IsInMPT { get; set; }
 		public object Clone()
 		{
@@ -110,6 +121,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
+		[XmlIgnore]
 		public byte ShleifNo
 		{
 			get
@@ -124,6 +136,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public string Address
 		{
 			get
@@ -154,6 +167,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public string PresentationAddress
 		{
 			get
@@ -172,6 +186,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public string DottedAddress
 		{
 			get
@@ -220,6 +235,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public string DottedPresentationAddress
 		{
 			get
@@ -234,6 +250,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public string ShortName
 		{
 			get
@@ -244,6 +261,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public override string PresentationName
 		{
 			get { return ShortName + " " + DottedPresentationAddress; }
@@ -276,6 +294,7 @@ namespace FiresecAPI.GK
 			catch { }
 		}
 
+		[XmlIgnore]
 		public bool CanEditAddress
 		{
 			get
@@ -288,6 +307,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public List<XDevice> AllParents
 		{
 			get
@@ -301,6 +321,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public List<XDevice> AllChildren
 		{
 			get
@@ -315,6 +336,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public List<XDevice> AllChildrenAndSelf
 		{
 			get
@@ -326,11 +348,13 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public XDevice GKParent
 		{
 			get { return AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK); }
 		}
 
+		[XmlIgnore]
 		public XDevice KAUParent
 		{
 			get
@@ -341,6 +365,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public XDevice KAURSR2Parent
 		{
 			get
@@ -351,6 +376,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public XDevice KAURSR2ShleifParent
 		{
 			get
@@ -361,6 +387,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public XDevice MVPPartParent
 		{
 			get
@@ -371,6 +398,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public bool IsConnectedToKAURSR2OrIsKAURSR2
 		{
 			get { return KAURSR2Parent != null; }
@@ -389,6 +417,7 @@ namespace FiresecAPI.GK
 			return null;
 		}
 
+		[XmlIgnore]
 		public bool IsRealDevice
 		{
 			get
@@ -422,6 +451,7 @@ namespace FiresecAPI.GK
 				}
 		}
 
+		[XmlIgnore]
 		int SortingAddress
 		{
 			get
@@ -440,6 +470,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public bool CanBeNotUsed
 		{
 			get { return (Parent != null && Parent.Driver.IsGroupDevice); }

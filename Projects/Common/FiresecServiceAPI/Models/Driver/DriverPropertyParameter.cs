@@ -10,6 +10,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Value { get; set; }
-
 	}
 }

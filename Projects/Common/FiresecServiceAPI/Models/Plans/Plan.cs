@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -54,6 +55,7 @@ namespace FiresecAPI.Models
 			ElementExtensions = new List<ElementBase>();
 		}
 
+		[XmlIgnore]
 		public Plan Parent { get; set; }
 
 		[DataMember]
@@ -123,6 +125,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }
 
+		[XmlIgnore]
 		public List<ElementBase> ElementUnion
 		{
 			get
@@ -148,6 +151,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public bool AllowTransparent
 		{
 			get { return true; }

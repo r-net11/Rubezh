@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -25,11 +26,17 @@ namespace FiresecAPI.GK
 			Delays = new List<XDelay>();
 		}
 
+		[XmlIgnore]
 		public List<XDevice> Devices { get; set; }
+		[XmlIgnore]
 		public List<XZone> Zones { get; set; }
+		[XmlIgnore]
 		public List<XGuardZone> GuardZones { get; set; }
+		[XmlIgnore]
 		public List<XDirection> Directions { get; set; }
+		[XmlIgnore]
 		public List<XMPT> MPTs { get; set; }
+		[XmlIgnore]
 		public List<XDelay> Delays { get; set; }
 
 		[DataMember]

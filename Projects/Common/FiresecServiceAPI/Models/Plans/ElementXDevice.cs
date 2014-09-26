@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -35,6 +36,7 @@ namespace FiresecAPI.Models
 
 		#region IElementReference Members
 
+		[XmlIgnore]
 		public Guid ItemUID
 		{
 			get { return XDeviceUID; }

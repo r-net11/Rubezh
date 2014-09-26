@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Devices;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -13,13 +14,9 @@ namespace FiresecAPI.GK
 			UID = Guid.NewGuid();
 			IsAlternative = false;
 			XStates = new List<LibraryXState>();
-			var libraryXState = new LibraryXState()
-			{
-				XStateClass = XStateClass.No,
-			};
-			XStates.Add(libraryXState);
 		}
 
+		[XmlIgnore]
 		public XDriver Driver { get; set; }
 
 		[DataMember]
@@ -39,12 +36,14 @@ namespace FiresecAPI.GK
 
 		#region ILibraryDevice<XStateClass,LibraryXFrame,XState> Members
 
+		[XmlIgnore]
 		Guid ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>.DriverId
 		{
 			get { return XDriverId; }
 			set { XDriverId = value; }
 		}
 
+		[XmlIgnore]
 		List<LibraryXState> ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>.States
 		{
 			get { return XStates; }

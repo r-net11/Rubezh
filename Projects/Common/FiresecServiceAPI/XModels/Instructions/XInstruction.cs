@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -42,6 +43,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public string Text { get; set; }
 
+		[XmlIgnore]
 		public bool HasText
 		{
 			get
@@ -53,6 +55,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public string MediaSource { get; set; }
 
+		[XmlIgnore]
 		public bool HasMedia
 		{
 			get

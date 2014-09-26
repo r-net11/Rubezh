@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -10,6 +11,10 @@ namespace FiresecAPI.SKD
 	public class SKDWeeklyInterval
 	{
 		public SKDWeeklyInterval()
+		{
+		}
+
+		public SKDWeeklyInterval(bool createdefault)
 		{
 			WeeklyIntervalParts = CreateParts();
 		}
@@ -24,6 +29,7 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
+		[XmlIgnore]
 		public ReadOnlyCollection<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }
 
 		public static ReadOnlyCollection<SKDWeeklyIntervalPart> CreateParts()

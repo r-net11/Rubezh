@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -204,21 +205,25 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string PresenterKeyPropertyName { get; set; }
 
+		[XmlIgnore]
 		public string ImageSource
 		{
 			get { return "/Controls;component/FSIcons/" + this.DriverType.ToString() + ".png"; }
 		}
 
+		[XmlIgnore]
 		public bool IsPanel
 		{
 			get { return DeviceClassName == "ППКП"; }
 		}
 
+		[XmlIgnore]
 		public bool HasControlProperties
 		{
 			get { return Properties.Any(x => x.IsControl); }
 		}
 
+		[XmlIgnore]
 		public bool IsGroupDevice
 		{
 			get
@@ -249,6 +254,7 @@ namespace FiresecAPI.Models
 				DriverType == DriverType.CompensationPump);
 		}
 
+		[XmlIgnore]
 		public DriverProperty PresenterKeyProperty
 		{
 			get { return Properties.FirstOrDefault(item => item.Name == PresenterKeyPropertyName); }

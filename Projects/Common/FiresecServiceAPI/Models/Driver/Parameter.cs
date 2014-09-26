@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -17,6 +18,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool Visible { get; set; }
 
+		[XmlIgnore]
 		public bool IsIgnore
 		{
 			get
@@ -29,6 +31,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public bool IsDeleting { get; set; }
 
 		public Parameter Copy()

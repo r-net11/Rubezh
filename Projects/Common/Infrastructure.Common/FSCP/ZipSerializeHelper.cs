@@ -3,43 +3,71 @@ using System.IO;
 using System.Runtime.Serialization;
 using Common;
 using FiresecAPI;
+using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
 	public class ZipSerializeHelper
 	{
-		public static MemoryStream Serialize<T>(T configuration)
+		public static MemoryStream Serialize<T>(T configuration, bool useXml = false)
 			where T : VersionedConfiguration
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 };
 			var memoryStream = new MemoryStream();
 
-			var dataContractSerializer = new DataContractSerializer(configuration.GetType());
-			dataContractSerializer.WriteObject(memoryStream, configuration);
+			if (useXml)
+			{
+				var xmlSerializer = new XmlSerializer(configuration.GetType());
+				xmlSerializer.Serialize(memoryStream, configuration);
+			}
+			else
+			{
+				var dataContractSerializer = new DataContractSerializer(configuration.GetType());
+				dataContractSerializer.WriteObject(memoryStream, configuration);
+			}
 			return memoryStream;
 		}
 
-		public static T DeSerialize<T>(MemoryStream memoryStream)
+		public static T DeSerialize<T>(MemoryStream memoryStream, bool useXml = false)
 			 where T : VersionedConfiguration, new()
 		{
 			T configuration = null;
-			var dataContractSerializer = new DataContractSerializer(typeof(T));
-			configuration = (T)dataContractSerializer.ReadObject(memoryStream);
+			if (useXml)
+			{
+				var xmlSerializer = new XmlSerializer(typeof(T));
+				configuration = (T)xmlSerializer.Deserialize(memoryStream);
+			}
+			else
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(T));
+				configuration = (T)dataContractSerializer.ReadObject(memoryStream);
+			}
 			configuration.ValidateVersion();
 			configuration.AfterLoad();
 			return configuration;
 		}
 
-		public static bool Serialize<T>(T configuration, string fileName)
+		public static bool Serialize<T>(T configuration, string fileName, bool useXml = false)
 			where T : VersionedConfiguration
 		{
 			try
 			{
-				var dataContractSerializer = new DataContractSerializer(configuration.GetType());
-				using (var fileStream = new FileStream(fileName, FileMode.Create))
+				if (useXml)
 				{
-					dataContractSerializer.WriteObject(fileStream, configuration);
+					var xmlSerializer = new XmlSerializer(configuration.GetType());
+					using (var fileStream = new FileStream(fileName, FileMode.Create))
+					{
+						xmlSerializer.Serialize(fileStream, configuration);
+					}
+				}
+				else
+				{
+					var dataContractSerializer = new DataContractSerializer(configuration.GetType());
+					using (var fileStream = new FileStream(fileName, FileMode.Create))
+					{
+						dataContractSerializer.WriteObject(fileStream, configuration);
+					}
 				}
 			}
 			catch (Exception e)
@@ -50,7 +78,7 @@ namespace Infrastructure.Common
 			return true;
 		}
 
-		public static T DeSerialize<T>(string fileName)
+		public static T DeSerialize<T>(string fileName, bool useXml = false)
 			 where T : VersionedConfiguration, new()
 		{
 			try
@@ -58,8 +86,16 @@ namespace Infrastructure.Common
 				using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
 				{
 					T configuration = null;
-					var dataContractSerializer = new DataContractSerializer(typeof(T));
-					configuration = (T)dataContractSerializer.ReadObject(fileStream);
+					if (useXml)
+					{
+						var xmlSerializer = new XmlSerializer(typeof(T));
+						configuration = (T)xmlSerializer.Deserialize(fileStream);
+					}
+					else
+					{
+						var dataContractSerializer = new DataContractSerializer(typeof(T));
+						configuration = (T)dataContractSerializer.ReadObject(fileStream);
+					}
 					fileStream.Close();
 					configuration.ValidateVersion();
 					configuration.AfterLoad();

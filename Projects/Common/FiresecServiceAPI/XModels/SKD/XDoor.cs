@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -35,6 +36,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public Guid LockControlDeviceUID { get; set; }
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Door; } }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -17,7 +18,9 @@ namespace FiresecAPI.Models
 			DeviceUIDs = new List<Guid>();
 		}
 
+		[XmlIgnore]
 		public List<Device> Devices { get; set; }
+		[XmlIgnore]
 		public List<Zone> Zones { get; set; }
 
 		[DataMember]

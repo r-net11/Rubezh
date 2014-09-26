@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -17,6 +18,7 @@ namespace FiresecAPI.Models
 			ParameterTemplates = new List<ParameterTemplate>();
 		}
 
+		[XmlIgnore]
 		public List<Device> Devices { get; set; }
 
 		[DataMember]

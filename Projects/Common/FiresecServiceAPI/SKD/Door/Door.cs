@@ -4,12 +4,14 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class SKDDoor : ModelBase, IStateProvider, IDeviceState<XStateClass>, IPlanPresentable
 	{
+		[XmlIgnore]
 		public SKDDoorState State { get; set; }
 
 		[DataMember]

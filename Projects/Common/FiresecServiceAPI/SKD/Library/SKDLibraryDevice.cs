@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Devices;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -14,13 +15,9 @@ namespace FiresecAPI.SKD
 			UID = Guid.NewGuid();
 			IsAlternative = false;
 			States = new List<SKDLibraryState>();
-			var libraryXState = new SKDLibraryState()
-			{
-				StateClass = XStateClass.No,
-			};
-			States.Add(libraryXState);
 		}
 
+		[XmlIgnore]
 		public SKDDriver Driver { get; set; }
 
 		[DataMember]

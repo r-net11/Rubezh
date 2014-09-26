@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -15,8 +16,10 @@ namespace FiresecAPI.GK
 			GuardZoneDevices = new List<XGuardZoneDevice>();
 		}
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.GuardZone; } }
 
+		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[DataMember]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -12,6 +13,7 @@ namespace FiresecAPI.GK
 			MPTDeviceType = MPTDeviceType.Unknown;
 		}
 
+		[XmlIgnore]
 		public XDevice Device { get; set; }
 
 		[DataMember]

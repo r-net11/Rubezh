@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -11,6 +12,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string Value { get; set; }
 
+		[XmlIgnore]
 		public DriverProperty DriverProperty { get; set; }
 	}
 }

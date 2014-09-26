@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -23,6 +24,7 @@ namespace FiresecAPI.GK
 			ParameterTemplates = new List<XParameterTemplate>();
 		}
 
+		[XmlIgnore]
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
@@ -85,6 +87,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
+		[XmlIgnore]
 		public List<XZone> SortedZones
 		{
 			get

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -10,6 +11,7 @@ namespace Infrustructure.Plans.Elements
 		{
 		}
 
+		[XmlIgnore]
 		public override ElementType Type
 		{
 			get { return ElementType.Polygon; }

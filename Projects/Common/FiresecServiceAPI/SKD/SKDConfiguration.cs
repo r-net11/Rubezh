@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -13,6 +14,7 @@ namespace FiresecAPI.SKD
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 		}
 
+		[XmlIgnore]
 		public List<SKDDevice> Devices { get; set; }
 
 		[DataMember]

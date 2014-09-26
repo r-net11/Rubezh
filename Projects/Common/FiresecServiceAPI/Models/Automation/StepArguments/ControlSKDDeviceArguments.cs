@@ -18,7 +18,7 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public SKDDeviceCommandType Command { get; set; }
 	}
-	
+
 	public enum SKDDeviceCommandType
 	{
 		[Description("Открыть")]
@@ -34,4 +34,3 @@ namespace FiresecAPI.Automation
 		CloseForever
 	}
 }
-

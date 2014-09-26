@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
@@ -14,6 +15,7 @@ namespace FiresecAPI.GK
 			Devices = new List<XDevice>();
 		}
 
+		[XmlIgnore]
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
@@ -40,8 +42,10 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool UseFailureAutomatic { get; set; }
 
+		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.MPT; } }
 
+		[XmlIgnore]
 		public override string PresentationName
 		{
 			get { return "MПТ" + "." + No + "." + Name; }
