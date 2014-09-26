@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 		protected override void BuildIntervals()
 		{
 			AvailableWeekIntervals = new ObservableCollection<SKDWeeklyInterval>(SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.OrderBy(item => item.ID));
-			AvailableWeekIntervals.Insert(0, new SKDWeeklyInterval()
+			AvailableWeekIntervals.Insert(0, new SKDWeeklyInterval(true)
 			{
 				ID = 0,
 				Name = "<Никогда>",

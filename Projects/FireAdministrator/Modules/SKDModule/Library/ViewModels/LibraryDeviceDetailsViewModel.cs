@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -22,6 +23,12 @@ namespace SKDModule.ViewModels
 						Driver = driver,
 						DriverId = driver.UID
 					};
+					var skdLibraryState = new SKDLibraryState()
+					{
+						StateClass = XStateClass.No,
+					};
+					skdLibraryState.Frames.Add(new SKDLibraryFrame() { Id = 0 });
+					skdLibraryDevice.States.Add(skdLibraryState);
 					var deviceViewModel = new LibraryDeviceViewModel(skdLibraryDevice);
 					Devices.Add(deviceViewModel);
 				}

@@ -29,7 +29,7 @@ namespace FiresecService.Service
 		public Stream GetConfig()
 		{
 			var filePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			ZipConfigActualizeHelper.Actualize(filePath);
+			//ZipConfigActualizeHelper.Actualize(filePath);
 			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 

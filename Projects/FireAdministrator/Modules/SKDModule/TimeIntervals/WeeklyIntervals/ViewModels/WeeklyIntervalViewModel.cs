@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 		{
 			if (IsActive && Model == null)
 			{
-				Model = new SKDWeeklyInterval()
+				Model = new SKDWeeklyInterval(true)
 				{
 					ID = Index,
 					Name = Name,

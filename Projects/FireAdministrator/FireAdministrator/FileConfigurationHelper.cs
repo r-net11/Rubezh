@@ -93,11 +93,11 @@ namespace FireAdministrator
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion, bool useXml = false)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name), useXml);
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
@@ -131,7 +131,7 @@ namespace FireAdministrator
 				WaitHelper.Execute(() =>
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					ZipConfigActualizeHelper.Actualize(fileName, false);
+					//ZipConfigActualizeHelper.Actualize(fileName, false);
 					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 					var configFileName = Path.Combine(folderName, "Config.fscp");
 					if (Directory.Exists(folderName))

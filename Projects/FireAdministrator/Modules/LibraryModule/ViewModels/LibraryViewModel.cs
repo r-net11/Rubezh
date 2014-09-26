@@ -150,6 +150,7 @@ namespace LibraryModule.ViewModels
 					{
 						Key = viewModel.Value
 					};
+					presenter.States.Add(new LibraryState() { StateType = StateType.No });
 					SelectedDevice.LibraryDevice.Presenters.Add(presenter);
 					var newDevice = new DeviceViewModel(SelectedDevice.LibraryDevice, presenter);
 					SelectedDevice.AddChild(newDevice);

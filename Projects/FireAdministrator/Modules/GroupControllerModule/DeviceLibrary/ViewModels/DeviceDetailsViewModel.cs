@@ -23,6 +23,13 @@ namespace GKModule.ViewModels
 						Driver = driver,
 						XDriverId = driver.UID
 					};
+					var libraryXState = new LibraryXState()
+					{
+					    XStateClass = XStateClass.No,
+					};
+					libraryXState.XFrames.Add(new LibraryXFrame() { Id = 0 });
+					libraryXDevice.XStates.Add(libraryXState);
+
 					var xdeviceViewModel = new XDeviceViewModel(libraryXDevice);
 					Devices.Add(xdeviceViewModel);
 				}

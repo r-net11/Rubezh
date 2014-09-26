@@ -13,6 +13,7 @@ using FiresecClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
+using System.Xml.Serialization;
 
 namespace FiresecService
 {
@@ -125,8 +126,8 @@ namespace FiresecService
 					configurationEntry.Extract(configurationMemoryStream);
 					configurationMemoryStream.Position = 0;
 
-					var dataContractSerializer = new DataContractSerializer(type);
-					var versionedConfiguration = (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+					var xmlSerializer = new XmlSerializer(type);
+					var versionedConfiguration = (VersionedConfiguration)xmlSerializer.Deserialize(configurationMemoryStream);
 					versionedConfiguration.ValidateVersion();
 					return versionedConfiguration;
 				}

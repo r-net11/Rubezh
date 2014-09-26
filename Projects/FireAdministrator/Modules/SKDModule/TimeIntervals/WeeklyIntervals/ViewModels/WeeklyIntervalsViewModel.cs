@@ -43,7 +43,7 @@ namespace SKDModule.ViewModels
 
 		protected override SKDWeeklyInterval CopyInterval(SKDWeeklyInterval source)
 		{
-			var copy = new SKDWeeklyInterval()
+			var copy = new SKDWeeklyInterval(true)
 			{
 				Name = source.Name,
 				Description = source.Description,

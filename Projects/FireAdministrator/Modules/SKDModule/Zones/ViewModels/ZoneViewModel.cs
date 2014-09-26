@@ -22,7 +22,6 @@ namespace SKDModule.ViewModels
 		public ZoneViewModel(SKDZone zone)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
-			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
 			Zone = zone;
 			zone.Changed += OnChanged;
@@ -80,16 +79,6 @@ namespace SKDModule.ViewModels
 		{
 			if (Zone.PlanElementUIDs.Count > 0)
 				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(Zone.PlanElementUIDs);
-		}
-
-		public RelayCommand ShowParentCommand { get; private set; }
-		void OnShowParent()
-		{
-			ServiceFactoryBase.Events.GetEvent<ShowSKDZoneEvent>().Publish(Zone.Parent.UID);
-		}
-		bool CanShowParent()
-		{
-			return Zone.Parent != null;
 		}
 
 		public bool IsBold { get; set; }

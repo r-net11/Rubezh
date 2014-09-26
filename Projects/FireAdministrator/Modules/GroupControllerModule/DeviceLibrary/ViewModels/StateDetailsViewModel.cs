@@ -22,6 +22,7 @@ namespace GKModule.ViewModels
 					{
 						XStateClass = xstateClass
 					};
+					libraryState.XFrames.Add(new LibraryXFrame() { Id = 0 });
 					libraryStates.Add(libraryState);
 				}
 			}

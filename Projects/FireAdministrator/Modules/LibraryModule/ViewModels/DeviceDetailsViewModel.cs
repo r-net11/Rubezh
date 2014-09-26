@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 
 namespace LibraryModule.ViewModels
 {
@@ -22,6 +23,12 @@ namespace LibraryModule.ViewModels
 						Driver = driver,
 						DriverId = driver.UID
 					};
+					var libraryState = new LibraryState()
+					{
+						StateType = StateType.No,
+					};
+					libraryState.Frames.Add(new LibraryFrame() { Id = 0 });
+					libraryDevice.States.Add(libraryState);
 					var deviceViewModel = new DeviceViewModel(libraryDevice);
 					Devices.Add(deviceViewModel);
 				}
