@@ -11,14 +11,14 @@
 			<Setter Property="Foreground" Value="White" />
 		</Style>
 	</UserControl.Resources>
-	<Border CornerRadius="5,0,0,5">
+	<Grid>
 		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-			<ItemsControl ItemsSource="{Binding Arguments}" Margin="5">
+			<ItemsControl ItemsSource="{Binding Arguments}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Grid>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-								<Label Content="{Binding Name}" Style="{StaticResource LabelStyle}" Width="150" />
+								<Label Content="{Binding Name}" ToolTip="{Binding Name}" Style="{StaticResource LabelStyle}" Width="150" />
 								<Views:ArgumentView  DataContext="{Binding .}" HorizontalAlignment="Left" />
 							</StackPanel>
 						</Grid>
@@ -26,5 +26,5 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
-	</Border>
+	</Grid>
 </UserControl>

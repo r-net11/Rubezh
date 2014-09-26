@@ -29,10 +29,10 @@ namespace AutomationModule.ViewModels
 			var variableDetailsViewModel = new VariableDetailsViewModel(null, "аргумент", "Добавить аргумент");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
-				Procedure.Arguments.Add(varialbeViewModel.Variable);
-				Variables.Add(varialbeViewModel);
-				SelectedVariable = varialbeViewModel;
+				var variableViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
+				Procedure.Arguments.Add(variableViewModel.Variable);
+				Variables.Add(variableViewModel);
+				SelectedVariable = variableViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

@@ -4,31 +4,64 @@
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
-	<UserControl.Resources>
-		<ResourceDictionary Source="ProcedureResources.xaml" />
-	</UserControl.Resources>
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<Label Content="Тип значений" />
-			<ComboBox ItemsSource="{Binding ExplicitTypes}" Margin="2" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}"
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="500"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<StackPanel Grid.Column="0" >
+			<StackPanel.Resources>
+				<ResourceDictionary Source="ProcedureResources.xaml" />
+			</StackPanel.Resources>
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Тип значений" />
+				<ComboBox ItemsSource="{Binding ExplicitTypes}" Margin="2" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}"
 				Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" Width="200">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Сообщение" Width="100" />
+				<Views:ArgumentView DataContext="{Binding MessageParameter}" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Модальное окно" Width="102" Margin ="2, 2, 0, 2" />
+				<CheckBox IsChecked="{Binding IsModalWindow}" />
+			</StackPanel>
 		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<Label Content="Сообщение" Width="100" />
-			<Views:ArgumentView DataContext="{Binding MessageParameter}" />
-		</StackPanel>
-	</StackPanel>
+		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
+			<DataGrid ItemsSource="{Binding LayoutItems}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Наименование макета" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/BLayouts.png" />
+									<TextBlock Text="{Binding Layout.Caption}" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Использовать" Width="Auto">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+	</Grid>
 </UserControl>

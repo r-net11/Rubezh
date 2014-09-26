@@ -9,6 +9,7 @@ namespace FiresecAPI.Automation
 		public ShowMessageArguments()
 		{
 			MessageParameter = new Argument();
+			ProcedureLayoutCollection = new ProcedureLayoutCollection();
 		}
 
 		[DataMember]
@@ -19,5 +20,11 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public EnumType EnumType { get; set; }
+
+		[DataMember]
+		public bool IsModalWindow { get; set; }
+
+		[DataMember]
+		public ProcedureLayoutCollection ProcedureLayoutCollection { get; set; }
 	}
 }

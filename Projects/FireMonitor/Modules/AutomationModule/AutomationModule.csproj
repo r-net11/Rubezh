@@ -87,6 +87,7 @@
     <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\DoorSelectionViewModel.cs" />
     <Compile Include="ViewModels\DoorViewModel.cs" />
+    <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
@@ -100,6 +101,12 @@
     <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Views\ArgumentView.xaml.cs">
+      <DependentUpon>ArgumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExplicitValueViews.xaml.cs">
+      <DependentUpon>ExplicitValueViews.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
       <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
     </Compile>
@@ -130,11 +137,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ArgumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExplicitValueViews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LayoutProcedurePartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProcedureArgumentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProcedureResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

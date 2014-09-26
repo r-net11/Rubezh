@@ -11,6 +11,7 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор устройства";
 			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice.GetAllChildren().FindAll(x => x.Device.DriverType == XDriverType.KAU_Shleif || x.Device.DriverType == XDriverType.RSR2_KAU_Shleif).ForEach(y => y.ExpandToThis());
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
 			if (SelectedDevice == null)

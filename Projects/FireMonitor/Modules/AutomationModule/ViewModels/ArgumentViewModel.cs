@@ -86,7 +86,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public new RelayCommand AddCommand { get; private set; }
+		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var explicitValue = new ExplicitValueViewModel();
@@ -97,7 +97,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
-		public new RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
+		public RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
 		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
 		{
 			ExplicitValues.Remove(explicitValueViewModel);
@@ -105,7 +105,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
-		public new RelayCommand EditCommand { get; private set; }
+		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
 			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);

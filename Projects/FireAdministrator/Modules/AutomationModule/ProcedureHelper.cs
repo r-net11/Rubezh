@@ -8,6 +8,7 @@ using FiresecAPI.GK;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
+using FiresecAPI;
 
 namespace AutomationModule
 {
@@ -115,6 +116,40 @@ namespace AutomationModule
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
 					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
 			}
+		}
+
+		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		{
+			var result = "";
+			switch (explicitType)
+			{
+				case ExplicitType.Boolean:
+					result = explicitValue.BoolValue.ToString();
+					break;
+				case ExplicitType.DateTime:
+					result = explicitValue.DateTimeValue.ToString();
+					break;
+				case ExplicitType.Integer:
+					result = explicitValue.IntValue.ToString();
+					break;
+				case ExplicitType.String:
+					result = explicitValue.StringValue.ToString();
+					break;
+				case ExplicitType.Enum:
+					{
+						if (enumType == EnumType.StateType)
+							result = explicitValue.StateTypeValue.ToDescription();
+						if (enumType == EnumType.DriverType)
+							result = explicitValue.DriverTypeValue.ToDescription();
+					}
+					break;
+				case ExplicitType.Object:
+					{
+						result = new ExplicitValueViewModel(explicitValue).PresentationName;
+					}
+					break;
+			}
+			return result;
 		}
 	}
 }

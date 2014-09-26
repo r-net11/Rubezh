@@ -105,16 +105,14 @@ namespace AutomationModule.ViewModels
 			SelectedMenuType = MenuType.IsConditions;
 		}
 
-		bool _isEnabled;
-		public bool IsEnabled
+		public bool IsActive
 		{
-			get { return _isEnabled; }
+			get { return Procedure.IsActive; }
 			set
 			{
-				_isEnabled = value;
 				Procedure.IsActive = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => IsEnabled);
+				OnPropertyChanged(() => IsActive);
 			}
 		}
 
