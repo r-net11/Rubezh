@@ -5,6 +5,7 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -31,6 +32,9 @@ namespace GKModule.ViewModels
 				Title = string.Format("Свойства зоны: {0}", zone.PresentationName);
 				Zone = zone;
 			}
+
+			AvailableGuardZoneEnterMethods = new ObservableCollection<XGuardZoneEnterMethod>(Enum.GetValues(typeof(XGuardZoneEnterMethod)).Cast<XGuardZoneEnterMethod>());
+
 			CopyProperties();
 
 			var availableNames = new HashSet<string>();
@@ -49,6 +53,7 @@ namespace GKModule.ViewModels
 			No = Zone.No;
 			Name = Zone.Name;
 			Description = Zone.Description;
+			SelectedGuardZoneEnterMethod = Zone.GuardZoneEnterMethod;
 			SetGuardLevel = Zone.SetGuardLevel;
 			ResetGuardLevel = Zone.ResetGuardLevel;
 			SetAlarmLevel = Zone.SetAlarmLevel;
@@ -87,6 +92,19 @@ namespace GKModule.ViewModels
 			{
 				_description = value;
 				OnPropertyChanged(() => Description);
+			}
+		}
+
+		public ObservableCollection<XGuardZoneEnterMethod> AvailableGuardZoneEnterMethods { get; private set; }
+
+		XGuardZoneEnterMethod _selectedGuardZoneEnterMethod;
+		public XGuardZoneEnterMethod SelectedGuardZoneEnterMethod
+		{
+			get { return _selectedGuardZoneEnterMethod; }
+			set
+			{
+				_selectedGuardZoneEnterMethod = value;
+				OnPropertyChanged(() => SelectedGuardZoneEnterMethod);
 			}
 		}
 
@@ -170,6 +188,7 @@ namespace GKModule.ViewModels
 			Zone.No = No;
 			Zone.Name = Name;
 			Zone.Description = Description;
+			Zone.GuardZoneEnterMethod = SelectedGuardZoneEnterMethod;
 			Zone.SetGuardLevel = SetGuardLevel;
 			Zone.ResetGuardLevel = ResetGuardLevel;
 			Zone.SetAlarmLevel = SetAlarmLevel;

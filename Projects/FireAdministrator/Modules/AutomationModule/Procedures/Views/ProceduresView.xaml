@@ -13,7 +13,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<DataGrid Grid.Row="0" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+			<XDataGrid Grid.Row="0" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
@@ -33,7 +33,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
-			</DataGrid>
+			</XDataGrid>
 		</Grid>
 
 		<GridSplitter Grid.Column="1" Background="Transparent" HorizontalAlignment="Stretch"/>

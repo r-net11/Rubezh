@@ -21,13 +21,13 @@ namespace FiresecAPI.GK
 		}
 
 		[DataMember]
-		public XCodeReaderSettingsPart AlarmSettings { get; set; }
-
-		[DataMember]
 		public XCodeReaderSettingsPart SetGuardSettings { get; set; }
 
 		[DataMember]
 		public XCodeReaderSettingsPart ResetGuardSettings { get; set; }
+
+		[DataMember]
+		public XCodeReaderSettingsPart AlarmSettings { get; set; }
 	}
 
 	[DataContract]

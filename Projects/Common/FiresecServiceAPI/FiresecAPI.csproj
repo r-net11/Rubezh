@@ -262,6 +262,7 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
+    <Compile Include="XModels\Guard\XGuardZoneEnterMethod.cs" />
     <Compile Include="XModels\SKD\XDoor.cs" />
     <Compile Include="XModels\Guard\XCodeReaderEnterType.cs" />
     <Compile Include="XModels\Guard\XCodeReaderSettings.cs" />
