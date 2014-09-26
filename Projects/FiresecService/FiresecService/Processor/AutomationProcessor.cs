@@ -63,7 +63,7 @@ namespace FiresecService
 				timeValidator++;
 				foreach (var schedule in shedules)
 				{
-					//Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
+					Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
 					if (timeValidator <= TimeDelta)
 					{
 						var dateList = new List<DateTime>();
@@ -72,16 +72,14 @@ namespace FiresecService
 							dateList.Add(DateTime.Now - TimeSpan.FromSeconds(i));
 						}
 						dateList.Reverse();
-						timeValidator = TimeDelta;
+						timeValidator = TimeDelta - 1;
 						foreach (var date in dateList)
 						{
-							//Trace.WriteLine(date.TimeOfDay);
 							if (CheckSchedule(schedule, date))
 								RunProcedures(schedule);
 						}
 					}
 				}
-				timeValidator--;
 			}
 		}
 

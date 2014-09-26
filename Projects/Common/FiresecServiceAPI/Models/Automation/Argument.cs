@@ -30,12 +30,10 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public Guid VariableUid { get; set; }
 
-		#region Явные значения
 		[DataMember]
 		public ExplicitValue ExplicitValue { get; set; }
 
 		[DataMember]
 		public List<ExplicitValue> ExplicitValues { get; set; }
-		#endregion
 	}
 }

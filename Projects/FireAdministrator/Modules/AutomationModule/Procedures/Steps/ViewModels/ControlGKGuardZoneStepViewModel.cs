@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			GKGuardZoneParameter.ObjectType = ObjectType.GuardZone;
 			GKGuardZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
-			UpdateContent();
 		}
 
 		public ObservableCollection<GuardZoneCommandType> Commands { get; private set; }

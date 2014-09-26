@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			DirectionParameter.ObjectType = ObjectType.Direction;
 			DirectionParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
-			UpdateContent();
 		}
 
 		public ObservableCollection<DirectionCommandType> Commands { get; private set; }

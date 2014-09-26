@@ -19,7 +19,6 @@ namespace AutomationModule.ViewModels
 			IncrementValueArguments = stepViewModel.Step.IncrementValueArguments;
 			IncrementTypes = new ObservableCollection<IncrementType> { IncrementType.Inc, IncrementType.Dec };
 			ResultParameter = new ArgumentViewModel(IncrementValueArguments.ResultParameter, stepViewModel.Update, false);
-			UpdateContent();
 		}
 		
 		public ObservableCollection<IncrementType> IncrementTypes { get; private set; }

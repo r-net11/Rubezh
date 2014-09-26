@@ -209,7 +209,7 @@ namespace AutomationModule.ViewModels
 						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
 						return "<пусто>";
 					else
-						return "<" + SelectedVariable.Name + ">";
+						return "<" + SelectedVariable.Variable.Name + ">";
 				}
 								
 				var description = "";

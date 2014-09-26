@@ -95,7 +95,7 @@ namespace FiresecAPI.Automation
 					allLocalVariables.AddRange(new List<Variable>(callingProcedure.Arguments));
 					variable = allLocalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
 				}
-				if (argument.VariableScope == VariableScope.GlobalVariable) //TODO
+				if (argument.VariableScope == VariableScope.GlobalVariable)
 				{
 					if (globalVariables == null)
 						return;

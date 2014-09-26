@@ -10,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.ComponentModel;
-using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,7 +27,6 @@ namespace AutomationModule.ViewModels
 			GKDeviceParameter.UpdateVariableScopeHandler = Update;
 			GKDeviceParameter.ExplicitValue.UpdateObjectHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
-			UpdateContent();
 		}
 
 		public void Update()
@@ -157,6 +155,8 @@ namespace AutomationModule.ViewModels
 					return XStateBit.Reset;
 				case CommandType.ForbidStart_InManual:
 					return XStateBit.ForbidStart_InManual;
+				case CommandType.TurnOffNow_InManual:
+					return XStateBit.TurnOffNow_InManual;
 				default:
 					return new XStateBit();
 			}

@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 			Arguments = new List<ArgumentViewModel>();
 			int i = 0;
 			if (ScheduleProcedure.Arguments == null)
-				ScheduleProcedure.Arguments = new List<Argument>();		
+				ScheduleProcedure.Arguments = new List<Argument>();
 			foreach (var variable in Procedure.Arguments)
 			{
 				var argument = new Argument();

@@ -18,7 +18,6 @@ namespace AutomationModule.ViewModels
 		public ProcedureSelectionStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ProcedureSelectionArguments = stepViewModel.Step.ProcedureSelectionArguments;
-			UpdateContent();			
 		}
 
 		public override void UpdateContent()

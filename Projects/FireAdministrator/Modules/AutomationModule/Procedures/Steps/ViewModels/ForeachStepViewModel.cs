@@ -20,7 +20,6 @@ namespace AutomationModule.ViewModels
 			ListParameter = new ArgumentViewModel(ForeachArguments.ListParameter, stepViewModel.Update, false);
 			ListParameter.UpdateVariableHandler += UpdateItemVariable;
 			ItemParameter = new ArgumentViewModel(ForeachArguments.ItemParameter, stepViewModel.Update, false);
-			UpdateContent();
 		}
 
 		public override void UpdateContent()
@@ -31,7 +30,7 @@ namespace AutomationModule.ViewModels
 		void UpdateItemVariable()
 		{
 			ItemParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListParameter.SelectedVariable.ExplicitType
-				&& x.ObjectType == ListParameter.SelectedVariable.SelectedObjectType && x.EnumType == ListParameter.SelectedVariable.SelectedEnumType));
+				&& x.ObjectType == ListParameter.SelectedVariable.Variable.ObjectType && x.EnumType == ListParameter.SelectedVariable.Variable.EnumType));
 		}
 
 		public override string Description

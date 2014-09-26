@@ -34,7 +34,6 @@ namespace AutomationModule.ViewModels
 				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
 				FindObjectConditions.Add(findObjectConditionViewModel);
 			}
-			UpdateContent();
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<FindObjectConditionViewModel>(OnRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);

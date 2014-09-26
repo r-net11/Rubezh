@@ -367,7 +367,8 @@ namespace FiresecService.Processor
 
 		public static void ControlGKDevice(ProcedureStep procedureStep)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.GKDeviceParameter.ExplicitValue.UidValue);
+			var deviceUid = GetValue<Guid>(procedureStep.ControlGKDeviceArguments.GKDeviceParameter);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
 			if (device == null)
 				return;
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);

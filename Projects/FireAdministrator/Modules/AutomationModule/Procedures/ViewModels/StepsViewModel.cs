@@ -96,8 +96,6 @@ namespace AutomationModule.ViewModels
 			{
 				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
-				//if (_selectedStep != null)
-				//    _selectedStep.UpdateContent();
 				ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}

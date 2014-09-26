@@ -313,15 +313,6 @@ namespace GKProcessor
 			if (JournalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 				JournalItem.Description = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventDescriptionType);
 
-			//if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
-			//{
-			//	var pumpTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "PumpType");
-			//	if (pumpTypeProperty != null)
-			//	{
-			//		JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, pumpTypeProperty.Value);
-			//	}
-			//}
-
 			if (source == JournalSourceType.Object)
 			{
 				var stateBits = XStatesHelper.StatesFromInt(JournalItem.ObjectState);
@@ -332,6 +323,8 @@ namespace GKProcessor
 			{
 				JournalItem.ObjectStateClass = XStateClass.Norm;
 			}
+
+			InitializeMAMessage();
 		}
 
 		void InitializeFromObjectUID()
@@ -404,32 +397,35 @@ namespace GKProcessor
 					JournalItem.ObjectUID = GuardZone.UID;
 					JournalItem.ObjectName = GuardZone.PresentationName;
 				}
+			}
+		}
 
-				if (Device != null && Device.DriverType == XDriverType.RSR2_AM_1)
+		void InitializeMAMessage()
+		{
+			if (Device != null && Device.DriverType == XDriverType.RSR2_AM_1)
+			{
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
 				{
-					if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+					if (property != null)
 					{
-						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
-						if (property != null)
-						{
-							JournalItem.Description = property.StringValue;
-						}
+						JournalItem.Description = property.StringValue;
 					}
-					if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_1)
+				}
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_1)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 1");
+					if (property != null)
 					{
-						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 1");
-						if (property != null)
-						{
-							JournalItem.Description = property.StringValue;
-						}
+						JournalItem.Description = property.StringValue;
 					}
-					if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
+				}
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
+					if (property != null)
 					{
-						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
-						if (property != null)
-						{
-							JournalItem.Description = property.StringValue;
-						}
+						JournalItem.Description = property.StringValue;
 					}
 				}
 			}

@@ -90,29 +90,14 @@ namespace GKProcessor
 				{
 					if (guardDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
 					{
-						var stateBit = XStateBit.Fire1;
-						switch (guardDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType)
-						{
-							case XCodeReaderEnterType.CodeOnly:
-								stateBit = XStateBit.Attention;
-								break;
-
-							case XCodeReaderEnterType.CodeAndOne:
-								stateBit = XStateBit.Fire1;
-								break;
-
-							case XCodeReaderEnterType.CodeAndTwo:
-								stateBit = XStateBit.Fire2;
-								break;
-						}
-
+						var stateBit = CodeReaderEnterTypeToStateBit(guardDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType);
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.Add(FormulaOperationType.BR, 1, 5);
 						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.AlarmSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetAlarmLevel, guardDevice.Device.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.OR);
-						Formula.AddGetBit(stateBit, guardDevice.Device);
-						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{
@@ -137,29 +122,14 @@ namespace GKProcessor
 				{
 					if (guardDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
 					{
-						var stateBit = XStateBit.Fire1;
-						switch (guardDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType)
-						{
-							case XCodeReaderEnterType.CodeOnly:
-								stateBit = XStateBit.Attention;
-								break;
-
-							case XCodeReaderEnterType.CodeAndOne:
-								stateBit = XStateBit.Fire1;
-								break;
-
-							case XCodeReaderEnterType.CodeAndTwo:
-								stateBit = XStateBit.Fire2;
-								break;
-						}
-
+						var stateBit = CodeReaderEnterTypeToStateBit(guardDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType);
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.Add(FormulaOperationType.BR, 1, 5);
 						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.OR);
-						Formula.AddGetBit(stateBit, guardDevice.Device);
-						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{
@@ -181,29 +151,14 @@ namespace GKProcessor
 				{
 					if (guardDevice.Device.DriverType == XDriverType.RSR2_CodeReader)
 					{
-						var stateBit = XStateBit.Fire1;
-						switch (guardDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType)
-						{
-							case XCodeReaderEnterType.CodeOnly:
-								stateBit = XStateBit.Attention;
-								break;
-
-							case XCodeReaderEnterType.CodeAndOne:
-								stateBit = XStateBit.Fire1;
-								break;
-
-							case XCodeReaderEnterType.CodeAndTwo:
-								stateBit = XStateBit.Fire2;
-								break;
-						}
-
+						var stateBit = CodeReaderEnterTypeToStateBit(guardDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType);
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.Add(FormulaOperationType.BR, 1, 5);
 						Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 						var code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardDevice.CodeReaderSettings.ResetGuardSettings.CodeUID);
 						Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.ResetGuardLevel, guardDevice.Device.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.OR);
-						Formula.AddGetBit(stateBit, guardDevice.Device);
-						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{
@@ -220,6 +175,22 @@ namespace GKProcessor
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
+		}
+
+		XStateBit CodeReaderEnterTypeToStateBit(XCodeReaderEnterType codeReaderEnterType)
+		{
+			switch (codeReaderEnterType)
+			{
+				case XCodeReaderEnterType.CodeOnly:
+					return XStateBit.Attention;
+
+				case XCodeReaderEnterType.CodeAndOne:
+					return XStateBit.Fire1;
+
+				case XCodeReaderEnterType.CodeAndTwo:
+					return XStateBit.Fire2;
+			}
+			return XStateBit.Fire1;
 		}
 
 		void SetPropertiesBytes()

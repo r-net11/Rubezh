@@ -25,7 +25,6 @@ namespace AutomationModule.ViewModels
 			SKDZoneParameter.ObjectType = ObjectType.SKDZone;
 			SKDZoneParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDZoneArguments.SKDZoneCommandType;
-			UpdateContent();
 		}
 
 		public ObservableCollection<SKDZoneCommandType> Commands { get; private set; }

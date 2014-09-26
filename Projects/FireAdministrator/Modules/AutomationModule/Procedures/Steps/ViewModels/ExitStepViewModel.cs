@@ -19,7 +19,6 @@ namespace AutomationModule.ViewModels
 			ExitArguments = stepViewModel.Step.ExitArguments;
 			ExitCodeParameter = new ArgumentViewModel(ExitArguments.ExitCodeParameter, stepViewModel.Update);
 			ExitCodeParameter.ExplicitType = ExplicitType.Integer;
-			UpdateContent();
 		}
 
 		public override void UpdateContent()

@@ -21,7 +21,6 @@ namespace AutomationModule.ViewModels
 			MessageParameter = new ArgumentViewModel(ShowMessageArguments.MessageParameter, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType> (ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
-			UpdateContent();
 		}
 
 		public override void UpdateContent()

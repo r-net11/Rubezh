@@ -21,7 +21,6 @@ namespace AutomationModule.ViewModels
 			ObjectParameter = new ArgumentViewModel(GetObjectPropertyArguments.ObjectParameter, stepViewModel.Update, false);
 			ObjectParameter.UpdateVariableHandler += UpdateProperies;
 			ResultParameter = new ArgumentViewModel(GetObjectPropertyArguments.ResultParameter, stepViewModel.Update, false);
-			UpdateContent();
 		}
 
 		void UpdateProperies()

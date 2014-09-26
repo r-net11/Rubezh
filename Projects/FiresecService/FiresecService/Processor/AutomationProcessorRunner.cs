@@ -11,6 +11,13 @@ namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
+		public static List<Thread> ProceduresThreads { get; private set; }
+
+		static AutomationProcessorRunner()
+		{
+			ProceduresThreads = new List<Thread>();
+		}
+
 		public static void RunOnJournal(JournalItem journalItem)
 		{
 			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
@@ -41,14 +48,6 @@ namespace FiresecService.Processor
 			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 			}
-		}
-
-		public static List<Thread> ProceduresThreads { get; private set; }
-
-		static AutomationProcessorRunner()
-		{
-			ProceduresThreads = new List<Thread>();
-
 		}
 
 		public static bool RunInThread(Procedure procedure, List<Argument> arguments)

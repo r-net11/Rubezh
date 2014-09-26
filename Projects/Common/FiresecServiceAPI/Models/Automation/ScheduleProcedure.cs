@@ -21,6 +21,5 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid ProcedureUid { get; set; }
-
 	}
 }

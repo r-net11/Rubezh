@@ -22,7 +22,6 @@ namespace AutomationModule.ViewModels
 			TargetParameter.UpdateVariableHandler = UpdateSourceParameter;
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			SelectedExplicitType = SetValueArguments.ExplicitType;
-			UpdateContent();
 		}
 
 		void UpdateSourceParameter()

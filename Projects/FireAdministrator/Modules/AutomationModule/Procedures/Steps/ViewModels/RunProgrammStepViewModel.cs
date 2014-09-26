@@ -18,7 +18,6 @@ namespace AutomationModule.ViewModels
 			PathParameter.ExplicitType = ExplicitType.String;
 			ParametersParameter = new ArgumentViewModel(RunProgrammArguments.ParametersParameter, stepViewModel.Update);
 			ParametersParameter.ExplicitType = ExplicitType.String;
-			UpdateContent();
 		}
 
 		public override void UpdateContent()

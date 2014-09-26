@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			DoorParameter.ObjectType = ObjectType.ControlDoor;
 			DoorParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlDoorArguments.DoorCommandType;
-			UpdateContent();
 		}
 
 		public ObservableCollection<DoorCommandType> Commands { get; private set; }

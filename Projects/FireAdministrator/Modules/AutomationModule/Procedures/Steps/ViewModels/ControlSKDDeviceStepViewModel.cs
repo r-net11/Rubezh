@@ -26,7 +26,6 @@ namespace AutomationModule.ViewModels
 			SKDDeviceParameter.ObjectType = ObjectType.SKDDevice;
 			SKDDeviceParameter.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDDeviceArguments.Command;
-			UpdateContent();
 		}
 
 		public ObservableCollection<SKDDeviceCommandType> Commands { get; private set; }
