@@ -8,7 +8,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleDayIntervalTranslator : IsDeletedTranslator<DataAccess.ScheduleDay, ScheduleDayInterval, ScheduleDayIntervalFilter>
+	public class ScheduleDayIntervalTranslator : WithFilterTranslator<DataAccess.ScheduleDay, ScheduleDayInterval, ScheduleDayIntervalFilter>
 	{
 		public ScheduleDayIntervalTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -26,7 +26,7 @@ namespace SKDDriver.Translators
 			result = result.And(e => e.ScheduleSchemeUID.Equals(filter.ScheduleSchemeUID));
 			return result;
 		}
-		public override OperationResult MarkDeleted(Guid uid)
+		public override OperationResult Delete(Guid uid)
 		{
 			var dayInterval = Table.FirstOrDefault(x => x.UID == uid);
 			if (dayInterval != null)
@@ -37,7 +37,7 @@ namespace SKDDriver.Translators
 						if (day.Number > dayInterval.Number)
 							day.Number--;
 			}
-			return base.MarkDeleted(uid);
+			return base.Delete(uid);
 		}
 
 		protected override OperationResult CanSave(ScheduleDayInterval item)
@@ -58,7 +58,6 @@ namespace SKDDriver.Translators
 		{
 			var dayInterval = apiItem.DayIntervalUID == Guid.Empty ? null : Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == apiItem.ScheduleSchemeUID);
-			base.TranslateBack(tableItem, apiItem);
 			if (dayInterval == null && apiItem.DayIntervalUID != Guid.Empty)
 				tableItem.DayIntervalUID = apiItem.DayIntervalUID;
 			else

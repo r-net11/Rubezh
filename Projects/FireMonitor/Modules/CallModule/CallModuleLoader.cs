@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CallModule.ViewModels;
+using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -31,13 +32,13 @@ namespace CallModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowCallEvent, object>(CallViewModel, "Дозвон", "/Controls;component/Images/phone.png"),
+				new NavigationItem<ShowCallEvent, object>(CallViewModel, ModuleType.ToDescription(), "/Controls;component/Images/phone.png"),
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Оповещения"; }
+			get { return Infrastructure.Common.ModuleType.Call;; }
 		}
 	}
 }

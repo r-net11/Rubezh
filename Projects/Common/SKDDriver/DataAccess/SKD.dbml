@@ -75,8 +75,6 @@
       <Column Name="EnterIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ExitIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ExitIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Card_CardDoor" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
@@ -101,8 +99,6 @@
       <Column Name="EndTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="DayIntervalUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="DayInterval_DayIntervalPart" Member="DayInterval" ThisKey="DayIntervalUID" OtherKey="UID" Type="DayInterval" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
@@ -387,8 +383,6 @@
       <Column Name="DayIntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="ScheduleSchemeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="DayInterval_ScheduleDay" Member="DayInterval" ThisKey="DayIntervalUID" OtherKey="UID" Type="DayInterval" IsForeignKey="true" />
       <Association Name="ScheduleScheme_ScheduleDay" Member="ScheduleScheme" ThisKey="ScheduleSchemeUID" OtherKey="UID" Type="ScheduleScheme" IsForeignKey="true" />
     </Type>
@@ -413,8 +407,6 @@
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Schedule_ScheduleZone" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
     </Type>
   </Table>

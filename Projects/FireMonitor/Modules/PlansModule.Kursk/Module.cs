@@ -34,9 +34,9 @@ namespace PlansModule.Kursk
 			return new NavigationItem[0];
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Графические планы - Курск"; }
+			get { return Infrastructure.Common.ModuleType.PlansKursk; }
 		}
 	}
 }

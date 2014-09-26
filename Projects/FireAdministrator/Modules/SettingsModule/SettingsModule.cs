@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -17,7 +18,7 @@ namespace SettingsModule
 			ServiceFactory.Events.GetEvent<EditValidationEvent>().Subscribe(OnEditValidation);
 			
 			SettingsViewModel = new SettingsViewModel();
-			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel("Настройки", SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
+			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
 		}
 
 		public override void Initialize()
@@ -28,9 +29,9 @@ namespace SettingsModule
 		{
 			return null;
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Настройки"; }
+			get { return ModuleType.Settings; }
 		}
 
 		void OnEditValidation(object obj)

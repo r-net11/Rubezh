@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -11,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
@@ -33,6 +35,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
             ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
             ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
         }
 
         protected ModelT _clipboard;
@@ -249,7 +252,10 @@ namespace SKDModule.ViewModels
 		{
 			var model = ShowDetails(SelectedItem.Organisation, SelectedItem.Model);
 			if (model != null)
+			{
 				SelectedItem.Update(model);
+				UpdateSelected();
+			}
 		}
 		bool CanEdit()
 		{

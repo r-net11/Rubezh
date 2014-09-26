@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -19,7 +19,6 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using System.Windows;
 
 namespace GKModule
 {
@@ -101,7 +100,7 @@ namespace GKModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("ГК", null, new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/Briefcase.png", null, null, Guid.Empty),
@@ -141,9 +140,9 @@ namespace GKModule
 				}) {IsExpanded = true},
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Групповой контроллер"; }
+			get { return ModuleType.GK; }
 		}
 		public override void RegisterResource()
 		{

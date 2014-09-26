@@ -6,6 +6,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure;
 using SKDModule.Events;
 
+
 namespace SKDModule.ViewModels
 {
 	public class PositionsViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionViewModel, PositionDetailsViewModel>

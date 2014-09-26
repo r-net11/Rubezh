@@ -197,7 +197,7 @@
       <Name>Infrastructure.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">

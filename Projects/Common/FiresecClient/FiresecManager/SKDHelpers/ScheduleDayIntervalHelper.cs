@@ -11,9 +11,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(ScheduleDayInterval scheduleDayInterval)
+		public static bool Remove(ScheduleDayInterval scheduleDayInterval)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedSheduleDayInterval(scheduleDayInterval);
+			var operationResult = FiresecManager.FiresecService.RemoveSheduleDayInterval(scheduleDayInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

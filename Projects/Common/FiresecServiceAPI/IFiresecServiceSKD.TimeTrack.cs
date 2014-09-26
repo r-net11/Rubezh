@@ -19,7 +19,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveDayIntervalPart(DayIntervalPart item);
 		[OperationContract]
-		OperationResult MarkDeletedDayIntervalPart(Guid uid);
+		OperationResult RemoveDayIntervalPart(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter);
@@ -40,7 +40,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveSheduleDayInterval(ScheduleDayInterval item);
 		[OperationContract]
-		OperationResult MarkDeletedSheduleDayInterval(Guid uid);
+		OperationResult RemoveSheduleDayInterval(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter);

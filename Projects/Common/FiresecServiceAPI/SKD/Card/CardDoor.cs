@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class CardDoor : SKDIsDeletedModel
+	public class CardDoor : SKDModelBase
 	{
 		[DataMember]
 		public Guid DoorUID { get; set; }

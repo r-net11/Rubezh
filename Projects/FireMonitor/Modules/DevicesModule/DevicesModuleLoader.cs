@@ -68,9 +68,9 @@ namespace DevicesModule
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Устройства и Зоны"; }
+			get { return Infrastructure.Common.ModuleType.Devices;; }
 		}
 
 		#region IReportProviderModule Members

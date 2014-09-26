@@ -27,12 +27,12 @@ namespace SKDDriver.DataAccess
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IDatabaseElement { }
 	public partial class NightSetting : IDatabaseElement { }
+	public partial class ScheduleZone : IDatabaseElement{ }
+	public partial class CardDoor : IDatabaseElement{ }
+	public partial class ScheduleDay : IDatabaseElement { }
+	public partial class DayIntervalPart : IDatabaseElement { }
 
-	public partial class ScheduleDay : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class ScheduleZone : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Organisation : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class DayIntervalPart : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class CardDoor : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
 	
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }

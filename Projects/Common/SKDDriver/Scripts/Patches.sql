@@ -942,3 +942,43 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('EmployeePhone')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleZone')
+	BEGIN
+		ALTER TABLE ScheduleZone DROP COLUMN IsDeleted
+		ALTER TABLE ScheduleZone DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('ScheduleZone_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardDoor_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		ALTER TABLE CardDoor DROP COLUMN IsDeleted
+		ALTER TABLE CardDoor DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('CardDoor_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DayIntervalPart_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'DayIntervalPart')
+	BEGIN
+		ALTER TABLE DayIntervalPart DROP COLUMN IsDeleted
+		ALTER TABLE DayIntervalPart DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('DayIntervalPart_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleDay_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleDay')
+	BEGIN
+		ALTER TABLE ScheduleDay DROP COLUMN IsDeleted
+		ALTER TABLE ScheduleDay DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('ScheduleDay_Drop_IsDeleted')
+END

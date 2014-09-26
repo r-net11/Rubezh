@@ -98,9 +98,9 @@ namespace DevicesModule
 				_guardNavigationItem
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Устройства, Зоны, Направления"; }
+			get { return ModuleType.Devices; }
 		}
 
 		#region IValidationModule Members

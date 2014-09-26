@@ -21,9 +21,9 @@ namespace PlansModule.Kursk
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Графические планы - Курск"; }
+			get { return ModuleType.PlansKursk; }
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()

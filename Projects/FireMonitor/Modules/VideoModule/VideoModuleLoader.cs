@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -88,16 +89,16 @@ namespace VideoModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 			{
 				_videoNavigationItem
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Видео"; }
+			get { return Infrastructure.Common.ModuleType.Video; }
 		}
 		public override void RegisterResource()
 		{

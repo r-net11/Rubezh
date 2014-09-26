@@ -8,7 +8,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class DayIntervalPartTranslator : IsDeletedTranslator<DataAccess.DayIntervalPart, DayIntervalPart, DayIntervalPartFilter>
+	public class DayIntervalPartTranslator : WithFilterTranslator<DataAccess.DayIntervalPart, DayIntervalPart, DayIntervalPartFilter>
 	{
 		int DaySeconds = 86400;
 		public DayIntervalPartTranslator(SKDDatabaseService databaseService)
@@ -36,7 +36,7 @@ namespace SKDDriver.Translators
 				return result;
 			if (item.BeginTime == item.EndTime)
 				return new OperationResult("Интервал не может иметь нулевую длительность");
-			var intervals = Table.Where(x => x.DayIntervalUID == item.DayIntervalUID && x.UID != item.UID && !x.IsDeleted);
+			var intervals = Table.Where(x => x.DayIntervalUID == item.DayIntervalUID && x.UID != item.UID);
 			if (intervals.Count() == 0 && item.BeginTime.TotalSeconds >= DaySeconds)
 				return new OperationResult("Последовательность интервалов не может начинаться со следующего дня");
 			var beginTime = item.BeginTime.TotalSeconds;
@@ -73,7 +73,6 @@ namespace SKDDriver.Translators
 		protected override void TranslateBack(DataAccess.DayIntervalPart tableItem, DayIntervalPart apiItem)
 		{
 			var dayInterval = Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
-			base.TranslateBack(tableItem, apiItem);
 			tableItem.DayIntervalUID = apiItem.DayIntervalUID;
 			if (dayInterval != null)
 				tableItem.DayInterval = dayInterval;

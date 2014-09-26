@@ -8,7 +8,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleZoneTranslator : IsDeletedTranslator<DataAccess.ScheduleZone, ScheduleZone, ScheduleZoneFilter>
+	public class ScheduleZoneTranslator : WithFilterTranslator<DataAccess.ScheduleZone, ScheduleZone, ScheduleZoneFilter>
 	{
 		public ScheduleZoneTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -27,7 +27,7 @@ namespace SKDDriver.Translators
 			var result = base.CanSave(item);
 			if (result.HasError)
 				return result;
-			var scheduleZones = Table.Where(x => x.ScheduleUID == item.ScheduleUID && x.UID != item.UID && !x.IsDeleted);
+			var scheduleZones = Table.Where(x => x.ScheduleUID == item.ScheduleUID && x.UID != item.UID);
 			if (scheduleZones.Any(x => x.ZoneUID == item.ZoneUID))
 				return new OperationResult("Выбранная зона уже включена");
 			return new OperationResult();
@@ -43,7 +43,6 @@ namespace SKDDriver.Translators
 		protected override void TranslateBack(DataAccess.ScheduleZone tableItem, ScheduleZone apiItem)
 		{
 			var schedule = Context.Schedules.FirstOrDefault(item => item.UID == apiItem.ScheduleUID);
-			base.TranslateBack(tableItem, apiItem);
 			if (schedule == null)
 				tableItem.ScheduleUID = apiItem.ScheduleUID;
 			else

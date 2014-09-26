@@ -138,7 +138,8 @@ namespace SKDModule.ViewModels
 					LastName = LastName,
 					Type = Employee.Type,
 					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
-					TextColumns = new List<TextColumn>()
+					TextColumns = new List<TextColumn>(),
+					Phone = Employee.Phone
 				};
 				if (SelectedDepartment != null)
 					result.DepartmentName = SelectedDepartment.Name;

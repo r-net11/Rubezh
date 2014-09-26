@@ -1904,10 +1904,6 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _ExitIntervalType;
 		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
 		private EntityRef<Card> _Card;
@@ -1932,10 +1928,6 @@ namespace SKDDriver.DataAccess
     partial void OnExitIntervalIDChanged();
     partial void OnExitIntervalTypeChanging(System.Nullable<int> value);
     partial void OnExitIntervalTypeChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
     #endregion
 		
 		public CardDoor()
@@ -2109,46 +2101,6 @@ namespace SKDDriver.DataAccess
 					this._ExitIntervalType = value;
 					this.SendPropertyChanged("ExitIntervalType");
 					this.OnExitIntervalTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
 				}
 			}
 		}
@@ -2559,10 +2511,6 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _DayIntervalUID;
 		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
 		private EntityRef<DayInterval> _DayInterval;
 		
     #region Определения метода расширяемости
@@ -2577,10 +2525,6 @@ namespace SKDDriver.DataAccess
     partial void OnUIDChanged();
     partial void OnDayIntervalUIDChanging(System.Guid value);
     partial void OnDayIntervalUIDChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
     #endregion
 		
 		public DayIntervalPart()
@@ -2669,46 +2613,6 @@ namespace SKDDriver.DataAccess
 					this._DayIntervalUID = value;
 					this.SendPropertyChanged("DayIntervalUID");
 					this.OnDayIntervalUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
 				}
 			}
 		}
@@ -8843,10 +8747,6 @@ namespace SKDDriver.DataAccess
 		
 		private int _Number;
 		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
 		private EntityRef<DayInterval> _DayInterval;
 		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
@@ -8863,10 +8763,6 @@ namespace SKDDriver.DataAccess
     partial void OnScheduleSchemeUIDChanged();
     partial void OnNumberChanging(int value);
     partial void OnNumberChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
     #endregion
 		
 		public ScheduleDay()
@@ -8960,46 +8856,6 @@ namespace SKDDriver.DataAccess
 					this._Number = value;
 					this.SendPropertyChanged("Number");
 					this.OnNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
 				}
 			}
 		}
@@ -9432,10 +9288,6 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _ScheduleUID;
 		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
 		private EntityRef<Schedule> _Schedule;
 		
     #region Определения метода расширяемости
@@ -9448,10 +9300,6 @@ namespace SKDDriver.DataAccess
     partial void OnZoneUIDChanged();
     partial void OnScheduleUIDChanging(System.Guid value);
     partial void OnScheduleUIDChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
     #endregion
 		
 		public ScheduleZone()
@@ -9520,46 +9368,6 @@ namespace SKDDriver.DataAccess
 					this._ScheduleUID = value;
 					this.SendPropertyChanged("ScheduleUID");
 					this.OnScheduleUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
 				}
 			}
 		}

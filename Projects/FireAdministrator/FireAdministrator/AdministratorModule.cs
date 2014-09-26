@@ -19,9 +19,9 @@ namespace FireAdministrator
 		{
 			return new List<NavigationItem>();
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Администратор"; }
+			get { return ModuleType.Administrator; }
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

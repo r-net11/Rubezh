@@ -167,7 +167,7 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult Delete(Guid uid)
+		public virtual OperationResult Delete(Guid uid)
 		{
 			try
 			{

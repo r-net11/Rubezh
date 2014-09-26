@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -258,7 +259,7 @@ namespace GKModule
 
 			return new List<NavigationItem>
 				{
-				new NavigationItem("ГК", "/Controls;component/Images/tree.png",
+				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
@@ -277,9 +278,9 @@ namespace GKModule
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Групповой контроллер"; }
+			get { return Infrastructure.Common.ModuleType.GK; }
 		}
 
 		#region IReportProviderModule Members

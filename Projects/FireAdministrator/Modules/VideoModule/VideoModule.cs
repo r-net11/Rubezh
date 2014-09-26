@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
@@ -12,7 +13,6 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
-using VideoModule.Plans.Designer;
 using VideoModule.Validation;
 using VideoModule.ViewModels;
 using CamerasViewModel = VideoModule.ViewModels.CamerasViewModel;
@@ -53,12 +53,12 @@ namespace VideoModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,"Видео", "/Controls;component/Images/Video1.png"),
+				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,ModuleType.ToDescription(), "/Controls;component/Images/Video1.png"),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Видео"; }
+			get { return ModuleType.Video; }
 		}
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()

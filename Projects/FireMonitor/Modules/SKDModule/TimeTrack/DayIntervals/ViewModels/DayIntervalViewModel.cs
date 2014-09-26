@@ -74,7 +74,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (DayIntervalPartHelper.MarkDeleted(SelectedDayIntervalPart.DayIntervalPart))
+			if (DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart))
 			{
 				Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
 				DayIntervalParts.Remove(SelectedDayIntervalPart);

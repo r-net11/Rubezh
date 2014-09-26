@@ -78,9 +78,9 @@ namespace JournalModule
 				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Журнал событий и Архив"; }
+			get { return Infrastructure.Common.ModuleType.Journal; }
 		}
 
 		public override void AfterInitialize()

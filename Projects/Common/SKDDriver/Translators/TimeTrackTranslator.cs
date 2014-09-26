@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using LinqKit;
-using OperationResult = FiresecAPI.OperationResult;
-using FiresecAPI.SKD;
-using FiresecAPI;
 using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
@@ -204,8 +202,8 @@ namespace SKDDriver.Translators
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value && !x.IsDeleted);
 			if (scheduleScheme == null)
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
-			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted).ToList();
-			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
+			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID).ToList();
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
@@ -265,16 +263,16 @@ namespace SKDDriver.Translators
 				dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID && !x.IsDeleted);
 				if (dayInterval == null)
 					return new PlannedTimeTrackPart("Не найден дневной интервал");
-				intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID && !x.IsDeleted).ToList();
+				intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 			}
 
 			TimeTrackPart nightTimeTrackPart = null;
 			{
 				SKDDriver.DataAccess.ScheduleDay previousDay = null;
 				if (dayNo > 0)
-					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1 && !x.IsDeleted);
+					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1);
 				else
-					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1 && !x.IsDeleted);
+					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1);
 				if (previousDay != null)
 				{
 					if (previousDay.DayIntervalUID != null)
@@ -282,7 +280,7 @@ namespace SKDDriver.Translators
 						var previousDayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == previousDay.DayIntervalUID && !x.IsDeleted);
 						if (previousDayInterval != null)
 						{
-							var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == previousDayInterval.UID && !x.IsDeleted).ToList();
+							var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == previousDayInterval.UID).ToList();
 							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
 							if (nightInterval != null)
 							{
@@ -368,7 +366,7 @@ namespace SKDDriver.Translators
 			{
 				foreach (var passJournal in passJournals)
 				{
-					var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID && !x.IsDeleted);
+					var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
 					if (scheduleZone != null)
 					{
 						if (passJournal.ExitTime.HasValue)

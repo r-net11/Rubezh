@@ -41,7 +41,7 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var deleteDoorsResult = DatabaseService.CardDoorTranslator.MarkDeletefFromAccessTemplate(uid);
+			var deleteDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(uid);
 			if (deleteDoorsResult.HasError)
 				return deleteDoorsResult;
 			return base.MarkDeleted(uid);
@@ -73,7 +73,7 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(item);
+			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(item.UID);
 			var result = base.Save(item);
 			DatabaseService.CardDoorTranslator.Save(item.CardDoors);
 			return result;

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class DayIntervalPart : SKDIsDeletedModel
+	public class DayIntervalPart : SKDModelBase
 	{
 		public DayIntervalPart()
 		{

@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AutomationModule.Events;
+using AutomationModule.Plans;
 using AutomationModule.ViewModels;
+using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
+using FiresecAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using FiresecAPI;
-using System;
-using Infrastructure.Common.Windows;
-using System.Linq;
-using FiresecAPI.Models;
 using Infrastructure.Common.Services;
-using System.IO;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
-using AutomationModule.Plans;
+using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
-using FiresecAPI.GK;
 
 namespace AutomationModule
 {
@@ -49,16 +49,16 @@ namespace AutomationModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, "Автоматизация", "/Controls;component/Images/Video1.png");
+			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 			{
 				_proceduresNavigationItem
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Автоматизация"; }
+			get { return Infrastructure.Common.ModuleType.Automation;; }
 		}
 		public override void RegisterResource()
 		{

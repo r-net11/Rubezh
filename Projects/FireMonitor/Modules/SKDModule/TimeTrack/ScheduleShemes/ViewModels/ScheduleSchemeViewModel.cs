@@ -97,7 +97,7 @@ namespace SKDModule.ViewModels
 		void OnDelete()
 		{
 			var number = SelectedSheduleDayInterval.Model.Number;
-			if (SheduleDayIntervalHelper.MarkDeleted(SelectedSheduleDayInterval.Model))
+			if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model))
 			{
                 for (int i = number + 1; i < Model.DayIntervals.Count; i++)
                     Model.DayIntervals[i].Number--;

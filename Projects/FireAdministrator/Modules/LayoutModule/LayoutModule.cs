@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
@@ -32,12 +33,12 @@ namespace LayoutModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, "Макеты ОЗ", "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
+				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Конфигуратор макетов ОЗ"; }
+			get { return ModuleType.Layout; }
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
