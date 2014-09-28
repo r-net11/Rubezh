@@ -44,7 +44,7 @@ namespace AutomationModule.ViewModels
 					else
 						argument = ScheduleProcedure.Arguments[i];
 				}
-				var argumentViewModel = new ArgumentViewModel(argument, null);
+				var argumentViewModel = new ArgumentViewModel(argument, null, true, CallingProcedure != null);
 				argumentViewModel.Name = variable.Name;
 				argumentViewModel.IsList = variable.IsList;
 				argumentViewModel.Update(GetVariables(argumentViewModel));
@@ -73,6 +73,7 @@ namespace AutomationModule.ViewModels
 		Argument InitializeArgumemt(Variable variable)
 		{
 			var argument = new Argument();
+			argument.VariableScope = VariableScope.GlobalVariable;
 			argument.ExplicitType = variable.ExplicitType;
 			argument.EnumType = variable.EnumType;
 			argument.ObjectType = variable.ObjectType;
