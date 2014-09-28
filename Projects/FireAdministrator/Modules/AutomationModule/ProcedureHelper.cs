@@ -59,63 +59,88 @@ namespace AutomationModule
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 
-		public static void SelectObject(ObjectType objectType, ExplicitValueViewModel currentExplicitValue)
+		public static bool SelectObject(ObjectType objectType, ExplicitValueViewModel currentExplicitValue)
 		{
 			if (objectType == ObjectType.Device)
 			{
 				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device != null ? currentExplicitValue.Device : null);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.Zone)
 			{
 				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone != null ? currentExplicitValue.Zone : null);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.GuardZone)
 			{
 				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone != null ? currentExplicitValue.GuardZone : null);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.SKDDevice)
 			{
 				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice != null ? currentExplicitValue.SKDDevice : null);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.SKDZone)
 			{
 				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone != null ? currentExplicitValue.SKDZone : null);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.ControlDoor)
 			{
 				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor != null ? currentExplicitValue.SKDDoor : null);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.Direction)
 			{
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.VideoDevice)
 			{
 				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera != null ? currentExplicitValue.Camera : null);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
+				{
 					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
+					return true;
+				}
 			}
+			return false;
 		}
 
 		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)

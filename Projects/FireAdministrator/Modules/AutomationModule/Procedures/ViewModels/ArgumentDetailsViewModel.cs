@@ -31,6 +31,7 @@ namespace AutomationModule.ViewModels
 		protected override bool Save()
 		{
 			Argument = new Argument();
+			Argument.VariableScope = VariableScope.ExplicitValue;
 			Argument.ExplicitType = ExplicitValuesViewModel.ExplicitType;
 			Argument.EnumType = ExplicitValuesViewModel.EnumType;
 			Argument.ObjectType = ExplicitValuesViewModel.ObjectType;

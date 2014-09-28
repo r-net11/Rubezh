@@ -20,4 +20,40 @@
 		<Views:ProcedureTooltipView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
+		<Views:ArgumentDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">
+		<Views:DeviceSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceSelectionViewModel}">
+		<Views:SKDDeviceSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
+		<Views:ZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
+		<Views:GuardZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectionViewModel}">
+		<Views:SKDZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:CameraSelectionViewModel}">
+		<Views:CameraSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
+		<Views:DirectionSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
+		<Views:DoorSelectionView />
+	</DataTemplate>
+
 </ResourceDictionary>

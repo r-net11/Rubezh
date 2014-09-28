@@ -131,6 +131,7 @@ namespace AutomationModule.ViewModels
 				if (UpdateObjectHandler != null)
 					UpdateObjectHandler();
 				OnPropertyChanged(() => UidValue);
+				OnPropertyChanged(() => IsEmpty);
 			}
 		}
 

@@ -97,7 +97,8 @@ namespace AutomationModule.ViewModels
 		{
 			var explicitValue = new ExplicitValueViewModel();
 			if (ExplicitType == ExplicitType.Object)
-				ProcedureHelper.SelectObject(ObjectType, explicitValue);
+				if (!ProcedureHelper.SelectObject(ObjectType, explicitValue))
+					return;
 			ExplicitValues.Add(explicitValue);
 			Argument.ExplicitValues.Add(explicitValue.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
@@ -119,6 +120,7 @@ namespace AutomationModule.ViewModels
 			{
 				PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
 				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => ValueDescription);
 			}
 		}
 
@@ -196,6 +198,27 @@ namespace AutomationModule.ViewModels
 					Argument.VariableUid = Guid.Empty;
 				}
 				OnPropertyChanged(() => SelectedVariable);
+			}
+		}
+
+		public string ValueDescription
+		{
+			get
+			{
+				var description = "";
+				if (!IsList)
+					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+				else
+				{
+					if (Argument.ExplicitValues.Count == 0)
+						return "Пустой список";
+					foreach (var explicitValue in Argument.ExplicitValues)
+					{
+						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
+					}
+				}
+				description = description.TrimEnd(',', ' ');
+				return description;
 			}
 		}
 

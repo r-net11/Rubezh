@@ -82,7 +82,7 @@
 			</StackPanel>
 			<TextBlock Margin="7 7 0 0" VerticalAlignment="Top" Visibility="{Binding IsList, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Hyperlink  Command="{Binding EditCommand}" Style="{StaticResource HyperlinkStyle}">
-					<TextBlock Text="{Binding Description}" />
+					<TextBlock Text="{Binding ValueDescription}" />
 				</Hyperlink>
 			</TextBlock>
 		</StackPanel>

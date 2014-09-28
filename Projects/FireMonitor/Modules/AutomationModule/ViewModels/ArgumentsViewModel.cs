@@ -35,6 +35,7 @@ namespace AutomationModule.ViewModels
 			{
 				var argument = new Argument();
 				argument = InitializeArgumemt(variable);
+				argument.VariableScope = VariableScope.ExplicitValue;
 				var argumentViewModel = new ArgumentViewModel(argument);
 				argumentViewModel.Name = variable.Name;
 				argumentViewModel.IsList = variable.IsList;

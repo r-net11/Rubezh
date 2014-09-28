@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ExplicitValuesViewModel(ExplicitValue explicitValue, List<ExplicitValue> explicitValues, bool isList, ExplicitType explicitType, EnumType enumType, ObjectType objectType)
-			: base()
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
@@ -100,7 +99,8 @@ namespace AutomationModule.ViewModels
 		{
 			var explicitValueViewModel = new ExplicitValueViewModel();
 			if (ExplicitType == ExplicitType.Object)
-				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
+				if (!ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel))
+					return;
 			ExplicitValues.Add(explicitValueViewModel);
 			OnPropertyChanged(() => ExplicitValues);
 		}
@@ -119,8 +119,8 @@ namespace AutomationModule.ViewModels
 				ProcedureHelper.SelectObject(ObjectType, explicitValueViewModel);
 			else
 				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
-			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => ExplicitValue);
+			OnPropertyChanged(() => ExplicitValues);
 		}
 	}
 }
