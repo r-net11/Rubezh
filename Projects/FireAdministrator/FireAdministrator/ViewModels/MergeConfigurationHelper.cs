@@ -72,7 +72,7 @@ namespace FireAdministrator.ViewModels
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollectionFileName file not found");
 				return;
 			}
-			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName);
+			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName, true);
 			if (zipConfigurationItemsCollection == null)
 			{
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollection == null");
@@ -87,15 +87,15 @@ namespace FireAdministrator.ViewModels
 					switch (zipConfigurationItem.Name)
 					{
 						case "PlansConfiguration.xml":
-							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
+							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
 							break;
 
 						case "XDeviceConfiguration.xml":
-							XDeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName);
+							XDeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName, true);
 							break;
 
 						case "SKDConfiguration.xml":
-							SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName);
+							SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName, true);
 							break;
 					}
 				}

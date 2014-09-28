@@ -9,7 +9,7 @@ namespace Infrastructure.Common
 {
 	public class ZipSerializeHelper
 	{
-		public static MemoryStream Serialize<T>(T configuration, bool useXml = false)
+		public static MemoryStream Serialize<T>(T configuration, bool useXml)
 			where T : VersionedConfiguration
 		{
 			configuration.BeforeSave();
@@ -29,7 +29,7 @@ namespace Infrastructure.Common
 			return memoryStream;
 		}
 
-		public static T DeSerialize<T>(MemoryStream memoryStream, bool useXml = false)
+		public static T DeSerialize<T>(MemoryStream memoryStream, bool useXml)
 			 where T : VersionedConfiguration, new()
 		{
 			T configuration = null;
@@ -48,7 +48,7 @@ namespace Infrastructure.Common
 			return configuration;
 		}
 
-		public static bool Serialize<T>(T configuration, string fileName, bool useXml = false)
+		public static bool Serialize<T>(T configuration, string fileName, bool useXml)
 			where T : VersionedConfiguration
 		{
 			try
@@ -78,7 +78,7 @@ namespace Infrastructure.Common
 			return true;
 		}
 
-		public static T DeSerialize<T>(string fileName, bool useXml = false)
+		public static T DeSerialize<T>(string fileName, bool useXml)
 			 where T : VersionedConfiguration, new()
 		{
 			try

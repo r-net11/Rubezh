@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models.Layouts
 {

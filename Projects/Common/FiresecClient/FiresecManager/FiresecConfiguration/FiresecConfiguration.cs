@@ -30,41 +30,49 @@ namespace FiresecClient
 
 		public void UpdateConfiguration()
 		{
-			if (DeviceConfiguration == null)
+			try
 			{
-				LoadingErrorManager.Add("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
-				Logger.Error("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
-				return;
-			}
-
-			DeviceConfiguration.Update();
-			DeviceConfiguration.Reorder();
-
-			var unknwnDevices = new List<Device>();
-
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				if (device.Driver == null)
+				if (DeviceConfiguration == null)
 				{
-					unknwnDevices.Add(device);
-					LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
-					Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
-					continue;
+					LoadingErrorManager.Add("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
+					Logger.Error("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
+					return;
+				}
+
+				DeviceConfiguration.Update();
+				DeviceConfiguration.Reorder();
+
+				var unknwnDevices = new List<Device>();
+
+				foreach (var device in DeviceConfiguration.Devices)
+				{
+					device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+					if (device.Driver == null)
+					{
+						unknwnDevices.Add(device);
+						LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
+						Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
+						continue;
+					}
+				}
+				foreach (var device in unknwnDevices)
+				{
+					if (device.Parent != null)
+						device.Parent.Children.Remove(device);
+					DeviceConfiguration.Devices.Remove(device);
+				}
+
+				InvalidateConfiguration();
+				UpateGuardZoneSecPanelUID();
+
+				foreach (var device in DeviceConfiguration.Devices)
+				{
+					device.UpdateHasExternalDevices();
 				}
 			}
-			foreach(var device in unknwnDevices)
+			catch (Exception e)
 			{
-				device.Parent.Children.Remove(device);
-				DeviceConfiguration.Devices.Remove(device);
-			}
-
-			InvalidateConfiguration();
-			UpateGuardZoneSecPanelUID();
-
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.UpdateHasExternalDevices();
+				Logger.Error(e, "FiresecConfiguration.UpdateConfiguration");
 			}
 		}
 

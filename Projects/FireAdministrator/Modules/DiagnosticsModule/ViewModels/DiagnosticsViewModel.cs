@@ -156,7 +156,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name), true);
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}

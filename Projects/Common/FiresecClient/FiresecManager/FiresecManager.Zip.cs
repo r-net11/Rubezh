@@ -25,7 +25,7 @@ namespace FiresecClient
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollectionFileName file not found");
 				return;
 			}
-			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName);
+			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName, true);
 			if (zipConfigurationItemsCollection == null)
 			{
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollection == null");
@@ -50,7 +50,7 @@ namespace FiresecClient
 							SystemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(configurationFileName, true);
 							break;
 						case "DriversConfiguration.xml":
-							FiresecConfiguration.DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
+							FiresecConfiguration.DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName, true);
 							break;
 						case "DeviceConfiguration.xml":
 							FiresecConfiguration.DeviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationFileName, true);
@@ -71,7 +71,7 @@ namespace FiresecClient
 							SKDManager.SKDLibraryConfiguration = ZipSerializeHelper.DeSerialize<SKDLibraryConfiguration>(configurationFileName, true);
 							break;
 						case "LayoutsConfiguration.xml":
-							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName);
+							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName, false);
 							break;
 					}
 				}

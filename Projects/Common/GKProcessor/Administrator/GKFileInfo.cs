@@ -120,7 +120,7 @@ namespace GKProcessor
 		{
 			deviceConfiguration.UpdateConfiguration();
 			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
-			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration);
+			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration, true);
 			configMemoryStream.Position = 0;
 			var configBytes = configMemoryStream.ToArray();
 			return SHA256.Create().ComputeHash(configBytes).ToList();

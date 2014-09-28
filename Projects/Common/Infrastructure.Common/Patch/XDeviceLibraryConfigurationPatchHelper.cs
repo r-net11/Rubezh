@@ -70,7 +70,7 @@ namespace Infrastructure.Common
 
 		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
 		{
-			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
+			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration, true);
 			if (zipFile.Entries.Any(x => x.FileName == fileName))
 			{
 				zipFile.RemoveEntry(fileName);

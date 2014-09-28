@@ -117,7 +117,7 @@ namespace Infrastructure.Common
 					configurationEntry.Extract(configurationMemoryStream);
 					configurationMemoryStream.Position = 0;
 
-					T configuration = ZipSerializeHelper.DeSerialize<T>(configurationMemoryStream);
+					T configuration = ZipSerializeHelper.DeSerialize<T>(configurationMemoryStream, true);
 					if (!configuration.ValidateVersion())
 					{
 						result = false;
@@ -136,7 +136,7 @@ namespace Infrastructure.Common
 
 		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
 		{
-			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
+			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration, true);
 			if (zipFile.Entries.Any(x => x.FileName == fileName))
 				zipFile.RemoveEntry(fileName);
 			configuarationMemoryStream.Position = 0;

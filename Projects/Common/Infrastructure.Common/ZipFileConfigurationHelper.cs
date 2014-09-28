@@ -4,7 +4,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Ionic.Zip;
 
-
 namespace Infrastructure.Common
 {
 	public static class ZipFileConfigurationHelper
@@ -21,7 +20,7 @@ namespace Infrastructure.Common
 
 			deviceConfiguration.BeforeSave();
 			deviceConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
-			ZipSerializeHelper.Serialize(deviceConfiguration, Path.Combine(folderName, "XDeviceConfiguration.xml"));
+			ZipSerializeHelper.Serialize(deviceConfiguration, Path.Combine(folderName, "XDeviceConfiguration.xml"), true);
 			var zipFile = new ZipFile(fileName);
 			zipFile.AddDirectory(folderName);
 			zipFile.Save(fileName);
@@ -39,7 +38,7 @@ namespace Infrastructure.Common
 			dataMemory.Position = 0;
 			try
 			{
-				return ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(dataMemory);
+				return ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(dataMemory, true);
 			}
 			catch
 			{
