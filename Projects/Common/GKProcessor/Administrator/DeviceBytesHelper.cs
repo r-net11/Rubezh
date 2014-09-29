@@ -64,7 +64,7 @@ namespace GKProcessor
 					if (result1.HasError)
 						return null;
 
-				var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
+				var serialNo = BytesHelper.SubstructInt(result2.Bytes, 0);
 				stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
 
 				var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
