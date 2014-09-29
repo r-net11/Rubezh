@@ -168,7 +168,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedPersonType = value;
 				OnPropertyChanged(() => SelectedPersonType);
-				InitializeFilters();
+				InitializeEmployeeFilter();
 			}
 		}
 
@@ -187,8 +187,6 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilters()
 		{
-			EmployeeFilter = Filter.EmployeeFilter;
-			EmployeeFilter.PersonType = SelectedPersonType;
 			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
@@ -196,7 +194,6 @@ namespace SKDModule.ViewModels
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 
-			EmployeesViewModel.Initialize(EmployeeFilter);
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
@@ -204,6 +201,15 @@ namespace SKDModule.ViewModels
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
 			OrganisationsViewModel.Initialize();
+
+			InitializeEmployeeFilter();
+		}
+
+		void InitializeEmployeeFilter()
+		{
+			EmployeeFilter = Filter.EmployeeFilter;
+			EmployeeFilter.PersonType = SelectedPersonType;
+			EmployeesViewModel.Initialize(EmployeeFilter);
 		}
 	}
 }

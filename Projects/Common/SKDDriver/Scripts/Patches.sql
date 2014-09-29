@@ -982,3 +982,22 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('ScheduleDay_Drop_IsDeleted')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Add_Indexes')
+BEGIN
+	CREATE INDEX AccessTemplateUIDIndex ON AccessTemplate([UID])
+	CREATE INDEX AdditionalColumnTypeOrgUIDIndex ON AdditionalColumnType([OrganisationUID])
+	CREATE INDEX DepartmentOrgUIDIndex ON Department([OrganisationUID])
+	CREATE INDEX EmployeeOrgUIDIndex ON Employee([OrganisationUID])
+	CREATE INDEX HolidayOrgUIDIndex ON Holiday([OrganisationUID])
+	CREATE INDEX DayIntervalOrgUIDIndex ON DayInterval([OrganisationUID])
+	CREATE INDEX PositionOrgUIDIndex ON Position([OrganisationUID])
+	CREATE INDEX ScheduleOrgUIDIndex ON Schedule([OrganisationUID])
+	CREATE INDEX ScheduleSchemeOrgUIDIndex ON ScheduleScheme([OrganisationUID])
+	CREATE INDEX CardOrgUIDIndex ON Card([EmployeeUID])
+	CREATE INDEX AccessTemplateOrgUIDIndex ON AccessTemplate([OrganisationUID])
+	CREATE INDEX PassCardTemplateOrgUIDIndex ON PassCardTemplate([OrganisationUID])
+	CREATE INDEX EmployeeDeptUIDIndex ON Employee([DepartmentUID])
+	CREATE INDEX EmployeePosUIDIndex ON Employee([PositionUID])
+	INSERT INTO Patches (Id) VALUES ('Add_Indexes')
+END
