@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public class XZone : XBase, IPlanPresentable
 	{
 		public XZone()
@@ -30,13 +29,8 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<XDevice> DevicesInLogic { get; set; }
 
-		[DataMember]
 		public int Fire1Count { get; set; }
-
-		[DataMember]
 		public int Fire2Count { get; set; }
-
-		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
 		[XmlIgnore]

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 using Common;
+using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
@@ -219,8 +220,8 @@ namespace Infrastructure.Common
 							File.Copy(FileName, tempFileName);
 							using (var fileStream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 							{
-								var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
-								registryDataConfiguration = (RegistryDataConfiguration)dataContractSerializer.ReadObject(fileStream);
+								var xmlSerializer = new XmlSerializer(typeof(RegistryDataConfiguration));
+								registryDataConfiguration = (RegistryDataConfiguration)xmlSerializer.Deserialize(fileStream);
 							}
 						}
 						return registryDataConfiguration;
@@ -257,10 +258,10 @@ namespace Infrastructure.Common
 					var tempFileName = FileName + "." + Guid.NewGuid().ToString();
 					try
 					{
-						var dataContractSerializer = new DataContractSerializer(typeof(RegistryDataConfiguration));
+						var xmlSerializer = new XmlSerializer(typeof(RegistryDataConfiguration));
 						using (var fileStream = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 						{
-							dataContractSerializer.WriteObject(fileStream, registryDataConfiguration);
+							xmlSerializer.Serialize(fileStream, registryDataConfiguration);
 						}
 						File.Copy(tempFileName, FileName, true);
 						return;
@@ -283,7 +284,6 @@ namespace Infrastructure.Common
 		}
 	}
 
-	[DataContract]
 	public class RegistryDataConfiguration
 	{
 		public RegistryDataConfiguration()
@@ -291,11 +291,9 @@ namespace Infrastructure.Common
 			RegistryDataCollection = new List<RegistryData>();
 		}
 
-		[DataMember]
 		public List<RegistryData> RegistryDataCollection { get; set; }
 	}
 
-	[DataContract]
 	public class RegistryData
 	{
 		public RegistryData()
@@ -303,44 +301,21 @@ namespace Infrastructure.Common
 			StringsValue = new List<string>();
 		}
 
-		[DataMember]
 		public string Name { get; set; }
-
-		[DataMember]
 		public string StringValue { get; set; }
-
-		[DataMember]
 		public int IntValue { get; set; }
-
-		[DataMember]
 		public double DoubleValue { get; set; }
-
-		[DataMember]
 		public bool BoolValue { get; set; }
-
-		[DataMember]
 		public List<string> StringsValue { get; set; }
-
-		[DataMember]
 		public WindowRect WindowRectValue { get; set; }
-
-		[DataMember]
 		public Color ColorValue { get; set; }
 	}
 
-	[DataContract]
 	public class WindowRect
 	{
-		[DataMember]
 		public double Left { get; set; }
-
-		[DataMember]
 		public double Top { get; set; }
-
-		[DataMember]
 		public double Width { get; set; }
-
-		[DataMember]
 		public double Height { get; set; }
 	}
 }

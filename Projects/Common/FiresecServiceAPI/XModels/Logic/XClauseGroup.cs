@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public class XClauseGroup
 	{
 		public XClauseGroup()
@@ -13,13 +12,8 @@ namespace FiresecAPI.GK
 			ClauseJounOperationType = ClauseJounOperationType.Or;
 		}
 
-		[DataMember]
 		public List<XClauseGroup> ClauseGroups { get; set; }
-
-		[DataMember]
 		public List<XClause> Clauses { get; set; }
-
-		[DataMember]
 		public ClauseJounOperationType ClauseJounOperationType { get; set; }
 
 		public XClauseGroup Clone()

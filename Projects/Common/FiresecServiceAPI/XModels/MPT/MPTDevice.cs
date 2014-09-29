@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public class MPTDevice
 	{
 		public MPTDevice()
@@ -16,10 +15,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public XDevice Device { get; set; }
 
-		[DataMember]
 		public Guid DeviceUID { get; set; }
-
-		[DataMember]
 		public MPTDeviceType MPTDeviceType { get; set; }
 
 		public static List<XDriverType> GetAvailableMPTDriverTypes(MPTDeviceType mptDeviceType)

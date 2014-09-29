@@ -29,17 +29,16 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		[XmlIgnore]
-		public ReadOnlyCollection<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }
+		public List<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }
 
-		public static ReadOnlyCollection<SKDWeeklyIntervalPart> CreateParts()
+		public static List<SKDWeeklyIntervalPart> CreateParts()
 		{
-			var list = new List<SKDWeeklyIntervalPart>();
+			var result = new List<SKDWeeklyIntervalPart>();
 			for (int i = 1; i <= 7; i++)
 			{
-				list.Add(new SKDWeeklyIntervalPart() { No = i, DayIntervalID = 0 });
+				result.Add(new SKDWeeklyIntervalPart() { No = i, DayIntervalID = 0 });
 			}
-			return new ReadOnlyCollection<SKDWeeklyIntervalPart>(list);
+			return result;
 		}
 
 		public override bool Equals(object obj)

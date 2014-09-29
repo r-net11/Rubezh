@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using System.Xml.Serialization;
 
 namespace GKModule.ViewModels
 {
@@ -164,7 +165,7 @@ namespace GKModule.ViewModels
 					if (File.Exists(saveDialog.FileName))
 						File.Delete(saveDialog.FileName);
 
-					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
+					var xmlSerializer = new XmlSerializer(typeof(JournalItemsCollection));
 					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 					{
 						var journalItems = new System.Collections.Generic.List<XJournalItem>();
@@ -176,7 +177,7 @@ namespace GKModule.ViewModels
 							CreationDateTime = DateTime.Now,
 							GkIP = Device.GetGKIpAddress()
 						};
-						dataContractSerializer.WriteObject(fileStream, journalItemsCollection);
+						xmlSerializer.Serialize(fileStream, journalItemsCollection);
 					}
 				});
 			}

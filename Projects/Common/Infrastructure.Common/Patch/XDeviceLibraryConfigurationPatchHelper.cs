@@ -8,6 +8,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using Ionic.Zip;
+using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
@@ -57,8 +58,8 @@ namespace Infrastructure.Common
 					configurationEntry.Extract(configurationMemoryStream);
 					configurationMemoryStream.Position = 0;
 
-					var dataContractSerializer = new DataContractSerializer(type);
-					return (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+					var xmlSerializer = new XmlSerializer(type);
+					return (VersionedConfiguration)xmlSerializer.Deserialize(configurationMemoryStream);
 				}
 			}
 			catch (Exception e)

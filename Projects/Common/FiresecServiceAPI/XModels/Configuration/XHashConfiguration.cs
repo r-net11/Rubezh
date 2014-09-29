@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public class XHashConfiguration : VersionedConfiguration
 	{
 		public XHashConfiguration(XDeviceConfiguration deviceConfiguration)
@@ -16,23 +15,11 @@ namespace FiresecAPI.GK
 			PumpStations = deviceConfiguration.PumpStations;
 		}
 
-		[DataMember]
 		public XDevice RootDevice { get; set; }
-
-		[DataMember]
 		public List<XDevice> Devices { get; set; }
-
-		[DataMember]
 		public List<XZone> Zones { get; set; }
-
-		[DataMember]
 		public List<XGuardZone> GuardZones { get; set; }
-
-		[DataMember]
 		public List<XDirection> Directions { get; set; }
-
-		[DataMember]
 		public List<XPumpStation> PumpStations { get; set; }
-
 	}
 }

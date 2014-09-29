@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public partial class XDeviceConfiguration : VersionedConfiguration
 	{
 		public XDeviceConfiguration()
@@ -27,43 +26,18 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<XDevice> Devices { get; set; }
 
-		[DataMember]
 		public XDevice RootDevice { get; set; }
-
-		[DataMember]
 		public List<XZone> Zones { get; set; }
-
-		[DataMember]
 		public List<XDirection> Directions { get; set; }
-
-		[DataMember]
 		public List<XPumpStation> PumpStations { get; set; }
-
-		[DataMember]
 		public List<XMPT> MPTs { get; set; }
-
-		[DataMember]
 		public List<XDelay> Delays { get; set; }
-
-		[DataMember]
 		public List<XJournalFilter> JournalFilters { get; set; }
-
-		[DataMember]
 		public List<XInstruction> Instructions { get; set; }
-
-		[DataMember]
 		public List<XCode> Codes { get; set; }
-
-		[DataMember]
 		public List<XGuardZone> GuardZones { get; set; }
-
-		[DataMember]
 		public List<XDoor> Doors { get; set; }
-
-		[DataMember]
 		public List<XSchedule> Schedules { get; set; }
-
-		[DataMember]
 		public List<XParameterTemplate> ParameterTemplates { get; set; }
 
 		public void Update()

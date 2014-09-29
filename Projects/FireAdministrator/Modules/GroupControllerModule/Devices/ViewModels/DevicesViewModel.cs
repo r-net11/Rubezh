@@ -22,6 +22,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
+using System.Xml.Serialization;
 
 namespace GKModule.ViewModels
 {
@@ -288,8 +289,8 @@ namespace GKModule.ViewModels
 			{
 				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
 				{
-					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
-					var journalItemsCollection = (JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+					var xmlSerializer = new XmlSerializer(typeof(JournalItemsCollection));
+					var journalItemsCollection = (JournalItemsCollection)xmlSerializer.Deserialize(fileStream);
 					if (journalItemsCollection != null)
 					{
 						DialogService.ShowModalWindow(new JournalFromFileViewModel(journalItemsCollection));

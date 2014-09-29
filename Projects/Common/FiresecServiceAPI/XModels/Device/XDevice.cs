@@ -10,7 +10,6 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public class XDevice : XBase, IPlanPresentable
 	{
 		public XDevice()
@@ -61,64 +60,47 @@ namespace FiresecAPI.GK
 		/// <summary>
 		/// Идентификатор драйвера
 		/// </summary>
-		[DataMember]
 		public Guid DriverUID { get; set; }
 
 		/// <summary>
 		/// Адрес
 		/// </summary>
-		[DataMember]
 		public byte IntAddress { get; set; }
 
-		[DataMember]
 		public string PredefinedName { get; set; }
 
 		/// <summary>
 		/// Идентификаторы дочерних устройств
 		/// </summary>
-		[DataMember]
 		public List<XDevice> Children { get; set; }
 
 		/// <summary>
 		/// Свойства, настроенные в системе
 		/// </summary>
-		[DataMember]
 		public List<XProperty> Properties { get; set; }
 
 		/// <summary>
 		/// Свойства, настроенные в приборе
 		/// </summary>
-		[DataMember]
 		public List<XProperty> DeviceProperties { get; set; }
 
 		/// <summary>
 		/// Идентификатор зоны
 		/// </summary>
-		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
 
 		/// <summary>
 		/// Логика сработки
 		/// </summary>
-		[DataMember]
 		public XDeviceLogic DeviceLogic { get; set; }
 
 		/// <summary>
 		/// Логика насосной станции
 		/// </summary>
-		[DataMember]
 		public XDeviceLogic NSLogic { get; set; }
-
-		[DataMember]
 		public bool IsNotUsed { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
-
-		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
-
-		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
 		[XmlIgnore]

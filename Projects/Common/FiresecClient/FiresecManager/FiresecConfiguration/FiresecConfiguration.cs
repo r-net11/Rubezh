@@ -50,8 +50,8 @@ namespace FiresecClient
 					if (device.Driver == null)
 					{
 						unknwnDevices.Add(device);
-						LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
-						Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
+						//LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
+						//Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
 						continue;
 					}
 				}

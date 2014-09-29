@@ -7,7 +7,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
-	[DataContract]
 	public class XSchedule : ModelBase
 	{
 	}

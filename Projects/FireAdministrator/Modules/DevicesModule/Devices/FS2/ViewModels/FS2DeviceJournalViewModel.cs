@@ -57,10 +57,10 @@
 //					if (File.Exists(saveDialog.FileName))
 //						File.Delete(saveDialog.FileName);
 
-//					var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
+//					var xmlSerializer = new XmlSerializer(typeof(FS2JournalItemsCollection));
 //					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 //					{
-//						dataContractSerializer.WriteObject(fileStream, FS2JournalItemsCollection);
+//						xmlSerializer.Serialize(fileStream, FS2JournalItemsCollection);
 //					}
 //				});
 //			}
