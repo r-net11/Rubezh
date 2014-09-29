@@ -82,12 +82,14 @@ namespace AutomationModule
 				switch (automationCallbackResult.AutomationCallbackType)
 				{
 					case AutomationCallbackType.Sound:
-						var sound = FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
-						AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false);
+						var sound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
+						if (sound != null)
+							AlarmPlayerHelper.Play(FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false);
 						break;
 
 					case AutomationCallbackType.Message:
 						var message = automationCallbackResult.Message;
+						//if (automationCallbackResult.IsModalWindow)
 						MessageBoxService.Show(message, "Сообщение");
 						break;
 				}

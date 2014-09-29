@@ -105,6 +105,10 @@
     <Compile Include="Procedures\ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureLayoutCollectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StringDetailsViewModel.cs" />
+    <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
+      <DependentUpon>StringDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
@@ -436,6 +440,10 @@
     <Page Include="Procedures\Views\ArgumentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\StringDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ProcedureResources.xaml">
       <SubType>Designer</SubType>

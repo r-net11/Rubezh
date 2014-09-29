@@ -40,9 +40,9 @@ namespace AutomationModule
 
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
 		{
-			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object))
+			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if (ExplicitType == ExplicitType.Boolean || ExplicitType == ExplicitType.Enum)
+			if (ExplicitType == ExplicitType.Boolean)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 			if (ExplicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };

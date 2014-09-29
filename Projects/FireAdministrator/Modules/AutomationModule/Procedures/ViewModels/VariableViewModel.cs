@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using FiresecClient;
-using System.Linq;
-using FiresecAPI.SKD;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
-using Infrastructure;
-using System.Linq.Expressions;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels

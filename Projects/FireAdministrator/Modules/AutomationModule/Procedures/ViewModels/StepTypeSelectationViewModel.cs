@@ -70,10 +70,12 @@ namespace AutomationModule.ViewModels
 			RootStepType = new StepTypeViewModel("Реестр функций",
 				new List<StepTypeViewModel>()
 				{
-					new StepTypeViewModel("Различная логика",
+					new StepTypeViewModel("Операции",
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
+							new StepTypeViewModel(ProcedureStepType.SetValue),
+							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.Random)
@@ -90,9 +92,7 @@ namespace AutomationModule.ViewModels
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.Exit),
-							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
-							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
 						}),

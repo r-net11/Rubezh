@@ -76,6 +76,7 @@ namespace AutomationModule.ViewModels
 		{
 			Procedure = procedure;
 			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => IsActive);
 		}
 
 		public RelayCommand ShowStepsCommand { get; private set; }

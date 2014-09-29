@@ -111,12 +111,13 @@ namespace FiresecService.Processor
 					var foreachArguments = procedureStep.ForeachArguments;
 					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListParameter.VariableUid);
 					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemParameter.VariableUid);
-					foreach (var itemUid in listVariable.ExplicitValues.Select(x => x.UidValue))
-					{
-						itemVariable.ExplicitValue.UidValue = itemUid;
-						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
-							return false;
-					}
+					if (listVariable != null)
+						foreach (var itemUid in listVariable.ExplicitValues.Select(x => x.UidValue))
+						{
+							if (itemVariable != null) itemVariable.ExplicitValue.UidValue = itemUid;
+							if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
+								return false;
+						}
 					break;
 
 				case ProcedureStepType.PlaySound:
@@ -137,6 +138,7 @@ namespace FiresecService.Processor
 				case ProcedureStepType.ShowMessage:
 					automationCallbackResult = ProcedureHelper.ShowMessage(procedureStep);
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
+					automationCallbackResult.IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
 

@@ -40,29 +40,11 @@ namespace FiresecService.Processor
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
 			foreach (var condition in conditionArguments.Conditions)
 			{
-				int variable1 = GetValue<int>(condition.Parameter1);
-				int variable2 = GetValue<int>(condition.Parameter2);
-				switch (condition.ConditionType)
-				{
-					case ConditionType.IsEqual:
-						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 == variable2) : result | (variable1 == variable2);
-						break;
-					case ConditionType.IsLess:
-						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 < variable2) : result | (variable1 < variable2);
-						break;
-					case ConditionType.IsMore:
-						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 > variable2) : result | (variable1 > variable2);
-						break;
-					case ConditionType.IsNotEqual:
-						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 != variable2) : result | (variable1 != variable2);
-						break;
-					case ConditionType.IsNotLess:
-						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 >= variable2) : result | (variable1 >= variable2);
-						break;
-					case ConditionType.IsNotMore:
-						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 <= variable2) : result | (variable1 <= variable2);
-						break;
-				}
+				var variable1 = GetValue<object>(condition.Parameter1);
+				var variable2 = GetValue<object>(condition.Parameter2);
+				var comparer = Compare(variable1, variable2, condition.ConditionType);
+				if ((comparer != null))
+					result = conditionArguments.JoinOperator == JoinOperator.And ? result & comparer.Value : result | comparer.Value;
 			}
 			return result;
 		}
@@ -347,7 +329,9 @@ namespace FiresecService.Processor
 
 		static bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
-			if (param1.GetType() == typeof(Enum) || param1.GetType() == typeof(int))
+			if (param1.GetType() != param2.GetType())
+				return null;
+			if (param1.GetType().IsEnum|| param1 is int)
 			{
 				return (((conditionType == ConditionType.IsEqual) && ((int)param1 == (int)param2))
 					|| ((conditionType == ConditionType.IsNotEqual) && ((int)param1 != (int)param2))
@@ -356,11 +340,29 @@ namespace FiresecService.Processor
 					|| ((conditionType == ConditionType.IsLess) && ((int)param1 < (int)param2))
 					|| ((conditionType == ConditionType.IsNotLess) && ((int)param1 >= (int)param2)));
 			}
-			if (param1.GetType() == typeof(string))
+
+			if (param1 is DateTime)
 			{
-				return (((conditionType == ConditionType.StartsWith) && (((string)param1).StartsWith((string)param2)))
+				return (((conditionType == ConditionType.IsEqual) && ((DateTime)param1 == (DateTime)param2))
+					|| ((conditionType == ConditionType.IsNotEqual) && ((DateTime)param1 != (DateTime)param2))
+					|| ((conditionType == ConditionType.IsMore) && ((DateTime)param1 > (DateTime)param2))
+					|| ((conditionType == ConditionType.IsNotMore) && ((DateTime)param1 <= (DateTime)param2))
+					|| ((conditionType == ConditionType.IsLess) && ((DateTime)param1 < (DateTime)param2))
+					|| ((conditionType == ConditionType.IsNotLess) && ((DateTime)param1 >= (DateTime)param2)));
+			}
+
+			if (param1 is string)
+			{
+				return (((conditionType == ConditionType.IsEqual) && ((string)param1 == (string)param2))
+					|| ((conditionType == ConditionType.IsNotEqual) && ((string)param1 != (string)param2))
+					|| ((conditionType == ConditionType.StartsWith) && (((string)param1).StartsWith((string)param2)))
 					|| ((conditionType == ConditionType.EndsWith) && (((string)param1).EndsWith((string)param2)))
 					|| ((conditionType == ConditionType.Contains) && (((string)param1).Contains((string)param2))));
+			}
+			if (param1 is bool)
+			{
+				return (((conditionType == ConditionType.IsEqual) && ((bool) param1 == (bool) param2))
+				        || ((conditionType == ConditionType.IsNotEqual) && ((bool) param1 != (bool) param2)));
 			}
 			return null;
 		}
@@ -549,9 +551,12 @@ namespace FiresecService.Processor
 			if (variableScope != VariableScope.ExplicitValue)
 			{
 				var argument = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == variable.VariableUid);
-				explicitValue = argument.ExplicitValue;
-				explicitType = argument.ExplicitType;
-				enumType = argument.EnumType;
+				if (argument != null)
+				{
+					explicitValue = argument.ExplicitValue;
+					explicitType = argument.ExplicitType;
+					enumType = argument.EnumType;
+				}
 			}
 			if (explicitType == ExplicitType.Boolean)
 				result = explicitValue.BoolValue;

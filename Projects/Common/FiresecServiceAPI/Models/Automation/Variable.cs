@@ -18,11 +18,6 @@ namespace FiresecAPI.Automation
 			ExplicitValues = new List<ExplicitValue>();
 		}
 
-		public Variable(string name) : base()
-		{
-			Name = name;
-		}
-
 		[DataMember]
 		public Guid Uid { get; set; }
 

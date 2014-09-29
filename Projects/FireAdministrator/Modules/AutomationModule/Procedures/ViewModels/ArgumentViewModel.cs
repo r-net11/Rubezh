@@ -7,7 +7,6 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq.Expressions;
 using FiresecAPI;
-using FiresecAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 
@@ -38,6 +37,7 @@ namespace AutomationModule.ViewModels
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
 			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
+			EditStringCommand = new RelayCommand(OnEditString);
 		}
 
 		public ExplicitType ExplicitType
@@ -133,6 +133,19 @@ namespace AutomationModule.ViewModels
 				ProcedureHelper.SelectObject(ObjectType, ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => ExplicitValue);
+		}
+
+		public RelayCommand EditStringCommand { get; private set; }
+		void OnEditString()
+		{
+			var stringDetailsViewModel = new StringDetailsViewModel(ExplicitValue.StringValue);
+			if (DialogService.ShowModalWindow(stringDetailsViewModel))
+			{
+				//PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
+				ExplicitValue.StringValue = stringDetailsViewModel.StringValue;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => ValueDescription);
+			}
 		}
 
 		public void Update(List<Variable> variables)

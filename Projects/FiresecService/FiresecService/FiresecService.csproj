@@ -120,11 +120,11 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GKPatchManager.cs" />
-    <Compile Include="Processor\AutomationProcessor.cs" />
-    <Compile Include="Processor\AutomationProcessorRunner.cs" />
+    <Compile Include="Automation\AutomationProcessor.cs" />
+    <Compile Include="Automation\AutomationProcessorRunner.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
-    <Compile Include="Processor\ProcedureHelper.cs" />
+    <Compile Include="Automation\ProcedureHelper.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
@@ -276,6 +276,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
