@@ -20,13 +20,16 @@ namespace FiresecAPI.GK
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[DataMember]
-		public int SetAlarmLevel { get; set; }
+		public XGuardZoneEnterMethod GuardZoneEnterMethod { get; set; }
 
 		[DataMember]
 		public int SetGuardLevel { get; set; }
 
 		[DataMember]
 		public int ResetGuardLevel { get; set; }
+
+		[DataMember]
+		public int SetAlarmLevel { get; set; }
 
 		[DataMember]
 		public int Delay { get; set; }

@@ -60,6 +60,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowAutomationEvent.cs" />
+    <Compile Include="ObjectSelection\Views\CameraSelectionView.xaml.cs">
+      <DependentUpon>CameraSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\DeviceSelectionView.xaml.cs">
+      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\DirectionSelectionView.xaml.cs">
+      <DependentUpon>DirectionSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\DoorSelectionView.xaml.cs">
+      <DependentUpon>DoorSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\GuardZoneSelectionView.xaml.cs">
+      <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml.cs">
+      <DependentUpon>SKDDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\SKDZoneSelectionView.xaml.cs">
+      <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\ZoneSelectionView.xaml.cs">
+      <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Designer\ProcedurePainter.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="ProcedureHelper.cs" />
@@ -79,27 +103,40 @@
     <Compile Include="AutomationModuleLoader.cs" />
     <Compile Include="ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
-    <Compile Include="ViewModels\CameraSelectionViewModel.cs" />
-    <Compile Include="ViewModels\CameraViewModel.cs" />
-    <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\DirectionSelectionViewModel.cs" />
-    <Compile Include="ViewModels\DirectionViewModel.cs" />
-    <Compile Include="ViewModels\DoorSelectionViewModel.cs" />
-    <Compile Include="ViewModels\DoorViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\CameraSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\CameraViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DeviceSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DirectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
+    <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
-    <Compile Include="ViewModels\GuardZoneSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
     <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
     <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
-    <Compile Include="ViewModels\SKDDeviceSelectionViewModel.cs" />
-    <Compile Include="ViewModels\SKDZoneSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\SKDDeviceSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\SKDZoneSelectionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
-    <Compile Include="ViewModels\ZoneSelectionViewModel.cs" />
-    <Compile Include="ViewModels\ZoneViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Views\ArgumentDetailsView.xaml.cs">
+      <DependentUpon>ArgumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ArgumentView.xaml.cs">
+      <DependentUpon>ArgumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExplicitValuesView.xaml.cs">
+      <DependentUpon>ExplicitValuesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExplicitValueViews.xaml.cs">
+      <DependentUpon>ExplicitValueViews.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
       <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
     </Compile>
@@ -130,11 +167,63 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ObjectSelection\Views\CameraSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\DeviceSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\DirectionSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\DoorSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\GuardZoneSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\SKDDeviceSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\SKDZoneSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ObjectSelection\Views\ZoneSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ArgumentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ArgumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExplicitValuesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExplicitValueViews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LayoutProcedurePartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProcedureArgumentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProcedureResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,6 +274,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

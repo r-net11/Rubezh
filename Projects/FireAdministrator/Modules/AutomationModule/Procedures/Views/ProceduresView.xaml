@@ -13,7 +13,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<DataGrid Grid.Row="0" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+			<XDataGrid Grid.Row="0" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
@@ -25,15 +25,9 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Активно" Width="Auto">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
+					<DataGridCheckBoxColumn Header="Активно" Width="Auto" Binding="{Binding IsActive}" />
 				</DataGrid.Columns>
-			</DataGrid>
+			</XDataGrid>
 		</Grid>
 
 		<GridSplitter Grid.Column="1" Background="Transparent" HorizontalAlignment="Stretch"/>

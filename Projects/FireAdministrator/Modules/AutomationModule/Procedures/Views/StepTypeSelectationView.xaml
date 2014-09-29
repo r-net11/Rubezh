@@ -4,7 +4,6 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 MinWidth="500" MinHeight="500">
-
 	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedStepType}" Source="{Binding RootStepTypes}">
 		<tree:TreeList.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">

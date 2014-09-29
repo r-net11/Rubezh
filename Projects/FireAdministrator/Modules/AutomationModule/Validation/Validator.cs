@@ -13,8 +13,8 @@ namespace AutomationModule.Validation
 			FiresecManager.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateGlobalVariableName();
-			ValidateProcedureName();
-			ValidateScheduleName();
+			ValidateProcedure();
+			ValidateSchedule();
 			ValidateSoundName();
 			return Errors;
 		}

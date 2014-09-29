@@ -32,6 +32,7 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
+			ChangeCommand = new RelayCommand<ExplicitValueViewModel>(OnChange);
 		}
 
 		public ExplicitType ExplicitType
@@ -86,7 +87,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public new RelayCommand AddCommand { get; private set; }
+		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var explicitValue = new ExplicitValueViewModel();
@@ -97,7 +98,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
-		public new RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
+		public RelayCommand<ExplicitValueViewModel> RemoveCommand { get; private set; }
 		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
 		{
 			ExplicitValues.Remove(explicitValueViewModel);
@@ -105,13 +106,14 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
-		public new RelayCommand EditCommand { get; private set; }
+		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
 			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
 			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
 			{
 				PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
+				OnPropertyChanged(() => ValueDescription);
 			}
 		}
 
@@ -126,45 +128,24 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitValue);
 		}
 
-
-		public string Description
+		public string ValueDescription
 		{
 			get
 			{
 				var description = "";
 				if (!IsList)
+					description = ProcedureHelper.GetStringValue(Argument.ExplicitValue, Argument.ExplicitType, Argument.EnumType);
+				else
 				{
-					switch (ExplicitType)
+					if (Argument.ExplicitValues.Count == 0)
+						return "Пустой список";
+					foreach (var explicitValue in Argument.ExplicitValues)
 					{
-						case ExplicitType.Boolean:
-							description = ExplicitValue.BoolValue.ToString();
-							break;
-						case ExplicitType.DateTime:
-							description = ExplicitValue.DateTimeValue.ToString();
-							break;
-						case ExplicitType.Integer:
-							description = ExplicitValue.IntValue.ToString();
-							break;
-						case ExplicitType.String:
-							description = ExplicitValue.StringValue.ToString();
-							break;
-						case ExplicitType.Enum:
-							{
-								if (EnumType == EnumType.StateType)
-									description = ExplicitValue.StateTypeValue.ToDescription();
-								if (EnumType == EnumType.DriverType)
-									description = ExplicitValue.DriverTypeValue.ToDescription();
-							}
-							break;
-						case ExplicitType.Object:
-							{
-								description = ExplicitValue.PresentationName;
-							}
-							break;
+						description += ProcedureHelper.GetStringValue(explicitValue, Argument.ExplicitType, Argument.EnumType) + ", ";
 					}
-					return description;
 				}
-				else return "Список";
+				description = description.TrimEnd(',', ' ');
+				return description;
 			}
 		}
 	}

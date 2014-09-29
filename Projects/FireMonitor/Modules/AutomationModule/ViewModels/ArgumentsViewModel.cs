@@ -9,7 +9,7 @@ namespace AutomationModule.ViewModels
 	public class ArgumentsViewModel : BaseViewModel
 	{
 		public Procedure Procedure { get; private set; }
-		public ObservableCollection<ArgumentViewModel> Arguments { get; private set; }
+		public List<ArgumentViewModel> Arguments { get; private set; }
 
 		public ArgumentsViewModel(Procedure procedure)
 		{
@@ -30,10 +30,12 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateArguments()
 		{
-			Arguments = new ObservableCollection<ArgumentViewModel>();
+			Arguments = new List<ArgumentViewModel>();
 			foreach (var variable in Procedure.Arguments)
 			{
-				var argument = InitializeArgumemt(variable);
+				var argument = new Argument();
+				argument = InitializeArgumemt(variable);
+				argument.VariableScope = VariableScope.ExplicitValue;
 				var argumentViewModel = new ArgumentViewModel(argument);
 				argumentViewModel.Name = variable.Name;
 				argumentViewModel.IsList = variable.IsList;

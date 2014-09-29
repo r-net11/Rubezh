@@ -31,19 +31,21 @@ namespace AutomationModule.ViewModels
 
 		public ExplicitValueViewModel()
 		{
-
+			ExplicitValue = new ExplicitValue();
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 		}
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 			Initialize(ExplicitValue.UidValue);
 		}
 
 		public void Initialize(Guid uidValue)
 		{
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
 			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
 			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
@@ -129,6 +131,7 @@ namespace AutomationModule.ViewModels
 				if (UpdateObjectHandler != null)
 					UpdateObjectHandler();
 				OnPropertyChanged(() => UidValue);
+				OnPropertyChanged(() => IsEmpty);
 			}
 		}
 

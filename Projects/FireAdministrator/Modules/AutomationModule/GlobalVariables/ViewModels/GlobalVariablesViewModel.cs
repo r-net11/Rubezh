@@ -70,6 +70,7 @@ namespace AutomationModule.ViewModels
 				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
 				GlobalVariables.Add(globalVariableViewModel);
 				SelectedGlobalVariable = globalVariableViewModel;
+				SelectedGlobalVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -94,6 +95,7 @@ namespace AutomationModule.ViewModels
 			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную");
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
+				globalVariableDetailsViewModel.Variable.IsGlobal = true;
 				globalVariableDetailsViewModel.Variable.ResetValue();
 				PropertyCopy.Copy<Variable, Variable>(globalVariableDetailsViewModel.Variable, SelectedGlobalVariable.Variable);
 				SelectedGlobalVariable.Update();

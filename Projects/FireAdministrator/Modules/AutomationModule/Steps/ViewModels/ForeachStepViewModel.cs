@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		void UpdateItemVariable()
 		{
-			ItemParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListParameter.SelectedVariable.ExplicitType
+			ItemParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListParameter.SelectedVariable.Variable.ExplicitType
 				&& x.ObjectType == ListParameter.SelectedVariable.Variable.ObjectType && x.EnumType == ListParameter.SelectedVariable.Variable.EnumType));
 		}
 

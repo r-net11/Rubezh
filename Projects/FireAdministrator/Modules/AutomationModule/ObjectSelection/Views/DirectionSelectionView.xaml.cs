@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class VariableView
+	public partial class DirectionSelectionView
 	{
-		public VariableView()
+		public DirectionSelectionView()
 		{
 			InitializeComponent();
 		}

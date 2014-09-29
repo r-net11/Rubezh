@@ -26,23 +26,24 @@ namespace AutomationModule.ViewModels
 		public SKDDoor SKDDoor { get; private set; }
 		public XDirection Direction { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
-		public Action UpdateDescriptionHandler { get; set; }
 
 		public ExplicitValueViewModel()
 		{
-
+			ExplicitValue = new ExplicitValue();
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 		}
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 			Initialize(ExplicitValue.UidValue);
 		}
 
 		public void Initialize(Guid uidValue)
 		{
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
 			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
 			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
@@ -67,11 +68,11 @@ namespace AutomationModule.ViewModels
 				if (SKDDevice != null)
 					return SKDDevice.Name;
 				if (SKDZone != null)
-					return SKDZone.Name;
+					return SKDZone.PresentationName;
 				if (Camera != null)
-					return Camera.Name;
+					return Camera.PresentationName;
 				if (SKDDoor != null)
-					return SKDDoor.Name;
+					return SKDDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
 				return "";
@@ -126,6 +127,7 @@ namespace AutomationModule.ViewModels
 				ExplicitValue.UidValue = value;
 				Initialize(value);
 				OnPropertyChanged(() => UidValue);
+				OnPropertyChanged(() => IsEmpty);
 			}
 		}
 

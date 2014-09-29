@@ -8,5 +8,10 @@ namespace AutomationModule.Views
 		{
 			InitializeComponent();
 		}
+
+		private void DataGridCheckBoxColumn_Selected(object sender, System.Windows.RoutedEventArgs e)
+		{
+
+		}
 	}
 }

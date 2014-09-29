@@ -14,6 +14,7 @@ namespace AutomationModule.ViewModels
 	{
 		ShowMessageArguments ShowMessageArguments { get; set; }
 		public ArgumentViewModel MessageParameter { get; private set; }
+		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
 		public ShowMessageStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
@@ -33,6 +34,18 @@ namespace AutomationModule.ViewModels
 			MessageParameter.Update(allVariables);
 			MessageParameter.ExplicitType = ExplicitType;
 			MessageParameter.EnumType = EnumType;
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.ProcedureLayoutCollection);
+			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
+		}
+
+		public bool IsModalWindow
+		{
+			get { return ShowMessageArguments.IsModalWindow; }
+			set
+			{
+				ShowMessageArguments.IsModalWindow = value;
+				OnPropertyChanged(() => IsModalWindow);
+			}
 		}
 
 		public override string Description

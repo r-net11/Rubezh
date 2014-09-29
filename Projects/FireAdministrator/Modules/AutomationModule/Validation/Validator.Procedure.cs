@@ -14,7 +14,7 @@ namespace AutomationModule.Validation
 	{
 		Procedure Procedure { get; set; }
 
-		void ValidateProcedureName()
+		void ValidateProcedure()
 		{
 			var nameList = new List<string>();
 			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)

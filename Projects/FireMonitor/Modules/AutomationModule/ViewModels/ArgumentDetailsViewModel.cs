@@ -9,29 +9,25 @@ namespace AutomationModule.ViewModels
 {
 	public class ArgumentDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public VariableViewModel VariableViewModel { get; protected set; }
 		public Argument Argument { get; private set; }
+		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
 
 		public ArgumentDetailsViewModel(Argument argument, bool isList)
 		{
 			Title = "Редактировать аргумент";
-			Argument = new Argument();
-			PropertyCopy.Copy<Argument, Argument>(argument, Argument);
-			var newArgument = new Argument();
-			PropertyCopy.Copy<Argument, Argument>(argument, newArgument);
-			VariableViewModel = new VariableViewModel(argument, isList);
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(argument.ExplicitValue, argument.ExplicitValues, isList, argument.ExplicitType, argument.EnumType, argument.ObjectType);
 		}
 
 		protected override bool Save()
 		{
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(VariableViewModel.ExplicitValue.ExplicitValue, Argument.ExplicitValue);
-			Argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var explicitValue in VariableViewModel.ExplicitValues)
-			{
-				var newExplicitValue = new ExplicitValue();
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue.ExplicitValue, newExplicitValue);
-				Argument.ExplicitValues.Add(newExplicitValue);
-			}
+			Argument = new Argument();
+			Argument.VariableScope = VariableScope.ExplicitValue;
+			Argument.ExplicitType = ExplicitValuesViewModel.ExplicitType;
+			Argument.EnumType = ExplicitValuesViewModel.EnumType;
+			Argument.ObjectType = ExplicitValuesViewModel.ObjectType;
+			Argument.ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
+			foreach (var explicitValue in ExplicitValuesViewModel.ExplicitValues)
+				Argument.ExplicitValues.Add(explicitValue.ExplicitValue);
 			return base.Save();
 		}
 	}

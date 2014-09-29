@@ -17,16 +17,16 @@ namespace AutomationModule.ViewModels
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
 		bool automationChanged;
-		public VariableViewModel VariableViewModel { get; protected set; }
+		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; set; }
 
 		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "")
 		{
-			Title = title;
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			VariableViewModel = new VariableViewModel(new Variable());
-			VariableViewModel.Variable.Name = defaultName;			
+			Title = title;
+			Name = defaultName;
+			ExplicitValuesViewModel = new ExplicitValuesViewModel();
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>();
 			foreach (var explicitType in ProcedureHelper.GetEnumObs<ExplicitType>())
 				ExplicitTypes.Add(new ExplicitTypeViewModel(explicitType));
@@ -41,20 +41,8 @@ namespace AutomationModule.ViewModels
 		{
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel> { new ExplicitTypeViewModel(variable.ExplicitType) };
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
-			var newVariable = new Variable();
-			newVariable.Name = variable.Name;
-			newVariable.IsList = variable.IsList;
-			newVariable.ExplicitType = variable.ExplicitType;
-			newVariable.EnumType = variable.EnumType;
-			newVariable.ObjectType = variable.ObjectType;
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, newVariable.DefaultExplicitValue);
-			foreach (var defaultExplicitValue in variable.DefaultExplicitValues)
-			{
-				var newExplicitValue = new ExplicitValue();
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValue, newExplicitValue);
-				newVariable.DefaultExplicitValues.Add(newExplicitValue);
-			}
-			VariableViewModel = new VariableViewModel(newVariable);
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.DefaultExplicitValue, variable.DefaultExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
+			Name = variable.Name;
 			IsEditMode = true;
 		}
 
@@ -66,10 +54,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedExplicitType = value;
-				VariableViewModel.ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-				VariableViewModel.Variable.DefaultExplicitValues = new List<ExplicitValue>();
-				VariableViewModel.ExplicitType = _selectedExplicitType.ExplicitType;
-				VariableViewModel.Update();
+				ExplicitValuesViewModel.ExplicitType = _selectedExplicitType.ExplicitType;
 				OnPropertyChanged(() => SelectedExplicitType);
 			}
 		}
@@ -77,13 +62,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<EnumType> EnumTypes { get; private set; }
 		public EnumType SelectedEnumType
 		{
-			get { return VariableViewModel.Variable.EnumType; }
+			get { return ExplicitValuesViewModel.EnumType; }
 			set
 			{
-				VariableViewModel.Variable.EnumType = value;
-				VariableViewModel.ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-				VariableViewModel.Variable.DefaultExplicitValues = new List<ExplicitValue>();
-				VariableViewModel.Update();
+				ExplicitValuesViewModel.EnumType = value;
 				OnPropertyChanged(() => SelectedEnumType);
 			}
 		}
@@ -91,33 +73,31 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
 		public ObjectType SelectedObjectType
 		{
-			get { return VariableViewModel.Variable.ObjectType; }
+			get { return ExplicitValuesViewModel.ObjectType; }
 			set
 			{
-				VariableViewModel.Variable.ObjectType = value;
-				VariableViewModel.ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-				VariableViewModel.Variable.DefaultExplicitValues = new List<ExplicitValue>();
-				VariableViewModel.Update();
+				ExplicitValuesViewModel.ObjectType = value;
 				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
 
+		string _name;
 		public string Name
 		{
-			get { return VariableViewModel.Variable.Name; }
+			get { return _name; }
 			set
 			{
-				VariableViewModel.Variable.Name = value;
+				_name = value;
 				OnPropertyChanged(() => Name);
 			}
 		}
 
 		public bool IsList
 		{
-			get { return VariableViewModel.IsList; }
+			get { return ExplicitValuesViewModel.IsList; }
 			set
 			{
-				VariableViewModel.IsList = value;
+				ExplicitValuesViewModel.IsList = value;
 				OnPropertyChanged(() => IsList);
 			}
 		}
@@ -136,7 +116,14 @@ namespace AutomationModule.ViewModels
 				return false;
 			}
 			Variable = new Variable();
-			PropertyCopy.Copy<Variable, Variable>(VariableViewModel.Variable, Variable);
+			Variable.Name = Name;
+			Variable.IsList = IsList;
+			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
+			Variable.EnumType = SelectedEnumType;
+			Variable.ObjectType = SelectedObjectType;
+			Variable.DefaultExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
+			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
+				Variable.DefaultExplicitValues.Add(explicitValue.ExplicitValue);
 			return base.Save();
 		}
 	}

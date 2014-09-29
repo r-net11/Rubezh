@@ -34,15 +34,80 @@ namespace FiresecAPI.Automation
 			{
 				foreach (var step in procedure.Steps)
 				{
-					UpdateStep(step, procedure);
 					InvalidateStep(step, procedure);
+				}
+			}
+
+			foreach (var schedule in AutomationSchedules)
+			{
+				var tempScheduleProcedures = new List<ScheduleProcedure>();
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				{
+					var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+					if (procedure != null)
+					{
+						var tempArguments = new List<Argument>();
+						int i = 0;
+						foreach (var variable in procedure.Arguments)
+						{
+							var argument = new Argument();
+							if (scheduleProcedure.Arguments.Count <= i)
+								argument = InitializeArgumemt(variable);
+							else
+							{
+								if (!CheckSignature(scheduleProcedure.Arguments[i], variable))
+								{
+									argument = InitializeArgumemt(variable);
+
+								}
+								else
+									argument = scheduleProcedure.Arguments[i];
+							}
+							tempArguments.Add(argument);
+							i++;
+						}
+						scheduleProcedure.Arguments = new List<Argument>(tempArguments);
+						tempScheduleProcedures.Add(scheduleProcedure);
+					}
+				}
+				schedule.ScheduleProcedures = new List<ScheduleProcedure>(tempScheduleProcedures);
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				{
+					foreach (var argument in scheduleProcedure.Arguments)
+						InvalidateArgument(argument);
 				}
 			}
 		}
 
-		public void UpdateStep(ProcedureStep step, Procedure procedure)
+		Argument InitializeArgumemt(Variable variable)
 		{
+			var argument = new Argument();
+			argument.VariableScope = VariableScope.GlobalVariable;
+			argument.ExplicitType = variable.ExplicitType;
+			argument.EnumType = variable.EnumType;
+			argument.ObjectType = variable.ObjectType;
+			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
+			argument.ExplicitValues = new List<ExplicitValue>();
+			foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+			{
+				var explicitValue = new ExplicitValue();
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
+				argument.ExplicitValues.Add(explicitValue);
+			}
+			return argument;
+		}
 
+		bool CheckSignature(Argument argument, Variable variable)
+		{
+			if (argument.ExplicitType != variable.ExplicitType)
+				return false;
+			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
+				return true;
+			if (argument.ExplicitType != ExplicitType.Object)
+				return (argument.ObjectType == variable.ObjectType);
+			if (argument.ExplicitType != ExplicitType.Enum)
+				return (argument.EnumType == variable.EnumType);
+			return false;
 		}
 
 		public void InvalidateStep(ProcedureStep step, Procedure procedure)
@@ -252,6 +317,13 @@ namespace FiresecAPI.Automation
 					argument.VariableUid = Guid.Empty;
 			if (argument.VariableScope == VariableScope.LocalVariable)
 				if (localVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
+		}
+
+		void InvalidateArgument(Argument argument)
+		{
+			if (argument.VariableScope != VariableScope.ExplicitValue)
+				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
 					argument.VariableUid = Guid.Empty;
 		}
 	}
