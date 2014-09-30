@@ -9,8 +9,8 @@
 
     <Chain>
       <PackageGroupRef Id='Netfx4Full' />
-      <ExePackage Id="SQLServer" InstallCondition='InstallSQL' SourceFile="Data\SQLEXPR32_RUS.EXE" InstallCommand='/qn' />
-      <ExePackage Id="SQLServer_64" InstallCondition='InstallSQL_64' SourceFile="Data\SQLEXPR64_RUS.EXE" InstallCommand='/qn' />
+      <ExePackage Id="SQLServer" InstallCondition='InstallSQL' SourceFile="Data\SQLEXPR32_RUS.EXE" InstallCommand='/qn ADDLOCAL=ALL INSTANCENAME=FIRESECINSTANCE SQLAUTOSTART=1' />
+      <ExePackage Id="SQLServer_64" InstallCondition='InstallSQL_64' SourceFile="Data\SQLEXPR64_RUS.EXE" InstallCommand='/qn ADDLOCAL=ALL INSTANCENAME=FIRESECINSTANCE SQLAUTOSTART=1' />
       <MsiPackage SourceFile="..\..\..\..\BuildScripts\bin\GK\Firesec 2.1.4.msi" Id="FiresecId_1" Cache="yes" Visible="yes">
         <!--<MsiProperty Name="INSTALL_SKD" Value="1" />-->
         <MsiProperty Name="INSTALL_HASP" Value="0" />

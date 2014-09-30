@@ -7,15 +7,15 @@ using Microsoft.Win32;
 namespace FiresecBootstrapperApplication
 {
 	public class MainViewModel : BaseViewModel
-    {
+	{
 		BootstrapperApplication _bootstrapper;
 		
 		public MainViewModel(BootstrapperApplication bootstrapper)
-        {
+		{
 			_bootstrapper = bootstrapper;
-            _bootstrapper.ApplyComplete += this.OnApplyComplete;
-            _bootstrapper.DetectPackageComplete += this.OnDetectPackageComplete;
-            _bootstrapper.PlanComplete += this.OnPlanComplete;
+			_bootstrapper.ApplyComplete += this.OnApplyComplete;
+			_bootstrapper.DetectPackageComplete += this.OnDetectPackageComplete;
+			_bootstrapper.PlanComplete += this.OnPlanComplete;
 
 			InstallCommand = new RelayCommand(OnInstall, CanInstall);
 			UninstallCommand = new RelayCommand(OnUninstall, CanUninstall);
@@ -24,54 +24,54 @@ namespace FiresecBootstrapperApplication
 			using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32))
 			{
 				var instanceNames = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false).GetValueNames();
-				if(instanceNames == null || instanceNames.Count() == 0)
+				if (!instanceNames.Any(x => x == "FIRESECINSTANCE"))
 				{
 					CanInstallSQL = true;
 					IsInstallSQL = true;
 				}
 			}
 			
-			HeaderText = "Welcome To Firesec Installation";
+			HeaderText = "Установка ОПС Firesec-2";
 			_bootstrapper.Engine.Detect();
 		}
 		
 		bool _isInstallEnabled;
-        public bool IsInstallEnabled
-        {
-            get { return _isInstallEnabled; }
-            set
-            {
-                _isInstallEnabled = value;
-                OnPropertyChanged(() => IsInstallEnabled);
-            }
-        }
+		public bool IsInstallEnabled
+		{
+			get { return _isInstallEnabled; }
+			set
+			{
+				_isInstallEnabled = value;
+				OnPropertyChanged(() => IsInstallEnabled);
+			}
+		}
 		
-        bool _isUninstallEnabled;
-        public bool IsUninstallEnabled
-        {
-            get { return _isUninstallEnabled; }
-            set
-            {
-                _isUninstallEnabled = value;
-                OnPropertyChanged(() => IsUninstallEnabled);
-            }
-        }
+		bool _isUninstallEnabled;
+		public bool IsUninstallEnabled
+		{
+			get { return _isUninstallEnabled; }
+			set
+			{
+				_isUninstallEnabled = value;
+				OnPropertyChanged(() => IsUninstallEnabled);
+			}
+		}
 
-        bool _isThinking;
-        public bool IsThinking
-        {
-            get { return _isThinking; }
-            set
-            {
-                _isThinking = value;
+		bool _isThinking;
+		public bool IsThinking
+		{
+			get { return _isThinking; }
+			set
+			{
+				_isThinking = value;
 				if (value)
 				{
 					IsInstallEnabled = false;
 					IsUninstallEnabled = false;
 				}
-                OnPropertyChanged(()=>IsThinking);
-            }
-        }
+				OnPropertyChanged(()=>IsThinking);
+			}
+		}
 
 		bool _isInstallSQL;
 		public bool IsInstallSQL
@@ -104,7 +104,7 @@ namespace FiresecBootstrapperApplication
 			IsThinking = false;
 			IsInstallEnabled = false;
 			IsUninstallEnabled = false;
-			HeaderText = "Completed";
+			HeaderText = "Готово";
 		}
 		void OnDetectPackageComplete(object sender, DetectPackageCompleteEventArgs e)
 		{
@@ -123,7 +123,7 @@ namespace FiresecBootstrapperApplication
 		}
 		#endregion
 		
-        #region RelayCommands
+		#region RelayCommands
 		public RelayCommand InstallCommand { get; private set; }
 		void OnInstall()
 		{
@@ -135,6 +135,7 @@ namespace FiresecBootstrapperApplication
 				else
 					_bootstrapper.Engine.StringVariables["InstallSQL"] = "1";
 			}
+			HeaderText = "Установка . . .";
 			_bootstrapper.Engine.Plan(LaunchAction.Install);
 		}
 		bool CanInstall()
@@ -144,10 +145,11 @@ namespace FiresecBootstrapperApplication
 
 		public RelayCommand UninstallCommand { get; private set; }
 		void OnUninstall()
-        {
-            IsThinking = true;
-            _bootstrapper.Engine.Plan(LaunchAction.Uninstall);
-        }
+		{
+			IsThinking = true;
+			HeaderText = "Удаление . . .";
+			_bootstrapper.Engine.Plan(LaunchAction.Uninstall);
+		}
 		bool CanUninstall()
 		{
 			return IsUninstallEnabled == true;
@@ -159,5 +161,5 @@ namespace FiresecBootstrapperApplication
 			FiresecBootstrapperApplication.BootstrapperDispatcher.InvokeShutdown();
 		}
 		#endregion
-    }
+	}
 }
