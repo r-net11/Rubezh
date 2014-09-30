@@ -11,5 +11,3 @@ namespace FiresecAPI.GK
 		On = 1
 	}
 }
-
-//
