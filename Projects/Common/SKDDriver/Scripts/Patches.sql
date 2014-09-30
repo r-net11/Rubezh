@@ -99,12 +99,14 @@ BEGIN
 		REFERENCES [dbo].[AccessTemplate] ([Uid])
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[CardDoor] NOCHECK CONSTRAINT [FK_CardDoor_AccessTemplate]
-
+	END
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationDoor')
+	BEGIN
 		CREATE TABLE [dbo].[OrganisationDoor](
 			[UID] [uniqueidentifier] NOT NULL,
 			[DoorUID] [uniqueidentifier] NOT NULL,
 			[OrganisationUID] [uniqueidentifier] NOT NULL,
-		CONSTRAINT [PK_OrganisationZone] PRIMARY KEY CLUSTERED 
+		CONSTRAINT [PK_OrganisationDoor] PRIMARY KEY CLUSTERED 
 		(
 			[UID] ASC
 		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -480,7 +482,7 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddCardDoorCardUID')
 BEGIN
-IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardDoor' and table_name = 'CardDoor')
+IF EXISTS (select table_name from INFORMATION_SCHEMA.columns where table_name = 'CardDoor')
 	ALTER TABLE CardDoor ADD [CardUID] [uniqueidentifier] NULL
 	INSERT INTO Patches (Id) VALUES ('AddCardDoorCardUID')	
 END
