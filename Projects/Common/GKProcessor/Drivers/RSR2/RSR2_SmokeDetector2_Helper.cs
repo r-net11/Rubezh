@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Пожарный дымовой извещатель ИП2Д RSR2",
 				ShortName = "ИП2Д RSR2",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);

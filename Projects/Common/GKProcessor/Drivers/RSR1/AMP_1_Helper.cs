@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Пожарная адресная метка АМП",
 				ShortName = "АМП",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);

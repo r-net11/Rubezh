@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "МРО-2М",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

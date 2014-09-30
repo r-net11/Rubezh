@@ -15,7 +15,8 @@ namespace GKProcessor
 				ShortName = "АМП-4",
 				IsGroupDevice = true,
 				GroupDeviceChildType = XDriverType.AMP_1,
-				GroupDeviceChildrenCount = 4
+				GroupDeviceChildrenCount = 4,
+				IsIgnored = true,
 			};
 			return driver;
 		}

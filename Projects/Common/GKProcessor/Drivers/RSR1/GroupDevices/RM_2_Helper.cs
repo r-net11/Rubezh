@@ -3,19 +3,20 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public static class RM_4_Helper
+	public static class RM_2_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
-				DriverType = XDriverType.RM_4,
-				UID = new Guid("3cb0e7fb-670f-4f32-8123-4b310aee1db8"),
-				Name = "РМ-4",
-				ShortName = "РМ-4",
+				DriverType = XDriverType.RM_2,
+				UID = new Guid("ea5f5372-c76c-4e92-b879-0afa0ee979c7"),
+				Name = "РМ-2",
+				ShortName = "РМ-2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = XDriverType.RM_1,
-				GroupDeviceChildrenCount = 4
+				GroupDeviceChildrenCount = 2,
+				IsIgnored = true,
 			};
 			return driver;
 		}

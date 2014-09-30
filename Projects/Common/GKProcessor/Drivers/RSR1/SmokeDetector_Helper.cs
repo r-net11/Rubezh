@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Пожарный дымовой извещатель ИП 212-64",
 				ShortName = "ИП-64",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);

@@ -20,7 +20,8 @@ namespace GKProcessor
 				IsRangeEnabled = true,
 				MinAddress = 1,
 				MaxAddress = 127,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true
 			};
 			driver.AutoCreateChildren.Add(XDriverType.KAUIndicator);
 			driver.AutoCreateChildren.Add(XDriverType.KAU_Shleif);

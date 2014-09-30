@@ -3,21 +3,22 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public static class DrainagePump_Helper
+	public static class FirePump_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
 				DriverTypeNo = 0x70,
-				DriverType = XDriverType.DrainagePump,
-				UID = new Guid("FF1245BF-C923-4751-9A75-BDFC18CA0996"),
-				Name = "Шкаф управления дренажным насосом",
-				ShortName = "Дренажный насос",
+				DriverType = XDriverType.FirePump,
+				UID = new Guid("8bff7596-aef4-4bee-9d67-1ae3dc63ca94"),
+				Name = "Шкаф управления пожарным насосом",
+				ShortName = "Пожарный насос",
 				IsControlDevice = true,
 				HasLogic = false,
 				IsPlaceable = true,
-				MaxAddressOnShleif = 15
+				MaxAddressOnShleif = 15,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
@@ -32,11 +33,13 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания ВнР, c", 3, 3, 30);
+
 			var property3 = new XDriverProperty()
 			{
 				No = 0x8d,
-				Name = "Тип контакта датчика ВУ",
-				Caption = "Тип контакта датчика ВУ",
+				Name = "Тип контакта датчика ВнР",
+				Caption = "Тип контакта датчика ВнР",
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
 				IsLowByte = true,
 				Mask = 1
@@ -48,8 +51,8 @@ namespace GKProcessor
 			var property4 = new XDriverProperty()
 			{
 				No = 0x8d,
-				Name = "Тип контакта датчика НУ",
-				Caption = "Тип контакта датчика НУ",
+				Name = "Тип контакта кнопки ПУСК",
+				Caption = "Тип контакта кнопки ПУСК",
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
 				IsLowByte = true,
 				Mask = 2
@@ -61,8 +64,8 @@ namespace GKProcessor
 			var property5 = new XDriverProperty()
 			{
 				No = 0x8d,
-				Name = "Тип контакта датчика АУ",
-				Caption = "Тип контакта датчика АУ",
+				Name = "Тип контакта кнопки СТОП",
+				Caption = "Тип контакта кнопки СТОП",
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
 				IsLowByte = true,
 				Mask = 4
@@ -70,6 +73,19 @@ namespace GKProcessor
 			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
 			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 4 });
 			driver.Properties.Add(property5);
+
+			var property6 = new XDriverProperty()
+			{
+				No = 0x8d,
+				Name = "Дистанционное управление",
+				Caption = "Дистанционное управление",
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				IsHieghByte = true,
+				Mask = 8
+			};
+			property6.Parameters.Add(new XDriverPropertyParameter() { Name = "Нет", Value = 0 });
+			property6.Parameters.Add(new XDriverPropertyParameter() { Name = "Есть", Value = 8 });
+			driver.Properties.Add(property6);
 
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
 			return driver;

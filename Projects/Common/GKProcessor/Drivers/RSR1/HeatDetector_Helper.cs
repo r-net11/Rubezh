@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Пожарный тепловой извещатель ИП 101-29-A3R1",
 				ShortName = "ИП-29",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);

@@ -11,8 +11,8 @@ namespace GKProcessor
 			{
 				DriverType = XDriverType.RSR2_AM_4,
 				UID = new Guid("79EAC50A-D534-4775-A102-BE4872877400"),
-				Name = "Пожарная адресная метка МА-4 RSR2",
-				ShortName = "МА-4 RSR2",
+				Name = "МЕТКА АДРЕСНАЯ АМ4-R2",
+				ShortName = "АМ4-R2",
 				IsGroupDevice = true,
 				GroupDeviceChildType = XDriverType.RSR2_AM_1,
 				GroupDeviceChildrenCount = 4

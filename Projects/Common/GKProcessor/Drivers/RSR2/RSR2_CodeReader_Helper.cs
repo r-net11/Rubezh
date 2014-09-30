@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xE7,
 				DriverType = XDriverType.RSR2_CodeReader,
 				UID = new Guid("FC8AC44B-6B54-470E-92DC-7ED63E5EA62F"),
-				Name = "Наборник кодовый RSR2",
-				ShortName = "НК RSR2",
+				Name = "Наборник кодовый R2",
+				ShortName = "НК R2",
 				IsControlDevice = true,
 				HasZone = false,
 				IsPlaceable = true

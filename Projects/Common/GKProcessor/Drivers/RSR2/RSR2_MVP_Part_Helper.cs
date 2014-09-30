@@ -17,7 +17,8 @@ namespace GKProcessor
 				MinAddress = 1,
 				MaxAddress = 2,
 				HasAddress = false,
-				IsReal = false
+				IsReal = false,
+				IsPlaceable = false,
 			};
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Число АУ на АЛС", 0, 0, 250);

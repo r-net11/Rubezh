@@ -16,7 +16,8 @@ namespace GKProcessor
 				ShortName = "МПТ-1",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Пожарная адресная метка АМ-1",
 				ShortName = "АМ-1",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);

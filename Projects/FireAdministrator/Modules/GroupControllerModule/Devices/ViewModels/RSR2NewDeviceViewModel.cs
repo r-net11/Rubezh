@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
 			{
-				if (RealParentDevice.Driver.Children.Contains(driver.DriverType))
+				if (!driver.IsIgnored && RealParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 

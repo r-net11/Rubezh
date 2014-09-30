@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 
 				foreach (var driver in XManager.Drivers)
 				{
-					if (driver.Properties.Any(x => x.IsAUParameter))
+					if (!driver.IsIgnored && driver.IsReal && driver.Properties.Any(x => x.IsAUParameter))
 					{
 						var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == driver.UID);
 						if (deviceParameterTemplate == null)

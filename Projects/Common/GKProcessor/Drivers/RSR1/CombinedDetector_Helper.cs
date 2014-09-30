@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Пожарный комбинированный извещатель ИП212/101-64-А2R1",
 				ShortName = "ИП-64К",
 				HasZone = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);

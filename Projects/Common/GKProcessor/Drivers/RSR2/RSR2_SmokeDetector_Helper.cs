@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xDD,
 				DriverType = XDriverType.RSR2_SmokeDetector,
 				UID = new Guid("A50FFA41-B53E-4B3B-ADDF-CDBBA631FEB2"),
-				Name = "Пожарный дымовой извещатель ИПД RSR2",
-				ShortName = "ИПД RSR2",
+				Name = "ИЗВЕЩАТЕЛЬ ПОЖАРНЫЙ ДЫМОВОЙ ОПТИКО-ЭЛЕКТРОННЫЙ АДРЕСНО-АНАЛОГОВЫЙ",
+				ShortName = "ИП 212-149",
 				HasZone = true,
 				IsPlaceable = true
 			};

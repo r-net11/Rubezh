@@ -3,20 +3,21 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public class Shu_Helper
+	public class Shuv_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
-				DriverTypeNo = 0x85,
-				DriverType = XDriverType.Shu,
-				UID = new Guid("34BED1C9-3747-4641-B895-6E94773DA76A"),
-				Name = "Шкаф управления",
-				ShortName = "ШУ",
+				DriverTypeNo = 0x86,
+				DriverType = XDriverType.Shuv,
+				UID = new Guid("70C76BEF-E5FE-4DAC-B183-3C6F10FFDF1C"),
+				Name = "Шкаф управления вентилятором",
+				ShortName = "ШУВ",
 				IsControlDevice = true,
 				HasLogic = true,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

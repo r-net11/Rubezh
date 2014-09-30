@@ -17,7 +17,8 @@ namespace GKProcessor
 				IsControlDevice = true,
 				HasLogic = false,
 				IsPlaceable = true,
-				MaxAddressOnShleif = 15
+				MaxAddressOnShleif = 15,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

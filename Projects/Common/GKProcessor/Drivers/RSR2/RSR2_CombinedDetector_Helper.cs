@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xDF,
 				DriverType = XDriverType.RSR2_CombinedDetector,
 				UID = new Guid("1CCE48EB-B60B-4E06-8290-A39591CD3DA2"),
-				Name = "Пожарный комбинированный извещатель ИПК RSR2",
-				ShortName = "ИПК RSR2",
+				Name = "ИЗВЕЩАТЕЛЬ ПОЖАРНЫЙ КОМБИНИРОВАННЫЙ ДЫМОВОЙ ОПТИКО-ЭЛЕКТРОННЫЙ ТЕПЛОВОЙ МАКСИМАЛЬНО-ДИФФЕРЕНЦИАЛЬНЫЙ",
+				ShortName = "ИП 212/101-11-PR",
 				HasZone = true,
 				IsPlaceable = true
 			};

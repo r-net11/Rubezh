@@ -14,7 +14,8 @@ namespace GKProcessor
 				UID = new Guid("0D24D46E-11E5-41E2-B0E8-19002F2AB295"),
 				Name = "Адресный источник питания ИВЭПР-RSR",
 				ShortName = "ИВЭПР",
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);

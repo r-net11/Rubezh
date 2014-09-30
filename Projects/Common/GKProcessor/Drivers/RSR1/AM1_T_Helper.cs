@@ -15,7 +15,8 @@ namespace GKProcessor
 				Name = "Технологическая адресная метка АМ1-Т",
 				ShortName = "АМ1-Т",
 				HasZone = false,
-				IsPlaceable = true
+				IsPlaceable = true,
+				IsIgnored = true,
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire2);

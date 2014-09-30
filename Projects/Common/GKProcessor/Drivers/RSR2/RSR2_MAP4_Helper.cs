@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xE1,
 				DriverType = XDriverType.RSR2_MAP4,
 				UID = new Guid("42B3C448-2FDD-43D4-AEE0-F173CB8D6CF8"),
-				Name = "МАП RSR2",
-				ShortName = "МАП RSR2",
+				Name = "МЕТКА АДРЕСНАЯ ПОЖАРНАЯ АМП-R2",
+				ShortName = "АМП-R2",
 				HasZone = true,
 				IsPlaceable = true
 			};

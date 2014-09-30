@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xDA,
 				DriverType = XDriverType.RSR2_RM_1,
 				UID = new Guid("58C2A881-783F-4638-A27C-42257D5B31F9"),
-				Name = "Релейный исполнительный модуль МР RSR2",
-				ShortName = "МР RSR2",
+				Name = "Модуль релейный РМ-R2",
+				ShortName = "РМ-R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true
