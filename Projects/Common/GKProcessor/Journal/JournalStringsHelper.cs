@@ -335,10 +335,10 @@ namespace GKProcessor
 		{
 			switch (b)
 			{
-				case 0: return JournalEventDescriptionType.Оператор;
-				case 1: return JournalEventDescriptionType.Администратор;
-				case 2: return JournalEventDescriptionType.Инсталлятор;
-				case 3: return JournalEventDescriptionType.Изготовитель;
+				case 1: return JournalEventDescriptionType.Оператор;
+				case 2: return JournalEventDescriptionType.Администратор;
+				case 3: return JournalEventDescriptionType.Инсталлятор;
+				case 4: return JournalEventDescriptionType.Изготовитель;
 			}
 			return JournalEventDescriptionType.NULL;
 		}

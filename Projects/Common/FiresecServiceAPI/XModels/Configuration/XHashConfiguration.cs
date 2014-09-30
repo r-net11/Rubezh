@@ -5,6 +5,10 @@ namespace FiresecAPI.GK
 {
 	public class XHashConfiguration : VersionedConfiguration
 	{
+		public XHashConfiguration()
+		{
+		}
+
 		public XHashConfiguration(XDeviceConfiguration deviceConfiguration)
 		{
 			RootDevice = deviceConfiguration.RootDevice;

@@ -250,12 +250,16 @@ namespace GKModule.ViewModels
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
+				if (maxAddress >= 255)
+					return null;
+
 				if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
 					var addedDevice = XManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress % 256 + 1));
 					XManager.CopyDevice(device, addedDevice);
 					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
+					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
@@ -264,6 +268,7 @@ namespace GKModule.ViewModels
 					XManager.CopyDevice(device, addedDevice);
 					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
 					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 			}

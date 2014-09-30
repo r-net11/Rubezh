@@ -74,10 +74,12 @@ namespace GKModule.ViewModels
 					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == deviceOnShleif.Device.UID);
 					if (deviceViewModel != null)
 					{
-						deviceViewModel.Remove();
+						deviceViewModel.Remove(false);
 					}
 				}
 			}
+			ShleifDevice.OnAUParametersChanged();
+
 			if (ShleifDevice.KAURSR2Parent != null)
 				XManager.RebuildRSR2Addresses(ShleifDevice.KAURSR2Parent);
 

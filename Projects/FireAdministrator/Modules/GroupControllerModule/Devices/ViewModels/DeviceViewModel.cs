@@ -194,7 +194,7 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			Remove();
+			Remove(true);
 			if (Device.KAURSR2Parent != null)
 				XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
 		}
@@ -202,7 +202,7 @@ namespace GKModule.ViewModels
 		{
 			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
-		public void Remove()
+		public void Remove(bool updateParameters)
 		{
 			var allDevices = Device.AllChildrenAndSelf;
 			foreach (var device in allDevices)
@@ -210,9 +210,12 @@ namespace GKModule.ViewModels
 				XManager.RemoveDevice(device);
 			}
 			allDevices.ForEach(device => device.OnChanged());
-			if (Parent != null)
+			if (updateParameters)
 			{
-				Parent.Device.OnAUParametersChanged();
+				if (Parent != null)
+				{
+					Parent.Device.OnAUParametersChanged();
+				}
 			}
 
 			var parent = Parent;

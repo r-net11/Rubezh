@@ -76,8 +76,8 @@ namespace GKProcessor
 				IsLowByte = true,
 				Mask = 0x30
 			};
-			GKDriversHelper.AddPropertyParameter(property3, "Гашение", 0);
-			GKDriversHelper.AddPropertyParameter(property3, "Горение", 16);
+			GKDriversHelper.AddPropertyParameter(property3, "Не горит", 0);
+			GKDriversHelper.AddPropertyParameter(property3, "Горит", 16);
 			GKDriversHelper.AddPropertyParameter(property3, "Мерцание", 32);
 			driver.Properties.Add(property3);
 

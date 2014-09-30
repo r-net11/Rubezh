@@ -36,7 +36,6 @@
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 		</DataGrid>
-		<CheckBox Grid.Row="1" Margin="5" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHiddenZone, UpdateSourceTrigger=PropertyChanged}" />
 		<StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button Width="100" Margin="2" Command="{Binding EditCommand}" Content="Редактировать" />
 			<Button Width="100" Margin="2" Command="{Binding CreateCommand}" Content="Создать" />

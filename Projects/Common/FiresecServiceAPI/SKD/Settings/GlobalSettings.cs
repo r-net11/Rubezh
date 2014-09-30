@@ -32,7 +32,6 @@ namespace FiresecAPI
 			Monitor_F4_Enabled = true;
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
-			Administrator_IsExpertMode = false;
 			IgnoredErrors = new List<string>();
 		}
 
@@ -101,15 +100,10 @@ namespace FiresecAPI
 		public bool Monitor_HidePlansTree { get; set; }
 
 		[DataMember]
-		public bool Administrator_IsExpertMode { get; set; }
-		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
 
 		[DataMember]
 		public List<string> IgnoredErrors { get; set; }
-
-		[DataMember]
-		public bool IsLogicAllowed { get; set; }
 
 		public void SetDefaultModules()
 		{

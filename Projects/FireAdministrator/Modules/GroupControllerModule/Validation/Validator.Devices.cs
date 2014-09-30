@@ -26,11 +26,8 @@ namespace GKModule.Validation
 					ValidateDeviceZone(device);
 				if (MustValidate("Отсутствует логика срабатывания исполнительного устройства"))
 					ValidateDeviceLogic(device);
-				if (MustValidate("Устройство должно содержать подключенные устройства"))
-				{
-					ValidateGKNotEmptyChildren(device);
-					ValidateKAUNotEmptyChildren(device);
-				}
+
+				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
 				ValidateNotUsedLogic(device);
 				ValidateDeviceSelfLogic(device);
@@ -125,17 +122,8 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == XDriverType.GK)
 			{
-				if (device.Children.Count <= 14)
-					Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
-			}
-		}
-
-		void ValidateKAUNotEmptyChildren(XDevice device)
-		{
-			if (device.Driver.IsKauOrRSR2Kau)
-			{
-				if (device.Children.Count <= 1)
-					Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
+				if (device.Children.Where(x=>x.Driver.IsKauOrRSR2Kau).Count() == 0)
+					Errors.Add(new DeviceValidationError(device, "ГК должен содержать подключенные КАУ", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

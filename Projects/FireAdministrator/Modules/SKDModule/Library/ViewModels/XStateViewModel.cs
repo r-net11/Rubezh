@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsLayerEditingVisible
 		{
-			get { return GlobalSettingsHelper.GlobalSettings.IsDebug || GlobalSettingsHelper.GlobalSettings.Administrator_IsExpertMode; }
+			get { return GlobalSettingsHelper.GlobalSettings.IsDebug; }
 		}
 
 		public int Layer

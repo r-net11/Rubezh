@@ -118,8 +118,15 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			if (StartIndex > EndIndex)
+			if (EndIndex < StartIndex)
 			{
+				MessageBoxService.ShowError2("Конечный номер записи меньше начального");
+				IsNotEmpty = false;
+				return;
+			}
+			if (StartIndex < 1 || EndIndex > TotalCount)
+			{
+				MessageBoxService.ShowError2("Номер записи должен быть в диапазоне от 1 до " + TotalCount);
 				IsNotEmpty = false;
 				return;
 			}

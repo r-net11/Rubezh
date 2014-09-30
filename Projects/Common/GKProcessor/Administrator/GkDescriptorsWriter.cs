@@ -38,6 +38,8 @@ namespace GKProcessor
 					//}
 					for (int i = 0; i < 3; i++)
 					{
+						Errors = new List<string>();
+
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
