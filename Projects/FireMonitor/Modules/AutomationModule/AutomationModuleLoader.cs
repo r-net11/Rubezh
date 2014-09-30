@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AutomationModule.Events;
@@ -10,7 +9,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -44,13 +42,13 @@ namespace AutomationModule
 			_proceduresNavigationItem.IsVisible = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
 			ProceduresViewModel.Initialize();
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
+			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Video1.png");
-			return new List<NavigationItem>()
+			return new List<NavigationItem>
 			{
 				_proceduresNavigationItem
 			};
@@ -58,12 +56,12 @@ namespace AutomationModule
 
 		protected override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Automation;; }
+			get { return ModuleType.Automation; }
 		}
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 		public override void Dispose()
 		{
@@ -71,8 +69,8 @@ namespace AutomationModule
 
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.AutomationEvent -= new Action<AutomationCallbackResult>(OnAutomationCallback);
-			SafeFiresecService.AutomationEvent += new Action<AutomationCallbackResult>(OnAutomationCallback);
+			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
@@ -88,9 +86,7 @@ namespace AutomationModule
 						break;
 
 					case AutomationCallbackType.Message:
-						var message = automationCallbackResult.Message;
-						//if (automationCallbackResult.IsModalWindow)
-						MessageBoxService.Show(message, "Сообщение");
+						MessageBoxService.Show(automationCallbackResult.Message, "Сообщение", automationCallbackResult.IsModalWindow);
 						break;
 				}
 			});
@@ -99,7 +95,7 @@ namespace AutomationModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", (p) => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
 		}
 		#endregion
 	}

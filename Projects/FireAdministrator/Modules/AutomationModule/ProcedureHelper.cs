@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Automation;
 using FiresecClient;
-using FiresecAPI.GK;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
@@ -32,7 +30,7 @@ namespace AutomationModule
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
 			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Type, Property.State };
+				return new List<Property> { Property.Description, Property.No, Property.Name, Property.State };
 			if (objectType == ObjectType.Direction)
 				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime };
 			return new List<Property>();
@@ -63,7 +61,7 @@ namespace AutomationModule
 		{
 			if (objectType == ObjectType.Device)
 			{
-				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device != null ? currentExplicitValue.Device : null);
+				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
@@ -73,7 +71,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.Zone)
 			{
-				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone != null ? currentExplicitValue.Zone : null);
+				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
@@ -83,7 +81,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.GuardZone)
 			{
-				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone != null ? currentExplicitValue.GuardZone : null);
+				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
@@ -93,7 +91,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.SKDDevice)
 			{
-				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice != null ? currentExplicitValue.SKDDevice : null);
+				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
@@ -103,7 +101,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.SKDZone)
 			{
-				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone != null ? currentExplicitValue.SKDZone : null);
+				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
@@ -113,7 +111,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.ControlDoor)
 			{
-				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor != null ? currentExplicitValue.SKDDoor : null);
+				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
@@ -123,7 +121,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.Direction)
 			{
-				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
+				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
 				{
 					currentExplicitValue.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
@@ -133,7 +131,7 @@ namespace AutomationModule
 
 			if (objectType == ObjectType.VideoDevice)
 			{
-				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera != null ? currentExplicitValue.Camera : null);
+				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
 				{
 					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
@@ -158,7 +156,7 @@ namespace AutomationModule
 					result = explicitValue.IntValue.ToString();
 					break;
 				case ExplicitType.String:
-					result = explicitValue.StringValue.ToString();
+					result = explicitValue.StringValue;
 					break;
 				case ExplicitType.Enum:
 					{

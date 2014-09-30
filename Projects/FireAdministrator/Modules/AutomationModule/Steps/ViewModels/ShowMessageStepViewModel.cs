@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
-using System.Linq;
-using FiresecClient;
-using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {
@@ -26,7 +20,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allVariables = new List<Variable>();
+			List<Variable> allVariables;
 			if (ExplicitType == ExplicitType.Enum)
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList && x.EnumType == EnumType);
 			else

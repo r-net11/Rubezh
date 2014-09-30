@@ -18,14 +18,23 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
-				<DataGrid Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Header="Тип" Binding="{Binding Name}" Width="*" />
-					</DataGrid.Columns>
-				</DataGrid>
+				<TreeList Grid.Column="0" Grid.RowSpan="2" Focusable="True" SelectedTreeNode="{Binding SelectedExplicitType}" Source="{Binding ExplicitTypes}" SelectionMode="Single" >
+					<TreeList.View>
+						<GridView>
+							<GridViewColumn Header="Тип" Width="Auto">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</TreeList.View>
+				</TreeList>
 
-				<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch">
-
+				<StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" Visibility="{Binding IsRealType, Converter={StaticResource BoolToVisibilityConverter}}">
 					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
 						<Label Content="Имя" />
 						<TextBox Text= "{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="200"/>
@@ -35,31 +44,10 @@
 						<Label Content="Список" HorizontalAlignment="Left" />
 						<CheckBox Width="202" IsChecked="{Binding IsList}" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}" HorizontalAlignment="Right" Height="28">
-						<Label Content="Тип" />
-						<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding SelectedObjectType}" Width="200" Margin="2" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedExplicitType.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" HorizontalAlignment="Right" Height="28">
-						<Label Content="Тип" />
-						<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding SelectedEnumType}" Width="200" Margin="2" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-					</StackPanel>
 				</StackPanel>
 
-				<Views:ExplicitValuesView Grid.Column="2" Grid.Row="1" DataContext="{Binding ExplicitValuesViewModel}" />
+				<Views:ExplicitValuesView Grid.Column="2" Grid.Row="1" DataContext="{Binding ExplicitValuesViewModel}"
+					Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.IsRealType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

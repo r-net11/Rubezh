@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels
@@ -71,7 +66,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (SelectedProperty == Property.Description)
+				if (SelectedProperty == Property.Description || SelectedProperty == Property.Name)
 					return ExplicitType.String;
 				if ((SelectedProperty == Property.Type) || (SelectedProperty == Property.State))
 					return ExplicitType.Enum;

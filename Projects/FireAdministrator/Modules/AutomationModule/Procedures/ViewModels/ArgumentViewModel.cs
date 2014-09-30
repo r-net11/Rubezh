@@ -26,6 +26,7 @@ namespace AutomationModule.ViewModels
 			Argument = argument;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ExplicitValue = new ExplicitValueViewModel(argument.ExplicitValue);
+			ExplicitValue.UpdateObjectHandler += () => OnPropertyChanged(() => IsEmpty);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 			foreach (var explicitValue in argument.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
@@ -67,6 +68,22 @@ namespace AutomationModule.ViewModels
 			{
 				Argument.ObjectType = value;
 				OnPropertyChanged(() => ObjectType);
+				OnPropertyChanged(() => IsEmpty);
+			}
+		}
+
+		public bool IsEmpty
+		{
+			get
+			{
+				return (((ObjectType == ObjectType.ControlDoor) && (ExplicitValue.SKDDoor == null))
+						|| ((ObjectType == ObjectType.Device) && (ExplicitValue.Device == null))
+						|| ((ObjectType == ObjectType.Direction) && (ExplicitValue.Direction == null))
+						|| ((ObjectType == ObjectType.GuardZone) && (ExplicitValue.GuardZone == null))
+						|| ((ObjectType == ObjectType.SKDDevice) && (ExplicitValue.SKDDevice == null))
+						|| ((ObjectType == ObjectType.SKDZone) && (ExplicitValue.SKDZone == null))
+						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
+						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Zone == null)));
 			}
 		}
 

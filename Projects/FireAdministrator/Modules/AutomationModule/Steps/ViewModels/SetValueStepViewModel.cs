@@ -1,10 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
-using System;
 
 namespace AutomationModule.ViewModels
 {
@@ -19,15 +16,10 @@ namespace AutomationModule.ViewModels
 			SetValueArguments = stepViewModel.Step.SetValueArguments;
 			SourceParameter = new ArgumentViewModel(SetValueArguments.SourceParameter, stepViewModel.Update);
 			TargetParameter = new ArgumentViewModel(SetValueArguments.TargetParameter, stepViewModel.Update, false);
-			TargetParameter.UpdateVariableHandler = UpdateSourceParameter;
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			SelectedExplicitType = SetValueArguments.ExplicitType;
-		}
-
-		void UpdateSourceParameter()
-		{
-			SourceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
-			SourceParameter.EnumType = TargetParameter.EnumType;
 		}
 
 		public ObservableCollection<ExplicitType> ExplicitTypes { get; private set; }
@@ -43,11 +35,59 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<EnumType> EnumTypes { get; private set; }
+
+		public EnumType SelectedEnumType
+		{
+			get
+			{
+				return SetValueArguments.EnumType;
+			}
+			set
+			{
+				SetValueArguments.EnumType = value;
+				UpdateContent();
+				OnPropertyChanged(() => SelectedEnumType);
+			}
+		}
+
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+
+		public ObjectType SelectedObjectType
+		{
+			get
+			{
+				return SetValueArguments.ObjectType;
+			}
+			set
+			{
+				SetValueArguments.ObjectType = value;
+				UpdateContent();
+				OnPropertyChanged(() => SelectedObjectType);
+			}
+		}
+
 		public override void UpdateContent()
 		{
-			TargetParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList));
+			List<Variable> allVariables;
+			if (SelectedExplicitType == ExplicitType.Enum)
+			{
+				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == SelectedEnumType);
+				TargetParameter.EnumType = SelectedEnumType;
+				SourceParameter.EnumType = SelectedEnumType;
+			}
+			else if (SelectedExplicitType == ExplicitType.Object)
+			{
+				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.ObjectType == SelectedObjectType);
+				TargetParameter.ObjectType = SelectedObjectType;
+				SourceParameter.ObjectType = SelectedObjectType;
+			}
+			else
+				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
 			TargetParameter.ExplicitType = SelectedExplicitType;
 			SourceParameter.ExplicitType = SelectedExplicitType;
+			TargetParameter.Update(allVariables);
+			SourceParameter.Update(allVariables);
 		}
 
 		public override string Description 

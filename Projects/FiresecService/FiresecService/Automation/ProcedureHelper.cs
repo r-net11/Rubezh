@@ -4,7 +4,6 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Service;
@@ -51,7 +50,10 @@ namespace FiresecService.Processor
 
 		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep)
 		{
-			return new AutomationCallbackResult() { Message = GetValue<object>(procedureStep.ShowMessageArguments.MessageParameter).ToString() };
+			var automationCallbackResult = new AutomationCallbackResult();
+			var messageValue = GetValue<object>(procedureStep.ShowMessageArguments.MessageParameter);
+			automationCallbackResult.Message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
+			return automationCallbackResult;
 		}
 
 		public static void Calculate(ProcedureStep procedureStep)
@@ -71,7 +73,7 @@ namespace FiresecService.Processor
 							result = (bool)variable1 & (bool)variable2;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
 							result = (bool)variable1 || (bool)variable2;
-						resultVariable.ExplicitValue.BoolValue = result;
+						if (resultVariable != null) resultVariable.ExplicitValue.BoolValue = result;
 						break;
 					}
 
@@ -88,7 +90,7 @@ namespace FiresecService.Processor
 							result = (int)variable1 * (int)variable2;
 						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)variable2 != 0))
 							result = (int)variable1 / (int)variable2;
-						resultVariable.ExplicitValue.IntValue = result;
+						if (resultVariable != null) resultVariable.ExplicitValue.IntValue = result;
 						break;
 					}
 
@@ -117,7 +119,7 @@ namespace FiresecService.Processor
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
 							result = (DateTime)variable1 - (TimeSpan)variable2;
 
-						resultVariable.ExplicitValue.DateTimeValue = result;
+						if (resultVariable != null) resultVariable.ExplicitValue.DateTimeValue = result;
 						break;
 					}
 				case ExplicitType.String:
@@ -125,7 +127,8 @@ namespace FiresecService.Processor
 						variable1 = GetValue<string>(arithmeticArguments.Parameter1);
 						variable2 = GetValue<string>(arithmeticArguments.Parameter2);
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
-							resultVariable.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
+							if (resultVariable != null)
+								resultVariable.ExplicitValue.StringValue = String.Concat((string)variable1, (string)variable2);
 						break;
 					}
 			}
@@ -142,7 +145,7 @@ namespace FiresecService.Processor
 		public static void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
-			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultParameter.VariableUid);
+			var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultParameter.VariableUid);
 			if (findObjectArguments.JoinOperator == JoinOperator.Or)
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
@@ -152,9 +155,11 @@ namespace FiresecService.Processor
 		public static void GetObjectProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultParameter.VariableUid);
+			var target = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultParameter.VariableUid);
 			var objectUid = GetValue<Guid>(getObjectPropertyArguments.ObjectParameter);
 			var item = InitializeItem(objectUid);
+			if (item == null)
+				return;
 			var guid = new Guid();
 			var propertyValue = GetPropertyValue(ref guid, getObjectPropertyArguments.Property, item);
 			SetPropertyValue(target, propertyValue);
@@ -177,7 +182,7 @@ namespace FiresecService.Processor
 						propertyValue = (int)(item as XDevice).State.StateClass;
 						break;
 					case Property.Type:
-						propertyValue = (item as XDevice).Driver.Name.Trim();
+						propertyValue = (item as XDevice).Driver.DriverType;
 						break;
 					case Property.Description:
 						propertyValue = (item as XDevice).Description.Trim();
@@ -194,13 +199,13 @@ namespace FiresecService.Processor
 						propertyValue = (item as XZone).No;
 						break;
 					case Property.Type:
-						propertyValue = (int)(item as XZone).ObjectType;
+						propertyValue = (item as XZone).ObjectType;
 						break;
 					case Property.State:
 						propertyValue = (int)(item as XZone).State.StateClass;
 						break;
-					case Property.Description:
-						propertyValue = (item as XZone).Description.Trim();
+					case Property.Name:
+						propertyValue = (item as XZone).Name.Trim();
 						break;
 				}
 				itemUid = (item as XZone).UID;
@@ -274,7 +279,7 @@ namespace FiresecService.Processor
 			if (camera != null) return camera;
 			if (sKDDoor != null) return sKDDoor;
 			if (direction != null) return direction;
-			return new object();
+			return null;
 		}
 
 		static void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
@@ -483,8 +488,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.SKDOpenZoneForever(sKDZone.UID);
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.CloseForever)
 				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
-			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
-				return; // TODO
+			//if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
 		}
 
 		public static void Pause(ProcedureStep procedureStep)
@@ -512,7 +516,7 @@ namespace FiresecService.Processor
 		public static void IncrementValue(ProcedureStep procedureStep)
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
-			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == incrementValueArguments.ResultParameter.VariableUid);
+			var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == incrementValueArguments.ResultParameter.VariableUid);
 			if (variable != null)
 				variable.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.ExplicitValue.IntValue + 1 : variable.ExplicitValue.IntValue - 1;
 		}
@@ -520,25 +524,38 @@ namespace FiresecService.Processor
 		public static void GetRandomValue(ProcedureStep procedureStep)
 		{
 			var randomArguments = procedureStep.RandomArguments;
-			var resultVariable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == randomArguments.ResultParameter.VariableUid);
-			int maxValue = GetValue<int>(randomArguments.MaxValueParameter);
-			resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
+			var resultVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == randomArguments.ResultParameter.VariableUid);
+			var maxValue = GetValue<int>(randomArguments.MaxValueParameter);
+			if (resultVariable != null) resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
 		public static void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
-			var variable = ProcedureHelper.GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.SourceParameter.VariableUid);
-			if (variable != null)
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(setValueArguments.TargetParameter.ExplicitValue, variable.ExplicitValue);
+			var sourceVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.SourceParameter.VariableUid);
+			var targetVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.TargetParameter.VariableUid);
+			if (targetVariable == null)
+				return;
+			PropertyCopy.Copy(sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceParameter.ExplicitValue, targetVariable.ExplicitValue);
 		}
 
 		static void SetPropertyValue(Variable target, object propertyValue)
 		{
-			if (target.EnumType == EnumType.DriverType)
-				target.ExplicitValue.DriverTypeValue = (XDriverType)propertyValue;
-			if (target.EnumType == EnumType.StateType)
-				target.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
+			if (target.ExplicitType == ExplicitType.Integer)
+				target.ExplicitValue.IntValue = (int) propertyValue;
+			if (target.ExplicitType == ExplicitType.String)
+				target.ExplicitValue.StringValue = (string)propertyValue;
+			if (target.ExplicitType == ExplicitType.Boolean)
+				target.ExplicitValue.BoolValue = (bool)propertyValue;
+			if (target.ExplicitType == ExplicitType.DateTime)
+				target.ExplicitValue.DateTimeValue = (DateTime)propertyValue;
+			if (target.ExplicitType == ExplicitType.Enum)
+			{
+				if (target.EnumType == EnumType.DriverType)
+					target.ExplicitValue.DriverTypeValue = (XDriverType) propertyValue;
+				if (target.EnumType == EnumType.StateType)
+					target.ExplicitValue.StateTypeValue = (XStateClass) propertyValue;
+			}
 		}
 
 		static T GetValue<T>(Argument variable)

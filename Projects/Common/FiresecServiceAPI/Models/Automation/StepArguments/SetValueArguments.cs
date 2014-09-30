@@ -21,5 +21,11 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public ExplicitType ExplicitType { get; set; }
 
+		[DataMember]
+		public EnumType EnumType { get; set; }
+
+		[DataMember]
+		public ObjectType ObjectType { get; set; }
+
 	}
 }

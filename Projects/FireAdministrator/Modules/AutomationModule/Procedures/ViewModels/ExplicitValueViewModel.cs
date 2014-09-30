@@ -11,7 +11,6 @@ using FiresecAPI.Models;
 using FiresecAPI.Automation;
 using FiresecClient;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {

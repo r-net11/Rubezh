@@ -26,6 +26,9 @@ namespace FiresecAPI.Automation
 		[Description("Примечание")]
 		Description,
 
+		[Description("Имя")]
+		Name,
+
 		[Description("Адрес")]
 		IntAddress,
 
