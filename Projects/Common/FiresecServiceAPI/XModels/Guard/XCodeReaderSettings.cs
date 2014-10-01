@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XCodeReaderSettings
 	{
 		public XCodeReaderSettings()
@@ -19,11 +20,17 @@ namespace FiresecAPI.GK
 			ResetGuardSettings.CodeReaderEnterType = XCodeReaderEnterType.CodeAndTwo;
 		}
 
+		[DataMember]
 		public XCodeReaderSettingsPart SetGuardSettings { get; set; }
+
+		[DataMember]
 		public XCodeReaderSettingsPart ResetGuardSettings { get; set; }
+
+		[DataMember]
 		public XCodeReaderSettingsPart AlarmSettings { get; set; }
 	}
 
+	[DataContract]
 	public class XCodeReaderSettingsPart
 	{
 		public XCodeReaderSettingsPart()
@@ -31,7 +38,10 @@ namespace FiresecAPI.GK
 			CodeReaderEnterType = XCodeReaderEnterType.None;
 		}
 
+		[DataMember]
 		public XCodeReaderEnterType CodeReaderEnterType { get; set; }
+
+		[DataMember]
 		public Guid CodeUID { get; set; }
 	}
 }
