@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
@@ -44,6 +45,14 @@ namespace FiresecClient.SKDHelpers
 		public static IEnumerable<ShortPosition> GetByCurrentUser()
 		{
 			return Get(new PositionFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
+
+		public static ShortPosition GetSingleShort(Guid uid)
+		{
+			var filter = new PositionFilter();
+			filter.UIDs.Add(uid);
+			var operationResult = FiresecManager.FiresecService.GetPositionList(filter);
+			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 	}
 }
