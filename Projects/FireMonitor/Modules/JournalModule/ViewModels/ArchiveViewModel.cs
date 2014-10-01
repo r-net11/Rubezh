@@ -235,9 +235,6 @@ namespace JournalModule.ViewModels
 					if (archiveDefaultState.EndDate.HasValue)
 						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
 					break;
-				case ArchiveDefaultStateType.All:
-					archiveFilter.StartDate = DateTime.MinValue.AddYears(1900);
-					break;
 			}
 			return archiveFilter;
 		}

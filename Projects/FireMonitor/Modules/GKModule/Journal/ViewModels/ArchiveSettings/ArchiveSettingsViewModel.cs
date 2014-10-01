@@ -19,8 +19,6 @@ namespace GKModule.ViewModels
 			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
 			foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
 			{
-				if (item == ArchiveDefaultStateType.All)
-					continue;
 				ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
 			}
 
@@ -59,10 +57,6 @@ namespace GKModule.ViewModels
 						StartDate = archiveDefaultState.StartDate.Value;
 					if (archiveDefaultState.EndDate.HasValue)
 						EndDate = archiveDefaultState.EndDate.Value;
-					break;
-
-				case ArchiveDefaultStateType.All:
-				default:
 					break;
 			}
 
