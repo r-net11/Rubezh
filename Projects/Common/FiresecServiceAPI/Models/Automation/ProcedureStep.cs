@@ -18,6 +18,7 @@ namespace FiresecAPI.Automation
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
+			ForArguments = new ForArguments();
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 			ExitArguments = new ExitArguments();
@@ -73,6 +74,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ForeachArguments ForeachArguments { get; set; }
+
+		[DataMember]
+		public ForArguments ForArguments { get; set; }
 
 		[DataMember]
 		public PauseArguments PauseArguments { get; set; }

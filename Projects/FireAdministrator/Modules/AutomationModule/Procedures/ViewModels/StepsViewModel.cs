@@ -133,7 +133,7 @@ namespace AutomationModule.ViewModels
 		void Add(StepViewModel stepViewModel)
 		{
 			if (SelectedStep == null || SelectedStep.Parent == null || SelectedStep.Step.ProcedureStepType == ProcedureStepType.If ||
-				SelectedStep.Step.ProcedureStepType == ProcedureStepType.Foreach)
+				SelectedStep.Step.ProcedureStepType == ProcedureStepType.Foreach || SelectedStep.Step.ProcedureStepType == ProcedureStepType.For)
 			{
 				Procedure.Steps.Add(stepViewModel.Step);
 				RootSteps.Add(stepViewModel);
@@ -171,6 +171,11 @@ namespace AutomationModule.ViewModels
 					var procedureStep = new ProcedureStep();
 					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
 					var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
+				    if (procedureStep.ProcedureStepType == ProcedureStepType.For || procedureStep.ProcedureStepType == ProcedureStepType.While)
+				    {
+				        stepViewModel.IsExpanded = true;
+				        AddСycleBody(stepViewModel);
+				    }
 					Add(stepViewModel);
 					FillAllSteps();
 					ServiceFactory.SaveService.AutomationChanged = true;
@@ -235,16 +240,19 @@ namespace AutomationModule.ViewModels
 			var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
 			AllSteps.Add(stepViewModel);
+			AddСycleBody(stepViewModel);
+			Add(stepViewModel);
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
 
+		void AddСycleBody(StepViewModel stepViewModel)
+		{
 			var procedureStepForeachBody = new ProcedureStep();
 			procedureStepForeachBody.ProcedureStepType = ProcedureStepType.ForeachBody;
-			procedureStep.Children.Add(procedureStepForeachBody);
+			stepViewModel.Step.Children.Add(procedureStepForeachBody);
 			var stepForeachBodyViewModel = new StepViewModel(this, procedureStepForeachBody, Procedure);
 			stepViewModel.AddChild(stepForeachBodyViewModel);
 			AllSteps.Add(stepForeachBodyViewModel);
-
-			Add(stepViewModel);
-			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public RelayCommand UpCommand { get; private set; }
@@ -368,18 +376,12 @@ namespace AutomationModule.ViewModels
 		{
 			if (SelectedStep == null)
 				return false;
-			ProcedureStep nextStep;
 			if (RootSteps.Count <= SelectedStep.Index + 1)
 				return false;
-			if (SelectedStep.Parent == null)
-				nextStep = RootSteps[SelectedStep.Index + 1].Step;
-			else
-			{
-				var childrenCount = SelectedStep.Parent.ChildrenCount;
-				nextStep = SelectedStep.Parent[SelectedStep.Index].Step;
-			}
+			var nextStep = SelectedStep.Parent == null ? RootSteps[SelectedStep.Index + 1].Step : SelectedStep.Parent[SelectedStep.Index].Step;
 
-			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.Foreach));
+			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.Foreach
+				|| nextStep.ProcedureStepType == ProcedureStepType.For || nextStep.ProcedureStepType == ProcedureStepType.While));
 		}
 	}
 }

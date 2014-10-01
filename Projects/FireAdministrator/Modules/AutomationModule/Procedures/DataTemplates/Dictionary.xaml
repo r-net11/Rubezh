@@ -99,6 +99,10 @@
 		<Views:ForeachStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="forTemplate">
+		<Views:ForStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="pauseTemplate">
 		<Views:PauseStepView />
 	</DataTemplate>
@@ -175,6 +179,7 @@
 		ConditionTemplate="{StaticResource conditionTemplate}"
 		FindObjectTemplate="{StaticResource findObjectTemplate}"
 		ForeachTemplate="{StaticResource foreachTemplate}"
+		ForTemplate="{StaticResource forTemplate}"
 		PauseTemplate="{StaticResource pauseTemplate}"
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"

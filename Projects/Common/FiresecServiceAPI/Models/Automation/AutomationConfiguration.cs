@@ -175,6 +175,16 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
+				case ProcedureStepType.For:
+					{
+						var forArguments = step.ForArguments;
+						InvalidateArgument(procedure, forArguments.IndexerArgument);
+						InvalidateArgument(procedure, forArguments.InitialValueArgument);
+						InvalidateArgument(procedure, forArguments.ValueArgument);
+						InvalidateArgument(procedure, forArguments.IteratorArgument);
+					}
+					break;
+
 				case ProcedureStepType.Pause:
 					{
 						var pauseArguments = step.PauseArguments;

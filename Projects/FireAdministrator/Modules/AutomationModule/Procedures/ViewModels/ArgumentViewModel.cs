@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ExplicitValueViewModel> ExplicitValues { get; set; }
 		public Argument Argument { get; private set; }
 
-		public ArgumentViewModel(Argument argument, Action updateDescriptionHandler, bool allowExplicitValue = true, bool allowLocalValue = true)
+		public ArgumentViewModel(Argument argument, Action updateDescriptionHandler, bool allowExplicitValue = true, bool allowLocalValue = true, bool allowGlobalValue = true)
 		{
 			Argument = argument;
 			UpdateDescriptionHandler = updateDescriptionHandler;
@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			ExplicitValue.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variables = new List<VariableViewModel>();
-			VariableScopes = new ObservableCollection<VariableScope>(ProcedureHelper.GetEnumList<VariableScope>().FindAll(x => (allowExplicitValue || x != VariableScope.ExplicitValue) && (allowLocalValue || x != VariableScope.LocalVariable)));
+			VariableScopes = new ObservableCollection<VariableScope>(ProcedureHelper.GetEnumList<VariableScope>().FindAll(x => (allowExplicitValue || x != VariableScope.ExplicitValue) && (allowLocalValue || x != VariableScope.LocalVariable) && (allowGlobalValue || x != VariableScope.GlobalVariable)));
 			OnPropertyChanged(() => VariableScopes);
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ExplicitValueViewModel>(OnRemove);

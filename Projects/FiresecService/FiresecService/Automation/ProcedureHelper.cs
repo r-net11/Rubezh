@@ -332,7 +332,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		static bool? Compare(object param1, object param2, ConditionType conditionType)
+		public static bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
 			if (param1.GetType() != param2.GetType())
 				return null;
@@ -558,7 +558,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		static T GetValue<T>(Argument variable)
+		public static T GetValue<T>(Argument variable)
 		{
 			var result = new object();
 			var variableScope = variable.VariableScope;

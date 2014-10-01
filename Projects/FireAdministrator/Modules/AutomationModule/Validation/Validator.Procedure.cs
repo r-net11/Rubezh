@@ -116,6 +116,19 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.For:
+					{
+						var forArguments = step.ForArguments;
+						if (!ValidateArgument(step, forArguments.IndexerArgument))
+							break;
+						if (!ValidateArgument(step, forArguments.InitialValueArgument))
+							break;
+						if (!ValidateArgument(step, forArguments.ValueArgument))
+							break;
+						ValidateArgument(step, forArguments.IteratorArgument);
+					}
+					break;
+
 				case ProcedureStepType.Pause:
 					{
 						var pauseArguments = step.PauseArguments;

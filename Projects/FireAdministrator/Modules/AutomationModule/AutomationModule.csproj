@@ -109,6 +109,7 @@
     <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
       <DependentUpon>StringDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
@@ -238,6 +239,9 @@
     </Compile>
     <Compile Include="Steps\Views\ForeachStepView.xaml.cs">
       <DependentUpon>ForeachStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ForStepView.xaml.cs">
+      <DependentUpon>ForStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\GetObjectPropertyStepView.xaml.cs">
       <DependentUpon>GetObjectPropertyStepView.xaml</DependentUpon>
@@ -442,6 +446,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Procedures\Views\StringDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ForStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

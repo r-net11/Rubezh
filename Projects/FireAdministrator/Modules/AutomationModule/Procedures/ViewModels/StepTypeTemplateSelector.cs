@@ -12,6 +12,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ConditionTemplate { get; set; }
 		public DataTemplate FindObjectTemplate { get; set; }
 		public DataTemplate ForeachTemplate { get; set; }
+		public DataTemplate ForTemplate { get; set; }
 		public DataTemplate PauseTemplate { get; set; }
 		public DataTemplate ProcedureSelectionTemplate { get; set; }
 		public DataTemplate ExitTemplate { get; set; }
@@ -59,6 +60,10 @@ namespace AutomationModule.ViewModels
 			if (item is ForeachStepViewModel)
 			{
 				return ForeachTemplate;
+			}
+			if (item is ForStepViewModel)
+			{
+				return ForTemplate;
 			}
 			if (item is PauseStepViewModel)
 			{

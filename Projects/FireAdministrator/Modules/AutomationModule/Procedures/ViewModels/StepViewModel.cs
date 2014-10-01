@@ -46,6 +46,10 @@ namespace AutomationModule.ViewModels
 					Content = new ForeachStepViewModel(this);
 					break;
 
+				case ProcedureStepType.For:
+					Content = new ForStepViewModel(this);
+					break;
+
 				case ProcedureStepType.Pause:
 					Content = new PauseStepViewModel(this);
 					break;
