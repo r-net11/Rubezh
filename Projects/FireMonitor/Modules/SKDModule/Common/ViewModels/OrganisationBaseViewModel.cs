@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -12,38 +11,36 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
 using SKDModule.Events;
-using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
 	public abstract class OrganisationBaseViewModel<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel, IEditingBaseViewModel
 		where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
-        where ModelT : class, IOrganisationElement, new()
+		where ModelT : class, IOrganisationElement, new()
 		where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
 		where FilterT : OrganisationFilterBase
 	{
-        public OrganisationBaseViewModel()
+		public OrganisationBaseViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-            CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
-            ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
-            ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
+			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
+		}
 
-        protected ModelT _clipboard;
+		protected ModelT _clipboard;
 		protected Guid _clipboardUID;
-        protected abstract IEnumerable<ModelT> GetModels(FilterT filter);
+		protected abstract IEnumerable<ModelT> GetModels(FilterT filter);
 		protected abstract IEnumerable<ModelT> GetModelsByOrganisation(Guid organisauinUID);
 		protected abstract bool MarkDeleted(Guid uid);
-        protected abstract bool Save(ModelT item);
+		protected abstract bool Save(ModelT item);
 
 		protected ModelT ShowDetails(Organisation organisation, ModelT model = null)
 		{
@@ -57,16 +54,16 @@ namespace SKDModule.ViewModels
 		public virtual void Initialize(FilterT filter)
 		{
 			var result = InitializeOrganisations(filter);
-            if (result)
-            {
-                var models = GetModels(filter);
-                if (models != null)
-                {
-                    InitializeModels(models);
-                    OnPropertyChanged(() => Organisations);
-                    SelectedItem = Organisations.FirstOrDefault();
-                }
-            }
+			if (result)
+			{
+				var models = GetModels(filter);
+				if (models != null)
+				{
+					InitializeModels(models);
+					OnPropertyChanged(() => Organisations);
+					SelectedItem = Organisations.FirstOrDefault();
+				}
+			}
 		}
 
 		protected virtual bool InitializeOrganisations(FilterT filter)
@@ -112,49 +109,49 @@ namespace SKDModule.ViewModels
 
 		protected virtual void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
-            if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
-            {
-                if (!Organisations.Any(x => x.Organisation.UID == newOrganisation.UID))
-                {
-                    var organisationViewModel = new ViewModelT();
-                    organisationViewModel.InitializeOrganisation(newOrganisation, this);
-                    Organisations.Add(organisationViewModel);
-                    var models = GetModelsByOrganisation(newOrganisation.UID);
-                    if (models != null)
-                    {
-                        InitializeModels(models);
-                    }
-                }
-            }
-            else
-            {
-                var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
-                if (organisationViewModel != null)
-                {
-                    Organisations.Remove(organisationViewModel);
-                }
-            }
-        }
+			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			{
+				if (!Organisations.Any(x => x.Organisation.UID == newOrganisation.UID))
+				{
+					var organisationViewModel = new ViewModelT();
+					organisationViewModel.InitializeOrganisation(newOrganisation, this);
+					Organisations.Add(organisationViewModel);
+					var models = GetModelsByOrganisation(newOrganisation.UID);
+					if (models != null)
+					{
+						InitializeModels(models);
+					}
+				}
+			}
+			else
+			{
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+				if (organisationViewModel != null)
+				{
+					Organisations.Remove(organisationViewModel);
+				}
+			}
+		}
 
-        protected virtual void OnRemoveOrganisation(Guid organisationUID)
-        {
-            var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == organisationUID);
-            if (organisationViewModel != null)
-            {
-                Organisations.Remove(organisationViewModel);
-            }
-        }
+		protected virtual void OnRemoveOrganisation(Guid organisationUID)
+		{
+			var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == organisationUID);
+			if (organisationViewModel != null)
+			{
+				Organisations.Remove(organisationViewModel);
+			}
+		}
 
-        ObservableCollection<ViewModelT> _organisations;
-        public ObservableCollection<ViewModelT> Organisations 
-        {
-            get { return _organisations; } 
-            private set
-            {
-                _organisations = value;
-                OnPropertyChanged(() => Organisations);
-            }
-        }
+		ObservableCollection<ViewModelT> _organisations;
+		public ObservableCollection<ViewModelT> Organisations 
+		{
+			get { return _organisations; } 
+			private set
+			{
+				_organisations = value;
+				OnPropertyChanged(() => Organisations);
+			}
+		}
 
 		ViewModelT _selectedItem;
 		public ViewModelT SelectedItem
@@ -181,9 +178,9 @@ namespace SKDModule.ViewModels
 				ViewModelT organisationViewModel = SelectedItem;
 				if (!organisationViewModel.IsOrganisation)
 					organisationViewModel = SelectedItem.Parent;
-                if (organisationViewModel.Organisation != null)
+				if (organisationViewModel.Organisation != null)
 					return organisationViewModel;
-                return null;
+				return null;
 			}
 		}
 
@@ -262,7 +259,7 @@ namespace SKDModule.ViewModels
 			return SelectedItem != null && SelectedItem.Parent != null && !SelectedItem.IsOrganisation;
 		}
 
-        public RelayCommand CopyCommand { get; private set; }
+		public RelayCommand CopyCommand { get; private set; }
 		protected virtual void OnCopy()
 		{
 			_clipboard = CopyModel(SelectedItem.Model);
@@ -277,7 +274,7 @@ namespace SKDModule.ViewModels
 		protected virtual void OnPaste()
 		{
 			var newItem = _clipboard;
-            newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
+			newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
 			newItem.OrganisationUID = ParentOrganisation.Organisation.UID;
 			if (Save(newItem))
 			{
@@ -297,7 +294,7 @@ namespace SKDModule.ViewModels
 			var copy = new ModelT();
 			copy.UID = Guid.NewGuid();
 			copy.Name = source.Name;
-            copy.Description = source.Description;
+			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			return copy;
 		}

@@ -396,7 +396,7 @@ namespace SKDModule.ViewModels
 
 		bool Validate()
 		{
-			if (Card.Password.Length > 50)
+			if (Card.Password != null && Card.Password.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Пароль' не может быть длиннее 50 символов");
 				return false;

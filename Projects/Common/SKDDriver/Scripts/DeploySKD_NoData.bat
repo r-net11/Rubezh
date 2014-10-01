@@ -1,4 +1,4 @@
-sqlcmd -E -S .\sqlexpress -i DropIfExists.sql
-sqlcmd -E -S .\sqlexpress -i Create.sql
+sqlcmd -E -S .\FIRESECINSTANCE -i DropIfExists.sql
+sqlcmd -E -S .\FIRESECINSTANCE -i Create.sql
 
 pause

@@ -1,1 +1,0 @@
-SQLEXPR32_RUS.EXE /qn
