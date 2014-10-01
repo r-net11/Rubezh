@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 	public class CardsViewModel : ViewPartViewModel
 	{
 		CardFilter Filter;
-        
+		
 		public CardsViewModel()
 		{
 			Filter = new CardFilter();
@@ -78,34 +78,34 @@ namespace SKDModule.ViewModels
 
 		void OnOrganisationUsersChanged(Organisation newOrganisation)
 		{
-            if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
-            {
-                if (!RootItems.Any(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID))
-                {
-                    var organisationViewModel = new CardViewModel(newOrganisation);
-                    RootItems.Add(organisationViewModel);
-                    var cards = CardHelper.Get(new CardFilter());
-                    if (cards == null)
-                        return;
-                    foreach (var card in cards.Where(x => x.OrganisationUID == newOrganisation.UID))
-                    {
-                        organisationViewModel.AddChild(new CardViewModel(card));
-                    }
-                    OnPropertyChanged(() => RootItems);
-                    OnPropertyChanged(() => RootItemsArray);
-                }
-            }
-            else
-            {
-                var organisationViewModel = RootItems.FirstOrDefault(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID);
-                if (organisationViewModel != null)
-                {
-                    RootItems.Remove(organisationViewModel);
-                    OnPropertyChanged(() => RootItems);
-                    OnPropertyChanged(() => RootItemsArray);
-                }
-            }
-        }
+			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			{
+				if (!RootItems.Any(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID))
+				{
+					var organisationViewModel = new CardViewModel(newOrganisation);
+					RootItems.Add(organisationViewModel);
+					var cards = CardHelper.Get(new CardFilter());
+					if (cards == null)
+						return;
+					foreach (var card in cards.Where(x => x.OrganisationUID == newOrganisation.UID))
+					{
+						organisationViewModel.AddChild(new CardViewModel(card));
+					}
+					OnPropertyChanged(() => RootItems);
+					OnPropertyChanged(() => RootItemsArray);
+				}
+			}
+			else
+			{
+				var organisationViewModel = RootItems.FirstOrDefault(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID);
+				if (organisationViewModel != null)
+				{
+					RootItems.Remove(organisationViewModel);
+					OnPropertyChanged(() => RootItems);
+					OnPropertyChanged(() => RootItemsArray);
+				}
+			}
+		}
 
 		protected virtual void OnRemoveOrganisation(Guid organisationUID)
 		{

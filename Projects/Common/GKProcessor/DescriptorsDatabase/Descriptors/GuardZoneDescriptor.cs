@@ -79,7 +79,7 @@ namespace GKProcessor
 								resetGuardDevices.Add(guardZoneDevice);
 							}
 						}
-					    break;
+						break;
 				}
 			}
 

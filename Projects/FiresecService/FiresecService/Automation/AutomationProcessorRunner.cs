@@ -79,7 +79,7 @@ namespace FiresecService.Processor
 
 		static bool RunStep(ProcedureStep procedureStep, Procedure procedure)
 		{
-            var allVariables = ProcedureHelper.GetAllVariables(procedure);
+			var allVariables = ProcedureHelper.GetAllVariables(procedure);
 			switch (procedureStep.ProcedureStepType)
 			{
 				case ProcedureStepType.If:
@@ -120,26 +120,26 @@ namespace FiresecService.Processor
 						}
 					break;
 
-                case ProcedureStepType.For:
-			        var forArguments = procedureStep.ForArguments;
-                    var indexerVariable = allVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
-			        var initialValue = ProcedureHelper.GetValue<int>(forArguments.InitialValueArgument);
-                    var value = ProcedureHelper.GetValue<int>(forArguments.ValueArgument);
-                    var iterator = ProcedureHelper.GetValue<int>(forArguments.IteratorArgument);
-                    if (indexerVariable != null)
-			        {
-                        var condition = ProcedureHelper.Compare(initialValue, value, forArguments.ConditionType);
-			            var currentIntValue = indexerVariable.ExplicitValue.IntValue;
-			            for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value;)
-			            {
-                            if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
-                                return false;
-			                indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
-                            condition = ProcedureHelper.Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
-			            }
-			            indexerVariable.ExplicitValue.IntValue = currentIntValue;
-			        }
-                    break;
+				case ProcedureStepType.For:
+					var forArguments = procedureStep.ForArguments;
+					var indexerVariable = allVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
+					var initialValue = ProcedureHelper.GetValue<int>(forArguments.InitialValueArgument);
+					var value = ProcedureHelper.GetValue<int>(forArguments.ValueArgument);
+					var iterator = ProcedureHelper.GetValue<int>(forArguments.IteratorArgument);
+					if (indexerVariable != null)
+					{
+						var condition = ProcedureHelper.Compare(initialValue, value, forArguments.ConditionType);
+						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
+						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value;)
+						{
+							if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
+								return false;
+							indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
+							condition = ProcedureHelper.Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
+						}
+						indexerVariable.ExplicitValue.IntValue = currentIntValue;
+					}
+					break;
 				case ProcedureStepType.PlaySound:
 					var automationCallbackResult = new AutomationCallbackResult();
 					automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;

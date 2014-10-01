@@ -8,23 +8,23 @@
 		<Views:ControllerPropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ControllerPaswordViewModel}">
-        <Views:ControllerPaswordView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ControllerPaswordViewModel}">
+		<Views:ControllerPaswordView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ControllerDoorTypeViewModel}">
-        <Views:ControllerDoorTypeView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ControllerDoorTypeViewModel}">
+		<Views:ControllerDoorTypeView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ControllerNetSettingsViewModel}">
-        <Views:ControllerNetSettingsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ControllerNetSettingsViewModel}">
+		<Views:ControllerNetSettingsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ControllerTimeSettingsViewModel}">
-        <Views:ControllerTimeSettingsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ControllerTimeSettingsViewModel}">
+		<Views:ControllerTimeSettingsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
 		<Views:LockPropertiesView />
 	</DataTemplate>
 

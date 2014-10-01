@@ -192,32 +192,32 @@ namespace GKModule
 
 		//void OnShowArchive(ShowXArchiveEventArgs showXArchiveEventArgs)
 		//{
-		//    if (showXArchiveEventArgs != null)
-		//    {
-		//        ArchiveViewModel.Sort(showXArchiveEventArgs);
-		//    }
+		//	if (showXArchiveEventArgs != null)
+		//	{
+		//		ArchiveViewModel.Sort(showXArchiveEventArgs);
+		//	}
 		//}
 
 		//int _unreadJournalCount;
 		//private int UnreadJournalCount
 		//{
-		//    get { return _unreadJournalCount; }
-		//    set
-		//    {
-		//        _unreadJournalCount = value;
-		//        if (_journalNavigationItem != null)
-		//            _journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
-		//    }
+		//	get { return _unreadJournalCount; }
+		//	set
+		//	{
+		//		_unreadJournalCount = value;
+		//		if (_journalNavigationItem != null)
+		//			_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+		//	}
 		//}
 		//void OnShowJournal(object obj)
 		//{
-		//    UnreadJournalCount = 0;
-		//    JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
+		//	UnreadJournalCount = 0;
+		//	JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
 		//}
 		//void OnNewJournalRecord(List<XJournalItem> journalItems)
 		//{
-		//    if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-		//        UnreadJournalCount += journalItems.Count;
+		//	if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+		//		UnreadJournalCount += journalItems.Count;
 		//}
 
 		public override void Initialize()

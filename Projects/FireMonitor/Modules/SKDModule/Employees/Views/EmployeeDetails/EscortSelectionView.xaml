@@ -4,19 +4,19 @@
 			 MinWidth="400" MinHeight="300">
 	<Grid>
 		<ScrollViewer VerticalScrollBarVisibility="Auto">
-            <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
+			<DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 				<DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Имя" Width="*">
+					<DataGridTemplateColumn Header="Имя" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <TextBlock Text="{Binding FIO}" />
+									<TextBlock Text="{Binding FIO}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Должность" Width="*">
+					<DataGridTemplateColumn Header="Должность" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding PositionName}" VerticalAlignment="Center" Margin="2" />

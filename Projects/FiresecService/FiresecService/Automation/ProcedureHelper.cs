@@ -367,7 +367,7 @@ namespace FiresecService.Processor
 			if (param1 is bool)
 			{
 				return (((conditionType == ConditionType.IsEqual) && ((bool) param1 == (bool) param2))
-				        || ((conditionType == ConditionType.IsNotEqual) && ((bool) param1 != (bool) param2)));
+						|| ((conditionType == ConditionType.IsNotEqual) && ((bool) param1 != (bool) param2)));
 			}
 			return null;
 		}

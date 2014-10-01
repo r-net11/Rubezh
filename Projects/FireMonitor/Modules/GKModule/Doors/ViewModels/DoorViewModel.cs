@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -146,7 +146,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}

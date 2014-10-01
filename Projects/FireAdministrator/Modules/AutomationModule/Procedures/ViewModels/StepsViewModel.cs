@@ -171,11 +171,11 @@ namespace AutomationModule.ViewModels
 					var procedureStep = new ProcedureStep();
 					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
 					var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
-				    if (procedureStep.ProcedureStepType == ProcedureStepType.For || procedureStep.ProcedureStepType == ProcedureStepType.While)
-				    {
-				        stepViewModel.IsExpanded = true;
-				        AddСycleBody(stepViewModel);
-				    }
+					if (procedureStep.ProcedureStepType == ProcedureStepType.For || procedureStep.ProcedureStepType == ProcedureStepType.While)
+					{
+						stepViewModel.IsExpanded = true;
+						AddСycleBody(stepViewModel);
+					}
 					Add(stepViewModel);
 					FillAllSteps();
 					ServiceFactory.SaveService.AutomationChanged = true;

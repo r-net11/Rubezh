@@ -32,7 +32,7 @@
 					<StackPanel Orientation="Horizontal">
 						<Label Content="С" VerticalAlignment="Center" />
 						<StackPanel>
-	                        <Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
+							<Controls:TimePicker TimeSpan="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
 							<Calendar
 								SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
 								DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
@@ -40,7 +40,7 @@
 						</StackPanel>
 						<Label Content="По" VerticalAlignment="Center" Margin="25 0" />
 						<StackPanel>
-	                        <Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
+							<Controls:TimePicker TimeSpan="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
 							<Calendar
 								SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
 								DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
@@ -428,9 +428,9 @@
 				</ListBox>
 			</TabItem>
 
-	        <TabItem>
-	            <TabItem.Header>
-	                <TextBlock Text="Охранные Зоны" FontWeight="Bold">
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Охранные Зоны" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
 								<Style.Triggers>
@@ -444,20 +444,20 @@
 								</Style.Triggers>
 							</Style>
 						</TextBlock.Style>
-	                </TextBlock>
-	            </TabItem.Header>
-	            <ListBox ItemsSource="{Binding ArchiveGuardZones.Items}">
-	                <ListBox.ItemTemplate>
-	                    <DataTemplate>
-	                        <StackPanel Orientation="Horizontal">
-	                            <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-	                            <Image Width="16" Source="/Controls;component/Images/GuardZone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-	                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-	                        </StackPanel>
-	                    </DataTemplate>
-	                </ListBox.ItemTemplate>
-	            </ListBox>
-	        </TabItem>
-	    </TabControl>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding ArchiveGuardZones.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="/Controls;component/Images/GuardZone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+		</TabControl>
 	</DockPanel>
 </UserControl>

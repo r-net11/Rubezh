@@ -19,8 +19,8 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
@@ -35,8 +35,8 @@
 					<Label Grid.Row="2" Grid.Column="0" Content="Отчество" HorizontalAlignment="Right" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-                    <Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" />
@@ -55,8 +55,8 @@
 						</TextBlock>
 					</StackPanel>
 
-                    <Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
@@ -134,14 +134,14 @@
 					</TextBlock>
 
 					<Label Grid.Row="9" Grid.Column="0" Content="Табельный номер" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" />
-                    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+					<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding TabelNo}" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
 
-                    <Label Grid.Row="10" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
-                    <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+					<Label Grid.Row="10" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
+					<TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
 
-                    <Label Grid.Row="11" Grid.Column="0" Content="Руководитель организации" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                </Grid>
+					<Label Grid.Row="11" Grid.Column="0" Content="Руководитель организации" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+				</Grid>
 				<ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
@@ -248,7 +248,7 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 										<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
 									</StackPanel>
 								</DataTemplate>
@@ -258,8 +258,8 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}" Margin="0 4 0 0">
-                    <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
-                    <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
+					<CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
+					<CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
 				</StackPanel>
 			</Grid>
 		</TabItem>

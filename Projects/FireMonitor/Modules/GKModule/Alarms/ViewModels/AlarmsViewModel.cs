@@ -84,15 +84,15 @@ namespace GKModule.ViewModels
 							break;
 
 						//case XStateClass.Fire1:
-						//    alarms.Add(new Alarm(XAlarmType.Turning, device));
-						//    break;
+						//	alarms.Add(new Alarm(XAlarmType.Turning, device));
+						//	break;
 
 						//case XStateClass.Fire2:
-						//    if (device.DriverType != XDriverType.AM1_T)
-						//    {
-						//        alarms.Add(new Alarm(XAlarmType.Turning, device));
-						//    }
-						//    break;
+						//	if (device.DriverType != XDriverType.AM1_T)
+						//	{
+						//		alarms.Add(new Alarm(XAlarmType.Turning, device));
+						//	}
+						//	break;
 					}
 				}
 				if (device.State.StateClasses.Contains(XStateClass.AutoOff) && device.Driver.IsControlDevice)

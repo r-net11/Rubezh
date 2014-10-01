@@ -1,29 +1,29 @@
 ﻿<UserControl x:Class="GKModule.Views.SchedulesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" >
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <XDataGrid Grid.Row="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="№" SortMemberPath="Schedule.No" Width="Auto" CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/Shedule.png" Margin="2 0" />
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Schedule.No}" Margin="2 0 5 0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" Binding="{Binding Schedule.Name}" Header="Наименование" />
-                <DataGridTextColumn Width="*" Binding="{Binding Schedule.Description}" Header="Примечание" />
-            </DataGrid.Columns>
-        </XDataGrid>
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="2*" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<XDataGrid Grid.Row="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="№" SortMemberPath="Schedule.No" Width="Auto" CanUserResize="False">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/Shedule.png" Margin="2 0" />
+								<TextBlock VerticalAlignment="Center" Text="{Binding Schedule.No}" Margin="2 0 5 0" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Width="*" Binding="{Binding Schedule.Name}" Header="Наименование" />
+				<DataGridTextColumn Width="*" Binding="{Binding Schedule.Description}" Header="Примечание" />
+			</DataGrid.Columns>
+		</XDataGrid>
+	</Grid>
 </UserControl>

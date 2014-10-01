@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 			ArchiveDescriptions = new CheckBoxItemList<ArchiveDescriptionViewModel>();
 			//foreach (var description in DescriptionsHelper.GetAllDescriptions())
 			//{
-			//    ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
+			//	ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
 			//}
 			ArchiveDescriptions.Items.Sort(ArchiveDescriptionViewModel.Compare);
 			foreach (var description in archiveFilter.Descriptions)

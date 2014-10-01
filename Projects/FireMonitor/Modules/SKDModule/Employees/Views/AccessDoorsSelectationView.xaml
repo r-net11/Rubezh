@@ -17,7 +17,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Margin="1 0 0 0" />
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 									<TextBlock Text="{Binding Door.Name}" Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
@@ -34,7 +34,7 @@
 						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedEnterTimeCreteria}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-                                    <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+									<TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>

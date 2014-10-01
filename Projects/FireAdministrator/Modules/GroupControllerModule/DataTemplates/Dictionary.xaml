@@ -20,11 +20,11 @@
 		<Views:ZonesSelectationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardZonesSelectationViewModel}">
-        <Views:GuardZonesSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:GuardZonesSelectationViewModel}">
+		<Views:GuardZonesSelectationView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionsSelectationViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:DirectionsSelectationViewModel}">
 		<Views:DirectionsSelectationView />
 	</DataTemplate>
 
@@ -203,39 +203,39 @@
 		<Views:GuardZonesMenuView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CodeSelectionViewModel}">
-        <Views:CodeSelectionView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CodeSelectionViewModel}">
+		<Views:CodeSelectionView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CodeReaderDetailsViewModel}">
-        <Views:CodeReaderDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CodeReaderDetailsViewModel}">
+		<Views:CodeReaderDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
-        <Views:DoorsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
+		<Views:DoorsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorsMenuViewModel}">
-        <Views:DoorsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DoorsMenuViewModel}">
+		<Views:DoorsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
-        <Views:DoorDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
+		<Views:DoorDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
-        <Views:SchedulesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+		<Views:SchedulesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SchedulesMenuViewModel}">
-        <Views:SchedulesMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesMenuViewModel}">
+		<Views:SchedulesMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
-        <Views:ScheduleDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
+		<Views:ScheduleDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:OPCDevicesViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:OPCDevicesViewModel}">
 		<Views:OPCDevicesView />
 	</DataTemplate>
 

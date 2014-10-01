@@ -1,33 +1,33 @@
 ﻿<UserControl x:Class="SKDModule.Views.ScheduleSchemeDetailsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Width="400" Height="300">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 Width="400" Height="300">
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
-               </Grid.ColumnDefinitions>
+			   </Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Описание" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Описание" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Тип графика" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" 
-                          ItemsSource="{Binding ScheduleSchemeTypes}" SelectedItem="{Binding SelectedScheduleSchemeType}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Тип графика" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" 
+						  ItemsSource="{Binding ScheduleSchemeTypes}" SelectedItem="{Binding SelectedScheduleSchemeType}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" >
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

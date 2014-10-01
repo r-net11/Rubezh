@@ -15,19 +15,19 @@
 		</Grid.RowDefinitions>
 		<Controls:XDataGrid Grid.Row="0" CanUserSortColumns="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
 			<DataGrid.Columns>
-                <DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
-                                    <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
-                                </drag:DragDropDecorator>
-                                <TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
+				<DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
+									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+								</drag:DragDropDecorator>
+								<TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
 				<DataGridTemplateColumn Width="*" CanUserResize="False" Header="Устройство входа">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -59,7 +59,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding OutDevice.Driver.ImageSource}" />
-                                <TextBlock Text="{Binding OutDevice.NameWithParent}" />
+								<TextBlock Text="{Binding OutDevice.NameWithParent}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

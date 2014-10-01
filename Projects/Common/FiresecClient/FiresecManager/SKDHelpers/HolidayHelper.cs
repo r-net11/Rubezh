@@ -35,13 +35,13 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-        public static IEnumerable<Holiday> GetByOrganisation(Guid organisationUID)
-        {
-            var result = FiresecManager.FiresecService.GetHolidays(new HolidayFilter
-            {
-                OrganisationUIDs = new List<System.Guid> { organisationUID }
-            });
-            return Common.ShowErrorIfExists(result);
-        }
+		public static IEnumerable<Holiday> GetByOrganisation(Guid organisationUID)
+		{
+			var result = FiresecManager.FiresecService.GetHolidays(new HolidayFilter
+			{
+				OrganisationUIDs = new List<System.Guid> { organisationUID }
+			});
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

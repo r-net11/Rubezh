@@ -13,15 +13,15 @@ namespace FiresecClient.SKDHelpers
 			}
 			if (operationResult.HasError)
 			{
-                if (operationResult.Error.Contains("String or binary data would be truncated"))
-                    operationResult.Error = "Превышен максимальный размер строки";
-                if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
-                    !operationResult.Error.Contains("Could not open a connection to SQL Server") &&
-                    showError)
-                {
-                    MessageBoxService.ShowWarning(operationResult.Error);
-                }
-                return false;
+				if (operationResult.Error.Contains("String or binary data would be truncated"))
+					operationResult.Error = "Превышен максимальный размер строки";
+				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
+					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
+					showError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				return false;
 			}
 			return true;
 		}
@@ -34,15 +34,15 @@ namespace FiresecClient.SKDHelpers
 			}
 			if (operationResult.HasError)
 			{
-                if (operationResult.Error.Contains("String or binary data would be truncated"))
-                    operationResult.Error = "Превышен максимальный размер строки";
-                if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
-                    !operationResult.Error.Contains("Could not open a connection to SQL Server") &&
-                    showError)
-                {
-                    MessageBoxService.ShowWarning(operationResult.Error);
-                }
-                return default(T);
+				if (operationResult.Error.Contains("String or binary data would be truncated"))
+					operationResult.Error = "Превышен максимальный размер строки";
+				if (!operationResult.Error.Contains("При установлении соединения с SQL Server произошла ошибка") &&
+					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
+					showError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				return default(T);
 			}
 			return operationResult.Result;
 		}

@@ -47,10 +47,10 @@
 									</Grid.ToolTip>
 									<Grid.ContextMenu>
 										<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Поставить на охрану" Command="{Binding TurnOnCommand}" />
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Поставить на охрану немедленно" Command="{Binding TurnOnNowCommand}" />
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять с охраны" Command="{Binding TurnOffCommand}" />
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetCommand}" />
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Поставить на охрану" Command="{Binding TurnOnCommand}" />
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Поставить на охрану немедленно" Command="{Binding TurnOnNowCommand}" />
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять с охраны" Command="{Binding TurnOffCommand}" />
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetCommand}" />
 											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/Map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
@@ -59,13 +59,13 @@
 									<Grid.InputBindings>
 										<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
 									</Grid.InputBindings>
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
 										<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
 											<TextBlock Text="{Binding GuardZone.No}" />
 										</Hyperlink>
 									</TextBlock>
 								</Grid>
-	                        </DataTemplate>
+							</DataTemplate>
 						</ListBox.ItemTemplate>
 						<ListBox.ItemsPanel>
 							<ItemsPanelTemplate>
@@ -76,13 +76,13 @@
 				</ScrollViewer>
 			</Grid>
 			<StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
-                <Label Margin="0" Content="{Binding GuardZone.PresentationName}" />
+				<Label Margin="0" Content="{Binding GuardZone.PresentationName}" />
 				<ItemsControl Margin="2" ItemsSource="{Binding State.StateClasses}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-	                            <TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XGuardZoneStateClassToStringConverter}}" Margin="5 0" />
+								<TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XGuardZoneStateClassToStringConverter}}" Margin="5 0" />
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>

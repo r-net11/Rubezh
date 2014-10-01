@@ -5,7 +5,7 @@ using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-    public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>
+	public class AccessTemplatesViewModel : OrganisationBaseViewModel<AccessTemplate, AccessTemplateFilter, AccessTemplateViewModel, AccessTemplateDetailsViewModel>
 	{
 		protected override IEnumerable<AccessTemplate> GetModels(AccessTemplateFilter filter)
 		{
@@ -43,14 +43,14 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
-        protected override bool CanPaste()
-        {
-            return base.CanPaste() && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
-        }
+		protected override bool CanPaste()
+		{
+			return base.CanPaste() && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
+		}
 
-        protected override string ItemRemovingName
-        {
-            get { return "шаблон доступа"; }
-        }
+		protected override string ItemRemovingName
+		{
+			get { return "шаблон доступа"; }
+		}
 	}	
 }

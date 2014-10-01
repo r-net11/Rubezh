@@ -16,7 +16,7 @@
 			</Style>
 		</DataGrid.ItemContainerStyle>
 		<DataGrid.Columns>
-	        <DataGridTemplateColumn Width="*" Header="Контроллер">
+			<DataGridTemplateColumn Width="*" Header="Контроллер">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

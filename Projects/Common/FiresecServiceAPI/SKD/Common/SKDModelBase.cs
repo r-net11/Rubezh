@@ -27,9 +27,9 @@ namespace FiresecAPI.SKD
 
 	public interface IOrganisationElement
 	{
-        Guid UID { get; set; }
-        string Name { get; set; }
-        string Description { get; set; }
-        Guid OrganisationUID { get; set; }
+		Guid UID { get; set; }
+		string Name { get; set; }
+		string Description { get; set; }
+		Guid OrganisationUID { get; set; }
 	}
 }

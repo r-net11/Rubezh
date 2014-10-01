@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 					};
 					var libraryXState = new LibraryXState()
 					{
-					    XStateClass = XStateClass.No,
+						XStateClass = XStateClass.No,
 					};
 					libraryXState.XFrames.Add(new LibraryXFrame() { Id = 0 });
 					libraryXDevice.XStates.Add(libraryXState);

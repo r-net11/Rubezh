@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
-            IsExpanded = true;
+			IsExpanded = true;
 		}
 
 		public void Update(SKDCard card)
@@ -67,16 +67,16 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => StopReason);
 		}
 
-        public void Update(Organisation organisation)
-        {
-            Organisation = organisation;
-            IsOrganisation = true;
-            OnPropertyChanged(() => Card);
-            OnPropertyChanged(() => Number);
-            OnPropertyChanged(() => IsInStopList);
-            OnPropertyChanged(() => EmployeeName);
-            OnPropertyChanged(() => StopReason);
-        }
+		public void Update(Organisation organisation)
+		{
+			Organisation = organisation;
+			IsOrganisation = true;
+			OnPropertyChanged(() => Card);
+			OnPropertyChanged(() => Number);
+			OnPropertyChanged(() => IsInStopList);
+			OnPropertyChanged(() => EmployeeName);
+			OnPropertyChanged(() => StopReason);
+		}
 
 		public static CardViewModel DeactivatedRootItem
 		{

@@ -1,47 +1,47 @@
 ﻿<UserControl x:Class="SKDModule.Views.DepartmentEmployeeListView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <FrameworkElement x:Name="dummyElement" Visibility="Collapsed"/>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="ФИО" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
-                                <Image Width="16" Source="/Controls;component/Images/Chief.png" VerticalAlignment="Center" Margin="1 0" 
-                                       Visibility="{Binding IsChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                <Image Width="16" Source="/Controls;component/Images/HRChief.png" VerticalAlignment="Center" Margin="1 0" 
-                                       Visibility="{Binding IsHRChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                <TextBlock Text="{Binding Employee.Name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Отдел" Width="*" Binding="{Binding Employee.DepartmentName}" Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <DataGridTextColumn Header="Должность" Width="*" Binding="{Binding Employee.PositionName}" Visibility="{Binding DataContext.CanEditPosition, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal">
-                <ToolBarButton ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/ChiefW.png" ToolTip="Назначить руководителя" 
-                               Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя" 
-                               Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/HRChiefW.png" ToolTip="Назначить руководителя отдела кадров" 
-                               Command="{Binding SetHRChiefCommand}" Visibility="{Binding CanSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя отдела кадров" 
-                               Command="{Binding UnSetHRChiefCommand}"  Visibility="{Binding CanUnSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 >
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<FrameworkElement x:Name="dummyElement" Visibility="Collapsed"/>
+		<DataGrid Grid.Row="0" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="ФИО" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
+								<Image Width="16" Source="/Controls;component/Images/Chief.png" VerticalAlignment="Center" Margin="1 0" 
+									   Visibility="{Binding IsChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
+								<Image Width="16" Source="/Controls;component/Images/HRChief.png" VerticalAlignment="Center" Margin="1 0" 
+									   Visibility="{Binding IsHRChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
+								<TextBlock Text="{Binding Employee.Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Отдел" Width="*" Binding="{Binding Employee.DepartmentName}" Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<DataGridTextColumn Header="Должность" Width="*" Binding="{Binding Employee.PositionName}" Visibility="{Binding DataContext.CanEditPosition, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" />
+			</DataGrid.Columns>
+		</DataGrid>
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<StackPanel Orientation="Horizontal">
+				<ToolBarButton ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
+				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
+				<ToolBarButton ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
+				<ToolBarButton ImageSource="/Controls;component/Images/ChiefW.png" ToolTip="Назначить руководителя" 
+							   Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя" 
+							   Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ToolBarButton ImageSource="/Controls;component/Images/HRChiefW.png" ToolTip="Назначить руководителя отдела кадров" 
+							   Command="{Binding SetHRChiefCommand}" Visibility="{Binding CanSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя отдела кадров" 
+							   Command="{Binding UnSetHRChiefCommand}"  Visibility="{Binding CanUnSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
+			</StackPanel>
+		</StackPanel>
+	</Grid>
 </UserControl>

@@ -193,19 +193,19 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-        #region NightSettings
+		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
-        {
+		{
 			return SafeContext.Execute<OperationResult<NightSettings>>(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
-        }
+		}
 		public OperationResult SaveNightSettings(NightSettings nightSettings)
-        {
+		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNightSettings(nightSettings));
-        }
-        #endregion
+		}
+		#endregion
 
-        #region Device
-        public OperationResult<SKDStates> SKDGetStates()
+		#region Device
+		public OperationResult<SKDStates> SKDGetStates()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
 		}

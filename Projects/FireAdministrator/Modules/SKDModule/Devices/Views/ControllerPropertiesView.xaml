@@ -51,7 +51,7 @@
 					<StackPanel Orientation="Horizontal">
 						<Button Content="Перезаписать карты" Command="{Binding RewriteAllCardsCommand}" Width="150" Margin="2" />
 					</StackPanel>
-                </StackPanel>
+				</StackPanel>
 			</Border>
 		</TabItem>
 	</TabControl>

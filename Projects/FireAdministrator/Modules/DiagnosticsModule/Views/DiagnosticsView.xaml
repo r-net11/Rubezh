@@ -14,11 +14,11 @@
 		<TabItem Header="Отладка">
 			<Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
 				<Grid>
-                    <StackPanel>
-                        <Button Command="{Binding SaveCommand}" Content="Save" Width="100" Margin="2" />
-                        <Button Command="{Binding LoadCommand}" Content="Load" Width="100" Margin="2" />
-                    </StackPanel>
-                </Grid>
+					<StackPanel>
+						<Button Command="{Binding SaveCommand}" Content="Save" Width="100" Margin="2" />
+						<Button Command="{Binding LoadCommand}" Content="Load" Width="100" Margin="2" />
+					</StackPanel>
+				</Grid>
 			</Border>
 		</TabItem>
 	</TabControl>

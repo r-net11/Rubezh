@@ -39,11 +39,11 @@
 		<Views:LayoutPropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:IPFilterDetailsViewModel}">
-        <Views:IPFilterDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:IPFilterDetailsViewModel}">
+		<Views:IPFilterDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartViewModel}">
 		<Views:LayoutPartView />
 	</DataTemplate>
 

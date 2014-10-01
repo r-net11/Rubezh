@@ -9,7 +9,7 @@ using Organisation = FiresecAPI.SKD.Organisation;
 
 namespace SKDModule.ViewModels
 {
-    public class HolidayDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Holiday>
+	public class HolidayDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Holiday>
 	{
 		Organisation Organisation;
 		public Holiday Model { get; private set; }
@@ -102,33 +102,33 @@ namespace SKDModule.ViewModels
 		}
 
 
-        public bool Initialize(Organisation organisation, Holiday holiday, ViewPartViewModel parentViewModel)
-        {
-            Organisation = organisation;
-            var holidaysViewModel = parentViewModel as HolidaysViewModel;
-            if (holiday == null)
-            {
-                Title = "Новый приаздничный день";
-                holiday = new Holiday()
-                {
-                    Name = "Название праздника",
-                    OrganisationUID = Organisation.UID,
-                    Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
-                };
-            }
-            else
-            {
-                Title = "Редактирование праздничного дня";
-            }
-            Model = holiday;
-            Name = holiday.Name;
-            Date = holiday.Date;
-            Reduction = holiday.Reduction;
-            TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
+		public bool Initialize(Organisation organisation, Holiday holiday, ViewPartViewModel parentViewModel)
+		{
+			Organisation = organisation;
+			var holidaysViewModel = parentViewModel as HolidaysViewModel;
+			if (holiday == null)
+			{
+				Title = "Новый приаздничный день";
+				holiday = new Holiday()
+				{
+					Name = "Название праздника",
+					OrganisationUID = Organisation.UID,
+					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
+				};
+			}
+			else
+			{
+				Title = "Редактирование праздничного дня";
+			}
+			Model = holiday;
+			Name = holiday.Name;
+			Date = holiday.Date;
+			Reduction = holiday.Reduction;
+			TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
 
-            AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
-            HolidayType = holiday.Type;
+			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
+			HolidayType = holiday.Type;
 			return true;
-        }
-    }
+		}
+	}
 }

@@ -125,42 +125,42 @@ namespace SKDModule.ViewModels
 		}
 
 
-        public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
-        {
-            Organisation = organisation;
-            if (model == null)
-            {
-                Title = "Новый график";
-                model = new Schedule()
-                {
-                    Name = "Новый график работы",
-                    OrganisationUID = Organisation.UID,
-                };
-            }
-            else
-                Title = "Редактирование графика работы";
-            Model = model;
-            Name = Model.Name;
-            IsIgnoreHoliday = Model.IsIgnoreHoliday;
-            IsOnlyFirstEnter = Model.IsOnlyFirstEnter;
-            AllowedLate = Model.AllowedLate;
-            AllowedEarlyLeave = Model.AllowedEarlyLeave;
-            AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
-            _schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
-            {
-                OrganisationUIDs = new List<Guid>() { Organisation.UID },
-                Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
-                WithDays = false,
-            });
-            var selectedScheme = _schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
-            if (selectedScheme != null)
-            {
-                SelectedScheduleType = selectedScheme.Type;
-                SelectedScheduleScheme = selectedScheme;
-            }
+		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
+		{
+			Organisation = organisation;
+			if (model == null)
+			{
+				Title = "Новый график";
+				model = new Schedule()
+				{
+					Name = "Новый график работы",
+					OrganisationUID = Organisation.UID,
+				};
+			}
+			else
+				Title = "Редактирование графика работы";
+			Model = model;
+			Name = Model.Name;
+			IsIgnoreHoliday = Model.IsIgnoreHoliday;
+			IsOnlyFirstEnter = Model.IsOnlyFirstEnter;
+			AllowedLate = Model.AllowedLate;
+			AllowedEarlyLeave = Model.AllowedEarlyLeave;
+			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
+			_schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
+			{
+				OrganisationUIDs = new List<Guid>() { Organisation.UID },
+				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
+				WithDays = false,
+			});
+			var selectedScheme = _schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
+			if (selectedScheme != null)
+			{
+				SelectedScheduleType = selectedScheme.Type;
+				SelectedScheduleScheme = selectedScheme;
+			}
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
 			return true;
-        }
-    }
+		}
+	}
 }

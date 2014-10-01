@@ -57,7 +57,7 @@ namespace FiresecClient
 		}
 		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(Guid uid)
 		{
-            return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(uid));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(uid));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)

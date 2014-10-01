@@ -6,8 +6,8 @@ namespace SKDModule.ViewModels
 	{
 		public override void Update()
 		{
-            base.Update();
-            OnPropertyChanged(() => ReductionTime);
+			base.Update();
+			OnPropertyChanged(() => ReductionTime);
 			OnPropertyChanged(() => TransitionDate);
 			OnPropertyChanged(() => Model);
 		}
@@ -16,8 +16,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-                if (Model != null && Model.Type == HolidayType.BeforeHoliday)
-                    return Model.Reduction.ToString("hh\\-mm");
+				if (Model != null && Model.Type == HolidayType.BeforeHoliday)
+					return Model.Reduction.ToString("hh\\-mm");
 				return null;
 			}
 		}
@@ -25,8 +25,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-                if (Model != null && Model.Type == HolidayType.WorkingHoliday && Model.TransferDate.HasValue)
-                    return Model.TransferDate.Value.ToString("dd-MM");
+				if (Model != null && Model.Type == HolidayType.WorkingHoliday && Model.TransferDate.HasValue)
+					return Model.TransferDate.Value.ToString("dd-MM");
 				return null;
 			}
 		}

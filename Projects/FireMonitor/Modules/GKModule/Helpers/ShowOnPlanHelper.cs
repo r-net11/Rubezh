@@ -92,9 +92,9 @@ namespace GKModule
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				//if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == door.BaseUID))
-				//    return true;
+				//	return true;
 				//if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == door.BaseUID))
-				//    return true;
+				//	return true;
 			}
 			return false;
 		}

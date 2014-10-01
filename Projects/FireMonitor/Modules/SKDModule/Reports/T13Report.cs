@@ -34,32 +34,32 @@ namespace SKDModule.Reports
 
 		//IEnumerable<ReportData> IMultiReportProvider.GetData()
 		//{
-		//    var result = new List<ReportData>();
-		//    var table = BuildTable();
-		//    ReportData data = null;
-		//    int countOnPage = -1;
-		//    for (int i = 0; i < table.Rows.Count; i++)
-		//    {
-		//        if (data == null || data.DataTables[0].Rows.Count == countOnPage)
-		//        {
-		//            data = CreateData();
-		//            data.DataTables.Add(table.Clone());
-		//            result.Add(data);
-		//            if (countOnPage == -1)
-		//            {
-		//                data.Groups.Add("Header");
-		//                countOnPage = 2;
-		//            }
-		//            else if (i + 3 == table.Rows.Count)
-		//                countOnPage = 2;
-		//            else if (i + 3 <= table.Rows.Count)
-		//                countOnPage = 3;
-		//            if (i + 3 > table.Rows.Count)
-		//                data.Groups.Add("Footer");
-		//        }
-		//        data.DataTables[0].Rows.Add(table.Rows[i].ItemArray);
-		//    }
-		//    return result;
+		//	var result = new List<ReportData>();
+		//	var table = BuildTable();
+		//	ReportData data = null;
+		//	int countOnPage = -1;
+		//	for (int i = 0; i < table.Rows.Count; i++)
+		//	{
+		//		if (data == null || data.DataTables[0].Rows.Count == countOnPage)
+		//		{
+		//			data = CreateData();
+		//			data.DataTables.Add(table.Clone());
+		//			result.Add(data);
+		//			if (countOnPage == -1)
+		//			{
+		//				data.Groups.Add("Header");
+		//				countOnPage = 2;
+		//			}
+		//			else if (i + 3 == table.Rows.Count)
+		//				countOnPage = 2;
+		//			else if (i + 3 <= table.Rows.Count)
+		//				countOnPage = 3;
+		//			if (i + 3 > table.Rows.Count)
+		//				data.Groups.Add("Footer");
+		//		}
+		//		data.DataTables[0].Rows.Add(table.Rows[i].ItemArray);
+		//	}
+		//	return result;
 		//}
 
 		#endregion

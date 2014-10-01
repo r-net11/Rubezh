@@ -29,23 +29,23 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-        protected override void OnEditOrganisation(Organisation newOrganisation)
-        {
-            if (_isInitialized)
-                base.OnEditOrganisation(newOrganisation);
-        }
+		protected override void OnEditOrganisation(Organisation newOrganisation)
+		{
+			if (_isInitialized)
+				base.OnEditOrganisation(newOrganisation);
+		}
 
-        protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
-        {
-            if (_isInitialized)
-                base.OnOrganisationUsersChanged(newOrganisation);
-        }
-        
-        protected override void OnRemoveOrganisation(Guid organisationUID)
-        {
-            if (_isInitialized)
-                base.OnRemoveOrganisation(organisationUID);
-        }
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			if (_isInitialized)
+				base.OnOrganisationUsersChanged(newOrganisation);
+		}
+		
+		protected override void OnRemoveOrganisation(Guid organisationUID)
+		{
+			if (_isInitialized)
+				base.OnRemoveOrganisation(organisationUID);
+		}
 
 		public void Select(Guid dayIntervalUID)
 		{
@@ -87,9 +87,9 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
-        protected override string ItemRemovingName
-        {
-            get { return "дневной график"; }
-        }
+		protected override string ItemRemovingName
+		{
+			get { return "дневной график"; }
+		}
 	}
 }

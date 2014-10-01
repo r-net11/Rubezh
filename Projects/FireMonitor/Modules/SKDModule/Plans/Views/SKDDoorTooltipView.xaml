@@ -9,18 +9,18 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-	        <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
-            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Door.PresentationName}" />
+			<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
+			<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Door.PresentationName}" />
 		</StackPanel>
-	    <ItemsControl ItemsSource="{Binding Door.State.StateClasses}">
-	        <ItemsControl.ItemTemplate>
-	            <DataTemplate>
-	                <StackPanel Orientation="Horizontal">
-	                    <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" />
-	                    <TextBlock VerticalAlignment="Center" Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" />
-	                </StackPanel>
-	            </DataTemplate>
-	        </ItemsControl.ItemTemplate>
-	    </ItemsControl>
+		<ItemsControl ItemsSource="{Binding Door.State.StateClasses}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" />
+						<TextBlock VerticalAlignment="Center" Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" />
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 	</StackPanel>
 </UserControl>

@@ -24,7 +24,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 			base.OnPropertyChanged(propertyExpression);
 			if (UpdateDescriptionHandler != null)
-			    UpdateDescriptionHandler();
+				UpdateDescriptionHandler();
 		}
 	}
 }

@@ -60,8 +60,8 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding GuardZoneDevice.Device.Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding GuardZoneDevice.Device.Driver.ShortName}" />
-                                    </StackPanel>
+										<TextBlock Text="{Binding GuardZoneDevice.Device.Driver.ShortName}" />
+									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
@@ -72,25 +72,25 @@
 									<Controls:EditorPresenter>
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
-                                                <Grid>
-                                                    <Grid VerticalAlignment="Center" Visibility="{Binding IsCodeReader, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-                                                        <ComboBox ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding SelectedActionType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
-                                                            <ComboBox.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <Controls:IconLabel
-															            ImageSource="{Binding ., Converter={StaticResource XGuardZoneDeviceActionTypeToIconConverter}}" 
-															            Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" 
-															            Foreground="Black" />
-                                                                </DataTemplate>
-                                                            </ComboBox.ItemTemplate>
-                                                        </ComboBox>
-                                                    </Grid>
-                                                    <TextBlock Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center">
-								                        <Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
-									                        <TextBlock  Text="Свойства" Margin="2" />
-								                        </Hyperlink>
-							                        </TextBlock>
-                                                </Grid>
+												<Grid>
+													<Grid VerticalAlignment="Center" Visibility="{Binding IsCodeReader, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+														<ComboBox ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding SelectedActionType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
+															<ComboBox.ItemTemplate>
+																<DataTemplate>
+																	<Controls:IconLabel
+																		ImageSource="{Binding ., Converter={StaticResource XGuardZoneDeviceActionTypeToIconConverter}}" 
+																		Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" 
+																		Foreground="Black" />
+																</DataTemplate>
+															</ComboBox.ItemTemplate>
+														</ComboBox>
+													</Grid>
+													<TextBlock Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center">
+														<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+															<TextBlock  Text="Свойства" Margin="2" />
+														</Hyperlink>
+													</TextBlock>
+												</Grid>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
 									</Controls:EditorPresenter>
@@ -126,8 +126,8 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding GuardZoneDevice.Device.Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding GuardZoneDevice.Device.Driver.ShortName}" />
-                                    </StackPanel>
+										<TextBlock Text="{Binding GuardZoneDevice.Device.Driver.ShortName}" />
+									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>

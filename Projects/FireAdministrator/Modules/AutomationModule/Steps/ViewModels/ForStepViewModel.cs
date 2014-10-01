@@ -4,8 +4,8 @@ using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
-    class ForStepViewModel : BaseStepViewModel
-    {
+	class ForStepViewModel : BaseStepViewModel
+	{
 		public ForArguments ForArguments { get; private set; }
 		public ArgumentViewModel IndexerArgument { get; private set; }
 		public ArgumentViewModel InitialValueArgument { get; private set; }
@@ -25,9 +25,9 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-		    var allLocalVariables = new List<Variable>(Procedure.Variables);
-            allLocalVariables.AddRange(Procedure.Arguments);
-            IndexerArgument.Update(allLocalVariables.FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
+			var allLocalVariables = new List<Variable>(Procedure.Variables);
+			allLocalVariables.AddRange(Procedure.Arguments);
+			IndexerArgument.Update(allLocalVariables.FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
 			InitialValueArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
 			ValueArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
 			IteratorArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
@@ -69,5 +69,5 @@ namespace AutomationModule.ViewModels
 					IndexerArgument.Description + " = " + IndexerArgument.Description + " + " + IteratorArgument.Description;
 			}
 		}
-    }
+	}
 }
