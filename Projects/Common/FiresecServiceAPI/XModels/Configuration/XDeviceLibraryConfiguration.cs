@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XDeviceLibraryConfiguration : VersionedConfiguration
 	{
 		public XDeviceLibraryConfiguration()
@@ -11,6 +12,7 @@ namespace FiresecAPI.GK
 			XDevices = new List<LibraryXDevice>();
 		}
 
+		[DataMember]
 		public List<LibraryXDevice> XDevices { get; set; }
 
 		public override bool ValidateVersion()

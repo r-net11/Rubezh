@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XCode : XBase
 	{
 		public XCode()
@@ -16,6 +17,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Code; } }
 
+		[DataMember]
 		public int Password { get; set; }
 	}
 }

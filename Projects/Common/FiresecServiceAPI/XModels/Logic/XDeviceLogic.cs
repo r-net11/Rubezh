@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XDeviceLogic
 	{
 		public XDeviceLogic()
@@ -11,9 +12,16 @@ namespace FiresecAPI.GK
 			OffClausesGroup = new XClauseGroup();
 		}
 
+		[DataMember]
 		public XClauseGroup ClausesGroup { get; set; }
+
+		[DataMember]
 		public XClauseGroup OffClausesGroup { get; set; }
+
+		[DataMember]
 		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
+
+		[DataMember]
 		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
 	}
 }

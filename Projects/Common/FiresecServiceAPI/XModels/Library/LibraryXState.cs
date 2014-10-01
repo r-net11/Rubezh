@@ -4,6 +4,7 @@ using Infrustructure.Plans.Devices;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class LibraryXState : ILibraryState<LibraryXFrame, XStateClass>
 	{
 		public LibraryXState()
@@ -12,8 +13,13 @@ namespace FiresecAPI.GK
 			Layer = 0;
 		}
 
+		[DataMember]
 		public XStateClass XStateClass { get; set; }
+
+		[DataMember]
 		public List<LibraryXFrame> XFrames { get; set; }
+
+		[DataMember]
 		public int Layer { get; set; }
 
 		#region ILibraryState<SKDLibraryFrame,XStateClass> Members

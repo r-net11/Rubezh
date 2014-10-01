@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XDirection : XBase, IPlanPresentable
 	{
 		public XDirection()
@@ -31,12 +32,25 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<XDevice> OutputDevices { get; set; }
 
+		[DataMember]
 		public ushort Delay { get; set; }
+
+		[DataMember]
 		public ushort Hold { get; set; }
+
+		[DataMember]
 		public DelayRegime DelayRegime { get; set; }
+
+		[DataMember]
 		public List<XDirectionZone> DirectionZones { get; set; }
+
+		[DataMember]
 		public List<XDirectionDevice> DirectionDevices { get; set; }
+
+		[DataMember]
 		public bool IsOPCUsed { get; set; }
+
+		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XClause
 	{
 		public XClause()
@@ -38,14 +39,31 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<XDelay> Delays { get; set; }
 
+		[DataMember]
 		public ClauseConditionType ClauseConditionType { get; set; }
+
+		[DataMember]
 		public XStateBit StateType { get; set; }
+
+		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> MPTUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> DelayUIDs { get; set; }
+
+		[DataMember]
 		public ClauseOperationType ClauseOperationType { get; set; }
 
 		public bool HasObjects()

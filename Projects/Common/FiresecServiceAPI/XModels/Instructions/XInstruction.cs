@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	[DataContract]
 	public class XInstruction
 	{
 		public XInstruction()
@@ -18,15 +19,29 @@ namespace FiresecAPI.GK
 			Text = "";
 		}
 
+		[DataMember]
 		public Guid UID { get; set; }
+
+		[DataMember]
 		public string Name { get; set; }
+
+		[DataMember]
 		public XAlarmType AlarmType { get; set; }
+
+		[DataMember]
 		public XInstructionType InstructionType { get; set; }
+
+		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> Devices { get; set; }
+
+		[DataMember]
 		public List<Guid> Directions { get; set; }
+
+		[DataMember]
 		public string Text { get; set; }
-		public string MediaSource { get; set; }
 
 		[XmlIgnore]
 		public bool HasText
@@ -36,6 +51,9 @@ namespace FiresecAPI.GK
 				return !String.IsNullOrWhiteSpace(Text);
 			}
 		}
+
+		[DataMember]
+		public string MediaSource { get; set; }
 
 		[XmlIgnore]
 		public bool HasMedia
