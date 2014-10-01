@@ -145,7 +145,8 @@ namespace AlarmModule
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.StateClass == XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+				var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+				if (stateClass == XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					var instructionViewModel = new InstructionViewModel(null, null, AlarmType.Fire);
 					if (instructionViewModel.HasContent)

@@ -364,7 +364,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(journalEventNameType, description, null, FiresecManager.CurrentUser.Name, true);
+				//GKProcessorManager.AddGKMessage(journalEventNameType, description, null, FiresecManager.CurrentUser.Name, true);
 			}
 		}
 

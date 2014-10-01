@@ -80,18 +80,36 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void Sort(ShowArchiveEventArgs showSKDArchiveEventArgs)
+		public void Sort(ShowArchiveEventArgs showArchiveEventArgs)
 		{
 			ArchiveFilter = new ArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 
-			if (showSKDArchiveEventArgs.Device != null)
-				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Device.UID);
-			if (showSKDArchiveEventArgs.Zone != null)
-				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Zone.UID);
-			if (showSKDArchiveEventArgs.Door != null)
-				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Door.UID);
+			if (showArchiveEventArgs.GKDevice != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDevice.UID);
+			if (showArchiveEventArgs.GKZone != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKZone.UID);
+			if (showArchiveEventArgs.GKDirection != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDirection.UID);
+			if (showArchiveEventArgs.GKDelay != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
+			if (showArchiveEventArgs.GKPim != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPim.UID);
+			if (showArchiveEventArgs.GKPumpStation != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKPumpStation.UID);
+			if (showArchiveEventArgs.GKMPT != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKMPT.UID);
+			if (showArchiveEventArgs.GKDelay != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
+			if (showArchiveEventArgs.GKGuardZone != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKGuardZone.UID);
+			if (showArchiveEventArgs.SKDDevice != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDevice.UID);
+			if (showArchiveEventArgs.SKDZone != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDZone.UID);
+			if (showArchiveEventArgs.SKDDoor != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDoor.UID);
 
 			IsFilterOn = true;
 			OnPropertyChanged(() => IsFilterExists);

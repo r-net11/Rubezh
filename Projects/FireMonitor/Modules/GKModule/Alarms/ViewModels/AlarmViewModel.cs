@@ -343,13 +343,13 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Device = Alarm.Device,
-				Zone = Alarm.Zone,
-				Direction = Alarm.Direction
+				GKDevice = Alarm.Device,
+				GKZone = Alarm.Zone,
+				GKDirection = Alarm.Direction
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

@@ -41,6 +41,7 @@ namespace GKModule.ViewModels
 			if (ArchiveDefaultState == null)
 				ArchiveDefaultState = new ArchiveDefaultState();
 
+			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Unsubscribe(OnGetFilteredArchiveCompleted);
 			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
@@ -78,24 +79,24 @@ namespace GKModule.ViewModels
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 
-			if (showXArchiveEventArgs.Device != null)
-				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.UID);
-			if (showXArchiveEventArgs.Zone != null)
-				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
-			if (showXArchiveEventArgs.Direction != null)
-				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
-			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
-			if (showXArchiveEventArgs.Pim != null)
-				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.UID);
-			if (showXArchiveEventArgs.PumpStation != null)
-				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.UID);
-			if (showXArchiveEventArgs.MPT != null)
-				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.UID);
-			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
-			if (showXArchiveEventArgs.GuardZone != null)
-				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GuardZone.UID);
+			if (showXArchiveEventArgs.GKDevice != null)
+				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.GKDevice.UID);
+			if (showXArchiveEventArgs.GKZone != null)
+				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.GKZone.UID);
+			if (showXArchiveEventArgs.GKDirection != null)
+				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.GKDirection.UID);
+			if (showXArchiveEventArgs.GKDelay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.GKDelay.UID);
+			if (showXArchiveEventArgs.GKPim != null)
+				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.GKPim.UID);
+			if (showXArchiveEventArgs.GKPumpStation != null)
+				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.GKPumpStation.UID);
+			if (showXArchiveEventArgs.GKMPT != null)
+				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.GKMPT.UID);
+			if (showXArchiveEventArgs.GKDelay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.GKDelay.UID);
+			if (showXArchiveEventArgs.GKGuardZone != null)
+				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GKGuardZone.UID);
 
 			IsFilterOn = true;
 			OnPropertyChanged(() => IsFilterExists);

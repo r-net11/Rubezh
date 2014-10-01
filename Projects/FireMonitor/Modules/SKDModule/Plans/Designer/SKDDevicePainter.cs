@@ -50,7 +50,7 @@ namespace SKDModule.Plans.Designer
 		{
 			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Device = Item
+				SKDDevice = Item
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}

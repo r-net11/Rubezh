@@ -149,7 +149,7 @@ namespace SKDModule.ViewModels
 		{
 			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Door = Door
+				SKDDoor = Door
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}

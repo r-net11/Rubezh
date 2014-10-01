@@ -59,7 +59,7 @@ namespace SKDModule.Plans.Designer
 		{
 			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Door = Item
+				SKDDoor = Item
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}

@@ -50,7 +50,7 @@ namespace GKModule.ViewModels
 
 			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 			{
-				Description = journalItem.JournalEventDescriptionType.ToDescription();
+				Description = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventDescriptionType);
 			}
 			else
 			{

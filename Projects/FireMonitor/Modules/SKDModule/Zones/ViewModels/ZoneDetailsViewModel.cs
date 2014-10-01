@@ -167,7 +167,7 @@ namespace SKDModule.ViewModels
 		{
 			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Zone = Zone
+				SKDZone = Zone
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}

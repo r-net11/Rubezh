@@ -61,7 +61,7 @@ namespace SKDModule.Plans.Designer
 		{
 			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Zone = Item
+				SKDZone = Item
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}

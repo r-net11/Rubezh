@@ -66,11 +66,11 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowJournalCommand { get; private set; }
 		private void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Direction = Item
+				GKDirection = Item
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		#region IPainter Members

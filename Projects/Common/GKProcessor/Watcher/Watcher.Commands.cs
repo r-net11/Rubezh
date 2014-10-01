@@ -25,7 +25,7 @@ namespace GKProcessor
 					{
 						if (sendResult.HasError)
 						{
-							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, description, xBase, null);
+							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, description, xBase, null);
 						}
 					}),
 					xBase.GkDatabaseParent, 3, 13, 0, bytes);
@@ -49,7 +49,7 @@ namespace GKProcessor
 		{
 			if (sendResult.HasError)
 			{
-				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, "", null, null);
+				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, "", null, null);
 			}
 		}
 	}

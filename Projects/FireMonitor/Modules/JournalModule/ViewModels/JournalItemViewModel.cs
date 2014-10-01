@@ -61,7 +61,9 @@ namespace JournalModule.ViewModels
 
 			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 			{
-				Description = journalItem.JournalEventDescriptionType.ToDescription();
+				Description = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventDescriptionType);
+				if (!string.IsNullOrEmpty(journalItem.DescriptionText))
+					Description += " " + journalItem.DescriptionText;
 			}
 			else
 			{

@@ -51,7 +51,7 @@ namespace FiresecService
 				allHashesAreEqual = false;
 			}
 
-			GKProcessorManager.AddGKMessage(JournalEventNameType.Применение_конфигурации, "", null, null);
+			GKProcessorManager.AddGKMessage(JournalEventNameType.Применение_конфигурации, JournalEventDescriptionType.NULL, "", null, null);
 			//if (!allHashesAreEqual)
 			{
 				Stop();

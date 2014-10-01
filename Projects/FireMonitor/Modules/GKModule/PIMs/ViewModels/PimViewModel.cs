@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -32,11 +33,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Pim = Pim
+				GKPim = Pim
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
