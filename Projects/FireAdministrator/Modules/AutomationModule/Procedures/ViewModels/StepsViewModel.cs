@@ -132,8 +132,8 @@ namespace AutomationModule.ViewModels
 
 		void Add(StepViewModel stepViewModel)
 		{
-			if (SelectedStep == null || SelectedStep.Parent == null || SelectedStep.Step.ProcedureStepType == ProcedureStepType.If ||
-				SelectedStep.Step.ProcedureStepType == ProcedureStepType.Foreach || SelectedStep.Step.ProcedureStepType == ProcedureStepType.For)
+			if (SelectedStep == null || SelectedStep.Parent == null || SelectedStep.Step.ProcedureStepType == ProcedureStepType.If || SelectedStep.Step.ProcedureStepType == ProcedureStepType.Foreach
+				|| SelectedStep.Step.ProcedureStepType == ProcedureStepType.For || SelectedStep.Step.ProcedureStepType == ProcedureStepType.While)
 			{
 				Procedure.Steps.Add(stepViewModel.Step);
 				RootSteps.Add(stepViewModel);

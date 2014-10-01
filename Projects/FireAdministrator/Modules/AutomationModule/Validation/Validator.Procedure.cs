@@ -2,11 +2,7 @@
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using FiresecAPI.Automation;
-using AutomationModule.ViewModels;
-using System;
 using System.Linq;
-using System.Reflection;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.Validation
 {
@@ -76,6 +72,7 @@ namespace AutomationModule.Validation
 					break;
 
 				case ProcedureStepType.If:
+				case ProcedureStepType.While:
 					{
 						var conditionArguments = step.ConditionArguments;
 						foreach (var condition in conditionArguments.Conditions)

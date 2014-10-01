@@ -98,7 +98,15 @@ namespace FiresecService.Processor
 						}
 					}
 					break;
-
+				case ProcedureStepType.While:
+					while (ProcedureHelper.Compare(procedureStep))
+					{
+						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
+						{
+							return false;
+						}
+					}
+					break;
 				case ProcedureStepType.GetObjectProperty:
 					ProcedureHelper.GetObjectProperty(procedureStep);
 					break;

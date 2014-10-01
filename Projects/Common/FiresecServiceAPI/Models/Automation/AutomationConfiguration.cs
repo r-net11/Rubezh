@@ -139,6 +139,7 @@ namespace FiresecAPI.Automation
 					break;
 
 				case ProcedureStepType.If:
+				case ProcedureStepType.While:
 					{
 						var conditionArguments = step.ConditionArguments;
 						foreach (var condition in conditionArguments.Conditions)

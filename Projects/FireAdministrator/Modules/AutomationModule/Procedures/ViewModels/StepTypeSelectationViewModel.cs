@@ -95,7 +95,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
-							new StepTypeViewModel(ProcedureStepType.For)
+							new StepTypeViewModel(ProcedureStepType.For),
+							new StepTypeViewModel(ProcedureStepType.While)
 						}),
 					new StepTypeViewModel("Управление аппаратурой",
 						new List<StepTypeViewModel>()
