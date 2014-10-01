@@ -141,7 +141,7 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Уточнение" FontWeight="Bold" Visibility="Collapsed">
+					<TextBlock Text="Уточнение" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
 								<Style.Triggers>
