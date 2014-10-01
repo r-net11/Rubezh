@@ -23,29 +23,29 @@ namespace GKModule.ViewModels
 			AddStateCommand = new RelayCommand(OnAddState, CanAddState);
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
 			Current = this;
-			var devicesToRemove = new List<LibraryXDevice>();
-			foreach (var libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices)
+			var devicesToRemove = new List<GKLibraryDevice>();
+			foreach (var libraryDevice in XManager.DeviceLibraryConfiguration.GKDevices)
 			{
-				var driver = XManager.Drivers.FirstOrDefault(x => x.UID == libraryXDevice.XDriverId);
+				var driver = XManager.Drivers.FirstOrDefault(x => x.UID == libraryDevice.DriverUID);
 				if (driver != null)
 				{
-					libraryXDevice.Driver = driver;
+					libraryDevice.Driver = driver;
 				}
 				else
 				{
 					{
-						devicesToRemove.Add(libraryXDevice);
-						Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
+						devicesToRemove.Add(libraryDevice);
+						Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverUID.ToString());
 					}
 				}
 			}
-			foreach (var libraryXDevice in devicesToRemove)
+			foreach (var libraryDevice in devicesToRemove)
 			{
-				XManager.DeviceLibraryConfiguration.XDevices.RemoveAll(x => x == libraryXDevice);
+				XManager.DeviceLibraryConfiguration.GKDevices.RemoveAll(x => x == libraryDevice);
 			}
 			if (devicesToRemove.Count > 0)
-				ServiceFactory.SaveService.XLibraryChanged = true;
-			var devices = from LibraryXDevice libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices.Where(x => x.Driver != null) orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
+				ServiceFactory.SaveService.GKLibraryChanged = true;
+			var devices = from GKLibraryDevice libraryDevice in XManager.DeviceLibraryConfiguration.GKDevices.Where(x => x.Driver != null) orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
 			Devices = new ObservableCollection<XDeviceViewModel>();
 			foreach (var device in devices)
 			{
@@ -77,22 +77,22 @@ namespace GKModule.ViewModels
 				var oldSelectedStateClass = XStateClass.No;
 				if (SelectedState != null)
 				{
-					oldSelectedStateClass = SelectedState.State.XStateClass;
+					oldSelectedStateClass = SelectedState.State.StateClass;
 				}
 				_selectedDevice = value;
 				OnPropertyChanged(() => SelectedDevice);
 
 				if (value != null)
 				{
-					var driver = XManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.XDriverId);
+					var driver = XManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.DriverUID);
 					States = new ObservableCollection<StateViewModel>();
-					var libraryStates = from LibraryXState libraryState in SelectedDevice.LibraryDevice.XStates orderby libraryState.XStateClass descending select libraryState;
+					var libraryStates = from GKLibraryState libraryState in SelectedDevice.LibraryDevice.States orderby libraryState.StateClass descending select libraryState;
 					foreach (var libraryState in libraryStates)
 					{
 						var stateViewModel = new StateViewModel(libraryState, driver);
 						States.Add(stateViewModel);
 					}
-					SelectedState = States.FirstOrDefault(x => x.State.XStateClass == oldSelectedStateClass);
+					SelectedState = States.FirstOrDefault(x => x.State.StateClass == oldSelectedStateClass);
 					if (SelectedState == null)
 						SelectedState = States.FirstOrDefault();
 				}
@@ -109,20 +109,20 @@ namespace GKModule.ViewModels
 			var deviceDetailsViewModel = new DeviceDetailsViewModel();
 			if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 			{
-				XManager.DeviceLibraryConfiguration.XDevices.Add(deviceDetailsViewModel.SelectedDevice.LibraryDevice);
+				XManager.DeviceLibraryConfiguration.GKDevices.Add(deviceDetailsViewModel.SelectedDevice.LibraryDevice);
 				Devices.Add(deviceDetailsViewModel.SelectedDevice);
 				SelectedDevice = Devices.LastOrDefault();
-				ServiceFactory.SaveService.XLibraryChanged = true;
+				ServiceFactory.SaveService.GKLibraryChanged = true;
 			}
 		}
 
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
-			XManager.DeviceLibraryConfiguration.XDevices.Remove(SelectedDevice.LibraryDevice);
+			XManager.DeviceLibraryConfiguration.GKDevices.Remove(SelectedDevice.LibraryDevice);
 			Devices.Remove(SelectedDevice);
 			SelectedDevice = Devices.FirstOrDefault();
-			ServiceFactory.SaveService.XLibraryChanged = true;
+			ServiceFactory.SaveService.GKLibraryChanged = true;
 		}
 		bool CanRemoveDevice()
 		{
@@ -158,10 +158,10 @@ namespace GKModule.ViewModels
 			var stateDetailsViewModel = new StateDetailsViewModel(SelectedDevice.LibraryDevice);
 			if (DialogService.ShowModalWindow(stateDetailsViewModel))
 			{
-				SelectedDevice.LibraryDevice.XStates.Add(stateDetailsViewModel.SelectedState.State);
+				SelectedDevice.LibraryDevice.States.Add(stateDetailsViewModel.SelectedState.State);
 				States.Add(stateDetailsViewModel.SelectedState);
 				SelectedState = States.LastOrDefault();
-				ServiceFactory.SaveService.XLibraryChanged = true;
+				ServiceFactory.SaveService.GKLibraryChanged = true;
 			}
 		}
 		bool CanAddState()
@@ -172,14 +172,14 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveStateCommand { get; private set; }
 		void OnRemoveState()
 		{
-			SelectedDevice.LibraryDevice.XStates.Remove(SelectedState.State);
+			SelectedDevice.LibraryDevice.States.Remove(SelectedState.State);
 			States.Remove(SelectedState);
 			SelectedState = States.FirstOrDefault();
-			ServiceFactory.SaveService.XLibraryChanged = true;
+			ServiceFactory.SaveService.GKLibraryChanged = true;
 		}
 		bool CanRemoveState()
 		{
-			return (SelectedState != null && SelectedState.State.XStateClass != XStateClass.No);
+			return (SelectedState != null && SelectedState.State.StateClass != XStateClass.No);
 		}
 
 		public bool IsPreviewEnabled { get; private set; }
@@ -189,7 +189,7 @@ namespace GKModule.ViewModels
 			{
 				var brush = (Brush)Brushes.Transparent;
 				if (SelectedDevice != null && SelectedState != null)
-					brush = PictureCacheSource.CreateDynamicBrush(SelectedState.State.XFrames);
+					brush = PictureCacheSource.CreateDynamicBrush(SelectedState.State.Frames);
 				IsPreviewEnabled = brush != null && brush != Brushes.Transparent;
 				OnPropertyChanged(() => IsPreviewEnabled);
 				return brush;

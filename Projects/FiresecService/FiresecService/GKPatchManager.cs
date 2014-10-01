@@ -22,7 +22,7 @@ namespace FSAgentServer
 
 		static void Patch1()
 		{
-			XDeviceLibraryConfigurationPatchHelper.Patch();
+			DeviceLibraryConfigurationPatchHelper.Patch();
 		}
 	}
 }

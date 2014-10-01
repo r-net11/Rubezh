@@ -7,13 +7,13 @@ using System.Xml.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class LibraryXDevice : ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>
+	public class GKLibraryDevice : ILibraryDevice<GKLibraryState, GKLibraryFrame, XStateClass>
 	{
-		public LibraryXDevice()
+		public GKLibraryDevice()
 		{
 			UID = Guid.NewGuid();
 			IsAlternative = false;
-			XStates = new List<LibraryXState>();
+			States = new List<GKLibraryState>();
 		}
 
 		[XmlIgnore]
@@ -23,7 +23,7 @@ namespace FiresecAPI.GK
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public Guid XDriverId { get; set; }
+		public Guid DriverUID { get; set; }
 
 		[DataMember]
 		public bool IsAlternative { get; set; }
@@ -32,21 +32,21 @@ namespace FiresecAPI.GK
 		public string AlternativeName { get; set; }
 
 		[DataMember]
-		public List<LibraryXState> XStates { get; set; }
+		public List<GKLibraryState> States { get; set; }
 
 		#region ILibraryDevice<XStateClass,LibraryXFrame,XState> Members
 
 		[XmlIgnore]
-		Guid ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>.DriverId
+		Guid ILibraryDevice<GKLibraryState, GKLibraryFrame, XStateClass>.DriverId
 		{
-			get { return XDriverId; }
-			set { XDriverId = value; }
+			get { return DriverUID; }
+			set { DriverUID = value; }
 		}
 
 		[XmlIgnore]
-		List<LibraryXState> ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>.States
+		List<GKLibraryState> ILibraryDevice<GKLibraryState, GKLibraryFrame, XStateClass>.States
 		{
-			get { return XStates; }
+			get { return States; }
 		}
 
 		#endregion

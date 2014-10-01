@@ -17,21 +17,11 @@ namespace GKModule
 	{
 		void SubscribeGK()
 		{
-			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-			{
-				GKProcessorManager.Suspend();
-			}
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DescriptorsManager.Create();
 			DescriptorsManager.CreateDynamicObjectsInXManager();
 			InitializeStates();
-			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-			{
-				GKProcessorManager.MustMonitor = true;
-				GKProcessorManager.Start();
-				GKLicenseProcessor.Start();
-			}
 		}
 
 		void GKAfterInitialize()

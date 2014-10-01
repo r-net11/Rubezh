@@ -10,7 +10,7 @@ namespace GKModule.ViewModels
 {
 	public class StateViewModel : BaseViewModel
 	{
-		public StateViewModel(LibraryXState libraryState, XDriver driver)
+		public StateViewModel(GKLibraryState libraryState, XDriver driver)
 		{
 			AddFrameCommand = new RelayCommand(OnAddFrame);
 			RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
@@ -19,12 +19,12 @@ namespace GKModule.ViewModels
 			Driver = driver;
 
 			Frames = new ObservableCollection<FrameViewModel>(
-				State.XFrames.Select(frame => new FrameViewModel(frame))
+				State.Frames.Select(frame => new FrameViewModel(frame))
 			);
 			SelectedFrame = Frames.FirstOrDefault();
 		}
 
-		public LibraryXState State { get; private set; }
+		public GKLibraryState State { get; private set; }
 		public XDriver Driver { get; private set; }
 
 		public string Name
@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 			{
 				if (Driver != null && Driver.DriverType == XDriverType.Valve)
 				{
-					switch (State.XStateClass)
+					switch (State.StateClass)
 					{
 						case XStateClass.On:
 							return "Открыто";
@@ -48,19 +48,19 @@ namespace GKModule.ViewModels
 							return "Закрывается";
 					}
 				}
-				if (State.XStateClass == XStateClass.Fire1)
+				if (State.StateClass == XStateClass.Fire1)
 				{
 					return "Сработка 1";
 				}
-				if (State.XStateClass == XStateClass.Fire2)
+				if (State.StateClass == XStateClass.Fire2)
 				{
 					return "Сработка 2";
 				}
-				if (State.XStateClass == XStateClass.No)
+				if (State.StateClass == XStateClass.No)
 				{
 					return "Базовый рисунок";
 				}
-				return State.XStateClass.ToDescription();
+				return State.StateClass.ToDescription();
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace GKModule.ViewModels
 				if (value != State.Layer)
 				{
 					State.Layer = value;
-					ServiceFactory.SaveService.XLibraryChanged = true;
+					ServiceFactory.SaveService.GKLibraryChanged = true;
 				}
 			}
 		}
@@ -98,23 +98,23 @@ namespace GKModule.ViewModels
 		public RelayCommand AddFrameCommand { get; private set; }
 		void OnAddFrame()
 		{
-			var libraryFrame = new LibraryXFrame()
+			var libraryFrame = new GKLibraryFrame()
 			{
 				Id = Frames.Count
 			};
-			State.XFrames.Add(libraryFrame);
+			State.Frames.Add(libraryFrame);
 			Frames.Add(new FrameViewModel(libraryFrame));
 			SelectedFrame = Frames.LastOrDefault();
-			ServiceFactory.SaveService.XLibraryChanged = true;
+			ServiceFactory.SaveService.GKLibraryChanged = true;
 		}
 
 		public RelayCommand RemoveFrameCommand { get; private set; }
 		void OnRemoveFrame()
 		{
-			State.XFrames.Remove(SelectedFrame.Frame);
+			State.Frames.Remove(SelectedFrame.Frame);
 			Frames.Remove(SelectedFrame);
 			SelectedFrame = Frames.FirstOrDefault();
-			ServiceFactory.SaveService.XLibraryChanged = true;
+			ServiceFactory.SaveService.GKLibraryChanged = true;
 		}
 		bool CanRemoveFrame()
 		{

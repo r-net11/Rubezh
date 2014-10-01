@@ -41,7 +41,7 @@ namespace Infrastructure
 		}
 
 		bool _xLibraryChanged;
-		public bool XLibraryChanged
+		public bool GKLibraryChanged
 		{
 			get { return _xLibraryChanged; }
 			set
@@ -227,7 +227,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || GKLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -248,7 +248,7 @@ namespace Infrastructure
 			GKChanged = value;
 			PlansChanged = value;
 			LibraryChanged = value;
-			XLibraryChanged = value;
+			GKLibraryChanged = value;
 			XInstructionsChanged = value;
 			FilterChanged = value;
 			SecurityChanged = value;

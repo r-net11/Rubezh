@@ -16,21 +16,21 @@ namespace GKModule.ViewModels
 			var drivers = (from XDriver driver in XManager.Drivers select driver).ToList();
 			foreach (var driver in drivers)
 			{
-				if (!XManager.DeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID) && (driver.IsPlaceable))
+				if (!XManager.DeviceLibraryConfiguration.GKDevices.Any(x => x.DriverUID == driver.UID) && (driver.IsPlaceable))
 				{
-					var libraryXDevice = new LibraryXDevice()
+					var gkLibraryDevice = new GKLibraryDevice()
 					{
 						Driver = driver,
-						XDriverId = driver.UID
+						DriverUID = driver.UID
 					};
-					var libraryXState = new LibraryXState()
+					var libraryState = new GKLibraryState()
 					{
-						XStateClass = XStateClass.No,
+						StateClass = XStateClass.No,
 					};
-					libraryXState.XFrames.Add(new LibraryXFrame() { Id = 0 });
-					libraryXDevice.XStates.Add(libraryXState);
+					libraryState.Frames.Add(new GKLibraryFrame() { Id = 0 });
+					gkLibraryDevice.States.Add(libraryState);
 
-					var xdeviceViewModel = new XDeviceViewModel(libraryXDevice);
+					var xdeviceViewModel = new XDeviceViewModel(gkLibraryDevice);
 					Devices.Add(xdeviceViewModel);
 				}
 			}

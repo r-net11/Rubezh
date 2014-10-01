@@ -209,7 +209,7 @@
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="ManualPdfHelper.cs" />
     <Compile Include="ObservableRangeCollection.cs" />
-    <Compile Include="Patch\XDeviceLibraryConfigurationPatchHelper.cs" />
+    <Compile Include="Patch\DeviceLibraryConfigurationPatchHelper.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="RegistryHelper\RegistryHelper.cs" />
     <Compile Include="RegistrySettingsHelper.cs" />

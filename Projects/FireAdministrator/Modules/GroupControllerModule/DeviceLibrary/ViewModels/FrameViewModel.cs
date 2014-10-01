@@ -4,16 +4,16 @@ using Infrastructure.Client.Library;
 
 namespace GKModule.ViewModels
 {
-	public class FrameViewModel : BaseFrameViewModel<LibraryXFrame>
+	public class FrameViewModel : BaseFrameViewModel<GKLibraryFrame>
 	{
-		public FrameViewModel(LibraryXFrame libraryFrame)
+		public FrameViewModel(GKLibraryFrame libraryFrame)
 			: base(libraryFrame)
 		{
 		}
 
 		protected override void OnChanged()
 		{
-			ServiceFactory.SaveService.XLibraryChanged = true;
+			ServiceFactory.SaveService.GKLibraryChanged = true;
 		}
 
 		protected override void InvalidatePreview()

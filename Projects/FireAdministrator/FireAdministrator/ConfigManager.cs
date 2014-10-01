@@ -117,8 +117,8 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1, true);
+				if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)

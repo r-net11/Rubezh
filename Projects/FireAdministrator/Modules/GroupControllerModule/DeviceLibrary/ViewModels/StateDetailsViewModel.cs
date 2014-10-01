@@ -8,21 +8,21 @@ namespace GKModule.ViewModels
 {
 	public class StateDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public StateDetailsViewModel(LibraryXDevice libraryDevice)
+		public StateDetailsViewModel(GKLibraryDevice glLibraryDevice)
 			: base()
 		{
 			Title = "Добавить состояние";
 
-			var libraryStates = new List<LibraryXState>();
+			var libraryStates = new List<GKLibraryState>();
 			foreach (XStateClass xstateClass in Enum.GetValues(typeof(XStateClass)))
 			{
-				if ((!libraryDevice.XStates.Any(x => x.XStateClass == xstateClass)) && (libraryDevice.Driver.AvailableStateClasses.Exists(x => x == xstateClass)))
+				if ((!glLibraryDevice.States.Any(x => x.StateClass == xstateClass)) && (glLibraryDevice.Driver.AvailableStateClasses.Exists(x => x == xstateClass)))
 				{
-					var libraryState = new LibraryXState()
+					var libraryState = new GKLibraryState()
 					{
-						XStateClass = xstateClass
+						StateClass = xstateClass
 					};
-					libraryState.XFrames.Add(new LibraryXFrame() { Id = 0 });
+					libraryState.Frames.Add(new GKLibraryFrame() { Id = 0 });
 					libraryStates.Add(libraryState);
 				}
 			}
@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			States = new List<StateViewModel>();
 			foreach (var libraryState in libraryStates)
 			{
-				var stateViewModel = new StateViewModel(libraryState, libraryDevice.Driver);
+				var stateViewModel = new StateViewModel(libraryState, glLibraryDevice.Driver);
 				States.Add(stateViewModel);
 			}
 			SelectedState = States.FirstOrDefault();

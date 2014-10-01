@@ -418,7 +418,7 @@
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.Update.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.Descriptors.cs" />
-    <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
+    <Compile Include="XModels\Configuration\GKDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Configuration\XHashConfiguration.cs" />
     <Compile Include="XModels\Delay\DelayRegime.cs" />
     <Compile Include="XModels\Delay\XDelay.cs" />
@@ -495,9 +495,9 @@
     <Compile Include="XModels\Journal\XJournalItem.cs" />
     <Compile Include="XModels\Journal\XJournalObjectType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
-    <Compile Include="XModels\Library\LibraryXDevice.cs" />
-    <Compile Include="XModels\Library\LibraryXFrame.cs" />
-    <Compile Include="XModels\Library\LibraryXState.cs" />
+    <Compile Include="XModels\Library\GKLibraryDevice.cs" />
+    <Compile Include="XModels\Library\GKLibraryFrame.cs" />
+    <Compile Include="XModels\Library\GKLibraryState.cs" />
     <Compile Include="XModels\Logic\ClauseConditionType.cs" />
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />

@@ -7,7 +7,7 @@ using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
-	public class XDevicePicture : BaseDevicePicture<LibraryXState, LibraryXFrame, XStateClass, XState>
+	public class XDevicePicture : BaseDevicePicture<GKLibraryState, GKLibraryFrame, XStateClass, XState>
 	{
 		internal XDevicePicture()
 		{
@@ -23,9 +23,9 @@ namespace DeviceControls
 			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetBrush(device) : GetDynamicBrush(device.DriverUID, device.State);
 		}
 
-		protected override IEnumerable<ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>> EnumerateLibrary()
+		protected override IEnumerable<ILibraryDevice<GKLibraryState, GKLibraryFrame, XStateClass>> EnumerateLibrary()
 		{
-			foreach (var device in XManager.DeviceLibraryConfiguration.XDevices)
+			foreach (var device in XManager.DeviceLibraryConfiguration.GKDevices)
 				yield return device;
 		}
 		protected override XStateClass DefaultState

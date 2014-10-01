@@ -5,20 +5,20 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDeviceLibraryConfiguration : VersionedConfiguration
+	public class GKDeviceLibraryConfiguration : VersionedConfiguration
 	{
-		public XDeviceLibraryConfiguration()
+		public GKDeviceLibraryConfiguration()
 		{
-			XDevices = new List<LibraryXDevice>();
+			GKDevices = new List<GKLibraryDevice>();
 		}
 
 		[DataMember]
-		public List<LibraryXDevice> XDevices { get; set; }
+		public List<GKLibraryDevice> GKDevices { get; set; }
 
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			foreach (var libraryDevice in XDevices)
+			foreach (var libraryDevice in GKDevices)
 			{
 				if (libraryDevice.UID == Guid.Empty)
 				{

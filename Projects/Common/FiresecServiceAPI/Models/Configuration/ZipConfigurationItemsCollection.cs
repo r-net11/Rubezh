@@ -43,7 +43,7 @@ namespace FiresecAPI.Models
 			names.Add("DeviceConfiguration.xml");
 			names.Add("DeviceLibraryConfiguration.xml");
 			names.Add("XDeviceConfiguration.xml");
-			names.Add("XDeviceLibraryConfiguration.xml");
+			names.Add("GKDeviceLibraryConfiguration.xml");
 			names.Add("SKDConfiguration.xml");
 			names.Add("SKDLibraryConfiguration.xml");
 			names.Add("LayoutsConfiguration.xml");

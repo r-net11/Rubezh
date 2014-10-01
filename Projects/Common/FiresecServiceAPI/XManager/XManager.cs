@@ -10,7 +10,7 @@ namespace FiresecClient
 	{
 		public static XDeviceConfiguration DeviceConfiguration { get; set; }
 		public static XDriversConfiguration DriversConfiguration { get; set; }
-		public static XDeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
+		public static GKDeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 
 		static XManager()
 		{

@@ -12,11 +12,11 @@ using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
-	public static class XDeviceLibraryConfigurationPatchHelper
+	public static class DeviceLibraryConfigurationPatchHelper
 	{
 		public static void Patch()
 		{
-			PatchLibrary("XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
+			PatchLibrary("GKDeviceLibraryConfiguration.xml", typeof(GKDeviceLibraryConfiguration));
 		}
 
 		public static void PatchSKDLibrary()
@@ -37,7 +37,7 @@ namespace Infrastructure.Common
 				if (configuration != null)
 				{
 					var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-					AddConfigurationToZip(zipFile, configuration, "XDeviceLibraryConfiguration.xml");
+					AddConfigurationToZip(zipFile, configuration, "GKDeviceLibraryConfiguration.xml");
 					zipFile.Save(fileName);
 				}
 			}
@@ -64,7 +64,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "XDeviceLibraryConfigurationPatchHelper.GetConfigurationFomZip " + fileName);
+				Logger.Error(e, "GKDeviceLibraryConfigurationPatchHelper.GetConfigurationFomZip " + fileName);
 			}
 			return null;
 		}

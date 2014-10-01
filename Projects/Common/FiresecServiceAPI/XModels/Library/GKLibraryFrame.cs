@@ -4,9 +4,9 @@ using Infrustructure.Plans.Devices;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class LibraryXFrame : ILibraryFrame
+	public class GKLibraryFrame : ILibraryFrame
 	{
-		public LibraryXFrame()
+		public GKLibraryFrame()
 		{
 			Duration = 500;
 			Image = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";

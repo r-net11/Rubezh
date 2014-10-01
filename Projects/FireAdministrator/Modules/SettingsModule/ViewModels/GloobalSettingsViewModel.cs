@@ -265,7 +265,7 @@ namespace SettingsModule.ViewModels
 			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?");
 			if (result == MessageBoxResult.OK)
 			{
-				XDeviceLibraryConfigurationPatchHelper.Patch();
+				DeviceLibraryConfigurationPatchHelper.Patch();
 			}
 		}
 
@@ -275,7 +275,7 @@ namespace SettingsModule.ViewModels
 			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?");
 			if (result == MessageBoxResult.OK)
 			{
-				XDeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
+				DeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
 			}
 		}
 
