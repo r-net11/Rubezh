@@ -79,7 +79,7 @@ namespace GKProcessor
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды_над_устройством, JournalEventDescriptionType.Не_найдено_родительское_устройство_ГК, null, null);
+				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды_над_устройством, JournalEventDescriptionType.Не_найдено_родительское_устройство_ГК, "", null, null);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -101,11 +102,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Device = Device
+				GKDevice = Device
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 		public bool CanShowJournal()
 		{

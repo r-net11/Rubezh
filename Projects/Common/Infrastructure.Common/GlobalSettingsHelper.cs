@@ -22,6 +22,7 @@ namespace Infrastructure.Common
 			try
 			{
 				GlobalSettings = new GlobalSettings();
+				GlobalSettings.SetDefaultModules();
 				if (File.Exists(FileName))
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

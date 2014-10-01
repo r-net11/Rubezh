@@ -147,11 +147,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Door = Door
+				GKDoor = Door
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public bool CanControl

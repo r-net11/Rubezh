@@ -127,7 +127,7 @@
 					<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
 					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="2">
 						<Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
-						<TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+						<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 					</StackPanel>
 					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 					<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="2">

@@ -165,6 +165,7 @@
     </Compile>
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
+    <Compile Include="ViewModels\ArchiveFilter\ArchiveDateTimeViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />

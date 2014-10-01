@@ -16,7 +16,6 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
-			//IsGKAsAService = true;
 			UseHasp = false;
 
 			FS_RemoteAddress = "localhost";
@@ -24,7 +23,7 @@ namespace FiresecAPI
 			FS_Login = "adm";
 			FS_Password = "";
 
-			SetDefaultModules();
+			ModuleItems = new List<string>();
 
 			Monitor_F1_Enabled = false;
 			Monitor_F2_Enabled = true;

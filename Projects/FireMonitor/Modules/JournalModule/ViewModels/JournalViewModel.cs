@@ -93,7 +93,7 @@ namespace JournalModule.ViewModels
 					JournalItems.RemoveAt(JournalFilter.LastItemsCount);
 
 				if ((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
-					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
+					(journalItemViewModel.StateClass == XStateClass.Fire1 || journalItemViewModel.StateClass == XStateClass.Fire2 || journalItemViewModel.StateClass == XStateClass.Attention))
 				{
 					if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 					{

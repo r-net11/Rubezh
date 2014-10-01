@@ -51,7 +51,7 @@ namespace FiresecService.Service
 
 			if (ClientsManager.Add(uid, clientCredentials))
 			{
-				GKProcessorManager.AddGKMessage(JournalEventNameType.Вход_пользователя_в_систему, "", null, clientCredentials.FriendlyUserName);
+				GKProcessorManager.AddGKMessage(JournalEventNameType.Вход_пользователя_в_систему, JournalEventDescriptionType.NULL, "", null, clientCredentials.FriendlyUserName);
 			}
 
 			CurrentClientCredentials = clientCredentials;
@@ -79,10 +79,10 @@ namespace FiresecService.Service
 				return operationResult;
 
 			MainViewModel.Current.EditClient(uid, login);
-			GKProcessorManager.AddGKMessage(JournalEventNameType.Дежурство_сдал, "", null, oldUserName);
+			GKProcessorManager.AddGKMessage(JournalEventNameType.Дежурство_сдал, JournalEventDescriptionType.NULL, "", null, oldUserName);
 			clientCredentials.UserName = login;
 			SetUserFullName(clientCredentials);
-			GKProcessorManager.AddGKMessage(JournalEventNameType.Дежурство_принял, "", null, clientCredentials.FriendlyUserName);
+			GKProcessorManager.AddGKMessage(JournalEventNameType.Дежурство_принял, JournalEventDescriptionType.NULL, "", null, clientCredentials.FriendlyUserName);
 
 			CurrentClientCredentials = clientCredentials;
 			operationResult.Result = true;
@@ -107,7 +107,7 @@ namespace FiresecService.Service
 				clientInfo.WaitEvent.Set();
 				if (clientInfo.ClientCredentials != null)
 				{
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Выход_пользователя_из_системы, "", null, clientInfo.ClientCredentials.FriendlyUserName);
+					GKProcessorManager.AddGKMessage(JournalEventNameType.Выход_пользователя_из_системы, JournalEventDescriptionType.NULL, "", null, clientInfo.ClientCredentials.FriendlyUserName);
 				}
 			}
 			ClientsManager.Remove(uid);

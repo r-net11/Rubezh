@@ -31,7 +31,6 @@ namespace SKDDriver
 				ObjectName = tableItem.ObjectName,
 				JournalObjectType = (JournalObjectType)tableItem.ObjectType,
 				ObjectUID = tableItem.ObjectUID,
-				StateClass = (XStateClass)tableItem.State,
 				JournalSubsystemType = (JournalSubsystemType)tableItem.Subsystem,
 				SystemDateTime = tableItem.SystemDate,
 				UID = tableItem.UID,
@@ -52,7 +51,6 @@ namespace SKDDriver
 			tableItem.ObjectName = apiItem.ObjectName;
 			tableItem.ObjectType = (int)apiItem.JournalObjectType;
 			tableItem.ObjectUID = apiItem.ObjectUID;
-			tableItem.State = (int)apiItem.StateClass;
 			tableItem.Subsystem = (int)apiItem.JournalSubsystemType;
 			tableItem.SystemDate = CheckDate(apiItem.SystemDateTime);
 			tableItem.UserName = apiItem.UserName;

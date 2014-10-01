@@ -10,9 +10,6 @@ namespace Infrastructure.Models
 		[DescriptionAttribute("за указанное число последних дней")]
 		LastDays,
 
-		[DescriptionAttribute("из всего архива")]
-		All,
-
 		[DescriptionAttribute("начиная с указанной даты")]
 		FromDate,
 

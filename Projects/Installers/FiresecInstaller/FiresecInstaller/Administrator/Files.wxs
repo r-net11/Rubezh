@@ -24,7 +24,7 @@
         <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />
         <!--<File Id="Administrator.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Administrator.TargetDir)" />-->
-        <File Id="Administrator.LayoutModule.dll" Name="LayoutModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <!--<File Id="Administrator.LayoutModule.dll" Name="LayoutModule.dll" Source="$(var.Administrator.TargetDir)" />-->
         <File Id="Administrator.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />

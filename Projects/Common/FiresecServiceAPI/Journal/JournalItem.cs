@@ -9,11 +9,11 @@ namespace FiresecAPI.Journal
 	[DataContract]
 	public class JournalItem : SKDModelBase
 	{
-		public JournalItem():base()
+		public JournalItem()
+			: base()
 		{
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
-			StateClass = XStateClass.Norm;
 			JournalDetalisationItems = new List<JournalDetalisationItem>();
 		}
 
@@ -37,9 +37,6 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public string DescriptionText { get; set; }
-
-		[DataMember]
-		public XStateClass StateClass { get; set; }
 
 		[DataMember]
 		public JournalObjectType JournalObjectType { get; set; }

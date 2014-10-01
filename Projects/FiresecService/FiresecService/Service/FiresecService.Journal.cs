@@ -22,14 +22,23 @@ namespace FiresecService.Service
 			journalItem.SystemDateTime = xJournalItem.SystemDateTime;
 			journalItem.DeviceDateTime = xJournalItem.DeviceDateTime;
 			journalItem.JournalEventNameType = xJournalItem.JournalEventNameType;
-			journalItem.NameText = xJournalItem.Name;
-			journalItem.DescriptionText = xJournalItem.Description;
+			journalItem.JournalEventDescriptionType = xJournalItem.JournalEventDescriptionType;
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(xJournalItem.JournalEventNameType);
 			journalItem.ObjectUID = xJournalItem.ObjectUID;
 			journalItem.ObjectName = xJournalItem.ObjectName;
-			journalItem.StateClass = xJournalItem.StateClass;
 			journalItem.UserName = xJournalItem.UserName;
-			journalItem.JournalEventDescriptionType = xJournalItem.JournalEventDescriptionType;
+
+			journalItem.NameText = xJournalItem.Name;
+			journalItem.DescriptionText = xJournalItem.Description;
+			if (!string.IsNullOrEmpty(xJournalItem.AdditionalDescription))
+				journalItem.DescriptionText = xJournalItem.AdditionalDescription;
+
+			if (xJournalItem.GKJournalRecordNo.HasValue && xJournalItem.GKJournalRecordNo.Value > 0)
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", xJournalItem.GKJournalRecordNo.Value.ToString()));
+			if (xJournalItem.GKObjectNo > 0)
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", xJournalItem.GKObjectNo.ToString()));
+			if (!string.IsNullOrEmpty(xJournalItem.GKIpAddress))
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", xJournalItem.GKIpAddress.ToString()));
 
 			switch (xJournalItem.JournalObjectType)
 			{
@@ -88,7 +97,6 @@ namespace FiresecService.Service
 				JournalObjectType = JournalObjectType.None,
 				ObjectUID = Guid.Empty,
 				ObjectName = null,
-				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				UserName = UserName,
 			};
 
@@ -107,7 +115,6 @@ namespace FiresecService.Service
 				JournalObjectType = device != null ? JournalObjectType.SKDDevice : JournalObjectType.None,
 				ObjectUID = device != null ? device.UID : Guid.Empty,
 				ObjectName = device != null ? device.Name : null,
-				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				UserName = UserName,
 			};
 
@@ -126,7 +133,6 @@ namespace FiresecService.Service
 				JournalObjectType = zone != null ? JournalObjectType.SKDZone : JournalObjectType.None,
 				ObjectUID = zone != null ? zone.UID : Guid.Empty,
 				ObjectName = zone != null ? zone.Name : null,
-				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				UserName = UserName,
 			};
 
@@ -145,7 +151,6 @@ namespace FiresecService.Service
 				JournalObjectType = door != null ? JournalObjectType.SKDDoor : JournalObjectType.None,
 				ObjectUID = door != null ? door.UID : Guid.Empty,
 				ObjectName = door != null ? door.Name : null,
-				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				UserName = UserName,
 			};
 
@@ -165,7 +170,6 @@ namespace FiresecService.Service
 			{
 				journalItem.UserName = UserName;
 				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-				journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 				DBHelper.Add(journalItem);
 				FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 			}

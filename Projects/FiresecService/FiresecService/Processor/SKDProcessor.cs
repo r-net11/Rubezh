@@ -90,7 +90,6 @@ namespace FiresecService
 				}
 			}
 
-			journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
 			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 		}

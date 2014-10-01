@@ -192,40 +192,8 @@ namespace GKModule
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
-
-			//GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			//GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			return true;
 		}
-
-		//void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
-		//{
-		//    ApplicationService.Invoke(() =>
-		//    {
-		//        switch (gkProgressCallback.GKProgressCallbackType)
-		//        {
-		//            case GKProgressCallbackType.Start:
-		//                if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-		//                {
-		//                    LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-		//                }
-		//                return;
-
-		//            case GKProgressCallbackType.Progress:
-		//                if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-		//                {
-		//                    LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-		//                    if (LoadingService.IsCanceled)
-		//                        FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
-		//                }
-		//                return;
-
-		//            case GKProgressCallbackType.Stop:
-		//                LoadingService.Close();
-		//                return;
-		//        }
-		//    });
-		//}
 
 		#region ILayoutDeclarationModule Members
 

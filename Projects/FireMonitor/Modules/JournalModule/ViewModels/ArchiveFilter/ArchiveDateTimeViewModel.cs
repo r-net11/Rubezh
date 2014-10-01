@@ -9,13 +9,10 @@ using JournalModule.Events;
 
 namespace JournalModule.ViewModels
 {
-	public class ArchiveSettingsViewModel : SaveCancelDialogViewModel
+	public class ArchiveDateTimeViewModel : BaseViewModel
 	{
-		public ArchiveSettingsViewModel(ArchiveDefaultState archiveDefaultState)
+		public ArchiveDateTimeViewModel(ArchiveDefaultState archiveDefaultState)
 		{
-			Title = "Настройки";
-
-			ArchiveDefaultState = new ArchiveDefaultState();
 			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
 			foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
 			{
@@ -26,8 +23,6 @@ namespace JournalModule.ViewModels
 			DaysCount = 1;
 			StartDate = ArchiveFirstDate;
 			EndDate = NowDate;
-
-			ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Subscribe(OnArchiveDefaultStateCheckedEvent);
 
 			var archiveDefaultStateViewModel = ArchiveDefaultStates.FirstOrDefault(x => x.ArchiveDefaultStateType == archiveDefaultState.ArchiveDefaultStateType);
 			if (archiveDefaultStateViewModel != null)
@@ -59,23 +54,9 @@ namespace JournalModule.ViewModels
 				default:
 					break;
 			}
-
-			AdditionalColumns = new List<JournalColumnTypeViewModel>();
-			foreach (JournalColumnType journalColumnType in Enum.GetValues(typeof(JournalColumnType)))
-			{
-				var journalColumnTypeViewModel = new JournalColumnTypeViewModel(journalColumnType);
-				AdditionalColumns.Add(journalColumnTypeViewModel);
-				if (archiveDefaultState.AdditionalJournalColumnTypes.Any(x => x == journalColumnType))
-				{
-					journalColumnTypeViewModel.IsChecked = true;
-				}
-			}
-
-			PageSize = archiveDefaultState.PageSize;
 		}
 
 		public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
-		public ArchiveDefaultState ArchiveDefaultState { get; private set; }
 
 		ArchiveDefaultStateType _checkedArchiveDefaultStateType;
 		public ArchiveDefaultStateType CheckedArchiveDefaultStateType
@@ -88,7 +69,6 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public List<JournalColumnTypeViewModel> AdditionalColumns { get; private set; }
 		public int HoursCount { get; set; }
 		public int DaysCount { get; set; }
 		public DateTime StartDate { get; set; }
@@ -104,64 +84,33 @@ namespace JournalModule.ViewModels
 			get { return DateTime.Now; }
 		}
 
-		int _pageSize;
-		public int PageSize
+		public ArchiveDefaultState GetModel()
 		{
-			get { return _pageSize; }
-			set
-			{
-				_pageSize = value;
-				OnPropertyChanged(() => PageSize);
-			}
-		}
-
-		protected override bool Save()
-		{
-			ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
-			switch (ArchiveDefaultState.ArchiveDefaultStateType)
+			var archiveDefaultState = new ArchiveDefaultState();
+			archiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
+			switch (archiveDefaultState.ArchiveDefaultStateType)
 			{
 				case ArchiveDefaultStateType.LastHours:
-					ArchiveDefaultState.Count = HoursCount;
+					archiveDefaultState.Count = HoursCount;
 					break;
 
 				case ArchiveDefaultStateType.LastDays:
-					ArchiveDefaultState.Count = DaysCount;
+					archiveDefaultState.Count = DaysCount;
 					break;
 
 				case ArchiveDefaultStateType.FromDate:
-					ArchiveDefaultState.StartDate = StartDate;
+					archiveDefaultState.StartDate = StartDate;
 					break;
 
 				case ArchiveDefaultStateType.RangeDate:
-					ArchiveDefaultState.StartDate = StartDate;
-					ArchiveDefaultState.EndDate = EndDate;
+					archiveDefaultState.StartDate = StartDate;
+					archiveDefaultState.EndDate = EndDate;
 					break;
 
 				default:
 					break;
 			}
-			ArchiveDefaultState.AdditionalJournalColumnTypes = new List<JournalColumnType>();
-			foreach (var journalColumnTypeViewModel in AdditionalColumns)
-			{
-				if (journalColumnTypeViewModel.IsChecked)
-					ArchiveDefaultState.AdditionalJournalColumnTypes.Add(journalColumnTypeViewModel.JournalColumnType);
-			}
-
-			if (PageSize < 10)
-				PageSize = 10;
-			if (PageSize > 1000)
-				PageSize = 1000;
-			ArchiveDefaultState.PageSize = PageSize;
-			return base.Save();
-		}
-
-		void OnArchiveDefaultStateCheckedEvent(ArchiveDefaultStateViewModel archiveDefaultState)
-		{
-			foreach (var defaultState in ArchiveDefaultStates.Where(x => x != archiveDefaultState))
-			{
-				defaultState.IsActive = false;
-			}
-			CheckedArchiveDefaultStateType = archiveDefaultState.ArchiveDefaultStateType;
+			return archiveDefaultState;
 		}
 	}
 }
