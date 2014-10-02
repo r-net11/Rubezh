@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using System.Reflection.Emit;
 using FiresecAPI;
 using System.Linq.Expressions;
 

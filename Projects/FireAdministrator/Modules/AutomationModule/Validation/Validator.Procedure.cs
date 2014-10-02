@@ -265,6 +265,14 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, randomArguments.MaxValueParameter);
 					}
 					break;
+				case ProcedureStepType.ChangeList:
+					{
+						var changeListArguments = step.ChangeListArguments;
+						if (!ValidateArgument(step, changeListArguments.ItemArgument))
+							break;
+						ValidateArgument(step, changeListArguments.ListArgument);
+					}
+					break;
 			}
 		}
 

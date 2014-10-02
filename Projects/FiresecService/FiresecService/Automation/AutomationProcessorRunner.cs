@@ -247,6 +247,8 @@ namespace FiresecService.Processor
 					ProcedureHelper.GetRandomValue(procedureStep);
 					break;
 
+				//case ProcedureStepType.ChangeList:
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 

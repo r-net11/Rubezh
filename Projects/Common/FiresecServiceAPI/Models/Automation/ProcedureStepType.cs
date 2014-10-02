@@ -46,6 +46,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Найти объекты")]
 		FindObjects,
 
+		[DescriptionAttribute("Изменение списка")]
+		ChangeList,
+
 		[DescriptionAttribute("Показать сообщение")]
 		ShowMessage,
 

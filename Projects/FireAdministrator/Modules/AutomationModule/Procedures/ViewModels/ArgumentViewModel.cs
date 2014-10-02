@@ -220,6 +220,9 @@ namespace AutomationModule.ViewModels
 				if (_selectedVariable != null)
 				{
 					Argument.VariableUid = value.Variable.Uid;
+					ExplicitType = _selectedVariable.Variable.ExplicitType;
+					EnumType = _selectedVariable.Variable.EnumType;
+					ObjectType = _selectedVariable.Variable.ObjectType;
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}

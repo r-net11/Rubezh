@@ -1,8 +1,5 @@
 ﻿using FiresecAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels

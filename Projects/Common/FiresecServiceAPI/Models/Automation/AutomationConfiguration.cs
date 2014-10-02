@@ -316,6 +316,14 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, randomArguments.MaxValueParameter);
 					}
 					break;
+
+				case ProcedureStepType.ChangeList:
+					{
+						var changeListArguments = step.ChangeListArguments;
+						InvalidateArgument(procedure, changeListArguments.ItemArgument);
+						InvalidateArgument(procedure, changeListArguments.ListArgument);
+					}
+					break;
 			}
 		}
 

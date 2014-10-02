@@ -171,6 +171,10 @@
 		<Views:RandomStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="changeListTemplate">
+		<Views:ChangeListStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
@@ -197,6 +201,7 @@
 		SendEmailTemplate="{StaticResource sendEmailTemplate}"
 		RunProgrammTemplate="{StaticResource runProgrammTemplate}"
 		RandomTemplate="{StaticResource randomTemplate}"
+		ChangeListTemplate="{StaticResource changeListTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

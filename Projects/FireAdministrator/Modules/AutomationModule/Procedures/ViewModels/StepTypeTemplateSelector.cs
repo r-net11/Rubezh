@@ -30,6 +30,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgrammTemplate { get; set; }
 		public DataTemplate RandomTemplate { get; set; }
+		public DataTemplate ChangeListTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -132,6 +133,10 @@ namespace AutomationModule.ViewModels
 			if (item is RandomStepViewModel)
 			{
 				return RandomTemplate;
+			}
+			if (item is ChangeListStepViewModel)
+			{
+				return ChangeListTemplate;
 			}
 			return null;
 		}

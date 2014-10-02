@@ -121,6 +121,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.RunProgramm:
 					Content = new RunProgrammStepViewModel(this);
 					break;
+
+				case ProcedureStepType.ChangeList:
+					Content = new ChangeListStepViewModel(this);
+					break;
 			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

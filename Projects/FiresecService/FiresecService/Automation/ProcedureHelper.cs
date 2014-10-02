@@ -529,6 +529,62 @@ namespace FiresecService.Processor
 			if (resultVariable != null) resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
+		public static void ChangeList(ProcedureStep procedureStep)
+		{
+			var changeListArguments = procedureStep.ChangeListArguments;
+			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
+			var variable = new Variable();
+			variable.ExplicitType = changeListArguments.ItemArgument.ExplicitType;
+			variable.EnumType = changeListArguments.ItemArgument.EnumType;
+			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
+			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
+			SetPropertyValue(variable, itemValue);
+			var explicitValue = variable.ExplicitValue;
+			if (listVariable != null)
+			{
+				switch (changeListArguments.ChangeType)
+				{
+					case ChangeType.AddLast:
+						listVariable.ExplicitValues.Add(explicitValue);
+						break;
+					case ChangeType.RemoveFirst:
+							listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
+								(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+									changeListArguments.ListArgument.EnumType)));
+							break;
+					case ChangeType.RemoveAll:
+						listVariable.ExplicitValues.RemoveAll(
+							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+								changeListArguments.ListArgument.EnumType)));
+						break;
+				}
+			}
+		}
+
+		static bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
+		{
+			if (explicitType == ExplicitType.Integer)
+				return explicitValue1.IntValue == explicitValue2.IntValue;
+			if (explicitType == ExplicitType.String)
+				return explicitValue1.StringValue == explicitValue2.StringValue;
+			if (explicitType == ExplicitType.Boolean)
+				return explicitValue1.BoolValue == explicitValue2.BoolValue;
+			if (explicitType == ExplicitType.DateTime)
+				return explicitValue1.DateTimeValue == explicitValue2.DateTimeValue;
+			if (explicitType == ExplicitType.Enum)
+			{
+				if (enumType == EnumType.DriverType)
+					return explicitValue1.DriverTypeValue == explicitValue2.DriverTypeValue;
+				if (enumType == EnumType.StateType)
+					return explicitValue1.StateTypeValue == explicitValue2.StateTypeValue;
+			}
+			if (explicitType == ExplicitType.Object)
+			{
+				return explicitValue1.UidValue == explicitValue2.UidValue;
+			}
+			return false;
+		}
+
 		public static void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;

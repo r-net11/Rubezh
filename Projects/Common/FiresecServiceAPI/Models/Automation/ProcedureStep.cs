@@ -37,6 +37,7 @@ namespace FiresecAPI.Automation
 			SendEmailArguments = new SendEmailArguments();
 			RunProgrammArguments = new RunProgrammArguments();
 			RandomArguments = new RandomArguments();
+			ChangeListArguments = new ChangeListArguments();
 		}
 
 		[XmlIgnore]
@@ -131,5 +132,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RandomArguments RandomArguments { get; set; }
+		
+		[DataMember]
+		public ChangeListArguments ChangeListArguments { get; set; }
 	}
 }
