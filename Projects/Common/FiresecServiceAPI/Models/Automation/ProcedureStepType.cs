@@ -22,6 +22,12 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Цикл While")]
 		While,
 
+		[DescriptionAttribute("оператор break")]
+		Break,
+
+		[DescriptionAttribute("оператор continue")]
+		Continue,
+
 		[DescriptionAttribute("Тело цикла")]
 		ForeachBody,
 
