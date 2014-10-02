@@ -14,9 +14,9 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class DelaysSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public List<XDelay> Delays { get; private set; }
+		public List<GKDelay> Delays { get; private set; }
 
-		public DelaysSelectationViewModel(List<XDelay> delays)
+		public DelaysSelectationViewModel(List<GKDelay> delays)
 		{
 			Title = "Выбор задержек";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -25,10 +25,10 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Delays = delays;
-			TargetDelays = new ObservableCollection<XDelay>();
-			SourceDelays = new ObservableCollection<XDelay>();
+			TargetDelays = new ObservableCollection<GKDelay>();
+			SourceDelays = new ObservableCollection<GKDelay>();
 
-			foreach (var delay in XManager.DeviceConfiguration.Delays)
+			foreach (var delay in GKManager.DeviceConfiguration.Delays)
 			{
 				if (Delays.Contains(delay))
 					TargetDelays.Add(delay);
@@ -40,10 +40,10 @@ namespace GKModule.ViewModels
 			SelectedSourceDelay = SourceDelays.FirstOrDefault();
 		}
 
-		public ObservableCollection<XDelay> SourceDelays { get; private set; }
+		public ObservableCollection<GKDelay> SourceDelays { get; private set; }
 
-		XDelay _selectedSourceDelay;
-		public XDelay SelectedSourceDelay
+		GKDelay _selectedSourceDelay;
+		public GKDelay SelectedSourceDelay
 		{
 			get { return _selectedSourceDelay; }
 			set
@@ -53,10 +53,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XDelay> TargetDelays { get; private set; }
+		public ObservableCollection<GKDelay> TargetDelays { get; private set; }
 
-		XDelay _selectedTargetDelay;
-		public XDelay SelectedTargetDelay
+		GKDelay _selectedTargetDelay;
+		public GKDelay SelectedTargetDelay
 		{
 			get { return _selectedTargetDelay; }
 			set
@@ -73,10 +73,10 @@ namespace GKModule.ViewModels
 			var index = SourceDelays.IndexOf(SelectedSourceDelay);
 
 			SelectedSourceDelays = (IList)parameter;
-			var delayViewModels = new List<XDelay>();
+			var delayViewModels = new List<GKDelay>();
 			foreach (var selectedDelay in SelectedSourceDelays)
 			{
-				var delayViewModel = selectedDelay as XDelay;
+				var delayViewModel = selectedDelay as GKDelay;
 				if (delayViewModel != null)
 					delayViewModels.Add(delayViewModel);
 			}
@@ -100,10 +100,10 @@ namespace GKModule.ViewModels
 			var index = TargetDelays.IndexOf(SelectedTargetDelay);
 
 			SelectedTargetDelays = (IList)parameter;
-			var delayViewModels = new List<XDelay>();
+			var delayViewModels = new List<GKDelay>();
 			foreach (var selectedDelay in SelectedTargetDelays)
 			{
-				var delayViewModel = selectedDelay as XDelay;
+				var delayViewModel = selectedDelay as GKDelay;
 				if (delayViewModel != null)
 					delayViewModels.Add(delayViewModel);
 			}
@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			Delays = new List<XDelay>(TargetDelays);
+			Delays = new List<GKDelay>(TargetDelays);
 			return base.Save();
 		}
 	}

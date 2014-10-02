@@ -16,9 +16,9 @@ namespace GKModule.ViewModels
 {
 	public class InstructionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XInstruction Instruction { get; private set; }
+		public GKInstruction Instruction { get; private set; }
 
-		public InstructionDetailsViewModel(XInstruction instruction = null)
+		public InstructionDetailsViewModel(GKInstruction instruction = null)
 		{
 			SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
 			SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 			else
 			{
 				Title = "Новая инструкция";
-				Instruction = new XInstruction();
+				Instruction = new GKInstruction();
 				CopyProperties();
 			}
 		}
@@ -50,7 +50,7 @@ namespace GKModule.ViewModels
 			InstructionType = Instruction.InstructionType;
 			switch (InstructionType)
 			{
-				case XInstructionType.Details:
+				case GKInstructionType.Details:
 					if (Instruction.ZoneUIDs.IsNotNullOrEmpty())
 						InstructionZones = new ObservableCollection<Guid>(Instruction.ZoneUIDs);
 					if (Instruction.Devices.IsNotNullOrEmpty())
@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 						InstructionDirections = new ObservableCollection<Guid>(Instruction.Directions);
 					break;
 
-				case XInstructionType.General:
+				case GKInstructionType.General:
 					break;
 			}
 		}
@@ -88,11 +88,11 @@ namespace GKModule.ViewModels
 
 		public bool IsDetails
 		{
-			get { return InstructionType == XInstructionType.Details; }
+			get { return InstructionType == GKInstructionType.Details; }
 		}
 
-		XAlarmType _alarmType;
-		public XAlarmType AlarmType
+		GKAlarmType _alarmType;
+		public GKAlarmType AlarmType
 		{
 			get { return _alarmType; }
 			set
@@ -101,13 +101,13 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => AlarmType);
 			}
 		}
-		public List<XAlarmType> AvailableAlarmTypes
+		public List<GKAlarmType> AvailableAlarmTypes
 		{
-			get { return Enum.GetValues(typeof(XAlarmType)).Cast<XAlarmType>().ToList(); }
+			get { return Enum.GetValues(typeof(GKAlarmType)).Cast<GKAlarmType>().ToList(); }
 		}
 
-		XInstructionType _instructionType;
-		public XInstructionType InstructionType
+		GKInstructionType _instructionType;
+		public GKInstructionType InstructionType
 		{
 			get { return _instructionType; }
 			set
@@ -117,9 +117,9 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("IsDetails");
 			}
 		}
-		public List<XInstructionType> AvailableInstructionsType
+		public List<GKInstructionType> AvailableInstructionsType
 		{
-			get { return new List<XInstructionType>(Enum.GetValues(typeof(XInstructionType)).OfType<XInstructionType>()); }
+			get { return new List<GKInstructionType>(Enum.GetValues(typeof(GKInstructionType)).OfType<GKInstructionType>()); }
 		}
 
 		ObservableCollection<Guid> _instructionZones;
@@ -157,16 +157,16 @@ namespace GKModule.ViewModels
 
 		bool CanSelect()
 		{
-			return (InstructionType != XInstructionType.General);
+			return (InstructionType != GKInstructionType.General);
 		}
 
 		public RelayCommand SelectZoneCommand { get; private set; }
 		void OnSelectZoneCommand()
 		{
-			var zones = new List<XZone>();
+			var zones = new List<GKZone>();
 			foreach (var uid in InstructionZones)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				var zone = GKManager.Zones.FirstOrDefault(x => x.UID == uid);
 				if (zone != null)
 					zones.Add(zone);
 			}
@@ -181,15 +181,15 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDeviceCommand()
 		{
-			var devices = new List<XDevice>();
+			var devices = new List<GKDevice>();
 			foreach (var uid in InstructionDevices)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == uid);
 				if (device != null)
 					devices.Add(device);
 			}
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
+			var sourceDevices = new List<GKDevice>();
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.Driver.IsDeviceOnShleif)
 					sourceDevices.Add(device);
@@ -205,10 +205,10 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectDirectionCommand { get; private set; }
 		void OnSelectDirectionCommand()
 		{
-			var directions = new List<XDirection>();
+			var directions = new List<GKDirection>();
 			foreach (var uid in InstructionDirections)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				var direction = GKManager.Directions.FirstOrDefault(x => x.UID == uid);
 				if (direction != null)
 					directions.Add(direction);
 			}
@@ -253,7 +253,7 @@ namespace GKModule.ViewModels
 			if (string.IsNullOrWhiteSpace(Text) && !Instruction.HasMedia)
 				return false;
 			else
-				return InstructionType == XInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty() || InstructionDirections.IsNotNullOrEmpty());
+				return InstructionType == GKInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty() || InstructionDirections.IsNotNullOrEmpty());
 		}
 
 		protected override bool Save()
@@ -262,7 +262,7 @@ namespace GKModule.ViewModels
 			Instruction.Text = Text;
 			Instruction.AlarmType = AlarmType;
 			Instruction.InstructionType = InstructionType;
-			if (InstructionType == XInstructionType.Details)
+			if (InstructionType == GKInstructionType.Details)
 			{
 				Instruction.Devices = InstructionDevices.ToList();
 				Instruction.ZoneUIDs = InstructionZones.ToList();

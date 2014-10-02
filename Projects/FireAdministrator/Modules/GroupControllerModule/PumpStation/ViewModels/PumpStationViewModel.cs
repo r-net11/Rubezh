@@ -13,9 +13,9 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public XPumpStation PumpStation { get; set; }
+		public GKPumpStation PumpStation { get; set; }
 
-		public PumpStationViewModel(XPumpStation pumpStation)
+		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
@@ -27,10 +27,10 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			PumpDevices = new ObservableCollection<DeviceViewModel>();
-			PumpStation.NSDevices = new List<XDevice>();
+			PumpStation.NSDevices = new List<GKDevice>();
 			foreach (var deviceUID in PumpStation.NSDeviceUIDs)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device != null)
 				{
 					PumpStation.NSDevices.Add(device);
@@ -65,10 +65,10 @@ namespace GKModule.ViewModels
 
 		public void ChangePumpDevices()
 		{
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
+			var sourceDevices = new List<GKDevice>();
+			foreach (var device in GKManager.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.FirePump || device.Driver.DriverType == XDriverType.JockeyPump || device.Driver.DriverType == XDriverType.RSR2_Bush)
+				if (device.Driver.DriverType == GKDriverType.FirePump || device.Driver.DriverType == GKDriverType.JockeyPump || device.Driver.DriverType == GKDriverType.RSR2_Bush)
 				{
 					sourceDevices.Add(device);
 				}
@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StartLogic, false);
+			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.StartLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.StartLogic = deviceLogicViewModel.GetModel();
@@ -117,13 +117,13 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.StartLogic); }
 		}
 
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic, false);
+			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.StopLogic = deviceLogicViewModel.GetModel();
@@ -134,13 +134,13 @@ namespace GKModule.ViewModels
 
 		public string StopPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.StopLogic); }
 		}
 
 		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
 		void OnChangeAutomaticOffLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic, false);
+			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.AutomaticOffLogic = deviceLogicViewModel.GetModel();
@@ -151,7 +151,7 @@ namespace GKModule.ViewModels
 
 		public string AutomaticOffPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
 		}
 	}
 }

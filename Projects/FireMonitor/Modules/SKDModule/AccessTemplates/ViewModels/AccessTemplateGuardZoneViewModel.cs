@@ -9,16 +9,16 @@ namespace SKDModule.ViewModels
 	public class AccessTemplateGuardZoneViewModel : BaseViewModel
 	{
 		public AccessTemplate AccessTemplate { get; private set; }
-		public XGuardZone GuardZone { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 
-		public AccessTemplateGuardZoneViewModel(AccessTemplate accessTemplate, XGuardZone guardZone)
+		public AccessTemplateGuardZoneViewModel(AccessTemplate accessTemplate, GKGuardZone guardZone)
 		{
 			AccessTemplate = accessTemplate;
 			GuardZone = guardZone;
 			if (AccessTemplate != null)
 			{
 				if (AccessTemplate.GuardZoneAccesses == null)
-					AccessTemplate.GuardZoneAccesses = new List<XGuardZoneAccess>();
+					AccessTemplate.GuardZoneAccesses = new List<GKGuardZoneAccess>();
 			}
 			IsChecked = AccessTemplate != null && AccessTemplate.GuardZoneAccesses != null && AccessTemplate.GuardZoneAccesses.Any(x => x.ZoneUID == guardZone.UID);
 		}

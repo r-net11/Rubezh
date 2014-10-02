@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			PumpStations = new List<PumpStationViewModel>();
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				var pumpStationViewModel = new PumpStationViewModel(pumpStation);
 				PumpStations.Add(pumpStationViewModel);

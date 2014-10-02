@@ -15,14 +15,14 @@ namespace GKModule.Converters
 			var zoneUIDs = value as ICollection<Guid>;
 			if (zoneUIDs == null)
 				return "";
-			var zones = new List<XZone>();
+			var zones = new List<GKZone>();
 			foreach (var uid in zoneUIDs)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				var zone = GKManager.Zones.FirstOrDefault(x => x.UID == uid);
 				if (zone != null)
 					zones.Add(zone);
 			}
-			return XManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
+			return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

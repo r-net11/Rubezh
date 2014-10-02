@@ -7,13 +7,13 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public static void SendControlCommand(XBase xBase, XStateBit stateBit, string description)
+		public static void SendControlCommand(GKBase xBase, GKStateBit stateBit, string description)
 		{
 			var code = 0x80 + (int)stateBit;
 			SendControlCommand(xBase, (byte)code, description);
 		}
 
-		public static void SendControlCommand(XBase xBase, byte code, string description)
+		public static void SendControlCommand(GKBase xBase, byte code, string description)
 		{
 			var bytes = new List<byte>();
 			var databaseNo = xBase.GKDescriptorNo;
@@ -32,7 +32,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static void SendControlCommandMRO(XBase xBase, byte code, byte code2)
+		public static void SendControlCommandMRO(GKBase xBase, byte code, byte code2)
 		{
 			var bytes = new List<byte>();
 			var databaseNo = xBase.GKDescriptorNo;

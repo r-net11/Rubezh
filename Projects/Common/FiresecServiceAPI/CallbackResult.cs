@@ -26,7 +26,7 @@ namespace FiresecAPI
 		public GKCallbackResult GKCallbackResult { get; set; }
 
 		[DataMember]
-		public List<XJournalItem> GKJournalItemsArchiveCompleted { get; set; }
+		public List<GKJournalItem> GKJournalItemsArchiveCompleted { get; set; }
 
 		[DataMember]
 		public SKDStates SKDStates { get; set; }

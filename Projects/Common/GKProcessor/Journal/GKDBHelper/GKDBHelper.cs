@@ -19,14 +19,14 @@ namespace GKProcessor
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 		public static bool IsAbort { get; set; }
-		public static event Action<List<XJournalItem>, Guid> ArchivePortionReady;
+		public static event Action<List<GKJournalItem>, Guid> ArchivePortionReady;
 
 
-		public static void Add(XJournalItem journalItem)
+		public static void Add(GKJournalItem journalItem)
 		{
 			try
 			{
-				AddMany(new List<XJournalItem>() { journalItem });
+				AddMany(new List<GKJournalItem>() { journalItem });
 			}
 			catch (Exception e)
 			{
@@ -34,7 +34,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static void AddMany(List<XJournalItem> journalItems)
+		public static void AddMany(List<GKJournalItem> journalItems)
 		{
 			try
 			{
@@ -52,25 +52,25 @@ namespace GKProcessor
 			}
 		}
 
-		public static XJournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
+		public static GKJournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
 		{
-			var journalItem = new XJournalItem()
+			var journalItem = new GKJournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				JournalObjectType = XJournalObjectType.System,
+				JournalObjectType = GKJournalObjectType.System,
 				StateClass = XStateClass.Norm,
 				JournalEventNameType = journalEventNameType,
 				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
-				SubsystemType = XSubsystemType.System
+				SubsystemType = GKSubsystemType.System
 			};
 			Add(journalItem);
 			return journalItem;
 		}
 
-		static List<XJournalItem> UpdateItemLengths(List<XJournalItem> journalItems)
+		static List<GKJournalItem> UpdateItemLengths(List<GKJournalItem> journalItems)
 		{
 			foreach (var item in journalItems)
 			{
@@ -88,7 +88,7 @@ namespace GKProcessor
 			return journalItems;
 		}
 
-		static void InsertJournalRecordToDb(List<XJournalItem> journalItems)
+		static void InsertJournalRecordToDb(List<GKJournalItem> journalItems)
 		{
 			journalItems = UpdateItemLengths(journalItems);
 			UpdateNamesDescriptions(journalItems);
@@ -129,10 +129,10 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<XJournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<GKJournalItem> BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
-			var journalItems = new List<XJournalItem>();
-			var result = new List<XJournalItem>();
+			var journalItems = new List<GKJournalItem>();
+			var result = new List<GKJournalItem>();
 
 			try
 			{
@@ -181,7 +181,7 @@ namespace GKProcessor
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<XJournalItem> journalItems, Guid archivePortionUID)
+		static void PublishNewItemsPortion(List<GKJournalItem> journalItems, Guid archivePortionUID)
 		{
 			if (ArchivePortionReady != null)
 				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
@@ -189,7 +189,7 @@ namespace GKProcessor
 			journalItems.Clear();
 		}
 
-		static string BuildQuery(XArchiveFilter archiveFilter)
+		static string BuildQuery(GKArchiveFilter archiveFilter)
 		{
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
@@ -267,7 +267,7 @@ namespace GKProcessor
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					if (subsystem == XSubsystemType.System)
+					if (subsystem == GKSubsystemType.System)
 						query += "Subsystem = 0";
 					else
 						query += "Subsystem = 1";
@@ -372,9 +372,9 @@ namespace GKProcessor
 			return DateTime.Now;
 		}
 
-		public static List<XJournalItem> GetGKTopLastJournalItems(int count)
+		public static List<GKJournalItem> GetGKTopLastJournalItems(int count)
 		{
-			var journalItems = new List<XJournalItem>();
+			var journalItems = new List<GKJournalItem>();
 			try
 			{
 				lock (locker)
@@ -405,11 +405,11 @@ namespace GKProcessor
 			return journalItems;
 		}
 
-		static XJournalItem ReadOneJournalItem(SqlCeDataReader reader)
+		static GKJournalItem ReadOneJournalItem(SqlCeDataReader reader)
 		{
-			var journalItem = new XJournalItem();
+			var journalItem = new GKJournalItem();
 			if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
-				journalItem.JournalObjectType = (XJournalObjectType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
+				journalItem.JournalObjectType = (GKJournalObjectType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 			
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDateTime")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDateTime"));
@@ -457,7 +457,7 @@ namespace GKProcessor
 				journalItem.AdditionalDescription = reader.GetString(reader.GetOrdinal("AdditionalDescription"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
-				journalItem.SubsystemType = (XSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
+				journalItem.SubsystemType = (GKSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
 
 			return journalItem;
 		}

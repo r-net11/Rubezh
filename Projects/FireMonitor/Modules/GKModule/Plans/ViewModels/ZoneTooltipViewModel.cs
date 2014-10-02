@@ -3,14 +3,14 @@ using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class ZoneTooltipViewModel : StateTooltipViewModel<XZone>
+	public class ZoneTooltipViewModel : StateTooltipViewModel<GKZone>
 	{
-		public XZone Zone
+		public GKZone Zone
 		{
 			get { return Item; }
 		}
 
-		public ZoneTooltipViewModel(XZone zone)
+		public ZoneTooltipViewModel(GKZone zone)
 			: base(zone)
 		{
 		}

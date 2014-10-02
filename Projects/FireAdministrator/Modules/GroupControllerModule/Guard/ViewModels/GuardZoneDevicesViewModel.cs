@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class GuardZoneDevicesViewModel : BaseViewModel
 	{
-		XGuardZone Zone;
+		GKGuardZone Zone;
 
 		public GuardZoneDevicesViewModel()
 		{
@@ -23,15 +23,15 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 		}
 
-		public void Initialize(XGuardZone zone)
+		public void Initialize(GKGuardZone zone)
 		{
 			Zone = zone;
 
 			Devices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_GuardDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_CodeReader)
+				if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_CodeReader)
 				{
 					var guardZoneDevice = Zone.GuardZoneDevices.FirstOrDefault(x => x.DeviceUID == device.UID);
 					if (guardZoneDevice != null)
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 					}
 					else
 					{
-						guardZoneDevice = new XGuardZoneDevice()
+						guardZoneDevice = new GKGuardZoneDevice()
 						{
 							DeviceUID = device.UID,
 							Device = device

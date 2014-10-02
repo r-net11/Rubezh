@@ -5,16 +5,16 @@ namespace GKProcessor
 {
 	public static class RM_3_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
-				DriverType = XDriverType.RM_3,
+				DriverType = GKDriverType.RM_3,
 				UID = new Guid("15e38fa6-dc41-454b-83e5-d7789064b2e1"),
 				Name = "РМ-3",
 				ShortName = "РМ-3",
 				IsGroupDevice = true,
-				GroupDeviceChildType = XDriverType.RM_1,
+				GroupDeviceChildType = GKDriverType.RM_1,
 				GroupDeviceChildrenCount = 3,
 				IsIgnored = true,
 			};

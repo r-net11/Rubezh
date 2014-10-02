@@ -5,11 +5,11 @@ namespace GKProcessor
 {
 	public static class RSR2_KAU_Shleif_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
-				DriverType = XDriverType.RSR2_KAU_Shleif,
+				DriverType = GKDriverType.RSR2_KAU_Shleif,
 				UID = new Guid("4D5647DF-A278-48F6-9F89-19E4D51B7711"),
 				Name = "АЛС",
 				ShortName = "АЛС",

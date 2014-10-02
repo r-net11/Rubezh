@@ -5,9 +5,9 @@ namespace AutomationModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		public XDirection Direction { get; private set; }
+		public GKDirection Direction { get; private set; }
 
-		public DirectionViewModel(XDirection direction)
+		public DirectionViewModel(GKDirection direction)
 		{
 			Direction = direction;
 		}

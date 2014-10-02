@@ -9,7 +9,7 @@ namespace GKProcessor
 	{
 		public DateTime CreationDateTime { get; set; }
 		public int? RecordCount { get; set; }
-		public List<XJournalItem> JournalItems { get; set; }
+		public List<GKJournalItem> JournalItems { get; set; }
 		public string GkIP { get; set; }
 	}
 }

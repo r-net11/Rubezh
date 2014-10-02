@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-	public class ShowXDeviceOnPlanEvent : CompositePresentationEvent<XDevice>
+	public class ShowXDeviceOnPlanEvent : CompositePresentationEvent<GKDevice>
 	{
 	}
 }

@@ -12,9 +12,9 @@ namespace GKModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
-		public XDoor Door { get; set; }
+		public GKDoor Door { get; set; }
 
-		public DoorViewModel(XDoor door)
+		public DoorViewModel(GKDoor door)
 		{
 			Door = door;
 			ChangeEnterDeviceCommand = new RelayCommand(OnChangeEnterDevice);
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void Update(XDoor door)
+		public void Update(GKDoor door)
 		{
 			Door = door;
 			OnPropertyChanged(() => Door);
@@ -58,19 +58,19 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
-			EnterDevice = XManager.Devices.FirstOrDefault(x=>x.UID == Door.EnterDeviceUID);
-			ExitDevice = XManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
-			LockDevice = XManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
-			LockControlDevice = XManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
+			EnterDevice = GKManager.Devices.FirstOrDefault(x=>x.UID == Door.EnterDeviceUID);
+			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
+			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
+			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
 
 			if (ExitDevice != null)
 			{
-				if (Door.DoorType == XDoorType.OneWay && ExitDevice.DriverType != XDriverType.AM_1)
+				if (Door.DoorType == GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.AM_1)
 				{
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
 				}
-				if (Door.DoorType == XDoorType.TwoWay && ExitDevice.DriverType != XDriverType.RSR2_CodeReader)
+				if (Door.DoorType == GKDoorType.TwoWay && ExitDevice.DriverType != GKDriverType.RSR2_CodeReader)
 				{
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
@@ -84,15 +84,15 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => LockControlDevice);
 		}
 
-		public XDevice EnterDevice { get; private set; }
-		public XDevice ExitDevice { get; private set; }
-		public XDevice LockDevice { get; private set; }
-		public XDevice LockControlDevice { get; private set; }
+		public GKDevice EnterDevice { get; private set; }
+		public GKDevice ExitDevice { get; private set; }
+		public GKDevice LockDevice { get; private set; }
+		public GKDevice LockControlDevice { get; private set; }
 
 		public RelayCommand ChangeEnterDeviceCommand { get; private set; }
 		void OnChangeEnterDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterDevice, XManager.Devices.Where(x=>x.DriverType == XDriverType.RSR2_CodeReader));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterDevice, GKManager.Devices.Where(x=>x.DriverType == GKDriverType.RSR2_CodeReader));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.EnterDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
@@ -104,8 +104,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeExitDeviceCommand { get; private set; }
 		void OnChangeExitDevice()
 		{
-			var driverType = Door.DoorType == XDoorType.OneWay ? XDriverType.AM_1 : XDriverType.RSR2_CodeReader;
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, XManager.Devices.Where(x => x.DriverType == driverType));
+			var driverType = Door.DoorType == GKDoorType.OneWay ? GKDriverType.AM_1 : GKDriverType.RSR2_CodeReader;
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, GKManager.Devices.Where(x => x.DriverType == driverType));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.ExitDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
@@ -117,7 +117,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeLockDeviceCommand { get; private set; }
 		void OnChangeLockDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, XManager.Devices.Where(x => x.DriverType == XDriverType.RSR2_RM_1 || x.DriverType == XDriverType.RSR2_MVK8));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_RM_1 || x.DriverType == GKDriverType.RSR2_MVK8));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.LockDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeLockControlDeviceCommand { get; private set; }
 		void OnChangeLockControlDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, XManager.Devices.Where(x => x.DriverType == XDriverType.RSR2_AM_1));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.LockControlDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;

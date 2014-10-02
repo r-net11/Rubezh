@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XZone Zone { get; private set; }
-		public XState State
+		public GKZone Zone { get; private set; }
+		public GKState State
 		{
 			get { return Zone.State; }
 		}
 
-		public ZoneDetailsViewModel(XZone zone)
+		public ZoneDetailsViewModel(GKZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				elementBase = plan.ElementRectangleGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				elementBase = plan.ElementPolygonGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);

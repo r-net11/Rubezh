@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public class RSR2_DrenazhPump_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0xE0,
-				DriverType = XDriverType.RSR2_Bush,
+				DriverType = GKDriverType.RSR2_Bush,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
 				Name = "Прибор пожарный управлления Дренажным Насосом",
 				ShortName = "ППУ ДН R2",
@@ -24,10 +24,10 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 2, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Задержка на выключение, с", 2, 0, 65535);
@@ -38,8 +38,8 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 4, Ом", 3350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 7, "Порог 5, Ом", 4500, 0, 65535);
 
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 
 			return driver;
 		}

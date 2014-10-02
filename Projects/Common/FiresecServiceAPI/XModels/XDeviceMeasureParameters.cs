@@ -5,17 +5,17 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDeviceMeasureParameters
+	public class GKDeviceMeasureParameters
 	{
-		public XDeviceMeasureParameters()
+		public GKDeviceMeasureParameters()
 		{
-			MeasureParameterValues = new List<XMeasureParameterValue>();
+			MeasureParameterValues = new List<GKMeasureParameterValue>();
 		}
 
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
 		[DataMember]
-		public List<XMeasureParameterValue> MeasureParameterValues { get; set; }
+		public List<GKMeasureParameterValue> MeasureParameterValues { get; set; }
 	}
 }

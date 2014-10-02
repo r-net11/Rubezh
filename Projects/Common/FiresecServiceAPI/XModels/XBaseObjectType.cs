@@ -2,7 +2,7 @@
 
 namespace FiresecAPI.GK
 {
-	public enum XBaseObjectType
+	public enum GKBaseObjectType
 	{
 		[DescriptionAttribute("Устройство")]
 		Deivce,

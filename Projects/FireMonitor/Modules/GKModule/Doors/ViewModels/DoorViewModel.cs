@@ -14,13 +14,13 @@ namespace GKModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
-		public XDoor Door { get; private set; }
-		public XState State
+		public GKDoor Door { get; private set; }
+		public GKState State
 		{
 			get { return Door.State; }
 		}
 
-		public DoorViewModel(XDoor door)
+		public DoorViewModel(GKDoor door)
 		{
 			Door = door;
 			State.StateChanged -= new Action(OnStateChanged);

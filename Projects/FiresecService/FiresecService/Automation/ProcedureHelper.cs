@@ -168,70 +168,70 @@ namespace FiresecService.Processor
 		static object GetPropertyValue(ref Guid itemUid, Property property, object item)
 		{
 			var propertyValue = new object();
-			if (item is XDevice)
+			if (item is GKDevice)
 			{
 				switch (property)
 				{
 					case Property.ShleifNo:
-						propertyValue = (item as XDevice).ShleifNo;
+						propertyValue = (item as GKDevice).ShleifNo;
 						break;
 					case Property.IntAddress:
-						propertyValue = (item as XDevice).IntAddress;
+						propertyValue = (item as GKDevice).IntAddress;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as XDevice).State.StateClass;
+						propertyValue = (int)(item as GKDevice).State.StateClass;
 						break;
 					case Property.Type:
-						propertyValue = (item as XDevice).Driver.DriverType;
+						propertyValue = (item as GKDevice).Driver.DriverType;
 						break;
 					case Property.Description:
-						propertyValue = (item as XDevice).Description.Trim();
+						propertyValue = (item as GKDevice).Description.Trim();
 						break;
 				}
-				itemUid = (item as XDevice).UID;
+				itemUid = (item as GKDevice).UID;
 			}
 
-			if (item is XZone)
+			if (item is GKZone)
 			{
 				switch (property)
 				{
 					case Property.No:
-						propertyValue = (item as XZone).No;
+						propertyValue = (item as GKZone).No;
 						break;
 					case Property.Type:
-						propertyValue = (item as XZone).ObjectType;
+						propertyValue = (item as GKZone).ObjectType;
 						break;
 					case Property.State:
-						propertyValue = (int)(item as XZone).State.StateClass;
+						propertyValue = (int)(item as GKZone).State.StateClass;
 						break;
 					case Property.Name:
-						propertyValue = (item as XZone).Name.Trim();
+						propertyValue = (item as GKZone).Name.Trim();
 						break;
 				}
-				itemUid = (item as XZone).UID;
+				itemUid = (item as GKZone).UID;
 			}
 
-			if (item is XDirection)
+			if (item is GKDirection)
 			{
 				switch (property)
 				{
 					case Property.No:
-						propertyValue = (item as XDirection).No;
+						propertyValue = (item as GKDirection).No;
 						break;
 					case Property.Delay:
-						propertyValue = (int)(item as XDirection).Delay;
+						propertyValue = (int)(item as GKDirection).Delay;
 						break;
 					case Property.Hold:
-						propertyValue = (int)(item as XDirection).Hold;
+						propertyValue = (int)(item as GKDirection).Hold;
 						break;
 					case Property.DelayRegime:
-						propertyValue = (int)(item as XDirection).DelayRegime;
+						propertyValue = (int)(item as GKDirection).DelayRegime;
 						break;
 					case Property.Description:
-						propertyValue = (item as XDirection).Description.Trim();
+						propertyValue = (item as GKDirection).Description.Trim();
 						break;
 				}
-				itemUid = (item as XDirection).UID;
+				itemUid = (item as GKDirection).UID;
 			}
 
 			return propertyValue;
@@ -242,20 +242,20 @@ namespace FiresecService.Processor
 			var explicitValues = new List<ExplicitValue>();
 			if (result.ObjectType == ObjectType.Device)
 			{
-				items = new List<XDevice>(XManager.DeviceConfiguration.Devices);
-				foreach (var objectUid in new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID)))
+				items = new List<GKDevice>(GKManager.DeviceConfiguration.Devices);
+				foreach (var objectUid in new List<Guid>(GKManager.DeviceConfiguration.Devices.Select(x => x.UID)))
 					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
 			if (result.ObjectType == ObjectType.Zone)
 			{
-				items = new List<XZone>(XManager.Zones);
-				foreach (var objectUid in new List<Guid>(XManager.Zones.Select(x => x.UID)))
+				items = new List<GKZone>(GKManager.Zones);
+				foreach (var objectUid in new List<Guid>(GKManager.Zones.Select(x => x.UID)))
 					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
 			if (result.ObjectType == ObjectType.Direction)
 			{
-				items = new List<XDirection>(XManager.Directions);
-				foreach (var objectUid in new List<Guid>(XManager.Directions.Select(x => x.UID)))
+				items = new List<GKDirection>(GKManager.Directions);
+				foreach (var objectUid in new List<Guid>(GKManager.Directions.Select(x => x.UID)))
 					explicitValues.Add(new ExplicitValue { UidValue = objectUid });
 			}
 			result.ExplicitValues = explicitValues;
@@ -263,14 +263,14 @@ namespace FiresecService.Processor
 
 		static object InitializeItem(Guid itemUid)
 		{
-			var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
-			var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
-			var guardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
+			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
+			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
+			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
 			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
-			var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
+			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null) return device;
 			if (zone != null) return zone;
 			if (guardZone != null) return guardZone;
@@ -375,7 +375,7 @@ namespace FiresecService.Processor
 		public static void ControlGKDevice(ProcedureStep procedureStep)
 		{
 			var deviceUid = GetValue<Guid>(procedureStep.ControlGKDeviceArguments.GKDeviceParameter);
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
 			if (device == null)
 				return;
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
@@ -413,11 +413,11 @@ namespace FiresecService.Processor
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneParameter);
 			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
 			if (zoneCommandType == ZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, XBaseObjectType.Zone);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, GKBaseObjectType.Zone);
 			if (zoneCommandType == ZoneCommandType.ResetIgnore)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, XBaseObjectType.Zone);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, GKBaseObjectType.Zone);
 			if (zoneCommandType == ZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, XBaseObjectType.Zone);
+				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.Zone);
 		}
 
 		public static void ControlGuardZone(ProcedureStep procedureStep)
@@ -425,19 +425,19 @@ namespace FiresecService.Processor
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneParameter);
 			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
 			if (guardZoneCommandType == GuardZoneCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.Reset)
-				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, XBaseObjectType.GuardZone);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, GKBaseObjectType.GuardZone);
 		}
 
 		public static void ControlDirection(ProcedureStep procedureStep)
@@ -445,19 +445,19 @@ namespace FiresecService.Processor
 			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionParameter);
 			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
 			if (directionCommandType == DirectionCommandType.Automatic)
-				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(directionUid, GKBaseObjectType.Direction);
 			if (directionCommandType == DirectionCommandType.ForbidStart)
-				FiresecServiceManager.SafeFiresecService.GKStop(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKStop(directionUid, GKBaseObjectType.Direction);
 			if (directionCommandType == DirectionCommandType.Ignore)
-				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(directionUid, GKBaseObjectType.Direction);
 			if (directionCommandType == DirectionCommandType.Manual)
-				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(directionUid, GKBaseObjectType.Direction);
 			if (directionCommandType == DirectionCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(directionUid, GKBaseObjectType.Direction);
 			if (directionCommandType == DirectionCommandType.TurnOn)
-				FiresecServiceManager.SafeFiresecService.GKTurnOn(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(directionUid, GKBaseObjectType.Direction);
 			if (directionCommandType == DirectionCommandType.TurnOnNow)
-				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, XBaseObjectType.Direction);
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
 		}
 
 		public static void ControlDoor(ProcedureStep procedureStep)
@@ -608,7 +608,7 @@ namespace FiresecService.Processor
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
 				if (target.EnumType == EnumType.DriverType)
-					target.ExplicitValue.DriverTypeValue = (XDriverType) propertyValue;
+					target.ExplicitValue.DriverTypeValue = (GKDriverType) propertyValue;
 				if (target.EnumType == EnumType.StateType)
 					target.ExplicitValue.StateTypeValue = (XStateClass) propertyValue;
 			}

@@ -3,14 +3,14 @@ using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class DirectionTooltipViewModel : StateTooltipViewModel<XDirection>
+	public class DirectionTooltipViewModel : StateTooltipViewModel<GKDirection>
 	{
-		public XDirection Direction
+		public GKDirection Direction
 		{
 			get { return Item; }
 		}
 
-		public DirectionTooltipViewModel(XDirection direction)
+		public DirectionTooltipViewModel(GKDirection direction)
 			: base(direction)
 		{
 		}

@@ -10,8 +10,8 @@ namespace GKModule.ViewModels
 	{
 		public FSShleifViewModel()
 		{
-			KAUDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
+			KAUDevices = new List<GKDevice>();
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.Driver.IsKauOrRSR2Kau)
 					KAUDevices.Add(device);
@@ -50,8 +50,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XDevice _kauDevice;
-		public XDevice KAUDevice
+		GKDevice _kauDevice;
+		public GKDevice KAUDevice
 		{
 			get { return _kauDevice; }
 			set
@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<XDevice> KAUDevices { get; private set; }
+		public List<GKDevice> KAUDevices { get; private set; }
 		public List<int> KAUShleifNos { get; private set; }
 	}
 }

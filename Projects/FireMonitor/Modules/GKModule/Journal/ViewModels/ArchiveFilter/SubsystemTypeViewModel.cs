@@ -5,11 +5,11 @@ namespace GKModule.ViewModels
 {
 	public class SubsystemTypeViewModel : CheckBoxItemViewModel
 	{
-		public SubsystemTypeViewModel(XSubsystemType subsystemType)
+		public SubsystemTypeViewModel(GKSubsystemType subsystemType)
 		{
 			SubsystemType = subsystemType;
 		}
 
-		public XSubsystemType SubsystemType { get; private set; }
+		public GKSubsystemType SubsystemType { get; private set; }
 	}
 }

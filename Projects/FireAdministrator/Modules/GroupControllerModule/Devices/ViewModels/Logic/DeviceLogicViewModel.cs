@@ -11,11 +11,11 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class DeviceLogicViewModel : SaveCancelDialogViewModel
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 
-		public DeviceLogicViewModel(XDevice device, XDeviceLogic deviceLogic, bool hasOffClause = true)
+		public DeviceLogicViewModel(GKDevice device, GKDeviceLogic deviceLogic, bool hasOffClause = true)
 		{
-			if (device.DriverType == XDriverType.System)
+			if (device.DriverType == GKDriverType.System)
 				Title = "Настройка логики";
 			else
 				Title = "Настройка логики устройства " + device.PresentationName;
@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 
 			if (deviceLogic.ClausesGroup.Clauses.Count == 0)
 			{
-				deviceLogic.ClausesGroup.Clauses.Add(new XClause());
+				deviceLogic.ClausesGroup.Clauses.Add(new GKClause());
 			}
 
 			ClausesGroup = new ClauseGroupViewModel(device, deviceLogic.ClausesGroup);
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 		#region IsMRO_2M
 		public bool IsMRO_2M
 		{
-			get { return Device.DriverType == XDriverType.MRO_2; }
+			get { return Device.DriverType == GKDriverType.MRO_2; }
 		}
 
 		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
@@ -97,9 +97,9 @@ namespace GKModule.ViewModels
 			return base.Save();
 		}
 
-		public XDeviceLogic GetModel()
+		public GKDeviceLogic GetModel()
 		{
-			var deviceLogic = new XDeviceLogic();
+			var deviceLogic = new GKDeviceLogic();
 			deviceLogic.ClausesGroup = ClausesGroup.GetClauseGroup();
 			deviceLogic.OffClausesGroup = OffClausesGroup.GetClauseGroup();
 			deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;

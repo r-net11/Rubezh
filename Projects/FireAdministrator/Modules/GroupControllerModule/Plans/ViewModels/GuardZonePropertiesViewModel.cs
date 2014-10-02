@@ -25,7 +25,7 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Охранная зона";
 			Zones = new ObservableCollection<GuardZoneViewModel>();
-			foreach (var zone in XManager.DeviceConfiguration.GuardZones)
+			foreach (var zone in GKManager.DeviceConfiguration.GuardZones)
 			{
 				var zoneViewModel = new GuardZoneViewModel(zone);
 				Zones.Add(zoneViewModel);
@@ -55,8 +55,8 @@ namespace GKModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
-				GKPlanExtension.Instance.Cache.BuildSafe<XGuardZone>();
-				GKPlanExtension.Instance.SetItem<XGuardZone>(IElementZone, createZoneEventArg.Zone.UID);
+				GKPlanExtension.Instance.Cache.BuildSafe<GKGuardZone>();
+				GKPlanExtension.Instance.SetItem<GKGuardZone>(IElementZone, createZoneEventArg.Zone.UID);
 			}
 			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
@@ -77,7 +77,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			GKPlanExtension.Instance.SetItem<XGuardZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
+			GKPlanExtension.Instance.SetItem<GKGuardZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();
 		}

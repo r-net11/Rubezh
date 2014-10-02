@@ -35,7 +35,7 @@ namespace JournalModule
 				{
 					var journalItemViewModel = new JournalItemViewModel(journalItem);
 
-					var gkStateClass = XManager.GetMinStateClass();
+					var gkStateClass = GKManager.GetMinStateClass();
 					var skdStateClass = SKDManager.GetMinStateClass();
 					var globalStateClass = (XStateClass)Math.Min((int)gkStateClass, (int)skdStateClass);
 

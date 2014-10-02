@@ -14,9 +14,9 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class DirectionsSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public List<XDirection> Directions { get; private set; }
+		public List<GKDirection> Directions { get; private set; }
 
-		public DirectionsSelectationViewModel(List<XDirection> directions)
+		public DirectionsSelectationViewModel(List<GKDirection> directions)
 		{
 			Title = "Выбор зон";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -25,10 +25,10 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Directions = directions;
-			TargetDirections = new ObservableCollection<XDirection>();
-			SourceDirections = new ObservableCollection<XDirection>();
+			TargetDirections = new ObservableCollection<GKDirection>();
+			SourceDirections = new ObservableCollection<GKDirection>();
 
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				if (Directions.Contains(direction))
 					TargetDirections.Add(direction);
@@ -40,10 +40,10 @@ namespace GKModule.ViewModels
 			SelectedSourceDirection = SourceDirections.FirstOrDefault();
 		}
 
-		public ObservableCollection<XDirection> SourceDirections { get; private set; }
+		public ObservableCollection<GKDirection> SourceDirections { get; private set; }
 
-		XDirection _selectedSourceDirection;
-		public XDirection SelectedSourceDirection
+		GKDirection _selectedSourceDirection;
+		public GKDirection SelectedSourceDirection
 		{
 			get { return _selectedSourceDirection; }
 			set
@@ -53,10 +53,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XDirection> TargetDirections { get; private set; }
+		public ObservableCollection<GKDirection> TargetDirections { get; private set; }
 
-		XDirection _selectedTargetDirection;
-		public XDirection SelectedTargetDirection
+		GKDirection _selectedTargetDirection;
+		public GKDirection SelectedTargetDirection
 		{
 			get { return _selectedTargetDirection; }
 			set
@@ -73,10 +73,10 @@ namespace GKModule.ViewModels
 			var index = SourceDirections.IndexOf(SelectedSourceDirection);
 
 			SelectedSourceDirections = (IList)parameter;
-			var SourceDirectionViewModels = new List<XDirection>();
+			var SourceDirectionViewModels = new List<GKDirection>();
 			foreach (var SourceDirection in SelectedSourceDirections)
 			{
-				var SourceDirectionViewModel = SourceDirection as XDirection;
+				var SourceDirectionViewModel = SourceDirection as GKDirection;
 				if (SourceDirectionViewModel != null)
 					SourceDirectionViewModels.Add(SourceDirectionViewModel);
 
@@ -101,10 +101,10 @@ namespace GKModule.ViewModels
 			var index = TargetDirections.IndexOf(SelectedTargetDirection);
 
 			SelectedTargetDirections = (IList)parameter;
-			var TargetDirectionViewModels = new List<XDirection>();
+			var TargetDirectionViewModels = new List<GKDirection>();
 			foreach (var TargetDirection in SelectedTargetDirections)
 			{
-				var TargetDirectionViewModel = TargetDirection as XDirection;
+				var TargetDirectionViewModel = TargetDirection as GKDirection;
 				if (TargetDirectionViewModel != null)
 					TargetDirectionViewModels.Add(TargetDirectionViewModel);
 			}
@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			Directions = new List<XDirection>(TargetDirections);
+			Directions = new List<GKDirection>(TargetDirections);
 			return base.Save();
 		}
 	}

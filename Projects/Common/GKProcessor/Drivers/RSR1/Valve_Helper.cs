@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public class Valve_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x71,
-				DriverType = XDriverType.Valve,
+				DriverType = GKDriverType.Valve,
 				UID = new Guid("4935848f-0084-4151-a0c8-3a900e3cb5c5"),
 				Name = "Шкаф управления задвижкой",
 				ShortName = "ШУЗ",
@@ -28,10 +28,10 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.Stop_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.Stop_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки, с", 180, 1, 250);
 			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 255);
@@ -79,7 +79,7 @@ namespace GKProcessor
 			//additionalSwitcherProperty.Parameters.Add(parameter3);
 			//driver.Properties.Add(additionalSwitcherProperty);
 
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 0x80, Name = "Режим работы" });
 
 			return driver;
 		}

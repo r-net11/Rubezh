@@ -7,11 +7,11 @@ namespace AutomationModule.ViewModels
 {
 	public class DeviceSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public DeviceSelectionViewModel(XDevice device)
+		public DeviceSelectionViewModel(GKDevice device)
 		{
 			Title = "Выбор устройства";
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
-			RootDevice.GetAllChildren().FindAll(x => x.Device.DriverType == XDriverType.KAU_Shleif || x.Device.DriverType == XDriverType.RSR2_KAU_Shleif).ForEach(y => y.ExpandToThis());
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
+			RootDevice.GetAllChildren().FindAll(x => x.Device.DriverType == GKDriverType.KAU_Shleif || x.Device.DriverType == GKDriverType.RSR2_KAU_Shleif).ForEach(y => y.ExpandToThis());
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
 			if (SelectedDevice == null)
@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 				SelectedDevice.ExpandToThis();
 		}
 
-		DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

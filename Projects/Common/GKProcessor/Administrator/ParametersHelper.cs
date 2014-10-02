@@ -9,14 +9,14 @@ namespace GKProcessor
 {
 	public static class ParametersHelper
 	{
-		public static string SetSingleParameter(XBase xBase, List<byte> parameterBytes)
+		public static string SetSingleParameter(GKBase xBase, List<byte> parameterBytes)
 		{
 			try
 			{
 				var commonDatabase = GetCommonDatabase(xBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == xBase.UID);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == xBase.UID);
 					if (descriptor != null)
 					{
 						return SetDeviceParameters(commonDatabase, descriptor, parameterBytes);
@@ -30,14 +30,14 @@ namespace GKProcessor
 			return null;
 		}
 
-		public static OperationResult<List<XProperty>> GetSingleParameter(XBase xBase)
+		public static OperationResult<List<GKProperty>> GetSingleParameter(GKBase xBase)
 		{
 			try
 			{
 				var commonDatabase = GetCommonDatabase(xBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == xBase.UID);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == xBase.UID);
 					if (descriptor != null)
 					{
 						var result = GetDeviceParameters(commonDatabase, descriptor);
@@ -49,18 +49,18 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
-			return new OperationResult<List<XProperty>>("Непредвиденная ошибка");
+			return new OperationResult<List<GKProperty>>("Непредвиденная ошибка");
 		}
 
-		static OperationResult<List<XProperty>> GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
+		static OperationResult<List<GKProperty>> GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
 		{
-			var properties = new List<XProperty>();
+			var properties = new List<GKProperty>();
 
 			var no = descriptor.GetDescriptorNo();
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
 			{
-				return new OperationResult<List<XProperty>>(sendResult.Error);
+				return new OperationResult<List<GKProperty>>(sendResult.Error);
 			}
 
 			var binProperties = new List<BinProperty>();
@@ -104,7 +104,7 @@ namespace GKProcessor
 						if (property == null)
 						{
 							var systemProperty = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-							descriptor.Device.DeviceProperties.Add(new XProperty()
+							descriptor.Device.DeviceProperties.Add(new GKProperty()
 							{
 								DriverProperty = systemProperty.DriverProperty,
 								Name = systemProperty.Name,
@@ -115,28 +115,28 @@ namespace GKProcessor
 						{
 							property.Value = paramValue;
 							property.DriverProperty = driverProperty;
-							if (property.DriverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)
+							if (property.DriverProperty.DriverPropertyType == GKDriverPropertyTypeEnum.BoolType)
 								property.Value = (ushort)(property.Value > 0 ? 1 : 0);
 
 							properties.Add(property);
 						}
 					}
 					else
-						return new OperationResult<List<XProperty>>("Неизвестный номер параметра");
+						return new OperationResult<List<GKProperty>>("Неизвестный номер параметра");
 				}
 			}
 			if (descriptor.Direction != null && binProperties.Count >= 3)
 			{
-				properties.Add(new XProperty() { Value = binProperties[0].Value });
-				properties.Add(new XProperty() { Value = binProperties[1].Value });
-				properties.Add(new XProperty() { Value = binProperties[2].Value });
+				properties.Add(new GKProperty() { Value = binProperties[0].Value });
+				properties.Add(new GKProperty() { Value = binProperties[1].Value });
+				properties.Add(new GKProperty() { Value = binProperties[2].Value });
 			}
 			if (descriptor.Code != null && binProperties.Count >= 2)
 			{
-				properties.Add(new XProperty() { Value = binProperties[0].Value });
-				properties.Add(new XProperty() { Value = binProperties[1].Value });
+				properties.Add(new GKProperty() { Value = binProperties[0].Value });
+				properties.Add(new GKProperty() { Value = binProperties[1].Value });
 			}
-			return new OperationResult<List<XProperty>>() { Result = properties };
+			return new OperationResult<List<GKProperty>>() { Result = properties };
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, List<byte> parameterBytes)
 		{
@@ -184,7 +184,7 @@ namespace GKProcessor
 			return null;
 		}
 
-		static CommonDatabase GetCommonDatabase(XBase xBase)
+		static CommonDatabase GetCommonDatabase(GKBase xBase)
 		{
 			CommonDatabase commonDatabase = null;
 			if (xBase.KauDatabaseParent != null)
@@ -198,12 +198,12 @@ namespace GKProcessor
 			return commonDatabase;
 		}
 
-		public static BaseDescriptor GetBaseDescriptor(XBase xBase)
+		public static BaseDescriptor GetBaseDescriptor(GKBase xBase)
 		{
 			var commonDatabase = GetCommonDatabase(xBase);
 			if (commonDatabase != null)
 			{
-				return commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == xBase.UID);
+				return commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == xBase.UID);
 			}
 			return null;
 		}

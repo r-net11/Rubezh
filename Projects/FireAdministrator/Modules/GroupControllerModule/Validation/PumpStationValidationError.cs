@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	public class PumpStationValidationError : ObjectValidationError<XPumpStation, ShowXPumpStationEvent, Guid>
+	public class PumpStationValidationError : ObjectValidationError<GKPumpStation, ShowXPumpStationEvent, Guid>
 	{
-		public PumpStationValidationError(XPumpStation pumpStation, string error, ValidationErrorLevel level)
+		public PumpStationValidationError(GKPumpStation pumpStation, string error, ValidationErrorLevel level)
 			: base(pumpStation, error, level)
 		{
 		}

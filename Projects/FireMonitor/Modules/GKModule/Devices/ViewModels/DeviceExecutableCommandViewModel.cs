@@ -9,30 +9,30 @@ namespace GKModule.ViewModels
 {
 	public class DeviceExecutableCommandViewModel : BaseViewModel
 	{
-		public XStateBit StateBit { get; private set; }
-		public XDevice Device { get; private set; }
+		public GKStateBit StateBit { get; private set; }
+		public GKDevice Device { get; private set; }
 		public string Name { get; private set; }
 
-		public DeviceExecutableCommandViewModel(XDevice device, XStateBit stateType)
+		public DeviceExecutableCommandViewModel(GKDevice device, GKStateBit stateType)
 		{
 			ExecuteControlCommand = new RelayCommand(OnExecuteControl);
 			Device = device;
 			StateBit = stateType;
-			Name = ((XStateBit)stateType).ToDescription();
-			if (Device.DriverType == XDriverType.Valve)
+			Name = ((GKStateBit)stateType).ToDescription();
+			if (Device.DriverType == GKDriverType.Valve)
 			{
 				switch (stateType)
 				{
-					case XStateBit.TurnOn_InManual:
+					case GKStateBit.TurnOn_InManual:
 						Name = "Открыть";
 						break;
-					case XStateBit.TurnOnNow_InManual:
+					case GKStateBit.TurnOnNow_InManual:
 						Name = "Открыть немедленно";
 						break;
-					case XStateBit.TurnOff_InManual:
+					case GKStateBit.TurnOff_InManual:
 						Name = "Закрыть";
 						break;
-					case XStateBit.Stop_InManual:
+					case GKStateBit.Stop_InManual:
 						Name = "Остановить";
 						break;
 				}

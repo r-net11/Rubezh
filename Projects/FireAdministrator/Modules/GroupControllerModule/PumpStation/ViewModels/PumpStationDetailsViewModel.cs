@@ -10,21 +10,21 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XPumpStation PumpStation { get; private set; }
+		public GKPumpStation PumpStation { get; private set; }
 
-		public PumpStationDetailsViewModel(XPumpStation pumpStation = null)
+		public PumpStationDetailsViewModel(GKPumpStation pumpStation = null)
 		{
 			if (pumpStation == null)
 			{
 				Title = "Создание новой насосоной станции";
 
-				PumpStation = new XPumpStation()
+				PumpStation = new GKPumpStation()
 				{
 					Name = "Насосная станция",
 					No = 1
 				};
-				if (XManager.PumpStations.Count != 0)
-					PumpStation.No = (ushort)(XManager.PumpStations.Select(x => x.No).Max() + 1);
+				if (GKManager.PumpStations.Count != 0)
+					PumpStation.No = (ushort)(GKManager.PumpStations.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingPumpStation in XManager.PumpStations)
+			foreach (var existingPumpStation in GKManager.PumpStations)
 			{
 				availableNames.Add(existingPumpStation.Name);
 			}
@@ -134,7 +134,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (PumpStation.No != No && XManager.PumpStations.Any(x => x.No == No))
+			if (PumpStation.No != No && GKManager.PumpStations.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("НС с таким номером уже существует");
 				return false;

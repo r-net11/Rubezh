@@ -10,7 +10,7 @@ namespace VideoModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateAddress();
 			return Errors;

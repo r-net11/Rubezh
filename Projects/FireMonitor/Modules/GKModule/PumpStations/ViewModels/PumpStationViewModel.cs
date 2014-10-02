@@ -13,13 +13,13 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public XPumpStation PumpStation { get; private set; }
-		public XState State
+		public GKPumpStation PumpStation { get; private set; }
+		public GKState State
 		{
 			get { return PumpStation.State; }
 		}
 
-		public PumpStationViewModel(XPumpStation pumpStation)
+		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -71,15 +71,15 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.StartLogic); }
 		}
 		public string StopPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.StopLogic); }
 		}
 		public string AutomaticOffPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
 		}
 	}
 }

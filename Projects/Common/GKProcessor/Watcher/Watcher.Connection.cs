@@ -27,12 +27,12 @@ namespace GKProcessor
 
 				if (IsConnected != isConnected)
 				{
-					var journalItem = new XJournalItem()
+					var journalItem = new GKJournalItem()
 					{
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
-						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalObjectType = XJournalObjectType.System,
+						GKIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice),
+						JournalObjectType = GKJournalObjectType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
 						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,
@@ -42,7 +42,7 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+						var hashBytes = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, GkDatabase.RootDevice);
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
 						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
@@ -50,7 +50,7 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.InternalState.IsConnectionLost = !isConnected;
+						descriptor.GKBase.InternalState.IsConnectionLost = !isConnected;
 					}
 					NotifyAllObjectsStateChanged();
 				}

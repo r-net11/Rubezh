@@ -9,13 +9,13 @@ namespace GKModule.ViewModels
 {
 	public class DeviceStateViewModel : BaseViewModel
 	{
-		public XState State { get; private set; }
+		public GKState State { get; private set; }
 
-		public DeviceStateViewModel(XState deviceState)
+		public DeviceStateViewModel(GKState deviceState)
 		{
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
-			AdditionalStates = new ObservableCollection<XAdditionalState>();
+			AdditionalStates = new ObservableCollection<GKAdditionalState>();
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -38,15 +38,15 @@ namespace GKModule.ViewModels
 		}
 
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
-		public ObservableCollection<XAdditionalState> AdditionalStates { get; private set; }
+		public ObservableCollection<GKAdditionalState> AdditionalStates { get; private set; }
 	}
 
 	public class XStateClassViewModel : BaseViewModel
 	{
 		public XStateClass StateClass { get; private set; }
-		XDevice Device { get; set; }
+		GKDevice Device { get; set; }
 
-		public XStateClassViewModel(XDevice device, XStateClass stateClass)
+		public XStateClassViewModel(GKDevice device, XStateClass stateClass)
 		{
 			Device = device;
 			StateClass = stateClass;
@@ -61,11 +61,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public static string GetStateName(XStateClass stateClass, XDevice device)
+		public static string GetStateName(XStateClass stateClass, GKDevice device)
 		{
 			if (device != null)
 			{
-				if (device.DriverType == XDriverType.Valve)
+				if (device.DriverType == GKDriverType.Valve)
 				{
 					switch (stateClass)
 					{
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 							return "Закрывается";
 					}
 				}
-				if (device.DriverType == XDriverType.AM1_T)
+				if (device.DriverType == GKDriverType.AM1_T)
 				{
 					if (stateClass == XStateClass.Fire2)
 					{

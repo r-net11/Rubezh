@@ -10,9 +10,9 @@ namespace GKModule.ViewModels
 	public class GuardZoneViewModel : BaseViewModel
 	{
 		private VisualizationState _visualizetionState;
-		public XGuardZone Zone { get; set; }
+		public GKGuardZone Zone { get; set; }
 
-		public GuardZoneViewModel(XGuardZone zone)
+		public GuardZoneViewModel(GKGuardZone zone)
 		{
 			Zone = zone;
 			Update();
@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 		{
 			get { return _visualizetionState; }
 		}
-		public void Update(XGuardZone zone)
+		public void Update(GKGuardZone zone)
 		{
 			Zone = zone;
 			OnPropertyChanged(() => Zone);

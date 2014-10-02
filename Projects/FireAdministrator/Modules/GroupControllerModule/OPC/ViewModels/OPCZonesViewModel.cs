@@ -10,7 +10,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
+			foreach (var zone in GKManager.DeviceConfiguration.SortedZones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 				Zones.Add(zoneViewModel);

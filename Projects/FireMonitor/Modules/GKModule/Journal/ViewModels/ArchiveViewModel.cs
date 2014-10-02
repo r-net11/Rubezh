@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
-		XArchiveFilter ArchiveFilter;
+		GKArchiveFilter ArchiveFilter;
 		bool FirstTime = true;
 		Guid ArchivePortionUID;
 
@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 
 		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
 		{
-			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter = new GKArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 
@@ -190,9 +190,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
+		GKArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
 		{
-			var archiveFilter = new XArchiveFilter()
+			var archiveFilter = new GKArchiveFilter()
 			{
 				StartDate = ArchiveFirstDate,
 				EndDate = DateTime.Now,
@@ -342,7 +342,7 @@ namespace GKModule.ViewModels
 
 			try
 			{
-				XArchiveFilter archiveFilter = null;
+				GKArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
 					archiveFilter = ArchiveFilter;
 				else

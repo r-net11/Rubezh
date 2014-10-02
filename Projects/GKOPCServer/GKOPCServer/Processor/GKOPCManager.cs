@@ -79,7 +79,7 @@ namespace GKOPCServer
 			if (FiresecManager.Devices == null)
 				return;
 
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (TagsCount >= 100)
 					break;
@@ -90,7 +90,7 @@ namespace GKOPCServer
 				var tagName = new StringBuilder();
 				foreach (var parentDevice in device.AllParents)
 				{
-					if (parentDevice.Driver.DriverType != XDriverType.System)
+					if (parentDevice.Driver.DriverType != GKDriverType.System)
 					{
 						if (parentDevice.Driver.HasAddress)
 							tagName.Append(parentDevice.ShortName + " - " + parentDevice.PresentationAddress + "/");
@@ -114,7 +114,7 @@ namespace GKOPCServer
 				TagDevices.Add(tagDevice);
 				TagsCount++;
 			}
-			foreach (var zone in (from XZone zone in XManager.Zones orderby zone.No select zone))
+			foreach (var zone in (from GKZone zone in GKManager.Zones orderby zone.No select zone))
 			{
 				if (TagsCount >= 100)
 					break;
@@ -133,7 +133,7 @@ namespace GKOPCServer
 				TagsCount++;
 			}
 
-			foreach (var direction in (from XDirection direction in XManager.Directions orderby direction.No select direction))
+			foreach (var direction in (from GKDirection direction in GKManager.Directions orderby direction.No select direction))
 			{
 				if (TagsCount >= 100)
 					break;

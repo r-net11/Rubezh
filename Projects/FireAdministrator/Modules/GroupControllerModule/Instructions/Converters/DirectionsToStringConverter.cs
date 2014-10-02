@@ -15,14 +15,14 @@ namespace GKModule.Converters
 			var directionUIDs = value as ICollection<Guid>;
 			if (directionUIDs == null)
 				return "";
-			var directions = new List<XDirection>();
+			var directions = new List<GKDirection>();
 			foreach (var uid in directionUIDs)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				var direction = GKManager.Directions.FirstOrDefault(x => x.UID == uid);
 				if (direction != null)
 					directions.Add(direction);
 			}
-			return XManager.GetCommaSeparatedObjects(new List<ModelBase>(directions));
+			return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(directions));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

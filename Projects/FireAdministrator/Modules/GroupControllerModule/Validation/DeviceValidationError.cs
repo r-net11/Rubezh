@@ -5,9 +5,9 @@ using Infrastructure.Events;
 
 namespace GKModule.Validation
 {
-	public class DeviceValidationError : ObjectValidationError<XDevice, ShowXDeviceEvent, Guid>
+	public class DeviceValidationError : ObjectValidationError<GKDevice, ShowXDeviceEvent, Guid>
 	{
-		public DeviceValidationError(XDevice device, string error, ValidationErrorLevel level)
+		public DeviceValidationError(GKDevice device, string error, ValidationErrorLevel level)
 			: base(device, error, level)
 		{
 		}

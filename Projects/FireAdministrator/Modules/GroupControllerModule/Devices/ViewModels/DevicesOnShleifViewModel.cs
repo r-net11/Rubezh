@@ -10,9 +10,9 @@ namespace GKModule.ViewModels
 {
 	public class DevicesOnShleifViewModel : DialogViewModel
 	{
-		public XDevice ShleifDevice { get; private set; }
+		public GKDevice ShleifDevice { get; private set; }
 
-		public DevicesOnShleifViewModel(XDevice shleifDevice)
+		public DevicesOnShleifViewModel(GKDevice shleifDevice)
 		{
 			Title = "Выбор устройств на шлейфе " + shleifDevice.PresentationName;
 			ShleifDevice = shleifDevice;
@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<XDevice> CopyDevices { get; private set; }
+		public List<GKDevice> CopyDevices { get; private set; }
 		public ObservableCollection<DeviceOnShleifViewModel> Devices { get; private set; }
 
 		public RelayCommand SelectAllCommand { get; private set; }
@@ -53,7 +53,7 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			var devicesToCopy = new List<XDevice>();
+			var devicesToCopy = new List<GKDevice>();
 			foreach (var device in Devices)
 			{
 				if (device.IsActive)
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 			ShleifDevice.OnAUParametersChanged();
 
 			if (ShleifDevice.KAURSR2Parent != null)
-				XManager.RebuildRSR2Addresses(ShleifDevice.KAURSR2Parent);
+				GKManager.RebuildRSR2Addresses(ShleifDevice.KAURSR2Parent);
 
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
 			OnPropertyChanged(() => Devices);
@@ -90,9 +90,9 @@ namespace GKModule.ViewModels
 
 	public class DeviceOnShleifViewModel : BaseViewModel
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 
-		public DeviceOnShleifViewModel(XDevice device)
+		public DeviceOnShleifViewModel(GKDevice device)
 		{
 			Device = device;
 		}

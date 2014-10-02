@@ -24,9 +24,9 @@ namespace GKModule.ViewModels
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
 			Current = this;
 			var devicesToRemove = new List<GKLibraryDevice>();
-			foreach (var libraryDevice in XManager.DeviceLibraryConfiguration.GKDevices)
+			foreach (var libraryDevice in GKManager.DeviceLibraryConfiguration.GKDevices)
 			{
-				var driver = XManager.Drivers.FirstOrDefault(x => x.UID == libraryDevice.DriverUID);
+				var driver = GKManager.Drivers.FirstOrDefault(x => x.UID == libraryDevice.DriverUID);
 				if (driver != null)
 				{
 					libraryDevice.Driver = driver;
@@ -41,11 +41,11 @@ namespace GKModule.ViewModels
 			}
 			foreach (var libraryDevice in devicesToRemove)
 			{
-				XManager.DeviceLibraryConfiguration.GKDevices.RemoveAll(x => x == libraryDevice);
+				GKManager.DeviceLibraryConfiguration.GKDevices.RemoveAll(x => x == libraryDevice);
 			}
 			if (devicesToRemove.Count > 0)
 				ServiceFactory.SaveService.GKLibraryChanged = true;
-			var devices = from GKLibraryDevice libraryDevice in XManager.DeviceLibraryConfiguration.GKDevices.Where(x => x.Driver != null) orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
+			var devices = from GKLibraryDevice libraryDevice in GKManager.DeviceLibraryConfiguration.GKDevices.Where(x => x.Driver != null) orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
 			Devices = new ObservableCollection<XDeviceViewModel>();
 			foreach (var device in devices)
 			{
@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 
 				if (value != null)
 				{
-					var driver = XManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.DriverUID);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.DriverUID);
 					States = new ObservableCollection<StateViewModel>();
 					var libraryStates = from GKLibraryState libraryState in SelectedDevice.LibraryDevice.States orderby libraryState.StateClass descending select libraryState;
 					foreach (var libraryState in libraryStates)
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 			var deviceDetailsViewModel = new DeviceDetailsViewModel();
 			if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 			{
-				XManager.DeviceLibraryConfiguration.GKDevices.Add(deviceDetailsViewModel.SelectedDevice.LibraryDevice);
+				GKManager.DeviceLibraryConfiguration.GKDevices.Add(deviceDetailsViewModel.SelectedDevice.LibraryDevice);
 				Devices.Add(deviceDetailsViewModel.SelectedDevice);
 				SelectedDevice = Devices.LastOrDefault();
 				ServiceFactory.SaveService.GKLibraryChanged = true;
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
-			XManager.DeviceLibraryConfiguration.GKDevices.Remove(SelectedDevice.LibraryDevice);
+			GKManager.DeviceLibraryConfiguration.GKDevices.Remove(SelectedDevice.LibraryDevice);
 			Devices.Remove(SelectedDevice);
 			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.GKLibraryChanged = true;

@@ -10,7 +10,7 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XZonePainter : BaseZonePainter<XZone, ShowXZoneEvent>
+	class XZonePainter : BaseZonePainter<GKZone, ShowXZoneEvent>
 	{
 		private ZoneViewModel _zoneViewModel;
 
@@ -21,12 +21,12 @@ namespace GKModule.Plans.Designer
 				_zoneViewModel = new ViewModels.ZoneViewModel(Item);
 		}
 
-		protected override XZone CreateItem(PresenterItem presenterItem)
+		protected override GKZone CreateItem(PresenterItem presenterItem)
 		{
 			var element = presenterItem.Element as IElementZone;
-			return element == null ? null : PlanPresenter.Cache.Get<XZone>(element.ZoneUID);
+			return element == null ? null : PlanPresenter.Cache.Get<GKZone>(element.ZoneUID);
 		}
-		protected override StateTooltipViewModel<XZone> CreateToolTip()
+		protected override StateTooltipViewModel<GKZone> CreateToolTip()
 		{
 			return new ZoneTooltipViewModel(Item);
 		}

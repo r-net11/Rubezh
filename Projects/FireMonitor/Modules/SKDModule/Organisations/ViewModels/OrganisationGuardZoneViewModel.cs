@@ -10,9 +10,9 @@ namespace SKDModule.ViewModels
 	public class OrganisationGuardZoneViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
 		public Organisation Organisation { get; private set; }
-		public XGuardZone GuardZone { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 
-		public OrganisationGuardZoneViewModel(Organisation organisation, XGuardZone guardZone)
+		public OrganisationGuardZoneViewModel(Organisation organisation, GKGuardZone guardZone)
 		{
 			Organisation = organisation;
 			GuardZone = guardZone;

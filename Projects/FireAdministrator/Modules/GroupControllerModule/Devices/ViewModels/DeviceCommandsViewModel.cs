@@ -59,7 +59,7 @@ namespace GKModule.Models
 
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.DriverType == XDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.DriverType == GKDriverType.GK));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -80,7 +80,7 @@ namespace GKModule.Models
 		}
 		bool CanSynchroniseTime()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.DriverType == XDriverType.GK);
+			return (SelectedDevice != null && SelectedDevice.Device.DriverType == GKDriverType.GK);
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
@@ -94,7 +94,7 @@ namespace GKModule.Models
 		}
 		bool CanReadJournal()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.DriverType == XDriverType.GK);
+			return (SelectedDevice != null && SelectedDevice.Device.DriverType == GKDriverType.GK);
 		}
 
 		public RelayCommand WriteConfigCommand { get; private set; }
@@ -106,7 +106,7 @@ namespace GKModule.Models
 				{
 					var thread = new Thread(() =>
 					{
-						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.DriverType == XDriverType.GK ? SelectedDevice.Device : SelectedDevice.Device.GKParent);
+						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.DriverType == GKDriverType.GK ? SelectedDevice.Device : SelectedDevice.Device.GKParent);
 						ApplicationService.Invoke(() =>
 						{
 							LoadingService.Close();
@@ -125,7 +125,7 @@ namespace GKModule.Models
 		{
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null &&
-				SelectedDevice.Device.DriverType != XDriverType.System;
+				SelectedDevice.Device.DriverType != GKDriverType.System;
 		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
@@ -146,40 +146,40 @@ namespace GKModule.Models
 							result.Result.UpdateConfiguration();
 							result.Result.PrepareDescriptors();
 
-							var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
-							if (gkDevice != null)
+							var gkControllerDevice = result.Result.RootDevice.Children.FirstOrDefault();
+							if (gkControllerDevice != null)
 							{
 								foreach (var zone in result.Result.Zones)
 								{
-									zone.GkDatabaseParent = gkDevice;
+									zone.GkDatabaseParent = gkControllerDevice;
 								}
 								foreach (var guardZone in result.Result.GuardZones)
 								{
-									guardZone.GkDatabaseParent = gkDevice;
+									guardZone.GkDatabaseParent = gkControllerDevice;
 								}
 								foreach (var direction in result.Result.Directions)
 								{
-									direction.GkDatabaseParent = gkDevice;
+									direction.GkDatabaseParent = gkControllerDevice;
 								}
 								foreach (var pumpStation in result.Result.PumpStations)
 								{
-									pumpStation.GkDatabaseParent = gkDevice;
+									pumpStation.GkDatabaseParent = gkControllerDevice;
 								}
 								foreach (var mpt in result.Result.MPTs)
 								{
-									mpt.GkDatabaseParent = gkDevice;
+									mpt.GkDatabaseParent = gkControllerDevice;
 								}
 								foreach (var delay in result.Result.Delays)
 								{
-									delay.GkDatabaseParent = gkDevice;
+									delay.GkDatabaseParent = gkControllerDevice;
 								}
 								foreach (var code in result.Result.Codes)
 								{
-									code.GkDatabaseParent = gkDevice;
+									code.GkDatabaseParent = gkControllerDevice;
 								}
 							}
 
-							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
+							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
 						});
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
@@ -218,7 +218,7 @@ namespace GKModule.Models
 							DescriptorsManager.Create();
 							result.Result.UpdateConfiguration();
 							result.Result.PrepareDescriptors();
-							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
+							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
 						});
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
@@ -242,18 +242,18 @@ namespace GKModule.Models
 
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == GKDriverType.GK));
 		}
 
 		bool CanReadConfigFile()
 		{
-			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == XDriverType.GK);
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			if (SelectedDevice.Device.DriverType == XDriverType.System)
+			if (SelectedDevice.Device.DriverType == GKDriverType.System)
 			{
 				var openDialog = new OpenFileDialog()
 				{
@@ -262,14 +262,14 @@ namespace GKModule.Models
 				};
 				if (openDialog.ShowDialog().Value)
 				{
-					var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK) || (x.Driver.IsKauOrRSR2Kau));
+					var gkKauKauRsr2Devices = GKManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == GKDriverType.GK) || (x.Driver.IsKauOrRSR2Kau));
 					var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
 					if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
 					{
 						var thread = new Thread(() =>
 						{
 							var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-							var devices = new List<XDevice>();
+							var devices = new List<GKDevice>();
 							firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
 							var result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
 
@@ -318,7 +318,7 @@ namespace GKModule.Models
 
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK || SelectedDevice.Driver.DriverType == XDriverType.System) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == GKDriverType.GK || SelectedDevice.Driver.DriverType == GKDriverType.System) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

@@ -40,9 +40,9 @@ namespace GKProcessor
 			{
 				try
 				{
-					foreach (var device in XManager.DeviceConfiguration.RootDevice.Children)
+					foreach (var device in GKManager.DeviceConfiguration.RootDevice.Children)
 					{
-						if (device.DriverType == XDriverType.GK)
+						if (device.DriverType == GKDriverType.GK)
 						{
 							WriteDateTime(device);
 						}
@@ -61,7 +61,7 @@ namespace GKProcessor
 			}
 		}
 
-		static bool WriteDateTime(XDevice device)
+		static bool WriteDateTime(GKDevice device)
 		{
 			var dateTime = DateTime.Now;
 			var bytes = new List<byte>();

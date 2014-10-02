@@ -16,10 +16,10 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class GuardZonesSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public List<XGuardZone> Zones { get; private set; }
+		public List<GKGuardZone> Zones { get; private set; }
 		public bool CanCreateNew { get; private set; }
 
-		public GuardZonesSelectationViewModel(List<XGuardZone> zones, bool canCreateNew = false)
+		public GuardZonesSelectationViewModel(List<GKGuardZone> zones, bool canCreateNew = false)
 		{
 			Title = "Выбор охранных зон";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -30,10 +30,10 @@ namespace GKModule.ViewModels
 
 			Zones = zones;
 			CanCreateNew = canCreateNew;
-			TargetZones = new ObservableCollection<XGuardZone>();
-			SourceZones = new ObservableCollection<XGuardZone>();
+			TargetZones = new ObservableCollection<GKGuardZone>();
+			SourceZones = new ObservableCollection<GKGuardZone>();
 
-			foreach (var guardZone in XManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				if (Zones.Contains(guardZone))
 					TargetZones.Add(guardZone);
@@ -45,10 +45,10 @@ namespace GKModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		public ObservableCollection<XGuardZone> SourceZones { get; private set; }
+		public ObservableCollection<GKGuardZone> SourceZones { get; private set; }
 
-		XGuardZone _selectedSourceZone;
-		public XGuardZone SelectedSourceZone
+		GKGuardZone _selectedSourceZone;
+		public GKGuardZone SelectedSourceZone
 		{
 			get { return _selectedSourceZone; }
 			set
@@ -58,10 +58,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XGuardZone> TargetZones { get; private set; }
+		public ObservableCollection<GKGuardZone> TargetZones { get; private set; }
 
-		XGuardZone _selectedTargetZone;
-		public XGuardZone SelectedTargetZone
+		GKGuardZone _selectedTargetZone;
+		public GKGuardZone SelectedTargetZone
 		{
 			get { return _selectedTargetZone; }
 			set
@@ -78,10 +78,10 @@ namespace GKModule.ViewModels
 			var index = SourceZones.IndexOf(SelectedSourceZone);
 
 			SelectedSourceZones = (IList)parameter;
-			var zoneViewModels = new List<XGuardZone>();
+			var zoneViewModels = new List<GKGuardZone>();
 			foreach (var selectedZone in SelectedSourceZones)
 			{
-				var zoneViewModel = selectedZone as XGuardZone;
+				var zoneViewModel = selectedZone as GKGuardZone;
 				if (zoneViewModel != null)
 					zoneViewModels.Add(zoneViewModel);
 			}
@@ -105,10 +105,10 @@ namespace GKModule.ViewModels
 			var index = TargetZones.IndexOf(SelectedTargetZone);
 
 			SelectedTargetZones = (IList)parameter;
-			var zoneViewModels = new List<XGuardZone>();
+			var zoneViewModels = new List<GKGuardZone>();
 			foreach (var selectedZone in SelectedTargetZones)
 			{
-				var zoneViewModel = selectedZone as XGuardZone;
+				var zoneViewModel = selectedZone as GKGuardZone;
 				if (zoneViewModel != null)
 					zoneViewModels.Add(zoneViewModel);
 			}
@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<XGuardZone>(TargetZones);
+			Zones = new List<GKGuardZone>(TargetZones);
 			return base.Save();
 		}
 	}

@@ -7,46 +7,46 @@ using System.Xml.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public abstract class XBase : ModelBase, IStateProvider
+	public abstract class GKBase : ModelBase, IStateProvider
 	{
-		public XBase()
+		public GKBase()
 		{
 			ClearDescriptor();
 			ClearClauseDependencies();
 		}
 
 		[XmlIgnore]
-		public List<XDevice> ClauseInputDevices { get; set; }
+		public List<GKDevice> ClauseInputDevices { get; set; }
 		[XmlIgnore]
-		public List<XZone> ClauseInputZones { get; set; }
+		public List<GKZone> ClauseInputZones { get; set; }
 		[XmlIgnore]
-		public List<XGuardZone> ClauseInputGuardZones { get; set; }
+		public List<GKGuardZone> ClauseInputGuardZones { get; set; }
 		[XmlIgnore]
-		public List<XDirection> ClauseInputDirections { get; set; }
+		public List<GKDirection> ClauseInputDirections { get; set; }
 		[XmlIgnore]
-		public List<XMPT> ClauseInputMPTs { get; set; }
+		public List<GKMPT> ClauseInputMPTs { get; set; }
 		[XmlIgnore]
-		public List<XDelay> ClauseInputDelays { get; set; }
+		public List<GKDelay> ClauseInputDelays { get; set; }
 
 		public void ClearClauseDependencies()
 		{
-			ClauseInputDevices = new List<XDevice>();
-			ClauseInputZones = new List<XZone>();
-			ClauseInputGuardZones = new List<XGuardZone>();
-			ClauseInputDirections = new List<XDirection>();
-			ClauseInputMPTs = new List<XMPT>();
-			ClauseInputDelays = new List<XDelay>();
+			ClauseInputDevices = new List<GKDevice>();
+			ClauseInputZones = new List<GKZone>();
+			ClauseInputGuardZones = new List<GKGuardZone>();
+			ClauseInputDirections = new List<GKDirection>();
+			ClauseInputMPTs = new List<GKMPT>();
+			ClauseInputDelays = new List<GKDelay>();
 		}
 
 		[XmlIgnore]
-		public List<XBase> InputXBases { get; set; }
+		public List<GKBase> InputXBases { get; set; }
 		[XmlIgnore]
-		public List<XBase> OutputXBases { get; set; }
+		public List<GKBase> OutputXBases { get; set; }
 
 		[XmlIgnore]
-		public XDevice KauDatabaseParent { get; set; }
+		public GKDevice KauDatabaseParent { get; set; }
 		[XmlIgnore]
-		public XDevice GkDatabaseParent { get; set; }
+		public GKDevice GkDatabaseParent { get; set; }
 
 		[XmlIgnore]
 		public ushort GKDescriptorNo { get; set; }
@@ -55,12 +55,12 @@ namespace FiresecAPI.GK
 
 		public void ClearDescriptor()
 		{
-			InputXBases = new List<XBase>();
-			OutputXBases = new List<XBase>();
+			InputXBases = new List<GKBase>();
+			OutputXBases = new List<GKBase>();
 		}
 
 		[XmlIgnore]
-		public abstract XBaseObjectType ObjectType { get; }
+		public abstract GKBaseObjectType ObjectType { get; }
 		[XmlIgnore]
 		public string DescriptorPresentationName
 		{
@@ -68,9 +68,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
-		public XBaseInternalState InternalState { get; set; }
+		public GKBaseInternalState InternalState { get; set; }
 		[XmlIgnore]
-		public XState State { get; set; }
+		public GKState State { get; set; }
 
 		#region IStateProvider Members
 

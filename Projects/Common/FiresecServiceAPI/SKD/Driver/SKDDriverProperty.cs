@@ -17,7 +17,7 @@ namespace FiresecAPI.SKD
 		public int Default { get; set; }
 		public string StringDefault { get; set; }
 		public List<SKDDriverPropertyParameter> Parameters { get; set; }
-		public XDriverPropertyTypeEnum DriverPropertyType { get; set; }
+		public GKDriverPropertyTypeEnum DriverPropertyType { get; set; }
 		public int Min { get; set; }
 		public int Max { get; set; }
 	}

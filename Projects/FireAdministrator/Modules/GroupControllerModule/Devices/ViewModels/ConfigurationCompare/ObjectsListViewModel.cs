@@ -7,7 +7,7 @@ namespace GKModule.ViewModels
 {
 	public class ObjectsListViewModel : BaseViewModel
 	{
-		public ObjectsListViewModel (XDevice device, XDeviceConfiguration deviceConfiguration)
+		public ObjectsListViewModel (GKDevice device, GKDeviceConfiguration deviceConfiguration)
 		{
 			deviceConfiguration.Update();
 			Objects = new List<ObjectViewModel>();

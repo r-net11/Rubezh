@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 	{
 		DateTime StartDateTime = DateTime.Now;
 
-		public ConfirmationViewModel(XJournalItem journalItem)
+		public ConfirmationViewModel(GKJournalItem journalItem)
 		{
 			Title = "Подтверждение критических событий";
 			ConfirmCommand = new RelayCommand(OnConfirm);

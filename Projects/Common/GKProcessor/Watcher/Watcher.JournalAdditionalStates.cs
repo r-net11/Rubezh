@@ -7,7 +7,7 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		void ParseAdditionalStates(XJournalItem journalItem)
+		void ParseAdditionalStates(GKJournalItem journalItem)
 		{
 			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 
@@ -19,7 +19,7 @@ namespace GKProcessor
 					if (!string.IsNullOrEmpty(journalItem.Description))
 					{
 						AddAdditionalState(deviceState, journalItem.Description, XStateClass.Failure);
-						if (descriptor.Device.DriverType == XDriverType.Battery)
+						if (descriptor.Device.DriverType == GKDriverType.Battery)
 						{
 							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.Names.Contains(journalItem.Description));
 							if (batteryNamesGroup != null)
@@ -44,7 +44,7 @@ namespace GKProcessor
 					else
 					{
 						deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
-						if (descriptor.Device.DriverType == XDriverType.Battery)
+						if (descriptor.Device.DriverType == GKDriverType.Battery)
 						{
 							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
 							if (batteryNamesGroup != null)
@@ -86,11 +86,11 @@ namespace GKProcessor
 			}
 		}
 
-		void AddAdditionalState(XBaseInternalState baseState, string description, XStateClass stateClass)
+		void AddAdditionalState(GKBaseInternalState baseState, string description, XStateClass stateClass)
 		{
 			if (!baseState.AdditionalStates.Any(x => x.Name == description))
 			{
-				var additionalState = new XAdditionalState()
+				var additionalState = new GKAdditionalState()
 				{
 					StateClass = stateClass,
 					Name = description

@@ -17,7 +17,7 @@ namespace FiresecClient
 		public static event Action<AutomationCallbackResult> AutomationEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalItem> NewJournalItemEvent;
-		public static event Action<IEnumerable<XJournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
+		public static event Action<IEnumerable<GKJournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
 		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredArchiveCompletedEvent;
 
 		bool isConnected = true;

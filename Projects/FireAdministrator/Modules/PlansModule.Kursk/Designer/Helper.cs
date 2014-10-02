@@ -9,21 +9,21 @@ namespace PlansModule.Kursk.Designer
 {
 	internal static class Helper
 	{
-		public static void SetXDevice(ElementRectangleTank element, XDevice device)
+		public static void SetXDevice(ElementRectangleTank element, GKDevice device)
 		{
-			element.XDeviceUID = device == null ? Guid.Empty : device.UID;
+			element.DeviceUID = device == null ? Guid.Empty : device.UID;
 			element.BackgroundColor = GetTankColor(device);
 		}
 		public static void SetXDevice(ElementRectangleTank element)
 		{
-			XDevice xdevice = GetXDevice(element);
+			GKDevice xdevice = GetXDevice(element);
 			SetXDevice(element, xdevice);
 		}
-		public static XDevice GetXDevice(ElementRectangleTank element)
+		public static GKDevice GetXDevice(ElementRectangleTank element)
 		{
-			return element.XDeviceUID == Guid.Empty ? null : XManager.DeviceConfiguration.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush && item.UID == element.XDeviceUID).FirstOrDefault();
+			return element.DeviceUID == Guid.Empty ? null : GKManager.DeviceConfiguration.Devices.Where(item => item.DriverType == GKDriverType.RSR2_Bush && item.UID == element.DeviceUID).FirstOrDefault();
 		}
-		public static Color GetTankColor(XDevice xdevice)
+		public static Color GetTankColor(GKDevice xdevice)
 		{
 			Color color = Colors.Black;
 			if (xdevice != null)

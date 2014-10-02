@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			MPTs = new List<MPTViewModel>();
-			foreach (var mpt in XManager.MPTs)
+			foreach (var mpt in GKManager.MPTs)
 			{
 				var mptViewModel = new MPTViewModel(mpt);
 				MPTs.Add(mptViewModel);

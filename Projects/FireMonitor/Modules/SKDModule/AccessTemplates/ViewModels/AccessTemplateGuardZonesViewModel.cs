@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate = accessTemplate;
 			Organisation = organisation;
 			GuardZones = new ObservableCollection<AccessTemplateGuardZoneViewModel>();
-			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
+			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
 				if (Organisation.GuardZoneUIDs.Any(x => x == guardZone.UID))
 				{

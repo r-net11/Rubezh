@@ -5,18 +5,18 @@ namespace GKModule.ViewModels
 {
 	public class DeviceParameterTemplateViewModel : BaseViewModel
 	{
-		public XDeviceParameterTemplate DeviceParameterTemplate { get; private set; }
+		public GKDeviceParameterTemplate DeviceParameterTemplate { get; private set; }
 		public DeviceParameterViewModel DeviceParameterViewModel { get; private set; }
 
-		public DeviceParameterTemplateViewModel(XDeviceParameterTemplate deviceParameterTemplate)
+		public DeviceParameterTemplateViewModel(GKDeviceParameterTemplate deviceParameterTemplate)
 		{
 			DeviceParameterTemplate = deviceParameterTemplate;
-			DeviceParameterViewModel = new DeviceParameterViewModel(deviceParameterTemplate.XDevice);
+			DeviceParameterViewModel = new DeviceParameterViewModel(deviceParameterTemplate.GKDevice);
 		}
 
-		public XDriver Driver
+		public GKDriver Driver
 		{
-			get { return DeviceParameterTemplate.XDevice.Driver; }
+			get { return DeviceParameterTemplate.GKDevice.Driver; }
 		}
 	}
 }

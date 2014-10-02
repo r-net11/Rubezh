@@ -5,7 +5,7 @@ namespace GKProcessor
 {
 	public class ZoneDescriptor : BaseDescriptor
 	{
-		public ZoneDescriptor(XZone zone)
+		public ZoneDescriptor(GKZone zone)
 		{
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Zone;
@@ -31,20 +31,20 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(XStateBit.Fire2, Zone);
+			Formula.AddGetBit(GKStateBit.Fire2, Zone);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateBit.Fire2, Zone);
+			Formula.AddPutBit(GKStateBit.Fire2, Zone);
 
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(XStateBit.Fire1, Zone);
+			Formula.AddGetBit(GKStateBit.Fire1, Zone);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateBit.Fire1, Zone);
+			Formula.AddPutBit(GKStateBit.Fire1, Zone);
 
 			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddPutBit(XStateBit.Attention, Zone);
+			Formula.AddPutBit(GKStateBit.Attention, Zone);
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
@@ -55,9 +55,9 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.Driver.AvailableStateBits.Contains(XStateBit.Fire1))
+				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
 				{
-					Formula.AddGetBitOff(XStateBit.Fire1, device);
+					Formula.AddGetBitOff(GKStateBit.Fire1, device);
 
 					if (count > 0)
 					{
@@ -76,9 +76,9 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.Driver.AvailableStateBits.Contains(XStateBit.Fire2))
+				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire2))
 				{
-					Formula.AddGetBitOff(XStateBit.Fire2, device);
+					Formula.AddGetBitOff(GKStateBit.Fire2, device);
 
 					if (count > 0)
 					{

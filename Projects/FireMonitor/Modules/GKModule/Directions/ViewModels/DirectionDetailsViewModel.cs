@@ -17,13 +17,13 @@ namespace GKModule.ViewModels
 {
 	public class DirectionDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XDirection Direction { get; private set; }
-		public XState State
+		public GKDirection Direction { get; private set; }
+		public GKState State
 		{
 			get { return Direction.State; }
 		}
 
-		public DirectionDetailsViewModel(XDirection direction)
+		public DirectionDetailsViewModel(GKDirection direction)
 		{
 			Direction = direction;
 			State.StateChanged += new Action(OnStateChanged);
@@ -207,7 +207,7 @@ namespace GKModule.ViewModels
 			Plans = new ObservableCollection<PlanLinkViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				ElementBase elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
+				ElementBase elementBase = plan.ElementRectangleGKDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -216,7 +216,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
+				elementBase = plan.ElementPolygonGKDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);

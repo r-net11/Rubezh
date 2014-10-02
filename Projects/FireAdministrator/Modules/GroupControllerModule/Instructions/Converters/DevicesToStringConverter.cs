@@ -14,14 +14,14 @@ namespace GKModule.Converters
 			var deviceUIDs = value as ICollection<Guid>;
 			if (deviceUIDs == null)
 				return "";
-			var devices = new List<XDevice>();
+			var devices = new List<GKDevice>();
 			foreach (var uid in deviceUIDs)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				var device = GKManager.Devices.FirstOrDefault(x => x.UID == uid);
 				if (device != null)
 					devices.Add(device);
 			}
-			return XManager.GetCommaSeparatedDevices(devices);
+			return GKManager.GetCommaSeparatedDevices(devices);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

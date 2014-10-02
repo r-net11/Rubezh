@@ -184,7 +184,7 @@ namespace SKDModule.Plans
 		}
 		public override void ExtensionAttached()
 		{
-			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
+			using (new TimeCounter("GKDevice.ExtensionAttached.BuildMap: {0}"))
 				base.ExtensionAttached();
 		}
 

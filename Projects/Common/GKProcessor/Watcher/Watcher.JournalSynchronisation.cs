@@ -10,7 +10,7 @@ namespace GKProcessor
 	{
 		public bool ReadMissingJournalItems()
 		{
-			var gkIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice);
+			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
 			if (localLastDBNo == -1)
 			{
@@ -25,7 +25,7 @@ namespace GKProcessor
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
-				var journalItems = new List<XJournalItem>();
+				var journalItems = new List<GKJournalItem>();
 				for (int index = localLastDBNo; index <= remoteLastId; index++)
 				{
 					LastUpdateTime = DateTime.Now;
@@ -47,7 +47,7 @@ namespace GKProcessor
 						if (journalItems.Count > 100)
 						{
 							AddJournalItems(journalItems);
-							journalItems = new List<XJournalItem>();
+							journalItems = new List<GKJournalItem>();
 						}
 					}
 				}

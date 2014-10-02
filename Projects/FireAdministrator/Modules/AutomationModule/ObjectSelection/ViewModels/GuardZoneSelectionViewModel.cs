@@ -8,11 +8,11 @@ namespace AutomationModule.ViewModels
 {
 	public class GuardZoneSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public GuardZoneSelectionViewModel(XGuardZone guardZone)
+		public GuardZoneSelectionViewModel(GKGuardZone guardZone)
 		{
 			Title = "Выбор охранной зоны";
 			Zones = new ObservableCollection<ZoneViewModel>();
-			XManager.GuardZones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
+			GKManager.GuardZones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (guardZone != null)
 				SelectedZone = Zones.FirstOrDefault(x => x.GuardZone.UID == guardZone.UID);
 			if (SelectedZone == null)

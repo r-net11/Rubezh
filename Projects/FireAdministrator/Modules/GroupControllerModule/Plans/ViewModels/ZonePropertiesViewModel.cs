@@ -24,7 +24,7 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
-			var zones = XManager.DeviceConfiguration.SortedZones;
+			var zones = GKManager.DeviceConfiguration.SortedZones;
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in zones)
 			{
@@ -56,8 +56,8 @@ namespace GKModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
-				GKPlanExtension.Instance.Cache.BuildSafe<XZone>();
-				GKPlanExtension.Instance.SetItem<XZone>(IElementZone, createZoneEventArg.Zone.UID);
+				GKPlanExtension.Instance.Cache.BuildSafe<GKZone>();
+				GKPlanExtension.Instance.SetItem<GKZone>(IElementZone, createZoneEventArg.Zone.UID);
 			}
 			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
@@ -78,7 +78,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			GKPlanExtension.Instance.SetItem<XZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
+			GKPlanExtension.Instance.SetItem<GKZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();
 		}

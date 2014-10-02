@@ -3,7 +3,7 @@
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XMeasureParameterValue
+	public class GKMeasureParameterValue
 	{
 		[DataMember]
 		public string Name { get; set; }

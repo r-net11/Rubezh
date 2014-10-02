@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public static class RM_1_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x75,
-				DriverType = XDriverType.RM_1,
+				DriverType = GKDriverType.RM_1,
 				UID = new Guid("4a60242a-572e-41a8-8b87-2fe6b6dc4ace"),
 				Name = "Релейный исполнительный модуль РМ-1",
 				ShortName = "РМ-1",
@@ -27,11 +27,11 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
-			var property1 = new XDriverProperty()
+			var property1 = new GKDriverProperty()
 			{
 				No = 0x82,
 				Name = "Конфигурация релейного модуля",
@@ -50,7 +50,7 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск, с", 0, 0, 255).IsLowByte=true;
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания, с", 0, 0, 255).IsHieghByte = true;
 
-			var property2 = new XDriverProperty()
+			var property2 = new GKDriverProperty()
 			{
 				No = 0x85,
 				Name = "Тип контроля выхода",

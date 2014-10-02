@@ -5,9 +5,9 @@ namespace GKOPCServer
 {
 	public class TagZone : TagBase
 	{
-		public XState ZoneState { get; private set; }
+		public GKState ZoneState { get; private set; }
 
-		public TagZone(int tagId, XState state)
+		public TagZone(int tagId, GKState state)
 		{
 			TagId = tagId;
 			ZoneState = state;

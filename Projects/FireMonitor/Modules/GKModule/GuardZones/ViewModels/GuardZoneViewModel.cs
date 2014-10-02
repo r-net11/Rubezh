@@ -12,13 +12,13 @@ namespace GKModule.ViewModels
 {
 	public class GuardZoneViewModel : BaseViewModel
 	{
-		public XGuardZone GuardZone { get; private set; }
-		public XState State
+		public GKGuardZone GuardZone { get; private set; }
+		public GKState State
 		{
 			get { return GuardZone.State; }
 		}
 
-		public GuardZoneViewModel(XGuardZone guardZone)
+		public GuardZoneViewModel(GKGuardZone guardZone)
 		{
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);

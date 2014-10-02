@@ -4,16 +4,16 @@ namespace GKModule.ViewModels
 {
 	public class DirectionDeviceViewModel : DeviceViewModel
 	{
-		public DirectionDeviceViewModel(XDevice device)
+		public DirectionDeviceViewModel(GKDevice device)
 			: base(device)
 		{
 		
 		}
 
-		public DirectionDeviceViewModel(XDirectionDevice directionDevice):base(directionDevice.Device)
+		public DirectionDeviceViewModel(GKDirectionDevice directionDevice):base(directionDevice.Device)
 		{
 			StateBit = directionDevice.StateBit;
 		}
-		public XStateBit StateBit { get; set; }
+		public GKStateBit StateBit { get; set; }
 	}
 }

@@ -39,7 +39,7 @@ namespace GKProcessor
 			return journalParser.JournalItem.GKJournalRecordNo.Value;
 		}
 
-		XJournalItem ReadJournal(int index)
+		GKJournalItem ReadJournal(int index)
 		{
 			LastUpdateTime = DateTime.Now;
 			if (IsStopping)
@@ -61,7 +61,7 @@ namespace GKProcessor
 
 		void ReadAndPublish(int startIndex, int endIndex)
 		{
-			var journalItems = new List<XJournalItem>();
+			var journalItems = new List<GKJournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
 				var journalItem = ReadJournal(index);
@@ -72,23 +72,23 @@ namespace GKProcessor
 					if (descriptor != null)
 					{
 						ChangeJournalOnDevice(descriptor, journalItem);
-						CheckServiceRequired(descriptor.XBase, journalItem);
-						descriptor.XBase.InternalState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-						if (descriptor.XBase.InternalState.StateClass == XStateClass.On)
+						CheckServiceRequired(descriptor.GKBase, journalItem);
+						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalItem.ObjectState);
+						if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
 						{
-							descriptor.XBase.InternalState.ZeroHoldDelayCount = 0;
-							CheckDelay(descriptor.XBase);
+							descriptor.GKBase.InternalState.ZeroHoldDelayCount = 0;
+							CheckDelay(descriptor.GKBase);
 						}
 						ParseAdditionalStates(journalItem);
-						OnObjectStateChanged(descriptor.XBase);
-						if (descriptor.XBase is XDevice)
+						OnObjectStateChanged(descriptor.GKBase);
+						if (descriptor.GKBase is GKDevice)
 						{
-							XDevice device = descriptor.XBase as XDevice;
+							GKDevice device = descriptor.GKBase as GKDevice;
 							if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
 							{
 								OnObjectStateChanged(device.Parent);
 							}
-							var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU_Shleif || x.Driver.DriverType == XDriverType.RSR2_KAU_Shleif);
+							var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == GKDriverType.KAU_Shleif || x.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif);
 							if (shleifParent != null)
 							{
 								OnObjectStateChanged(shleifParent);
@@ -113,12 +113,12 @@ namespace GKProcessor
 			}
 		}
 
-		void ChangeJournalOnDevice(BaseDescriptor descriptor, XJournalItem journalItem)
+		void ChangeJournalOnDevice(BaseDescriptor descriptor, GKJournalItem journalItem)
 		{
 			if (descriptor.Device != null)
 			{
 				var device = descriptor.Device;
-				if (device.DriverType == XDriverType.AM1_T)
+				if (device.DriverType == GKDriverType.AM1_T)
 				{
 					if (journalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
 					{
@@ -137,7 +137,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				if (device.DriverType == XDriverType.Valve)
+				if (device.DriverType == GKDriverType.Valve)
 				{
 					switch (journalItem.Name)
 					{
@@ -161,13 +161,13 @@ namespace GKProcessor
 			}
 		}
 
-		void CheckServiceRequired(XBase xBase, XJournalItem journalItem)
+		void CheckServiceRequired(GKBase xBase, GKJournalItem journalItem)
 		{
 			if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность || journalItem.JournalEventNameType == JournalEventNameType.Запыленность_устранена)
 			{
-				if (xBase is XDevice)
+				if (xBase is GKDevice)
 				{
-					var device = xBase as XDevice;
+					var device = xBase as GKDevice;
 					if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность)
 						device.InternalState.IsService = true;
 					if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность_устранена)

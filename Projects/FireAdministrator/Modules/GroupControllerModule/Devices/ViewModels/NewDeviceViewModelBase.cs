@@ -16,16 +16,16 @@ namespace GKModule.ViewModels
 			Title = "Новое устройство";
 			ParentDeviceViewModel = deviceViewModel;
 			ParentDevice = ParentDeviceViewModel.Device;
-			Drivers = new ObservableCollection<XDriver>();
+			Drivers = new ObservableCollection<GKDriver>();
 			AvailableShleifs = new ObservableCollection<byte>();
 			AddedDevices = new List<DeviceViewModel>();
 			Count = 1;
 		}
 
 		protected DeviceViewModel ParentDeviceViewModel;
-		protected XDevice ParentDevice;
+		protected GKDevice ParentDevice;
 		public List<DeviceViewModel> AddedDevices { get; protected set; }
-		public ObservableCollection<XDriver> Drivers { get; protected set; }
+		public ObservableCollection<GKDriver> Drivers { get; protected set; }
 		public ObservableCollection<byte> AvailableShleifs { get; protected set; }
 
 		int _count;
@@ -39,10 +39,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		protected List<XDriver> SortDrivers()
+		protected List<GKDriver> SortDrivers()
 		{
 			var driverCounters = new List<DriverCounter>();
-			foreach (var driver in XManager.Drivers)
+			foreach (var driver in GKManager.Drivers)
 			{
 				var driverCounter = new DriverCounter()
 				{
@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 				};
 				driverCounters.Add(driverCounter);
 			}
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				var driverCounter = driverCounters.FirstOrDefault(x => x.Driver == device.Driver);
 				if (driverCounter != null)
@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 
 		class DriverCounter
 		{
-			public XDriver Driver { get; set; }
+			public GKDriver Driver { get; set; }
 			public int Count { get; set; }
 		}
 	}

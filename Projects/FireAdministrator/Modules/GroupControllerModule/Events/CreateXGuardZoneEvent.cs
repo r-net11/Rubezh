@@ -12,6 +12,6 @@ namespace GKModule.Events
 	{
 		public bool Cancel { get; set; }
 		public Guid ZoneUID { get; set; }
-		public XGuardZone Zone { get; set; }
+		public GKGuardZone Zone { get; set; }
 	}
 }

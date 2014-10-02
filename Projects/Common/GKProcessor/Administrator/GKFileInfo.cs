@@ -23,21 +23,21 @@ namespace GKProcessor
 		public List<byte> FileBytes { get; private set; }
 		public List<byte> InfoBlock { get; private set; }
 
-		public void Initialize(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
+		public void Initialize(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
 		{
 			DescriptorsManager.Create();
 			Date = DateTime.Now;
-			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
 			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
 			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)
 				DescriptorsCount = gkDatabase.Descriptors.Count();
-			Hash1 = CreateHash1(deviceConfiguration, gkDevice);
+			Hash1 = CreateHash1(deviceConfiguration, gkControllerDevice);
 			Hash2 = CreateHash2(deviceConfiguration);
 			InitializeFileBytes(deviceConfiguration);
 			InitializeInfoBlock();
 		}
-		public static List<byte> CreateHash1(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
+		public static List<byte> CreateHash1(GKDeviceConfiguration deviceConfiguration, GKDevice gkControllerDevice)
 		{
 			deviceConfiguration.UpdateConfiguration();
 			deviceConfiguration.PrepareDescriptors();
@@ -45,25 +45,25 @@ namespace GKProcessor
 			stringBuilder.Append("devices:");
 			foreach (var device in deviceConfiguration.Devices)
 			{
-				if (device.IsRealDevice && device.GKParent == gkDevice)
+				if (device.IsRealDevice && device.GKParent == gkControllerDevice)
 					stringBuilder.Append(device.PresentationName).Append("@");
 			}
 			stringBuilder.Append("zones:");
 			foreach (var zone in deviceConfiguration.Zones)
 			{
-				if (zone.GkDatabaseParent == gkDevice)
+				if (zone.GkDatabaseParent == gkControllerDevice)
 					stringBuilder.Append(zone.PresentationName).Append("@");
 			}
 			stringBuilder.Append("directions:");
 			foreach (var direction in deviceConfiguration.Directions)
 			{
-				if (direction.GkDatabaseParent == gkDevice)
+				if (direction.GkDatabaseParent == gkControllerDevice)
 					stringBuilder.Append(direction.PresentationName).Append("@");
 			}
 			stringBuilder.Append("pumpStations:");
 			foreach (var pumpStation in deviceConfiguration.PumpStations)
 			{
-				if (pumpStation.GkDatabaseParent == gkDevice)
+				if (pumpStation.GkDatabaseParent == gkControllerDevice)
 				{
 					stringBuilder.Append(pumpStation.PresentationName).Append("@");
 					if (pumpStation.NSDevices != null)
@@ -71,7 +71,7 @@ namespace GKProcessor
 						stringBuilder.Append("nsDevices:");
 						foreach (var nsDevice in pumpStation.NSDevices)
 						{
-							if (nsDevice.GKParent == gkDevice)
+							if (nsDevice.GKParent == gkControllerDevice)
 								stringBuilder.Append(nsDevice.PresentationName).Append("@");
 						}
 					}
@@ -80,7 +80,7 @@ namespace GKProcessor
 			stringBuilder.Append("mpts:");
 			foreach (var mpt in deviceConfiguration.MPTs)
 			{
-				if (mpt.GkDatabaseParent == gkDevice)
+				if (mpt.GkDatabaseParent == gkControllerDevice)
 				{
 					stringBuilder.Append(mpt.PresentationName).Append("@");
 					if (mpt.Devices != null)
@@ -88,7 +88,7 @@ namespace GKProcessor
 						stringBuilder.Append("nsDevices:");
 						foreach (var device in mpt.Devices)
 						{
-							if (device.GKParent == gkDevice)
+							if (device.GKParent == gkControllerDevice)
 								stringBuilder.Append(device.PresentationName).Append("@");
 						}
 					}
@@ -97,7 +97,7 @@ namespace GKProcessor
 			stringBuilder.Append("delays:");
 			foreach (var delay in deviceConfiguration.Delays)
 			{
-				if (delay.GkDatabaseParent == gkDevice)
+				if (delay.GkDatabaseParent == gkControllerDevice)
 				{
 					stringBuilder.Append(delay.PresentationName).Append("@");
 				}
@@ -105,27 +105,27 @@ namespace GKProcessor
 			stringBuilder.Append("guardZones:");
 			foreach (var guardZone in deviceConfiguration.GuardZones)
 			{
-				if (guardZone.GkDatabaseParent == gkDevice)
+				if (guardZone.GkDatabaseParent == gkControllerDevice)
 					stringBuilder.Append(guardZone.PresentationName).Append("@");
 			}
 			stringBuilder.Append("codes:");
 			foreach (var code in deviceConfiguration.Codes)
 			{
-				if (code.GkDatabaseParent == gkDevice)
+				if (code.GkDatabaseParent == gkControllerDevice)
 					stringBuilder.Append(code.PresentationName).Append("@");
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
-		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration)
+		public static List<byte> CreateHash2(GKDeviceConfiguration deviceConfiguration)
 		{
 			deviceConfiguration.UpdateConfiguration();
-			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
+			var hashConfiguration = new GKHashConfiguration(deviceConfiguration);
 			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration, true);
 			configMemoryStream.Position = 0;
 			var configBytes = configMemoryStream.ToArray();
 			return SHA256.Create().ComputeHash(configBytes).ToList();
 		}
-		void InitializeFileBytes(XDeviceConfiguration deviceConfiguration)
+		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)
 		{
 			ZipFileConfigurationHelper.SaveToZipFile("configFileToGK", deviceConfiguration);
 			var fileStream = File.OpenRead("configFileToGK");

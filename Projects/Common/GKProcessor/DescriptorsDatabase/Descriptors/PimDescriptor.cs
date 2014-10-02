@@ -4,7 +4,7 @@ namespace GKProcessor
 {
 	public class PimDescriptor : BaseDescriptor
 	{
-		public PimDescriptor(XPim pim)
+		public PimDescriptor(GKPim pim)
 		{
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Pim;
