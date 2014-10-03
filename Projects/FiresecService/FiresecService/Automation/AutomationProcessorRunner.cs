@@ -130,9 +130,10 @@ namespace FiresecService.Processor
 					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListParameter.VariableUid);
 					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemParameter.VariableUid);
 					if (listVariable != null)
-						foreach (var itemUid in listVariable.ExplicitValues.Select(x => x.UidValue))
+						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
-							if (itemVariable != null) itemVariable.ExplicitValue.UidValue = itemUid;
+							if (itemVariable != null)
+								ProcedureHelper.SetValue(itemVariable, ProcedureHelper.GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep, procedure);
@@ -247,7 +248,13 @@ namespace FiresecService.Processor
 					ProcedureHelper.GetRandomValue(procedureStep);
 					break;
 
-				//case ProcedureStepType.ChangeList:
+				case ProcedureStepType.ChangeList:
+					ProcedureHelper.ChangeList(procedureStep);
+					break;
+
+				case ProcedureStepType.GetListCount:
+					ProcedureHelper.GetListCount(procedureStep);
+					break;
 
 				case ProcedureStepType.Exit:
 					return Result.Exit;

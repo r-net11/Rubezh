@@ -49,6 +49,12 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Изменение списка")]
 		ChangeList,
 
+		[DescriptionAttribute("Получить размер списка")]
+		GetListCount,
+
+		[DescriptionAttribute("Получить элемент списка")]
+		GetListItem,
+
 		[DescriptionAttribute("Показать сообщение")]
 		ShowMessage,
 

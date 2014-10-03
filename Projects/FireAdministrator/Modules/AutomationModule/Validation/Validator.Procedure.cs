@@ -273,6 +273,15 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, changeListArguments.ListArgument);
 					}
 					break;
+
+				case ProcedureStepType.GetListCount:
+					{
+						var getListCountArgument = step.GetListCountArgument;
+						if (!ValidateArgument(step, getListCountArgument.ListArgument))
+							break;
+						ValidateArgument(step, getListCountArgument.CountArgument);
+					}
+					break;
 			}
 		}
 

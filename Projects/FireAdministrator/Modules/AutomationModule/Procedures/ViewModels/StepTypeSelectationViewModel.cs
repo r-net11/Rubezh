@@ -83,7 +83,9 @@ namespace AutomationModule.ViewModels
 						new StepTypeViewModel("Функции управления списками",
 							new List<StepTypeViewModel>
 						{
-							new StepTypeViewModel(ProcedureStepType.ChangeList)
+							new StepTypeViewModel(ProcedureStepType.ChangeList),
+							new StepTypeViewModel(ProcedureStepType.GetListCount),
+							new StepTypeViewModel(ProcedureStepType.GetListItem)
 						}),
 						new StepTypeViewModel("Интерактивная логика",
 						new List<StepTypeViewModel>

@@ -324,6 +324,14 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, changeListArguments.ListArgument);
 					}
 					break;
+
+				case ProcedureStepType.GetListCount:
+					{
+						var getListCountArgument = step.GetListCountArgument;
+						InvalidateArgument(procedure, getListCountArgument.ListArgument);
+						InvalidateArgument(procedure, getListCountArgument.CountArgument);
+					}
+					break;
 			}
 		}
 

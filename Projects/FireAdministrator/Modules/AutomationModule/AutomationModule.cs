@@ -6,6 +6,7 @@ using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
 using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
@@ -16,6 +17,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
+using FiresecClient;
 
 namespace AutomationModule
 {

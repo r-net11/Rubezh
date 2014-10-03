@@ -31,6 +31,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate RunProgrammTemplate { get; set; }
 		public DataTemplate RandomTemplate { get; set; }
 		public DataTemplate ChangeListTemplate { get; set; }
+		public DataTemplate GetListCountTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -137,6 +138,10 @@ namespace AutomationModule.ViewModels
 			if (item is ChangeListStepViewModel)
 			{
 				return ChangeListTemplate;
+			}
+			if (item is GetListCountStepViewModel)
+			{
+				return GetListCountTemplate;
 			}
 			return null;
 		}

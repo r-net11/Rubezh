@@ -155,6 +155,8 @@
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetListCountArgument.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetListItemArgument.cs" />
     <Compile Include="Models\Automation\StepArguments\GetObjectPropertyArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />

@@ -162,7 +162,7 @@ namespace FiresecService.Processor
 				return;
 			var guid = new Guid();
 			var propertyValue = GetPropertyValue(ref guid, getObjectPropertyArguments.Property, item);
-			SetPropertyValue(target, propertyValue);
+			SetValue(target, propertyValue);
 		}
 
 		static object GetPropertyValue(ref Guid itemUid, Property property, object item)
@@ -538,7 +538,7 @@ namespace FiresecService.Processor
 			variable.EnumType = changeListArguments.ItemArgument.EnumType;
 			variable.ObjectType = changeListArguments.ItemArgument.ObjectType;
 			var itemValue = GetValue<object>(changeListArguments.ItemArgument);
-			SetPropertyValue(variable, itemValue);
+			SetValue(variable, itemValue);
 			var explicitValue = variable.ExplicitValue;
 			if (listVariable != null)
 			{
@@ -559,6 +559,15 @@ namespace FiresecService.Processor
 						break;
 				}
 			}
+		}
+
+		public static void GetListCount(ProcedureStep procedureStep)
+		{
+			var getListCountArgument = procedureStep.GetListCountArgument;
+			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
+			var countVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListCountArgument.CountArgument.VariableUid);
+			if ((countVariable != null) && (listVariable != null))
+				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
 		}
 
 		static bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
@@ -595,7 +604,7 @@ namespace FiresecService.Processor
 			PropertyCopy.Copy(sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceParameter.ExplicitValue, targetVariable.ExplicitValue);
 		}
 
-		static void SetPropertyValue(Variable target, object propertyValue)
+		public static void SetValue(Variable target, object propertyValue)
 		{
 			if (target.ExplicitType == ExplicitType.Integer)
 				target.ExplicitValue.IntValue = (int) propertyValue;
@@ -616,7 +625,6 @@ namespace FiresecService.Processor
 
 		public static T GetValue<T>(Argument variable)
 		{
-			var result = new object();
 			var variableScope = variable.VariableScope;
 			var explicitType = variable.ExplicitType;
 			var enumType = variable.EnumType;
@@ -631,6 +639,12 @@ namespace FiresecService.Processor
 					enumType = argument.EnumType;
 				}
 			}
+			return (T)GetValue<object>(explicitValue, explicitType, enumType);
+		}
+
+		public static T GetValue<T> (ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		{
+			var result = new object();
 			if (explicitType == ExplicitType.Boolean)
 				result = explicitValue.BoolValue;
 			if (explicitType == ExplicitType.DateTime)
