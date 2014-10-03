@@ -34,7 +34,7 @@ namespace PlansModule.Kursk
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_instruments = null;
-			Cache.Add<XDevice>();
+			Cache.Add<GKDevice>();
 		}
 
 		public void Initialize()
@@ -97,7 +97,7 @@ namespace PlansModule.Kursk
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementRectangleTank)
-				RegisterDesignerItem<XDevice>(designerItem, OthersGroup);
+				RegisterDesignerItem<GKDevice>(designerItem, OthersGroup);
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)

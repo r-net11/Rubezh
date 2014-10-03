@@ -25,13 +25,13 @@ namespace GKModule.Reports
 			table.Columns.Add("Zone");
 			table.Columns.Add("Dustiness");
 
-			if (XManager.Devices.IsNotNullOrEmpty())
+			if (GKManager.Devices.IsNotNullOrEmpty())
 			{
 				string type = "";
 				string address = "";
 				string zonePresentationName = "";
 				string dustiness = "";
-				foreach (var device in XManager.Devices)
+				foreach (var device in GKManager.Devices)
 				{
 					type = device.Driver.ShortName;
 					address = device.DottedAddress;
@@ -40,7 +40,7 @@ namespace GKModule.Reports
 
 					if (device.Driver.HasZone)
 					{
-						zonePresentationName = XManager.GetPresentationZone(device);
+						zonePresentationName = GKManager.GetPresentationZone(device);
 					}
 
 					var deviceState = device.State;

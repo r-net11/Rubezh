@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	class ScheduleValidationError : ObjectValidationError<XSchedule, ShowXScheduleEvent, Guid>
+	class ScheduleValidationError : ObjectValidationError<GKSchedule, ShowXScheduleEvent, Guid>
 	{
-		public ScheduleValidationError(XSchedule schedule, string error, ValidationErrorLevel level)
+		public ScheduleValidationError(GKSchedule schedule, string error, ValidationErrorLevel level)
 			: base(schedule, error, level)
 		{
 		}

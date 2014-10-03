@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Codes = new ObservableCollection<CodeViewModel>();
-			foreach (var code in XManager.DeviceConfiguration.Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				var codeViewModel = new CodeViewModel(code);
 				Codes.Add(codeViewModel);
@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 			var codeDetailsViewModel = new CodeDetailsViewModel();
 			if (DialogService.ShowModalWindow(codeDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.Codes.Add(codeDetailsViewModel.Code);
+				GKManager.DeviceConfiguration.Codes.Add(codeDetailsViewModel.Code);
 				var codeViewModel = new CodeViewModel(codeDetailsViewModel.Code);
 				Codes.Add(codeViewModel);
 				SelectedCode = codeViewModel;
@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = Codes.IndexOf(SelectedCode);
 
-			XManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
+			GKManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
 			Codes.Remove(SelectedCode);
 			SelectedCode = Codes.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;

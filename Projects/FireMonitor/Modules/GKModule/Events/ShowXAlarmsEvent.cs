@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events
 {
-	public class ShowXAlarmsEvent : CompositePresentationEvent<XAlarmType?>
+	public class ShowXAlarmsEvent : CompositePresentationEvent<GKAlarmType?>
 	{
 	}
 }

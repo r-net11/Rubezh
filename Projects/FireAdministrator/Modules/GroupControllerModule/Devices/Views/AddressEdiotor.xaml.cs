@@ -14,16 +14,16 @@ namespace GKModule.Views
 		bool _isSaving;
 
 		public static readonly DependencyProperty DeviceProperty =
-			DependencyProperty.Register("Device", typeof(XDevice), typeof(AddressEditor),
+			DependencyProperty.Register("Device", typeof(GKDevice), typeof(AddressEditor),
 			new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnDevicePropertyChanged)));
 
 		public static readonly DependencyProperty AddressProperty =
 			DependencyProperty.Register("Address", typeof(string), typeof(AddressEditor),
 			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnAddressPropertyChanged)));
 
-		public XDevice Device
+		public GKDevice Device
 		{
-			get { return (XDevice)GetValue(DeviceProperty); }
+			get { return (GKDevice)GetValue(DeviceProperty); }
 			set { SetValue(DeviceProperty, value); }
 		}
 

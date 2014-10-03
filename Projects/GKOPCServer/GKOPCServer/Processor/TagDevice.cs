@@ -4,9 +4,9 @@ namespace GKOPCServer
 {
 	public class TagDevice : TagBase
 	{
-		public XState State { get; private set; }
+		public GKState State { get; private set; }
 
-		public TagDevice(int tagId, XState state)
+		public TagDevice(int tagId, GKState state)
 		{
 			TagId = tagId;
 			State = state;

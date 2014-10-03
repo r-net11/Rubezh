@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
 					if (isFormulaInvalid)
 					{
-						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.XBase.GKDescriptorNo + " " + descriptor.XBase.PresentationName);
+						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 						return;
 					}
 				}
@@ -83,14 +83,14 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				foreach (var inputBase in descriptorViewModel.Descriptor.XBase.InputXBases)
+				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputXBases)
 				{
 					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 					{
-						var inputDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == inputBase.UID);
+						var inputDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
 						if (inputDescriptor != null)
 						{
-							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.XBase.UID == inputDescriptor.XBase.UID);
+							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
 							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
 						}
 					}
@@ -100,14 +100,14 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				foreach (var outputBase in descriptorViewModel.Descriptor.XBase.OutputXBases)
+				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputXBases)
 				{
 					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 					{
-						var outputDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.XBase.UID == outputBase.UID);
+						var outputDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == outputBase.UID);
 						if (outputDescriptor != null)
 						{
-							var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.XBase.UID == outputDescriptor.XBase.UID);
+							var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == outputDescriptor.GKBase.UID);
 							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
 						}
 					}

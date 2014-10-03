@@ -16,7 +16,7 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddGKJournalItem(XJournalItem xJournalItem)
+		public static void AddGKJournalItem(GKJournalItem xJournalItem)
 		{
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = xJournalItem.SystemDateTime;
@@ -42,42 +42,42 @@ namespace FiresecService.Service
 
 			switch (xJournalItem.JournalObjectType)
 			{
-				case XJournalObjectType.System:
+				case GKJournalObjectType.System:
 					journalItem.JournalObjectType = JournalObjectType.None;
 					break;
 
-				case XJournalObjectType.GK:
-				case XJournalObjectType.Device:
-				case XJournalObjectType.Pim:
-				case XJournalObjectType.GkUser:
+				case GKJournalObjectType.GK:
+				case GKJournalObjectType.Device:
+				case GKJournalObjectType.Pim:
+				case GKJournalObjectType.GkUser:
 					journalItem.JournalObjectType = JournalObjectType.GKDevice;
 					break;
 
-				case XJournalObjectType.Zone:
+				case GKJournalObjectType.Zone:
 					journalItem.JournalObjectType = JournalObjectType.GKZone;
 					break;
 
-				case XJournalObjectType.Direction:
+				case GKJournalObjectType.Direction:
 					journalItem.JournalObjectType = JournalObjectType.GKDirection;
 					break;
 
-				case XJournalObjectType.Delay:
+				case GKJournalObjectType.Delay:
 					journalItem.JournalObjectType = JournalObjectType.GKDelay;
 					break;
 
-				case XJournalObjectType.PumpStation:
+				case GKJournalObjectType.PumpStation:
 					journalItem.JournalObjectType = JournalObjectType.GKPumpStation;
 					break;
 
-				case XJournalObjectType.MPT:
+				case GKJournalObjectType.MPT:
 					journalItem.JournalObjectType = JournalObjectType.GKMPT;
 					break;
 
-				case XJournalObjectType.GuardZone:
+				case GKJournalObjectType.GuardZone:
 					journalItem.JournalObjectType = JournalObjectType.GKGuardZone;
 					break;
 
-				case XJournalObjectType.Door:
+				case GKJournalObjectType.Door:
 					journalItem.JournalObjectType = JournalObjectType.GKDoor;
 					break;
 			}

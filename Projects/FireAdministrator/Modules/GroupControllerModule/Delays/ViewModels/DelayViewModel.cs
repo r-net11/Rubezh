@@ -9,9 +9,9 @@ namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public XDelay Delay { get; set; }
+		public GKDelay Delay { get; set; }
 
-		public DelayViewModel(XDelay delay)
+		public DelayViewModel(GKDelay delay)
 		{
 			ShowLogicCommand = new RelayCommand(OnShowLogic);
 			Delay = delay;
@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = XManager.GetPresentationZone(Delay.DeviceLogic);
+				var presentationZone = GKManager.GetPresentationZone(Delay.DeviceLogic);
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, Delay.DeviceLogic, false);
+			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, Delay.DeviceLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				Delay.DeviceLogic = deviceLogicViewModel.GetModel();

@@ -59,11 +59,11 @@ namespace FireMonitor.ViewModels
 				if (!string.IsNullOrEmpty(sound.SoundName))
 				{
 					var hasStateClass = false;
-					foreach (var device in XManager.Devices)
+					foreach (var device in GKManager.Devices)
 						if (device.IsRealDevice)
 						{
 							var stateClass = device.State.StateClass;
-							if (device.DriverType == XDriverType.AM1_T && stateClass == XStateClass.Fire2)
+							if (device.DriverType == GKDriverType.AM1_T && stateClass == XStateClass.Fire2)
 								stateClass = XStateClass.Info;
 							if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
 							{
@@ -74,13 +74,13 @@ namespace FireMonitor.ViewModels
 								}
 							}
 						}
-					foreach (var zone in XManager.Zones)
+					foreach (var zone in GKManager.Zones)
 						if (zone.State != null && zone.State.StateClass == sound.StateClass)
 						{
 							hasStateClass = true;
 							break;
 						}
-					foreach (var direction in XManager.Directions)
+					foreach (var direction in GKManager.Directions)
 						if (direction.State != null && direction.State.StateClass == sound.StateClass)
 						{
 							hasStateClass = true;

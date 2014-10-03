@@ -111,14 +111,14 @@ namespace DiagnosticsModule.ViewModels
 			if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
-				AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+				AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1);
 			AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 			if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
-				AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
+				AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)

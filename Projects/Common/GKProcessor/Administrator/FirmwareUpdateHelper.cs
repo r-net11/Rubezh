@@ -14,7 +14,7 @@ namespace GKProcessor
 		string Error;
 		public GKProgressCallback ProgressCallback { get; private set; }
 
-		public void Update(XDevice device, string fileName, string userName)
+		public void Update(GKDevice device, string fileName, string userName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
 			Update(device, firmWareBytes, userName);
@@ -23,7 +23,7 @@ namespace GKProcessor
 				ErrorList.Add(Error);
 		}
 
-		public void Update(XDevice device, List<byte> firmWareBytes, string userName)
+		public void Update(GKDevice device, List<byte> firmWareBytes, string userName)
 		{
 			GKProcessorManager.AddGKMessage(JournalEventNameType.Обновление_ПО_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
@@ -71,7 +71,7 @@ namespace GKProcessor
 			}
 		}
 
-		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, List<XDevice> devices, string userName)
+		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, List<GKDevice> devices, string userName)
 		{
 			foreach (var device in devices)
 			{
@@ -114,7 +114,7 @@ namespace GKProcessor
 			return bytes;
 		}
 
-		bool Clear(XDevice device)
+		bool Clear(GKDevice device)
 		{
 			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
 			if (sendResult.HasError)

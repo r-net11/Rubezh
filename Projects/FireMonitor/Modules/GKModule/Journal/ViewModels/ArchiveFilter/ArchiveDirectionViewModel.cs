@@ -5,13 +5,13 @@ namespace GKModule.ViewModels
 {
 	public class ArchiveDirectionViewModel : CheckBoxItemViewModel
 	{
-		public ArchiveDirectionViewModel(XDirection direction)
+		public ArchiveDirectionViewModel(GKDirection direction)
 		{
 			Direction = direction;
 			Name = direction.PresentationName;
 		}
 
-		public XDirection Direction { get; private set; }
+		public GKDirection Direction { get; private set; }
 		public string Name { get; private set; }
 	}
 }

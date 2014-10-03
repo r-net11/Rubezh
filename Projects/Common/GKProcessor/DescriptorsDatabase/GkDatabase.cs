@@ -6,50 +6,50 @@ namespace GKProcessor
 {
 	public class GkDatabase : CommonDatabase
 	{
-		List<XDevice> Devices { get; set; }
-		List<XZone> Zones { get; set; }
-		List<XDirection> Directions { get; set; }
-		List<XPumpStation> PumpStations { get; set; }
-		List<XMPT> MPTs { get; set; }
-		public List<XDelay> Delays { get; private set; }
-		public List<XPim> Pims { get; private set; }
-		List<XGuardZone> GuardZones { get; set; }
-		List<XCode> Codes { get; set; }
+		List<GKDevice> Devices { get; set; }
+		List<GKZone> Zones { get; set; }
+		List<GKDirection> Directions { get; set; }
+		List<GKPumpStation> PumpStations { get; set; }
+		List<GKMPT> MPTs { get; set; }
+		public List<GKDelay> Delays { get; private set; }
+		public List<GKPim> Pims { get; private set; }
+		List<GKGuardZone> GuardZones { get; set; }
+		List<GKCode> Codes { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
-		public GkDatabase(XDevice gkDevice)
+		public GkDatabase(GKDevice gkControllerDevice)
 		{
-			Devices = new List<XDevice>();
-			Zones = new List<XZone>();
-			Directions = new List<XDirection>();
-			PumpStations = new List<XPumpStation>();
-			MPTs = new List<XMPT>();
-			Delays = new List<XDelay>();
-			Pims = new List<XPim>();
-			GuardZones = new List<XGuardZone>();
-			Codes = new List<XCode>();
+			Devices = new List<GKDevice>();
+			Zones = new List<GKZone>();
+			Directions = new List<GKDirection>();
+			PumpStations = new List<GKPumpStation>();
+			MPTs = new List<GKMPT>();
+			Delays = new List<GKDelay>();
+			Pims = new List<GKPim>();
+			GuardZones = new List<GKGuardZone>();
+			Codes = new List<GKCode>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
-			RootDevice = gkDevice;
+			RootDevice = gkControllerDevice;
 
-			AddDevice(gkDevice);
-			foreach (var device in gkDevice.Children)
+			AddDevice(gkControllerDevice);
+			foreach (var device in gkControllerDevice.Children)
 			{
-				if (device.DriverType == XDriverType.GKIndicator)
+				if (device.DriverType == GKDriverType.GKIndicator)
 				{
 					AddDevice(device);
 				}
 			}
-			foreach (var device in gkDevice.Children)
+			foreach (var device in gkControllerDevice.Children)
 			{
-				if (device.DriverType == XDriverType.GKLine)
+				if (device.DriverType == GKDriverType.GKLine)
 				{
 					AddDevice(device);
 				}
 			}
-			foreach (var device in gkDevice.Children)
+			foreach (var device in gkControllerDevice.Children)
 			{
-				if (device.DriverType == XDriverType.GKRele)
+				if (device.DriverType == GKDriverType.GKRele)
 				{
 					AddDevice(device);
 				}
@@ -57,7 +57,7 @@ namespace GKProcessor
 			Devices.ForEach(x => x.GkDatabaseParent = RootDevice);
 		}
 
-		void AddDevice(XDevice device)
+		void AddDevice(GKDevice device)
 		{
 			if (!Devices.Contains(device))
 			{
@@ -66,7 +66,7 @@ namespace GKProcessor
 			}
 		}
 
-		public void AddDelay(XDelay delay)
+		public void AddDelay(GKDelay delay)
 		{
 			if (!Delays.Contains(delay))
 			{
@@ -76,7 +76,7 @@ namespace GKProcessor
 			}
 		}
 
-		public void AddPim(XPim pim)
+		public void AddPim(GKPim pim)
 		{
 			if (!Pims.Contains(pim))
 			{
@@ -89,7 +89,7 @@ namespace GKProcessor
 		public override void BuildObjects()
 		{
 			AddKauObjects();
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				if (zone.GkDatabaseParent == RootDevice)
 				{
@@ -97,7 +97,7 @@ namespace GKProcessor
 					Zones.Add(zone);
 				}
 			}
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				if (direction.GkDatabaseParent == RootDevice)
 				{
@@ -105,7 +105,7 @@ namespace GKProcessor
 					Directions.Add(direction);
 				}
 			}
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				if (pumpStation.GkDatabaseParent == RootDevice)
 				{
@@ -113,7 +113,7 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
 				if (mpt.GkDatabaseParent == RootDevice)
 				{
@@ -121,7 +121,7 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var guardZone in XManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				if (guardZone.GkDatabaseParent == RootDevice)
 				{
@@ -130,7 +130,7 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var code in XManager.DeviceConfiguration.Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				if (code.GkDatabaseParent == RootDevice)
 				{
@@ -176,7 +176,7 @@ namespace GKProcessor
 				mptCreator.Create();
 			}
 
-			foreach (var delay in XManager.Delays)
+			foreach (var delay in GKManager.Delays)
 			{
 				if (delay.GkDatabaseParent == RootDevice)
 				{
@@ -214,11 +214,11 @@ namespace GKProcessor
 			{
 				foreach (var descriptor in kauDatabase.Descriptors)
 				{
-					var xBase = descriptor.XBase;
+					var xBase = descriptor.GKBase;
 					xBase.GkDatabaseParent = RootDevice;
-					if (xBase is XDevice)
+					if (xBase is GKDevice)
 					{
-						XDevice device = xBase as XDevice;
+						GKDevice device = xBase as GKDevice;
 						AddDevice(device);
 					}
 				}

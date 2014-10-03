@@ -24,10 +24,10 @@ namespace GKModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add<XZone>(() => XManager.Zones);
-			Cache.Add<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
-			Cache.Add<XDevice>(() => XManager.Devices);
-			Cache.Add<XDirection>(() => XManager.Directions);
+			Cache.Add<GKZone>(() => GKManager.Zones);
+			Cache.Add<GKGuardZone>(() => GKManager.DeviceConfiguration.GuardZones);
+			Cache.Add<GKDevice>(() => GKManager.Devices);
+			Cache.Add<GKDirection>(() => GKManager.Directions);
 
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
@@ -56,31 +56,31 @@ namespace GKModule.Plans
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			foreach (var element in plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
+			foreach (var element in plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
-			foreach (var element in plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
-			foreach (var element in plan.ElementRectangleXGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
-			foreach (var element in plan.ElementPolygonXGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
-			foreach (var element in plan.ElementRectangleXDirections.Where(x => x.DirectionUID != Guid.Empty))
+			foreach (var element in plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementPolygonXDirections.Where(x => x.DirectionUID != Guid.Empty))
+			foreach (var element in plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				yield return element;
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
-			if (presenterItem.Element is ElementXDevice)
+			if (presenterItem.Element is ElementGKDevice)
 				presenterItem.OverridePainter(new XDevicePainter(presenterItem));
-			else if (presenterItem.Element is ElementPolygonXZone || presenterItem.Element is ElementRectangleXZone)
+			else if (presenterItem.Element is ElementPolygonGKZone || presenterItem.Element is ElementRectangleGKZone)
 				presenterItem.OverridePainter(new XZonePainter(presenterItem));
-			else if (presenterItem.Element is ElementPolygonXGuardZone || presenterItem.Element is ElementRectangleXGuardZone)
+			else if (presenterItem.Element is ElementPolygonGKGuardZone || presenterItem.Element is ElementRectangleGKGuardZone)
 				presenterItem.OverridePainter(new XGuardZonePainter(presenterItem));
-			else if (presenterItem.Element is ElementRectangleXDirection || presenterItem.Element is ElementPolygonXDirection)
+			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
 				presenterItem.OverridePainter(new XDirectionPainter(presenterItem));
 		}
 		public void ExtensionAttached()
@@ -104,27 +104,27 @@ namespace GKModule.Plans
 		{
 		}
 
-		private void OnShowXDeviceOnPlan(XDevice device)
+		private void OnShowXDeviceOnPlan(GKDevice device)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				foreach (var element in plan.ElementXDevices)
-					if (element.XDeviceUID == device.UID)
+				foreach (var element in plan.ElementGKDevices)
+					if (element.DeviceUID == device.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 		}
-		private void OnShowXZoneOnPlan(XZone zone)
+		private void OnShowXZoneOnPlan(GKZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				foreach (var element in plan.ElementRectangleXZones)
+				foreach (var element in plan.ElementRectangleGKZones)
 					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
-				foreach (var element in plan.ElementPolygonXZones)
+				foreach (var element in plan.ElementPolygonGKZones)
 					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
@@ -132,17 +132,17 @@ namespace GKModule.Plans
 					}
 			}
 		}
-		private void OnShowXGuardZoneOnPlan(XGuardZone zone)
+		private void OnShowXGuardZoneOnPlan(GKGuardZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				foreach (var element in plan.ElementRectangleXGuardZones)
+				foreach (var element in plan.ElementRectangleGKGuardZones)
 					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
-				foreach (var element in plan.ElementPolygonXGuardZones)
+				foreach (var element in plan.ElementPolygonGKGuardZones)
 					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
@@ -150,17 +150,17 @@ namespace GKModule.Plans
 					}
 			}
 		}
-		private void OnShowXDirectionOnPlan(XDirection direction)
+		private void OnShowXDirectionOnPlan(GKDirection direction)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				foreach (var element in plan.ElementRectangleXDirections)
+				foreach (var element in plan.ElementRectangleGKDirections)
 					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
-				foreach (var element in plan.ElementPolygonXDirections)
+				foreach (var element in plan.ElementPolygonGKDirections)
 					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));

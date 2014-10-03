@@ -12,16 +12,16 @@ namespace GKModule.ViewModels
 {
 	public class ConfigurationCompareViewModel : DialogViewModel
 	{
-		XDevice LocalDevice { get; set; }
-		XDevice RemoteDevice { get; set; }
-		XDeviceConfiguration LocalConfiguration { get; set; }
-		XDeviceConfiguration RemoteConfiguration { get; set; }
+		GKDevice LocalDevice { get; set; }
+		GKDevice RemoteDevice { get; set; }
+		GKDeviceConfiguration LocalConfiguration { get; set; }
+		GKDeviceConfiguration RemoteConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
 
-		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device, bool configFromFile)
+		public ConfigurationCompareViewModel(GKDeviceConfiguration localConfiguration, GKDeviceConfiguration remoteConfiguration, GKDevice device, bool configFromFile)
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ConfigFromFile = configFromFile;
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
 			rootDevice.Children.Remove(LocalDevice);
 			rootDevice.Children.Add(RemoteDevice);
-			if (LocalDevice.DriverType == XDriverType.GK)
+			if (LocalDevice.DriverType == GKDriverType.GK)
 			{
 				LocalConfiguration.Zones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Zones.AddRange(RemoteConfiguration.Zones);
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 			Close(true);
 		}
 
@@ -264,9 +264,9 @@ namespace GKModule.ViewModels
 					pumpStationsDifferences.Append(". ");
 				pumpStationsDifferences.Append("Не совпадает количество насосов");
 			}
-			bool startDiff = XManager.GetPresentationZone(object1.PumpStation.StartLogic) != XManager.GetPresentationZone(object2.PumpStation.StartLogic);
-			bool stopDiff = XManager.GetPresentationZone(object1.PumpStation.StopLogic) != XManager.GetPresentationZone(object2.PumpStation.StopLogic);
-			bool automaticDiff = XManager.GetPresentationZone(object1.PumpStation.AutomaticOffLogic) != XManager.GetPresentationZone(object2.PumpStation.AutomaticOffLogic);
+			bool startDiff = GKManager.GetPresentationZone(object1.PumpStation.StartLogic) != GKManager.GetPresentationZone(object2.PumpStation.StartLogic);
+			bool stopDiff = GKManager.GetPresentationZone(object1.PumpStation.StopLogic) != GKManager.GetPresentationZone(object2.PumpStation.StopLogic);
+			bool automaticDiff = GKManager.GetPresentationZone(object1.PumpStation.AutomaticOffLogic) != GKManager.GetPresentationZone(object2.PumpStation.AutomaticOffLogic);
 			if (startDiff || stopDiff || automaticDiff)
 			{
 				if (pumpStationsDifferences.Length != 0)
@@ -315,7 +315,7 @@ namespace GKModule.ViewModels
 					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают устройства");
 			}
-			bool startDiff = XManager.GetPresentationZone(object1.MPT.StartLogic) != XManager.GetPresentationZone(object2.MPT.StartLogic);
+			bool startDiff = GKManager.GetPresentationZone(object1.MPT.StartLogic) != GKManager.GetPresentationZone(object2.MPT.StartLogic);
 			if (startDiff)
 			{
 				mptsDifferences.Append("Не совпадают условия запуска");

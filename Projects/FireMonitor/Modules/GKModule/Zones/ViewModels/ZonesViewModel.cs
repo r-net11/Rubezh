@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
+			foreach (var zone in GKManager.DeviceConfiguration.SortedZones)
 			{
 				if (zone.Devices.Count > 0)
 				{
@@ -72,9 +72,9 @@ namespace GKModule.ViewModels
 			if (SelectedZone == null)
 				return;
 
-			var devices = new HashSet<XDevice>();
+			var devices = new HashSet<GKDevice>();
 
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.Driver.HasLogic)
 				{

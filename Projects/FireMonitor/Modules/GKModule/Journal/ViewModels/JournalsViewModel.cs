@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Journals = new ObservableCollection<JournalViewModel>();
-			Journals.Add(new JournalViewModel(new XJournalFilter() { Name = " Все события" }));
+			Journals.Add(new JournalViewModel(new GKJournalFilter() { Name = " Все события" }));
 			SelectedJournal = Journals.FirstOrDefault();
 
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
 
-			foreach (var journalFilter in XManager.DeviceConfiguration.JournalFilters)
+			foreach (var journalFilter in GKManager.DeviceConfiguration.JournalFilters)
 			{
 				var filteredJournalViewModel = new JournalViewModel(journalFilter);
 				Journals.Add(filteredJournalViewModel);
@@ -67,11 +67,11 @@ namespace GKModule.ViewModels
 			SelectedJournal = selectedJournal;
 		}
 		
-		void OnNewJournal(List<XJournalItem> journalItems)
+		void OnNewJournal(List<GKJournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if ((journalItem.JournalObjectType == XJournalObjectType.Zone || journalItem.JournalObjectType == XJournalObjectType.Direction) &&
+				if ((journalItem.JournalObjectType == GKJournalObjectType.Zone || journalItem.JournalObjectType == GKJournalObjectType.Direction) &&
 					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
 				{
 					if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)

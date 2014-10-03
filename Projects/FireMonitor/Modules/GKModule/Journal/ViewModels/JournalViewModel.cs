@@ -15,7 +15,7 @@ namespace GKModule.ViewModels
 	{
 		public JournalFilterViewModel JournalFilterViewModel { get; private set; }
 
-		public JournalViewModel(XJournalFilter journalFilter)
+		public JournalViewModel(GKJournalFilter journalFilter)
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<XJournalItem> journalItems)
+		public void OnNewJournal(List<GKJournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

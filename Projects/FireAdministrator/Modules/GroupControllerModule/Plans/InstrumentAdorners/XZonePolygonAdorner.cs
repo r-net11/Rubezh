@@ -31,11 +31,11 @@ namespace GKModule.Plans.InstrumentAdorners
 		}
 		protected override ElementBaseShape CreateElement()
 		{
-			var element = new ElementPolygonXZone();
+			var element = new ElementPolygonGKZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			GKPlanExtension.Instance.SetItem<XZone>(element);
+			GKPlanExtension.Instance.SetItem<GKZone>(element);
 			return element;
 		}
 	}

@@ -51,8 +51,8 @@ namespace GKModule.Views
 
 		void OnGKObjectsStateChangedEvent(object obj)
 		{
-			IsGKDeviceConnected = !XManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.ConnectionLost));
-			IsGKDBEqual = !XManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.DBMissmatch));
+			IsGKDeviceConnected = !GKManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.ConnectionLost));
+			IsGKDBEqual = !GKManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.DBMissmatch));
 			IsConnected = IsAllConnected;
 		}
 

@@ -112,13 +112,13 @@ namespace FireAdministrator
 				if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1, true);
+					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
@@ -178,7 +178,7 @@ namespace FireAdministrator
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.SetEmptyConfiguration();
-					XManager.SetEmptyConfiguration();
+					GKManager.SetEmptyConfiguration();
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
@@ -224,7 +224,7 @@ namespace FireAdministrator
 			else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 			{
 				var deviceUID = Guid.Empty;
-				var firstDevice = XManager.Devices.FirstOrDefault();
+				var firstDevice = GKManager.Devices.FirstOrDefault();
 				if (firstDevice != null)
 					deviceUID = firstDevice.UID;
 				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(deviceUID);

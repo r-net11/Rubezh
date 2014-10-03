@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class DelayDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XDelay Delay { get; private set; }
-		public XState State
+		public GKDelay Delay { get; private set; }
+		public GKState State
 		{
 			get { return Delay.State; }
 		}
 
-		public DelayDetailsViewModel(XDelay delay)
+		public DelayDetailsViewModel(GKDelay delay)
 		{
 			Delay = delay;
 			State.StateChanged += new Action(OnStateChanged);

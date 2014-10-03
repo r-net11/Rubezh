@@ -8,21 +8,21 @@ namespace GKModule.ViewModels
 {
 	public class MPTDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XMPT MPT { get; set; }
+		public GKMPT MPT { get; set; }
 
-		public MPTDetailsViewModel(XMPT mpt = null)
+		public MPTDetailsViewModel(GKMPT mpt = null)
 		{
 			if (mpt == null)
 			{
 				Title = "Создание нового МПТ";
 
-				MPT = new XMPT()
+				MPT = new GKMPT()
 				{
 					Name = "Новый МПТ",
 					No = 1,
 				};
-				if (XManager.MPTs.Count != 0)
-					MPT.No = (ushort)(XManager.MPTs.Select(x => x.No).Max() + 1);
+				if (GKManager.MPTs.Count != 0)
+					MPT.No = (ushort)(GKManager.MPTs.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (MPT.No != No && XManager.MPTs.Any(x => x.No == No))
+			if (MPT.No != No && GKManager.MPTs.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("МПТ с таким номером уже существует");
 				return false;

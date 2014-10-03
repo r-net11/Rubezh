@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Devices = new ObservableCollection<DeviceParameterViewModel>();
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0)
 				{

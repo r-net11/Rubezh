@@ -5,13 +5,13 @@ namespace GKModule.ViewModels
 {
 	public class ArchiveMPTViewModel : CheckBoxItemViewModel
 	{
-		public ArchiveMPTViewModel(XMPT mpt)
+		public ArchiveMPTViewModel(GKMPT mpt)
 		{
 			MPT = mpt;
 			Name = mpt.PresentationName;
 		}
 
-		public XMPT MPT { get; private set; }
+		public GKMPT MPT { get; private set; }
 		public string Name { get; private set; }
 	}
 }

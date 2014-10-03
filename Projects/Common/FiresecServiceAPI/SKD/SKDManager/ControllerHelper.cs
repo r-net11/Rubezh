@@ -24,7 +24,7 @@ namespace FiresecAPI.SKD
 			{
 				Name = "Address",
 				Caption = "Адрес",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
 				StringDefault = "192.168.0.1"
 			};
 			driver.Properties.Add(addressProperty);
@@ -33,7 +33,7 @@ namespace FiresecAPI.SKD
 			{
 				Name = "Port",
 				Caption = "Порт",
-				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 				Min = 10000,
 				Max = 20000,
 				Default = 10000
@@ -44,7 +44,7 @@ namespace FiresecAPI.SKD
 			{
 				Name = "Login",
 				Caption = "Логин",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
 				StringDefault = ""
 			};
 			driver.Properties.Add(loginProperty);
@@ -53,7 +53,7 @@ namespace FiresecAPI.SKD
 			{
 				Name = "Password",
 				Caption = "Пароль",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
 				StringDefault = ""
 			};
 			driver.Properties.Add(passwordProperty);

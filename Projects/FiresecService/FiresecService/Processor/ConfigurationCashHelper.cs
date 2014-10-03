@@ -26,17 +26,17 @@ namespace FiresecService
 		{
 			SecurityConfiguration = GetSecurityConfiguration();
 			SystemConfiguration = GetSystemConfiguration();
-			XManager.DeviceConfiguration = GetDeviceConfiguration();
+			GKManager.DeviceConfiguration = GetDeviceConfiguration();
 			SKDManager.SKDConfiguration = GetSKDConfiguration();
 
 			SystemConfiguration.UpdateConfiguration();
 
 			GKDriversCreator.Create();
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
+			GKManager.UpdateConfiguration();
+			GKManager.CreateStates();
 			DescriptorsManager.Create();
 			DescriptorsManager.CreateDynamicObjectsInXManager();
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 
 			SKDManager.UpdateConfiguration();
 		}
@@ -80,14 +80,14 @@ namespace FiresecService
 			return new SystemConfiguration();
 		}
 
-		static XDeviceConfiguration GetDeviceConfiguration()
+		static GKDeviceConfiguration GetDeviceConfiguration()
 		{
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
-			var deviceConfiguration = (XDeviceConfiguration)GetConfigurationFomZip(zipFile, "XDeviceConfiguration.xml", typeof(XDeviceConfiguration));
+			var deviceConfiguration = (GKDeviceConfiguration)GetConfigurationFomZip(zipFile, "GKDeviceConfiguration.xml", typeof(GKDeviceConfiguration));
 			if (deviceConfiguration == null)
-				deviceConfiguration = new XDeviceConfiguration();
+				deviceConfiguration = new GKDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
 			zipFile.Dispose();
 			return deviceConfiguration;

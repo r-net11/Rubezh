@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	public class CodeValidationError : ObjectValidationError<XCode, ShowXGuardEvent, Guid>
+	public class CodeValidationError : ObjectValidationError<GKCode, ShowXGuardEvent, Guid>
 	{
-		public CodeValidationError(XCode code, string error, ValidationErrorLevel level)
+		public CodeValidationError(GKCode code, string error, ValidationErrorLevel level)
 			: base(code, error, level)
 		{
 		}

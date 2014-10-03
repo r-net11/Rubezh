@@ -758,12 +758,12 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
-			var guardZoneAccesses = new List<XGuardZoneAccess>();
+			var guardZoneAccesses = new List<GKGuardZoneAccess>();
 			foreach (var guardZone in EmployeeGuardZones.GuardZones)
 			{
 				if (guardZone.IsChecked)
 				{
-					var guardZoneAccess = new XGuardZoneAccess()
+					var guardZoneAccess = new GKGuardZoneAccess()
 					{
 						ZoneUID = guardZone.GuardZone.UID,
 						CanSet = guardZone.CanSetZone,

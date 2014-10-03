@@ -11,7 +11,7 @@ namespace GKModule.Converter
 {
 	public class FiresecToGKConverter
 	{
-		XDevice gkDevice;
+		GKDevice gkControllerDevice;
 
 		public void Convert()
 		{
@@ -30,7 +30,7 @@ namespace GKModule.Converter
 				}
 				ConvertZones();
 				ConvertLogic();
-				XManager.UpdateConfiguration();
+				GKManager.UpdateConfiguration();
 			}
 		}
 
@@ -45,28 +45,28 @@ namespace GKModule.Converter
 			var kauCount = (totalShleifCount + 1) / 8 + Math.Min(1, totalShleifCount % 8);
 			for (int i = 0; i < kauCount; i++)
 			{
-				XManager.AddChild(gkDevice, null, XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), (byte)(i + 1));
+				GKManager.AddChild(gkControllerDevice, null, GKManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), (byte)(i + 1));
 			}
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 		}
 
 		public void AddRootDevices()
 		{
-			XManager.DeviceConfiguration = new XDeviceConfiguration();
+			GKManager.DeviceConfiguration = new GKDeviceConfiguration();
 
-			var systemDevice = new XDevice()
+			var systemDevice = new GKDevice()
 			{
 				UID = Guid.NewGuid(),
-				DriverUID = XDriver.System_UID,
-				Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+				DriverUID = GKDriver.System_UID,
+				Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System)
 			};
-			XManager.DeviceConfiguration.Devices.Add(systemDevice);
-			XManager.DeviceConfiguration.RootDevice = systemDevice;
+			GKManager.DeviceConfiguration.Devices.Add(systemDevice);
+			GKManager.DeviceConfiguration.RootDevice = systemDevice;
 
-			var gkDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-			gkDevice = XManager.AddChild(systemDevice, null, gkDriver, 1);
-			gkDevice.UID = Guid.NewGuid();
-			XManager.DeviceConfiguration.Devices.Add(gkDevice);
+			var gkDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+			gkControllerDevice = GKManager.AddChild(systemDevice, null, gkDriver, 1);
+			gkControllerDevice.UID = Guid.NewGuid();
+			GKManager.DeviceConfiguration.Devices.Add(gkControllerDevice);
 		}
 
 		IEnumerable<Device> GetPanels()
@@ -78,15 +78,15 @@ namespace GKModule.Converter
 			}
 		}
 
-		public void AddDevice(Device fsDevice, XDevice kauDevice, byte shleifNo)
+		public void AddDevice(Device fsDevice, GKDevice kauDevice, byte shleifNo)
 		{
-			var driver = XManager.Drivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
+			var driver = GKManager.Drivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
 			if (driver == null)
 			{
 				return;
 			}
 
-			var device = new XDevice()
+			var device = new GKDevice()
 			{
 				UID = fsDevice.UID,
 				DriverUID = driver.UID,
@@ -94,7 +94,7 @@ namespace GKModule.Converter
 				IntAddress = (byte)(fsDevice.IntAddress & 0xff),
 				Description = fsDevice.Description
 			};
-			XManager.DeviceConfiguration.Devices.Add(device);
+			GKManager.DeviceConfiguration.Devices.Add(device);
 			var shleifDevice = kauDevice.Children.FirstOrDefault(x => x.ShleifNo == shleifNo);
 			if (shleifDevice != null)
 			{
@@ -112,7 +112,7 @@ namespace GKModule.Converter
 		{
 			foreach (var zone in FiresecManager.Zones)
 			{
-				var xZone = new XZone()
+				var xZone = new GKZone()
 				{
 					UID = zone.UID,
 					No = (ushort)zone.No,
@@ -120,18 +120,18 @@ namespace GKModule.Converter
 					Description = zone.Description,
 					Fire1Count = (ushort)zone.DetectorCount,
 				};
-				XManager.Zones.Add(xZone);
+				GKManager.Zones.Add(xZone);
 			}
 
 			foreach (var device in FiresecManager.Devices)
 			{
-				var xDevice = XManager.Devices.FirstOrDefault(x => x.UID == device.UID);
+				var xDevice = GKManager.Devices.FirstOrDefault(x => x.UID == device.UID);
 				if (xDevice != null)
 				{
 					if ((device.Driver.IsZoneDevice) && (device.ZoneUID != Guid.Empty) && (device.Driver.DriverType != DriverType.MPT))
 					{
 						var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
-						var xZone = XManager.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
+						var xZone = GKManager.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
 						if (zone != null)
 						{
 							xDevice.ZoneUIDs.Add(xZone.UID);
@@ -143,18 +143,18 @@ namespace GKModule.Converter
 
 		void ConvertLogic()
 		{
-			foreach (var xDevice in XManager.Devices)
+			foreach (var xDevice in GKManager.Devices)
 			{
 				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
 				if (device != null)
 				{
 					if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
 					{
-						var xDeviceLogic = new XDeviceLogic();
+						var xDeviceLogic = new GKDeviceLogic();
 
 						foreach (var clause in device.ZoneLogic.Clauses)
 						{
-							var xClause = new XClause()
+							var xClause = new GKClause()
 							{
 								ClauseOperationType = ClauseOperationType.AllZones
 							};
@@ -172,15 +172,15 @@ namespace GKModule.Converter
 							switch (clause.State)
 							{
 								case FiresecAPI.Models.ZoneLogicState.Attention:
-									xClause.StateType = XStateBit.Attention;
+									xClause.StateType = GKStateBit.Attention;
 									break;
 
 								case FiresecAPI.Models.ZoneLogicState.Fire:
-									xClause.StateType = XStateBit.Fire1;
+									xClause.StateType = GKStateBit.Fire1;
 									break;
 
 								case FiresecAPI.Models.ZoneLogicState.Failure:
-									xClause.StateType = XStateBit.Failure;
+									xClause.StateType = GKStateBit.Failure;
 									break;
 
 								default:
@@ -191,7 +191,7 @@ namespace GKModule.Converter
 
 							foreach (var zoneUID in clause.ZoneUIDs)
 							{
-								var xZone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+								var xZone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 								xClause.ZoneUIDs.Add(xZone.UID);
 							}
 
@@ -205,7 +205,7 @@ namespace GKModule.Converter
 					{
 						if (device.Zone != null)
 						{
-							var xClause = new XClause();
+							var xClause = new GKClause();
 							xClause.ClauseOperationType = ClauseOperationType.AnyZone;
 							xClause.ZoneUIDs.Add(device.Zone.UID);
 							xDevice.DeviceLogic.ClausesGroup.Clauses.Add(xClause);

@@ -9,7 +9,7 @@ namespace GKProcessor
 {
 	public class DeviceDescriptor : BaseDescriptor
 	{
-		public DeviceDescriptor(XDevice device, DatabaseType databaseType)
+		public DeviceDescriptor(GKDevice device, DatabaseType databaseType)
 		{
 			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.Device;
@@ -46,33 +46,33 @@ namespace GKProcessor
 						}
 						else
 						{
-							Formula.AddGetBit(XStateBit.Norm, Device);
+							Formula.AddGetBit(GKStateBit.Norm, Device);
 							Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-							Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
+							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
 					if (Device.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.DeviceLogic.OffClausesGroup);
-						Formula.AddGetBit(XStateBit.Norm, Device);
+						Formula.AddGetBit(GKStateBit.Norm, Device);
 						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-						Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
+						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 					}
 				}
 
-				if (Device.DriverType == XDriverType.RSR2_GuardDetector && Device.GuardZone != null)
+				if (Device.DriverType == GKDriverType.RSR2_GuardDetector && Device.GuardZone != null)
 				{
-					Formula.AddGetBit(XStateBit.On, Device.GuardZone);
-					Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
-					Formula.AddGetBit(XStateBit.Off, Device.GuardZone);
-					Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.On, Device.GuardZone);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
-				if (Device.DriverType == XDriverType.RSR2_CodeReader && Device.GuardZone != null)
+				if (Device.DriverType == GKDriverType.RSR2_CodeReader && Device.GuardZone != null)
 				{
-					Formula.AddGetBit(XStateBit.On, Device.GuardZone);
-					Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
-					Formula.AddGetBit(XStateBit.Off, Device.GuardZone);
-					Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.On, Device.GuardZone);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
 			}
 			Formula.Add(FormulaOperationType.END);
@@ -81,7 +81,7 @@ namespace GKProcessor
 
 		void AddMro2MFormula()
 		{
-			if (Device.DriverType == XDriverType.MRO_2)
+			if (Device.DriverType == GKDriverType.MRO_2)
 			{
 				if (Device.DeviceLogic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
 				{
@@ -122,12 +122,12 @@ namespace GKProcessor
 				{
 					if (driverProperty.CanNotEdit)
 					{
-						if (Device.DriverType == XDriverType.MPT)
+						if (Device.DriverType == GKDriverType.MPT)
 							property.Value = Device.IsChildMPTOrMRO() ? (ushort)(2 << 6) : (ushort)(1 << 6);
-						if (Device.DriverType == XDriverType.MRO_2)
+						if (Device.DriverType == GKDriverType.MRO_2)
 							property.Value = Device.IsChildMPTOrMRO() ? (ushort)1 : (ushort)2;
 
-						if (Device.DriverType == XDriverType.RSR2_MVP)
+						if (Device.DriverType == GKDriverType.RSR2_MVP)
 						{
 							if (driverProperty.Name == "Число АУ на АЛС3 МВП")
 								property.Value = (ushort)Device.Children[0].AllChildren.Count(x => x.Driver.IsReal);
@@ -140,7 +140,7 @@ namespace GKProcessor
 					ushort value = property.Value;
 					if (driverProperty.Mask > 0)
 					{
-						if (driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)
+						if (driverProperty.DriverPropertyType == GKDriverPropertyTypeEnum.BoolType)
 						{
 							if (value > 0)
 								value = (ushort)driverProperty.Mask;
@@ -152,7 +152,7 @@ namespace GKProcessor
 					}
 					if (driverProperty.IsHieghByte)
 						value = (ushort)(value * 256);
-					if (Device.DriverType == XDriverType.RSR2_KAU && driverProperty.No == 1)
+					if (Device.DriverType == GKDriverType.RSR2_KAU && driverProperty.No == 1)
 					{
 						value = (ushort)(256 + value % 256);
 					}

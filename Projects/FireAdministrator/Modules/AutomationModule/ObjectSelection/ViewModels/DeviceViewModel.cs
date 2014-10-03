@@ -6,10 +6,10 @@ namespace AutomationModule.ViewModels
 {
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 		public SKDDevice SKDDevice { get; private set; }
 		
-		public DeviceViewModel(XDevice device)
+		public DeviceViewModel(GKDevice device)
 		{
 			Device = device;
 		}

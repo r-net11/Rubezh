@@ -10,9 +10,9 @@ namespace GKModule.Plans.Designer
 {
 	public class Painter : PointPainter
 	{
-		private ElementXDevice _elementXDevice;
+		private ElementGKDevice _elementXDevice;
 		private ImageTextTooltipViewModel _toolTip;
-		public Painter(CommonDesignerCanvas designerCanvas, ElementXDevice elementXDevice)
+		public Painter(CommonDesignerCanvas designerCanvas, ElementGKDevice elementXDevice)
 			: base(designerCanvas, elementXDevice)
 		{
 			_elementXDevice = elementXDevice;
@@ -21,7 +21,7 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			var xdevice = GKPlanExtension.Instance.GetItem<XDevice>(_elementXDevice);
+			var xdevice = GKPlanExtension.Instance.GetItem<GKDevice>(_elementXDevice);
 			_toolTip.ImageSource = xdevice == null ? null : xdevice.Driver.ImageSource;
 			return PictureCacheSource.XDevicePicture.GetBrush(xdevice);
 		}

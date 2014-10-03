@@ -9,14 +9,14 @@ namespace GKModule.Events
 
 	public class ShowXArchiveEventArgs
 	{
-		public XDevice GKDevice { get; set; }
-		public XZone GKZone { get; set; }
-		public XDirection GKDirection { get; set; }
-		public XPumpStation GKPumpStation { get; set; }
-		public XMPT GKMPT { get; set; }
-		public XDelay GKDelay { get; set; }
-		public XPim GKPim { get; set; }
-		public XGuardZone GKGuardZone { get; set; }
-		public XDoor GKDoor { get; set; }
+		public GKDevice GKDevice { get; set; }
+		public GKZone GKZone { get; set; }
+		public GKDirection GKDirection { get; set; }
+		public GKPumpStation GKPumpStation { get; set; }
+		public GKMPT GKMPT { get; set; }
+		public GKDelay GKDelay { get; set; }
+		public GKPim GKPim { get; set; }
+		public GKGuardZone GKGuardZone { get; set; }
+		public GKDoor GKDoor { get; set; }
 	}
 }

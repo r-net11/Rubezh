@@ -14,7 +14,7 @@ namespace GKModule.Validation
 			ValidatePumpStationNoEquality();
 			ValidatePumpsInDifferentNS();
 
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(pumpStation);
@@ -32,7 +32,7 @@ namespace GKModule.Validation
 		void ValidatePumpStationNoEquality()
 		{
 			var pumpStationNos = new HashSet<int>();
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				if (!pumpStationNos.Add(pumpStation.No))
 					Errors.Add(new PumpStationValidationError(pumpStation, "Дублируется номер", ValidationErrorLevel.CannotWrite));
@@ -42,7 +42,7 @@ namespace GKModule.Validation
 		void ValidatePumpStationDifferentDevices()
 		{
 			var nsDevices = new HashSet<Guid>();
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				foreach (var device in pumpStation.NSDevices)
 				{
@@ -52,9 +52,9 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDifferentGK(XPumpStation pumpStation)
+		void ValidateDifferentGK(GKPumpStation pumpStation)
 		{
-			var devices = new List<XDevice>();
+			var devices = new List<GKDevice>();
 			devices.AddRange(pumpStation.ClauseInputDevices);
 			devices.AddRange(pumpStation.NSDevices);
 			foreach (var zone in pumpStation.ClauseInputZones)
@@ -70,7 +70,7 @@ namespace GKModule.Validation
 				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
-		bool ValidateEmptyPumpStation(XPumpStation pumpStation)
+		bool ValidateEmptyPumpStation(GKPumpStation pumpStation)
 		{
 			var count = pumpStation.ClauseInputZones.Count + pumpStation.ClauseInputDevices.Count + pumpStation.ClauseInputDirections.Count + pumpStation.NSDevices.Count;
 			if (count == 0)
@@ -81,15 +81,15 @@ namespace GKModule.Validation
 			return true;
 		}
 
-		void ValidatePumpStationInput(XPumpStation pumpStation)
+		void ValidatePumpStationInput(GKPumpStation pumpStation)
 		{
 			if (pumpStation.StartLogic.ClausesGroup.Clauses.Count == 0)
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствует условие для запуска", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidatePumpStationOutput(XPumpStation pumpStation)
+		void ValidatePumpStationOutput(GKPumpStation pumpStation)
 		{
-			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == XDriverType.FirePump || x.Driver.DriverType == XDriverType.RSR2_Bush);
+			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == GKDriverType.FirePump || x.Driver.DriverType == GKDriverType.RSR2_Bush);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite));
@@ -100,7 +100,7 @@ namespace GKModule.Validation
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
 			}
 
-			var jnPumpsCount = pumpStation.NSDevices.Count(x => x.DriverType == XDriverType.JockeyPump);
+			var jnPumpsCount = pumpStation.NSDevices.Count(x => x.DriverType == GKDriverType.JockeyPump);
 			if (jnPumpsCount > 1)
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС количество подключенных ЖН больше 1", ValidationErrorLevel.CannotWrite));
 
@@ -112,12 +112,12 @@ namespace GKModule.Validation
 				if (pumpStation.ClauseInputDirections.Count > 0)
 					Errors.Add(new PumpStationValidationError(pumpStation, "В условии пуска НС c ЖН не могут участвовать направления", ValidationErrorLevel.CannotWrite));
 
-				if (!pumpStation.ClauseInputDevices.All(x => x.DriverType == XDriverType.AM_1))
+				if (!pumpStation.ClauseInputDevices.All(x => x.DriverType == GKDriverType.AM_1))
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС c ЖН во входных устройствах могут участвовать только АМ1", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateEmptyObjectsInPumpStation(XPumpStation pumpStation)
+		void ValidateEmptyObjectsInPumpStation(GKPumpStation pumpStation)
 		{
 			foreach (var zone in pumpStation.ClauseInputZones)
 			{
@@ -136,7 +136,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidatePumpInNSInputLogic(XPumpStation pumpStation)
+		void ValidatePumpInNSInputLogic(GKPumpStation pumpStation)
 		{
 			foreach (var clause in pumpStation.StartLogic.ClausesGroup.Clauses)
 			{
@@ -153,8 +153,8 @@ namespace GKModule.Validation
 
 		void ValidatePumpsInDifferentNS()
 		{
-			var nsDevices = new List<XDevice>();
-			foreach (var pumpStation in XManager.PumpStations)
+			var nsDevices = new List<GKDevice>();
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				foreach (var nsDevice in pumpStation.NSDevices)
 				{

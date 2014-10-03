@@ -9,16 +9,16 @@ namespace SKDModule.ViewModels
 	public class EmployeeGuardZoneViewModel : BaseViewModel
 	{
 		public Employee Employee { get; private set; }
-		public XGuardZone GuardZone { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 
-		public EmployeeGuardZoneViewModel(Employee employee, XGuardZone guardZone)
+		public EmployeeGuardZoneViewModel(Employee employee, GKGuardZone guardZone)
 		{
 			Employee = employee;
 			GuardZone = guardZone;
 			if (Employee != null)
 			{
 				if (Employee.GuardZoneAccesses == null)
-					Employee.GuardZoneAccesses = new List<XGuardZoneAccess>();
+					Employee.GuardZoneAccesses = new List<GKGuardZoneAccess>();
 			}
 			if(Employee != null && Employee.GuardZoneAccesses != null)
 			{

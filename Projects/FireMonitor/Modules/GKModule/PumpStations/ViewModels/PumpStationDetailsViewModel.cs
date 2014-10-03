@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XPumpStation PumpStation { get; private set; }
-		public XState State
+		public GKPumpStation PumpStation { get; private set; }
+		public GKState State
 		{
 			get { return PumpStation.State; }
 		}
 
-		public PumpStationDetailsViewModel(XPumpStation pumpStation)
+		public PumpStationDetailsViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
 			State.StateChanged += new Action(OnStateChanged);

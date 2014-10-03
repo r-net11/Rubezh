@@ -6,7 +6,7 @@ namespace GKProcessor
 {
 	public class CodeDescriptor : BaseDescriptor
 	{
-		public CodeDescriptor(XCode code)
+		public CodeDescriptor(GKCode code)
 		{
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Code;

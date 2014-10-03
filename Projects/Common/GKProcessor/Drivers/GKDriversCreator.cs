@@ -8,17 +8,17 @@ namespace GKProcessor
 	{
 		public static void Create()
 		{
-			XManager.DriversConfiguration = new XDriversConfiguration();
+			GKManager.DriversConfiguration = new GKDriversConfiguration();
 
-			XManager.DriversConfiguration.XDrivers.Add(GKSystem_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(GK_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(GKIndicator_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(KAU_RSR2_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(KAUIndicator_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(KAU_Shleif_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(RSR2_KAU_Shleif_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKSystem_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GK_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKIndicator_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(GKRele_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KAU_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KAU_RSR2_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KAUIndicator_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(KAU_Shleif_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_KAU_Shleif_Helper.Create());
 
 			AddDriverToKau(SmokeDetectorHelper.Create());
 			AddDriverToKau(HeatDetector_Helper.Create());
@@ -50,16 +50,16 @@ namespace GKProcessor
 			AddDriverToKau(AM_4_Helper.Create());
 			AddDriverToKau(AMP_4_Helper.Create());
 
-			XManager.DriversConfiguration.XDrivers.Add(RSR2_RM_1_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(RSR2_AM_1_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_RM_1_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_AM_1_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_HandDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_SmokeDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_SmokeDetector2_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_RM_2_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_AM_4_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MDU_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(RSR2_MAP4_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(RSR2_MVK8_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_MAP4_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_MVK8_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MAP4_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVK8_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_HeatDetector_Helper.Create());
@@ -71,30 +71,30 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_OPS_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_OPZ_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVP_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(RSR2_MVP_Part_Helper.Create());
+			GKManager.DriversConfiguration.Drivers.Add(RSR2_MVP_Part_Helper.Create());
 
 			AddDriverToKau_RSR2(RSR2_CodeReader_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_GuardDetector_Helper.Create());
 
-			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
-			var mvpPartDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
+			var kauShleifDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
+			var mvpPartDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MVP_Part);
 			foreach (var driver in kauShleifDriver.Children)
 			{
 				mvpPartDriver.Children.Add(driver);
 			}
 		}
 
-		static void AddDriverToKau(XDriver driver)
+		static void AddDriverToKau(GKDriver driver)
 		{
-			XManager.DriversConfiguration.XDrivers.Add(driver);
-			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif);
+			GKManager.DriversConfiguration.Drivers.Add(driver);
+			var kauShleifDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAU_Shleif);
 			kauShleifDriver.Children.Add(driver.DriverType);
 		}
 
-		static void AddDriverToKau_RSR2(XDriver driver)
+		static void AddDriverToKau_RSR2(GKDriver driver)
 		{
-			XManager.DriversConfiguration.XDrivers.Add(driver);
-			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+			GKManager.DriversConfiguration.Drivers.Add(driver);
+			var kauShleifDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			kauShleifDriver.Children.Add(driver.DriverType);
 		}
 	}

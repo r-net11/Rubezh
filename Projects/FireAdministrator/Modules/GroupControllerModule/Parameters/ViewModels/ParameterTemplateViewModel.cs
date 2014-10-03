@@ -8,9 +8,9 @@ namespace GKModule.ViewModels
 {
 	public class ParameterTemplateViewModel : BaseViewModel
 	{
-		public XParameterTemplate ParameterTemplate { get; private set; }
+		public GKParameterTemplate ParameterTemplate { get; private set; }
 
-		public ParameterTemplateViewModel(XParameterTemplate parameterTemplate)
+		public ParameterTemplateViewModel(GKParameterTemplate parameterTemplate)
 		{
 			ParameterTemplate = parameterTemplate;
 			DeviceParameterTemplates = new List<DeviceParameterTemplateViewModel>();

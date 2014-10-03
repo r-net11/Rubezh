@@ -4,12 +4,12 @@ namespace GKProcessor
 {
 	public static class GKSystem_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
-				DriverType = XDriverType.System,
-				UID = XDriver.System_UID,
+				DriverType = GKDriverType.System,
+				UID = GKDriver.System_UID,
 				Name = "Локальная сеть",
 				ShortName = "Локальная сеть",
 				CanEditAddress = false,
@@ -17,7 +17,7 @@ namespace GKProcessor
 				IsDeviceOnShleif = false,
 				IsReal = false
 			};
-			driver.Children.Add(XDriverType.GK);
+			driver.Children.Add(GKDriverType.GK);
 
 			return driver;
 		}

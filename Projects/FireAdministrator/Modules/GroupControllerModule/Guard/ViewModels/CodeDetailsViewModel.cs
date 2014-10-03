@@ -12,9 +12,9 @@ namespace GKModule.ViewModels
 {
 	public class CodeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XCode Code { get; private set; }
+		public GKCode Code { get; private set; }
 
-		public CodeDetailsViewModel(XCode code = null)
+		public CodeDetailsViewModel(GKCode code = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
 			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
@@ -22,13 +22,13 @@ namespace GKModule.ViewModels
 			if (code == null)
 			{
 				Title = "Создать код";
-				Code = new XCode()
+				Code = new GKCode()
 				{
 					Name = "Новый код",
 					No = 1
 				};
-				if (XManager.DeviceConfiguration.Codes.Count != 0)
-					Code.No = (ushort)(XManager.DeviceConfiguration.Codes.Select(x => x.No).Max() + 1);
+				if (GKManager.DeviceConfiguration.Codes.Count != 0)
+					Code.No = (ushort)(GKManager.DeviceConfiguration.Codes.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var localHash = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, Code.GkDatabaseParent);
+			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, Code.GkDatabaseParent);
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
@@ -158,7 +158,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Code.No != No && XManager.DeviceConfiguration.Codes.Any(x => x.No == No))
+			if (Code.No != No && GKManager.DeviceConfiguration.Codes.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Код с таким номером уже существует");
 				return false;

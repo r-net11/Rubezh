@@ -22,10 +22,10 @@ namespace GKModule.ViewModels
 {
 	public partial class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-		public DeviceViewModel(XDevice device)
+		public DeviceViewModel(GKDevice device)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(Device);
 
-			AvailvableDrivers = new ObservableCollection<XDriver>();
+			AvailvableDrivers = new ObservableCollection<GKDriver>();
 			UpdateDriver();
 			InitializeParamsCommands();
 			Device.Changed += OnChanged;
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				Device.IsNotUsed = !value;
-				XManager.ChangeDeviceLogic(Device, new XDeviceLogic());
+				GKManager.ChangeDeviceLogic(Device, new GKDeviceLogic());
 				OnPropertyChanged(() => IsUsed);
 				OnPropertyChanged(() => ShowOnPlan);
 				OnPropertyChanged(() => PresentationZone);
@@ -145,7 +145,7 @@ namespace GKModule.ViewModels
 					DevicesViewModel.Current.AllDevices.Add(addedDevice);
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
-				GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
 			}
@@ -160,15 +160,15 @@ namespace GKModule.ViewModels
 					}
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
-				GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 		public bool CanAdd()
 		{
-			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+			if (Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
 			{
-				if (Device.DriverType == XDriverType.KAUIndicator)
+				if (Device.DriverType == GKDriverType.KAUIndicator)
 					return false;
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 					return false;
@@ -176,7 +176,7 @@ namespace GKModule.ViewModels
 			}
 			if (Driver.Children.Count > 0)
 				return true;
-			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null && Parent.Device.DriverType != XDriverType.MPT && Parent.Device.DriverType != XDriverType.MRO_2)
+			if ((Driver.DriverType == GKDriverType.MPT || Driver.DriverType == GKDriverType.MRO_2) && Parent != null && Parent.Device.DriverType != GKDriverType.MPT && Parent.Device.DriverType != GKDriverType.MRO_2)
 				return true;
 			return false;
 		}
@@ -196,7 +196,7 @@ namespace GKModule.ViewModels
 		{
 			Remove(true);
 			if (Device.KAURSR2Parent != null)
-				XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+				GKManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
 		}
 		bool CanRemove()
 		{
@@ -207,7 +207,7 @@ namespace GKModule.ViewModels
 			var allDevices = Device.AllChildrenAndSelf;
 			foreach (var device in allDevices)
 			{
-				XManager.RemoveDevice(device);
+				GKManager.RemoveDevice(device);
 			}
 			allDevices.ForEach(device => device.OnChanged());
 			if (updateParameters)
@@ -231,7 +231,7 @@ namespace GKModule.ViewModels
 				}
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
-			GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
+			GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
@@ -243,7 +243,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSelect()
 		{
-			return Driver.DriverType == XDriverType.KAU_Shleif || Driver.DriverType == XDriverType.RSR2_KAU_Shleif;
+			return Driver.DriverType == GKDriverType.KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_KAU_Shleif;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -261,7 +261,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				return XManager.GetPresentationZone(Device);
+				return GKManager.GetPresentationZone(Device);
 			}
 		}
 
@@ -271,7 +271,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				var presentationZone = XManager.GetPresentationZone(Device);
+				var presentationZone = GKManager.GetPresentationZone(Device);
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
@@ -312,9 +312,9 @@ namespace GKModule.ViewModels
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
 			IsSelected = true;
-			var plansElement = new ElementXDevice
+			var plansElement = new ElementGKDevice
 				{
-					XDeviceUID = Device.UID
+					DeviceUID = Device.UID
 				};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
@@ -360,7 +360,7 @@ namespace GKModule.ViewModels
 			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.DeviceLogic);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
-				XManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
+				GKManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -376,7 +376,7 @@ namespace GKModule.ViewModels
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones, true);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
-				XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
+				GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
 				OnPropertyChanged("PresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -434,7 +434,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowNSLogic()
 		{
-			return (Driver.IsPump && Device.IntAddress <= 8) || Driver.DriverType == XDriverType.RSR2_Bush;
+			return (Driver.IsPump && Device.IntAddress <= 8) || Driver.DriverType == GKDriverType.RSR2_Bush;
 		}
 
 		public bool IsNSLogic
@@ -446,7 +446,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = XManager.GetPresentationZone(Device.NSLogic);
+				var presentationZone = GKManager.GetPresentationZone(Device.NSLogic);
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
@@ -460,14 +460,14 @@ namespace GKModule.ViewModels
 		#endregion
 
 		#region Driver
-		public XDriver Driver
+		public GKDriver Driver
 		{
 			get { return Device.Driver; }
 			set
 			{
 				if (Device.DriverType != value.DriverType)
 				{
-					XManager.ChangeDriver(Device, value);
+					GKManager.ChangeDriver(Device, value);
 					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{
@@ -481,15 +481,15 @@ namespace GKModule.ViewModels
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
 					if (Device.KAURSR2Parent != null)
-						XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
-					XManager.DeviceConfiguration.Update();
+						GKManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+					GKManager.DeviceConfiguration.Update();
 					Update();
 					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
 		}
 
-		public ObservableCollection<XDriver> AvailvableDrivers { get; private set; }
+		public ObservableCollection<GKDriver> AvailvableDrivers { get; private set; }
 
 		void UpdateDriver()
 		{
@@ -498,19 +498,19 @@ namespace GKModule.ViewModels
 			{
 				switch (Device.Parent.DriverType)
 				{
-					case XDriverType.AM_4:
-						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AM_1));
-						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_T));
+					case GKDriverType.AM_4:
+						AvailvableDrivers.Add(GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.AM_1));
+						AvailvableDrivers.Add(GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.AM1_T));
 						break;
 
-					case XDriverType.AMP_4:
-						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AMP_1));
+					case GKDriverType.AMP_4:
+						AvailvableDrivers.Add(GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.AMP_1));
 						break;
 
 					default:
 						foreach (var driverType in Device.Parent.Driver.Children)
 						{
-							var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+							var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
 							if (CanDriverBeChanged(driver))
 							{
 								AvailvableDrivers.Add(driver);
@@ -521,7 +521,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool CanDriverBeChanged(XDriver driver)
+		public bool CanDriverBeChanged(GKDriver driver)
 		{
 			if (driver == null || Device.Parent == null)
 				return false;
@@ -529,10 +529,10 @@ namespace GKModule.ViewModels
 			if (Device.IsChildMPTOrMRO())
 				return false;
 
-			if (driver.DriverType == XDriverType.RSR2_MVP_Part)
+			if (driver.DriverType == GKDriverType.RSR2_MVP_Part)
 				return false;
 
-			if (Device.Parent.Driver.DriverType == XDriverType.AM_4)
+			if (Device.Parent.Driver.DriverType == GKDriverType.AM_4)
 				return true;
 
 			if (driver.IsAutoCreate)
@@ -564,7 +564,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
 				if (mpt != null)
 					return mpt.Name;
 				return null;
@@ -574,7 +574,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowMPTCommand { get; private set; }
 		void OnShowMPT()
 		{
-			var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
+			var mpt = GKManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
 			if (mpt != null)
 				ServiceFactoryBase.Events.GetEvent<ShowXMPTEvent>().Publish(mpt.UID);
 		}

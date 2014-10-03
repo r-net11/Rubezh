@@ -17,7 +17,7 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
-		public XDriver Driver { get; set; }
+		public GKDriver Driver { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -34,7 +34,7 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<GKLibraryState> States { get; set; }
 
-		#region ILibraryDevice<XStateClass,LibraryXFrame,XState> Members
+		#region ILibraryDevice<XStateClass,LibraryXFrame,GKState> Members
 
 		[XmlIgnore]
 		Guid ILibraryDevice<GKLibraryState, GKLibraryFrame, XStateClass>.DriverId

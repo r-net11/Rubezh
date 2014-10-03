@@ -10,7 +10,7 @@ namespace GKModule.Reports
 	{
 		public ReportArchiveFilter()
 		{
-			ArchiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddSeconds(-1) ? DateTime.Now.AddSeconds(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
+			ArchiveFilter = new GKArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddSeconds(-1) ? DateTime.Now.AddSeconds(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
 			StartDate = ArchiveFilter.StartDate;
 			EndDate = ArchiveFilter.EndDate;
 			Initialize();
@@ -24,12 +24,12 @@ namespace GKModule.Reports
 
 		void Initialize()
 		{
-			JournalItems = new List<XJournalItem>();
+			JournalItems = new List<GKJournalItem>();
 		}
 
 		public readonly DateTime ArchiveFirstDate;// = FiresecManager.GetArchiveStartDate().Result;
-		public List<XJournalItem> JournalItems { get; set; }
-		public XArchiveFilter ArchiveFilter { get; set; }
+		public List<GKJournalItem> JournalItems { get; set; }
+		public GKArchiveFilter ArchiveFilter { get; set; }
 		public bool IsFilterOn { get; set; }
 		public DateTime StartDate { get; private set; }
 		public DateTime EndDate { get; private set; }

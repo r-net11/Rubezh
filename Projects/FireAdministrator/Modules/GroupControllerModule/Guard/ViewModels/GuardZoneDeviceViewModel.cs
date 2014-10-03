@@ -12,37 +12,37 @@ namespace GKModule.ViewModels
 {
 	public class GuardZoneDeviceViewModel : TreeNodeViewModel<ZoneDeviceViewModel>
 	{
-		public XGuardZoneDevice GuardZoneDevice { get; private set; }
+		public GKGuardZoneDevice GuardZoneDevice { get; private set; }
 		public bool IsCodeReader { get; private set; }
 
-		public GuardZoneDeviceViewModel(XGuardZoneDevice guardZoneDevice)
+		public GuardZoneDeviceViewModel(GKGuardZoneDevice guardZoneDevice)
 		{
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			GuardZoneDevice = guardZoneDevice;
 
-			ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>();
+			ActionTypes = new ObservableCollection<GKGuardZoneDeviceActionType>();
 			switch (guardZoneDevice.Device.DriverType)
 			{
-				case XDriverType.RSR2_GuardDetector:
-					ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
+				case GKDriverType.RSR2_GuardDetector:
+					ActionTypes.Add(GKGuardZoneDeviceActionType.SetAlarm);
 					break;
 
-				case XDriverType.RSR2_AM_1:
-				case XDriverType.RSR2_HandDetector:
-					ActionTypes.Add(XGuardZoneDeviceActionType.SetGuard);
-					ActionTypes.Add(XGuardZoneDeviceActionType.ResetGuard);
-					ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
+				case GKDriverType.RSR2_AM_1:
+				case GKDriverType.RSR2_HandDetector:
+					ActionTypes.Add(GKGuardZoneDeviceActionType.SetGuard);
+					ActionTypes.Add(GKGuardZoneDeviceActionType.ResetGuard);
+					ActionTypes.Add(GKGuardZoneDeviceActionType.SetAlarm);
 					break;
 			}
 			if (!ActionTypes.Contains(SelectedActionType))
 				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
 
-			IsCodeReader = guardZoneDevice.Device.DriverType == XDriverType.RSR2_CodeReader;
+			IsCodeReader = guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader;
 		}
 
-		public ObservableCollection<XGuardZoneDeviceActionType> ActionTypes { get; private set; }
+		public ObservableCollection<GKGuardZoneDeviceActionType> ActionTypes { get; private set; }
 
-		public XGuardZoneDeviceActionType SelectedActionType
+		public GKGuardZoneDeviceActionType SelectedActionType
 		{
 			get { return GuardZoneDevice.ActionType; }
 			set

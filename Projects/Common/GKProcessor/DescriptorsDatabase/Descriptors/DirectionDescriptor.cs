@@ -6,7 +6,7 @@ namespace GKProcessor
 {
 	public class DirectionDescriptor : BaseDescriptor
 	{
-		public DirectionDescriptor(XDirection direction)
+		public DirectionDescriptor(GKDirection direction)
 		{
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Direction;
@@ -48,14 +48,14 @@ namespace GKProcessor
 
 				Formula.Add(FormulaOperationType.DUP);
 
-				Formula.AddGetBit(XStateBit.Norm, Direction);
+				Formula.AddGetBit(GKStateBit.Norm, Direction);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Direction);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction);
 
 				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-				Formula.AddGetBit(XStateBit.Norm, Direction);
+				Formula.AddGetBit(GKStateBit.Norm, Direction);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Direction);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

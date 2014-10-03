@@ -6,16 +6,16 @@ namespace AutomationModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public XZone Zone { get; private set; }
-		public XGuardZone GuardZone { get; private set; }
+		public GKZone Zone { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 		public SKDZone SKDZone { get; private set; }
 
-		public ZoneViewModel(XZone zone)
+		public ZoneViewModel(GKZone zone)
 		{
 			Zone = zone;
 		}
 
-		public ZoneViewModel(XGuardZone guardZone)
+		public ZoneViewModel(GKGuardZone guardZone)
 		{
 			GuardZone = guardZone;
 		}

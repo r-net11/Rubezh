@@ -52,16 +52,16 @@ namespace GKModule.ViewModels
 					IsBold = true;
 
 					var stateTypeToIconConverter = new XStateTypeToIconConverter();
-					StateIcon = (string)stateTypeToIconConverter.Convert((XStateBit)FormulaOperation.FirstOperand, null, null, null);
+					StateIcon = (string)stateTypeToIconConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
 					var stateTypeToStringConverter = new EnumToDescriptionConverter();
-					FirstOperand = (string)stateTypeToStringConverter.Convert((XStateBit)FormulaOperation.FirstOperand, null, null, null);
+					FirstOperand = (string)stateTypeToStringConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
-					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.GKDescriptorNo == FormulaOperation.SecondOperand);
+					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand);
 					if (descriptorViewModel != null)
 					{
 						DescriptorIcon = descriptorViewModel.ImageSource;
-						SecondOperand = descriptorViewModel.Descriptor.XBase.PresentationName;
+						SecondOperand = descriptorViewModel.Descriptor.GKBase.PresentationName;
 					}
 					else
 					{

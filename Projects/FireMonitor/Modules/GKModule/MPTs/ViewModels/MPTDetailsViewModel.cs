@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class MPTDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XMPT MPT { get; private set; }
-		public XState State
+		public GKMPT MPT { get; private set; }
+		public GKState State
 		{
 			get { return MPT.State; }
 		}
 
-		public MPTDetailsViewModel(XMPT mpt)
+		public MPTDetailsViewModel(GKMPT mpt)
 		{
 			MPT = mpt;
 			State.StateChanged += new Action(OnStateChanged);

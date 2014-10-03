@@ -5,20 +5,20 @@ namespace GKProcessor
 {
 	public class RSR2_CombinedDetector_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0xDF,
-				DriverType = XDriverType.RSR2_CombinedDetector,
+				DriverType = GKDriverType.RSR2_CombinedDetector,
 				UID = new Guid("1CCE48EB-B60B-4E06-8290-A39591CD3DA2"),
 				Name = "ИЗВЕЩАТЕЛЬ ПОЖАРНЫЙ КОМБИНИРОВАННЫЙ ДЫМОВОЙ ОПТИКО-ЭЛЕКТРОННЫЙ ТЕПЛОВОЙ МАКСИМАЛЬНО-ДИФФЕРЕНЦИАЛЬНЫЙ",
 				ShortName = "ИП 212/101-11-PR",
 				HasZone = true,
 				IsPlaceable = true
 			};
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
@@ -28,11 +28,11 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 2, "Порог срабатывания по дыму, 0.001*дБ/м", 180, 50, 200);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог запыленности, 0.001*дБ/м", 200, 0, 500);
 
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature" });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Градиент температуры, C/мин", InternalName = "TemperatureDelta" });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 3, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 4, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 5, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Градиент температуры, C/мин", InternalName = "TemperatureDelta" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
 
 			return driver;
 		}

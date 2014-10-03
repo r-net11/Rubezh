@@ -9,9 +9,9 @@ namespace GKModule.ViewModels
 	public class DeviceParameterViewModel : BaseViewModel
 	{
 		public DeviceViewModel DeviceViewModel { get; private set; }
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 
-		public DeviceParameterViewModel(XDevice device)
+		public DeviceParameterViewModel(GKDevice device)
 		{
 			Device = device;
 			DeviceViewModel = new DeviceViewModel(device);

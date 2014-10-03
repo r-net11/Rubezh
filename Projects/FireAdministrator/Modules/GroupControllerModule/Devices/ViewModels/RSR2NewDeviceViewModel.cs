@@ -9,7 +9,7 @@ namespace GKModule.ViewModels
 {
 	public class RSR2NewDeviceViewModel : NewDeviceViewModelBase
 	{
-		XDevice RealParentDevice;
+		GKDevice RealParentDevice;
 
 		public RSR2NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
@@ -28,8 +28,8 @@ namespace GKModule.ViewModels
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
 
-		XDriver _selectedDriver;
-		public XDriver SelectedDriver
+		GKDriver _selectedDriver;
+		public GKDriver SelectedDriver
 		{
 			get { return _selectedDriver; }
 			set
@@ -56,18 +56,18 @@ namespace GKModule.ViewModels
 			{
 				if (RealParentDevice == ParentDevice)
 				{
-					XDevice device = XManager.AddChild(ParentDevice, null, SelectedDriver, 0);
+					GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, 0);
 					var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 					AddedDevices.Add(addedDevice);
 				}
 				else
 				{
-					XDevice device = XManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
+					GKDevice device = GKManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
 					var addedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
 					AddedDevices.Add(addedDevice);
 				}
 			}
-			XManager.RebuildRSR2Addresses(ParentDevice.KAURSR2Parent);
+			GKManager.RebuildRSR2Addresses(ParentDevice.KAURSR2Parent);
 			return true;
 		}
 
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 			if (result)
 			{
 				ParentDeviceViewModel.Update();
-				XManager.DeviceConfiguration.Update();
+				GKManager.DeviceConfiguration.Update();
 			}
 			return result;
 		}

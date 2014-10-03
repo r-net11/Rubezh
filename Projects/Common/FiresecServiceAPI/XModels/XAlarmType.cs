@@ -2,7 +2,7 @@
 
 namespace FiresecAPI.GK
 {
-	public enum XAlarmType
+	public enum GKAlarmType
 	{
 		[DescriptionAttribute("Пожаротушение")]
 		NPTOn = 0,

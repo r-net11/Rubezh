@@ -14,10 +14,10 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class MPTsSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public List<XMPT> MPTs { get; private set; }
+		public List<GKMPT> MPTs { get; private set; }
 		public bool CanCreateNew { get; private set; }
 
-		public MPTsSelectationViewModel(List<XMPT> mpts, bool canCreateNew = false)
+		public MPTsSelectationViewModel(List<GKMPT> mpts, bool canCreateNew = false)
 		{
 			Title = "Выбор МПТ";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -27,10 +27,10 @@ namespace GKModule.ViewModels
 
 			MPTs = mpts;
 			CanCreateNew = canCreateNew;
-			TargetMPTs = new ObservableCollection<XMPT>();
-			SourceMPTs = new ObservableCollection<XMPT>();
+			TargetMPTs = new ObservableCollection<GKMPT>();
+			SourceMPTs = new ObservableCollection<GKMPT>();
 
-			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
 				if (MPTs.Contains(mpt))
 					TargetMPTs.Add(mpt);
@@ -42,10 +42,10 @@ namespace GKModule.ViewModels
 			SelectedSourceMPT = SourceMPTs.FirstOrDefault();
 		}
 
-		public ObservableCollection<XMPT> SourceMPTs { get; private set; }
+		public ObservableCollection<GKMPT> SourceMPTs { get; private set; }
 
-		XMPT _selectedSourceMPT;
-		public XMPT SelectedSourceMPT
+		GKMPT _selectedSourceMPT;
+		public GKMPT SelectedSourceMPT
 		{
 			get { return _selectedSourceMPT; }
 			set
@@ -55,10 +55,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XMPT> TargetMPTs { get; private set; }
+		public ObservableCollection<GKMPT> TargetMPTs { get; private set; }
 
-		XMPT _selectedTargetMPT;
-		public XMPT SelectedTargetMPT
+		GKMPT _selectedTargetMPT;
+		public GKMPT SelectedTargetMPT
 		{
 			get { return _selectedTargetMPT; }
 			set
@@ -75,10 +75,10 @@ namespace GKModule.ViewModels
 			var index = SourceMPTs.IndexOf(SelectedSourceMPT);
 
 			SelectedSourceMPTs = (IList)parameter;
-			var mptViewModels = new List<XMPT>();
+			var mptViewModels = new List<GKMPT>();
 			foreach (var selectedMPT in SelectedSourceMPTs)
 			{
-				var mptViewModel = selectedMPT as XMPT;
+				var mptViewModel = selectedMPT as GKMPT;
 				if (mptViewModel != null)
 					mptViewModels.Add(mptViewModel);
 			}
@@ -102,10 +102,10 @@ namespace GKModule.ViewModels
 			var index = TargetMPTs.IndexOf(SelectedTargetMPT);
 
 			SelectedTargetMPTs = (IList)parameter;
-			var mptViewModels = new List<XMPT>();
+			var mptViewModels = new List<GKMPT>();
 			foreach (var selectedMPT in SelectedTargetMPTs)
 			{
-				var mptViewModel = selectedMPT as XMPT;
+				var mptViewModel = selectedMPT as GKMPT;
 				if (mptViewModel != null)
 					mptViewModels.Add(mptViewModel);
 			}
@@ -166,7 +166,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			MPTs = new List<XMPT>(TargetMPTs);
+			MPTs = new List<GKMPT>(TargetMPTs);
 			return base.Save();
 		}
 	}

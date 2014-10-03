@@ -16,6 +16,6 @@ namespace FiresecAPI.Automation
 		public Argument GKDeviceParameter { get; set; }
 
 		[DataMember]
-		public XStateBit Command { get; set; }
+		public GKStateBit Command { get; set; }
 	}
 }

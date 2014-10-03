@@ -2,10 +2,10 @@
 {
 	public static class XConfigurationCash
 	{
-		public static XDriversConfiguration XDriversConfiguration { get; set; }
+		public static GKDriversConfiguration XDriversConfiguration { get; set; }
 		static XConfigurationCash()
 		{
-			XDriversConfiguration = new XDriversConfiguration();
+			XDriversConfiguration = new GKDriversConfiguration();
 		}
 	}
 }

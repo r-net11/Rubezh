@@ -35,10 +35,10 @@ namespace Infrastructure.Common
 				{
 					AddConfigurationToZip(zipFile, deviceConfiguration, "DeviceConfiguration.xml");
 				}
-				var xDeviceConfiguration = GetConfigurationFromZip<XDeviceConfiguration>(zipFile, "XDeviceConfiguration.xml", out result);
+				var gkDeviceConfiguration = GetConfigurationFromZip<GKDeviceConfiguration>(zipFile, "GKDeviceConfiguration.xml", out result);
 				if (!result)
 				{
-					AddConfigurationToZip(zipFile, xDeviceConfiguration, "XDeviceConfiguration.xml");
+					AddConfigurationToZip(zipFile, gkDeviceConfiguration, "GKDeviceConfiguration.xml");
 				}
 				var skdConfiguration = GetConfigurationFromZip<SKDConfiguration>(zipFile, "SKDConfiguration.xml", out result);
 				if (!result)
@@ -85,7 +85,7 @@ namespace Infrastructure.Common
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DriversConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceLibraryConfiguration", 1, 1));
-					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceConfiguration", 1, 1));
+					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("GKDeviceConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("GKDeviceLibraryConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("SKDConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("SKDLibraryConfiguration", 1, 1));

@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public class Shuv_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x86,
-				DriverType = XDriverType.Shuv,
+				DriverType = GKDriverType.Shuv,
 				UID = new Guid("70C76BEF-E5FE-4DAC-B183-3C6F10FFDF1C"),
 				Name = "Шкаф управления вентилятором",
 				ShortName = "ШУВ",
@@ -28,10 +28,10 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.Stop_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.Stop_InManual);
 
 			GKDriversHelper.AddPlainEnumProprety2(driver, 0x82, "Внешний сигнал шкафа управления", 0, "Сигнал с кнопок «Пуск» и «Стоп»", "Сигнал с датчика", 0);
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания запуска, мин. 0 - неограничено", 0, 0, 255);

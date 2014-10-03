@@ -12,7 +12,7 @@ namespace GKModule.Diagnostics
 	{
 		public void Convert()
 		{
-			KauDevices = XManager.Devices.Where(x => x.DriverType == XDriverType.KAU);
+			KauDevices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.KAU);
 			PanelDevices = new List<Device>();
 			CreatePaneDevices();
 			foreach (var kauDevice in KauDevices)
@@ -24,7 +24,7 @@ namespace GKModule.Diagnostics
 		}
 
 		List<Device> PanelDevices;
-		IEnumerable<XDevice> KauDevices;
+		IEnumerable<GKDevice> KauDevices;
 
 		void CreatePaneDevices()
 		{
@@ -61,7 +61,7 @@ namespace GKModule.Diagnostics
 			}
 		}
 
-		void AddDevice(XDevice parentXDevice, Device parentDevice = null)
+		void AddDevice(GKDevice parentXDevice, Device parentDevice = null)
 		{
 			foreach (var xDevice in parentXDevice.Children)
 			{

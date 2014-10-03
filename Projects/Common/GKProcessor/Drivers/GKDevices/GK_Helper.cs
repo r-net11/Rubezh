@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public static class GK_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x102,
-				DriverType = XDriverType.GK,
+				DriverType = GKDriverType.GK,
 				UID = new Guid("C052395D-043F-4590-A0B8-BC49867ADC6A"),
 				Name = "Групповой контроллер",
 				ShortName = "ГК",
@@ -19,33 +19,33 @@ namespace GKProcessor
 				HasAddress = false,
 				IsPlaceable = true
 			};
-			driver.AutoCreateChildren.Add(XDriverType.GKIndicator);
-			driver.AutoCreateChildren.Add(XDriverType.GKRele);
-			driver.Children.Add(XDriverType.KAU);
-			driver.Children.Add(XDriverType.RSR2_KAU);
+			driver.AutoCreateChildren.Add(GKDriverType.GKIndicator);
+			driver.AutoCreateChildren.Add(GKDriverType.GKRele);
+			driver.Children.Add(GKDriverType.KAU);
+			driver.Children.Add(GKDriverType.RSR2_KAU);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.Failure);
 
 			driver.Properties.Add(
-				new XDriverProperty()
+				new GKDriverProperty()
 				{
 					Name = "IPAddress",
 					Caption = "IP адрес",
 					ToolTip = "IP адрес",
-					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+					DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
 					IsAUParameter = false
 				}
 				);
 
 			driver.Properties.Add(
-				new XDriverProperty()
+				new GKDriverProperty()
 				{
 					Name = "PollInterval",
 					Caption = "Интервал опроса, мс",
 					ToolTip = "Интервал опроса, мс",
-					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					Min = 10,
 					Max = 1000,
 					Default = 1000,
@@ -54,7 +54,7 @@ namespace GKProcessor
 				);
 
 			driver.Properties.Add(
-				new XDriverProperty()
+				new GKDriverProperty()
 				{
 					No = 0,
 					Name = "ConnectionLostCount",
@@ -63,13 +63,13 @@ namespace GKProcessor
 					Min = 0,
 					Max = 10,
 					Default = 3,
-					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
 				}
 				);
 
 			driver.Properties.Add(
-				new XDriverProperty()
+				new GKDriverProperty()
 				{
 					No = 1,
 					Name = "Засыпание, мин",
@@ -78,13 +78,13 @@ namespace GKProcessor
 					Min = 0,
 					Max = 120,
 					Default = 10,
-					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
 				}
 				);
 
 			driver.Properties.Add(
-				new XDriverProperty()
+				new GKDriverProperty()
 				{
 					No = 2,
 					Name = "Яркость, %",
@@ -93,7 +93,7 @@ namespace GKProcessor
 					Min = 0,
 					Max = 100,
 					Default = 50,
-					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+					DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 					IsAUParameter = true
 				}
 				);

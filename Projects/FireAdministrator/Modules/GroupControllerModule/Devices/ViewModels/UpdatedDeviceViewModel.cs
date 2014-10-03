@@ -7,9 +7,9 @@ namespace GKModule.ViewModels
 	{
 		public string Name { get; private set; }
 		public string Address { get; private set; }
-		public XDevice Device;
+		public GKDevice Device;
 		public string ImageSource { get; private set; }
-		public UpdatedDeviceViewModel(XDevice device)
+		public UpdatedDeviceViewModel(GKDevice device)
 		{
 			Device = device;
 			Name = device.ShortName;

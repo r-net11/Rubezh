@@ -51,14 +51,14 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var zones = new List<XZone>();
+				var zones = new List<GKZone>();
 				foreach (var zoneUID in Camera.ZoneUIDs.ToList())
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 						zones.Add(zone);
 				}
-				var presentationZones = XManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
+				var presentationZones = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
 				return presentationZones;
 			}
 		}

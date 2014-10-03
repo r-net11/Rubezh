@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Directions = new List<DirectionViewModel>();
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				if (direction.InputZones.Count + direction.InputDevices.Count > 0)
 				{

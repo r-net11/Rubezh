@@ -8,24 +8,24 @@ namespace GKModule.Plans.Designer
 {
 	internal class ElementXDeviceUpdater : IDisposable
 	{
-		private Dictionary<Guid, ElementXDevice> _map;
+		private Dictionary<Guid, ElementGKDevice> _map;
 
 		public ElementXDeviceUpdater()
 		{
-			_map = new Dictionary<Guid, ElementXDevice>();
+			_map = new Dictionary<Guid, ElementGKDevice>();
 			BuildMap(FiresecManager.PlansConfiguration.Plans);
 		}
 		private void BuildMap(List<Plan> plans)
 		{
 			foreach (var plan in plans)
 			{
-				foreach (var elementXDevice in plan.ElementXDevices)
+				foreach (var elementXDevice in plan.ElementGKDevices)
 					_map.Add(elementXDevice.UID, elementXDevice);
 				BuildMap(plan.Children);
 			}
 		}
 
-		public void UpdateDeviceBinding(XDevice xdevice)
+		public void UpdateDeviceBinding(GKDevice xdevice)
 		{
 			var planElementUIDs = xdevice.PlanElementUIDs;
 			xdevice.PlanElementUIDs = new List<Guid>();
@@ -33,8 +33,8 @@ namespace GKModule.Plans.Designer
 				if (_map.ContainsKey(planElementUID))
 				{
 					var elementXDevice = _map[planElementUID];
-					if (elementXDevice.XDeviceUID == Guid.Empty)
-						GKPlanExtension.Instance.SetItem<XDevice>(elementXDevice, xdevice);
+					if (elementXDevice.DeviceUID == Guid.Empty)
+						GKPlanExtension.Instance.SetItem<GKDevice>(elementXDevice, xdevice);
 				}
 			foreach (var child in xdevice.Children)
 				UpdateDeviceBinding(child);

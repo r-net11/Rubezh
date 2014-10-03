@@ -3,14 +3,14 @@ using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class GuardZoneTooltipViewModel : StateTooltipViewModel<XGuardZone>
+	public class GuardZoneTooltipViewModel : StateTooltipViewModel<GKGuardZone>
 	{
-		public XGuardZone GuardZone
+		public GKGuardZone GuardZone
 		{
 			get { return Item; }
 		}
 
-		public GuardZoneTooltipViewModel(XGuardZone guardZone)
+		public GuardZoneTooltipViewModel(GKGuardZone guardZone)
 			: base(guardZone)
 		{
 		}

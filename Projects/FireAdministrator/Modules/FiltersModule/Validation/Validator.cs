@@ -10,7 +10,7 @@ namespace FilterModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateFilterName();
 			return Errors;

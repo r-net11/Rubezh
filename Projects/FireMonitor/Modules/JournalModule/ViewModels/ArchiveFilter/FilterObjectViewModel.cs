@@ -99,49 +99,49 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public FilterObjectViewModel(XDevice device)
+		public FilterObjectViewModel(GKDevice device)
 		{
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
 
-		public FilterObjectViewModel(XZone zone)
+		public FilterObjectViewModel(GKZone zone)
 		{
 			Name = zone.PresentationName;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
-		public FilterObjectViewModel(XDirection direction)
+		public FilterObjectViewModel(GKDirection direction)
 		{
 			Name = direction.PresentationName;
 			UID = direction.UID;
 			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 
-		public FilterObjectViewModel(XMPT mpt)
+		public FilterObjectViewModel(GKMPT mpt)
 		{
 			Name = mpt.PresentationName;
 			UID = mpt.UID;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
-		public FilterObjectViewModel(XPumpStation pumpStation)
+		public FilterObjectViewModel(GKPumpStation pumpStation)
 		{
 			Name = pumpStation.PresentationName;
 			UID = pumpStation.UID;
 			ImageSource = "/Controls;component/Images/BPumpStation.png";
 		}
 
-		public FilterObjectViewModel(XDelay delay)
+		public FilterObjectViewModel(GKDelay delay)
 		{
 			Name = delay.PresentationName;
 			UID = delay.UID;
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 
-		public FilterObjectViewModel(XGuardZone guardZone)
+		public FilterObjectViewModel(GKGuardZone guardZone)
 		{
 			Name = guardZone.PresentationName;
 			UID = guardZone.UID;

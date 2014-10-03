@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public class AMP_1_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x50,
-				DriverType = XDriverType.AMP_1,
+				DriverType = GKDriverType.AMP_1,
 				UID = new Guid("d8997f3b-64c4-4037-b176-de15546ce568"),
 				Name = "Пожарная адресная метка АМП",
 				ShortName = "АМП",
@@ -19,14 +19,14 @@ namespace GKProcessor
 				IsIgnored = true,
 			};
 
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire2);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
-			var property1 = new XDriverProperty()
+			var property1 = new GKDriverProperty()
 			{
 				No = 0x81,
 				Name = "Тип шлейфа",
@@ -34,22 +34,22 @@ namespace GKProcessor
 				Default = 0,
 				Mask = 16 + 2*16 + 4*16 + 8*16
 			};
-			var property1Parameter1 = new XDriverPropertyParameter()
+			var property1Parameter1 = new GKDriverPropertyParameter()
 			{
 				Name = "Шлейф дымовых датчиков с определением двойной сработки",
 				Value = 0*16
 			};
-			var property1Parameter2 = new XDriverPropertyParameter()
+			var property1Parameter2 = new GKDriverPropertyParameter()
 			{
 				Name = "Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки тепловых датчиков и с определением двойной сработки дымовых",
 				Value = 1 * 16
 			};
-			var property1Parameter3 = new XDriverPropertyParameter()
+			var property1Parameter3 = new GKDriverPropertyParameter()
 			{
 				Name = "Шлейф тепловых датчиков с определением двойной сработки",
 				Value = 2 * 16
 			};
-			var property1Parameter4 = new XDriverPropertyParameter()
+			var property1Parameter4 = new GKDriverPropertyParameter()
 			{
 				Name = "Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки и без контроля короткого замыкания ШС",
 				Value = 3 * 16
@@ -60,7 +60,7 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter4);
 			driver.Properties.Add(property1);
 
-			var property2 = new XDriverProperty()
+			var property2 = new GKDriverProperty()
 			{
 				No = 0x81,
 				Name = "Режим работы",
@@ -68,17 +68,17 @@ namespace GKProcessor
 				Default = 2,
 				Mask = 15
 			};
-			var property2Parameter1 = new XDriverPropertyParameter()
+			var property2Parameter1 = new GKDriverPropertyParameter()
 			{
 				Name = "Не включать",
 				Value = 0
 			};
-			var property2Parameter2 = new XDriverPropertyParameter()
+			var property2Parameter2 = new GKDriverPropertyParameter()
 			{
 				Name = "Переключается",
 				Value = 1
 			};
-			var property2Parameter3 = new XDriverPropertyParameter()
+			var property2Parameter3 = new GKDriverPropertyParameter()
 			{
 				Name = "Включен постоянно",
 				Value = 2

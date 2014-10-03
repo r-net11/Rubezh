@@ -7,10 +7,10 @@ namespace GKModule.ViewModels
 {
 	public static class NewDeviceHelper
 	{
-		public static byte GetMinAddress(XDriver driver, XDevice device)
+		public static byte GetMinAddress(GKDriver driver, GKDevice device)
 		{
-			XDevice parentDevice = device;
-			if (parentDevice.DriverType == XDriverType.MPT || parentDevice.DriverType == XDriverType.MRO_2)
+			GKDevice parentDevice = device;
+			if (parentDevice.DriverType == GKDriverType.MPT || parentDevice.DriverType == GKDriverType.MRO_2)
 				parentDevice = parentDevice.Parent;
 
 			byte maxAddress = 0;
@@ -47,7 +47,7 @@ namespace GKModule.ViewModels
 				if (child.IntAddress > maxAddress)
 					maxAddress = (byte)child.IntAddress;
 
-				if (child.DriverType == XDriverType.MPT || child.DriverType == XDriverType.MRO_2)
+				if (child.DriverType == GKDriverType.MPT || child.DriverType == GKDriverType.MRO_2)
 				{
 					foreach (var child2 in child.Children)
 					{
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 			return Math.Max((byte)1, maxAddress);
 		}
 
-		public static DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel, bool addAutoCreate = true)
+		public static DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel, bool addAutoCreate = true)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			parentDeviceViewModel.AddChild(deviceViewModel);
@@ -96,11 +96,11 @@ namespace GKModule.ViewModels
 			{
 				if (device.Driver.IsGroupDevice)
 				{
-					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 
 					for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 					{
-						var autoDevice = XManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
+						var autoDevice = GKManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
 						AddDevice(autoDevice, deviceViewModel, addAutoCreate);
 					}
 				}
@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 			return deviceViewModel;
 		}
 
-		public static DeviceViewModel InsertDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
+		public static DeviceViewModel InsertDevice(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			parentDeviceViewModel.InsertChild(deviceViewModel);
@@ -120,11 +120,11 @@ namespace GKModule.ViewModels
 
 			if (device.Driver.IsGroupDevice && device.Children.Count == 0)
 			{
-				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+				var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
+					var autoDevice = GKManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}

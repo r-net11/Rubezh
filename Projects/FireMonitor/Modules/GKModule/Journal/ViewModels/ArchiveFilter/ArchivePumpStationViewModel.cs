@@ -5,13 +5,13 @@ namespace GKModule.ViewModels
 {
 	public class ArchivePumpStationViewModel : CheckBoxItemViewModel
 	{
-		public ArchivePumpStationViewModel(XPumpStation pumpStation)
+		public ArchivePumpStationViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
 			Name = pumpStation.PresentationName;
 		}
 
-		public XPumpStation PumpStation { get; private set; }
+		public GKPumpStation PumpStation { get; private set; }
 		public string Name { get; private set; }
 	}
 }

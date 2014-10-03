@@ -12,13 +12,13 @@ namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public XZone Zone { get; private set; }
-		public XState State
+		public GKZone Zone { get; private set; }
+		public GKState State
 		{
 			get { return Zone.State; }
 		}
 
-		public ZoneViewModel(XZone zone)
+		public ZoneViewModel(GKZone zone)
 		{
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);

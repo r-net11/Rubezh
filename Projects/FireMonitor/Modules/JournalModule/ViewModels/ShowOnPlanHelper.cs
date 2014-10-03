@@ -10,15 +10,15 @@ namespace JournalModule.ViewModels
 {
 	public static class ShowOnPlanHelper
 	{
-		public static void ShowDevice(XDevice device)
+		public static void ShowDevice(GKDevice device)
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(device);
 		}
-		public static bool CanShowDevice(XDevice device)
+		public static bool CanShowDevice(GKDevice device)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementXDevices.Any(x => x.XDeviceUID == device.UID))
+				if (plan.ElementGKDevices.Any(x => x.DeviceUID == device.UID))
 				{
 					return true;
 				}
@@ -26,49 +26,49 @@ namespace JournalModule.ViewModels
 			return false;
 		}
 
-		public static void ShowZone(XZone zone)
+		public static void ShowZone(GKZone zone)
 		{
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
 		}
-		public static bool CanShowZone(XZone zone)
+		public static bool CanShowZone(GKZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+				if (plan.ElementPolygonGKZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
-				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+				if (plan.ElementRectangleGKZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
 			}
 			return false;
 		}
 
-		public static void ShowGuardZone(XGuardZone zone)
+		public static void ShowGuardZone(GKGuardZone zone)
 		{
 			ServiceFactory.Events.GetEvent<ShowXGuardZoneOnPlanEvent>().Publish(zone);
 		}
-		public static bool CanShowGuardZone(XGuardZone zone)
+		public static bool CanShowGuardZone(GKGuardZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+				if (plan.ElementPolygonGKGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
-				if (plan.ElementRectangleXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+				if (plan.ElementRectangleGKGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
 					return true;
 			}
 			return false;
 		}
 
-		public static void ShowDirection(XDirection direction)
+		public static void ShowDirection(GKDirection direction)
 		{
 			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
 		}
-		public static bool CanShowDirection(XDirection direction)
+		public static bool CanShowDirection(GKDirection direction)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == direction.UID))
+				if (plan.ElementRectangleGKDirections.Any(x => x.DirectionUID == direction.UID))
 					return true;
-				if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == direction.UID))
+				if (plan.ElementPolygonGKDirections.Any(x => x.DirectionUID == direction.UID))
 					return true;
 			}
 			return false;

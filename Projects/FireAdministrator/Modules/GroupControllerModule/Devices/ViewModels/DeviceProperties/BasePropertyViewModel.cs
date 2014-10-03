@@ -8,10 +8,10 @@ namespace GKModule.ViewModels
 {
 	public class BasePropertyViewModel : BaseViewModel
 	{
-		protected XDevice Device;
-		protected XDriverProperty DriverProperty;
+		protected GKDevice Device;
+		protected GKDriverProperty DriverProperty;
 
-		public BasePropertyViewModel(XDriverProperty driverProperty, XDevice device)
+		public BasePropertyViewModel(GKDriverProperty driverProperty, GKDevice device)
 		{
 			DriverProperty = driverProperty;
 			IsAUParameter = driverProperty.IsAUParameter;
@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 
 			if (Device.DeviceProperties == null)
 			{
-				Device.DeviceProperties = new List<XProperty>();
+				Device.DeviceProperties = new List<GKProperty>();
 			}
 
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				var newProperty = new XProperty()
+				var newProperty = new GKProperty()
 				{
 					Name = DriverProperty.Name,
 					Value = value,

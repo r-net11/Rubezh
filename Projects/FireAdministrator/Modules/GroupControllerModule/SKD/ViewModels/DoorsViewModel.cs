@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Doors = new ObservableCollection<DoorViewModel>();
-			foreach (var door in XManager.DeviceConfiguration.Doors)
+			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
 				var doorViewModel = new DoorViewModel(door);
 				Doors.Add(doorViewModel);
@@ -93,12 +93,12 @@ namespace GKModule.ViewModels
 			var doorDetailsViewModel = new DoorDetailsViewModel();
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.Doors.Add(doorDetailsViewModel.Door);
+				GKManager.DeviceConfiguration.Doors.Add(doorDetailsViewModel.Door);
 				var doorViewModel = new DoorViewModel(doorDetailsViewModel.Door);
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XDoor>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDoor>();
 				return doorDetailsViewModel;
 			}
 			return null;
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Doors.IndexOf(SelectedDoor);
-				XManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);
+				GKManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);
 				SelectedDoor.Door.OnChanged();
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 		{
 			OnEdit(SelectedDoor.Door);
 		}
-		void OnEdit(XDoor door)
+		void OnEdit(GKDoor door)
 		{
 			var doorDetailsViewModel = new DoorDetailsViewModel(door);
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))

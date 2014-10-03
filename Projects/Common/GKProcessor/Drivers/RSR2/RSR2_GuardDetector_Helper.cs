@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public static class RSR2_GuardDetector_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x10,
-				DriverType = XDriverType.RSR2_GuardDetector,
+				DriverType = GKDriverType.RSR2_GuardDetector,
 				UID = new Guid("501AA41F-248B-4A4E-982A-6BC93505C7A9"),
 				Name = "Извещатель охранный инфракрасный R2",
 				ShortName = "ИО-ИК R2",
@@ -25,11 +25,11 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Уровень в ед АЦП, с", 128, 128, 384);
 
