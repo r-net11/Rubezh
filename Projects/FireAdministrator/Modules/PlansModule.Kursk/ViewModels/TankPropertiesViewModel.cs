@@ -38,7 +38,7 @@ namespace PlansModule.Kursk.ViewModels
 
 		protected override bool Save()
 		{
-			Helper.SetXDevice(_element, SelectedDevice);
+			Helper.SetGKDevice(_element, SelectedDevice);
 			return base.Save();
 		}
 	}

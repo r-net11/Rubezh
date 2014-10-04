@@ -6,11 +6,11 @@ using FiresecClient;
 
 namespace GKModule.Plans.Designer
 {
-	internal class ElementXDeviceUpdater : IDisposable
+	internal class ElementDeviceUpdater : IDisposable
 	{
 		private Dictionary<Guid, ElementGKDevice> _map;
 
-		public ElementXDeviceUpdater()
+		public ElementDeviceUpdater()
 		{
 			_map = new Dictionary<Guid, ElementGKDevice>();
 			BuildMap(FiresecManager.PlansConfiguration.Plans);
@@ -25,18 +25,18 @@ namespace GKModule.Plans.Designer
 			}
 		}
 
-		public void UpdateDeviceBinding(GKDevice xdevice)
+		public void UpdateDeviceBinding(GKDevice device)
 		{
-			var planElementUIDs = xdevice.PlanElementUIDs;
-			xdevice.PlanElementUIDs = new List<Guid>();
+			var planElementUIDs = device.PlanElementUIDs;
+			device.PlanElementUIDs = new List<Guid>();
 			foreach (var planElementUID in planElementUIDs)
 				if (_map.ContainsKey(planElementUID))
 				{
 					var elementXDevice = _map[planElementUID];
 					if (elementXDevice.DeviceUID == Guid.Empty)
-						GKPlanExtension.Instance.SetItem<GKDevice>(elementXDevice, xdevice);
+						GKPlanExtension.Instance.SetItem<GKDevice>(elementXDevice, device);
 				}
-			foreach (var child in xdevice.Children)
+			foreach (var child in device.Children)
 				UpdateDeviceBinding(child);
 		}
 

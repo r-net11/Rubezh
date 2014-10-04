@@ -85,7 +85,7 @@ namespace GKModule.Plans
 		}
 		public void ExtensionAttached()
 		{
-			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
+			using (new TimeCounter("GKDevice.ExtensionAttached.BuildMap: {0}"))
 				Cache.BuildAllSafe();
 		}
 
@@ -95,9 +95,9 @@ namespace GKModule.Plans
 		{
 			_monitors.Clear();
 			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
-				PictureCacheSource.XDevicePicture.LoadCache();
+				PictureCacheSource.GKDevicePicture.LoadCache();
 			using (new TimeCounter("DevicePictureCache.LoadXDynamicCache: {0}"))
-				PictureCacheSource.XDevicePicture.LoadDynamicCache();
+				PictureCacheSource.GKDevicePicture.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

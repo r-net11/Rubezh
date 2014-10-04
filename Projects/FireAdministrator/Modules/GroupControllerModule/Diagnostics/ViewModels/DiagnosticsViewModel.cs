@@ -8,8 +8,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
-using GKModule.Converter;
-using GKModule.Diagnostics;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -24,9 +22,6 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
-			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
-			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
-			ConvertExitToReleCommand = new RelayCommand(OnConvertExitToRele);
 			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
@@ -79,31 +74,6 @@ namespace GKModule.ViewModels
 
 			var baseUID = GKManager.Devices.FirstOrDefault().UID;
 			return;
-		}
-
-		public RelayCommand ConvertFromFiresecCommand { get; private set; }
-		void OnConvertFromFiresec()
-		{
-			var configurationConverter = new FiresecToGKConverter();
-			configurationConverter.Convert();
-
-			DevicesViewModel.Current.Initialize();
-			ZonesViewModel.Current.Initialize();
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand ConvertToFiresecCommand { get; private set; }
-		void OnConvertToFiresec()
-		{
-			var gkToFiresecConverter = new GKToFiresecConverter();
-			gkToFiresecConverter.Convert();
-			ServiceFactory.SaveService.FSChanged = true;
-		}
-
-		public RelayCommand ConvertExitToReleCommand { get; private set; }
-		void OnConvertExitToRele()
-		{
-			MessageBoxService.Show("Obsolete");
 		}
 
 		public RelayCommand GoToTechnologicalCommand { get; private set; }

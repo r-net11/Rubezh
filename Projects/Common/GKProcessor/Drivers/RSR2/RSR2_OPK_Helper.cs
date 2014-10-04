@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xE4,
 				DriverType = GKDriverType.RSR2_OPK,
 				UID = new Guid("F5BCB799-26F9-4225-9866-ACDE37C78C03"),
-				Name = "ОПОВЕЩАТЕЛЬ ОХРАННО-ПОЖАРНЫЙ КОМБИНИРОВАННЫЙ СВЕТО-ЗВУКОВОЙ АДРЕСНЫЙ",
+				Name = "Оповещатель охранно-пожарный комбинированный свето-звуковой адресный",
 				ShortName = "ОПОП 124- R2",
 				IsControlDevice = true,
 				HasLogic = true,

@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xE5,
 				DriverType = GKDriverType.RSR2_MVP,
 				UID = new Guid("0B1BD00D-680B-4A80-AC9A-659FD7F85BB4"),
-				Name = "МОДУЛЬ ВЕТВЛЕНИЯ И ПОДПИТКИ",
+				Name = "Модель ветвления и подпитки",
 				ShortName = "МВП-R2",
 				IsPlaceable = true,
 				AutoCreateChildren = new List<GKDriverType>() { GKDriverType.RSR2_MVP_Part },

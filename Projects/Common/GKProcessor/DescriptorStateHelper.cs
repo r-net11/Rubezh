@@ -534,18 +534,18 @@ namespace GKProcessor
 			}
 		}
 
-		void CheckConnectionLost(GKBase xBase)
+		void CheckConnectionLost(GKBase gkBase)
 		{
-			if (xBase is GKDevice)
+			if (gkBase is GKDevice)
 			{
 				var connectionLostParameter = additionalShortParameters[9];
 				var connectionLostCount = connectionLostParameter / 256;
 
-				GKDevice xDevice = xBase as GKDevice;
-				GKDevice connectionLostParent = xDevice.KAUParent;
-				if (xDevice.Driver.IsKauOrRSR2Kau)
+				GKDevice device = gkBase as GKDevice;
+				GKDevice connectionLostParent = device.KAUParent;
+				if (device.Driver.IsKauOrRSR2Kau)
 				{
-					connectionLostParent = xDevice.GKParent;
+					connectionLostParent = device.GKParent;
 					connectionLostCount = connectionLostParameter % 256;
 				}
 				if (connectionLostParent != null)

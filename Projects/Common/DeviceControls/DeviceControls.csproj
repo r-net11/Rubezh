@@ -78,7 +78,7 @@
     <Compile Include="FramesControl.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="PictureCacheSource.cs" />
-    <Compile Include="XDevicePicture.cs" />
+    <Compile Include="GKDevicePicture.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

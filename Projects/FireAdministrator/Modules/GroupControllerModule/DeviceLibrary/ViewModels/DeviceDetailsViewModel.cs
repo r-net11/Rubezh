@@ -30,8 +30,8 @@ namespace GKModule.ViewModels
 					libraryState.Frames.Add(new GKLibraryFrame() { Id = 0 });
 					gkLibraryDevice.States.Add(libraryState);
 
-					var xdeviceViewModel = new XDeviceViewModel(gkLibraryDevice);
-					Devices.Add(xdeviceViewModel);
+					var deviceViewModel = new XDeviceViewModel(gkLibraryDevice);
+					Devices.Add(deviceViewModel);
 				}
 			}
 			SelectedDevice = Devices.FirstOrDefault();

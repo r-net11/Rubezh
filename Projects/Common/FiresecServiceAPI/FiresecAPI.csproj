@@ -418,7 +418,7 @@
     <Compile Include="XManager\GKManager.Device.cs" />
     <Compile Include="XManager\GKManager.PresentationZone.cs" />
     <Compile Include="XManager\GKManager.States.cs" />
-    <Compile Include="XModels\ConfigurationCash.cs" />
+    <Compile Include="XModels\GKConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\GKDeviceConfiguration.Update.cs" />
     <Compile Include="XModels\Configuration\GKDeviceConfiguration.Descriptors.cs" />
     <Compile Include="XModels\Configuration\GKDeviceLibraryConfiguration.cs" />
@@ -530,13 +530,13 @@
     <Compile Include="XModels\States\GKMPTInternalState.cs" />
     <Compile Include="XModels\States\GKGuardZoneInternalState.cs" />
     <Compile Include="XModels\States\GKCodeInternalState.cs" />
-    <Compile Include="XModels\XAlarmType.cs" />
-    <Compile Include="XModels\XBase.cs" />
+    <Compile Include="XModels\GKAlarmType.cs" />
+    <Compile Include="XModels\GKBase.cs" />
     <Compile Include="XModels\States\GKStatesHelper.cs" />
-    <Compile Include="XModels\XBaseObjectType.cs" />
+    <Compile Include="XModels\GKBaseObjectType.cs" />
     <Compile Include="XModels\CameraType.cs" />
-    <Compile Include="XModels\XDeviceMeasureParameters.cs" />
-    <Compile Include="XModels\XMeasureParameterValue.cs" />
+    <Compile Include="XModels\GKDeviceMeasureParameters.cs" />
+    <Compile Include="XModels\GKMeasureParameterValue.cs" />
     <Compile Include="XModels\GKState.cs" />
     <Compile Include="XModels\Zone\GKZone.cs" />
     <Compile Include="AutomationCallbackResult.cs" />

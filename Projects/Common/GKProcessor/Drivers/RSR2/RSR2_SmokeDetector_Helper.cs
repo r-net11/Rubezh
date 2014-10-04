@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xDD,
 				DriverType = GKDriverType.RSR2_SmokeDetector,
 				UID = new Guid("A50FFA41-B53E-4B3B-ADDF-CDBBA631FEB2"),
-				Name = "ИЗВЕЩАТЕЛЬ ПОЖАРНЫЙ ДЫМОВОЙ ОПТИКО-ЭЛЕКТРОННЫЙ АДРЕСНО-АНАЛОГОВЫЙ",
+				Name = "Извещатель пожарный дымовой оптико-электронный адресно-аналоговый",
 				ShortName = "ИП 212-149",
 				HasZone = true,
 				IsPlaceable = true

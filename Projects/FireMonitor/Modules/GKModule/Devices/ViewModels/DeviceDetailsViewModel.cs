@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return PictureCacheSource.XDevicePicture.GetDynamicBrush(Device); }
+			get { return PictureCacheSource.GKDevicePicture.GetDynamicBrush(Device); }
 		}
 
 		public string PresentationZone

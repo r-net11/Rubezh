@@ -78,7 +78,7 @@ namespace PlansModule.Kursk
 			if (elementRectangleTank != null)
 			{
 				plan.ElementExtensions.Add(element);
-				Helper.SetXDevice(elementRectangleTank);
+				Helper.SetGKDevice(elementRectangleTank);
 				return true;
 			}
 			return false;
@@ -132,9 +132,9 @@ namespace PlansModule.Kursk
 		protected override void UpdateProperties<TItem>(CommonDesignerItem designerItem)
 		{
 			var elementRectangleTank = designerItem.Element as ElementRectangleTank;
-			var xdevice = Helper.GetXDevice(elementRectangleTank);
-			Helper.SetXDevice(elementRectangleTank, xdevice);
-			elementRectangleTank.BackgroundColor = Helper.GetTankColor(xdevice);
+			var device = Helper.GetGKDevice(elementRectangleTank);
+			Helper.SetGKDevice(elementRectangleTank, device);
+			elementRectangleTank.BackgroundColor = Helper.GetTankColor(device);
 			designerItem.Title = Helper.GetTankTitle(elementRectangleTank);
 		}
 	}

@@ -42,7 +42,10 @@ namespace JournalModule.ViewModels
 				{
 					var filterNameViewModel = AllFilters.FirstOrDefault(x => x.UID == uid);
 					if (filterNameViewModel != null)
+					{
 						filterNameViewModel.IsChecked = true;
+						filterNameViewModel.ExpandToThis();
+					}
 				}
 			}
 		}
@@ -158,6 +161,14 @@ namespace JournalModule.ViewModels
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(guardZone);
 				AddChild(gkGuardZonesViewModel, filterObjectViewModel);
+			}
+
+			var gkDoorsViewModel = new FilterObjectViewModel(JournalObjectType.GKDoor);
+			AddChild(gkViewModel, gkDoorsViewModel);
+			foreach (var door in FiresecClient.GKManager.Doors)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(door);
+				AddChild(gkDoorsViewModel, filterObjectViewModel);
 			}
 
 			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);

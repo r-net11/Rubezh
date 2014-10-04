@@ -128,29 +128,29 @@ namespace FiresecClient
 				var zoneMap = new Dictionary<Guid, Zone>();
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 
-				var xDeviceMap = new Dictionary<Guid, GKDevice>();
-				foreach (var xDevice in GKManager.Devices)
+				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
+				foreach (var device in GKManager.Devices)
 				{
-					if (!xDeviceMap.ContainsKey(xDevice.UID))
-						xDeviceMap.Add(xDevice.UID, xDevice);
+					if (!gkDeviceMap.ContainsKey(device.UID))
+						gkDeviceMap.Add(device.UID, device);
 				}
-				var xZoneMap = new Dictionary<Guid, GKZone>();
-				foreach (var xzone in GKManager.Zones)
+				var gkZoneMap = new Dictionary<Guid, GKZone>();
+				foreach (var zone in GKManager.Zones)
 				{
-					if (!xZoneMap.ContainsKey(xzone.UID))
-					xZoneMap.Add(xzone.UID, xzone);
+					if (!gkZoneMap.ContainsKey(zone.UID))
+					gkZoneMap.Add(zone.UID, zone);
 				}
-				var xGuardZoneMap = new Dictionary<Guid, GKGuardZone>();
-				foreach (var xGuardZone in GKManager.DeviceConfiguration.GuardZones)
+				var gkGuardZoneMap = new Dictionary<Guid, GKGuardZone>();
+				foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 				{
-					if (!xGuardZoneMap.ContainsKey(xGuardZone.UID))
-						xGuardZoneMap.Add(xGuardZone.UID, xGuardZone);
+					if (!gkGuardZoneMap.ContainsKey(guardZone.UID))
+						gkGuardZoneMap.Add(guardZone.UID, guardZone);
 				}
-				var xDirectionMap = new Dictionary<Guid, GKDirection>();
-				foreach (var xdirection in GKManager.Directions)
+				var gkDirectionMap = new Dictionary<Guid, GKDirection>();
+				foreach (var direction in GKManager.Directions)
 				{
-					if (!xDirectionMap.ContainsKey(xdirection.UID))
-						xDirectionMap.Add(xdirection.UID, xdirection);
+					if (!gkDirectionMap.ContainsKey(direction.UID))
+						gkDirectionMap.Add(direction.UID, direction);
 				}
 
 				var doorMap = new Dictionary<Guid, SKDDoor>();
@@ -199,10 +199,10 @@ namespace FiresecClient
 					}
 					for (int i = plan.ElementGKDevices.Count(); i > 0; i--)
 					{
-						var elementXDevice = plan.ElementGKDevices[i - 1];
-						elementXDevice.UpdateZLayer();
-						if (xDeviceMap.ContainsKey(elementXDevice.DeviceUID))
-							xDeviceMap[elementXDevice.DeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
+						var elementGKDevice = plan.ElementGKDevices[i - 1];
+						elementGKDevice.UpdateZLayer();
+						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
+							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
 					}
 					foreach (var elementZone in plan.ElementPolygonZones)
 					{
@@ -216,41 +216,41 @@ namespace FiresecClient
 						if (zoneMap.ContainsKey(elementZone.ZoneUID))
 							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
 					}
-					foreach (var xzone in plan.ElementPolygonGKZones)
+					foreach (var zone in plan.ElementPolygonGKZones)
 					{
-						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xZoneMap.ContainsKey(xzone.ZoneUID) ? xZoneMap[xzone.ZoneUID] : null);
-						if (xZoneMap.ContainsKey(xzone.ZoneUID))
-							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
+						if (gkZoneMap.ContainsKey(zone.ZoneUID))
+							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
 					}
-					foreach (var xzone in plan.ElementRectangleGKZones)
+					foreach (var zone in plan.ElementRectangleGKZones)
 					{
-						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xZoneMap.ContainsKey(xzone.ZoneUID) ? xZoneMap[xzone.ZoneUID] : null);
-						if (xZoneMap.ContainsKey(xzone.ZoneUID))
-							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
+						if (gkZoneMap.ContainsKey(zone.ZoneUID))
+							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
 					}
-					foreach (var xGuardZone in plan.ElementPolygonGKGuardZones)
+					foreach (var guardZone in plan.ElementPolygonGKGuardZones)
 					{
-						UpdateZoneType(xGuardZone, xGuardZone.ZoneUID != Guid.Empty && xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID) ? xGuardZoneMap[xGuardZone.ZoneUID] : null);
-						if (xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID))
-							xGuardZoneMap[xGuardZone.ZoneUID].PlanElementUIDs.Add(xGuardZone.UID);
+						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
+						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
+							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
 					}
-					foreach (var xGuardZone in plan.ElementRectangleGKGuardZones)
+					foreach (var guardZone in plan.ElementRectangleGKGuardZones)
 					{
-						UpdateZoneType(xGuardZone, xGuardZone.ZoneUID != Guid.Empty && xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID) ? xGuardZoneMap[xGuardZone.ZoneUID] : null);
-						if (xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID))
-							xGuardZoneMap[xGuardZone.ZoneUID].PlanElementUIDs.Add(xGuardZone.UID);
+						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
+						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
+							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
 					}
-					foreach (var xdirection in plan.ElementRectangleGKDirections)
+					foreach (var direction in plan.ElementRectangleGKDirections)
 					{
-						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
-						if (xDirectionMap.ContainsKey(xdirection.DirectionUID))
-							xDirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
+						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
+							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
 					}
-					foreach (var xdirection in plan.ElementPolygonGKDirections)
+					foreach (var direction in plan.ElementPolygonGKDirections)
 					{
-						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
-						if (xDirectionMap.ContainsKey(xdirection.DirectionUID))
-							xDirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
+						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
+							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
 					}
 
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)

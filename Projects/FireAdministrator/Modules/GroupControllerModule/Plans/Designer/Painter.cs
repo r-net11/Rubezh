@@ -10,20 +10,20 @@ namespace GKModule.Plans.Designer
 {
 	public class Painter : PointPainter
 	{
-		private ElementGKDevice _elementXDevice;
+		private ElementGKDevice _elementGKDevice;
 		private ImageTextTooltipViewModel _toolTip;
-		public Painter(CommonDesignerCanvas designerCanvas, ElementGKDevice elementXDevice)
-			: base(designerCanvas, elementXDevice)
+		public Painter(CommonDesignerCanvas designerCanvas, ElementGKDevice elementGKDevice)
+			: base(designerCanvas, elementGKDevice)
 		{
-			_elementXDevice = elementXDevice;
+			_elementGKDevice = elementGKDevice;
 			_toolTip = new ImageTextTooltipViewModel();
 		}
 
 		protected override Brush GetBrush()
 		{
-			var xdevice = GKPlanExtension.Instance.GetItem<GKDevice>(_elementXDevice);
-			_toolTip.ImageSource = xdevice == null ? null : xdevice.Driver.ImageSource;
-			return PictureCacheSource.XDevicePicture.GetBrush(xdevice);
+			var device = GKPlanExtension.Instance.GetItem<GKDevice>(_elementGKDevice);
+			_toolTip.ImageSource = device == null ? null : device.Driver.ImageSource;
+			return PictureCacheSource.GKDevicePicture.GetBrush(device);
 		}
 
 		public override object GetToolTip(string title)

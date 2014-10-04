@@ -23,6 +23,7 @@ using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -189,7 +190,7 @@ namespace GKModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				using (var cache = new ElementXDeviceUpdater())
+				using (var cache = new ElementDeviceUpdater())
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
@@ -264,9 +265,9 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
+					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress));
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
+					addedDevice.IntAddress = (byte)(maxAddress);
 					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;

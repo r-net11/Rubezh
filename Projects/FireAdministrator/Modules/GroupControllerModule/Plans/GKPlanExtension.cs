@@ -68,8 +68,8 @@ namespace GKModule.Plans
 		public void Initialize()
 		{
 			Cache.BuildAllSafe();
-			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
-				PictureCacheSource.XDevicePicture.LoadCache();
+			using (new TimeCounter("DevicePictureCache.LoadGKCache: {0}"))
+				PictureCacheSource.GKDevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -380,15 +380,15 @@ namespace GKModule.Plans
 						var elementXDevice = designerItem.Element as ElementGKDevice;
 						if (elementXDevice != null)
 						{
-							var xdevice = GetItem<GKDevice>(elementXDevice);
-							if (xdevice == null || xdevice.Driver == null || handledXDevices.Contains(xdevice))
+							var device = GetItem<GKDevice>(elementXDevice);
+							if (device == null || device.Driver == null || handledXDevices.Contains(device))
 								continue;
 							var point = new Point(elementXDevice.Left, elementXDevice.Top);
 							var zones = new List<IElementZone>();
 							foreach (var pair in geometries)
 								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
 									zones.Add(pair.Value);
-							switch (xdevice.ZoneUIDs.Count)
+							switch (device.ZoneUIDs.Count)
 							{
 								case 0:
 									if (zones.Count > 0)
@@ -396,23 +396,23 @@ namespace GKModule.Plans
 										var zone = GetItem<GKZone>(GetTopZoneUID(zones));
 										if (zone != null)
 										{
-											GKManager.AddDeviceToZone(xdevice, zone);
-											handledXDevices.Add(xdevice);
+											GKManager.AddDeviceToZone(device, zone);
+											handledXDevices.Add(device);
 										}
 									}
 									break;
 								case 1:
-									var isInZone = zones.Any(x => x.ZoneUID == xdevice.ZoneUIDs[0]);
+									var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUIDs[0]);
 									if (!isInZone)
 									{
-										if (!deviceInZones.ContainsKey(xdevice))
-											deviceInZones.Add(xdevice, GetTopZoneUID(zones));
+										if (!deviceInZones.ContainsKey(device))
+											deviceInZones.Add(device, GetTopZoneUID(zones));
 									}
 									else
 									{
-										handledXDevices.Add(xdevice);
-										if (deviceInZones.ContainsKey(xdevice))
-											deviceInZones.Remove(xdevice);
+										handledXDevices.Add(device);
+										if (deviceInZones.ContainsKey(device))
+											deviceInZones.Remove(device);
 									}
 									break;
 							}

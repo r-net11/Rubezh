@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xD8,
 				DriverType = GKDriverType.RSR2_HandDetector,
 				UID = new Guid("151881A2-0A39-4609-870F-4A84B2F8A4C8"),
-				Name = "ИЗВЕЩАТЕЛЬ ПОЖАРНЫЙ РУЧНОЙ ЭЛЕКТРОКОНТАКТНЫЙ АДРЕСНЫЙ",
+				Name = "Извещатель пожарный ручной электроконтактный адресный",
 				ShortName = "ИПР 513-12",
 				HasZone = true,
 				IsPlaceable = true
