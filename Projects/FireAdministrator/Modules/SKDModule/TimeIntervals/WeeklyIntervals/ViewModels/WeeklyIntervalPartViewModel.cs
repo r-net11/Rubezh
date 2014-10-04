@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 				{
 					_selectedDayInterval = value;
 					OnPropertyChanged(() => SelectedDayInterval);
-					WeeklyIntervalPart.DayIntervalID = ((SKDDayInterval)SelectedDayInterval).ID;
+					WeeklyIntervalPart.DayIntervalID = ((SKDDayInterval)SelectedDayInterval).No;
 					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 
 		public override void Update()
 		{
-			_selectedDayInterval = _weeklyIntervalsViewModel.AvailableDayIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.DayIntervalID);
+			_selectedDayInterval = _weeklyIntervalsViewModel.AvailableDayIntervals.FirstOrDefault(x => x.No == WeeklyIntervalPart.DayIntervalID);
 			if (_selectedDayInterval == null)
 				_selectedDayInterval = AvailableDayIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedDayInterval);

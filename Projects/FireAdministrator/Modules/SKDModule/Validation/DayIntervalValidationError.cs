@@ -18,7 +18,7 @@ namespace SKDModule.Validation
 		}
 		protected override int Key
 		{
-			get { return Object.ID; }
+			get { return Object.No; }
 		}
 		public override string Source
 		{
@@ -26,7 +26,7 @@ namespace SKDModule.Validation
 		}
 		public override string Address
 		{
-			get { return Object.ID.ToString(); }
+			get { return Object.No.ToString(); }
 		}
 		public override string ImageSource
 		{

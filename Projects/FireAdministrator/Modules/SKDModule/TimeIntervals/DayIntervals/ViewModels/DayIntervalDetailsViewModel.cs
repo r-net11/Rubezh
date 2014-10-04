@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.SKD;
+using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -7,15 +8,46 @@ namespace SKDModule.ViewModels
 	{
 		public SKDDayInterval DayInterval { get; private set; }
 
-		public DayIntervalDetailsViewModel(SKDDayInterval dayInterval)
+		public DayIntervalDetailsViewModel(SKDDayInterval dayInterval = null)
 		{
-			Title = "Редактирование дневного графика";
-			DayInterval = dayInterval;
+			if (dayInterval == null)
+			{
+				Title = "Создание нового дневного графика";
+				DayInterval = new SKDDayInterval()
+				{
+					Name = "Новый дневной график",
+					No = 1,
+				};
+				if (SKDManager.TimeIntervalsConfiguration.DayIntervals.Count != 0)
+					DayInterval.No = (SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(x => x.No).Max() + 1);
+			}
+			else
+			{
+				Title = string.Format("Свойства дневного графика: {0}", dayInterval.Name);
+				DayInterval = dayInterval;
+			}
+			CopyProperties();
+		}
+
+		public void CopyProperties()
+		{
+			No = DayInterval.No;
 			Name = DayInterval.Name;
 			Description = DayInterval.Description;
 		}
 
-		private string _name;
+		int _no;
+		public int No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged(() => No);
+			}
+		}
+
+		string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -26,7 +58,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -44,6 +76,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			DayInterval.No = No;
 			DayInterval.Name = Name;
 			DayInterval.Description = Description;
 			return true;

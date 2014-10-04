@@ -198,6 +198,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalsMenuViewModel.cs" />
+    <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalsViewModel.cs" />
+    <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="TimeIntervals\DayIntervals\Views\DayIntervalsMenuView.xaml.cs">
+      <DependentUpon>DayIntervalsMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidaysMenuViewModel.cs" />
     <Compile Include="TimeIntervals\Holidays\ViewModels\HolidaysViewModel.cs" />
@@ -244,8 +250,7 @@
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalDetailsViewModel.cs" />
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalPartViewModel.cs" />
     <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalPartDetailsViewModel.cs" />
-    <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalsViewModel.cs" />
-    <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="TimeIntervals\DayIntervals\ViewModels\DayIntervalPartsViewModel.cs" />
     <Compile Include="TimeIntervals\DayIntervals\Views\DayIntervalPartDetailsView.xaml.cs">
       <DependentUpon>DayIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
@@ -453,6 +458,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\ZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeIntervals\DayIntervals\Views\DayIntervalsMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
