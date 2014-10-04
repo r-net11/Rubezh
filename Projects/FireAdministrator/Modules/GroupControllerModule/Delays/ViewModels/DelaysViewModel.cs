@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 		{
 			Delays = GKManager.Delays == null ? new ObservableCollection<DelayViewModel>() : new ObservableCollection<DelayViewModel>(
 				from delay in GKManager.Delays
-				orderby delay.Name
+				orderby delay.No
 				select new DelayViewModel(delay));
 			SelectedDelay = Delays.FirstOrDefault();
 		}

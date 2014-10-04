@@ -127,6 +127,11 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (GKManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
 			{
 				MessageBoxService.Show("Задержка с таким номером уже существует");

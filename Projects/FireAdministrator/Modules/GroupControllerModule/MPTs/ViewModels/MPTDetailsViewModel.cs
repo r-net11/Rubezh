@@ -74,6 +74,11 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (MPT.No != No && GKManager.MPTs.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("МПТ с таким номером уже существует");
@@ -84,11 +89,6 @@ namespace GKModule.ViewModels
 			MPT.Name = Name;
 			MPT.Description = Description;
 			return base.Save();
-		}
-
-		protected override bool CanSave()
-		{
-			return true;
 		}
 	}
 }

@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_no = value;
-				OnPropertyChanged("No");
+				OnPropertyChanged(() => No);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_fire2Count = value;
-				OnPropertyChanged("Fire2Count");
+				OnPropertyChanged(() => Fire2Count);
 			}
 		}
 
@@ -118,6 +118,11 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (Zone.No != No && GKManager.Zones.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");

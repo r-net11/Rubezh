@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			MPTs = new ObservableCollection<MPTViewModel>();
-			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.OrderBy(x => x.No))
 			{
 				var mptViewModel = new MPTViewModel(mpt);
 				MPTs.Add(mptViewModel);

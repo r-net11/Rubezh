@@ -32,22 +32,17 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Instructions = new ObservableCollection<InstructionViewModel>();
-
-			if (GKManager.DeviceConfiguration.Instructions.IsNotNullOrEmpty())
+			foreach (var instruction in GKManager.DeviceConfiguration.Instructions)
 			{
-				foreach (var instruction in GKManager.DeviceConfiguration.Instructions)
+				if (instruction.InstructionType == GKInstructionType.Details)
 				{
-					if (instruction.InstructionType == GKInstructionType.Details)
-					{
-						if (instruction.ZoneUIDs == null)
-							instruction.ZoneUIDs = new List<Guid>();
-						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => GKManager.Devices.Any(x => x.UID == deviceGuid)));
-						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => GKManager.Zones.Any(x => x.UID == zoneUID)));
-					}
-					Instructions.Add(new InstructionViewModel(instruction));
+					if (instruction.ZoneUIDs == null)
+						instruction.ZoneUIDs = new List<Guid>();
+					instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => GKManager.Devices.Any(x => x.UID == deviceGuid)));
+					instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => GKManager.Zones.Any(x => x.UID == zoneUID)));
 				}
+				Instructions.Add(new InstructionViewModel(instruction));
 			}
-
 			SelectedInstruction = Instructions.FirstOrDefault();
 		}
 

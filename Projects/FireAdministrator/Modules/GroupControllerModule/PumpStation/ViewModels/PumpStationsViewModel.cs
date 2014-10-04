@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 		{
 			PumpStations = GKManager.PumpStations == null ? new ObservableCollection<PumpStationViewModel>() : new ObservableCollection<PumpStationViewModel>(
 				from pumpStation in GKManager.PumpStations
-				orderby pumpStation.Name
+				orderby pumpStation.No
 				select new PumpStationViewModel(pumpStation));
 			SelectedPumpStation = PumpStations.FirstOrDefault();
 		}

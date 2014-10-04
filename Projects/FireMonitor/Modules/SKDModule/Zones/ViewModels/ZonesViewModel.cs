@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in SKDManager.Zones)
+			foreach (var zone in SKDManager.Zones.OrderBy(x => x.No))
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 				Zones.Add(zoneViewModel);

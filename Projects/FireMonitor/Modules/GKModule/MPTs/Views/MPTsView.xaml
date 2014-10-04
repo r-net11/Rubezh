@@ -16,7 +16,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<DataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
 				<DataGrid.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 						<MouseBinding Command="{Binding DataContext.SelectedMPT.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -28,7 +28,7 @@
 					</Style>
 				</DataGrid.ItemContainerStyle>
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
+                    <DataGridTemplateColumn Width="Auto" SortMemberPath="MPT.No" Header="№" CanUserResize="False">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -38,7 +38,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Width="*" MinWidth="250" Header="МПТ">
+                    <DataGridTemplateColumn Width="*" SortMemberPath="MPT.Name" MinWidth="250" Header="МПТ">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

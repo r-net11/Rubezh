@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Schedules = new ObservableCollection<ScheduleViewModel>();
-			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
+			foreach (var schedule in GKManager.DeviceConfiguration.Schedules.OrderBy(x => x.No))
 			{
 				var scheduleViewModel = new ScheduleViewModel(schedule);
 				Schedules.Add(scheduleViewModel);

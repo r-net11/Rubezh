@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Codes = new ObservableCollection<CodeViewModel>();
-			foreach (var code in GKManager.DeviceConfiguration.Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes.OrderBy(x => x.No))
 			{
 				var codeViewModel = new CodeViewModel(code);
 				Codes.Add(codeViewModel);

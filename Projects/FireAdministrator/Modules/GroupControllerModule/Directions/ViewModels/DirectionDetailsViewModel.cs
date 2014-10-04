@@ -136,6 +136,11 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (Direction.No != No && GKManager.Directions.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Направление с таким номером уже существует");

@@ -132,6 +132,11 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (Door.No != No && GKManager.DeviceConfiguration.Doors.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
