@@ -202,25 +202,20 @@ namespace GKModule.ViewModels
 			switch (archiveDefaultState.ArchiveDefaultStateType)
 			{
 				case ArchiveDefaultStateType.LastHours:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count.Value);
+					archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count);
 					break;
 
 				case ArchiveDefaultStateType.LastDays:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count.Value);
+					archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count);
 					break;
 
 				case ArchiveDefaultStateType.FromDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
+					archiveFilter.StartDate = archiveDefaultState.StartDate;
 					break;
 
 				case ArchiveDefaultStateType.RangeDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-					if (archiveDefaultState.EndDate.HasValue)
-						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
+					archiveFilter.StartDate = archiveDefaultState.StartDate;
+					archiveFilter.EndDate = archiveDefaultState.EndDate;
 					break;
 			}
 			return archiveFilter;

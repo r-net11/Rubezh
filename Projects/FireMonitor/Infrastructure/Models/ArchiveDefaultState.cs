@@ -20,13 +20,16 @@ namespace Infrastructure.Models
 		public ArchiveDefaultStateType ArchiveDefaultStateType { get; set; }
 
 		[DataMember]
-		public int? Count { get; set; }
+		public int Count { get; set; }
 
 		[DataMember]
-		public DateTime? StartDate { get; set; }
+		public DateTime StartDate { get; set; }
 
 		[DataMember]
-		public DateTime? EndDate { get; set; }
+		public DateTime EndDate { get; set; }
+
+		[DataMember]
+		public bool UseDeviceDateTime { get; set; }
 
 		[DataMember]
 		public List<XJournalColumnType> XAdditionalColumns { get; set; }
