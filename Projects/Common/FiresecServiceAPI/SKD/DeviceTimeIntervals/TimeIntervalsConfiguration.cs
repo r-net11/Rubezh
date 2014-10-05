@@ -10,14 +10,17 @@ namespace FiresecAPI.SKD
 		public TimeIntervalsConfiguration()
 		{
 			DayIntervals = new List<SKDDayInterval>();
+			WeeklyIntervals = new List<SKDWeeklyInterval>();
 			SlideDayIntervals = new List<SKDSlideDayInterval>();
 			SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
-			WeeklyIntervals = new List<SKDWeeklyInterval>();
 			Holidays = new List<SKDHoliday>();
 		}
 
 		[DataMember]
 		public List<SKDDayInterval> DayIntervals { get; set; }
+
+		[DataMember]
+		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
 
 		[DataMember]
 		public List<SKDSlideDayInterval> SlideDayIntervals { get; set; }
@@ -26,51 +29,23 @@ namespace FiresecAPI.SKD
 		public List<SKDSlideWeeklyInterval> SlideWeeklyIntervals { get; set; }
 
 		[DataMember]
-		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
-
-		[DataMember]
 		public List<SKDHoliday> Holidays { get; set; }
 
 		public bool ValidateIntervals()
 		{
 			var result = true;
-			if (DayIntervals == null)
-			{
-				DayIntervals = new List<SKDDayInterval>();
+
+			if (WeeklyIntervals.RemoveAll(x => x.ID > 127) > 0)
 				result = false;
-			}
-			if (WeeklyIntervals == null)
-			{
-				WeeklyIntervals = new List<SKDWeeklyInterval>();
+			if (SlideWeeklyIntervals.RemoveAll(x => x.ID > 127) > 0)
 				result = false;
-			}
-			if (SlideDayIntervals == null)
-			{
-				SlideDayIntervals = new List<SKDSlideDayInterval>();
+			if (SlideDayIntervals.RemoveAll(x => x.ID > 127) > 0)
 				result = false;
-			}
-			if (SlideWeeklyIntervals == null)
-			{
-				SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
-				result = false;
-			}
-			if (Holidays == null)
-			{
-				Holidays = new List<SKDHoliday>();
-				result = false;
-			}
-			//if (DayIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
-			//    result = false;
-			if (WeeklyIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
-				result = false;
-			if (SlideWeeklyIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
-				result = false;
-			if (SlideDayIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
-				result = false;
-			DayIntervals = DayIntervals.GroupBy(item => item.No).Select(group => group.First()).ToList();
+
 			WeeklyIntervals = WeeklyIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
 			SlideWeeklyIntervals = SlideWeeklyIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
 			SlideDayIntervals = SlideDayIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
+
 			foreach (var weeklyInterval in WeeklyIntervals)
 				if (weeklyInterval.WeeklyIntervalParts == null)
 				{
@@ -78,21 +53,49 @@ namespace FiresecAPI.SKD
 					result = false;
 				}
 			foreach (var slideWeeklyInterval in SlideWeeklyIntervals)
-				if (slideWeeklyInterval.WeeklyIntervalIDs == null)
-				{
-					slideWeeklyInterval.WeeklyIntervalIDs = new List<int>();
-					result = false;
-				}
-				else if (slideWeeklyInterval.WeeklyIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
+				if (slideWeeklyInterval.WeeklyIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
 					result = false;
 			foreach (var slideDayInterval in SlideDayIntervals)
-				if (slideDayInterval.DayIntervalIDs == null)
+				if (slideDayInterval.DayIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
+					result = false;
+
+			var neverDayInterval = DayIntervals.FirstOrDefault(x => x.Name == "<Никогда>");
+			if (neverDayInterval == null)
+			{
+				neverDayInterval = new SKDDayInterval();
+				neverDayInterval.Name = "<Никогда>";
+				DayIntervals.Add(neverDayInterval);
+			}
+
+			var alwaysDayInterval = DayIntervals.FirstOrDefault(x => x.Name == "<Всегда>");
+			if (alwaysDayInterval == null)
+			{
+				alwaysDayInterval = new SKDDayInterval();
+				alwaysDayInterval.Name = "<Всегда>";
+				alwaysDayInterval.DayIntervalParts.Add(new SKDDayIntervalPart() { StartMilliseconds = 0, EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds });
+				DayIntervals.Add(alwaysDayInterval);
+			}
+
+			if (WeeklyIntervals.Count == 0)
+			{
+				var neverWeeklyInterval = new SKDWeeklyInterval(true);
+				neverWeeklyInterval.Name = "<Никогда>";
+				neverWeeklyInterval.ID = 0;
+				foreach (var weeklyIntervalPart in neverWeeklyInterval.WeeklyIntervalParts)
 				{
-					slideDayInterval.DayIntervalIDs = new List<int>();
-					result = false;
+					weeklyIntervalPart.DayIntervalUID = neverDayInterval.UID;
 				}
-				else if (slideDayInterval.DayIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
-					result = false;
+				WeeklyIntervals.Add(neverWeeklyInterval);
+
+				var alwaysWeeklyInterval = new SKDWeeklyInterval(true);
+				alwaysWeeklyInterval.Name = "<Всегда>";
+				alwaysWeeklyInterval.ID = 1;
+				foreach (var weeklyIntervalPart in alwaysWeeklyInterval.WeeklyIntervalParts)
+				{
+					weeklyIntervalPart.DayIntervalUID = alwaysDayInterval.UID;
+				}
+				WeeklyIntervals.Add(alwaysWeeklyInterval);
+			}
 
 			if (Holidays.Count == 0)
 			{

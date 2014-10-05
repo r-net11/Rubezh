@@ -13,8 +13,8 @@ namespace SKDModule.ViewModels
 			Title = "Задание интервала";
 			DayIntervalPart = dayIntervalPart ?? new SKDDayIntervalPart();
 
-			StartTime = DayIntervalPart.StartTime;
-			EndTime = DayIntervalPart.EndTime;
+			StartTime = TimeSpan.FromMilliseconds(DayIntervalPart.StartMilliseconds);
+			EndTime = TimeSpan.FromMilliseconds(DayIntervalPart.EndMilliseconds);
 		}
 
 		TimeSpan _startTime;
@@ -45,8 +45,8 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			DayIntervalPart.StartTime = StartTime;
-			DayIntervalPart.EndTime = EndTime;
+			DayIntervalPart.StartMilliseconds = StartTime.TotalMilliseconds;
+			DayIntervalPart.EndMilliseconds = EndTime.TotalMilliseconds;
 			return true;
 		}
 	}

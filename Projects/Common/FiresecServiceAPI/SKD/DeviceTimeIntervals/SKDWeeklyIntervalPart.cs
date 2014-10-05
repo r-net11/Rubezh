@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.SKD
 {
@@ -9,6 +10,6 @@ namespace FiresecAPI.SKD
 		public int No { get; set; }
 
 		[DataMember]
-		public int DayIntervalID { get; set; }
+		public Guid DayIntervalUID { get; set; }
 	}
 }

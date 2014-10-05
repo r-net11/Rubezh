@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -42,6 +43,20 @@ namespace SKDModule.ViewModels
 		public string Description
 		{
 			get { return DayInterval.Description; }
+		}
+
+		public bool IsEnabled
+		{
+			get
+			{
+				return Name != "<Никогда>" && Name != "<Всегда>";
+			}
+		}
+
+		public bool ConfirmDeactivation()
+		{
+			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalUID == DayInterval.UID));
+			return !hasReference || MessageBoxService.ShowConfirmation2("Данный дневной график используется в одном или нескольких недельных графиках, Вы уверены что хотите его деактивировать?");
 		}
 	}
 }

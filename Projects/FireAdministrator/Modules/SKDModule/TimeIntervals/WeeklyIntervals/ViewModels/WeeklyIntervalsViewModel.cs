@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 			base.Initialize();
 			var map = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ToDictionary(item => item.ID);
 			Intervals = new ObservableCollection<WeeklyIntervalViewModel>();
-			for (int i = 2; i <= 127; i++)
+			for (int i = 0; i <= 127; i++)
 				Intervals.Add(new WeeklyIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null, this));
 			SelectedInterval = Intervals.FirstOrDefault();
 		}
@@ -50,19 +50,14 @@ namespace SKDModule.ViewModels
 			};
 			for (int i = 0; i < source.WeeklyIntervalParts.Count; i++)
 			{
-				copy.WeeklyIntervalParts[i].DayIntervalID = source.WeeklyIntervalParts[i].DayIntervalID;
+				copy.WeeklyIntervalParts[i].DayIntervalUID = source.WeeklyIntervalParts[i].DayIntervalUID;
 			}
 			return copy;
 		}
 
 		protected override void BuildIntervals()
 		{
-			AvailableDayIntervals = new ObservableCollection<SKDDayInterval>(SKDManager.TimeIntervalsConfiguration.DayIntervals.OrderBy(item => item.No));
-			AvailableDayIntervals.Insert(0, new SKDDayInterval()
-			{
-				No = 0,
-				Name = "<Никогда>",
-			});
+			AvailableDayIntervals = new ObservableCollection<SKDDayInterval>(SKDManager.TimeIntervalsConfiguration.DayIntervals);
 			OnPropertyChanged(() => AvailableDayIntervals);
 			if (SelectedInterval != null)
 				SelectedInterval.Parts.ForEach(item => item.Update());

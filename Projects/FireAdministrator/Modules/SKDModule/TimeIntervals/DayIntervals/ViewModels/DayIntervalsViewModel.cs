@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditRemove()
 		{
-			return SelectedDayInterval != null;
+			return SelectedDayInterval != null && SelectedDayInterval.IsEnabled;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -97,13 +97,16 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var index = DayIntervals.IndexOf(SelectedDayInterval);
-			SKDManager.TimeIntervalsConfiguration.DayIntervals.Remove(SelectedDayInterval.DayInterval);
-			DayIntervals.Remove(SelectedDayInterval);
-			index = Math.Min(index, DayIntervals.Count - 1);
-			if (index > -1)
-				SelectedDayInterval = DayIntervals[index];
-			ServiceFactory.SaveService.GKChanged = true;
+			if (SelectedDayInterval.ConfirmDeactivation())
+			{
+				var index = DayIntervals.IndexOf(SelectedDayInterval);
+				SKDManager.TimeIntervalsConfiguration.DayIntervals.Remove(SelectedDayInterval.DayInterval);
+				DayIntervals.Remove(SelectedDayInterval);
+				index = Math.Min(index, DayIntervals.Count - 1);
+				if (index > -1)
+					SelectedDayInterval = DayIntervals[index];
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }

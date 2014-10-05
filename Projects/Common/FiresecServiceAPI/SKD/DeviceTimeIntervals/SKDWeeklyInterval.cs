@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Common;
 using System.Xml.Serialization;
+using System;
 
 namespace FiresecAPI.SKD
 {
@@ -36,7 +37,7 @@ namespace FiresecAPI.SKD
 			var result = new List<SKDWeeklyIntervalPart>();
 			for (int i = 1; i <= 7; i++)
 			{
-				result.Add(new SKDWeeklyIntervalPart() { No = i, DayIntervalID = 0 });
+				result.Add(new SKDWeeklyIntervalPart() { No = i });
 			}
 			return result;
 		}
@@ -53,11 +54,11 @@ namespace FiresecAPI.SKD
 		}
 		public void InvalidateDayIntervals()
 		{
-			var nos = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.No).ToList();
+			var uids = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.UID).ToList();
 			WeeklyIntervalParts.ForEach(x =>
 			{
-				if (!nos.Contains(x.DayIntervalID))
-					x.DayIntervalID = 0;
+				if (!uids.Contains(x.DayIntervalUID))
+					x.DayIntervalUID = Guid.Empty;
 			});
 		}
 	}

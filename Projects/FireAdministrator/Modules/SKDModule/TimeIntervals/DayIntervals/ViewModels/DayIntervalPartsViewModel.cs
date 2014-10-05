@@ -45,7 +45,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Edit(null);
+			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel();
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
+			{
+				DayInterval.DayIntervalParts.Add(dayIntervalPartDetailsViewModel.DayIntervalPart);
+				var dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPartDetailsViewModel.DayIntervalPart);
+				Parts.Add(dayIntervalPartViewModel);
+				SelectedPart = dayIntervalPartViewModel;
+				SelectedPart.Update();
+				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
+			}
 		}
 		bool CanAdd()
 		{
@@ -64,37 +74,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			Edit(SelectedPart);
-		}
-		bool CanEdit()
-		{
-			return SelectedPart != null;
-		}
-
-		void Edit(DayIntervalPartViewModel dayIntervalPartViewModel)
-		{
-			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(dayIntervalPartViewModel == null ? null : dayIntervalPartViewModel.DayIntervalPart);
+			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(SelectedPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				if (dayIntervalPartViewModel == null)
-				{
-					DayInterval.DayIntervalParts.Add(dayIntervalPartDetailsViewModel.DayIntervalPart);
-					dayIntervalPartViewModel = new DayIntervalPartViewModel(dayIntervalPartDetailsViewModel.DayIntervalPart);
-					Parts.Add(dayIntervalPartViewModel);
-					SelectedPart = dayIntervalPartViewModel;
-				}
 				SelectedPart.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
 				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 		}
-
-		bool ConfirmDeactivation()
+		bool CanEdit()
 		{
-			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.DayIntervalID == DayInterval.No));
-			if (!hasReference)
-				hasReference = SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Any(item => item.DayIntervalIDs.Contains(DayInterval.No));
-			return !hasReference || MessageBoxService.ShowConfirmation2("Данный дневной график используется в одном или нескольких недельных графиках, Вы уверены что хотите его деактивировать?");
+			return SelectedPart != null;
 		}
 	}
 }
