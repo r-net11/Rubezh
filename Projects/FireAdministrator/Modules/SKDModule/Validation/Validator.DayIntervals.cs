@@ -13,6 +13,11 @@ namespace SKDModule.Validation
 
 			foreach (var dayInterval in SKDManager.TimeIntervalsConfiguration.DayIntervals)
 			{
+				if (dayInterval.Name == "<Никогда>" || dayInterval.Name == "<Всегда>")
+				{
+					continue;
+				}
+
 				if (string.IsNullOrEmpty(dayInterval.Name))
 					Errors.Add(new DayIntervalValidationError(dayInterval, "Отсутствует название дневного графика", ValidationErrorLevel.CannotWrite));
 				if (dayInterval.DayIntervalParts.Count == 0)

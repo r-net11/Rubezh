@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace SKDModule.ViewModels
 			Description = WeeklyInterval.Description;
 		}
 
-		private string _name;
+		string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -26,7 +27,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -44,6 +45,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (Name == "<Никогда>" || Name == "<Всегда>")
+			{
+				MessageBoxService.ShowWarning("Запрещенное назваине");
+				return false;
+			}
 			WeeklyInterval.Name = Name;
 			WeeklyInterval.Description = Description;
 			return true;

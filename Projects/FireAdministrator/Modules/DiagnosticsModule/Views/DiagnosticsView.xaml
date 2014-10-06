@@ -1,20 +1,14 @@
 ﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 xmlns:ribbon="clr-namespace:Infrastructure.Common.Ribbon;assembly=Infrastructure.Common"
-			 xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-			 xmlns:viewModel="clr-namespace:DiagnosticsModule.ViewModels"
-			 xmlns:Views="clr-namespace:DiagnosticsModule.Views"
-			 xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-			 xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:s="clr-namespace:System.Collections;assembly=mscorlib" xmlns:p="clr-namespace:System;assembly=mscorlib">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
 	<UserControl.Resources />
 	<TabControl>
 		<TabItem Header="Отладка">
-			<Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
+            <Border Background="White" BorderThickness="0" CornerRadius="10" Margin="2">
 				<Grid>
 					<StackPanel>
+                        <Button Command="{Binding AddJournalCommand}" Content="AddJournal" Width="100" Margin="2" />
 						<Button Command="{Binding SaveCommand}" Content="Save" Width="100" Margin="2" />
 						<Button Command="{Binding LoadCommand}" Content="Load" Width="100" Margin="2" />
 					</StackPanel>

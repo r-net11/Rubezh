@@ -27,42 +27,7 @@ namespace FiresecAPI.SKD
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.LockControl, 2));
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Button, 4));
 
-			var addressProperty = new SKDDriverProperty()
-			{
-				Name = "Address",
-				Caption = "Адрес",
-				DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
-				StringDefault = "192.168.0.1"
-			};
-			driver.Properties.Add(addressProperty);
-
-			var driverProperty = new SKDDriverProperty()
-			{
-				Name = "Port",
-				Caption = "Порт",
-				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
-				Default = 37777
-			};
-			driver.Properties.Add(driverProperty);
-
-			var loginProperty = new SKDDriverProperty()
-			{
-				Name = "Login",
-				Caption = "Логин",
-				DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
-				StringDefault = "admin"
-			};
-			driver.Properties.Add(loginProperty);
-
-			var passwordProperty = new SKDDriverProperty()
-			{
-				Name = "Password",
-				Caption = "Пароль",
-				DriverPropertyType = GKDriverPropertyTypeEnum.StringType,
-				StringDefault = "123456"
-			};
-			driver.Properties.Add(passwordProperty);
-
+			driver.Properties = CommonChinaControllerHelper.CreateProperties();
 			return driver;
 		}
 	}

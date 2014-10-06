@@ -20,7 +20,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-								<TextBlock Margin="2" VerticalAlignment="Center" Style="{StaticResource ActiveStyle}" Text="{Binding Name}" />
+                                <TextBlock Margin="2" VerticalAlignment="Center" Style="{StaticResource ActiveStyle}" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -42,7 +42,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                                    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding WeeklyIntervalPart.DayOfWeek, Converter={StaticResource EnumToDescriptionConverter}}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>

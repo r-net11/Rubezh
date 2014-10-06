@@ -65,9 +65,6 @@ namespace FiresecAPI.SKD
 		public DoorType DoorType { get; set; }
 
 		[DataMember]
-		public bool HasConfigurationMissmatch { get; set; }
-
-		[DataMember]
 		public Guid CameraUID { get; set; }
 
 		[XmlIgnore]

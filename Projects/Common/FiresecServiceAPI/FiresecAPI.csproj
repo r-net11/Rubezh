@@ -225,6 +225,7 @@
     <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
+    <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />
     <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
     <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />
     <Compile Include="SKD\PassCardLibrary\ShortPassCardTemplate.cs" />
+    <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />

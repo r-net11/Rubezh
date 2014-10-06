@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
 using DiagnosticsModule.Models;
+using FiresecAPI.Journal;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -23,8 +24,18 @@ namespace DiagnosticsModule.ViewModels
 
 		public DiagnosticsViewModel()
 		{
+			AddJournalCommand = new RelayCommand(OnAddJournal);
 			SaveCommand = new RelayCommand(OnSave);
 			LoadCommand = new RelayCommand(OnLoad);
+		}
+
+		public RelayCommand AddJournalCommand { get; private set; }
+		void OnAddJournal()
+		{
+			var journalItem = new JournalItem();
+			journalItem.DeviceDateTime = DateTime.Now;
+			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
+			FiresecManager.FiresecService.AddJournalItem(journalItem);
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

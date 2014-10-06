@@ -18,7 +18,7 @@ namespace FiresecAPI.SKD
 		public override bool Equals(object obj)
 		{
 			if (obj is SKDDayInterval)
-				return ((SKDDayInterval)obj).No == No;
+				return ((SKDDayInterval)obj).UID == UID;
 			return base.Equals(obj);
 		}
 		public override int GetHashCode()

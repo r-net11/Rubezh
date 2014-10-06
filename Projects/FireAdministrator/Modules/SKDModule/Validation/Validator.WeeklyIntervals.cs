@@ -13,6 +13,11 @@ namespace SKDModule.Validation
 			ValidateWeeklyIntervalEquality();
 			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
 			{
+				if (weeklyInterval.Name == "<Никогда>" || weeklyInterval.Name == "<Всегда>")
+				{
+					continue;
+				}
+
 				if (string.IsNullOrEmpty(weeklyInterval.Name))
 					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Отсутствует название недельного графика", ValidationErrorLevel.CannotWrite));
 				if (weeklyInterval.WeeklyIntervalParts.All(item => item.DayIntervalUID == Guid.Empty))

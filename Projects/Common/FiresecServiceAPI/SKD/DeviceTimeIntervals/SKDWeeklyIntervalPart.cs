@@ -7,7 +7,7 @@ namespace FiresecAPI.SKD
 	public class SKDWeeklyIntervalPart
 	{
 		[DataMember]
-		public int No { get; set; }
+		public SKDDayOfWeek DayOfWeek { get; set; }
 
 		[DataMember]
 		public Guid DayIntervalUID { get; set; }

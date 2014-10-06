@@ -5,7 +5,7 @@ using SKDModule.Events;
 
 namespace SKDModule.Validation
 {
-	public class DayIntervalValidationError : ObjectValidationError<SKDDayInterval, ShowSKDDayIntervalsEvent, int>
+	public class DayIntervalValidationError : ObjectValidationError<SKDDayInterval, ShowSKDDayIntervalsEvent, Guid>
 	{
 		public DayIntervalValidationError(SKDDayInterval interval, string error, ValidationErrorLevel level)
 			: base(interval, error, level)
@@ -16,9 +16,9 @@ namespace SKDModule.Validation
 		{
 			get { return "SKD"; }
 		}
-		protected override int Key
+		protected override Guid Key
 		{
-			get { return Object.No; }
+			get { return Object.UID; }
 		}
 		public override string Source
 		{
@@ -26,7 +26,7 @@ namespace SKDModule.Validation
 		}
 		public override string Address
 		{
-			get { return Object.No.ToString(); }
+			get { return ""; }
 		}
 		public override string ImageSource
 		{

@@ -14,7 +14,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="IP-адрес" HorizontalAlignment="Right" Foreground="White" Margin="2" />
@@ -26,10 +25,7 @@
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Шлюз по умолчанию" HorizontalAlignment="Right" Foreground="White" Margin="2" />
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DefaultGateway}" Margin="2" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="MTU" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding MTU}" Margin="2" />
-
-				<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
 					<Button Content="Считать" Command="{Binding ReadCommand}" Width="150" Margin="2" />
 					<Button Content="Записать" Command="{Binding WriteCommand}" Width="150" Margin="2" />
 				</StackPanel>

@@ -35,10 +35,13 @@ namespace FiresecAPI.SKD
 		public static List<SKDWeeklyIntervalPart> CreateParts()
 		{
 			var result = new List<SKDWeeklyIntervalPart>();
-			for (int i = 1; i <= 7; i++)
-			{
-				result.Add(new SKDWeeklyIntervalPart() { No = i });
-			}
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Monday });
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Tuesday });
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Wednesday });
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Thursday });
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Friday });
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Saturday });
+			result.Add(new SKDWeeklyIntervalPart() { DayOfWeek = SKDDayOfWeek.Sunday });
 			return result;
 		}
 

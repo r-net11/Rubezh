@@ -17,11 +17,9 @@ namespace SKDModule.ViewModels
 		{
 			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
 			WeeklyIntervalPart = weeklyIntervalPart;
-			Name = IntToWeekDay(weeklyIntervalPart.No);
 			Update();
 		}
 
-		public string Name { get; private set; }
 		public ObservableCollection<SelectableDayInterval> AvailableDayIntervals { get; private set; }
 
 		SelectableDayInterval _selectedDayInterval;
@@ -64,19 +62,19 @@ namespace SKDModule.ViewModels
 			switch (dayNo)
 			{
 				case 1:
-					return "Воскресенье";
-				case 2:
 					return "Понедельник";
-				case 3:
+				case 2:
 					return "Вторник";
-				case 4:
+				case 3:
 					return "Среда";
-				case 5:
+				case 4:
 					return "Четверг";
-				case 6:
+				case 5:
 					return "Пятница";
-				case 7:
+				case 6:
 					return "Суббота";
+				case 7:
+					return "Воскресенье";
 			}
 			return "Неизвестный день";
 		}

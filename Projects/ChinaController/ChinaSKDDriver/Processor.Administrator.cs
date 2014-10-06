@@ -36,7 +36,6 @@ namespace ChinaSKDDriver
 					deviceInfo.IP = deviceNetInfo.Address;
 					deviceInfo.SubnetMask = deviceNetInfo.Mask;
 					deviceInfo.DefaultGateway = deviceNetInfo.DefaultGateway;
-					deviceInfo.MTU = deviceNetInfo.MTU;
 				}
 				else
 				{
@@ -127,7 +126,7 @@ namespace ChinaSKDDriver
 						weeklyInterval = new SKDWeeklyInterval();
 
 					var timeShedules = new List<TimeShedule>();
-					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
+					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts.OrderBy(x=>x.DayOfWeek))
 					{
 						var timeShedule = new TimeShedule();
 						var dayInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.DayIntervalUID);

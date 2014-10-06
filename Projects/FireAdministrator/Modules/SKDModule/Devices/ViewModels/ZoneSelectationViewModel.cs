@@ -4,6 +4,8 @@ using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure;
 
 namespace SKDModule.ViewModels
 {
@@ -13,6 +15,7 @@ namespace SKDModule.ViewModels
 		public ZoneSelectationViewModel(Guid zoneUID)
 		{
 			Title = "Выбор зоны";
+			CreateCommand = new RelayCommand(OnCreate);
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in SKDManager.Zones)
 			{
@@ -32,6 +35,21 @@ namespace SKDModule.ViewModels
 				_selectedZone = value;
 				OnPropertyChanged(() => SelectedZone);
 			}
+		}
+
+		public RelayCommand CreateCommand { get; private set; }
+		void OnCreate()
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel();
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				SKDManager.Zones.Add(zoneDetailsViewModel.Zone);
+				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
+				Zones.Add(zoneViewModel);
+				SelectedZone = zoneViewModel;
+				ServiceFactory.SaveService.SKDChanged = true;
+				SaveCommand.Execute();
+			}	
 		}
 
 		protected override bool CanSave()

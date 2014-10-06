@@ -89,7 +89,7 @@ namespace SKDModule.Intervals.Base.ViewModels
 		}
 		private bool CanActivate()
 		{
-			return SelectedInterval != null;
+			return SelectedInterval != null && SelectedInterval.Name != "<Никогда>" && SelectedInterval.Name != "<Всегда>";
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
