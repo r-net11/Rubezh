@@ -112,6 +112,7 @@
     <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
@@ -250,6 +251,9 @@
     </Compile>
     <Compile Include="Steps\Views\GetListCountStepView.xaml.cs">
       <DependentUpon>GetListCountStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetListItemStepView.xaml.cs">
+      <DependentUpon>GetListItemStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\GetObjectPropertyStepView.xaml.cs">
       <DependentUpon>GetObjectPropertyStepView.xaml</DependentUpon>
@@ -466,6 +470,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\GetListCountStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetListItemStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
