@@ -227,6 +227,7 @@
     <Compile Include="TimeIntervals\SlideWeekIntervals\Views\SlideWeekIntervalsView.xaml.cs">
       <DependentUpon>SlideWeekIntervalsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimeIntervals\WeeklyIntervals\ViewModels\SelectableDayInterval.cs" />
     <Compile Include="TimeIntervals\WeeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
     <Compile Include="TimeIntervals\WeeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
     <Compile Include="TimeIntervals\WeeklyIntervals\ViewModels\WeeklyIntervalsViewModel.cs" />
