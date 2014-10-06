@@ -47,8 +47,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="XamlTune">
       <HintPath>..\..\..\3rdParty\SVG2XAML\XamlTune.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +113,22 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\StartupCancellationException.cs" />
+    <Compile Include="Startup\StartupService.cs" />
+    <Compile Include="Startup\ViewModels\StartupHeaderViewModel.cs" />
+    <Compile Include="Startup\ViewModels\StartupLoadingViewModel.cs" />
+    <Compile Include="Startup\ViewModels\StartupLoginViewModel.cs" />
+    <Compile Include="Startup\ViewModels\StartupSettingsViewModel.cs" />
+    <Compile Include="Startup\ViewModels\StartupViewModel.cs" />
+    <Compile Include="Startup\Views\StartupHeaderView.xaml.cs">
+      <DependentUpon>StartupHeaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\Views\StartupSettingsView.xaml.cs">
+      <DependentUpon>StartupSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Startup\Views\StartupView.xaml.cs">
+      <DependentUpon>StartupView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +205,22 @@
     <Page Include="Plans\Views\ImageTextStateTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Startup\Views\StartupHeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Startup\Views\StartupSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Startup\Views\StartupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

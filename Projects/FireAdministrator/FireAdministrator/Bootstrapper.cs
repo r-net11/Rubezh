@@ -23,25 +23,26 @@ namespace FireAdministrator
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			var assembly = GetType().Assembly;
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(assembly, "DataTemplates/Dictionary.xaml"));
-			if (ServiceFactory.LoginService.ExecuteConnect())
+			ServiceFactory.StartupService.Show();
+			if (ServiceFactory.StartupService.PerformLogin())
 			{
 				try
 				{
 					CreateModules();
 
-					LoadingService.ShowLoading("Чтение конфигурации", 4);
-					LoadingService.AddCount(GetModuleCount() + 6);
+					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 4);
+					ServiceFactory.StartupService.AddCount(GetModuleCount() + 6);
 
-					LoadingService.DoStep("Синхронизация файлов");
+					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 
-					LoadingService.DoStep("Загрузка конфигурации с сервера");
+					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Administrator/Configuration");
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					LoadingService.DoStep("Проверка прав пользователя");
+					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
@@ -53,7 +54,7 @@ namespace FireAdministrator
 						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
 						RunShell(shell);
 					}
-					LoadingService.Close();
+					ServiceFactory.StartupService.Close();
 
 					AterInitialize();
 					FiresecManager.StartPoll();

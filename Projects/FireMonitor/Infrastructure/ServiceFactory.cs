@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Login;
+using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
@@ -17,9 +18,18 @@ namespace Infrastructure
 {
 	public class ServiceFactory : ServiceFactoryBase
 	{
+		private static StartupService _startupService;
+		public static StartupService StartupService
+		{
+			get
+			{
+				if (_startupService == null)
+					_startupService = new StartupService(ClientType.Monitor);
+				return _startupService;
+			}
+		}
 		public static AppSettings AppSettings { get; set; }
 		public static ILayoutService Layout { get; private set; }
-		public static ISecurityService SecurityService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		static bool IsSubcsribed = false;
 

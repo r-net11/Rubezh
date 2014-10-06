@@ -2,8 +2,7 @@
 		Title="{Binding Title}"
 		Width="1000" Height="1000" AllowsTransparency="False" Closed="Window_Closed" Closing="Window_Closing"
 		FontFamily="Arial" FontSize="12"
-		Icon="{Binding Icon,
-					   Converter={StaticResource NullToImageConverter}}"
+		Icon="{Binding Icon, Converter={StaticResource NullToImageConverter}}"
 		KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="CanMinimize"
 		Topmost="{Binding TopMost}"
 		Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal" SnapsToDevicePixels="True">

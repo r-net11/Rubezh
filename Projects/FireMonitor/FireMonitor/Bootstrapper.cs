@@ -14,6 +14,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Windows.Threading;
+using Infrastructure.Client.Startup;
+using System.Threading;
 
 namespace FireMonitor
 {
@@ -29,39 +31,39 @@ namespace FireMonitor
 			AppConfigHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-
-			if (ServiceFactory.LoginService.ExecuteConnect(_login, _password))
+			ServiceFactory.StartupService.Show();
+			if (ServiceFactory.StartupService.PerformLogin(_login, _password))
 			{
 				var userChangedEventArgs = new UserChangedEventArgs
 				{
 					IsReconnect = false
 				};
 				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
-				_login = ServiceFactory.LoginService.Login;
-				_password = ServiceFactory.LoginService.Password;
+				_login = ServiceFactory.StartupService.Login;
+				_password = ServiceFactory.StartupService.Password;
 				try
 				{
 					CreateModules();
 
-					LoadingService.ShowLoading("Чтение конфигурации", 15);
-					LoadingService.AddCount(GetModuleCount());
+					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 15);
+					ServiceFactory.StartupService.AddCount(GetModuleCount());
 
-					LoadingService.DoStep("Синхронизация файлов");
+					ServiceFactory.StartupService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 
-					LoadingService.DoStep("Загрузка конфигурации с сервера");
+					ServiceFactory.StartupService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration("Monitor/Configuration");
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					LoadingService.DoStep("Старт полинга сервера");
+					ServiceFactory.StartupService.DoStep("Старт полинга сервера");
 					FiresecManager.StartPoll();
 
-					LoadingService.DoStep("Проверка прав пользователя");
+					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
 					{
-						LoadingService.DoStep("Загрузка клиентских настроек");
+						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
 						Notifier.Initialize();
 
@@ -73,7 +75,6 @@ namespace FireMonitor
 						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
 					}
-					LoadingService.Close();
 
 					if (result)
 						AterInitialize();
@@ -84,6 +85,11 @@ namespace FireMonitor
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
 					}
+					ServiceFactory.StartupService.Close();
+				}
+				catch (StartupCancellationException)
+				{
+					throw;
 				}
 				catch (Exception e)
 				{

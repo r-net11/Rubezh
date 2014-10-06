@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using System.Threading;
+using Infrastructure.Client.Startup;
 
 namespace FireMonitor
 {
@@ -51,25 +52,31 @@ namespace FireMonitor
 				_bootstrapper.InitializeCommandLineArguments(e.Args);
 				var result = true;
 				using (new DoubleLaunchLocker(SignalId, WaitId, true, true))
-				{
 					result = _bootstrapper.Initialize();
-				}
 				if (!result)
 				{
 					ApplicationService.ShutDown();
 					return;
 				}
+				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
+				if (GlobalSettingsHelper.GlobalSettings.RunRevisor)
+					StartRevisor();
+			}
+			catch (StartupCancellationException)
+			{
+				ApplicationService.ShutDown();
+				return;
 			}
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");
 				MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
 			}
-
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
-			if (GlobalSettingsHelper.GlobalSettings.RunRevisor)
-				StartRevisor();
+			finally
+			{
+				ServiceFactory.StartupService.Close();
+			}
 		}
 
 		void StartRevisor()
@@ -145,6 +152,15 @@ namespace FireMonitor
 				}
 			}
 			return false;
+		}
+
+		[STAThread]
+		private static void Main()
+		{
+			ServiceFactory.StartupService.Run();
+			var app = new App();
+			app.InitializeComponent();
+			app.Run();
 		}
 	}
 }

@@ -83,7 +83,7 @@
 					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Center">
-							<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateExplicitType="Sum" EmptyValue="0" FontWeight="Bold" />
+							<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Sum" EmptyValue="0" FontWeight="Bold" />
 						</Paragraph>
 					</TableCell>
 				</TableRow>
