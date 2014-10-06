@@ -5,15 +5,15 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDevice : IStateProvider, IIdentity, IPlanPresentable
+	public class SKDDevice : ModelBase, IStateProvider, IPlanPresentable
 	{
 		public SKDDevice()
 		{
-			UID = Guid.NewGuid();
 			Children = new List<SKDDevice>();
 			Properties = new List<SKDProperty>();
 			PlanElementUIDs = new List<Guid>();
@@ -21,27 +21,27 @@ namespace FiresecAPI.SKD
 			DoorType = DoorType.OneWay;
 		}
 
+		[XmlIgnore]
 		public SKDDriver Driver { get; set; }
+		[XmlIgnore]
 		public SKDDriverType DriverType
 		{
 			get { return Driver.DriverType; }
 		}
+		[XmlIgnore]
 		public SKDDevice Parent { get; set; }
+		[XmlIgnore]
 		public SKDDeviceState State { get; set; }
+		[XmlIgnore]
 		public SKDZone Zone { get; set; }
+		[XmlIgnore]
 		public SKDDoor Door { get; set; }
-
-		[DataMember]
-		public Guid UID { get; set; }
 
 		[DataMember]
 		public Guid DriverUID { get; set; }
 
 		[DataMember]
 		public int IntAddress { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
 
 		[DataMember]
 		public List<SKDDevice> Children { get; set; }
@@ -70,6 +70,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid CameraUID { get; set; }
 
+		[XmlIgnore]
 		public string Address
 		{
 			get
@@ -104,6 +105,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
 		public bool IsRealDevice
 		{
 			get
@@ -114,6 +116,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
 		public List<SKDDevice> AllParents
 		{
 			get
@@ -127,6 +130,7 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		[XmlIgnore]
 		public string NameWithParent
 		{
 			get
@@ -139,13 +143,6 @@ namespace FiresecAPI.SKD
 				return result;
 			}
 		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 
 		#region IStateProvider Members
 

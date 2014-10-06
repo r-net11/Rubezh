@@ -5,6 +5,7 @@ using Common;
 using Entities.DeviceOriented;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -28,8 +29,10 @@ namespace FiresecAPI.Models
 			Password = "admin";
 		}
 
+		[XmlIgnore]
 		public Camera Parent { get; set; }
 
+		[XmlIgnore]
 		public string ImageSource
 		{
 			get { return "/Controls;component/Images/" + this.CameraType.ToString() + ".png"; }
@@ -44,6 +47,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string Ip { get; set; }
 
+		[XmlIgnore]
 		public DeviceStatuses Status { get; set; }
 
 		[DataMember]
@@ -82,6 +86,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public CameraType CameraType { get; set; }
 
+		[XmlIgnore]
 		public XStateClass CameraStateStateClass
 		{
 			get { return XStateClass.Norm; }
@@ -102,6 +107,7 @@ namespace FiresecAPI.Models
 				Changed();
 		}
 
+		[XmlIgnore]
 		public string PresentationName
 		{
 			get { return Name + " " + Ip; }

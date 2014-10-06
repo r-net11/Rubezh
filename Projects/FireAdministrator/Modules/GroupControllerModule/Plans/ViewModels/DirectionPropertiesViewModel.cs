@@ -24,7 +24,7 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
-			var directions = XManager.Directions;
+			var directions = GKManager.Directions;
 			XDirections = new ObservableCollection<DirectionViewModel>();
 			foreach (var direction in directions)
 			{
@@ -32,7 +32,7 @@ namespace GKModule.Plans.ViewModels
 				XDirections.Add(directionViewModel);
 			}
 			if (_element.DirectionUID != Guid.Empty)
-				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.BaseUID == _element.DirectionUID);
+				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
 		}
 
 		public ObservableCollection<DirectionViewModel> XDirections { get; private set; }
@@ -55,9 +55,9 @@ namespace GKModule.Plans.ViewModels
 			var createDirectionEventArg = new CreateXDirectionEventArg();
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
 			if (createDirectionEventArg.Direction != null)
-				_element.DirectionUID = createDirectionEventArg.Direction.BaseUID;
-			GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
-			GKPlanExtension.Instance.SetItem<XDirection>(_element);
+				_element.DirectionUID = createDirectionEventArg.Direction.UID;
+			GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
+			GKPlanExtension.Instance.SetItem<GKDirection>(_element);
 			UpdateDirections(xdirectionUID);
 			if (!createDirectionEventArg.Cancel)
 				Close(true);
@@ -66,7 +66,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.Direction.BaseUID);
+			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
 			SelectedXDirection.Update(SelectedXDirection.Direction);
 		}
 		private bool CanEdit()
@@ -77,7 +77,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid directionUID = _element.DirectionUID;
-			GKPlanExtension.Instance.SetItem<XDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
+			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
 			UpdateDirections(directionUID);
 			return base.Save();
 		}
@@ -93,7 +93,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		private void Update(Guid directionUID)
 		{
-			var direction = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+			var direction = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (direction != null)
 				direction.Update();
 		}

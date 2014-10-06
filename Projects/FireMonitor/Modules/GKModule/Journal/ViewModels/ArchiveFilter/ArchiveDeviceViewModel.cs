@@ -6,13 +6,13 @@ namespace GKModule.ViewModels
 {
 	public class ArchiveDeviceViewModel : TreeNodeViewModel<ArchiveDeviceViewModel>, ICheckBoxItem
 	{
-		public ArchiveDeviceViewModel(XDevice device)
+		public ArchiveDeviceViewModel(GKDevice device)
 		{
 			Device = device;
 			Name = device.PresentationName;
 		}
 
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 		public string Name { get; private set; }
 
 		bool _isChecked;

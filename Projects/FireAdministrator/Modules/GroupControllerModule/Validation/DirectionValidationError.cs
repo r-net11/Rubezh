@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	public class DirectionValidationError : ObjectValidationError<XDirection, ShowXDirectionEvent, Guid>
+	public class DirectionValidationError : ObjectValidationError<GKDirection, ShowXDirectionEvent, Guid>
 	{
-		public DirectionValidationError(XDirection direction, string error, ValidationErrorLevel level)
+		public DirectionValidationError(GKDirection direction, string error, ValidationErrorLevel level)
 			: base(direction, error, level)
 		{
 		}
@@ -19,7 +19,7 @@ namespace GKModule.Validation
 
 		protected override Guid Key
 		{
-			get { return Object.BaseUID; }
+			get { return Object.UID; }
 		}
 
 		public override string Source

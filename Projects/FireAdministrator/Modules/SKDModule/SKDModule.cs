@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -11,14 +10,11 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
-using Infrastructure.Designer;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
-using FiresecAPI;
-using Infrastructure.Common.Windows;
 
 namespace SKDModule
 {
@@ -56,6 +52,7 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
+			//SKDManager.SetEmptyConfiguration();
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
@@ -74,7 +71,7 @@ namespace SKDModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("СКД", "/Controls;component/Images/SKDW.png", new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/SKDW.png", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
@@ -93,9 +90,9 @@ namespace SKDModule
 				}) {IsExpanded = true},
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "СКД"; }
+			get { return ModuleType.SKD; }
 		}
 		public override void RegisterResource()
 		{

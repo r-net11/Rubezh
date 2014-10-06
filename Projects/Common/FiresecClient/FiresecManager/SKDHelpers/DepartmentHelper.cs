@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
@@ -57,6 +58,14 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.SaveDepartmentHRChief(uid, hrChiefUID);
 			return Common.ShowErrorIfExists(result);
+		}
+
+		public static ShortDepartment GetSingleShort(Guid uid)
+		{
+			var filter = new DepartmentFilter();
+			filter.UIDs.Add(uid);
+			var operationResult = FiresecManager.FiresecService.GetDepartmentList(filter);
+			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 	}
 }

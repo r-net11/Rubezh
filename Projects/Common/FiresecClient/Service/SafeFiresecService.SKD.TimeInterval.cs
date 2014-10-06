@@ -29,9 +29,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayIntervalPart(item));
 		}
-		public FiresecAPI.OperationResult MarkDeletedDayIntervalPart(DayIntervalPart item)
+		public FiresecAPI.OperationResult RemoveDayIntervalPart(DayIntervalPart item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedDayIntervalPart(item.UID));
+			return SafeContext.Execute(() => FiresecService.RemoveDayIntervalPart(item.UID));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
@@ -57,7 +57,7 @@ namespace FiresecClient
 		}
 		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(Guid uid)
 		{
-            return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(uid));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(uid));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
@@ -68,9 +68,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSheduleDayInterval(item));
 		}
-		public FiresecAPI.OperationResult MarkDeletedSheduleDayInterval(ScheduleDayInterval item)
+		public FiresecAPI.OperationResult RemoveSheduleDayInterval(ScheduleDayInterval item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedSheduleDayInterval(item.UID));
+			return SafeContext.Execute(() => FiresecService.RemoveSheduleDayInterval(item.UID));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
@@ -111,7 +111,7 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.AddTimeTrackDocument(timeTrackDocument));
 		}
-		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument) 
 		{
 			return SafeContext.Execute(() => FiresecService.EditTimeTrackDocument(timeTrackDocument));
 		}

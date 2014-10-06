@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -23,6 +24,7 @@ namespace Infrustructure.Plans.Elements
 			SetDefault();
 		}
 
+		[XmlIgnore]
 		public virtual string Name
 		{
 			get { return GetType().FullName; }
@@ -50,14 +52,16 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public bool IsHidden { get; set; }
 
+		[XmlIgnore]
 		public bool AllowTransparent
 		{
 			get { return false; }
 		}
 
 		[DataMember]
-		public int ZLayer { get; protected set; }
+		public int ZLayer { get; set; }
 
+		[XmlIgnore]
 		public Point Position
 		{
 			get
@@ -67,6 +71,7 @@ namespace Infrustructure.Plans.Elements
 			}
 			set { SetPosition(value); }
 		}
+		[XmlIgnore]
 		public abstract ElementType Type { get; }
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);

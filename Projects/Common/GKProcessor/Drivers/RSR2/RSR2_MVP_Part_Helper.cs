@@ -5,11 +5,11 @@ namespace GKProcessor
 {
 	public static class RSR2_MVP_Part_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
-				DriverType = XDriverType.RSR2_MVP_Part,
+				DriverType = GKDriverType.RSR2_MVP_Part,
 				UID = new Guid("118A822D-25F0-429a-A1E8-3EFEB40900E0"),
 				Name = "Линия МВП",
 				ShortName = "Линия МВП",
@@ -17,7 +17,8 @@ namespace GKProcessor
 				MinAddress = 1,
 				MaxAddress = 2,
 				HasAddress = false,
-				IsReal = false
+				IsReal = false,
+				IsPlaceable = false,
 			};
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Число АУ на АЛС", 0, 0, 250);

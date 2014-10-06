@@ -9,15 +9,15 @@ namespace GKProcessor
 	{
 		public DatabaseType DatabaseType { get; set; }
 		public DescriptorType DescriptorType { get; protected set; }
-		public XDevice Device { get; protected set; }
-		public XZone Zone { get; protected set; }
-		public XDirection Direction { get; protected set; }
-		public XPumpStation PumpStation { get; protected set; }
-		public XMPT MPT { get; protected set; }
-		public XDelay Delay { get; protected set; }
-		public XPim Pim { get; protected set; }
-		public XGuardZone GuardZone { get; protected set; }
-		public XCode Code { get; protected set; }
+		public GKDevice Device { get; protected set; }
+		public GKZone Zone { get; protected set; }
+		public GKDirection Direction { get; protected set; }
+		public GKPumpStation PumpStation { get; protected set; }
+		public GKMPT MPT { get; protected set; }
+		public GKDelay Delay { get; protected set; }
+		public GKPim Pim { get; protected set; }
+		public GKGuardZone GuardZone { get; protected set; }
+		public GKCode Code { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }
@@ -50,16 +50,16 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					if (XBase.KauDatabaseParent != null)
+					if (GKBase.KauDatabaseParent != null)
 					{
-						ushort lineNo = XManager.GetKauLine(XBase.KauDatabaseParent);
-						ControllerAdress = (ushort)(lineNo * 256 + XBase.KauDatabaseParent.IntAddress);
-						AdressOnController = XBase.KAUDescriptorNo;
+						ushort lineNo = GKManager.GetKauLine(GKBase.KauDatabaseParent);
+						ControllerAdress = (ushort)(lineNo * 256 + GKBase.KauDatabaseParent.IntAddress);
+						AdressOnController = GKBase.KAUDescriptorNo;
 					}
 					else
 					{
 						ControllerAdress = 0x200;
-						AdressOnController = XBase.GKDescriptorNo;
+						AdressOnController = GKBase.GKDescriptorNo;
 					}
 					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
 					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
@@ -79,12 +79,12 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				foreach (var inputXBase in XBase.InputXBases)
+				foreach (var inputXBase in GKBase.InputXBases)
 				{
 					var no = inputXBase.GKDescriptorNo;
 					InputDependenses.AddRange(BitConverter.GetBytes(no));
 				}
-				foreach (var outputXBase in XBase.OutputXBases)
+				foreach (var outputXBase in GKBase.OutputXBases)
 				{
 					var no = outputXBase.GKDescriptorNo;
 					OutputDependenses.AddRange(BitConverter.GetBytes(no));
@@ -97,7 +97,7 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					Description = BytesHelper.StringDescriptionToBytes(XBase.PresentationName);
+					Description = BytesHelper.StringDescriptionToBytes(GKBase.PresentationName);
 					break;
 
 				case DatabaseType.Kau:
@@ -150,7 +150,7 @@ namespace GKProcessor
 			AllBytes.AddRange(Parameters);
 		}
 
-		public XBase XBase
+		public GKBase GKBase
 		{
 			get
 			{
@@ -192,10 +192,10 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					return XBase.GKDescriptorNo;
+					return GKBase.GKDescriptorNo;
 
 				case DatabaseType.Kau:
-					return XBase.KAUDescriptorNo;
+					return GKBase.KAUDescriptorNo;
 			}
 			return 0;
 		}

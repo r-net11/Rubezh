@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Devices = new ObservableCollection<DeviceParameterViewModel>();
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0)
 				{
@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 
 		void ParameterUpdateHelper_NewAUParameterValue(MeasureParameterViewModel auParameterValue)
 		{
-			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.BaseUID == auParameterValue.Device.BaseUID);
+			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.UID == auParameterValue.Device.UID);
 			if (deviceParameterViewModel != null)
 			{
 				deviceParameterViewModel.OnNewAUParameterValue(auParameterValue);

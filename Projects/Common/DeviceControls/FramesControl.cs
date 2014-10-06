@@ -21,7 +21,7 @@ namespace DeviceControls
 			this(frames.Cast<ILibraryFrame>())
 		{
 		}
-		public FramesControl(List<LibraryXFrame> frames) :
+		public FramesControl(List<GKLibraryFrame> frames) :
 			this(frames.Cast<ILibraryFrame>())
 		{
 		}

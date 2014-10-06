@@ -14,13 +14,12 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
+using Infrastructure.Designer;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
-using SKDModule.PassCardDesigner.ViewModels;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
-using Infrastructure.Designer;
 
 namespace SKDModule
 {
@@ -129,9 +128,9 @@ namespace SKDModule
 			DoorsViewModel.Initialize();
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "СКД"; }
+			get { return Infrastructure.Common.ModuleType.SKD; }
 		}
 		public override void RegisterResource()
 		{

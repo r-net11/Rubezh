@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -9,14 +8,14 @@ namespace FiresecAPI.Automation
 	{
 		public FindObjectCondition()
 		{
-			SourceParameter = new Variable();
+			SourceParameter = new Argument();
 		}
 
 		[DataMember]
 		public ConditionType ConditionType { get; set; }
 
 		[DataMember]
-		public Variable SourceParameter { get; set; }
+		public Argument SourceParameter { get; set; }
 
 		[DataMember]
 		public Property Property { get; set; }
@@ -26,6 +25,9 @@ namespace FiresecAPI.Automation
 	{
 		[Description("Примечание")]
 		Description,
+
+		[Description("Имя")]
+		Name,
 
 		[Description("Адрес")]
 		IntAddress,
@@ -44,7 +46,7 @@ namespace FiresecAPI.Automation
 
 		[Description("Задержка")]
 		Delay,
-		
+
 		[Description("Удержание")]
 		Hold,
 

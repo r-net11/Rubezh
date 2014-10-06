@@ -22,13 +22,13 @@ namespace VideoModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
 			Zones = zones;
-			TargetZones = new ObservableCollection<XZone>();
-			SourceZones = new ObservableCollection<XZone>();
+			TargetZones = new ObservableCollection<GKZone>();
+			SourceZones = new ObservableCollection<GKZone>();
 
-			var sortedZones = XManager.Zones.OrderBy(x => { return x.No; });
+			var sortedZones = GKManager.Zones.OrderBy(x => { return x.No; });
 			foreach (var zone in sortedZones)
 			{
-				if (Zones.Contains(zone.BaseUID))
+				if (Zones.Contains(zone.UID))
 					TargetZones.Add(zone);
 				else
 					SourceZones.Add(zone);
@@ -38,10 +38,10 @@ namespace VideoModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		public ObservableCollection<XZone> SourceZones { get; private set; }
+		public ObservableCollection<GKZone> SourceZones { get; private set; }
 
-		XZone _selectedSourceZone;
-		public XZone SelectedSourceZone
+		GKZone _selectedSourceZone;
+		public GKZone SelectedSourceZone
 		{
 			get { return _selectedSourceZone; }
 			set
@@ -51,10 +51,10 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XZone> TargetZones { get; private set; }
+		public ObservableCollection<GKZone> TargetZones { get; private set; }
 
-		XZone _selectedTargetZone;
-		public XZone SelectedTargetZone
+		GKZone _selectedTargetZone;
+		public GKZone SelectedTargetZone
 		{
 			get { return _selectedTargetZone; }
 			set
@@ -116,7 +116,7 @@ namespace VideoModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<Guid>(TargetZones.Select(x => x.BaseUID));
+			Zones = new List<Guid>(TargetZones.Select(x => x.UID));
 			return base.Save();
 		}
 	}

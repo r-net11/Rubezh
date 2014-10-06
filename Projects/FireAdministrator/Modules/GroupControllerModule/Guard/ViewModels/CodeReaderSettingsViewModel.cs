@@ -15,15 +15,15 @@ namespace GKModule.ViewModels
 		public CodeReaderSettingsViewModel(XCodeReaderSettingsPart codeReaderSettingsPart)
 		{
 			SelectCodeCommand = new RelayCommand(OnSelectCode);
-			EnterTypes = Enum.GetValues(typeof(XCodeReaderEnterType)).Cast<XCodeReaderEnterType>().ToList();
+			EnterTypes = Enum.GetValues(typeof(GKCodeReaderEnterType)).Cast<GKCodeReaderEnterType>().ToList();
 			SelectedEnterType = EnterTypes.FirstOrDefault(x => x == codeReaderSettingsPart.CodeReaderEnterType);
-			Code = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeReaderSettingsPart.CodeUID);
+			Code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeReaderSettingsPart.CodeUID);
 		}
 
-		public List<XCodeReaderEnterType> EnterTypes { get; private set; }
+		public List<GKCodeReaderEnterType> EnterTypes { get; private set; }
 
-		XCodeReaderEnterType _selectedEnterType;
-		public XCodeReaderEnterType SelectedEnterType
+		GKCodeReaderEnterType _selectedEnterType;
+		public GKCodeReaderEnterType SelectedEnterType
 		{
 			get { return _selectedEnterType; }
 			set
@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public XCode Code { get; private set; }
+		public GKCode Code { get; private set; }
 
 		public RelayCommand SelectCodeCommand { get; private set; }
 		void OnSelectCode()

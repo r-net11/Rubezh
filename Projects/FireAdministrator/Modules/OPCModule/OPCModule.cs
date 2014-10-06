@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -33,16 +34,16 @@ namespace OPCModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("OPC сервер", "/Controls;component/Images/Tree.png", new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/Tree.png", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowOPCDeviceEvent, Guid>(OPCDevicesViewModel, "Устройства","/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowOPCZoneEvent, Guid>(OPCZonesViewModel, "Зоны","/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 				}),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "OPC сервер"; }
+			get { return ModuleType.OPC; }
 		}
 
 		#region IValidationModule Members

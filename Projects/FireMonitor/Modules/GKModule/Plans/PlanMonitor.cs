@@ -11,33 +11,33 @@ namespace GKModule.Plans
 		public PlanMonitor(Plan plan, Action callBack)
 			: base(plan, callBack)
 		{
-			Plan.ElementXDevices.ForEach(item => Initialize(item));
-			Plan.ElementRectangleXZones.ForEach(item => Initialize(item));
-			Plan.ElementPolygonXZones.ForEach(item => Initialize(item));
-			Plan.ElementRectangleXGuardZones.ForEach(item => InitializeGuard(item));
-			Plan.ElementPolygonXGuardZones.ForEach(item => InitializeGuard(item));
-			Plan.ElementRectangleXDirections.ForEach(item => Initialize(item));
-			Plan.ElementPolygonXDirections.ForEach(item => Initialize(item));
+			Plan.ElementGKDevices.ForEach(item => Initialize(item));
+			Plan.ElementRectangleGKZones.ForEach(item => Initialize(item));
+			Plan.ElementPolygonGKZones.ForEach(item => Initialize(item));
+			Plan.ElementRectangleGKGuardZones.ForEach(item => InitializeGuard(item));
+			Plan.ElementPolygonGKGuardZones.ForEach(item => InitializeGuard(item));
+			Plan.ElementRectangleGKDirections.ForEach(item => Initialize(item));
+			Plan.ElementPolygonGKDirections.ForEach(item => Initialize(item));
 		}
 
-		private void Initialize(ElementXDevice element)
+		private void Initialize(ElementGKDevice element)
 		{
-			var device = PlanPresenter.Cache.Get<XDevice>(element.XDeviceUID);
+			var device = PlanPresenter.Cache.Get<GKDevice>(element.DeviceUID);
 			AddState(device);
 		}
 		private void Initialize(IElementZone element)
 		{
-			var zone = PlanPresenter.Cache.Get<XZone>(element.ZoneUID);
+			var zone = PlanPresenter.Cache.Get<GKZone>(element.ZoneUID);
 			AddState(zone);
 		}
 		private void InitializeGuard(IElementZone element)
 		{
-			var zone = PlanPresenter.Cache.Get<XGuardZone>(element.ZoneUID);
+			var zone = PlanPresenter.Cache.Get<GKGuardZone>(element.ZoneUID);
 			AddState(zone);
 		}
 		private void Initialize(IElementDirection element)
 		{
-			var direction = PlanPresenter.Cache.Get<XDirection>(element.DirectionUID);
+			var direction = PlanPresenter.Cache.Get<GKDirection>(element.DirectionUID);
 			AddState(direction);
 		}
 	}

@@ -9,14 +9,14 @@ namespace GKModule.ViewModels
 {
 	public class AlarmGroupViewModel : BaseViewModel
 	{
-		public AlarmGroupViewModel(XAlarmType alarmType)
+		public AlarmGroupViewModel(GKAlarmType alarmType)
 		{
 			Alarms = new List<AlarmViewModel>();
 			ShowCommand = new RelayCommand(OnShowCommand);
 			AlarmType = alarmType;
 		}
 
-		public XAlarmType AlarmType { get; set; }
+		public GKAlarmType AlarmType { get; set; }
 		public List<AlarmViewModel> Alarms { get; set; }
 
 		public RelayCommand ShowCommand { get; private set; }

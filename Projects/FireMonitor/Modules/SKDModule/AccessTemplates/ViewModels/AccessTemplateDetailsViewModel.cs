@@ -89,6 +89,8 @@ namespace SKDModule.ViewModels
 			Model.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Model.CardDoors.ForEach(x => x.AccessTemplateUID = Model.UID);
 			Model.OrganisationUID = Organisation.UID;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return AccessTemplateHelper.Save(Model);
 		}
 	}

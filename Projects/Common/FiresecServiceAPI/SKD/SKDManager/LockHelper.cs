@@ -12,7 +12,8 @@ namespace FiresecAPI.SKD
 				UID = new Guid("578537D0-36A9-4916-BC8F-80CDEDC6AE15"),
 				Name = "Замок",
 				ShortName = "Замок",
-				DriverType = SKDDriverType.Lock
+				DriverType = SKDDriverType.Lock,
+				IsPlaceable = true
 			};
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Failure);

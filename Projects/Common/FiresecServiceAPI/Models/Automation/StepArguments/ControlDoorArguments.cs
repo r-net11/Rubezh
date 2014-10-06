@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlDoorArguments()
 		{
-			DoorParameter = new Variable();
+			DoorParameter = new Argument();
 		}
 
 		[DataMember]
-		public Variable DoorParameter { get; set; }
+		public Argument DoorParameter { get; set; }
 
 		[DataMember]
 		public DoorCommandType DoorCommandType { get; set; }

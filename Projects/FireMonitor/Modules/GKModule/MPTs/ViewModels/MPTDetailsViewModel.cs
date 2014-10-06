@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class MPTDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XMPT MPT { get; private set; }
-		public XState State
+		public GKMPT MPT { get; private set; }
+		public GKState State
 		{
 			get { return MPT.State; }
 		}
 
-		public MPTDetailsViewModel(XMPT mpt)
+		public MPTDetailsViewModel(GKMPT mpt)
 		{
 			MPT = mpt;
 			State.StateChanged += new Action(OnStateChanged);
@@ -177,17 +177,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXMPTEvent>().Publish(MPT.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXMPTEvent>().Publish(MPT.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				MPT = MPT
+				GKMPT = MPT
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -209,7 +209,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return MPT.BaseUID.ToString(); }
+			get { return MPT.UID.ToString(); }
 		}
 		#endregion
 

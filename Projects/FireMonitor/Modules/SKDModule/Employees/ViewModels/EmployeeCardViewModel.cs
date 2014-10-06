@@ -72,8 +72,8 @@ namespace SKDModule.ViewModels
 				if (!toStopListResult)
 					return;
 				EmployeeViewModel.Cards.Remove(this);
-                ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(Card.UID);
-                EmployeeViewModel.OnSelectEmployee();
+				ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(Card.UID);
+				EmployeeViewModel.OnSelectEmployee();
 			}
 		}
 

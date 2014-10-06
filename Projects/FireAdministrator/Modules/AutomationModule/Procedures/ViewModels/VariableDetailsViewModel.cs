@@ -3,35 +3,44 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
-using FiresecClient;
-using FiresecAPI.SKD;
-using System;
-using System.Collections.Generic;
-using FiresecAPI.GK;
-using FiresecAPI;
 using Infrastructure;
 
 namespace AutomationModule.ViewModels
 {
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
-		bool automationChanged;
-		public VariableViewModel VariableViewModel { get; protected set; }
+		readonly bool automationChanged;
+		public ExplicitValuesViewModel ExplicitValuesViewModel { get; protected set; }
 		public Variable Variable { get; private set; }
+		public bool IsEditMode { get; set; }
 
 		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "")
 		{
-			Title = title;
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if (this is ArgumentDetailsViewModel)
-				VariableViewModel = new ArgumentViewModel(new Variable(), null);
-			else
-				VariableViewModel = new VariableViewModel(new Variable());
-			VariableViewModel.Name = defaultName;			
+			Title = title;
+			Name = defaultName;
+			ExplicitValuesViewModel = new ExplicitValuesViewModel();
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>();
 			foreach (var explicitType in ProcedureHelper.GetEnumObs<ExplicitType>())
 				ExplicitTypes.Add(new ExplicitTypeViewModel(explicitType));
+			foreach (var enumType in ProcedureHelper.GetEnumObs<EnumType>())
+			{
+				var explicitTypeViewModel = new ExplicitTypeViewModel(enumType);
+				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Enum);
+				if (parent != null)
+				{
+					parent.AddChild(explicitTypeViewModel);
+				}
+			}
+			foreach (var objectType in ProcedureHelper.GetEnumObs<ObjectType>())
+			{
+				var explicitTypeViewModel = new ExplicitTypeViewModel(objectType);
+				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Object);
+				if (parent != null)
+				{
+					parent.AddChild(explicitTypeViewModel);
+				}
+			}
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
 			if (variable != null)
 				Copy(variable);
@@ -40,14 +49,28 @@ namespace AutomationModule.ViewModels
 		void Copy(Variable variable)
 		{
 			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel> { new ExplicitTypeViewModel(variable.ExplicitType) };
-			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
-			var newVariable = new Variable();
-			PropertyCopy.Copy<Variable, Variable>(variable, newVariable);
-			if (this is ArgumentDetailsViewModel)
-				VariableViewModel = new ArgumentViewModel(newVariable, null);
-			else
-				VariableViewModel = new VariableViewModel(newVariable);
-			VariableViewModel.IsEditMode = true;
+			var parent = ExplicitTypes.FirstOrDefault();
+			SelectedExplicitType = parent;
+			if (variable.ExplicitType == ExplicitType.Enum)
+			{
+				var explicitTypeViewModel = new ExplicitTypeViewModel(variable.EnumType);
+				if (parent != null)
+					parent.AddChild(explicitTypeViewModel);
+				SelectedExplicitType = explicitTypeViewModel;
+				SelectedExplicitType.ExpandToThis();
+			}
+			if (variable.ExplicitType == ExplicitType.Object)
+			{
+				var explicitTypeViewModel = new ExplicitTypeViewModel(variable.ObjectType);
+				if (parent != null)
+					parent.AddChild(explicitTypeViewModel);
+				SelectedExplicitType = explicitTypeViewModel;
+				SelectedExplicitType.ExpandToThis();
+			}
+
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.DefaultExplicitValue, variable.DefaultExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
+			Name = variable.Name;
+			IsEditMode = true;
 		}
 
 		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; protected set; }
@@ -58,28 +81,33 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedExplicitType = value;
-				VariableViewModel.ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-				VariableViewModel.ExplicitType = _selectedExplicitType.ExplicitType;
+				ExplicitValuesViewModel.ExplicitType = _selectedExplicitType.ExplicitType;
+				if (_selectedExplicitType.ExplicitType == ExplicitType.Enum)
+					ExplicitValuesViewModel.EnumType = _selectedExplicitType.EnumType;
+				if (_selectedExplicitType.ExplicitType == ExplicitType.Object)
+					ExplicitValuesViewModel.ObjectType = _selectedExplicitType.ObjectType;
 				OnPropertyChanged(() => SelectedExplicitType);
+				OnPropertyChanged(() => IsRealType);
 			}
 		}
 
+		string _name;
 		public string Name
 		{
-			get { return VariableViewModel.Name; }
+			get { return _name; }
 			set
 			{
-				VariableViewModel.Name = value;
+				_name = value;
 				OnPropertyChanged(() => Name);
 			}
 		}
 
 		public bool IsList
 		{
-			get { return VariableViewModel.IsList; }
+			get { return ExplicitValuesViewModel.IsList; }
 			set
 			{
-				VariableViewModel.IsList = value;
+				ExplicitValuesViewModel.IsList = value;
 				OnPropertyChanged(() => IsList);
 			}
 		}
@@ -98,8 +126,33 @@ namespace AutomationModule.ViewModels
 				return false;
 			}
 			Variable = new Variable();
-			PropertyCopy.Copy<Variable, Variable>(VariableViewModel.Variable, Variable);
+			Variable.Name = Name;
+			Variable.IsList = IsList;
+			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
+			Variable.EnumType = SelectedExplicitType.EnumType;
+			Variable.ObjectType = SelectedExplicitType.ObjectType;
+			Variable.DefaultExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
+			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
+				Variable.DefaultExplicitValues.Add(explicitValue.ExplicitValue);
 			return base.Save();
+		}
+
+		protected override bool CanSave()
+		{
+			return IsRealType;
+		}
+
+		public bool IsRealType
+		{
+			get
+			{
+				if (SelectedExplicitType == null)
+					return false;
+				if (SelectedExplicitType.ExplicitType == ExplicitType.Enum || SelectedExplicitType.ExplicitType == ExplicitType.Object)
+					if (SelectedExplicitType.Parent == null)
+						return false;
+				return true;
+			}
 		}
 	}
 }

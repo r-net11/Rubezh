@@ -8,13 +8,14 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
-		public XDevice Device { get; private set; }
-		public XState State
+		public GKDevice Device { get; private set; }
+		public GKState State
 		{
 			get { return Device.State; }
 		}
@@ -22,7 +23,7 @@ namespace GKModule.ViewModels
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
-		public DeviceViewModel(XDevice device)
+		public DeviceViewModel(GKDevice device)
 		{
 			Device = device;
 			DeviceStateViewModel = new DeviceStateViewModel(State);
@@ -45,7 +46,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => DeviceStateViewModel);
 
-			if (Device.DriverType == XDriverType.MPT)
+			if (Device.DriverType == GKDriverType.MPT)
 			{
 				if (State.StateClass == XStateClass.TurningOn)
 				{
@@ -56,7 +57,7 @@ namespace GKModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return XManager.GetPresentationZone(Device); }
+			get { return GKManager.GetPresentationZone(Device); }
 		}
 
 		public string PresentationLogic
@@ -64,7 +65,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Device.Driver.HasLogic)
-					return XManager.GetPresentationZone(Device);
+					return GKManager.GetPresentationZone(Device);
 				return null;
 			}
 		}
@@ -73,9 +74,9 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DriverType == XDriverType.FirePump)
-					return XManager.GetPresentationZone(Device.NSLogic);
-				return XManager.GetPresentationZone(Device);
+				if (Device.DriverType == GKDriverType.FirePump)
+					return GKManager.GetPresentationZone(Device.NSLogic);
+				return GKManager.GetPresentationZone(Device);
 			}
 		}
 
@@ -101,11 +102,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Device = Device
+				GKDevice = Device
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 		public bool CanShowJournal()
 		{
@@ -133,7 +134,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return Device.AllParents.Any(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
+			return Device.AllParents.Any(x => x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
 				!Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
@@ -147,7 +148,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return Device.AllParents.Any(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
+			return Device.AllParents.Any(x => x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
 				Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
@@ -169,7 +170,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnoreAll()
 		{
-			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
+			if (Device.DriverType == GKDriverType.KAU_Shleif || Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;
@@ -198,7 +199,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnoreAll()
 		{
-			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
+			if (Device.DriverType == GKDriverType.KAU_Shleif || Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;

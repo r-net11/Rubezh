@@ -10,24 +10,24 @@ namespace GKProcessor
 {
 	public class JournalParser
 	{
-		public XJournalItem JournalItem { get; private set; }
+		public GKJournalItem JournalItem { get; private set; }
 
-		public XDevice Device { get; private set; }
-		public XZone Zone { get; private set; }
-		public XDirection Direction { get; private set; }
-		public XPumpStation PumpStation { get; private set; }
-		public XMPT MPT { get; private set; }
-		public XDelay Delay { get; private set; }
-		public XPim Pim { get; private set; }
-		public XGuardZone GuardZone { get; private set; }
+		public GKDevice Device { get; private set; }
+		public GKZone Zone { get; private set; }
+		public GKDirection Direction { get; private set; }
+		public GKPumpStation PumpStation { get; private set; }
+		public GKMPT MPT { get; private set; }
+		public GKDelay Delay { get; private set; }
+		public GKPim Pim { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 
-		public JournalParser(XDevice gkDevice, List<byte> bytes)
+		public JournalParser(GKDevice gkControllerDevice, List<byte> bytes)
 		{
-			JournalItem = new XJournalItem();
-			JournalItem.SubsystemType = XSubsystemType.GK;
-			JournalItem.JournalObjectType = XJournalObjectType.GK;
+			JournalItem = new GKJournalItem();
+			JournalItem.SubsystemType = GKSubsystemType.GK;
+			JournalItem.JournalObjectType = GKJournalObjectType.GK;
 
-			JournalItem.GKIpAddress = XManager.GetIpAddress(gkDevice);
+			JournalItem.GKIpAddress = GKManager.GetIpAddress(gkControllerDevice);
 			JournalItem.GKJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
 			JournalItem.GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			var UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
@@ -72,7 +72,7 @@ namespace GKProcessor
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = XJournalObjectType.GkUser;
+							JournalItem.JournalObjectType = GKJournalObjectType.GkUser;
 							break;
 
 						case 8:
@@ -82,7 +82,7 @@ namespace GKProcessor
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalObjectType = XJournalObjectType.GkUser;
+							JournalItem.JournalObjectType = GKJournalObjectType.GkUser;
 							break;
 
 						case 9:
@@ -92,12 +92,12 @@ namespace GKProcessor
 
 						case 10:
 							JournalItem.JournalEventNameType = JournalEventNameType.Введен_новый_пользователь;
-							JournalItem.JournalObjectType = XJournalObjectType.GkUser;
+							JournalItem.JournalObjectType = GKJournalObjectType.GkUser;
 							break;
 
 						case 11:
 							JournalItem.JournalEventNameType = JournalEventNameType.Изменена_учетная_информация_пользователя;
-							JournalItem.JournalObjectType = XJournalObjectType.GkUser;
+							JournalItem.JournalObjectType = GKJournalObjectType.GkUser;
 							break;
 
 						case 12:
@@ -109,7 +109,7 @@ namespace GKProcessor
 							JournalItem.Description = code.ToString();
 							break;
 					}
-					JournalItem.ObjectUID = gkDevice.BaseUID;
+					JournalItem.ObjectUID = gkControllerDevice.UID;
 					break;
 
 				case JournalSourceType.Device:
@@ -117,7 +117,7 @@ namespace GKProcessor
 					var unknownAddress = BytesHelper.SubstructShort(bytes, 32 + 16);
 					var presentationAddress = (unknownAddress / 256 + 1).ToString() + "." + (unknownAddress % 256).ToString();
 					var driverName = unknownType.ToString();
-					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == unknownType);
+					var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == unknownType);
 					if (driver != null)
 					{
 						driverName = driver.ShortName;
@@ -154,7 +154,7 @@ namespace GKProcessor
 							JournalItem.JournalEventNameType = JournalEventNameType.При_конфигурации_описан_другой_тип;
 							var realType = BytesHelper.SubstructShort(bytes, 32 + 14);
 							var realDriverString = "Неизвестный тип " + realType.ToString();
-							var realDriver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == realType);
+							var realDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == realType);
 							if (realDriver != null)
 							{
 								realDriverString = realDriver.ShortName;
@@ -167,11 +167,11 @@ namespace GKProcessor
 							break;
 						case 2:
 							JournalItem.JournalEventNameType = JournalEventNameType.Пожар_1;
-							if (JournalItem.JournalObjectType == XJournalObjectType.Device)
+							if (JournalItem.JournalObjectType == GKJournalObjectType.Device)
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_1;
 							}
-							if (JournalItem.JournalObjectType == XJournalObjectType.GuardZone)
+							if (JournalItem.JournalObjectType == GKJournalObjectType.GuardZone)
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_Охранной_Зоны;
 							}
@@ -180,7 +180,7 @@ namespace GKProcessor
 
 						case 3:
 							JournalItem.JournalEventNameType = JournalEventNameType.Пожар_2;
-							if (JournalItem.JournalObjectType == XJournalObjectType.Device)
+							if (JournalItem.JournalObjectType == GKJournalObjectType.Device)
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_2;
 							}
@@ -313,123 +313,119 @@ namespace GKProcessor
 			if (JournalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 				JournalItem.Description = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventDescriptionType);
 
-			//if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
-			//{
-			//	var pumpTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "PumpType");
-			//	if (pumpTypeProperty != null)
-			//	{
-			//		JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, pumpTypeProperty.Value);
-			//	}
-			//}
-
 			if (source == JournalSourceType.Object)
 			{
-				var stateBits = XStatesHelper.StatesFromInt(JournalItem.ObjectState);
-				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits);
-				JournalItem.ObjectStateClass = XStatesHelper.GetMinStateClass(stateClasses);
+				var stateBits = GKStatesHelper.StatesFromInt(JournalItem.ObjectState);
+				var stateClasses = GKStatesHelper.StateBitsToStateClasses(stateBits);
+				JournalItem.ObjectStateClass = GKStatesHelper.GetMinStateClass(stateClasses);
 			}
 			else
 			{
 				JournalItem.ObjectStateClass = XStateClass.Norm;
 			}
+
+			InitializeMAMessage();
 		}
 
 		void InitializeFromObjectUID()
 		{
 			if (JournalItem.GKObjectNo != 0)
 			{
-				Device = XManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				Device = GKManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Device != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.Device;
-					JournalItem.ObjectUID = Device.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.Device;
+					JournalItem.ObjectUID = Device.UID;
 					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
 				}
-				Zone = XManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				Zone = GKManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Zone != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.Zone;
-					JournalItem.ObjectUID = Zone.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.Zone;
+					JournalItem.ObjectUID = Zone.UID;
 					JournalItem.ObjectName = Zone.PresentationName;
 				}
-				Direction = XManager.Directions.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				Direction = GKManager.Directions.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Direction != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.Direction;
-					JournalItem.ObjectUID = Direction.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.Direction;
+					JournalItem.ObjectUID = Direction.UID;
 					JournalItem.ObjectName = Direction.PresentationName;
 				}
-				PumpStation = XManager.PumpStations.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				PumpStation = GKManager.PumpStations.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (PumpStation != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.PumpStation;
-					JournalItem.ObjectUID = PumpStation.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.PumpStation;
+					JournalItem.ObjectUID = PumpStation.UID;
 					JournalItem.ObjectName = PumpStation.PresentationName;
 				}
-				MPT = XManager.MPTs.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				MPT = GKManager.MPTs.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (MPT != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.MPT;
-					JournalItem.ObjectUID = MPT.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.MPT;
+					JournalItem.ObjectUID = MPT.UID;
 					JournalItem.ObjectName = MPT.PresentationName;
 				}
-				Delay = XManager.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				Delay = GKManager.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Delay != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.Delay;
-					JournalItem.ObjectUID = Delay.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.Delay;
+					JournalItem.ObjectUID = Delay.UID;
 					JournalItem.ObjectName = Delay.PresentationName;
 				}
 				else
 				{
-					Delay = XManager.AutoGeneratedDelays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+					Delay = GKManager.AutoGeneratedDelays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 					if (Delay != null)
 					{
-						JournalItem.JournalObjectType = XJournalObjectType.Delay;
-						JournalItem.ObjectUID = Delay.BaseUID;
+						JournalItem.JournalObjectType = GKJournalObjectType.Delay;
+						JournalItem.ObjectUID = Delay.UID;
 						JournalItem.ObjectName = Delay.PresentationName;
 					}
 				}
-				Pim = XManager.AutoGeneratedPims.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				Pim = GKManager.AutoGeneratedPims.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Pim != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.Pim;
-					JournalItem.ObjectUID = Pim.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.Pim;
+					JournalItem.ObjectUID = Pim.UID;
 					JournalItem.ObjectName = Pim.PresentationName;
 				}
-				GuardZone = XManager.GuardZones.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				GuardZone = GKManager.GuardZones.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (GuardZone != null)
 				{
-					JournalItem.JournalObjectType = XJournalObjectType.GuardZone;
-					JournalItem.ObjectUID = GuardZone.BaseUID;
+					JournalItem.JournalObjectType = GKJournalObjectType.GuardZone;
+					JournalItem.ObjectUID = GuardZone.UID;
 					JournalItem.ObjectName = GuardZone.PresentationName;
 				}
+			}
+		}
 
-				if (Device != null && Device.DriverType == XDriverType.RSR2_AM_1)
+		void InitializeMAMessage()
+		{
+			if (Device != null && Device.DriverType == GKDriverType.RSR2_AM_1)
+			{
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
 				{
-					if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+					if (property != null)
 					{
-						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
-						if (property != null)
-						{
-							JournalItem.Description = property.StringValue;
-						}
+						JournalItem.Description = property.StringValue;
 					}
-					if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_1)
+				}
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_1)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 1");
+					if (property != null)
 					{
-						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 1");
-						if (property != null)
-						{
-							JournalItem.Description = property.StringValue;
-						}
+						JournalItem.Description = property.StringValue;
 					}
-					if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
+				}
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
+					if (property != null)
 					{
-						var property = Device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
-						if (property != null)
-						{
-							JournalItem.Description = property.StringValue;
-						}
+						JournalItem.Description = property.StringValue;
 					}
 				}
 			}

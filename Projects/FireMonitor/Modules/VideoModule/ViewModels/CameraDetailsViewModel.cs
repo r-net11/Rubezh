@@ -12,6 +12,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using FiresecAPI;
 
 namespace VideoModule.ViewModels
 {
@@ -50,14 +51,14 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var zones = new List<XZone>();
+				var zones = new List<GKZone>();
 				foreach (var zoneUID in Camera.ZoneUIDs.ToList())
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 						zones.Add(zone);
 				}
-				var presentationZones = XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
+				var presentationZones = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
 				return presentationZones;
 			}
 		}

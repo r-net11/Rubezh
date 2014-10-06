@@ -4,52 +4,29 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDZone : IStateProvider, IIdentity, IPlanPresentable
+	public class SKDZone : ModelBase, IStateProvider, IPlanPresentable
 	{
 		public SKDZone()
 		{
-			UID = Guid.NewGuid();
 			PlanElementUIDs = new List<Guid>();
 			Devices = new List<SKDDevice>();
 		}
 
-		public SKDZone Parent { get; set; }
+		[XmlIgnore]
 		public SKDZoneState State { get; set; }
+		[XmlIgnore]
 		public List<SKDDevice> Devices { get; set; }
-
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public int No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
-
-		public string PresentationName
-		{
-			get { return No.ToString() + "." + Name; }
-		}
-
-		public void OnChanged()
-		{
-			if (Changed != null)
-				Changed();
-		}
-		public event Action Changed;
 
 		#region IStateProvider Members
 		IDeviceState<XStateClass> IStateProvider.StateClass

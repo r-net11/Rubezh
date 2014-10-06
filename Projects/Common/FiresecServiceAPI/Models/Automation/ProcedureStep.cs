@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -17,6 +18,7 @@ namespace FiresecAPI.Automation
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
+			ForArguments = new ForArguments();
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 			ExitArguments = new ExitArguments();
@@ -35,8 +37,12 @@ namespace FiresecAPI.Automation
 			SendEmailArguments = new SendEmailArguments();
 			RunProgrammArguments = new RunProgrammArguments();
 			RandomArguments = new RandomArguments();
+			ChangeListArguments = new ChangeListArguments();
+			GetListCountArgument = new GetListCountArgument();
+			GetListItemArgument = new GetListItemArgument();
 		}
 
+		[XmlIgnore]
 		public ProcedureStep Parent { get; set; }
 
 		[DataMember]
@@ -73,6 +79,9 @@ namespace FiresecAPI.Automation
 		public ForeachArguments ForeachArguments { get; set; }
 
 		[DataMember]
+		public ForArguments ForArguments { get; set; }
+
+		[DataMember]
 		public PauseArguments PauseArguments { get; set; }
 
 		[DataMember]
@@ -80,6 +89,12 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExitArguments ExitArguments { get; set; }
+		
+		[DataMember]
+		public GetListCountArgument GetListCountArgument { get; set; }
+
+		[DataMember]
+		public GetListItemArgument GetListItemArgument { get; set; }
 
 		[DataMember]
 		public SetValueArguments SetValueArguments { get; set; }
@@ -125,5 +140,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RandomArguments RandomArguments { get; set; }
+		
+		[DataMember]
+		public ChangeListArguments ChangeListArguments { get; set; }
 	}
 }

@@ -34,7 +34,8 @@ namespace SKDModule
 				{
 					var globalStateClass = SKDManager.GetMinStateClass();
 
-					if (journalItem.StateClass <= globalStateClass ||
+					var stateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+					if (stateClass <= globalStateClass ||
 						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 					{
 						switch (journalItem.JournalObjectType)

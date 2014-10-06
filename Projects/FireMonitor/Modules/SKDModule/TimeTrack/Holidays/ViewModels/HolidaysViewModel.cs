@@ -15,31 +15,31 @@ namespace SKDModule.ViewModels
 		public HolidaysViewModel():base()
 		{
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
-            InitializeYears();
+			InitializeYears();
 		}
 
 		public void Select(Guid holidayUID)
 		{
 			if (holidayUID != Guid.Empty)
 			{
-                var holidayViewModel = Organisations.SelectMany(x => x.Children).FirstOrDefault(x => x.Model != null && x.Model.UID == holidayUID);
+				var holidayViewModel = Organisations.SelectMany(x => x.Children).FirstOrDefault(x => x.Model != null && x.Model.UID == holidayUID);
 				if (holidayViewModel != null)
 					holidayViewModel.ExpandToThis();
 				SelectedItem = holidayViewModel;
 			}
 		}
 
-        protected override Holiday CopyModel(Holiday source)
-        {
-            var copy = base.CopyModel(source);
-            copy.Type = source.Type;
-            copy.Date = source.Date;
-            copy.TransferDate = source.TransferDate;
-            copy.Reduction = source.Reduction;
-            return copy;
-        }
-        
-        void InitializeYears()
+		protected override Holiday CopyModel(Holiday source)
+		{
+			var copy = base.CopyModel(source);
+			copy.Type = source.Type;
+			copy.Date = source.Date;
+			copy.TransferDate = source.TransferDate;
+			copy.Reduction = source.Reduction;
+			return copy;
+		}
+		
+		void InitializeYears()
 		{
 			AvailableYears = new ObservableCollection<int>();
 			for (int i = 2014; i <= 2020; i++)
@@ -79,29 +79,29 @@ namespace SKDModule.ViewModels
 			DialogService.ShowModalWindow(nightSettingsViewModel);
 		}
 
-        protected override bool Save(Holiday item)
-        {
-            return HolidayHelper.Save(item);
-        }
+		protected override bool Save(Holiday item)
+		{
+			return HolidayHelper.Save(item);
+		}
 
-        protected override System.Collections.Generic.IEnumerable<Holiday> GetModels(HolidayFilter filter)
-        {
-            return HolidayHelper.Get(filter);
-        }
+		protected override System.Collections.Generic.IEnumerable<Holiday> GetModels(HolidayFilter filter)
+		{
+			return HolidayHelper.Get(filter);
+		}
 
-        protected override System.Collections.Generic.IEnumerable<Holiday> GetModelsByOrganisation(Guid organisauinUID)
-        {
-            return HolidayHelper.GetByOrganisation(organisauinUID);
-        }
+		protected override System.Collections.Generic.IEnumerable<Holiday> GetModelsByOrganisation(Guid organisauinUID)
+		{
+			return HolidayHelper.GetByOrganisation(organisauinUID);
+		}
 
-        protected override bool MarkDeleted(Guid uid)
-        {
-            return HolidayHelper.MarkDeleted(uid);
-        }
+		protected override bool MarkDeleted(Guid uid)
+		{
+			return HolidayHelper.MarkDeleted(uid);
+		}
 
-        protected override string ItemRemovingName
-        {
-            get { return "праздничный день"; }
-        }
-    }
+		protected override string ItemRemovingName
+		{
+			get { return "праздничный день"; }
+		}
+	}
 }

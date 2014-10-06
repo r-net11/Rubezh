@@ -12,6 +12,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ConditionTemplate { get; set; }
 		public DataTemplate FindObjectTemplate { get; set; }
 		public DataTemplate ForeachTemplate { get; set; }
+		public DataTemplate ForTemplate { get; set; }
 		public DataTemplate PauseTemplate { get; set; }
 		public DataTemplate ProcedureSelectionTemplate { get; set; }
 		public DataTemplate ExitTemplate { get; set; }
@@ -29,6 +30,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgrammTemplate { get; set; }
 		public DataTemplate RandomTemplate { get; set; }
+		public DataTemplate ChangeListTemplate { get; set; }
+		public DataTemplate GetListCountTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -59,6 +62,10 @@ namespace AutomationModule.ViewModels
 			if (item is ForeachStepViewModel)
 			{
 				return ForeachTemplate;
+			}
+			if (item is ForStepViewModel)
+			{
+				return ForTemplate;
 			}
 			if (item is PauseStepViewModel)
 			{
@@ -127,6 +134,14 @@ namespace AutomationModule.ViewModels
 			if (item is RandomStepViewModel)
 			{
 				return RandomTemplate;
+			}
+			if (item is ChangeListStepViewModel)
+			{
+				return ChangeListTemplate;
+			}
+			if (item is GetListCountStepViewModel)
+			{
+				return GetListCountTemplate;
 			}
 			return null;
 		}

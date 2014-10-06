@@ -34,7 +34,7 @@
 						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedEnterTimeCreteria}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-                                    <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+									<TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>

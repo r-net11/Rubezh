@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 					{
 						StateClass = stateClass
 					};
+					skdLibraryState.Frames.Add(new SKDLibraryFrame() { Id = 0 });
 					skdLibraryStates.Add(skdLibraryState);
 				}
 			}

@@ -21,7 +21,7 @@ namespace PlansModule.Kursk
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add(() => XManager.Devices);
+			Cache.Add(() => GKManager.Devices);
 
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -46,7 +46,7 @@ namespace PlansModule.Kursk
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			foreach (var element in plan.ElementExtensions.OfType<ElementRectangleTank>().Where(x => x.XDeviceUID != Guid.Empty))
+			foreach (var element in plan.ElementExtensions.OfType<ElementRectangleTank>().Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
 		}
 

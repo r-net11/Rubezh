@@ -15,10 +15,10 @@ namespace FiresecAPI
 		OperationResult<bool> GKWriteConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
+		OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
+		OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
@@ -36,13 +36,13 @@ namespace FiresecAPI
 		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<XJournalItem> GKReadJournalItem(Guid deviceUID, int no);
+		OperationResult<GKJournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
 		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes);
 
 		[OperationContract]
-		OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID);
+		OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID);
 
 		[OperationContract]
 		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);
@@ -51,10 +51,10 @@ namespace FiresecAPI
 		GKStates GKGetStates();
 
 		[OperationContract]
-		void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit);
+		void GKExecuteDeviceCommand(Guid deviceUID, GKStateBit stateBit);
 
 		[OperationContract]
-		void GKReset(Guid uid, XBaseObjectType objectType);
+		void GKReset(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
 		void GKResetFire1(Guid zoneUID);
@@ -63,28 +63,28 @@ namespace FiresecAPI
 		void GKResetFire2(Guid zoneUID);
 
 		[OperationContract]
-		void GKSetAutomaticRegime(Guid uid, XBaseObjectType objectType);
+		void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKSetManualRegime(Guid uid, XBaseObjectType objectType);
+		void GKSetManualRegime(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKSetIgnoreRegime(Guid uid, XBaseObjectType objectType);
+		void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOn(Guid uid, XBaseObjectType objectType);
+		void GKTurnOn(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOnNow(Guid uid, XBaseObjectType objectType);
+		void GKTurnOnNow(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOff(Guid uid, XBaseObjectType objectType);
+		void GKTurnOff(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKTurnOffNow(Guid uid, XBaseObjectType objectType);
+		void GKTurnOffNow(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
-		void GKStop(Guid uid, XBaseObjectType objectType);
+		void GKStop(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
 		void GKStartMeasureMonitoring(Guid deviceUID);
@@ -94,10 +94,10 @@ namespace FiresecAPI
 
 		#region Journal
 		[OperationContract]
-		List<XJournalItem> GetGKTopLastJournalItems(int count);
+		List<GKJournalItem> GetGKTopLastJournalItems(int count);
 
 		[OperationContract]
-		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID);
+		void BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID);
 
 		[OperationContract]
 		List<string> GetDistinctGKJournalNames();

@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Doors = new ObservableCollection<DoorViewModel>();
-			foreach (var door in XManager.DeviceConfiguration.Doors)
+			foreach (var door in GKManager.DeviceConfiguration.Doors.OrderBy(x => x.No))
 			{
 				var doorViewModel = new DoorViewModel(door);
 				Doors.Add(doorViewModel);

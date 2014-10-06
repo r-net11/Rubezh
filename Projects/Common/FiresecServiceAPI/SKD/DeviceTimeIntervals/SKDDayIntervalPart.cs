@@ -15,9 +15,9 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public TimeSpan StartTime { get; set; }
+		public double StartMilliseconds { get; set; }
 
 		[DataMember]
-		public TimeSpan EndTime { get; set; }
+		public double EndMilliseconds { get; set; }
 	}
 }

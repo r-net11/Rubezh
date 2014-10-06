@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -14,6 +15,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string StringValue { get; set; }
 
+		[XmlIgnore]
 		public SKDDriverProperty DriverProperty { get; set; }
 	}
 }

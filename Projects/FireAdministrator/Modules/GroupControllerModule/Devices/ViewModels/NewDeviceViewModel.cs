@@ -16,30 +16,33 @@ namespace GKModule.ViewModels
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
 			{
-				if (driver.DriverType == XDriverType.AMP_1)
+				if (driver.IsIgnored)
 					continue;
+				if (driver.DriverType == GKDriverType.AMP_1)
+					continue;
+
 				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 
 			var driverType = deviceViewModel.Driver.DriverType;
-			if (driverType == XDriverType.MPT || driverType == XDriverType.MRO_2)
+			if (driverType == GKDriverType.MPT || driverType == GKDriverType.MRO_2)
 			{
-				Drivers = new ObservableCollection<XDriver>(
-					from XDriver driver in sortedDrivers
+				Drivers = new ObservableCollection<GKDriver>(
+					from GKDriver driver in sortedDrivers
 					where driver.DriverType == driverType
 					select driver);
 			}
 
 			var parentShleif = ParentDevice;
-			if (ParentDevice.DriverType == XDriverType.MPT || ParentDevice.DriverType == XDriverType.MRO_2)
+			if (ParentDevice.DriverType == GKDriverType.MPT || ParentDevice.DriverType == GKDriverType.MRO_2)
 				parentShleif = ParentDevice.Parent;
 
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
 
-		XDriver _selectedDriver;
-		public XDriver SelectedDriver
+		GKDriver _selectedDriver;
+		public GKDriver SelectedDriver
 		{
 			get { return _selectedDriver; }
 			set
@@ -97,7 +100,7 @@ namespace GKModule.ViewModels
 					return true;
 				}
 
-				XDevice device = XManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
+				GKDevice device = GKManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
 				var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				AddedDevices.Add(addedDevice);
 			}
@@ -115,7 +118,7 @@ namespace GKModule.ViewModels
 			if (result)
 			{
 				ParentDeviceViewModel.Update();
-				XManager.DeviceConfiguration.Update();
+				GKManager.DeviceConfiguration.Update();
 			}
 			return result;
 		}

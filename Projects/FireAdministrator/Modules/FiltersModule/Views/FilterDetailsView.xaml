@@ -21,7 +21,7 @@
 				<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Описани" Margin="2" HorizontalAlignment="Right" />
+				<Label Grid.Row="1" Grid.Column="0" Content="Описание" Margin="2" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 
 				<Label Grid.Row="2" Grid.Column="0" Content="Количество последних записей" Margin="2" HorizontalAlignment="Right" />
@@ -48,7 +48,7 @@
 			</tree:TreeList>
 		</TabItem>
 		<TabItem Header="Объект" DataContext="{Binding ObjectsViewModel}">
-            <tree:TreeList Focusable="True" Source="{Binding RootObjects}" SelectedTreeNode="{Binding SelectedObject}" tree:SortBehavior.CanUserSortColumns="False">
+			<tree:TreeList Focusable="True" Source="{Binding RootObjects}" SelectedTreeNode="{Binding SelectedObject}" tree:SortBehavior.CanUserSortColumns="False">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Header="Наименование">

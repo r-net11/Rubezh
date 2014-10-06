@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<GuardZoneViewModel>();
-			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
+			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones.OrderBy(x => x.No))
 			{
 				var zoneViewModel = new GuardZoneViewModel(guardZone);
 				Zones.Add(zoneViewModel);
@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		{
 			if (zoneUID != Guid.Empty)
 			{
-				SelectedZone = Zones.FirstOrDefault(x => x.GuardZone.BaseUID == zoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.GuardZone.UID == zoneUID);
 			}
 		}
 	}

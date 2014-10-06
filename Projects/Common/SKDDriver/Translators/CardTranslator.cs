@@ -98,13 +98,13 @@ namespace SKDDriver
 		{
 			try
 			{
-                var tableItem = Table.FirstOrDefault(x => x.UID == card.UID);
-                if(tableItem == null)
-                    return new OperationResult("Карта не найдена в базе данных");
-                tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
-                Context.SubmitChanges();
-                return new OperationResult();
-            }
+				var tableItem = Table.FirstOrDefault(x => x.UID == card.UID);
+				if(tableItem == null)
+					return new OperationResult("Карта не найдена в базе данных");
+				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);

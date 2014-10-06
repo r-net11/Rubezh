@@ -391,6 +391,16 @@ namespace SKDModule.ViewModels
 			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
 				Card.AccessTemplateUID = null;
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
+			return Validate();
+		}
+
+		bool Validate()
+		{
+			if (Card.Password != null && Card.Password.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Пароль' не может быть длиннее 50 символов");
+				return false;
+			}
 			return true;
 		}
 	}

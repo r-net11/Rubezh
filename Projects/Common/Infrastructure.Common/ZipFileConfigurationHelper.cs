@@ -4,13 +4,12 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Ionic.Zip;
 
-
 namespace Infrastructure.Common
 {
 	public static class ZipFileConfigurationHelper
 	{
 		public static string Error { get; private set; }
-		public static void SaveToZipFile(string fileName, XDeviceConfiguration deviceConfiguration)
+		public static void SaveToZipFile(string fileName, GKDeviceConfiguration deviceConfiguration)
 		{
 			var folderName = AppDataFolderHelper.GetTempFolder();
 			if (!Directory.Exists(folderName))
@@ -21,7 +20,7 @@ namespace Infrastructure.Common
 
 			deviceConfiguration.BeforeSave();
 			deviceConfiguration.Version = new ConfigurationVersion() { MinorVersion = 1, MajorVersion = 1 };
-			ZipSerializeHelper.Serialize(deviceConfiguration, Path.Combine(folderName, "XDeviceConfiguration.xml"));
+			ZipSerializeHelper.Serialize(deviceConfiguration, Path.Combine(folderName, "GKDeviceConfiguration.xml"), true);
 			var zipFile = new ZipFile(fileName);
 			zipFile.AddDirectory(folderName);
 			zipFile.Save(fileName);
@@ -30,7 +29,7 @@ namespace Infrastructure.Common
 				Directory.Delete(folderName, true);
 		}
 
-		public static XDeviceConfiguration UnZipFromStream(MemoryStream memoryStream)
+		public static GKDeviceConfiguration UnZipFromStream(MemoryStream memoryStream)
 		{
 			var zipFile = ZipFile.Read(memoryStream);
 			var dataMemory = new MemoryStream();
@@ -39,7 +38,7 @@ namespace Infrastructure.Common
 			dataMemory.Position = 0;
 			try
 			{
-				return ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(dataMemory);
+				return ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(dataMemory, true);
 			}
 			catch
 			{

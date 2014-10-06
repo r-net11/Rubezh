@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Common;
 using Infrastructure.Common;
 using Infrastructure.Models;
+using System.Xml.Serialization;
 
 namespace Infrastructure
 {
@@ -30,13 +31,6 @@ namespace Infrastructure
 			set { _autoActivationSettings = value; }
 		}
 
-		static MultiLayoutCameraSettings _multiLayoutCameraSettings;
-		public static MultiLayoutCameraSettings MultiLayoutCameraSettings
-		{
-			get { return _multiLayoutCameraSettings ?? (_multiLayoutCameraSettings = new MultiLayoutCameraSettings()); }
-			set { _multiLayoutCameraSettings = value; }
-		}
-
 		static RviMultiLayoutCameraSettings _rviMultiLayoutCameraSettings;
 		public static RviMultiLayoutCameraSettings RviMultiLayoutCameraSettings
 		{
@@ -57,7 +51,6 @@ namespace Infrastructure
 			{
 				LoadArchiveDefaultState();
 				LoadAutoActivationSettings();
-				LoadCameraSettings();
 				LoadRviCameraSettings();
 				LoadSKDSettings();
 			}
@@ -76,7 +69,6 @@ namespace Infrastructure
 
 				SaveArchiveDefaultState();
 				SaveAutoActivationSettings();
-				SaveCameraSettings();
 				SaveRviCameraSettings();
 				SaveSKDSettings();
 			}
@@ -92,8 +84,8 @@ namespace Infrastructure
 			{
 				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
-					var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
-					ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);
+					var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
+					ArchiveDefaultState = (ArchiveDefaultState)xmlSerializer.Deserialize(fileStream);
 					if (ArchiveDefaultState.XAdditionalColumns == null)
 						ArchiveDefaultState.XAdditionalColumns = new List<XJournalColumnType>();
 					if (ArchiveDefaultState.AdditionalJournalColumnTypes == null)
@@ -112,31 +104,13 @@ namespace Infrastructure
 			{
 				using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Open))
 				{
-					var dataContractSerializer = new DataContractSerializer(typeof(AutoActivationSettings));
-					AutoActivationSettings = (AutoActivationSettings)dataContractSerializer.ReadObject(fileStream);
+					var xmlSerializer = new XmlSerializer(typeof(AutoActivationSettings));
+					AutoActivationSettings = (AutoActivationSettings)xmlSerializer.Deserialize(fileStream);
 				}
 			}
 			else
 			{
 				AutoActivationSettings = new AutoActivationSettings();
-			}
-		}
-
-		static void LoadCameraSettings()
-		{
-			if (File.Exists(MultiLayoutCameraSettingsFileName))
-			{
-				using (var fileStream = new FileStream(MultiLayoutCameraSettingsFileName, FileMode.Open))
-				{
-					var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
-					MultiLayoutCameraSettings = (MultiLayoutCameraSettings)dataContractSerializer.ReadObject(fileStream);
-					if (MultiLayoutCameraSettings.Dictionary == null)
-						MultiLayoutCameraSettings.Dictionary = new Dictionary<string, Guid>();
-				}
-			}
-			else
-			{
-				MultiLayoutCameraSettings = new MultiLayoutCameraSettings();
 			}
 		}
 
@@ -154,7 +128,7 @@ namespace Infrastructure
 			}
 			else
 			{
-				MultiLayoutCameraSettings = new MultiLayoutCameraSettings();
+				RviMultiLayoutCameraSettings = new RviMultiLayoutCameraSettings();
 			}
 		}
 
@@ -164,8 +138,8 @@ namespace Infrastructure
 			{
 				using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Open))
 				{
-					var dataContractSerializer = new DataContractSerializer(typeof(SKDSettings));
-					SKDSettings = (SKDSettings)dataContractSerializer.ReadObject(fileStream);
+					var xmlSerializer = new XmlSerializer(typeof(SKDSettings));
+					SKDSettings = (SKDSettings)xmlSerializer.Deserialize(fileStream);
 				}
 			}
 			else
@@ -178,8 +152,8 @@ namespace Infrastructure
 		{
 			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
-				dataContractSerializer.WriteObject(fileStream, ArchiveDefaultState);
+				var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
+				xmlSerializer.Serialize(fileStream, ArchiveDefaultState);
 			}
 		}
 
@@ -187,17 +161,8 @@ namespace Infrastructure
 		{
 			using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Create))
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(AutoActivationSettings));
-				dataContractSerializer.WriteObject(fileStream, AutoActivationSettings);
-			}
-		}
-
-		static void SaveCameraSettings()
-		{
-			using (var fileStream = new FileStream(MultiLayoutCameraSettingsFileName, FileMode.Create))
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
-				dataContractSerializer.WriteObject(fileStream, MultiLayoutCameraSettings);
+				var xmlSerializer = new XmlSerializer(typeof(AutoActivationSettings));
+				xmlSerializer.Serialize(fileStream, AutoActivationSettings);
 			}
 		}
 
@@ -214,8 +179,8 @@ namespace Infrastructure
 		{
 			using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Create))
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(SKDSettings));
-				dataContractSerializer.WriteObject(fileStream, SKDSettings);
+				var xmlSerializer = new XmlSerializer(typeof(SKDSettings));
+				xmlSerializer.Serialize(fileStream, SKDSettings);
 			}
 		}
 	}

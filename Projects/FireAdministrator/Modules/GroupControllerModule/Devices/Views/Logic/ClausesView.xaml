@@ -65,10 +65,10 @@
 								</ComboBox.ItemTemplate>
 							</ComboBox>
 
-                            <ComboBox Width="150" Height="30" ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}" VerticalAlignment="Center" Margin="2">
+							<ComboBox Width="150" Height="30" ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}" VerticalAlignment="Center" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
-                                        <Controls:IconLabel ImageSource="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}"
+										<Controls:IconLabel ImageSource="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}"
 										Text="{Binding Name}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
@@ -199,7 +199,7 @@
 								</Hyperlink>
 							</TextBlock>
 
-                            <TextBlock Visibility="{Binding CanSelectGuardZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+							<TextBlock Visibility="{Binding CanSelectGuardZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 								<Hyperlink Command="{Binding SelectGuardZonesCommand}" Style="{StaticResource HyperlinkStyle}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>

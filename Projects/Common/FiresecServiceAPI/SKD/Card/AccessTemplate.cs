@@ -5,13 +5,13 @@ using FiresecAPI.GK;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class AccessTemplate : OrganisationElementBase, IOrganisationElement
+	public class AccessTemplate : OrganisationElementBase, IOrganisationElement
 	{
 		public AccessTemplate()
 			: base()
 		{
 			CardDoors = new List<CardDoor>();
-			GuardZoneAccesses = new List<XGuardZoneAccess>();
+			GuardZoneAccesses = new List<GKGuardZoneAccess>();
 		}
 
 		[DataMember]
@@ -24,6 +24,6 @@ namespace FiresecAPI.SKD
 		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]
-		public List<XGuardZoneAccess> GuardZoneAccesses { get; set; }
+		public List<GKGuardZoneAccess> GuardZoneAccesses { get; set; }
 	}
 }

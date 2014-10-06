@@ -22,6 +22,8 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
+using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -45,7 +47,7 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
-			DevicesToCopy = new List<XDevice>();
+			DevicesToCopy = new List<GKDevice>();
 		}
 
 		protected override bool IsRightPanelVisibleByDefault
@@ -62,14 +64,14 @@ namespace GKModule.ViewModels
 				SelectedDevice = RootDevice;
 				foreach (var child in RootDevice.Children)
 				{
-					if (child.Driver.DriverType == XDriverType.GK)
+					if (child.Driver.DriverType == GKDriverType.GK)
 						child.IsExpanded = true;
 				}
 			}
 
 			foreach (var device in AllDevices)
 			{
-				if (device.Device.Driver.DriverType == XDriverType.KAU || device.Device.Driver.DriverType == XDriverType.RSR2_KAU)
+				if (device.Device.Driver.DriverType == GKDriverType.KAU || device.Device.Driver.DriverType == GKDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 
@@ -97,7 +99,7 @@ namespace GKModule.ViewModels
 			if (deviceUID != Guid.Empty)
 			{
 				FillAllDevices();
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpandToThis();
 				SelectedDevice = deviceViewModel;
@@ -137,17 +139,17 @@ namespace GKModule.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			FillAllDevices();
 		}
 
-		public DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
+		public DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
 			FillAllDevices();
 			return deviceViewModel;
 		}
-		private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
@@ -159,7 +161,7 @@ namespace GKModule.ViewModels
 		}
 
 		#region CopyPaste
-		public List<XDevice> DevicesToCopy { get; set; }
+		public List<GKDevice> DevicesToCopy { get; set; }
 
 		bool CanCutCopy()
 		{
@@ -170,16 +172,16 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			DevicesToCopy = new List<XDevice>() { XManager.CopyDevice(SelectedDevice.Device, false) };
+			DevicesToCopy = new List<GKDevice>() { GKManager.CopyDevice(SelectedDevice.Device, false) };
 		}
 
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
-			DevicesToCopy = new List<XDevice>() { XManager.CopyDevice(SelectedDevice.Device, true) };
+			DevicesToCopy = new List<GKDevice>() { GKManager.CopyDevice(SelectedDevice.Device, true) };
 			SelectedDevice.RemoveCommand.Execute();
 
-			XManager.DeviceConfiguration.Update();
+			GKManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
@@ -188,11 +190,11 @@ namespace GKModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				using (var cache = new ElementXDeviceUpdater())
+				using (var cache = new ElementDeviceUpdater())
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
+						var pasteDevice = GKManager.CopyDevice(deviceToCopy, false);
 						var device = PasteDevice(pasteDevice);
 						if (device != null)
 						{
@@ -201,12 +203,12 @@ namespace GKModule.ViewModels
 					}
 					if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 					{
-						XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
-						XManager.UpdateConfiguration();
+						GKManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
+						GKManager.UpdateConfiguration();
 					}
 				}
-				XManager.DeviceConfiguration.Update();
-				GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
+				GKManager.DeviceConfiguration.Update();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDevice>();
 				GKPlanExtension.Instance.InvalidateCanvas();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -215,7 +217,7 @@ namespace GKModule.ViewModels
 		{
 			if (DevicesToCopy.Count > 0 && SelectedDevice != null)
 			{
-				if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == XDriverType.KAUIndicator)
+				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
 					return false;
 
 				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
@@ -242,27 +244,32 @@ namespace GKModule.ViewModels
 			return false;
 		}
 
-		XDevice PasteDevice(XDevice device)
+		GKDevice PasteDevice(GKDevice device)
 		{
-			if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == XDriverType.KAUIndicator)
+			if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
 				return null;
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
-				if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU_Shleif)
+				if (maxAddress >= 255)
+					return null;
+
+				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 				{
-					var addedDevice = XManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress % 256 + 1));
-					XManager.CopyDevice(device, addedDevice);
+					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress % 256 + 1));
+					GKManager.CopyDevice(device, addedDevice);
 					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
+					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 				else
 				{
-					var addedDevice = XManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
-					XManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
+					var addedDevice = GKManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress));
+					GKManager.CopyDevice(device, addedDevice);
+					addedDevice.IntAddress = (byte)(maxAddress);
 					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;
 				}
 			}
@@ -288,8 +295,8 @@ namespace GKModule.ViewModels
 			{
 				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
 				{
-					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
-					var journalItemsCollection = (JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+					var xmlSerializer = new XmlSerializer(typeof(JournalItemsCollection));
+					var journalItemsCollection = (JournalItemsCollection)xmlSerializer.Deserialize(fileStream);
 					if (journalItemsCollection != null)
 					{
 						DialogService.ShowModalWindow(new JournalFromFileViewModel(journalItemsCollection));
@@ -367,7 +374,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnDeviceChanged(Guid deviceUID)
 		{
-			var device = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
+			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
 			{
 				device.Update();
@@ -384,19 +391,19 @@ namespace GKModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				ElementXDevice elementDevice = element as ElementXDevice;
+				ElementGKDevice elementDevice = element as ElementGKDevice;
 				if (elementDevice != null)
-					OnDeviceChanged(elementDevice.XDeviceUID);
+					OnDeviceChanged(elementDevice.DeviceUID);
 			});
 			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementXDevice elementXDevice = element as ElementXDevice;
+			ElementGKDevice elementXDevice = element as ElementGKDevice;
 			if (elementXDevice != null)
 			{
 				_lockSelection = true;
-				Select(elementXDevice.XDeviceUID);
+				Select(elementXDevice.DeviceUID);
 				_lockSelection = false;
 			}
 		}

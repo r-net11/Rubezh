@@ -115,6 +115,8 @@ namespace SKDModule.ViewModels
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return AdditionalColumnTypeHelper.Save(AdditionalColumnType);
 		}
 

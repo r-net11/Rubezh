@@ -16,7 +16,7 @@ namespace GKProcessor
 			Errors = new List<string>();
 		}
 
-		public void WriteConfig(XDevice gkDevice)
+		public void WriteConfig(GKDevice gkControllerDevice)
 		{
 			Errors = new List<string>();
 
@@ -24,7 +24,7 @@ namespace GKProcessor
 			try
 			{
 				DescriptorsManager.Create();
-				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.BaseUID == gkDevice.BaseUID);
+				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkControllerDevice.UID);
 				if (gkDatabase != null)
 				{
 					var result = DeviceBytesHelper.Ping(gkDatabase.RootDevice);
@@ -38,6 +38,8 @@ namespace GKProcessor
 					//}
 					for (int i = 0; i < 3; i++)
 					{
+						Errors = new List<string>();
+
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
@@ -50,7 +52,7 @@ namespace GKProcessor
 						}
 						if (!result)
 						{
-							Errors.Add("Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
+							Errors.Add("Не удалось перевести " + gkControllerDevice.PresentationName + " в технологический режим\n" +
 								   "Устройство не доступно, либо вашего " +
 								   "IP адреса нет в списке разрешенного адреса ГК"); continue;
 						}
@@ -94,7 +96,7 @@ namespace GKProcessor
 						if (!result)
 						{ Errors.Add("Не удалось записать дескриптор ГК"); continue; }
 						var gkFileReaderWriter = new GKFileReaderWriter();
-						gkFileReaderWriter.WriteFileToGK(gkDevice);
+						gkFileReaderWriter.WriteFileToGK(gkControllerDevice);
 						if (gkFileReaderWriter.Error != null)
 						{ Errors.Add(gkFileReaderWriter.Error); break; }
 						if (gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice, progressCallback)))
@@ -124,7 +126,7 @@ namespace GKProcessor
 				if (progressCallback.IsCanceled)
 					return false;
 				var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " +
-					descriptor.XBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
+					descriptor.GKBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
 					" из " + commonDatabase.Descriptors.Count;
 				GKProcessorManager.DoProgress(progressStage, progressCallback);
 				var packs = CreateDescriptors(descriptor);
@@ -154,7 +156,7 @@ namespace GKProcessor
 				int packLenght = Math.Min(256, descriptor.AllBytes.Count - packNo * 256);
 				var packBytes = descriptor.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-				if (packBytes.Count > 0)// || (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.Shuv))
+				if (packBytes.Count > 0)// || (descriptor.Device != null && descriptor.Device.DriverType == GKDriverType.Shuv))
 				{
 					var resultBytes = new List<byte>();
 					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());

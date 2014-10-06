@@ -5,18 +5,19 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public XDelay Delay { get; private set; }
-		public XState State
+		public GKDelay Delay { get; private set; }
+		public GKState State
 		{
 			get { return Delay.State; }
 		}
 
-		public DelayViewModel(XDelay delay)
+		public DelayViewModel(GKDelay delay)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -35,11 +36,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Delay = Delay
+				GKDelay = Delay
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -61,7 +62,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = XManager.GetPresentationZone(Delay.DeviceLogic);
+				var presentationZone = GKManager.GetPresentationZone(Delay.DeviceLogic);
 				return presentationZone;
 			}
 		}

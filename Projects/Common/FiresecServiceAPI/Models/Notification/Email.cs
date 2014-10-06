@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -29,6 +30,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string MessageTitle { get; set; }
 
+		[XmlIgnore]
 		public bool IsActivated { get; set; }
 	}
 }

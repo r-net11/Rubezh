@@ -12,7 +12,7 @@ namespace PlansModule.Kursk.Painters
 	class TankPainter : GeometryPainter<GeometryGroup>
 	{
 		private PresenterItem _presenterItem;
-		private XDevice _device;
+		private GKDevice _device;
 		private static Brush _brush;
 
 		public TankPainter(PresenterItem presenterItem)
@@ -21,7 +21,7 @@ namespace PlansModule.Kursk.Painters
 			var elementRectangleTank = presenterItem.Element as ElementRectangleTank;
 			if (elementRectangleTank != null)
 			{
-				_device = PlanPresenter.Cache.Get<XDevice>(elementRectangleTank.XDeviceUID);
+				_device = PlanPresenter.Cache.Get<GKDevice>(elementRectangleTank.DeviceUID);
 				if (_device != null && _device.State != null)
 					_device.State.StateChanged += OnPropertyChanged;
 			}

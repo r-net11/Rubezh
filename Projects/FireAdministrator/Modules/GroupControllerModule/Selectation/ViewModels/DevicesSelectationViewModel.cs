@@ -14,9 +14,9 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class DevicesSelectationViewModel : SaveCancelDialogViewModel
 	{
-		List<XDevice> SourceDevices;
+		List<GKDevice> SourceDevices;
 
-		public DevicesSelectationViewModel(List<XDevice> devices, List<XDevice> sourceDevices = null)
+		public DevicesSelectationViewModel(List<GKDevice> devices, List<GKDevice> sourceDevices = null)
 		{
 			Title = "Выбор устройства";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -27,15 +27,15 @@ namespace GKModule.ViewModels
 			if (sourceDevices != null)
 				SourceDevices = sourceDevices;
 			else
-				SourceDevices = XManager.Devices;
-			DevicesList = new List<XDevice>(devices);
+				SourceDevices = GKManager.Devices;
+			DevicesList = new List<GKDevice>(devices);
 			UpdateDevices();
 		}
 
 		void UpdateDevices()
 		{
-			AvailableDevices = new ObservableCollection<XDevice>();
-			Devices = new ObservableCollection<XDevice>();
+			AvailableDevices = new ObservableCollection<GKDevice>();
+			Devices = new ObservableCollection<GKDevice>();
 			SelectedAvailableDevice = null;
 			SelectedDevice = null;
 
@@ -57,12 +57,12 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => AvailableDevices);
 		}
 
-		public List<XDevice> DevicesList { get; private set; }
-		public ObservableCollection<XDevice> AvailableDevices { get; private set; }
-		public ObservableCollection<XDevice> Devices { get; private set; }
+		public List<GKDevice> DevicesList { get; private set; }
+		public ObservableCollection<GKDevice> AvailableDevices { get; private set; }
+		public ObservableCollection<GKDevice> Devices { get; private set; }
 
-		XDevice _selectedAvailableDevice;
-		public XDevice SelectedAvailableDevice
+		GKDevice _selectedAvailableDevice;
+		public GKDevice SelectedAvailableDevice
 		{
 			get { return _selectedAvailableDevice; }
 			set
@@ -72,8 +72,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XDevice _selectedDevice;
-		public XDevice SelectedDevice
+		GKDevice _selectedDevice;
+		public GKDevice SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -90,10 +90,10 @@ namespace GKModule.ViewModels
 			var index = AvailableDevices.IndexOf(SelectedAvailableDevice);
 
 			SelectedAvailableDevices = (IList)parameter;
-			var availabledeviceViewModels = new List<XDevice>();
+			var availabledeviceViewModels = new List<GKDevice>();
 			foreach (var availabledevice in SelectedAvailableDevices)
 			{
-				var availabledeviceViewModel = availabledevice as XDevice;
+				var availabledeviceViewModel = availabledevice as GKDevice;
 				if (availabledeviceViewModel != null)
 					availabledeviceViewModels.Add(availabledeviceViewModel);
 			}
@@ -117,10 +117,10 @@ namespace GKModule.ViewModels
 			var index = Devices.IndexOf(SelectedDevice);
 
 			SelectedDevices = (IList)parameter;
-			var deviceViewModels = new List<XDevice>();
+			var deviceViewModels = new List<GKDevice>();
 			foreach (var device in SelectedDevices)
 			{
-				var deviceViewModel = device as XDevice;
+				var deviceViewModel = device as GKDevice;
 				if (deviceViewModel != null)
 					deviceViewModels.Add(deviceViewModel);
 			}
@@ -183,7 +183,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			DevicesList = new List<XDevice>();
+			DevicesList = new List<GKDevice>();
 			foreach (var device in Devices)
 			{
 				DevicesList.Add(device);

@@ -2,23 +2,19 @@
 using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
 	public class ArgumentsViewModel : BaseViewModel
 	{
 		public Procedure Procedure { get; private set; }
+		public List<ArgumentViewModel> Arguments { get; private set; }
 
 		public ArgumentsViewModel(Procedure procedure)
 		{
 			Procedure = procedure;
-			Arguments = new ObservableCollection<ArgumentViewModel>();
-			foreach (var variable in procedure.Arguments)
-			{
-				var argumentViewModel = new ArgumentViewModel(variable);
-				Arguments.Add(argumentViewModel);
-			}
-			SelectedArgument = Arguments.FirstOrDefault();
+			UpdateArguments();
 		}
 
 		ArgumentViewModel _selectedArgument;
@@ -32,15 +28,37 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		ObservableCollection<ArgumentViewModel> _arguments;
-		public ObservableCollection<ArgumentViewModel> Arguments
+		public void UpdateArguments()
 		{
-			get { return _arguments; }
-			set
+			Arguments = new List<ArgumentViewModel>();
+			foreach (var variable in Procedure.Arguments)
 			{
-				_arguments = value;
-				OnPropertyChanged(() => Arguments);
+				var argument = new Argument();
+				argument = InitializeArgumemt(variable);
+				argument.VariableScope = VariableScope.ExplicitValue;
+				var argumentViewModel = new ArgumentViewModel(argument);
+				argumentViewModel.Name = variable.Name;
+				argumentViewModel.IsList = variable.IsList;
+				Arguments.Add(argumentViewModel);
 			}
+			OnPropertyChanged(() => Arguments);
+		}
+
+		Argument InitializeArgumemt(Variable variable)
+		{
+			var argument = new Argument();
+			argument.ExplicitType = variable.ExplicitType;
+			argument.EnumType = variable.EnumType;
+			argument.ObjectType = variable.ObjectType;
+			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
+			argument.ExplicitValues = new List<ExplicitValue>();
+			foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+			{
+				var explicitValue = new ExplicitValue();
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
+				argument.ExplicitValues.Add(explicitValue);
+			}
+			return argument;
 		}
 	}
 }

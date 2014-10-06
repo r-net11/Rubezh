@@ -5,7 +5,7 @@ namespace GKModule.ViewModels
 {
 	public class BoolPropertyViewModel : BasePropertyViewModel
 	{
-		public BoolPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+		public BoolPropertyViewModel(GKDriverProperty driverProperty, GKDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);

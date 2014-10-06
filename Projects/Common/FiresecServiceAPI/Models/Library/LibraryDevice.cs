@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Devices;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -13,14 +14,10 @@ namespace FiresecAPI.Models
 			UID = Guid.NewGuid();
 			IsAlternative = false;
 			States = new List<LibraryState>();
-			var libraryState = new LibraryState()
-			{
-				StateType = StateType.No,
-			};
-			States.Add(libraryState);
 			Presenters = new List<LibraryDevicePresenter>();
 		}
 
+		[XmlIgnore]
 		public Driver Driver { get; set; }
 
 		[DataMember]
@@ -41,6 +38,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<LibraryDevicePresenter> Presenters { get; set; }
 
+		[XmlIgnore]
 		public string PresentationName
 		{
 			get

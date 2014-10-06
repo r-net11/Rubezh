@@ -3,22 +3,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
 	public class PositionSelectionViewModel : SaveCancelDialogViewModel
 	{
 		Guid OrganisationUID;
-		HRViewModel HRViewModel;
-
-		public PositionSelectionViewModel(Employee employee, ShortPosition shortPosition, HRViewModel hrViewModel)
+		
+		public PositionSelectionViewModel(Employee employee, ShortPosition shortPosition)
 		{
 			Title = "Выбор должности";
 			OrganisationUID = employee.OrganisationUID;
-			HRViewModel = hrViewModel;
 			AddCommand = new RelayCommand(OnAdd);
 
 			Positions = new ObservableCollection<ShortPosition>();
@@ -52,15 +52,14 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			//var positionDetailsViewModel = new PositionDetailsViewModel(OrganisationUID);
 			var positionDetailsViewModel = new PositionDetailsViewModel();
 			positionDetailsViewModel.Initialize(OrganisationUID);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
-				Positions.Add(positionDetailsViewModel.Model);
+				var position = positionDetailsViewModel.Model;
+				Positions.Add(position);
 				SelectedPosition = Positions.LastOrDefault();
-				if(HRViewModel != null)
-					HRViewModel.UpdatePositions();
+				ServiceFactory.Events.GetEvent<NewPositionEvent>().Publish(position);
 			}
 		}
 	}

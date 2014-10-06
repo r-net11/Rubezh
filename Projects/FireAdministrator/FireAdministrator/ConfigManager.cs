@@ -106,26 +106,27 @@ namespace FireAdministrator
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
 				if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
-				AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
+					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
-				if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1, true);
+				if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.LayoutsChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1, false);
+
+				AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1, true);
 
 				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
 				if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
@@ -159,11 +160,11 @@ namespace FireAdministrator
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion, bool useXml)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name), useXml);
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
@@ -177,7 +178,7 @@ namespace FireAdministrator
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.SetEmptyConfiguration();
-					XManager.SetEmptyConfiguration();
+					GKManager.SetEmptyConfiguration();
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
@@ -223,9 +224,9 @@ namespace FireAdministrator
 			else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 			{
 				var deviceUID = Guid.Empty;
-				var firstDevice = XManager.Devices.FirstOrDefault();
+				var firstDevice = GKManager.Devices.FirstOrDefault();
 				if (firstDevice != null)
-					deviceUID = firstDevice.BaseUID;
+					deviceUID = firstDevice.UID;
 				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(deviceUID);
 			}
 		}

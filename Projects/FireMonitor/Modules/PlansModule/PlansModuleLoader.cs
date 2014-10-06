@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -44,9 +45,9 @@ namespace PlansModule
 		{
 			get { return 100; }
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Графические планы"; }
+			get { return Infrastructure.Common.ModuleType.Plans; }
 		}
 		public override void Initialize()
 		{
@@ -69,7 +70,7 @@ namespace PlansModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы", "/Controls;component/Images/Map.png");
+			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Map.png");
 			return new List<NavigationItem>() { _planNavigationItem };
 		}
 

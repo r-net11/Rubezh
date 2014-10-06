@@ -12,23 +12,23 @@ namespace GKModule.ViewModels
 	{
 		static int LastFire1Count = 2;
 		static int LastFire2Count = 3;
-		public XZone Zone;
+		public GKZone Zone;
 
-		public ZoneDetailsViewModel(XZone zone = null)
+		public ZoneDetailsViewModel(GKZone zone = null)
 		{
 			if (zone == null)
 			{
 				Title = "Создание новой зоны";
 
-				Zone = new XZone()
+				Zone = new GKZone()
 				{
 					Name = "Новая зона",
 					No = 1,
 					Fire1Count = LastFire1Count,
 					Fire2Count = LastFire2Count
 				};
-				if (XManager.Zones.Count != 0)
-					Zone.No = (ushort)(XManager.Zones.Select(x => x.No).Max() + 1);
+				if (GKManager.Zones.Count != 0)
+					Zone.No = (ushort)(GKManager.Zones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingZone in XManager.Zones)
+			foreach (var existingZone in GKManager.Zones)
 			{
 				availableNames.Add(existingZone.Name);
 				availableDescription.Add(existingZone.Description);
@@ -58,14 +58,14 @@ namespace GKModule.ViewModels
 			Fire2Count = Zone.Fire2Count;
 		}
 
-		ushort _no;
-		public ushort No
+		int _no;
+		public int No
 		{
 			get { return _no; }
 			set
 			{
 				_no = value;
-				OnPropertyChanged("No");
+				OnPropertyChanged(() => No);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_fire2Count = value;
-				OnPropertyChanged("Fire2Count");
+				OnPropertyChanged(() => Fire2Count);
 			}
 		}
 
@@ -118,7 +118,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Zone.No != No && XManager.Zones.Any(x => x.No == No))
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
+			if (Zone.No != No && GKManager.Zones.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;

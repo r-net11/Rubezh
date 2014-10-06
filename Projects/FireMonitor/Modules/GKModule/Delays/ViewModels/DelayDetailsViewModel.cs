@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class DelayDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XDelay Delay { get; private set; }
-		public XState State
+		public GKDelay Delay { get; private set; }
+		public GKState State
 		{
 			get { return Delay.State; }
 		}
 
-		public DelayDetailsViewModel(XDelay delay)
+		public DelayDetailsViewModel(GKDelay delay)
 		{
 			Delay = delay;
 			State.StateChanged += new Action(OnStateChanged);
@@ -158,17 +158,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Delay = Delay
+				GKDelay = Delay
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -185,7 +185,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Delay.BaseUID.ToString(); }
+			get { return Delay.UID.ToString(); }
 		}
 		#endregion
 

@@ -20,7 +20,7 @@ namespace GKProcessor
 			Watchers = new List<Watcher>();
 			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
-				if (!XManager.IsValidIpAddress(gkDatabase.RootDevice))
+				if (!GKManager.IsValidIpAddress(gkDatabase.RootDevice))
 				{
 					continue;
 				}
@@ -59,11 +59,11 @@ namespace GKProcessor
 				Stop();
 		}
 
-		public static void Send(Action<SendResult> onCompleted, XDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
+		public static void Send(Action<SendResult> onCompleted, GKDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
 		{
 			if (gkParentDevice != null)
 			{
-				var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == gkParentDevice.BaseUID);
+				var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkParentDevice.UID);
 				if (watcher != null)
 				{
 					watcher.AddTask(() =>
@@ -74,12 +74,12 @@ namespace GKProcessor
 				}
 				else
 				{
-					Logger.Error("WatcherManager.Send watcher = null " + gkParentDevice.BaseUID.ToString());
+					Logger.Error("WatcherManager.Send watcher = null " + gkParentDevice.UID.ToString());
 				}
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды_над_устройством, JournalEventDescriptionType.Не_найдено_родительское_устройство_ГК, null, null);
+				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды_над_устройством, JournalEventDescriptionType.Не_найдено_родительское_устройство_ГК, "", null, null);
 			}
 		}
 	}

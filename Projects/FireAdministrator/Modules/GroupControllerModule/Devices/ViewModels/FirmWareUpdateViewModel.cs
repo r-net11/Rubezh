@@ -8,7 +8,7 @@ namespace GKModule.ViewModels
 {
 	class FirmWareUpdateViewModel : DialogViewModel
 	{
-		public FirmWareUpdateViewModel(List<XDevice> devices)
+		public FirmWareUpdateViewModel(List<GKDevice> devices)
 		{
 			Title = "Выберете устройства, у которых следуют обновить ПО";
 			UpdatedDevices = Initialize(devices);
@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 			}
 		}
 		public List<UpdatedDeviceViewModel> UpdatedDevices { get; set; }
-		List<UpdatedDeviceViewModel> Initialize(List<XDevice> devices)
+		List<UpdatedDeviceViewModel> Initialize(List<GKDevice> devices)
 		{
 			return devices.Select(device => new UpdatedDeviceViewModel(device)).ToList();
 		}

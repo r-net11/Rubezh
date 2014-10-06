@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -8,10 +7,10 @@ namespace FiresecAPI.Automation
 	{
 		public ExitArguments()
 		{
-			ExitCodeParameter = new Variable();
+			ExitCodeParameter = new Argument();
 		}
 
 		[DataMember]
-		public Variable ExitCodeParameter { get; set; }
+		public Argument ExitCodeParameter { get; set; }
 	}
 }

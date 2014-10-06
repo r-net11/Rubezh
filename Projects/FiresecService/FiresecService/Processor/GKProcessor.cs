@@ -34,12 +34,12 @@ namespace FiresecService
 		public static void SetNewConfig()
 		{
 			var allHashesAreEqual = true;
-			if (XManager.DeviceConfiguration.RootDevice.Children.Count == XManager.DeviceConfiguration.RootDevice.Children.Count)
+			if (GKManager.DeviceConfiguration.RootDevice.Children.Count == GKManager.DeviceConfiguration.RootDevice.Children.Count)
 			{
-				for (int i = 0; i < XManager.DeviceConfiguration.RootDevice.Children.Count; i++)
+				for (int i = 0; i < GKManager.DeviceConfiguration.RootDevice.Children.Count; i++)
 				{
-					var hash1 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, XManager.DeviceConfiguration.RootDevice.Children[i]);
-					var hash2 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, XManager.DeviceConfiguration.RootDevice.Children[i]);
+					var hash1 = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, GKManager.DeviceConfiguration.RootDevice.Children[i]);
+					var hash2 = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, GKManager.DeviceConfiguration.RootDevice.Children[i]);
 					if (!GKFileInfo.CompareHashes(hash1, hash2))
 					{
 						allHashesAreEqual = false;
@@ -51,7 +51,7 @@ namespace FiresecService
 				allHashesAreEqual = false;
 			}
 
-			GKProcessorManager.AddGKMessage(JournalEventNameType.Применение_конфигурации, "", null, null);
+			GKProcessorManager.AddGKMessage(JournalEventNameType.Применение_конфигурации, JournalEventDescriptionType.NULL, "", null, null);
 			//if (!allHashesAreEqual)
 			{
 				Stop();

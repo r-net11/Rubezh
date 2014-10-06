@@ -27,23 +27,23 @@ namespace SKDModule.ViewModels
 			Initialize(filter);
 		}
 
-        protected override void OnEditOrganisation(Organisation newOrganisation)
-        {
-            if (_isInitialized)
-                base.OnEditOrganisation(newOrganisation);
-        }
+		protected override void OnEditOrganisation(Organisation newOrganisation)
+		{
+			if (_isInitialized)
+				base.OnEditOrganisation(newOrganisation);
+		}
 
-        protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
-        {
-            if (_isInitialized)
-                base.OnOrganisationUsersChanged(newOrganisation);
-        }
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			if (_isInitialized)
+				base.OnOrganisationUsersChanged(newOrganisation);
+		}
 
-        protected override void OnRemoveOrganisation(Guid organisationUID)
-        {
-            if (_isInitialized)
-                base.OnRemoveOrganisation(organisationUID);
-        }
+		protected override void OnRemoveOrganisation(Guid organisationUID)
+		{
+			if (_isInitialized)
+				base.OnRemoveOrganisation(organisationUID);
+		}
 
 		public override void OnShow()
 		{
@@ -71,10 +71,10 @@ namespace SKDModule.ViewModels
 			SelectedItem.Initialize();
 		}
 
-        protected override Schedule CopyModel(Schedule source)
+		protected override Schedule CopyModel(Schedule source)
 		{
-            var copy = base.CopyModel(source);
-            copy.ScheduleSchemeUID = source.ScheduleSchemeUID;
+			var copy = base.CopyModel(source);
+			copy.ScheduleSchemeUID = source.ScheduleSchemeUID;
 			copy.IsIgnoreHoliday = source.IsIgnoreHoliday;
 			copy.IsOnlyFirstEnter = source.IsOnlyFirstEnter;
 			foreach (var scheduleZone in source.Zones)
@@ -106,9 +106,9 @@ namespace SKDModule.ViewModels
 			return ScheduleHelper.MarkDeleted(uid);
 		}
 
-        protected override string ItemRemovingName
-        {
-            get { return "график работы"; }
-        }
+		protected override string ItemRemovingName
+		{
+			get { return "график работы"; }
+		}
 	}
 }

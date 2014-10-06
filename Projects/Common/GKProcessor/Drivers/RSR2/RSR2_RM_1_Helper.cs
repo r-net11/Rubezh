@@ -5,15 +5,15 @@ namespace GKProcessor
 {
 	public static class RSR2_RM_1_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0xDA,
-				DriverType = XDriverType.RSR2_RM_1,
+				DriverType = GKDriverType.RSR2_RM_1,
 				UID = new Guid("58C2A881-783F-4638-A27C-42257D5B31F9"),
-				Name = "Релейный исполнительный модуль МР RSR2",
-				ShortName = "МР RSR2",
+				Name = "Модуль релейный РМ-R2",
+				ShortName = "РМ-R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true
@@ -26,16 +26,16 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 10, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 1, 1, 65535);
 			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 1, 1, 65535);
 
-			var property1 = new XDriverProperty()
+			var property1 = new GKDriverProperty()
 			{
 				No = 3,
 				Name = "Состояние контакта для режима Выключено",
@@ -49,7 +49,7 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property1, "Контакт переключается", 2);
 			driver.Properties.Add(property1);
 
-			var property2 = new XDriverProperty()
+			var property2 = new GKDriverProperty()
 			{
 				No = 3,
 				Name = "Состояние контакта для режима Удержания",
@@ -63,7 +63,7 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 8);
 			driver.Properties.Add(property2);
 
-			var property3 = new XDriverProperty()
+			var property3 = new GKDriverProperty()
 			{
 				No = 3,
 				Name = "Состояние контакта для режима Включено",
@@ -77,9 +77,9 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 32);
 			driver.Properties.Add(property3);
 
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 
 			return driver;
 		}

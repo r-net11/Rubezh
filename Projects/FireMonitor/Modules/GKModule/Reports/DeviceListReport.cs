@@ -25,16 +25,16 @@ namespace GKModule.Reports
 
 			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
-				foreach (var device in XManager.Devices)
+				foreach (var device in GKManager.Devices)
 				{
-					if (device.DriverType == XDriverType.System)
+					if (device.DriverType == GKDriverType.System)
 						continue;
 					if (device.Driver.IsGroupDevice)
 						continue;
 
 					var type = device.ShortName;
 					var address = device.DottedPresentationAddress;
-					var zonePresentationName = XManager.GetPresentationZone(device);
+					var zonePresentationName = GKManager.GetPresentationZone(device);
 					table.Rows.Add(type, address, zonePresentationName);
 				}
 			}

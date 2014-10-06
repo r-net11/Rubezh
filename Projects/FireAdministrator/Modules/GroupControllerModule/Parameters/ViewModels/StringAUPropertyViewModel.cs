@@ -6,7 +6,7 @@ namespace GKModule.DeviceProperties
 {
 	public class StringAUPropertyViewModel : BaseAUPropertyViewModel
 	{
-		public StringAUPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+		public StringAUPropertyViewModel(GKDriverProperty driverProperty, GKDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);

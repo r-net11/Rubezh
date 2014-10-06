@@ -9,16 +9,16 @@ namespace GKModule.ViewModels
 {
 	public class DeviceParameterViewModel : TreeNodeViewModel<DeviceParameterViewModel>
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 		public List<StringAUPropertyViewModel> StringAUProperties { get; set; }
 		public List<EnumAUPropertyViewModel> EnumAUProperties { get; set; }
 		public string PresentationZone { get; private set; }
 		public bool HasAUParameters { get; private set; }
 
-		public DeviceParameterViewModel(XDevice device)
+		public DeviceParameterViewModel(GKDevice device)
 		{
 			Device = device;
-			PresentationZone = XManager.GetPresentationZone(Device);
+			PresentationZone = GKManager.GetPresentationZone(Device);
 			Update();
 			device.AUParametersChanged += new Action(On_AUParametersChanged);
 		}
@@ -35,13 +35,13 @@ namespace GKModule.ViewModels
 					{
 						switch (driverProperty.DriverPropertyType)
 						{
-							case XDriverPropertyTypeEnum.EnumType:
+							case GKDriverPropertyTypeEnum.EnumType:
 								EnumAUProperties.Add(new EnumAUPropertyViewModel(driverProperty, Device));
 								break;
 
-							case XDriverPropertyTypeEnum.StringType:
-							case XDriverPropertyTypeEnum.IntType:
-							case XDriverPropertyTypeEnum.BoolType:
+							case GKDriverPropertyTypeEnum.StringType:
+							case GKDriverPropertyTypeEnum.IntType:
+							case GKDriverPropertyTypeEnum.BoolType:
 								StringAUProperties.Add(new StringAUPropertyViewModel(driverProperty, Device));
 								break;
 						}

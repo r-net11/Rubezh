@@ -19,13 +19,5 @@
 				</ItemsControl>
 			</Grid>
 		</TabItem>
-		<TabItem Header="Логика" Foreground="White">
-			<Grid>
-				<StackPanel Background="White" Margin="2">
-					<CheckBox Content="Разрешить расширенные настройки логики" IsChecked="{Binding IsLogicAllowed}" Foreground="Black" Margin="2"/>					
-				</StackPanel>
-			</Grid>
-		</TabItem>
 	</TabControl>
-	
 </UserControl>

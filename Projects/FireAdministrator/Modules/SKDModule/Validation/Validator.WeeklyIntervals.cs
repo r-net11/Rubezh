@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
+using System;
 
 namespace SKDModule.Validation
 {
@@ -14,7 +15,7 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(weeklyInterval.Name))
 					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Отсутствует название недельного графика", ValidationErrorLevel.CannotWrite));
-				if (weeklyInterval.WeeklyIntervalParts.All(item => item.DayIntervalID == 0))
+				if (weeklyInterval.WeeklyIntervalParts.All(item => item.DayIntervalUID == Guid.Empty))
 					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Все составляющие части недельного графика пустые", ValidationErrorLevel.CannotWrite));
 			}
 		}

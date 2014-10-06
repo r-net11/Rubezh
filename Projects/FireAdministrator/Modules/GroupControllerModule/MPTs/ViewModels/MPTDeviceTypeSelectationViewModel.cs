@@ -12,15 +12,15 @@ namespace GKModule.ViewModels
 			Title = "Выбор типа устройства";
 
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceTypeViewModel>();
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.DoNotEnterBoard));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.ExitBoard));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.AutomaticOffBoard));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.Speaker));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.Door));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.HandStart));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.HandStop));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.HandAutomatic));
-			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(MPTDeviceType.Bomb));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.DoNotEnterBoard));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.ExitBoard));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.AutomaticOffBoard));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.Speaker));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.Door));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandStart));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandStop));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.HandAutomatic));
+			AvailableMPTDeviceTypes.Add(new MPTDeviceTypeViewModel(GKMPTDeviceType.Bomb));
 			SelectedMPTDeviceType = AvailableMPTDeviceTypes.FirstOrDefault();
 		}
 

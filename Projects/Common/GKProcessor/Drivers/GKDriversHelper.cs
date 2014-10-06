@@ -4,9 +4,9 @@ namespace GKProcessor
 {
 	public static class GKDriversHelper
 	{
-		public static XDriverProperty AddPlainEnumProprety(XDriver driver, byte no, byte offset, string propertyName, string parameter1Name, string parameter2Name)
+		public static GKDriverProperty AddPlainEnumProprety(GKDriver driver, byte no, byte offset, string propertyName, string parameter1Name, string parameter2Name)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
@@ -14,12 +14,12 @@ namespace GKProcessor
 				Default = (ushort)(1 << offset),
 				Mask = (short)((1 << offset) + (1 << (offset + 1)))
 			};
-			var parameter1 = new XDriverPropertyParameter()
+			var parameter1 = new GKDriverPropertyParameter()
 			{
 				Name = parameter1Name,
 				Value = (ushort)(1 << offset)
 			};
-			var parameter2 = new XDriverPropertyParameter()
+			var parameter2 = new GKDriverPropertyParameter()
 			{
 				Name = parameter2Name,
 				Value = (ushort)(2 << offset)
@@ -30,9 +30,9 @@ namespace GKProcessor
 			return property;
 		}
 
-		public static XDriverProperty AddPlainEnumProprety2(XDriver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int mask)
+		public static GKDriverProperty AddPlainEnumProprety2(GKDriver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int mask)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
@@ -40,12 +40,12 @@ namespace GKProcessor
 				Default = 0,
 				Mask = (byte)mask
 			};
-			var parameter1 = new XDriverPropertyParameter()
+			var parameter1 = new GKDriverPropertyParameter()
 			{
 				Name = parameter1Name,
 				Value = (ushort)0
 			};
-			var parameter2 = new XDriverPropertyParameter()
+			var parameter2 = new GKDriverPropertyParameter()
 			{
 				Name = parameter2Name,
 				Value = (ushort)mask
@@ -56,26 +56,26 @@ namespace GKProcessor
 			return property;
 		}
 
-		public static void AddBoolProprety(XDriver driver, byte no, string propertyName)
+		public static void AddBoolProprety(GKDriver driver, byte no, string propertyName)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				DriverPropertyType = XDriverPropertyTypeEnum.BoolType
+				DriverPropertyType = GKDriverPropertyTypeEnum.BoolType
 			};
 			driver.Properties.Add(property);
 		}
 
-		public static XDriverProperty AddIntProprety(XDriver driver, byte no, string propertyName, int defaultValue, int min, int max)
+		public static GKDriverProperty AddIntProprety(GKDriver driver, byte no, string propertyName, int defaultValue, int min, int max)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 				Default = (ushort)defaultValue,
 				Min = (ushort)min,
 				Max = (ushort)max
@@ -84,9 +84,9 @@ namespace GKProcessor
 			return property;
 		}
 
-		public static void AddPropertyParameter(XDriverProperty property, string name, int value)
+		public static void AddPropertyParameter(GKDriverProperty property, string name, int value)
 		{
-			var parameter = new XDriverPropertyParameter()
+			var parameter = new GKDriverPropertyParameter()
 			{
 				Name = name,
 				Value = (ushort)value
@@ -94,23 +94,23 @@ namespace GKProcessor
 			property.Parameters.Add(parameter);
 		}
 
-		public static void AddAvailableStateBits(XDriver driver, XStateBit stateType)
+		public static void AddAvailableStateBits(GKDriver driver, GKStateBit stateType)
 		{
 			if (driver.AvailableStateBits.Count == 0)
 			{
-				driver.AvailableStateBits.Add(XStateBit.Norm);
-				driver.AvailableStateBits.Add(XStateBit.Failure);
-				driver.AvailableStateBits.Add(XStateBit.Ignore);
+				driver.AvailableStateBits.Add(GKStateBit.Norm);
+				driver.AvailableStateBits.Add(GKStateBit.Failure);
+				driver.AvailableStateBits.Add(GKStateBit.Ignore);
 			}
 			driver.AvailableStateBits.Add(stateType);
 		}
 
-		public static void AddControlAvailableStates(XDriver driver)
+		public static void AddControlAvailableStates(GKDriver driver)
 		{
-			AddAvailableStateBits(driver, XStateBit.On);
+			AddAvailableStateBits(driver, GKStateBit.On);
 		}
 
-		public static void AddAvailableStateClasses(XDriver driver, XStateClass stateClass)
+		public static void AddAvailableStateClasses(GKDriver driver, XStateClass stateClass)
 		{
 			if (driver.AvailableStateClasses.Count == 0)
 			{
@@ -123,11 +123,11 @@ namespace GKProcessor
 			driver.AvailableStateClasses.Add(stateClass);
 		}
 
-		public static void AddDefaultStateBitsClasses(XDriver driver)
+		public static void AddDefaultStateBitsClasses(GKDriver driver)
 		{
-			driver.AvailableStateBits.Add(XStateBit.Norm);
-			driver.AvailableStateBits.Add(XStateBit.Failure);
-			driver.AvailableStateBits.Add(XStateBit.Ignore);
+			driver.AvailableStateBits.Add(GKStateBit.Norm);
+			driver.AvailableStateBits.Add(GKStateBit.Failure);
+			driver.AvailableStateBits.Add(GKStateBit.Ignore);
 			driver.AvailableStateClasses.Add(XStateClass.No);
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Failure);

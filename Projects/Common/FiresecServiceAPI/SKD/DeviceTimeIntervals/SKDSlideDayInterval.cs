@@ -33,9 +33,9 @@ namespace FiresecAPI.SKD
 
 		public void InvalidateDayIntervals()
 		{
-			var ids = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.ID).ToList();
+			var nos = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.No).ToList();
 			for (int i = 0; i < DayIntervalIDs.Count; i++)
-				if (!ids.Contains(DayIntervalIDs[i]))
+				if (!nos.Contains(DayIntervalIDs[i]))
 					DayIntervalIDs[i] = 0;
 		}
 	}

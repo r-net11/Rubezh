@@ -10,14 +10,15 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
+using System.Xml.Serialization;
 
 namespace GKModule.ViewModels
 {
 	public class JournalViewModel : DialogViewModel
 	{
-		XDevice Device;
+		GKDevice Device;
 
-		public JournalViewModel(XDevice device)
+		public JournalViewModel(GKDevice device)
 		{
 			Title = "Журнал событий ГК " + device.GetGKIpAddress();
 			ReadCommand = new RelayCommand(OnRead);
@@ -25,8 +26,8 @@ namespace GKModule.ViewModels
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
 
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
+			GKManager.UpdateConfiguration();
+			GKManager.CreateStates();
 			DescriptorsManager.Create();
 			DescriptorsManager.CreateDynamicObjectsInXManager();
 		}
@@ -117,8 +118,15 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			if (StartIndex > EndIndex)
+			if (EndIndex < StartIndex)
 			{
+				MessageBoxService.ShowError2("Конечный номер записи меньше начального");
+				IsNotEmpty = false;
+				return;
+			}
+			if (StartIndex < 1 || EndIndex > TotalCount)
+			{
+				MessageBoxService.ShowError2("Номер записи должен быть в диапазоне от 1 до " + TotalCount);
 				IsNotEmpty = false;
 				return;
 			}
@@ -164,10 +172,10 @@ namespace GKModule.ViewModels
 					if (File.Exists(saveDialog.FileName))
 						File.Delete(saveDialog.FileName);
 
-					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
+					var xmlSerializer = new XmlSerializer(typeof(JournalItemsCollection));
 					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 					{
-						var journalItems = new System.Collections.Generic.List<XJournalItem>();
+						var journalItems = new System.Collections.Generic.List<GKJournalItem>();
 						JournalItems.ToList().ForEach(x => journalItems.Add(x.JournalItem));
 						var journalItemsCollection = new JournalItemsCollection
 						{
@@ -176,7 +184,7 @@ namespace GKModule.ViewModels
 							CreationDateTime = DateTime.Now,
 							GkIP = Device.GetGKIpAddress()
 						};
-						dataContractSerializer.WriteObject(fileStream, journalItemsCollection);
+						xmlSerializer.Serialize(fileStream, journalItemsCollection);
 					}
 				});
 			}

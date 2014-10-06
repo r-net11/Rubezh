@@ -29,7 +29,7 @@ namespace FiresecService.Service
 		public Stream GetConfig()
 		{
 			var filePath = AppDataFolderHelper.GetServerAppDataPath("Config.fscp");
-			ZipConfigActualizeHelper.Actualize(filePath);
+			//ZipConfigActualizeHelper.Actualize(filePath);
 			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 
@@ -131,14 +131,14 @@ namespace FiresecService.Service
 			{
 				entry.Extract(infoMemoryStream);
 				infoMemoryStream.Position = 0;
-				return ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(infoMemoryStream);
+				return ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(infoMemoryStream, true);
 			}
 			return new ZipConfigurationItemsCollection();
 		}
 
 		static void AddConfigurationList(ZipFile zipFile, ZipConfigurationItemsCollection configurationsList)
 		{
-			var configurationStream = ZipSerializeHelper.Serialize(configurationsList);
+			var configurationStream = ZipSerializeHelper.Serialize(configurationsList, true);
 			if (zipFile.Entries.Any(x => x.FileName == "ZipConfigurationItemsCollection.xml"))
 				zipFile.RemoveEntry("ZipConfigurationItemsCollection.xml");
 			configurationStream.Position = 0;

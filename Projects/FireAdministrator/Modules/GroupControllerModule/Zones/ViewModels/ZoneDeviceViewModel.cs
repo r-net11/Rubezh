@@ -6,14 +6,14 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDeviceViewModel : TreeNodeViewModel<ZoneDeviceViewModel>
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 
-		public ZoneDeviceViewModel(XDevice device)
+		public ZoneDeviceViewModel(GKDevice device)
 		{
 			Device = device;
 		}
 
-		public XDriver Driver
+		public GKDriver Driver
 		{
 			get { return Device.Driver; }
 		}
@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if(Device.Driver.HasLogic)
-					return XManager.GetPresentationZone(Device);
+					return GKManager.GetPresentationZone(Device);
 				return null;
 			}
 		}

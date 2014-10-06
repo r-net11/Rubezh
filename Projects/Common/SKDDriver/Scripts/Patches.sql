@@ -99,12 +99,14 @@ BEGIN
 		REFERENCES [dbo].[AccessTemplate] ([Uid])
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[CardDoor] NOCHECK CONSTRAINT [FK_CardDoor_AccessTemplate]
-
+	END
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationDoor')
+	BEGIN
 		CREATE TABLE [dbo].[OrganisationDoor](
 			[UID] [uniqueidentifier] NOT NULL,
 			[DoorUID] [uniqueidentifier] NOT NULL,
 			[OrganisationUID] [uniqueidentifier] NOT NULL,
-		CONSTRAINT [PK_OrganisationZone] PRIMARY KEY CLUSTERED 
+		CONSTRAINT [PK_OrganisationDoor] PRIMARY KEY CLUSTERED 
 		(
 			[UID] ASC
 		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
@@ -480,7 +482,7 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddCardDoorCardUID')
 BEGIN
-IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardDoor' and table_name = 'CardDoor')
+IF EXISTS (select table_name from INFORMATION_SCHEMA.columns where table_name = 'CardDoor')
 	ALTER TABLE CardDoor ADD [CardUID] [uniqueidentifier] NULL
 	INSERT INTO Patches (Id) VALUES ('AddCardDoorCardUID')	
 END
@@ -914,4 +916,90 @@ BEGIN
 		ALTER TABLE [dbo].Department NOCHECK CONSTRAINT [FK_Department_Employee3]
 	END
 	INSERT INTO Patches (Id) VALUES ('HRChiefUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DepartmentPhone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		ALTER TABLE Department ADD [Phone] [nvarchar](50) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('DepartmentPhone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationPhone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
+	BEGIN
+		ALTER TABLE Organisation ADD [Phone] [nvarchar](50) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('OrganisationPhone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'EmployeePhone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Employee')
+	BEGIN
+		ALTER TABLE Employee ADD [Phone] [nvarchar](50) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('EmployeePhone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleZone')
+	BEGIN
+		ALTER TABLE ScheduleZone DROP COLUMN IsDeleted
+		ALTER TABLE ScheduleZone DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('ScheduleZone_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardDoor_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		ALTER TABLE CardDoor DROP COLUMN IsDeleted
+		ALTER TABLE CardDoor DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('CardDoor_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DayIntervalPart_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'DayIntervalPart')
+	BEGIN
+		ALTER TABLE DayIntervalPart DROP COLUMN IsDeleted
+		ALTER TABLE DayIntervalPart DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('DayIntervalPart_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleDay_Drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleDay')
+	BEGIN
+		ALTER TABLE ScheduleDay DROP COLUMN IsDeleted
+		ALTER TABLE ScheduleDay DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('ScheduleDay_Drop_IsDeleted')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Add_Indexes')
+BEGIN
+	CREATE INDEX AccessTemplateUIDIndex ON AccessTemplate([UID])
+	CREATE INDEX AdditionalColumnTypeOrgUIDIndex ON AdditionalColumnType([OrganisationUID])
+	CREATE INDEX DepartmentOrgUIDIndex ON Department([OrganisationUID])
+	CREATE INDEX EmployeeOrgUIDIndex ON Employee([OrganisationUID])
+	CREATE INDEX HolidayOrgUIDIndex ON Holiday([OrganisationUID])
+	CREATE INDEX DayIntervalOrgUIDIndex ON DayInterval([OrganisationUID])
+	CREATE INDEX PositionOrgUIDIndex ON Position([OrganisationUID])
+	CREATE INDEX ScheduleOrgUIDIndex ON Schedule([OrganisationUID])
+	CREATE INDEX ScheduleSchemeOrgUIDIndex ON ScheduleScheme([OrganisationUID])
+	CREATE INDEX CardOrgUIDIndex ON Card([EmployeeUID])
+	CREATE INDEX AccessTemplateOrgUIDIndex ON AccessTemplate([OrganisationUID])
+	CREATE INDEX PassCardTemplateOrgUIDIndex ON PassCardTemplate([OrganisationUID])
+	CREATE INDEX EmployeeDeptUIDIndex ON Employee([DepartmentUID])
+	CREATE INDEX EmployeePosUIDIndex ON Employee([PositionUID])
+	INSERT INTO Patches (Id) VALUES ('Add_Indexes')
 END

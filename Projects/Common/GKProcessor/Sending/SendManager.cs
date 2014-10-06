@@ -15,7 +15,7 @@ namespace GKProcessor
 	{
 		static object locker = new object();
 
-		public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
+		public static SendResult Send(GKDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
 			lock (locker)
 			{
@@ -28,12 +28,12 @@ namespace GKProcessor
 
 				switch (device.DriverType)
 				{
-					case XDriverType.GK:
+					case GKDriverType.GK:
 						whom = 2;
 						break;
 
-					case XDriverType.KAU:
-					case XDriverType.RSR2_KAU:
+					case GKDriverType.KAU:
+					case GKDriverType.RSR2_KAU:
 						whom = 4;
 						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 						if (modeProperty != null)
@@ -65,7 +65,7 @@ namespace GKProcessor
 				if (data != null)
 					bytes.AddRange(data);
 
-				string ipAddress = XManager.GetIpAddress(device);
+				string ipAddress = GKManager.GetIpAddress(device);
 				if (string.IsNullOrEmpty(ipAddress))
 				{
 					return new SendResult("Не задан адрес ГК");

@@ -5,18 +5,19 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		public XDirection Direction { get; private set; }
-		public XState State
+		public GKDirection Direction { get; private set; }
+		public GKState State
 		{
 			get { return Direction.State; }
 		}
 
-		public DirectionViewModel(XDirection direction)
+		public DirectionViewModel(GKDirection direction)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -56,11 +57,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Direction = Direction
+				GKDirection = Direction
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			PumpStations = new List<PumpStationViewModel>();
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations.OrderBy(x => x.No))
 			{
 				var pumpStationViewModel = new PumpStationViewModel(pumpStation);
 				PumpStations.Add(pumpStationViewModel);
@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 		{
 			if (pumpStationUID != Guid.Empty)
 			{
-				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.BaseUID == pumpStationUID);
+				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
 			}
 		}
 	}

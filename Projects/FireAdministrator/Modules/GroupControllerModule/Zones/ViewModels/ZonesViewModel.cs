@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
+			foreach (var zone in GKManager.DeviceConfiguration.SortedZones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 				Zones.Add(zoneViewModel);
@@ -100,12 +100,12 @@ namespace GKModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				XManager.AddZone(zoneDetailsViewModel.Zone);
+				GKManager.AddZone(zoneDetailsViewModel.Zone);
 				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XZone>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKZone>();
 				return zoneDetailsViewModel;
 			}
 			return null;
@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Zones.IndexOf(SelectedZone);
-				XManager.RemoveZone(SelectedZone.Zone);
+				GKManager.RemoveZone(SelectedZone.Zone);
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 				var emptyZones = Zones.Where(x => x.Zone.Devices.Count == 0).ToList();
 				foreach (var emptyZone in emptyZones)
 				{
-					XManager.RemoveZone(emptyZone.Zone);
+					GKManager.RemoveZone(emptyZone.Zone);
 					Zones.Remove(emptyZone);
 				}
 				SelectedZone = Zones.FirstOrDefault();
@@ -155,12 +155,12 @@ namespace GKModule.ViewModels
 		{
 			OnEdit(SelectedZone.Zone);
 		}
-		void OnEdit(XZone zone)
+		void OnEdit(GKZone zone)
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				XManager.EditZone(SelectedZone.Zone);
+				GKManager.EditZone(SelectedZone.Zone);
 				SelectedZone.Update(zoneDetailsViewModel.Zone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -177,13 +177,13 @@ namespace GKModule.ViewModels
 			else
 			{
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneUID = result.Zone.BaseUID;
+				createZoneEventArg.ZoneUID = result.Zone.UID;
 				createZoneEventArg.Zone = result.Zone;
 			}
 		}
 		public void EditZone(Guid zoneUID)
 		{
-			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
+			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zoneViewModel != null)
 				OnEdit(zoneViewModel.Zone);
 		}
@@ -204,7 +204,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid zoneUID)
 		{
 			if (zoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
 		#endregion
@@ -237,7 +237,7 @@ namespace GKModule.ViewModels
 
 		private void OnZoneChanged(Guid zoneUID)
 		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
+			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
 			{
 				zone.Update();
@@ -277,9 +277,9 @@ namespace GKModule.ViewModels
 		}
 		private IElementZone GetElementXZone(ElementBase element)
 		{
-			IElementZone elementZone = element as ElementRectangleXZone;
+			IElementZone elementZone = element as ElementRectangleGKZone;
 			if (elementZone == null)
-				elementZone = element as ElementPolygonXZone;
+				elementZone = element as ElementPolygonGKZone;
 			return elementZone;
 		}
 

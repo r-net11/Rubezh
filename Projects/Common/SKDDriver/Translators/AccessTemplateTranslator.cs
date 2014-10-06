@@ -41,7 +41,7 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var deleteDoorsResult = DatabaseService.CardDoorTranslator.MarkDeletefFromAccessTemplate(uid);
+			var deleteDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(uid);
 			if (deleteDoorsResult.HasError)
 				return deleteDoorsResult;
 			return base.MarkDeleted(uid);
@@ -55,7 +55,7 @@ namespace SKDDriver
 			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in guardZones)
 			{
-				result.GuardZoneAccesses.Add(new XGuardZoneAccess
+				result.GuardZoneAccesses.Add(new GKGuardZoneAccess
 				{
 					ZoneUID = item.ZoneUID,
 					CanReset = item.CanReset,
@@ -73,7 +73,7 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(item);
+			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(item.UID);
 			var result = base.Save(item);
 			DatabaseService.CardDoorTranslator.Save(item.CardDoors);
 			return result;
@@ -93,7 +93,7 @@ namespace SKDDriver
 			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneAccesses);
 		}
 
-		OperationResult SaveGuardZonesInternal(Guid parentUID, List<XGuardZoneAccess> GuardZones)
+		OperationResult SaveGuardZonesInternal(Guid parentUID, List<GKGuardZoneAccess> GuardZones)
 		{
 			try
 			{

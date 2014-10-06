@@ -10,27 +10,27 @@ namespace SKDModule.ViewModels
 		FiresecAPI.SKD.Organisation Organisation;
 		public DayInterval Model { get; private set; }
 
-        public bool Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
-        {
-            Organisation = organisation;
-            if (model == null)
-            {
-                Title = "Новый дневной график";
-                model = new DayInterval()
-                {
-                    Name = "Дневной график",
-                    OrganisationUID = organisation.UID,
-                };
-                model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
-            }
-            else
-                Title = "Редактирование дневного графика";
-            Model = model;
-            Name = Model.Name;
-            Description = Model.Description;
-            ConstantSlideTime = Model.SlideTime;
+		public bool Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
+		{
+			Organisation = organisation;
+			if (model == null)
+			{
+				Title = "Новый дневной график";
+				model = new DayInterval()
+				{
+					Name = "Дневной график",
+					OrganisationUID = organisation.UID,
+				};
+				model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
+			}
+			else
+				Title = "Редактирование дневного графика";
+			Model = model;
+			Name = Model.Name;
+			Description = Model.Description;
+			ConstantSlideTime = Model.SlideTime;
 			return true;
-        }
+		}
 
 		string _name;
 		public string Name
@@ -74,7 +74,9 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.Description = Description;
 			Model.SlideTime = ConstantSlideTime;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return DayIntervalHelper.Save(Model);
 		}
-    }
+	}
 }

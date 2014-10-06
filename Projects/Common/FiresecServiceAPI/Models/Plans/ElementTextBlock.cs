@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -58,9 +59,9 @@ namespace FiresecAPI.Models
 			elementTextBlock.FontItalic = FontItalic;
 		}
 
-
 		#region IPrimitive Members
 
+		[XmlIgnore]
 		public Primitive Primitive
 		{
 			get { return Infrustructure.Plans.Elements.Primitive.TextBlock; }

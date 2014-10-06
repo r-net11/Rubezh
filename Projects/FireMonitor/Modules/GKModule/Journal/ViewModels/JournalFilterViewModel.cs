@@ -7,10 +7,10 @@ namespace GKModule.ViewModels
 {
 	public class JournalFilterViewModel : BaseViewModel
 	{
-		public XJournalFilter JournalFilter { get; private set; }
+		public GKJournalFilter JournalFilter { get; private set; }
 		public List<StateClassViewModel> StateClasses { get; private set; }
 
-		public JournalFilterViewModel(XJournalFilter journalFilter)
+		public JournalFilterViewModel(GKJournalFilter journalFilter)
 		{
 			JournalFilter = journalFilter;
 			StateClasses = new List<StateClassViewModel>();
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			get { return JournalFilter.Description != null && JournalFilter.Description != ""; }
 		}
 
-		public bool FilterStateClass(XJournalItem journalItem)
+		public bool FilterStateClass(GKJournalItem journalItem)
 		{
 			if (JournalFilter.StateClasses.Count > 0)
 			{
@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 			return true;
 		}
 
-		public bool FilterEventName(XJournalItem journalItem)
+		public bool FilterEventName(GKJournalItem journalItem)
 		{
 			if (JournalFilter.EventNames.Count > 0)
 			{

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -79,9 +80,9 @@ namespace FiresecAPI.Models
 
 		#endregion
 
-
 		#region IPrimitive Members
 
+		[XmlIgnore]
 		public Primitive Primitive
 		{
 			get { return Primitive.TextBlock; }

@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 		{
 			if (IsActive && Model == null)
 			{
-				Model = new SKDWeeklyInterval()
+				Model = new SKDWeeklyInterval(true)
 				{
 					ID = Index,
 					Name = Name,
@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 			IsActive = true;
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
 			{
-				Model.WeeklyIntervalParts[i].DayIntervalID = interval.WeeklyIntervalParts[i].DayIntervalID;
+				Model.WeeklyIntervalParts[i].DayIntervalUID = interval.WeeklyIntervalParts[i].DayIntervalUID;
 			}
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;

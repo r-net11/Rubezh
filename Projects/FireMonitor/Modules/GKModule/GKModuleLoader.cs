@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -33,8 +34,8 @@ namespace GKModule
 		static PumpStationsViewModel PumpStationsViewModel;
 		static MPTsViewModel MPTsViewModel;
 		static DoorsViewModel DoorsViewModel;
-		static JournalsViewModel JournalsViewModel;
-		static ArchiveViewModel ArchiveViewModel;
+		//static JournalsViewModel JournalsViewModel;
+		//static ArchiveViewModel ArchiveViewModel;
 		static AlarmsViewModel AlarmsViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _guardZonesNavigationItem;
@@ -44,7 +45,7 @@ namespace GKModule
 		NavigationItem _pumpStationsNavigationItem;
 		NavigationItem _mptsNavigationItem;
 		NavigationItem _doorsNavigationItem;
-		NavigationItem _journalNavigationItem;
+		//NavigationItem _journalNavigationItem;
 		private PlanPresenter _planPresenter;
 
 		public GKModuleLoader()
@@ -57,10 +58,10 @@ namespace GKModule
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
-			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Unsubscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournalRecord);
-			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
+			//ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Unsubscribe(OnShowJournal);
+			//ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
+			//ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournalRecord);
+			//ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
 
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -71,13 +72,13 @@ namespace GKModule
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
 			DoorsViewModel = new DoorsViewModel();
-			JournalsViewModel = new JournalsViewModel();
-			ArchiveViewModel = new ArchiveViewModel();
+			//JournalsViewModel = new JournalsViewModel();
+			//ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Unsubscribe(OnShowAlarms);
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Unsubscribe(OnShowArchive);
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
+			//ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Unsubscribe(OnShowArchive);
+			//ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
 			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Unsubscribe(OnShowGKDebug);
 			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Subscribe(OnShowGKDebug);
 
@@ -108,7 +109,7 @@ namespace GKModule
 
 		void OnShowDeviceDetails(Guid deviceUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
@@ -117,7 +118,7 @@ namespace GKModule
 
 		void OnShowZoneDetails(Guid zoneUID)
 		{
-			var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+			var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
 				DialogService.ShowWindow(new ZoneDetailsViewModel(zone));
@@ -126,7 +127,7 @@ namespace GKModule
 
 		void OnShowDirectionDetails(Guid directinUID)
 		{
-			var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == directinUID);
+			var direction = GKManager.Directions.FirstOrDefault(x => x.UID == directinUID);
 			if (direction != null)
 			{
 				DialogService.ShowWindow(new DirectionDetailsViewModel(direction));
@@ -135,7 +136,7 @@ namespace GKModule
 
 		void OnShowMPTDetails(Guid mptUID)
 		{
-			var mpt = XManager.MPTs.FirstOrDefault(x => x.BaseUID == mptUID);
+			var mpt = GKManager.MPTs.FirstOrDefault(x => x.UID == mptUID);
 			if (mpt != null)
 			{
 				DialogService.ShowWindow(new MPTDetailsViewModel(mpt));
@@ -144,7 +145,7 @@ namespace GKModule
 
 		void OnShowPumpStationDetails(Guid pumpStationUID)
 		{
-			var pumpStation = XManager.PumpStations.FirstOrDefault(x => x.BaseUID == pumpStationUID);
+			var pumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == pumpStationUID);
 			if (pumpStation != null)
 			{
 				DialogService.ShowWindow(new PumpStationDetailsViewModel(pumpStation));
@@ -153,7 +154,7 @@ namespace GKModule
 
 		void OnShowDelayDetails(Guid delayUID)
 		{
-			var delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == delayUID);
+			var delay = GKManager.Delays.FirstOrDefault(x => x.UID == delayUID);
 			if (delay != null && !delay.IsAutoGenerated)
 			{
 				DialogService.ShowWindow(new DelayDetailsViewModel(delay));
@@ -162,7 +163,7 @@ namespace GKModule
 
 		void OnShowPIMDetails(Guid pimUID)
 		{
-			var pim = XManager.AutoGeneratedPims.FirstOrDefault(x => x.BaseUID == pimUID);
+			var pim = GKManager.AutoGeneratedPims.FirstOrDefault(x => x.UID == pimUID);
 			if (pim != null)
 			{
 				DialogService.ShowWindow(new PimDetailsViewModel(pim));
@@ -170,7 +171,7 @@ namespace GKModule
 		}
 		void OnShowGuardZoneDetails(Guid guardZoneUID)
 		{
-			var guardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == guardZoneUID);
+			var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == guardZoneUID);
 			if (guardZone != null)
 			{
 				DialogService.ShowWindow(new GuardZoneDetailsViewModel(guardZone));
@@ -184,50 +185,50 @@ namespace GKModule
 			DialogService.ShowWindow(diagnosticsViewModel);
 		}
 
-		void OnShowAlarms(XAlarmType? alarmType)
+		void OnShowAlarms(GKAlarmType? alarmType)
 		{
 			AlarmsViewModel.Sort(alarmType);
 		}
 
-		void OnShowArchive(ShowXArchiveEventArgs showXArchiveEventArgs)
-		{
-			if (showXArchiveEventArgs != null)
-			{
-				ArchiveViewModel.Sort(showXArchiveEventArgs);
-			}
-		}
+		//void OnShowArchive(ShowXArchiveEventArgs showXArchiveEventArgs)
+		//{
+		//	if (showXArchiveEventArgs != null)
+		//	{
+		//		ArchiveViewModel.Sort(showXArchiveEventArgs);
+		//	}
+		//}
 
-		int _unreadJournalCount;
-		private int UnreadJournalCount
-		{
-			get { return _unreadJournalCount; }
-			set
-			{
-				_unreadJournalCount = value;
-				if (_journalNavigationItem != null)
-					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
-			}
-		}
-		void OnShowJournal(object obj)
-		{
-			UnreadJournalCount = 0;
-			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
-		}
-		void OnNewJournalRecord(List<XJournalItem> journalItems)
-		{
-			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-				UnreadJournalCount += journalItems.Count;
-		}
+		//int _unreadJournalCount;
+		//private int UnreadJournalCount
+		//{
+		//	get { return _unreadJournalCount; }
+		//	set
+		//	{
+		//		_unreadJournalCount = value;
+		//		if (_journalNavigationItem != null)
+		//			_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+		//	}
+		//}
+		//void OnShowJournal(object obj)
+		//{
+		//	UnreadJournalCount = 0;
+		//	JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
+		//}
+		//void OnNewJournalRecord(List<GKJournalItem> journalItems)
+		//{
+		//	if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+		//		UnreadJournalCount += journalItems.Count;
+		//}
 
 		public override void Initialize()
 		{
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
-			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
-			_guardZonesNavigationItem.IsVisible = XManager.DeviceConfiguration.GuardZones.Count > 0;
-			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
-			_pumpStationsNavigationItem.IsVisible = XManager.PumpStations.Count > 0;
-			_mptsNavigationItem.IsVisible = XManager.MPTs.Count > 0;
+			_zonesNavigationItem.IsVisible = GKManager.Zones.Count > 0;
+			_guardZonesNavigationItem.IsVisible = GKManager.DeviceConfiguration.GuardZones.Count > 0;
+			_directionsNavigationItem.IsVisible = GKManager.Directions.Count > 0;
+			_pumpStationsNavigationItem.IsVisible = GKManager.PumpStations.Count > 0;
+			_mptsNavigationItem.IsVisible = GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
@@ -239,9 +240,9 @@ namespace GKModule
 			PimsViewModel.Initialize();
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
-			_doorsNavigationItem.IsVisible = XManager.DeviceConfiguration.Doors.Count > 0;
-			JournalsViewModel.Initialize();
-			ArchiveViewModel.Initialize();
+			_doorsNavigationItem.IsVisible = GKManager.DeviceConfiguration.Doors.Count > 0;
+			//JournalsViewModel.Initialize();
+			//ArchiveViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -253,15 +254,15 @@ namespace GKModule
 			_pumpStationsNavigationItem = new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
 			_mptsNavigationItem = new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty);
 			_doorsNavigationItem = new NavigationItem<ShowXDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty);
-			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
-			UnreadJournalCount = 0;
+			//_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
+			//UnreadJournalCount = 0;
 
 			return new List<NavigationItem>
 				{
-				new NavigationItem("ГК", "/Controls;component/Images/tree.png",
+				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
+						new NavigationItem<ShowXAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 						new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						_zonesNavigationItem,
 						_guardZonesNavigationItem,
@@ -271,15 +272,15 @@ namespace GKModule
 						_pumpStationsNavigationItem,
 						_mptsNavigationItem,
 						_doorsNavigationItem,
-						_journalNavigationItem,
-						new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
+						//_journalNavigationItem,
+						//new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
 					})
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Групповой контроллер"; }
+			get { return Infrastructure.Common.ModuleType.GK; }
 		}
 
 		#region IReportProviderModule Members
@@ -308,7 +309,7 @@ namespace GKModule
 			GKAfterInitialize();
 			AlarmsViewModel.SubscribeShortcuts();
 			AutoActivationWatcher.Run();
-			JournalsViewModel.GetTopLast();
+			//JournalsViewModel.GetTopLast();
 		}
 
 		#region ILayoutProviderModule Members

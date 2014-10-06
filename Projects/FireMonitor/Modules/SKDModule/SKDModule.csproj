@@ -74,6 +74,7 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
+    <Compile Include="Common\DetailsValidateHelper.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
+    <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">
+      <DependentUpon>DepartmentEmployeeListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
@@ -103,10 +107,13 @@
       <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
+    <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
     <Compile Include="Events\EditEmployeeEvent.cs" />
     <Compile Include="Events\EditEmployeePositionDepartmentEvent.cs" />
     <Compile Include="Events\NewCardEvent.cs" />
     <Compile Include="Events\EditOrganisationEvent.cs" />
+    <Compile Include="Events\NewDepartmentEvent.cs" />
+    <Compile Include="Events\NewPositionEvent.cs" />
     <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
     <Compile Include="Events\RemoveOrganisationEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
@@ -533,6 +540,10 @@
     <Page Include="Common\Views\EmployeeListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Departments\Views\DepartmentEmployeeListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Employees\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

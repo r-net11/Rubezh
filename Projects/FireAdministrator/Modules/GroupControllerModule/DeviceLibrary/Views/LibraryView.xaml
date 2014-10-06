@@ -46,7 +46,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding State.XStateClass, Converter={StaticResource LibraryXStateClassToIconConverter}}" />
+									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource LibraryXStateClassToIconConverter}}" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -94,7 +94,7 @@
 									<StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}" Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Label VerticalAlignment="Center" Content=" Длительность, мс: " />
 									<ExtToolkit:IntegerUpDown Width="75" Height="20" Increment="100" IsEditable="False" Maximum="10000" Minimum="100" Text="{Binding Duration, Mode=TwoWay}" />
-                                    <!--  <Controls:ToolBarButton Command="{Binding ImportSvgCommand}" ImageSource="/Controls;component/Images/Arrow-up-left.png" ToolTip="Импорт из .svg" />
+									<!--  <Controls:ToolBarButton Command="{Binding ImportSvgCommand}" ImageSource="/Controls;component/Images/Arrow-up-left.png" ToolTip="Импорт из .svg" />
 									<Controls:ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="/Controls;component/Images/Arrow-down-right.png" />  -->
 								</StackPanel>
 								<ContentControl Width="500" Height="500" Margin="0, 0, 150, 0" HorizontalAlignment="Center" Content="{Binding XamlOfImage}">

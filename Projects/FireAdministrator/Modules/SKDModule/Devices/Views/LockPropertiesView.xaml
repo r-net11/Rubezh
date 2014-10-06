@@ -46,16 +46,16 @@
 					<TextBlock Grid.Row="3" Grid.Column="0" Text="Тревого по взлому" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsBreakInAlarmEnable}" Margin="2" />
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Тревога по незакрытию двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
-                    <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsDoorNotClosedAlarmEnable}" Margin="2" />
+					<TextBlock Grid.Row="4" Grid.Column="0" Text="Тревога по незакрытию двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsDoorNotClosedAlarmEnable}" Margin="2" />
 
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Активен датчик контроля двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
-                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsSensorEnable}" Margin="2" />
+					<TextBlock Grid.Row="5" Grid.Column="0" Text="Активен датчик контроля двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsSensorEnable}" Margin="2" />
 
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
-                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsRepeatEnterAlarmEnable}" Margin="2" />
+					<TextBlock Grid.Row="6" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsRepeatEnterAlarmEnable}" Margin="2" />
 
-                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<TextBlock Grid.Row="7" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
 				</Grid>
 			</TabItem>
@@ -105,7 +105,7 @@
 		</TabControl>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" Width="100" Margin="0 4 4 0" />
-            <Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" Width="100" Margin="0 4 0 0" />
+			<Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" Width="100" Margin="0 4 0 0" />
 		</StackPanel>
 	</Grid>
 </UserControl>

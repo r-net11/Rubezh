@@ -2,7 +2,7 @@
 	<UserControl.Resources>
 		<viewModel:ScheduleShemeViewModelNameComparer x:Key="ScheduleShemeViewModelNameComparer" />
 		<viewModel:ScheduleShemeViewModelDescriptionComparer x:Key="ScheduleShemeViewModelDescriptionComparer" />
-        <viewModel:ScheduleShemeViewModelTypeComparer x:Key="ScheduleShemeViewModelTypeComparer" />
+		<viewModel:ScheduleShemeViewModelTypeComparer x:Key="ScheduleShemeViewModelTypeComparer" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -26,7 +26,7 @@
 			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
-                        <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
+						<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
@@ -37,7 +37,7 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-                        <GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelDescriptionComparer}">
+						<GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelDescriptionComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
@@ -46,19 +46,19 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-                        <GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelTypeComparer}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Type}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
+						<GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelTypeComparer}">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding Type}" />
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
-            <Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
+			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
@@ -67,7 +67,7 @@
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
 					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 				</StackPanel>
-                <DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding SheduleDayIntervals}" SelectedItem="{Binding SelectedSheduleDayInterval}">
+				<DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding SheduleDayIntervals}" SelectedItem="{Binding SelectedSheduleDayInterval}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Width="Auto" Header="День">
 							<DataGridTemplateColumn.CellTemplate>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using FiresecAPI.Models.Binary;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -32,7 +33,8 @@ namespace FiresecAPI.Models
 			StateWordBytes = new List<byte>();
 			RawParametersBytes = new List<byte>();
 		}
-		
+
+		[XmlIgnore]
 		public bool IsUsb
 		{
 			get
@@ -56,17 +58,29 @@ namespace FiresecAPI.Models
 				}
 			}
 		}
+
+		[XmlIgnore]
 		public DeviceConfiguration DeviceConfiguration { get; set; }
+		[XmlIgnore]
 		public Driver Driver { get; set; }
+		[XmlIgnore]
 		public Device Parent { get; set; }
+		[XmlIgnore]
 		public DeviceState DeviceState { get; set; }
+		[XmlIgnore]
 		public Zone Zone { get; set; }
+		[XmlIgnore]
 		public bool HasDifferences { get; set; }
+		[XmlIgnore]
 		public bool HasMissingDifferences { get; set; }
+		[XmlIgnore]
 		public BinaryDevice BinaryDevice { get; set; }
+		[XmlIgnore]
 		public List<byte> StateWordBytes { get; set; }
+		[XmlIgnore]
 		public List<byte> RawParametersBytes { get; set; }
 
+		[XmlIgnore]
 		List<Zone> _zonesInLogic;
 		public List<Zone> ZonesInLogic
 		{
@@ -79,6 +93,7 @@ namespace FiresecAPI.Models
 			set { _zonesInLogic = value; }
 		}
 
+		[XmlIgnore]
 		List<Device> _dependentDevices;
 		public List<Device> DependentDevices
 		{
@@ -91,6 +106,7 @@ namespace FiresecAPI.Models
 			set { _dependentDevices = value; }
 		}
 
+		[XmlIgnore]
 		bool _hasExternalDevices;
 		public bool HasExternalDevices
 		{
@@ -180,6 +196,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int RawParametersOffset { get; set; }
 
+		[XmlIgnore]
 		public bool CanBeNotUsed
 		{
 			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.DriverType != DriverType.FanControl)); }
@@ -250,6 +267,7 @@ namespace FiresecAPI.Models
 			return true;
 		}
 
+		[XmlIgnore]
 		public string AddressFullPath
 		{
 			get
@@ -280,6 +298,7 @@ namespace FiresecAPI.Models
 			return currentId;
 		}
 
+		[XmlIgnore]
 		public bool CanEditAddress
 		{
 			get
@@ -299,6 +318,8 @@ namespace FiresecAPI.Models
 				return Parent.Children.IndexOf(this).ToString();
 			return parentPlaceInTree + @"\" + Parent.Children.IndexOf(Parent.Children.FirstOrDefault(x => x.UID == UID)).ToString();
 		}
+
+		[XmlIgnore]
 		public List<Device> AllParents
 		{
 			get
@@ -312,6 +333,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public Device ParentUSB
 		{
 			get
@@ -328,6 +350,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public Device ParentChannel
 		{
 			get
@@ -350,6 +373,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public bool IsParentMonitoringDisabled
 		{
 			get
@@ -360,6 +384,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public Device ParentPanel
 		{
 			get
@@ -370,6 +395,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string ConnectedTo
 		{
 			get
@@ -430,6 +456,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string EditingPresentationAddress
 		{
 			get
@@ -441,6 +468,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string PresentationAddress
 		{
 			get
@@ -467,6 +495,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string DottedAddress
 		{
 			get
@@ -495,11 +524,13 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string PresentationName
 		{
 			get { return Driver.ShortName; }
 		}
 
+		[XmlIgnore]
 		public string FullPresentationName
 		{
 			get
@@ -513,6 +544,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string PresentationAddressAndName
 		{
 			get
@@ -523,6 +555,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string DottedPresentationAddressAndName
 		{
 			get
@@ -533,6 +566,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string DottedPresentationNameAndAddress
 		{
 			get
@@ -543,6 +577,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public string DatabaseName
 		{
 			get
@@ -553,11 +588,13 @@ namespace FiresecAPI.Models
 			}
 		}
 
+		[XmlIgnore]
 		public int ShleifNo
 		{
 			get { return IntAddress / 256; }
 		}
 
+		[XmlIgnore]
 		public int AddressOnShleif
 		{
 			get { return IntAddress % 256; }
@@ -612,6 +649,7 @@ namespace FiresecAPI.Models
 			return this.MemberwiseClone();
 		}
 
+		[XmlIgnore]
 		public int PumpAddress
 		{
 			get

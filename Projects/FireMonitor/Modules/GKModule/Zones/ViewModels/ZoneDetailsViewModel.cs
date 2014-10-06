@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XZone Zone { get; private set; }
-		public XState State
+		public GKZone Zone { get; private set; }
+		public GKState State
 		{
 			get { return Zone.State; }
 		}
 
-		public ZoneDetailsViewModel(XZone zone)
+		public ZoneDetailsViewModel(GKZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
+				elementBase = plan.ElementRectangleGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
+				elementBase = plan.ElementPolygonGKZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -120,17 +120,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Zone = Zone
+				GKZone = Zone
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public bool CanControl
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Zone.BaseUID.ToString(); }
+			get { return Zone.UID.ToString(); }
 		}
 		#endregion
 

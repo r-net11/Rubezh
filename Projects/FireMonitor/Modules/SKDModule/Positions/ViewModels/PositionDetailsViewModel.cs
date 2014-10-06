@@ -26,48 +26,48 @@ namespace SKDModule.ViewModels
 
 		public PositionDetailsViewModel() { }
 
-        public void Initialize(Guid orgnaisationUID, Guid? positionUID = null)
-        {
-            OrganisationUID = orgnaisationUID;
-            if (positionUID == null)
-            {
-                Title = "Создание должности";
-                Position = new Position()
-                {
-                    Name = "Новая должность",
-                    OrganisationUID = OrganisationUID
-                };
-            }
-            else
-            {
-                Position = PositionHelper.GetDetails(positionUID);
-                Title = string.Format("Свойства должности: {0}", Position.Name);
-            }
-            CopyProperties();
-        }
+		public void Initialize(Guid orgnaisationUID, Guid? positionUID = null)
+		{
+			OrganisationUID = orgnaisationUID;
+			if (positionUID == null)
+			{
+				Title = "Создание должности";
+				Position = new Position()
+				{
+					Name = "Новая должность",
+					OrganisationUID = OrganisationUID
+				};
+			}
+			else
+			{
+				Position = PositionHelper.GetDetails(positionUID);
+				Title = string.Format("Свойства должности: {0}", Position.Name);
+			}
+			CopyProperties();
+		}
 
-        public bool Initialize(Organisation organisation, ShortPosition model, ViewPartViewModel parentViewModel)
-        {
-            OrganisationUID = organisation.UID;
-            if (model == null)
-            {
-                Title = "Создание должности";
-                Position = new Position()
-                {
-                    Name = "Новая должность",
-                    OrganisationUID = OrganisationUID
-                };
-            }
-            else
-            {
-                Position = PositionHelper.GetDetails(model.UID);
-                Title = string.Format("Свойства должности: {0}", Position.Name);
-            }
-            CopyProperties();
+		public bool Initialize(Organisation organisation, ShortPosition model, ViewPartViewModel parentViewModel)
+		{
+			OrganisationUID = organisation.UID;
+			if (model == null)
+			{
+				Title = "Создание должности";
+				Position = new Position()
+				{
+					Name = "Новая должность",
+					OrganisationUID = OrganisationUID
+				};
+			}
+			else
+			{
+				Position = PositionHelper.GetDetails(model.UID);
+				Title = string.Format("Свойства должности: {0}", Position.Name);
+			}
+			CopyProperties();
 			return true;
-        }
+		}
 
-        public void CopyProperties()
+		public void CopyProperties()
 		{
 			Name = Position.Name;
 			Description = Position.Description;
@@ -127,7 +127,9 @@ namespace SKDModule.ViewModels
 				Position.Photo = new Photo();
 			Position.Photo.Data = PhotoData;
 			Position.OrganisationUID = OrganisationUID;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return PositionHelper.Save(Position);
 		}
-    }
+	}
 }

@@ -10,37 +10,37 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var journalItem = (XJournalItem)value;
+			var journalItem = (GKJournalItem)value;
 			switch (journalItem.JournalObjectType)
 			{
-				case XJournalObjectType.Device:
-					var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
+				case GKJournalObjectType.Device:
+					var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (device == null)
 						return "/Controls;component/Images/Blank.png";
 					return device.Driver.ImageSource;
 
-				case XJournalObjectType.Zone:
+				case GKJournalObjectType.Zone:
 					return "/Controls;component/Images/Zone.png";
 
-				case XJournalObjectType.Direction:
+				case GKJournalObjectType.Direction:
 					return "/Controls;component/Images/Blue_Direction.png";
 
-				case XJournalObjectType.Delay:
+				case GKJournalObjectType.Delay:
 					return "/Controls;component/Images/Delay.png";
 
-				case XJournalObjectType.Pim:
+				case GKJournalObjectType.Pim:
 					return "/Controls;component/Images/Pim.png";
 
-				case XJournalObjectType.GkUser:
+				case GKJournalObjectType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
-				case XJournalObjectType.PumpStation:
+				case GKJournalObjectType.PumpStation:
 					return "/Controls;component/Images/BPumpStation.png";
 
-				case XJournalObjectType.MPT:
+				case GKJournalObjectType.MPT:
 					return "/Controls;component/Images/BMPT.png";
 
-				case XJournalObjectType.GuardZone:
+				case GKJournalObjectType.GuardZone:
 					return "/Controls;component/Images/GuardZone.png";
 
 				default:

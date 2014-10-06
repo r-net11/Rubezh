@@ -6,18 +6,19 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class GuardZoneViewModel : BaseViewModel
 	{
-		public XGuardZone GuardZone { get; private set; }
-		public XState State
+		public GKGuardZone GuardZone { get; private set; }
+		public GKState State
 		{
 			get { return GuardZone.State; }
 		}
 
-		public GuardZoneViewModel(XGuardZone guardZone)
+		public GuardZoneViewModel(GKGuardZone guardZone)
 		{
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
@@ -102,11 +103,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				GuardZone = GuardZone
+				GKGuardZone = GuardZone
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

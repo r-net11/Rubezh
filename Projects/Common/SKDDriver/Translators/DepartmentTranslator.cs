@@ -60,6 +60,7 @@ namespace SKDDriver
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.ChiefUID = tableItem.ChiefUID;
 			result.HRChiefUID = tableItem.HRChiefUID;
+			result.Phone = tableItem.Phone;
 			return result;
 		}
 
@@ -75,6 +76,7 @@ namespace SKDDriver
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.HRChiefUID = apiItem.HRChiefUID;
+			tableItem.Phone = apiItem.Phone;
 		}
 
 		protected override ShortDepartment TranslateToShort(DataAccess.Department tableItem)
@@ -85,7 +87,10 @@ namespace SKDDriver
 				Name = tableItem.Name,
 				Description = tableItem.Description,
 				ParentDepartmentUID = tableItem.ParentDepartmentUID,
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty
+				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty, 
+				ChiefUID = tableItem.ChiefUID,
+				HRChiefUID = tableItem.HRChiefUID,
+				Phone = tableItem.Phone
 			};
 			shortDepartment.ChildDepartmentUIDs = new List<Guid>();
 			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))

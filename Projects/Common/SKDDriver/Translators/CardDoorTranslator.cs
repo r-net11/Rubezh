@@ -8,7 +8,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class CardDoorTranslator : IsDeletedTranslator<DataAccess.CardDoor, CardDoor, CardDoorFilter>
+	public class CardDoorTranslator : WithFilterTranslator<DataAccess.CardDoor, CardDoor, CardDoorFilter>
 	{
 		public CardDoorTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -31,7 +31,6 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.CardDoor tableItem, CardDoor apiItem)
 		{
-			base.TranslateBack(tableItem, apiItem);
 			tableItem.EnterIntervalType = (int?)apiItem.EnterIntervalType;
 			tableItem.EnterIntervalID = apiItem.EnterIntervalID;
 			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
@@ -45,7 +44,6 @@ namespace SKDDriver
 		{
 			var result = new List<CardDoor>();
 			foreach (var CardDoorLink in Table.Where(x => x != null &&
-				!x.IsDeleted &&
 				x.CardUID == cardUID))
 			{
 				result.Add(Translate(CardDoorLink));
@@ -57,31 +55,11 @@ namespace SKDDriver
 		{
 			var result = new List<CardDoor>();
 			foreach (var CardDoorLink in Table.Where(x => x != null &&
-				!x.IsDeleted &&
 				x.AccessTemplateUID == accessTemplateUID))
 			{
 				result.Add(Translate(CardDoorLink));
 			}
 			return result;
-		}
-
-		public OperationResult MarkDeleted(DataAccess.CardDoor databaseItem)
-		{
-			var operationResult = new OperationResult();
-			try
-			{
-				if (databaseItem != null)
-				{
-					databaseItem.IsDeleted = true;
-					databaseItem.RemovalDate = DateTime.Now;
-				}
-				Table.Context.SubmitChanges();
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
 		}
 
 		public OperationResult RemoveFromCard(SKDCard card)
@@ -98,27 +76,12 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult RemoveFromAccessTemplate(AccessTemplate accessTemplate)
+		public OperationResult RemoveFromAccessTemplate(Guid accessTemplateUID)
 		{
 			try
 			{
-				var databaseItems = Table.Where(x => x.AccessTemplateUID == accessTemplate.UID);
+				var databaseItems = Table.Where(x => x.AccessTemplateUID == accessTemplateUID);
 				databaseItems.ForEach(x => Delete(x.UID));
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		public OperationResult MarkDeletefFromAccessTemplate(Guid uid)
-		{
-			var operationResult = new OperationResult();
-			try
-			{
-				var databaseItems = Table.Where(x => x.AccessTemplateUID == uid);
-				databaseItems.ForEach(x => MarkDeleted(x));
 				return new OperationResult();
 			}
 			catch (Exception e)

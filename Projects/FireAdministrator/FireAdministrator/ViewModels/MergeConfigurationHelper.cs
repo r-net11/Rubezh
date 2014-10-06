@@ -20,7 +20,8 @@ namespace FireAdministrator.ViewModels
 	public class MergeConfigurationHelper
 	{
 		public PlansConfiguration PlansConfiguration;
-		public XDeviceConfiguration XDeviceConfiguration;
+		public GKDeviceConfiguration GKDeviceConfiguration;
+		public SKDConfiguration SKDConfiguration;
 
 		public void Merge()
 		{
@@ -32,7 +33,7 @@ namespace FireAdministrator.ViewModels
 			if (openDialog.ShowDialog().Value)
 			{
 				ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-				ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
+				//ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
 				var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/MergeConfiguration");
 				var configFileName = Path.Combine(folderName, "Config.fscp");
 				if (Directory.Exists(folderName))
@@ -43,19 +44,17 @@ namespace FireAdministrator.ViewModels
 				ServiceFactory.ContentService.Invalidate();
 
 				FiresecManager.UpdateConfiguration();
-				XManager.UpdateConfiguration();
+				GKManager.UpdateConfiguration();
 				SKDManager.UpdateConfiguration();
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ServiceFactory.Layout.Close();
-				if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
-					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-				else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+				if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
 
-				ServiceFactory.SaveService.FSChanged = true;
 				ServiceFactory.SaveService.PlansChanged = true;
 				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 				ServiceFactory.Layout.ShowFooter(null);
 			}
 		}
@@ -73,7 +72,7 @@ namespace FireAdministrator.ViewModels
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollectionFileName file not found");
 				return;
 			}
-			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName);
+			var zipConfigurationItemsCollection = ZipSerializeHelper.DeSerialize<ZipConfigurationItemsCollection>(zipConfigurationItemsCollectionFileName, true);
 			if (zipConfigurationItemsCollection == null)
 			{
 				Logger.Error("FiresecManager.LoadFromZipFile zipConfigurationItemsCollection == null");
@@ -87,12 +86,16 @@ namespace FireAdministrator.ViewModels
 				{
 					switch (zipConfigurationItem.Name)
 					{
-						case "XDeviceConfiguration.xml":
-							XDeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName);
+						case "PlansConfiguration.xml":
+							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName, true);
 							break;
 
-						case "PlansConfiguration.xml":
-							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
+						case "GKDeviceConfiguration.xml":
+							GKDeviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+							break;
+
+						case "SKDConfiguration.xml":
+							SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName, true);
 							break;
 					}
 				}
@@ -107,48 +110,53 @@ namespace FireAdministrator.ViewModels
 
 			zipFile.Dispose();
 
-			MergeXDeviceConfiguration();
+			MergeGKDeviceConfiguration();
+			MergeSKDConfiguration();
 		}
 
-		void MergeXDeviceConfiguration()
+		void MergeGKDeviceConfiguration()
 		{
 			var errors = new StringBuilder();
 			var maxZoneNo = 0;
-			if (XManager.Zones.Count > 0)
-				maxZoneNo = XManager.Zones.Max(x=>x.No);
+			if (GKManager.Zones.Count > 0)
+				maxZoneNo = GKManager.Zones.Max(x=>x.No);
+
+			var maxGuardZoneNo = 0;
+			if (GKManager.GuardZones.Count > 0)
+				maxZoneNo = GKManager.GuardZones.Max(x => x.No);
 
 			var maxDirectionNo = 0;
-			if (XManager.Directions.Count > 0)
-				maxDirectionNo = XManager.Directions.Max(x => x.No);
+			if (GKManager.Directions.Count > 0)
+				maxDirectionNo = GKManager.Directions.Max(x => x.No);
 
-			if (XDeviceConfiguration == null)
-				XDeviceConfiguration = new XDeviceConfiguration();
+			if (GKDeviceConfiguration == null)
+				GKDeviceConfiguration = new GKDeviceConfiguration();
 			if (PlansConfiguration == null)
 				PlansConfiguration = new PlansConfiguration();
 
-			XDeviceConfiguration.Update();
+			GKDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 			CreateNewUIDs();
-			XDeviceConfiguration.Update();
+			GKDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 
-			foreach (var gkDevice in XDeviceConfiguration.RootDevice.Children)
+			foreach (var gkControllerDevice in GKDeviceConfiguration.RootDevice.Children)
 			{
 				var ipAddress = "";
-				var ipProperty = gkDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				var ipProperty = gkControllerDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress");
 				if (ipProperty != null)
 				{
 					ipAddress = ipProperty.StringValue;
 				}
-				var existingGKDevice = XManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
+				var existingGKDevice = GKManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
 				if (existingGKDevice != null)
 				{
-					foreach (var device in gkDevice.Children)
+					foreach (var device in gkControllerDevice.Children)
 					{
-						var driver = XManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-						if (driver.DriverType == XDriverType.KAU || driver.DriverType == XDriverType.RSR2_KAU)
+						var driver = GKManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+						if (driver.DriverType == GKDriverType.KAU || driver.DriverType == GKDriverType.RSR2_KAU)
 						{
-							var existingKAUDevice = existingGKDevice.Children.FirstOrDefault(x => x.Driver != null && (x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress);
+							var existingKAUDevice = existingGKDevice.Children.FirstOrDefault(x => x.Driver != null && (x.DriverType == GKDriverType.KAU || x.DriverType == GKDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress);
 							if (existingKAUDevice == null)
 							{
 								existingGKDevice.Children.Add(device);
@@ -162,18 +170,23 @@ namespace FireAdministrator.ViewModels
 				}
 				else
 				{
-					XManager.DeviceConfiguration.RootDevice.Children.Add(gkDevice);
+					GKManager.DeviceConfiguration.RootDevice.Children.Add(gkControllerDevice);
 				}
 			}
-			foreach (var zone in XDeviceConfiguration.Zones)
+			foreach (var zone in GKDeviceConfiguration.Zones)
 			{
 				zone.No = (ushort)(zone.No + maxZoneNo);
-				XManager.Zones.Add(zone);
+				GKManager.Zones.Add(zone);
 			}
-			foreach (var direction in XDeviceConfiguration.Directions)
+			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
+			{
+				guardZone.No = (ushort)(guardZone.No + maxGuardZoneNo);
+				GKManager.GuardZones.Add(guardZone);
+			}
+			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				direction.No = (ushort)(direction.No + maxDirectionNo);
-				XManager.Directions.Add(direction);
+				GKManager.Directions.Add(direction);
 			}
 
 			foreach (var plan in PlansConfiguration.Plans)
@@ -181,7 +194,7 @@ namespace FireAdministrator.ViewModels
 				FiresecManager.PlansConfiguration.Plans.Add(plan);
 			}
 
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 			FiresecManager.UpdateConfiguration();
 			SKDManager.UpdateConfiguration();
 
@@ -192,34 +205,39 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
+		void MergeSKDConfiguration()
+		{
+
+		}
+
 		void CreateNewUIDs()
 		{
-			foreach (var device in XDeviceConfiguration.Devices)
+			foreach (var device in GKDeviceConfiguration.Devices)
 			{
 				var uid = Guid.NewGuid();
-				DeviceUIDs.Add(device.BaseUID, uid);
-				device.BaseUID = uid;
+				DeviceUIDs.Add(device.UID, uid);
+				device.UID = uid;
 			}
-			foreach (var zone in XDeviceConfiguration.Zones)
+			foreach (var zone in GKDeviceConfiguration.Zones)
 			{
 				var uid = Guid.NewGuid();
-				ZoneUIDs.Add(zone.BaseUID, uid);
-				zone.BaseUID = uid;
+				ZoneUIDs.Add(zone.UID, uid);
+				zone.UID = uid;
 			}
-			foreach (var zone in XDeviceConfiguration.GuardZones)
+			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
 			{
 				var uid = Guid.NewGuid();
-				GuardZoneUIDs.Add(zone.BaseUID, uid);
-				zone.BaseUID = uid;
+				GuardZoneUIDs.Add(guardZone.UID, uid);
+				guardZone.UID = uid;
 			}
-			foreach (var direction in XDeviceConfiguration.Directions)
+			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				var uid = Guid.NewGuid();
-				DirectionUIDs.Add(direction.BaseUID, uid);
-				direction.BaseUID = uid;
+				DirectionUIDs.Add(direction.UID, uid);
+				direction.UID = uid;
 			}
 
-			foreach (var device in XDeviceConfiguration.Devices)
+			foreach (var device in GKDeviceConfiguration.Devices)
 			{
 				for (int i = 0; i < device.ZoneUIDs.Count; i++)
 				{
@@ -230,7 +248,7 @@ namespace FireAdministrator.ViewModels
 				ReplaceDeviceLogic(device.NSLogic);
 			}
 
-			foreach (var direction in XDeviceConfiguration.Directions)
+			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				foreach (var directionZone in direction.DirectionZones)
 				{
@@ -244,7 +262,7 @@ namespace FireAdministrator.ViewModels
 				}
 			}
 
-			foreach (var pumpStation in XDeviceConfiguration.PumpStations)
+			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
 			{
 				for (int i = 0; i < pumpStation.NSDeviceUIDs.Count; i++)
 				{
@@ -258,23 +276,15 @@ namespace FireAdministrator.ViewModels
 
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
-				foreach (var element in plan.ElementXDevices)
+				foreach (var element in plan.ElementGKDevices)
 				{
-					if (element.XDeviceUID != Guid.Empty)
-						element.XDeviceUID = DeviceUIDs[element.XDeviceUID];
+					if (element.DeviceUID != Guid.Empty)
+						element.DeviceUID = DeviceUIDs[element.DeviceUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementRectangleXZones)
-				{
-					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = ZoneUIDs[element.ZoneUID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
-				foreach (var element in plan.ElementPolygonXZones)
+				foreach (var element in plan.ElementRectangleGKZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
 						element.ZoneUID = ZoneUIDs[element.ZoneUID];
@@ -282,7 +292,15 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementRectangleXGuardZones)
+				foreach (var element in plan.ElementPolygonGKZones)
+				{
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = ZoneUIDs[element.ZoneUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementRectangleGKGuardZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
 						element.ZoneUID = GuardZoneUIDs[element.ZoneUID];
@@ -290,7 +308,7 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementPolygonXGuardZones)
+				foreach (var element in plan.ElementPolygonGKGuardZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
 						element.ZoneUID = GuardZoneUIDs[element.ZoneUID];
@@ -298,7 +316,7 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementRectangleXDirections)
+				foreach (var element in plan.ElementRectangleGKDirections)
 				{
 					if (element.DirectionUID != Guid.Empty)
 						element.DirectionUID = DirectionUIDs[element.DirectionUID];
@@ -306,7 +324,7 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementPolygonXDirections)
+				foreach (var element in plan.ElementPolygonGKDirections)
 				{
 					if (element.DirectionUID != Guid.Empty)
 						element.DirectionUID = DirectionUIDs[element.DirectionUID];
@@ -316,7 +334,7 @@ namespace FireAdministrator.ViewModels
 				}
 			}
 
-			foreach (var device in XDeviceConfiguration.Devices)
+			foreach (var device in GKDeviceConfiguration.Devices)
 			{
 				var uids = new List<Guid>();
 				foreach (var planElementUID in device.PlanElementUIDs)
@@ -332,7 +350,7 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		void ReplaceDeviceLogic(XDeviceLogic deviceLogic)
+		void ReplaceDeviceLogic(GKDeviceLogic deviceLogic)
 		{
 			foreach (var clause in deviceLogic.ClausesGroup.Clauses)
 			{

@@ -5,16 +5,6 @@
 
 	<Controls:XDataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="*" Header="Логин">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/AccessTemplate.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding User.Login}" />
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Width="*" Header="Имя">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
@@ -25,6 +15,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-	   </DataGrid.Columns>
+			<DataGridTextColumn Width="*" Header="Логин" Binding="{Binding User.Login}" />
+		</DataGrid.Columns>
 	</Controls:XDataGrid>
 </UserControl>

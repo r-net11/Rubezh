@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace AutomationModule.Validation
 {
-	class GlobalVariableValidationError : ObjectValidationError<GlobalVariable, ShowGlobalVariablesEvent, Guid>
+	class GlobalVariableValidationError : ObjectValidationError<Variable, ShowGlobalVariablesEvent, Guid>
 	{
-		public GlobalVariableValidationError(GlobalVariable globalVariable, string error, ValidationErrorLevel level)
+		public GlobalVariableValidationError(Variable globalVariable, string error, ValidationErrorLevel level)
 			: base(globalVariable, error, level)
 		{
 		}

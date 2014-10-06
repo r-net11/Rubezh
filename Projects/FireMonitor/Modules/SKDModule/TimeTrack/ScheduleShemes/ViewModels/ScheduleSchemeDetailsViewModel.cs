@@ -112,6 +112,8 @@ namespace SKDModule.ViewModels
 				}
 				Model.Type = SelectedScheduleSchemeType;
 			}
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return ScheduleSchemaHelper.Save(Model);
 		}
 	}

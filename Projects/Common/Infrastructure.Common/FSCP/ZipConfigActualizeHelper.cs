@@ -35,10 +35,10 @@ namespace Infrastructure.Common
 				{
 					AddConfigurationToZip(zipFile, deviceConfiguration, "DeviceConfiguration.xml");
 				}
-				var xDeviceConfiguration = GetConfigurationFromZip<XDeviceConfiguration>(zipFile, "XDeviceConfiguration.xml", out result);
+				var gkDeviceConfiguration = GetConfigurationFromZip<GKDeviceConfiguration>(zipFile, "GKDeviceConfiguration.xml", out result);
 				if (!result)
 				{
-					AddConfigurationToZip(zipFile, xDeviceConfiguration, "XDeviceConfiguration.xml");
+					AddConfigurationToZip(zipFile, gkDeviceConfiguration, "GKDeviceConfiguration.xml");
 				}
 				var skdConfiguration = GetConfigurationFromZip<SKDConfiguration>(zipFile, "SKDConfiguration.xml", out result);
 				if (!result)
@@ -68,10 +68,10 @@ namespace Infrastructure.Common
 					{
 						AddConfigurationToZip(zipFile, deviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
 					}
-					var xDeviceLibraryConfiguration = GetConfigurationFromZip<XDeviceLibraryConfiguration>(zipFile, "XDeviceLibraryConfiguration.xml", out result);
+					var gkDeviceLibraryConfiguration = GetConfigurationFromZip<GKDeviceLibraryConfiguration>(zipFile, "GKDeviceLibraryConfiguration.xml", out result);
 					if (!result)
 					{
-						AddConfigurationToZip(zipFile, xDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml");
+						AddConfigurationToZip(zipFile, gkDeviceLibraryConfiguration, "GKDeviceLibraryConfiguration.xml");
 					}
 				}
 
@@ -85,8 +85,8 @@ namespace Infrastructure.Common
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DriversConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceLibraryConfiguration", 1, 1));
-					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceConfiguration", 1, 1));
-					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceLibraryConfiguration", 1, 1));
+					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("GKDeviceConfiguration", 1, 1));
+					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("GKDeviceLibraryConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("SKDConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("SKDLibraryConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("LayoutsConfiguration", 1, 1));
@@ -117,7 +117,7 @@ namespace Infrastructure.Common
 					configurationEntry.Extract(configurationMemoryStream);
 					configurationMemoryStream.Position = 0;
 
-					T configuration = ZipSerializeHelper.DeSerialize<T>(configurationMemoryStream);
+					T configuration = ZipSerializeHelper.DeSerialize<T>(configurationMemoryStream, true);
 					if (!configuration.ValidateVersion())
 					{
 						result = false;
@@ -136,7 +136,7 @@ namespace Infrastructure.Common
 
 		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
 		{
-			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
+			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration, true);
 			if (zipFile.Entries.Any(x => x.FileName == fileName))
 				zipFile.RemoveEntry(fileName);
 			configuarationMemoryStream.Position = 0;

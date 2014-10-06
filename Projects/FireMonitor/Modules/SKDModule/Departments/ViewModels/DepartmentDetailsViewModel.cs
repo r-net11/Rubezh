@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -11,6 +14,7 @@ namespace SKDModule.ViewModels
 		Guid OrganisationUID { get; set; }
 		Department Department { get; set; }
 		public ChiefViewModel ChiefViewModel { get; private set; }
+		public ChiefViewModel HRChiefViewModel { get; private set; }
 
 		public DepartmentDetailsViewModel() { }
 		
@@ -35,6 +39,7 @@ namespace SKDModule.ViewModels
 			}
 			CopyProperties();
 			ChiefViewModel = new ChiefViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
+			HRChiefViewModel = new ChiefViewModel(Department.HRChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			return true;
 		}
 
@@ -56,6 +61,7 @@ namespace SKDModule.ViewModels
 		{
 			Name = Department.Name;
 			Description = Department.Description;
+			Phone = Department.Phone;
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 		}
@@ -88,6 +94,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		string _phone;
+		public string Phone
+		{
+			get { return _phone; }
+			set
+			{
+				if (_phone != value)
+				{
+					_phone = value;
+					OnPropertyChanged(() => Phone);
+				}
+			}
+		}
+
 		byte[] _photoData;
 		public byte[] PhotoData
 		{
@@ -114,7 +134,8 @@ namespace SKDModule.ViewModels
 					Description = Department.Description,
 					Name = Department.Name,
 					ParentDepartmentUID = Department.ParentDepartmentUID,
-					ChildDepartmentUIDs = Department.ChildDepartmentUIDs
+					ChildDepartmentUIDs = Department.ChildDepartmentUIDs,
+					Phone = Department.Phone
 				};
 			}
 		}
@@ -127,7 +148,28 @@ namespace SKDModule.ViewModels
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
 			Department.ChiefUID = ChiefViewModel.ChiefUID;
-			return DepartmentHelper.Save(Department);
+			Department.HRChiefUID = HRChiefViewModel.ChiefUID;
+			Department.Phone = Phone;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
+			var saveResult = DepartmentHelper.Save(Department);
+			if (saveResult)
+			{
+				ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Publish(Department);
+				return true;
+			}
+			else
+				return false;
+		}
+
+		bool Validate()
+		{
+			if (Department.Phone.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				return false;
+			}
+			return true;
 		}
 	}
 

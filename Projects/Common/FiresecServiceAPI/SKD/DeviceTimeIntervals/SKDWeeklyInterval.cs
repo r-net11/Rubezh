@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
+using System.Xml.Serialization;
+using System;
 
 namespace FiresecAPI.SKD
 {
@@ -10,6 +12,10 @@ namespace FiresecAPI.SKD
 	public class SKDWeeklyInterval
 	{
 		public SKDWeeklyInterval()
+		{
+		}
+
+		public SKDWeeklyInterval(bool createdefault)
 		{
 			WeeklyIntervalParts = CreateParts();
 		}
@@ -24,16 +30,16 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public ReadOnlyCollection<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }
+		public List<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }
 
-		public static ReadOnlyCollection<SKDWeeklyIntervalPart> CreateParts()
+		public static List<SKDWeeklyIntervalPart> CreateParts()
 		{
-			var list = new List<SKDWeeklyIntervalPart>();
+			var result = new List<SKDWeeklyIntervalPart>();
 			for (int i = 1; i <= 7; i++)
 			{
-				list.Add(new SKDWeeklyIntervalPart() { No = i, DayIntervalID = 0 });
+				result.Add(new SKDWeeklyIntervalPart() { No = i });
 			}
-			return new ReadOnlyCollection<SKDWeeklyIntervalPart>(list);
+			return result;
 		}
 
 		public override bool Equals(object obj)
@@ -48,11 +54,11 @@ namespace FiresecAPI.SKD
 		}
 		public void InvalidateDayIntervals()
 		{
-			var ids = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.ID).ToList();
+			var uids = SKDManager.TimeIntervalsConfiguration.DayIntervals.Select(item => item.UID).ToList();
 			WeeklyIntervalParts.ForEach(x =>
 			{
-				if (!ids.Contains(x.DayIntervalID))
-					x.DayIntervalID = 0;
+				if (!uids.Contains(x.DayIntervalUID))
+					x.DayIntervalUID = Guid.Empty;
 			});
 		}
 	}

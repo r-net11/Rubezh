@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AlarmModule.ViewModels;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Client;
@@ -34,13 +35,13 @@ namespace AlarmModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowAlarmsEvent, AlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
+				new NavigationItem<ShowAlarmsEvent, AlarmType?>(AlarmsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Состояния"; }
+			get {return Infrastructure.Common.ModuleType.Alarm; }
 		}
 
 		public override void AfterInitialize()

@@ -1,11 +1,11 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
-using System.Linq;
 using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 
-			EmployeesViewModel = new EmployeesViewModel(this);
+			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
@@ -59,16 +59,6 @@ namespace SKDModule.ViewModels
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
 			InitializeFilters();
-		}
-
-		public void UpdateDepartments()
-		{
-			DepartmentsViewModel.Initialize(DepartmentFilter);
-		}
-
-		public void UpdatePositions()
-		{
-			PositionsViewModel.Initialize(PositionFilter);
 		}
 
 		bool _isEmployeesSelected;
@@ -178,7 +168,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedPersonType = value;
 				OnPropertyChanged(() => SelectedPersonType);
-				InitializeFilters();
+				InitializeEmployeeFilter();
 			}
 		}
 
@@ -197,8 +187,6 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilters()
 		{
-			EmployeeFilter = Filter.EmployeeFilter;
-			EmployeeFilter.PersonType = SelectedPersonType;
 			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
@@ -206,7 +194,6 @@ namespace SKDModule.ViewModels
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 
-			EmployeesViewModel.Initialize(EmployeeFilter);
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
@@ -214,6 +201,15 @@ namespace SKDModule.ViewModels
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
 			OrganisationsViewModel.Initialize();
+
+			InitializeEmployeeFilter();
+		}
+
+		void InitializeEmployeeFilter()
+		{
+			EmployeeFilter = Filter.EmployeeFilter;
+			EmployeeFilter.PersonType = SelectedPersonType;
+			EmployeesViewModel.Initialize(EmployeeFilter);
 		}
 	}
 }

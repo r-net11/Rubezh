@@ -6,7 +6,7 @@ namespace GKModule.ViewModels
 {
 	public class EnumPropertyViewModel : BasePropertyViewModel
 	{
-		public EnumPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+		public EnumPropertyViewModel(GKDriverProperty driverProperty, GKDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
@@ -26,13 +26,13 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<XDriverPropertyParameter> Parameters
+		public List<GKDriverPropertyParameter> Parameters
 		{
 			get { return DriverProperty.Parameters; }
 		}
 
-		XDriverPropertyParameter _selectedParameter;
-		public XDriverPropertyParameter SelectedParameter
+		GKDriverPropertyParameter _selectedParameter;
+		public GKDriverPropertyParameter SelectedParameter
 		{
 			get { return _selectedParameter; }
 			set

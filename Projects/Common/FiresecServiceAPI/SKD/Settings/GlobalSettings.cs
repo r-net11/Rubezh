@@ -16,7 +16,6 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
-			//IsGKAsAService = true;
 			UseHasp = false;
 
 			FS_RemoteAddress = "localhost";
@@ -24,7 +23,7 @@ namespace FiresecAPI
 			FS_Login = "adm";
 			FS_Password = "";
 
-			SetDefaultModules();
+			ModuleItems = new List<string>();
 
 			Monitor_F1_Enabled = false;
 			Monitor_F2_Enabled = true;
@@ -32,7 +31,6 @@ namespace FiresecAPI
 			Monitor_F4_Enabled = true;
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
-			Administrator_IsExpertMode = false;
 			IgnoredErrors = new List<string>();
 		}
 
@@ -50,10 +48,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool AutoConnect { get; set; }
-
-		//[DataMember]
-		//public bool IsGKAsAService { get; set; }
-		public bool IsGKAsAService { get { return true; } set { } }
 
 		[DataMember]
 		public bool UseHasp { get; set; }
@@ -101,15 +95,10 @@ namespace FiresecAPI
 		public bool Monitor_HidePlansTree { get; set; }
 
 		[DataMember]
-		public bool Administrator_IsExpertMode { get; set; }
-		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
 
 		[DataMember]
 		public List<string> IgnoredErrors { get; set; }
-
-		[DataMember]
-		public bool IsLogicAllowed { get; set; }
 
 		public void SetDefaultModules()
 		{

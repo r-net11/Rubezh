@@ -18,13 +18,8 @@ namespace FireMonitor.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnStateChanged);
 
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
-			CurrentStateClass = XStateClass.Norm;
-			IsSoundOn = true;
-			IsEnabled = false;
 			OnStateChanged(null);
 		}
-
-		public XStateClass CurrentStateClass { get; private set; }
 
 		bool _isSoundOn;
 		public bool IsSoundOn
@@ -36,16 +31,6 @@ namespace FireMonitor.ViewModels
 				OnPropertyChanged(() => IsSoundOn);
 			}
 		}
-		bool _isEnabled;
-		public bool IsEnabled
-		{
-			get { return _isEnabled; }
-			set
-			{
-				_isEnabled = value;
-				OnPropertyChanged(() => IsEnabled);
-			}
-		}
 
 		List<Sound> Sounds
 		{
@@ -54,16 +39,7 @@ namespace FireMonitor.ViewModels
 
 		public void OnStateChanged(object obj)
 		{
-			var minStateClass = XManager.GetMinStateClass();
-
-			if (CurrentStateClass != minStateClass)
-				CurrentStateClass = minStateClass;
-
 			IsSoundOn = true;
-			if (minStateClass == XStateClass.Norm)
-				IsEnabled = false;
-			else
-				IsEnabled = true;
 			PlayAlarm();
 		}
 
@@ -74,15 +50,57 @@ namespace FireMonitor.ViewModels
 				IsSoundOn = false;
 				return;
 			}
+
+			var minSoundStateClass = XStateClass.Norm;
+			Sound minSound = null;
+
 			foreach (var sound in Sounds)
 			{
-				if (sound.StateClass == CurrentStateClass)
+				if (!string.IsNullOrEmpty(sound.SoundName))
 				{
-					AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName), sound.BeeperType, sound.IsContinious);
-					return;
+					var hasStateClass = false;
+					foreach (var device in GKManager.Devices)
+						if (device.IsRealDevice)
+						{
+							var stateClass = device.State.StateClass;
+							if (device.DriverType == GKDriverType.AM1_T && stateClass == XStateClass.Fire2)
+								stateClass = XStateClass.Info;
+							if (sound.StateClass != XStateClass.Attention && sound.StateClass != XStateClass.Fire1 && sound.StateClass != XStateClass.Fire2)
+							{
+								if (stateClass == sound.StateClass)
+								{
+									hasStateClass = true;
+									break;
+								}
+							}
+						}
+					foreach (var zone in GKManager.Zones)
+						if (zone.State != null && zone.State.StateClass == sound.StateClass)
+						{
+							hasStateClass = true;
+							break;
+						}
+					foreach (var direction in GKManager.Directions)
+						if (direction.State != null && direction.State.StateClass == sound.StateClass)
+						{
+							hasStateClass = true;
+							break;
+						}
+
+					if (hasStateClass)
+					{
+						if (sound.StateClass < minSoundStateClass)
+						{
+							minSoundStateClass = sound.StateClass;
+							minSound = sound;
+						}
+					}
 				}
 			}
-			AlarmPlayerHelper.Stop();
+			if (minSound != null)
+			{
+				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(minSound.SoundName), minSound.BeeperType, minSound.IsContinious);
+			}
 		}
 
 		public RelayCommand PlaySoundCommand { get; private set; }

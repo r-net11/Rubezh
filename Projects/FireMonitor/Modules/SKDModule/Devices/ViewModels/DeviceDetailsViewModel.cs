@@ -134,7 +134,7 @@ namespace SKDModule.ViewModels
 		{
 			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Device = Device
+				SKDDevice = Device
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}

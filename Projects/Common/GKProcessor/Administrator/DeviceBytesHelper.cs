@@ -10,7 +10,7 @@ namespace GKProcessor
 {
 	public static class DeviceBytesHelper
 	{
-		public static string ReadDateTime(XDevice device)
+		public static string ReadDateTime(GKDevice device)
 		{
 			var sendResult = SendManager.Send(device, 0, 4, 6);
 			if (sendResult.HasError)
@@ -27,7 +27,7 @@ namespace GKProcessor
 			return stringTime;
 		}
 
-		public static bool WriteDateTime(XDevice device)
+		public static bool WriteDateTime(GKDevice device)
 		{
 			var dateTime = DateTime.Now;
 			var bytes = new List<byte>();
@@ -41,7 +41,7 @@ namespace GKProcessor
 			return !sendResult.HasError;
 		}
 
-		public static string GetDeviceInfo(XDevice device)
+		public static string GetDeviceInfo(GKDevice device)
 		{
 			try
 			{
@@ -64,7 +64,7 @@ namespace GKProcessor
 					if (result1.HasError)
 						return null;
 
-				var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
+				var serialNo = BytesHelper.SubstructInt(result2.Bytes, 0);
 				stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
 
 				var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
@@ -79,13 +79,13 @@ namespace GKProcessor
 			}
 		}
 
-		public static bool GoToTechnologicalRegime(XDevice device, GKProgressCallback progressCallback)
+		public static bool GoToTechnologicalRegime(GKDevice device, GKProgressCallback progressCallback)
 		{
 			if (IsInTechnologicalRegime(device))
 				return true;
 
 			GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
-			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
+			SendManager.Send(device, 0, 14, 0, null, device.DriverType == GKDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
 				if (progressCallback.IsCanceled)
@@ -98,7 +98,7 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool IsInTechnologicalRegime(XDevice device)
+		public static bool IsInTechnologicalRegime(GKDevice device)
 		{
 			var sendResult = SendManager.Send(device, 0, 1, 1);
 			if (!sendResult.HasError)
@@ -115,7 +115,7 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool EraseDatabase(XDevice device, GKProgressCallback progressCallback)
+		public static bool EraseDatabase(GKDevice device, GKProgressCallback progressCallback)
 		{
 			GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
 			for (int i = 0; i < 3; i++)
@@ -135,13 +135,13 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool GoToWorkingRegime(XDevice device, GKProgressCallback progressCallback)
+		public static bool GoToWorkingRegime(GKDevice device, GKProgressCallback progressCallback)
 		{
 			progressCallback.IsCanceled = false;
 			GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
 			if (progressCallback.IsCanceled)
 				return true;
-			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
+			SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
 
 			for (int i = 0; i < 10; i++)
 			{
@@ -165,9 +165,9 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool Ping(XDevice gkDevice)
+		public static bool Ping(GKDevice gkControllerDevice)
 		{
-			var sendResult = SendManager.Send(gkDevice, 0, 1, 1);
+			var sendResult = SendManager.Send(gkControllerDevice, 0, 1, 1);
 			if (sendResult.HasError)
 			{
 				return false;
@@ -175,7 +175,7 @@ namespace GKProcessor
 			return true;
 		}
 
-		public static bool AddUser(XDevice device)
+		public static bool AddUser(GKDevice device)
 		{
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes(4));

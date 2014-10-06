@@ -15,7 +15,7 @@ namespace GKModule.ViewModels
 			NavigateCommand = new RelayCommand(OnNavigate);
 			DescriptorsViewModel = descriptorsViewModel;
 			Descriptor = descriptor;
-			PresentationName = descriptor.XBase.PresentationName;
+			PresentationName = descriptor.GKBase.PresentationName;
 			switch (descriptor.DescriptorType)
 			{
 				case DescriptorType.Device:
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 		public RelayCommand NavigateCommand { get; private set; }
 		void OnNavigate()
 		{
-			var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.BaseUID == Descriptor.XBase.BaseUID);
+			var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == Descriptor.GKBase.UID);
 			if (descriptorViewModel != null)
 			{
 				DescriptorsViewModel.SelectedDescriptor = descriptorViewModel;

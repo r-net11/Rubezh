@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -29,7 +30,7 @@ namespace VideoModule
 		{
 			_planPresenter = new PlanPresenter();
 			CamerasViewModel = new CamerasViewModel();
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				zone.State.StateChanged -= new Action(OnZoneStateChanged);
 				zone.State.StateChanged += new Action(OnZoneStateChanged);
@@ -66,7 +67,7 @@ namespace VideoModule
 			{
 				foreach (var zoneUID in camera.ZoneUIDs)
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						if (zone.State.StateClass == camera.StateClass)
@@ -88,16 +89,16 @@ namespace VideoModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 			{
 				_videoNavigationItem
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Видео"; }
+			get { return Infrastructure.Common.ModuleType.Video; }
 		}
 		public override void RegisterResource()
 		{

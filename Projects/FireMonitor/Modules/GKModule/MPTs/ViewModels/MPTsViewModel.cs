@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			MPTs = new List<MPTViewModel>();
-			foreach (var mpt in XManager.MPTs)
+			foreach (var mpt in GKManager.MPTs.OrderBy(x => x.No))
 			{
 				var mptViewModel = new MPTViewModel(mpt);
 				MPTs.Add(mptViewModel);
@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 		{
 			if (mptUID != Guid.Empty)
 			{
-				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.BaseUID == mptUID);
+				SelectedMPT = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
 			}
 		}
 	}

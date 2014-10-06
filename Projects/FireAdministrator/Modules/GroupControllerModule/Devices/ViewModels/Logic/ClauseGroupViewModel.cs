@@ -8,10 +8,10 @@ namespace GKModule.ViewModels
 {
 	public class ClauseGroupViewModel : BaseViewModel
 	{
-		XDevice Device;
+		GKDevice Device;
 		ClauseGroupViewModel Parent;
 
-		public ClauseGroupViewModel(XDevice device, XClauseGroup clauseGroup)
+		public ClauseGroupViewModel(GKDevice device, GKClauseGroup clauseGroup)
 		{
 			Device = device;
 			AddCommand = new RelayCommand(OnAdd);
@@ -45,14 +45,14 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var clauseViewModel = new ClauseViewModel(Device, new XClause());
+			var clauseViewModel = new ClauseViewModel(Device, new GKClause());
 			Clauses.Add(clauseViewModel);
 		}
 
 		public RelayCommand AddGroupCommand { get; private set; }
 		void OnAddGroup()
 		{
-			var clauseGroupViewModel = new ClauseGroupViewModel(Device, new XClauseGroup());
+			var clauseGroupViewModel = new ClauseGroupViewModel(Device, new GKClauseGroup());
 			clauseGroupViewModel.Parent = this;
 			ClauseGroups.Add(clauseGroupViewModel);
 		}
@@ -99,9 +99,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public XClauseGroup GetClauseGroup()
+		public GKClauseGroup GetClauseGroup()
 		{
-			var clauseGroup = new XClauseGroup();
+			var clauseGroup = new GKClauseGroup();
 			clauseGroup.ClauseJounOperationType = JoinOperator;
 			foreach (var clauseGroupViewModel in ClauseGroups)
 			{
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 
 			foreach (var clauseViewModel in Clauses)
 			{
-				var clause = new XClause()
+				var clause = new GKClause()
 				{
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
 					StateType = clauseViewModel.SelectedStateType.StateBit,
@@ -121,37 +121,37 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
 						clause.Devices = clauseViewModel.Devices.ToList();
-						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.BaseUID).ToList();
+						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
 						clause.Zones = clauseViewModel.Zones.ToList();
-						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.BaseUID).ToList();
+						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllGuardZones:
 					case ClauseOperationType.AnyGuardZone:
 						clause.GuardZones = clauseViewModel.GuardZones.ToList();
-						clause.GuardZoneUIDs = clauseViewModel.GuardZones.Select(x => x.BaseUID).ToList();
+						clause.GuardZoneUIDs = clauseViewModel.GuardZones.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
 						clause.Directions = clauseViewModel.Directions.ToList();
-						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.BaseUID).ToList();
+						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllMPTs:
 					case ClauseOperationType.AnyMPT:
 						clause.MPTs = clauseViewModel.MPTs.ToList();
-						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.BaseUID).ToList();
+						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.UID).ToList();
 						break;
 
 					case ClauseOperationType.AllDelays:
 					case ClauseOperationType.AnyDelay:
 						clause.Delays = clauseViewModel.Delays.ToList();
-						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.BaseUID).ToList();
+						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.UID).ToList();
 						break;
 				}
 				if (clause.HasObjects())

@@ -8,19 +8,19 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (!(value is XStateBit))
+			if (!(value is GKStateBit))
 				return null;
 
-			var stateType = (XStateBit)value;
+			var stateType = (GKStateBit)value;
 
 			switch(stateType)
 			{
-				case XStateBit.Norm:
-				case XStateBit.Save:
+				case GKStateBit.Norm:
+				case GKStateBit.Save:
 
-				case XStateBit.SetRegime_Automatic:
-				case XStateBit.SetRegime_Manual:
-				case XStateBit.SetRegime_Off:
+				case GKStateBit.SetRegime_Automatic:
+				case GKStateBit.SetRegime_Manual:
+				case GKStateBit.SetRegime_Off:
 					return null;
 			}
 

@@ -30,26 +30,26 @@ namespace GKModule.ViewModels
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 		}
 
-		public List<XDevice> GetRealChildren()
+		public List<GKDevice> GetRealChildren()
 		{
 			return Device.AllChildrenAndSelf.Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 		}
 
 		#region Capy and Paste
-		public static XDriver DriverCopy;
-		public static List<XProperty> PropertiesCopy;
+		public static GKDriver DriverCopy;
+		public static List<GKProperty> PropertiesCopy;
 
 		public RelayCommand CopyParamCommand { get; private set; }
 		void OnCopy()
 		{
 			DriverCopy = Device.Driver;
-			PropertiesCopy = new List<XProperty>();
+			PropertiesCopy = new List<GKProperty>();
 			foreach (var property in Device.Properties)
 			{
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					var propertyCopy = new XProperty()
+					var propertyCopy = new GKProperty()
 					{
 						StringValue = property.StringValue,
 						Name = property.Name,
@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 			return (Children.Count() > 0 && DriverCopy != null) && (Device.AllChildrenAndSelf.Any(x => x.DriverType == DriverCopy.DriverType));
 		}
 
-		static void CopyParametersFromBuffer(XDevice device)
+		static void CopyParametersFromBuffer(GKDevice device)
 		{
 			foreach (var property in PropertiesCopy)
 			{
@@ -149,12 +149,12 @@ namespace GKModule.ViewModels
 			return Children.Count() > 0;
 		}
 
-		static void CopyParametersFromTemplate(XParameterTemplate parameterTemplate, XDevice device)
+		static void CopyParametersFromTemplate(GKParameterTemplate parameterTemplate, GKDevice device)
 		{
-			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == device.Driver.UID);
+			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.GKDevice.DriverUID == device.Driver.UID);
 			if (deviceParameterTemplate != null)
 			{
-				foreach (var property in deviceParameterTemplate.XDevice.Properties)
+				foreach (var property in deviceParameterTemplate.GKDevice.Properties)
 				{
 					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (deviceProperty != null)
@@ -171,7 +171,7 @@ namespace GKModule.ViewModels
 		{
 			if (CompareLocalWithRemoteHashes())
 			{
-				var device = new List<XDevice> { Device };
+				var device = new List<GKDevice> { Device };
 				if (Validate(device))
 				{
 					LoadingService.Show("Запись параметров в устройствo " + Device.PresentationName, null, 1, true);
@@ -200,7 +200,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void SyncFromSystemToDeviceProperties(List<XDevice> devices)
+		public void SyncFromSystemToDeviceProperties(List<GKDevice> devices)
 		{
 			foreach (var device in devices)
 			{
@@ -211,7 +211,7 @@ namespace GKModule.ViewModels
 						var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
 						if (deviceProperty == null)
 						{
-							device.DeviceProperties.Add(new XProperty
+							device.DeviceProperties.Add(new GKProperty
 								{
 									DriverProperty = property.DriverProperty,
 									Name = property.Name,
@@ -265,7 +265,7 @@ namespace GKModule.ViewModels
 			return Children.Count() > 0;
 		}
 
-		static void CopyFromDeviceToSystem(XDevice device)
+		static void CopyFromDeviceToSystem(GKDevice device)
 		{
 			foreach (var deviceProperty in device.DeviceProperties)
 			{
@@ -281,7 +281,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-		bool Validate(IEnumerable<XDevice> devices)
+		bool Validate(IEnumerable<GKDevice> devices)
 		{
 			foreach (var device in devices)
 			{
@@ -315,13 +315,13 @@ namespace GKModule.ViewModels
 			return true;
 		}
 
-		static bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
+		static bool IsPropertyValid(GKProperty property, GKDriverProperty driverProperty)
 		{
 			int value;
 			return
 					driverProperty != null &&
 					driverProperty.IsAUParameter &&
-					driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.IntType &&
+					driverProperty.DriverPropertyType == GKDriverPropertyTypeEnum.IntType &&
 					(!int.TryParse(Convert.ToString(property.Value), out value) ||
 					(value < driverProperty.Min || value > driverProperty.Max));
 		}
@@ -332,7 +332,7 @@ namespace GKModule.ViewModels
 			if (CompareLocalWithRemoteHashes())
 			{
 				LoadingService.Show("Чтение параметров из устройства " + Device.PresentationName, null, 1, true);
-				ReadDevices(new List<XDevice> { Device });
+				ReadDevices(new List<GKDevice> { Device });
 				PropertiesViewModel.Update();
 			}
 		}
@@ -355,7 +355,7 @@ namespace GKModule.ViewModels
 
 		bool CanReadWriteAll()
 		{
-			return Children.Count() > 0 && Device.DriverType != XDriverType.System;
+			return Children.Count() > 0 && Device.DriverType != GKDriverType.System;
 		}
 
 		public bool HasAUProperties
@@ -363,7 +363,7 @@ namespace GKModule.ViewModels
 			get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
 		}
 
-		static void ReadDevices(IEnumerable<XDevice> devices)
+		static void ReadDevices(IEnumerable<GKDevice> devices)
 		{
 			var errorLog = "";
 			DescriptorsManager.Create();
@@ -383,7 +383,7 @@ namespace GKModule.ViewModels
 						var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
 						if (deviceProperty == null)
 						{
-							deviceProperty = new XProperty()
+							deviceProperty = new GKProperty()
 							{
 								Name = property.Name,
 								DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name)
@@ -405,7 +405,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + errorLog);
 		}
 
-		static bool WriteDevices(IEnumerable<XDevice> devices)
+		static bool WriteDevices(IEnumerable<GKDevice> devices)
 		{
 			var errorLog = "";
 			DescriptorsManager.Create();
@@ -480,7 +480,7 @@ namespace GKModule.ViewModels
 		bool CompareLocalWithRemoteHashes()
 		{
 			var gkParent = DevicesViewModel.Current.SelectedDevice.Device;
-			if (gkParent.DriverType != XDriverType.GK)
+			if (gkParent.DriverType != GKDriverType.GK)
 				gkParent = DevicesViewModel.Current.SelectedDevice.Device.GKParent;
 
 			var result = FiresecManager.FiresecService.GKGKHash(gkParent);
@@ -490,7 +490,7 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var localHash = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, gkParent);
+			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, gkParent);
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;

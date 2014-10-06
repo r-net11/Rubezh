@@ -5,13 +5,13 @@ namespace GKModule.ViewModels
 {
 	public class ArchiveGuardZoneViewModel : CheckBoxItemViewModel
 	{
-		public ArchiveGuardZoneViewModel(XGuardZone guardZone)
+		public ArchiveGuardZoneViewModel(GKGuardZone guardZone)
 		{
 			GuardZone = guardZone;
 			Name = guardZone.PresentationName;
 		}
 
-		public XGuardZone GuardZone { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 		public string Name { get; private set; }
 	}
 }

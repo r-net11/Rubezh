@@ -5,11 +5,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class ShortDepartment : IOrganisationElement
+	public class ShortDepartment : IOrganisationElement
 	{
 		public ShortDepartment()
 		{
-            ChildDepartmentUIDs = new List<Guid>();
+			ChildDepartmentUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -29,5 +29,14 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
+
+		[DataMember]
+		public Guid ChiefUID { get; set; }
+
+		[DataMember]
+		public Guid HRChiefUID { get; set; }
+
+		[DataMember]
+		public string Phone { get; set; }
 	}
 }

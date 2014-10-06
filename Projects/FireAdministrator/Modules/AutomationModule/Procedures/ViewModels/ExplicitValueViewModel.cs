@@ -11,42 +11,48 @@ using FiresecAPI.Models;
 using FiresecAPI.Automation;
 using FiresecClient;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {
 	public class ExplicitValueViewModel : BaseViewModel
 	{
-		public XDevice Device { get; private set; }
-		public XZone Zone { get; private set; }
-		public XGuardZone GuardZone { get; private set; }
+		public GKDevice Device { get; private set; }
+		public GKZone Zone { get; private set; }
+		public GKGuardZone GuardZone { get; private set; }
 		public SKDDevice SKDDevice { get; private set; }
 		public SKDZone SKDZone { get; private set; }
 		public Camera Camera { get; private set; }
 		public SKDDoor SKDDoor { get; private set; }
-		public XDirection Direction { get; private set; }
+		public GKDirection Direction { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		public Action UpdateObjectHandler { get; set; }
 
+		public ExplicitValueViewModel()
+		{
+			ExplicitValue = new ExplicitValue();
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
+		}
+
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;
+			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
+			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
 			Initialize(ExplicitValue.UidValue);
 		}
 
 		public void Initialize(Guid uidValue)
 		{
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<XDriverType>();
-			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
-			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
-			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
+			Device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == uidValue);
+			Zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == uidValue);
+			GuardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == uidValue);
 			SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == uidValue);
 			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
 			Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
-			Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
+			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
@@ -63,11 +69,11 @@ namespace AutomationModule.ViewModels
 				if (SKDDevice != null)
 					return SKDDevice.Name;
 				if (SKDZone != null)
-					return SKDZone.Name;
+					return SKDZone.PresentationName;
 				if (Camera != null)
-					return Camera.Name;
+					return Camera.PresentationName;
 				if (SKDDoor != null)
-					return SKDDoor.Name;
+					return SKDDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
 				return "";
@@ -124,6 +130,7 @@ namespace AutomationModule.ViewModels
 				if (UpdateObjectHandler != null)
 					UpdateObjectHandler();
 				OnPropertyChanged(() => UidValue);
+				OnPropertyChanged(() => IsEmpty);
 			}
 		}
 
@@ -138,8 +145,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XDriverType> DriverTypeValues { get; private set; }
-		public XDriverType DriverTypeValue
+		public ObservableCollection<GKDriverType> DriverTypeValues { get; private set; }
+		public GKDriverType DriverTypeValue
 		{
 			get { return ExplicitValue.DriverTypeValue; }
 			set

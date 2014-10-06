@@ -12,7 +12,7 @@ namespace GKModule.Validation
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateDevices();
 			ValidateZones();
@@ -29,12 +29,12 @@ namespace GKModule.Validation
 
 		bool IsManyGK()
 		{
-			return XManager.Devices.Where(x=>x.DriverType == XDriverType.GK).Count() > 1;
+			return GKManager.Devices.Where(x=>x.DriverType == GKDriverType.GK).Count() > 1;
 		}
 
-		static bool AreDevicesInSameGK(List<XDevice> devices)
+		static bool AreDevicesInSameGK(List<GKDevice> devices)
 		{
-			var gkDevices = new HashSet<XDevice>();
+			var gkDevices = new HashSet<GKDevice>();
 			foreach (var device in devices)
 			{
 				if (device.GKParent != null)

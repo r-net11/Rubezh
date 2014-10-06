@@ -9,11 +9,11 @@ namespace GKProcessor
 	{
 		List<MeasureDeviceInfo> MeasureDeviceInfos = new List<MeasureDeviceInfo>();
 
-		public void StartDeviceMeasure(XDevice device)
+		public void StartDeviceMeasure(GKDevice device)
 		{
 			if (device.Driver.MeasureParameters.Count > 0)
 			{
-				var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.BaseUID == device.BaseUID);
+				var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.UID == device.UID);
 				if (measureDeviceInfo == null)
 				{
 					measureDeviceInfo = new MeasureDeviceInfo(device);
@@ -26,9 +26,9 @@ namespace GKProcessor
 			}
 		}
 
-		public void StopDeviceMeasure(XDevice device)
+		public void StopDeviceMeasure(GKDevice device)
 		{
-			MeasureDeviceInfos.RemoveAll(x => x.Device.BaseUID == device.BaseUID);
+			MeasureDeviceInfos.RemoveAll(x => x.Device.UID == device.UID);
 		}
 
 		void CheckMeasure()
@@ -36,20 +36,20 @@ namespace GKProcessor
 			MeasureDeviceInfos.RemoveAll(x => (DateTime.Now - x.DateTime).TotalSeconds > 120);
 			foreach (var measureDeviceInfo in MeasureDeviceInfos)
 			{
-				List<XMeasureParameterValue> measureParameters = null;
-				if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == XDriverType.KAU)
+				List<GKMeasureParameterValue> measureParameters = null;
+				if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == GKDriverType.KAU)
 				{
 					measureParameters = measureDeviceInfo.GetRSR1Measure();
 				}
-				else if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == XDriverType.RSR2_KAU)
+				else if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == GKDriverType.RSR2_KAU)
 				{
 					measureParameters = measureDeviceInfo.GetRSR2Measure();
 				}
 
 				if (measureParameters != null && measureParameters.Count > 0)
 				{
-					var deviceMeasureParameters = new XDeviceMeasureParameters();
-					deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.BaseUID;
+					var deviceMeasureParameters = new GKDeviceMeasureParameters();
+					deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.UID;
 					foreach (var measureParameter in measureParameters)
 					{
 						deviceMeasureParameters.MeasureParameterValues.Add(measureParameter);
@@ -62,24 +62,24 @@ namespace GKProcessor
 
 	class MeasureDeviceInfo
 	{
-		public XDevice Device { get; private set; }
+		public GKDevice Device { get; private set; }
 		public DateTime DateTime { get; set; }
-		public List<XMeasureParameterValue> MeasureParameters;
+		public List<GKMeasureParameterValue> MeasureParameters;
 
 		int ParameterIndex;
 		bool CanMoveToNextParameter;
 		int GetParameterTryIndex;
 		public DateTime StartTryDateTime { get; set; }
 
-		public MeasureDeviceInfo(XDevice device)
+		public MeasureDeviceInfo(GKDevice device)
 		{
 			Device = device;
 			DateTime = DateTime.Now;
 
-			MeasureParameters = new List<XMeasureParameterValue>();
+			MeasureParameters = new List<GKMeasureParameterValue>();
 			foreach (var measureParameter in Device.Driver.MeasureParameters)
 			{
-				var measureParameterValue = new XMeasureParameterValue()
+				var measureParameterValue = new GKMeasureParameterValue()
 				{
 					Name = measureParameter.Name
 				};
@@ -87,7 +87,7 @@ namespace GKProcessor
 			}
 		}
 
-		public List<XMeasureParameterValue> GetRSR1Measure()
+		public List<GKMeasureParameterValue> GetRSR1Measure()
 		{
 			var measureParameter = Device.Driver.MeasureParameters[ParameterIndex];
 			if (CanMoveToNextParameter)
@@ -122,7 +122,7 @@ namespace GKProcessor
 						var parameterUshortValue = (short)BytesHelper.SubstructShort(result.Bytes, 64);
 						var measureParameterValue = ParceRSRaMeasureParameter(measureParameter, parameterUshortValue);
 						CanMoveToNextParameter = true;
-						return new List<XMeasureParameterValue>() { measureParameterValue };
+						return new List<GKMeasureParameterValue>() { measureParameterValue };
 					}
 				}
 			}
@@ -135,7 +135,7 @@ namespace GKProcessor
 			return null;
 		}
 
-		XMeasureParameterValue ParceRSRaMeasureParameter(XMeasureParameter measureParameter, short parameterShortValue)
+		GKMeasureParameterValue ParceRSRaMeasureParameter(GKMeasureParameter measureParameter, short parameterShortValue)
 		{
 			if (measureParameter.IsHighByte)
 			{
@@ -156,7 +156,7 @@ namespace GKProcessor
 			{
 				stringValue = (parameterShortValue / 256).ToString() + "." + (parameterShortValue % 256).ToString();
 			}
-			if ((Device.DriverType == XDriverType.Valve || Device.Driver.IsPump)
+			if ((Device.DriverType == GKDriverType.Valve || Device.Driver.IsPump)
 				&& measureParameter.Name == "Режим работы")
 			{
 				stringValue = "Неизвестно";
@@ -182,7 +182,7 @@ namespace GKProcessor
 			return measureParameterValue;
 		}
 
-		public List<XMeasureParameterValue> GetRSR2Measure()
+		public List<GKMeasureParameterValue> GetRSR2Measure()
 		{
 			var result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(Device.GKDescriptorNo));
 			if (!result.HasError && result.Bytes.Count > 0)

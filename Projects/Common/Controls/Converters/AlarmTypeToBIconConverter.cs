@@ -8,33 +8,33 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			switch ((XAlarmType)value)
+			switch ((GKAlarmType)value)
 			{
-				case XAlarmType.NPTOn:
+				case GKAlarmType.NPTOn:
 					return "/Controls;component/StateClassIcons/NPTOn.png";
 
-				case XAlarmType.Fire1:
+				case GKAlarmType.Fire1:
 					return "/Controls;component/StateClassIcons/Fire1.png";
 
-				case XAlarmType.Fire2:
+				case GKAlarmType.Fire2:
 					return "/Controls;component/StateClassIcons/Fire2.png";
 
-				case XAlarmType.Attention:
+				case GKAlarmType.Attention:
 					return "/Controls;component/StateClassIcons/Attention.png";
 
-				case XAlarmType.Failure:
+				case GKAlarmType.Failure:
 					return "/Controls;component/StateClassIcons/Failure.png";
 
-				case XAlarmType.Ignore:
+				case GKAlarmType.Ignore:
 					return "/Controls;component/StateClassIcons/Ignore.png";
 
-				case XAlarmType.Turning:
+				case GKAlarmType.Turning:
 					return "/Controls;component/StateClassIcons/On.png";
 
-				case XAlarmType.Service:
+				case GKAlarmType.Service:
 					return "/Controls;component/StateClassIcons/Service.png";
 
-				case XAlarmType.AutoOff:
+				case GKAlarmType.AutoOff:
 					return "/Controls;component/StateClassIcons/AutoOff.png";
 
 				default:

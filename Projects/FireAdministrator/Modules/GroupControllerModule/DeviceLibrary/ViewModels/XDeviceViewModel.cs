@@ -5,14 +5,14 @@ namespace GKModule.ViewModels
 {
 	public class XDeviceViewModel : TreeNodeViewModel<XDeviceViewModel>
 	{
-		public LibraryXDevice LibraryDevice { get; private set; }
-		public XDriver Driver
+		public GKLibraryDevice LibraryDevice { get; private set; }
+		public GKDriver Driver
 		{
 			get { return LibraryDevice.Driver; }
 		}
-		public XDeviceViewModel(LibraryXDevice libraryXDevice)
+		public XDeviceViewModel(GKLibraryDevice gkLibraryDevice)
 		{
-			LibraryDevice = libraryXDevice;
+			LibraryDevice = gkLibraryDevice;
 		}
 	}
 }

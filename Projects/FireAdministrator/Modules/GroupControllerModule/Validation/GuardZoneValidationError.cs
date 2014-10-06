@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	class GuardZoneValidationError : ObjectValidationError<XGuardZone, ShowXGuardZoneEvent, Guid>
+	class GuardZoneValidationError : ObjectValidationError<GKGuardZone, ShowXGuardZoneEvent, Guid>
 	{
-		public GuardZoneValidationError(XGuardZone guardZone, string error, ValidationErrorLevel level)
+		public GuardZoneValidationError(GKGuardZone guardZone, string error, ValidationErrorLevel level)
 			: base(guardZone, error, level)
 		{
 		}
@@ -18,7 +18,7 @@ namespace GKModule.Validation
 		}
 		protected override Guid Key
 		{
-			get { return Object.BaseUID; }
+			get { return Object.UID; }
 		}
 		public override string Source
 		{

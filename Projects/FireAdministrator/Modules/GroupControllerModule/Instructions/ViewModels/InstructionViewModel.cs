@@ -5,14 +5,14 @@ namespace GKModule.ViewModels
 {
 	public class InstructionViewModel : BaseViewModel
 	{
-		public XInstruction Instruction { get; private set; }
+		public GKInstruction Instruction { get; private set; }
 
-		public InstructionViewModel(XInstruction instruction)
+		public InstructionViewModel(GKInstruction instruction)
 		{
 			Instruction = instruction;
 		}
 
-		public XInstructionType InstructionType
+		public GKInstructionType InstructionType
 		{
 			get { return Instruction.InstructionType; }
 		}

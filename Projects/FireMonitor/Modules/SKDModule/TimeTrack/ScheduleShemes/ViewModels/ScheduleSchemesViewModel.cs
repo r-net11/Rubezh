@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 	{
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
-        
+		
 		public ScheduleSchemesViewModel()
 			:base()
 		{
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 		{
 			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			Initialize(filter);
-        }
+		}
 
 		public override void OnShow()
 		{
@@ -50,11 +50,11 @@ namespace SKDModule.ViewModels
 				base.OnOrganisationUsersChanged(newOrganisation);
 		}
 
-        protected override void OnRemoveOrganisation(Guid organisationUID)
-        {
-            if (_isInitialized)
-                base.OnRemoveOrganisation(organisationUID);
-        }
+		protected override void OnRemoveOrganisation(Guid organisationUID)
+		{
+			if (_isInitialized)
+				base.OnRemoveOrganisation(organisationUID);
+		}
 
 		public void ReloadDayIntervals()
 		{
@@ -102,15 +102,12 @@ namespace SKDModule.ViewModels
 			copy.Type = source.Type;
 			foreach (var day in source.DayIntervals)
 			{
-				if (!day.IsDeleted)
+				copy.DayIntervals.Add(new ScheduleDayInterval()
 				{
-					copy.DayIntervals.Add(new ScheduleDayInterval()
-					{
-						DayIntervalUID = day.DayIntervalUID,
-						Number = day.Number,
-						ScheduleSchemeUID = copy.UID,
-					});
-				}
+					DayIntervalUID = day.DayIntervalUID,
+					Number = day.Number,
+					ScheduleSchemeUID = copy.UID,
+				});
 			}
 			return copy;
 		}
@@ -132,8 +129,8 @@ namespace SKDModule.ViewModels
 			return ScheduleSchemaHelper.Save(item);
 		}
 		protected override string ItemRemovingName
-        {
-            get { return "график"; }
-        }
+		{
+			get { return "график"; }
+		}
 	}
 }

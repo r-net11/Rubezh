@@ -15,19 +15,19 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XDevicePainter : BasePointPainter<XDevice, ShowXDeviceEvent>
+	class XDevicePainter : BasePointPainter<GKDevice, ShowXDeviceEvent>
 	{
 		public XDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
 		}
 
-		protected override XDevice CreateItem(PresenterItem presenterItem)
+		protected override GKDevice CreateItem(PresenterItem presenterItem)
 		{
-			var element = presenterItem.Element as ElementXDevice;
-			return element == null ? null : PlanPresenter.Cache.Get<XDevice>(element.XDeviceUID);
+			var element = presenterItem.Element as ElementGKDevice;
+			return element == null ? null : PlanPresenter.Cache.Get<GKDevice>(element.DeviceUID);
 		}
-		protected override StateTooltipViewModel<XDevice> CreateToolTip()
+		protected override StateTooltipViewModel<GKDevice> CreateToolTip()
 		{
 			return new DeviceTooltipViewModel(Item);
 		}
@@ -52,17 +52,17 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.XDevicePicture.GetDynamicBrush(Item);
+			return PictureCacheSource.GKDevicePicture.GetDynamicBrush(Item);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		private void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Device = Item
+				GKDevice = Item
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 	}
 }

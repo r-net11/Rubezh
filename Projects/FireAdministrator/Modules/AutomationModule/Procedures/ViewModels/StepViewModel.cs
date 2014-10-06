@@ -1,5 +1,4 @@
-﻿using FiresecAPI;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 
@@ -10,6 +9,7 @@ namespace AutomationModule.ViewModels
 		public ProcedureStep Step { get; private set; }
 		public StepsViewModel StepsViewModel { get; private set; }
 		public Procedure Procedure { get; private set; }
+
 		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step, Procedure procedure)
 		{
 			Procedure = procedure;
@@ -44,6 +44,14 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Foreach:
 					Content = new ForeachStepViewModel(this);
+					break;
+
+				case ProcedureStepType.For:
+					Content = new ForStepViewModel(this);
+					break;
+
+				case ProcedureStepType.While:
+					Content = new ConditionStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Pause:
@@ -113,7 +121,16 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.RunProgramm:
 					Content = new RunProgrammStepViewModel(this);
 					break;
+
+				case ProcedureStepType.ChangeList:
+					Content = new ChangeListStepViewModel(this);
+					break;
+
+				case ProcedureStepType.GetListCount:
+					Content = new GetListCountStepViewModel(this);
+					break;
 			}
+			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
@@ -123,33 +140,10 @@ namespace AutomationModule.ViewModels
 				Content.UpdateContent();
 		}
 
-		public void Update(ProcedureStep step)
-		{
-			Step = step;
-			OnPropertyChanged(() => Step);
-			OnPropertyChanged(() => Name);
-			Update();
-		}
-
 		public void Update()
 		{
-			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => Content);
 			OnPropertyChanged(() => HasChildren);
-		}
-
-		public string Name
-		{
-			get { return Step.ProcedureStepType.ToDescription(); }
-		}
-
-		public string Description
-		{
-			get
-			{
-				if (Content != null)
-					return Content.Description;
-				return "";
-			}
 		}
 
 		public BaseStepViewModel Content { get; private set; }

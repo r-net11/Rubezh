@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using FilterModule.Validation;
 using FiltersModule.Events;
 using FiltersModule.ViewModels;
+using FiresecAPI;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Validation;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Validation;
 
 namespace FiltersModule
 {
@@ -30,12 +31,12 @@ namespace FiltersModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/Filter.png"),
+				new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Filter.png"),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Фильтры журнала событий"; }
+			get { return ModuleType.Filters; }
 		}
 
 		public IEnumerable<IValidationError> Validate()

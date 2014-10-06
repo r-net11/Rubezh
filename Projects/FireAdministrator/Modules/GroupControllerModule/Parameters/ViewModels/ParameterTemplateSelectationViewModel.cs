@@ -11,18 +11,18 @@ namespace GKModule.ViewModels
 		public ParameterTemplateSelectationViewModel()
 		{
 			Title = "Выбор шаблона";
-			ParameterTemplates = new ObservableCollection<XParameterTemplate>();
-			foreach (var parameterTemplate in XManager.ParameterTemplates)
+			ParameterTemplates = new ObservableCollection<GKParameterTemplate>();
+			foreach (var parameterTemplate in GKManager.ParameterTemplates)
 			{
 				ParameterTemplates.Add(parameterTemplate);
 			}
 			SelectedParameterTemplate = ParameterTemplates.FirstOrDefault();
 		}
 
-		public ObservableCollection<XParameterTemplate> ParameterTemplates { get; private set; }
+		public ObservableCollection<GKParameterTemplate> ParameterTemplates { get; private set; }
 
-		XParameterTemplate _selectedParameterTemplate;
-		public XParameterTemplate SelectedParameterTemplate
+		GKParameterTemplate _selectedParameterTemplate;
+		public GKParameterTemplate SelectedParameterTemplate
 		{
 			get { return _selectedParameterTemplate; }
 			set

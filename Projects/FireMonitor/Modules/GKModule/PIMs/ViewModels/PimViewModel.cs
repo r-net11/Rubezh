@@ -4,18 +4,19 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class PimViewModel : BaseViewModel
 	{
-		public XPim Pim { get; private set; }
-		public XState State
+		public GKPim Pim { get; private set; }
+		public GKState State
 		{
 			get { return Pim.State; }
 		}
 
-		public PimViewModel(XPim pim)
+		public PimViewModel(GKPim pim)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -32,11 +33,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Pim = Pim
+				GKPim = Pim
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

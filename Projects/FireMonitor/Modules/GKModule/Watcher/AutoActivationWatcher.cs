@@ -17,7 +17,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
 		}
 
-		public static void OnNewJournal(List<XJournalItem> journalItems)
+		public static void OnNewJournal(List<GKJournalItem> journalItems)
 		{
 			if (ClientSettings.AutoActivationSettings.IsAutoActivation)
 			{
@@ -33,18 +33,18 @@ namespace GKModule
 				{
 					var journalItemViewModel = new JournalItemViewModel(journalItem);
 
-					var globalStateClass = XManager.GetMinStateClass();
+					var globalStateClass = GKManager.GetMinStateClass();
 
 					if (journalItem.StateClass <= globalStateClass ||
 						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 					{
 						switch (journalItem.JournalObjectType)
 						{
-							case XJournalObjectType.Device:
-								var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
+							case GKJournalObjectType.Device:
+								var device = GKManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (device != null)
 								{
-									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementXDevices.Any(y => y.XDeviceUID == device.BaseUID); });
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementGKDevices.Any(y => y.DeviceUID == device.UID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(device);
@@ -52,16 +52,16 @@ namespace GKModule
 								}
 								break;
 
-							case XJournalObjectType.Zone:
-								var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
+							case GKJournalObjectType.Zone:
+								var zone = GKManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (zone != null)
 								{
-									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.BaseUID); });
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleGKZones.Any(y => y.ZoneUID == zone.UID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
 									}
-									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXZones.Any(y => y.ZoneUID == zone.BaseUID); });
+									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonGKZones.Any(y => y.ZoneUID == zone.UID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
@@ -69,16 +69,16 @@ namespace GKModule
 								}
 								break;
 
-							case XJournalObjectType.Direction:
-								var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
+							case GKJournalObjectType.Direction:
+								var direction = GKManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (direction != null)
 								{
-									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXDirections.Any(y => y.DirectionUID == direction.BaseUID); });
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleGKDirections.Any(y => y.DirectionUID == direction.UID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
 									}
-									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXDirections.Any(y => y.DirectionUID == direction.BaseUID); });
+									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonGKDirections.Any(y => y.DirectionUID == direction.UID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
 	public class PDUGroupDevice
 	{
+		[XmlIgnore]
 		public Device Device { get; set; }
 
 		[DataMember]

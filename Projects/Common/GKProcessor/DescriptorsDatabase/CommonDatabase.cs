@@ -12,7 +12,7 @@ namespace GKProcessor
 		}
 
 		public DatabaseType DatabaseType { get; protected set; }
-		public XDevice RootDevice { get; protected set; }
+		public GKDevice RootDevice { get; protected set; }
 		public List<BaseDescriptor> Descriptors { get; set; }
 
 		public CommonDatabase()

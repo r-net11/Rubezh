@@ -12,7 +12,8 @@ namespace FiresecAPI.SKD
 				UID = new Guid("5E4050C3-BDFA-4aeb-B66F-2BAD7F5CDF58"),
 				Name = "Кнопка выход",
 				ShortName = "Кнопка выход",
-				DriverType = SKDDriverType.Button
+				DriverType = SKDDriverType.Button,
+				IsPlaceable = true
 			};
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Failure);

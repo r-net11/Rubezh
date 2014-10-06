@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Client;
@@ -32,15 +33,15 @@ namespace SecurityModule
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("Права доступа", "/Controls;component/Images/users.png", new List<NavigationItem>(){
+				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/users.png", new List<NavigationItem>(){
 					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
 					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Шаблоны прав", "/Controls;component/Images/users.png"),
 				}),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Права доступа"; }
+			get { return ModuleType.Security; }
 		}
 	}
 }

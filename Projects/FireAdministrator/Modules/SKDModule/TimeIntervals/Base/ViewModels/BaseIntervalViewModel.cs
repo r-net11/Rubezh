@@ -55,7 +55,12 @@ namespace SKDModule.Intervals.Base.ViewModels
 		private bool _isActive;
 		public bool IsActive
 		{
-			get { return _isActive; }
+			get
+			{
+				if (Name == "<Никогда>" || Name == "<Всегда>")
+					return false;
+				return _isActive;
+			}
 			set
 			{
 				_isActive = value;

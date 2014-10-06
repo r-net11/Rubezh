@@ -3,7 +3,7 @@
 					xmlns:Views="clr-namespace:AutomationModule.Views"
 					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
 		<Views:ProceduresView />
 	</DataTemplate>
 
@@ -30,7 +30,11 @@
 	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
 		<Views:ArgumentDetailsView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:StringDetailsViewModel}">
+		<Views:StringDetailsView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:FilterSelectionViewModel}">
 		<Views:FilterSelectionView />
 	</DataTemplate>
@@ -93,6 +97,10 @@
 
 	<DataTemplate x:Key="foreachTemplate">
 		<Views:ForeachStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="forTemplate">
+		<Views:ForStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="pauseTemplate">
@@ -159,11 +167,19 @@
 		<Views:RunProgrammStepView />
 	</DataTemplate>
 
-    <DataTemplate x:Key="randomTemplate">
-        <Views:RandomStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="randomTemplate">
+		<Views:RandomStepView />
+	</DataTemplate>
 
-    <ViewModels:StepTypeTemplateSelector
+	<DataTemplate x:Key="changeListTemplate">
+		<Views:ChangeListStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="getListCountTemplate">
+		<Views:GetListCountStepView />
+	</DataTemplate>
+
+	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -171,6 +187,7 @@
 		ConditionTemplate="{StaticResource conditionTemplate}"
 		FindObjectTemplate="{StaticResource findObjectTemplate}"
 		ForeachTemplate="{StaticResource foreachTemplate}"
+		ForTemplate="{StaticResource forTemplate}"
 		PauseTemplate="{StaticResource pauseTemplate}"
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"
@@ -187,7 +204,9 @@
 		GetObjectPropertyTemplate ="{StaticResource getObjectPropertyTemplate}"
 		SendEmailTemplate="{StaticResource sendEmailTemplate}"
 		RunProgrammTemplate="{StaticResource runProgrammTemplate}"
-        RandomTemplate="{StaticResource randomTemplate}"
+		RandomTemplate="{StaticResource randomTemplate}"
+		ChangeListTemplate="{StaticResource changeListTemplate}"
+		GetListCountTemplate="{StaticResource getListCountTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

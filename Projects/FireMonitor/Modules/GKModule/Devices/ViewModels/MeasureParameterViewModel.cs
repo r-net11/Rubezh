@@ -5,10 +5,10 @@ namespace GKModule.ViewModels
 {
 	public class MeasureParameterViewModel : BaseViewModel
 	{
-		public XDevice Device { get; set; }
+		public GKDevice Device { get; set; }
 		public string Name { get; set; }
 		public bool IsDelay { get; set; }
-		public XMeasureParameter DriverParameter { get; set; }
+		public GKMeasureParameter DriverParameter { get; set; }
 
 		double _value;
 		public double Value

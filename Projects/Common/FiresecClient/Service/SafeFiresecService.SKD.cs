@@ -225,14 +225,14 @@ namespace FiresecClient
 
 		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
-        {
-            return SafeContext.Execute<OperationResult<NightSettings>>(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
-        }
-        public OperationResult SaveNightSettings(NightSettings nightSettings)
-        {
-            return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNightSettings(nightSettings));
-        }
-        #endregion
+		{
+			return SafeContext.Execute<OperationResult<NightSettings>>(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
+		}
+		public OperationResult SaveNightSettings(NightSettings nightSettings)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNightSettings(nightSettings));
+		}
+		#endregion
 
 		#region Devices
 

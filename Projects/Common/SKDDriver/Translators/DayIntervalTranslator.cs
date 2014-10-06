@@ -34,7 +34,7 @@ namespace SKDDriver.Translators
 		}
 		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.ScheduleDays.Any(item => !item.IsDeleted && item.DayIntervalUID == uid))
+			if (Context.ScheduleDays.Any(item => item.DayIntervalUID == uid))
 				return new OperationResult("Дневной график не может быть удален, так как он содержится в одном из графиков");
 			return base.CanDelete(uid);
 		}
@@ -45,7 +45,7 @@ namespace SKDDriver.Translators
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
-			result.DayIntervalParts = DatabaseService.DayIntervalPartTranslator.TranslateAll(tableItem.DayIntervalParts.Where(item => !item.IsDeleted).OrderBy(item => item.BeginTime));
+			result.DayIntervalParts = DatabaseService.DayIntervalPartTranslator.TranslateAll(tableItem.DayIntervalParts.OrderBy(item => item.BeginTime));
 			return result;
 		}
 

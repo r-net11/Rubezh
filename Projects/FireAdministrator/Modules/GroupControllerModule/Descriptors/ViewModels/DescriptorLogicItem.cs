@@ -52,16 +52,16 @@ namespace GKModule.ViewModels
 					IsBold = true;
 
 					var stateTypeToIconConverter = new XStateTypeToIconConverter();
-					StateIcon = (string)stateTypeToIconConverter.Convert((XStateBit)FormulaOperation.FirstOperand, null, null, null);
+					StateIcon = (string)stateTypeToIconConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
 					var stateTypeToStringConverter = new EnumToDescriptionConverter();
-					FirstOperand = (string)stateTypeToStringConverter.Convert((XStateBit)FormulaOperation.FirstOperand, null, null, null);
+					FirstOperand = (string)stateTypeToStringConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
-					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.GKDescriptorNo == FormulaOperation.SecondOperand);
+					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand);
 					if (descriptorViewModel != null)
 					{
 						DescriptorIcon = descriptorViewModel.ImageSource;
-						SecondOperand = descriptorViewModel.Descriptor.XBase.PresentationName;
+						SecondOperand = descriptorViewModel.Descriptor.GKBase.PresentationName;
 					}
 					else
 					{
@@ -78,13 +78,33 @@ namespace GKModule.ViewModels
 			{
 				StateIcon = null;
 				if (FormulaOperation.FirstOperand == 1)
-					FirstOperand = "если равно";
+					FirstOperand = "Если равно";
 				if (FormulaOperation.FirstOperand == 2)
-					FirstOperand = "если не равно";
+					FirstOperand = "Если не равно";
 			}
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.ACS)
 			{
 				FirstOperand = FormulaOperation.FirstOperand.ToString();
+			}
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.BR)
+			{
+				StateIcon = null;
+				DescriptorIcon = null;
+				switch(FormulaOperation.FirstOperand)
+				{
+					case 0:
+						FirstOperand = "Безусловный переход";
+						break;
+
+					case 1:
+						FirstOperand = "Переход, если в стеке 0";
+						break;
+
+					case 2:
+						FirstOperand = "Переход, если в стеке не 0";
+						break;
+				}
+				SecondOperand = FormulaOperation.SecondOperand.ToString();
 			}
 		}
 

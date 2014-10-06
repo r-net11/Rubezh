@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class DayInterval : OrganisationElementBase, IOrganisationElement
+	public class DayInterval : OrganisationElementBase, IOrganisationElement
 	{
 		public DayInterval()
 		{

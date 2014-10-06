@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Directions = new ObservableCollection<DirectionViewModel>(
-				from direction in XManager.Directions
+				from direction in GKManager.Directions
 				orderby direction.No
 				select new DirectionViewModel(direction));
 			SelectedDirection = Directions.FirstOrDefault();
@@ -98,12 +98,12 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				XManager.AddDirection(directionDetailsViewModel.Direction);
+				GKManager.AddDirection(directionDetailsViewModel.Direction);
 				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
 				Directions.Add(directionViewModel);
 				SelectedDirection = directionViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
 				return directionDetailsViewModel;
 			}
 			return null;
@@ -115,11 +115,11 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				XManager.RemoveDirection(SelectedDirection.Direction);
+				GKManager.RemoveDirection(SelectedDirection.Direction);
 				Directions.Remove(SelectedDirection);
 				SelectedDirection = Directions.FirstOrDefault();
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace GKModule.ViewModels
 				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count == 0).ToList();
 				foreach (var emptyDirection in emptyDirections)
 				{
-					XManager.RemoveDirection(emptyDirection.Direction);
+					GKManager.RemoveDirection(emptyDirection.Direction);
 					Directions.Remove(emptyDirection);
 				}
 				SelectedDirection = Directions.FirstOrDefault();
@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
 		{
 			OnEdit(SelectedDirection.Direction);
 		}
-		void OnEdit(XDirection direction)
+		void OnEdit(GKDirection direction)
 		{
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
@@ -229,13 +229,13 @@ namespace GKModule.ViewModels
 			else
 			{
 				createDirectionEventArg.Cancel = false;
-				createDirectionEventArg.DirectionUID = result.Direction.BaseUID;
+				createDirectionEventArg.DirectionUID = result.Direction.UID;
 				createDirectionEventArg.Direction = result.Direction;
 			}
 		}
 		public void EditDirection(Guid directionUID)
 		{
-			var directionViewModel = directionUID == Guid.Empty ? null : Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+			var directionViewModel = directionUID == Guid.Empty ? null : Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (directionViewModel != null)
 				OnEdit(directionViewModel.Direction);
 		}
@@ -254,7 +254,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid directionUID)
 		{
 			if (directionUID != Guid.Empty)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 		#endregion
 
@@ -286,7 +286,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnDirectionChanged(Guid directionUID)
 		{
-			var direction = Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
+			var direction = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			if (direction != null)
 			{
 				direction.Update();
@@ -326,9 +326,9 @@ namespace GKModule.ViewModels
 		}
 		private IElementDirection GetElementXDirection(ElementBase element)
 		{
-			IElementDirection elementDirection = element as ElementRectangleXDirection;
+			IElementDirection elementDirection = element as ElementRectangleGKDirection;
 			if (elementDirection == null)
-				elementDirection = element as ElementPolygonXDirection;
+				elementDirection = element as ElementPolygonGKDirection;
 			return elementDirection;
 		}
 

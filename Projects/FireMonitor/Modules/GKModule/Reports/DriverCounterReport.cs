@@ -21,9 +21,9 @@ namespace GKModule.Reports
 			var table = new DataTable("Devices");
 			table.Columns.Add("Driver", typeof(string));
 			table.Columns.Add("Count", typeof(int));
-			foreach (var driver in XManager.DriversConfiguration.XDrivers)
+			foreach (var driver in GKManager.DriversConfiguration.Drivers)
 			{
-				if (driver.IsAutoCreate || driver.DriverType == XDriverType.System)
+				if (driver.IsAutoCreate || driver.DriverType == GKDriverType.System)
 					continue;
 				AddDrivers(driver, table);
 			}
@@ -52,10 +52,10 @@ namespace GKModule.Reports
 		public IReportPdfProvider PdfProvider { get; private set; }
 		#endregion
 
-		private void AddDrivers(XDriver driver, DataTable table)
+		private void AddDrivers(GKDriver driver, DataTable table)
 		{
 			var count = 0;
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.DriverType == driver.DriverType)
 				{

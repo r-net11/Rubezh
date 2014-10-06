@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class PimDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XPim Pim { get; private set; }
-		public XState State
+		public GKPim Pim { get; private set; }
+		public GKState State
 		{
 			get { return Pim.State; }
 		}
 
-		public PimDetailsViewModel(XPim pim)
+		public PimDetailsViewModel(GKPim pim)
 		{
 			Pim = pim;
 			State.StateChanged += new Action(OnStateChanged);
@@ -147,17 +147,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(Pim.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(Pim.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Pim = Pim
+				GKPim = Pim
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -174,7 +174,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Pim.BaseUID.ToString(); }
+			get { return Pim.UID.ToString(); }
 		}
 		#endregion
 

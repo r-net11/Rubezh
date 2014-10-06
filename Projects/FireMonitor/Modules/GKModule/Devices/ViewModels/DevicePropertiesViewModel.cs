@@ -7,7 +7,7 @@ namespace GKModule.ViewModels
 {
 	public class DevicePropertiesViewModel : BaseViewModel
 	{
-		public DevicePropertiesViewModel(XDevice device)
+		public DevicePropertiesViewModel(GKDevice device)
 		{
 			Properties = new ObservableCollection<DeviceProperty>();
 
@@ -25,20 +25,20 @@ namespace GKModule.ViewModels
 					{
 						switch (driverProperty.DriverPropertyType)
 						{
-							case XDriverPropertyTypeEnum.EnumType:
+							case GKDriverPropertyTypeEnum.EnumType:
 								var parameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
 								if (parameter != null)
 									deviceProperty.Value = parameter.Name;
 								break;
 
-							case XDriverPropertyTypeEnum.IntType:
+							case GKDriverPropertyTypeEnum.IntType:
 								double doubleValue = property.Value;
 								if (driverProperty.Multiplier != 0)
 									doubleValue /= driverProperty.Multiplier;
 								deviceProperty.Value = doubleValue.ToString();
 								break;
 
-							case XDriverPropertyTypeEnum.BoolType:
+							case GKDriverPropertyTypeEnum.BoolType:
 								var isTrue = property.Value > 0;
 								deviceProperty.Value = isTrue ? "Есть" : "Нет";
 								break;

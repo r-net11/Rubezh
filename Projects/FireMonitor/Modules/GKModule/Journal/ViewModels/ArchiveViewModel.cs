@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
-		XArchiveFilter ArchiveFilter;
+		GKArchiveFilter ArchiveFilter;
 		bool FirstTime = true;
 		Guid ArchivePortionUID;
 
@@ -41,6 +41,7 @@ namespace GKModule.ViewModels
 			if (ArchiveDefaultState == null)
 				ArchiveDefaultState = new ArchiveDefaultState();
 
+			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Unsubscribe(OnGetFilteredArchiveCompleted);
 			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
@@ -74,28 +75,28 @@ namespace GKModule.ViewModels
 
 		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
 		{
-			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter = new GKArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 
-			if (showXArchiveEventArgs.Device != null)
-				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.BaseUID);
-			if (showXArchiveEventArgs.Zone != null)
-				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.BaseUID);
-			if (showXArchiveEventArgs.Direction != null)
-				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.BaseUID);
-			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
-			if (showXArchiveEventArgs.Pim != null)
-				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.BaseUID);
-			if (showXArchiveEventArgs.PumpStation != null)
-				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.BaseUID);
-			if (showXArchiveEventArgs.MPT != null)
-				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.BaseUID);
-			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
-			if (showXArchiveEventArgs.GuardZone != null)
-				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GuardZone.BaseUID);
+			if (showXArchiveEventArgs.GKDevice != null)
+				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.GKDevice.UID);
+			if (showXArchiveEventArgs.GKZone != null)
+				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.GKZone.UID);
+			if (showXArchiveEventArgs.GKDirection != null)
+				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.GKDirection.UID);
+			if (showXArchiveEventArgs.GKDelay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.GKDelay.UID);
+			if (showXArchiveEventArgs.GKPim != null)
+				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.GKPim.UID);
+			if (showXArchiveEventArgs.GKPumpStation != null)
+				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.GKPumpStation.UID);
+			if (showXArchiveEventArgs.GKMPT != null)
+				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.GKMPT.UID);
+			if (showXArchiveEventArgs.GKDelay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.GKDelay.UID);
+			if (showXArchiveEventArgs.GKGuardZone != null)
+				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GKGuardZone.UID);
 
 			IsFilterOn = true;
 			OnPropertyChanged(() => IsFilterExists);
@@ -189,9 +190,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
+		GKArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
 		{
-			var archiveFilter = new XArchiveFilter()
+			var archiveFilter = new GKArchiveFilter()
 			{
 				StartDate = ArchiveFirstDate,
 				EndDate = DateTime.Now,
@@ -201,28 +202,20 @@ namespace GKModule.ViewModels
 			switch (archiveDefaultState.ArchiveDefaultStateType)
 			{
 				case ArchiveDefaultStateType.LastHours:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count.Value);
+					archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count);
 					break;
 
 				case ArchiveDefaultStateType.LastDays:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count.Value);
+					archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count);
 					break;
 
 				case ArchiveDefaultStateType.FromDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
+					archiveFilter.StartDate = archiveDefaultState.StartDate;
 					break;
 
 				case ArchiveDefaultStateType.RangeDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-					if (archiveDefaultState.EndDate.HasValue)
-						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
-					break;
-				case ArchiveDefaultStateType.All:
-					archiveFilter.StartDate = DateTime.MinValue.AddYears(1900);
+					archiveFilter.StartDate = archiveDefaultState.StartDate;
+					archiveFilter.EndDate = archiveDefaultState.EndDate;
 					break;
 			}
 			return archiveFilter;
@@ -344,7 +337,7 @@ namespace GKModule.ViewModels
 
 			try
 			{
-				XArchiveFilter archiveFilter = null;
+				GKArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
 					archiveFilter = ArchiveFilter;
 				else

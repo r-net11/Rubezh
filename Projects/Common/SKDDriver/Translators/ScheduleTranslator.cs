@@ -44,7 +44,7 @@ namespace SKDDriver.Translators
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
 			result.AllowedLate = TimeSpan.FromSeconds(tableItem.AllowedLate);
 			result.AllowedEarlyLeave = TimeSpan.FromSeconds(tableItem.AllowedEarlyLeave);
-			result.Zones = DatabaseService.ScheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones.Where(item => !item.IsDeleted));
+			result.Zones = DatabaseService.ScheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones);
 			return result;
 		}
 

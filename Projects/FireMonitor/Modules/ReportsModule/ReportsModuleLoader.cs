@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
+using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -7,10 +9,8 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using ReportsModule.ViewModels;
-using Infrastructure;
 using Infrastructure.Events.Reports;
-using System.Windows.Controls;
+using ReportsModule.ViewModels;
 
 namespace ReportsModule
 {
@@ -43,13 +43,13 @@ namespace ReportsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowReportsEvent>(_reportViewModel, "Отчеты", "/Controls;component/Images/levels.png"),
+				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "/Controls;component/Images/levels.png"),
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Отчеты"; }
+			get { return Infrastructure.Common.ModuleType.Reports; }
 		}
 
 		#region ILayoutProviderModule Members

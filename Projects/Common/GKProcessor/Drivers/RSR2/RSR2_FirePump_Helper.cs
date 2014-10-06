@@ -5,15 +5,15 @@ namespace GKProcessor
 {
 	public class RSR2_FirePump_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x03,
-				DriverType = XDriverType.RSR2_Bush_Fire,
+				DriverType = GKDriverType.RSR2_Bush_Fire,
 				UID = new Guid("6C9192C9-2841-46b6-B653-7834EFA41041"),
 				Name = "Прибор пожарный управлления Пожарным Насосом",
-				ShortName = "ППУ ПН RSR2",
+				ShortName = "ППУ ПН R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
@@ -24,10 +24,10 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 2, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Задержка на выключение, с", 2, 0, 65535);
@@ -40,7 +40,7 @@ namespace GKProcessor
 
 			GKDriversHelper.AddIntProprety(driver, 8, "Время выхода на режим, с", 1, 1, 65535);
 
-			var property90 = new XDriverProperty()
+			var property90 = new GKDriverProperty()
 			{
 				No = 9,
 				Name = "Состояние давления на выходе",
@@ -53,7 +53,7 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property90, "Контакт НЗ", 1);
 			driver.Properties.Add(property90);
 
-			var property91 = new XDriverProperty()
+			var property91 = new GKDriverProperty()
 			{
 				No = 9,
 				Name = "Состояние ДУ ПУСК",
@@ -66,7 +66,7 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property91, "Контакт НЗ", 2);
 			driver.Properties.Add(property91);
 
-			var property92 = new XDriverProperty()
+			var property92 = new GKDriverProperty()
 			{
 				No = 9,
 				Name = "Состояние ДУ СТОП",
@@ -79,7 +79,7 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property92, "Контакт НЗ", 4);
 			driver.Properties.Add(property92);
 
-			var property911 = new XDriverProperty()
+			var property911 = new GKDriverProperty()
 			{
 				No = 9,
 				Name = "Наличие ДУ",
@@ -92,8 +92,8 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property911, "Есть", 0x01);
 			driver.Properties.Add(property911);
 
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 
 			return driver;
 		}

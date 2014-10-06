@@ -239,11 +239,11 @@ namespace FiresecAPI
 
 		#region NightSettings
 		[OperationContract]
-        OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID);
+		OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID);
 
-        [OperationContract]
+		[OperationContract]
 		OperationResult SaveNightSettings(NightSettings nightSettings);
-        #endregion
+		#endregion
 
 		#region PassCardTemplate
 		[OperationContract]

@@ -4,11 +4,11 @@
 					xmlns:ViewModels="clr-namespace:GKModule.ViewModels">
 
 	<DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
-	    <Views:DoorsView />
+		<Views:DoorsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
-	    <Views:DoorDetailsView />
+		<Views:DoorDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

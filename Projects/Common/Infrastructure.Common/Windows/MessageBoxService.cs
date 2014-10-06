@@ -40,10 +40,9 @@ namespace Infrastructure.Common.Windows
 		{
 			ShowException(e, title);
 		}
-
-		public static MessageBoxResult Show(string message, string title = null)
+		public static MessageBoxResult Show(string message, string title = null, bool isModal = true)
 		{
-			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Information);
+			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Information, false, isModal);
 		}
 		public static MessageBoxResult ShowQuestion(string message, string title = null)
 		{
@@ -64,18 +63,21 @@ namespace Infrastructure.Common.Windows
 		}
 		public static MessageBoxResult ShowException(Exception e, string title = null)
 		{
-			return ShowWindow(title, e.Message.ToString() + "\n" + e.StackTrace, MessageBoxButton.OK, MessageBoxImage.Error, true);
-		}
-		public static void Show(MessageBoxViewModel viewModel)
-		{
-			viewModel.TopMost = true;
-			DialogService.ShowModalWindow(viewModel);
+			return ShowWindow(title, e.Message + "\n" + e.StackTrace, MessageBoxButton.OK, MessageBoxImage.Error, true);
 		}
 
-		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false)
+		static void Show(MessageBoxViewModel viewModel, bool isModal = true)
+		{
+			if (isModal)
+				DialogService.ShowModalWindow(viewModel);
+			else
+				DialogService.ShowWindow(viewModel);
+		}
+
+		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true)
 		{
 			var viewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException);
-			Show(viewModel);
+			Show(viewModel, isModal);
 			return viewModel.Result;
 		}
 	}

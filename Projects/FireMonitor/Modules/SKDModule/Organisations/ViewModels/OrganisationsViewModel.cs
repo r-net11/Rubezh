@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -130,6 +131,11 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new OrganisationViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				SelectedOrganisation = organisationViewModel;
+				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
+				if (currentUserViewModel.User != null)
+				{
+					currentUserViewModel.IsChecked = true;
+				}
 			}
 		}
 

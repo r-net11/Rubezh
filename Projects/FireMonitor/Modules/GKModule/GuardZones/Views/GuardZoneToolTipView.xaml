@@ -11,12 +11,12 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-	        <Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/GuardZone.png" />
+			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/GuardZone.png" />
 			<TextBlock Text="{Binding GuardZone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="0 0 2 0" Width="16" Height="16" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-	        <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XGuardZoneStateClassToStringConverter}}" />
+			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XGuardZoneStateClassToStringConverter}}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

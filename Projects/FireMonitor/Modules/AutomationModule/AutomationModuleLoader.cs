@@ -1,24 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AutomationModule.Events;
+using AutomationModule.Plans;
 using AutomationModule.ViewModels;
+using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
+using FiresecAPI.Models.Layouts;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using FiresecAPI;
-using System;
-using Infrastructure.Common.Windows;
-using System.Linq;
-using FiresecAPI.Models;
 using Infrastructure.Common.Services;
-using System.IO;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
-using AutomationModule.Plans;
+using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
-using FiresecAPI.GK;
 
 namespace AutomationModule
 {
@@ -44,26 +42,26 @@ namespace AutomationModule
 			_proceduresNavigationItem.IsVisible = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
 			ProceduresViewModel.Initialize();
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
+			ServiceFactoryBase.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, "Автоматизация", "/Controls;component/Images/Video1.png");
-			return new List<NavigationItem>()
+			_proceduresNavigationItem = new NavigationItem<ShowAutomationEvent, object>(ProceduresViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Video1.png");
+			return new List<NavigationItem>
 			{
 				_proceduresNavigationItem
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Автоматизация"; }
+			get { return ModuleType.Automation; }
 		}
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactoryBase.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 		public override void Dispose()
 		{
@@ -71,8 +69,8 @@ namespace AutomationModule
 
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.AutomationEvent -= new Action<AutomationCallbackResult>(OnAutomationCallback);
-			SafeFiresecService.AutomationEvent += new Action<AutomationCallbackResult>(OnAutomationCallback);
+			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 
 		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
@@ -82,13 +80,13 @@ namespace AutomationModule
 				switch (automationCallbackResult.AutomationCallbackType)
 				{
 					case AutomationCallbackType.Sound:
-						var sound = FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
-						AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false);
+						var sound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
+						if (sound != null)
+							AlarmPlayerHelper.Play(FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false);
 						break;
 
 					case AutomationCallbackType.Message:
-						var message = automationCallbackResult.Message;
-						MessageBoxService.Show(message, "Сообщение");
+						MessageBoxService.Show(automationCallbackResult.Message, "Сообщение", automationCallbackResult.IsModalWindow);
 						break;
 				}
 			});
@@ -97,7 +95,7 @@ namespace AutomationModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", (p) => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", p => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
 		}
 		#endregion
 	}

@@ -32,7 +32,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/SKDUser.png" VerticalAlignment="Center" Margin="1 0" />
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding User.Name}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding User.Name}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
@@ -54,7 +54,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Door.PresentationName}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Door.PresentationName}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
@@ -76,7 +76,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding GuardZone.PresentationName}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding GuardZone.PresentationName}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
@@ -93,16 +93,16 @@
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-	                <ListBox Grid.Row="0" Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
-	                    <ListBox.ItemTemplate>
-	                        <DataTemplate>
-	                            <StackPanel Orientation="Horizontal">
-	                                <Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Zone.PresentationName}" Margin="2" />
-	                            </StackPanel>
-	                        </DataTemplate>
-	                    </ListBox.ItemTemplate>
-	                </ListBox>
+					<ListBox Grid.Row="0" Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Zone.PresentationName}" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
 					<StackPanel Grid.Row="1" Orientation="Horizontal">
 						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
 						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />

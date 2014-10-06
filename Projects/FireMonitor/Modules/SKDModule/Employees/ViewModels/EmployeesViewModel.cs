@@ -11,13 +11,10 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeesViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeeViewModel, EmployeeDetailsViewModel>
 	{
-		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		public HRViewModel HRViewModel { get; private set; }
-
-		public EmployeesViewModel(HRViewModel hrViewModel):base()
+		
+		public EmployeesViewModel():base()
 		{
-			HRViewModel = hrViewModel;
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 		}
@@ -82,9 +79,45 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }
 
+		PersonType _personType;
+		public PersonType PersonType
+		{
+			get { return _personType; }
+			private set
+			{
+				_personType = value;
+				OnPropertyChanged(() => PersonType);
+				OnPropertyChanged(() => ItemRemovingName);
+				OnPropertyChanged(() => AddCommandToolTip);
+				OnPropertyChanged(() => RemoveCommandToolTip);
+				OnPropertyChanged(() => EditCommandToolTip);
+			}
+		}
+		
 		protected override string ItemRemovingName
 		{
-			get { return "сотрудника"; }
+			get 
+			{ 
+				if(PersonType == FiresecAPI.SKD.PersonType.Employee)
+					return "сотрудника"; 
+				else
+					return "посетителя"; 
+			}
+		}
+		
+		public string AddCommandToolTip
+		{
+			get { return "Добавить " + ItemRemovingName; }
+		}
+
+		public string RemoveCommandToolTip
+		{
+			get { return "Удалить " + ItemRemovingName; }
+		}
+
+		public string EditCommandToolTip
+		{
+			get { return "Редактировать " + ItemRemovingName; }
 		}
 
 		protected override bool Save(ShortEmployee item)

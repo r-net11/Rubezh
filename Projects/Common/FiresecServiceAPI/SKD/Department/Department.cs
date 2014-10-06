@@ -11,7 +11,6 @@ namespace FiresecAPI.SKD
 			:base()
 		{
 			ChildDepartmentUIDs = new List<Guid>();
-			PhoneUIDs = new List<Guid>();
 		}
 		
 		[DataMember]
@@ -36,7 +35,7 @@ namespace FiresecAPI.SKD
 		public Photo Photo { get; set; }
 
 		[DataMember]
-		public List<Guid> PhoneUIDs { get; set; }
+		public string Phone { get; set; }
 
 		[DataMember]
 		public Guid ChiefUID { get; set; }

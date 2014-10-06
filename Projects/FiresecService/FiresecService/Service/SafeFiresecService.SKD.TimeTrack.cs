@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Common;
-using FiresecAPI.SKD;
-using System;
 using FiresecAPI;
+using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -29,9 +29,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDayIntervalPart(item));
 		}
-		public OperationResult MarkDeletedDayIntervalPart(Guid uid)
+		public OperationResult RemoveDayIntervalPart(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDayIntervalPart(uid));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveDayIntervalPart(uid));
 		}
 
 		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
@@ -68,9 +68,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveSheduleDayInterval(item));
 		}
-		public OperationResult MarkDeletedSheduleDayInterval(Guid uid)
+		public OperationResult RemoveSheduleDayInterval(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedSheduleDayInterval(uid));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveSheduleDayInterval(uid));
 		}
 
 		public OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)

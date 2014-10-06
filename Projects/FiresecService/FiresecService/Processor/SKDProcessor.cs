@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using ChinaSKDDriver;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecAPI.GK;
-using ChinaSKDDriver;
-using SKDDriver;
 using FiresecService.Processor;
+using SKDDriver;
 
 namespace FiresecService
 {
@@ -90,7 +90,6 @@ namespace FiresecService
 				}
 			}
 
-			journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
 			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 		}

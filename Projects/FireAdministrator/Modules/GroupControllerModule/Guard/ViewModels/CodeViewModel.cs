@@ -10,13 +10,13 @@ namespace GKModule.ViewModels
 {
 	public class CodeViewModel : BaseViewModel
 	{
-		public CodeViewModel(XCode code)
+		public CodeViewModel(GKCode code)
 		{
 			Code = code;
 		}
 
-		XCode _code;
-		public XCode Code
+		GKCode _code;
+		public GKCode Code
 		{
 			get { return _code; }
 			set

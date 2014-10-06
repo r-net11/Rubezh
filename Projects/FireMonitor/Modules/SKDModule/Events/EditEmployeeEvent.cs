@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace SKDModule.Events
 {
-    public class EditEmployeeEvent : CompositePresentationEvent<Guid>
-    {
-    }
+	public class EditEmployeeEvent : CompositePresentationEvent<Guid>
+	{
+	}
 }

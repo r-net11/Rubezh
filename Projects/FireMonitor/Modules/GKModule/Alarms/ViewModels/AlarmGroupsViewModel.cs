@@ -15,7 +15,7 @@ namespace GKModule.ViewModels
 			Current = this;
 			ResetCommand = new RelayCommand(OnReset);
 			AlarmGroups = new List<AlarmGroupViewModel>();
-			foreach (XAlarmType alarmType in Enum.GetValues(typeof(XAlarmType)))
+			foreach (GKAlarmType alarmType in Enum.GetValues(typeof(GKAlarmType)))
 			{
 				AlarmGroups.Add(new AlarmGroupViewModel(alarmType));
 			}

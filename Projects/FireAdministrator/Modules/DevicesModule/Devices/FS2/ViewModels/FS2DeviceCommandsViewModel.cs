@@ -253,8 +253,8 @@
 //			{
 //				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
 //				{
-//					var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
-//					var fs2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+//					var xmlSerializer = new XmlSerializer(typeof(FS2JournalItemsCollection));
+//					var fs2JournalItemsCollection = (FS2JournalItemsCollection)xmlSerializer.Deserialize(fileStream);
 //					if (fs2JournalItemsCollection != null)
 //					{
 //						DialogService.ShowModalWindow(new FS2DeviceJournalViewModel(fs2JournalItemsCollection));

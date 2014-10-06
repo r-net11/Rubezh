@@ -7,12 +7,12 @@ namespace GKModule.ViewModels
 {
 	public class DirectionDeviceViewModel
 	{
-		public DirectionDeviceViewModel(XDirectionDevice directionDevice)
+		public DirectionDeviceViewModel(GKDirectionDevice directionDevice)
 		{
 			DirectionDevice = directionDevice;
 		}
 
-		public XDirectionDevice DirectionDevice { get; private set; }
+		public GKDirectionDevice DirectionDevice { get; private set; }
 
 		public string PresentationZone
 		{
@@ -20,11 +20,11 @@ namespace GKModule.ViewModels
 			{
 				if (DirectionDevice.Device.IsNotUsed)
 					return null;
-				return XManager.GetPresentationZone(DirectionDevice.Device);
+				return GKManager.GetPresentationZone(DirectionDevice.Device);
 			}
 		}
 
-		public XStateBit StateType
+		public GKStateBit StateType
 		{
 			get { return DirectionDevice.StateBit; }
 			set
@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<XStateBit> StateTypes
+		public List<GKStateBit> StateTypes
 		{
 			get { return DirectionDevice.Device.Driver.AvailableStateBits; }
 		}

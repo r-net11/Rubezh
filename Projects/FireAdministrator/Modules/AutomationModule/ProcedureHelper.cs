@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Automation;
 using FiresecClient;
-using FiresecAPI.GK;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
+using FiresecAPI;
 
 namespace AutomationModule
 {
@@ -31,7 +30,7 @@ namespace AutomationModule
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
 			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Type, Property.State };
+				return new List<Property> { Property.Description, Property.No, Property.Name, Property.State };
 			if (objectType == ObjectType.Direction)
 				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime };
 			return new List<Property>();
@@ -39,9 +38,9 @@ namespace AutomationModule
 
 		public static List<ConditionType> ObjectTypeToConditionTypesList(ExplicitType ExplicitType)
 		{
-			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object))
+			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if (ExplicitType == ExplicitType.Boolean || ExplicitType == ExplicitType.Enum)
+			if (ExplicitType == ExplicitType.Boolean)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 			if (ExplicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
@@ -58,63 +57,122 @@ namespace AutomationModule
 			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 
-		public static void SelectObject(ObjectType objectType, ExplicitValueViewModel currentExplicitValue)
+		public static bool SelectObject(ObjectType objectType, ExplicitValueViewModel currentExplicitValue)
 		{
 			if (objectType == ObjectType.Device)
 			{
-				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device != null ? currentExplicitValue.Device : null);
+				var deviceSelectationViewModel = new DeviceSelectionViewModel(currentExplicitValue.Device);
 				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.Device.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.Zone)
 			{
-				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone != null ? currentExplicitValue.Zone : null);
+				var zoneSelectationViewModel = new ZoneSelectionViewModel(currentExplicitValue.Zone);
 				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.Zone.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.GuardZone)
 			{
-				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone != null ? currentExplicitValue.GuardZone : null);
+				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(currentExplicitValue.GuardZone);
 				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = guardZoneSelectationViewModel.SelectedZone != null ? guardZoneSelectationViewModel.SelectedZone.GuardZone.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.SKDDevice)
 			{
-				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice != null ? currentExplicitValue.SKDDevice : null);
+				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(currentExplicitValue.SKDDevice);
 				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = skdDeviceSelectationViewModel.SelectedDevice != null ? skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.SKDZone)
 			{
-				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone != null ? currentExplicitValue.SKDZone : null);
+				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(currentExplicitValue.SKDZone);
 				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = skdZoneSelectationViewModel.SelectedZone != null ? skdZoneSelectationViewModel.SelectedZone.SKDZone.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.ControlDoor)
 			{
-				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor != null ? currentExplicitValue.SKDDoor : null);
+				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.Door.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.Direction)
 			{
-				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction != null ? currentExplicitValue.Direction : null);
+				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction);
 				if (DialogService.ShowModalWindow(directionSelectationViewModel))
+				{
 					currentExplicitValue.UidValue = directionSelectationViewModel.SelectedDirection != null ? directionSelectationViewModel.SelectedDirection.Direction.UID : Guid.Empty;
+					return true;
+				}
 			}
 
 			if (objectType == ObjectType.VideoDevice)
 			{
-				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera != null ? currentExplicitValue.Camera : null);
+				var cameraSelectionViewModel = new CameraSelectionViewModel(currentExplicitValue.Camera);
 				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
+				{
 					currentExplicitValue.UidValue = cameraSelectionViewModel.SelectedCamera != null ? cameraSelectionViewModel.SelectedCamera.Camera.UID : Guid.Empty;
+					return true;
+				}
 			}
+			return false;
+		}
+
+		public static string GetStringValue(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		{
+			var result = "";
+			switch (explicitType)
+			{
+				case ExplicitType.Boolean:
+					result = explicitValue.BoolValue.ToString();
+					break;
+				case ExplicitType.DateTime:
+					result = explicitValue.DateTimeValue.ToString();
+					break;
+				case ExplicitType.Integer:
+					result = explicitValue.IntValue.ToString();
+					break;
+				case ExplicitType.String:
+					result = explicitValue.StringValue;
+					break;
+				case ExplicitType.Enum:
+					{
+						if (enumType == EnumType.StateType)
+							result = explicitValue.StateTypeValue.ToDescription();
+						if (enumType == EnumType.DriverType)
+							result = explicitValue.DriverTypeValue.ToDescription();
+					}
+					break;
+				case ExplicitType.Object:
+					{
+						result = new ExplicitValueViewModel(explicitValue).PresentationName;
+					}
+					break;
+			}
+			return result;
 		}
 	}
 }

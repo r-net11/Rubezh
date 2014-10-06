@@ -101,6 +101,11 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Models\ModelA.cs" />
+    <Compile Include="Models\ModelB.cs" />
+    <Compile Include="Models\ModelC.cs" />
+    <Compile Include="Models\ModelItem.cs" />
+    <Compile Include="Models\SerializerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

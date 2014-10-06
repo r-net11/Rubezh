@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using DiagnosticsModule.ViewModels;
+using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -25,13 +26,13 @@ namespace DiagnosticsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Star.png"),
+				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Star.png"),
 			};
 		}
 
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Диагностика"; }
+			get { return ModuleType.Diagnostics; }
 		}
 
 		public override void Dispose()

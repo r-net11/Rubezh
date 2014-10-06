@@ -42,7 +42,10 @@ namespace JournalModule.ViewModels
 				{
 					var filterNameViewModel = AllFilters.FirstOrDefault(x => x.UID == uid);
 					if (filterNameViewModel != null)
+					{
 						filterNameViewModel.IsChecked = true;
+						filterNameViewModel.ExpandToThis();
+					}
 				}
 			}
 		}
@@ -107,14 +110,14 @@ namespace JournalModule.ViewModels
 
 			var gkDevicesViewModel = new FilterObjectViewModel(JournalObjectType.GKDevice);
 			AddChild(gkViewModel, gkDevicesViewModel);
-			foreach (var childDevice in FiresecClient.XManager.DeviceConfiguration.RootDevice.Children)
+			foreach (var childDevice in FiresecClient.GKManager.DeviceConfiguration.RootDevice.Children)
 			{
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
 			var gkZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKZone);
 			AddChild(gkViewModel, gkZonesViewModel);
-			foreach (var zone in FiresecClient.XManager.Zones)
+			foreach (var zone in FiresecClient.GKManager.Zones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
 				AddChild(gkZonesViewModel, filterObjectViewModel);
@@ -122,7 +125,7 @@ namespace JournalModule.ViewModels
 
 			var gkDirectionsViewModel = new FilterObjectViewModel(JournalObjectType.GKDirection);
 			AddChild(gkViewModel, gkDirectionsViewModel);
-			foreach (var direction in FiresecClient.XManager.Directions)
+			foreach (var direction in FiresecClient.GKManager.Directions)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(direction);
 				AddChild(gkDirectionsViewModel, filterObjectViewModel);
@@ -130,7 +133,7 @@ namespace JournalModule.ViewModels
 
 			var gkMPTsViewModel = new FilterObjectViewModel(JournalObjectType.GKMPT);
 			AddChild(gkViewModel, gkMPTsViewModel);
-			foreach (var mpt in FiresecClient.XManager.MPTs)
+			foreach (var mpt in FiresecClient.GKManager.MPTs)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(mpt);
 				AddChild(gkMPTsViewModel, filterObjectViewModel);
@@ -138,7 +141,7 @@ namespace JournalModule.ViewModels
 
 			var gkPumpStationsViewModel = new FilterObjectViewModel(JournalObjectType.GKPumpStation);
 			AddChild(gkViewModel, gkPumpStationsViewModel);
-			foreach (var pumpStation in FiresecClient.XManager.PumpStations)
+			foreach (var pumpStation in FiresecClient.GKManager.PumpStations)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(pumpStation);
 				AddChild(gkPumpStationsViewModel, filterObjectViewModel);
@@ -146,7 +149,7 @@ namespace JournalModule.ViewModels
 
 			var gkDelaysViewModel = new FilterObjectViewModel(JournalObjectType.GKDelay);
 			AddChild(gkViewModel, gkDelaysViewModel);
-			foreach (var delay in FiresecClient.XManager.Delays)
+			foreach (var delay in FiresecClient.GKManager.Delays)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(delay);
 				AddChild(gkDelaysViewModel, filterObjectViewModel);
@@ -154,10 +157,18 @@ namespace JournalModule.ViewModels
 
 			var gkGuardZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKGuardZone);
 			AddChild(gkViewModel, gkGuardZonesViewModel);
-			foreach (var guardZone in FiresecClient.XManager.GuardZones)
+			foreach (var guardZone in FiresecClient.GKManager.GuardZones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(guardZone);
 				AddChild(gkGuardZonesViewModel, filterObjectViewModel);
+			}
+
+			var gkDoorsViewModel = new FilterObjectViewModel(JournalObjectType.GKDoor);
+			AddChild(gkViewModel, gkDoorsViewModel);
+			foreach (var door in FiresecClient.GKManager.Doors)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(door);
+				AddChild(gkDoorsViewModel, filterObjectViewModel);
 			}
 
 			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
@@ -200,7 +211,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		FilterObjectViewModel AddGKDeviceInternal(XDevice device, FilterObjectViewModel parentDeviceViewModel)
+		FilterObjectViewModel AddGKDeviceInternal(GKDevice device, FilterObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new FilterObjectViewModel(device);
 			if (parentDeviceViewModel != null)

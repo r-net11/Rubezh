@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in AllDevices)
 			{
-				if (device.Device.DriverType == XDriverType.KAU || device.Device.DriverType == XDriverType.RSR2_KAU)
+				if (device.Device.DriverType == GKDriverType.KAU || device.Device.DriverType == GKDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 
@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 		{
 			if (deviceUID != Guid.Empty)
 			{
-				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
+				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			}
 		}
 		#endregion
@@ -89,11 +89,11 @@ namespace GKModule.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			FillAllDevices();
 		}
 
-		private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

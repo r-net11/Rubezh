@@ -62,24 +62,33 @@ namespace AutomationModule.ViewModels
 
 		public StepTypeViewModel[] RootStepTypes
 		{
-			get { return new StepTypeViewModel[] { RootStepType }; }
+			get { return new[] { RootStepType }; }
 		}
 
 		void BuildStepTypeTree()
 		{
 			RootStepType = new StepTypeViewModel("Реестр функций",
-				new List<StepTypeViewModel>()
+				new List<StepTypeViewModel>
 				{
-					new StepTypeViewModel("Различная логика",
-						new List<StepTypeViewModel>()
+					new StepTypeViewModel("Операции",
+						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
+							new StepTypeViewModel(ProcedureStepType.SetValue),
+							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.Random)
 						}),
+						new StepTypeViewModel("Функции управления списками",
+							new List<StepTypeViewModel>
+						{
+							new StepTypeViewModel(ProcedureStepType.ChangeList),
+							new StepTypeViewModel(ProcedureStepType.GetListCount),
+							new StepTypeViewModel(ProcedureStepType.GetListItem)
+						}),
 						new StepTypeViewModel("Интерактивная логика",
-						new List<StepTypeViewModel>()
+						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.PlaySound),
 							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
@@ -87,20 +96,22 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ShowMessage)
 						}),
 					new StepTypeViewModel("Служебные функции",
-						new List<StepTypeViewModel>()
+						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.Exit),
-							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
-							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.Pause),
-							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
+							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
+							new StepTypeViewModel(ProcedureStepType.For),
+							new StepTypeViewModel(ProcedureStepType.While),
+							new StepTypeViewModel(ProcedureStepType.Break),
+							new StepTypeViewModel(ProcedureStepType.Continue)
 						}),
 					new StepTypeViewModel("Управление аппаратурой",
-						new List<StepTypeViewModel>()
+						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel("Управление ГК",
-								new List<StepTypeViewModel>()
+								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlGKFireZone),
@@ -108,14 +119,14 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlDirection)
 								}),
 							new StepTypeViewModel("Управление СКД",
-								new List<StepTypeViewModel>()
+								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDoor)
 								}),
 							new StepTypeViewModel("Управление Видео",
-								new List<StepTypeViewModel>()
+								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlCamera)
 								}),

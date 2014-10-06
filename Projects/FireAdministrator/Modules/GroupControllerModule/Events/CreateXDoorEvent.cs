@@ -12,6 +12,6 @@ namespace GKModule.Events
 	{
 		public bool Cancel { get; set; }
 		public Guid DoorUID { get; set; }
-		public XDoor Door { get; set; }
+		public GKDoor Door { get; set; }
 	}
 }

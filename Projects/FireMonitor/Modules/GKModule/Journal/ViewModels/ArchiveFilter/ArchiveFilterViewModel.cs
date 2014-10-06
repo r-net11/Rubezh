@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
 {
 	public class ArchiveFilterViewModel : DialogViewModel
 	{
-		public ArchiveFilterViewModel(XArchiveFilter archiveFilter)
+		public ArchiveFilterViewModel(GKArchiveFilter archiveFilter)
 		{
 			Title = "Настройки фильтра";
 			ClearCommand = new RelayCommand(OnClear);
@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			Initialize(archiveFilter);
 		}
 
-		void Initialize(XArchiveFilter archiveFilter)
+		void Initialize(GKArchiveFilter archiveFilter)
 		{
 			StartDateTime = new DateTimePairViewModel(archiveFilter.StartDate);
 			EndDateTime = new DateTimePairViewModel(archiveFilter.EndDate);
@@ -43,19 +43,19 @@ namespace GKModule.ViewModels
 			InitializeGuardZones(archiveFilter);
 		}
 
-		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
+		void InitializeJournalItemTypes(GKArchiveFilter archiveFilter)
 		{
 			JournalItemTypes = new CheckBoxItemList<JournalItemTypeViewModel>();
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Device));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Direction));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.GK));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.System));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Zone));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.PumpStation));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.MPT));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Delay));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Pim));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.GuardZone));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.Device));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.Direction));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.GK));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.System));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.Zone));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.PumpStation));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.MPT));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.Delay));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.Pim));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(GKJournalObjectType.GuardZone));
 			foreach (var journalItemType in archiveFilter.XJournalObjectTypes)
 			{
 				var JournalItemTypeViewModel = JournalItemTypes.Items.FirstOrDefault(x => (x as JournalItemTypeViewModel).JournalItemType == journalItemType);
@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void InitializeStateClasses(XArchiveFilter archiveFilter)
+		void InitializeStateClasses(GKArchiveFilter archiveFilter)
 		{
 			StateClasses = new CheckBoxItemList<StateClassViewModel>();
 			foreach (XStateClass stateClass in Enum.GetValues(typeof(XStateClass)))
@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void InitializeEventNames(XArchiveFilter archiveFilter)
+		public void InitializeEventNames(GKArchiveFilter archiveFilter)
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
 			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
@@ -107,12 +107,12 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void InitializeDescriptions(XArchiveFilter archiveFilter)
+		public void InitializeDescriptions(GKArchiveFilter archiveFilter)
 		{
 			ArchiveDescriptions = new CheckBoxItemList<ArchiveDescriptionViewModel>();
 			//foreach (var description in DescriptionsHelper.GetAllDescriptions())
 			//{
-			//    ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
+			//	ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
 			//}
 			ArchiveDescriptions.Items.Sort(ArchiveDescriptionViewModel.Compare);
 			foreach (var description in archiveFilter.Descriptions)
@@ -125,17 +125,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void InitializeZones(XArchiveFilter archiveFilter)
+		public void InitializeZones(GKArchiveFilter archiveFilter)
 		{
 			ArchiveZones = new CheckBoxItemList<ArchiveZoneViewModel>();
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				var archiveZoneViewModel = new ArchiveZoneViewModel(zone);
 				ArchiveZones.Add(archiveZoneViewModel);
 			}
 			foreach (var zoneUID in archiveFilter.ZoneUIDs)
 			{
-				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.BaseUID == zoneUID);
+				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.UID == zoneUID);
 				if (archiveZone != null)
 				{
 					archiveZone.IsChecked = true;
@@ -143,17 +143,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void InitializeDirections(XArchiveFilter archiveFilter)
+		public void InitializeDirections(GKArchiveFilter archiveFilter)
 		{
 			ArchiveDirections = new CheckBoxItemList<ArchiveDirectionViewModel>();
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				var archiveDirectionViewModel = new ArchiveDirectionViewModel(direction);
 				ArchiveDirections.Add(archiveDirectionViewModel);
 			}
 			foreach (var directionUID in archiveFilter.DirectionUIDs)
 			{
-				var archiveDirection = ArchiveDirections.Items.FirstOrDefault(x => (x as ArchiveDirectionViewModel).Direction.BaseUID == directionUID);
+				var archiveDirection = ArchiveDirections.Items.FirstOrDefault(x => (x as ArchiveDirectionViewModel).Direction.UID == directionUID);
 				if (archiveDirection != null)
 				{
 					archiveDirection.IsChecked = true;
@@ -161,10 +161,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void InitializeSubsystemTypes(XArchiveFilter archiveFilter)
+		void InitializeSubsystemTypes(GKArchiveFilter archiveFilter)
 		{
 			SubsystemTypes = new CheckBoxItemList<SubsystemTypeViewModel>();
-			foreach (XSubsystemType item in Enum.GetValues(typeof(XSubsystemType)))
+			foreach (GKSubsystemType item in Enum.GetValues(typeof(GKSubsystemType)))
 			{
 				SubsystemTypes.Add(new SubsystemTypeViewModel(item));
 			}
@@ -178,17 +178,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void InitializePumpStations(XArchiveFilter archiveFilter)
+		void InitializePumpStations(GKArchiveFilter archiveFilter)
 		{
 			PumpStations = new CheckBoxItemList<ArchivePumpStationViewModel>();
-			foreach (var pumpStation in XManager.PumpStations)
+			foreach (var pumpStation in GKManager.PumpStations)
 			{
 				var archiveDirectionViewModel = new ArchivePumpStationViewModel(pumpStation);
 				PumpStations.Add(archiveDirectionViewModel);
 			}
 			foreach (var uid in archiveFilter.PumpStationUIDs)
 			{
-				var pumpStation = PumpStations.Items.FirstOrDefault(x => x.PumpStation.BaseUID == uid);
+				var pumpStation = PumpStations.Items.FirstOrDefault(x => x.PumpStation.UID == uid);
 				if (pumpStation != null)
 				{
 					pumpStation.IsChecked = true;
@@ -196,17 +196,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void InitializeMPTs(XArchiveFilter archiveFilter)
+		void InitializeMPTs(GKArchiveFilter archiveFilter)
 		{
 			MPTs = new CheckBoxItemList<ArchiveMPTViewModel>();
-			foreach (var mpt in XManager.MPTs)
+			foreach (var mpt in GKManager.MPTs)
 			{
 				var archiveMPTViewModel = new ArchiveMPTViewModel(mpt);
 				MPTs.Add(archiveMPTViewModel);
 			}
 			foreach (var uid in archiveFilter.MPTUIDs)
 			{
-				var mpt = MPTs.Items.FirstOrDefault(x => x.MPT.BaseUID == uid);
+				var mpt = MPTs.Items.FirstOrDefault(x => x.MPT.UID == uid);
 				if (mpt != null)
 				{
 					mpt.IsChecked = true;
@@ -214,17 +214,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void InitializeDelays(XArchiveFilter archiveFilter)
+		void InitializeDelays(GKArchiveFilter archiveFilter)
 		{
 			Delays = new CheckBoxItemList<ArchiveDelayViewModel>();
-			foreach (var delay in XManager.Delays)
+			foreach (var delay in GKManager.Delays)
 			{
 				var archiveDelayViewModel = new ArchiveDelayViewModel(delay);
 				Delays.Add(archiveDelayViewModel);
 			}
 			foreach (var uid in archiveFilter.DelayUIDs)
 			{
-				var delay = Delays.Items.FirstOrDefault(x => x.Delay.BaseUID == uid);
+				var delay = Delays.Items.FirstOrDefault(x => x.Delay.UID == uid);
 				if (delay != null)
 				{
 					delay.IsChecked = true;
@@ -232,17 +232,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void InitializePIMs(XArchiveFilter archiveFilter)
+		void InitializePIMs(GKArchiveFilter archiveFilter)
 		{
 			PIMs = new CheckBoxItemList<ArchivePimViewModel>();
-			foreach (var pim in XManager.AutoGeneratedPims)
+			foreach (var pim in GKManager.AutoGeneratedPims)
 			{
 				var archivePimViewModel = new ArchivePimViewModel(pim);
 				PIMs.Add(archivePimViewModel);
 			}
 			foreach (var uid in archiveFilter.PimUIDs)
 			{
-				var pim = PIMs.Items.FirstOrDefault(x => x.Pim.BaseUID == uid);
+				var pim = PIMs.Items.FirstOrDefault(x => x.Pim.UID == uid);
 				if (pim != null)
 				{
 					pim.IsChecked = true;
@@ -250,17 +250,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void InitializeGuardZones(XArchiveFilter archiveFilter)
+		public void InitializeGuardZones(GKArchiveFilter archiveFilter)
 		{
 			ArchiveGuardZones = new CheckBoxItemList<ArchiveGuardZoneViewModel>();
-			foreach (var guardZone in XManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				var archiveGuardZoneViewModel = new ArchiveGuardZoneViewModel(guardZone);
 				ArchiveGuardZones.Add(archiveGuardZoneViewModel);
 			}
 			foreach (var guardZoneUID in archiveFilter.GuardZoneUIDs)
 			{
-				var archiveGuardZone = ArchiveGuardZones.Items.FirstOrDefault(x => (x as ArchiveGuardZoneViewModel).GuardZone.BaseUID == guardZoneUID);
+				var archiveGuardZone = ArchiveGuardZones.Items.FirstOrDefault(x => (x as ArchiveGuardZoneViewModel).GuardZone.UID == guardZoneUID);
 				if (archiveGuardZone != null)
 				{
 					archiveGuardZone.IsChecked = true;
@@ -269,7 +269,7 @@ namespace GKModule.ViewModels
 		}
 
 		#region Devices
-		public void InitializeDevices(XArchiveFilter archiveFilter)
+		public void InitializeDevices(GKArchiveFilter archiveFilter)
 		{
 			BuildTree();
 			if (RootDevice != null)
@@ -282,7 +282,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (ArchiveDeviceViewModel archiveDevice in AllDevices.Items)
 				{
-					if (archiveDevice.Device.BaseUID == deviceUID)
+					if (archiveDevice.Device.UID == deviceUID)
 					{
 						archiveDevice.IsChecked = true;
 						archiveDevice.ExpandToThis();
@@ -316,7 +316,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (ArchiveDeviceViewModel archiveDevice in AllDevices.Items)
 				{
-					if (archiveDevice.Device.BaseUID == deviceUID)
+					if (archiveDevice.Device.UID == deviceUID)
 					{
 						archiveDevice.ExpandToThis();
 						SelectedDevice = archiveDevice;
@@ -358,11 +358,11 @@ namespace GKModule.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			FillAllDevices();
 		}
 
-		private ArchiveDeviceViewModel AddDeviceInternal(XDevice device, ArchiveDeviceViewModel parentDeviceViewModel)
+		private ArchiveDeviceViewModel AddDeviceInternal(GKDevice device, ArchiveDeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new ArchiveDeviceViewModel(device);
 			if (parentDeviceViewModel != null)
@@ -432,9 +432,9 @@ namespace GKModule.ViewModels
 		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetGkEventNames();
 		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetGkEventDescriptions();
 
-		public XArchiveFilter GetModel()
+		public GKArchiveFilter GetModel()
 		{
-			var archiveFilter = new XArchiveFilter()
+			var archiveFilter = new GKArchiveFilter()
 			{
 				StartDate = StartDateTime.DateTime,
 				EndDate = EndDateTime.DateTime,
@@ -463,17 +463,17 @@ namespace GKModule.ViewModels
 			foreach (var archiveDevice in AllDevices.Items)
 			{
 				if (archiveDevice.IsChecked)
-					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.BaseUID);
+					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.UID);
 			}
 			foreach (var archiveZone in ArchiveZones.Items)
 			{
 				if (archiveZone.IsChecked)
-					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.BaseUID);
+					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.UID);
 			}
 			foreach (var archiveDirection in ArchiveDirections.Items)
 			{
 				if (archiveDirection.IsChecked)
-					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.BaseUID);
+					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.UID);
 			}
 			foreach (var subsystemType in SubsystemTypes.Items)
 			{
@@ -483,27 +483,27 @@ namespace GKModule.ViewModels
 			foreach (var pumpStation in PumpStations.Items)
 			{
 				if (pumpStation.IsChecked)
-					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.BaseUID);
+					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.UID);
 			}
 			foreach (var mpt in MPTs.Items)
 			{
 				if (mpt.IsChecked)
-					archiveFilter.MPTUIDs.Add(mpt.MPT.BaseUID);
+					archiveFilter.MPTUIDs.Add(mpt.MPT.UID);
 			}
 			foreach (var delay in Delays.Items)
 			{
 				if (delay.IsChecked)
-					archiveFilter.DelayUIDs.Add(delay.Delay.BaseUID);
+					archiveFilter.DelayUIDs.Add(delay.Delay.UID);
 			}
 			foreach (var pim in PIMs.Items)
 			{
 				if (pim.IsChecked)
-					archiveFilter.PimUIDs.Add(pim.Pim.BaseUID);
+					archiveFilter.PimUIDs.Add(pim.Pim.UID);
 			}
 			foreach (var archiveGuardZone in ArchiveGuardZones.Items)
 			{
 				if (archiveGuardZone.IsChecked)
-					archiveFilter.GuardZoneUIDs.Add(archiveGuardZone.GuardZone.BaseUID);
+					archiveFilter.GuardZoneUIDs.Add(archiveGuardZone.GuardZone.UID);
 			}
 			return archiveFilter;
 		}
@@ -511,7 +511,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			Initialize(new XArchiveFilter());
+			Initialize(new GKArchiveFilter());
 			OnPropertyChanged(() => JournalItemTypes);
 			OnPropertyChanged(() => StateClasses);
 			OnPropertyChanged(() => EventNames);

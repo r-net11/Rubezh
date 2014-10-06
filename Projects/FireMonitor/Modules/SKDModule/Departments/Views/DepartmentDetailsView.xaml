@@ -10,6 +10,8 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -40,6 +42,29 @@
 							</Hyperlink>
 						</TextBlock>
 				</StackPanel>
+
+				<Label Grid.Row="3" Grid.Column="0" Content="Руководитель отдела кадров" HorizontalAlignment="Right" VerticalAlignment="Center" />
+				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+					<TextBlock VerticalAlignment="Center">
+							<Hyperlink Command="{Binding HRChiefViewModel.SelectChiefCommand}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock Text="{Binding HRChiefViewModel.Chief.Name}" TextDecorations="Underline" />
+								<TextBlock>
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding HRChiefViewModel.HasChief}" Value="false">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора руководителя" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+				</StackPanel>
+
+				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Иконка">

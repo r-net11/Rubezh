@@ -16,12 +16,12 @@ namespace SKDModule.ViewModels
 
 		public TimeSpan StartTime
 		{
-			get { return DayIntervalPart.StartTime; }
+			get { return TimeSpan.FromMilliseconds(DayIntervalPart.StartMilliseconds); }
 		}
 
 		public TimeSpan EndTime
 		{
-			get { return DayIntervalPart.EndTime; }
+			get { return TimeSpan.FromMilliseconds(DayIntervalPart.EndMilliseconds); }
 		}
 
 		public override void Update()

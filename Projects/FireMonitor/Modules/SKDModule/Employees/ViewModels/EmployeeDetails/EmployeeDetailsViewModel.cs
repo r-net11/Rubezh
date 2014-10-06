@@ -16,7 +16,6 @@ namespace SKDModule.ViewModels
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortEmployee>
 	{
 		Organisation _organisation;
-		HRViewModel _hrViewModel;
 		PersonType _personType;
 
 		public EmployeeDetailsViewModel() { }
@@ -24,10 +23,10 @@ namespace SKDModule.ViewModels
 		public bool Initialize(Organisation organisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
 			var employeesViewModel = (parentViewModel as EmployeesViewModel);
-			return Initialize(organisation.UID, employee, employeesViewModel.HRViewModel, employeesViewModel.PersonType);
+			return Initialize(organisation.UID, employee, employeesViewModel.PersonType);
 		}
 
-		public bool Initialize(Guid organisationUID, ShortEmployee employee, HRViewModel hrViewModel, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true)
+		public bool Initialize(Guid organisationUID, ShortEmployee employee, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
@@ -45,7 +44,6 @@ namespace SKDModule.ViewModels
 			_canEditPosition = canEditPosition;
 
 			_organisation = OrganisationHelper.GetSingle(organisationUID);
-			_hrViewModel = hrViewModel;
 			_personType = personType;
 			IsEmployee = _personType == PersonType.Employee;
 			if (employee == null)
@@ -90,6 +88,7 @@ namespace SKDModule.ViewModels
 			ValidTo = Employee.DocumentValidTo;
 			Citizenship = Employee.Citizenship;
 			DocumentType = Employee.DocumentType;
+			Phone = Employee.Phone;
 			if (IsEmployee)
 			{
 				SelectedPosition = Employee.Position;
@@ -139,7 +138,8 @@ namespace SKDModule.ViewModels
 					LastName = LastName,
 					Type = Employee.Type,
 					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
-					TextColumns = new List<TextColumn>()
+					TextColumns = new List<TextColumn>(),
+					Phone = Employee.Phone
 				};
 				if (SelectedDepartment != null)
 					result.DepartmentName = SelectedDepartment.Name;
@@ -292,6 +292,20 @@ namespace SKDModule.ViewModels
 				{
 					_lastName = value;
 					OnPropertyChanged(() => LastName);
+				}
+			}
+		}
+
+		string _phone;
+		public string Phone
+		{
+			get { return _phone; }
+			set
+			{
+				if (_phone != value)
+				{
+					_phone = value;
+					OnPropertyChanged(() => Phone);
 				}
 			}
 		}
@@ -648,7 +662,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment, _hrViewModel);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment);
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
@@ -658,7 +672,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectPositionCommand { get; private set; }
 		void OnSelectPosition()
 		{
-			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition, _hrViewModel);
+			var positionSelectionViewModel = new PositionSelectionViewModel(Employee, SelectedPosition);
 			if (DialogService.ShowModalWindow(positionSelectionViewModel))
 			{
 				SelectedPosition = positionSelectionViewModel.SelectedPosition;
@@ -707,6 +721,7 @@ namespace SKDModule.ViewModels
 			Employee.DocumentType = DocumentType;
 			Employee.OrganisationUID = _organisation.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
+			Employee.Phone = Phone;
 			foreach (var item in GraphicsColumns)
 			{
 				var graphicsColumnViewModel = item as GraphicsColumnViewModel;
@@ -743,14 +758,14 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
-			var guardZoneAccesses = new List<XGuardZoneAccess>();
+			var guardZoneAccesses = new List<GKGuardZoneAccess>();
 			foreach (var guardZone in EmployeeGuardZones.GuardZones)
 			{
 				if (guardZone.IsChecked)
 				{
-					var guardZoneAccess = new XGuardZoneAccess()
+					var guardZoneAccess = new GKGuardZoneAccess()
 					{
-						ZoneUID = guardZone.GuardZone.BaseUID,
+						ZoneUID = guardZone.GuardZone.UID,
 						CanSet = guardZone.CanSetZone,
 						CanReset = guardZone.CanUnSetZone
 					};
@@ -758,6 +773,8 @@ namespace SKDModule.ViewModels
 				}
 			}
 			Employee.GuardZoneAccesses = guardZoneAccesses;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			var saveResult = EmployeeHelper.Save(Employee);
 			if (saveResult && isLaunchEvent)
 				ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
@@ -766,6 +783,9 @@ namespace SKDModule.ViewModels
 
 		bool IsLaunchEvent()
 		{
+			if ((Employee.Department == null && SelectedDepartment == null) ||
+				(Employee.Position == null && SelectedPosition == null))
+				return true;
 			if((Employee.Department == null && SelectedDepartment != null) ||
 				(Employee.Position == null && SelectedPosition != null))
 				return true;
@@ -774,5 +794,52 @@ namespace SKDModule.ViewModels
 				return true;
 			return false;
 		}
+
+		bool Validate()
+		{
+			if(Employee.FirstName.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.SecondName.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Отчество' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.LastName.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Фамилия' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.DocumentNumber.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Номер документа' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.Phone.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.DocumentGivenBy.Length > 4000)
+			{
+				MessageBoxService.Show("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
+				return false;
+			}
+			if (Employee.BirthPlace.Length > 4000)
+			{
+				MessageBoxService.Show("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
+				return false;
+			}
+			if (Employee.Citizenship.Length > 4000)
+			{
+				MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
+				return false;
+			}
+
+			return true;
+		}
+	
 	}
 }

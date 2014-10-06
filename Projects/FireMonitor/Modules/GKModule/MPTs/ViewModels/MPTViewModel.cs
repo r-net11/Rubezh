@@ -8,19 +8,20 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
-		public XMPT MPT { get; private set; }
-		public XState State
+		public GKMPT MPT { get; private set; }
+		public GKState State
 		{
 			get { return MPT.State; }
 		}
 		public MPTDetailsViewModel MPTDetailsViewModel { get; private set; }
 
-		public MPTViewModel(XMPT mpt)
+		public MPTViewModel(GKMPT mpt)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -51,11 +52,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				MPT = MPT
+				GKMPT = MPT
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -71,7 +72,7 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return XManager.GetPresentationZone(MPT.StartLogic); }
+			get { return GKManager.GetPresentationZone(MPT.StartLogic); }
 		}
 
 		#region PIM
@@ -81,7 +82,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var pim in gkDatabase.Pims)
 				{
-					if (pim.MPTUID == MPT.BaseUID)
+					if (pim.MPTUID == MPT.UID)
 					{
 						if (pim.Name.StartsWith("АО Р "))
 						{
@@ -109,9 +110,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XPim HandAutomaticOffPim;
-		XPim DoorAutomaticOffPim;
-		XPim FailureAutomaticOffPim;
+		GKPim HandAutomaticOffPim;
+		GKPim DoorAutomaticOffPim;
+		GKPim FailureAutomaticOffPim;
 
 		void OnHandAutomaticOffStateChanged()
 		{

@@ -34,14 +34,14 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Сотрудник" ListViewLayoutManager.StarWidth="1">
+				<GridViewColumn Header="Сотрудник" ListViewLayoutManager.StarWidth="1">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding EmployeeName}" Style="{StaticResource ActiveStyle}" MinWidth="150" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Причина деактивации" ListViewLayoutManager.StarWidth="1">
+				<GridViewColumn Header="Причина деактивации" ListViewLayoutManager.StarWidth="1">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding StopReason}" Style="{StaticResource ActiveStyle}" MinWidth="150" />

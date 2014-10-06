@@ -8,33 +8,33 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			switch ((XAlarmType) value)
+			switch ((GKAlarmType) value)
 			{
-				case XAlarmType.NPTOn:
+				case GKAlarmType.NPTOn:
 					return "НП";
 
-				case XAlarmType.Fire1:
+				case GKAlarmType.Fire1:
 					return "П1";
 
-				case XAlarmType.Fire2:
+				case GKAlarmType.Fire2:
 					return "П2";
 
-				case XAlarmType.Attention:
+				case GKAlarmType.Attention:
 					return "В";
 
-				case XAlarmType.Failure:
+				case GKAlarmType.Failure:
 					return "Н";
 
-				case XAlarmType.Ignore:
+				case GKAlarmType.Ignore:
 					return "О";
 
-				case XAlarmType.Turning:
+				case GKAlarmType.Turning:
 					return "ВК";
 
-				case XAlarmType.Service:
+				case GKAlarmType.Service:
 					return "ТО";
 
-				case XAlarmType.AutoOff:
+				case GKAlarmType.AutoOff:
 					return "АО";
 
 				default:

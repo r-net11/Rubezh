@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	public class DelayValidationError : ObjectValidationError<XDelay, ShowXDelayEvent, Guid>
+	public class DelayValidationError : ObjectValidationError<GKDelay, ShowXDelayEvent, Guid>
 	{
-		public DelayValidationError(XDelay delay, string error, ValidationErrorLevel level)
+		public DelayValidationError(GKDelay delay, string error, ValidationErrorLevel level)
 			: base(delay, error, level)
 		{
 		}
@@ -19,7 +19,7 @@ namespace GKModule.Validation
 
 		protected override Guid Key
 		{
-			get { return Object.BaseUID; }
+			get { return Object.UID; }
 		}
 
 		public override string Source

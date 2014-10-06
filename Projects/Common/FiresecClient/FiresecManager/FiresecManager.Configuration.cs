@@ -93,8 +93,8 @@ namespace FiresecClient
 				SystemConfiguration.UpdateConfiguration();
 				FiresecConfiguration.UpdateConfiguration();
 				GKDriversCreator.Create();
-				XManager.UpdateConfiguration();
-				XManager.CreateStates();
+				GKManager.UpdateConfiguration();
+				GKManager.CreateStates();
 				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();
 			}
@@ -111,10 +111,10 @@ namespace FiresecClient
 			{
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -128,29 +128,29 @@ namespace FiresecClient
 				var zoneMap = new Dictionary<Guid, Zone>();
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 
-				var xDeviceMap = new Dictionary<Guid, XDevice>();
-				foreach (var xDevice in XManager.Devices)
+				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
+				foreach (var device in GKManager.Devices)
 				{
-					if (!xDeviceMap.ContainsKey(xDevice.BaseUID))
-						xDeviceMap.Add(xDevice.BaseUID, xDevice);
+					if (!gkDeviceMap.ContainsKey(device.UID))
+						gkDeviceMap.Add(device.UID, device);
 				}
-				var xZoneMap = new Dictionary<Guid, XZone>();
-				foreach (var xzone in XManager.Zones)
+				var gkZoneMap = new Dictionary<Guid, GKZone>();
+				foreach (var zone in GKManager.Zones)
 				{
-					if (!xZoneMap.ContainsKey(xzone.BaseUID))
-					xZoneMap.Add(xzone.BaseUID, xzone);
+					if (!gkZoneMap.ContainsKey(zone.UID))
+					gkZoneMap.Add(zone.UID, zone);
 				}
-				var xGuardZoneMap = new Dictionary<Guid, XGuardZone>();
-				foreach (var xGuardZone in XManager.DeviceConfiguration.GuardZones)
+				var gkGuardZoneMap = new Dictionary<Guid, GKGuardZone>();
+				foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 				{
-					if (!xGuardZoneMap.ContainsKey(xGuardZone.BaseUID))
-						xGuardZoneMap.Add(xGuardZone.BaseUID, xGuardZone);
+					if (!gkGuardZoneMap.ContainsKey(guardZone.UID))
+						gkGuardZoneMap.Add(guardZone.UID, guardZone);
 				}
-				var xDirectionMap = new Dictionary<Guid, XDirection>();
-				foreach (var xdirection in XManager.Directions)
+				var gkDirectionMap = new Dictionary<Guid, GKDirection>();
+				foreach (var direction in GKManager.Directions)
 				{
-					if (!xDirectionMap.ContainsKey(xdirection.BaseUID))
-						xDirectionMap.Add(xdirection.BaseUID, xdirection);
+					if (!gkDirectionMap.ContainsKey(direction.UID))
+						gkDirectionMap.Add(direction.UID, direction);
 				}
 
 				var doorMap = new Dictionary<Guid, SKDDoor>();
@@ -197,12 +197,12 @@ namespace FiresecClient
 						if (deviceMap.ContainsKey(elementDevice.DeviceUID))
 							deviceMap[elementDevice.DeviceUID].PlanElementUIDs.Add(elementDevice.UID);
 					}
-					for (int i = plan.ElementXDevices.Count(); i > 0; i--)
+					for (int i = plan.ElementGKDevices.Count(); i > 0; i--)
 					{
-						var elementXDevice = plan.ElementXDevices[i - 1];
-						elementXDevice.UpdateZLayer();
-						if (xDeviceMap.ContainsKey(elementXDevice.XDeviceUID))
-							xDeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
+						var elementGKDevice = plan.ElementGKDevices[i - 1];
+						elementGKDevice.UpdateZLayer();
+						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
+							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
 					}
 					foreach (var elementZone in plan.ElementPolygonZones)
 					{
@@ -216,41 +216,41 @@ namespace FiresecClient
 						if (zoneMap.ContainsKey(elementZone.ZoneUID))
 							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
 					}
-					foreach (var xzone in plan.ElementPolygonXZones)
+					foreach (var zone in plan.ElementPolygonGKZones)
 					{
-						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xZoneMap.ContainsKey(xzone.ZoneUID) ? xZoneMap[xzone.ZoneUID] : null);
-						if (xZoneMap.ContainsKey(xzone.ZoneUID))
-							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
+						if (gkZoneMap.ContainsKey(zone.ZoneUID))
+							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
 					}
-					foreach (var xzone in plan.ElementRectangleXZones)
+					foreach (var zone in plan.ElementRectangleGKZones)
 					{
-						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xZoneMap.ContainsKey(xzone.ZoneUID) ? xZoneMap[xzone.ZoneUID] : null);
-						if (xZoneMap.ContainsKey(xzone.ZoneUID))
-							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+						UpdateZoneType(zone, zone.ZoneUID != Guid.Empty && gkZoneMap.ContainsKey(zone.ZoneUID) ? gkZoneMap[zone.ZoneUID] : null);
+						if (gkZoneMap.ContainsKey(zone.ZoneUID))
+							gkZoneMap[zone.ZoneUID].PlanElementUIDs.Add(zone.UID);
 					}
-					foreach (var xGuardZone in plan.ElementPolygonXGuardZones)
+					foreach (var guardZone in plan.ElementPolygonGKGuardZones)
 					{
-						UpdateZoneType(xGuardZone, xGuardZone.ZoneUID != Guid.Empty && xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID) ? xGuardZoneMap[xGuardZone.ZoneUID] : null);
-						if (xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID))
-							xGuardZoneMap[xGuardZone.ZoneUID].PlanElementUIDs.Add(xGuardZone.UID);
+						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
+						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
+							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
 					}
-					foreach (var xGuardZone in plan.ElementRectangleXGuardZones)
+					foreach (var guardZone in plan.ElementRectangleGKGuardZones)
 					{
-						UpdateZoneType(xGuardZone, xGuardZone.ZoneUID != Guid.Empty && xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID) ? xGuardZoneMap[xGuardZone.ZoneUID] : null);
-						if (xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID))
-							xGuardZoneMap[xGuardZone.ZoneUID].PlanElementUIDs.Add(xGuardZone.UID);
+						UpdateZoneType(guardZone, guardZone.ZoneUID != Guid.Empty && gkGuardZoneMap.ContainsKey(guardZone.ZoneUID) ? gkGuardZoneMap[guardZone.ZoneUID] : null);
+						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
+							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
 					}
-					foreach (var xdirection in plan.ElementRectangleXDirections)
+					foreach (var direction in plan.ElementRectangleGKDirections)
 					{
-						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
-						if (xDirectionMap.ContainsKey(xdirection.DirectionUID))
-							xDirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
+						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
+							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
 					}
-					foreach (var xdirection in plan.ElementPolygonXDirections)
+					foreach (var direction in plan.ElementPolygonGKDirections)
 					{
-						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
-						if (xDirectionMap.ContainsKey(xdirection.DirectionUID))
-							xDirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
+						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
+							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
 					}
 
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)
@@ -405,17 +405,17 @@ namespace FiresecClient
 						break;
 				}
 		}
-		private static void UpdateZoneType(IElementZone elementZone, XGuardZone zone)
+		private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 20 : 40);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Brown;
 		}
-		private static void UpdateZoneType(IElementZone elementZone, XZone zone)
+		private static void UpdateZoneType(IElementZone elementZone, GKZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
-		private static void UpdateDirectionType(IElementDirection elementXDirection, XDirection xdirection)
+		private static void UpdateDirectionType(IElementDirection elementXDirection, GKDirection xdirection)
 		{
 			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
 			elementXDirection.BackgroundColor = xdirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;

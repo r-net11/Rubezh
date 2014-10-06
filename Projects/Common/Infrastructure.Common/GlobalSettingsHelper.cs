@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using Common;
 using FiresecAPI;
+using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
@@ -21,12 +22,13 @@ namespace Infrastructure.Common
 			try
 			{
 				GlobalSettings = new GlobalSettings();
+				GlobalSettings.SetDefaultModules();
 				if (File.Exists(FileName))
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
-						var dataContractSerializer = new DataContractSerializer(typeof(GlobalSettings));
-						GlobalSettings = (GlobalSettings)dataContractSerializer.ReadObject(fileStream);
+						var xmlSerializer = new XmlSerializer(typeof(GlobalSettings));
+						GlobalSettings = (GlobalSettings)xmlSerializer.Deserialize(fileStream);
 					}
 				}
 			}
@@ -40,10 +42,10 @@ namespace Infrastructure.Common
 		{
 			try
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(GlobalSettings));
+				var xmlSerializer = new XmlSerializer(typeof(GlobalSettings));
 				using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 				{
-					dataContractSerializer.WriteObject(fileStream, GlobalSettings);
+					xmlSerializer.Serialize(fileStream, GlobalSettings);
 				}
 			}
 			catch (Exception e)

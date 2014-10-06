@@ -7,13 +7,13 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public static void SendControlCommand(XBase xBase, XStateBit stateBit, string description)
+		public static void SendControlCommand(GKBase xBase, GKStateBit stateBit, string description)
 		{
 			var code = 0x80 + (int)stateBit;
 			SendControlCommand(xBase, (byte)code, description);
 		}
 
-		public static void SendControlCommand(XBase xBase, byte code, string description)
+		public static void SendControlCommand(GKBase xBase, byte code, string description)
 		{
 			var bytes = new List<byte>();
 			var databaseNo = xBase.GKDescriptorNo;
@@ -25,14 +25,14 @@ namespace GKProcessor
 					{
 						if (sendResult.HasError)
 						{
-							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, description, xBase, null);
+							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, description, xBase, null);
 						}
 					}),
 					xBase.GkDatabaseParent, 3, 13, 0, bytes);
 			}
 		}
 
-		public static void SendControlCommandMRO(XBase xBase, byte code, byte code2)
+		public static void SendControlCommandMRO(GKBase xBase, byte code, byte code2)
 		{
 			var bytes = new List<byte>();
 			var databaseNo = xBase.GKDescriptorNo;
@@ -49,7 +49,7 @@ namespace GKProcessor
 		{
 			if (sendResult.HasError)
 			{
-				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, "", null, null);
+				GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, "", null, null);
 			}
 		}
 	}

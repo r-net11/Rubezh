@@ -1,25 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
-	public class ExplicitTypeViewModel : BaseViewModel
+	public class ExplicitTypeViewModel : TreeNodeViewModel<ExplicitTypeViewModel>
 	{
 		public ExplicitType ExplicitType { get; private set; }
+		public EnumType EnumType { get; private set; }
+		public ObjectType ObjectType { get; private set; }
 
 		public ExplicitTypeViewModel(ExplicitType explicitType)
 		{
 			ExplicitType = explicitType;
 		}
 
+		public ExplicitTypeViewModel(EnumType enumType)
+		{
+			ExplicitType = ExplicitType.Enum;
+			EnumType = enumType;
+		}
+
+		public ExplicitTypeViewModel(ObjectType objectType)
+		{
+			ExplicitType = ExplicitType.Object;
+			ObjectType = objectType;
+		}
+
 		public string Name
 		{
-			get { return ExplicitType.ToDescription(); }
+			get
+			{
+				if (Parent != null)
+				{
+					if (Parent.ExplicitType == ExplicitType.Enum)
+						return EnumType.ToDescription();
+					if (Parent.ExplicitType == ExplicitType.Object)
+						return ObjectType.ToDescription();
+				}
+				return ExplicitType.ToDescription();
+			}
 		}
 	}
 }

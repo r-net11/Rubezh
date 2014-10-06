@@ -7,7 +7,7 @@
 	xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<Grid>
-		<DataGrid ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}">
+        <DataGrid ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}" CanUserSortColumns="True">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedDelay.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -19,7 +19,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
+                <DataGridTemplateColumn Width="Auto" SortMemberPath="Delay.No" Header="№" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -29,7 +29,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Задержка">
+                <DataGridTemplateColumn Width="*" SortMemberPath="Delay.Name" MinWidth="250" Header="Задержка">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

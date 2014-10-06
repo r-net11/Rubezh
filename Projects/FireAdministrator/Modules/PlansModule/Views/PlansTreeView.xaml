@@ -25,7 +25,6 @@
 			</tree:TreeList.ItemContainerStyle>
 			<tree:TreeList.View>
 				<GridView>
-					<!--<GridViewColumn Width="250" Header="Название">-->
 					<GridViewColumn Width="250" Header="Планы">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
@@ -43,7 +42,6 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<!--<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание" />-->
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>

@@ -71,7 +71,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 
-					<GridViewColumn Width="200" Header="Зона или Логика">
+					<GridViewColumn Width="200" Header="Зона">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding PresentationZones}" />

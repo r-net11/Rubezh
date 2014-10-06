@@ -8,7 +8,11 @@
 		<Views:DayIntervalsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DayIntervalDetailsViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:DayIntervalsMenuViewModel}">
+        <Views:DayIntervalsMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DayIntervalDetailsViewModel}">
 		<Views:DayIntervalDetailsView />
 	</DataTemplate>
 

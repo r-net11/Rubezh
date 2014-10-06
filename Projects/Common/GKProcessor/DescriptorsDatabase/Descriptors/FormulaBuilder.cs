@@ -25,47 +25,47 @@ namespace GKProcessor
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(XStateBit stateBit, XBase xBase)
+		public void AddGetBitOff(GKStateBit stateBit, GKBase xBase)
 		{
 			Add(FormulaOperationType.GETBIT, (byte)stateBit, xBase.GKDescriptorNo);
-			Add(FormulaOperationType.GETBIT, (byte)XStateBit.Ignore, xBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)GKStateBit.Ignore, xBase.GKDescriptorNo);
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(XStateBit stateBit, XBase xBase)
+		public void AddGetBit(GKStateBit stateBit, GKBase xBase)
 		{
 			Add(FormulaOperationType.GETBIT, (byte)stateBit, xBase.GKDescriptorNo);
 		}
 
-		public void AddPutBit(XStateBit stateBit, XBase xBase)
+		public void AddPutBit(GKStateBit stateBit, GKBase xBase)
 		{
 			Add(FormulaOperationType.PUTBIT, (byte)stateBit, xBase.GKDescriptorNo);
 		}
 
-		public void AddArgumentPutBit(byte bit, XBase xBase)
+		public void AddArgumentPutBit(byte bit, GKBase xBase)
 		{
 			Add(FormulaOperationType.PUTBIT, (byte)bit, xBase.GKDescriptorNo);
 		}
 
-		public void AddStandardTurning(XBase xBase)
+		public void AddStandardTurning(GKBase xBase)
 		{
 			Add(FormulaOperationType.DUP);
-			AddGetBit(XStateBit.Norm, xBase);
+			AddGetBit(GKStateBit.Norm, xBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateBit.TurnOn_InAutomatic, xBase);
+			AddPutBit(GKStateBit.TurnOn_InAutomatic, xBase);
 			Add(FormulaOperationType.COM);
-			AddGetBit(XStateBit.Norm, xBase);
+			AddGetBit(GKStateBit.Norm, xBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateBit.TurnOff_InAutomatic, xBase);
+			AddPutBit(GKStateBit.TurnOff_InAutomatic, xBase);
 		}
 
-		public void AddClauseFormula(XClauseGroup clauseGroup)
+		public void AddClauseFormula(GKClauseGroup clauseGroup)
 		{
 			var clauseIndex = 0;
 			foreach (var clause in clauseGroup.Clauses)
 			{
-				var xBases = new List<XBase>();
+				var xBases = new List<GKBase>();
 				foreach (var device in clause.Devices)
 				{
 					xBases.Add(device);
@@ -219,6 +219,7 @@ namespace GKProcessor
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:
 					case FormulaOperationType.NEG:
+					case FormulaOperationType.BR:
 						stackDepth += 0;
 						break;
 				}

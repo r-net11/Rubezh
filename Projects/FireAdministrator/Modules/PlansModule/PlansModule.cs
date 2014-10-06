@@ -50,9 +50,9 @@ namespace PlansModule
 				//new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Графические планы"; }
+			get { return ModuleType.Plans; }
 		}
 		private void ShowRightContent()
 		{

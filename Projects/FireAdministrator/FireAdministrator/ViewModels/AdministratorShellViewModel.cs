@@ -46,7 +46,7 @@ namespace FireAdministrator.ViewModels
 				AlarmPlayerHelper.Dispose();
 				if (ServiceFactory.SaveService.HasChanges)
 				{
-					var result = MessageBoxService.ShowQuestion("Применить изменения в настройках?");
+					var result = MessageBoxService.ShowQuestion("Применить изменения в конфигурации?");
 					switch (result)
 					{
 						case MessageBoxResult.Yes:

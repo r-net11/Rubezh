@@ -93,9 +93,11 @@ namespace SKDDriver
 						photosToSave.Add(apiItem.Photo);
 					continue;
 				}
-				if (tableItem.PhotoUID == null)
+				if (tableItem.PhotoUID == null && apiItem.Photo == null)
+					continue;
+				else if (tableItem.PhotoUID == null && apiItem.Photo != null)
 					photosToSave.Add(apiItem.Photo);
-				else if (apiItem.Photo == null)
+				else if (tableItem.PhotoUID != null && apiItem.Photo == null)
 					photosToDelete.Add(tableItem.PhotoUID.Value);
 				else if (tableItem.PhotoUID != apiItem.Photo.UID)
 				{

@@ -17,13 +17,13 @@ namespace GKModule.ViewModels
 {
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XDoor Door { get; private set; }
-		public XState State
+		public GKDoor Door { get; private set; }
+		public GKState State
 		{
 			get { return Door.State; }
 		}
 
-		public DoorDetailsViewModel(XDoor door)
+		public DoorDetailsViewModel(GKDoor door)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 				//var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
 				//if (result.HasError)
 				//{
-				//    MessageBoxService.ShowWarning(result.Error);
+				//	MessageBoxService.ShowWarning(result.Error);
 				//}
 			}
 		}
@@ -147,11 +147,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Door = Door
+				GKDoor = Door
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public bool CanControl

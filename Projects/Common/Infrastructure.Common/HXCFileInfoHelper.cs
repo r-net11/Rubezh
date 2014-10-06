@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using System.Xml.Serialization;
 
 namespace Infrastructure.Common
 {
@@ -10,18 +11,18 @@ namespace Infrastructure.Common
 		{
 			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(HexFileCollectionInfo));
-				var hexFileCollectionInfo = (HexFileCollectionInfo)dataContractSerializer.ReadObject(fileStream);
+				var xmlSerializer = new XmlSerializer(typeof(HexFileCollectionInfo));
+				var hexFileCollectionInfo = (HexFileCollectionInfo)xmlSerializer.Deserialize(fileStream);
 				return hexFileCollectionInfo;
 			}
 		}
 
 		public static void Save(string fileName, HexFileCollectionInfo hexFileCollectionInfo)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(HexFileCollectionInfo));
+			var xmlSerializer = new XmlSerializer(typeof(HexFileCollectionInfo));
 			using (var fileStream = new FileStream(fileName, FileMode.Create))
 			{
-				dataContractSerializer.WriteObject(fileStream, hexFileCollectionInfo);
+				xmlSerializer.Serialize(fileStream, hexFileCollectionInfo);
 			}
 		}
 	}

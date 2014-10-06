@@ -43,16 +43,16 @@ namespace SKDModule.ViewModels
 
 					switch (driverProperty.DriverPropertyType)
 					{
-						case XDriverPropertyTypeEnum.StringType:
+						case GKDriverPropertyTypeEnum.StringType:
 							StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
 							break;
-						case XDriverPropertyTypeEnum.IntType:
+						case GKDriverPropertyTypeEnum.IntType:
 							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
 							break;
-						case XDriverPropertyTypeEnum.BoolType:
+						case GKDriverPropertyTypeEnum.BoolType:
 							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
 							break;
-						case XDriverPropertyTypeEnum.EnumType:
+						case GKDriverPropertyTypeEnum.EnumType:
 							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
 							break;
 					}

@@ -6,18 +6,19 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public XZone Zone { get; private set; }
-		public XState State
+		public GKZone Zone { get; private set; }
+		public GKState State
 		{
 			get { return Zone.State; }
 		}
 
-		public ZoneViewModel(XZone zone)
+		public ZoneViewModel(GKZone zone)
 		{
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
@@ -117,7 +118,7 @@ namespace GKModule.ViewModels
 		bool CanSetIgnoreAll()
 		{
 			//if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
-			//    return false;
+			//	return false;
 			foreach (var device in Zone.Devices)
 			{
 				if (!device.State.StateClasses.Contains(XStateClass.Ignore))
@@ -143,7 +144,7 @@ namespace GKModule.ViewModels
 		bool CanResetIgnoreAll()
 		{
 			//if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
-			//    return false;
+			//	return false;
 			foreach (var device in Zone.Devices)
 			{
 				if (device.State.StateClasses.Contains(XStateClass.Ignore))
@@ -156,11 +157,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				Zone = Zone
+				GKZone = Zone
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

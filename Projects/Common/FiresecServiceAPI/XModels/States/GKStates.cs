@@ -8,42 +8,42 @@ namespace FiresecAPI.GK
 	{
 		public GKStates()
 		{
-			DeviceStates = new List<XState>();
-			ZoneStates = new List<XState>();
-			DirectionStates = new List<XState>();
-			PumpStationStates = new List<XState>();
-			MPTStates = new List<XState>();
-			DelayStates = new List<XState>();
-			PimStates = new List<XState>();
-			GuardZoneStates = new List<XState>();
-			DeviceMeasureParameters = new List<XDeviceMeasureParameters>();
+			DeviceStates = new List<GKState>();
+			ZoneStates = new List<GKState>();
+			DirectionStates = new List<GKState>();
+			PumpStationStates = new List<GKState>();
+			MPTStates = new List<GKState>();
+			DelayStates = new List<GKState>();
+			PimStates = new List<GKState>();
+			GuardZoneStates = new List<GKState>();
+			DeviceMeasureParameters = new List<GKDeviceMeasureParameters>();
 		}
 
 		[DataMember]
-		public List<XState> DeviceStates { get; set; }
+		public List<GKState> DeviceStates { get; set; }
 
 		[DataMember]
-		public List<XState> ZoneStates { get; set; }
+		public List<GKState> ZoneStates { get; set; }
 
 		[DataMember]
-		public List<XState> DirectionStates { get; set; }
+		public List<GKState> DirectionStates { get; set; }
 
 		[DataMember]
-		public List<XState> PumpStationStates { get; set; }
+		public List<GKState> PumpStationStates { get; set; }
 
 		[DataMember]
-		public List<XState> MPTStates { get; set; }
+		public List<GKState> MPTStates { get; set; }
 
 		[DataMember]
-		public List<XState> DelayStates { get; set; }
+		public List<GKState> DelayStates { get; set; }
 
 		[DataMember]
-		public List<XState> PimStates { get; set; }
+		public List<GKState> PimStates { get; set; }
 
 		[DataMember]
-		public List<XState> GuardZoneStates { get; set; }
+		public List<GKState> GuardZoneStates { get; set; }
 
 		[DataMember]
-		public List<XDeviceMeasureParameters> DeviceMeasureParameters { get; set; }
+		public List<GKDeviceMeasureParameters> DeviceMeasureParameters { get; set; }
 	}
 }

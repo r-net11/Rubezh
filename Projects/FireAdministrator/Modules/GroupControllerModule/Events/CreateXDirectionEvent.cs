@@ -12,6 +12,6 @@ namespace GKModule.Events
 	{
 		public bool Cancel { get; set; }
 		public Guid DirectionUID { get; set; }
-		public XDirection Direction { get; set; }
+		public GKDirection Direction { get; set; }
 	}
 }

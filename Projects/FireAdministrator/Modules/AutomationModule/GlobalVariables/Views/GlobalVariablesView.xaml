@@ -3,14 +3,14 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
 
-	<XDataGrid ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
+	<XDataGrid CanUserSortColumns="True" ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Имя" Width="*">
+			<DataGridTemplateColumn Header="Имя"  SortMemberPath="Variable.Name" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Source="/Controls;component/Images/GlobalVariable.png" Width="16" Margin="2 0 0 0" />
-							<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+							<TextBlock Text="{Binding Variable.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
@@ -18,39 +18,21 @@
 			<DataGridTemplateColumn Header="Тип" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding ExplicitType, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-						</StackPanel>
+						<TextBlock Text="{Binding TypeDescription}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Значение" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-									 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
-							<TextBlock Text="{Binding ExplicitValue.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
-										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:ExplicitType.DateTime}}" />
-							<TextBlock Text="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:ExplicitType.Integer}}" />
-							<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
-										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ExplicitType.Object}}" />
-							<TextBlock Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-										 Visibility="{Binding Path=ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:ExplicitType.String}}" />
-						</StackPanel>
+						<TextBlock Text="{Binding ValueDescription}" ToolTip="{Binding ValueDescription}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Список" Width="60" MinWidth="60" MaxWidth="60">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<CheckBox IsChecked="{Binding IsList}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2 0" />
+						<CheckBox IsChecked="{Binding Variable.IsList}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2 0" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>

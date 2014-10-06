@@ -332,13 +332,6 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
 				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("State")))
-			{
-				var intValue = (int)reader.GetValue(reader.GetOrdinal("State"));
-				if (Enum.IsDefined(typeof(XStateClass), intValue))
-					journalItem.StateClass = (XStateClass)intValue;
-			}
-
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("Subsystem"));

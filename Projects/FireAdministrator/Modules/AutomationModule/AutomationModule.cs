@@ -5,6 +5,8 @@ using AutomationModule.Layout.ViewModels;
 using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
+using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
@@ -16,7 +18,6 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
 using FiresecClient;
-using FiresecAPI.Automation;
 
 namespace AutomationModule
 {
@@ -54,7 +55,7 @@ namespace AutomationModule
 		{
 			return new List<NavigationItem>
 				{
-					new NavigationItem("Автоматизация", "/Controls;component/Images/tree.png",
+					new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
 							new NavigationItem<ShowProceduresEvent, Guid>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Procedure.png"),
@@ -64,10 +65,12 @@ namespace AutomationModule
 						}) {IsExpanded = true},
 				};
 		}
-		public override string Name
+		
+		protected override ModuleType ModuleType
 		{
-			get { return "Автоматизация"; }
+			get { return ModuleType.Automation; }
 		}
+
 		public override void RegisterResource()
 		{
 			base.RegisterResource();

@@ -23,6 +23,7 @@ namespace LibraryModule.ViewModels
 					{
 						StateType = stateType
 					};
+					libraryState.Frames.Add(new LibraryFrame() { Id = 0 });
 					libraryStates.Add(libraryState);
 				}
 			}
@@ -37,6 +38,7 @@ namespace LibraryModule.ViewModels
 						StateType = driverState.StateType,
 						Code = driverState.Code
 					};
+					libraryState.Frames.Add(new LibraryFrame() { Id = 0 });
 					libraryStates.Add(libraryState);
 				}
 			}

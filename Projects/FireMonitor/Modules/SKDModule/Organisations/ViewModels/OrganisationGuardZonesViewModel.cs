@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 			: base(organisation)
 		{
 			Items = new ObservableCollection<OrganisationGuardZoneViewModel>();
-			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
+			foreach (var guardZone in GKManager.DeviceConfiguration.GuardZones)
 			{
 				var guardZoneViewModel = new OrganisationGuardZoneViewModel(organisation, guardZone);
 				Items.Add(guardZoneViewModel);

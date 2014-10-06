@@ -98,7 +98,7 @@ namespace FiresecAPI.SKD
 			door.InDevice = Devices.FirstOrDefault(x => x.UID == door.InDeviceUID);
 			door.OutDevice = Devices.FirstOrDefault(x => x.UID == door.OutDeviceUID);
 
-			if (door.InDevice != null)
+			if (door.InDevice != null && door.InDevice.Parent != null)
 			{
 				switch (door.DoorType)
 				{

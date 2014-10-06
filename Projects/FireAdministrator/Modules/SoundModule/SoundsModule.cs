@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -24,12 +25,12 @@ namespace SoundsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSoundsEvent>(SoundsViewModel, "Звуки", "/Controls;component/Images/music.png"),
+				new NavigationItem<ShowSoundsEvent>(SoundsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/music.png"),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Звуки"; }
+			get { return ModuleType.Sounds; }
 		}
 	}
 }

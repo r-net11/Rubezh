@@ -14,13 +14,13 @@ namespace GKModule.ViewModels
 {
 	public class DeviceCommandsViewModel : BaseViewModel
 	{
-		public XDevice Device { get; private set; }
-		public XState DeviceState
+		public GKDevice Device { get; private set; }
+		public GKState DeviceState
 		{
 			get { return Device.State; }
 		}
 
-		public DeviceCommandsViewModel(XDevice device)
+		public DeviceCommandsViewModel(GKDevice device)
 		{
 			Device = device;
 			DeviceState.StateChanged -= new System.Action(OnStateChanged);
@@ -38,9 +38,9 @@ namespace GKModule.ViewModels
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
-			if (Device.DriverType == XDriverType.JockeyPump)
+			if (Device.DriverType == GKDriverType.JockeyPump)
 			{
-				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, XStateBit.ForbidStart_InManual);
+				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, GKStateBit.ForbidStart_InManual);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
 		}
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 
 		public bool HasReset
 		{
-			get { return Device.DriverType == XDriverType.AMP_1 || Device.DriverType == XDriverType.RSR2_MAP4; }
+			get { return Device.DriverType == GKDriverType.AMP_1 || Device.DriverType == GKDriverType.RSR2_MAP4; }
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
@@ -145,7 +145,7 @@ namespace GKModule.ViewModels
 			get
 			{
 #if DEBUG
-				return Device.DriverType == XDriverType.MRO_2;
+				return Device.DriverType == GKDriverType.MRO_2;
 #endif
 				return false;
 			}
@@ -186,7 +186,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ExecuteMROCommand { get; private set; }
 		void OnExecuteMRO()
 		{
-			var code = 0x80 + (int)XStateBit.TurnOnNow_InManual;
+			var code = 0x80 + (int)GKStateBit.TurnOnNow_InManual;
 			var code2 = 0;
 			code2 += ((byte)SelectedMROMessageNo << 1);
 			code2 += ((byte)SelectedMROMessageType << 4);

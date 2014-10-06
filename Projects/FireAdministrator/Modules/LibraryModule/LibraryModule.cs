@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -24,12 +25,12 @@ namespace LibraryModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowLibraryEvent>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
+				new NavigationItem<ShowLibraryEvent>(LibraryViewModel, ModuleType.ToDescription(), "/Controls;component/Images/book.png"),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Библиотека устройств"; }
+			get { return ModuleType.Library; }
 		}
 	}
 }

@@ -22,9 +22,9 @@ namespace FireMonitor.Layout
 		{
 			return new List<NavigationItem>();
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Монитор"; }
+			get { return Infrastructure.Common.ModuleType.Monitor; }
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

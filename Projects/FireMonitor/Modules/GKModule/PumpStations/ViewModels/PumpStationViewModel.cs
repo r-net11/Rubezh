@@ -7,18 +7,19 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public XPumpStation PumpStation { get; private set; }
-		public XState State
+		public GKPumpStation PumpStation { get; private set; }
+		public GKState State
 		{
 			get { return PumpStation.State; }
 		}
 
-		public PumpStationViewModel(XPumpStation pumpStation)
+		public PumpStationViewModel(GKPumpStation pumpStation)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -46,11 +47,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				PumpStation = PumpStation
+				GKPumpStation = PumpStation
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -70,15 +71,15 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.StartLogic); }
 		}
 		public string StopPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.StopLogic); }
 		}
 		public string AutomaticOffPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
+			get { return GKManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
 		}
 	}
 }

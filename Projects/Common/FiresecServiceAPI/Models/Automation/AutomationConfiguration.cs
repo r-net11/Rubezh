@@ -34,15 +34,80 @@ namespace FiresecAPI.Automation
 			{
 				foreach (var step in procedure.Steps)
 				{
-					UpdateStep(step, procedure);
 					InvalidateStep(step, procedure);
+				}
+			}
+
+			foreach (var schedule in AutomationSchedules)
+			{
+				var tempScheduleProcedures = new List<ScheduleProcedure>();
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				{
+					var procedure = Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+					if (procedure != null)
+					{
+						var tempArguments = new List<Argument>();
+						int i = 0;
+						foreach (var variable in procedure.Arguments)
+						{
+							var argument = new Argument();
+							if (scheduleProcedure.Arguments.Count <= i)
+								argument = InitializeArgumemt(variable);
+							else
+							{
+								if (!CheckSignature(scheduleProcedure.Arguments[i], variable))
+								{
+									argument = InitializeArgumemt(variable);
+
+								}
+								else
+									argument = scheduleProcedure.Arguments[i];
+							}
+							tempArguments.Add(argument);
+							i++;
+						}
+						scheduleProcedure.Arguments = new List<Argument>(tempArguments);
+						tempScheduleProcedures.Add(scheduleProcedure);
+					}
+				}
+				schedule.ScheduleProcedures = new List<ScheduleProcedure>(tempScheduleProcedures);
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				{
+					foreach (var argument in scheduleProcedure.Arguments)
+						InvalidateArgument(argument);
 				}
 			}
 		}
 
-		public void UpdateStep(ProcedureStep step, Procedure procedure)
+		Argument InitializeArgumemt(Variable variable)
 		{
+			var argument = new Argument();
+			argument.VariableScope = VariableScope.GlobalVariable;
+			argument.ExplicitType = variable.ExplicitType;
+			argument.EnumType = variable.EnumType;
+			argument.ObjectType = variable.ObjectType;
+			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
+			argument.ExplicitValues = new List<ExplicitValue>();
+			foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+			{
+				var explicitValue = new ExplicitValue();
+				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
+				argument.ExplicitValues.Add(explicitValue);
+			}
+			return argument;
+		}
 
+		bool CheckSignature(Argument argument, Variable variable)
+		{
+			if (argument.ExplicitType != variable.ExplicitType)
+				return false;
+			if (argument.ExplicitType != ExplicitType.Object && argument.ExplicitType != ExplicitType.Enum)
+				return true;
+			if (argument.ExplicitType != ExplicitType.Object)
+				return (argument.ObjectType == variable.ObjectType);
+			if (argument.ExplicitType != ExplicitType.Enum)
+				return (argument.EnumType == variable.EnumType);
+			return false;
 		}
 
 		public void InvalidateStep(ProcedureStep step, Procedure procedure)
@@ -60,26 +125,27 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.ShowMessage:
 					{
 						var showMessageArguments = step.ShowMessageArguments;
-						InvalidateArithmeticParameter(procedure, showMessageArguments.MessageParameter);
+						InvalidateArgument(procedure, showMessageArguments.MessageParameter);
 					}
 					break;
 
 				case ProcedureStepType.Arithmetics:
 					{
 						var arithmeticArguments = step.ArithmeticArguments;
-						InvalidateArithmeticParameter(procedure, arithmeticArguments.Parameter1);
-						InvalidateArithmeticParameter(procedure, arithmeticArguments.Parameter2);
-						InvalidateArithmeticParameter(procedure, arithmeticArguments.ResultParameter);
+						InvalidateArgument(procedure, arithmeticArguments.Parameter1);
+						InvalidateArgument(procedure, arithmeticArguments.Parameter2);
+						InvalidateArgument(procedure, arithmeticArguments.ResultParameter);
 					}
 					break;
 
 				case ProcedureStepType.If:
+				case ProcedureStepType.While:
 					{
 						var conditionArguments = step.ConditionArguments;
 						foreach (var condition in conditionArguments.Conditions)
 						{
-							InvalidateArithmeticParameter(procedure, condition.Parameter1);
-							InvalidateArithmeticParameter(procedure, condition.Parameter2);
+							InvalidateArgument(procedure, condition.Parameter1);
+							InvalidateArgument(procedure, condition.Parameter2);
 						}
 					}
 					break;
@@ -87,17 +153,17 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.AddJournalItem:
 					{
 						var journalArguments = step.JournalArguments;
-						InvalidateArithmeticParameter(procedure, journalArguments.MessageParameter);
+						InvalidateArgument(procedure, journalArguments.MessageParameter);
 					}
 					break;
 
 				case ProcedureStepType.FindObjects:
 					{
 						var findObjectArguments = step.FindObjectArguments;
-						InvalidateArithmeticParameter(procedure, findObjectArguments.ResultParameter);
+						InvalidateArgument(procedure, findObjectArguments.ResultParameter);
 						foreach (var findObjectCondition in findObjectArguments.FindObjectConditions)
 						{
-							InvalidateArithmeticParameter(procedure, findObjectCondition.SourceParameter);
+							InvalidateArgument(procedure, findObjectCondition.SourceParameter);
 						}
 					}
 					break;
@@ -105,15 +171,25 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.Foreach:
 					{
 						var foreachArguments = step.ForeachArguments;
-						InvalidateArithmeticParameter(procedure, foreachArguments.ItemParameter);
-						InvalidateArithmeticParameter(procedure, foreachArguments.ListParameter);
+						InvalidateArgument(procedure, foreachArguments.ItemParameter);
+						InvalidateArgument(procedure, foreachArguments.ListParameter);
+					}
+					break;
+
+				case ProcedureStepType.For:
+					{
+						var forArguments = step.ForArguments;
+						InvalidateArgument(procedure, forArguments.IndexerArgument);
+						InvalidateArgument(procedure, forArguments.InitialValueArgument);
+						InvalidateArgument(procedure, forArguments.ValueArgument);
+						InvalidateArgument(procedure, forArguments.IteratorArgument);
 					}
 					break;
 
 				case ProcedureStepType.Pause:
 					{
 						var pauseArguments = step.PauseArguments;
-						InvalidateArithmeticParameter(procedure, pauseArguments.PauseParameter);
+						InvalidateArgument(procedure, pauseArguments.PauseParameter);
 					}
 					break;
 
@@ -122,135 +198,160 @@ namespace FiresecAPI.Automation
 						var procedureSelectionArguments = step.ProcedureSelectionArguments;
 						if (Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
 							procedureSelectionArguments.ScheduleProcedure.ProcedureUid = Guid.Empty;
+						foreach (var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
+							InvalidateArgument(procedure, argument);
 					}
 					break;
 
 				case ProcedureStepType.Exit:
 					{
 						var exitArguments = step.ExitArguments;
-						InvalidateArithmeticParameter(procedure, exitArguments.ExitCodeParameter);
+						InvalidateArgument(procedure, exitArguments.ExitCodeParameter);
 					}
 					break;
 
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;
-						InvalidateArithmeticParameter(procedure, setValueArguments.SourceParameter);
-						InvalidateArithmeticParameter(procedure, setValueArguments.TargetParameter);
+						InvalidateArgument(procedure, setValueArguments.SourceParameter);
+						InvalidateArgument(procedure, setValueArguments.TargetParameter);
 					}
 					break;
 
 				case ProcedureStepType.IncrementValue:
 					{
 						var incrementValueArguments = step.IncrementValueArguments;
-						InvalidateArithmeticParameter(procedure, incrementValueArguments.ResultParameter);
+						InvalidateArgument(procedure, incrementValueArguments.ResultParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
 					{
 						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
-						InvalidateArithmeticParameter(procedure, controlGKDeviceArguments.GKDeviceParameter);
+						InvalidateArgument(procedure, controlGKDeviceArguments.GKDeviceParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
 					{
 						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;
-						InvalidateArithmeticParameter(procedure, controlSKDDeviceArguments.SKDDeviceParameter);
+						InvalidateArgument(procedure, controlSKDDeviceArguments.SKDDeviceParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
 					{
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
-						InvalidateArithmeticParameter(procedure, controlGKFireZoneArguments.GKFireZoneParameter);
+						InvalidateArgument(procedure, controlGKFireZoneArguments.GKFireZoneParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
 					{
 						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
-						InvalidateArithmeticParameter(procedure, controlGKGuardZoneArguments.GKGuardZoneParameter);
+						InvalidateArgument(procedure, controlGKGuardZoneArguments.GKGuardZoneParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlDirection:
 					{
 						var controlDirectionArguments = step.ControlDirectionArguments;
-						InvalidateArithmeticParameter(procedure, controlDirectionArguments.DirectionParameter);
+						InvalidateArgument(procedure, controlDirectionArguments.DirectionParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlDoor:
 					{
 						var controlDoorArguments = step.ControlDoorArguments;
-						InvalidateArithmeticParameter(procedure, controlDoorArguments.DoorParameter);
+						InvalidateArgument(procedure, controlDoorArguments.DoorParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
 					{
 						var controlSKDZoneArguments = step.ControlSKDZoneArguments;
-						InvalidateArithmeticParameter(procedure, controlSKDZoneArguments.SKDZoneParameter);
+						InvalidateArgument(procedure, controlSKDZoneArguments.SKDZoneParameter);
 					}
 					break;
 
 				case ProcedureStepType.ControlCamera:
 					{
 						var controlCameraArguments = step.ControlCameraArguments;
-						InvalidateArithmeticParameter(procedure, controlCameraArguments.CameraParameter);
+						InvalidateArgument(procedure, controlCameraArguments.CameraParameter);
 					}
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
 					{
 						var getObjectPropertyArguments = step.GetObjectPropertyArguments;
-						InvalidateArithmeticParameter(procedure, getObjectPropertyArguments.ObjectParameter);
-						InvalidateArithmeticParameter(procedure, getObjectPropertyArguments.ResultParameter);
+						InvalidateArgument(procedure, getObjectPropertyArguments.ObjectParameter);
+						InvalidateArgument(procedure, getObjectPropertyArguments.ResultParameter);
 					}
 					break;
 
 				case ProcedureStepType.SendEmail:
 					{
 						var sendEmailArguments = step.SendEmailArguments;
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.EMailAddressParameter);
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.EMailContentParameter);
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.EMailTitleParameter);
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.HostParameter);
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.LoginParameter);
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.PasswordParameter);
-						InvalidateArithmeticParameter(procedure, sendEmailArguments.PortParameter);
+						InvalidateArgument(procedure, sendEmailArguments.EMailAddressParameter);
+						InvalidateArgument(procedure, sendEmailArguments.EMailContentParameter);
+						InvalidateArgument(procedure, sendEmailArguments.EMailTitleParameter);
+						InvalidateArgument(procedure, sendEmailArguments.HostParameter);
+						InvalidateArgument(procedure, sendEmailArguments.LoginParameter);
+						InvalidateArgument(procedure, sendEmailArguments.PasswordParameter);
+						InvalidateArgument(procedure, sendEmailArguments.PortParameter);
 					}
 					break;
 
 				case ProcedureStepType.RunProgramm:
 					{
 						var runProgrammArguments = step.RunProgrammArguments;
-						InvalidateArithmeticParameter(procedure, runProgrammArguments.ParametersParameter);
-						InvalidateArithmeticParameter(procedure, runProgrammArguments.PathParameter);
+						InvalidateArgument(procedure, runProgrammArguments.ParametersParameter);
+						InvalidateArgument(procedure, runProgrammArguments.PathParameter);
 					}
 					break;
 
 				case ProcedureStepType.Random:
 					{
 						var randomArguments = step.RandomArguments;
-						InvalidateArithmeticParameter(procedure, randomArguments.MaxValueParameter);
+						InvalidateArgument(procedure, randomArguments.MaxValueParameter);
+					}
+					break;
+
+				case ProcedureStepType.ChangeList:
+					{
+						var changeListArguments = step.ChangeListArguments;
+						InvalidateArgument(procedure, changeListArguments.ItemArgument);
+						InvalidateArgument(procedure, changeListArguments.ListArgument);
+					}
+					break;
+
+				case ProcedureStepType.GetListCount:
+					{
+						var getListCountArgument = step.GetListCountArgument;
+						InvalidateArgument(procedure, getListCountArgument.ListArgument);
+						InvalidateArgument(procedure, getListCountArgument.CountArgument);
 					}
 					break;
 			}
 		}
 
-		void InvalidateArithmeticParameter(Procedure procedure, Variable variable)
+		void InvalidateArgument(Procedure procedure, Argument argument)
 		{
 			var localVariables = new List<Variable>(procedure.Variables);
 			localVariables.AddRange(new List<Variable>(procedure.Arguments));
-			if (variable.VariableScope == VariableScope.GlobalVariable)
-				if (GlobalVariables.All(x => x.Uid != variable.VariableUid))
-					variable.VariableUid = Guid.Empty;
-			if (variable.VariableScope == VariableScope.LocalVariable)
-				if (localVariables.All(x => x.Uid != variable.VariableUid))
-					variable.VariableUid = Guid.Empty;
+			if (argument.VariableScope == VariableScope.GlobalVariable)
+				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
+			if (argument.VariableScope == VariableScope.LocalVariable)
+				if (localVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
+		}
+
+		void InvalidateArgument(Argument argument)
+		{
+			if (argument.VariableScope != VariableScope.ExplicitValue)
+				if (GlobalVariables.All(x => x.Uid != argument.VariableUid))
+					argument.VariableUid = Guid.Empty;
 		}
 	}
 }

@@ -8,16 +8,16 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var actionType = (XGuardZoneDeviceActionType)value;
+			var actionType = (GKGuardZoneDeviceActionType)value;
 			switch(actionType)
 			{
-				case XGuardZoneDeviceActionType.SetGuard:
+				case GKGuardZoneDeviceActionType.SetGuard:
 					return "/Controls;component/StateClassIcons/On.png";
 
-				case XGuardZoneDeviceActionType.ResetGuard:
+				case GKGuardZoneDeviceActionType.ResetGuard:
 					return "/Controls;component/StateClassIcons/Off.png";
 
-				case XGuardZoneDeviceActionType.SetAlarm:
+				case GKGuardZoneDeviceActionType.SetAlarm:
 					return "/Controls;component/StateClassIcons/Attention.png";
 			}
 			return null;

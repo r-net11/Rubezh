@@ -111,9 +111,9 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					if (descriptor.XBase.InternalState != null)
+					if (descriptor.GKBase.InternalState != null)
 					{
-						descriptor.XBase.InternalState.IsSuspending = isSuspending;
+						descriptor.GKBase.InternalState.IsSuspending = isSuspending;
 					}
 				}
 				NotifyAllObjectsStateChanged();
@@ -193,7 +193,7 @@ namespace GKProcessor
 
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.XBase.InternalState.Clear();
+				descriptor.GKBase.InternalState.Clear();
 			}
 
 			while (true)
@@ -202,7 +202,7 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.InternalState.IsInitialState = true;
+					descriptor.GKBase.InternalState.IsInitialState = true;
 				}
 
 				var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
@@ -218,8 +218,8 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.InternalState.IsConnectionLost = IsPingFailure;
-						descriptor.XBase.InternalState.IsInitialState = !IsPingFailure;
+						descriptor.GKBase.InternalState.IsConnectionLost = IsPingFailure;
+						descriptor.GKBase.InternalState.IsInitialState = !IsPingFailure;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -253,7 +253,7 @@ namespace GKProcessor
 					continue;
 				}
 
-				var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+				var hashBytes = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, GkDatabase.RootDevice);
 				var gkFileReaderWriter = new GKFileReaderWriter();
 				var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
 				result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
@@ -268,8 +268,8 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.InternalState.IsDBMissmatch = IsHashFailure;
-						descriptor.XBase.InternalState.IsInitialState = false;
+						descriptor.GKBase.InternalState.IsDBMissmatch = IsHashFailure;
+						descriptor.GKBase.InternalState.IsInitialState = false;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -310,7 +310,7 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.InternalState.IsInitialState = false;
+					descriptor.GKBase.InternalState.IsInitialState = false;
 				}
 				NotifyAllObjectsStateChanged();
 				OnGKCallbackResult(GKCallbackResult);
@@ -327,7 +327,7 @@ namespace GKProcessor
 				HasLicense = hasLicense;
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.InternalState.IsNoLicense = !HasLicense;
+					descriptor.GKBase.InternalState.IsNoLicense = !HasLicense;
 				}
 				NotifyAllObjectsStateChanged();
 			}
@@ -421,7 +421,7 @@ namespace GKProcessor
 
 		void AddFailureJournalItem(JournalEventNameType journalEventNameType, string description = "")
 		{
-			var journalItem = new XJournalItem()
+			var journalItem = new GKJournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
 				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
@@ -436,7 +436,7 @@ namespace GKProcessor
 
 		void AddFailureJournalItem(JournalEventNameType journalEventNameType, JournalEventDescriptionType description)
 		{
-			var journalItem = new XJournalItem()
+			var journalItem = new GKJournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
 				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
@@ -449,55 +449,55 @@ namespace GKProcessor
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void OnObjectStateChanged(XBase xBase)
+		void OnObjectStateChanged(GKBase xBase)
 		{
 			AddObjectStateToGKStates(GKCallbackResult.GKStates, xBase);
 		}
 
-		public static void AddObjectStateToGKStates(GKStates gkStates, XBase xBase)
+		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase xBase)
 		{
 			if (xBase.State != null)
 			{
 				xBase.InternalState.CopyToXState(xBase.State);
-				if (xBase is XDevice)
+				if (xBase is GKDevice)
 				{
-					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
+					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.UID);
 					gkStates.DeviceStates.Add(xBase.State);
 				}
-				if (xBase is XZone)
+				if (xBase is GKZone)
 				{
 					gkStates.ZoneStates.Add(xBase.State);
 				}
-				if (xBase is XDirection)
+				if (xBase is GKDirection)
 				{
 					gkStates.DirectionStates.Add(xBase.State);
 				}
-				if (xBase is XPumpStation)
+				if (xBase is GKPumpStation)
 				{
 					gkStates.PumpStationStates.Add(xBase.State);
 				}
-				if (xBase is XMPT)
+				if (xBase is GKMPT)
 				{
 					gkStates.MPTStates.Add(xBase.State);
 				}
-				if (xBase is XDelay)
+				if (xBase is GKDelay)
 				{
 					xBase.State.PresentationName = xBase.PresentationName;
 					gkStates.DelayStates.Add(xBase.State);
 				}
-				if (xBase is XPim)
+				if (xBase is GKPim)
 				{
 					xBase.State.PresentationName = xBase.PresentationName;
 					gkStates.PimStates.Add(xBase.State);
 				}
-				if (xBase is XGuardZone)
+				if (xBase is GKGuardZone)
 				{
 					gkStates.GuardZoneStates.Add(xBase.State);
 				}
 			}
 		}
 
-		void OnMeasureParametersChanged(XDeviceMeasureParameters deviceMeasureParameters)
+		void OnMeasureParametersChanged(GKDeviceMeasureParameters deviceMeasureParameters)
 		{
 			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
@@ -508,13 +508,13 @@ namespace GKProcessor
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItem(XJournalItem journalItem)
+		void AddJournalItem(GKJournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItems(List<XJournalItem> journalItems)
+		void AddJournalItems(List<GKJournalItem> journalItems)
 		{
 			GKDBHelper.AddMany(journalItems);
 			GKCallbackResult.JournalItems.AddRange(journalItems);

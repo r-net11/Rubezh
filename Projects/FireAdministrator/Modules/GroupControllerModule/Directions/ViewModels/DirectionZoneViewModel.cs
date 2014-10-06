@@ -6,14 +6,14 @@ namespace GKModule.ViewModels
 {
 	public class DirectionZoneViewModel
 	{
-		public DirectionZoneViewModel(XDirectionZone directionZone)
+		public DirectionZoneViewModel(GKDirectionZone directionZone)
 		{
 			DirectionZone = directionZone;
 		}
 
-		public XDirectionZone DirectionZone { get; private set; }
+		public GKDirectionZone DirectionZone { get; private set; }
 
-		public XStateBit StateType
+		public GKStateBit StateType
 		{
 			get { return DirectionZone.StateBit; }
 			set
@@ -23,14 +23,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<XStateBit> StateTypes
+		public List<GKStateBit> StateTypes
 		{
 			get
 			{
-				var stateTypes = new List<XStateBit>();
-				stateTypes.Add(XStateBit.Attention);
-				stateTypes.Add(XStateBit.Fire1);
-				stateTypes.Add(XStateBit.Fire2);
+				var stateTypes = new List<GKStateBit>();
+				stateTypes.Add(GKStateBit.Attention);
+				stateTypes.Add(GKStateBit.Fire1);
+				stateTypes.Add(GKStateBit.Fire2);
 				return stateTypes;
 			}
 		}

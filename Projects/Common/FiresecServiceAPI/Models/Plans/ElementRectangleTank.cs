@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -9,7 +10,7 @@ namespace FiresecAPI.Models
 	public class ElementRectangleTank : ElementBaseRectangle, IPrimitive, IElementReference
 	{
 		[DataMember]
-		public Guid XDeviceUID { get; set; }
+		public Guid DeviceUID { get; set; }
 
 		public override ElementBase Clone()
 		{
@@ -20,11 +21,12 @@ namespace FiresecAPI.Models
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			((ElementRectangleTank)element).XDeviceUID = XDeviceUID;
+			((ElementRectangleTank)element).DeviceUID = DeviceUID;
 		}
 
 		#region IPrimitive Members
 
+		[XmlIgnore]
 		public Primitive Primitive
 		{
 			get { return Infrustructure.Plans.Elements.Primitive.RectangleZone; }
@@ -41,8 +43,8 @@ namespace FiresecAPI.Models
 
 		Guid IElementReference.ItemUID
 		{
-			get { return XDeviceUID; }
-			set { XDeviceUID = value; }
+			get { return DeviceUID; }
+			set { DeviceUID = value; }
 		}
 
 		#endregion

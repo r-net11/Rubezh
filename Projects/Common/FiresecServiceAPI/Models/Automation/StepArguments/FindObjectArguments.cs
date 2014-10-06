@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -10,7 +9,7 @@ namespace FiresecAPI.Automation
 		public FindObjectArguments()
 		{
 			FindObjectConditions = new List<FindObjectCondition>();
-			ResultParameter = new Variable();
+			ResultParameter = new Argument();
 		}
 
 		[DataMember]
@@ -20,6 +19,6 @@ namespace FiresecAPI.Automation
 		public JoinOperator JoinOperator { get; set; }
 
 		[DataMember]
-		public Variable ResultParameter { get; set; }
+		public Argument ResultParameter { get; set; }
 	}
 }

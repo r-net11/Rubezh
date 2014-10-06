@@ -43,7 +43,7 @@
 								</WrapPanel>
 							</StackPanel>
 							<WrapPanel Margin="2">
-								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
+								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона: " />
 								<TextBlock>
 									<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">

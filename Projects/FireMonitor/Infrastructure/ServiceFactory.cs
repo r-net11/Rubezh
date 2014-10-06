@@ -12,7 +12,6 @@ using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
-using FiresecAPI.Journal;
 
 namespace Infrastructure
 {

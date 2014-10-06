@@ -5,11 +5,11 @@ namespace GKModule.ViewModels
 {
 	public class MPTDeviceTypeViewModel : BaseViewModel
 	{
-		public MPTDeviceTypeViewModel(MPTDeviceType mptDeviceType)
+		public MPTDeviceTypeViewModel(GKMPTDeviceType mptDeviceType)
 		{
 			MPTDeviceType = mptDeviceType;
 		}
 
-		public MPTDeviceType MPTDeviceType { get; private set; }
+		public GKMPTDeviceType MPTDeviceType { get; private set; }
 	}
 }

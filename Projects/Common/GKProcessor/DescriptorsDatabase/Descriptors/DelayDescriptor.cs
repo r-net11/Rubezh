@@ -6,7 +6,7 @@ namespace GKProcessor
 {
 	public class DelayDescriptor : BaseDescriptor
 	{
-		public DelayDescriptor(XDelay delay)
+		public DelayDescriptor(GKDelay delay)
 		{
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Delay;

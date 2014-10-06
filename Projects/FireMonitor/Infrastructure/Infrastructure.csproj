@@ -159,7 +159,6 @@
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\MultiGridType.cs" />
-    <Compile Include="Models\MultiLayoutCameraSettings.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />
     <Compile Include="Models\XJournalColumnType.cs" />
     <Compile Include="Models\RviMultiLayoutCameraSettings.cs" />

@@ -17,21 +17,21 @@ namespace SKDModule.ViewModels
 		
 		public ScheduleViewModel() { }
 		
-        public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
-        {
-            base.InitializeOrganisation(organisation, parentViewModel);
-            _isInitialized = false;
-        }
-        
-        public override void InitializeModel(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
-        {
-            AddCommand = new RelayCommand(OnAdd);
-            EditCommand = new RelayCommand(OnEdit, CanEdit);
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-            base.InitializeModel(organisation, model, parentViewModel);
-            _isInitialized = false;
-            Update();
-        }
+		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
+		{
+			base.InitializeOrganisation(organisation, parentViewModel);
+			_isInitialized = false;
+		}
+		
+		public override void InitializeModel(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
+		{
+			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			base.InitializeModel(organisation, model, parentViewModel);
+			_isInitialized = false;
+			Update();
+		}
 
 		public void Initialize()
 		{
@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 		}
 		public override void Update()
 		{
-            base.Update();
+			base.Update();
 			OnPropertyChanged(() => Scheme);
 		}
 
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 						Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
 						WithDays = false,
 					});
-                    var scheme = schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
+					var scheme = schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
 					if (scheme != null)
 					{
 						return scheme.Name + " (" + scheme.Type.ToDescription() + ")";
@@ -94,11 +94,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-            var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model);
+			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model);
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && ScheduleZoneHelper.Save(scheduleZoneDetailsViewModel.ScheduleZone))
 			{
 				var scheduleZone = scheduleZoneDetailsViewModel.ScheduleZone;
-                Model.Zones.Add(scheduleZone);
+				Model.Zones.Add(scheduleZone);
 				var scheduleZoneViewModel = new ScheduleZoneViewModel(scheduleZone);
 				ScheduleZones.Add(scheduleZoneViewModel);
 				Sort();
@@ -111,7 +111,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ScheduleZoneHelper.MarkDeleted(SelectedScheduleZone.Model))
 			{
-                Model.Zones.Remove(SelectedScheduleZone.Model);
+				Model.Zones.Remove(SelectedScheduleZone.Model);
 				ScheduleZones.Remove(SelectedScheduleZone);
 			}
 		}
@@ -123,7 +123,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-            var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, SelectedScheduleZone.Model);
+			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, SelectedScheduleZone.Model);
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel))
 			{
 				ScheduleZoneHelper.Save(SelectedScheduleZone.Model);

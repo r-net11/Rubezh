@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FiresecAPI;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
-using System;
-using FiresecAPI.Journal;
-using FiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -48,12 +48,12 @@ namespace FiresecService.Service
 				return databaseService.DayIntervalPartTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedDayIntervalPart(Guid uid)
+		public OperationResult RemoveDayIntervalPart(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DayIntervalPartTranslator.MarkDeleted(uid);
+				return databaseService.DayIntervalPartTranslator.Delete(uid);
 			}
 		}
 
@@ -120,12 +120,12 @@ namespace FiresecService.Service
 				return databaseService.ScheduleDayIntervalTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedSheduleDayInterval(Guid uid)
+		public OperationResult RemoveSheduleDayInterval(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.ScheduleDayIntervalTranslator.MarkDeleted(uid);
+				return databaseService.ScheduleDayIntervalTranslator.Delete(uid);
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace FiresecService.Service
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_графика_работы);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.ScheduleZoneTranslator.MarkDeleted(uid);
+				return databaseService.ScheduleZoneTranslator.Delete(uid);
 			}
 		}
 

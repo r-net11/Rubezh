@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
+using DiagnosticsModule.Models;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -22,53 +23,20 @@ namespace DiagnosticsModule.ViewModels
 
 		public DiagnosticsViewModel()
 		{
-			SetConfigCommand = new RelayCommand(OnSetConfig);
-			WriteConfigCommand = new RelayCommand(OnWriteConfig);
+			SaveCommand = new RelayCommand(OnSave);
+			LoadCommand = new RelayCommand(OnLoad);
 		}
 
-		public RelayCommand SetConfigCommand { get; private set; }
-		void OnSetConfig()
+		public RelayCommand SaveCommand { get; private set; }
+		void OnSave()
 		{
-			var thread = new Thread(() =>
-				{
-					while (true)
-					{
-						Dispatcher.Invoke(new Action(() =>
-							{
-								SetNewConfig();
-
-								Count++;
-								Text = "SetNewConfig count = " + Count;
-
-								Thread.Sleep(TimeSpan.FromSeconds(15));
-							}));
-					}
-				}
-				);
-			thread.Start();
+			SerializerHelper.Save();
 		}
 
-		public RelayCommand WriteConfigCommand { get; private set; }
-		void OnWriteConfig()
+		public RelayCommand LoadCommand { get; private set; }
+		void OnLoad()
 		{
-			var thread = new Thread(() =>
-			{
-				while (true)
-				{
-					Dispatcher.Invoke(new Action(() =>
-					{
-						var gkdevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-						var result = FiresecManager.FiresecService.GKWriteConfiguration(gkdevice);
-
-						Count++;
-						Text = "SetNewConfig count = " + Count;
-
-						Thread.Sleep(TimeSpan.FromSeconds(1));
-					}));
-				}
-			}
-				);
-			thread.Start();
+			SerializerHelper.Load();
 		}
 
 
@@ -88,10 +56,6 @@ namespace DiagnosticsModule.ViewModels
 				OnPropertyChanged(() => Text);
 			}
 		}
-
-
-
-
 
 		public static bool SetNewConfig()
 		{
@@ -147,14 +111,14 @@ namespace DiagnosticsModule.ViewModels
 			if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
-				AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+				AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1);
 			AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 			if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
-			if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
-				AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
 				AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
 			if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
@@ -192,7 +156,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
-			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name), true);
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}

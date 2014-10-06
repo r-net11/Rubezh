@@ -87,56 +87,56 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		public ObjectViewModel(XDevice device)
+		public ObjectViewModel(GKDevice device)
 		{
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
 
-		public ObjectViewModel(XZone zone)
+		public ObjectViewModel(GKZone zone)
 		{
 			Name = zone.PresentationName;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
-		public ObjectViewModel(XDirection direction)
+		public ObjectViewModel(GKDirection direction)
 		{
 			Name = direction.PresentationName;
 			UID = direction.UID;
 			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 
-		public ObjectViewModel(XMPT mpt)
+		public ObjectViewModel(GKMPT mpt)
 		{
 			Name = mpt.PresentationName;
-			UID = mpt.BaseUID;
+			UID = mpt.UID;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
-		public ObjectViewModel(XPumpStation pumpStation)
+		public ObjectViewModel(GKPumpStation pumpStation)
 		{
 			Name = pumpStation.PresentationName;
 			UID = pumpStation.UID;
 			ImageSource = "/Controls;component/Images/BPumpStation.png";
 		}
 
-		public ObjectViewModel(XDelay delay)
+		public ObjectViewModel(GKDelay delay)
 		{
 			Name = delay.PresentationName;
-			UID = delay.BaseUID;
+			UID = delay.UID;
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 
-		public ObjectViewModel(XGuardZone guardZone)
+		public ObjectViewModel(GKGuardZone guardZone)
 		{
 			Name = guardZone.PresentationName;
 			UID = guardZone.UID;
 			ImageSource = "/Controls;component/Images/GuardZone.png";
 		}
 
-		public ObjectViewModel(XDoor door)
+		public ObjectViewModel(GKDoor door)
 		{
 			Name = door.PresentationName;
 			UID = door.UID;

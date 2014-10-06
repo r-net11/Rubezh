@@ -13,9 +13,9 @@ namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
-		public XMPT MPT { get; set; }
+		public GKMPT MPT { get; set; }
 
-		public MPTViewModel(XMPT mpt)
+		public MPTViewModel(GKMPT mpt)
 		{
 			MPT = mpt;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 			var mptDeviceTypeSelectationViewModel = new MPTDeviceTypeSelectationViewModel();
 			if (DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
 			{
-				var mptDevice = new MPTDevice();
+				var mptDevice = new GKMPTDevice();
 				mptDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
 
 				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
@@ -76,21 +76,21 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var devices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
+			var devices = new List<GKDevice>();
+			foreach (var device in GKManager.Devices)
 			{
-				if (MPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
+				if (GKMPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
 					if (!device.IsInMPT)
 						devices.Add(device);
-					else if (SelectedDevice.MPTDeviceType == MPTDeviceType.Door)
+					else if (SelectedDevice.MPTDeviceType == GKMPTDeviceType.Door)
 					{
-						foreach (var mpt in XManager.MPTs)
+						foreach (var mpt in GKManager.MPTs)
 						{
-							if (mpt.BaseUID != MPT.BaseUID)
+							if (mpt.UID != MPT.UID)
 							{
 								foreach (var mptDevice in mpt.MPTDevices)
 								{
-									if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
+									if (mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
 									{
 										devices.Add(device);
 									}
@@ -110,9 +110,9 @@ namespace GKModule.ViewModels
 
 				var selectedDevice = deviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
-				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.BaseUID : Guid.Empty;
-				XManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice);
-				XManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
+				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.UID : Guid.Empty;
+				GKManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice);
+				GKManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = selectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
 				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
@@ -152,15 +152,15 @@ namespace GKModule.ViewModels
 		}
 		bool CanEditProperties()
 		{
-			return SelectedDevice != null && SelectedDevice.Device!= null && SelectedDevice.Device.DriverType != XDriverType.RSR2_AM_1;
+			return SelectedDevice != null && SelectedDevice.Device!= null && SelectedDevice.Device.DriverType != GKDriverType.RSR2_AM_1;
 		}
 
-		public static void ChangeIsInMPT(XDevice device, bool isInMPT)
+		public static void ChangeIsInMPT(GKDevice device, bool isInMPT)
 		{
 			if (device != null)
 			{
 				device.IsInMPT = isInMPT;
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == device.BaseUID);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.UpdateProperties();
@@ -177,7 +177,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, MPT.StartLogic, false);
+			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, MPT.StartLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				MPT.StartLogic = deviceLogicViewModel.GetModel();
@@ -188,7 +188,7 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return XManager.GetPresentationZone(MPT.StartLogic); }
+			get { return GKManager.GetPresentationZone(MPT.StartLogic); }
 		}
 
 		public int Delay

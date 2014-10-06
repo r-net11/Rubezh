@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -27,12 +28,12 @@ namespace InstructionsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
+				new NavigationItem<ShowInstructionsEvent, Guid>(InstructionsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/information.png", null, null, Guid.Empty),
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Инструкции"; }
+			get { return ModuleType.Instructions; }
 		}
 
 		#region IValidationModule Members

@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public static class GKIndicator_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x103,
-				DriverType = XDriverType.GKIndicator,
+				DriverType = GKDriverType.GKIndicator,
 				UID = new Guid("200EED4B-3402-45B4-8122-AE51A4841E18"),
 				Name = "Индикатор ГК",
 				ShortName = "Индикатор ГК",
@@ -28,24 +28,24 @@ namespace GKProcessor
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
-			driver.AvailableStateBits.Add(XStateBit.On);
-			driver.AvailableStateBits.Add(XStateBit.Off);
+			driver.AvailableStateBits.Add(GKStateBit.On);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
 
-			var modeProperty = new XDriverProperty()
+			var modeProperty = new GKDriverProperty()
 			{
 				No = 0,
 				Name = "Mode",
 				Caption = "Режим работы",
 				ToolTip = "Режим работы индикатора",
 				Default = 15,
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				DriverPropertyType = GKDriverPropertyTypeEnum.EnumType,
 				IsAUParameter = true
 			};
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Выключено", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.25 с", Value = 1 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.5 с", Value = 3 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.75 с", Value = 7 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Включено", Value = 15 });
+			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Выключено", Value = 0 });
+			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Мерцает 0.25 с", Value = 1 });
+			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Мерцает 0.5 с", Value = 3 });
+			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Мерцает 0.75 с", Value = 7 });
+			modeProperty.Parameters.Add(new GKDriverPropertyParameter() { Name = "Включено", Value = 15 });
 			driver.Properties.Add(modeProperty);
 
 			return driver;

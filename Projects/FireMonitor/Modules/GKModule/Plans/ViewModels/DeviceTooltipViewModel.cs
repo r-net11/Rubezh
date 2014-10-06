@@ -4,16 +4,16 @@ using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceTooltipViewModel : StateTooltipViewModel<XDevice>
+	public class DeviceTooltipViewModel : StateTooltipViewModel<GKDevice>
 	{
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
-		public XDevice Device
+		public GKDevice Device
 		{
 			get { return Item; }
 		}
-		private XState _state;
+		private GKState _state;
 
-		public DeviceTooltipViewModel(XDevice device)
+		public DeviceTooltipViewModel(GKDevice device)
 			: base(device)
 		{
 			StateClasses = new ObservableCollection<XStateClassViewModel>();

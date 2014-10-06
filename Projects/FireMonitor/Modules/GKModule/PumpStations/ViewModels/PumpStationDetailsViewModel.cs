@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XPumpStation PumpStation { get; private set; }
-		public XState State
+		public GKPumpStation PumpStation { get; private set; }
+		public GKState State
 		{
 			get { return PumpStation.State; }
 		}
 
-		public PumpStationDetailsViewModel(XPumpStation pumpStation)
+		public PumpStationDetailsViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
 			State.StateChanged += new Action(OnStateChanged);
@@ -182,17 +182,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.BaseUID);
+			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				PumpStation = PumpStation
+				GKPumpStation = PumpStation
 			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -214,7 +214,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return PumpStation.BaseUID.ToString(); }
+			get { return PumpStation.UID.ToString(); }
 		}
 		#endregion
 

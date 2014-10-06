@@ -35,11 +35,11 @@ namespace JournalModule
 				{
 					var journalItemViewModel = new JournalItemViewModel(journalItem);
 
-					var gkStateClass = XManager.GetMinStateClass();
+					var gkStateClass = GKManager.GetMinStateClass();
 					var skdStateClass = SKDManager.GetMinStateClass();
 					var globalStateClass = (XStateClass)Math.Min((int)gkStateClass, (int)skdStateClass);
 
-					if (journalItem.StateClass <= globalStateClass ||
+					if (journalItemViewModel.StateClass <= globalStateClass ||
 						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 					{
 						if (journalItemViewModel.ShowOnPlanCommand.CanExecute(null))

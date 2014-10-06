@@ -9,17 +9,17 @@ namespace GKModule.ViewModels
 {
 	public partial class MPTDeviceViewModel : BaseViewModel
 	{
-		public MPTDevice MPTDevice { get; private set; }
+		public GKMPTDevice MPTDevice { get; private set; }
 
-		public MPTDeviceViewModel(MPTDevice mptDevice)
+		public MPTDeviceViewModel(GKMPTDevice mptDevice)
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(Device, false);
 		}
 
-		XDevice _device;
-		public XDevice Device
+		GKDevice _device;
+		public GKDevice Device
 		{
 			get { return _device; }
 			set
@@ -48,11 +48,11 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				return XManager.GetPresentationZone(Device);
+				return GKManager.GetPresentationZone(Device);
 			}
 		}
 
-		public MPTDeviceType MPTDeviceType
+		public GKMPTDeviceType MPTDeviceType
 		{
 			get { return MPTDevice.MPTDeviceType; }
 		}
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 				Device.Description = value;
 				OnPropertyChanged(() => Description);
 
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == Device.BaseUID);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.OnPropertyChanged("Description");

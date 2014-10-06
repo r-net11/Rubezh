@@ -40,13 +40,6 @@ namespace GKModule.Views
 					_endDatePanel.Visibility = Visibility.Collapsed;
 					break;
 
-				case ArchiveDefaultStateType.All:
-					_countHoursPanel.Visibility = Visibility.Collapsed;
-					_countDaysPanel.Visibility = Visibility.Collapsed;
-					_startDatePanel.Visibility = Visibility.Collapsed;
-					_endDatePanel.Visibility = Visibility.Collapsed;
-					break;
-
 				case ArchiveDefaultStateType.FromDate:
 					_countHoursPanel.Visibility = Visibility.Collapsed;
 					_countDaysPanel.Visibility = Visibility.Collapsed;

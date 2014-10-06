@@ -29,9 +29,9 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Delays = XManager.Delays == null ? new ObservableCollection<DelayViewModel>() : new ObservableCollection<DelayViewModel>(
-				from delay in XManager.Delays
-				orderby delay.Name
+			Delays = GKManager.Delays == null ? new ObservableCollection<DelayViewModel>() : new ObservableCollection<DelayViewModel>(
+				from delay in GKManager.Delays
+				orderby delay.No
 				select new DelayViewModel(delay));
 			SelectedDelay = Delays.FirstOrDefault();
 		}
@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 			var delayDetailsViewModel = new DelayDetailsViewModel();
 			if (DialogService.ShowModalWindow(delayDetailsViewModel))
 			{
-				XManager.Delays.Add(delayDetailsViewModel.Delay);
+				GKManager.Delays.Add(delayDetailsViewModel.Delay);
 				var delayViewModel = new DelayViewModel(delayDetailsViewModel.Delay);
 				Delays.Add(delayViewModel);
 				SelectedDelay = delayViewModel;
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				XManager.Delays.Remove(SelectedDelay.Delay);
+				GKManager.Delays.Remove(SelectedDelay.Delay);
 				Delays.Remove(SelectedDelay);
 				SelectedDelay = Delays.FirstOrDefault();
 				OnPropertyChanged(() => HasSelectedDelay);
@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid delayUID)
 		{
 			if (delayUID != Guid.Empty)
-				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.BaseUID == delayUID);
+				SelectedDelay = Delays.FirstOrDefault(x => x.Delay.UID == delayUID);
 		}
 
 		public override void OnShow()

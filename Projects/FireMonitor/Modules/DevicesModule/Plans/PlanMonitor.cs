@@ -62,7 +62,7 @@ namespace DevicesModule.Plans
 				if (state.StateType < result)
 					result = state.StateType;
 			}
-			return XStatesHelper.StateTypeToXStateClass(result);
+			return GKStatesHelper.StateTypeToXStateClass(result);
 		}
 	}
 }

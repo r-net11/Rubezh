@@ -21,15 +21,15 @@ namespace AutomationModule.ViewModels
 
 		public static void Run(Procedure procedure)
 		{
-			List<Variable> args = null;
+			List<Argument> args = null;
 			if (procedure.Arguments.Count > 0)
 			{
 				var viewModel = new ProcedureArgumentsViewModel(procedure);
 				if (DialogService.ShowModalWindow(viewModel))
-					args = viewModel.ArgumentViewModels.Arguments.Select(x => x.Variable).ToList();
+					args = viewModel.ArgumentViewModels.Arguments.Select(x => x.Argument).ToList();
 			}
 			else
-				args = new List<Variable>();
+				args = new List<Argument>();
 			if (args != null)
 				using (new WaitWrapper())
 					FiresecManager.FiresecService.RunProcedure(procedure.Uid, args);

@@ -12,6 +12,6 @@ namespace GKModule.Events
 	{
 		public bool Cancel { get; set; }
 		public Guid ScheduleUID { get; set; }
-		public XSchedule Schedule { get; set; }
+		public GKSchedule Schedule { get; set; }
 	}
 }

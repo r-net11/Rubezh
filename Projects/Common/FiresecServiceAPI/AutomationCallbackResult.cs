@@ -10,6 +10,9 @@ namespace FiresecAPI
 		public string Message { get; set; }
 
 		[DataMember]
+		public bool IsModalWindow { get; set; }
+
+		[DataMember]
 		public Guid SoundUID { get; set; }
 
 		[DataMember]

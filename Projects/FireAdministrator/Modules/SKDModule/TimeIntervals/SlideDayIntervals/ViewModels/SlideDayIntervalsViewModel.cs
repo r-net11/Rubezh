@@ -52,10 +52,10 @@ namespace SKDModule.ViewModels
 
 		protected override void BuildIntervals()
 		{
-			AvailableTimeIntervals = new ObservableCollection<SKDDayInterval>(SKDManager.TimeIntervalsConfiguration.DayIntervals.OrderBy(item => item.ID));
+			AvailableTimeIntervals = new ObservableCollection<SKDDayInterval>(SKDManager.TimeIntervalsConfiguration.DayIntervals.OrderBy(item => item.No));
 			AvailableTimeIntervals.Insert(0, new SKDDayInterval()
 			{
-				ID = 0,
+				No = 0,
 				Name = "<Никогда>",
 			});
 			OnPropertyChanged(() => AvailableTimeIntervals);

@@ -19,7 +19,7 @@ namespace PlansModule.Kursk.InstrumentAdorners
 			var element = new ElementRectangleTank();
 			var propertiesViewModel = new TankPropertiesViewModel(element);
 			DialogService.ShowModalWindow(propertiesViewModel);
-			Helper.SetXDevice(element);
+			Helper.SetGKDevice(element);
 			return element;
 		}
 	}

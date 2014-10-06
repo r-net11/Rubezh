@@ -5,18 +5,21 @@
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2 0" />
+				<TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+				<Label Grid.Row="2" Grid.Column="0"  Content="Активно" HorizontalAlignment="Right" Margin="2" />
+				<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Procedure.IsActive}" Margin="2,7,0,0" />
 			</Grid>
 		</TabItem>
 	</TabControl>

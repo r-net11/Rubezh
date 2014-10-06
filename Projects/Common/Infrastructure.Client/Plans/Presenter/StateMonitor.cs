@@ -36,8 +36,8 @@ namespace Infrastructure.Client.Plans.Presenter
 			_states.ForEach(state =>
 			{
 				var stateClass = state.StateType;
-				var xstate = state as XState;
-				if (xstate != null && xstate.Device != null && xstate.Device.DriverType == XDriverType.AM1_T && stateClass == XStateClass.Fire2)
+				var xstate = state as GKState;
+				if (xstate != null && xstate.Device != null && xstate.Device.DriverType == GKDriverType.AM1_T && stateClass == XStateClass.Fire2)
 					stateClass = XStateClass.Info;
 				if (stateClass < result)
 					result = stateClass;

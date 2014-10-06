@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -19,7 +19,6 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using System.Windows;
 
 namespace GKModule
 {
@@ -101,7 +100,7 @@ namespace GKModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("ГК", null, new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/Briefcase.png", null, null, Guid.Empty),
@@ -141,9 +140,9 @@ namespace GKModule
 				}) {IsExpanded = true},
 			};
 		}
-		public override string Name
+		protected override ModuleType ModuleType
 		{
-			get { return "Групповой контроллер"; }
+			get { return ModuleType.GK; }
 		}
 		public override void RegisterResource()
 		{
@@ -192,41 +191,9 @@ namespace GKModule
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
-			XManager.UpdateConfiguration();
-
-			//GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
-			//GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKManager.UpdateConfiguration();
 			return true;
 		}
-
-		//void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
-		//{
-		//    ApplicationService.Invoke(() =>
-		//    {
-		//        switch (gkProgressCallback.GKProgressCallbackType)
-		//        {
-		//            case GKProgressCallbackType.Start:
-		//                if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-		//                {
-		//                    LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-		//                }
-		//                return;
-
-		//            case GKProgressCallbackType.Progress:
-		//                if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
-		//                {
-		//                    LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-		//                    if (LoadingService.IsCanceled)
-		//                        FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
-		//                }
-		//                return;
-
-		//            case GKProgressCallbackType.Stop:
-		//                LoadingService.Close();
-		//                return;
-		//        }
-		//    });
-		//}
 
 		#region ILayoutDeclarationModule Members
 

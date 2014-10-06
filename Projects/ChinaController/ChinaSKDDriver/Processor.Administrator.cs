@@ -130,15 +130,15 @@ namespace ChinaSKDDriver
 					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 					{
 						var timeShedule = new TimeShedule();
-						var dayInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.DayIntervalID);
+						var dayInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.DayIntervalUID);
 
 						if (i == 0)
 						{
 							dayInterval = new SKDDayInterval();
 							dayInterval.DayIntervalParts = new List<SKDDayIntervalPart>();
 							var emptySKDTimeIntervalPart = new SKDDayIntervalPart();
-							emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
-							emptySKDTimeIntervalPart.EndTime = new TimeSpan(0, 0, 0);
+							emptySKDTimeIntervalPart.StartMilliseconds = 0;
+							emptySKDTimeIntervalPart.EndMilliseconds = 0;
 							dayInterval.DayIntervalParts.Add(emptySKDTimeIntervalPart);
 						}
 						if (i == 1)
@@ -146,8 +146,8 @@ namespace ChinaSKDDriver
 							dayInterval = new SKDDayInterval();
 							dayInterval.DayIntervalParts = new List<SKDDayIntervalPart>();
 							var emptySKDTimeIntervalPart = new SKDDayIntervalPart();
-							emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
-							emptySKDTimeIntervalPart.EndTime = new TimeSpan(23, 59, 59);
+							emptySKDTimeIntervalPart.StartMilliseconds = 0;
+							emptySKDTimeIntervalPart.EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds;
 							dayInterval.DayIntervalParts.Add(emptySKDTimeIntervalPart);
 						}
 
@@ -156,12 +156,12 @@ namespace ChinaSKDDriver
 							foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
 							{
 								var timeSheduleInterval = new TimeSheduleInterval();
-								timeSheduleInterval.BeginHours = dayIntervalPart.StartTime.Hours;
-								timeSheduleInterval.BeginMinutes = dayIntervalPart.StartTime.Minutes;
-								timeSheduleInterval.BeginSeconds = dayIntervalPart.StartTime.Seconds;
-								timeSheduleInterval.EndHours = dayIntervalPart.EndTime.Hours;
-								timeSheduleInterval.EndMinutes = dayIntervalPart.EndTime.Minutes;
-								timeSheduleInterval.EndSeconds = dayIntervalPart.EndTime.Seconds;
+								timeSheduleInterval.BeginHours = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Hours;
+								timeSheduleInterval.BeginMinutes = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Minutes;
+								timeSheduleInterval.BeginSeconds = TimeSpan.FromMilliseconds(dayIntervalPart.StartMilliseconds).Seconds;
+								timeSheduleInterval.EndHours = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Hours;
+								timeSheduleInterval.EndMinutes = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Minutes;
+								timeSheduleInterval.EndSeconds = TimeSpan.FromMilliseconds(dayIntervalPart.EndMilliseconds).Seconds;
 
 								timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 							}

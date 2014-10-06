@@ -19,18 +19,19 @@ namespace AutomationModule.ViewModels
 
 		public VariablesViewModel(Procedure procedure)
 		{
-			Procedure = procedure;
-			Variables = new ObservableCollection<VariableViewModel>();
+			RegisterShortcuts();
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Menu = new VariablesMenuViewModel(this);
+			Procedure = procedure;
+
+			Variables = new ObservableCollection<VariableViewModel>();
 			foreach (var variable in procedure.Variables)
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
 			}
-			RegisterShortcuts();
-			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
 		VariableViewModel _selectedVariable;
@@ -90,6 +91,8 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);
+				//PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variableDetailsViewModel.Variable.DefaultExplicitValue, SelectedVariable.Variable.DefaultExplicitValue);
+				//SelectedVariable.Variable.ExplicitValues = new List<ExplicitValue>(SelectedVariable.Variable.DefaultExplicitValues);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
@@ -113,18 +116,5 @@ namespace AutomationModule.ViewModels
 				SelectedVariable = Variables.FirstOrDefault(item => item.Variable.Uid == variableUid);
 			}
 		}
-
-		//private void SubscribeEvents()
-		//{
-		//    ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-		//    ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
-		//    ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
-		//    ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-
-		//    ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-		//    ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
-		//    ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-		//    ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-		//}
 	}
 }

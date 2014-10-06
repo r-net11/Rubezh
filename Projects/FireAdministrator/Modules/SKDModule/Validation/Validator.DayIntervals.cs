@@ -18,21 +18,21 @@ namespace SKDModule.Validation
 				if (dayInterval.DayIntervalParts.Count == 0)
 					Errors.Add(new DayIntervalValidationError(dayInterval, "Отсутствуют составляющие части дневного графика", ValidationErrorLevel.CannotWrite));
 				foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
-					if (dayIntervalPart.EndTime < dayIntervalPart.StartTime)
+					if (dayIntervalPart.EndMilliseconds < dayIntervalPart.StartMilliseconds)
 					{
 						Errors.Add(new DayIntervalValidationError(dayInterval, "Начало интервала меньше конца интервала", ValidationErrorLevel.CannotWrite));
 						break;
 					}
 
-				var currentDateTime = DateTime.MinValue.TimeOfDay;
+				var currentDateTime = DateTime.MinValue.TimeOfDay.TotalMilliseconds;
 				foreach (var dayIntervalPart in dayInterval.DayIntervalParts)
 				{
-					if (dayIntervalPart.StartTime < currentDateTime)
+					if (dayIntervalPart.StartMilliseconds < currentDateTime)
 					{
 						Errors.Add(new DayIntervalValidationError(dayInterval, "Последовательность интервалов не должна быть пересекающейся", ValidationErrorLevel.CannotWrite));
 						break;
 					}
-					currentDateTime = dayIntervalPart.EndTime;
+					currentDateTime = dayIntervalPart.EndMilliseconds;
 				}
 			}
 		}

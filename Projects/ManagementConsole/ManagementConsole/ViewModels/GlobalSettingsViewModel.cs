@@ -16,7 +16,6 @@ namespace ManagementConsole
 			Login = GlobalSettingsHelper.GlobalSettings.Login;
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
-			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
@@ -198,17 +197,6 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _isGKAsAService;
-		public bool IsGKAsAService
-		{
-			get { return _isGKAsAService; }
-			set
-			{
-				_isGKAsAService = value;
-				OnPropertyChanged("IsGKAsAService");
-			}
-		}
-
 		bool _useHasp;
 		public bool UseHasp
 		{
@@ -248,7 +236,6 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.FS_Login = FS_Login;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 
-			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
 			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 
 			GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();

@@ -1,5 +1,7 @@
 ﻿using FiresecAPI.SKD;
+using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -7,15 +9,31 @@ namespace SKDModule.ViewModels
 	{
 		public SKDDayInterval DayInterval { get; private set; }
 
-		public DayIntervalDetailsViewModel(SKDDayInterval dayInterval)
+		public DayIntervalDetailsViewModel(SKDDayInterval dayInterval = null)
 		{
-			Title = "Редактирование дневного графика";
-			DayInterval = dayInterval;
+			if (dayInterval == null)
+			{
+				Title = "Создание нового дневного графика";
+				DayInterval = new SKDDayInterval()
+				{
+					Name = "Новый дневной график",
+				};
+			}
+			else
+			{
+				Title = string.Format("Свойства дневного графика: {0}", dayInterval.Name);
+				DayInterval = dayInterval;
+			}
+			CopyProperties();
+		}
+
+		public void CopyProperties()
+		{
 			Name = DayInterval.Name;
 			Description = DayInterval.Description;
 		}
 
-		private string _name;
+		string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -26,7 +44,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }
@@ -44,6 +62,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (Name == "<Никогда>" || Name == "<Всегда>")
+			{
+				MessageBoxService.ShowWarning("Запрещенное назваине");
+				return false;
+			}
 			DayInterval.Name = Name;
 			DayInterval.Description = Description;
 			return true;

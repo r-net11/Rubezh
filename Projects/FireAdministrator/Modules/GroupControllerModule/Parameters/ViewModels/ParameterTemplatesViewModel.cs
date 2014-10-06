@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 		{
 			Invalidate();
 			ParameterTemplates = new ObservableCollection<ParameterTemplateViewModel>();
-			foreach (var parameterTemplate in XManager.ParameterTemplates)
+			foreach (var parameterTemplate in GKManager.ParameterTemplates)
 			{
 				var parameterTemplateViewModel = new ParameterTemplateViewModel(parameterTemplate);
 				ParameterTemplates.Add(parameterTemplateViewModel);
@@ -61,13 +61,13 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var maxNo = XManager.ParameterTemplates.Max(x => x.No);
-			var parameterTemplate = new XParameterTemplate()
+			var maxNo = GKManager.ParameterTemplates.Max(x => x.No);
+			var parameterTemplate = new GKParameterTemplate()
 			{
 				Name = "Шаблон " + (maxNo + 1).ToString(),
 				No = maxNo + 1
 			};
-			XManager.ParameterTemplates.Add(parameterTemplate);
+			GKManager.ParameterTemplates.Add(parameterTemplate);
 			Invalidate();
 			var parameterTemplateViewModel = new ParameterTemplateViewModel(parameterTemplate);
 			ParameterTemplates.Add(parameterTemplateViewModel);
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			XManager.ParameterTemplates.RemoveAll(x => x.UID == SelectedParameterTemplate.ParameterTemplate.UID);
+			GKManager.ParameterTemplates.RemoveAll(x => x.UID == SelectedParameterTemplate.ParameterTemplate.UID);
 			ParameterTemplates.Remove(SelectedParameterTemplate);
 			SelectedParameterTemplate = ParameterTemplates.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
@@ -91,33 +91,33 @@ namespace GKModule.ViewModels
 
 		void Invalidate()
 		{
-			if (XManager.ParameterTemplates.Count == 0)
+			if (GKManager.ParameterTemplates.Count == 0)
 			{
-				var parameterTemplate = new XParameterTemplate()
+				var parameterTemplate = new GKParameterTemplate()
 				{
 					Name = "По умолчанию"
 				};
-				XManager.ParameterTemplates.Add(parameterTemplate);
+				GKManager.ParameterTemplates.Add(parameterTemplate);
 			}
 
-			foreach (var parameterTemplate in XManager.ParameterTemplates)
+			foreach (var parameterTemplate in GKManager.ParameterTemplates)
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					deviceParameterTemplate.XDevice.Driver = XManager.Drivers.FirstOrDefault(x => x.UID == deviceParameterTemplate.XDevice.DriverUID);
+					deviceParameterTemplate.GKDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.UID == deviceParameterTemplate.GKDevice.DriverUID);
 				}
-				parameterTemplate.DeviceParameterTemplates.RemoveAll(x => x.XDevice.Driver == null);
+				parameterTemplate.DeviceParameterTemplates.RemoveAll(x => x.GKDevice.Driver == null);
 
-				foreach (var driver in XManager.Drivers)
+				foreach (var driver in GKManager.Drivers)
 				{
-					if (driver.Properties.Any(x => x.IsAUParameter))
+					if (!driver.IsIgnored && driver.IsReal && driver.Properties.Any(x => x.IsAUParameter))
 					{
-						var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == driver.UID);
+						var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.GKDevice.DriverUID == driver.UID);
 						if (deviceParameterTemplate == null)
 						{
-							deviceParameterTemplate = new XDeviceParameterTemplate()
+							deviceParameterTemplate = new GKDeviceParameterTemplate()
 							{
-								XDevice = new XDevice()
+								GKDevice = new GKDevice()
 								{
 									DriverUID = driver.UID,
 									Driver = driver
@@ -126,27 +126,27 @@ namespace GKModule.ViewModels
 							parameterTemplate.DeviceParameterTemplates.Add(deviceParameterTemplate);
 						}
 
-						var properties = new List<XProperty>();
+						var properties = new List<GKProperty>();
 						foreach (var driverProperty in driver.Properties)
 						{
 							if (driverProperty.IsAUParameter)
 							{
-								var property = deviceParameterTemplate.XDevice.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+								var property = deviceParameterTemplate.GKDevice.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 								if (property == null || parameterTemplate.Name == "По умолчанию")
 								{
-									property = new XProperty()
+									property = new GKProperty()
 									{
 										Name = driverProperty.Name,
 										Value = driverProperty.Default,
 										DriverProperty = driverProperty
 									};
-									deviceParameterTemplate.XDevice.Properties.Add(property);
+									deviceParameterTemplate.GKDevice.Properties.Add(property);
 								}
 								property.DriverProperty = driverProperty;
 								properties.Add(property);
 							}
 						}
-						deviceParameterTemplate.XDevice.Properties = properties;
+						deviceParameterTemplate.GKDevice.Properties = properties;
 					}
 				}
 			}

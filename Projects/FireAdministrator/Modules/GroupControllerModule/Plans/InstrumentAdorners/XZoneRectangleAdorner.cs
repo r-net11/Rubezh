@@ -20,11 +20,11 @@ namespace GKModule.Plans.InstrumentAdorners
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementRectangleXZone();
+			var element = new ElementRectangleGKZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			GKPlanExtension.Instance.SetItem<XZone>(element);
+			GKPlanExtension.Instance.SetItem<GKZone>(element);
 			return element;
 		}
 	}

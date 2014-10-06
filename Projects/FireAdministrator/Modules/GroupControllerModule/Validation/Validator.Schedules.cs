@@ -12,7 +12,7 @@ namespace GKModule.Validation
 		{
 			ValidateScheduleNoEquality();
 
-			foreach (var schedule in XManager.DeviceConfiguration.Schedules)
+			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
 			{
 				ValidateSchedule(schedule);
 			}
@@ -21,14 +21,14 @@ namespace GKModule.Validation
 		void ValidateScheduleNoEquality()
 		{
 			var scheduleNos = new HashSet<int>();
-			foreach (var schedule in XManager.DeviceConfiguration.Schedules)
+			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
 			{
 				if (!scheduleNos.Add(schedule.No))
 					Errors.Add(new ScheduleValidationError(schedule, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateSchedule(XSchedule schedule)
+		void ValidateSchedule(GKSchedule schedule)
 		{
 		}
 	}

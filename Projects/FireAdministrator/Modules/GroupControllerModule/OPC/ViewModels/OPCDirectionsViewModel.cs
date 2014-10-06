@@ -10,7 +10,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Directions = new ObservableCollection<DirectionViewModel>();
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				var zoneViewModel = new DirectionViewModel(direction);
 				Directions.Add(zoneViewModel);

@@ -25,13 +25,13 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Охранная зона";
 			Zones = new ObservableCollection<GuardZoneViewModel>();
-			foreach (var zone in XManager.DeviceConfiguration.GuardZones)
+			foreach (var zone in GKManager.DeviceConfiguration.GuardZones)
 			{
 				var zoneViewModel = new GuardZoneViewModel(zone);
 				Zones.Add(zoneViewModel);
 			}
 			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == iElementZone.ZoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
 		}
 
 		public ObservableCollection<GuardZoneViewModel> Zones { get; private set; }
@@ -55,8 +55,8 @@ namespace GKModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
-				GKPlanExtension.Instance.Cache.BuildSafe<XGuardZone>();
-				GKPlanExtension.Instance.SetItem<XGuardZone>(IElementZone, createZoneEventArg.Zone.BaseUID);
+				GKPlanExtension.Instance.Cache.BuildSafe<GKGuardZone>();
+				GKPlanExtension.Instance.SetItem<GKGuardZone>(IElementZone, createZoneEventArg.Zone.UID);
 			}
 			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
@@ -66,7 +66,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXGuardZoneEvent>().Publish(SelectedZone.Zone.BaseUID);
+			ServiceFactory.Events.GetEvent<EditXGuardZoneEvent>().Publish(SelectedZone.Zone.UID);
 			SelectedZone.Update(SelectedZone.Zone);
 		}
 		private bool CanEdit()
@@ -77,7 +77,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			GKPlanExtension.Instance.SetItem<XGuardZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
+			GKPlanExtension.Instance.SetItem<GKGuardZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();
 		}
@@ -93,7 +93,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		private void Update(Guid zoneUID)
 		{
-			var zone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
+			var zone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
 				zone.Update();
 		}

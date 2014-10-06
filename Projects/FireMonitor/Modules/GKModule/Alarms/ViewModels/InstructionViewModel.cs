@@ -6,7 +6,7 @@ namespace GKModule.ViewModels
 {
 	public class InstructionViewModel : DialogViewModel
 	{
-		public InstructionViewModel(XDevice device, XZone zone, XDirection direction, XAlarmType alarmType)
+		public InstructionViewModel(GKDevice device, GKZone zone, GKDirection direction, GKAlarmType alarmType)
 		{
 			
 			AlarmType = alarmType;
@@ -18,19 +18,19 @@ namespace GKModule.ViewModels
 		}
 
 		public bool HasContent { get; private set; }
-		public XAlarmType AlarmType { get; private set; }
-		public XStateBit StateType { get; private set; }
-		public XInstruction Instruction { get; private set; }
+		public GKAlarmType AlarmType { get; private set; }
+		public GKStateBit StateType { get; private set; }
+		public GKInstruction Instruction { get; private set; }
 
-		XInstruction FindInstruction(XDevice device, XZone zone, XDirection direction)
+		GKInstruction FindInstruction(GKDevice device, GKZone zone, GKDirection direction)
 		{
-			var availableStateTypeInstructions = XManager.DeviceConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
+			var availableStateTypeInstructions = GKManager.DeviceConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
 
 			if (device != null)
 			{
 				foreach (var instruction in availableStateTypeInstructions)
 				{
-					if (instruction.Devices.Contains(device.BaseUID))
+					if (instruction.Devices.Contains(device.UID))
 					{
 						return instruction;
 					}
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var instruction in availableStateTypeInstructions)
 				{
-					if (instruction.ZoneUIDs.Contains(zone.BaseUID))
+					if (instruction.ZoneUIDs.Contains(zone.UID))
 					{
 						return instruction;
 					}
@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 				{
 					if (instruction.Directions == null)
 						break;
-					if (instruction.Directions.Contains(direction.BaseUID))
+					if (instruction.Directions.Contains(direction.UID))
 					{
 						return instruction;
 					}
@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 
 			foreach (var instruction in availableStateTypeInstructions)
 			{
-				if (instruction.InstructionType == XInstructionType.General)
+				if (instruction.InstructionType == GKInstructionType.General)
 				{
 					return instruction;
 				}

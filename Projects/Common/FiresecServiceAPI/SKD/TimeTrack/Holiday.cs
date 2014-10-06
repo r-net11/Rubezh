@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class Holiday : OrganisationElementBase, IOrganisationElement
+	public class Holiday : OrganisationElementBase, IOrganisationElement
 	{
 		public Holiday()
 		{
@@ -26,10 +26,10 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public TimeSpan Reduction { get; set; }
 
-        public string Description 
-        { 
-            get { return ""; }
-            set { return; }
-        }
+		public string Description 
+		{ 
+			get { return ""; }
+			set { return; }
+		}
 	}
 }
