@@ -256,6 +256,10 @@ namespace FiresecService.Processor
 					ProcedureHelper.GetListCount(procedureStep);
 					break;
 
+				case ProcedureStepType.GetListItem:
+					ProcedureHelper.GetListItem(procedureStep);
+					break;
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 

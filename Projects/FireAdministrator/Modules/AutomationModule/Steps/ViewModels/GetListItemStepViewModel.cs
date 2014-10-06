@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 			ListArgument = new ArgumentViewModel(GetListItemArgument.ListArgument, stepViewModel.Update, false);
 			ListArgument.UpdateVariableHandler += UpdateItemVariable;
 			ItemArgument = new ArgumentViewModel(GetListItemArgument.ItemArgument, stepViewModel.Update, false);
-			IndexArgument = new ArgumentViewModel(GetListItemArgument.IndexArgument, stepViewModel.Update, false);
+			IndexArgument = new ArgumentViewModel(GetListItemArgument.IndexArgument, stepViewModel.Update);
 			IndexArgument.ExplicitType = ExplicitType.Integer;
 			PositionTypes = ProcedureHelper.GetEnumObs<PositionType>();
 		}
@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		void UpdateItemVariable()
 		{
-			IndexArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListArgument.SelectedVariable.Variable.ExplicitType
+			ItemArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListArgument.SelectedVariable.Variable.ExplicitType
 				&& x.ObjectType == ListArgument.SelectedVariable.Variable.ObjectType && x.EnumType == ListArgument.SelectedVariable.Variable.EnumType));
 		}
 
@@ -49,7 +49,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + "Элемент: " + ItemArgument.Description + "Позиция: " + SelectedPositionType.ToDescription();
+				return "Список: " + ListArgument.Description + "Элемент: " + ItemArgument.Description + "Позиция: " + SelectedPositionType.ToDescription() + (SelectedPositionType == PositionType.ByIndex ? "  [" + IndexArgument.Description + "]" : "");
 			}
 		}
 	}

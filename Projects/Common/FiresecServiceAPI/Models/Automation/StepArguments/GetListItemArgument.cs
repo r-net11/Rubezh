@@ -31,7 +31,7 @@ namespace FiresecAPI.Automation
 		[Description("Первый")]
 		First,
 
-		[Description("Первый")]
+		[Description("Последний")]
 		Last,
 
 		[Description("По индексу")]

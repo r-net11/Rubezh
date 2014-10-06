@@ -570,6 +570,26 @@ namespace FiresecService.Processor
 				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
 		}
 
+		public static void GetListItem(ProcedureStep procedureStep)
+		{
+			var getListItemArgument = procedureStep.GetListItemArgument;
+			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
+			var itemVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
+			if ((itemVariable != null) && (listVariable != null))
+			{
+				if(getListItemArgument.PositionType == PositionType.First)
+					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+				if (getListItemArgument.PositionType == PositionType.Last)
+					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
+				if (getListItemArgument.PositionType == PositionType.ByIndex)
+				{
+					var indexValue = GetValue<int>(getListItemArgument.IndexArgument);
+					if (listVariable.ExplicitValues.Count > indexValue)
+						SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues[indexValue], itemVariable.ExplicitType, itemVariable.EnumType));
+				}
+			}
+		}
+
 		static bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
 		{
 			if (explicitType == ExplicitType.Integer)

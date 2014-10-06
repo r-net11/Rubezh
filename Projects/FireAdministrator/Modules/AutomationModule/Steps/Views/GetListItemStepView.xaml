@@ -24,10 +24,10 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<StackPanel Orientation="Horizontal" Visibility="{Binding Path=SelectedPositionType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:PositionType.ByIndex}}">
-				<Label Content="Индекс" />
-				<Views:ArgumentView DataContext="{Binding IndexArgument}" />
-			</StackPanel>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Visibility="{Binding Path=SelectedPositionType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:PositionType.ByIndex}}">
+			<Label Content="Индекс" />
+			<Views:ArgumentView DataContext="{Binding IndexArgument}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

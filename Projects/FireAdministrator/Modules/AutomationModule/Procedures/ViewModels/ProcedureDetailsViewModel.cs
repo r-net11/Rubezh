@@ -22,18 +22,6 @@ namespace AutomationModule.ViewModels
 			}
 			Name = Procedure.Name;
 			Description = Procedure.Description;
-			IsActive = Procedure.IsActive;
-		}
-
-		bool _isActive;
-		public bool IsActive
-		{
-			get { return _isActive; }
-			set
-			{
-				_isActive = value;
-				OnPropertyChanged(() => IsActive);
-			}
 		}
 
 		string _name;
@@ -65,7 +53,6 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			Procedure.IsActive = IsActive;
 			Procedure.Name = Name;
 			Procedure.Description = Description;
 			return true;
