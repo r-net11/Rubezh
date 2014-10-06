@@ -11,6 +11,7 @@ using FiresecClient;
 using System;
 using System.Threading;
 using System.Windows.Threading;
+using System.Windows.Controls;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {
@@ -95,6 +96,28 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => Message);
 			}
 		}
+		private int _messageFontSize;
+		public int MessageFontSize
+		{
+			get { return _messageFontSize; }
+			set
+			{
+				_messageFontSize = value;
+				OnPropertyChanged(() => MessageFontSize);
+			}
+		}
+		private FontWeight _messageFontWeight;
+		public FontWeight MessageFontWeight
+		{
+			get { return _messageFontWeight; }
+			set
+			{
+				_messageFontWeight = value;
+				OnPropertyChanged(() => MessageFontWeight);
+			}
+		}
+		
+		
 
 		public bool PerformLogin(string login, string password)
 		{
@@ -107,12 +130,12 @@ namespace Infrastructure.Client.Startup.ViewModels
 			_sync = null;
 			return IsConnected;
 		}
-		public void ShowLoading(string title, int stepCount)
+		public void ShowLoading(string text, int stepCount)
 		{
 			Dispatcher.BeginInvoke((Action)(() =>
 			{
 				ShowButtons = false;
-				_startupLoadingViewModel.Title = title;
+				_startupLoadingViewModel.Text = text;
 				_startupLoadingViewModel.StepCount = stepCount;
 				Content = _startupLoadingViewModel;
 				OnPropertyChanged(() => Content);
@@ -159,6 +182,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 		{
 			IsUIEnabled = false;
 			Message = GetConnectingMessage();
+			MessageFontSize = 14;
+			MessageFontWeight = FontWeights.Black;
 			OnPropertyChanged(() => Content);
 			ApplicationService.DoEvents(Dispatcher);
 			var result = FiresecManager.Connect(_clientType, ConnectionSettingsManager.ServerAddress, _startupLoginViewModel.UserName, _startupLoginViewModel.Password);
@@ -170,6 +195,8 @@ namespace Infrastructure.Client.Startup.ViewModels
 			else
 			{
 				Message = result;
+				MessageFontSize = 12;
+				MessageFontWeight = FontWeights.Regular;
 				IsUIEnabled = true;
 			}
 		}

@@ -58,7 +58,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				else
 					CancelText = "Закрыть";
 
-				_canCancel = true;
+				_canCancel = value;
 				OnPropertyChanged("CanCancel");
 			}
 		}

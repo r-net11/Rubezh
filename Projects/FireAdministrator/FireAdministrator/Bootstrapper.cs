@@ -28,9 +28,10 @@ namespace FireAdministrator
 			{
 				try
 				{
+					ServiceFactory.StartupService.ShowLoading("Загрузка модулей", 5);
 					CreateModules();
 
-					ServiceFactory.StartupService.ShowLoading("Чтение конфигурации", 4);
+					ServiceFactory.StartupService.DoStep("Чтение конфигурации");
 					ServiceFactory.StartupService.AddCount(GetModuleCount() + 6);
 
 					ServiceFactory.StartupService.DoStep("Синхронизация файлов");

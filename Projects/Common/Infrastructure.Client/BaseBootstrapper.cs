@@ -141,8 +141,8 @@ namespace Infrastructure.Client
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
 					if (Application.Current != null)
 						Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					StartupService.Instance.Close();
 					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
+					StartupService.Instance.Close();
 					ApplicationService.ShutDown();
 					return false;
 				}

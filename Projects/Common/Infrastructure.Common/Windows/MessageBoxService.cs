@@ -66,19 +66,31 @@ namespace Infrastructure.Common.Windows
 			return ShowWindow(title, e.Message + "\n" + e.StackTrace, MessageBoxButton.OK, MessageBoxImage.Error, true);
 		}
 
-		static void Show(MessageBoxViewModel viewModel, bool isModal = true)
+		public static void SetMessageBoxHandler(Action<MessageBoxViewModel, bool> handler)
+		{
+			_messageBoxHandler = handler;
+		}
+		public static void ResetMessageBoxHandler()
+		{
+			_messageBoxHandler = null;
+		}
+
+		private static Action<MessageBoxViewModel, bool> _messageBoxHandler;
+		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true)
+		{
+			var viewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException);
+			if (_messageBoxHandler == null)
+				Show(viewModel, isModal);
+			else
+				_messageBoxHandler(viewModel, isModal);
+			return viewModel.Result;
+		}
+		private static void Show(MessageBoxViewModel viewModel, bool isModal = true)
 		{
 			if (isModal)
 				DialogService.ShowModalWindow(viewModel);
 			else
 				DialogService.ShowWindow(viewModel);
-		}
-
-		private static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false, bool isModal = true)
-		{
-			var viewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException);
-			Show(viewModel, isModal);
-			return viewModel.Result;
 		}
 	}
 }

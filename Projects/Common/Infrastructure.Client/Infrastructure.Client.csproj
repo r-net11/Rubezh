@@ -119,6 +119,7 @@
     <Compile Include="Startup\ViewModels\StartupHeaderViewModel.cs" />
     <Compile Include="Startup\ViewModels\StartupLoadingViewModel.cs" />
     <Compile Include="Startup\ViewModels\StartupLoginViewModel.cs" />
+    <Compile Include="Startup\ViewModels\StartupMessageBoxViewModel.cs" />
     <Compile Include="Startup\ViewModels\StartupSettingsViewModel.cs" />
     <Compile Include="Startup\ViewModels\StartupViewModel.cs" />
     <Compile Include="Startup\Views\StartupHeaderView.xaml.cs">

@@ -11,7 +11,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 	{
 		public StartupLoadingViewModel()
 		{
-			//AllowClose = false;
+			CanCancel = false;
 		}
 		protected override void OnCancel()
 		{

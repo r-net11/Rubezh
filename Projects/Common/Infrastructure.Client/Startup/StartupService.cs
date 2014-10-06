@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using System.Windows.Media;
 using System.IO;
 using System.Threading.Tasks;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Startup
 {
@@ -38,6 +39,7 @@ namespace Infrastructure.Client.Startup
 			IsActive = true;
 			//_splash = new SplashScreen(LogoResource);
 			//_splash.Show(false);
+			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 		}
 		public void Show()
 		{
@@ -54,6 +56,7 @@ namespace Infrastructure.Client.Startup
 			if (IsActive)
 			{
 				IsActive = false;
+				MessageBoxService.ResetMessageBoxHandler();
 				_viewModel.Dispatcher.BeginInvoke((Action)_viewModel.Close);
 			}
 		}
@@ -88,6 +91,15 @@ namespace Infrastructure.Client.Startup
 		{
 			_viewModel.AddCount(count);
 			ApplicationService.DoEvents();
+		}
+
+		internal Window OwnerWindow
+		{
+			get { return _viewModel.Surface; }
+		}
+		public void Invoke(Action action)
+		{
+			_viewModel.Dispatcher.Invoke(action);
 		}
 
 		private void InternalThreadEntryPoint(object parameter)
@@ -131,6 +143,36 @@ namespace Infrastructure.Client.Startup
 			encoder.Frames.Add(BitmapFrame.Create(bmp));
 			using (var stream = File.Create(filePath))
 				encoder.Save(stream);
+		}
+
+		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
+		{
+			StartupService.Instance.Invoke(() =>
+			{
+				var messageBoxImage = MessageBoxImage.None;
+				if (viewModel.IsInformationImageVisible)
+					messageBoxImage = MessageBoxImage.Information;
+				else if (viewModel.IsQuestionImageVisible)
+					messageBoxImage = MessageBoxImage.Question;
+				else if (viewModel.IsWarningImageVisible)
+					messageBoxImage = MessageBoxImage.Warning;
+				else if (viewModel.IsErrorImageVisible)
+					messageBoxImage = MessageBoxImage.Error;
+				var messageBoxButton = MessageBoxButton.OK;
+				if (viewModel.IsOkButtonVisible)
+				{
+					if (viewModel.IsCancelButtonVisible)
+						messageBoxButton = MessageBoxButton.OKCancel;
+				}
+				else
+					messageBoxButton = viewModel.IsCancelButtonVisible ? MessageBoxButton.YesNoCancel : MessageBoxButton.YesNo;
+				var startupMessageBoxViewModel = new StartupMessageBoxViewModel(viewModel.Title, viewModel.Message, messageBoxButton, messageBoxImage, viewModel.IsException);
+				if (isModal)
+					DialogService.ShowModalWindow(startupMessageBoxViewModel);
+				else
+					DialogService.ShowWindow(startupMessageBoxViewModel);
+				viewModel.Result = startupMessageBoxViewModel.Result;
+			});
 		}
 	}
 }
