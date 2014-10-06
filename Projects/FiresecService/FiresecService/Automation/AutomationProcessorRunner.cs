@@ -127,8 +127,8 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.Foreach:
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListParameter.VariableUid);
-					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemParameter.VariableUid);
+					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
+					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
 					if (listVariable != null)
 						foreach (var explicitValue in listVariable.ExplicitValues)
 						{

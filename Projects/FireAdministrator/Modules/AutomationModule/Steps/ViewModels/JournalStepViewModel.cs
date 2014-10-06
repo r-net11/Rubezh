@@ -1,9 +1,5 @@
-﻿using System;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
@@ -11,12 +7,12 @@ namespace AutomationModule.ViewModels
 	public class JournalStepViewModel : BaseStepViewModel
 	{
 		JournalArguments JournalArguments { get; set; }
-		public ArgumentViewModel MessageParameter { get; set; }
+		public ArgumentViewModel MessageArgument { get; set; }
 
 		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
-			MessageParameter = new ArgumentViewModel(JournalArguments.MessageParameter, stepViewModel.Update);
+			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 		}
@@ -50,21 +46,21 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allVariables = new List<Variable>();
+			List<Variable> allVariables;
 			if (ExplicitType == ExplicitType.Enum)
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList && x.EnumType == EnumType);
 			else
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
-			MessageParameter.Update(allVariables);
-			MessageParameter.ExplicitType = ExplicitType;
-			MessageParameter.EnumType = EnumType;
+			MessageArgument.Update(allVariables);
+			MessageArgument.ExplicitType = ExplicitType;
+			MessageArgument.EnumType = EnumType;
 		}
 
 		public override string Description
 		{
 			get 
 			{ 
-				return "Сообщение: " + MessageParameter.Description; 
+				return "Сообщение: " + MessageArgument.Description; 
 			}
 		}
 	}

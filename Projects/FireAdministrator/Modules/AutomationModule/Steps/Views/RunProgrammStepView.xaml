@@ -1,17 +1,15 @@
 ﻿<UserControl x:Class="AutomationModule.Views.RunProgrammStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<StackPanel>
 		<DockPanel Margin="2">
 			<Label Content="Путь к программе" Width="120" />
-			<Views:ArgumentView DataContext="{Binding PathParameter}" />
+			<Views:ArgumentView DataContext="{Binding PathArgument}" />
 		</DockPanel>
 		<DockPanel Margin="2">
 			<Label Content="Параметры запуска" Width="120" />
-			<Views:ArgumentView DataContext="{Binding ParametersParameter}" />
+			<Views:ArgumentView DataContext="{Binding ParametersArgument}" />
 		</DockPanel>
 	</StackPanel>
 </UserControl>

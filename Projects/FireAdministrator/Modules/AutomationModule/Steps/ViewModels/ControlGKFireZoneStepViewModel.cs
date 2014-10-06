@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels
@@ -14,15 +7,15 @@ namespace AutomationModule.ViewModels
 	public class ControlGKFireZoneStepViewModel: BaseStepViewModel
 	{
 		ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
-		public ArgumentViewModel GKFireZoneParameter { get; private set; }
+		public ArgumentViewModel GKFireZoneArgument { get; private set; }
 
 		public ControlGKFireZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGKFireZoneArguments = stepViewModel.Step.ControlGKFireZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<ZoneCommandType>();
-			GKFireZoneParameter = new ArgumentViewModel(ControlGKFireZoneArguments.GKFireZoneParameter, stepViewModel.Update);
-			GKFireZoneParameter.ObjectType = ObjectType.Zone;
-			GKFireZoneParameter.ExplicitType = ExplicitType.Object;
+			GKFireZoneArgument = new ArgumentViewModel(ControlGKFireZoneArguments.GKFireZoneArgument, stepViewModel.Update);
+			GKFireZoneArgument.ObjectType = ObjectType.Zone;
+			GKFireZoneArgument.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
 		}
 
@@ -42,14 +35,14 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			GKFireZoneParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.Zone, false));
+			GKFireZoneArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.Zone, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Зона: " + GKFireZoneParameter.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Зона: " + GKFireZoneArgument.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

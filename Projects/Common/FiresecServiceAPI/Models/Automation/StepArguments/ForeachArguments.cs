@@ -7,14 +7,14 @@ namespace FiresecAPI.Automation
 	{
 		public ForeachArguments()
 		{
-			ListParameter = new Argument();
-			ItemParameter = new Argument();
+			ListArgument = new Argument();
+			ItemArgument = new Argument();
 		}
 
 		[DataMember]
-		public Argument ListParameter { get; set; }
+		public Argument ListArgument { get; set; }
 
 		[DataMember]
-		public Argument ItemParameter { get; set; }
+		public Argument ItemArgument { get; set; }
 	}
 }

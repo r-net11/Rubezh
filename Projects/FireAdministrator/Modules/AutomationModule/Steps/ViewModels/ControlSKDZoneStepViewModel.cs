@@ -7,15 +7,15 @@ namespace AutomationModule.ViewModels
 	public class ControlSKDZoneStepViewModel: BaseStepViewModel
 	{
 		ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }
-		public ArgumentViewModel SKDZoneParameter { get; private set; }
+		public ArgumentViewModel SKDZoneArgument { get; private set; }
 
 		public ControlSKDZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlSKDZoneArguments = stepViewModel.Step.ControlSKDZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDZoneCommandType>();
-			SKDZoneParameter = new ArgumentViewModel(ControlSKDZoneArguments.SKDZoneParameter, stepViewModel.Update);
-			SKDZoneParameter.ObjectType = ObjectType.SKDZone;
-			SKDZoneParameter.ExplicitType = ExplicitType.Object;
+			SKDZoneArgument = new ArgumentViewModel(ControlSKDZoneArguments.SKDZoneArgument, stepViewModel.Update);
+			SKDZoneArgument.ObjectType = ObjectType.SKDZone;
+			SKDZoneArgument.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlSKDZoneArguments.SKDZoneCommandType;
 		}
 
@@ -34,14 +34,14 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			SKDZoneParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.SKDZone, false));
+			SKDZoneArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.SKDZone, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Зона: " + SKDZoneParameter.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Зона: " + SKDZoneArgument.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

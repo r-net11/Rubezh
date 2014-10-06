@@ -125,16 +125,16 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.ShowMessage:
 					{
 						var showMessageArguments = step.ShowMessageArguments;
-						InvalidateArgument(procedure, showMessageArguments.MessageParameter);
+						InvalidateArgument(procedure, showMessageArguments.MessageArgument);
 					}
 					break;
 
 				case ProcedureStepType.Arithmetics:
 					{
 						var arithmeticArguments = step.ArithmeticArguments;
-						InvalidateArgument(procedure, arithmeticArguments.Parameter1);
-						InvalidateArgument(procedure, arithmeticArguments.Parameter2);
-						InvalidateArgument(procedure, arithmeticArguments.ResultParameter);
+						InvalidateArgument(procedure, arithmeticArguments.Argument1);
+						InvalidateArgument(procedure, arithmeticArguments.Argument2);
+						InvalidateArgument(procedure, arithmeticArguments.ResultArgument);
 					}
 					break;
 
@@ -144,8 +144,8 @@ namespace FiresecAPI.Automation
 						var conditionArguments = step.ConditionArguments;
 						foreach (var condition in conditionArguments.Conditions)
 						{
-							InvalidateArgument(procedure, condition.Parameter1);
-							InvalidateArgument(procedure, condition.Parameter2);
+							InvalidateArgument(procedure, condition.Argument1);
+							InvalidateArgument(procedure, condition.Argument2);
 						}
 					}
 					break;
@@ -153,17 +153,17 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.AddJournalItem:
 					{
 						var journalArguments = step.JournalArguments;
-						InvalidateArgument(procedure, journalArguments.MessageParameter);
+						InvalidateArgument(procedure, journalArguments.MessageArgument);
 					}
 					break;
 
 				case ProcedureStepType.FindObjects:
 					{
 						var findObjectArguments = step.FindObjectArguments;
-						InvalidateArgument(procedure, findObjectArguments.ResultParameter);
+						InvalidateArgument(procedure, findObjectArguments.ResultArgument);
 						foreach (var findObjectCondition in findObjectArguments.FindObjectConditions)
 						{
-							InvalidateArgument(procedure, findObjectCondition.SourceParameter);
+							InvalidateArgument(procedure, findObjectCondition.SourceArgument);
 						}
 					}
 					break;
@@ -171,8 +171,8 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.Foreach:
 					{
 						var foreachArguments = step.ForeachArguments;
-						InvalidateArgument(procedure, foreachArguments.ItemParameter);
-						InvalidateArgument(procedure, foreachArguments.ListParameter);
+						InvalidateArgument(procedure, foreachArguments.ItemArgument);
+						InvalidateArgument(procedure, foreachArguments.ListArgument);
 					}
 					break;
 
@@ -189,7 +189,7 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.Pause:
 					{
 						var pauseArguments = step.PauseArguments;
-						InvalidateArgument(procedure, pauseArguments.PauseParameter);
+						InvalidateArgument(procedure, pauseArguments.PauseArgument);
 					}
 					break;
 
@@ -206,114 +206,114 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.Exit:
 					{
 						var exitArguments = step.ExitArguments;
-						InvalidateArgument(procedure, exitArguments.ExitCodeParameter);
+						InvalidateArgument(procedure, exitArguments.ExitCodeArgument);
 					}
 					break;
 
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;
-						InvalidateArgument(procedure, setValueArguments.SourceParameter);
-						InvalidateArgument(procedure, setValueArguments.TargetParameter);
+						InvalidateArgument(procedure, setValueArguments.SourceArgument);
+						InvalidateArgument(procedure, setValueArguments.TargetArgument);
 					}
 					break;
 
 				case ProcedureStepType.IncrementValue:
 					{
 						var incrementValueArguments = step.IncrementValueArguments;
-						InvalidateArgument(procedure, incrementValueArguments.ResultParameter);
+						InvalidateArgument(procedure, incrementValueArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
 					{
 						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
-						InvalidateArgument(procedure, controlGKDeviceArguments.GKDeviceParameter);
+						InvalidateArgument(procedure, controlGKDeviceArguments.GKDeviceArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
 					{
 						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;
-						InvalidateArgument(procedure, controlSKDDeviceArguments.SKDDeviceParameter);
+						InvalidateArgument(procedure, controlSKDDeviceArguments.SKDDeviceArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
 					{
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
-						InvalidateArgument(procedure, controlGKFireZoneArguments.GKFireZoneParameter);
+						InvalidateArgument(procedure, controlGKFireZoneArguments.GKFireZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
 					{
 						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
-						InvalidateArgument(procedure, controlGKGuardZoneArguments.GKGuardZoneParameter);
+						InvalidateArgument(procedure, controlGKGuardZoneArguments.GKGuardZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlDirection:
 					{
 						var controlDirectionArguments = step.ControlDirectionArguments;
-						InvalidateArgument(procedure, controlDirectionArguments.DirectionParameter);
+						InvalidateArgument(procedure, controlDirectionArguments.DirectionArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlDoor:
 					{
 						var controlDoorArguments = step.ControlDoorArguments;
-						InvalidateArgument(procedure, controlDoorArguments.DoorParameter);
+						InvalidateArgument(procedure, controlDoorArguments.DoorArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
 					{
 						var controlSKDZoneArguments = step.ControlSKDZoneArguments;
-						InvalidateArgument(procedure, controlSKDZoneArguments.SKDZoneParameter);
+						InvalidateArgument(procedure, controlSKDZoneArguments.SKDZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlCamera:
 					{
 						var controlCameraArguments = step.ControlCameraArguments;
-						InvalidateArgument(procedure, controlCameraArguments.CameraParameter);
+						InvalidateArgument(procedure, controlCameraArguments.CameraArgument);
 					}
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
 					{
 						var getObjectPropertyArguments = step.GetObjectPropertyArguments;
-						InvalidateArgument(procedure, getObjectPropertyArguments.ObjectParameter);
-						InvalidateArgument(procedure, getObjectPropertyArguments.ResultParameter);
+						InvalidateArgument(procedure, getObjectPropertyArguments.ObjectArgument);
+						InvalidateArgument(procedure, getObjectPropertyArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.SendEmail:
 					{
 						var sendEmailArguments = step.SendEmailArguments;
-						InvalidateArgument(procedure, sendEmailArguments.EMailAddressParameter);
-						InvalidateArgument(procedure, sendEmailArguments.EMailContentParameter);
-						InvalidateArgument(procedure, sendEmailArguments.EMailTitleParameter);
-						InvalidateArgument(procedure, sendEmailArguments.HostParameter);
-						InvalidateArgument(procedure, sendEmailArguments.LoginParameter);
-						InvalidateArgument(procedure, sendEmailArguments.PasswordParameter);
-						InvalidateArgument(procedure, sendEmailArguments.PortParameter);
+						InvalidateArgument(procedure, sendEmailArguments.EMailAddressArgument);
+						InvalidateArgument(procedure, sendEmailArguments.EMailContentArgument);
+						InvalidateArgument(procedure, sendEmailArguments.EMailTitleArgument);
+						InvalidateArgument(procedure, sendEmailArguments.HostArgument);
+						InvalidateArgument(procedure, sendEmailArguments.LoginArgument);
+						InvalidateArgument(procedure, sendEmailArguments.PasswordArgument);
+						InvalidateArgument(procedure, sendEmailArguments.PortArgument);
 					}
 					break;
 
 				case ProcedureStepType.RunProgramm:
 					{
 						var runProgrammArguments = step.RunProgrammArguments;
-						InvalidateArgument(procedure, runProgrammArguments.ParametersParameter);
-						InvalidateArgument(procedure, runProgrammArguments.PathParameter);
+						InvalidateArgument(procedure, runProgrammArguments.ParametersArgument);
+						InvalidateArgument(procedure, runProgrammArguments.PathArgument);
 					}
 					break;
 
 				case ProcedureStepType.Random:
 					{
 						var randomArguments = step.RandomArguments;
-						InvalidateArgument(procedure, randomArguments.MaxValueParameter);
+						InvalidateArgument(procedure, randomArguments.MaxValueArgument);
 					}
 					break;
 

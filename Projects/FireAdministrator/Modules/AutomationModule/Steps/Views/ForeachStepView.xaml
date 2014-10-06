@@ -9,11 +9,11 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Список" />
-			<Views:ArgumentView DataContext="{Binding ListParameter}" />
+			<Views:ArgumentView DataContext="{Binding ListArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Элемент" />
-			<Views:ArgumentView DataContext="{Binding ItemParameter}" />
+			<Views:ArgumentView DataContext="{Binding ItemArgument}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

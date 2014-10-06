@@ -56,18 +56,18 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.ShowMessage:
 					{
 						var showMessageArguments = step.ShowMessageArguments;
-						ValidateArgument(step, showMessageArguments.MessageParameter);
+						ValidateArgument(step, showMessageArguments.MessageArgument);
 					}
 					break;
 
 				case ProcedureStepType.Arithmetics:
 					{
 						var arithmeticArguments = step.ArithmeticArguments;
-						if (!ValidateArgument(step, arithmeticArguments.Parameter1))
+						if (!ValidateArgument(step, arithmeticArguments.Argument1))
 							break;
-						if (!ValidateArgument(step, arithmeticArguments.Parameter2))
+						if (!ValidateArgument(step, arithmeticArguments.Argument2))
 							break;
-						ValidateArgument(step, arithmeticArguments.ResultParameter);
+						ValidateArgument(step, arithmeticArguments.ResultArgument);
 					}
 					break;
 
@@ -77,9 +77,9 @@ namespace AutomationModule.Validation
 						var conditionArguments = step.ConditionArguments;
 						foreach (var condition in conditionArguments.Conditions)
 						{
-							if (!ValidateArgument(step, condition.Parameter1))
+							if (!ValidateArgument(step, condition.Argument1))
 								break;
-							ValidateArgument(step, condition.Parameter2);
+							ValidateArgument(step, condition.Argument2);
 						}
 					}
 					break;
@@ -87,18 +87,18 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.AddJournalItem:
 					{
 						var journalArguments = step.JournalArguments;
-						ValidateArgument(step, journalArguments.MessageParameter);
+						ValidateArgument(step, journalArguments.MessageArgument);
 					}
 					break;
 
 				case ProcedureStepType.FindObjects:
 					{
 						var findObjectArguments = step.FindObjectArguments;
-						if (!ValidateArgument(step, findObjectArguments.ResultParameter))
+						if (!ValidateArgument(step, findObjectArguments.ResultArgument))
 							break;
 						foreach (var findObjectCondition in findObjectArguments.FindObjectConditions)
 						{
-							if (!ValidateArgument(step, findObjectCondition.SourceParameter))
+							if (!ValidateArgument(step, findObjectCondition.SourceArgument))
 								break;
 						}
 					}
@@ -107,9 +107,9 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.Foreach:
 					{
 						var foreachArguments = step.ForeachArguments;
-						if (!ValidateArgument(step, foreachArguments.ItemParameter))
+						if (!ValidateArgument(step, foreachArguments.ItemArgument))
 							break;
-						ValidateArgument(step, foreachArguments.ListParameter);
+						ValidateArgument(step, foreachArguments.ListArgument);
 					}
 					break;
 
@@ -129,7 +129,7 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.Pause:
 					{
 						var pauseArguments = step.PauseArguments;
-						ValidateArgument(step, pauseArguments.PauseParameter);
+						ValidateArgument(step, pauseArguments.PauseArgument);
 					}
 					break;
 
@@ -146,123 +146,123 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.Exit:
 					{
 						var exitArguments = step.ExitArguments;
-						ValidateArgument(step, exitArguments.ExitCodeParameter);
+						ValidateArgument(step, exitArguments.ExitCodeArgument);
 					}
 					break;
 
 				case ProcedureStepType.SetValue:
 					{
 						var setValueArguments = step.SetValueArguments;
-						if (!ValidateArgument(step, setValueArguments.SourceParameter))
+						if (!ValidateArgument(step, setValueArguments.SourceArgument))
 							break;
-						ValidateArgument(step, setValueArguments.TargetParameter);
+						ValidateArgument(step, setValueArguments.TargetArgument);
 					}
 					break;
 
 				case ProcedureStepType.IncrementValue:
 					{
 						var incrementValueArguments = step.IncrementValueArguments;
-						ValidateArgument(step, incrementValueArguments.ResultParameter);
+						ValidateArgument(step, incrementValueArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
 					{
 						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
-						ValidateArgument(step, controlGKDeviceArguments.GKDeviceParameter);
+						ValidateArgument(step, controlGKDeviceArguments.GKDeviceArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
 					{
 						var controlSKDDeviceArguments = step.ControlSKDDeviceArguments;
-						ValidateArgument(step, controlSKDDeviceArguments.SKDDeviceParameter);
+						ValidateArgument(step, controlSKDDeviceArguments.SKDDeviceArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
 					{
 						var controlGKFireZoneArguments = step.ControlGKFireZoneArguments;
-						ValidateArgument(step, controlGKFireZoneArguments.GKFireZoneParameter);
+						ValidateArgument(step, controlGKFireZoneArguments.GKFireZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
 					{
 						var controlGKGuardZoneArguments = step.ControlGKGuardZoneArguments;
-						ValidateArgument(step, controlGKGuardZoneArguments.GKGuardZoneParameter);
+						ValidateArgument(step, controlGKGuardZoneArguments.GKGuardZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlDirection:
 					{
 						var controlDirectionArguments = step.ControlDirectionArguments;
-						ValidateArgument(step, controlDirectionArguments.DirectionParameter);
+						ValidateArgument(step, controlDirectionArguments.DirectionArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlDoor:
 					{
 						var controlDoorArguments = step.ControlDoorArguments;
-						ValidateArgument(step, controlDoorArguments.DoorParameter);
+						ValidateArgument(step, controlDoorArguments.DoorArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
 					{
 						var controlSKDZoneArguments = step.ControlSKDZoneArguments;
-						ValidateArgument(step, controlSKDZoneArguments.SKDZoneParameter);
+						ValidateArgument(step, controlSKDZoneArguments.SKDZoneArgument);
 					}
 					break;
 
 				case ProcedureStepType.ControlCamera:
 					{
 						var controlCameraArguments = step.ControlCameraArguments;
-						ValidateArgument(step, controlCameraArguments.CameraParameter);
+						ValidateArgument(step, controlCameraArguments.CameraArgument);
 					}
 					break;
 
 				case ProcedureStepType.GetObjectProperty:
 					{
 						var getObjectPropertyArguments = step.GetObjectPropertyArguments;
-						if (!ValidateArgument(step, getObjectPropertyArguments.ObjectParameter))
+						if (!ValidateArgument(step, getObjectPropertyArguments.ObjectArgument))
 							break;
-						ValidateArgument(step, getObjectPropertyArguments.ResultParameter);
+						ValidateArgument(step, getObjectPropertyArguments.ResultArgument);
 					}
 					break;
 
 				case ProcedureStepType.SendEmail:
 					{
 						var sendEmailArguments = step.SendEmailArguments;
-						if (!ValidateArgument(step, sendEmailArguments.EMailAddressParameter))
+						if (!ValidateArgument(step, sendEmailArguments.EMailAddressArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.EMailContentParameter))
+						if (!ValidateArgument(step, sendEmailArguments.EMailContentArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.EMailTitleParameter))
+						if (!ValidateArgument(step, sendEmailArguments.EMailTitleArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.HostParameter))
+						if (!ValidateArgument(step, sendEmailArguments.HostArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.LoginParameter))
+						if (!ValidateArgument(step, sendEmailArguments.LoginArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.PasswordParameter))
+						if (!ValidateArgument(step, sendEmailArguments.PasswordArgument))
 							break;
-						ValidateArgument(step, sendEmailArguments.PortParameter);
+						ValidateArgument(step, sendEmailArguments.PortArgument);
 					}
 					break;
 
 				case ProcedureStepType.RunProgramm:
 					{
 						var runProgrammArguments = step.RunProgrammArguments;
-						if (!ValidateArgument(step, runProgrammArguments.ParametersParameter))
+						if (!ValidateArgument(step, runProgrammArguments.ParametersArgument))
 							break;
-						ValidateArgument(step, runProgrammArguments.PathParameter);
+						ValidateArgument(step, runProgrammArguments.PathArgument);
 					}
 					break;
 
 				case ProcedureStepType.Random:
 					{
 						var randomArguments = step.RandomArguments;
-						ValidateArgument(step, randomArguments.MaxValueParameter);
+						ValidateArgument(step, randomArguments.MaxValueArgument);
 					}
 					break;
 				case ProcedureStepType.ChangeList:

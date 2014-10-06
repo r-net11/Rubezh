@@ -13,9 +13,9 @@
 		<StackPanel Grid.Row="0">
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Результат: " HorizontalAlignment="Right" VerticalAlignment="Center"/>
-				<Views:ArgumentView DataContext="{Binding ResultParameter}" />
+				<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 			</StackPanel>
-			<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
+			<StackPanel Orientation="Horizontal" Visibility="{Binding ResultArgument.SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
 				<Label Content="Условия поиска: " HorizontalAlignment="Right" VerticalAlignment="Center"/>
 				<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
 				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}"
@@ -53,7 +53,7 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<Views:ArgumentView DataContext="{Binding SourceParameter}" />
+							<Views:ArgumentView DataContext="{Binding SourceArgument}" />
 						</StackPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ControlGKDeviceStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
@@ -9,7 +8,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Устройство" />
-			<Views:ArgumentView DataContext="{Binding GKDeviceParameter}" />
+			<Views:ArgumentView DataContext="{Binding GKDeviceArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

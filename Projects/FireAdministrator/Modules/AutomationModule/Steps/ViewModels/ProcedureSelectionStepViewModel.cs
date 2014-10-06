@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.Uid != Procedure.Uid))
 			{
-				var scheduleProcedure = new ScheduleProcedure() { ProcedureUid = procedure.Uid };
+				var scheduleProcedure = new ScheduleProcedure { ProcedureUid = procedure.Uid };
 				if (procedure.Uid == ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid)
 					scheduleProcedure = ProcedureSelectionArguments.ScheduleProcedure;
 				ScheduleProcedures.Add(new ScheduleProcedureViewModel(scheduleProcedure, Procedure));

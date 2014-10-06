@@ -2,7 +2,6 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
@@ -28,7 +27,7 @@
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Сообщение: " />
-			<Views:ArgumentView DataContext="{Binding MessageParameter}" />
+			<Views:ArgumentView DataContext="{Binding MessageArgument}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

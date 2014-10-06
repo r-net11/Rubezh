@@ -7,11 +7,11 @@ namespace FiresecAPI.Automation
 	{
 		public JournalArguments()
 		{
-			MessageParameter = new Argument();
+			MessageArgument = new Argument();
 		}
 
 		[DataMember]
-		public Argument MessageParameter { get; set; }
+		public Argument MessageArgument { get; set; }
 
 		[DataMember]
 		public ExplicitType ExplicitType { get; set; }

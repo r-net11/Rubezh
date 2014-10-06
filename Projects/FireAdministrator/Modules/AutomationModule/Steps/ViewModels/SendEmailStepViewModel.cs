@@ -1,58 +1,53 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Automation;
-using System;
-using System.Collections.ObjectModel;
-using Infrastructure;
-using System.Linq;
+﻿using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
 	public class SendEmailStepViewModel : BaseStepViewModel
 	{
 		SendEmailArguments SendEmailArguments { get; set; }
-		public ArgumentViewModel EMailAddressParameter { get; private set; }
-		public ArgumentViewModel EMailTitleParameter { get; private set; }
-		public ArgumentViewModel EMailContentParameter { get; private set; }
-		public ArgumentViewModel HostParameter { get; private set; }
-		public ArgumentViewModel PortParameter { get; private set; }
-		public ArgumentViewModel LoginParameter { get; private set; }
-		public ArgumentViewModel PasswordParameter { get; private set; }
+		public ArgumentViewModel EMailAddressArgument { get; private set; }
+		public ArgumentViewModel EMailTitleArgument { get; private set; }
+		public ArgumentViewModel EMailContentArgument { get; private set; }
+		public ArgumentViewModel HostArgument { get; private set; }
+		public ArgumentViewModel PortArgument { get; private set; }
+		public ArgumentViewModel LoginArgument { get; private set; }
+		public ArgumentViewModel PasswordArgument { get; private set; }
 
 		public SendEmailStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SendEmailArguments = stepViewModel.Step.SendEmailArguments;
-			EMailAddressParameter = new ArgumentViewModel(SendEmailArguments.EMailAddressParameter, stepViewModel.Update);
-			EMailAddressParameter.ExplicitType = ExplicitType.String;
-			EMailTitleParameter = new ArgumentViewModel(SendEmailArguments.EMailTitleParameter, stepViewModel.Update);
-			EMailTitleParameter.ExplicitType = ExplicitType.String;
-			EMailContentParameter = new ArgumentViewModel(SendEmailArguments.EMailContentParameter, stepViewModel.Update);
-			EMailContentParameter.ExplicitType = ExplicitType.String;
-			HostParameter = new ArgumentViewModel(SendEmailArguments.HostParameter, stepViewModel.Update);
-			HostParameter.ExplicitType = ExplicitType.String;
-			PortParameter = new ArgumentViewModel(SendEmailArguments.PortParameter, stepViewModel.Update);
-			PortParameter.ExplicitType = ExplicitType.Integer;
-			LoginParameter = new ArgumentViewModel(SendEmailArguments.LoginParameter, stepViewModel.Update);
-			LoginParameter.ExplicitType = ExplicitType.String;
-			PasswordParameter = new ArgumentViewModel(SendEmailArguments.PasswordParameter, stepViewModel.Update);
-			PasswordParameter.ExplicitType = ExplicitType.String;
+			EMailAddressArgument = new ArgumentViewModel(SendEmailArguments.EMailAddressArgument, stepViewModel.Update);
+			EMailAddressArgument.ExplicitType = ExplicitType.String;
+			EMailTitleArgument = new ArgumentViewModel(SendEmailArguments.EMailTitleArgument, stepViewModel.Update);
+			EMailTitleArgument.ExplicitType = ExplicitType.String;
+			EMailContentArgument = new ArgumentViewModel(SendEmailArguments.EMailContentArgument, stepViewModel.Update);
+			EMailContentArgument.ExplicitType = ExplicitType.String;
+			HostArgument = new ArgumentViewModel(SendEmailArguments.HostArgument, stepViewModel.Update);
+			HostArgument.ExplicitType = ExplicitType.String;
+			PortArgument = new ArgumentViewModel(SendEmailArguments.PortArgument, stepViewModel.Update);
+			PortArgument.ExplicitType = ExplicitType.Integer;
+			LoginArgument = new ArgumentViewModel(SendEmailArguments.LoginArgument, stepViewModel.Update);
+			LoginArgument.ExplicitType = ExplicitType.String;
+			PasswordArgument = new ArgumentViewModel(SendEmailArguments.PasswordArgument, stepViewModel.Update);
+			PasswordArgument.ExplicitType = ExplicitType.String;
 		}
 
 		public override void UpdateContent()
 		{
-			EMailAddressParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			EMailTitleParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			EMailContentParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			HostParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			PortParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
-			LoginParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			PasswordParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailAddressArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailTitleArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailContentArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			HostArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			PortArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			LoginArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			PasswordArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Email: " + EMailAddressParameter.Description + " Заголовок: " + EMailTitleParameter.Description + " Текст: " + EMailContentParameter.Description;
+				return "Email: " + EMailAddressArgument.Description + " Заголовок: " + EMailTitleArgument.Description + " Текст: " + EMailContentArgument.Description;
 			}
 		}
 	}

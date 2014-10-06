@@ -11,14 +11,14 @@ namespace FiresecAPI.Automation
 	{
 		public RunProgrammArguments()
 		{
-			PathParameter = new Argument();
-			ParametersParameter = new Argument();
+			PathArgument = new Argument();
+			ParametersArgument = new Argument();
 		}
 
 		[DataMember]
-		public Argument PathParameter { get; set; }
+		public Argument PathArgument { get; set; }
 
 		[DataMember]
-		public Argument ParametersParameter { get; set; }
+		public Argument ParametersArgument { get; set; }
 	}
 }

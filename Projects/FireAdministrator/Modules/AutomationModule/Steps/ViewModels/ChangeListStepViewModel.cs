@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 

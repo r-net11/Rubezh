@@ -1,8 +1,6 @@
 ﻿<UserControl x:Class="AutomationModule.Views.GetObjectPropertyStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
@@ -11,7 +9,7 @@
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Объект" />
-				<Views:ArgumentView DataContext="{Binding ObjectParameter}" />
+				<Views:ArgumentView DataContext="{Binding ObjectArgument}" />
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
@@ -27,7 +25,7 @@
 
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Результат" />
-				<Views:ArgumentView DataContext="{Binding ResultParameter}" />
+				<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

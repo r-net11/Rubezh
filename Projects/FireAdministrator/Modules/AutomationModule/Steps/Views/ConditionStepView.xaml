@@ -37,7 +37,7 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<Views:ArgumentView DataContext="{Binding Parameter1}" />
+							<Views:ArgumentView DataContext="{Binding Argument1}" />
 							<ComboBox ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
@@ -45,7 +45,7 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-							<Views:ArgumentView DataContext="{Binding Parameter2}" />
+							<Views:ArgumentView DataContext="{Binding Argument2}" />
 						</StackPanel>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
