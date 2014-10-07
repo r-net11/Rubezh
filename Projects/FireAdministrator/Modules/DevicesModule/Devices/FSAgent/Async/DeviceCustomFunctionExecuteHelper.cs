@@ -31,12 +31,12 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult.HasError)
 			{
-				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(_operationResult.Error, "Ошибка при выполнении операции");
 				return;
 			}
 			var result = _operationResult.Result;
 			result = result.Replace("[OK]", "");
-			MessageBoxService.Show(result);
+			MessageBoxService.ShowExtended(result);
 		}
 	}
 }

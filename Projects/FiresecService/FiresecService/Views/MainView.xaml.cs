@@ -40,7 +40,7 @@ namespace FiresecService.Views
 		}
 		private void OnClose(object sender, EventArgs e)
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите остановить сервер?"))
 			{
 				_window.Close();
 				NotifyIconService.Stop();

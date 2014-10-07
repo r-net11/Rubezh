@@ -68,25 +68,18 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			List<Variable> allVariables;
-			if (SelectedExplicitType == ExplicitType.Enum)
-			{
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == SelectedEnumType);
-				TargetArgument.EnumType = SelectedEnumType;
-				SourceArgument.EnumType = SelectedEnumType;
-			}
-			else if (SelectedExplicitType == ExplicitType.Object)
-			{
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.ObjectType == SelectedObjectType);
-				TargetArgument.ObjectType = SelectedObjectType;
-				SourceArgument.ObjectType = SelectedObjectType;
-			}
-			else
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure, SelectedExplicitType, SelectedObjectType, SelectedEnumType).FindAll(x => !x.IsList);
+			TargetArgument.EnumType = SelectedEnumType;
+			SourceArgument.EnumType = SelectedEnumType;
+			TargetArgument.ObjectType = SelectedObjectType;
+			SourceArgument.ObjectType = SelectedObjectType;
 			TargetArgument.ExplicitType = SelectedExplicitType;
 			SourceArgument.ExplicitType = SelectedExplicitType;
 			TargetArgument.Update(allVariables);
-			SourceArgument.Update(allVariables);
+			if (SelectedExplicitType == ExplicitType.String)
+				SourceArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType != ExplicitType.Object));
+			else
+				SourceArgument.Update(allVariables);
 		}
 
 		public override string Description 

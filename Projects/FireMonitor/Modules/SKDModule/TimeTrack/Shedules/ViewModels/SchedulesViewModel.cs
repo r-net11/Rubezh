@@ -8,14 +8,17 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SchedulesViewModel : OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>
+	public class SchedulesViewModel : OrganisationBaseViewModel<Schedule, ScheduleFilter, ScheduleViewModel, ScheduleDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
 	{
 		bool _isInitialized;
+		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
+		public LogicalDeletationType LogicalDeletationType { get; set; }
 		
 		public SchedulesViewModel()
 			:base()
 		{
 			_isInitialized = false;
+			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
 
 		public void Initialize()
@@ -23,6 +26,7 @@ namespace SKDModule.ViewModels
 			var filter = new ScheduleFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
+				LogicalDeletationType = LogicalDeletationType
 			};
 			Initialize(filter);
 		}
@@ -104,6 +108,11 @@ namespace SKDModule.ViewModels
 		protected override bool MarkDeleted(Guid uid)
 		{
 			return ScheduleHelper.MarkDeleted(uid);
+		}
+
+		protected override bool Restore(Guid uid)
+		{
+			return ScheduleHelper.Restore(uid);
 		}
 
 		protected override string ItemRemovingName

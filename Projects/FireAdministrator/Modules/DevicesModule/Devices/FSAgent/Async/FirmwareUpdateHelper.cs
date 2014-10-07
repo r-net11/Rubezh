@@ -41,12 +41,12 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult_1.HasError)
 			{
-				MessageBoxService.ShowError(_operationResult_1.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(_operationResult_1.Error, "Ошибка при выполнении операции");
 				return;
 			}
 			else
 			{
-				if (MessageBoxService.ShowQuestion(_operationResult_1.Result) == MessageBoxResult.Yes)
+				if (MessageBoxService.ShowQuestionYesNo(_operationResult_1.Result))
 				{
 					ServiceFactory.ProgressService.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressAndName + ". Обновление прошивки");
 				}
@@ -62,12 +62,12 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult_2.HasError)
 			{
-				MessageBoxService.ShowError(_operationResult_2.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(_operationResult_2.Error, "Ошибка при выполнении операции");
 				return;
 			}
 			if (string.IsNullOrEmpty(_operationResult_2.Result))
 				_operationResult_2.Result = "Операция завершилась успешно";
-			MessageBoxService.Show(_operationResult_2.Result);
+			MessageBoxService.ShowExtended(_operationResult_2.Result);
 		}
 	}
 }

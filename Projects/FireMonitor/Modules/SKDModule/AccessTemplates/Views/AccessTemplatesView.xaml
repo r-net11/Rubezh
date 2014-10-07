@@ -25,7 +25,7 @@
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
 									<Image Width="16" Source="/Controls;component/Images/AccessTemplate.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-									<TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -34,7 +34,7 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Description}" />
+                                    <TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>

@@ -189,7 +189,7 @@ namespace JournalModule.ViewModels
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
-				MessageBoxService.ShowException(e);
+				MessageBoxService.ShowException2(e);
 			}
 		}
 

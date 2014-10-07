@@ -18,7 +18,7 @@ namespace Common
 
 		public T GetItem(Guid guid)
 		{
-			return _map.ContainsKey(guid) ? _map[guid] : default(T);
+			return (_map != null && _map.ContainsKey(guid)) ? _map[guid] : default(T);
 		}
 		public T GetItem<TT>(TT item, Func<TT, Guid> keySelector)
 		{

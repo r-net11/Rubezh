@@ -11,15 +11,15 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentEmployeeListViewModel : EmployeeListBaseViewModel<DepartmentEmployeeListItemViewModel>
 	{
-		public DepartmentEmployeeListViewModel(ShortDepartment parent, Guid organisationUID)
-			: base(parent.UID, organisationUID)
+		public DepartmentEmployeeListViewModel(DepartmentViewModel parent)
+			: base(parent)
 		{
-			var chief = Employees.FirstOrDefault(x => x.Employee.UID == parent.ChiefUID);
+			var chief = Employees.FirstOrDefault(x => x.Employee.UID == parent.Model.ChiefUID);
 			if (chief != null)
 			{
 				chief.IsChief = true;
 			}
-			var hrChief = Employees.FirstOrDefault(x => x.Employee.UID == parent.HRChiefUID);
+			var hrChief = Employees.FirstOrDefault(x => x.Employee.UID == parent.Model.HRChiefUID);
 			if (hrChief != null)
 			{
 				hrChief.IsHRChief = true;
@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 		
 		protected override bool AddToParent(Guid uid)
 		{
-			return EmployeeHelper.SetDepartment(uid, _parentUID);
+			return EmployeeHelper.SetDepartment(uid, _parent.UID);
 		}
 
 		protected override bool RemoveFromParent(Guid uid)
@@ -57,7 +57,7 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { _parentUID } }; }
+			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { _parent.UID } }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter
@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 			if (Chief != null)
 				Chief.IsChief = false;
 			SelectedEmployee.IsChief = true;
-			DepartmentHelper.SaveChief(_parentUID, SelectedEmployee.Employee.UID);
+			DepartmentHelper.SaveChief(_parent.UID, SelectedEmployee.Employee.UID);
 			UpdateCanSet();
 		}
 		public bool CanSetChief
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 		void OnUnSetChief()
 		{
 			Chief.IsChief = false;
-			DepartmentHelper.SaveChief(_parentUID, Guid.Empty);
+			DepartmentHelper.SaveChief(_parent.UID, Guid.Empty);
 			UpdateCanSet();
 		}
 		public bool CanUnSetChief
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 			if (HRChief != null)
 				HRChief.IsHRChief = false;
 			SelectedEmployee.IsHRChief = true;
-			DepartmentHelper.SaveHRChief(_parentUID, SelectedEmployee.Employee.UID);
+			DepartmentHelper.SaveHRChief(_parent.UID, SelectedEmployee.Employee.UID);
 			UpdateCanSet();
 		}
 		public bool CanSetHRChief
@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 		void OnUnSetHRChief()
 		{
 			HRChief.IsHRChief = false;
-			DepartmentHelper.SaveHRChief(_parentUID, Guid.Empty);
+			DepartmentHelper.SaveHRChief(_parent.UID, Guid.Empty);
 			UpdateCanSet();
 		}
 		public bool CanUnSetHRChief

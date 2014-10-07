@@ -62,12 +62,12 @@ namespace SKDModule.ViewModels
 		{
 			if (EveningStartTime > EveningEndTime)
 			{
-				MessageBoxService.ShowWarning("Начало вечернего времени должно быть раньше конца");
+				MessageBoxService.ShowWarning2("Начало вечернего времени должно быть раньше конца");
 				return false;
 			}
 			if (EveningEndTime > NightStartTime && NightEndTime > TimeSpan.Zero)
 			{
-				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца вечернего");
+				MessageBoxService.ShowWarning2("Начало ночного времени должно быть больше конца вечернего");
 				return false;
 			}
 			return NightSettingsHelper.Save(NightSettings);

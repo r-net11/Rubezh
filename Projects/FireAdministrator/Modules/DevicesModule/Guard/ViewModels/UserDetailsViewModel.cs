@@ -128,13 +128,13 @@ namespace DevicesModule.ViewModels
 			if (!string.IsNullOrEmpty(Password))
 				if (!DigitalPasswordHelper.Check(Password))
 				{
-					MessageBoxService.Show("Пароль может содержать только цифры");
+					MessageBoxService.ShowExtended("Пароль может содержать только цифры");
 					return false;
 				}
 
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.Show("Имя не может быть пустым");
+				MessageBoxService.ShowExtended("Имя не может быть пустым");
 				return false;
 			}
 

@@ -10,14 +10,18 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidaysViewModel : OrganisationBaseViewModel<Holiday, HolidayFilter, HolidayViewModel, HolidayDetailsViewModel>, ISelectable<Guid>
+	public class HolidaysViewModel : OrganisationBaseViewModel<Holiday, HolidayFilter, HolidayViewModel, HolidayDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
 	{
 		public HolidaysViewModel():base()
 		{
-			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
 			InitializeYears();
+			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
 
+		public LogicalDeletationType LogicalDeletationType { get; set; }
+		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
+		
 		public void Select(Guid holidayUID)
 		{
 			if (holidayUID != Guid.Empty)
@@ -67,9 +71,15 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged(() => SelectedYear);
 
-				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value };
+				var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value, LogicalDeletationType = LogicalDeletationType };
 				Initialize(filter);
 			}
+		}
+
+		public void Initialize()
+		{
+			var filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = SelectedYear, LogicalDeletationType = LogicalDeletationType };
+			Initialize(filter);
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
@@ -77,6 +87,10 @@ namespace SKDModule.ViewModels
 		{
 			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
 			DialogService.ShowModalWindow(nightSettingsViewModel);
+		}
+		bool CanShowSettings()
+		{
+			return !ParentOrganisation.IsDeleted;
 		}
 
 		protected override bool Save(Holiday item)
@@ -97,6 +111,11 @@ namespace SKDModule.ViewModels
 		protected override bool MarkDeleted(Guid uid)
 		{
 			return HolidayHelper.MarkDeleted(uid);
+		}
+
+		protected override bool Restore(Guid uid)
+		{
+			return HolidayHelper.Restore(uid);
 		}
 
 		protected override string ItemRemovingName

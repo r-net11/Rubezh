@@ -282,9 +282,20 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, getListCountArgument.CountArgument);
 					}
 					break;
+
+				case ProcedureStepType.GetListItem:
+					{
+						var getListItemArgument = step.GetListItemArgument;
+						if (!ValidateArgument(step, getListItemArgument.ListArgument))
+							break;
+						if (!ValidateArgument(step, getListItemArgument.ItemArgument))
+							break;
+						if (getListItemArgument.PositionType == PositionType.ByIndex)
+							ValidateArgument(step, getListItemArgument.IndexArgument);
+					}
+					break;
 			}
 		}
-
 
 		bool ValidateArgument(ProcedureStep step, Argument argument)
 		{

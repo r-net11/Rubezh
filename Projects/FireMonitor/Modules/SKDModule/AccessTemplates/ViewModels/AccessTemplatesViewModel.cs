@@ -19,6 +19,10 @@ namespace SKDModule.ViewModels
 		{
 			return AccessTemplateHelper.MarkDeleted(uid);
 		}
+		protected override bool Restore(Guid uid)
+		{
+			return AccessTemplateHelper.Restore(uid);
+		}
 		protected override bool Save(AccessTemplate item)
 		{
 			return AccessTemplateHelper.Save(item);

@@ -33,11 +33,11 @@ namespace FireAdministrator
 				{
 					if (validationResult.CannotSave())
 					{
-						MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+						MessageBoxService.ShowWarningExtended("Обнаружены ошибки. Операция прервана");
 						return false;
 					}
 
-					if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
+					if (!MessageBoxService.ShowQuestionYesNo("Конфигурация содержит ошибки. Продолжить?"))
 						return false;
 				}
 
@@ -55,7 +55,7 @@ namespace FireAdministrator
 								var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
 								if (fsResult.HasError)
 								{
-									MessageBoxService.ShowError(fsResult.Error);
+									MessageBoxService.ShowErrorExtended(fsResult.Error);
 								}
 								LoadingService.DoStep("Синхронизация конфигурации");
 								FiresecManager.FiresecDriver.Synchronyze(false);
@@ -86,7 +86,7 @@ namespace FireAdministrator
 			catch (Exception e)
 			{
 				Logger.Error(e, "MenuView.SetNewConfig");
-				MessageBoxService.ShowError(e.Message, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(e.Message, "Ошибка при выполнении операции");
 				return false;
 			}
 		}
@@ -173,8 +173,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
-				if (result == MessageBoxResult.Yes)
+				if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите создать новую конфигурацию"))
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 					FiresecManager.SetEmptyConfiguration();

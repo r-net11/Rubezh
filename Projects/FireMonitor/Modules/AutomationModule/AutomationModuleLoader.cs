@@ -86,7 +86,7 @@ namespace AutomationModule
 						break;
 
 					case AutomationCallbackType.Message:
-						MessageBoxService.Show(automationCallbackResult.Message, "Сообщение", automationCallbackResult.IsModalWindow);
+						MessageBoxService.ShowExtended(automationCallbackResult.Message, "Сообщение", automationCallbackResult.IsModalWindow);
 						break;
 				}
 			});

@@ -111,7 +111,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult.HasError)
 			{
-				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(_operationResult.Error, "Ошибка при выполнении операции");
 				return;
 			}
 			GetConfiguration(_operationResult.Result);
@@ -128,7 +128,7 @@ namespace DevicesModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowError("Ошибка при получении данных");
+				MessageBoxService.ShowErrorExtended("Ошибка при получении данных");
 			}
 		}
 

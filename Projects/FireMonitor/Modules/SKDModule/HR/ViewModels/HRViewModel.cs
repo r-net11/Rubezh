@@ -3,9 +3,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -172,6 +174,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool IsWithDeleted
+		{
+			get { return Filter.LogicalDeletationType == LogicalDeletationType.All; }
+			set
+			{
+				Filter.LogicalDeletationType = value ? LogicalDeletationType.All : LogicalDeletationType.Active;
+				OnPropertyChanged(() => IsWithDeleted);
+				InitializeFilters();
+			}
+		}
+
 		public bool CanSelectPersonType { get; private set; }
 
 		public RelayCommand EditFilterCommand { get; private set; }
@@ -187,12 +200,12 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 			CardFilter = new CardFilter();
-			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);
@@ -200,7 +213,9 @@ namespace SKDModule.ViewModels
 			CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			PassCardTemplatesViewModel.Initialize(PassCardTemplateFilter);
-			OrganisationsViewModel.Initialize();
+			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
+
+			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
 
 			InitializeEmployeeFilter();
 		}
@@ -209,6 +224,7 @@ namespace SKDModule.ViewModels
 		{
 			EmployeeFilter = Filter.EmployeeFilter;
 			EmployeeFilter.PersonType = SelectedPersonType;
+			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
 			EmployeesViewModel.Initialize(EmployeeFilter);
 		}
 	}

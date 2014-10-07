@@ -78,7 +78,7 @@
     <Compile Include="Translators\DayIntervalPartTranslator.cs" />
     <Compile Include="Translators\DepartmentTranslator.cs" />
     <Compile Include="SKDDatabaseService.cs" />
-    <Compile Include="Translators\Base\OrganisationTranslatorBase.cs" />
+    <Compile Include="Translators\Base\OrganisationElementTranslator.cs" />
     <Compile Include="Translators\EmployeeTranslator.cs" />
     <Compile Include="Translators\AccessTemplateTranslator.cs" />
     <Compile Include="Translators\JournalItemTranslator.cs" />

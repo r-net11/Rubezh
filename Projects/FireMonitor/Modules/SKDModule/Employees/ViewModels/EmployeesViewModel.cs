@@ -65,6 +65,11 @@ namespace SKDModule.ViewModels
 			return EmployeeHelper.MarkDeleted(uid);
 		}
 
+		protected override bool Restore(Guid uid)
+		{
+			return EmployeeHelper.Restore(uid);
+		}
+
 		public bool IsEmployeeSelected 
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation; }

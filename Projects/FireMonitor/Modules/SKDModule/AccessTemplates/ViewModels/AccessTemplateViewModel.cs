@@ -4,7 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplateViewModel : CartothequeTabItemElementBase<AccessTemplateViewModel, AccessTemplate>
+	public class AccessTemplateViewModel : OrganisationElementViewModel<AccessTemplateViewModel, AccessTemplate>
 	{
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
 		

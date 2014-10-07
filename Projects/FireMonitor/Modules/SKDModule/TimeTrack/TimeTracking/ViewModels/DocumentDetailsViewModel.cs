@@ -146,7 +146,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDocument == null)
 			{
-				MessageBoxService.ShowWarning("Необходимо выбрать тип документа");
+				MessageBoxService.ShowWarning2("Необходимо выбрать тип документа");
 				return false;
 			}
 
@@ -155,7 +155,7 @@ namespace SKDModule.ViewModels
 
 			if (startDateTime >= endDateTime)
 			{
-				MessageBoxService.ShowWarning("Дата и время окончания должно быть позднее даты и времени начала");
+				MessageBoxService.ShowWarning2("Дата и время окончания должно быть позднее даты и времени начала");
 				return false;
 			}
 

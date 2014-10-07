@@ -9,6 +9,7 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBaseShape()
 		{
+			Points = new System.Windows.Media.PointCollection();
 		}
 
 		[DataMember]
@@ -56,11 +57,6 @@ namespace Infrustructure.Plans.Elements
 		{
 			base.Copy(element);
 			((ElementBaseShape)element).Points = Points.Clone();
-		}
-
-		protected override void SetDefault()
-		{
-			Points = new System.Windows.Media.PointCollection();
 		}
 	}
 }

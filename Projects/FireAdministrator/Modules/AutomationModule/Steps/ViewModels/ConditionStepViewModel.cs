@@ -52,7 +52,7 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var condition = new Condition();
-			var conditionViewModel = new ConditionViewModel(condition, Procedure ,UpdateDescriptionHandler);
+			var conditionViewModel = new ConditionViewModel(condition, Procedure, UpdateDescriptionHandler);
 			ConditionArguments.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
 			UpdateContent();
@@ -140,7 +140,7 @@ namespace AutomationModule.ViewModels
 			Condition = condition;
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
 			Argument1 = new ArgumentViewModel(Condition.Argument1, updateDescriptionHandler, false);
 			Argument1.UpdateVariableHandler += UpdateArgument2;
 			Argument2 = new ArgumentViewModel(Condition.Argument2, updateDescriptionHandler);
@@ -165,20 +165,17 @@ namespace AutomationModule.ViewModels
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
 			Argument1.Update(allVariables);
-			Argument2.Update(allVariables);
 			Argument1.ExplicitType = SelectedExplicitType;
-			Argument2.ExplicitType = SelectedExplicitType;
+			UpdateArgument2();
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
 		}
 
 		void UpdateArgument2()
 		{
-			if (Argument1.ExplicitType == ExplicitType.Enum)
-			{
-				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == Argument1.EnumType);
-				Argument2.Update(allVariables);
-				Argument2.EnumType = Argument1.EnumType;
-			}
+			Argument2.Update(ProcedureHelper.GetAllVariables(Procedure, SelectedExplicitType, Argument1.ObjectType, Argument1.EnumType).FindAll(x => !x.IsList));
+			Argument2.ExplicitType = SelectedExplicitType;
+			Argument2.EnumType = Argument1.EnumType;
+			Argument2.ObjectType = Argument1.ObjectType;
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

@@ -39,14 +39,14 @@ namespace GKModule.ViewModels
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var infoBlock = gkFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
 			if (gkFileReaderWriter.Error != null)
-				{ MessageBoxService.ShowError(gkFileReaderWriter.Error); return; }
+				{ MessageBoxService.ShowErrorExtended(gkFileReaderWriter.Error); return; }
 			var remoteHash1 = infoBlock.Hash1;
 			var remoteHash2 = infoBlock.Hash2;
 
 			var message = new StringBuilder();
 			message.Append(localHash1.SequenceEqual(remoteHash1) ? "Хеш1 совпадает\n" : "Хеш1 НЕ совпадает\n");
 			message.Append(localHash2.SequenceEqual(remoteHash2) ? "Хеш2 совпадает" : "Хеш2 НЕ совпадает");
-			MessageBoxService.ShowWarning(message.ToString(), "Сравнение хешей");
+			MessageBoxService.ShowWarningExtended(message.ToString(), "Сравнение хешей");
 		}
 
 		bool CanCompareHashes()

@@ -13,6 +13,7 @@ namespace FiresecAPI.Models
 	[KnownType(typeof(ElementRectangleTank))]
 	[KnownType(typeof(ElementCamera))]
 	[KnownType(typeof(ElementProcedure))]
+	[XmlInclude(typeof(PlanFolder)), XmlInclude(typeof(PlanFolder)), XmlInclude(typeof(ElementRectangleTank)), XmlInclude(typeof(ElementCamera)), XmlInclude(typeof(ElementProcedure))]
 	public class Plan : IElementBackground, IElementRectangle
 	{
 		public Plan()

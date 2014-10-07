@@ -158,7 +158,6 @@ namespace AutomationModule.ViewModels
 			var stringDetailsViewModel = new StringDetailsViewModel(ExplicitValue.StringValue);
 			if (DialogService.ShowModalWindow(stringDetailsViewModel))
 			{
-				//PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
 				ExplicitValue.StringValue = stringDetailsViewModel.StringValue;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => ValueDescription);
@@ -175,6 +174,13 @@ namespace AutomationModule.ViewModels
 			}
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
 			SelectedVariableScope = Argument.VariableScope;
+			ExplicitValue.Initialize(ExplicitValue.UidValue);
+			foreach (var explicitValue in ExplicitValues)
+			{
+				explicitValue.Initialize(explicitValue.UidValue);
+			}
+			OnPropertyChanged(() => ExplicitValue);
+			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);
 		}

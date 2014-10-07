@@ -12,6 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		ScheduleSchemeViewModel _scheduleScheme;
 		bool _initialized;
+		public bool CanSelect { get { return !_scheduleScheme.IsDeleted; } }
 
 		public SheduleDayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, ScheduleDayInterval dayInterval)
 			: base(dayInterval)

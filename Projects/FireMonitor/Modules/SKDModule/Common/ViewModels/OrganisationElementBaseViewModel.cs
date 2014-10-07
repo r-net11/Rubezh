@@ -1,10 +1,11 @@
-﻿using FiresecAPI.SKD;
+﻿using System;
+using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class CartothequeTabItemElementBase<T, ModelT> : TreeNodeViewModel<T>
+	public class OrganisationElementViewModel<T, ModelT> : TreeNodeViewModel<T>, IOrganisationElementViewModel
 		where T : TreeNodeViewModel<T>
 		where ModelT : class, IOrganisationElement, new()
 	{
@@ -32,10 +33,43 @@ namespace SKDModule.ViewModels
 					return Model.Description;
 			}
 		}
+
+		public Guid UID
+		{
+			get
+			{
+				if (IsOrganisation)
+					return Organisation.UID;
+				else
+					return Model.UID;
+			}
+		}
+
+		public Guid OrganisationUID
+		{
+			get
+			{
+				if (IsOrganisation)
+					return Organisation.UID;
+				else
+					return Model.OrganisationUID;
+			}
+		}
+
+		bool _isDeleted;
+		public bool IsDeleted
+		{
+			get { return _isDeleted; }
+			set
+			{
+				_isDeleted = value;
+				OnPropertyChanged(() => IsDeleted);
+			}
+		}
 		
 		protected ViewPartViewModel ParentViewModel;
 
-		public CartothequeTabItemElementBase() { }
+		public OrganisationElementViewModel() { }
 
 		public virtual void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
@@ -43,6 +77,7 @@ namespace SKDModule.ViewModels
 			IsOrganisation = true;
 			IsExpanded = true;
 			ParentViewModel = parentViewModel;
+			IsDeleted = organisation.IsDeleted;
 		}
 
 		public virtual void InitializeModel(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel)
@@ -51,11 +86,13 @@ namespace SKDModule.ViewModels
 			Model = model;
 			IsOrganisation = false;
 			ParentViewModel = parentViewModel;
+			IsDeleted = model.IsDeleted;
 		}
 
 		public virtual void Update(ModelT model)
 		{
 			Model = model;
+			IsDeleted = model.IsDeleted;
 			Update();
 		}
 
@@ -63,6 +100,7 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
+			IsDeleted = organisation.IsDeleted;
 			Update();
 		}
 
@@ -71,5 +109,12 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
 		}
+	}
+
+	public interface IOrganisationElementViewModel
+	{
+		bool IsDeleted { get; set; }
+		Guid UID { get; }
+		Guid OrganisationUID { get; } 
 	}
 }

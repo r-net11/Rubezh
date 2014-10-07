@@ -53,14 +53,10 @@ namespace SKDDriver
 
 		protected override ShortPosition TranslateToShort(DataAccess.Position tableItem)
 		{
-			var shortPosition = new ShortPosition
-			{
-				UID = tableItem.UID,
-				Name = tableItem.Name,
-				Description = tableItem.Description,
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty
-			};
-			return shortPosition;
+			var result = base.TranslateToShort(tableItem);
+			result.Name = tableItem.Name;
+			result.Description = tableItem.Description;
+			return result;
 		}
 		
 		public override OperationResult Save(Position apiItem)

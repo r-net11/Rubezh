@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -51,11 +50,15 @@ namespace SKDDriver
 					return verifyResult;
 				if (uid != null && uid != Guid.Empty)
 				{
+					var removalDate = DateTime.Now;
+					var beforeDeleteResult = BeforeDelete(uid, removalDate);
+					if (beforeDeleteResult.HasError)
+						return beforeDeleteResult;
 					var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
 					if (databaseItem != null)
 					{
 						databaseItem.IsDeleted = true;
-						databaseItem.RemovalDate = DateTime.Now;
+						databaseItem.RemovalDate = removalDate;
 						Table.Context.SubmitChanges();
 						return new OperationResult();
 					}
@@ -73,6 +76,43 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		protected virtual OperationResult BeforeDelete(Guid uid, DateTime removalDate)
+		{
+			return new OperationResult();
+		}
+
+		public virtual OperationResult Restore(Guid uid)
+		{
+			try
+			{
+				var verifyResult = CanDelete(uid);
+				if (verifyResult.HasError)
+					return verifyResult;
+				if (uid == null || uid == Guid.Empty)
+					return new OperationResult("Не задан идентификатор");
+				var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
+				if (databaseItem == null)
+					return new OperationResult("Не найдена запись в базе данных");
+				if (!databaseItem.IsDeleted)
+					return new OperationResult("Данная запись не удалена");
+				var beforeRestoreResult = BeforeRestore(uid, databaseItem.RemovalDate);
+				if (beforeRestoreResult.HasError)
+					return beforeRestoreResult;
+				databaseItem.IsDeleted = false;
+				Table.Context.SubmitChanges();
+				return new OperationResult();	
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		protected virtual OperationResult BeforeRestore(Guid uid, DateTime removalDate)
+		{
+			return new OperationResult();
 		}
 
 		protected static ApiType TranslateIsDeleted<ApiType, TableType>(TableType tableItem)

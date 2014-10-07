@@ -9,6 +9,8 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBaseRectangle()
 		{
+			Height = 50;
+			Width = 50;
 		}
 
 		[DataMember]
@@ -20,12 +22,6 @@ namespace Infrustructure.Plans.Elements
 		public override ElementType Type
 		{
 			get { return ElementType.Rectangle; }
-		}
-		protected override void SetDefault()
-		{
-			base.SetDefault();
-			Height = 50;
-			Width = 50;
 		}
 		public override Rect GetRectangle()
 		{

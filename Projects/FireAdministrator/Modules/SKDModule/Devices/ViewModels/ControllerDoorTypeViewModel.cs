@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.GetControllerDoorType(DeviceViewModel.Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else

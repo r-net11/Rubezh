@@ -9,11 +9,11 @@ namespace Infrastructure.Common.Windows
 	{
 		public static void Show2(string message, string title = null)
 		{
-			Show(message, title);
+			ShowExtended(message, title);
 		}
-		public static bool ShowQuestion2(string message, string title = null)
+		public static bool ShowQuestionYesNo(string message, string title = null)
 		{
-			var result = ShowQuestion(message, title);
+			var result = ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Question);
 			switch (result)
 			{
 				case MessageBoxResult.Yes:
@@ -26,42 +26,42 @@ namespace Infrastructure.Common.Windows
 		}
 		public static bool ShowConfirmation2(string message, string title = null)
 		{
-			return ShowConfirmation(message, title) == MessageBoxResult.Yes;
+			return ShowConfirmationExtended(message, title) == MessageBoxResult.Yes;
 		}
 		public static void ShowError2(string message, string title = null)
 		{
-			ShowError(message, title);
+			ShowErrorExtended(message, title);
 		}
 		public static void ShowWarning2(string message, string title = null)
 		{
-			ShowWarning(message, title);
+			ShowWarningExtended(message, title);
 		}
 		public static void ShowException2(Exception e, string title = null)
 		{
-			ShowException(e, title);
+			ShowExceptionExtended(e, title);
 		}
-		public static MessageBoxResult Show(string message, string title = null, bool isModal = true)
+		public static MessageBoxResult ShowExtended(string message, string title = null, bool isModal = true)
 		{
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Information, false, isModal);
 		}
-		public static MessageBoxResult ShowQuestion(string message, string title = null)
+		public static MessageBoxResult ShowQuestionExtended(string message, string title = null)
 		{
 			return ShowWindow(title, message, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 		}
-		public static MessageBoxResult ShowConfirmation(string message, string title = null)
+		public static MessageBoxResult ShowConfirmationExtended(string message, string title = null)
 		{
 			return ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Question);
 		}
-		public static MessageBoxResult ShowError(string message, string title = null)
+		public static MessageBoxResult ShowErrorExtended(string message, string title = null)
 		{
 			Logger.Error(message);
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
-		public static MessageBoxResult ShowWarning(string message, string title = null)
+		public static MessageBoxResult ShowWarningExtended(string message, string title = null)
 		{
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Warning);
 		}
-		public static MessageBoxResult ShowException(Exception e, string title = null)
+		public static MessageBoxResult ShowExceptionExtended(Exception e, string title = null)
 		{
 			return ShowWindow(title, e.Message + "\n" + e.StackTrace, MessageBoxButton.OK, MessageBoxImage.Error, true);
 		}

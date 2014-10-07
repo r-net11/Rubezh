@@ -18,6 +18,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static bool Restore(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.RestorePassCardTemplate(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static PassCardTemplate GetDetails(Guid? uid)
 		{
 			if (uid == null)

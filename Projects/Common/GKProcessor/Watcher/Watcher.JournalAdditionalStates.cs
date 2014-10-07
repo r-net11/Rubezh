@@ -55,6 +55,27 @@ namespace GKProcessor
 								}
 							}
 						}
+
+						if (journalItem.Description == "Обрыв АЛС 1 2")
+						{
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 1");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 2");
+						}
+						if (journalItem.Description == "Обрыв АЛС 3 4")
+						{
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 3");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 4");
+						}
+						if (journalItem.Description == "Обрыв АЛС 5 6")
+						{
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 5");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 6");
+						}
+						if (journalItem.Description == "Обрыв АЛС 7 8")
+						{
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 7");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Обрыв АЛС 8");
+						}
 					}
 				}
 				if (journalItem.JournalEventNameType == JournalEventNameType.Информация)

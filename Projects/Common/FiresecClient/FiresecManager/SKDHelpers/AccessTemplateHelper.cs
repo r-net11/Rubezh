@@ -35,6 +35,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool Restore(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.RestoreAccessTemplate(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static IEnumerable<AccessTemplate> GetByOrganisation(Guid organisationUID)
 		{
 			var operationResult = FiresecManager.FiresecService.GetAccessTemplates(new AccessTemplateFilter { OrganisationUIDs = new List<Guid> { organisationUID } });

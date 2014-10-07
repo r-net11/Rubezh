@@ -15,7 +15,7 @@ using SKDModule.Events;
 namespace SKDModule.ViewModels
 {
 	public abstract class OrganisationBaseViewModel<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel, IEditingBaseViewModel
-		where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
+		where ViewModelT : OrganisationElementViewModel<ViewModelT, ModelT>, new()
 		where ModelT : class, IOrganisationElement, new()
 		where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
 		where FilterT : OrganisationFilterBase
@@ -27,12 +27,15 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Unsubscribe(OnRemoveOrganisation);
 			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
+
+			
 		}
 
 		protected ModelT _clipboard;
@@ -41,6 +44,7 @@ namespace SKDModule.ViewModels
 		protected abstract IEnumerable<ModelT> GetModelsByOrganisation(Guid organisauinUID);
 		protected abstract bool MarkDeleted(Guid uid);
 		protected abstract bool Save(ModelT item);
+		protected abstract bool Restore(Guid uid);
 
 		protected ModelT ShowDetails(Organisation organisation, ModelT model = null)
 		{
@@ -64,11 +68,14 @@ namespace SKDModule.ViewModels
 					SelectedItem = Organisations.FirstOrDefault();
 				}
 			}
+			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
+
+		public bool IsWithDeleted { get; private set;}
 
 		protected virtual bool InitializeOrganisations(FilterT filter)
 		{
-			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = FiresecManager.CurrentUser.UID };
+			var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = filter.LogicalDeletationType };
 			var organisations = OrganisationHelper.Get(organisationFilter);
 			if (organisations == null)
 				return false;
@@ -198,7 +205,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedItem != null;
+			return SelectedItem != null && !SelectedItem.IsDeleted;
 		}
 
 		protected virtual ViewModelT GetParentItem()
@@ -209,7 +216,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion2(string.Format("Вы уверены, что хотите удалить {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены, что хотите удалить {0}?", ItemRemovingName)))
 			{
 				Remove();
 			}
@@ -228,22 +235,51 @@ namespace SKDModule.ViewModels
 			var removeResult = MarkDeleted(model.UID);
 			if (!removeResult)
 				return;
-			OrganisationViewModel.RemoveChild(SelectedItem);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedItem = OrganisationViewModel.Children.ToList()[index];
+			if (IsWithDeleted)
+			{
+				SelectedItem.IsDeleted = true;
+			}
 			else
-				SelectedItem = OrganisationViewModel;
+			{
+				OrganisationViewModel.RemoveChild(SelectedItem);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedItem = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedItem = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{
-			return SelectedItem != null && !SelectedItem.IsOrganisation;
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation;
 		}
 		protected virtual string ItemRemovingName
 		{
 			get { return "запись"; }
 		}
 
+		public RelayCommand RestoreCommand { get; private set; }
+		void OnRestore()
+		{
+			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
+			{
+				Restore();
+			}
+		}
+		protected virtual void Restore()
+		{
+			if (!SelectedItem.IsDeleted)
+				return;
+			var restoreResult = Restore(SelectedItem.Model.UID);
+			if (!restoreResult)
+				return;
+			SelectedItem.IsDeleted = false;
+		}
+		bool CanRestore()
+		{
+			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation;
+		}
+		
 		public RelayCommand EditCommand { get; private set; }
 		protected void OnEdit()
 		{
@@ -256,7 +292,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedItem != null && SelectedItem.Parent != null && !SelectedItem.IsOrganisation;
+			return SelectedItem != null && !SelectedItem.IsDeleted && SelectedItem.Parent != null && !SelectedItem.IsOrganisation;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -267,7 +303,7 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual bool CanCopy()
 		{
-			return SelectedItem != null && !SelectedItem.IsOrganisation;
+			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }

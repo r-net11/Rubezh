@@ -76,12 +76,12 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.ShowExtended("Номер должен быть положительным числом");
 				return false;
 			}
 			if (MPT.No != No && GKManager.MPTs.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("МПТ с таким номером уже существует");
+				MessageBoxService.ShowExtended("МПТ с таким номером уже существует");
 				return false;
 			}
 

@@ -129,12 +129,12 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.ShowExtended("Номер должен быть положительным числом");
 				return false;
 			}
 			if (GKManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
 			{
-				MessageBoxService.Show("Задержка с таким номером уже существует");
+				MessageBoxService.ShowExtended("Задержка с таким номером уже существует");
 				return false;
 			}
 

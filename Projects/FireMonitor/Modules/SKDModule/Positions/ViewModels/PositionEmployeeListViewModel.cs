@@ -7,11 +7,11 @@ namespace SKDModule.ViewModels
 {
 	public class PositionEmployeeListViewModel : EmployeeListBaseViewModel<EmployeeListItemViewModel>
 	{
-		public PositionEmployeeListViewModel(Guid parentUID, Guid organisationUID) : base(parentUID, organisationUID) { }
+		public PositionEmployeeListViewModel(PositionViewModel parent) : base(parent) { }
 
 		protected override bool AddToParent(Guid uid)
 		{
-			return EmployeeHelper.SetPosition(uid, _parentUID);
+			return EmployeeHelper.SetPosition(uid, _parent.UID);
 		}
 
 		protected override bool RemoveFromParent(Guid uid)
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parentUID } }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parent.UID } }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter

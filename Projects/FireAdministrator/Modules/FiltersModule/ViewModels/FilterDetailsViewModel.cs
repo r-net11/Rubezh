@@ -72,7 +72,7 @@ namespace FiltersModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning("Название не может быть пустым");
+				MessageBoxService.ShowWarningExtended("Название не может быть пустым");
 				return false;
 			}
 

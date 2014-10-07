@@ -2,7 +2,7 @@
 
 namespace SKDModule.ViewModels
 {
-	public class HolidayViewModel :CartothequeTabItemElementBase<HolidayViewModel, Holiday>
+	public class HolidayViewModel :OrganisationElementViewModel<HolidayViewModel, Holiday>
 	{
 		public override void Update()
 		{

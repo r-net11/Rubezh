@@ -43,15 +43,12 @@ namespace SKDDriver
 
 		protected override ShortAdditionalColumnType TranslateToShort(DataAccess.AdditionalColumnType tableItem)
 		{
-			return new ShortAdditionalColumnType
-			{
-				UID = tableItem.UID,
-				DataType = (AdditionalColumnDataType)tableItem.DataType,
-				Description = tableItem.Description,
-				Name = tableItem.Name,
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
-				IsInGrid = tableItem.IsInGrid
-			};
+			var result = base.TranslateToShort(tableItem);
+			result.Name = tableItem.Name;
+			result.Description = tableItem.Description;
+			result.DataType = (AdditionalColumnDataType)tableItem.DataType;
+			result.IsInGrid = tableItem.IsInGrid;
+			return result;
 		}
 
 		protected override void TranslateBack(DataAccess.AdditionalColumnType tableItem, AdditionalColumnType apiItem)

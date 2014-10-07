@@ -89,27 +89,23 @@ namespace SKDDriver
 
 		protected override ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
 		{
-			var shortEmployee = new ShortEmployee
-			{
-				UID = tableItem.UID,
-				FirstName = tableItem.FirstName,
-				SecondName = tableItem.SecondName,
-				LastName = tableItem.LastName,
-				Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
-				Type = (PersonType)tableItem.Type,
-				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
-				TabelNo = tableItem.TabelNo,
-				TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID), 
-				Phone = tableItem.Phone
-			};
+			var result = base.TranslateToShort(tableItem);
+			result.FirstName = tableItem.FirstName;
+			result.SecondName = tableItem.SecondName;
+			result.LastName = tableItem.LastName;
+			result.Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
+			result.Type = (PersonType)tableItem.Type;
+			result.Appointed = tableItem.Appointed.ToString("d MMM yyyy");
+			result.TabelNo = tableItem.TabelNo;
+			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID);
+			result.Phone = tableItem.Phone;
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
-				shortEmployee.PositionName = position.Name;
+				result.PositionName = position.Name;
 			var department = Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
 			if (department != null)
-				shortEmployee.DepartmentName = department.Name;
-			return shortEmployee;
+				result.DepartmentName = department.Name;
+			return result;
 		}
 
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)

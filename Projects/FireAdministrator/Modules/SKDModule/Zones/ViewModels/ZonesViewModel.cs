@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public static ZonesViewModel Current { get; private set; }
-		private bool _lockSelection;
+		bool _lockSelection;
 
 		public ZonesViewModel()
 		{

@@ -59,7 +59,7 @@ namespace Controls
 				}
 				catch (Exception)
 				{
-					MessageBoxService.Show("Невозможно загрузить фото");
+					MessageBoxService.ShowExtended("Невозможно загрузить фото");
 					SetNoPhoto();
 				}
 			}
@@ -122,7 +122,7 @@ namespace Controls
 			if (fileName != null)
 			{
 				if (Path.GetExtension(fileName) == "" || System.Drawing.Image.FromFile(fileName) != null)
-					MessageBoxService.Show("В буфере обмена не отсутствуют изображения");
+					MessageBoxService.ShowExtended("В буфере обмена не отсутствуют изображения");
 				else
 					Data = System.IO.File.ReadAllBytes(fileName);
 			}
@@ -130,12 +130,12 @@ namespace Controls
 
 		void ScannerButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxService.Show("NOT IMPLEMENTED YET");
+			MessageBoxService.ShowExtended("NOT IMPLEMENTED YET");
 		}
 
 		void WebCamButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxService.Show("NOT IMPLEMENTED YET");
+			MessageBoxService.ShowExtended("NOT IMPLEMENTED YET");
 		}
 	}
 }

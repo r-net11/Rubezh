@@ -90,19 +90,19 @@ namespace SKDModule.ViewModels
 		{
 			if (String.IsNullOrEmpty(Password))
 			{
-				MessageBoxService.ShowWarning("Пустой пароль");
+				MessageBoxService.ShowWarningExtended("Пустой пароль");
 				return;
 			}
 			if (Password != PasswordConfirmation)
 			{
-				MessageBoxService.ShowWarning("Пароль не совпадает");
+				MessageBoxService.ShowWarningExtended("Пароль не совпадает");
 				return;
 			}
 
 			var result = FiresecManager.FiresecService.SetControllerPassword(DeviceViewModel.Device, SelectedLogin, OldPassword, Password);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else
@@ -118,19 +118,19 @@ namespace SKDModule.ViewModels
 				var loginProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Login");
 				if (loginProperty == null)
 				{
-					MessageBoxService.ShowWarning("У контроллера отсутствует логин");
+					MessageBoxService.ShowWarningExtended("У контроллера отсутствует логин");
 					return false;
 				}
 				var passwordProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Password");
 				if (passwordProperty == null)
 				{
-					MessageBoxService.ShowWarning("У контроллера отсутствует пароль");
+					MessageBoxService.ShowWarningExtended("У контроллера отсутствует пароль");
 					return false;
 				}
 
 				if (loginProperty.StringValue == SelectedLogin)
 				{
-					if (MessageBoxService.ShowQuestion2("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
+					if (MessageBoxService.ShowQuestionYesNo("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
 					{
 						passwordProperty.StringValue = Password;
 						DeviceViewModel.UpdateProperties();

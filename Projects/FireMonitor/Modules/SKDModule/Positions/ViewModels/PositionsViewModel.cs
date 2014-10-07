@@ -29,6 +29,10 @@ namespace SKDModule.ViewModels
 		{
 			return PositionHelper.MarkDeleted(uid);
 		}
+		protected override bool Restore(Guid uid)
+		{
+			return PositionHelper.Restore(uid);
+		}
 		protected override bool Save(ShortPosition item)
 		{
 			var position = PositionHelper.GetDetails(_clipboardUID);

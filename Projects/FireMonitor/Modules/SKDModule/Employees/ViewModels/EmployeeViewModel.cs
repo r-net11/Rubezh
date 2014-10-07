@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeViewModel : CartothequeTabItemElementBase<EmployeeViewModel, ShortEmployee>
+	public class EmployeeViewModel : OrganisationElementViewModel<EmployeeViewModel, ShortEmployee>
 	{
 		public string AppointedString
 		{
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Cards.Count > 100)
 			{
-				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
+				MessageBoxService.ShowWarning2("У сотрудника не может быть более 100 пропусков");
 				return;
 			}
 			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation);

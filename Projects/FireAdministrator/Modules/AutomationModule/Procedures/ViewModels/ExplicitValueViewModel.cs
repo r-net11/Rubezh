@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
@@ -76,7 +74,7 @@ namespace AutomationModule.ViewModels
 					return SKDDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
-				return "";
+				return "Null";
 			}
 		}
 

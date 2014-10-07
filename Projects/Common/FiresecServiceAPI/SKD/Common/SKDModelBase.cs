@@ -31,5 +31,6 @@ namespace FiresecAPI.SKD
 		string Name { get; set; }
 		string Description { get; set; }
 		Guid OrganisationUID { get; set; }
+		bool IsDeleted { get; set; }
 	}
 }

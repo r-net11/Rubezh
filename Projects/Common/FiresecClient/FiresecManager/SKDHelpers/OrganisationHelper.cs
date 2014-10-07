@@ -70,6 +70,18 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool Restore(Organisation organisation)
+		{
+			var result = FiresecManager.FiresecService.RestoreOrganisation(organisation.UID);
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static bool Restore(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.RestoreOrganisation(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static bool SaveChief(Guid uid, Guid chiefUID)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisationChief(uid, chiefUID);

@@ -9,6 +9,8 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBasePoint()
 		{
+			Top = 0;
+			Left = 0;
 		}
 
 		[DataMember]
@@ -20,11 +22,6 @@ namespace Infrustructure.Plans.Elements
 		public override ElementType Type
 		{
 			get { return ElementType.Point; }
-		}
-		protected override void SetDefault()
-		{
-			Top = 0;
-			Left = 0;
 		}
 		public override Rect GetRectangle()
 		{

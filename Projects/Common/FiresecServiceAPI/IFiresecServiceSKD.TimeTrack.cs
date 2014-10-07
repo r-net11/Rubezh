@@ -13,6 +13,8 @@ namespace FiresecAPI
 		OperationResult SaveDayInterval(DayInterval item);
 		[OperationContract]
 		OperationResult MarkDeletedDayInterval(Guid uid);
+		[OperationContract]
+		OperationResult RestoreDayInterval(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter);
@@ -20,13 +22,15 @@ namespace FiresecAPI
 		OperationResult SaveDayIntervalPart(DayIntervalPart item);
 		[OperationContract]
 		OperationResult RemoveDayIntervalPart(Guid uid);
-
+		
 		[OperationContract]
 		OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter);
 		[OperationContract]
 		OperationResult SaveHoliday(Holiday item);
 		[OperationContract]
 		OperationResult MarkDeletedHoliday(Guid uid);
+		[OperationContract]
+		OperationResult RestoreHoliday(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter);
@@ -34,6 +38,8 @@ namespace FiresecAPI
 		OperationResult SaveScheduleScheme(ScheduleScheme item);
 		[OperationContract]
 		OperationResult MarkDeletedScheduleScheme(Guid uid);
+		[OperationContract]
+		OperationResult RestoreScheduleScheme(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter);
@@ -50,6 +56,8 @@ namespace FiresecAPI
 		OperationResult MarkDeletedSchedule(Guid uid);
 		[OperationContract]
 		OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter);
+		[OperationContract]
+		OperationResult RestoreSchedule(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter);

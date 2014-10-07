@@ -81,6 +81,11 @@ namespace SKDModule.ViewModels
 			return DepartmentHelper.MarkDeleted(uid);
 		}
 
+		protected override bool Restore(Guid uid)
+		{
+			return DepartmentHelper.Restore(uid);
+		}
+
 		protected override bool Save(ShortDepartment item)
 		{
 			var department = DepartmentHelper.GetDetails(_clipboardUID);

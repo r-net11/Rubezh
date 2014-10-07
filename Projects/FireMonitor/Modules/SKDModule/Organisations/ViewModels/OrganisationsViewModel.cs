@@ -13,17 +13,21 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationsViewModel : BaseViewModel
 	{
+		LogicalDeletationType _logicalDeletationType;
+		
 		public OrganisationsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
+			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 		}
 
-		public void Initialize()
+		public void Initialize(LogicalDeletationType logicalDeletationType)
 		{
+			_logicalDeletationType = logicalDeletationType;
 			Organisations = new ObservableCollection<OrganisationViewModel>();
-			var organisations = OrganisationHelper.Get(new OrganisationFilter());
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = _logicalDeletationType });
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)
@@ -118,7 +122,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditRemove()
 		{
-			return SelectedOrganisation != null;
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -142,16 +146,41 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить огранизацию?"))
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить огранизацию?"))
 			{
 				var organisation = SelectedOrganisation.Organisation;
 				var removeResult = OrganisationHelper.MarkDeleted(organisation);
 				if (removeResult == false)
 					return;
-				Organisations.Remove(SelectedOrganisation);
-				SelectedOrganisation = Organisations.FirstOrDefault();
+				if (_logicalDeletationType == LogicalDeletationType.All)
+				{
+					SelectedOrganisation.IsDeleted = true;
+					SetItemsCanSelect(false);
+				}
+				else
+				{
+					Organisations.Remove(SelectedOrganisation);
+					SelectedOrganisation = Organisations.FirstOrDefault();
+				}
 				ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 			}
+		}
+		
+		public RelayCommand RestoreCommand { get; private set; }
+		void OnRestore()
+		{
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите восстановить огранизацию?"))
+			{
+				var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
+				if (!restoreResult)
+					return;
+				SelectedOrganisation.IsDeleted = false;
+				SetItemsCanSelect(true);
+			}
+		}
+		bool CanRestore()
+		{
+			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -165,6 +194,14 @@ namespace SKDModule.ViewModels
 				SelectedOrganisation.Update();
 				ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Publish(organisation);
 			}
+		}
+
+		void SetItemsCanSelect(bool canSelect)
+		{
+			OrganisationZonesViewModel.CanSelect = canSelect;
+			OrganisationDoorsViewModel.CanSelect = canSelect;
+			OrganisationGuardZonesViewModel.CanSelect = canSelect;
+			OrganisationUsersViewModel.CanSelect = canSelect;
 		}
 	}
 }

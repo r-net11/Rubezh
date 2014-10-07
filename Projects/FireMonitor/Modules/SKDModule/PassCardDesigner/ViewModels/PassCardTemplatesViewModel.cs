@@ -20,6 +20,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			return PassCardTemplateHelper.MarkDeleted(uid);
 		}
+		protected override bool Restore(Guid uid)
+		{
+			return PassCardTemplateHelper.Restore(uid);
+		}
 		protected override bool Save(ShortPassCardTemplate item)
 		{
 			var passCardTemplate = PassCardTemplateHelper.GetDetails(_clipboardUID);

@@ -10,11 +10,24 @@ namespace SKDModule.ViewModels
 		public OrganisationViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
+			IsDeleted = organisation.IsDeleted;
 		}
 
 		public void Update()
 		{
 			OnPropertyChanged(() => Organisation);
+		}
+
+		bool _isDeleted;
+		public bool IsDeleted
+		{
+			get { return _isDeleted; }
+			set
+			{
+				_isDeleted = value;
+				Organisation.IsDeleted = value;
+				OnPropertyChanged(() => IsDeleted);
+			}
 		}
 	}
 }

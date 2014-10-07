@@ -4,7 +4,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
-	public class PassCardTemplateViewModel : CartothequeTabItemElementBase<PassCardTemplateViewModel, ShortPassCardTemplate>
+	public class PassCardTemplateViewModel : OrganisationElementViewModel<PassCardTemplateViewModel, ShortPassCardTemplate>
 	{
 	}
 }

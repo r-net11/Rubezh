@@ -32,6 +32,14 @@ namespace FiresecService.Service
 				return databaseService.DayIntervalTranslator.MarkDeleted(uid);
 			}
 		}
+		public OperationResult RestoreDayInterval(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalTranslator.Restore(uid);
+			}
+		}
 
 		public OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
 		{
@@ -80,6 +88,14 @@ namespace FiresecService.Service
 				return databaseService.HolidayTranslator.MarkDeleted(uid);
 			}
 		}
+		public OperationResult RestoreHoliday(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_праздничного_дня);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.HolidayTranslator.Restore(uid);
+			}
+		}
 
 		public OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
@@ -102,6 +118,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
+			}
+		}
+		public OperationResult RestoreScheduleScheme(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleSchemeTranslator.Restore(uid);
 			}
 		}
 
@@ -157,6 +181,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleTranslator.GetList(filter);
+			}
+		}
+		public OperationResult RestoreSchedule(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_графика_работы);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleTranslator.Restore(uid);
 			}
 		}
 

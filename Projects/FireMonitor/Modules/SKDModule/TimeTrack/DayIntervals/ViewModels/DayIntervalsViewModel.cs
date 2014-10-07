@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalsViewModel : OrganisationBaseViewModel<DayInterval, DayIntervalFilter, DayIntervalViewModel, DayIntervalDetailsViewModel> , ISelectable<Guid>
+	public class DayIntervalsViewModel : OrganisationBaseViewModel<DayInterval, DayIntervalFilter, DayIntervalViewModel, DayIntervalDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
 	{
 		bool _isInitialized;
 
@@ -16,17 +16,26 @@ namespace SKDModule.ViewModels
 			:base()
 		{
 			_isInitialized = false;
+			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
+
+		public LogicalDeletationType LogicalDeletationType { get; set; }
+		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
 
 		public override void OnShow()
 		{
 			base.OnShow();
-			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			if (!_isInitialized)
 			{
-				Initialize(filter);
+				Initialize();
 				_isInitialized = true;
 			}
+		}
+
+		public void Initialize()
+		{
+			var filter = new DayIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
+			Initialize(filter);
 		}
 
 		protected override void OnEditOrganisation(Organisation newOrganisation)
@@ -74,6 +83,10 @@ namespace SKDModule.ViewModels
 		protected override bool MarkDeleted(Guid uid)
 		{
 			return DayIntervalHelper.MarkDeleted(uid);
+		}
+		protected override bool Restore(Guid uid)
+		{
+			return DayIntervalHelper.Restore(uid);
 		}
 		protected override bool Save(DayInterval item)
 		{

@@ -11,7 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleViewModel : CartothequeTabItemElementBase<ScheduleViewModel, Schedule>, IEditingViewModel
+	public class ScheduleViewModel : OrganisationElementViewModel<ScheduleViewModel, Schedule>, IEditingViewModel
 	{
 		private bool _isInitialized;
 		
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 		
 		public override void InitializeModel(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
 		{
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			base.InitializeModel(organisation, model, parentViewModel);
@@ -105,6 +105,10 @@ namespace SKDModule.ViewModels
 				SelectedScheduleZone = scheduleZoneViewModel;
 			}
 		}
+		bool CanAdd()
+		{
+			return !IsDeleted;
+		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
@@ -115,9 +119,9 @@ namespace SKDModule.ViewModels
 				ScheduleZones.Remove(SelectedScheduleZone);
 			}
 		}
-		private bool CanDelete()
+		bool CanDelete()
 		{
-			return SelectedScheduleZone != null && ScheduleZones.Count > 1;
+			return SelectedScheduleZone != null && ScheduleZones.Count > 1 && !IsDeleted;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -133,9 +137,9 @@ namespace SKDModule.ViewModels
 				SelectedScheduleZone = selectedScheduleZone;
 			}
 		}
-		private bool CanEdit()
+		bool CanEdit()
 		{
-			return SelectedScheduleZone != null;
+			return SelectedScheduleZone != null && !IsDeleted;
 		}
 	}
 }

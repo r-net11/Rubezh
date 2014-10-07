@@ -240,7 +240,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetDatabaseCommand { get; private set; }
 		public void OnResetDatabase()
 		{
-			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить базу данных?");
+			var result = MessageBoxService.ShowExtended("Вы уверены, что хотите сбросить базу данных?");
 			if (result == MessageBoxResult.OK)
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
@@ -252,7 +252,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetConfigurationCommand { get; private set; }
 		public void OnResetConfiguration()
 		{
-			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить по конфигурацию?");
+			var result = MessageBoxService.ShowExtended("Вы уверены, что хотите сбросить по конфигурацию?");
 			if (result == MessageBoxResult.OK)
 			{
 				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
@@ -262,7 +262,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetXLibaryCommand { get; private set; }
 		public void OnResetXLibary()
 		{
-			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?");
+			var result = MessageBoxService.ShowExtended("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?");
 			if (result == MessageBoxResult.OK)
 			{
 				DeviceLibraryConfigurationPatchHelper.Patch();
@@ -272,7 +272,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetSKDLibaryCommand { get; private set; }
 		public void OnResetSKDLibary()
 		{
-			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?");
+			var result = MessageBoxService.ShowExtended("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?");
 			if (result == MessageBoxResult.OK)
 			{
 				DeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
@@ -282,7 +282,7 @@ namespace SettingsModule.ViewModels
 		public RelayCommand ResetSettingsCommand { get; private set; }
 		public void OnResetSettings()
 		{
-			var result = MessageBoxService.Show("Вы уверены, что хотите сбросить по умолчанию настройки?");
+			var result = MessageBoxService.ShowExtended("Вы уверены, что хотите сбросить по умолчанию настройки?");
 			if (result == MessageBoxResult.OK)
 			{
 				GlobalSettingsHelper.GlobalSettings = new GlobalSettings();

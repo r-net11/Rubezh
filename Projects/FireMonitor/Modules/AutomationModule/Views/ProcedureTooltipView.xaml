@@ -9,7 +9,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Procedure.png" />
+			<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/ProcedureYellow.png" />
 			<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Procedure.Name}" />
 		</StackPanel>
 	</StackPanel>

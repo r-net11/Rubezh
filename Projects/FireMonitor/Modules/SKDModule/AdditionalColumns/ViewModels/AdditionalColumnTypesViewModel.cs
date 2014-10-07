@@ -19,6 +19,10 @@ namespace SKDModule.ViewModels
 		{
 			return AdditionalColumnTypeHelper.MarkDeleted(uid);
 		}
+		protected override bool Restore(Guid uid)
+		{
+			return AdditionalColumnTypeHelper.Restore(uid);
+		}
 		protected override bool Save(ShortAdditionalColumnType item)
 		{
 			var additionalColumnType = AdditionalColumnTypeHelper.GetDetails(_clipboardUID);

@@ -72,7 +72,7 @@ namespace FireMonitor
 					}
 					else
 					{
-						MessageBoxService.Show("Нет прав на работу с программой");
+						MessageBoxService.Show2("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
 					}
 
@@ -94,7 +94,7 @@ namespace FireMonitor
 				catch (Exception e)
 				{
 					Logger.Error(e, "Bootstrapper.InitializeFs");
-					MessageBoxService.ShowException(e);
+					MessageBoxService.ShowException2(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
 					return false;
