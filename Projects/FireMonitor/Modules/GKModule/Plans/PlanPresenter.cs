@@ -28,11 +28,13 @@ namespace GKModule.Plans
 			Cache.Add<GKGuardZone>(() => GKManager.DeviceConfiguration.GuardZones);
 			Cache.Add<GKDevice>(() => GKManager.Devices);
 			Cache.Add<GKDirection>(() => GKManager.Directions);
+			Cache.Add<GKDoor>(() => GKManager.Doors);
 
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXGuardZoneOnPlanEvent>().Subscribe(OnShowXGuardZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Subscribe(OnShowXDirectionOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Subscribe(OnShowGKDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -70,6 +72,8 @@ namespace GKModule.Plans
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				yield return element;
+			foreach (var element in plan.ElementGKDoors.Where(x => x.DoorUID != Guid.Empty))
+				yield return element;
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
@@ -82,6 +86,8 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new XGuardZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
 				presenterItem.OverridePainter(new XDirectionPainter(presenterItem));
+			else if (presenterItem.Element is ElementGKDoor)
+				presenterItem.OverridePainter(new GKDoorPainter(presenterItem));
 		}
 		public void ExtensionAttached()
 		{
@@ -167,6 +173,16 @@ namespace GKModule.Plans
 						return;
 					}
 			}
+		}
+		private void OnShowGKDoorOnPlan(GKDoor door)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementGKDoors)
+					if (element.DoorUID == door.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
 		}
 	}
 }

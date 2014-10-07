@@ -115,6 +115,7 @@ namespace FiresecClient
 				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -151,6 +152,12 @@ namespace FiresecClient
 				{
 					if (!gkDirectionMap.ContainsKey(direction.UID))
 						gkDirectionMap.Add(direction.UID, direction);
+				}
+				var gkDoorMap = new Dictionary<Guid, GKDoor>();
+				foreach (var door in GKManager.Doors)
+				{
+					if (!gkDoorMap.ContainsKey(door.UID))
+						gkDoorMap.Add(door.UID, door);
 				}
 
 				var doorMap = new Dictionary<Guid, SKDDoor>();
@@ -251,6 +258,13 @@ namespace FiresecClient
 						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
 						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
 							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
+					}
+					for (int i = plan.ElementGKDoors.Count(); i > 0; i--)
+					{
+						var elementGKDoor = plan.ElementGKDoors[i - 1];
+						elementGKDoor.UpdateZLayer();
+						if (gkDoorMap.ContainsKey(elementGKDoor.DoorUID))
+							gkDoorMap[elementGKDoor.DoorUID].PlanElementUIDs.Add(elementGKDoor.UID);
 					}
 
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)

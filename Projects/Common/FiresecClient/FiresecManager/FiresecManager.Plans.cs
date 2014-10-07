@@ -76,6 +76,13 @@ namespace FiresecClient
 							elementGKDevices.Add(elementGKDevice);
 					Plan.ElementGKDevices = elementGKDevices;
 
+					keys = GKManager.Doors.Select(item => item.UID).ToList();
+					var elementGKDoors = new List<ElementGKDoor>();
+					foreach (var elementDoor in Plan.ElementGKDoors.Where(x => x.DoorUID != Guid.Empty))
+						if (keys.Contains(elementDoor.DoorUID))
+							elementGKDoors.Add(elementDoor);
+					Plan.ElementGKDoors = elementGKDoors;
+
 					keys = SKDManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 					foreach (var elementRectangleSKDZone in Plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty))

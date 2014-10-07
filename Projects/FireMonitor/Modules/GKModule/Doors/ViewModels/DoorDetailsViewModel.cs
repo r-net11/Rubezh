@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDoorEvent>().Publish(Door.UID);
+			ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Door.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

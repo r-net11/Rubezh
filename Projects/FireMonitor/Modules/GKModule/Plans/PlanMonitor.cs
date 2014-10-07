@@ -18,12 +18,19 @@ namespace GKModule.Plans
 			Plan.ElementPolygonGKGuardZones.ForEach(item => InitializeGuard(item));
 			Plan.ElementRectangleGKDirections.ForEach(item => Initialize(item));
 			Plan.ElementPolygonGKDirections.ForEach(item => Initialize(item));
+			Plan.ElementGKDoors.ForEach(item => Initialize(item));
 		}
 
 		private void Initialize(ElementGKDevice element)
 		{
 			var device = PlanPresenter.Cache.Get<GKDevice>(element.DeviceUID);
 			AddState(device);
+		}
+
+		private void Initialize(ElementGKDoor element)
+		{
+			var door = PlanPresenter.Cache.Get<GKDoor>(element.DoorUID);
+			AddState(door);
 		}
 		private void Initialize(IElementZone element)
 		{

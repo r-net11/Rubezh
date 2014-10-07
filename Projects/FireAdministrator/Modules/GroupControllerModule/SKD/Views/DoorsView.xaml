@@ -1,21 +1,26 @@
-﻿<UserControl x:Class="GKModule.Views.DoorsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
-			 xmlns:Views="clr-namespace:GKModule.Views">
-
+﻿<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
+	<UserControl.Resources>
+		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
+			<SwitchCase Then="Дверь может быть размещена на плане" When="Multiple" />
+			<SwitchCase Then="Дверь не размещена на плане" When="NotPresent" />
+			<SwitchCase Then="Дверь нельзя размещать на плане" When="Prohibit" />
+			<SwitchCase Then="Дверь уже размещена на плане" When="Single" />
+		</SwitchConverter>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="2*" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" CanUserSortColumns="True">
+		<Controls:XDataGrid Grid.Row="0" CanUserSortColumns="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
+				<DataGridTemplateColumn Width="Auto" CanUserResize="False" Header="№" SortMemberPath="Door.No">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
+								<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
+									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+								</drag:DragDropDecorator>
 								<Image Margin="2 0" Source="/Controls;component/Images/Door.png" />
 								<TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
 							</StackPanel>
@@ -27,12 +32,12 @@
 				<DataGridTextColumn Width="*" Binding="{Binding Door.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
-		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
+		<Border Grid.Row="1" Margin="0 4 0 0" Background="White" CornerRadius="5">
 			<Grid Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel DataContext="{Binding SelectedDoor}" Margin="2">
+				<StackPanel Margin="2" DataContext="{Binding SelectedDoor}">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Кодонаборник на вход" FontWeight="Bold" Width="250" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Кодонаборник на вход" />
+						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -50,8 +55,8 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Кодонаборник на выход" FontWeight="Bold" Width="250" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Кодонаборник на выход" />
+						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -69,8 +74,8 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Замок" FontWeight="Bold" Width="250" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Замок" />
+						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -88,8 +93,8 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Датчик контроля двери" FontWeight="Bold" Width="250" Margin="5 2" />
-						<TextBlock VerticalAlignment="Center" Margin="2">
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" />
+						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>

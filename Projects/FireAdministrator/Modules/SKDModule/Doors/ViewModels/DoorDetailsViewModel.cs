@@ -1,8 +1,10 @@
-﻿using FiresecAPI.SKD;
-using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -19,6 +21,7 @@ namespace SKDModule.ViewModels
 				{
 					Name = "Новая точка доступа",
 					No = 1,
+					PlanElementUIDs = new List<Guid>(),
 				};
 				if (SKDManager.Doors.Count != 0)
 					Door.No = (ushort)(SKDManager.Doors.Select(x => x.No).Max() + 1);
@@ -61,8 +64,8 @@ namespace SKDModule.ViewModels
 			get { return _name; }
 			set
 			{
-					_name = value;
-					OnPropertyChanged(() => Name);
+				_name = value;
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -72,8 +75,8 @@ namespace SKDModule.ViewModels
 			get { return _description; }
 			set
 			{
-					_description = value;
-					OnPropertyChanged(() => Description);
+				_description = value;
+				OnPropertyChanged(() => Description);
 			}
 		}
 

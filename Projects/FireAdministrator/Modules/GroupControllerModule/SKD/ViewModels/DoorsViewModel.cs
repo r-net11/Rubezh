@@ -70,6 +70,8 @@ namespace GKModule.ViewModels
 				_selectedDoor = value;
 				OnPropertyChanged(() => SelectedDoor);
 				OnPropertyChanged(() => HasSelectedDoor);
+				if (!_lockSelection && _selectedDoor != null && _selectedDoor.Door.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDoor.Door.PlanElementUIDs);
 			}
 		}
 
@@ -137,20 +139,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void CreateDoor(CreateXDoorEventArg createDoorEventArg)
+		public void CreateDoor(CreateGKDoorEventArg createGKDoorEventArg)
 		{
 			DoorDetailsViewModel result = OnAddResult();
-			if (result == null)
-			{
-				createDoorEventArg.Cancel = true;
-				createDoorEventArg.DoorUID = Guid.Empty;
-			}
-			else
-			{
-				createDoorEventArg.Cancel = false;
-				createDoorEventArg.DoorUID = result.Door.UID;
-				createDoorEventArg.Door = result.Door;
-			}
+			createGKDoorEventArg.GKDoor = result == null ? null : result.Door;
 		}
 		public void EditDoor(Guid doorUID)
 		{
@@ -195,6 +187,15 @@ namespace GKModule.ViewModels
 
 		void SubscribeEvents()
 		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 		void OnDoorChanged(Guid doorUID)
 		{
@@ -206,7 +207,32 @@ namespace GKModule.ViewModels
 					SelectedDoor = door;
 			}
 		}
-
+		private void OnElementChanged(List<ElementBase> elements)
+		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
+			elements.ForEach(element =>
+			{
+				var elementDoor = GetElementDoor(element);
+				if (elementDoor != null)
+					OnDoorChanged(elementDoor.DoorUID);
+			});
+			_lockSelection = false;
+		}
+		private void OnElementSelected(ElementBase element)
+		{
+			var elementDoor = GetElementDoor(element);
+			if (elementDoor != null)
+			{
+				_lockSelection = true;
+				Select(elementDoor.DoorUID);
+				_lockSelection = false;
+			}
+		}
+		private ElementGKDoor GetElementDoor(ElementBase element)
+		{
+			return element as ElementGKDoor;
+		}
 		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()

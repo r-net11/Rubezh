@@ -134,11 +134,11 @@ namespace Infrastructure.Client.Startup.ViewModels
 		{
 			Dispatcher.BeginInvoke((Action)(() =>
 			{
-				ShowButtons = false;
 				_startupLoadingViewModel.Text = text;
 				_startupLoadingViewModel.StepCount = stepCount;
 				Content = _startupLoadingViewModel;
 				OnPropertyChanged(() => Content);
+				ShowButtons = false;
 				IsUIEnabled = true;
 			}));
 		}

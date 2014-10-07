@@ -178,9 +178,9 @@ namespace SKDModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 5);
-			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 6);
-			LayerGroupService.Instance.RegisterGroup("Doors", "Точки доступа", 7);
+			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 25);
+			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 26);
+			LayerGroupService.Instance.RegisterGroup("Doors", "Точки доступа", 27);
 		}
 		public override void ExtensionAttached()
 		{
@@ -189,25 +189,6 @@ namespace SKDModule.Plans
 		}
 
 		#endregion
-
-		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
-		{
-			var elementSKDDevice = args.Element as ElementSKDDevice;
-			if (elementSKDDevice != null)
-				args.Painter = new Painter(DesignerCanvas, elementSKDDevice);
-			else if (args.Element is ElementDoor)
-				args.Painter = new DoorPainter(DesignerCanvas, (ElementDoor)args.Element);
-		}
-		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
-		{
-			ElementSKDDevice element = e.Element as ElementSKDDevice;
-			if (element != null)
-				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
-			else if (e.Element is ElementDoor)
-				e.PropertyViewModel = new DoorPropertiesViewModel(_doorsViewModel, (ElementDoor)e.Element);
-			else if (e.Element is ElementRectangleSKDZone || e.Element is ElementPolygonSKDZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
-		}
 
 		protected override void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)
 		{
@@ -240,6 +221,25 @@ namespace SKDModule.Plans
 			}
 			else
 				base.UpdateElementProperties<TItem>(element, item);
+		}
+
+		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		{
+			var elementSKDDevice = args.Element as ElementSKDDevice;
+			if (elementSKDDevice != null)
+				args.Painter = new Painter(DesignerCanvas, elementSKDDevice);
+			else if (args.Element is ElementDoor)
+				args.Painter = new DoorPainter(DesignerCanvas, (ElementDoor)args.Element);
+		}
+		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
+		{
+			ElementSKDDevice element = e.Element as ElementSKDDevice;
+			if (element != null)
+				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
+			else if (e.Element is ElementDoor)
+				e.PropertyViewModel = new DoorPropertiesViewModel(_doorsViewModel, (ElementDoor)e.Element);
+			else if (e.Element is ElementRectangleSKDZone || e.Element is ElementPolygonSKDZone)
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
 		}
 
 		private Color GetSKDZoneColor(SKDZone zone)

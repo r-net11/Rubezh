@@ -221,6 +221,7 @@
     <Compile Include="Models\Automation\ExplicitType.cs" />
     <Compile Include="Models\Layouts\LayoutPartProcedureProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
+    <Compile Include="Models\Plans\ElementGKDoor.cs" />
     <Compile Include="Models\Plans\ElementProcedure.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />

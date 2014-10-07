@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
 using FiresecAPI;
+using Infrastructure.Client.Startup;
 
 namespace FireAdministrator
 {
@@ -69,6 +70,10 @@ namespace FireAdministrator
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosed);
 					MutexHelper.KeepAlive();
+				}
+				catch (StartupCancellationException)
+				{
+					throw;
 				}
 				catch (Exception e)
 				{

@@ -108,6 +108,8 @@
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\CreateGKDoorEvent.cs" />
+    <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\EditXGuardZoneEvent.cs" />
     <Compile Include="Events\CreateXDirectionEvent.cs" />
     <Compile Include="Events\CreateXGuardZoneEvent.cs" />
@@ -209,10 +211,15 @@
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\XGuardZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XGuardZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
+      <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Views\GuardZonePropertiesView.xaml.cs">
       <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -597,6 +604,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plans\Views\GKDoorPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

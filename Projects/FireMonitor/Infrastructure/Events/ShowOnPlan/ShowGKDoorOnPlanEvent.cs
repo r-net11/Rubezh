@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-	public class ShowXDoorOnPlanEvent : CompositePresentationEvent<GKDoor>
+	public class ShowGKDoorOnPlanEvent : CompositePresentationEvent<GKDoor>
 	{
 	}
 }

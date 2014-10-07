@@ -98,10 +98,10 @@
     <Compile Include="Events\Reports\PrintReportPreviewEvent.cs" />
     <Compile Include="Events\Reports\PrintReportEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
-    <Compile Include="Events\ShowDetails\ShowXDoorDetailsEvent.cs" />
+    <Compile Include="Events\ShowDetails\ShowGKDoorDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXGuardZoneDetailsEvent.cs" />
-    <Compile Include="Events\ShowObject\ShowXDoorEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowXDoorOnPlanEvent.cs" />
+    <Compile Include="Events\ShowObject\ShowGKDoorEvent.cs" />
+    <Compile Include="Events\ShowOnPlan\ShowGKDoorOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowProcedureOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowCameraEvent.cs" />

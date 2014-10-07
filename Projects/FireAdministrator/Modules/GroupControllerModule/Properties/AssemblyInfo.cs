@@ -7,4 +7,3 @@
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("GroupControllerModule")]
-

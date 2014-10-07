@@ -52,6 +52,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditXGuardZoneEvent>().Subscribe(OnEditGKGuardZone);
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Subscribe(OnCreateGKDirection);
 			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditGKDirection);
+			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
+			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
@@ -71,7 +73,7 @@ namespace GKModule
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel, DoorsViewModel);
 		}
 
 		public override void Initialize()
@@ -187,6 +189,15 @@ namespace GKModule
 			DirectionsViewModel.EditDirection(directionUID);
 		}
 
+		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
+		{
+			DoorsViewModel.CreateDoor(createGKDoorEventArg);
+		}
+		private void OnEditGKDoor(Guid doorUID)
+		{
+			DoorsViewModel.EditDoor(doorUID);
+		}
+		
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");

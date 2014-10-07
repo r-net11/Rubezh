@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
@@ -21,7 +22,8 @@ namespace GKModule.ViewModels
 				Door = new GKDoor()
 				{
 					Name = "Новая точка доступа",
-					No = 1
+					No = 1,
+					PlanElementUIDs = new List<Guid>(),
 				};
 				if (GKManager.DeviceConfiguration.Doors.Count != 0)
 					Door.No = (ushort)(GKManager.DeviceConfiguration.Doors.Select(x => x.No).Max() + 1);

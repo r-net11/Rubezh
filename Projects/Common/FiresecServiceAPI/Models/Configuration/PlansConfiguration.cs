@@ -92,6 +92,11 @@ namespace FiresecAPI.Models
 				plan.ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
 				result = false;
 			}
+			if (plan.ElementGKDoors == null)
+			{
+				plan.ElementGKDoors = new List<ElementGKDoor>();
+				result = false;
+			}
 			if (plan.ElementExtensions == null)
 			{
 				plan.ElementExtensions = new List<ElementBase>();

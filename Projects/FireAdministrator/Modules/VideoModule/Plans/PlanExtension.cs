@@ -98,7 +98,7 @@ namespace VideoModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("CameraVideo", "Камеры", 7);
+			LayerGroupService.Instance.RegisterGroup("CameraVideo", "Камеры", 41);
 		}
 		public override void ExtensionAttached()
 		{

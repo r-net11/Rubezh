@@ -5,10 +5,11 @@ using System.Text;
 using Common;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
 {
-	public class GKDoor : GKBase
+	public class GKDoor : GKBase, IPlanPresentable
 	{
 		public GKDevice EnterDevice { get; set; }
 		public GKDevice ExitDevice { get; set; }
@@ -38,5 +39,11 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Door; } }
+
+		[DataMember]
+		public List<Guid> PlanElementUIDs { get; set; }
+
+		[DataMember]
+		public bool AllowMultipleVizualization { get; set; }
 	}
 }

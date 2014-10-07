@@ -110,7 +110,7 @@ namespace PlansModule.Kursk
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup(OthersGroup, "Прочие", 4);
+			LayerGroupService.Instance.RegisterGroup(OthersGroup, "Прочие", 40);
 		}
 		public override void ExtensionAttached()
 		{

@@ -137,10 +137,12 @@
     <Compile Include="MPTs\Views\MPTToolTipView.xaml.cs">
       <DependentUpon>MPTToolTipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\XGuardZonePainter.cs" />
     <Compile Include="Plans\ViewModels\GuardZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\GKDoorTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
     <Compile Include="Devices\ViewModels\MeasureParameterViewModel.cs" />
     <Compile Include="PIMs\ViewModels\PimDetailsViewModel.cs" />

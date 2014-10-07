@@ -85,16 +85,14 @@ namespace GKModule
 
 		public static void ShowDoor(GKDoor door)
 		{
-			ServiceFactory.Events.GetEvent<ShowXDoorOnPlanEvent>().Publish(door);
+			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Publish(door);
 		}
 		public static bool CanShowDoor(GKDoor door)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				//if (plan.ElementRectangleGKDirections.Any(x => x.DirectionUID == door.BaseUID))
-				//	return true;
-				//if (plan.ElementPolygonGKDirections.Any(x => x.DirectionUID == door.BaseUID))
-				//	return true;
+				if (plan.ElementGKDoors.Any(x => x.DoorUID != Guid.Empty && x.DoorUID == door.UID))
+					return true;
 			}
 			return false;
 		}

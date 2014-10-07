@@ -114,7 +114,10 @@ namespace Infrastructure.Client.Startup
 		private void StartupClosed(object sender, EventArgs e)
 		{
 			if (IsActive)
+			{
+				MessageBoxService.ResetMessageBoxHandler();
 				ApplicationService.Invoke((Action)(() => { throw new StartupCancellationException(); }));
+			}
 		}
 		private void CloseSplashImage()
 		{

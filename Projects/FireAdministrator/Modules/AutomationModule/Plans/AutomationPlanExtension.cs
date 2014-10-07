@@ -117,7 +117,7 @@ namespace AutomationModule.Plans
 		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			base.ExtensionRegistered(designerCanvas);
-			LayerGroupService.Instance.RegisterGroup("Procedure", "Процедуры", 8);
+			LayerGroupService.Instance.RegisterGroup("Procedure", "Процедуры", 42);
 		}
 		public override void ExtensionAttached()
 		{
