@@ -61,7 +61,7 @@ namespace LayoutModule
 			{
 				Factory = (p) => new LayoutPartTemplateContainerViewModel(p as LayoutPartReferenceProperties),
 			};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, "Пространство", "Свободное пространство", "BExit.png")
 			{
 				Factory = (p) => new LayoutPartEmptyViewModel(),
 			};

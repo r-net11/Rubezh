@@ -16,6 +16,16 @@ namespace FiresecAPI.Models
 			WordWrap = false;
 			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;
+
+			Text = "Надпись";
+			ForegroundColor = Colors.Black;
+			FontSize = 10;
+			TextAlignment = 0;
+			FontFamilyName = "Arial";
+			FontItalic = false;
+			FontBold = false;
+			Height = 22;
+			Width = 52;
 		}
 
 		[DataMember]
@@ -68,19 +78,5 @@ namespace FiresecAPI.Models
 		}
 
 		#endregion
-
-		protected override void SetDefault()
-		{
-			Text = "Надпись";
-			ForegroundColor = Colors.Black;
-			FontSize = 10;
-			TextAlignment = 0;
-			FontFamilyName = "Arial";
-			FontItalic = false;
-			FontBold = false;
-			base.SetDefault();
-			Height = 22;
-			Width = 52;
-		}
 	}
 }

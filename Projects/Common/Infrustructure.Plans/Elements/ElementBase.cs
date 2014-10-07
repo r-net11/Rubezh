@@ -21,7 +21,6 @@ namespace Infrustructure.Plans.Elements
 			IsVectorImage = false;
 			IsLocked = false;
 			IsHidden = false;
-			SetDefault();
 		}
 
 		[XmlIgnore]
@@ -76,7 +75,6 @@ namespace Infrustructure.Plans.Elements
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
 		public abstract ElementBase Clone();
-		protected abstract void SetDefault();
 
 		public virtual void Copy(ElementBase element)
 		{
