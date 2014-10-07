@@ -20,6 +20,16 @@ namespace AutomationModule
 			return allVariables;
 		}
 
+		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType explicitType, ObjectType objectType = ObjectType.Device, EnumType enumType = EnumType.DriverType)
+		{
+			var allVariables = GetAllVariables(procedure).FindAll(x => x.ExplicitType == explicitType);
+			if (explicitType == ExplicitType.Enum)
+				allVariables = allVariables.FindAll(x => x.EnumType == enumType);
+			if (explicitType == ExplicitType.Object)
+				allVariables = allVariables.FindAll(x => x.ObjectType == objectType);
+			return allVariables;
+		}
+
 		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType ExplicitType, ObjectType objectType, bool isList)
 		{
 			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == ExplicitType && x.ObjectType == objectType && x.IsList == isList);
@@ -40,7 +50,7 @@ namespace AutomationModule
 		{
 			if ((ExplicitType == ExplicitType.Integer) || (ExplicitType == ExplicitType.DateTime) || (ExplicitType == ExplicitType.Object) || ExplicitType == ExplicitType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess };
-			if (ExplicitType == ExplicitType.Boolean)
+			if ((ExplicitType == ExplicitType.Boolean) || (ExplicitType == ExplicitType.Object))
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 			if (ExplicitType == ExplicitType.String)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };

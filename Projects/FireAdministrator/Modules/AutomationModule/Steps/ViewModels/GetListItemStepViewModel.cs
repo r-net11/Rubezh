@@ -25,13 +25,12 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			ListArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
-			IndexArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			IndexArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Integer).FindAll(x => !x.IsList));
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListArgument.SelectedVariable.Variable.ExplicitType
-				&& x.ObjectType == ListArgument.SelectedVariable.Variable.ObjectType && x.EnumType == ListArgument.SelectedVariable.Variable.EnumType));
+			ItemArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ListArgument.ExplicitType, ListArgument.ObjectType, ListArgument.EnumType).FindAll(x => !x.IsList));
 		}
 
 		public ObservableCollection<PositionType> PositionTypes { get; private set; } 
@@ -49,7 +48,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "Список: " + ListArgument.Description + "Элемент: " + ItemArgument.Description + "Позиция: " + SelectedPositionType.ToDescription() + (SelectedPositionType == PositionType.ByIndex ? "  [" + IndexArgument.Description + "]" : "");
+				return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description + " Позиция: " + SelectedPositionType.ToDescription() + (SelectedPositionType == PositionType.ByIndex ? "  [" + IndexArgument.Description + "]" : "");
 			}
 		}
 	}

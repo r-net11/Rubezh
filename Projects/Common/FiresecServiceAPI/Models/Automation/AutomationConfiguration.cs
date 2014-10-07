@@ -50,16 +50,13 @@ namespace FiresecAPI.Automation
 						int i = 0;
 						foreach (var variable in procedure.Arguments)
 						{
-							var argument = new Argument();
+							Argument argument;
 							if (scheduleProcedure.Arguments.Count <= i)
 								argument = InitializeArgumemt(variable);
 							else
 							{
 								if (!CheckSignature(scheduleProcedure.Arguments[i], variable))
-								{
 									argument = InitializeArgumemt(variable);
-
-								}
 								else
 									argument = scheduleProcedure.Arguments[i];
 							}
@@ -330,6 +327,15 @@ namespace FiresecAPI.Automation
 						var getListCountArgument = step.GetListCountArgument;
 						InvalidateArgument(procedure, getListCountArgument.ListArgument);
 						InvalidateArgument(procedure, getListCountArgument.CountArgument);
+					}
+					break;
+
+				case ProcedureStepType.GetListItem:
+					{
+						var getListItemArgument = step.GetListItemArgument;
+						InvalidateArgument(procedure, getListItemArgument.ListArgument);
+						InvalidateArgument(procedure, getListItemArgument.ItemArgument);
+						InvalidateArgument(procedure, getListItemArgument.IndexArgument);
 					}
 					break;
 			}
