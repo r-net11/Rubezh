@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
@@ -8,7 +7,7 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class Procedure : IIdentity, IPlanPresentable
+	public class Procedure : IPlanPresentable
 	{
 		public Procedure()
 		{
@@ -18,6 +17,7 @@ namespace FiresecAPI.Automation
 			Steps = new List<ProcedureStep>();
 			Uid = Guid.NewGuid();
 			FiltersUids = new List<Guid>();
+			IsActive = true;
 		}
 
 		[DataMember]
@@ -44,7 +44,7 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public bool IsActive { get; set; }
 
-		public void ResetVariables(List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables) //TODO
+		public void ResetVariables(List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables)
 		{
 			foreach (var variable in Variables)
 				variable.ResetValue();
