@@ -28,7 +28,8 @@ namespace FiresecService.Processor
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
-			journalItem.DescriptionText = GetValue<object>(procedureStep.JournalArguments.MessageArgument).ToString();
+			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
+			journalItem.DescriptionText = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
 			Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
@@ -620,7 +621,15 @@ namespace FiresecService.Processor
 			var targetVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.TargetArgument.VariableUid);
 			if (targetVariable == null)
 				return;
-			PropertyCopy.Copy(sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceArgument.ExplicitValue, targetVariable.ExplicitValue);
+			if (setValueArguments.ExplicitType == ExplicitType.String)
+			{
+				var value = GetValue<object>(setValueArguments.SourceArgument);
+				targetVariable.ExplicitValue.StringValue = value.GetType().IsEnum ? ((Enum)value).ToDescription() : value.ToString();
+			}
+			else
+				PropertyCopy.Copy(
+					sourceVariable != null ? sourceVariable.ExplicitValue : setValueArguments.SourceArgument.ExplicitValue,
+					targetVariable.ExplicitValue);
 		}
 
 		public static void SetValue(Variable target, object propertyValue)

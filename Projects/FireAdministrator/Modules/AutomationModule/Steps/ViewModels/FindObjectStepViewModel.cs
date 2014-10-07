@@ -79,7 +79,6 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-
 				var conditionViewModel = FindObjectConditions.FirstOrDefault();
 				if (conditionViewModel == null)
 					return "Результат: " + ResultArgument.Description + " Условие поиска: <пусто>";
