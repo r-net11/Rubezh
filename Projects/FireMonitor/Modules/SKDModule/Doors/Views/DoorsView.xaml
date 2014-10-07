@@ -8,9 +8,9 @@
 			 xmlns:Views="clr-namespace:SKDModule.Views">
 
 	<Grid ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-		<DataGrid Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
+        <DataGrid Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" CanUserSortColumns="True">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
+                <DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -20,7 +20,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Точка доступа" Width="*">
+                <DataGridTemplateColumn Header="Точка доступа" Width="*" SortMemberPath="Door.Name">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

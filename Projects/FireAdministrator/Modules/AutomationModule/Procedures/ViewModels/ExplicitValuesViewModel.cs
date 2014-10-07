@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
@@ -33,13 +30,13 @@ namespace AutomationModule.ViewModels
 			EnumType = enumType;
 			ObjectType = objectType;
 			var newExplicitValue = new ExplicitValue();
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
+			PropertyCopy.Copy(explicitValue, newExplicitValue);
 			ExplicitValue = new ExplicitValueViewModel(newExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 			foreach (var explicitVal in explicitValues)
 			{
 				var newExplicitVal = new ExplicitValue();
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitVal, newExplicitVal);
+				PropertyCopy.Copy(explicitVal, newExplicitVal);
 				ExplicitValues.Add(new ExplicitValueViewModel(newExplicitVal));
 			}
 		}
@@ -61,8 +58,9 @@ namespace AutomationModule.ViewModels
 			get { return _explicitType; }
 			set
 			{
+				if(_explicitType != value)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 				_explicitType = value;
-				ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => ExplicitType);
 			}
@@ -74,8 +72,9 @@ namespace AutomationModule.ViewModels
 			get { return _enumType; }
 			set
 			{
+				if (_enumType != value)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 				_enumType = value;
-				ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => EnumType);
 			}
@@ -87,8 +86,9 @@ namespace AutomationModule.ViewModels
 			get { return _objectType; }
 			set
 			{
+				if (_objectType != value)
+					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 				_objectType = value;
-				ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => ObjectType);
 			}

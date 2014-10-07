@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Schedules = new ObservableCollection<ScheduleViewModel>();
-			foreach (var schedule in XManager.DeviceConfiguration.Schedules)
+			foreach (var schedule in GKManager.DeviceConfiguration.Schedules.OrderBy(x => x.No))
 			{
 				var scheduleViewModel = new ScheduleViewModel(schedule);
 				Schedules.Add(scheduleViewModel);
@@ -92,12 +92,12 @@ namespace GKModule.ViewModels
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel();
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.Schedules.Add(scheduleDetailsViewModel.Schedule);
+				GKManager.DeviceConfiguration.Schedules.Add(scheduleDetailsViewModel.Schedule);
 				var scheduleViewModel = new ScheduleViewModel(scheduleDetailsViewModel.Schedule);
 				Schedules.Add(scheduleViewModel);
 				SelectedSchedule = scheduleViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XSchedule>();
+				GKPlanExtension.Instance.Cache.BuildSafe<GKSchedule>();
 				return scheduleDetailsViewModel;
 			}
 			return null;
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Schedules.IndexOf(SelectedSchedule);
-				XManager.DeviceConfiguration.Schedules.Remove(SelectedSchedule.Schedule);
+				GKManager.DeviceConfiguration.Schedules.Remove(SelectedSchedule.Schedule);
 				SelectedSchedule.Schedule.OnChanged();
 				Schedules.Remove(SelectedSchedule);
 				index = Math.Min(index, Schedules.Count - 1);
@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 		{
 			OnEdit(SelectedSchedule.Schedule);
 		}
-		void OnEdit(XSchedule schedule)
+		void OnEdit(GKSchedule schedule)
 		{
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel(schedule);
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))

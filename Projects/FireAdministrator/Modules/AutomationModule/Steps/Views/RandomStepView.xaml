@@ -8,11 +8,11 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Результат" Width="150" />
-			<Views:ArgumentView DataContext="{Binding ResultParameter}" />
+			<Views:ArgumentView DataContext="{Binding ResultArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Label Content="Максимальное значение" Width="150" />
-			<Views:ArgumentView DataContext="{Binding MaxValueParameter}" />
+			<Views:ArgumentView DataContext="{Binding MaxValueArgument}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

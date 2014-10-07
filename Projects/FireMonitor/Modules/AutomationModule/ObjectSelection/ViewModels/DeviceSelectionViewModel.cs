@@ -7,10 +7,10 @@ namespace AutomationModule.ViewModels
 {
 	public class DeviceSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public DeviceSelectionViewModel(XDevice device)
+		public DeviceSelectionViewModel(GKDevice device)
 		{
 			Title = "Выбор устройства";
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
 			if (SelectedDevice == null)
@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 				SelectedDevice.ExpandToThis();
 		}
 
-		DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

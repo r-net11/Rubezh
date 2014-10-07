@@ -19,7 +19,6 @@ namespace JournalModule.ViewModels
 	public class ArchiveViewModel : ViewPartViewModel
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
-		public ArchiveDefaultState ArchiveDefaultState;
 		ArchiveFilter ArchiveFilter;
 		Guid ArchivePortionUID;
 
@@ -35,10 +34,6 @@ namespace JournalModule.ViewModels
 
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
-			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
-			if (ArchiveDefaultState == null)
-				ArchiveDefaultState = new ArchiveDefaultState();
-
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
@@ -160,9 +155,6 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
-			if (ArchiveFilter == null)
-				ArchiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
-
 			ArchiveFilterViewModel archiveFilterViewModel = null;
 
 			var result = WaitHelper.Execute(() =>
@@ -186,11 +178,9 @@ namespace JournalModule.ViewModels
 		{
 			try
 			{
-				var archiveSettingsViewModel = new ArchiveSettingsViewModel(ArchiveDefaultState);
+				var archiveSettingsViewModel = new ArchiveSettingsViewModel();
 				if (DialogService.ShowModalWindow(archiveSettingsViewModel))
 				{
-					ArchiveDefaultState = archiveSettingsViewModel.ArchiveDefaultState;
-					ClientSettings.ArchiveDefaultState = ArchiveDefaultState;
 					ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Publish(null);
 					if (IsFilterOn == false)
 						Update();
@@ -201,42 +191,6 @@ namespace JournalModule.ViewModels
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
 				MessageBoxService.ShowException(e);
 			}
-		}
-
-		ArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
-		{
-			var archiveFilter = new ArchiveFilter()
-			{
-				StartDate = ArchiveFirstDate,
-				EndDate = DateTime.Now,
-				PageSize = archiveDefaultState.PageSize
-			};
-
-			switch (archiveDefaultState.ArchiveDefaultStateType)
-			{
-				case ArchiveDefaultStateType.LastHours:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count.Value);
-					break;
-
-				case ArchiveDefaultStateType.LastDays:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count.Value);
-					break;
-
-				case ArchiveDefaultStateType.FromDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-					break;
-
-				case ArchiveDefaultStateType.RangeDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-					if (archiveDefaultState.EndDate.HasValue)
-						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
-					break;
-			}
-			return archiveFilter;
 		}
 
 		string _status;
@@ -337,10 +291,7 @@ namespace JournalModule.ViewModels
 
 		public bool IsLoading
 		{
-			get
-			{
-				return Status == "Загрузка данных";
-			}
+			get { return Status == "Загрузка данных"; }
 		}
 
 		public void Update()
@@ -355,13 +306,33 @@ namespace JournalModule.ViewModels
 
 			try
 			{
-				ArchiveFilter archiveFilter = null;
+				var archiveFilter = new ArchiveFilter();
 				if (IsFilterOn)
 					archiveFilter = ArchiveFilter;
-				else
-					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
 				archiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
+				archiveFilter.StartDate = ArchiveFirstDate;
+				archiveFilter.EndDate = DateTime.Now;
+
+				switch (ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType)
+				{
+					case ArchiveDefaultStateType.LastHours:
+						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-ClientSettings.ArchiveDefaultState.Count);
+						break;
+
+					case ArchiveDefaultStateType.LastDays:
+						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-ClientSettings.ArchiveDefaultState.Count);
+						break;
+
+					case ArchiveDefaultStateType.FromDate:
+						archiveFilter.StartDate = ClientSettings.ArchiveDefaultState.StartDate;
+						break;
+
+					case ArchiveDefaultStateType.RangeDate:
+						archiveFilter.StartDate = ClientSettings.ArchiveDefaultState.StartDate;
+						archiveFilter.EndDate = ClientSettings.ArchiveDefaultState.EndDate;
+						break;
+				}
 
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				ArchivePortionUID = Guid.NewGuid();
@@ -383,7 +354,7 @@ namespace JournalModule.ViewModels
 				TotalPageNumber = Pages.Count;
 				if (CurrentPageNumber == 0)
 					CurrentPageNumber = 1;
-				Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
+				Status = "Количество записей: " + ((TotalPageNumber - 1) * ClientSettings.ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
 			}
 		}
 

@@ -24,7 +24,7 @@ namespace Infrastructure.Common.Windows
 			try
 			{
 				WindowBaseView win = new WindowBaseView(windowBaseViewModel);
-				PrepareWindow(windowBaseViewModel);
+				windowBaseViewModel.OnLoad();
 				bool? result = win.ShowDialog();
 				return result.HasValue ? result.Value : false;
 			}
@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Windows
 			if (!FindWindowIdentity(windowBaseViewModel))
 			{
 				var windowBaseView = new WindowBaseView(windowBaseViewModel);
-				PrepareWindow(windowBaseViewModel);
+				windowBaseViewModel.OnLoad();
 				windowBaseView.Show();
 			}
 		}
@@ -60,16 +60,6 @@ namespace Infrastructure.Common.Windows
 				_openedWindows.Add(identityModel);
 			}
 			return false;
-		}
-		static void PrepareWindow(WindowBaseViewModel model)
-		{
-			SetWindowProperty(model);
-		}
-		static void SetWindowProperty(WindowBaseViewModel windowBaseViewModel)
-		{
-			windowBaseViewModel.Surface.Owner = GetActiveWindow();
-			windowBaseViewModel.Surface.ShowInTaskbar = windowBaseViewModel.Surface.Owner == null;
-			windowBaseViewModel.Surface.WindowStartupLocation = windowBaseViewModel.Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 		}
 
 		public static bool IsModal(this Window window)

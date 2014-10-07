@@ -11,7 +11,7 @@ namespace Infrastructure.Events
 
 	public class GKArchiveResult
 	{
-		public IEnumerable<XJournalItem> JournalItems { get; set; }
+		public IEnumerable<GKJournalItem> JournalItems { get; set; }
 		public Guid ArchivePortionUID { get; set; }
 	}
 }

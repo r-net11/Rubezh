@@ -5,6 +5,8 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
+using Infrastructure;
+using Infrastructure.Client.Startup;
 
 namespace FireAdministrator
 {
@@ -17,27 +19,39 @@ namespace FireAdministrator
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-			PatchManager.Patch();
-			string fileName;
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-			ThemeHelper.LoadThemeFromRegister();
-#if DEBUG
-			bool trace = false;
-			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
-#endif
-			_bootstrapper = new Bootstrapper();
-			using (new DoubleLaunchLocker(SignalId, WaitId))
-				_bootstrapper.Initialize();
 			try
 			{
-				if (e.Args != null && e.Args.Length > 0)
+				PatchManager.Patch();
+				string fileName;
+				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+				ThemeHelper.LoadThemeFromRegister();
+#if DEBUG
+				bool trace = false;
+				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
+#endif
+				_bootstrapper = new Bootstrapper();
+				using (new DoubleLaunchLocker(SignalId, WaitId))
+					_bootstrapper.Initialize();
+				try
 				{
-					fileName = e.Args[0];
-					FileConfigurationHelper.LoadFromFile(fileName);
+					if (e.Args != null && e.Args.Length > 0)
+					{
+						fileName = e.Args[0];
+						FileConfigurationHelper.LoadFromFile(fileName);
+					}
 				}
+				catch { }
 			}
-			catch { }
+			catch (StartupCancellationException)
+			{
+				ApplicationService.ShutDown();
+				return;
+			}
+			finally
+			{
+				ServiceFactory.StartupService.Close();
+			}
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -56,7 +70,17 @@ namespace FireAdministrator
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)
 					module.Dispose();
+			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
+		}
+
+		[STAThread]
+		private static void Main()
+		{
+			ServiceFactory.StartupService.Run();
+			var app = new App();
+			app.InitializeComponent();
+			app.Run();
 		}
 	}
 }

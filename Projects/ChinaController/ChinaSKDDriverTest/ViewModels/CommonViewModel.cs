@@ -66,10 +66,9 @@ namespace ControllerSDK.ViewModels
 			var deviceNetInfo = MainViewModel.Wrapper.GetDeviceNetInfo();
 			if (deviceNetInfo != null)
 			{
-				var text = "IP = " + deviceNetInfo.IP + "\n";
-				text += "SubnetMask = " + deviceNetInfo.SubnetMask + "\n";
+				var text = "IP = " + deviceNetInfo.Address + "\n";
+				text += "SubnetMask = " + deviceNetInfo.Mask + "\n";
 				text += "DefaultGateway = " + deviceNetInfo.DefaultGateway + "\n";
-				text += "MTU = " + deviceNetInfo.MTU.ToString() + "\n";
 				MessageBox.Show(text);
 			}
 			else
@@ -83,12 +82,11 @@ namespace ControllerSDK.ViewModels
 		{
 			if (MessageBox.Show("Вы уверены, что хотите перезаписать сетевые настройки?") == MessageBoxResult.OK)
 			{
-				var deviceNetInfo = new DeviceNetInfo()
+				var deviceNetInfo = new SKDControllerNetworkSettings()
 				{
-					IP = "172.16.6.55",
-					SubnetMask = "255.255.252.0",
-					DefaultGateway = "172.16.6.219",
-					MTU = 1000
+					Address = "172.16.6.55",
+					Mask = "255.255.252.0",
+					DefaultGateway = "172.16.6.219"
 				};
 				MainViewModel.Wrapper.SetDeviceNetInfo(deviceNetInfo);
 			}

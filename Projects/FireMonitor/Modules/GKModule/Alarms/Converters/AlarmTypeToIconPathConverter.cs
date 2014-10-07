@@ -8,33 +8,33 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			switch ((XAlarmType) value)
+			switch ((GKAlarmType) value)
 			{
-				case XAlarmType.NPTOn:
+				case GKAlarmType.NPTOn:
 					return "/Controls;component/Images/Alarm_MPT.png";
 
-				case XAlarmType.Fire1:
+				case GKAlarmType.Fire1:
 					return "/Controls;component/Images/Alarm_Main_0_Fire1.png";
 
-				case XAlarmType.Fire2:
+				case GKAlarmType.Fire2:
 					return "/Controls;component/Images/Alarm_Main_1_Fire2.png";
 
-				case XAlarmType.Attention:
+				case GKAlarmType.Attention:
 					return "/Controls;component/Images/Alarm_main_2_Attention.png";
 
-				case XAlarmType.Failure:
+				case GKAlarmType.Failure:
 					return "/Controls;component/Images/Alarm_main_3_Failure.png";
 
-				case XAlarmType.Ignore:
+				case GKAlarmType.Ignore:
 					return "/Controls;component/Images/Alarm_main_4_Off.png";
 
-				case XAlarmType.Turning:
+				case GKAlarmType.Turning:
 					return "/Controls;component/Images/Alarm_main_5_Info.png";
 
-				case XAlarmType.Service:
+				case GKAlarmType.Service:
 					return "/Controls;component/Images/Alarm_main_6_Service.png";
 
-				case XAlarmType.AutoOff:
+				case GKAlarmType.AutoOff:
 					return "/Controls;component/Images/Alarm_main_7_Auto.png";
 
 				default:

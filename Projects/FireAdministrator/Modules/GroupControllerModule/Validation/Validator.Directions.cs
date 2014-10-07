@@ -12,7 +12,7 @@ namespace GKModule.Validation
 		{
 			ValidateDirectionNoEquality();
 
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(direction);
@@ -35,16 +35,16 @@ namespace GKModule.Validation
 		void ValidateDirectionNoEquality()
 		{
 			var directionNos = new HashSet<int>();
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				if (!directionNos.Add(direction.No))
 					Errors.Add(new DirectionValidationError(direction, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateDifferentGK(XDirection direction)
+		void ValidateDifferentGK(GKDirection direction)
 		{
-			var devices = new List<XDevice>();
+			var devices = new List<GKDevice>();
 			devices.AddRange(direction.InputDevices);
 			devices.AddRange(direction.OutputDevices);
 			foreach (var zone in direction.InputZones)
@@ -56,19 +56,19 @@ namespace GKModule.Validation
 				Errors.Add(new DirectionValidationError(direction, "Направление содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidateDirectionInputCount(XDirection direction)
+		void ValidateDirectionInputCount(GKDirection direction)
 		{
 			if (direction.InputDevices.Count + direction.InputZones.Count == 0)
 				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют входные устройства или зоны", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidateDirectionOutputCount(XDirection direction)
+		void ValidateDirectionOutputCount(GKDirection direction)
 		{
 			if (direction.OutputDevices.Count == 0)
 				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
 		}
 
-		bool ValidateEmptyDirection(XDirection direction)
+		bool ValidateEmptyDirection(GKDirection direction)
 		{
 			var count = direction.InputZones.Count + direction.InputDevices.Count + direction.OutputDevices.Count;
 			if (count == 0)
@@ -79,7 +79,7 @@ namespace GKModule.Validation
 			return true;
 		}
 
-		void ValidateEmptyZoneInDirection(XDirection direction)
+		void ValidateEmptyZoneInDirection(GKDirection direction)
 		{
 			foreach (var zone in direction.InputZones)
 			{
@@ -90,7 +90,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateSameInputOutputDevices(XDirection direction)
+		void ValidateSameInputOutputDevices(GKDirection direction)
 		{
 			foreach (var device in direction.OutputDevices)
 			{
@@ -101,7 +101,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDirectionSelfLogic(XDirection direction)
+		void ValidateDirectionSelfLogic(GKDirection direction)
 		{
 			if (direction.ClauseInputDirections.Contains(direction))
 				Errors.Add(new DirectionValidationError(direction, "Направление зависит от самого себя", ValidationErrorLevel.CannotWrite));

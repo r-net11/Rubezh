@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels
@@ -14,15 +7,15 @@ namespace AutomationModule.ViewModels
 	public class ControlGKGuardZoneStepViewModel: BaseStepViewModel
 	{
 		ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
-		public ArgumentViewModel GKGuardZoneParameter { get; private set; }
+		public ArgumentViewModel GKGuardZoneArgument { get; private set; }
 
 		public ControlGKGuardZoneStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGKGuardZoneArguments = stepViewModel.Step.ControlGKGuardZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
-			GKGuardZoneParameter = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneParameter, stepViewModel.Update);
-			GKGuardZoneParameter.ObjectType = ObjectType.GuardZone;
-			GKGuardZoneParameter.ExplicitType = ExplicitType.Object;
+			GKGuardZoneArgument = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneArgument, stepViewModel.Update);
+			GKGuardZoneArgument.ObjectType = ObjectType.GuardZone;
+			GKGuardZoneArgument.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
 		}
 
@@ -41,14 +34,14 @@ namespace AutomationModule.ViewModels
 	
 		public override void UpdateContent()
 		{
-			GKGuardZoneParameter.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.GuardZone, false));
+			GKGuardZoneArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.GuardZone, false));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Зона: " + GKGuardZoneParameter.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Зона: " + GKGuardZoneArgument.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 	}

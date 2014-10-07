@@ -135,7 +135,7 @@ namespace AutomationModule.ViewModels
 			var argumentDetailsViewModel = new ArgumentDetailsViewModel(Argument, IsList);
 			if (DialogService.ShowModalWindow(argumentDetailsViewModel))
 			{
-				PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
+				PropertyCopy.Copy(argumentDetailsViewModel.Argument, Argument);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => ValueDescription);
 			}
@@ -158,7 +158,6 @@ namespace AutomationModule.ViewModels
 			var stringDetailsViewModel = new StringDetailsViewModel(ExplicitValue.StringValue);
 			if (DialogService.ShowModalWindow(stringDetailsViewModel))
 			{
-				//PropertyCopy.Copy<Argument, Argument>(argumentDetailsViewModel.Argument, Argument);
 				ExplicitValue.StringValue = stringDetailsViewModel.StringValue;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => ValueDescription);
@@ -175,6 +174,13 @@ namespace AutomationModule.ViewModels
 			}
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == Argument.VariableUid);
 			SelectedVariableScope = Argument.VariableScope;
+			ExplicitValue.Initialize(ExplicitValue.UidValue);
+			foreach (var explicitValue in ExplicitValues)
+			{
+				explicitValue.Initialize(explicitValue.UidValue);
+			}
+			OnPropertyChanged(() => ExplicitValue);
+			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);
 		}
@@ -220,6 +226,9 @@ namespace AutomationModule.ViewModels
 				if (_selectedVariable != null)
 				{
 					Argument.VariableUid = value.Variable.Uid;
+					ExplicitType = _selectedVariable.Variable.ExplicitType;
+					EnumType = _selectedVariable.Variable.EnumType;
+					ObjectType = _selectedVariable.Variable.ObjectType;
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}
@@ -261,10 +270,9 @@ namespace AutomationModule.ViewModels
 					if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.LocalVariable)
 						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
 						return "<пусто>";
-					else
-						return "<" + SelectedVariable.Variable.Name + ">";
+					return "<" + SelectedVariable.Variable.Name + ">";
 				}
-								
+
 				var description = "";
 				if (!IsList)
 				{
@@ -280,7 +288,7 @@ namespace AutomationModule.ViewModels
 							description = ExplicitValue.IntValue.ToString();
 							break;
 						case ExplicitType.String:
-							description = ExplicitValue.StringValue.ToString();
+							description = ExplicitValue.StringValue;
 							break;
 						case ExplicitType.Enum:
 							{
@@ -298,7 +306,7 @@ namespace AutomationModule.ViewModels
 					}
 					return description;
 				}
-				else return "Список";
+				return "Список";
 			}
 		}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using System.Collections.Generic;
 
@@ -8,14 +7,14 @@ namespace AutomationModule.ViewModels
 	public class SetValueStepViewModel : BaseStepViewModel
 	{
 		SetValueArguments SetValueArguments { get; set; }
-		public ArgumentViewModel SourceParameter { get; private set; }
-		public ArgumentViewModel TargetParameter { get; private set; }
+		public ArgumentViewModel SourceArgument { get; private set; }
+		public ArgumentViewModel TargetArgument { get; private set; }
 
 		public SetValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SetValueArguments = stepViewModel.Step.SetValueArguments;
-			SourceParameter = new ArgumentViewModel(SetValueArguments.SourceParameter, stepViewModel.Update);
-			TargetParameter = new ArgumentViewModel(SetValueArguments.TargetParameter, stepViewModel.Update, false);
+			SourceArgument = new ArgumentViewModel(SetValueArguments.SourceArgument, stepViewModel.Update);
+			TargetArgument = new ArgumentViewModel(SetValueArguments.TargetArgument, stepViewModel.Update, false);
 			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
@@ -73,26 +72,26 @@ namespace AutomationModule.ViewModels
 			if (SelectedExplicitType == ExplicitType.Enum)
 			{
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.EnumType == SelectedEnumType);
-				TargetParameter.EnumType = SelectedEnumType;
-				SourceParameter.EnumType = SelectedEnumType;
+				TargetArgument.EnumType = SelectedEnumType;
+				SourceArgument.EnumType = SelectedEnumType;
 			}
 			else if (SelectedExplicitType == ExplicitType.Object)
 			{
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList && x.ObjectType == SelectedObjectType);
-				TargetParameter.ObjectType = SelectedObjectType;
-				SourceParameter.ObjectType = SelectedObjectType;
+				TargetArgument.ObjectType = SelectedObjectType;
+				SourceArgument.ObjectType = SelectedObjectType;
 			}
 			else
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
-			TargetParameter.ExplicitType = SelectedExplicitType;
-			SourceParameter.ExplicitType = SelectedExplicitType;
-			TargetParameter.Update(allVariables);
-			SourceParameter.Update(allVariables);
+			TargetArgument.ExplicitType = SelectedExplicitType;
+			SourceArgument.ExplicitType = SelectedExplicitType;
+			TargetArgument.Update(allVariables);
+			SourceArgument.Update(allVariables);
 		}
 
 		public override string Description 
 		{ 
-			get { return TargetParameter.Description + " = " + SourceParameter.Description; } 
+			get { return TargetArgument.Description + " = " + SourceArgument.Description; } 
 		}
 	}
 }

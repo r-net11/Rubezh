@@ -15,7 +15,7 @@ namespace GKModule.Validation
 		{
 			ValidateAddressEquality();
 
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.IsNotUsed)
 					continue;
@@ -45,9 +45,9 @@ namespace GKModule.Validation
 		void ValidateAddressEquality()
 		{
 			var deviceAddresses = new HashSet<string>();
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == XDriverType.System || device.DriverType == XDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
+				if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
 					continue;
 
 				if (!deviceAddresses.Add(device.DottedAddress))
@@ -57,9 +57,9 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateIPAddress(XDevice device)
+		void ValidateIPAddress(GKDevice device)
 		{
-			if (!XManager.IsValidIpAddress(device))
+			if (!GKManager.IsValidIpAddress(device))
 			{
 				Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
 			}
@@ -73,7 +73,7 @@ namespace GKModule.Validation
 			return IPAddress.TryParse(ipAddress, out address);
 		}
 
-		void ValidateDifferentGK(XDevice device)
+		void ValidateDifferentGK(GKDevice device)
 		{
 			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 			{
@@ -85,12 +85,12 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDeviceZone(XDevice device)
+		void ValidateDeviceZone(GKDevice device)
 		{
 			if (device.IsInMPT)
 				return;
 
-			if (device.DriverType == XDriverType.RSR2_AM_1)
+			if (device.DriverType == GKDriverType.RSR2_AM_1)
 			{
 				if (device.Properties.Any(x => x.Name == "Сообщение для нормы" || x.Name == "Сообщение для сработки 1" || x.Name == "Сообщение для сработки 2"))
 					return;
@@ -103,12 +103,12 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDeviceLogic(XDevice device)
+		void ValidateDeviceLogic(GKDevice device)
 		{
 			if(device.IsInMPT)
 				return;
 
-			if (device.DriverType == XDriverType.GKRele)
+			if (device.DriverType == GKDriverType.GKRele)
 				return;
 
 			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
@@ -118,16 +118,16 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateGKNotEmptyChildren(XDevice device)
+		void ValidateGKNotEmptyChildren(GKDevice device)
 		{
-			if (device.DriverType == XDriverType.GK)
+			if (device.DriverType == GKDriverType.GK)
 			{
 				if (device.Children.Where(x=>x.Driver.IsKauOrRSR2Kau).Count() == 0)
 					Errors.Add(new DeviceValidationError(device, "ГК должен содержать подключенные КАУ", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateParametersMinMax(XDevice device)
+		void ValidateParametersMinMax(GKDevice device)
 		{
 			if (device.IsInMPT)
 				return;
@@ -155,7 +155,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateNotUsedLogic(XDevice device)
+		void ValidateNotUsedLogic(GKDevice device)
 		{
 			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 			{
@@ -167,13 +167,13 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDeviceSelfLogic(XDevice device)
+		void ValidateDeviceSelfLogic(GKDevice device)
 		{
 			if (device.ClauseInputDevices.Contains(device))
 				Errors.Add(new DeviceValidationError(device, "Устройство зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidateDeviceRangeAddress(XDevice device)
+		void ValidateDeviceRangeAddress(GKDevice device)
 		{
 			if (device.Driver.IsGroupDevice)
 			{
@@ -182,13 +182,13 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateRSR2AddressFollowing(XDevice device)
+		void ValidateRSR2AddressFollowing(GKDevice device)
 		{
-			if (device.DriverType == XDriverType.RSR2_KAU)
+			if (device.DriverType == GKDriverType.RSR2_KAU)
 			{
 				foreach (var shleifDevice in device.Children)
 				{
-					if (shleifDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
+					if (shleifDevice.DriverType == GKDriverType.RSR2_KAU_Shleif)
 					{
 						var realChildren = shleifDevice.AllChildrenAndSelf;
 						realChildren.RemoveAll(x => !x.IsRealDevice);
@@ -206,19 +206,19 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateKAUAddressFollowing(XDevice device)
+		void ValidateKAUAddressFollowing(GKDevice device)
 		{
-			if (device.DriverType == XDriverType.GK)
+			if (device.DriverType == GKDriverType.GK)
 			{
-				var kauChildren1 = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau && XManager.GetKauLine(x) == 0).ToList();
+				var kauChildren1 = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau && GKManager.GetKauLine(x) == 0).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren1);
 
-				var kauChildren2 = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau && XManager.GetKauLine(x) == 1).ToList();
+				var kauChildren2 = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau && GKManager.GetKauLine(x) == 1).ToList();
 				ValidateKAUAddressFollowingInOneLine(kauChildren2);
 			}
 		}
 
-		void ValidateKAUAddressFollowingInOneLine(List<XDevice> kauChildren)
+		void ValidateKAUAddressFollowingInOneLine(List<GKDevice> kauChildren)
 		{
 			for (int i = 0; i < kauChildren.Count; i++)
 			{
@@ -231,9 +231,9 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateGuardDevice(XDevice device)
+		void ValidateGuardDevice(GKDevice device)
 		{
-			if (device.DriverType == XDriverType.RSR2_GuardDetector)
+			if (device.DriverType == GKDriverType.RSR2_GuardDetector)
 			{
 				if (device.GuardZone == null)
 				{

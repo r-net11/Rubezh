@@ -83,6 +83,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (Zone.No != No && SKDManager.Zones.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");

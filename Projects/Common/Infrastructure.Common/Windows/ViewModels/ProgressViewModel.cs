@@ -44,7 +44,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_stepCount = value;
 				OnPropertyChanged("StepCount"); 
-				ApplicationService.DoEvents();
+				ApplicationService.DoEvents(Dispatcher);
 			}
 		}
 		bool _canCancel;
@@ -58,7 +58,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				else
 					CancelText = "Закрыть";
 
-				_canCancel = true;
+				_canCancel = value;
 				OnPropertyChanged("CanCancel");
 			}
 		}
@@ -78,7 +78,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			CurrentStep++;
 			Text = text;
-			ApplicationService.DoEvents();
+			ApplicationService.DoEvents(Dispatcher);
 		}
 
 		public override bool OnClosing(bool isCanceled)
@@ -92,7 +92,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public RelayCommand CancelCommand { get; private set; }
-		void OnCancel()
+		protected virtual void OnCancel()
 		{
 			IsCanceled = true;
 			Close();

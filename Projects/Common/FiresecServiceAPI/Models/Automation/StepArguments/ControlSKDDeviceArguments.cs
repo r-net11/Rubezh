@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public ControlSKDDeviceArguments()
 		{
-			SKDDeviceParameter = new Argument();
+			SKDDeviceArgument = new Argument();
 		}
 
 		[DataMember]
-		public Argument SKDDeviceParameter { get; set; }
+		public Argument SKDDeviceArgument { get; set; }
 
 		[DataMember]
 		public SKDDeviceCommandType Command { get; set; }

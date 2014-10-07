@@ -8,6 +8,7 @@ namespace JournalModule.ViewModels
 {
 	public class ArchiveFilterViewModel : DialogViewModel
 	{
+		public ArchiveDateTimeViewModel ArchiveDateTimeViewModel { get; private set; }
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
 		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
 
@@ -17,6 +18,10 @@ namespace JournalModule.ViewModels
 			ClearCommand = new RelayCommand(OnClear);
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
+
+			if (filter == null)
+				filter = new ArchiveFilter();
+			ArchiveDateTimeViewModel = new ArchiveDateTimeViewModel();
 			FilterNamesViewModel = new FilterNamesViewModel(filter);
 			FilterObjectsViewModel = new FilterObjectsViewModel(filter);
 			Initialize(filter);
@@ -24,62 +29,13 @@ namespace JournalModule.ViewModels
 
 		void Initialize(ArchiveFilter filter)
 		{
-			StartDateTime = new DateTimePairViewModel(filter.StartDate);
-			EndDateTime = new DateTimePairViewModel(filter.EndDate);
 			FilterNamesViewModel.Initialize(filter);
 			FilterObjectsViewModel.Initialize(filter);
-		}
-
-		public DateTime ArchiveFirstDate
-		{
-			get { return ArchiveViewModel.ArchiveFirstDate; }
-		}
-
-		public DateTime NowDate
-		{
-			get { return DateTime.Now; }
-		}
-
-		DateTimePairViewModel _startDateTime;
-		public DateTimePairViewModel StartDateTime
-		{
-			get { return _startDateTime; }
-			set
-			{
-				_startDateTime = value;
-				OnPropertyChanged(() => StartDateTime);
-			}
-		}
-
-		DateTimePairViewModel _endDateTime;
-		public DateTimePairViewModel EndDateTime
-		{
-			get { return _endDateTime; }
-			set
-			{
-				_endDateTime = value;
-				OnPropertyChanged(() => EndDateTime);
-			}
-		}
-
-		bool useDeviceDateTime;
-		public bool UseDeviceDateTime
-		{
-			get { return useDeviceDateTime; }
-			set
-			{
-				useDeviceDateTime = value;
-				OnPropertyChanged(() => UseDeviceDateTime);
-			}
 		}
 
 		public ArchiveFilter GetModel()
 		{
 			var archiveFilter = FilterNamesViewModel.GetModel();
-			archiveFilter.StartDate = StartDateTime.DateTime;
-			archiveFilter.EndDate = EndDateTime.DateTime;
-			archiveFilter.UseDeviceDateTime = UseDeviceDateTime;
-
 			var objectsFilter = FilterObjectsViewModel.GetModel();
 			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
 			{
@@ -100,11 +56,12 @@ namespace JournalModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (StartDateTime.DateTime > EndDateTime.DateTime)
+			if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
 			{
 				MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
 				return;
 			}
+			ArchiveDateTimeViewModel.Save();
 			Close(true);
 		}
 		public RelayCommand CancelCommand { get; private set; }

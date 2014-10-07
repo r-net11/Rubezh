@@ -19,14 +19,14 @@ namespace GKModule.ViewModels
 				SelectedDevice = RootDevice;
 				foreach (var child in RootDevice.Children)
 				{
-					if (child.Driver.DriverType == XDriverType.GK)
+					if (child.Driver.DriverType == GKDriverType.GK)
 						child.IsExpanded = true;
 				}
 			}
 
 			foreach (var device in AllDevices)
 			{
-				if (device.Device.DriverType == XDriverType.KAU || device.Device.DriverType == XDriverType.RSR2_KAU)
+				if (device.Device.DriverType == GKDriverType.KAU || device.Device.DriverType == GKDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 
@@ -92,17 +92,17 @@ namespace GKModule.ViewModels
 
 		void BuildTree()
 		{
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			FillAllDevices();
 		}
 
-		public DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
+		public DeviceViewModel AddDevice(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
 			FillAllDevices();
 			return deviceViewModel;
 		}
-		private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

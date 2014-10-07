@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 	{
 		public static AlarmsViewModel Current { get; private set; }
 		List<Alarm> alarms;
-		XAlarmType? sortingAlarmType;
+		GKAlarmType? sortingAlarmType;
 
 		public AlarmsViewModel()
 		{
@@ -54,10 +54,10 @@ namespace GKModule.ViewModels
 		void OnGKObjectsStateChanged(object obj)
 		{
 			alarms = new List<Alarm>();
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (!device.IsRealDevice)
-					//|| device.DriverType == XDriverType.GK || device.DriverType == XDriverType.KAU || device.DriverType == XDriverType.RSR2_KAU)
+					//|| device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.KAU || device.DriverType == GKDriverType.RSR2_KAU)
 					continue;
 
 				foreach (var stateClass in device.State.StateClasses)
@@ -65,77 +65,77 @@ namespace GKModule.ViewModels
 					switch (stateClass)
 					{
 						case XStateClass.Ignore:
-							alarms.Add(new Alarm(XAlarmType.Ignore, device));
+							alarms.Add(new Alarm(GKAlarmType.Ignore, device));
 							break;
 
 						case XStateClass.Failure:
-							alarms.Add(new Alarm(XAlarmType.Failure, device));
+							alarms.Add(new Alarm(GKAlarmType.Failure, device));
 							break;
 
 						case XStateClass.On:
 						case XStateClass.TurningOn:
 							if (device.Driver.IsControlDevice)
 							{
-								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.UID == device.UID))
+								if (!alarms.Any(x => x.AlarmType == GKAlarmType.Turning && x.Device.UID == device.UID))
 								{
-									alarms.Add(new Alarm(XAlarmType.Turning, device));
+									alarms.Add(new Alarm(GKAlarmType.Turning, device));
 								}
 							}
 							break;
 
 						//case XStateClass.Fire1:
-						//	alarms.Add(new Alarm(XAlarmType.Turning, device));
+						//	alarms.Add(new Alarm(GKAlarmType.Turning, device));
 						//	break;
 
 						//case XStateClass.Fire2:
-						//	if (device.DriverType != XDriverType.AM1_T)
+						//	if (device.DriverType != GKDriverType.AM1_T)
 						//	{
-						//		alarms.Add(new Alarm(XAlarmType.Turning, device));
+						//		alarms.Add(new Alarm(GKAlarmType.Turning, device));
 						//	}
 						//	break;
 					}
 				}
 				if (device.State.StateClasses.Contains(XStateClass.AutoOff) && device.Driver.IsControlDevice)
 				{
-					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
+					alarms.Add(new Alarm(GKAlarmType.AutoOff, device));
 				}
 				if (device.State.StateClasses.Contains(XStateClass.Service)) // || device.DeviceState.IsRealMissmatch)
 				{
-					alarms.Add(new Alarm(XAlarmType.Service, device));
+					alarms.Add(new Alarm(GKAlarmType.Service, device));
 				}
 			}
 
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				foreach (var stateClass in zone.State.StateClasses)
 				{
 					switch (stateClass)
 					{
 						case XStateClass.Fire2:
-							alarms.Add(new Alarm(XAlarmType.Fire2, zone));
+							alarms.Add(new Alarm(GKAlarmType.Fire2, zone));
 							break;
 
 						case XStateClass.Fire1:
-							alarms.Add(new Alarm(XAlarmType.Fire1, zone));
+							alarms.Add(new Alarm(GKAlarmType.Fire1, zone));
 							break;
 
 						case XStateClass.Attention:
-							alarms.Add(new Alarm(XAlarmType.Attention, zone));
+							alarms.Add(new Alarm(GKAlarmType.Attention, zone));
 							break;
 
 						case XStateClass.Ignore:
-							alarms.Add(new Alarm(XAlarmType.Ignore, zone));
+							alarms.Add(new Alarm(GKAlarmType.Ignore, zone));
 							break;
 					}
 				}
 
 				//if (zone.ZoneState.IsRealMissmatch)
 				//{
-				//	alarms.Add(new Alarm(XAlarmType.Service, zone));
+				//	alarms.Add(new Alarm(GKAlarmType.Service, zone));
 				//}
 			}
 
-			foreach (var direction in XManager.Directions)
+			foreach (var direction in GKManager.Directions)
 			{
 				foreach (var stateClass in direction.State.StateClasses)
 				{
@@ -143,22 +143,22 @@ namespace GKModule.ViewModels
 					{
 						case XStateClass.On:
 						case XStateClass.TurningOn:
-							alarms.Add(new Alarm(XAlarmType.NPTOn, direction));
+							alarms.Add(new Alarm(GKAlarmType.NPTOn, direction));
 							break;
 
 						case XStateClass.Ignore:
-							alarms.Add(new Alarm(XAlarmType.Ignore, direction));
+							alarms.Add(new Alarm(GKAlarmType.Ignore, direction));
 							break;
 					}
 				}
 				if (direction.State.StateClasses.Contains(XStateClass.AutoOff))
 				{
-					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
+					alarms.Add(new Alarm(GKAlarmType.AutoOff, direction));
 				}
 
 				//if (direction.DirectionState.IsRealMissmatch)
 				//{
-				//	alarms.Add(new Alarm(XAlarmType.Service, direction));
+				//	alarms.Add(new Alarm(GKAlarmType.Service, direction));
 				//}
 			}
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
@@ -167,7 +167,7 @@ namespace GKModule.ViewModels
 			AlarmGroupsViewModel.Current.Update(alarms);
 		}
 
-		public void Sort(XAlarmType? alarmType)
+		public void Sort(GKAlarmType? alarmType)
 		{
 			sortingAlarmType = alarmType;
 			UpdateAlarms();
@@ -200,7 +200,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				foreach (var device in XManager.Devices)
+				foreach (var device in GKManager.Devices)
 				{
 					if (!device.Driver.IsDeviceOnShleif)
 						continue;
@@ -211,7 +211,7 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				foreach (var zone in XManager.Zones)
+				foreach (var zone in GKManager.Zones)
 				{
 					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
 					{
@@ -219,7 +219,7 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				foreach (var direction in XManager.Directions)
+				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
 					{
@@ -232,14 +232,14 @@ namespace GKModule.ViewModels
 		{
 			try
 			{
-				if (XManager.Devices == null)
-					Logger.Error("AlarmsViewModel XManager.Devices == null");
-				if (XManager.Zones == null)
-					Logger.Error("AlarmsViewModel XManager.Zones == null");
-				if (XManager.Directions == null)
-					Logger.Error("AlarmsViewModel XManager.Directions == null");
+				if (GKManager.Devices == null)
+					Logger.Error("AlarmsViewModel GKManager.Devices == null");
+				if (GKManager.Zones == null)
+					Logger.Error("AlarmsViewModel GKManager.Zones == null");
+				if (GKManager.Directions == null)
+					Logger.Error("AlarmsViewModel GKManager.Directions == null");
 
-				foreach (var device in XManager.Devices)
+				foreach (var device in GKManager.Devices)
 				{
 					if (!device.Driver.IsDeviceOnShleif)
 						continue;
@@ -248,13 +248,13 @@ namespace GKModule.ViewModels
 						return true;
 				}
 
-				foreach (var zone in XManager.Zones)
+				foreach (var zone in GKManager.Zones)
 				{
 					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 
-				foreach (var direction in XManager.Directions)
+				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
@@ -273,7 +273,7 @@ namespace GKModule.ViewModels
 			{
 				if (ServiceFactory.SecurityService.Validate())
 				{
-					foreach (var zone in XManager.Zones)
+					foreach (var zone in GKManager.Zones)
 					{
 						if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 						{
@@ -284,9 +284,9 @@ namespace GKModule.ViewModels
 							FiresecManager.FiresecService.GKResetFire2(zone);
 						}
 					}
-					foreach (var device in XManager.Devices)
+					foreach (var device in GKManager.Devices)
 					{
-						if (device.DriverType == XDriverType.AMP_1)
+						if (device.DriverType == GKDriverType.AMP_1)
 						{
 							if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
 							{
@@ -306,16 +306,16 @@ namespace GKModule.ViewModels
 		public int GetAlarmsToResetCount()
 		{
 			int result = 0;
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 					result++;
 				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
 					result++;
 			}
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
-				if (device.DriverType == XDriverType.AMP_1)
+				if (device.DriverType == GKDriverType.AMP_1)
 				{
 					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
 						result++;
@@ -326,7 +326,7 @@ namespace GKModule.ViewModels
 
 		void IgnoreAllZonesAndDevicesInFire()
 		{
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				if (zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2)
 				{
@@ -334,7 +334,7 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2)
 				{

@@ -1,8 +1,6 @@
 ﻿<UserControl x:Class="AutomationModule.Views.SendEmailStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:Views="clr-namespace:AutomationModule.Views">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
@@ -12,31 +10,31 @@
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Адрес" />
-					<Views:ArgumentView DataContext="{Binding EMailAddressParameter}" />
+					<Views:ArgumentView DataContext="{Binding EMailAddressArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Заголовок" />
-					<Views:ArgumentView DataContext="{Binding EMailTitleParameter}" />
+					<Views:ArgumentView DataContext="{Binding EMailTitleArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Текст" />
-					<Views:ArgumentView DataContext="{Binding EMailContentParameter}" />
+					<Views:ArgumentView DataContext="{Binding EMailContentArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Хост" />
-					<Views:ArgumentView DataContext="{Binding HostParameter}" />
+					<Views:ArgumentView DataContext="{Binding HostArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Порт" />
-					<Views:ArgumentView DataContext="{Binding PortParameter}" />
+					<Views:ArgumentView DataContext="{Binding PortArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Логин" />
-					<Views:ArgumentView DataContext="{Binding LoginParameter}" />
+					<Views:ArgumentView DataContext="{Binding LoginArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Пароль" />
-					<Views:ArgumentView DataContext="{Binding PasswordParameter}" />
+					<Views:ArgumentView DataContext="{Binding PasswordArgument}" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>

@@ -20,8 +20,8 @@ namespace GKModule.ViewModels
 {
 	public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XDevice Device { get; private set; }
-		public XState State
+		public GKDevice Device { get; private set; }
+		public GKState State
 		{
 			get { return Device.State; }
 		}
@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 		BackgroundWorker BackgroundWorker;
 		bool CancelBackgroundWorker = false;
 
-		public DeviceDetailsViewModel(XDevice device)
+		public DeviceDetailsViewModel(GKDevice device)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
@@ -68,12 +68,12 @@ namespace GKModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return PictureCacheSource.XDevicePicture.GetDynamicBrush(Device); }
+			get { return PictureCacheSource.GKDevicePicture.GetDynamicBrush(Device); }
 		}
 
 		public string PresentationZone
 		{
-			get { return XManager.GetPresentationZone(Device); }
+			get { return GKManager.GetPresentationZone(Device); }
 		}
 
 		public bool HasOnDelay
@@ -175,7 +175,7 @@ namespace GKModule.ViewModels
 			Plans = new ObservableCollection<PlanLinkViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				ElementBase elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Device.UID);
+				ElementBase elementBase = plan.ElementGKDevices.FirstOrDefault(x => x.DeviceUID == Device.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -189,7 +189,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
+				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementGKDevices.Any(element => element.DeviceUID == Device.UID));
 				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{
@@ -246,12 +246,12 @@ namespace GKModule.ViewModels
 	public class PlanViewModel : BaseViewModel
 	{
 		Plan Plan;
-		XDevice Device;
+		GKDevice Device;
 		public string Name
 		{
 			get { return Plan.Caption; }
 		}
-		public PlanViewModel(Plan plan, XDevice device)
+		public PlanViewModel(Plan plan, GKDevice device)
 		{
 			Plan = plan;
 			Device = device;

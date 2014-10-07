@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDevicesViewModel : BaseViewModel
 	{
-		XZone Zone;
+		GKZone Zone;
 
 		public ZoneDevicesViewModel()
 		{
@@ -23,14 +23,14 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 		}
 
-		public void Initialize(XZone zone)
+		public void Initialize(GKZone zone)
 		{
 			Zone = zone;
 
-			var devices = new HashSet<XDevice>();
-			var availableDevices = new HashSet<XDevice>();
+			var devices = new HashSet<GKDevice>();
+			var availableDevices = new HashSet<GKDevice>();
 
-			foreach (var device in XManager.Devices)
+			foreach (var device in GKManager.Devices)
 			{
 				if (device.IsInMPT)
 					continue;
@@ -79,9 +79,9 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
-				if ((device.DriverType == XDriverType.GKIndicator) ||
-					(device.DriverType == XDriverType.GKRele) ||
-					(device.DriverType == XDriverType.KAUIndicator))
+				if ((device.DriverType == GKDriverType.GKIndicator) ||
+					(device.DriverType == GKDriverType.GKRele) ||
+					(device.DriverType == GKDriverType.KAUIndicator))
 					continue;
 
 				var deviceViewModel = new ZoneDeviceViewModel(device)
@@ -159,7 +159,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				XManager.AddDeviceToZone(availabledeviceViewModel.Device, Zone);
+				GKManager.AddDeviceToZone(availabledeviceViewModel.Device, Zone);
 			}
 
 			Initialize(Zone);
@@ -198,7 +198,7 @@ namespace GKModule.ViewModels
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				XManager.RemoveDeviceFromZone(deviceViewModel.Device, Zone);
+				GKManager.RemoveDeviceFromZone(deviceViewModel.Device, Zone);
 			}
 
 			Initialize(Zone);

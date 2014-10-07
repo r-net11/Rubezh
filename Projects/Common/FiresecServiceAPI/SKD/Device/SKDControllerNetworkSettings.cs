@@ -17,8 +17,5 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string DefaultGateway { get; set; }
-
-		[DataMember]
-		public int MTU { get; set; }
 	}
 }

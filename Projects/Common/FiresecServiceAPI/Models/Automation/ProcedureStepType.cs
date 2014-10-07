@@ -22,6 +22,12 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Цикл While")]
 		While,
 
+		[DescriptionAttribute("оператор break")]
+		Break,
+
+		[DescriptionAttribute("оператор continue")]
+		Continue,
+
 		[DescriptionAttribute("Тело цикла")]
 		ForeachBody,
 
@@ -39,6 +45,15 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Найти объекты")]
 		FindObjects,
+
+		[DescriptionAttribute("Изменение списка")]
+		ChangeList,
+
+		[DescriptionAttribute("Получить размер списка")]
+		GetListCount,
+
+		[DescriptionAttribute("Получить элемент списка")]
+		GetListItem,
 
 		[DescriptionAttribute("Показать сообщение")]
 		ShowMessage,

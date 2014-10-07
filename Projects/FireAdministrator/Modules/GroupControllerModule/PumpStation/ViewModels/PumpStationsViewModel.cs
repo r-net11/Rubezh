@@ -31,9 +31,9 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			PumpStations = XManager.PumpStations == null ? new ObservableCollection<PumpStationViewModel>() : new ObservableCollection<PumpStationViewModel>(
-				from pumpStation in XManager.PumpStations
-				orderby pumpStation.Name
+			PumpStations = GKManager.PumpStations == null ? new ObservableCollection<PumpStationViewModel>() : new ObservableCollection<PumpStationViewModel>(
+				from pumpStation in GKManager.PumpStations
+				orderby pumpStation.No
 				select new PumpStationViewModel(pumpStation));
 			SelectedPumpStation = PumpStations.FirstOrDefault();
 		}
@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 			var pumpStationDetailsViewModel = new PumpStationDetailsViewModel();
 			if (DialogService.ShowModalWindow(pumpStationDetailsViewModel))
 			{
-				XManager.PumpStations.Add(pumpStationDetailsViewModel.PumpStation);
+				GKManager.PumpStations.Add(pumpStationDetailsViewModel.PumpStation);
 				var pumpStationViewModel = new PumpStationViewModel(pumpStationDetailsViewModel.PumpStation);
 				PumpStations.Add(pumpStationViewModel);
 				SelectedPumpStation = pumpStationViewModel;
@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить НС " + SelectedPumpStation.PumpStation.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				XManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
+				GKManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
 				SelectedPumpStation = PumpStations.FirstOrDefault();
 				OnPropertyChanged(() => HasSelectedPumpStation);

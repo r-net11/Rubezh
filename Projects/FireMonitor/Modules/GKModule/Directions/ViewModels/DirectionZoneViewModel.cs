@@ -4,11 +4,11 @@ namespace GKModule.ViewModels
 {
 	public class DirectionZoneViewModel : ZoneViewModel
 	{
-		public DirectionZoneViewModel(XZone zone)
+		public DirectionZoneViewModel(GKZone zone)
 			: base(zone)
 		{
 		
 		}
-		public XStateBit StateType { get; set; }
+		public GKStateBit StateType { get; set; }
 	}
 }

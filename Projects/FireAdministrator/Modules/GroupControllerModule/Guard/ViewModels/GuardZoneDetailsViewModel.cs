@@ -11,21 +11,21 @@ namespace GKModule.ViewModels
 {
 	public class GuardZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XGuardZone Zone;
+		public GKGuardZone Zone;
 
-		public GuardZoneDetailsViewModel(XGuardZone zone = null)
+		public GuardZoneDetailsViewModel(GKGuardZone zone = null)
 		{
 			if (zone == null)
 			{
 				Title = "Создание новой зоны";
 
-				Zone = new XGuardZone()
+				Zone = new GKGuardZone()
 				{
 					Name = "Новая зона",
 					No = 1
 				};
-				if (XManager.DeviceConfiguration.GuardZones.Count != 0)
-					Zone.No = (ushort)(XManager.DeviceConfiguration.GuardZones.Select(x => x.No).Max() + 1);
+				if (GKManager.DeviceConfiguration.GuardZones.Count != 0)
+					Zone.No = (ushort)(GKManager.DeviceConfiguration.GuardZones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -33,13 +33,13 @@ namespace GKModule.ViewModels
 				Zone = zone;
 			}
 
-			AvailableGuardZoneEnterMethods = new ObservableCollection<XGuardZoneEnterMethod>(Enum.GetValues(typeof(XGuardZoneEnterMethod)).Cast<XGuardZoneEnterMethod>());
+			AvailableGuardZoneEnterMethods = new ObservableCollection<GKGuardZoneEnterMethod>(Enum.GetValues(typeof(GKGuardZoneEnterMethod)).Cast<GKGuardZoneEnterMethod>());
 
 			CopyProperties();
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingZone in XManager.DeviceConfiguration.GuardZones)
+			foreach (var existingZone in GKManager.DeviceConfiguration.GuardZones)
 			{
 				availableNames.Add(existingZone.Name);
 				availableDescription.Add(existingZone.Description);
@@ -95,10 +95,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XGuardZoneEnterMethod> AvailableGuardZoneEnterMethods { get; private set; }
+		public ObservableCollection<GKGuardZoneEnterMethod> AvailableGuardZoneEnterMethods { get; private set; }
 
-		XGuardZoneEnterMethod _selectedGuardZoneEnterMethod;
-		public XGuardZoneEnterMethod SelectedGuardZoneEnterMethod
+		GKGuardZoneEnterMethod _selectedGuardZoneEnterMethod;
+		public GKGuardZoneEnterMethod SelectedGuardZoneEnterMethod
 		{
 			get { return _selectedGuardZoneEnterMethod; }
 			set
@@ -179,7 +179,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Zone.No != No && XManager.DeviceConfiguration.GuardZones.Any(x => x.No == No))
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
+			if (Zone.No != No && GKManager.DeviceConfiguration.GuardZones.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;

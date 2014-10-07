@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure;
 using SKDModule.Intervals.Base.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -15,25 +16,14 @@ namespace SKDModule.ViewModels
 		public WeeklyIntervalPartViewModel(WeeklyIntervalsViewModel weeklyIntervalsViewModel, SKDWeeklyIntervalPart weeklyIntervalPart)
 		{
 			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
-			_weeklyIntervalsViewModel.PropertyChanged += (s, e) =>
-				{
-					if (e.PropertyName == "AvailableDayIntervals")
-						OnPropertyChanged(() => AvailableDayIntervals);
-				};
 			WeeklyIntervalPart = weeklyIntervalPart;
-			Name = IntToWeekDay(weeklyIntervalPart.No);
 			Update();
 		}
 
-		public string Name { get; private set; }
+		public ObservableCollection<SelectableDayInterval> AvailableDayIntervals { get; private set; }
 
-		public ObservableCollection<SKDDayInterval> AvailableDayIntervals
-		{
-			get { return new ObservableCollection<SKDDayInterval>(_weeklyIntervalsViewModel.AvailableDayIntervals); }
-		}
-
-		SKDDayInterval _selectedDayInterval;
-		public SKDDayInterval SelectedDayInterval
+		SelectableDayInterval _selectedDayInterval;
+		public SelectableDayInterval SelectedDayInterval
 		{
 			get { return _selectedDayInterval; }
 			set
@@ -44,7 +34,7 @@ namespace SKDModule.ViewModels
 				{
 					_selectedDayInterval = value;
 					OnPropertyChanged(() => SelectedDayInterval);
-					WeeklyIntervalPart.DayIntervalID = ((SKDDayInterval)SelectedDayInterval).ID;
+					WeeklyIntervalPart.DayIntervalUID = value.DayInterval.UID;
 					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
@@ -53,7 +43,15 @@ namespace SKDModule.ViewModels
 
 		public override void Update()
 		{
-			_selectedDayInterval = _weeklyIntervalsViewModel.AvailableDayIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.DayIntervalID);
+			AvailableDayIntervals = new ObservableCollection<SelectableDayInterval>();
+			foreach (var dayInterval in _weeklyIntervalsViewModel.AvailableDayIntervals)
+			{
+				var selectableDayInterval = new SelectableDayInterval(dayInterval);
+				AvailableDayIntervals.Add(selectableDayInterval);
+			}
+			OnPropertyChanged(() => AvailableDayIntervals);
+
+			_selectedDayInterval = AvailableDayIntervals.FirstOrDefault(x => x.DayInterval.UID == WeeklyIntervalPart.DayIntervalUID);
 			if (_selectedDayInterval == null)
 				_selectedDayInterval = AvailableDayIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedDayInterval);
@@ -64,19 +62,19 @@ namespace SKDModule.ViewModels
 			switch (dayNo)
 			{
 				case 1:
-					return "Воскресенье";
-				case 2:
 					return "Понедельник";
-				case 3:
+				case 2:
 					return "Вторник";
-				case 4:
+				case 3:
 					return "Среда";
-				case 5:
+				case 4:
 					return "Четверг";
-				case 6:
+				case 5:
 					return "Пятница";
-				case 7:
+				case 6:
 					return "Суббота";
+				case 7:
+					return "Воскресенье";
 			}
 			return "Неизвестный день";
 		}

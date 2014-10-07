@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using System.ComponentModel;
 
 namespace AutomationModule.ViewModels
@@ -16,28 +10,28 @@ namespace AutomationModule.ViewModels
 	public class ControlGKDeviceStepViewModel : BaseStepViewModel
 	{
 		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
-		public ArgumentViewModel GKDeviceParameter { get; private set; }
+		public ArgumentViewModel GKDeviceArgument { get; private set; }
 
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
-			GKDeviceParameter = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceParameter, stepViewModel.Update);
-			GKDeviceParameter.ObjectType = ObjectType.Device;
-			GKDeviceParameter.ExplicitType = ExplicitType.Object;
-			GKDeviceParameter.UpdateVariableScopeHandler = Update;
-			GKDeviceParameter.ExplicitValue.UpdateObjectHandler = Update;
+			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceArgument, stepViewModel.Update);
+			GKDeviceArgument.ObjectType = ObjectType.Device;
+			GKDeviceArgument.ExplicitType = ExplicitType.Object;
+			GKDeviceArgument.UpdateVariableScopeHandler = Update;
+			GKDeviceArgument.ExplicitValue.UpdateObjectHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
 		}
 
 		public void Update()
 		{
-			if (GKDeviceParameter.SelectedVariableScope != VariableScope.ExplicitValue)
+			if (GKDeviceArgument.SelectedVariableScope != VariableScope.ExplicitValue)
 			{
 				Commands = ProcedureHelper.GetEnumObs<CommandType>();
 				Commands.Remove(CommandType.Unknown);
 			}
-			else if (GKDeviceParameter.ExplicitValue.Device != null)
-				InitializeCommands(GKDeviceParameter.ExplicitValue.Device);
+			else if (GKDeviceArgument.ExplicitValue.Device != null)
+				InitializeCommands(GKDeviceArgument.ExplicitValue.Device);
 			SelectedCommand = Commands.FirstOrDefault(x => x == XStateBitToCommandType(ControlGkDeviceArguments.Command));
 			OnPropertyChanged(() => Commands);
 		}
@@ -56,7 +50,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		void InitializeCommands(XDevice device)
+		void InitializeCommands(GKDevice device)
 		{
 			if (IsBiStateControl(device))
 			{
@@ -69,20 +63,20 @@ namespace AutomationModule.ViewModels
 				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic, CommandType.SetRegime_Manual, CommandType.SetRegime_Off };
 				foreach (var availableCommand in device.Driver.AvailableCommandBits)
 				{
-					if (device.DriverType == XDriverType.Valve)
+					if (device.DriverType == GKDriverType.Valve)
 					{
 						switch (availableCommand)
 						{
-							case XStateBit.TurnOn_InManual:
+							case GKStateBit.TurnOn_InManual:
 								Commands.Add(CommandType.TurnOn_InManual2);
 								break;
-							case XStateBit.TurnOnNow_InManual:
+							case GKStateBit.TurnOnNow_InManual:
 								Commands.Add(CommandType.TurnOnNow_InManual2);
 								break;
-							case XStateBit.TurnOff_InManual:
+							case GKStateBit.TurnOff_InManual:
 								Commands.Add(CommandType.TurnOff_InManual2);
 								break;
-							case XStateBit.Stop_InManual:
+							case GKStateBit.Stop_InManual:
 								Commands.Add(CommandType.Stop_InManual);
 								break;
 						}
@@ -90,135 +84,132 @@ namespace AutomationModule.ViewModels
 					else
 						Commands.Add(XStateBitToCommandType(availableCommand));
 				}
-				if (device.DriverType == XDriverType.JockeyPump)
+				if (device.DriverType == GKDriverType.JockeyPump)
 					Commands.Add(CommandType.ForbidStart_InManual);
 			}
 			OnPropertyChanged(() => Commands);
 		}
 
-		public bool IsBiStateControl(XDevice device)
+		public bool IsBiStateControl(GKDevice device)
 		{
 			return device.Driver.IsDeviceOnShleif && !device.Driver.IsControlDevice;
 		}
 
-		public bool IsTriStateControl(XDevice device)
+		public bool IsTriStateControl(GKDevice device)
 		{
 			return device.Driver.IsControlDevice;
 		}
 
-		public bool HasReset(XDevice device)
+		public bool HasReset(GKDevice device)
 		{
-			return device.DriverType == XDriverType.AMP_1 || device.DriverType == XDriverType.RSR2_MAP4;
+			return device.DriverType == GKDriverType.AMP_1 || device.DriverType == GKDriverType.RSR2_MAP4;
 		}
 
 
 		public override void UpdateContent()
 		{
-			GKDeviceParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
+			GKDeviceArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get
 			{
-				return "Устройство: " + GKDeviceParameter.Description + " Команда: " + SelectedCommand.ToDescription();
+				return "Устройство: " + GKDeviceArgument.Description + " Команда: " + SelectedCommand.ToDescription();
 			}
 		}
 
-		XStateBit CommandTypeToXStateBit(CommandType commandType)
+		GKStateBit CommandTypeToXStateBit(CommandType commandType)
 		{
 			switch (commandType)
 			{
 				case CommandType.SetRegime_Automatic:
-					return XStateBit.SetRegime_Automatic;
+					return GKStateBit.SetRegime_Automatic;
 				case CommandType.SetRegime_Automatic2:
-					return XStateBit.SetRegime_Automatic;
+					return GKStateBit.SetRegime_Automatic;
 				case CommandType.SetRegime_Manual:
-					return XStateBit.SetRegime_Manual;
+					return GKStateBit.SetRegime_Manual;
 				case CommandType.SetRegime_Off:
-					return XStateBit.SetRegime_Off;
+					return GKStateBit.SetRegime_Off;
 				case CommandType.TurnOn_InManual:
-					return XStateBit.TurnOn_InManual;
+					return GKStateBit.TurnOn_InManual;
 				case CommandType.TurnOn_InManual2:
-					return XStateBit.TurnOn_InManual;
+					return GKStateBit.TurnOn_InManual;
 				case CommandType.TurnOnNow_InManual:
-					return XStateBit.TurnOnNow_InManual;
+					return GKStateBit.TurnOnNow_InManual;
 				case CommandType.TurnOnNow_InManual2:
-					return XStateBit.TurnOnNow_InManual;
+					return GKStateBit.TurnOnNow_InManual;
 				case CommandType.TurnOff_InManual:
-					return XStateBit.TurnOff_InManual;
+					return GKStateBit.TurnOff_InManual;
 				case CommandType.TurnOff_InManual2:
-					return XStateBit.TurnOff_InManual;
+					return GKStateBit.TurnOff_InManual;
 				case CommandType.Stop_InManual:
-					return XStateBit.Stop_InManual;
+					return GKStateBit.Stop_InManual;
 				case CommandType.Reset:
-					return XStateBit.Reset;
+					return GKStateBit.Reset;
 				case CommandType.ForbidStart_InManual:
-					return XStateBit.ForbidStart_InManual;
+					return GKStateBit.ForbidStart_InManual;
 				case CommandType.TurnOffNow_InManual:
-					return XStateBit.TurnOffNow_InManual;
+					return GKStateBit.TurnOffNow_InManual;
 				default:
-					return new XStateBit();
+					return new GKStateBit();
 			}
 		}
 
-		CommandType XStateBitToCommandType(XStateBit stateString)
+		CommandType XStateBitToCommandType(GKStateBit stateString)
 		{
-			if (GKDeviceParameter.ExplicitValue.Device != null)
+			if (GKDeviceArgument.ExplicitValue.Device != null)
 			{
 				switch (stateString)
 				{
-					case XStateBit.SetRegime_Automatic:
-						return IsTriStateControl(GKDeviceParameter.ExplicitValue.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
-					case XStateBit.SetRegime_Manual:
+					case GKStateBit.SetRegime_Automatic:
+						return IsTriStateControl(GKDeviceArgument.ExplicitValue.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
+					case GKStateBit.SetRegime_Manual:
 						return CommandType.SetRegime_Manual;
-					case XStateBit.SetRegime_Off:
+					case GKStateBit.SetRegime_Off:
 						return CommandType.SetRegime_Off;
-					case XStateBit.TurnOn_InManual:
-						return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
-					case XStateBit.TurnOnNow_InManual:
-						return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
-					case XStateBit.TurnOff_InManual:
-						return (GKDeviceParameter.ExplicitValue.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
-					case XStateBit.Stop_InManual:
+					case GKStateBit.TurnOn_InManual:
+						return (GKDeviceArgument.ExplicitValue.Device.DriverType == GKDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
+					case GKStateBit.TurnOnNow_InManual:
+						return (GKDeviceArgument.ExplicitValue.Device.DriverType == GKDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
+					case GKStateBit.TurnOff_InManual:
+						return (GKDeviceArgument.ExplicitValue.Device.DriverType == GKDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
+					case GKStateBit.Stop_InManual:
 						return CommandType.Stop_InManual;
-					case XStateBit.Reset:
+					case GKStateBit.Reset:
 						return CommandType.Reset;
-					case XStateBit.ForbidStart_InManual:
+					case GKStateBit.ForbidStart_InManual:
 						return CommandType.ForbidStart_InManual;
-					case XStateBit.TurnOffNow_InManual:
+					case GKStateBit.TurnOffNow_InManual:
 						return CommandType.TurnOffNow_InManual;
 					default:
 						return CommandType.Unknown;
 				}
 			}
-			else
+			switch (stateString)
 			{
-				switch (stateString)
-				{
-					case XStateBit.SetRegime_Automatic:
-						return CommandType.SetRegime_Automatic;
-					case XStateBit.SetRegime_Manual:
-						return CommandType.SetRegime_Manual;
-					case XStateBit.SetRegime_Off:
-						return CommandType.SetRegime_Off;
-					case XStateBit.TurnOn_InManual:
-						return CommandType.TurnOn_InManual;
-					case XStateBit.TurnOnNow_InManual:
-						return CommandType.TurnOnNow_InManual;
-					case XStateBit.TurnOff_InManual:
-						return CommandType.TurnOff_InManual;
-					case XStateBit.Stop_InManual:
-						return CommandType.Stop_InManual;
-					case XStateBit.Reset:
-						return CommandType.Reset;
-					case XStateBit.ForbidStart_InManual:
-						return CommandType.ForbidStart_InManual;
-					case XStateBit.TurnOffNow_InManual:
-						return CommandType.TurnOffNow_InManual;
-					default:
-						return CommandType.Unknown;
-				}
+				case GKStateBit.SetRegime_Automatic:
+					return CommandType.SetRegime_Automatic;
+				case GKStateBit.SetRegime_Manual:
+					return CommandType.SetRegime_Manual;
+				case GKStateBit.SetRegime_Off:
+					return CommandType.SetRegime_Off;
+				case GKStateBit.TurnOn_InManual:
+					return CommandType.TurnOn_InManual;
+				case GKStateBit.TurnOnNow_InManual:
+					return CommandType.TurnOnNow_InManual;
+				case GKStateBit.TurnOff_InManual:
+					return CommandType.TurnOff_InManual;
+				case GKStateBit.Stop_InManual:
+					return CommandType.Stop_InManual;
+				case GKStateBit.Reset:
+					return CommandType.Reset;
+				case GKStateBit.ForbidStart_InManual:
+					return CommandType.ForbidStart_InManual;
+				case GKStateBit.TurnOffNow_InManual:
+					return CommandType.TurnOffNow_InManual;
+				default:
+					return CommandType.Unknown;
 			}
 		}
 	}

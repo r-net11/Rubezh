@@ -11,13 +11,13 @@ namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public XDelay Delay { get; private set; }
-		public XState State
+		public GKDelay Delay { get; private set; }
+		public GKState State
 		{
 			get { return Delay.State; }
 		}
 
-		public DelayViewModel(XDelay delay)
+		public DelayViewModel(GKDelay delay)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = XManager.GetPresentationZone(Delay.DeviceLogic);
+				var presentationZone = GKManager.GetPresentationZone(Delay.DeviceLogic);
 				return presentationZone;
 			}
 		}

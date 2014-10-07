@@ -6,15 +6,15 @@ namespace GKModule.ViewModels
 {
 	public class PropertiesViewModel : BaseViewModel
 	{
-		public XDevice Device { get; private set; }
-		public XDirection XDirection { get; private set; }
+		public GKDevice Device { get; private set; }
+		public GKDirection GKDirection { get; private set; }
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<ShortPropertyViewModel> ShortProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
 		public bool HasAUParameters { get; private set; }
 
-		public PropertiesViewModel(XDevice device)
+		public PropertiesViewModel(GKDevice device)
 		{
 			Device = device;
 			Update();
@@ -39,16 +39,16 @@ namespace GKModule.ViewModels
 
 					switch (driverProperty.DriverPropertyType)
 					{
-						case XDriverPropertyTypeEnum.StringType:
+						case GKDriverPropertyTypeEnum.StringType:
 							StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
 							break;
-						case XDriverPropertyTypeEnum.IntType:
+						case GKDriverPropertyTypeEnum.IntType:
 							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
 							break;
-						case XDriverPropertyTypeEnum.BoolType:
+						case GKDriverPropertyTypeEnum.BoolType:
 							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
 							break;
-						case XDriverPropertyTypeEnum.EnumType:
+						case GKDriverPropertyTypeEnum.EnumType:
 							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
 							break;
 					}

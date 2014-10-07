@@ -12,7 +12,7 @@ namespace GKModule.Validation
 			ValidateCodeNoEquality();
 			ValidateGuardPasswordEquality();
 
-			foreach (var code in XManager.DeviceConfiguration.Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				if (IsManyGK())
 					ValidateCodeDifferentGK(code);
@@ -22,7 +22,7 @@ namespace GKModule.Validation
 		void ValidateCodeNoEquality()
 		{
 			var codeNos = new HashSet<int>();
-			foreach (var code in XManager.DeviceConfiguration.Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				if (!codeNos.Add(code.No))
 					Errors.Add(new CodeValidationError(code, "Дублируется номер", ValidationErrorLevel.CannotWrite));
@@ -32,14 +32,14 @@ namespace GKModule.Validation
 		void ValidateGuardPasswordEquality()
 		{
 			var codeNames = new HashSet<string>();
-			foreach (var code in XManager.DeviceConfiguration.Codes)
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				if (!codeNames.Add(code.Name))
 					Errors.Add(new CodeValidationError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateCodeDifferentGK(XCode code)
+		void ValidateCodeDifferentGK(GKCode code)
 		{
 		}
 	}

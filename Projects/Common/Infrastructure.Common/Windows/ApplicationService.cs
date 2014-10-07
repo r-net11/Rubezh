@@ -69,6 +69,7 @@ namespace Infrastructure.Common.Windows
 			{
 				windowBaseView.Show();
 			}
+			windowBaseView.Activate();
 			model.Run();
 			ApplicationWindow = windowBaseView;
 		}
@@ -114,9 +115,11 @@ namespace Infrastructure.Common.Windows
 		}
 		public static void ShutDown()
 		{
+			IsShuttingDown = true;
 			Invoke(() =>
 				{
-					IsShuttingDown = true;
+					if (Application.Current == null)
+						return;
 					if (Application.Current.MainWindow != null)
 						Application.Current.MainWindow.Close();
 					else
@@ -132,7 +135,11 @@ namespace Infrastructure.Common.Windows
 		public static void DoEvents()
 		{
 			if (Application.Current != null)
-				Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+				DoEvents(Application.Current.Dispatcher);
+		}
+		public static void DoEvents(Dispatcher dispatcher)
+		{
+			dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
 		public static void Invoke(Action action)
 		{

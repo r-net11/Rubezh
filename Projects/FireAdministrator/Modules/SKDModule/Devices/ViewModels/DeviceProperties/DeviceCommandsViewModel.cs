@@ -151,8 +151,17 @@ namespace SKDModule.ViewModels
 							}
 
 							var oldHasMissmath = HasMissmath;
-							if (SelectedDevice.Device.HasConfigurationMissmatch)
-								SelectedDevice.Device.HasConfigurationMissmatch = result.HasError;
+							if (ClientSettings.SKDMissmatchSettings.HasMissmatch(SelectedDevice.Device.UID))
+							{
+								if (result.HasError)
+								{
+									ClientSettings.SKDMissmatchSettings.Set(SelectedDevice.Device.UID);
+								}
+								else
+								{
+									ClientSettings.SKDMissmatchSettings.Reset(SelectedDevice.Device.UID);
+								}
+							}
 							OnPropertyChanged(() => HasMissmath);
 							if (HasMissmath != oldHasMissmath)
 								ServiceFactory.SaveService.SKDChanged = true;
@@ -184,15 +193,10 @@ namespace SKDModule.ViewModels
 							}
 
 							var oldHasMissmath = HasMissmath;
-							SKDManager.Devices.ForEach(x => x.HasConfigurationMissmatch = false);
+							SKDManager.Devices.ForEach(x => ClientSettings.SKDMissmatchSettings.Reset(x.UID));
 							foreach (var failedDeviceUID in result.Result)
 							{
-								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == failedDeviceUID);
-								if (device != null)
-								{
-									if (device.HasConfigurationMissmatch)
-										device.HasConfigurationMissmatch = true;
-								}
+								ClientSettings.SKDMissmatchSettings.Set(failedDeviceUID);
 							}
 							OnPropertyChanged(() => HasMissmath);
 							if (HasMissmath != oldHasMissmath)
@@ -238,11 +242,14 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
+				return false;
+
 				foreach (var device in SKDManager.Devices)
 				{
 					if (device.Driver.IsController)
 					{
-						return device.HasConfigurationMissmatch;
+						if (ClientSettings.SKDMissmatchSettings.HasMissmatch(device.UID))
+							return true;
 					}
 				}
 				return false;

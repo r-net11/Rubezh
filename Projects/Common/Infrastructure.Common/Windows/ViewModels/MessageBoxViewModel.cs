@@ -4,7 +4,7 @@ using Common;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public sealed class MessageBoxViewModel : DialogViewModel
+	public class MessageBoxViewModel : DialogViewModel
 	{
 		public MessageBoxViewModel(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false)
 		{

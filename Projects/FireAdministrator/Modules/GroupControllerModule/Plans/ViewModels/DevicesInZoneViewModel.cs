@@ -10,11 +10,11 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DevicesInZoneViewModel : SaveCancelDialogViewModel
 	{
-		public DevicesInZoneViewModel(Dictionary<XDevice, Guid> deviceInZones)
+		public DevicesInZoneViewModel(Dictionary<GKDevice, Guid> deviceInZones)
 		{
 			Title = "Изменение зон устройств на плане";
-			var map = new Dictionary<Guid, XZone>();
-			XManager.Zones.ForEach(item => map.Add(item.UID, item));
+			var map = new Dictionary<Guid, GKZone>();
+			GKManager.Zones.ForEach(item => map.Add(item.UID, item));
 			DeviceInZones = new List<DeviceInZoneViewModel>();
 			foreach (var x in deviceInZones.ToList())
 			{
@@ -36,13 +36,13 @@ namespace GKModule.Plans.ViewModels
 
 	public class DeviceInZoneViewModel : BaseViewModel
 	{
-		private Dictionary<Guid, XZone> _zoneMap;
-		public XDevice Device { get; private set; }
+		private Dictionary<Guid, GKZone> _zoneMap;
+		public GKDevice Device { get; private set; }
 		public Guid NewZoneUID { get; private set; }
 		public string OldZoneName { get; private set; }
 		public string NewZoneName { get; private set; }
 
-		public DeviceInZoneViewModel(Dictionary<Guid, XZone> zoneMap, XDevice device, Guid newZoneUID)
+		public DeviceInZoneViewModel(Dictionary<Guid, GKZone> zoneMap, GKDevice device, Guid newZoneUID)
 		{
 			_zoneMap = zoneMap;
 			IsActive = true;
@@ -58,10 +58,10 @@ namespace GKModule.Plans.ViewModels
 		{
 			var zone = Device.ZoneUIDs.Count == 1 && _zoneMap.ContainsKey(Device.ZoneUIDs[0]) ? _zoneMap[Device.ZoneUIDs[0]] : null;
 			if (zone != null)
-				XManager.RemoveDeviceFromZone(Device, zone);
+				GKManager.RemoveDeviceFromZone(Device, zone);
 			zone = _zoneMap.ContainsKey(NewZoneUID) ? _zoneMap[NewZoneUID] : null;
 			if (zone != null)
-				XManager.AddDeviceToZone(Device, zone);
+				GKManager.AddDeviceToZone(Device, zone);
 		}
 
 		public bool HasNewZone 

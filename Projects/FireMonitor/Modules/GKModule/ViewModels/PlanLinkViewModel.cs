@@ -20,11 +20,11 @@ namespace GKModule.ViewModels
 
 		public Plan Plan { get; set; }
 		public Guid ElementUID { get; set; }
-		public XDevice Device { get; set; }
-		public XZone Zone { get; set; }
-		public XGuardZone GuardZone { get; set; }
-		public XDirection Direction { get; set; }
-		public XDoor Door { get; set; }
+		public GKDevice Device { get; set; }
+		public GKZone Zone { get; set; }
+		public GKGuardZone GuardZone { get; set; }
+		public GKDirection Direction { get; set; }
+		public GKDoor Door { get; set; }
 
 		public string Name
 		{

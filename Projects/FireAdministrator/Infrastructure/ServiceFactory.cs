@@ -7,11 +7,23 @@ using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Common.Services.Ribbon;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Client.Startup;
 
 namespace Infrastructure
 {
 	public class ServiceFactory : ServiceFactoryBase
 	{
+		private static StartupService _startupService;
+		public static StartupService StartupService
+		{
+			get
+			{
+				if (_startupService == null)
+					_startupService = new StartupService(ClientType.Administrator);
+				return _startupService;
+			}
+		}
+		
 		public static void Initialize(ILayoutService ILayoutService, IProgressService IProgressService, IValidationService IValidationService)
 		{
 			SaveService = new SaveService();

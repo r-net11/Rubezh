@@ -5,12 +5,12 @@ namespace GKProcessor
 {
 	public class MPT_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0x76,
-				DriverType = XDriverType.MPT,
+				DriverType = GKDriverType.MPT,
 				UID = new Guid("33a85f87-e34c-45d6-b4ce-a4fb71a36c28"),
 				Name = "Модуль пожаротушения МПТ-1",
 				ShortName = "МПТ-1",
@@ -24,11 +24,11 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
 			AddLogic(driver, 0xBB, "логика работы выхода 1", 1);
 			AddLogic(driver, 0xBC, "логика работы выхода 2", 3);
@@ -93,16 +93,16 @@ namespace GKProcessor
 			return driver;
 		}
 
-		private static void AddControlType(XDriver driver, byte no, string propertyName)
+		private static void AddControlType(GKDriver driver, byte no, string propertyName)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
 				Default = 4,
 				IsLowByte = true,
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
+				DriverPropertyType = GKDriverPropertyTypeEnum.EnumType
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
 			GKDriversHelper.AddPropertyParameter(property, "Цепь контролируется только на обрыв", 2);
@@ -111,9 +111,9 @@ namespace GKProcessor
 			driver.Properties.Add(property);
 		}
 
-		private static void AddLogic(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
+		private static void AddLogic(GKDriver driver, byte no, string propertyName, ushort defaultValue = 1)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
@@ -121,7 +121,7 @@ namespace GKProcessor
 				Default = defaultValue,
 				Mask = 0x0F,
 				IsLowByte = true,
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
+				DriverPropertyType = GKDriverPropertyTypeEnum.EnumType
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Сирена", 1);
 			GKDriversHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);
@@ -131,9 +131,9 @@ namespace GKProcessor
 			driver.Properties.Add(property);
 		}
 
-		private static void AddRegim(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
+		private static void AddRegim(GKDriver driver, byte no, string propertyName, ushort defaultValue = 1)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
@@ -157,9 +157,9 @@ namespace GKProcessor
 			driver.Properties.Add(property);
 		}
 
-		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
+		static void AddDetectorState(GKDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
 		{
-			var property = new XDriverProperty()
+			var property = new GKDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
@@ -167,7 +167,7 @@ namespace GKProcessor
 				Default = (ushort)(defaultValue << offset),
 				Mask = (short)((1 << offset) + (1 << (offset + 1))),
 				IsLowByte = true,
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
+				DriverPropertyType = GKDriverPropertyTypeEnum.EnumType
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Замкнутое", 1 << offset);
 			GKDriversHelper.AddPropertyParameter(property, "Разомкнутое", 2 << offset);

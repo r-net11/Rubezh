@@ -19,7 +19,7 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XDirectionPainter : BaseZonePainter<XDirection, ShowXDirectionEvent>
+	class XDirectionPainter : BaseZonePainter<GKDirection, ShowXDirectionEvent>
 	{
 		private GeometryDrawing _textDrawing;
 		private ScaleTransform _scaleTransform;
@@ -30,15 +30,15 @@ namespace GKModule.Plans.Designer
 		{
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();
-			_showText = Item != null && presenterItem.Element is ElementRectangleXDirection;
+			_showText = Item != null && presenterItem.Element is ElementRectangleGKDirection;
 		}
 
-		protected override XDirection CreateItem(PresenterItem presenterItem)
+		protected override GKDirection CreateItem(PresenterItem presenterItem)
 		{
 			var element = presenterItem.Element as IElementDirection;
-			return element == null ? null : PlanPresenter.Cache.Get<XDirection>(element.DirectionUID);
+			return element == null ? null : PlanPresenter.Cache.Get<GKDirection>(element.DirectionUID);
 		}
-		protected override StateTooltipViewModel<XDirection> CreateToolTip()
+		protected override StateTooltipViewModel<GKDirection> CreateToolTip()
 		{
 			return new DirectionTooltipViewModel(Item);
 		}

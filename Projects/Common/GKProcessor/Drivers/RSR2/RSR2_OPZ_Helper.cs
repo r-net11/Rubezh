@@ -5,14 +5,14 @@ namespace GKProcessor
 {
 	public static class RSR2_OPZ_Helper
 	{
-		public static XDriver Create()
+		public static GKDriver Create()
 		{
-			var driver = new XDriver()
+			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0xE6,
-				DriverType = XDriverType.RSR2_OPZ,
+				DriverType = GKDriverType.RSR2_OPZ,
 				UID = new Guid("24A6FC19-0428-43A9-8B1C-35B748BD202B"),
-				Name = "ОПОВЕЩАТЕЛЬ ОХРАННО-ПОЖАРНЫЙ ЗВУКОВОЙ АДРЕСНЫЙ",
+				Name = "Оповещатель охранно-пожарный звуковой адресный",
 				ShortName = "ОПОП 2-R2",
 				IsControlDevice = true,
 				HasLogic = true,
@@ -20,8 +20,8 @@ namespace GKProcessor
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
-			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Failure);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
+			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
@@ -30,15 +30,15 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 
 
-			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
-			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 5, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 16, 0, 65535);
 
-			var property1 = new XDriverProperty()
+			var property1 = new GKDriverProperty()
 			{
 				No = 2,
 				Name = "Режим после удержания",

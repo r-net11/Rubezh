@@ -10,7 +10,7 @@ namespace FiresecAPI.Models
 	public class ElementRectangleTank : ElementBaseRectangle, IPrimitive, IElementReference
 	{
 		[DataMember]
-		public Guid XDeviceUID { get; set; }
+		public Guid DeviceUID { get; set; }
 
 		public override ElementBase Clone()
 		{
@@ -21,7 +21,7 @@ namespace FiresecAPI.Models
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			((ElementRectangleTank)element).XDeviceUID = XDeviceUID;
+			((ElementRectangleTank)element).DeviceUID = DeviceUID;
 		}
 
 		#region IPrimitive Members
@@ -43,8 +43,8 @@ namespace FiresecAPI.Models
 
 		Guid IElementReference.ItemUID
 		{
-			get { return XDeviceUID; }
-			set { XDeviceUID = value; }
+			get { return DeviceUID; }
+			set { DeviceUID = value; }
 		}
 
 		#endregion

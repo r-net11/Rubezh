@@ -107,9 +107,9 @@ namespace Infrastructure.Client.Login.ViewModels
 			}
 		}
 
-		public bool IsConnected { get; private set; }
-		public bool IsCanceled { get; private set; }
-		public string Message { get; private set; }
+		public bool IsConnected { get; protected set; }
+		public bool IsCanceled { get; protected set; }
+		public string Message { get; protected set; }
 		public ClientType ClientType { get; private set; }
 
 		protected override bool Save()

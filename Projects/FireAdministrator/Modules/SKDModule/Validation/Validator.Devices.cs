@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace SKDModule.Validation
 {
@@ -89,24 +90,51 @@ namespace SKDModule.Validation
 			{
 				if (device.Driver.IsController)
 				{
-					var property = device.Properties.FirstOrDefault(x => x.Name == "Address");
-					if (property == null || string.IsNullOrEmpty(property.StringValue))
-					{
-						Errors.Add(new DeviceValidationError(device, "Отсутствует IP-адрес устройства", ValidationErrorLevel.CannotSave));
-						continue;
-					}
-
-					const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
-					var address = property.StringValue;
-					if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
+					var addressProperty = device.Properties.FirstOrDefault(x => x.Name == "Address");
+					if (addressProperty == null || !SKDManager.ValidateIPAddress(addressProperty.StringValue))
 					{
 						Errors.Add(new DeviceValidationError(device, "Не верно задан IP-адрес", ValidationErrorLevel.CannotSave));
 						continue;
 					}
 
-					if (!ipAddresses.Add(property.StringValue))
+					if (!ipAddresses.Add(addressProperty.StringValue))
 					{
 						Errors.Add(new DeviceValidationError(device, "Дублируется IP-адрес устройства", ValidationErrorLevel.CannotSave));
+					}
+
+					var maskProperty = device.Properties.FirstOrDefault(x => x.Name == "Mask");
+					if (maskProperty == null || !SKDManager.ValidateIPAddress(maskProperty.StringValue))
+					{
+						Errors.Add(new DeviceValidationError(device, "Не верно задана маска подсети", ValidationErrorLevel.CannotSave));
+						continue;
+					}
+
+					var gatewayProperty = device.Properties.FirstOrDefault(x => x.Name == "Gateway");
+					if (gatewayProperty == null || !SKDManager.ValidateIPAddress(gatewayProperty.StringValue))
+					{
+						Errors.Add(new DeviceValidationError(device, "Не верно задан шлюз по умолчанию", ValidationErrorLevel.CannotSave));
+						continue;
+					}
+
+					var loginProperty = device.Properties.FirstOrDefault(x => x.Name == "Login");
+					if (loginProperty == null || string.IsNullOrEmpty(loginProperty.StringValue))
+					{
+						Errors.Add(new DeviceValidationError(device, "Не задан логин", ValidationErrorLevel.CannotSave));
+						continue;
+					}
+
+					var passwordProperty = device.Properties.FirstOrDefault(x => x.Name == "Password");
+					if (passwordProperty == null || string.IsNullOrEmpty(passwordProperty.StringValue))
+					{
+						Errors.Add(new DeviceValidationError(device, "Не задан пароль", ValidationErrorLevel.CannotSave));
+						continue;
+					}
+
+					var portProperty = device.Properties.FirstOrDefault(x => x.Name == "Port");
+					if (portProperty == null || portProperty.Value <= 0)
+					{
+						Errors.Add(new DeviceValidationError(device, "Не задан порт", ValidationErrorLevel.CannotSave));
+						continue;
 					}
 				}
 			}

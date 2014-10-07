@@ -16,6 +16,8 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Services;
+using Infrastructure.Client.Startup;
 
 namespace Infrastructure.Client
 {
@@ -33,6 +35,7 @@ namespace Infrastructure.Client
 			ResourceService resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Startup/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(AboutViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
 		}
@@ -49,14 +52,21 @@ namespace Infrastructure.Client
 					var result = module.BeforeInitialize(firstTime);
 					if (!result)
 					{
-						Application.Current.Shutdown();
+						ApplicationService.ShutDown();
+						break;
 					}
+				}
+				catch (StartupCancellationException)
+				{
+					ApplicationService.ShutDown();
+					break;
 				}
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.PreInitialize");
 					MessageBoxService.ShowException(e);
-					Application.Current.Shutdown();
+					ApplicationService.ShutDown();
+					break;
 				}
 		}
 		protected void AterInitialize()
@@ -65,12 +75,19 @@ namespace Infrastructure.Client
 				try
 				{
 					module.AfterInitialize();
+					ApplicationService.DoEvents();
+				}
+				catch (StartupCancellationException)
+				{
+					ApplicationService.ShutDown();
+					break;
 				}
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.AterInitialize");
 					MessageBoxService.ShowException(e);
-					Application.Current.Shutdown();
+					ApplicationService.ShutDown();
+					break;
 				}
 		}
 		protected void CreateViewModels()
@@ -79,25 +96,32 @@ namespace Infrastructure.Client
 				try
 				{
 					module.CreateViewModels();
+					ApplicationService.DoEvents();
+				}
+				catch (StartupCancellationException)
+				{
+					ApplicationService.ShutDown();
+					break;
 				}
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.Create");
 					MessageBoxService.ShowException(e);
-					Application.Current.Shutdown();
+					ApplicationService.ShutDown();
+					break;
 				}
 		}
 
 		protected bool RunShell(ShellViewModel shellViewModel)
 		{
 			ApplicationService.RegisterShell(shellViewModel);
-			LoadingService.DoStep("Загрузка модулей приложения");
+			StartupService.Instance.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
 			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());
 			if (InitializeModules())
 			{
 				ApplicationService.User = FiresecManager.CurrentUser;
-				LoadingService.DoStep("Запуск приложения");
+				StartupService.Instance.DoStep("Запуск приложения");
 				ApplicationService.Run(shellViewModel);
 				return true;
 			}
@@ -109,7 +133,7 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules.OrderBy(module => module.Order))
 				try
 				{
-					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
 				}
 				catch (Exception e)
@@ -117,10 +141,9 @@ namespace Infrastructure.Client
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
 					if (Application.Current != null)
 						Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					LoadingService.Close();
 					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
-					if (Application.Current != null)
-						Application.Current.Shutdown();
+					StartupService.Instance.Close();
+					ApplicationService.ShutDown();
 					return false;
 				}
 			return true;

@@ -10,7 +10,7 @@ namespace GKModule.ViewModels
 {
 	public class StateViewModel : BaseViewModel
 	{
-		public StateViewModel(GKLibraryState libraryState, XDriver driver)
+		public StateViewModel(GKLibraryState libraryState, GKDriver driver)
 		{
 			AddFrameCommand = new RelayCommand(OnAddFrame);
 			RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
@@ -25,13 +25,13 @@ namespace GKModule.ViewModels
 		}
 
 		public GKLibraryState State { get; private set; }
-		public XDriver Driver { get; private set; }
+		public GKDriver Driver { get; private set; }
 
 		public string Name
 		{
 			get
 			{
-				if (Driver != null && Driver.DriverType == XDriverType.Valve)
+				if (Driver != null && Driver.DriverType == GKDriverType.Valve)
 				{
 					switch (State.StateClass)
 					{

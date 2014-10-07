@@ -43,38 +43,38 @@ namespace FiresecClient
 							elementDevices.Add(elementDevice);
 					Plan.ElementDevices = elementDevices;
 
-					keys = XManager.Zones.Select(item => item.UID).ToList();
-					var elementRectangleXZones = new List<ElementRectangleXZone>();
-					foreach (var elementRectangleXZone in Plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementRectangleXZone.ZoneUID))
-							elementRectangleXZones.Add(elementRectangleXZone);
-					Plan.ElementRectangleXZones = elementRectangleXZones;
+					keys = GKManager.Zones.Select(item => item.UID).ToList();
+					var elementRectangleGKZones = new List<ElementRectangleGKZone>();
+					foreach (var elementRectangleGKZone in Plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty))
+						if (keys.Contains(elementRectangleGKZone.ZoneUID))
+							elementRectangleGKZones.Add(elementRectangleGKZone);
+					Plan.ElementRectangleGKZones = elementRectangleGKZones;
 
-					var elementPolygonXZones = new List<ElementPolygonXZone>();
-					foreach (var elementPolygonXZone in Plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementPolygonXZone.ZoneUID))
-							elementPolygonXZones.Add(elementPolygonXZone);
-					Plan.ElementPolygonXZones = elementPolygonXZones;
+					var elementPolygonGKZones = new List<ElementPolygonGKZone>();
+					foreach (var elementPolygonGKZone in Plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty))
+						if (keys.Contains(elementPolygonGKZone.ZoneUID))
+							elementPolygonGKZones.Add(elementPolygonGKZone);
+					Plan.ElementPolygonGKZones = elementPolygonGKZones;
 
-					keys = XManager.DeviceConfiguration.GuardZones.Select(item => item.UID).ToList();
-					var elementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
-					foreach (var elementRectangleXGuardZone in Plan.ElementRectangleXGuardZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementRectangleXGuardZone.ZoneUID))
-							elementRectangleXGuardZones.Add(elementRectangleXGuardZone);
-					Plan.ElementRectangleXGuardZones = elementRectangleXGuardZones;
+					keys = GKManager.DeviceConfiguration.GuardZones.Select(item => item.UID).ToList();
+					var elementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
+					foreach (var elementRectangleGKGuardZone in Plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty))
+						if (keys.Contains(elementRectangleGKGuardZone.ZoneUID))
+							elementRectangleGKGuardZones.Add(elementRectangleGKGuardZone);
+					Plan.ElementRectangleGKGuardZones = elementRectangleGKGuardZones;
 
-					var elementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
-					foreach (var elementPolygonXGuardZone in Plan.ElementPolygonXGuardZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementPolygonXGuardZone.ZoneUID))
-							elementPolygonXGuardZones.Add(elementPolygonXGuardZone);
-					Plan.ElementPolygonXGuardZones = elementPolygonXGuardZones;
+					var elementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
+					foreach (var elementPolygonGKGuardZone in Plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty))
+						if (keys.Contains(elementPolygonGKGuardZone.ZoneUID))
+							elementPolygonGKGuardZones.Add(elementPolygonGKGuardZone);
+					Plan.ElementPolygonGKGuardZones = elementPolygonGKGuardZones;
 
-					keys = XManager.Devices.Select(item => item.UID).ToList();
-					var elementXDevices = new List<ElementXDevice>();
-					foreach (var elementXDevice in Plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
-						if (keys.Contains(elementXDevice.XDeviceUID))
-							elementXDevices.Add(elementXDevice);
-					Plan.ElementXDevices = elementXDevices;
+					keys = GKManager.Devices.Select(item => item.UID).ToList();
+					var elementGKDevices = new List<ElementGKDevice>();
+					foreach (var elementGKDevice in Plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
+						if (keys.Contains(elementGKDevice.DeviceUID))
+							elementGKDevices.Add(elementGKDevice);
+					Plan.ElementGKDevices = elementGKDevices;
 
 					keys = SKDManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleSKDZones = new List<ElementRectangleSKDZone>();
@@ -103,7 +103,7 @@ namespace FiresecClient
 							elementDoors.Add(elementDoor);
 					Plan.ElementDoors = elementDoors;
 
-					keys = XManager.Devices.Select(item => item.UID).ToList();
+					keys = GKManager.Devices.Select(item => item.UID).ToList();
 					var cameraKeys = SystemConfiguration.AllCameras.Select(item => item.UID).ToList();
 					var procedureKeys = SystemConfiguration.AutomationConfiguration.Procedures.Select(item => item.Uid).ToList();
 					var elementExtensions = new List<ElementBase>();
@@ -112,7 +112,7 @@ namespace FiresecClient
 						var elementTank = elementExtension as ElementRectangleTank;
 						if (elementTank != null)
 						{
-							if (keys.Contains(elementTank.XDeviceUID))
+							if (keys.Contains(elementTank.DeviceUID))
 								elementExtensions.Add(elementTank);
 						}
 						else

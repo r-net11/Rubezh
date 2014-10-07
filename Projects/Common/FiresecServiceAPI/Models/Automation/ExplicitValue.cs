@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 
@@ -37,6 +34,6 @@ namespace FiresecAPI.Automation
 		public XStateClass StateTypeValue { get; set; }
 
 		[DataMember]
-		public XDriverType DriverTypeValue { get; set; }
+		public GKDriverType DriverTypeValue { get; set; }
 	}
 }

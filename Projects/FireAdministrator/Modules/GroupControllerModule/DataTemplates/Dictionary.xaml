@@ -139,10 +139,6 @@
 		<Views:JournalFromFileView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ConvertationViewModel}">
-		<Views:ConvertationView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:LibraryViewModel}">
 		<Views:LibraryView />
 	</DataTemplate>

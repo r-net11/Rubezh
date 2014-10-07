@@ -10,21 +10,21 @@ namespace GKModule.ViewModels
 {
 	public class DoorDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XDoor Door;
+		public GKDoor Door;
 
-		public DoorDetailsViewModel(XDoor door = null)
+		public DoorDetailsViewModel(GKDoor door = null)
 		{
 			if (door == null)
 			{
 				Title = "Создание новой точки доступа";
 
-				Door = new XDoor()
+				Door = new GKDoor()
 				{
 					Name = "Новая точка доступа",
 					No = 1
 				};
-				if (XManager.DeviceConfiguration.Doors.Count != 0)
-					Door.No = (ushort)(XManager.DeviceConfiguration.Doors.Select(x => x.No).Max() + 1);
+				if (GKManager.DeviceConfiguration.Doors.Count != 0)
+					Door.No = (ushort)(GKManager.DeviceConfiguration.Doors.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -32,16 +32,16 @@ namespace GKModule.ViewModels
 				Door = door;
 			}
 
-			AvailableDoorTypes = new ObservableCollection<XDoorType>();
-			AvailableDoorTypes.Add(XDoorType.OneWay);
-			AvailableDoorTypes.Add(XDoorType.TwoWay);
+			AvailableDoorTypes = new ObservableCollection<GKDoorType>();
+			AvailableDoorTypes.Add(GKDoorType.OneWay);
+			AvailableDoorTypes.Add(GKDoorType.TwoWay);
 			SelectedDoorType = Door.DoorType;
 
 			CopyProperties();
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingDoor in XManager.DeviceConfiguration.Doors)
+			foreach (var existingDoor in GKManager.DeviceConfiguration.Doors)
 			{
 				availableNames.Add(existingDoor.Name);
 				availableDescription.Add(existingDoor.Description);
@@ -92,10 +92,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XDoorType> AvailableDoorTypes { get; private set; }
+		public ObservableCollection<GKDoorType> AvailableDoorTypes { get; private set; }
 
-		XDoorType _selectedDoorType;
-		public XDoorType SelectedDoorType
+		GKDoorType _selectedDoorType;
+		public GKDoorType SelectedDoorType
 		{
 			get { return _selectedDoorType; }
 			set
@@ -132,7 +132,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Door.No != No && XManager.DeviceConfiguration.Doors.Any(x => x.No == No))
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
+			if (Door.No != No && GKManager.DeviceConfiguration.Doors.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;

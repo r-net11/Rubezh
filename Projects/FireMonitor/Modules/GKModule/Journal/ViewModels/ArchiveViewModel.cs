@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
-		XArchiveFilter ArchiveFilter;
+		GKArchiveFilter ArchiveFilter;
 		bool FirstTime = true;
 		Guid ArchivePortionUID;
 
@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 
 		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
 		{
-			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter = new GKArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 
@@ -190,9 +190,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
+		GKArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
 		{
-			var archiveFilter = new XArchiveFilter()
+			var archiveFilter = new GKArchiveFilter()
 			{
 				StartDate = ArchiveFirstDate,
 				EndDate = DateTime.Now,
@@ -202,25 +202,20 @@ namespace GKModule.ViewModels
 			switch (archiveDefaultState.ArchiveDefaultStateType)
 			{
 				case ArchiveDefaultStateType.LastHours:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count.Value);
+					archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count);
 					break;
 
 				case ArchiveDefaultStateType.LastDays:
-					if (archiveDefaultState.Count.HasValue)
-						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count.Value);
+					archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count);
 					break;
 
 				case ArchiveDefaultStateType.FromDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
+					archiveFilter.StartDate = archiveDefaultState.StartDate;
 					break;
 
 				case ArchiveDefaultStateType.RangeDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-					if (archiveDefaultState.EndDate.HasValue)
-						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
+					archiveFilter.StartDate = archiveDefaultState.StartDate;
+					archiveFilter.EndDate = archiveDefaultState.EndDate;
 					break;
 			}
 			return archiveFilter;
@@ -342,7 +337,7 @@ namespace GKModule.ViewModels
 
 			try
 			{
-				XArchiveFilter archiveFilter = null;
+				GKArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
 					archiveFilter = ArchiveFilter;
 				else

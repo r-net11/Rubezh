@@ -81,10 +81,10 @@ namespace VideoModule.ViewModels
 			get
 			{
 				var zones =
-					Camera.ZoneUIDs.Select(zoneUID => XManager.Zones.FirstOrDefault(x => x.UID == zoneUID))
+					Camera.ZoneUIDs.Select(zoneUID => GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID))
 						.Where(zone => zone != null)
 						.ToList();
-				var presentationZones = XManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
+				var presentationZones = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
 				return presentationZones;
 			}
 		}

@@ -8,22 +8,22 @@ namespace GKProcessor
 {
 	public class DescriptorStateHelper
 	{
-		XBase XBase;
+		GKBase GKBase;
 		public ushort AddressOnController { get; private set; }
 		public ushort PhysicalAddress { get; private set; }
 		public string Description { get; private set; }
 		public ushort TypeNo { get; private set; }
-		public List<XStateBit> StateBits { get; private set; }
-		public List<XAdditionalState> AdditionalStates { get; private set; }
+		public List<GKStateBit> StateBits { get; private set; }
+		public List<GKAdditionalState> AdditionalStates { get; private set; }
 		List<ushort> additionalShortParameters = new List<ushort>();
 
 		public int OnDelay { get; private set; }
 		public int HoldDelay { get; private set; }
 		public int OffDelay { get; private set; }
 
-		public void Parse(List<byte> bytes, XBase xBase)
+		public void Parse(List<byte> bytes, GKBase xBase)
 		{
-			XBase = xBase;
+			GKBase = xBase;
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
@@ -32,31 +32,31 @@ namespace GKProcessor
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
-			StateBits = XStatesHelper.StatesFromInt(state);
+			StateBits = GKStatesHelper.StatesFromInt(state);
 			ParseAdditionalParameters(bytes, xBase);
 			CheckConnectionLost(xBase);
 		}
 
-		void ParseAdditionalParameters(List<byte> bytes, XBase xBase)
+		void ParseAdditionalParameters(List<byte> bytes, GKBase xBase)
 		{
-			AdditionalStates = new List<XAdditionalState>();
+			AdditionalStates = new List<GKAdditionalState>();
 			for (int i = 0; i < 10; i++)
 			{
 				var additionalShortParameter = BytesHelper.SubstructShort(bytes, bytes.Count - 20 + i * 2);
 				additionalShortParameters.Add(additionalShortParameter);
 			}
 
-			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
+			var driver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
 			if (driver != null)
 			{
 				var driverType = driver.DriverType;
-				if (driverType == XDriverType.GK && XBase.GKDescriptorNo > 1)
-					driverType = XDriverType.KAU;
+				if (driverType == GKDriverType.GK && GKBase.GKDescriptorNo > 1)
+					driverType = GKDriverType.KAU;
 
 				switch (driverType)
 				{
-					case XDriverType.KAU:
-					case XDriverType.RSR2_KAU:
+					case GKDriverType.KAU:
+					case GKDriverType.RSR2_KAU:
 						var bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Питание 1");
@@ -90,7 +90,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 8");
 						break;
 
-					case XDriverType.GK:
+					case GKDriverType.GK:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Питание 1");
@@ -104,11 +104,11 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						break;
 
-					case XDriverType.RSR2_Bush:
+					case GKDriverType.RSR2_Bush:
 						var bushType = 1;
-						if (XBase is XDevice)
+						if (GKBase is GKDevice)
 						{
-							XDevice device = XBase as XDevice;
+							GKDevice device = GKBase as GKDevice;
 							var property = device.Properties.FirstOrDefault(x => x.Name == "Type");
 							if (property != null)
 							{
@@ -186,9 +186,9 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Питание контроллера");
 						break;
 
-					case XDriverType.SmokeDetector:
-					case XDriverType.HeatDetector:
-					case XDriverType.CombinedDetector:
+					case GKDriverType.SmokeDetector:
+					case GKDriverType.HeatDetector:
+					case GKDriverType.CombinedDetector:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Оптический канал или фотоусилитель");
@@ -196,7 +196,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Температурный канал");
 						break;
 
-					case XDriverType.RM_1:
+					case GKDriverType.RM_1:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Контакт не переключается");
@@ -210,9 +210,9 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания устройства не в норме");
 						break;
 
-					case XDriverType.AMP_1:
-					case XDriverType.AM_1:
-					case XDriverType.AM1_T:
+					case GKDriverType.AMP_1:
+					case GKDriverType.AM_1:
+					case GKDriverType.AM1_T:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "КЗ ШС");
@@ -222,7 +222,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						break;
 
-					case XDriverType.MDU:
+					case GKDriverType.MDU:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Блокировка пуска");
@@ -250,7 +250,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Превышение времени хода");
 						break;
 
-					case XDriverType.MRO_2:
+					case GKDriverType.MRO_2:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки ПУСК");
@@ -268,7 +268,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "КЗ кнопки СТОП");
 						break;
 
-					case XDriverType.MPT:
+					case GKDriverType.MPT:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[2])
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания ШС ниже нормы");
@@ -306,17 +306,17 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 5");
 						break;
 
-					case XDriverType.FirePump:
-					case XDriverType.JockeyPump:
-					case XDriverType.DrainagePump:
+					case GKDriverType.FirePump:
+					case GKDriverType.JockeyPump:
+					case GKDriverType.DrainagePump:
 						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						//	if (bitArray[8 + 0])
 						//		AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
 						var pumpType = 0;
-						if (xBase is XDevice)
+						if (xBase is GKDevice)
 						{
-							XDevice device = xBase as XDevice;
+							GKDevice device = xBase as GKDevice;
 							if (device != null && device.Driver.IsPump)
 							{
 								var pumpTypeProperty = device.Properties.FirstOrDefault(x => x.Name == "PumpType");
@@ -355,7 +355,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Отказ ШУН");
 						break;
 
-					case XDriverType.Valve:
+					case GKDriverType.Valve:
 						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						//if (bitArray[7])
 						//	AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
@@ -399,7 +399,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Отказ ШУЗ");
 						break;
 
-					case XDriverType.Battery:
+					case GKDriverType.Battery:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] / 256 });
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Отсутствие сетевого напряжения");
@@ -434,16 +434,16 @@ namespace GKProcessor
 
 				switch (driverType)
 				{
-					case XDriverType.RSR2_MVK8:
-					case XDriverType.RSR2_RM_1:
+					case GKDriverType.RSR2_MVK8:
+					case GKDriverType.RSR2_RM_1:
 						OnDelay = additionalShortParameters[0];
 						HoldDelay = additionalShortParameters[1];
 						OffDelay = additionalShortParameters[2];
 						break;
 
-					case XDriverType.RSR2_Bush:
-					case XDriverType.RSR2_Bush_Jokey:
-					case XDriverType.RSR2_Bush_Fire:
+					case GKDriverType.RSR2_Bush:
+					case GKDriverType.RSR2_Bush_Jokey:
+					case GKDriverType.RSR2_Bush_Fire:
 
 						switch (additionalShortParameters[1])
 						{
@@ -459,7 +459,7 @@ namespace GKProcessor
 						var bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
 						switch (driverType)
 						{
-							case XDriverType.RSR2_Bush:
+							case GKDriverType.RSR2_Bush:
 								if (bitArray[0])
 									AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого уровня");
 								if (bitArray[1])
@@ -469,7 +469,7 @@ namespace GKProcessor
 								if (bitArray[6])
 									AddAdditionalState(XStateClass.Failure, "Аварийный уровень есть");
 								break;
-							case XDriverType.RSR2_Bush_Jokey:
+							case GKDriverType.RSR2_Bush_Jokey:
 								if (bitArray[0])
 									AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого давления");
 								if (bitArray[1])
@@ -479,7 +479,7 @@ namespace GKProcessor
 								if (bitArray[6])
 									AddAdditionalState(XStateClass.Failure, "Неисправность выхода на режим");
 								break;
-							case XDriverType.RSR2_Bush_Fire:
+							case GKDriverType.RSR2_Bush_Fire:
 								if (bitArray[0])
 									AddAdditionalState(XStateClass.Failure, "Неисправность датчика давления а выходе");
 								if (bitArray[1])
@@ -525,7 +525,7 @@ namespace GKProcessor
 		{
 			if (name != null)
 			{
-				var additionalState = new XAdditionalState()
+				var additionalState = new GKAdditionalState()
 				{
 					StateClass = stateClass,
 					Name = name
@@ -534,18 +534,18 @@ namespace GKProcessor
 			}
 		}
 
-		void CheckConnectionLost(XBase xBase)
+		void CheckConnectionLost(GKBase gkBase)
 		{
-			if (xBase is XDevice)
+			if (gkBase is GKDevice)
 			{
 				var connectionLostParameter = additionalShortParameters[9];
 				var connectionLostCount = connectionLostParameter / 256;
 
-				XDevice xDevice = xBase as XDevice;
-				XDevice connectionLostParent = xDevice.KAUParent;
-				if (xDevice.Driver.IsKauOrRSR2Kau)
+				GKDevice device = gkBase as GKDevice;
+				GKDevice connectionLostParent = device.KAUParent;
+				if (device.Driver.IsKauOrRSR2Kau)
 				{
-					connectionLostParent = xDevice.GKParent;
+					connectionLostParent = device.GKParent;
 					connectionLostCount = connectionLostParameter % 256;
 				}
 				if (connectionLostParent != null)
@@ -555,9 +555,9 @@ namespace GKProcessor
 					{
 						if (connectionLostCount >= property.Value)
 						{
-							AdditionalStates = new List<XAdditionalState>()
+							AdditionalStates = new List<GKAdditionalState>()
 							{
-								new XAdditionalState()
+								new GKAdditionalState()
 								{
 									StateClass = XStateClass.Failure,
 									Name = "Потеря связи"

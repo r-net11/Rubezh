@@ -171,6 +171,18 @@
 		<Views:RandomStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="changeListTemplate">
+		<Views:ChangeListStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="getListCountTemplate">
+		<Views:GetListCountStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="getListItemTemplate">
+		<Views:GetListItemStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
@@ -197,6 +209,9 @@
 		SendEmailTemplate="{StaticResource sendEmailTemplate}"
 		RunProgrammTemplate="{StaticResource runProgrammTemplate}"
 		RandomTemplate="{StaticResource randomTemplate}"
+		ChangeListTemplate="{StaticResource changeListTemplate}"
+		GetListCountTemplate="{StaticResource getListCountTemplate}"
+		GetListItemTemplate="{StaticResource getListItemTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

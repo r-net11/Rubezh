@@ -4,24 +4,24 @@ namespace GKModule
 {
 	public class Alarm
 	{
-		public XAlarmType AlarmType { get; set; }
-		public XDevice Device { get; set; }
-		public XZone Zone { get; set; }
-		public XDirection Direction { get; set; }
+		public GKAlarmType AlarmType { get; set; }
+		public GKDevice Device { get; set; }
+		public GKZone Zone { get; set; }
+		public GKDirection Direction { get; set; }
 
-		public Alarm(XAlarmType alarmType, XDevice device)
+		public Alarm(GKAlarmType alarmType, GKDevice device)
 		{
 			AlarmType = alarmType;
 			Device = device;
 		}
 
-		public Alarm(XAlarmType alarmType, XZone zone)
+		public Alarm(GKAlarmType alarmType, GKZone zone)
 		{
 			AlarmType = alarmType;
 			Zone = zone;
 		}
 
-		public Alarm(XAlarmType alarmType, XDirection direction)
+		public Alarm(GKAlarmType alarmType, GKDirection direction)
 		{
 			AlarmType = alarmType;
 			Direction = direction;

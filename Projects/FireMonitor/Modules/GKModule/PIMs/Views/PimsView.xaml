@@ -6,7 +6,7 @@
 	xmlns:Views="clr-namespace:GKModule.Views"
 	xmlns:Converters="clr-namespace:GKModule.Converters">
 
-	<DataGrid ItemsSource="{Binding Pims}" SelectedItem="{Binding SelectedPim}">
+    <DataGrid ItemsSource="{Binding Pims}" SelectedItem="{Binding SelectedPim}" CanUserSortColumns="True">
 		<DataGrid.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 				<MouseBinding Command="{Binding DataContext.SelectedPim.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -18,7 +18,7 @@
 			</Style>
 		</DataGrid.ItemContainerStyle>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Width="*" MinWidth="250" Header="ПИМ">
+            <DataGridTemplateColumn Width="*" SortMemberPath="Pim.No" MinWidth="250" Header="ПИМ">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

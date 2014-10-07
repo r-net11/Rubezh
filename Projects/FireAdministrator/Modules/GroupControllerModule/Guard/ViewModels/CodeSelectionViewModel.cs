@@ -11,11 +11,11 @@ namespace GKModule.ViewModels
 {
 	public class CodeSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public CodeSelectionViewModel(XCode selectedCode)
+		public CodeSelectionViewModel(GKCode selectedCode)
 		{
 			Title = "Выбор кода";
-			Codes = new ObservableCollection<XCode>();
-			foreach (var code in XManager.DeviceConfiguration.Codes)
+			Codes = new ObservableCollection<GKCode>();
+			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
 				Codes.Add(code);
 			}
@@ -23,10 +23,10 @@ namespace GKModule.ViewModels
 				SelectedCode = Codes.FirstOrDefault(x => x.UID == selectedCode.UID);
 		}
 
-		public ObservableCollection<XCode> Codes { get; private set; }
+		public ObservableCollection<GKCode> Codes { get; private set; }
 
-		XCode _selectedCode;
-		public XCode SelectedCode
+		GKCode _selectedCode;
+		public GKCode SelectedCode
 		{
 			get { return _selectedCode; }
 			set

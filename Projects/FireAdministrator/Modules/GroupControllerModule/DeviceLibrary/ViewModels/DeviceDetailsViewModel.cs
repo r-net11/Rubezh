@@ -13,10 +13,10 @@ namespace GKModule.ViewModels
 			Title = "Добавить устройство";
 
 			Devices = new ObservableCollection<XDeviceViewModel>();
-			var drivers = (from XDriver driver in XManager.Drivers select driver).ToList();
+			var drivers = (from GKDriver driver in GKManager.Drivers select driver).ToList();
 			foreach (var driver in drivers)
 			{
-				if (!XManager.DeviceLibraryConfiguration.GKDevices.Any(x => x.DriverUID == driver.UID) && (driver.IsPlaceable))
+				if (!GKManager.DeviceLibraryConfiguration.GKDevices.Any(x => x.DriverUID == driver.UID) && (driver.IsPlaceable))
 				{
 					var gkLibraryDevice = new GKLibraryDevice()
 					{
@@ -30,8 +30,8 @@ namespace GKModule.ViewModels
 					libraryState.Frames.Add(new GKLibraryFrame() { Id = 0 });
 					gkLibraryDevice.States.Add(libraryState);
 
-					var xdeviceViewModel = new XDeviceViewModel(gkLibraryDevice);
-					Devices.Add(xdeviceViewModel);
+					var deviceViewModel = new XDeviceViewModel(gkLibraryDevice);
+					Devices.Add(deviceViewModel);
 				}
 			}
 			SelectedDevice = Devices.FirstOrDefault();

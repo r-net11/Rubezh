@@ -31,14 +31,14 @@ namespace GKModule.ViewModels
 		}
 
 		public string DifferenceDiscription { get; set; }
-		public XDevice Device;
-		public XZone Zone;
-		public XDirection Direction;
-		public XPumpStation PumpStation;
-		public XMPT MPT;
-		public XDelay Delay;
-		public XGuardZone GuardZone;
-		public XCode Code;
+		public GKDevice Device;
+		public GKZone Zone;
+		public GKDirection Direction;
+		public GKPumpStation PumpStation;
+		public GKMPT MPT;
+		public GKDelay Delay;
+		public GKGuardZone GuardZone;
+		public GKCode Code;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
 		public object Clone()
@@ -46,17 +46,17 @@ namespace GKModule.ViewModels
 			return MemberwiseClone();
 		}
 
-		public ObjectViewModel(XDevice device)
+		public ObjectViewModel(GKDevice device)
 		{
 			Device = device;
 			Name = device.ShortName;
 			Address = device.DottedPresentationAddress;
-			PresentationZone = device.IsNotUsed ? "" : XManager.GetPresentationZone(Device);
+			PresentationZone = device.IsNotUsed ? "" : GKManager.GetPresentationZone(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
 		}
 
-		public ObjectViewModel(XZone zone)
+		public ObjectViewModel(GKZone zone)
 		{
 			Zone = zone;
 			Name = zone.PresentationName;
@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Zone;
 		}
 
-		public ObjectViewModel(XDirection direction)
+		public ObjectViewModel(GKDirection direction)
 		{
 			Direction = direction;
 			Name = direction.PresentationName;
@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Direction;
 		}
 
-		public ObjectViewModel(XPumpStation pumpStation)
+		public ObjectViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
 			Name = pumpStation.PresentationName;
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.PumpStation;
 		}
 
-		public ObjectViewModel(XMPT mpt)
+		public ObjectViewModel(GKMPT mpt)
 		{
 			MPT = mpt;
 			Name = mpt.PresentationName;
@@ -96,7 +96,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.MPT;
 		}
 
-		public ObjectViewModel(XDelay delay)
+		public ObjectViewModel(GKDelay delay)
 		{
 			Delay = delay;
 			Name = delay.PresentationName;
@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Delay;
 		}
 
-		public ObjectViewModel(XGuardZone guardZone)
+		public ObjectViewModel(GKGuardZone guardZone)
 		{
 			GuardZone = guardZone;
 			Name = guardZone.PresentationName;
@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.GuardZone;
 		}
 
-		public ObjectViewModel(XCode code)
+		public ObjectViewModel(GKCode code)
 		{
 			Code = code;
 			Name = code.PresentationName;

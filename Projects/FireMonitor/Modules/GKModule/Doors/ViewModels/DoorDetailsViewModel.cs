@@ -17,13 +17,13 @@ namespace GKModule.ViewModels
 {
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XDoor Door { get; private set; }
-		public XState State
+		public GKDoor Door { get; private set; }
+		public GKState State
 		{
 			get { return Door.State; }
 		}
 
-		public DoorDetailsViewModel(XDoor door)
+		public DoorDetailsViewModel(GKDoor door)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);

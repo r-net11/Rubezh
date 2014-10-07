@@ -5,7 +5,6 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Views="clr-namespace:GKModule.Views">
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />

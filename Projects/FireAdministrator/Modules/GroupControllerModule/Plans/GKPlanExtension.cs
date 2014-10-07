@@ -45,12 +45,12 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(UpdateXDeviceInXZones);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateXDeviceInXZones);
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateXDeviceInXZones);
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateXDeviceInXZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateXDeviceInXZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateXDeviceInXZones);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateGKDeviceInGKZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateGKDeviceInGKZones);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
@@ -58,18 +58,18 @@ namespace GKModule.Plans
 			_guardZonesViewModel = guardZonesViewModel;
 			_instruments = null;
 			_processChanges = true;
-			Cache.Add<XDevice>(() => XManager.Devices);
-			Cache.Add<XZone>(() => XManager.Zones);
-			Cache.Add<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
-			Cache.Add<XDirection>(() => XManager.Directions);
+			Cache.Add<GKDevice>(() => GKManager.Devices);
+			Cache.Add<GKZone>(() => GKManager.Zones);
+			Cache.Add<GKGuardZone>(() => GKManager.DeviceConfiguration.GuardZones);
+			Cache.Add<GKDirection>(() => GKManager.Directions);
 			_designerItems = new List<DesignerItem>();
 		}
 
 		public void Initialize()
 		{
 			Cache.BuildAllSafe();
-			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
-				PictureCacheSource.XDevicePicture.LoadCache();
+			using (new TimeCounter("DevicePictureCache.LoadGKCache: {0}"))
+				PictureCacheSource.GKDevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -145,38 +145,38 @@ namespace GKModule.Plans
 
 		public override bool ElementAdded(Plan plan, ElementBase element)
 		{
-			if (element is ElementXDevice)
+			if (element is ElementGKDevice)
 			{
-				var elementXDevice = element as ElementXDevice;
-				plan.ElementXDevices.Add(elementXDevice);
-				SetItem<XDevice>(elementXDevice);
+				var elementXDevice = element as ElementGKDevice;
+				plan.ElementGKDevices.Add(elementXDevice);
+				SetItem<GKDevice>(elementXDevice);
 				return true;
 			}
 			else if (element is IElementZone)
 			{
-				if (element is ElementRectangleXZone)
+				if (element is ElementRectangleGKZone)
 				{
-					var elementRectangleXZone = (ElementRectangleXZone)element;
-					plan.ElementRectangleXZones.Add(elementRectangleXZone);
-					SetItem<XZone>(elementRectangleXZone);
+					var elementRectangleXZone = (ElementRectangleGKZone)element;
+					plan.ElementRectangleGKZones.Add(elementRectangleXZone);
+					SetItem<GKZone>(elementRectangleXZone);
 				}
-				else if (element is ElementPolygonXZone)
+				else if (element is ElementPolygonGKZone)
 				{
-					var elementPolygonXZone = (ElementPolygonXZone)element;
-					plan.ElementPolygonXZones.Add(elementPolygonXZone);
-					SetItem<XZone>(elementPolygonXZone);
+					var elementPolygonXZone = (ElementPolygonGKZone)element;
+					plan.ElementPolygonGKZones.Add(elementPolygonXZone);
+					SetItem<GKZone>(elementPolygonXZone);
 				}
-				else if (element is ElementRectangleXGuardZone)
+				else if (element is ElementRectangleGKGuardZone)
 				{
-					var elementRectangleXGuardZone = (ElementRectangleXGuardZone)element;
-					plan.ElementRectangleXGuardZones.Add(elementRectangleXGuardZone);
-					SetItem<XGuardZone>(elementRectangleXGuardZone);
+					var elementRectangleXGuardZone = (ElementRectangleGKGuardZone)element;
+					plan.ElementRectangleGKGuardZones.Add(elementRectangleXGuardZone);
+					SetItem<GKGuardZone>(elementRectangleXGuardZone);
 				}
-				else if (element is ElementPolygonXGuardZone)
+				else if (element is ElementPolygonGKGuardZone)
 				{
-					var elementPolygonXGuardZone = (ElementPolygonXGuardZone)element;
-					plan.ElementPolygonXGuardZones.Add(elementPolygonXGuardZone);
-					SetItem<XGuardZone>(elementPolygonXGuardZone);
+					var elementPolygonXGuardZone = (ElementPolygonGKGuardZone)element;
+					plan.ElementPolygonGKGuardZones.Add(elementPolygonXGuardZone);
+					SetItem<GKGuardZone>(elementPolygonXGuardZone);
 				}
 				else
 					return false;
@@ -184,51 +184,51 @@ namespace GKModule.Plans
 			}
 			else if (element is IElementDirection)
 			{
-				if (element is ElementRectangleXDirection)
-					plan.ElementRectangleXDirections.Add((ElementRectangleXDirection)element);
-				else if (element is ElementPolygonXDirection)
-					plan.ElementPolygonXDirections.Add((ElementPolygonXDirection)element);
+				if (element is ElementRectangleGKDirection)
+					plan.ElementRectangleGKDirections.Add((ElementRectangleGKDirection)element);
+				else if (element is ElementPolygonGKDirection)
+					plan.ElementPolygonGKDirections.Add((ElementPolygonGKDirection)element);
 				else
 					return false;
-				SetItem<XDirection>((IElementDirection)element);
+				SetItem<GKDirection>((IElementDirection)element);
 				return true;
 			}
 			return false;
 		}
 		public override bool ElementRemoved(Plan plan, ElementBase element)
 		{
-			if (element is ElementXDevice)
+			if (element is ElementGKDevice)
 			{
-				var elementXDevice = (ElementXDevice)element;
-				plan.ElementXDevices.Remove(elementXDevice);
-				ResetItem<XDevice>(elementXDevice);
+				var elementXDevice = (ElementGKDevice)element;
+				plan.ElementGKDevices.Remove(elementXDevice);
+				ResetItem<GKDevice>(elementXDevice);
 				return true;
 			}
 			else if (element is IElementZone)
 			{
-				if (element is ElementRectangleXZone)
-					plan.ElementRectangleXZones.Remove((ElementRectangleXZone)element);
-				else if (element is ElementPolygonXZone)
-					plan.ElementPolygonXZones.Remove((ElementPolygonXZone)element);
-				else if (element is ElementRectangleXGuardZone)
-					plan.ElementRectangleXGuardZones.Remove((ElementRectangleXGuardZone)element);
-				else if (element is ElementPolygonXGuardZone)
-					plan.ElementPolygonXGuardZones.Remove((ElementPolygonXGuardZone)element);
+				if (element is ElementRectangleGKZone)
+					plan.ElementRectangleGKZones.Remove((ElementRectangleGKZone)element);
+				else if (element is ElementPolygonGKZone)
+					plan.ElementPolygonGKZones.Remove((ElementPolygonGKZone)element);
+				else if (element is ElementRectangleGKGuardZone)
+					plan.ElementRectangleGKGuardZones.Remove((ElementRectangleGKGuardZone)element);
+				else if (element is ElementPolygonGKGuardZone)
+					plan.ElementPolygonGKGuardZones.Remove((ElementPolygonGKGuardZone)element);
 				else
 					return false;
-				ResetItem<XZone>((IElementZone)element);
-				ResetItem<XGuardZone>((IElementZone)element);
+				ResetItem<GKZone>((IElementZone)element);
+				ResetItem<GKGuardZone>((IElementZone)element);
 				return true;
 			}
 			else if (element is IElementDirection)
 			{
-				if (element is ElementRectangleXDirection)
-					plan.ElementRectangleXDirections.Remove((ElementRectangleXDirection)element);
-				else if (element is ElementPolygonXDirection)
-					plan.ElementPolygonXDirections.Remove((ElementPolygonXDirection)element);
+				if (element is ElementRectangleGKDirection)
+					plan.ElementRectangleGKDirections.Remove((ElementRectangleGKDirection)element);
+				else if (element is ElementPolygonGKDirection)
+					plan.ElementPolygonGKDirections.Remove((ElementPolygonGKDirection)element);
 				else
 					return false;
-				ResetItem<XDirection>((IElementDirection)element);
+				ResetItem<GKDirection>((IElementDirection)element);
 				return true;
 			}
 			return false;
@@ -236,47 +236,47 @@ namespace GKModule.Plans
 
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
-			if (designerItem.Element is ElementRectangleXZone || designerItem.Element is ElementPolygonXZone)
-				RegisterDesignerItem<XZone>(designerItem, "XZone", "/Controls;component/Images/Zone.png");
-			else if (designerItem.Element is ElementRectangleXGuardZone || designerItem.Element is ElementPolygonXGuardZone)
-				RegisterDesignerItem<XGuardZone>(designerItem, "XGuardZone", "/Controls;component/Images/GuardZone.png");
-			else if (designerItem.Element is ElementXDevice)
+			if (designerItem.Element is ElementRectangleGKZone || designerItem.Element is ElementPolygonGKZone)
+				RegisterDesignerItem<GKZone>(designerItem, "GKZone", "/Controls;component/Images/Zone.png");
+			else if (designerItem.Element is ElementRectangleGKGuardZone || designerItem.Element is ElementPolygonGKGuardZone)
+				RegisterDesignerItem<GKGuardZone>(designerItem, "GKGuardZone", "/Controls;component/Images/GuardZone.png");
+			else if (designerItem.Element is ElementGKDevice)
 			{
-				RegisterDesignerItem<XDevice>(designerItem, "GK");
+				RegisterDesignerItem<GKDevice>(designerItem, "GK");
 				_designerItems.Add(designerItem);
 			}
 			else if (designerItem.Element is IElementDirection)
-				RegisterDesignerItem<XDirection>(designerItem, "XDirection", "/Controls;component/Images/Blue_Direction.png");
+				RegisterDesignerItem<GKDirection>(designerItem, "GKDirection", "/Controls;component/Images/Blue_Direction.png");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
 			_designerItems = new List<DesignerItem>();
-			if (plan.ElementPolygonXZones == null)
-				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
-			if (plan.ElementRectangleXZones == null)
-				plan.ElementRectangleXZones = new List<ElementRectangleXZone>();
-			if (plan.ElementPolygonXGuardZones == null)
-				plan.ElementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
-			if (plan.ElementRectangleXGuardZones == null)
-				plan.ElementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
-			if (plan.ElementRectangleXDirections == null)
-				plan.ElementRectangleXDirections = new List<ElementRectangleXDirection>();
-			if (plan.ElementPolygonXDirections == null)
-				plan.ElementPolygonXDirections = new List<ElementPolygonXDirection>();
-			foreach (var element in plan.ElementXDevices)
+			if (plan.ElementPolygonGKZones == null)
+				plan.ElementPolygonGKZones = new List<ElementPolygonGKZone>();
+			if (plan.ElementRectangleGKZones == null)
+				plan.ElementRectangleGKZones = new List<ElementRectangleGKZone>();
+			if (plan.ElementPolygonGKGuardZones == null)
+				plan.ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
+			if (plan.ElementRectangleGKGuardZones == null)
+				plan.ElementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
+			if (plan.ElementRectangleGKDirections == null)
+				plan.ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
+			if (plan.ElementPolygonGKDirections == null)
+				plan.ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
+			foreach (var element in plan.ElementGKDevices)
 				yield return element;
-			foreach (var element in plan.ElementRectangleXZones)
+			foreach (var element in plan.ElementRectangleGKZones)
 				yield return element;
-			foreach (var element in plan.ElementPolygonXZones)
+			foreach (var element in plan.ElementPolygonGKZones)
 				yield return element;
-			foreach (var element in plan.ElementRectangleXGuardZones)
+			foreach (var element in plan.ElementRectangleGKGuardZones)
 				yield return element;
-			foreach (var element in plan.ElementPolygonXGuardZones)
+			foreach (var element in plan.ElementPolygonGKGuardZones)
 				yield return element;
-			foreach (var element in plan.ElementRectangleXDirections)
+			foreach (var element in plan.ElementRectangleGKDirections)
 				yield return element;
-			foreach (var element in plan.ElementPolygonXDirections)
+			foreach (var element in plan.ElementPolygonGKDirections)
 				yield return element;
 		}
 
@@ -284,13 +284,13 @@ namespace GKModule.Plans
 		{
 			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 2);
-			LayerGroupService.Instance.RegisterGroup("XZone", "Зоны", 3);
-			LayerGroupService.Instance.RegisterGroup("XDirection", "Направления", 4);
-			LayerGroupService.Instance.RegisterGroup("XGuardZone", "Охранные зоны", 5);
+			LayerGroupService.Instance.RegisterGroup("GKZone", "Зоны", 3);
+			LayerGroupService.Instance.RegisterGroup("GKDirection", "Направления", 4);
+			LayerGroupService.Instance.RegisterGroup("GKGuardZone", "Охранные зоны", 5);
 		}
 		public override void ExtensionAttached()
 		{
-			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
+			using (new TimeCounter("GKDevice.ExtensionAttached.BuildMap: {0}"))
 				base.ExtensionAttached();
 		}
 
@@ -298,25 +298,25 @@ namespace GKModule.Plans
 
 		protected override void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)
 		{
-			if (typeof(TItem) == typeof(XDevice))
+			if (typeof(TItem) == typeof(GKDevice))
 			{
-				var device = item as XDevice;
+				var device = item as GKDevice;
 				designerItem.Title = device == null ? "Неизвестное устройство" : device.PresentationName;
 				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
 			}
-			else if (typeof(TItem) == typeof(XZone))
+			else if (typeof(TItem) == typeof(GKZone))
 			{
-				var zone = item as XZone;
+				var zone = item as GKZone;
 				designerItem.Title = zone == null ? "Несвязанная зона" : zone.PresentationName;
 			}
-			else if (typeof(TItem) == typeof(XGuardZone))
+			else if (typeof(TItem) == typeof(GKGuardZone))
 			{
-				var guardZone = item as XGuardZone;
+				var guardZone = item as GKGuardZone;
 				designerItem.Title = guardZone == null ? "Неизвестная охраная зона" : guardZone.PresentationName;
 			}
-			else if (typeof(TItem) == typeof(XDirection))
+			else if (typeof(TItem) == typeof(GKDirection))
 			{
-				var direction = item as XDirection;
+				var direction = item as GKDirection;
 				designerItem.Title = direction == null ? "Несвязанное направление" : direction.PresentationName;
 			}
 			else
@@ -324,22 +324,22 @@ namespace GKModule.Plans
 		}
 		protected override void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 		{
-			if (typeof(TItem) == typeof(XZone))
+			if (typeof(TItem) == typeof(GKZone))
 			{
 				var elementZone = (IElementZone)element;
-				elementZone.BackgroundColor = GetXZoneColor(item as XZone);
+				elementZone.BackgroundColor = GetXZoneColor(item as GKZone);
 				elementZone.SetZLayer(item == null ? 50 : 60);
 			}
-			else if (typeof(TItem) == typeof(XGuardZone))
+			else if (typeof(TItem) == typeof(GKGuardZone))
 			{
 				var elementGuardZone = (IElementZone)element;
-				elementGuardZone.BackgroundColor = GetXGuardZoneColor(item as XGuardZone);
+				elementGuardZone.BackgroundColor = GetXGuardZoneColor(item as GKGuardZone);
 				elementGuardZone.SetZLayer(item == null ? 50 : 60);
 			}
-			else if (typeof(TItem) == typeof(XDirection))
+			else if (typeof(TItem) == typeof(GKDirection))
 			{
 				var elementDirection = (IElementDirection)element;
-				elementDirection.BackgroundColor = GetXDirectionColor(item as XDirection);
+				elementDirection.BackgroundColor = GetXDirectionColor(item as GKDirection);
 				elementDirection.SetZLayer(item == null ? 10 : 11);
 			}
 			else
@@ -348,71 +348,71 @@ namespace GKModule.Plans
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			var elementXDevice = args.Element as ElementXDevice;
+			var elementXDevice = args.Element as ElementGKDevice;
 			if (elementXDevice != null)
 				args.Painter = new Painter(DesignerCanvas, elementXDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
-			ElementXDevice element = e.Element as ElementXDevice;
+			ElementGKDevice element = e.Element as ElementGKDevice;
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
-			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
+			else if (e.Element is ElementRectangleGKZone || e.Element is ElementPolygonGKZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
-			else if (e.Element is ElementRectangleXGuardZone || e.Element is ElementPolygonXGuardZone)
+			else if (e.Element is ElementRectangleGKGuardZone || e.Element is ElementPolygonGKGuardZone)
 				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element, _guardZonesViewModel);
-			else if (e.Element is ElementRectangleXDirection || e.Element is ElementPolygonXDirection)
+			else if (e.Element is ElementRectangleGKDirection || e.Element is ElementPolygonGKDirection)
 				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 		}
 
-		public void UpdateXDeviceInXZones(List<ElementBase> items)
+		public void UpdateGKDeviceInGKZones(List<ElementBase> items)
 		{
 			if (IsDeviceInZonesChanged(items))
 			{
-				var deviceInZones = new Dictionary<XDevice, Guid>();
-				var handledXDevices = new List<XDevice>();
+				var deviceInZones = new Dictionary<GKDevice, Guid>();
+				var handledXDevices = new List<GKDevice>();
 				using (new WaitWrapper())
 				using (new TimeCounter("\tUpdateXDeviceInZones: {0}"))
 				{
 					Dictionary<Geometry, IElementZone> geometries = GetZoneGeometryMap();
 					foreach (var designerItem in DesignerCanvas.Items)
 					{
-						var elementXDevice = designerItem.Element as ElementXDevice;
+						var elementXDevice = designerItem.Element as ElementGKDevice;
 						if (elementXDevice != null)
 						{
-							var xdevice = GetItem<XDevice>(elementXDevice);
-							if (xdevice == null || xdevice.Driver == null || handledXDevices.Contains(xdevice))
+							var device = GetItem<GKDevice>(elementXDevice);
+							if (device == null || device.Driver == null || handledXDevices.Contains(device))
 								continue;
 							var point = new Point(elementXDevice.Left, elementXDevice.Top);
 							var zones = new List<IElementZone>();
 							foreach (var pair in geometries)
 								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
 									zones.Add(pair.Value);
-							switch (xdevice.ZoneUIDs.Count)
+							switch (device.ZoneUIDs.Count)
 							{
 								case 0:
 									if (zones.Count > 0)
 									{
-										var zone = GetItem<XZone>(GetTopZoneUID(zones));
+										var zone = GetItem<GKZone>(GetTopZoneUID(zones));
 										if (zone != null)
 										{
-											XManager.AddDeviceToZone(xdevice, zone);
-											handledXDevices.Add(xdevice);
+											GKManager.AddDeviceToZone(device, zone);
+											handledXDevices.Add(device);
 										}
 									}
 									break;
 								case 1:
-									var isInZone = zones.Any(x => x.ZoneUID == xdevice.ZoneUIDs[0]);
+									var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUIDs[0]);
 									if (!isInZone)
 									{
-										if (!deviceInZones.ContainsKey(xdevice))
-											deviceInZones.Add(xdevice, GetTopZoneUID(zones));
+										if (!deviceInZones.ContainsKey(device))
+											deviceInZones.Add(device, GetTopZoneUID(zones));
 									}
 									else
 									{
-										handledXDevices.Add(xdevice);
-										if (deviceInZones.ContainsKey(xdevice))
-											deviceInZones.Remove(xdevice);
+										handledXDevices.Add(device);
+										if (deviceInZones.ContainsKey(device))
+											deviceInZones.Remove(device);
 									}
 									break;
 							}
@@ -426,7 +426,7 @@ namespace GKModule.Plans
 		{
 			if (_processChanges && !DesignerCanvas.IsLocked)
 				foreach (var item in items)
-					if (item is ElementXDevice || item is IElementZone)
+					if (item is ElementGKDevice || item is IElementZone)
 						return true;
 			return false;
 		}
@@ -445,7 +445,7 @@ namespace GKModule.Plans
 		{
 			return zones.OrderByDescending(item => item.ZIndex).Select(item => item.ZoneUID).FirstOrDefault();
 		}
-		private void ShowDeviceInZoneChanged(Dictionary<XDevice, Guid> deviceInZones)
+		private void ShowDeviceInZoneChanged(Dictionary<GKDevice, Guid> deviceInZones)
 		{
 			if (deviceInZones.Count > 0)
 			{
@@ -464,28 +464,28 @@ namespace GKModule.Plans
 		{
 			_designerItems.ForEach(item =>
 			{
-				OnDesignerItemPropertyChanged<XDevice>(item);
-				UpdateProperties<XDevice>(item);
+				OnDesignerItemPropertyChanged<GKDevice>(item);
+				UpdateProperties<GKDevice>(item);
 				item.Painter.Invalidate();
 			});
 			DesignerCanvas.Refresh();
 		}
 
-		private Color GetXDirectionColor(XDirection direction)
+		private Color GetXDirectionColor(GKDirection direction)
 		{
 			Color color = Colors.Black;
 			if (direction != null)
 				color = Colors.LightBlue;
 			return color;
 		}
-		private Color GetXGuardZoneColor(XGuardZone zone)
+		private Color GetXGuardZoneColor(GKGuardZone zone)
 		{
 			Color color = Colors.Black;
 			if (zone != null)
 				color = Colors.Brown;
 			return color;
 		}
-		private Color GetXZoneColor(XZone zone)
+		private Color GetXZoneColor(GKZone zone)
 		{
 			Color color = Colors.Black;
 			if (zone != null)

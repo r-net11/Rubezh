@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			MPTs = new ObservableCollection<MPTViewModel>();
-			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs.OrderBy(x => x.No))
 			{
 				var mptViewModel = new MPTViewModel(mpt);
 				MPTs.Add(mptViewModel);
@@ -77,7 +77,7 @@ namespace GKModule.ViewModels
 			var mptDetailsViewModel = new MPTDetailsViewModel();
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.MPTs.Add(mptDetailsViewModel.MPT);
+				GKManager.DeviceConfiguration.MPTs.Add(mptDetailsViewModel.MPT);
 				var mptViewModel = new MPTViewModel(mptDetailsViewModel.MPT);
 				MPTs.Add(mptViewModel);
 				SelectedMPT = mptViewModel;
@@ -96,7 +96,7 @@ namespace GKModule.ViewModels
 				{
 					MPTViewModel.ChangeIsInMPT(mptDevice.Device, false);
 				}
-				XManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
+				GKManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				SelectedMPT = MPTs.FirstOrDefault();
 				OnPropertyChanged(() => HasSelectedMPT);

@@ -7,13 +7,13 @@ namespace AutomationModule.ViewModels
 	public class ShowMessageStepViewModel : BaseStepViewModel
 	{
 		ShowMessageArguments ShowMessageArguments { get; set; }
-		public ArgumentViewModel MessageParameter { get; private set; }
+		public ArgumentViewModel MessageArgument { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
 		public ShowMessageStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
-			MessageParameter = new ArgumentViewModel(ShowMessageArguments.MessageParameter, stepViewModel.Update);
+			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType> (ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 		}
@@ -25,9 +25,9 @@ namespace AutomationModule.ViewModels
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList && x.EnumType == EnumType);
 			else
 				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
-			MessageParameter.Update(allVariables);
-			MessageParameter.ExplicitType = ExplicitType;
-			MessageParameter.EnumType = EnumType;
+			MessageArgument.Update(allVariables);
+			MessageArgument.ExplicitType = ExplicitType;
+			MessageArgument.EnumType = EnumType;
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.ProcedureLayoutCollection);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
@@ -46,7 +46,7 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				return "Сообщение: " + MessageParameter.Description;
+				return "Сообщение: " + MessageArgument.Description;
 			}
 		}
 

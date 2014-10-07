@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 				{
 					_selectedTimeInterval = value;
 					OnPropertyChanged(() => SelectedTimeInterval);
-					_slideDayInterval.DayIntervalIDs[Index] = SelectedTimeInterval.ID;
+					_slideDayInterval.DayIntervalIDs[Index] = SelectedTimeInterval.No;
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
 			}
@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 		public override void Update()
 		{
 			Name = string.Format("{0}", Index + 1);
-			_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == _slideDayInterval.DayIntervalIDs[Index]);
+			_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.No == _slideDayInterval.DayIntervalIDs[Index]);
 			if (_selectedTimeInterval == null)
 				_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedTimeInterval);

@@ -14,9 +14,9 @@ namespace GKModule.ViewModels
 {
 	public class DirectionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XDirection Direction { get; private set; }
+		public GKDirection Direction { get; private set; }
 
-		public DirectionDetailsViewModel(XDirection direction = null)
+		public DirectionDetailsViewModel(GKDirection direction = null)
 		{
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
 			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
@@ -27,13 +27,13 @@ namespace GKModule.ViewModels
 			{
 				Title = "Создание новоого направления";
 
-				Direction = new XDirection()
+				Direction = new GKDirection()
 				{
 					Name = "Новое направление",
 					No = 1
 				};
-				if (XManager.Directions.Count != 0)
-					Direction.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
+				if (GKManager.Directions.Count != 0)
+					Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingDirection in XManager.Directions)
+			foreach (var existingDirection in GKManager.Directions)
 			{
 				availableNames.Add(existingDirection.Name);
 				availableDescription.Add(existingDirection.Description);
@@ -136,7 +136,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Direction.No != No && XManager.Directions.Any(x => x.No == No))
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
+			if (Direction.No != No && GKManager.Directions.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Направление с таким номером уже существует");
 				return false;
@@ -227,7 +232,7 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
-			var localHash = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, Direction.GkDatabaseParent);
+			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, Direction.GkDatabaseParent);
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;

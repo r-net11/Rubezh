@@ -24,22 +24,22 @@ namespace SKDModule.ViewModels
 				{
 					switch (driverProperty.DriverPropertyType)
 					{
-						case XDriverPropertyTypeEnum.EnumType:
+						case GKDriverPropertyTypeEnum.EnumType:
 							var parameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
 							if (parameter != null)
 								deviceProperty.Value = parameter.Name;
 							break;
 
-						case XDriverPropertyTypeEnum.IntType:
+						case GKDriverPropertyTypeEnum.IntType:
 							deviceProperty.Value = property.Value.ToString();
 							break;
 
-						case XDriverPropertyTypeEnum.BoolType:
+						case GKDriverPropertyTypeEnum.BoolType:
 							var isTrue = property.Value > 0;
 							deviceProperty.Value = isTrue ? "Есть" : "Нет";
 							break;
 
-						case XDriverPropertyTypeEnum.StringType:
+						case GKDriverPropertyTypeEnum.StringType:
 							deviceProperty.Value = property.StringValue;
 							break;
 					}

@@ -266,7 +266,7 @@ namespace ManagementConsole
 			var result = MessageBox.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?");
 			if (result == MessageBoxResult.OK)
 			{
-				XDeviceLibraryConfigurationPatchHelper.Patch();
+				DeviceLibraryConfigurationPatchHelper.Patch();
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace ManagementConsole
 			var result = MessageBox.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?");
 			if (result == MessageBoxResult.OK)
 			{
-				XDeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
+				DeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
 			}
 		}
 

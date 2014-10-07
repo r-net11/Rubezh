@@ -24,7 +24,7 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
-			var directions = XManager.Directions;
+			var directions = GKManager.Directions;
 			XDirections = new ObservableCollection<DirectionViewModel>();
 			foreach (var direction in directions)
 			{
@@ -56,8 +56,8 @@ namespace GKModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
 			if (createDirectionEventArg.Direction != null)
 				_element.DirectionUID = createDirectionEventArg.Direction.UID;
-			GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
-			GKPlanExtension.Instance.SetItem<XDirection>(_element);
+			GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
+			GKPlanExtension.Instance.SetItem<GKDirection>(_element);
 			UpdateDirections(xdirectionUID);
 			if (!createDirectionEventArg.Cancel)
 				Close(true);
@@ -77,7 +77,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid directionUID = _element.DirectionUID;
-			GKPlanExtension.Instance.SetItem<XDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
+			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
 			UpdateDirections(directionUID);
 			return base.Save();
 		}

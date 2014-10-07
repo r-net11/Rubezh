@@ -10,13 +10,13 @@ namespace GKModule.ViewModels
 {
 	public class StateTypeViewModel : BaseViewModel
 	{
-		public XStateBit StateBit { get; private set; }
+		public GKStateBit StateBit { get; private set; }
 		public string Name { get; private set; }
 
-		public StateTypeViewModel(ClauseOperationType clauseOperationType, XStateBit stateBit)
+		public StateTypeViewModel(ClauseOperationType clauseOperationType, GKStateBit stateBit)
 		{
 			StateBit = stateBit;
-			Name = XClause.ClauseToString(clauseOperationType, stateBit);
+			Name = GKClause.ClauseToString(clauseOperationType, stateBit);
 		}
 	}
 }

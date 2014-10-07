@@ -5,15 +5,15 @@ namespace GKProcessor
 {
 	public class KauDatabase : CommonDatabase
 	{
-		public List<XDevice> Devices { get; set; }
+		public List<GKDevice> Devices { get; set; }
 
-		public KauDatabase(XDevice kauDevice)
+		public KauDatabase(GKDevice kauDevice)
 		{
-			Devices = new List<XDevice>();
+			Devices = new List<GKDevice>();
 			DatabaseType = DatabaseType.Kau;
 			RootDevice = kauDevice;
 
-			AllDevices = new List<XDevice>();
+			AllDevices = new List<GKDevice>();
 			AddChild(RootDevice);
 
 			foreach (var device in AllDevices)
@@ -24,8 +24,8 @@ namespace GKProcessor
 			}
 		}
 
-		List<XDevice> AllDevices;
-		void AddChild(XDevice device)
+		List<GKDevice> AllDevices;
+		void AddChild(GKDevice device)
 		{
 			if (device.IsNotUsed)
 				return;

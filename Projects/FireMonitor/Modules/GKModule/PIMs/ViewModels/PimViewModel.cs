@@ -10,13 +10,13 @@ namespace GKModule.ViewModels
 {
 	public class PimViewModel : BaseViewModel
 	{
-		public XPim Pim { get; private set; }
-		public XState State
+		public GKPim Pim { get; private set; }
+		public GKState State
 		{
 			get { return Pim.State; }
 		}
 
-		public PimViewModel(XPim pim)
+		public PimViewModel(GKPim pim)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);

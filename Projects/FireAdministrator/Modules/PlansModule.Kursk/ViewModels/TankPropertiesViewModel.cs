@@ -18,15 +18,15 @@ namespace PlansModule.Kursk.ViewModels
 			_element = element;
 			Title = "Свойства фигуры: Бак";
 
-			Devices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush));
-			if (_element.XDeviceUID != Guid.Empty)
-				SelectedDevice = Devices.FirstOrDefault(x => x.UID == _element.XDeviceUID);
+			Devices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(item => item.DriverType == GKDriverType.RSR2_Bush));
+			if (_element.DeviceUID != Guid.Empty)
+				SelectedDevice = Devices.FirstOrDefault(x => x.UID == _element.DeviceUID);
 		}
 
-		public ObservableCollection<XDevice> Devices { get; private set; }
+		public ObservableCollection<GKDevice> Devices { get; private set; }
 
-		private XDevice _selectedDevice;
-		public XDevice SelectedDevice
+		private GKDevice _selectedDevice;
+		public GKDevice SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -38,7 +38,7 @@ namespace PlansModule.Kursk.ViewModels
 
 		protected override bool Save()
 		{
-			Helper.SetXDevice(_element, SelectedDevice);
+			Helper.SetGKDevice(_element, SelectedDevice);
 			return base.Save();
 		}
 	}

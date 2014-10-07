@@ -4,9 +4,9 @@ namespace GKOPCServer
 {
 	public class TagDirection : TagBase
 	{
-		public XState State { get; private set; }
+		public GKState State { get; private set; }
 
-		public TagDirection(int tagId, XState state)
+		public TagDirection(int tagId, GKState state)
 		{
 			TagId = tagId;
 			State = state;

@@ -7,14 +7,14 @@ namespace FiresecAPI.GK
 	public class GKCallbackResult
 	{
 		[DataMember]
-		public List<XJournalItem> JournalItems { get; set; }
+		public List<GKJournalItem> JournalItems { get; set; }
 
 		[DataMember]
 		public GKStates GKStates { get; set; }
 
 		public GKCallbackResult()
 		{
-			JournalItems = new List<XJournalItem>();
+			JournalItems = new List<GKJournalItem>();
 			GKStates = new GKStates();
 		}
 	}

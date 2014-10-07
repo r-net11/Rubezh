@@ -209,7 +209,7 @@
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
-    <Compile Include="Plans\Designer\ElementXDeviceUpdater.cs" />
+    <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\XGuardZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XGuardZoneRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
@@ -230,7 +230,6 @@
     <Compile Include="Selectation\Views\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Diagnostics\ConfigurationConverter\GKToFiresecConverter.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
@@ -239,12 +238,6 @@
     <Compile Include="Directions\ViewModels\DirectionZoneViewModel.cs" />
     <Compile Include="Directions\Views\DirectionDevicesView.xaml.cs">
       <DependentUpon>DirectionDevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Diagnostics\ConfigurationConverter\FiresecToGKConverter.cs" />
-    <Compile Include="Diagnostics\ConfigurationConverter\ViewModels\ConvertationViewModel.cs" />
-    <Compile Include="Diagnostics\ConfigurationConverter\ViewModels\FSShleifViewModel.cs" />
-    <Compile Include="Diagnostics\ConfigurationConverter\Views\ConvertationView.xaml.cs">
-      <DependentUpon>ConvertationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Instructions\Converters\DevicesToStringConverter.cs" />
     <Compile Include="Instructions\Converters\ZonesToStringConverter.cs" />
@@ -341,7 +334,6 @@
     <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\InstrumentAdorners\XDirectionPolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XDirectionRectangleAdorner.cs" />
@@ -641,10 +633,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Directions\Views\DirectionDevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Diagnostics\ConfigurationConverter\Views\ConvertationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -55,7 +55,7 @@ namespace SKDDriver
 			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in guardZones)
 			{
-				result.GuardZoneAccesses.Add(new XGuardZoneAccess
+				result.GuardZoneAccesses.Add(new GKGuardZoneAccess
 				{
 					ZoneUID = item.ZoneUID,
 					CanReset = item.CanReset,
@@ -93,7 +93,7 @@ namespace SKDDriver
 			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneAccesses);
 		}
 
-		OperationResult SaveGuardZonesInternal(Guid parentUID, List<XGuardZoneAccess> GuardZones)
+		OperationResult SaveGuardZonesInternal(Guid parentUID, List<GKGuardZoneAccess> GuardZones)
 		{
 			try
 			{

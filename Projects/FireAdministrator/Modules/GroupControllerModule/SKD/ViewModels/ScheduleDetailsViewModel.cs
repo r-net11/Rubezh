@@ -10,21 +10,21 @@ namespace GKModule.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XSchedule Schedule;
+		public GKSchedule Schedule;
 
-		public ScheduleDetailsViewModel(XSchedule schedule = null)
+		public ScheduleDetailsViewModel(GKSchedule schedule = null)
 		{
 			if (schedule == null)
 			{
 				Title = "Создание нового графика работ";
 
-				Schedule = new XSchedule()
+				Schedule = new GKSchedule()
 				{
 					Name = "Новый график работ",
 					No = 1
 				};
-				if (XManager.DeviceConfiguration.Schedules.Count != 0)
-					Schedule.No = (ushort)(XManager.DeviceConfiguration.Schedules.Select(x => x.No).Max() + 1);
+				if (GKManager.DeviceConfiguration.Schedules.Count != 0)
+					Schedule.No = (ushort)(GKManager.DeviceConfiguration.Schedules.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingSchedule in XManager.DeviceConfiguration.Schedules)
+			foreach (var existingSchedule in GKManager.DeviceConfiguration.Schedules)
 			{
 				availableNames.Add(existingSchedule.Name);
 				availableDescription.Add(existingSchedule.Description);
@@ -90,7 +90,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Schedule.No != No && XManager.DeviceConfiguration.Schedules.Any(x => x.No == No))
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
+			if (Schedule.No != No && GKManager.DeviceConfiguration.Schedules.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;

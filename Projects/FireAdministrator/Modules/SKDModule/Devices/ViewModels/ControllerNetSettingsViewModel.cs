@@ -24,7 +24,22 @@ namespace SKDModule.ViewModels
 			WriteCommand = new RelayCommand(OnWrite);
 			ReadCommand = new RelayCommand(OnRead);
 
-			OnRead();
+			var addressProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
+			if (addressProperty != null)
+			{
+				Address = addressProperty.StringValue;
+			}
+			var maskProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Mask");
+			if (maskProperty != null)
+			{
+				Mask = maskProperty.StringValue;
+			}
+			var gatewayProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Gateway");
+			if (gatewayProperty != null)
+			{
+				DefaultGateway = gatewayProperty.StringValue;
+			}
+
 			HasChanged = false;
 		}
 
@@ -61,38 +76,22 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _mtu;
-		public int MTU
-		{
-			get { return _mtu; }
-			set
-			{
-				_mtu = value;
-				OnPropertyChanged(() => MTU);
-			}
-		}
-
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			if (string.IsNullOrEmpty(Address))
+			if (SKDManager.ValidateIPAddress(Address))
 			{
-				MessageBoxService.ShowWarning("Не задан адрес");
+				MessageBoxService.ShowWarning("Не верно задан адрес");
 				return;
 			}
-			if (string.IsNullOrEmpty(Mask))
+			if (SKDManager.ValidateIPAddress(Mask))
 			{
-				MessageBoxService.ShowWarning("Не задана маска");
+				MessageBoxService.ShowWarning("Не верно задана маска подсети");
 				return;
 			}
-			if (string.IsNullOrEmpty(DefaultGateway))
+			if (SKDManager.ValidateIPAddress(DefaultGateway))
 			{
-				MessageBoxService.ShowWarning("Не задан шлюз по умолчанию");
-				return;
-			}
-			if (MTU <= 0)
-			{
-				MessageBoxService.ShowWarning("Значение MTU должно быть положительным числом");
+				MessageBoxService.ShowWarning("Не верно задан шлюз по умолчанию");
 				return;
 			}
 
@@ -100,7 +99,6 @@ namespace SKDModule.ViewModels
 			controllerNetworkSettings.Address = Address;
 			controllerNetworkSettings.Mask = Mask;
 			controllerNetworkSettings.DefaultGateway = DefaultGateway;
-			controllerNetworkSettings.MTU = MTU;
 			var result = FiresecManager.FiresecService.SetControllerNetworkSettings(DeviceViewModel.Device, controllerNetworkSettings);
 			if (result.HasError)
 			{
@@ -128,7 +126,6 @@ namespace SKDModule.ViewModels
 				Address = controllerNetworkSettings.Address;
 				Mask = controllerNetworkSettings.Mask;
 				DefaultGateway = controllerNetworkSettings.DefaultGateway;
-				MTU = controllerNetworkSettings.MTU;
 				HasChanged = true;
 			}
 		}
@@ -137,16 +134,24 @@ namespace SKDModule.ViewModels
 		{
 			if (HasChanged)
 			{
-				var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
-				if (addressProperty == null)
-				{
-					MessageBoxService.ShowWarning("У контроллера отсутствует адрес");
-					return false;
-				}
-
 				if (MessageBoxService.ShowQuestion2("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
 				{
-					addressProperty.StringValue = Address;
+					var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
+					if (addressProperty == null)
+					{
+						addressProperty.StringValue = Address;
+					}
+					var maskProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Mask");
+					if (maskProperty != null)
+					{
+						maskProperty.StringValue = Mask;
+					}
+					var gatewayProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Gateway");
+					if (gatewayProperty != null)
+					{
+						gatewayProperty.StringValue = DefaultGateway;
+					}
+
 					DeviceViewModel.UpdateProperties();
 					ServiceFactory.SaveService.SKDChanged = true;
 				}

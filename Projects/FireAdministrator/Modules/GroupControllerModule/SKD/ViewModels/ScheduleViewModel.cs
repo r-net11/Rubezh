@@ -12,9 +12,9 @@ namespace GKModule.ViewModels
 {
 	public class ScheduleViewModel : BaseViewModel
 	{
-		public XSchedule Schedule { get; set; }
+		public GKSchedule Schedule { get; set; }
 
-		public ScheduleViewModel(XSchedule schedule)
+		public ScheduleViewModel(GKSchedule schedule)
 		{
 			Schedule = schedule;
 			Update();
@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void Update(XSchedule schedule)
+		public void Update(GKSchedule schedule)
 		{
 			Schedule = schedule;
 			OnPropertyChanged(() => Schedule);

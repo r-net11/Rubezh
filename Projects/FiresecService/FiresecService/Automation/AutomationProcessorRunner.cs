@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI;
-using Microsoft.SqlServer.Management.Smo.Agent;
 
 namespace FiresecService.Processor
 {
@@ -55,10 +53,8 @@ namespace FiresecService.Processor
 			try
 			{
 				ProcedureHelper.Procedure = procedure;
-				if (procedure.Steps.Any(step => !RunStep(step, procedure)))
-				{
+				if (procedure.Steps.Any(step => RunStep(step, procedure) == Result.Exit))
 					return true;
-				}
 			}
 			catch
 			{
@@ -77,7 +73,7 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		static bool RunStep(ProcedureStep procedureStep, Procedure procedure)
+		static Result RunStep(ProcedureStep procedureStep, Procedure procedure)
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(procedure);
 			switch (procedureStep.ProcedureStepType)
@@ -85,25 +81,39 @@ namespace FiresecService.Processor
 				case ProcedureStepType.If:
 					if (ProcedureHelper.Compare(procedureStep))
 					{
-						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
+						foreach (var childStep in procedureStep.Children[0].Children)
 						{
-							return false;
+							var result = RunStep(childStep, procedure);
+							if (result != Result.Normal)
+							{
+								return result;
+							}
 						}
 					}
 					else
 					{
-						if (procedureStep.Children[1].Children.Any(childStep => !RunStep(childStep, procedure)))
+						foreach (var childStep in procedureStep.Children[1].Children)
 						{
-							return false;
+							var result = RunStep(childStep, procedure);
+							if (result != Result.Normal)
+							{
+								return result;
+							}
 						}
 					}
 					break;
 				case ProcedureStepType.While:
 					while (ProcedureHelper.Compare(procedureStep))
 					{
-						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
+						foreach (var childStep in procedureStep.Children[0].Children)
 						{
-							return false;
+							var result = RunStep(childStep, procedure);
+							if (result == Result.Break)
+								return Result.Normal;
+							if (result == Result.Continue)
+								break;
+							if (result == Result.Exit)
+								return Result.Exit;
 						}
 					}
 					break;
@@ -117,14 +127,23 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.Foreach:
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListParameter.VariableUid);
-					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemParameter.VariableUid);
+					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
+					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
 					if (listVariable != null)
-						foreach (var itemUid in listVariable.ExplicitValues.Select(x => x.UidValue))
+						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
-							if (itemVariable != null) itemVariable.ExplicitValue.UidValue = itemUid;
-							if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
-								return false;
+							if (itemVariable != null)
+								ProcedureHelper.SetValue(itemVariable, ProcedureHelper.GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
+							foreach (var childStep in procedureStep.Children[0].Children)
+							{
+								var result = RunStep(childStep, procedure);
+								if (result == Result.Break)
+									return Result.Normal;
+								if (result == Result.Continue)
+									break;
+								if (result == Result.Exit)
+									return Result.Exit;
+							}
 						}
 					break;
 
@@ -140,8 +159,19 @@ namespace FiresecService.Processor
 						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
 						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value;)
 						{
-							if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure)))
-								return false;
+							foreach (var childStep in procedureStep.Children[0].Children)
+							{
+								var result = RunStep(childStep, procedure);
+								if (result == Result.Break)
+								{
+									indexerVariable.ExplicitValue.IntValue = currentIntValue;
+									return Result.Normal;
+								}
+								if (result == Result.Continue)
+									break;
+								if (result == Result.Exit)
+									return Result.Exit;
+							}
 							indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
 							condition = ProcedureHelper.Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
 						}
@@ -218,10 +248,36 @@ namespace FiresecService.Processor
 					ProcedureHelper.GetRandomValue(procedureStep);
 					break;
 
+				case ProcedureStepType.ChangeList:
+					ProcedureHelper.ChangeList(procedureStep);
+					break;
+
+				case ProcedureStepType.GetListCount:
+					ProcedureHelper.GetListCount(procedureStep);
+					break;
+
+				case ProcedureStepType.GetListItem:
+					ProcedureHelper.GetListItem(procedureStep);
+					break;
+
 				case ProcedureStepType.Exit:
-					return false;
+					return Result.Exit;
+
+				case ProcedureStepType.Break:
+					return Result.Break;
+
+				case ProcedureStepType.Continue:
+					return Result.Continue;
 			}
-			return true;
+			return Result.Normal;
+		}
+
+		enum Result
+		{
+			Normal,
+			Break,
+			Continue,
+			Exit
 		}
 	}
 }

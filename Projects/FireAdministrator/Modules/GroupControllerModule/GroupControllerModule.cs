@@ -46,12 +46,12 @@ namespace GKModule
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateXZone);
-			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditXZone);
-			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Subscribe(OnCreateXGuardZone);
-			ServiceFactory.Events.GetEvent<EditXGuardZoneEvent>().Subscribe(OnEditXGuardZone);
-			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Subscribe(OnCreateXDirection);
-			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditXDirection);
+			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateGKZone);
+			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditGKZone);
+			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Subscribe(OnCreateGKGuardZone);
+			ServiceFactory.Events.GetEvent<EditXGuardZoneEvent>().Subscribe(OnEditGKGuardZone);
+			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Subscribe(OnCreateGKDirection);
+			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditGKDirection);
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
@@ -160,29 +160,29 @@ namespace GKModule
 		}
 		#endregion
 
-		private void OnCreateXZone(CreateXZoneEventArg createZoneEventArg)
+		private void OnCreateGKZone(CreateXZoneEventArg createZoneEventArg)
 		{
 			ZonesViewModel.CreateZone(createZoneEventArg);
 		}
-		private void OnEditXZone(Guid zoneUID)
+		private void OnEditGKZone(Guid zoneUID)
 		{
 			ZonesViewModel.EditZone(zoneUID);
 		}
 
-		private void OnCreateXGuardZone(CreateXGuardZoneEventArg createZoneEventArg)
+		private void OnCreateGKGuardZone(CreateXGuardZoneEventArg createZoneEventArg)
 		{
 			GuardZonesViewModel.CreateZone(createZoneEventArg);
 		}
-		private void OnEditXGuardZone(Guid zoneUID)
+		private void OnEditGKGuardZone(Guid zoneUID)
 		{
 			GuardZonesViewModel.EditZone(zoneUID);
 		}
 
-		private void OnCreateXDirection(CreateXDirectionEventArg createDirectionEventArg)
+		private void OnCreateGKDirection(CreateXDirectionEventArg createDirectionEventArg)
 		{
 			DirectionsViewModel.CreateDirection(createDirectionEventArg);
 		}
-		private void OnEditXDirection(Guid directionUID)
+		private void OnEditGKDirection(Guid directionUID)
 		{
 			DirectionsViewModel.EditDirection(directionUID);
 		}
@@ -191,7 +191,7 @@ namespace GKModule
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
-			XManager.UpdateConfiguration();
+			GKManager.UpdateConfiguration();
 			return true;
 		}
 

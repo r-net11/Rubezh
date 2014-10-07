@@ -1,8 +1,5 @@
 ﻿using FiresecAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 using FiresecAPI;
 
 namespace AutomationModule.ViewModels
@@ -10,26 +7,26 @@ namespace AutomationModule.ViewModels
 	public class PauseStepViewModel : BaseStepViewModel
 	{
 		public PauseArguments PauseArguments { get; private set; }
-		public ArgumentViewModel PauseParameter { get; set; }
+		public ArgumentViewModel PauseArgument { get; set; }
 
 		public PauseStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			PauseArguments = stepViewModel.Step.PauseArguments;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
-			PauseParameter = new ArgumentViewModel(PauseArguments.PauseParameter, stepViewModel.Update);
-			PauseParameter.ExplicitType = ExplicitType.Integer;
+			PauseArgument = new ArgumentViewModel(PauseArguments.PauseArgument, stepViewModel.Update);
+			PauseArgument.ExplicitType = ExplicitType.Integer;
 		}
 
 		public override void UpdateContent()
 		{
-			PauseParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			PauseArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get 
 			{
-				return "Значение: " + PauseParameter.Description + " " + SelectedTimeType.ToDescription(); 
+				return "Значение: " + PauseArgument.Description + " " + SelectedTimeType.ToDescription(); 
 			}
 		}
 

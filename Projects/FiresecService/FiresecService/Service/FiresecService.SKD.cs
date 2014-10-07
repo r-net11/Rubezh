@@ -29,9 +29,9 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveEmployee(Employee item)
 		{
-			//foreach (var gkDevice in XManager.DeviceConfiguration.RootDevice.Children)
+			//foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 			//{
-			//	GKAddUser(gkDevice.UID);
+			//	GKAddUser(gkControllerDevice.UID);
 			//}
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
 			using (var databaseService = new SKDDatabaseService())

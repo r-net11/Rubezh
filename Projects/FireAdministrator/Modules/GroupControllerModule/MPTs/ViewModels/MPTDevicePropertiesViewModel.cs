@@ -6,14 +6,14 @@ namespace GKModule.ViewModels
 {
 	public class MPTDevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		public XDevice Device { get; set; }
+		public GKDevice Device { get; set; }
 
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<ShortPropertyViewModel> ShortProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
 
-		public MPTDevicePropertiesViewModel(XDevice device, bool showAll)
+		public MPTDevicePropertiesViewModel(GKDevice device, bool showAll)
 		{
 			Title = "Настройка свойств устройства";
 			Device = device;
@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 				{
 					if (!showAll)
 					{
-						if (Device.DriverType == XDriverType.RSR2_AM_1)
+						if (Device.DriverType == GKDriverType.RSR2_AM_1)
 							continue;
 						if (driverProperty.Name != "Задержка на включение, с" && driverProperty.Name != "Время удержания, с" && driverProperty.Name != "Контроль")
 							continue;
@@ -40,22 +40,22 @@ namespace GKModule.ViewModels
 					}
 					switch (driverProperty.DriverPropertyType)
 					{
-						case XDriverPropertyTypeEnum.StringType:
+						case GKDriverPropertyTypeEnum.StringType:
 							var stringPropertyViewModel = new StringPropertyViewModel(driverProperty, Device);
 							stringPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
 							StringProperties.Add(stringPropertyViewModel);
 							break;
-						case XDriverPropertyTypeEnum.IntType:
+						case GKDriverPropertyTypeEnum.IntType:
 							var shortPropertyViewModel = new ShortPropertyViewModel(driverProperty, Device);
 							shortPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
 							ShortProperties.Add(shortPropertyViewModel);
 							break;
-						case XDriverPropertyTypeEnum.BoolType:
+						case GKDriverPropertyTypeEnum.BoolType:
 							var boolPropertyViewModel = new BoolPropertyViewModel(driverProperty, Device);
 							boolPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
 							BoolProperties.Add(boolPropertyViewModel);
 							break;
-						case XDriverPropertyTypeEnum.EnumType:
+						case GKDriverPropertyTypeEnum.EnumType:
 							var enumPropertyViewModel = new EnumPropertyViewModel(driverProperty, Device);
 							enumPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
 							EnumProperties.Add(enumPropertyViewModel);

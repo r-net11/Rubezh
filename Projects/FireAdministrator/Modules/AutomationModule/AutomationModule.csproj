@@ -109,7 +109,10 @@
     <Compile Include="Procedures\Views\StringDetailsView.xaml.cs">
       <DependentUpon>StringDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
@@ -189,6 +192,9 @@
     <Compile Include="ObjectSelection\Views\SKDZoneSelectionView.xaml.cs">
       <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\Views\ChangeListStepView.xaml.cs">
+      <DependentUpon>ChangeListStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\Views\ControlCameraStepView.xaml.cs">
       <DependentUpon>ControlCameraStepView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +248,12 @@
     </Compile>
     <Compile Include="Steps\Views\ForStepView.xaml.cs">
       <DependentUpon>ForStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetListCountStepView.xaml.cs">
+      <DependentUpon>GetListCountStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\GetListItemStepView.xaml.cs">
+      <DependentUpon>GetListItemStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\GetObjectPropertyStepView.xaml.cs">
       <DependentUpon>GetObjectPropertyStepView.xaml</DependentUpon>
@@ -449,7 +461,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Steps\Views\ChangeListStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Steps\Views\ForStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetListCountStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GetListItemStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,10 +16,10 @@ namespace FiresecClient
 			set { ConfigurationCash.DriversConfiguration = value; }
 		}
 
-		public XDriversConfiguration XDriversConfiguration
+		public GKDriversConfiguration XDriversConfiguration
 		{
-			get { return XConfigurationCash.XDriversConfiguration; }
-			set { XConfigurationCash.XDriversConfiguration = value; }
+			get { return GKConfigurationCash.GKDriversConfiguration; }
+			set { GKConfigurationCash.GKDriversConfiguration = value; }
 		}
 
 		public DeviceConfiguration DeviceConfiguration

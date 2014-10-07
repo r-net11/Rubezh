@@ -57,39 +57,39 @@ namespace FiresecAPI.Models
 		private bool ValidateVersion(Plan plan)
 		{
 			bool result = true;
-			if (plan.ElementXDevices == null)
+			if (plan.ElementGKDevices == null)
 			{
-				plan.ElementXDevices = new List<ElementXDevice>();
+				plan.ElementGKDevices = new List<ElementGKDevice>();
 				result = false;
 			}
-			if (plan.ElementRectangleXZones == null)
+			if (plan.ElementRectangleGKZones == null)
 			{
-				plan.ElementRectangleXZones = new List<ElementRectangleXZone>();
+				plan.ElementRectangleGKZones = new List<ElementRectangleGKZone>();
 				result = false;
 			}
-			if (plan.ElementPolygonXZones == null)
+			if (plan.ElementPolygonGKZones == null)
 			{
-				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
+				plan.ElementPolygonGKZones = new List<ElementPolygonGKZone>();
 				result = false;
 			}
-			if (plan.ElementRectangleXGuardZones == null)
+			if (plan.ElementRectangleGKGuardZones == null)
 			{
-				plan.ElementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
+				plan.ElementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
 				result = false;
 			}
-			if (plan.ElementPolygonXGuardZones == null)
+			if (plan.ElementPolygonGKGuardZones == null)
 			{
-				plan.ElementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
+				plan.ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
 				result = false;
 			}
-			if (plan.ElementRectangleXDirections == null)
+			if (plan.ElementRectangleGKDirections == null)
 			{
-				plan.ElementRectangleXDirections = new List<ElementRectangleXDirection>();
+				plan.ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
 				result = false;
 			}
-			if (plan.ElementPolygonXDirections == null)
+			if (plan.ElementPolygonGKDirections == null)
 			{
-				plan.ElementPolygonXDirections = new List<ElementPolygonXDirection>();
+				plan.ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
 				result = false;
 			}
 			if (plan.ElementExtensions == null)

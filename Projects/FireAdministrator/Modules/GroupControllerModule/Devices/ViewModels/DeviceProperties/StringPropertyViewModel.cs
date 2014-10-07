@@ -6,7 +6,7 @@ namespace GKModule.ViewModels
 {
 	public class StringPropertyViewModel : BasePropertyViewModel
 	{
-		public StringPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+		public StringPropertyViewModel(GKDriverProperty driverProperty, GKDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				var newProperty = new XProperty()
+				var newProperty = new GKProperty()
 				{
 					Name = DriverProperty.Name,
 					StringValue = value

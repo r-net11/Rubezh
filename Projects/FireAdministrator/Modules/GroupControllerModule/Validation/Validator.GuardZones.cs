@@ -13,7 +13,7 @@ namespace GKModule.Validation
 			ValidateGuardZoneNoEquality();
 			ValidateDevicesinGuardZone();
 
-			foreach (var guardZone in XManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(guardZone);
@@ -24,16 +24,16 @@ namespace GKModule.Validation
 		void ValidateGuardZoneNoEquality()
 		{
 			var zoneNos = new HashSet<int>();
-			foreach (var guardZone in XManager.GuardZones)
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				if (!zoneNos.Add(guardZone.No))
 					Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
-		void ValidateDifferentGK(XGuardZone guardZone)
+		void ValidateDifferentGK(GKGuardZone guardZone)
 		{
-			var devices = new List<XDevice>();
+			var devices = new List<GKDevice>();
 			foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 			{
 				devices.Add(guardZoneDevice.Device);
@@ -42,7 +42,7 @@ namespace GKModule.Validation
 				Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
-		void ValidateGuardZoneHasNoDevices(XGuardZone guardZone)
+		void ValidateGuardZoneHasNoDevices(GKGuardZone guardZone)
 		{
 			if (guardZone.GuardZoneDevices.Count == 0)
 			{
@@ -52,8 +52,8 @@ namespace GKModule.Validation
 
 		void ValidateDevicesinGuardZone()
 		{
-			var devices = new HashSet<XDevice>();
-			foreach (var guardZone in XManager.GuardZones)
+			var devices = new HashSet<GKDevice>();
+			foreach (var guardZone in GKManager.GuardZones)
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{

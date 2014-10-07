@@ -5,34 +5,41 @@
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
 		MinHeight="400" MinWidth="600">
 
-	<DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
-		<DataGrid.Resources>
-			<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-				<Setter Property="MinWidth" Value="0" />
-				<Setter Property="MinHeight" Value="0" />
-			</Style>
-			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-			</InputBindingCollection>
-		</DataGrid.Resources>
-		<DataGrid.ItemContainerStyle>
-			<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-			</Style>
-		</DataGrid.ItemContainerStyle>
-		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-							<TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Zone.No}" />
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="Наименование" />
-			<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
-		</DataGrid.Columns>
-	</DataGrid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
+            <DataGrid.Resources>
+                <Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                    <Setter Property="MinWidth" Value="0" />
+                    <Setter Property="MinHeight" Value="0" />
+                </Style>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+                                <TextBlock Margin="2 0 5 0" VerticalAlignment="Center" Text="{Binding Zone.No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" Binding="{Binding Zone.Name}" Header="Наименование" />
+                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="1" Content="Создать" Command="{Binding CreateCommand}" HorizontalAlignment="Right" Width="100" Margin="0 4 0 0" />
+    </Grid>
 </UserControl>

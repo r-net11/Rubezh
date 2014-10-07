@@ -7,15 +7,15 @@ namespace AutomationModule.ViewModels
 	public class ControlCameraStepViewModel: BaseStepViewModel
 	{
 		ControlCameraArguments ControlCameraArguments { get; set; }
-		public ArgumentViewModel CameraParameter { get; private set; }
+		public ArgumentViewModel CameraArgument { get; private set; }
 
 		public ControlCameraStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlCameraArguments = stepViewModel.Step.ControlCameraArguments;
 			Commands = ProcedureHelper.GetEnumObs<CameraCommandType>();
-			CameraParameter = new ArgumentViewModel(ControlCameraArguments.CameraParameter, stepViewModel.Update);
-			CameraParameter.ObjectType = ObjectType.VideoDevice;
-			CameraParameter.ExplicitType = ExplicitType.Object;
+			CameraArgument = new ArgumentViewModel(ControlCameraArguments.CameraArgument, stepViewModel.Update);
+			CameraArgument.ObjectType = ObjectType.VideoDevice;
+			CameraArgument.ExplicitType = ExplicitType.Object;
 			SelectedCommand = ControlCameraArguments.CameraCommandType;
 		}
 
@@ -32,14 +32,14 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			CameraParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.VideoDevice && !x.IsList));
+			CameraArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.VideoDevice && !x.IsList));
 		}
 
 		public override string Description
 		{
 			get 
 			{ 
-				return "Камера: " + CameraParameter.Description + " Команда: " + SelectedCommand.ToDescription(); 
+				return "Камера: " + CameraArgument.Description + " Команда: " + SelectedCommand.ToDescription(); 
 			}
 		}
 	}

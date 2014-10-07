@@ -57,14 +57,13 @@ namespace ChinaSKDDriver
 				controllerNetworkSettings.Address = outResult.szIP;
 				controllerNetworkSettings.Mask = outResult.szSubnetMask;
 				controllerNetworkSettings.DefaultGateway = outResult.szDefGateway;
-				controllerNetworkSettings.MTU = outResult.nMTU;
 			}
 			return controllerNetworkSettings;
 		}
 
 		public bool SetDeviceNetInfo(SKDControllerNetworkSettings controllerNetworkSettings)
 		{
-			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, controllerNetworkSettings.Address, controllerNetworkSettings.Mask, controllerNetworkSettings.DefaultGateway, controllerNetworkSettings.MTU);
+			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, controllerNetworkSettings.Address, controllerNetworkSettings.Mask, controllerNetworkSettings.DefaultGateway, 1500);
 			return result;
 		}
 

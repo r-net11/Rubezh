@@ -10,20 +10,20 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementXDevice _elementXDevice;
+		private ElementGKDevice _elementXDevice;
 		private DevicesViewModel _devicesViewModel;
 
-		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementXDevice elementDevice)
+		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementGKDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
 			_elementXDevice = elementDevice;
 			_devicesViewModel = devicesViewModel;
 
-			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
 			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
 		}
-		private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
@@ -31,7 +31,7 @@ namespace GKModule.Plans.ViewModels
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
-			if (device.UID == _elementXDevice.XDeviceUID)
+			if (device.UID == _elementXDevice.DeviceUID)
 				SelectedDevice = deviceViewModel;
 			return deviceViewModel;
 		}
@@ -65,12 +65,12 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid deviceUID = _elementXDevice.XDeviceUID;
-			GKPlanExtension.Instance.SetItem<XDevice>(_elementXDevice, SelectedDevice.Device);
+			Guid deviceUID = _elementXDevice.DeviceUID;
+			GKPlanExtension.Instance.SetItem<GKDevice>(_elementXDevice, SelectedDevice.Device);
 
-			if (deviceUID != _elementXDevice.XDeviceUID)
+			if (deviceUID != _elementXDevice.DeviceUID)
 				Update(deviceUID);
-			_devicesViewModel.SelectedDevice = Update(_elementXDevice.XDeviceUID);
+			_devicesViewModel.SelectedDevice = Update(_elementXDevice.DeviceUID);
 			return base.Save();
 		}
 		private DeviceViewModel Update(Guid deviceUID)

@@ -9,11 +9,11 @@ namespace FiresecAPI.Automation
 	{
 		public IncrementValueArguments()
 		{
-			ResultParameter = new Argument();
+			ResultArgument = new Argument();
 		}
 
 		[DataMember]
-		public Argument ResultParameter { get; set; }
+		public Argument ResultArgument { get; set; }
 
 		[DataMember]
 		public IncrementType IncrementType { get; set; }

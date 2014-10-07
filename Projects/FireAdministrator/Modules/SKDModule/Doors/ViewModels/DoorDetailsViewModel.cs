@@ -97,6 +97,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
 			if (Door.No != No && SKDManager.Doors.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Точка доступа с таким номером уже существует");

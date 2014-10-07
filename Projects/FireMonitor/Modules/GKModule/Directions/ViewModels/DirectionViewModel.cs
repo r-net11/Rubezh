@@ -11,13 +11,13 @@ namespace GKModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		public XDirection Direction { get; private set; }
-		public XState State
+		public GKDirection Direction { get; private set; }
+		public GKState State
 		{
 			get { return Direction.State; }
 		}
 
-		public DirectionViewModel(XDirection direction)
+		public DirectionViewModel(GKDirection direction)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);

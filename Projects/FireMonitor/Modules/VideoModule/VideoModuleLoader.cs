@@ -30,7 +30,7 @@ namespace VideoModule
 		{
 			_planPresenter = new PlanPresenter();
 			CamerasViewModel = new CamerasViewModel();
-			foreach (var zone in XManager.Zones)
+			foreach (var zone in GKManager.Zones)
 			{
 				zone.State.StateChanged -= new Action(OnZoneStateChanged);
 				zone.State.StateChanged += new Action(OnZoneStateChanged);
@@ -67,7 +67,7 @@ namespace VideoModule
 			{
 				foreach (var zoneUID in camera.ZoneUIDs)
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						if (zone.State.StateClass == camera.StateClass)

@@ -1,5 +1,6 @@
 ﻿using System;
 using FiresecAPI.SKD;
+using System.Collections.Generic;
 
 namespace Infrastructure
 {
@@ -174,11 +175,12 @@ namespace Infrastructure
 
 		public void TimeIntervalChanged()
 		{
+			ClientSettings.SKDMissmatchSettings.MissmatchControllerUIDs = new List<Guid>();
 			foreach (var device in SKDManager.Devices)
 			{
 				if (device.Driver.IsController)
 				{
-					device.HasConfigurationMissmatch = true;
+					ClientSettings.SKDMissmatchSettings.MissmatchControllerUIDs.Add(device.UID);
 				}
 			}
 		}

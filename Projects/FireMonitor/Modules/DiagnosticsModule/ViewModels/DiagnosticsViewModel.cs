@@ -44,7 +44,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TurnOnOffRMCommand { get; private set; }
 		void OnTurnOnOffRM()
 		{
-			var rmDevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.RM_1 && x.ShleifNo == 3 && x.IntAddress == 1);
+			var rmDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.RM_1 && x.ShleifNo == 3 && x.IntAddress == 1);
 			var flag = false;
 
 			var thread = new Thread(new ThreadStart(() =>
@@ -59,9 +59,9 @@ namespace DiagnosticsModule.ViewModels
 					ApplicationService.Invoke(() =>
 					{
 						if (flag)
-							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOn_InManual, "");
+							Watcher.SendControlCommand(rmDevice, GKStateBit.TurnOn_InManual, "");
 						else
-							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOff_InManual, "");
+							Watcher.SendControlCommand(rmDevice, GKStateBit.TurnOff_InManual, "");
 					});
 				}
 			}));

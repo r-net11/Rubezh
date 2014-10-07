@@ -32,22 +32,17 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Instructions = new ObservableCollection<InstructionViewModel>();
-
-			if (XManager.DeviceConfiguration.Instructions.IsNotNullOrEmpty())
+			foreach (var instruction in GKManager.DeviceConfiguration.Instructions)
 			{
-				foreach (var instruction in XManager.DeviceConfiguration.Instructions)
+				if (instruction.InstructionType == GKInstructionType.Details)
 				{
-					if (instruction.InstructionType == XInstructionType.Details)
-					{
-						if (instruction.ZoneUIDs == null)
-							instruction.ZoneUIDs = new List<Guid>();
-						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => XManager.Devices.Any(x => x.UID == deviceGuid)));
-						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => XManager.Zones.Any(x => x.UID == zoneUID)));
-					}
-					Instructions.Add(new InstructionViewModel(instruction));
+					if (instruction.ZoneUIDs == null)
+						instruction.ZoneUIDs = new List<Guid>();
+					instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => GKManager.Devices.Any(x => x.UID == deviceGuid)));
+					instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => GKManager.Zones.Any(x => x.UID == zoneUID)));
 				}
+				Instructions.Add(new InstructionViewModel(instruction));
 			}
-
 			SelectedInstruction = Instructions.FirstOrDefault();
 		}
 
@@ -79,7 +74,7 @@ namespace GKModule.ViewModels
 			var instructionDetailsViewModel = new InstructionDetailsViewModel();
 			if (DialogService.ShowModalWindow(instructionDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
+				GKManager.DeviceConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
 				var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
 				Instructions.Add(instructionViewModel);
 				SelectedInstruction = instructionViewModel;
@@ -111,7 +106,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			XManager.DeviceConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
+			GKManager.DeviceConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
 			Instructions.Remove(SelectedInstruction);
 			if (Instructions.IsNotNullOrEmpty())
 				SelectedInstruction = Instructions[0];

@@ -14,7 +14,7 @@
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-			<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+            <DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
 						<DataGridTemplateColumn.CellTemplate>
@@ -26,7 +26,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Зона" Width="*">
+                    <DataGridTemplateColumn Header="Зона" Width="*" SortMemberPath="Zone.Name">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

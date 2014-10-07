@@ -39,13 +39,14 @@ namespace FiresecAPI.Models
 			ElementTextBlocks = new List<ElementTextBlock>();
 			ElementPolygons = new List<ElementPolygon>();
 			ElementPolylines = new List<ElementPolyline>();
-			ElementXDevices = new List<ElementXDevice>();
-			ElementRectangleXZones = new List<ElementRectangleXZone>();
-			ElementPolygonXZones = new List<ElementPolygonXZone>();
-			ElementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
-			ElementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
-			ElementRectangleXDirections = new List<ElementRectangleXDirection>();
-			ElementPolygonXDirections = new List<ElementPolygonXDirection>();
+
+			ElementGKDevices = new List<ElementGKDevice>();
+			ElementRectangleGKZones = new List<ElementRectangleGKZone>();
+			ElementPolygonGKZones = new List<ElementPolygonGKZone>();
+			ElementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
+			ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
+			ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
+			ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
 
 			ElementSKDDevices = new List<ElementSKDDevice>();
 			ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
@@ -100,19 +101,19 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementDevice> ElementDevices { get; set; }
 		[DataMember]
-		public List<ElementXDevice> ElementXDevices { get; set; }
+		public List<ElementGKDevice> ElementGKDevices { get; set; }
 		[DataMember]
-		public List<ElementRectangleXZone> ElementRectangleXZones { get; set; }
+		public List<ElementRectangleGKZone> ElementRectangleGKZones { get; set; }
 		[DataMember]
-		public List<ElementPolygonXZone> ElementPolygonXZones { get; set; }
+		public List<ElementPolygonGKZone> ElementPolygonGKZones { get; set; }
 		[DataMember]
-		public List<ElementRectangleXGuardZone> ElementRectangleXGuardZones { get; set; }
+		public List<ElementRectangleGKGuardZone> ElementRectangleGKGuardZones { get; set; }
 		[DataMember]
-		public List<ElementPolygonXGuardZone> ElementPolygonXGuardZones { get; set; }
+		public List<ElementPolygonGKGuardZone> ElementPolygonGKGuardZones { get; set; }
 		[DataMember]
-		public List<ElementRectangleXDirection> ElementRectangleXDirections { get; set; }
+		public List<ElementRectangleGKDirection> ElementRectangleGKDirections { get; set; }
 		[DataMember]
-		public List<ElementPolygonXDirection> ElementPolygonXDirections { get; set; }
+		public List<ElementPolygonGKDirection> ElementPolygonGKDirections { get; set; }
 		[DataMember]
 		public List<ElementSKDDevice> ElementSKDDevices { get; set; }
 		[DataMember]
@@ -135,18 +136,18 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementDoors);
 				union.AddRange(ElementExtensions);
 				union.AddRange(ElementPolygonSKDZones);
-				union.AddRange(ElementPolygonXDirections);
-				union.AddRange(ElementPolygonXGuardZones);
-				union.AddRange(ElementPolygonXZones);
+				union.AddRange(ElementPolygonGKDirections);
+				union.AddRange(ElementPolygonGKGuardZones);
+				union.AddRange(ElementPolygonGKZones);
 				union.AddRange(ElementPolygonZones);
 				union.AddRange(ElementRectangleSKDZones);
-				union.AddRange(ElementRectangleXDirections);
-				union.AddRange(ElementRectangleXGuardZones);
-				union.AddRange(ElementRectangleXZones);
+				union.AddRange(ElementRectangleGKDirections);
+				union.AddRange(ElementRectangleGKGuardZones);
+				union.AddRange(ElementRectangleGKZones);
 				union.AddRange(ElementRectangleZones);
 				union.AddRange(ElementSKDDevices);
 				union.AddRange(ElementSubPlans);
-				union.AddRange(ElementXDevices);
+				union.AddRange(ElementGKDevices);
 				return union;
 			}
 		}

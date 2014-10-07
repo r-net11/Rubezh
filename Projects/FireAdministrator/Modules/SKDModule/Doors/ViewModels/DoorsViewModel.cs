@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			Doors = new ObservableCollection<DoorViewModel>();
-			foreach (var door in SKDManager.SKDConfiguration.Doors)
+			foreach (var door in SKDManager.SKDConfiguration.Doors.OrderBy(x => x.No))
 			{
 				var doorViewModel = new DoorViewModel(door);
 				Doors.Add(doorViewModel);

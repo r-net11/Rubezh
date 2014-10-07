@@ -11,47 +11,47 @@ namespace GKProcessor
 {
 	public class GkDescriptorsReaderBase : DescriptorReaderBase
 	{
-		Dictionary<ushort, XDevice> ControllerDevices;
-		XDevice GkDevice;
+		Dictionary<ushort, GKDevice> ControllerDevices;
+		GKDevice GkDevice;
 		string IpAddress;
 		
 #if !LOCALCONFIG
-		override public bool ReadConfiguration(XDevice gkDevice)
+		override public bool ReadConfiguration(GKDevice gkControllerDevice)
 		{
-			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkDevice.PresentationName, "Проверка связи", 2, true, GKProgressClientType.Administrator);
-			var result = DeviceBytesHelper.Ping(gkDevice);
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkControllerDevice.PresentationName, "Проверка связи", 2, true, GKProgressClientType.Administrator);
+			var result = DeviceBytesHelper.Ping(gkControllerDevice);
 			if (!result)
 			{
-				Error = "Устройство " + gkDevice.PresentationName + " недоступно";
+				Error = "Устройство " + gkControllerDevice.PresentationName + " недоступно";
 				return false;
 			}
-			IpAddress = gkDevice.GetGKIpAddress();
-			ControllerDevices = new Dictionary<ushort, XDevice>();
-			DeviceConfiguration = new XDeviceConfiguration();
-			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			DeviceConfiguration.RootDevice = new XDevice
+			IpAddress = gkControllerDevice.GetGKIpAddress();
+			ControllerDevices = new Dictionary<ushort, GKDevice>();
+			DeviceConfiguration = new GKDeviceConfiguration();
+			var rootDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.System);
+			DeviceConfiguration.RootDevice = new GKDevice
 			{
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
 			GKProcessorManager.DoProgress("Перевод ГК в технологический режим", progressCallback);
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkDevice, progressCallback))
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkControllerDevice, progressCallback))
 			{
-				Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
+				Error = "Не удалось перевести " + gkControllerDevice.PresentationName + " в технологический режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
 				GKProcessorManager.StopProgress(progressCallback);
 				return false;
 			}
 			var gkFileReaderWriter = new GKFileReaderWriter();
-			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkDevice);
+			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkControllerDevice);
 			if (gkFileReaderWriter.Error != null)
 			{
 				Error = gkFileReaderWriter.Error;
 				GKProcessorManager.StopProgress(progressCallback);
 				return false;
 			}
-			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + gkControllerDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
@@ -67,7 +67,7 @@ namespace GKProcessor
 				GKProcessorManager.DoProgress("Чтение базы данных объектов ГК " + descriptorNo, progressCallback);
 				const byte packNo = 1;
 				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
-				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
+				var sendResult = SendManager.Send(gkControllerDevice, 3, 19, ushort.MaxValue, data);
 				var bytes = sendResult.Bytes;
 #if SETCONFIGTOFILE
 				allBytes.Add(bytes);
@@ -89,7 +89,7 @@ namespace GKProcessor
 			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
 #endif
 			GKProcessorManager.DoProgress("Перевод ГК в рабочий режим", progressCallback);
-			if (!DeviceBytesHelper.GoToWorkingRegime(gkDevice, progressCallback))
+			if (!DeviceBytesHelper.GoToWorkingRegime(gkControllerDevice, progressCallback))
 			{
 				Error = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
@@ -102,14 +102,14 @@ namespace GKProcessor
 #endif
 #if LOCALCONFIG
 		#region Чтение конфигурации из байтового потока
-		override public bool ReadConfiguration(XDevice device)
+		override public bool ReadConfiguration(GKDevice device)
 		{
 			IpAddress = device.GetGKIpAddress();
 			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
-			ControllerDevices = new Dictionary<ushort, XDevice>();
-			DeviceConfiguration = new XDeviceConfiguration();
-			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			var rootDevice = new XDevice()
+			ControllerDevices = new Dictionary<ushort, GKDevice>();
+			DeviceConfiguration = new GKDeviceConfiguration();
+			var rootDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			var rootDevice = new GKDevice()
 			{
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
@@ -140,7 +140,7 @@ namespace GKProcessor
 				return false;
 			}
 			DeviceConfiguration.Update();
-			XManager.UpdateGKPredefinedName(GkDevice);
+			GKManager.UpdateGKPredefinedName(GkDevice);
 			return true;
 		}
 		#endregion
@@ -154,39 +154,39 @@ namespace GKProcessor
 			if(internalType == 0)
 				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
-			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
+			var driver = GKManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (internalType == 0x70)
 			{
 				if (description[0] == 'П')
-					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.FirePump);
+					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.FirePump);
 				if (description[0] == 'Ж')
-					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.JockeyPump);
+					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.JockeyPump);
 				if (description[0] == 'Д')
-					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.DrainagePump);
+					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.DrainagePump);
 			}
 			if (driver != null)
 			{
-				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)
+				if (driver.DriverType == GKDriverType.GK && descriptorNo > 1)
 				{
-					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAU);
 					if (bytes[0x3a] == 1)
 					{
-						driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+						driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
 					}
 				}
-				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
-					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
+				if (driver.DriverType == GKDriverType.GKIndicator && descriptorNo > 14)
+					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAUIndicator);
 
 				var shleifNo = (byte)(physicalAdress / 256) + 1;
-				var device = new XDevice
+				var device = new GKDevice
 				{
 					Driver = driver,
 					DriverUID = driver.UID,
 					IntAddress = (byte)(physicalAdress % 256),
 				};
-				if (driver.DriverType == XDriverType.GK)
+				if (driver.DriverType == GKDriverType.GK)
 				{
-					device.Properties.Add(new XProperty{Name = "IPAddress",StringValue = IpAddress});
+					device.Properties.Add(new GKProperty{Name = "IPAddress",StringValue = IpAddress});
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -194,7 +194,7 @@ namespace GKProcessor
 				if (driver.IsKauOrRSR2Kau)
 				{
 					device.IntAddress = (byte)(controllerAdress % 256);
-					var modeProperty = new XProperty
+					var modeProperty = new GKProperty
 					{
 						Name = "Mode",
 						Value = (byte)(controllerAdress / 256)
@@ -204,26 +204,26 @@ namespace GKProcessor
 					GkDevice.Children.Add(device);
 					for (int i = 0; i < 8; i++)
 					{
-						var shleif = new XDevice();
-						shleif.Driver = driver.DriverType == XDriverType.KAU ? XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif) : XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+						var shleif = new GKDevice();
+						shleif.Driver = driver.DriverType == GKDriverType.KAU ? GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAU_Shleif) : GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 						shleif.DriverUID = shleif.Driver.UID;
 						shleif.IntAddress = (byte)(i + 1);
 						device.Children.Add(shleif);
 					}
 				}
-				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau && driver.DriverType != XDriverType.System)
+				if (driver.DriverType != GKDriverType.GK && !driver.IsKauOrRSR2Kau && driver.DriverType != GKDriverType.System)
 				{
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
 						if(1 <= shleifNo && shleifNo <= 8 && physicalAdress != 0)
 						{
-							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
+							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == GKDriverType.KAU_Shleif || x.DriverType == GKDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 							shleif.Children.Add(device);
 						}
 						else
 						{
-							if (controllerDevice.Value.Driver.DriverType == XDriverType.GK)
+							if (controllerDevice.Value.Driver.DriverType == GKDriverType.GK)
 								device.IntAddress = (byte) (controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 2);
 							else
 								device.IntAddress = (byte)(controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 1);
@@ -262,7 +262,7 @@ namespace GKProcessor
 
 				if (internalType == 0x100)
 				{
-					var zone = new XZone
+					var zone = new GKZone
 					{
 						Name = description,
 						No = no,
@@ -275,7 +275,7 @@ namespace GKProcessor
 				{
 					if (isPumpStation)
 					{
-						var pumpStation = new XPumpStation()
+						var pumpStation = new GKPumpStation()
 						{
 							Name = description,
 							No = no,
@@ -285,7 +285,7 @@ namespace GKProcessor
 					}
 					else if (isMPT)
 					{
-						var mpt = new XMPT()
+						var mpt = new GKMPT()
 						{
 							Name = description,
 							GkDatabaseParent = GkDevice
@@ -294,7 +294,7 @@ namespace GKProcessor
 					}
 					else
 					{
-						var direction = new XDirection
+						var direction = new GKDirection
 						{
 							Name = description,
 							No = no,
@@ -306,7 +306,7 @@ namespace GKProcessor
 				}
 				if (internalType == 0x108)
 				{
-					var guardZone = new XGuardZone
+					var guardZone = new GKGuardZone
 					{
 						Name = description,
 						No = no,
@@ -317,7 +317,7 @@ namespace GKProcessor
 				}
 				if (internalType == 0x109)
 				{
-					var code = new XCode
+					var code = new GKCode
 					{
 						Name = description,
 						No = no,

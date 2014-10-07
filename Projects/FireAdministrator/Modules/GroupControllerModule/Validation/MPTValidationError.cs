@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	class MPTValidationError : ObjectValidationError<XMPT, ShowXMPTEvent, Guid>
+	class MPTValidationError : ObjectValidationError<GKMPT, ShowXMPTEvent, Guid>
 	{
-		public MPTValidationError(XMPT mpt, string error, ValidationErrorLevel level)
+		public MPTValidationError(GKMPT mpt, string error, ValidationErrorLevel level)
 			: base(mpt, error, level)
 		{
 		}

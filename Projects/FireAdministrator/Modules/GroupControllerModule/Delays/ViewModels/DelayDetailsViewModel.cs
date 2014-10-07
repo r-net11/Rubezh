@@ -11,21 +11,21 @@ namespace GKModule.ViewModels
 {
 	public class DelayDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XDelay Delay { get; private set; }
+		public GKDelay Delay { get; private set; }
 
-		public DelayDetailsViewModel(XDelay delay = null)
+		public DelayDetailsViewModel(GKDelay delay = null)
 		{
 			if (delay == null)
 			{
 				Title = "Создание новой задержки";
 
-				Delay = new XDelay()
+				Delay = new GKDelay()
 				{
 					Name = "Задержка",
 					No = 1,
 				};
-				if (XManager.Delays.Count != 0)
-					Delay.No = (ushort)(XManager.Delays.Select(x => x.No).Max() + 1);
+				if (GKManager.Delays.Count != 0)
+					Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
-			foreach (var existingDelay in XManager.Delays)
+			foreach (var existingDelay in GKManager.Delays)
 			{
 				availableNames.Add(existingDelay.Name);
 			}
@@ -127,7 +127,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (XManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
+			if (No <= 0)
+			{
+				MessageBoxService.Show("Номер должен быть положительным числом");
+				return false;
+			}
+			if (GKManager.Delays.Any(x => x.No == No && x.UID != Delay.UID))
 			{
 				MessageBoxService.Show("Задержка с таким номером уже существует");
 				return false;

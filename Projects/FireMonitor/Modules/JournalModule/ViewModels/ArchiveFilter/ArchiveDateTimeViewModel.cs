@@ -6,73 +6,34 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
 using JournalModule.Events;
+using FiresecAPI.Journal;
 
 namespace JournalModule.ViewModels
 {
 	public class ArchiveDateTimeViewModel : BaseViewModel
 	{
-		public ArchiveDateTimeViewModel(ArchiveDefaultState archiveDefaultState)
+		public ArchiveDateTimeViewModel()
 		{
-			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
+			ArchiveDefaultStateTypes = new ObservableCollection<ArchiveDefaultStateType>();
 			foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
 			{
-				ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
+				ArchiveDefaultStateTypes.Add(item);
 			}
 
-			HoursCount = 1;
-			DaysCount = 1;
-			StartDate = ArchiveFirstDate;
-			EndDate = NowDate;
+			SelectedArchiveDefaultStateType = ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType;
+			Count = ClientSettings.ArchiveDefaultState.Count;
+			UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
 
-			var archiveDefaultStateViewModel = ArchiveDefaultStates.FirstOrDefault(x => x.ArchiveDefaultStateType == archiveDefaultState.ArchiveDefaultStateType);
-			if (archiveDefaultStateViewModel != null)
-				archiveDefaultStateViewModel.IsActive = true;
-			switch (archiveDefaultState.ArchiveDefaultStateType)
-			{
-				case ArchiveDefaultStateType.LastHours:
-					if (archiveDefaultState.Count.HasValue)
-						HoursCount = archiveDefaultState.Count.Value;
-					break;
+			if (ArchiveFirstDate < ClientSettings.ArchiveDefaultState.StartDate)
+			StartDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.StartDate);
+			else
+				StartDateTime = new DateTimePairViewModel(ArchiveFirstDate);
 
-				case ArchiveDefaultStateType.LastDays:
-					if (archiveDefaultState.Count.HasValue)
-						DaysCount = archiveDefaultState.Count.Value;
-					break;
-
-				case ArchiveDefaultStateType.FromDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						StartDate = archiveDefaultState.StartDate.Value;
-					break;
-
-				case ArchiveDefaultStateType.RangeDate:
-					if (archiveDefaultState.StartDate.HasValue)
-						StartDate = archiveDefaultState.StartDate.Value;
-					if (archiveDefaultState.EndDate.HasValue)
-						EndDate = archiveDefaultState.EndDate.Value;
-					break;
-
-				default:
-					break;
-			}
+			if (ArchiveFirstDate < ClientSettings.ArchiveDefaultState.EndDate)
+			EndDateTime = new DateTimePairViewModel(ClientSettings.ArchiveDefaultState.EndDate);
+			else
+				EndDateTime = new DateTimePairViewModel(NowDate);
 		}
-
-		public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
-
-		ArchiveDefaultStateType _checkedArchiveDefaultStateType;
-		public ArchiveDefaultStateType CheckedArchiveDefaultStateType
-		{
-			get { return _checkedArchiveDefaultStateType; }
-			set
-			{
-				_checkedArchiveDefaultStateType = value;
-				OnPropertyChanged(() => CheckedArchiveDefaultStateType);
-			}
-		}
-
-		public int HoursCount { get; set; }
-		public int DaysCount { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
 
 		public DateTime ArchiveFirstDate
 		{
@@ -84,33 +45,127 @@ namespace JournalModule.ViewModels
 			get { return DateTime.Now; }
 		}
 
-		public ArchiveDefaultState GetModel()
+		DateTimePairViewModel _startDateTime;
+		public DateTimePairViewModel StartDateTime
 		{
-			var archiveDefaultState = new ArchiveDefaultState();
-			archiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
-			switch (archiveDefaultState.ArchiveDefaultStateType)
+			get { return _startDateTime; }
+			set
 			{
-				case ArchiveDefaultStateType.LastHours:
-					archiveDefaultState.Count = HoursCount;
-					break;
-
-				case ArchiveDefaultStateType.LastDays:
-					archiveDefaultState.Count = DaysCount;
-					break;
-
-				case ArchiveDefaultStateType.FromDate:
-					archiveDefaultState.StartDate = StartDate;
-					break;
-
-				case ArchiveDefaultStateType.RangeDate:
-					archiveDefaultState.StartDate = StartDate;
-					archiveDefaultState.EndDate = EndDate;
-					break;
-
-				default:
-					break;
+				_startDateTime = value;
+				OnPropertyChanged(() => StartDateTime);
 			}
-			return archiveDefaultState;
+		}
+
+		DateTimePairViewModel _endDateTime;
+		public DateTimePairViewModel EndDateTime
+		{
+			get { return _endDateTime; }
+			set
+			{
+				_endDateTime = value;
+				OnPropertyChanged(() => EndDateTime);
+			}
+		}
+
+		bool useDeviceDateTime;
+		public bool UseDeviceDateTime
+		{
+			get { return useDeviceDateTime; }
+			set
+			{
+				useDeviceDateTime = value;
+				OnPropertyChanged(() => UseDeviceDateTime);
+			}
+		}
+
+		int _count;
+		public int Count
+		{
+			get { return _count; }
+			set
+			{
+				_count = value;
+				OnPropertyChanged(() => Count);
+			}
+		}
+
+		public ObservableCollection<ArchiveDefaultStateType> ArchiveDefaultStateTypes { get; private set; }
+
+		ArchiveDefaultStateType _selectedArchiveDefaultStateType;
+		public ArchiveDefaultStateType SelectedArchiveDefaultStateType
+		{
+			get { return _selectedArchiveDefaultStateType; }
+			set
+			{
+				_selectedArchiveDefaultStateType = value;
+				OnPropertyChanged(() => SelectedArchiveDefaultStateType);
+
+				switch (value)
+				{
+					case ArchiveDefaultStateType.LastDays:
+					case ArchiveDefaultStateType.LastHours:
+						IsCountVisible = true;
+						IsStartDateVisible = false;
+						IsEndDateVisible = false;
+						break;
+
+					case ArchiveDefaultStateType.FromDate:
+						IsCountVisible = false;
+						IsStartDateVisible = true;
+						IsEndDateVisible = false;
+						break;
+
+					case ArchiveDefaultStateType.RangeDate:
+						IsCountVisible = false;
+						IsStartDateVisible = true;
+						IsEndDateVisible = true;
+						break;
+				}
+			}
+		}
+
+		bool _isCountVisible;
+		public bool IsCountVisible
+		{
+			get { return _isCountVisible; }
+			set
+			{
+				_isCountVisible = value;
+				OnPropertyChanged(() => IsCountVisible);
+			}
+		}
+
+
+		bool _isStartDateVisible;
+		public bool IsStartDateVisible
+		{
+			get { return _isStartDateVisible; }
+			set
+			{
+				_isStartDateVisible = value;
+				OnPropertyChanged(() => IsStartDateVisible);
+			}
+		}
+
+
+		bool _isEndDateVisible;
+		public bool IsEndDateVisible
+		{
+			get { return _isEndDateVisible; }
+			set
+			{
+				_isEndDateVisible = value;
+				OnPropertyChanged(() => IsEndDateVisible);
+			}
+		}
+
+		public void Save()
+		{
+			ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType = SelectedArchiveDefaultStateType;
+			ClientSettings.ArchiveDefaultState.StartDate = StartDateTime.DateTime;
+			ClientSettings.ArchiveDefaultState.EndDate = EndDateTime.DateTime;
+			ClientSettings.ArchiveDefaultState.Count = Count;
+			ClientSettings.ArchiveDefaultState.UseDeviceDateTime = UseDeviceDateTime;
 		}
 	}
 }

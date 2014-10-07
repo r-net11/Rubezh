@@ -8,11 +8,11 @@ namespace AutomationModule.ViewModels
 {
 	public class DirectionSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public DirectionSelectionViewModel(XDirection direction)
+		public DirectionSelectionViewModel(GKDirection direction)
 		{
 			Title = "Выбор направления";
 			Directions = new ObservableCollection<DirectionViewModel>();
-			XManager.Directions.ForEach(x => Directions.Add(new DirectionViewModel(x)));
+			GKManager.Directions.ForEach(x => Directions.Add(new DirectionViewModel(x)));
 			if (direction != null)
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == direction.UID);
 			if (SelectedDirection == null)

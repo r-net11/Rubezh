@@ -6,7 +6,7 @@ namespace GKModule.ViewModels
 {
 	public class ShortPropertyViewModel : BasePropertyViewModel
 	{
-		public ShortPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+		public ShortPropertyViewModel(GKDriverProperty driverProperty, GKDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);

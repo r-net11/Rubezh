@@ -147,7 +147,6 @@
     <Compile Include="Converters\StateTypeToColorConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
-    <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\JournalSettingsUpdatedEvent.cs" />
     <Compile Include="JournalModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -170,8 +169,7 @@
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
     <Compile Include="ViewModels\ArchivePageViewModel.cs" />
-    <Compile Include="ViewModels\ArchiveSettings\ArchiveDefaultStateViewModel.cs" />
-    <Compile Include="ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ArchiveFilter\ArchiveSettingsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
     <Compile Include="ViewModels\ArchiveViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\FilterNamesViewModel.cs" />

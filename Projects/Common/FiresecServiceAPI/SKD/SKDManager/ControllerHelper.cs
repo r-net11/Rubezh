@@ -20,44 +20,7 @@ namespace FiresecAPI.SKD
 			driver.AvailableStateClasses.Add(XStateClass.Failure);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 
-			var addressProperty = new SKDDriverProperty()
-			{
-				Name = "Address",
-				Caption = "Адрес",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				StringDefault = "192.168.0.1"
-			};
-			driver.Properties.Add(addressProperty);
-
-			var driverProperty = new SKDDriverProperty()
-			{
-				Name = "Port",
-				Caption = "Порт",
-				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-				Min = 10000,
-				Max = 20000,
-				Default = 10000
-			};
-			driver.Properties.Add(driverProperty);
-
-			var loginProperty = new SKDDriverProperty()
-			{
-				Name = "Login",
-				Caption = "Логин",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				StringDefault = ""
-			};
-			driver.Properties.Add(loginProperty);
-
-			var passwordProperty = new SKDDriverProperty()
-			{
-				Name = "Password",
-				Caption = "Пароль",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				StringDefault = ""
-			};
-			driver.Properties.Add(passwordProperty);
-
+			driver.Properties = CommonChinaControllerHelper.CreateProperties();
 			return driver;
 		}
 	}

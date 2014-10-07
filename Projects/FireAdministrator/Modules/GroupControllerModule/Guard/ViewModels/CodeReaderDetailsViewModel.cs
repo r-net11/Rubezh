@@ -13,12 +13,12 @@ namespace GKModule.ViewModels
 {
 	public class CodeReaderDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XCodeReaderSettings CodeReaderSettings { get; private set; }
+		public GKCodeReaderSettings CodeReaderSettings { get; private set; }
 		public CodeReaderSettingsViewModel AlarmSettingsViewModel { get; private set; }
 		public CodeReaderSettingsViewModel SetGuardSettingsViewModel { get; private set; }
 		public CodeReaderSettingsViewModel ResetGuardSettingsViewModel { get; private set; }
 
-		public CodeReaderDetailsViewModel(XCodeReaderSettings codeReaderSettings)
+		public CodeReaderDetailsViewModel(GKCodeReaderSettings codeReaderSettings)
 		{
 			Title = "Настройка кодонаборника";
 			CodeReaderSettings = codeReaderSettings;

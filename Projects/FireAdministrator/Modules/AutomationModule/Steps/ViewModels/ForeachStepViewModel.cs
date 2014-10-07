@@ -5,31 +5,31 @@ namespace AutomationModule.ViewModels
 	public class ForeachStepViewModel : BaseStepViewModel
 	{
 		public ForeachArguments ForeachArguments { get; private set; }
-		public ArgumentViewModel ListParameter { get; private set; }
-		public ArgumentViewModel ItemParameter { get; private set; }
+		public ArgumentViewModel ListArgument { get; private set; }
+		public ArgumentViewModel ItemArgument { get; private set; }
 
 		public ForeachStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ForeachArguments = stepViewModel.Step.ForeachArguments;
-			ListParameter = new ArgumentViewModel(ForeachArguments.ListParameter, stepViewModel.Update, false);
-			ListParameter.UpdateVariableHandler += UpdateItemVariable;
-			ItemParameter = new ArgumentViewModel(ForeachArguments.ItemParameter, stepViewModel.Update, false);
+			ListArgument = new ArgumentViewModel(ForeachArguments.ListArgument, stepViewModel.Update, false);
+			ListArgument.UpdateVariableHandler += UpdateItemVariable;
+			ItemArgument = new ArgumentViewModel(ForeachArguments.ItemArgument, stepViewModel.Update, false);
 		}
 
 		public override void UpdateContent()
 		{
-			ListParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
+			ListArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemParameter.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListParameter.SelectedVariable.Variable.ExplicitType
-				&& x.ObjectType == ListParameter.SelectedVariable.Variable.ObjectType && x.EnumType == ListParameter.SelectedVariable.Variable.EnumType));
+			ItemArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListArgument.SelectedVariable.Variable.ExplicitType
+				&& x.ObjectType == ListArgument.SelectedVariable.Variable.ObjectType && x.EnumType == ListArgument.SelectedVariable.Variable.EnumType));
 		}
 
 		public override string Description
 		{
-			get { return "Список: " + ListParameter.Description + " Элемент: " + ItemParameter.Description; }
+			get { return "Список: " + ListArgument.Description + " Элемент: " + ItemArgument.Description; }
 		}
 
 	}

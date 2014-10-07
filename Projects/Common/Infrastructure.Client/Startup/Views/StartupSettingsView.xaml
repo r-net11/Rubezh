@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Infrastructure.Client.Startup.Views.StartupSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" MinWidth="400" MinHeight="150">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Сервер" />
+		<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Порт" />
+		<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Автоподключение" />
+		<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Логин автоподключения" />
+		<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Пароль автоподключения" />
+
+		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
+		<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Margin="2" Maximum="10000" Minimum="0" Value="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
+		<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding AutoConnect, UpdateSourceTrigger=PropertyChanged}" />
+		<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+		<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
+	</Grid>
+</UserControl>
+

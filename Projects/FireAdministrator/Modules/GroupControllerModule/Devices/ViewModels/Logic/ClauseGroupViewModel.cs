@@ -8,10 +8,10 @@ namespace GKModule.ViewModels
 {
 	public class ClauseGroupViewModel : BaseViewModel
 	{
-		XDevice Device;
+		GKDevice Device;
 		ClauseGroupViewModel Parent;
 
-		public ClauseGroupViewModel(XDevice device, XClauseGroup clauseGroup)
+		public ClauseGroupViewModel(GKDevice device, GKClauseGroup clauseGroup)
 		{
 			Device = device;
 			AddCommand = new RelayCommand(OnAdd);
@@ -45,14 +45,14 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var clauseViewModel = new ClauseViewModel(Device, new XClause());
+			var clauseViewModel = new ClauseViewModel(Device, new GKClause());
 			Clauses.Add(clauseViewModel);
 		}
 
 		public RelayCommand AddGroupCommand { get; private set; }
 		void OnAddGroup()
 		{
-			var clauseGroupViewModel = new ClauseGroupViewModel(Device, new XClauseGroup());
+			var clauseGroupViewModel = new ClauseGroupViewModel(Device, new GKClauseGroup());
 			clauseGroupViewModel.Parent = this;
 			ClauseGroups.Add(clauseGroupViewModel);
 		}
@@ -99,9 +99,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public XClauseGroup GetClauseGroup()
+		public GKClauseGroup GetClauseGroup()
 		{
-			var clauseGroup = new XClauseGroup();
+			var clauseGroup = new GKClauseGroup();
 			clauseGroup.ClauseJounOperationType = JoinOperator;
 			foreach (var clauseGroupViewModel in ClauseGroups)
 			{
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 
 			foreach (var clauseViewModel in Clauses)
 			{
-				var clause = new XClause()
+				var clause = new GKClause()
 				{
 					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
 					StateType = clauseViewModel.SelectedStateType.StateBit,

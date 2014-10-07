@@ -10,9 +10,9 @@ namespace GKModule.ViewModels
 	public class ZoneViewModel : BaseViewModel
 	{
 		private VisualizationState _visualizetionState;
-		public XZone Zone { get; set; }
+		public GKZone Zone { get; set; }
 
-		public ZoneViewModel(XZone zone)
+		public ZoneViewModel(GKZone zone)
 		{
 			Zone = zone;
 			Update();
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 		{
 			get { return Zone.PlanElementUIDs.Count > 0; }
 		}
-		public void Update(XZone zone)
+		public void Update(GKZone zone)
 		{
 			Zone = zone;
 			OnPropertyChanged(() => Zone);

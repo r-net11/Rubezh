@@ -144,16 +144,16 @@ namespace SKDModule.ViewModels
 		ObservableCollection<CardTimeItem> GetTimeTypes(IntervalType intervalType)
 		{
 			var result = new ObservableCollection<CardTimeItem>();
-			result.Add(new CardTimeItem(IntervalType.Time, 0, "<Никогда>"));
-			result.Add(new CardTimeItem(IntervalType.Time, 1, "<Всегда>"));
+			//result.Add(new CardTimeItem(IntervalType.Time, 0, "<Никогда>"));
+			//result.Add(new CardTimeItem(IntervalType.Time, 1, "<Всегда>"));
 			if (intervalType != null)
 			{
 				switch (intervalType)
 				{
-					case IntervalType.Time:
-						foreach (var dayInterval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals)
-							result.Add(new CardTimeItem(IntervalType.Time, dayInterval.ID, dayInterval.Name));
-						break;
+					//case IntervalType.Time:
+					//    foreach (var dayInterval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals)
+					//        result.Add(new CardTimeItem(IntervalType.Time, dayInterval.ID, dayInterval.Name));
+					//    break;
 					case IntervalType.Weekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 							result.Add(new CardTimeItem(IntervalType.Weekly, interval.ID, interval.Name));

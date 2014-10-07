@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Shell = FireMonitor;
 using Infrastructure.Events;
 using System.Net;
+using Infrastructure.Client.Startup;
 
 namespace FireMonitor.Layout
 {

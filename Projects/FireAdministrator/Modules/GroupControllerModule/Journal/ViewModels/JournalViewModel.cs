@@ -16,9 +16,9 @@ namespace GKModule.ViewModels
 {
 	public class JournalViewModel : DialogViewModel
 	{
-		XDevice Device;
+		GKDevice Device;
 
-		public JournalViewModel(XDevice device)
+		public JournalViewModel(GKDevice device)
 		{
 			Title = "Журнал событий ГК " + device.GetGKIpAddress();
 			ReadCommand = new RelayCommand(OnRead);
@@ -26,8 +26,8 @@ namespace GKModule.ViewModels
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
 
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
+			GKManager.UpdateConfiguration();
+			GKManager.CreateStates();
 			DescriptorsManager.Create();
 			DescriptorsManager.CreateDynamicObjectsInXManager();
 		}
@@ -175,7 +175,7 @@ namespace GKModule.ViewModels
 					var xmlSerializer = new XmlSerializer(typeof(JournalItemsCollection));
 					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 					{
-						var journalItems = new System.Collections.Generic.List<XJournalItem>();
+						var journalItems = new System.Collections.Generic.List<GKJournalItem>();
 						JournalItems.ToList().ForEach(x => journalItems.Add(x.JournalItem));
 						var journalItemsCollection = new JournalItemsCollection
 						{

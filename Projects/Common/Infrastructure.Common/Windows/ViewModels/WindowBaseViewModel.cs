@@ -86,6 +86,13 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public bool CloseOnEscape { get; set; }
 		public bool HideInTaskbar { get; set; }
 
+		public virtual void OnLoad()
+		{
+			Surface.Owner = DialogService.GetActiveWindow();
+			Surface.ShowInTaskbar = Surface.Owner == null;
+			Surface.WindowStartupLocation = Surface.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
+		}
+
 		public virtual bool OnClosing(bool isCanceled)
 		{
 			return !AllowClose || isCanceled;
