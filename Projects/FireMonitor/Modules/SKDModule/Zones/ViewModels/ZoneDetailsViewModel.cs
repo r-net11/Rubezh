@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenZone(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}
@@ -104,7 +104,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseZone(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenZoneForever(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseZoneForever(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}

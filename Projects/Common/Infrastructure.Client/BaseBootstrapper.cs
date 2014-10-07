@@ -64,7 +64,7 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.PreInitialize");
-					MessageBoxService.ShowException(e);
+					MessageBoxService.ShowExceptionExtended(e);
 					ApplicationService.ShutDown();
 					break;
 				}
@@ -85,7 +85,7 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.AterInitialize");
-					MessageBoxService.ShowException(e);
+					MessageBoxService.ShowExceptionExtended(e);
 					ApplicationService.ShutDown();
 					break;
 				}
@@ -106,7 +106,7 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.Create");
-					MessageBoxService.ShowException(e);
+					MessageBoxService.ShowExceptionExtended(e);
 					ApplicationService.ShutDown();
 					break;
 				}
@@ -141,7 +141,7 @@ namespace Infrastructure.Client
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
 					if (Application.Current != null)
 						Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
+					MessageBoxService.ShowErrorExtended(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
 					StartupService.Instance.Close();
 					ApplicationService.ShutDown();
 					return false;
@@ -202,7 +202,7 @@ namespace Infrastructure.Client
 					catch (Exception e)
 					{
 						Logger.Error(e, "BaseBootstrapper.ReadConfiguration");
-						MessageBoxService.ShowError("Не удалось загрузить модуль " + moduleElement.AssemblyFile);
+						MessageBoxService.ShowErrorExtended("Не удалось загрузить модуль " + moduleElement.AssemblyFile);
 					}
 				}
 			}
@@ -217,7 +217,7 @@ namespace Infrastructure.Client
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове BaseBootstrapper.GetAssemblyByFileName");
-				MessageBoxService.ShowError(string.Format(Resources.UnableLoadModule, Path.GetFileName(path)));
+				MessageBoxService.ShowErrorExtended(string.Format(Resources.UnableLoadModule, Path.GetFileName(path)));
 				return null;
 			}
 		}

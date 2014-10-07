@@ -120,7 +120,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SetControllerTimeSettings(DeviceViewModel.Device, controllerTimeSettings);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else
@@ -135,7 +135,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.GetControllerTimeSettings(DeviceViewModel.Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else

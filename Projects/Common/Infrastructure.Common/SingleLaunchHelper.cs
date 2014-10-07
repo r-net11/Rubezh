@@ -23,7 +23,7 @@ namespace Infrastructure.Common
 				if (processes.Count() > 1)
 				{
 					if (!force)
-						result = MessageBoxService.ShowQuestion("Другой экзэмпляр программы уже запущен. Завершить?") == MessageBoxResult.Yes;
+						result = MessageBoxService.ShowQuestionYesNo("Другой экзэмпляр программы уже запущен. Завершить?");
 
 					if (result)
 					{
@@ -118,7 +118,7 @@ namespace Infrastructure.Common
 		}
 		private bool RequestConfirmation()
 		{
-			return MessageBoxService.ShowConfirmation("Другой экзэмпляр программы уже запущен. Завершить?") == MessageBoxResult.Yes;
+			return MessageBoxService.ShowConfirmationExtended("Другой экзэмпляр программы уже запущен. Завершить?") == MessageBoxResult.Yes;
 		}
 		private void WaitingHandler(object startInfo)
 		{

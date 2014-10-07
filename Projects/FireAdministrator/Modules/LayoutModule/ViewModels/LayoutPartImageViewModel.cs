@@ -73,7 +73,7 @@ namespace LayoutModule.ViewModels
 				catch (Exception e)
 				{
 					Logger.Error(e, "Исключение при вызове LayoutPartPropertyImagePageViewModel.UpdateImage");
-					MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
+					MessageBoxService.ShowWarningExtended("Возникла ошибка при загрузке изображения");
 				}
 			return imageSource;
 		}

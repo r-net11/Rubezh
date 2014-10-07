@@ -60,7 +60,7 @@ namespace SKDModule.ViewModels
 				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
-					MessageBoxService.ShowWarning(operationResult.Error);
+					MessageBoxService.ShowWarning2(operationResult.Error);
 				}
 				else
 				{
@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
-					MessageBoxService.ShowWarning(operationResult.Error);
+					MessageBoxService.ShowWarning2(operationResult.Error);
 				}
 				SelectedDocument.Update();
 			}
@@ -95,12 +95,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить документ?"))
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить документ?"))
 			{
 				var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
 				if (operationResult.HasError)
 				{
-					MessageBoxService.ShowWarning(operationResult.Error);
+					MessageBoxService.ShowWarning2(operationResult.Error);
 				}
 				else
 				{

@@ -92,12 +92,12 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.ShowExtended("Номер должен быть положительным числом");
 				return false;
 			}
 			if (Schedule.No != No && GKManager.DeviceConfiguration.Schedules.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Зона с таким номером уже существует");
+				MessageBoxService.ShowExtended("Зона с таким номером уже существует");
 				return false;
 			}
 

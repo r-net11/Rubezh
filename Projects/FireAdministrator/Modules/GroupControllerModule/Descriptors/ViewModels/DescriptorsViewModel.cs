@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
 					if (isFormulaInvalid)
 					{
-						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
+						MessageBoxService.ShowErrorExtended("Ошибка глубины стека дескриптора " + descriptor.GKBase.GKDescriptorNo + " " + descriptor.GKBase.PresentationName);
 						return;
 					}
 				}

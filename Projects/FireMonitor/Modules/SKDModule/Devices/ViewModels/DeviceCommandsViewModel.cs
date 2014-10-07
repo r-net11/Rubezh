@@ -43,7 +43,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenDevice(Device);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseDevice(Device);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}
@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenDeviceForever(Device);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}
@@ -94,7 +94,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseDeviceForever(Device);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning(result.Error);
+					MessageBoxService.ShowWarning2(result.Error);
 				}
 			}
 		}

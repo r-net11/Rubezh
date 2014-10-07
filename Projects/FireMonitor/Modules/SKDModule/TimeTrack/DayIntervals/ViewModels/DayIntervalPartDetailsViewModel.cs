@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 			{
 				if(dayIntervalPart.BeginTime < currentDateTime)
 				{
-					MessageBoxService.ShowWarning("Интервалы должны идти последовательно");
+					MessageBoxService.ShowWarning2("Интервалы должны идти последовательно");
 					return false;
 				}
 				currentDateTime = dayIntervalPart.BeginTime;
@@ -117,28 +117,28 @@ namespace SKDModule.ViewModels
 					endTime = endTime.Add(TimeSpan.FromDays(1));
 				if (beginTime > endTime)
 				{
-					MessageBoxService.ShowWarning("Время окончания интервала должно быть позже времени начала");
+					MessageBoxService.ShowWarning2("Время окончания интервала должно быть позже времени начала");
 					return false;
 				}
 				if (beginTime < currentDateTime)
 				{
-					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
+					MessageBoxService.ShowWarning2("Последовательность интервалов не должна быть пересекающейся");
 					return false;
 				}
 				if (beginTime == currentDateTime)
 				{
-					MessageBoxService.ShowWarning("Пауза между интервалами не должна быть нулевой");
+					MessageBoxService.ShowWarning2("Пауза между интервалами не должна быть нулевой");
 					return false;
 				}
 				currentDateTime = beginTime;
 				if (endTime < currentDateTime)
 				{
-					MessageBoxService.ShowWarning("Начало интервала не может быть раньше его окончания");
+					MessageBoxService.ShowWarning2("Начало интервала не может быть раньше его окончания");
 					return false;
 				}
 				if (endTime == currentDateTime)
 				{
-					MessageBoxService.ShowWarning("Интервал не может иметь нулевую длительность");
+					MessageBoxService.ShowWarning2("Интервал не может иметь нулевую длительность");
 					return false;
 				}
 				currentDateTime = endTime;

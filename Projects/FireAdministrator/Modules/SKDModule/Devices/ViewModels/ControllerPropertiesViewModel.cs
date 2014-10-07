@@ -38,11 +38,11 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDSyncronyseTime(Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
+				MessageBoxService.ShowExtended("Операция синхронизации времени завершилась успешно");
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени", result.Error);
+				MessageBoxService.ShowWarningExtended("Ошибка во время операции синхронизации времени", result.Error);
 			}
 		}
 
@@ -52,11 +52,11 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDResetController(Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Операция завершилась успешно");
+				MessageBoxService.ShowExtended("Операция завершилась успешно");
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
+				MessageBoxService.ShowWarningExtended("Ошибка во время операции", result.Error);
 			}
 		}
 
@@ -66,11 +66,11 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDRebootController(Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Операция завершилась успешно");
+				MessageBoxService.ShowExtended("Операция завершилась успешно");
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
+				MessageBoxService.ShowWarningExtended("Ошибка во время операции", result.Error);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 					if (result.HasError)
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error);
+						MessageBoxService.ShowWarningExtended(result.Error);
 					}
 				}));
 			});

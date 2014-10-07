@@ -71,7 +71,7 @@ namespace FireMonitor
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "App.OnStartup");
-				MessageBoxService.ShowError("Во время загрузки программы произошло исключение. Приложение будет закрыто");
+				MessageBoxService.ShowError2("Во время загрузки программы произошло исключение. Приложение будет закрыто");
 			}
 			finally
 			{

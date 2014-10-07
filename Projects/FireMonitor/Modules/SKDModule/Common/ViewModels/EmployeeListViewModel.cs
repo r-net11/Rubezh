@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion2(string.Format("Вы уверены?")))
+			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены?")))
 			{
 				var result = RemoveFromParent(SelectedEmployee.Employee.UID);
 				if (!result)

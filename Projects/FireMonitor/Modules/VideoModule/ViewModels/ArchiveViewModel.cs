@@ -60,7 +60,7 @@ namespace VideoModule.ViewModels
 		{
 			if (SelectedRecord == null)
 			{
-				MessageBoxService.ShowError("Выберите файл для воспроизведения", "Сообщение");
+				MessageBoxService.ShowError2("Выберите файл для воспроизведения", "Сообщение");
 				return;
 			}
 			try

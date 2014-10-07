@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 {
 	public class DoorsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		bool _lockSelection;
 		public static DoorsViewModel Current { get; private set; }
 
 		public DoorsViewModel()
@@ -102,8 +102,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите точку доступа " + SelectedDoor.Door.Name);
-			if (dialogResult == MessageBoxResult.Yes)
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите точку доступа " + SelectedDoor.Door.Name))
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.RemoveDoor(SelectedDoor.Door);

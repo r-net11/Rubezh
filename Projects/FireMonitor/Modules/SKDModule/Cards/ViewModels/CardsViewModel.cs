@@ -179,7 +179,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить карту?"))
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить карту?"))
 			{
 				CardHelper.Delete(SelectedCard.Card.UID);
 				var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);

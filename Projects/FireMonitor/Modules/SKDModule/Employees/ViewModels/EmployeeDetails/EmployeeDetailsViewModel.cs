@@ -684,7 +684,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDepartment == null)
 			{
-				MessageBoxService.Show("Выберите отдел");
+				MessageBoxService.Show2("Выберите отдел");
 				return;
 			}
 			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment, SelectedEscort);
@@ -799,47 +799,46 @@ namespace SKDModule.ViewModels
 		{
 			if(Employee.FirstName.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
+				MessageBoxService.Show2("Значение поля 'Имя' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.SecondName.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Отчество' не может быть длиннее 50 символов");
+				MessageBoxService.Show2("Значение поля 'Отчество' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.LastName.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Фамилия' не может быть длиннее 50 символов");
+				MessageBoxService.Show2("Значение поля 'Фамилия' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.DocumentNumber.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Номер документа' не может быть длиннее 50 символов");
+				MessageBoxService.Show2("Значение поля 'Номер документа' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.Phone.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				MessageBoxService.Show2("Значение поля 'Телефон' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.DocumentGivenBy.Length > 4000)
 			{
-				MessageBoxService.Show("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
+				MessageBoxService.Show2("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
 				return false;
 			}
 			if (Employee.BirthPlace.Length > 4000)
 			{
-				MessageBoxService.Show("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
+				MessageBoxService.Show2("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
 				return false;
 			}
 			if (Employee.Citizenship.Length > 4000)
 			{
-				MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
+				MessageBoxService.Show2("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
 				return false;
 			}
 
 			return true;
-		}
-	
+		}	
 	}
 }

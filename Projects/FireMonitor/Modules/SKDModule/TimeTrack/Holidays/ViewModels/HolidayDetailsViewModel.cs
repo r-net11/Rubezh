@@ -88,7 +88,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Reduction.TotalHours > 2)
 			{
-				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
+				MessageBoxService.ShowWarning2("Величина сокращения не может быть больше двух часов");
 				return false;
 			}
 			Model.Name = Name;

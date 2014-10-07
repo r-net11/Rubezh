@@ -98,7 +98,7 @@ namespace DevicesModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.ShowException(e);
+				MessageBoxService.ShowExceptionExtended(e);
 				Logger.Error(e, "AutoSearchViewModel.Save");
 			}
 			ServiceFactory.SaveService.FSChanged = true;

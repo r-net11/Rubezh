@@ -159,7 +159,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (FiresecManager.Directions.Any(x => x.Id == Id))
 				{
-					MessageBoxService.Show("Невозможно сохранить. Номера направдений совпадают");
+					MessageBoxService.ShowExtended("Невозможно сохранить. Номера направдений совпадают");
 					return false;
 				}
 				SaveModel();
@@ -168,7 +168,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (Id != Direction.Id && FiresecManager.Directions.Any(x => x.Id == Id))
 				{
-					MessageBoxService.Show("Невозможно сохранить. Номера направдений совпадают");
+					MessageBoxService.ShowExtended("Невозможно сохранить. Номера направдений совпадают");
 					return false;
 				}
 				SaveModel();

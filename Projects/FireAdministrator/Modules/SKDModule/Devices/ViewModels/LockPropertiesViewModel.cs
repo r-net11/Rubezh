@@ -183,14 +183,14 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDGetDoorConfiguration(Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else
 			{
 				var doorConfiguration = result.Result;
 				if (doorConfiguration.AccessState == SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL && doorConfiguration.DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN)
-					MessageBoxService.ShowWarning("Неизвестный метод открытия двери");
+					MessageBoxService.ShowWarningExtended("Неизвестный метод открытия двери");
 				Update(doorConfiguration);
 				HasChanged = false;
 			}
@@ -203,7 +203,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device, doorConfiguration);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarning(result.Error);
+				MessageBoxService.ShowWarningExtended(result.Error);
 				return;
 			}
 			else

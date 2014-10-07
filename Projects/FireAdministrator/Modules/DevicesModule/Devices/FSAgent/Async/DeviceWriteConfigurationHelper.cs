@@ -28,10 +28,10 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult.HasError)
 			{
-				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(_operationResult.Error, "Ошибка при выполнении операции");
 				return;
 			}
-			MessageBoxService.Show("Операция завершилась успешно");
+			MessageBoxService.ShowExtended("Операция завершилась успешно");
 		}
 	}
 }

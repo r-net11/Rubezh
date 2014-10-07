@@ -73,8 +73,7 @@ namespace SecurityModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var result = MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить шаблон прав \"{0}\" из списка?", SelectedRole.Role.Name));
-			if (result == MessageBoxResult.Yes)
+			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверенны, что хотите удалить шаблон прав \"{0}\" из списка?", SelectedRole.Role.Name)))
 			{
 				FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
 				Roles.Remove(SelectedRole);

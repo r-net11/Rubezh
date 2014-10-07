@@ -24,7 +24,11 @@ namespace SKDModule.Validation
 				{
 					if (device.Zone == null)
 					{
-						Errors.Add(new DeviceValidationError(device, "Считыватель не ведет ни к какой зоне", ValidationErrorLevel.Warning));
+						Errors.Add(new DeviceValidationError(device, "Считыватель не ведет в зону", ValidationErrorLevel.Warning));
+					}
+					if (device.Door == null)
+					{
+						Errors.Add(new DeviceValidationError(device, "Считыватель не участвует в точке доступа", ValidationErrorLevel.Warning));
 					}
 				}
 

@@ -28,11 +28,11 @@ namespace DevicesModule.Guard
 		{
 			if (OperationResult.HasError)
 			{
-				MessageBoxService.ShowError(OperationResult.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowErrorExtended(OperationResult.Error, "Ошибка при выполнении операции");
 			}
 			else
 			{
-				MessageBoxService.Show("Операция завершилась успешно");
+				MessageBoxService.ShowExtended("Операция завершилась успешно");
 			}
 		}
 	}

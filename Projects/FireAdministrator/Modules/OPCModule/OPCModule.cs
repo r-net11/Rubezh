@@ -62,7 +62,7 @@ namespace OPCModule
 				var connectionResult = FiresecManager.InitializeFiresecDriver(false);
 				if (connectionResult.HasError)
 				{
-					MessageBoxService.ShowError(connectionResult.Error);
+					MessageBoxService.ShowErrorExtended(connectionResult.Error);
 					return false;
 				}
 				//LoadingService.DoStep("Синхронизация конфигурации");
@@ -75,7 +75,7 @@ namespace OPCModule
 			catch (Exception e)
 			{
 				Logger.Error(e, "OPCModule.BeforeInitialize");
-				MessageBoxService.ShowException(e);
+				MessageBoxService.ShowExceptionExtended(e);
 				return false;
 			}
 		}

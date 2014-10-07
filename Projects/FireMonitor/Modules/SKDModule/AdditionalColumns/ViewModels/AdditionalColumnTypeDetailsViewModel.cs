@@ -105,7 +105,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Name == "Имя" || Name == "Фамилия" || Name == "Отчество")
 			{
-				MessageBoxService.ShowWarning("Запрещенное название дополнительной колонки");
+				MessageBoxService.ShowWarning2("Запрещенное название дополнительной колонки");
 				return false;
 			}
 

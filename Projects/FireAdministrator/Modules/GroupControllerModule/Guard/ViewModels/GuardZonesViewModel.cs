@@ -114,8 +114,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить охранную зону " + SelectedZone.Zone.PresentationName);
-			if (dialogResult == MessageBoxResult.Yes)
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить охранную зону " + SelectedZone.Zone.PresentationName))
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				GKManager.GuardZones.Remove(SelectedZone.Zone);
@@ -132,8 +131,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
-			if (dialogResult == MessageBoxResult.Yes)
+			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
 				var emptyZones = Zones.Where(x => x.Zone.GuardZoneDevices.Count == 0).ToList();
 				foreach (var emptyZone in emptyZones)

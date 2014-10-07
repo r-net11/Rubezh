@@ -27,7 +27,7 @@ namespace SettingsModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowError("У Вас нет прав для изменения настроек");
+				MessageBoxService.ShowErrorExtended("У Вас нет прав для изменения настроек");
 			}
 		}
 

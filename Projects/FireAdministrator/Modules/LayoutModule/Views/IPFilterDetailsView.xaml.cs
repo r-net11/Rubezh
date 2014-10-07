@@ -131,14 +131,14 @@ namespace LayoutModule.Views
 			int ipAddressByte = GetIpAddressByte(index);
 			if (ipAddressByte < IpAddressBytes[index].Min)
 			{
-				MessageBoxService.ShowWarning(string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max));
+				MessageBoxService.ShowWarningExtended(string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max));
 
 				SetIpAddressByte(index, IpAddressBytes[index].Min);
 				addressEditor.CaretIndex = caretIndex;
 			}
 			else if (ipAddressByte > IpAddressBytes[index].Max)
 			{
-				MessageBoxService.ShowWarning(string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max));
+				MessageBoxService.ShowWarningExtended(string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max));
 
 				SetIpAddressByte(index, IpAddressBytes[index].Max);
 				addressEditor.CaretIndex = caretIndex;

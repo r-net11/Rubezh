@@ -130,7 +130,7 @@ namespace DevicesModule
 					var connectionResult = FiresecManager.InitializeFiresecDriver(false);
 					if (connectionResult.HasError)
 					{
-						MessageBoxService.ShowError(connectionResult.Error);
+						MessageBoxService.ShowErrorExtended(connectionResult.Error);
 						return false;
 					}
 					LoadingService.DoStep("Синхронизация конфигурации");
@@ -143,7 +143,7 @@ namespace DevicesModule
 			catch (Exception e)
 			{
 				Logger.Error(e, "DevicesModule.BeforeInitialize");
-				MessageBoxService.ShowError(e.Message);
+				MessageBoxService.ShowErrorExtended(e.Message);
 				return false;
 			}
 #if RELEASE

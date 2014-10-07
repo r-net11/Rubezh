@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 			var result = FiresecManager.FiresecService.GKGetJournalItemsCount(Device);
 			if (result.HasError)
 			{
-				MessageBoxService.Show(result.Error);
+				MessageBoxService.ShowExtended(result.Error);
 				return false;
 			}
 			TotalCount = result.Result;
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 					var result = FiresecManager.FiresecService.GKReadJournalItem(Device, i);
 					if (result.HasError)
 					{
-						MessageBoxService.Show(result.Error);
+						MessageBoxService.ShowExtended(result.Error);
 						break;
 					}
 					var journalItemViewModel = new JournalItemViewModel(result.Result);

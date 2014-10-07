@@ -138,12 +138,12 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.ShowExtended("Номер должен быть положительным числом");
 				return false;
 			}
 			if (Direction.No != No && GKManager.Directions.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Направление с таким номером уже существует");
+				MessageBoxService.ShowExtended("Направление с таким номером уже существует");
 				return false;
 			}
 
@@ -175,7 +175,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowError(result.Error);
+				MessageBoxService.ShowErrorExtended(result.Error);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}
@@ -200,12 +200,12 @@ namespace GKModule.ViewModels
 				var result = FiresecManager.FiresecService.GKSetSingleParameter(Direction, baseDescriptor.Parameters);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowError(result.Error);
+					MessageBoxService.ShowErrorExtended(result.Error);
 				}
 			}
 			else
 			{
-				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
+				MessageBoxService.ShowErrorExtended("Ошибка. Отсутствуют параметры");
 			}
 		}
 
@@ -221,14 +221,14 @@ namespace GKModule.ViewModels
 		{
 			if(Direction.GkDatabaseParent == null)
 			{
-				MessageBoxService.ShowError("Направление не относится ни к одному ГК");
+				MessageBoxService.ShowErrorExtended("Направление не относится ни к одному ГК");
 				return false;
 			}
 
 			var result = FiresecManager.FiresecService.GKGKHash(Direction.GkDatabaseParent);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				MessageBoxService.ShowErrorExtended("Ошибка при сравнении конфигураций. Операция запрещена");
 				return false;
 			}
 
@@ -236,7 +236,7 @@ namespace GKModule.ViewModels
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
-			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
+			MessageBoxService.ShowErrorExtended("Конфигурации различны. Операция запрещена");
 			return false;
 		}
 	}

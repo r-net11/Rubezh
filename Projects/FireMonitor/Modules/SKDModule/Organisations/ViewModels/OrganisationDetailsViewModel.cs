@@ -119,7 +119,7 @@ namespace SKDModule.ViewModels
 		{
 			if (OrganisationsViewModel.Organisations.Any(x => x.Organisation.Name == Name && x.Organisation.UID != OrganisationDetails.UID))
 			{
-				MessageBoxService.ShowWarning("Название организации совпадает с введенным ранее");
+				MessageBoxService.ShowWarning2("Название организации совпадает с введенным ранее");
 				return false;
 			}
 
@@ -142,12 +142,12 @@ namespace SKDModule.ViewModels
 		{
 			if (OrganisationDetails.Name != null && OrganisationDetails.Name.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Название' не может быть длиннее 50 символов");
+				MessageBoxService.Show2("Значение поля 'Название' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (OrganisationDetails.Description != null && OrganisationDetails.Description.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Описание' не может быть длиннее 4000 символов");
+				MessageBoxService.Show2("Значение поля 'Описание' не может быть длиннее 4000 символов");
 				return false;
 			}
 			return true;

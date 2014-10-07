@@ -47,6 +47,7 @@ namespace SKDModule.ViewModels
 				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
+				ZonesViewModel.Current.Zones.Add(zoneViewModel);
 				ServiceFactory.SaveService.SKDChanged = true;
 				SaveCommand.Execute();
 			}	
