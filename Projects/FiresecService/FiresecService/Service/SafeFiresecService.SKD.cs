@@ -37,6 +37,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeePosition(uid, positionUid));
 		}
+		public OperationResult RestoreEmployee(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreEmployee(uid));
+		}
 		#endregion
 
 		#region Department
@@ -64,6 +68,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentHRChief(uid, chiefUID));
 		}
+		public OperationResult RestoreDepartment(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreDepartment(uid));
+		}
 		#endregion
 
 		#region Position
@@ -82,6 +90,11 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPosition(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPosition(uid));
+		}
+
+		public OperationResult RestorePosition(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestorePosition(uid));
 		}
 		#endregion
 
@@ -129,6 +142,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplate(uid));
 		}
+		public OperationResult RestoreAccessTemplate(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreAccessTemplate(uid));
+		}
 		#endregion
 
 		#region Organisation
@@ -168,6 +185,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID));
 		}
+		public OperationResult RestoreOrganisation(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreOrganisation(uid));
+		}
 		#endregion
 
 		#region AdditionalColumnType
@@ -190,6 +211,10 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnType(uid));
+		}
+		public OperationResult RestoreAdditionalColumnType(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreAdditionalColumnType(uid));
 		}
 		#endregion
 
@@ -343,6 +368,10 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPassCardTemplate(uid));
+		}
+		public OperationResult RestorePassCardTemplate(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RestorePassCardTemplate(uid));
 		}
 		#endregion
 	}

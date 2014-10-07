@@ -10,7 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleSchemesViewModel : OrganisationBaseViewModel<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>
+	public class ScheduleSchemesViewModel : OrganisationBaseViewModel<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>, ITimeTrackItemsViewModel
 	{
 		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
@@ -19,11 +19,15 @@ namespace SKDModule.ViewModels
 			:base()
 		{
 			_isInitialized = false;
+			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
+
+		public LogicalDeletationType LogicalDeletationType { get; set; }
+		ChangeIsDeletedSubscriber _changeIsDeletedSubscriber;
 
 		public void Initialize()
 		{
-			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID };
+			var filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, LogicalDeletationType = LogicalDeletationType };
 			Initialize(filter);
 		}
 
@@ -123,6 +127,10 @@ namespace SKDModule.ViewModels
 		protected override bool MarkDeleted(Guid uid)
 		{
 			return ScheduleSchemaHelper.MarkDeleted(uid);
+		}
+		protected override bool Restore(Guid uid)
+		{
+			return ScheduleSchemaHelper.Restore(uid);
 		}
 		protected override bool Save(ScheduleScheme item)
 		{

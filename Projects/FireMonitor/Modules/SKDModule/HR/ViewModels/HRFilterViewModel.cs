@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.EmployeeFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(filter.EmployeeFilter);
+			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
 		protected override bool Save()
@@ -33,7 +34,19 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
+			Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			return true;
+		}
+
+		bool _isWithDeleted;
+		public bool IsWithDeleted
+		{
+			get { return _isWithDeleted; }
+			set
+			{
+				_isWithDeleted = value;
+				OnPropertyChanged(() => IsWithDeleted);
+			}
 		}
 
 		public RelayCommand ResetCommand { get; private set; }

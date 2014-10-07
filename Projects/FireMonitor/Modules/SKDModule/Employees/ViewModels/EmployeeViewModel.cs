@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeViewModel : CartothequeTabItemElementBase<EmployeeViewModel, ShortEmployee>
+	public class EmployeeViewModel : OrganisationElementViewModel<EmployeeViewModel, ShortEmployee>
 	{
 		public string AppointedString
 		{

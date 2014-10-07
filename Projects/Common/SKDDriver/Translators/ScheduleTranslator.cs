@@ -50,11 +50,9 @@ namespace SKDDriver.Translators
 
 		protected override ShortSchedule TranslateToShort(DataAccess.Schedule tableItem)
 		{
-			return new ShortSchedule
-			{
-				UID = tableItem.UID,
-				Name = tableItem.Name
-			};
+			var result = base.TranslateToShort(tableItem);
+			result.Name = tableItem.Name;
+			return result;
 		}
 
 		protected override void TranslateBack(DataAccess.Schedule tableItem, Schedule apiItem)

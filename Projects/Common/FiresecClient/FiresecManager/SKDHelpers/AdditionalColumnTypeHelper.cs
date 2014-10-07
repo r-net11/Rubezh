@@ -18,6 +18,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static bool Restore(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.RestoreAdditionalColumnType(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static AdditionalColumnType GetDetails(Guid? uid)
 		{
 			if (uid == null)

@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 		bool IsNew;
 		DayInterval DayInterval;
 		public DayIntervalPart DayIntervalPart { get; private set; }
-
+		
 		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, DayIntervalPart dayIntervalPart = null)
 		{
 			DayInterval = dayInterval;

@@ -19,6 +19,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static bool Restore(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.RestoreEmployee(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static IEnumerable<ShortEmployee> Get(EmployeeFilter filter)
 		{
 			var operationResult = FiresecManager.FiresecService.GetEmployeeList(filter);

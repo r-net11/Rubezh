@@ -81,21 +81,18 @@ namespace SKDDriver
 
 		protected override ShortDepartment TranslateToShort(DataAccess.Department tableItem)
 		{
-			var shortDepartment = new ShortDepartment
-			{
-				UID = tableItem.UID,
-				Name = tableItem.Name,
-				Description = tableItem.Description,
-				ParentDepartmentUID = tableItem.ParentDepartmentUID,
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty, 
-				ChiefUID = tableItem.ChiefUID,
-				HRChiefUID = tableItem.HRChiefUID,
-				Phone = tableItem.Phone
-			};
-			shortDepartment.ChildDepartmentUIDs = new List<Guid>();
+			var result = base.TranslateToShort(tableItem);
+			result.Name = tableItem.Name;
+			result.Description = tableItem.Description;
+			result.ChiefUID = tableItem.ChiefUID;
+			result.HRChiefUID = tableItem.HRChiefUID;
+			result.Phone = tableItem.Phone;
+			
+			result.ChildDepartmentUIDs = new List<Guid>();
 			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
-				shortDepartment.ChildDepartmentUIDs.Add(department.UID);
-			return shortDepartment;
+				result.ChildDepartmentUIDs.Add(department.UID);
+			
+			return result;
 		}
 
 		public string GetName(Guid? uid)

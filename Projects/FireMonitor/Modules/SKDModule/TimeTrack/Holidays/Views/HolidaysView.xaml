@@ -23,6 +23,7 @@
 				<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
 				<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
 				<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
+                <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" />
 			</StackPanel>
 		</StackPanel>
 
@@ -35,7 +36,7 @@
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Holiday.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-									<TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -43,28 +44,28 @@
 					<GridViewColumn Header="Дата">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Path=Model.Date, StringFormat=dd-MM}" />
+                                <TextBlock Text="{Binding Path=Model.Date, StringFormat=dd-MM}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn Header="Тип">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Model.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
+                                <TextBlock Text="{Binding Model.Type, Converter={StaticResource EnumToDescriptionConverter}}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn Header="Величина сокращения">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding ReductionTime}" />
+                                <TextBlock Text="{Binding ReductionTime}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn Header="Дата переноса">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding TransitionDate}" />
+                                <TextBlock Text="{Binding TransitionDate}" Style="{StaticResource IsDeletedStyle}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

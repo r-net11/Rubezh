@@ -17,5 +17,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
+
+		[DataMember]
+		public bool IsDeleted { get; set; }
 	}
 }

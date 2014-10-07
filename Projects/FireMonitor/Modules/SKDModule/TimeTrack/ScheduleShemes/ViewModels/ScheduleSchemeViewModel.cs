@@ -10,7 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleSchemeViewModel : CartothequeTabItemElementBase<ScheduleSchemeViewModel, ScheduleScheme>
+	public class ScheduleSchemeViewModel : OrganisationElementViewModel<ScheduleSchemeViewModel, ScheduleScheme>
 	{
 		bool _isInitialized;
 		public ScheduleSchemesViewModel ScheduleSchemesViewModel;
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 
 		public override void InitializeModel(Organisation organisation, ScheduleScheme model, ViewPartViewModel parentViewModel)
 		{
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			ScheduleSchemesViewModel = (parentViewModel as ScheduleSchemesViewModel);
 			base.InitializeModel(organisation, model, parentViewModel);
@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return IsSlide;
+			return IsSlide && !IsDeleted;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -110,7 +110,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1;
+			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted;
 		}
 
 		void Sort()

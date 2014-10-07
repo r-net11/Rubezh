@@ -74,6 +74,7 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
+    <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
     <Compile Include="Common\DetailsValidateHelper.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
@@ -108,6 +109,7 @@
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
     <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
+    <Compile Include="Events\ChangeIsDeletedEvent.cs" />
     <Compile Include="Events\EditEmployeeEvent.cs" />
     <Compile Include="Events\EditEmployeePositionDepartmentEvent.cs" />
     <Compile Include="Events\NewCardEvent.cs" />

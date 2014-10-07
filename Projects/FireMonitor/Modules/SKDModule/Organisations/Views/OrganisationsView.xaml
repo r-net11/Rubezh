@@ -14,20 +14,20 @@
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
 						<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-						<TextBlock Text="{Binding Organisation.Name}" />
+						<TextBlock Text="{Binding Organisation.Name}" Style="{StaticResource IsDeletedStyle}"  />
 					</StackPanel>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<TabControl Grid.Column="2" >
-			<TabItem Header="Пользователи" DataContext="{Binding OrganisationUsersViewModel}" >
+			<TabItem Header="Пользователи" DataContext="{Binding OrganisationUsersViewModel}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}" >
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -49,7 +49,7 @@
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -71,7 +71,7 @@
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -93,7 +93,7 @@
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+					<ListBox Grid.Row="0" Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

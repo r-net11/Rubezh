@@ -19,6 +19,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool Restore(Guid uid)
+		{
+			var result = FiresecManager.FiresecService.RestoreDepartment(uid);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static IEnumerable<ShortDepartment> Get(DepartmentFilter filter)
 		{
 			var result = FiresecManager.FiresecService.GetDepartmentList(filter);

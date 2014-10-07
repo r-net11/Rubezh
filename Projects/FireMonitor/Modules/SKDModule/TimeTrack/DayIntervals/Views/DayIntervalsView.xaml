@@ -15,6 +15,7 @@
 			<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 			<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
 			<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
+            <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" />
 		</StackPanel>
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
@@ -31,7 +32,7 @@
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Interval.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-										<TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -40,7 +41,7 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="{Binding Description}" />
+                                        <TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -64,21 +65,21 @@
 						<DataGridTemplateColumn Width="*" Header="Начало">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Path=BeginTime, StringFormat=hh\\-mm}" />
+									<TextBlock Text="{Binding Path=BeginTime, StringFormat=hh\\-mm}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTemplateColumn Width="*" Header="Конец">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Path=EndTime, StringFormat=hh\\-mm}" />
+                                    <TextBlock Text="{Binding Path=EndTime, StringFormat=hh\\-mm}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTemplateColumn Width="*" Header="Переход">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding IntervalTransitionType, Converter={StaticResource EnumToDescriptionConverter}}" />
+                                    <TextBlock Text="{Binding IntervalTransitionType, Converter={StaticResource EnumToDescriptionConverter}}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>

@@ -13,6 +13,7 @@ namespace SKDDriver
 		public OrganisationTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
+
 		}
 
 		protected OperationResult CanSave(OrganisationDetails item)
@@ -31,8 +32,8 @@ namespace SKDDriver
 			if (Context.Departments.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
 				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней отделы");
 
-			if (Context.Positions.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней должности");
+			//if (Context.Positions.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней должности");
 
 			if (Context.AccessTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
 				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней шаблоны доступа");
@@ -77,6 +78,24 @@ namespace SKDDriver
 			tableItem.Description = apiItem.Description;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.Phone = apiItem.Phone;
+		}
+
+		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
+		{
+			var result = new OperationResult();
+			result = DatabaseService.PositionTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			return result;
+		}
+
+		protected override OperationResult BeforeRestore(Guid uid, DateTime removalDate)
+		{
+			var result = new OperationResult();
+			result = DatabaseService.PositionTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			return result;
 		}
 
 		public OperationResult<OrganisationDetails> GetDetails(Guid uid)

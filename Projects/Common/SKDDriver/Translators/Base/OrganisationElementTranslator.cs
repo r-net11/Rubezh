@@ -28,6 +28,51 @@ namespace SKDDriver
 			TranslateBackOrganisationElement<ApiT, TableT>(apiItem, tableItem);
 		}
 
+		public OperationResult MarkDeletedByOrganisation(Guid organisationUID, DateTime removalDate)
+		{
+			try
+			{
+				var databaseItems = Table.ToList().Where(x => x.OrganisationUID == organisationUID && !x.IsDeleted);
+				if (databaseItems != null && databaseItems.Count() > 0)
+				{
+					foreach (var item in databaseItems)
+					{
+						item.IsDeleted = true;
+						item.RemovalDate = removalDate;
+					}
+					Table.Context.SubmitChanges();
+					return new OperationResult();
+				}
+				else
+				{
+					return new OperationResult("Не найдена запись в базе данных");
+				}
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult RestoreByOrganisation(Guid organisationUID, DateTime removalDate)
+		{
+			try
+			{
+				var databaseItems = Table.ToList().Where(x => x.OrganisationUID == organisationUID && x.IsDeleted && x.RemovalDate == removalDate);
+				if (databaseItems != null && databaseItems.Count() > 0)
+				{
+					foreach (var item in databaseItems)
+						item.IsDeleted = false;
+					Table.Context.SubmitChanges();
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		protected override OperationResult CanSave(ApiT item)
 		{
 			var result = base.CanSave(item);

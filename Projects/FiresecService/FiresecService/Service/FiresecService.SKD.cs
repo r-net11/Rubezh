@@ -90,6 +90,14 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
 			}
 		}
+		public OperationResult RestoreEmployee(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.Restore(uid);
+			}
+		}
 		#endregion
 
 		#region Department
@@ -140,6 +148,15 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.SaveHRChief(uid, hrChiefUID);
 			}
 		}
+
+		public OperationResult RestoreDepartment(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.Restore(uid);
+			}
+		}
 		#endregion
 
 		#region Position
@@ -171,6 +188,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PositionTranslator.MarkDeleted(uid);
+			}
+		}
+		public OperationResult RestorePosition(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PositionTranslator.Restore(uid);
 			}
 		}
 		#endregion
@@ -379,6 +404,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult RestoreAccessTemplate(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AccessTemplateTranslator.Restore(uid);
+			}
+		}
 		#endregion
 
 		#region Organisation
@@ -452,6 +485,14 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
+		public OperationResult RestoreOrganisation(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Restore(uid);
+			}
+		}
 		#endregion
 
 		#region AdditionalColumnType
@@ -490,6 +531,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
+			}
+		}
+		public OperationResult RestoreAdditionalColumnType(Guid uid)
+		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AdditionalColumnTypeTranslator.Restore(uid);
 			}
 		}
 		#endregion
@@ -1077,7 +1126,6 @@ namespace FiresecService.Service
 		}
 		public OperationResult SavePassCardTemplate(PassCardTemplate item)
 		{
-			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.Save(item);
@@ -1085,10 +1133,16 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid)
 		{
-			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
+			}
+		}
+		public OperationResult RestorePassCardTemplate(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassCardTemplateTranslator.Restore(uid);
 			}
 		}
 		#endregion

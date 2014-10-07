@@ -20,6 +20,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedDayInterval(uid));
 		}
+		public FiresecAPI.OperationResult RestoreDayInterval(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.RestoreDayInterval(uid));
+		}
 	
 		public FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
 		{
@@ -46,6 +50,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedHoliday(uid));
 		}
+		public FiresecAPI.OperationResult RestoreHoliday(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.RestoreHoliday(uid));
+		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
@@ -58,6 +66,10 @@ namespace FiresecClient
 		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(Guid uid)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(uid));
+		}
+		public FiresecAPI.OperationResult RestoreScheduleScheme(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.RestoreScheduleScheme(uid));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
@@ -88,6 +100,10 @@ namespace FiresecClient
 		public FiresecAPI.OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ShortSchedule>>>(() => FiresecService.GetScheduleShortList(filter));
+		}
+		public FiresecAPI.OperationResult RestoreSchedule(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.RestoreSchedule(uid));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)

@@ -19,6 +19,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static bool Restore(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.RestoreSchedule(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static Schedule GetSingle(Guid? uid)
 		{
 			if (uid == null)

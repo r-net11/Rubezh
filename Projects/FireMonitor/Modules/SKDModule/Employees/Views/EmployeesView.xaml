@@ -3,7 +3,7 @@
 			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
-	</UserControl.Resources>
+    </UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
@@ -21,14 +21,26 @@
 										   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
 										   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-									<TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Отдел" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding DepartmentName}" />
-					<GridViewColumn Header="Должность" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding PositionName}" />
-				</GridView>
+                    <GridViewColumn Header="Отдел" ListViewLayoutManager.StarWidth="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DepartmentName}" Style="{StaticResource IsDeletedStyle}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Должность" ListViewLayoutManager.StarWidth="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PositionName}" Style="{StaticResource IsDeletedStyle}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
 			</tree:TreeList.View> 
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />

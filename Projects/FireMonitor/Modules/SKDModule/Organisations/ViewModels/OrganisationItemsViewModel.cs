@@ -13,8 +13,9 @@ namespace SKDModule.ViewModels
 		public OrganisationItemsViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
-			SelectAllCommand = new RelayCommand(OnSelectAll);
-			SelectNoneCommand = new RelayCommand(OnSelectNone);
+			CanSelect = !organisation.IsDeleted;
+			SelectAllCommand = new RelayCommand(OnSelectAll, () => CanSelect);
+			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect);
 		}
 
 		ObservableCollection<T> items;
@@ -47,13 +48,24 @@ namespace SKDModule.ViewModels
 				item.IsChecked = true;
 			}
 		}
-
+		
 		public RelayCommand SelectNoneCommand { get; private set; }
 		void OnSelectNone()
 		{
 			foreach (var item in Items)
 			{
 				item.IsChecked = false;
+			}
+		}
+
+		bool _canSelect;
+		public bool CanSelect 
+		{ 
+			get { return _canSelect; } 
+			set
+			{
+				_canSelect = value;
+				OnPropertyChanged(() => CanSelect);
 			}
 		}
 	}

@@ -2,5 +2,5 @@
 
 namespace SKDModule.ViewModels
 {
-	public class AdditionalColumnTypeViewModel : CartothequeTabItemElementBase<AdditionalColumnTypeViewModel, ShortAdditionalColumnType> { }
+	public class AdditionalColumnTypeViewModel : OrganisationElementViewModel<AdditionalColumnTypeViewModel, ShortAdditionalColumnType> { }
 }

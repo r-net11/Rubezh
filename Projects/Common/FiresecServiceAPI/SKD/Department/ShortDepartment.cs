@@ -38,5 +38,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string Phone { get; set; }
+
+		[DataMember]
+		public bool IsDeleted { get; set; }
 	}
 }

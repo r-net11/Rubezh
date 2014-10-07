@@ -29,6 +29,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveEmployeePosition(Guid uid, Guid positionUid);
+
+		[OperationContract]
+		OperationResult RestoreEmployee(Guid uid);
 		#endregion
 
 		#region Department
@@ -49,6 +52,9 @@ namespace FiresecAPI
 		
 		[OperationContract]
 		OperationResult SaveDepartmentHRChief(Guid uid, Guid chiefUID);
+
+		[OperationContract]
+		OperationResult RestoreDepartment(Guid uid);
 		#endregion
 
 		#region Position
@@ -63,6 +69,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult MarkDeletedPosition(Guid uid);
+
+		[OperationContract]
+		OperationResult RestorePosition(Guid uid);
 		#endregion
 
 		#region Card
@@ -97,6 +106,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult MarkDeletedAccessTemplate(Guid uid);
+
+		[OperationContract]
+		OperationResult RestoreAccessTemplate(Guid uid);
 		#endregion
 
 		#region Organisation
@@ -126,6 +138,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID);
+
+		[OperationContract]
+		OperationResult RestoreOrganisation(Guid uid);
 		#endregion
 
 		#region AdditionalColumnType
@@ -143,6 +158,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnType(Guid uid);
+
+		[OperationContract]
+		OperationResult RestoreAdditionalColumnType(Guid uid);
 		#endregion
 
 		#region DeviceCommands
@@ -257,6 +275,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult MarkDeletedPassCardTemplate(Guid uid);
+
+		[OperationContract]
+		OperationResult RestorePassCardTemplate(Guid uid);
 		#endregion
 	}
 }

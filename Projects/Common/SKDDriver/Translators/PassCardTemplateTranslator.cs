@@ -55,14 +55,10 @@ namespace SKDDriver
 
 		protected override ShortPassCardTemplate TranslateToShort(DataAccess.PassCardTemplate tableItem)
 		{
-			var shortPassCardTemplate = new ShortPassCardTemplate
-			{
-				UID = tableItem.UID,
-				Name = tableItem.Name,
-				Description = tableItem.Description,
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty
-			};
-			return shortPassCardTemplate;
+			var result = base.TranslateToShort(tableItem);
+			result.Name = tableItem.Name;
+			result.Description = tableItem.Description;
+			return result;
 		}
 	}
 }

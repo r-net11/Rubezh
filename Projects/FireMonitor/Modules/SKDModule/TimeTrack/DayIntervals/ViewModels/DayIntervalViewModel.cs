@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalViewModel : CartothequeTabItemElementBase<DayIntervalViewModel, DayInterval>, IEditingViewModel
+	public class DayIntervalViewModel : OrganisationElementViewModel<DayIntervalViewModel, DayInterval>, IEditingViewModel
 	{
 		bool _isInitialized;
 		
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsOrganisation;
+			return !IsOrganisation && !IsDeleted;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1;
+			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1 && !IsDeleted;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDayIntervalPart != null;
+			return SelectedDayIntervalPart != null && !IsDeleted;
 		}
 	}
 }

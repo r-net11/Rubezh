@@ -18,14 +18,12 @@ namespace SKDModule.ViewModels
 		protected abstract EmployeeFilter EmptyFilter { get; }
 		public virtual bool CanEditDepartment { get { return false; } }
 		public virtual bool CanEditPosition { get { return false; } }
-		protected Guid _parentUID;
-		protected Guid _organisationUID;
+		protected IOrganisationElementViewModel _parent;
 		public ObservableCollection<TItem> Employees { get; private set; }
 
-		public EmployeeListBaseViewModel(Guid parentUID, Guid organisationUID)
+		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent)
 		{
-			_parentUID = parentUID;
-			_organisationUID = organisationUID;
+			_parent = parent;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)
 				return;
@@ -37,7 +35,7 @@ namespace SKDModule.ViewModels
 				Employees.Add(viewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Unsubscribe(OnEditEmployeePositionDepartment);
@@ -76,6 +74,10 @@ namespace SKDModule.ViewModels
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
 			}
 		}
+		bool CanAdd()
+		{
+			return !_parent.IsDeleted;
+		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
@@ -99,7 +101,7 @@ namespace SKDModule.ViewModels
 		void OnEdit()
 		{
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel();
-			if (employeeDetailsViewModel.Initialize(_organisationUID, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
+			if (employeeDetailsViewModel.Initialize(_parent.OrganisationUID, SelectedEmployee.Employee, PersonType.Employee, CanEditDepartment, CanEditPosition) &&
 				DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.Model);
@@ -118,7 +120,7 @@ namespace SKDModule.ViewModels
 		void OnEditEmployeePositionDepartment(Employee employee)
 		{
 			var employeeListItemViewModel = Employees.FirstOrDefault(x => x.Employee.UID == employee.UID);
-			if (employeeListItemViewModel == null && GetParentUID(employee) == _parentUID)
+			if (employeeListItemViewModel == null && GetParentUID(employee) == _parent.UID)
 			{
 				var shortEmployee = EmployeeHelper.GetSingleShort(employee.UID);
 				if (shortEmployee != null)
@@ -128,7 +130,7 @@ namespace SKDModule.ViewModels
 					Employees.Add(viewModel);
 				}
 			}
-			else if (employeeListItemViewModel != null && GetParentUID(employee) != _parentUID)
+			else if (employeeListItemViewModel != null && GetParentUID(employee) != _parent.UID)
 			{
 				Employees.Remove(employeeListItemViewModel);
 			}
