@@ -1,24 +1,22 @@
 ﻿using System;
-using Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using FireMonitor.ViewModels;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using FiresecClient;
-using FiresecAPI.Models;
-using System.Diagnostics;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -27,7 +25,7 @@ namespace FireMonitor.Layout.ViewModels
 		public LayoutModel Layout { get; private set; }
 		private XmlLayoutSerializer _serializer;
 		private AutoActivationViewModel _autoActivationViewModel;
-        private SoundViewModel _soundViewModel;
+		private SoundViewModel _soundViewModel;
 
 		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
 			: base("Monitor.Layout")
@@ -179,10 +177,10 @@ namespace FireMonitor.Layout.ViewModels
 			RibbonContent.Items[2][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "/Controls;component/Images/BMapOn.png" : "/Controls;component/Images/BMapOff.png";
 			RibbonContent.Items[2][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
 			RibbonContent.Items[2][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
-            RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "/Controls;component/Images/BSound.png" : "/Controls;component/Images/BMute.png";
-            RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
-            RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
-        }
+			RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "/Controls;component/Images/BSound.png" : "/Controls;component/Images/BMute.png";
+			RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
+			RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
+		}
 		private void AddRibbonItem()
 		{
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "/Controls;component/Images/BUser.png"));
@@ -192,7 +190,7 @@ namespace FireMonitor.Layout.ViewModels
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "/Controls;component/Images/BLayouts.png", item.Description))), "/Controls;component/Images/BLayouts.png"));
 
 			_autoActivationViewModel = new AutoActivationViewModel();
-            _soundViewModel = new SoundViewModel();
+			_soundViewModel = new SoundViewModel();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
