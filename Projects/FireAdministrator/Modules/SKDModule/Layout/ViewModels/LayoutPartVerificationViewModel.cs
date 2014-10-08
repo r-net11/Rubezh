@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
+using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
@@ -14,8 +16,8 @@ namespace SKDModule.ViewModels
 			Title = "Верификация";
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
-			//var journalFilter = SKDManager.SKDConfiguration.SKDSystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.FilterUID);
-			//UpdateLayoutPart(journalFilter);
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
+			UpdateLayoutPart(device);
 		}
 
 		public override ILayoutProperties Properties
@@ -41,9 +43,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void UpdateLayoutPart()
+		public void UpdateLayoutPart(SKDDevice device)
 		{
-			FilterTitle = "";
+			FilterTitle = device == null ? "" : device.Name;
 		}
 	}
 }

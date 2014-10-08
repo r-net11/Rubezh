@@ -116,29 +116,33 @@ namespace FireAdministrator.ViewModels
 
 		void MergeGKDeviceConfiguration()
 		{
+			GKDeviceConfiguration.Update();
+			PlansConfiguration.Update();
+			CreateNewGKUIDs();
+			GKDeviceConfiguration.Update();
+			PlansConfiguration.Update();
 			var errors = new StringBuilder();
+
 			var maxZoneNo = 0;
 			if (GKManager.Zones.Count > 0)
 				maxZoneNo = GKManager.Zones.Max(x=>x.No);
 
 			var maxGuardZoneNo = 0;
 			if (GKManager.GuardZones.Count > 0)
-				maxZoneNo = GKManager.GuardZones.Max(x => x.No);
+				maxGuardZoneNo = GKManager.GuardZones.Max(x => x.No);
 
 			var maxDirectionNo = 0;
 			if (GKManager.Directions.Count > 0)
 				maxDirectionNo = GKManager.Directions.Max(x => x.No);
 
+			var maxDoorNo = 0;
+			if (GKManager.Doors.Count > 0)
+				maxDoorNo = GKManager.Doors.Max(x => x.No);
+
 			if (GKDeviceConfiguration == null)
 				GKDeviceConfiguration = new GKDeviceConfiguration();
 			if (PlansConfiguration == null)
 				PlansConfiguration = new PlansConfiguration();
-
-			GKDeviceConfiguration.Update();
-			PlansConfiguration.Update();
-			CreateNewUIDs();
-			GKDeviceConfiguration.Update();
-			PlansConfiguration.Update();
 
 			foreach (var gkControllerDevice in GKDeviceConfiguration.RootDevice.Children)
 			{
@@ -175,18 +179,31 @@ namespace FireAdministrator.ViewModels
 			}
 			foreach (var zone in GKDeviceConfiguration.Zones)
 			{
-				zone.No = (ushort)(zone.No + maxZoneNo);
+				zone.No = zone.No + maxZoneNo;
 				GKManager.Zones.Add(zone);
 			}
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
 			{
-				guardZone.No = (ushort)(guardZone.No + maxGuardZoneNo);
+				guardZone.No = guardZone.No + maxGuardZoneNo;
 				GKManager.GuardZones.Add(guardZone);
 			}
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
-				direction.No = (ushort)(direction.No + maxDirectionNo);
+				direction.No = direction.No + maxDirectionNo;
 				GKManager.Directions.Add(direction);
+			}
+			foreach (var door in GKDeviceConfiguration.Doors)
+			{
+				door.No = door.No + maxDoorNo;
+				GKManager.Doors.Add(door);
+			}
+			foreach (var code in GKDeviceConfiguration.Codes)
+			{
+				GKManager.DeviceConfiguration.Codes.Add(code);
+			}
+			foreach (var schedules in GKDeviceConfiguration.Schedules)
+			{
+				GKManager.DeviceConfiguration.Schedules.Add(schedules);
 			}
 
 			foreach (var plan in PlansConfiguration.Plans)
@@ -207,34 +224,88 @@ namespace FireAdministrator.ViewModels
 
 		void MergeSKDConfiguration()
 		{
+			SKDConfiguration.Update();
+			CreateNewSKDUIDs();
+			SKDConfiguration.Update();
 
+			var maxZoneNo = 0;
+			if (SKDManager.Zones.Count > 0)
+				maxZoneNo = SKDManager.Zones.Max(x => x.No);
+
+			var maxDoorNo = 0;
+			if (SKDManager.Doors.Count > 0)
+				maxDoorNo = SKDManager.Doors.Max(x => x.No);
+
+
+			foreach (var device in SKDConfiguration.Devices)
+			{
+				SKDManager.Devices.Add(device);
+				if (device.Parent != null && device.Parent.Parent == null)
+				{
+					SKDManager.SKDConfiguration.RootDevice.Children.Add(device);
+				}
+			}
+			foreach (var zone in SKDConfiguration.Zones)
+			{
+				zone.No = zone.No + maxZoneNo;
+				SKDManager.Zones.Add(zone);
+			}
+			foreach (var door in SKDConfiguration.Doors)
+			{
+				door.No = door.No + maxDoorNo;
+				SKDManager.Doors.Add(door);
+			}
 		}
 
-		void CreateNewUIDs()
+		void CreateNewGKUIDs()
 		{
 			foreach (var device in GKDeviceConfiguration.Devices)
 			{
 				var uid = Guid.NewGuid();
-				DeviceUIDs.Add(device.UID, uid);
+				GKDeviceUIDs.Add(device.UID, uid);
 				device.UID = uid;
 			}
 			foreach (var zone in GKDeviceConfiguration.Zones)
 			{
 				var uid = Guid.NewGuid();
-				ZoneUIDs.Add(zone.UID, uid);
+				GKZoneUIDs.Add(zone.UID, uid);
 				zone.UID = uid;
 			}
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
 			{
 				var uid = Guid.NewGuid();
-				GuardZoneUIDs.Add(guardZone.UID, uid);
+				GKGuardZoneUIDs.Add(guardZone.UID, uid);
 				guardZone.UID = uid;
 			}
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				var uid = Guid.NewGuid();
-				DirectionUIDs.Add(direction.UID, uid);
+				GKDirectionUIDs.Add(direction.UID, uid);
 				direction.UID = uid;
+			}
+			foreach (var door in GKDeviceConfiguration.Doors)
+			{
+				var uid = Guid.NewGuid();
+				GKDoorUIDs.Add(door.UID, uid);
+				door.UID = uid;
+			}
+			foreach (var code in GKDeviceConfiguration.Codes)
+			{
+				var uid = Guid.NewGuid();
+				GKCodeUIDs.Add(code.UID, uid);
+				code.UID = uid;
+			}
+			foreach (var schedule in GKDeviceConfiguration.Schedules)
+			{
+				var uid = Guid.NewGuid();
+				GKScheduleUIDs.Add(schedule.UID, uid);
+				schedule.UID = uid;
+			}
+			foreach (var delay in GKDeviceConfiguration.Delays)
+			{
+				var uid = Guid.NewGuid();
+				GKDelayUIDs.Add(delay.UID, uid);
+				delay.UID = uid;
 			}
 
 			foreach (var device in GKDeviceConfiguration.Devices)
@@ -242,7 +313,7 @@ namespace FireAdministrator.ViewModels
 				for (int i = 0; i < device.ZoneUIDs.Count; i++)
 				{
 					var zoneUID = device.ZoneUIDs[i];
-					device.ZoneUIDs[i] = ZoneUIDs[zoneUID];
+					device.ZoneUIDs[i] = GKZoneUIDs[zoneUID];
 				}
 				ReplaceDeviceLogic(device.DeviceLogic);
 				ReplaceDeviceLogic(device.NSLogic);
@@ -253,12 +324,12 @@ namespace FireAdministrator.ViewModels
 				foreach (var directionZone in direction.DirectionZones)
 				{
 					var zoneUID = directionZone.ZoneUID;
-					directionZone.ZoneUID = ZoneUIDs[zoneUID];
+					directionZone.ZoneUID = GKZoneUIDs[zoneUID];
 				}
 				foreach (var directionDevice in direction.DirectionDevices)
 				{
 					var deviceUID = directionDevice.DeviceUID;
-					directionDevice.DeviceUID = DeviceUIDs[deviceUID];
+					directionDevice.DeviceUID = GKDeviceUIDs[deviceUID];
 				}
 			}
 
@@ -267,7 +338,7 @@ namespace FireAdministrator.ViewModels
 				for (int i = 0; i < pumpStation.NSDeviceUIDs.Count; i++)
 				{
 					var deviceUID = pumpStation.NSDeviceUIDs[i];
-					pumpStation.NSDeviceUIDs[i] = DeviceUIDs[deviceUID];
+					pumpStation.NSDeviceUIDs[i] = GKDeviceUIDs[deviceUID];
 				}
 				ReplaceDeviceLogic(pumpStation.StartLogic);
 				ReplaceDeviceLogic(pumpStation.AutomaticOffLogic);
@@ -279,7 +350,7 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementGKDevices)
 				{
 					if (element.DeviceUID != Guid.Empty)
-						element.DeviceUID = DeviceUIDs[element.DeviceUID];
+						element.DeviceUID = GKDeviceUIDs[element.DeviceUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -287,7 +358,7 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementRectangleGKZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = ZoneUIDs[element.ZoneUID];
+						element.ZoneUID = GKZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -295,7 +366,7 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementPolygonGKZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = ZoneUIDs[element.ZoneUID];
+						element.ZoneUID = GKZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -303,7 +374,7 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementRectangleGKGuardZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = GuardZoneUIDs[element.ZoneUID];
+						element.ZoneUID = GKGuardZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -311,7 +382,7 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementPolygonGKGuardZones)
 				{
 					if (element.ZoneUID != Guid.Empty)
-						element.ZoneUID = GuardZoneUIDs[element.ZoneUID];
+						element.ZoneUID = GKGuardZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -319,7 +390,7 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementRectangleGKDirections)
 				{
 					if (element.DirectionUID != Guid.Empty)
-						element.DirectionUID = DirectionUIDs[element.DirectionUID];
+						element.DirectionUID = GKDirectionUIDs[element.DirectionUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -327,7 +398,15 @@ namespace FireAdministrator.ViewModels
 				foreach (var element in plan.ElementPolygonGKDirections)
 				{
 					if (element.DirectionUID != Guid.Empty)
-						element.DirectionUID = DirectionUIDs[element.DirectionUID];
+						element.DirectionUID = GKDirectionUIDs[element.DirectionUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementGKDoors)
+				{
+					if (element.DoorUID != Guid.Empty)
+						element.DoorUID = GKDeviceUIDs[element.DoorUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
@@ -357,30 +436,119 @@ namespace FireAdministrator.ViewModels
 				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
 				{
 					var zoneUID = clause.ZoneUIDs[i];
-					clause.ZoneUIDs[i] = ZoneUIDs[zoneUID];
+					clause.ZoneUIDs[i] = GKZoneUIDs[zoneUID];
 				}
 				for (int i = 0; i < clause.GuardZoneUIDs.Count; i++)
 				{
 					var guardZoneUID = clause.GuardZoneUIDs[i];
-					clause.GuardZoneUIDs[i] = GuardZoneUIDs[guardZoneUID];
+					clause.GuardZoneUIDs[i] = GKGuardZoneUIDs[guardZoneUID];
 				}
 				for (int i = 0; i < clause.DeviceUIDs.Count; i++)
 				{
 					var deviceUID = clause.DeviceUIDs[i];
-					clause.DeviceUIDs[i] = DeviceUIDs[deviceUID];
+					clause.DeviceUIDs[i] = GKDeviceUIDs[deviceUID];
 				}
 				for (int i = 0; i < clause.DirectionUIDs.Count; i++)
 				{
 					var directionUID = clause.DirectionUIDs[i];
-					clause.DirectionUIDs[i] = DirectionUIDs[directionUID];
+					clause.DirectionUIDs[i] = GKDirectionUIDs[directionUID];
 				}
 			}
 		}
 
-		Dictionary<Guid, Guid> DeviceUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> ZoneUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GuardZoneUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> DirectionUIDs = new Dictionary<Guid, Guid>();
+		void CreateNewSKDUIDs()
+		{
+			foreach (var device in SKDConfiguration.Devices)
+			{
+				var uid = Guid.NewGuid();
+				SKDDeviceUIDs.Add(device.UID, uid);
+				device.UID = uid;
+			}
+			foreach (var zone in SKDConfiguration.Zones)
+			{
+				var uid = Guid.NewGuid();
+				SKDZoneUIDs.Add(zone.UID, uid);
+				zone.UID = uid;
+			}
+			foreach (var door in SKDConfiguration.Doors)
+			{
+				var uid = Guid.NewGuid();
+				SKDDoorUIDs.Add(door.UID, uid);
+				door.UID = uid;
+			}
+
+			foreach (var device in SKDConfiguration.Devices)
+			{
+				if (device.ZoneUID != Guid.Empty)
+				{
+					var zoneUID = device.ZoneUID;
+					device.ZoneUID = SKDZoneUIDs[zoneUID];
+				}
+			}
+
+			foreach (var door in SKDConfiguration.Doors)
+			{
+				if (door.InDeviceUID != Guid.Empty)
+				{
+					var inDeviceUID = door.InDeviceUID;
+					door.InDeviceUID = SKDDeviceUIDs[inDeviceUID];
+				}
+				if (door.OutDeviceUID != Guid.Empty)
+				{
+					var outDeviceUID = door.OutDeviceUID;
+					door.OutDeviceUID = SKDDeviceUIDs[outDeviceUID];
+				}
+			}
+
+			foreach (var plan in PlansConfiguration.AllPlans)
+			{
+				foreach (var element in plan.ElementSKDDevices)
+				{
+					if (element.DeviceUID != Guid.Empty)
+						element.DeviceUID = SKDDeviceUIDs[element.DeviceUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementRectangleSKDZones)
+				{
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = SKDZoneUIDs[element.ZoneUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementPolygonSKDZones)
+				{
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = SKDZoneUIDs[element.ZoneUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementDevices)
+				{
+					if (element.UID != Guid.Empty)
+						element.UID = SKDDoorUIDs[element.UID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+			}
+		}
+
+		Dictionary<Guid, Guid> GKDeviceUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKZoneUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKGuardZoneUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKDirectionUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKDoorUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKCodeUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKScheduleUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
+
+		Dictionary<Guid, Guid> SKDDeviceUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> SKDZoneUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> SKDDoorUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> PlenElementUIDs = new Dictionary<Guid, Guid>();
 	}
 }

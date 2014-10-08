@@ -14,6 +14,7 @@
 			</Grid.RowDefinitions>
 			<Image Grid.Row="0" Grid.Column="0" Source="{Binding IconSource, Converter={StaticResource NullToImageConverter}}" Width="16" Stretch="Uniform" Margin="0 0 5 0" />
 			<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FilterTitle}" VerticalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
 		</Grid>
 	</AlignableWrapPanel>
 </UserControl>
