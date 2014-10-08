@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 using System.Linq;
 
 namespace FiresecAPI.Automation
@@ -54,14 +53,17 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public List<ExplicitValue> DefaultExplicitValues { get; set; }
 
+		[DataMember]
+		public bool IsReference { get; set; }
+
 		public void ResetValue()
 		{
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(DefaultExplicitValue, ExplicitValue);
+			PropertyCopy.Copy(DefaultExplicitValue, ExplicitValue);
 			ExplicitValues = new List<ExplicitValue>();
 			foreach (var defaultExplicitValue in DefaultExplicitValues)
 			{
 				var newExplicitValue = new ExplicitValue();
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValue, newExplicitValue);
+				PropertyCopy.Copy(defaultExplicitValue, newExplicitValue);
 				ExplicitValues.Add(newExplicitValue);
 			}
 		}
@@ -71,11 +73,11 @@ namespace FiresecAPI.Automation
 			ExplicitValues = new List<ExplicitValue>();
 			if (argument.VariableScope == VariableScope.ExplicitValue)
 			{
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(argument.ExplicitValue, ExplicitValue);				
+				PropertyCopy.Copy(argument.ExplicitValue, ExplicitValue);				
 				foreach (var explicitValue in argument.ExplicitValues)
 				{
 					var newExplicitValue = new ExplicitValue();
-					PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
+					PropertyCopy.Copy(explicitValue, newExplicitValue);
 					ExplicitValues.Add(newExplicitValue);
 				}
 			}
@@ -96,13 +98,25 @@ namespace FiresecAPI.Automation
 						return;
 					variable = globalVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
 				}
-
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.ExplicitValue, ExplicitValue);
-				foreach (var explicitValue in variable.ExplicitValues)
-				{					
-					var newExplicitValue = new ExplicitValue();
-					PropertyCopy.Copy<ExplicitValue, ExplicitValue>(explicitValue, newExplicitValue);
-					ExplicitValues.Add(newExplicitValue);
+				if (variable == null)
+					return;
+				if (variable.IsReference)
+				{
+					ExplicitValue = variable.ExplicitValue;
+					foreach (var explicitValue in variable.ExplicitValues)
+					{
+						ExplicitValues.Add(explicitValue);
+					}
+				}
+				else
+				{
+					PropertyCopy.Copy(variable.ExplicitValue, ExplicitValue);
+					foreach (var explicitValue in variable.ExplicitValues)
+					{
+						var newExplicitValue = new ExplicitValue();
+						PropertyCopy.Copy(explicitValue, newExplicitValue);
+						ExplicitValues.Add(newExplicitValue);
+					}
 				}
 			}
 		}

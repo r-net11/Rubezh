@@ -44,6 +44,9 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public bool IsActive { get; set; }
 
+		[DataMember]
+		public int TimeOut { get; set; }
+
 		public void ResetVariables(List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables)
 		{
 			foreach (var variable in Variables)

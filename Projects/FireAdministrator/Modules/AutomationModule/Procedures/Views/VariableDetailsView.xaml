@@ -44,6 +44,11 @@
 						<Label Content="Список" HorizontalAlignment="Left" />
 						<CheckBox Width="202" IsChecked="{Binding IsList}" IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
 					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right" Height="28">
+						<Label Content="Ссылка" HorizontalAlignment="Left" />
+						<CheckBox Width="202" IsChecked="{Binding IsReference}" HorizontalAlignment="Right" Margin="2, 7, 0, 0" />
+					</StackPanel>
 				</StackPanel>
 
 				<Views:ExplicitValuesView Grid.Column="2" Grid.Row="1" DataContext="{Binding ExplicitValuesViewModel}"
