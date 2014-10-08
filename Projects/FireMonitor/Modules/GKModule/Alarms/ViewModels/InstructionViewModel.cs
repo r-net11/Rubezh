@@ -6,21 +6,19 @@ namespace GKModule.ViewModels
 {
 	public class InstructionViewModel : DialogViewModel
 	{
+		public bool HasContent { get; private set; }
+		public GKAlarmType AlarmType { get; private set; }
+		public GKStateBit StateType { get; private set; }
+		public GKInstruction Instruction { get; private set; }
+
 		public InstructionViewModel(GKDevice device, GKZone zone, GKDirection direction, GKAlarmType alarmType)
 		{
-			
 			AlarmType = alarmType;
-
 			Instruction = FindInstruction(device, zone, direction);
 			Title = Instruction != null ? Instruction.Name : "";
 			HasContent = Instruction != null;
 			
 		}
-
-		public bool HasContent { get; private set; }
-		public GKAlarmType AlarmType { get; private set; }
-		public GKStateBit StateType { get; private set; }
-		public GKInstruction Instruction { get; private set; }
 
 		GKInstruction FindInstruction(GKDevice device, GKZone zone, GKDirection direction)
 		{

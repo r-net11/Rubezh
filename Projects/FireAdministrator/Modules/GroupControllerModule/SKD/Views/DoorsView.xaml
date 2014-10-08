@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
-			<SwitchCase Then="Дверь может быть размещена на плане" When="Multiple" />
-			<SwitchCase Then="Дверь не размещена на плане" When="NotPresent" />
-			<SwitchCase Then="Дверь нельзя размещать на плане" When="Prohibit" />
-			<SwitchCase Then="Дверь уже размещена на плане" When="Single" />
+			<SwitchCase Then="Точка доступа может быть размещена на плане" When="Multiple" />
+            <SwitchCase Then="Точка доступа не размещена на плане" When="NotPresent" />
+            <SwitchCase Then="Точку доступа нельзя размещать на плане" When="Prohibit" />
+            <SwitchCase Then="Точка доступа уже размещена на плане" When="Single" />
 		</SwitchConverter>
 	</UserControl.Resources>
 	<Grid>

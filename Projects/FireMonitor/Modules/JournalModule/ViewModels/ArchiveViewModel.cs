@@ -99,6 +99,8 @@ namespace JournalModule.ViewModels
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
 			if (showArchiveEventArgs.GKGuardZone != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKGuardZone.UID);
+			if (showArchiveEventArgs.GKDoor != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDoor.UID);
 			if (showArchiveEventArgs.SKDDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDevice.UID);
 			if (showArchiveEventArgs.SKDZone != null)

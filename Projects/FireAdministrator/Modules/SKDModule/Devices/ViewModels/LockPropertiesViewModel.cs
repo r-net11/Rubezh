@@ -189,7 +189,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				var doorConfiguration = result.Result;
-				if (doorConfiguration.AccessState == SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL && doorConfiguration.DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN)
+				if (doorConfiguration.DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN)
 					MessageBoxService.ShowWarningExtended("Неизвестный метод открытия двери");
 				Update(doorConfiguration);
 				HasChanged = false;

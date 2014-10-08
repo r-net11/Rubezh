@@ -34,12 +34,10 @@ namespace SKDModule.ViewModels
 			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
 
 			Zone = zone;
+			Title = Zone.PresentationName;
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
-
-			Title = Zone.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

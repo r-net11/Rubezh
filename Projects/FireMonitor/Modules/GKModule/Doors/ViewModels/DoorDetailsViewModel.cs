@@ -38,7 +38,6 @@ namespace GKModule.ViewModels
 			InitializePlans();
 
 			Title = Door.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

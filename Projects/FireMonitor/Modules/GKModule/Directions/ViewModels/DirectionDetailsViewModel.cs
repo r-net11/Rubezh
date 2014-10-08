@@ -26,6 +26,7 @@ namespace GKModule.ViewModels
 		public DirectionDetailsViewModel(GKDirection direction)
 		{
 			Direction = direction;
+			Title = Direction.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
@@ -38,9 +39,6 @@ namespace GKModule.ViewModels
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ForbidStartCommand = new RelayCommand(OnForbidStart);
-
-			Title = Direction.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()
