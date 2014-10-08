@@ -10,11 +10,15 @@ namespace SettingsModule.ViewModels
 	{
 		public ThemeViewModel ThemeContext { get; set; }
 
+		public SettingsViewModel()
+		{
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ShowErrorsFilterCommand = new RelayCommand(OnShowErrorsFilter);
+		}
+
 		public void Initialize()
 		{
 			ThemeContext = new ThemeViewModel();
-			ShowSettingsCommand = new RelayCommand(OnShowSettings);
-			ShowErrorsFilterCommand = new RelayCommand(OnShowErrorsFilter);
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

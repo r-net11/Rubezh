@@ -9,6 +9,7 @@ namespace Infrastructure.Common.Services.Ribbon
 	public class RibbonService : IRibbonService
 	{
 		private object _locker = new object();
+
 		#region IRibbonService Members
 
 		public ObservableCollection<RibbonMenuItemViewModel> Items 

@@ -44,9 +44,9 @@ namespace SKDModule.Plans
 			Cache.Add<SKDDoor>(() => SKDManager.SKDConfiguration.Doors);
 		}
 
-		public void Initialize()
+		public override void Initialize()
 		{
-			Cache.BuildAllSafe();
+			base.Initialize();
 			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
 				PictureCacheSource.SKDDevicePicture.LoadCache();
 		}

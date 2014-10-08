@@ -27,6 +27,10 @@ namespace Infrastructure.Client.Plans
 		{
 			Cache.BuildAllSafe();
 		}
+		public virtual void Initialize()
+		{
+			Cache.BuildAllSafe();
+		}
 
 		protected void RegisterDesignerItem<TItem>(DesignerItem designerItem, string group, string iconSource = null)
 			where TItem : IChangedNotification, IPlanPresentable

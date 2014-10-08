@@ -33,11 +33,6 @@ namespace VideoModule.Plans
 			Cache.Add<Camera>(() => FiresecManager.SystemConfiguration.AllCameras);
 		}
 
-		public void Initialize()
-		{
-			Cache.BuildAllSafe();
-		}
-
 		#region IPlanExtension Members
 
 		public override int Index

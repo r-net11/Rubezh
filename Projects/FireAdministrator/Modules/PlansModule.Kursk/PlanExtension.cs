@@ -37,10 +37,6 @@ namespace PlansModule.Kursk
 			Cache.Add<GKDevice>();
 		}
 
-		public void Initialize()
-		{
-		}
-
 		#region IPlanExtension Members
 
 		public override int Index

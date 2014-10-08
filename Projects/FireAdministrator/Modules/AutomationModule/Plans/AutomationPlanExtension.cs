@@ -40,11 +40,6 @@ namespace AutomationModule.Plans
 			Cache.Add<Procedure>(() => FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures);
 		}
 
-		public void Initialize()
-		{
-			Cache.BuildAllSafe();
-		}
-
 		#region IPlanExtension Members
 
 		public override int Index

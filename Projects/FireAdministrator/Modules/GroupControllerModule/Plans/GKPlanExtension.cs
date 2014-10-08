@@ -68,9 +68,9 @@ namespace GKModule.Plans
 			_designerItems = new List<DesignerItem>();
 		}
 
-		public void Initialize()
+		public override void Initialize()
 		{
-			Cache.BuildAllSafe();
+			base.Initialize();
 			using (new TimeCounter("DevicePictureCache.LoadGKCache: {0}"))
 				PictureCacheSource.GKDevicePicture.LoadCache();
 		}
