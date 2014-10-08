@@ -10,6 +10,7 @@ using FiresecService.Properties;
 using FiresecService.ViewModels;
 using GKProcessor;
 using SKDDriver;
+using System.Collections.Generic;
 
 namespace FiresecService.Service
 {
@@ -145,6 +146,26 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.Ping");
+			}
+			return null;
+		}
+
+		public List<ServerTask> GetServerTasks()
+		{
+			try
+			{
+				var result = new List<ServerTask>();
+				for (int i = 0; i < 10; i++)
+				{
+					var serverTask = new ServerTask();
+					serverTask.Name = "Name_" + i.ToString();
+					result.Add(serverTask);
+				}
+				return result;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecService.GetServerTasks");
 			}
 			return null;
 		}

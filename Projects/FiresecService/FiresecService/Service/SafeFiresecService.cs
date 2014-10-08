@@ -107,6 +107,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
 		}
 
+		public List<ServerTask> GetServerTasks()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetServerTasks(); }, "GetServerTasks");
+		}
+
 		public List<CallbackResult> Poll(Guid uid)
 		{
 			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));

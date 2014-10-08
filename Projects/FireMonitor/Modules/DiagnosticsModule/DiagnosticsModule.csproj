@@ -62,7 +62,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\ShowServerEvent.cs" />
+    <Compile Include="ViewModels\ServerViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="ViewModels\TaskViewModel.cs" />
+    <Compile Include="Views\ServerView.xaml.cs">
+      <DependentUpon>ServerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
@@ -71,6 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="DiagnosticsModuleLoader.cs" />
+    <Page Include="Views\ServerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DiagnosticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
