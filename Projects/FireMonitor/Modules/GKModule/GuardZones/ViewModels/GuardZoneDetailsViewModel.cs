@@ -36,11 +36,9 @@ namespace GKModule.ViewModels
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 
 			Zone = zone;
+			Title = Zone.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
-
-			Title = Zone.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

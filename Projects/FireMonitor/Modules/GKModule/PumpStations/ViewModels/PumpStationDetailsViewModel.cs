@@ -25,6 +25,7 @@ namespace GKModule.ViewModels
 		public PumpStationDetailsViewModel(GKPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
+			Title = PumpStation.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
@@ -37,9 +38,6 @@ namespace GKModule.ViewModels
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ForbidStartCommand = new RelayCommand(OnForbidStart);
-
-			Title = PumpStation.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

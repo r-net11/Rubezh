@@ -35,15 +35,13 @@ namespace SKDModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			Device = device;
+			Title = Device.Name;
 			DeviceStateViewModel = new DeviceStateViewModel(State);
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();
-
-			Title = Device.Name;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

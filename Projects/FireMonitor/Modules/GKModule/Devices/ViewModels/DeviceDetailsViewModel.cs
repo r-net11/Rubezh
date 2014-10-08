@@ -50,7 +50,6 @@ namespace GKModule.ViewModels
 			Title = Device.PresentationName;
 			if (!string.IsNullOrEmpty(Device.Description))
 				Title += " (" + Device.Description + ")";
-			TopMost = true;
 
 			StartMeasureParametersMonitoring();
 		}

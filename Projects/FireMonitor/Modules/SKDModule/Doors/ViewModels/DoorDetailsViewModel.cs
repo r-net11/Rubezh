@@ -33,12 +33,10 @@ namespace SKDModule.ViewModels
 			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
 
 			Door = door;
+			Title = Door.PresentationName;
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
-
-			Title = Door.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()
