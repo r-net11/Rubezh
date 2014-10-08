@@ -27,6 +27,7 @@ namespace FireMonitor.Layout.ViewModels
 		public LayoutModel Layout { get; private set; }
 		private XmlLayoutSerializer _serializer;
 		private AutoActivationViewModel _autoActivationViewModel;
+        private SoundViewModel _soundViewModel;
 
 		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
 			: base("Monitor.Layout")
@@ -178,7 +179,10 @@ namespace FireMonitor.Layout.ViewModels
 			RibbonContent.Items[2][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "/Controls;component/Images/BMapOn.png" : "/Controls;component/Images/BMapOff.png";
 			RibbonContent.Items[2][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
 			RibbonContent.Items[2][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
-		}
+            RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "/Controls;component/Images/BSound.png" : "/Controls;component/Images/BMute.png";
+            RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
+            RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
+        }
 		private void AddRibbonItem()
 		{
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "/Controls;component/Images/BUser.png"));
@@ -188,10 +192,12 @@ namespace FireMonitor.Layout.ViewModels
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "/Controls;component/Images/BLayouts.png", item.Description))), "/Controls;component/Images/BLayouts.png"));
 
 			_autoActivationViewModel = new AutoActivationViewModel();
+            _soundViewModel = new SoundViewModel();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangePlansAutoActivationCommand),
+				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.PlaySoundCommand) { IsNewGroup = true },
 			}, "/Controls;component/Images/BConfig.png"));
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });

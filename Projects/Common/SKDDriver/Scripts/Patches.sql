@@ -834,7 +834,7 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('PassCardTemplate')	
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DepartmentChiefUID')
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PassCardTemplate')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationCardTemplate')
 	BEGIN
