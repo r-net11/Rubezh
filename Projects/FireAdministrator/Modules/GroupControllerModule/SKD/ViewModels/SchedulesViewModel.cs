@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void CreateSchedule(CreateXScheduleEventArg createScheduleEventArg)
+		public void CreateSchedule(CreateGKScheduleEventArg createScheduleEventArg)
 		{
 			ScheduleDetailsViewModel result = OnAddResult();
 			if (result == null)

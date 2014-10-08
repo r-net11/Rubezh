@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void CreateZone(CreateXZoneEventArg createZoneEventArg)
+		public void CreateZone(CreateGKZoneEventArg createZoneEventArg)
 		{
 			ZoneDetailsViewModel result = OnAddResult();
 			if (result == null)

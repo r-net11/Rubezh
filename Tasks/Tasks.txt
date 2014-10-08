@@ -29,6 +29,7 @@
 
 
 СИСТЕМА
+- Переименовать MessageBoxService
 - ActualizeHelper + ValidateVersion
 - Автоактивация главного окна сбивает фокус ввода в картотеке
 - ConfirmationView. Закрытие окна

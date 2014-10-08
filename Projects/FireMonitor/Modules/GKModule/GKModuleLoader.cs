@@ -75,8 +75,8 @@ namespace GKModule
 			//JournalsViewModel = new JournalsViewModel();
 			//ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
-			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Unsubscribe(OnShowAlarms);
-			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
+			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Unsubscribe(OnShowAlarms);
+			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Subscribe(OnShowAlarms);
 			//ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Unsubscribe(OnShowArchive);
 			//ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
 			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Unsubscribe(OnShowGKDebug);
@@ -262,7 +262,7 @@ namespace GKModule
 				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowXAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
+						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 						new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						_zonesNavigationItem,
 						_guardZonesNavigationItem,

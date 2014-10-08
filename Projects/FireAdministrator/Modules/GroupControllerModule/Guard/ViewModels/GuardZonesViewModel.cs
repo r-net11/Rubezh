@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void CreateZone(CreateXGuardZoneEventArg createGuardZoneEventArg)
+		public void CreateZone(CreateGKGuardZoneEventArg createGuardZoneEventArg)
 		{
 			GuardZoneDetailsViewModel result = OnAddResult();
 			if (result == null)

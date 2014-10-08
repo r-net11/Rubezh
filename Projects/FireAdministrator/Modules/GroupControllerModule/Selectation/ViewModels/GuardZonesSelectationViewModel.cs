@@ -150,8 +150,8 @@ namespace GKModule.ViewModels
 		public RelayCommand CreateNewCommand { get; private set; }
 		void OnCreateNew()
 		{
-			var createZoneEventArg = new CreateXGuardZoneEventArg();
-			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Publish(createZoneEventArg);
+			var createZoneEventArg = new CreateGKGuardZoneEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
 				TargetZones.Add(createZoneEventArg.Zone);

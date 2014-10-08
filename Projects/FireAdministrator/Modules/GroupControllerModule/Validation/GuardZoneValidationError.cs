@@ -5,7 +5,7 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	class GuardZoneValidationError : ObjectValidationError<GKGuardZone, ShowXGuardZoneEvent, Guid>
+	class GuardZoneValidationError : ObjectValidationError<GKGuardZone, ShowGKGuardZoneEvent, Guid>
 	{
 		public GuardZoneValidationError(GKGuardZone guardZone, string error, ValidationErrorLevel level)
 			: base(guardZone, error, level)

@@ -19,8 +19,8 @@ namespace GKModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
-			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<GKJournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<GKJournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 
 			JournalFilterViewModel = new JournalFilterViewModel(journalFilter);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();

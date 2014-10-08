@@ -52,8 +52,8 @@ namespace GKModule.Plans.ViewModels
 		private void OnCreate()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			var createZoneEventArg = new CreateXZoneEventArg();
-			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
+			var createZoneEventArg = new CreateGKZoneEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
 				GKPlanExtension.Instance.Cache.BuildSafe<GKZone>();
@@ -67,7 +67,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Publish(SelectedZone.Zone.UID);
+			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Publish(SelectedZone.Zone.UID);
 			SelectedZone.Update(SelectedZone.Zone);
 		}
 		private bool CanEdit()

@@ -216,7 +216,7 @@ namespace GKModule.ViewModels
 			return SelectedDirection != null && SelectedDirection.SelectedOutputDevice != null;
 		}
 
-		public void CreateDirection(CreateXDirectionEventArg createDirectionEventArg)
+		public void CreateDirection(CreateGKDirectionEventArg createDirectionEventArg)
 		{
 			DirectionDetailsViewModel result = OnAddResult();
 			if (result == null)

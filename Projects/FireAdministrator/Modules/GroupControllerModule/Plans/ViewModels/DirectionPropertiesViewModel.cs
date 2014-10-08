@@ -52,8 +52,8 @@ namespace GKModule.Plans.ViewModels
 		private void OnCreate()
 		{
 			Guid xdirectionUID = _element.DirectionUID;
-			var createDirectionEventArg = new CreateXDirectionEventArg();
-			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
+			var createDirectionEventArg = new CreateGKDirectionEventArg();
+			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Publish(createDirectionEventArg);
 			if (createDirectionEventArg.Direction != null)
 				_element.DirectionUID = createDirectionEventArg.Direction.UID;
 			GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
@@ -66,7 +66,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
 			SelectedXDirection.Update(SelectedXDirection.Direction);
 		}
 		private bool CanEdit()
