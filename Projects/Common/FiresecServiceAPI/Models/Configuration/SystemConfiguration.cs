@@ -45,26 +45,6 @@ namespace FiresecAPI.Models
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			if (Instructions == null)
-			{
-				Instructions = new List<Instruction>();
-				result = false;
-			}
-			if (AutomationConfiguration == null)
-			{
-				AutomationConfiguration = new AutomationConfiguration();
-				result = false;
-			}
-			if (AutomationConfiguration.GlobalVariables == null)
-			{
-				AutomationConfiguration.GlobalVariables = new List<Variable>();
-				result = false;
-			}
-			if (JournalFilters == null)
-			{
-				JournalFilters = new List<JournalFilter>();
-				result = false;
-			}
 			return result;
 		}
 

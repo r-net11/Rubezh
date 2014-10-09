@@ -19,19 +19,10 @@ namespace FiresecAPI.Models
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			if (Layouts == null)
-			{
-				Layouts = new List<Layout>();
-				result = false;
-			}
 			foreach (var layout in Layouts)
 			{
 				if (layout.UID == Guid.Empty)
 					layout.UID = Guid.NewGuid();
-				if (layout.SplitterSize == 0)
-					layout.SplitterSize = 4;
-				if (layout.HostNameOrAddressList == null)
-					layout.HostNameOrAddressList = new List<string>();
 			}
 			return result;
 		}
