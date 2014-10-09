@@ -6,8 +6,11 @@ using System.Windows.Markup;
 using System.Xml;
 using System.Xml.Xsl;
 using Common;
+using System.Windows.Media;
+using SharpVectors.Renderers.Wpf;
+using SharpVectors.Converters;
 
-namespace Infrastructure.Client.Library
+namespace Infrastructure.Client.Converters
 {
 	public static class SVGConverters
 	{
@@ -113,5 +116,17 @@ namespace Infrastructure.Client.Library
 				return false;
 			return true;
 		}
+
+        public static DrawingGroup ReadDrawing(string svgFileName)
+        {
+            var settings = new WpfDrawingSettings()
+            {
+                IncludeRuntime = false,
+                TextAsGeometry = true,
+                OptimizePath = true,
+            };
+            using (FileSvgReader reader = new FileSvgReader(settings))
+                return reader.Read(svgFileName);
+        }
 	}
 }

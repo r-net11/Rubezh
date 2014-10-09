@@ -37,9 +37,32 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="SharpVectors.Converters">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Converters.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Core">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Css">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Css.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Dom">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Model">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Rendering.Wpf">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Rendering.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpVectors.Runtime">
+      <HintPath>..\..\..\3rdParty\SharpVectors\SharpVectors.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -63,6 +86,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseBootstrapper.cs" />
+    <Compile Include="Converters\SVGConverter.cs" />
+    <Compile Include="Converters\WMFConverter.cs" />
     <Compile Include="Layout\LayoutPartIdentities.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartTitleViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartPictureViewModel.cs" />
@@ -74,7 +99,6 @@
       <DependentUpon>LayoutPartTitleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\BaseFrameViewModel.cs" />
-    <Compile Include="Library\SVGConverter.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">

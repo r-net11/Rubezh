@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Devices;
 using Microsoft.Win32;
+using Infrastructure.Client.Converters;
 
 namespace Infrastructure.Client.Library
 {
