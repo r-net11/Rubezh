@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.Name))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.Name))
 			{
 				foreach (var mptDevice in SelectedMPT.MPT.MPTDevices)
 				{

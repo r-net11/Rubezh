@@ -336,25 +336,25 @@ namespace SKDModule.ViewModels
 		{
 			if (EndDate < StartDate)
 			{
-				MessageBoxService.ShowWarning2("Дата конца действия пропуска не может быть раньше даты начала действия");
+				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
 				return false;
 			}
 			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
 			{
 				if (EndDate < DateTime.Now)
 				{
-					MessageBoxService.ShowWarning2("Дата конца действия пропуска не может быть меньше теущей даты");
+					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
 					return false;
 				}
 			}
 			if(Number <= 0)
 			{
-				MessageBoxService.ShowWarning2("Номер карты должен быть задан в пределах от 1 до " + Int32.MaxValue.ToString());
+				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах от 1 до " + Int32.MaxValue.ToString());
 				return false;
 			}
 			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
-				MessageBoxService.ShowWarning2("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
+				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
 				return false;
 			}
 			if (!string.IsNullOrEmpty(Password))
@@ -363,7 +363,7 @@ namespace SKDModule.ViewModels
 				{
 					if (!Char.IsDigit(c))
 					{
-						MessageBoxService.ShowWarning2("Пароль может содержать только цифры");
+						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
 						return false;
 					}
 				}
@@ -398,7 +398,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Card.Password != null && Card.Password.Length > 50)
 			{
-				MessageBoxService.Show2("Значение поля 'Пароль' не может быть длиннее 50 символов");
+				MessageBoxService.Show("Значение поля 'Пароль' не может быть длиннее 50 символов");
 				return false;
 			}
 			return true;

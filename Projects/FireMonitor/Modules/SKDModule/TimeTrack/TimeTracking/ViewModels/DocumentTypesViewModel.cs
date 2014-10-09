@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить тип документа?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить тип документа?"))
 			{
 				DocumentTypeViewModel OrganisationViewModel = SelectedDocumentType;
 				if (!OrganisationViewModel.IsOrganisation)

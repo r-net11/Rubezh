@@ -45,11 +45,11 @@ namespace DevicesModule.ViewModels
 					{
 						stringBuilder.AppendLine(error);
 					}
-					MessageBoxService.ShowExtended(stringBuilder.ToString());
+					MessageBoxService.Show(stringBuilder.ToString());
 				}
 				else
 				{
-					MessageBoxService.ShowExtended("Операция завершилась успешно");
+					MessageBoxService.Show("Операция завершилась успешно");
 				}
 			}
 		}

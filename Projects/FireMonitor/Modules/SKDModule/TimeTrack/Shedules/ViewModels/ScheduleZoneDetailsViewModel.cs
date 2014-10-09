@@ -58,7 +58,7 @@ namespace SKDModule.ViewModels
 			{
 				if (_schedule.Zones.Any(x => x.ZoneUID == SelectedZone.Zone.UID && ScheduleZone.UID != x.UID))
 				{
-					MessageBoxService.ShowWarning2("Выбранная зона уже включена");
+					MessageBoxService.ShowWarning("Выбранная зона уже включена");
 					return false;
 				}
 			}

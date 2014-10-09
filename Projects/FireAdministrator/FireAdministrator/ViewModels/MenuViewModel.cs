@@ -37,7 +37,7 @@ namespace FireAdministrator.ViewModels
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
-				MessageBoxService.ShowExtended("У вас нет прав на сохранение конфигурации");
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 				e.Cancel = true;
 				return;
 			}
@@ -59,7 +59,7 @@ namespace FireAdministrator.ViewModels
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 			{
-				MessageBoxService.ShowExtended("У вас нет прав на сохранение конфигурации");
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 				return false;
 			}
 			return ConfigManager.SetNewConfig();
@@ -138,11 +138,11 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SetNewConfigCommand { get; private set; }
 		void OnSetNewConfig()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите перезаписать текущую конфигурацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?"))
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))
 				{
-					MessageBoxService.ShowExtended("У вас нет прав на сохранение конфигурации");
+					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 					return;
 				}
 				ConfigManager.SetNewConfig();

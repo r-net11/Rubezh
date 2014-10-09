@@ -264,7 +264,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (Device.IndicatorLogic.Device != null && Device.IndicatorLogic.Device.Driver.DriverType == DriverType.Indicator)
 			{
-				MessageBoxService.ShowErrorExtended("Разрешено редактировать только исходный индикатор, привязанный к НС");
+				MessageBoxService.ShowError("Разрешено редактировать только исходный индикатор, привязанный к НС");
 				return;
 			}
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
@@ -309,7 +309,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (Driver.IsPanel)
 			{
-				if (!MessageBoxService.ShowQuestionYesNo("Вы действительно хотите удалить устройство"))
+				if (!MessageBoxService.ShowQuestion("Вы действительно хотите удалить устройство"))
 					return;
 			}
 

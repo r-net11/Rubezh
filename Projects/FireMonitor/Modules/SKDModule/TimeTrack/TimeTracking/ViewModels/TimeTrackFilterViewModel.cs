@@ -106,7 +106,7 @@ namespace SKDModule.ViewModels
 
 			if (Period == TimeTrackingPeriod.Period && StartDate >= EndDate)
 			{
-				MessageBoxService.ShowWarning2("Дата окончания не может быть раньше даты начала");
+				MessageBoxService.ShowWarning("Дата окончания не может быть раньше даты начала");
 				return false;
 			}
 

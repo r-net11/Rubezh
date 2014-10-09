@@ -19,7 +19,7 @@ namespace FiresecClient.SKDHelpers
 					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
 					showError)
 				{
-					MessageBoxService.ShowWarningExtended(operationResult.Error);
+					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				return false;
 			}
@@ -40,7 +40,7 @@ namespace FiresecClient.SKDHelpers
 					!operationResult.Error.Contains("Could not open a connection to SQL Server") &&
 					showError)
 				{
-					MessageBoxService.ShowWarningExtended(operationResult.Error);
+					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				return default(T);
 			}

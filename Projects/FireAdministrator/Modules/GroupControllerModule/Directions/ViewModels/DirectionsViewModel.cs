@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
 			{
 				GKManager.RemoveDirection(SelectedDirection.Direction);
 				Directions.Remove(SelectedDirection);
@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить все пустые направления ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
 			{
 				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count == 0).ToList();
 				foreach (var emptyDirection in emptyDirections)

@@ -186,7 +186,7 @@ namespace GKModule.ViewModels
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
-				MessageBoxService.ShowException2(e);
+				MessageBoxService.ShowException(e);
 			}
 		}
 

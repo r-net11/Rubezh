@@ -80,7 +80,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Model.Name == "НЕТ")
 			{
-				MessageBoxService.ShowWarning2("Запрещенное название");
+				MessageBoxService.ShowWarning("Запрещенное название");
 				return false;
 			}
 

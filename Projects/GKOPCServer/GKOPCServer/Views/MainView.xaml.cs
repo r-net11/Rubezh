@@ -39,7 +39,7 @@ namespace GKOPCServer.Views
 		}
 		private void OnClose(object sender, EventArgs e)
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите остановить OPC сервер?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить OPC сервер?"))
 			{
 				_window.Close();
 				NotifyIconService.Stop();

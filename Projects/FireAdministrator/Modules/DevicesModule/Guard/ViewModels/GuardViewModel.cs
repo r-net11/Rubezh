@@ -135,8 +135,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (DeviceUsers.Count == 0)
 				{
-					var result = MessageBoxService.ShowConfirmationExtended("Вы действительно хотите стереть всех охранных пользователей из устройства?", "Не выбрано ни одного пользователя");
-					if (result == MessageBoxResult.No)
+					if (!MessageBoxService.ShowConfirmation("Вы действительно хотите стереть всех охранных пользователей из устройства?", "Не выбрано ни одного пользователя"))
 						return;
 				}
 				if (Validate())
@@ -173,17 +172,17 @@ namespace DevicesModule.ViewModels
 			{
 				if (deviceUser.GuardUser.Name != null && !Validator.ValidateString(deviceUser.GuardUser.Name))
 				{
-					MessageBoxService.ShowErrorExtended("Недопустимые символы в имени пользователя " + deviceUser.GuardUser.Name);
+					MessageBoxService.ShowError("Недопустимые символы в имени пользователя " + deviceUser.GuardUser.Name);
 					return false;
 				}
 				if (string.IsNullOrEmpty(deviceUser.GuardUser.Password))
 				{
-					MessageBoxService.ShowErrorExtended("Отсутствует пароль у пользователя " + deviceUser.GuardUser.Name);
+					MessageBoxService.ShowError("Отсутствует пароль у пользователя " + deviceUser.GuardUser.Name);
 					return false;
 				}
 				if (DeviceUsers.Count(x => x.GuardUser.Password == deviceUser.GuardUser.Password) > 1)
 				{
-					MessageBoxService.ShowErrorExtended("Задиблирован пароль у пользователя " + deviceUser.GuardUser.Name);
+					MessageBoxService.ShowError("Задиблирован пароль у пользователя " + deviceUser.GuardUser.Name);
 					return false;
 				}
 
@@ -195,7 +194,7 @@ namespace DevicesModule.ViewModels
 				}
 				if (zones.Count == 0)
 				{
-					MessageBoxService.ShowErrorExtended("Отсутствуют зоны у пользователя " + deviceUser.GuardUser.Name);
+					MessageBoxService.ShowError("Отсутствуют зоны у пользователя " + deviceUser.GuardUser.Name);
 					return false;
 				}
 			}

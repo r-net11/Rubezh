@@ -274,7 +274,7 @@ namespace VideoModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.ShowWarningExtended(e.Message);
+				MessageBoxService.ShowWarning(e.Message);
 			}
 		}
 
@@ -331,7 +331,7 @@ namespace VideoModule.ViewModels
 					if (CamerasViewModel.Current.SelectedCamera.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1))&&
 						x.Camera != Camera))
 					{
-						MessageBoxService.ShowErrorExtended("Канал с таким номером уже существует", "Сообщение");
+						MessageBoxService.ShowError("Канал с таким номером уже существует", "Сообщение");
 						return false;
 					}
 				}
@@ -341,7 +341,7 @@ namespace VideoModule.ViewModels
 					if (CamerasViewModel.Current.SelectedCamera.Parent.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1))&&
 						x.Camera != Camera))
 					{
-						MessageBoxService.ShowErrorExtended("Канал с таким номером уже существует", "Сообщение");
+						MessageBoxService.ShowError("Канал с таким номером уже существует", "Сообщение");
 						return false;
 					}
 				}

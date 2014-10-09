@@ -18,7 +18,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове WaitHelper.Execute");
-				MessageBoxService.ShowExceptionExtended(e);
+				MessageBoxService.ShowException(e);
 			}
 			finally
 			{

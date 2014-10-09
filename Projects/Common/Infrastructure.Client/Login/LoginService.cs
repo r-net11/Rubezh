@@ -66,7 +66,7 @@ namespace Infrastructure.Client.Login
 						DialogService.ShowModalWindow(loginViewModel);
 				}
 				if (!string.IsNullOrEmpty(loginViewModel.Message))
-					MessageBoxService.ShowExtended(loginViewModel.Message);
+					MessageBoxService.Show(loginViewModel.Message);
 				isAutoconnect = false;
 			}
 			if (loginViewModel.IsConnected && saveCredential && (Settings.Default.UserName != loginViewModel.UserName || Settings.Default.Password != (loginViewModel.SavePassword ? loginViewModel.Password : string.Empty)))

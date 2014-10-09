@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarningExtended("Название не может быть пустым");
+				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
 			Procedure.Name = Name;

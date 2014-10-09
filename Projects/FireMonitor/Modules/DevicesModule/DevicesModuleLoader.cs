@@ -103,7 +103,7 @@ namespace DevicesModule
 					var connectionResult = FiresecManager.InitializeFiresecDriver(true);
 					if (connectionResult.HasError)
 					{
-						MessageBoxService.ShowError2(connectionResult.Error);
+						MessageBoxService.ShowError(connectionResult.Error);
 						return false;
 					}
 				}
@@ -116,7 +116,7 @@ namespace DevicesModule
 				FiresecManager.FSAgent.Start();
 
 				if (LoadingErrorManager.HasError)
-					MessageBoxService.ShowWarning2(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
+					MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке драйвера FireSec");
 
 				if (firstTime)
 				{
@@ -135,7 +135,7 @@ namespace DevicesModule
 			LoadingService.DoStep("Проверка HASP-ключа");
 			var operationResult = FiresecManager.FiresecDriver.CheckHaspPresence();
 			if (operationResult.HasError || !operationResult.Result)
-				MessageBoxService.ShowWarning2("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
+				MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
 		}
 
 		public override void AfterInitialize()

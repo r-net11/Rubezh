@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.Name))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.Name))
 			{
 				GKManager.Delays.Remove(SelectedDelay.Delay);
 				Delays.Remove(SelectedDelay);

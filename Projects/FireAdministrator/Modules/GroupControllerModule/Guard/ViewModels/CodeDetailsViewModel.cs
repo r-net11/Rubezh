@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowErrorExtended(result.Error);
+				MessageBoxService.ShowError(result.Error);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}
@@ -124,12 +124,12 @@ namespace GKModule.ViewModels
 				var result = FiresecManager.FiresecService.GKSetSingleParameter(Code, baseDescriptor.Parameters);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowErrorExtended(result.Error);
+					MessageBoxService.ShowError(result.Error);
 				}
 			}
 			else
 			{
-				MessageBoxService.ShowErrorExtended("Ошибка. Отсутствуют параметры");
+				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
 			}
 		}
 
@@ -137,14 +137,14 @@ namespace GKModule.ViewModels
 		{
 			if (Code.GkDatabaseParent == null)
 			{
-				MessageBoxService.ShowErrorExtended("Код не относится ни к одному ГК");
+				MessageBoxService.ShowError("Код не относится ни к одному ГК");
 				return false;
 			}
 
 			var result = FiresecManager.FiresecService.GKGKHash(Code.GkDatabaseParent);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowErrorExtended("Ошибка при сравнении конфигураций. Операция запрещена");
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
 				return false;
 			}
 
@@ -152,7 +152,7 @@ namespace GKModule.ViewModels
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
-			MessageBoxService.ShowErrorExtended("Конфигурации различны. Операция запрещена");
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
 			return false;
 		}
 
@@ -160,7 +160,7 @@ namespace GKModule.ViewModels
 		{
 			if (Code.No != No && GKManager.DeviceConfiguration.Codes.Any(x => x.No == No))
 			{
-				MessageBoxService.ShowExtended("Код с таким номером уже существует");
+				MessageBoxService.Show("Код с таким номером уже существует");
 				return false;
 			}
 
@@ -168,7 +168,7 @@ namespace GKModule.ViewModels
 
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowExtended("Имя не может быть пустым");
+				MessageBoxService.Show("Имя не может быть пустым");
 				return false;
 			}
 

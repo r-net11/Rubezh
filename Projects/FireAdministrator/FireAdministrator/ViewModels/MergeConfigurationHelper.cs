@@ -218,7 +218,7 @@ namespace FireAdministrator.ViewModels
 			var errorsString = errors.ToString();
 			if (!string.IsNullOrEmpty(errorsString))
 			{
-				MessageBoxService.ShowErrorExtended(errorsString, "В результате слияния конфигурации возникли ошибки");
+				MessageBoxService.ShowError(errorsString, "В результате слияния конфигурации возникли ошибки");
 			}
 		}
 

@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.GetControllerDoorType(DeviceViewModel.Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarningExtended(result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			else
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SetControllerDoorType(DeviceViewModel.Device, SelectedDoorType);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarningExtended(result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			else
@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 
 			if (HasChanged)
 			{
-				if (!MessageBoxService.ShowConfirmation2("Настройки не записаны в прибор. вы уверены, что хотите закрыть окно без записи в контроллер?"))
+				if (!MessageBoxService.ShowConfirmation("Настройки не записаны в прибор. вы уверены, что хотите закрыть окно без записи в контроллер?"))
 					return false;
 			}
 			return base.Save();

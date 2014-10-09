@@ -216,7 +216,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены, что хотите удалить {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите удалить {0}?", ItemRemovingName)))
 			{
 				Remove();
 			}
@@ -261,7 +261,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
 			{
 				Restore();
 			}

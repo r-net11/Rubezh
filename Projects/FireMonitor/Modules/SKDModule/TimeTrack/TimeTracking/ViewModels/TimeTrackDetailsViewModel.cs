@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
-					MessageBoxService.ShowWarning2(operationResult.Error);
+					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				else
 				{
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
-					MessageBoxService.ShowWarning2(operationResult.Error);
+					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				SelectedDocument.Update();
 			}

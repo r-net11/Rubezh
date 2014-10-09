@@ -257,7 +257,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (Zone.No != No && FiresecManager.Zones.Any(x => x.No == No))
 			{
-				MessageBoxService.ShowExtended("Зона с таким номером уже существует");
+				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;
 			}
 

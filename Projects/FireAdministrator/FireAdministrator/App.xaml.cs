@@ -56,8 +56,8 @@ namespace FireAdministrator
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			MessageBoxService.ShowExceptionExtended(e.ExceptionObject as Exception);
-			if (MessageBoxService.ShowQuestionYesNo("В результате работы программы произошло исключение. Приложение будет закрыто. Вы хотите сохранить конфигурацию в файл"))
+			MessageBoxService.ShowException(e.ExceptionObject as Exception);
+			if (MessageBoxService.ShowQuestion("В результате работы программы произошло исключение. Приложение будет закрыто. Вы хотите сохранить конфигурацию в файл"))
 			{
 				FileConfigurationHelper.SaveToFile();
 			}
