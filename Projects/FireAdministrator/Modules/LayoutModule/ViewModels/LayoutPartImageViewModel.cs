@@ -6,6 +6,7 @@ using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
+using Infrastructure.Client.Images;
 
 namespace LayoutModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace LayoutModule.ViewModels
 		private LayoutPartPropertyPageViewModel _imagePage;
 		public LayoutPartImageViewModel(LayoutPartImageProperties properties)
 		{
-			_imageSource = null;
+			_imageBrush = null;
 			_properties = properties ?? new LayoutPartImageProperties();
 			_imagePage = new LayoutPartPropertyImagePageViewModel(this);
 			UpdateLayoutPart();
@@ -33,49 +34,23 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private Stretch _stretch;
-		public Stretch Stretch
+		private TileBrush _imageBrush;
+		public TileBrush ImageBrush
 		{
-			get { return _stretch; }
+			get { return _imageBrush; }
 			set
 			{
-				_stretch = value;
-				OnPropertyChanged(() => Stretch);
-			}
-		}
-		private ImageSource _imageSource;
-		public ImageSource ImageSource
-		{
-			get { return _imageSource; }
-			set
-			{
-				_imageSource = value;
-				OnPropertyChanged(() => ImageSource);
+				_imageBrush = value;
+				OnPropertyChanged(() => ImageBrush);
 			}
 		}
 
 		public void UpdateLayoutPart()
 		{
-			Stretch = _properties.Stretch;
-			ImageSource = GetImage(_properties.ReferenceUID, _properties.IsVectorImage);
-		}
-		private ImageSource GetImage(Guid uid, bool isVector)
-		{
-			ImageSource imageSource = null;
-			if (uid != Guid.Empty)
-				try
-				{
-					if (isVector)
-						imageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(uid));
-					else
-						imageSource = ServiceFactoryBase.ContentService.GetBitmapContent(uid);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове LayoutPartPropertyImagePageViewModel.UpdateImage");
-					MessageBoxService.ShowWarningExtended("Возникла ошибка при загрузке изображения");
-				}
-			return imageSource;
+			var brush = ImageHelper.GetResourceBrush(_properties.ReferenceUID, _properties.ImageType);
+			if (brush != null)
+				brush.Stretch = _properties.Stretch;
+			ImageBrush = brush;
 		}
 	}
 }

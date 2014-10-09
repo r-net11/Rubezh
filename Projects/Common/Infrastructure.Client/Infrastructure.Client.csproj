@@ -86,8 +86,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseBootstrapper.cs" />
-    <Compile Include="Converters\SVGConverter.cs" />
-    <Compile Include="Converters\WMFConverter.cs" />
+    <Compile Include="Images\ImageExtensions.cs" />
+    <Compile Include="Images\ImageHelper.cs" />
+    <Compile Include="Images\SVGConverter.cs" />
+    <Compile Include="Images\WMFConverter.cs" />
     <Compile Include="Layout\LayoutPartIdentities.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartTitleViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartPictureViewModel.cs" />

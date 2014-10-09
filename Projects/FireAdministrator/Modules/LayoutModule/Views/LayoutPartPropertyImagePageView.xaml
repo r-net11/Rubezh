@@ -17,7 +17,8 @@
 				<ColumnDefinition Width="200" />
 			</Grid.ColumnDefinitions>
 			<Border Grid.Column="0" Background="White" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="0" CornerRadius="5">
-				<Image Source="{Binding ImageSource}" Stretch="{Binding Stretch}" />
+				<!--<Image Source="{Binding ImageSource}" Stretch="{Binding Stretch}" />-->
+				<Border Background="{Binding ImageBrush}" />
 			</Border>
 			<StackPanel Grid.Column="1">
 				<Button Margin="2" Command="{Binding SelectPictureCommand}" Content="Выбрать картинку" />

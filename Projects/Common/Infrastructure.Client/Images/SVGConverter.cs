@@ -117,16 +117,16 @@ namespace Infrastructure.Client.Converters
 			return true;
 		}
 
-        public static DrawingGroup ReadDrawing(string svgFileName)
-        {
-            var settings = new WpfDrawingSettings()
-            {
-                IncludeRuntime = false,
-                TextAsGeometry = true,
-                OptimizePath = true,
-            };
-            using (FileSvgReader reader = new FileSvgReader(settings))
-                return reader.Read(svgFileName);
-        }
+		public static DrawingGroup ReadDrawing(string svgFileName)
+		{
+			var settings = new WpfDrawingSettings()
+			{
+				IncludeRuntime = false,
+				TextAsGeometry = true,
+				OptimizePath = true,
+			};
+			using (FileSvgReader reader = new FileSvgReader(settings))
+				return reader.Read(svgFileName);
+		}
 	}
 }

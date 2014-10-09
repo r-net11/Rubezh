@@ -93,6 +93,14 @@ namespace Infrastructure.Common.Services.Content
 		{
 			return (T)XamlServices.Load(GetContentStream(guid));
 		}
+		public Visual GetVisual(Guid guid)
+		{
+			return GetObject<Visual>(guid);
+		}
+		public Visual GetVisual(string guid)
+		{
+			return GetObject<Visual>(guid);
+		}
 		public Drawing GetDrawing(Guid guid)
 		{
 			return GetObject<Drawing>(guid);

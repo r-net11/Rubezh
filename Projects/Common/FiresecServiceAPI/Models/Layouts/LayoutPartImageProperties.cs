@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows.Media;
+using Common;
 
 namespace FiresecAPI.Models.Layouts
 {
@@ -10,6 +11,6 @@ namespace FiresecAPI.Models.Layouts
 		public Stretch Stretch { get; set; }
 
 		[DataMember]
-		public bool IsVectorImage { get; set; }
+		public ResourceType ImageType { get; set; }
 	}
 }
