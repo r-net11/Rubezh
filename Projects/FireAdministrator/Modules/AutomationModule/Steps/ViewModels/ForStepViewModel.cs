@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
@@ -17,20 +16,18 @@ namespace AutomationModule.ViewModels
 			ForArguments = stepViewModel.Step.ForArguments;
 			ConditionTypes = new ObservableCollection<ConditionType>{ConditionType.IsLess, ConditionType.IsNotMore, ConditionType.IsMore, ConditionType.IsNotLess};
 			SelectedConditionType = ForArguments.ConditionType;
-			IndexerArgument = new ArgumentViewModel(ForArguments.IndexerArgument, stepViewModel.Update, false, true, false);
-			InitialValueArgument = new ArgumentViewModel(ForArguments.InitialValueArgument, stepViewModel.Update);
-			ValueArgument = new ArgumentViewModel(ForArguments.ValueArgument, stepViewModel.Update);
-			IteratorArgument = new ArgumentViewModel(ForArguments.IteratorArgument, stepViewModel.Update);
+			IndexerArgument = new ArgumentViewModel(ForArguments.IndexerArgument, stepViewModel.Update, UpdateContent, false, true, false);
+			InitialValueArgument = new ArgumentViewModel(ForArguments.InitialValueArgument, stepViewModel.Update, UpdateContent);
+			ValueArgument = new ArgumentViewModel(ForArguments.ValueArgument, stepViewModel.Update, UpdateContent);
+			IteratorArgument = new ArgumentViewModel(ForArguments.IteratorArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()
 		{
-			var allLocalVariables = new List<Variable>(Procedure.Variables);
-			allLocalVariables.AddRange(Procedure.Arguments);
-			IndexerArgument.Update(allLocalVariables.FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
-			InitialValueArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
-			ValueArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
-			IteratorArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
+			IndexerArgument.Update(Procedure, ExplicitType.Integer, isList: false);
+			InitialValueArgument.Update(Procedure, ExplicitType.Integer, isList: false);
+			ValueArgument.Update(Procedure, ExplicitType.Integer, isList: false);
+			IteratorArgument.Update(Procedure, ExplicitType.Integer, isList: false);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

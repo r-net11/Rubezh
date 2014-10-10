@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
@@ -13,21 +12,14 @@ namespace AutomationModule.ViewModels
 		public ShowMessageStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
-			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update);
+			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update, null);
 			ExplicitTypes = new ObservableCollection<ExplicitType> (ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 		}
 
 		public override void UpdateContent()
 		{
-			List<Variable> allVariables;
-			if (ExplicitType == ExplicitType.Enum)
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList && x.EnumType == EnumType);
-			else
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
-			MessageArgument.Update(allVariables);
-			MessageArgument.ExplicitType = ExplicitType;
-			MessageArgument.EnumType = EnumType;
+			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.ProcedureLayoutCollection);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}

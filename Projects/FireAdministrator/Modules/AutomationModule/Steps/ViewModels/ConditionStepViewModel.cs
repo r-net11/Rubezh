@@ -18,12 +18,12 @@ namespace AutomationModule.ViewModels
 		{
 			ConditionArguments = stepViewModel.Step.ConditionArguments;
 			Conditions = new ObservableCollection<ConditionViewModel>();
-			ConditionArguments.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update)));
+			ConditionArguments.Conditions.ForEach(condition => Conditions.Add(new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent)));
 			if (Conditions.Count == 0)
 			{
 				var condition = new Condition();
 				ConditionArguments.Conditions.Add(condition);
-				var conditionViewModel = new ConditionViewModel(condition, Procedure, stepViewModel.Update);
+				var conditionViewModel = new ConditionViewModel(condition, Procedure, stepViewModel.Update, UpdateContent);
 				Conditions.Add(conditionViewModel);
 			}
 			JoinOperator = ConditionArguments.JoinOperator;
@@ -52,7 +52,7 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var condition = new Condition();
-			var conditionViewModel = new ConditionViewModel(condition, Procedure, UpdateDescriptionHandler);
+			var conditionViewModel = new ConditionViewModel(condition, Procedure, UpdateDescriptionHandler, UpdateContent);
 			ConditionArguments.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
 			UpdateContent();
@@ -135,15 +135,15 @@ namespace AutomationModule.ViewModels
 		Procedure Procedure { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 
-		public ConditionViewModel(Condition condition, Procedure procedure, Action updateDescriptionHandler)
+		public ConditionViewModel(Condition condition, Procedure procedure, Action updateDescriptionHandler, Action updateContentHandler)
 		{
 			Condition = condition;
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
-			Argument1 = new ArgumentViewModel(Condition.Argument1, updateDescriptionHandler, false);
+			Argument1 = new ArgumentViewModel(Condition.Argument1, updateDescriptionHandler, updateContentHandler, false);
 			Argument1.UpdateVariableHandler += UpdateArgument2;
-			Argument2 = new ArgumentViewModel(Condition.Argument2, updateDescriptionHandler);
+			Argument2 = new ArgumentViewModel(Condition.Argument2, updateDescriptionHandler, updateContentHandler);
 			SelectedExplicitType = Condition.ExplicitType;
 		}
 
@@ -163,8 +163,7 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == SelectedExplicitType && !x.IsList);
-			Argument1.Update(allVariables);
+			Argument1.Update(Procedure, SelectedExplicitType, isList:false);
 			Argument1.ExplicitType = SelectedExplicitType;
 			UpdateArgument2();
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
@@ -172,10 +171,7 @@ namespace AutomationModule.ViewModels
 
 		void UpdateArgument2()
 		{
-			Argument2.Update(ProcedureHelper.GetAllVariables(Procedure, SelectedExplicitType, Argument1.ObjectType, Argument1.EnumType).FindAll(x => !x.IsList));
-			Argument2.ExplicitType = SelectedExplicitType;
-			Argument2.EnumType = Argument1.EnumType;
-			Argument2.ObjectType = Argument1.ObjectType;
+			Argument2.Update(Procedure, SelectedExplicitType, Argument1.EnumType, Argument1.ObjectType, false);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

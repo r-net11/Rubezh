@@ -12,8 +12,8 @@ namespace AutomationModule.ViewModels
 		public IncrementValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			IncrementValueArguments = stepViewModel.Step.IncrementValueArguments;
-			IncrementTypes = new ObservableCollection<IncrementType> { IncrementType.Inc, IncrementType.Dec };
-			ResultArgument = new ArgumentViewModel(IncrementValueArguments.ResultArgument, stepViewModel.Update, false);
+			IncrementTypes = ProcedureHelper.GetEnumObs<IncrementType>();
+			ResultArgument = new ArgumentViewModel(IncrementValueArguments.ResultArgument, stepViewModel.Update, null, false);
 		}
 		
 		public ObservableCollection<IncrementType> IncrementTypes { get; private set; }
@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{			
-			ResultArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer));
+			ResultArgument.Update(Procedure, ExplicitType.Integer, isList:false);
 		}
 
 		public override string Description 

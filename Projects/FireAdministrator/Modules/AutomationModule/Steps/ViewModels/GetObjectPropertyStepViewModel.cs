@@ -13,9 +13,9 @@ namespace AutomationModule.ViewModels
 		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
-			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, false);
+			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, UpdateContent, false);
 			ObjectArgument.UpdateVariableHandler += UpdateProperies;
-			ResultArgument = new ArgumentViewModel(GetObjectPropertyArguments.ResultArgument, stepViewModel.Update, false);
+			ResultArgument = new ArgumentViewModel(GetObjectPropertyArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 		}
 
 		void UpdateProperies()
@@ -32,14 +32,14 @@ namespace AutomationModule.ViewModels
 			{
 				GetObjectPropertyArguments.Property = value;
 				OnPropertyChanged(() => SelectedProperty);
-				ResultArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
+				ResultArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			ObjectArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && !x.IsList));
-			ResultArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && x.EnumType == EnumType && !x.IsList));
+			ObjectArgument.Update(Procedure, ExplicitType.Object, isList:false);
+			ResultArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 		}
 
 		public override string Description

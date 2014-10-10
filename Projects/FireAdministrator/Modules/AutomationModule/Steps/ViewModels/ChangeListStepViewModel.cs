@@ -13,9 +13,9 @@ namespace AutomationModule.ViewModels
 		public ChangeListStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ChangeListArguments = stepViewModel.Step.ChangeListArguments;
-			ListArgument = new ArgumentViewModel(ChangeListArguments.ListArgument, stepViewModel.Update, false);
+			ListArgument = new ArgumentViewModel(ChangeListArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
 			ListArgument.UpdateVariableHandler = UpdateItemArgument;
-			ItemArgument = new ArgumentViewModel(ChangeListArguments.ItemArgument, stepViewModel.Update);
+			ItemArgument = new ArgumentViewModel(ChangeListArguments.ItemArgument, stepViewModel.Update, UpdateContent);
 			ChangeTypes = ProcedureHelper.GetEnumObs<ChangeType>();
 		}
 
@@ -32,20 +32,12 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
+			ListArgument.Update(Procedure, isList:true);
 		}
 
 		void UpdateItemArgument()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListArgument.ExplicitType);
-			if (ListArgument.ExplicitType == ExplicitType.Object)
-				allVariables = allVariables.FindAll(x => x.ObjectType == ListArgument.ObjectType);
-			if (ListArgument.ExplicitType == ExplicitType.Enum)
-				allVariables = allVariables.FindAll(x => x.EnumType == ListArgument.EnumType);
-			ItemArgument.Update(allVariables);
-			ItemArgument.ExplicitType = ListArgument.ExplicitType;
-			ItemArgument.ObjectType = ListArgument.ObjectType;
-			ItemArgument.EnumType = ListArgument.EnumType;
+			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType, false);
 		}
 
 		public override string Description

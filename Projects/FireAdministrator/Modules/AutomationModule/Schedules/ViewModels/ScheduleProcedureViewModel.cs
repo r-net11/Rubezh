@@ -44,10 +44,10 @@ namespace AutomationModule.ViewModels
 					else
 						argument = ScheduleProcedure.Arguments[i];
 				}
-				var argumentViewModel = new ArgumentViewModel(argument, null, true, CallingProcedure != null);
+				var argumentViewModel = new ArgumentViewModel(argument, null, null, true, CallingProcedure != null);
 				argumentViewModel.Name = variable.Name;
 				argumentViewModel.IsList = variable.IsList;
-				argumentViewModel.Update(GetVariables(argumentViewModel));
+				argumentViewModel.Update(GetVariables(argumentViewModel), argumentViewModel.ExplicitType, argumentViewModel.EnumType, argumentViewModel.ObjectType, argumentViewModel.IsList);
 				Arguments.Add(argumentViewModel);
 				i++;
 			}
@@ -77,12 +77,12 @@ namespace AutomationModule.ViewModels
 			argument.ExplicitType = variable.ExplicitType;
 			argument.EnumType = variable.EnumType;
 			argument.ObjectType = variable.ObjectType;
-			PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variable.DefaultExplicitValue, argument.ExplicitValue);
+			PropertyCopy.Copy(variable.DefaultExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
 			foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
 			{
 				var explicitValue = new ExplicitValue();
-				PropertyCopy.Copy<ExplicitValue, ExplicitValue>(defaultExplicitValues, explicitValue);
+				PropertyCopy.Copy(defaultExplicitValues, explicitValue);
 				argument.ExplicitValues.Add(explicitValue);
 			}
 			return argument;
@@ -90,7 +90,7 @@ namespace AutomationModule.ViewModels
 
 		List<Variable> GetVariables(ArgumentViewModel argument)
 		{
-			var allVariables = new List<Variable>();
+			List<Variable> allVariables;
 			if (CallingProcedure != null)
 				allVariables = ProcedureHelper.GetAllVariables(CallingProcedure);
 			else

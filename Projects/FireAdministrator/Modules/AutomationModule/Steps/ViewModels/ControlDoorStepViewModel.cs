@@ -13,9 +13,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlDoorArguments = stepViewModel.Step.ControlDoorArguments;
 			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
-			DoorArgument = new ArgumentViewModel(ControlDoorArguments.DoorArgument, stepViewModel.Update);
-			DoorArgument.ObjectType = ObjectType.ControlDoor;
-			DoorArgument.ExplicitType = ExplicitType.Object;
+			DoorArgument = new ArgumentViewModel(ControlDoorArguments.DoorArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlDoorArguments.DoorCommandType;
 		}
 
@@ -35,7 +33,7 @@ namespace AutomationModule.ViewModels
 		
 		public override void UpdateContent()
 		{
-			DoorArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.ControlDoor, false));
+			DoorArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.ControlDoor, isList:false);
 		}
 
 		public override string Description

@@ -11,17 +11,14 @@ namespace AutomationModule.ViewModels
 		public RandomStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			RandomArguments = stepViewModel.Step.RandomArguments;
-			MaxValueArgument = new ArgumentViewModel(RandomArguments.MaxValueArgument, stepViewModel.Update);
-			MaxValueArgument.ExplicitType = ExplicitType.Integer;
-			ResultArgument = new ArgumentViewModel(RandomArguments.ResultArgument, stepViewModel.Update, false);
-			ResultArgument.ExplicitType = ExplicitType.Integer;
+			MaxValueArgument = new ArgumentViewModel(RandomArguments.MaxValueArgument, stepViewModel.Update, UpdateContent);
+			ResultArgument = new ArgumentViewModel(RandomArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 		}
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList);
-			MaxValueArgument.Update(allVariables);
-			ResultArgument.Update(allVariables);
+			MaxValueArgument.Update(Procedure, ExplicitType.Integer, isList:false);
+			ResultArgument.Update(Procedure, ExplicitType.Integer, isList: false);
 		}
 
 		public override string Description

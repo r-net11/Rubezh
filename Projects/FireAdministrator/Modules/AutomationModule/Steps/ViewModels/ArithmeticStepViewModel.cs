@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
 
@@ -15,9 +14,9 @@ namespace AutomationModule.ViewModels
 		public ArithmeticStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ArithmeticArguments = stepViewModel.Step.ArithmeticArguments;
-			ResultArgument = new ArgumentViewModel(ArithmeticArguments.ResultArgument, stepViewModel.Update, false);
-			Argument1 = new ArgumentViewModel(ArithmeticArguments.Argument1, stepViewModel.Update);
-			Argument2 = new ArgumentViewModel(ArithmeticArguments.Argument2, stepViewModel.Update);
+			ResultArgument = new ArgumentViewModel(ArithmeticArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
+			Argument1 = new ArgumentViewModel(ArithmeticArguments.Argument1, stepViewModel.Update, UpdateContent);
+			Argument2 = new ArgumentViewModel(ArithmeticArguments.Argument2, stepViewModel.Update, UpdateContent);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object && x != ExplicitType.Enum));
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			SelectedExplicitType = ArithmeticArguments.ExplicitType;
@@ -25,13 +24,9 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == SelectedExplicitType);
-			var allVariables2 = new List<Variable>(allVariables);
-			if (SelectedExplicitType == ExplicitType.DateTime)
-				allVariables2 = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType.Integer);
-			Argument1.Update(allVariables);
-			Argument2.Update(allVariables2);
-			ResultArgument.Update(allVariables);
+			Argument1.Update(Procedure, SelectedExplicitType, isList:false);
+			Argument2.Update(Procedure, (SelectedExplicitType == ExplicitType.DateTime) ? ExplicitType.Integer : SelectedExplicitType, isList: false);
+			ResultArgument.Update(Procedure, SelectedExplicitType, isList: false);
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
 
@@ -95,8 +90,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticArguments.ExplicitType = value;
-				Argument1.ExplicitType = value;
-				Argument2.ExplicitType = value == ExplicitType.DateTime ? ExplicitType.Integer : value;
 				ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType>();
 				if (value == ExplicitType.Boolean)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.And, ArithmeticOperationType.Or };

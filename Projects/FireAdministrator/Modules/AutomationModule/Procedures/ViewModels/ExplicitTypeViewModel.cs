@@ -41,5 +41,16 @@ namespace AutomationModule.ViewModels
 				return ExplicitType.ToDescription();
 			}
 		}
+
+		public bool IsRealType
+		{
+			get
+			{
+				if (ExplicitType == ExplicitType.Enum || ExplicitType == ExplicitType.Object)
+					if (Parent == null)
+						return false;
+				return true;
+			}
+		}
 	}
 }

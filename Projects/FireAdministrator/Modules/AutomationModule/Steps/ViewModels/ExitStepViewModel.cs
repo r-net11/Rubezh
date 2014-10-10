@@ -11,14 +11,12 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			ExitArguments = stepViewModel.Step.ExitArguments;
-			ExitCodeArgument = new ArgumentViewModel(ExitArguments.ExitCodeArgument, stepViewModel.Update);
-			ExitCodeArgument.ExplicitType = ExplicitType.Integer;
+			ExitCodeArgument = new ArgumentViewModel(ExitArguments.ExitCodeArgument, stepViewModel.Update, null);
 		}
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList);
-			ExitCodeArgument.Update(allVariables);
+			ExitCodeArgument.Update(Procedure, ExplicitType.Integer, isList:false);
 		}
 
 		public override string Description
