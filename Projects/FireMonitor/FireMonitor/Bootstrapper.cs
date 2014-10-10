@@ -69,15 +69,19 @@ namespace FireMonitor
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+
+						if (result)
+							AterInitialize();
 					}
 					else
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
-					}
 
-					if (result)
-						AterInitialize();
+						if (Application.Current != null)
+							Application.Current.Shutdown();
+						return false;
+					}
 
 					//MutexHelper.KeepAlive();
 					ProgressWatcher.Run();

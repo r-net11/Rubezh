@@ -11,13 +11,26 @@
 		</Grid.RowDefinitions>
 		<DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
-				<DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
-				<DataGridTemplateColumn Header="Название" Width="*">
+                <DataGridTemplateColumn Header="Дата в приборе" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Дата в системе" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+								<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
@@ -51,7 +64,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource JournalSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+								<Image Width="16" Source="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource JournalSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 								<TextBlock Text="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource EnumToDescriptionConverter }}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
@@ -97,7 +110,7 @@
 			</DataGrid.CellStyle>
 		</DataGrid>
 		<StackPanel Visibility="Collapsed">
-			<CheckBox Name="CheckBox_AdditionalColumns" Checked="CheckBox_AdditionalColumns_Checked" Unchecked="CheckBox_AdditionalColumns_Checked" IsChecked="{Binding AdditionalColumnsChanged, Mode=OneWay}"/>
+			<CheckBox Name="CheckBox_AdditionalColumns" Checked="CheckBox_AdditionalColumns_Checked" Unchecked="CheckBox_AdditionalColumns_Checked" IsChecked="{Binding AdditionalColumnsChanged, Mode=OneWay}" />
 		</StackPanel>
 		<Border Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Padding="5" Margin="0 5 0 0">
 			<Grid>
@@ -126,7 +139,7 @@
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2" />
 					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-						<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+						<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 						<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 					</StackPanel>
 
