@@ -146,7 +146,7 @@ namespace SKDModule.ViewModels
 			AllowedLate = Model.AllowedLate;
 			AllowedEarlyLeave = Model.AllowedEarlyLeave;
 			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
-			_schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
+			_schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter()
 			{
 				OrganisationUIDs = new List<Guid>() { Organisation.UID },
 				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,

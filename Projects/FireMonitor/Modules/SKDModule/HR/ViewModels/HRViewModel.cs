@@ -194,6 +194,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				Filter = filterViewModel.Filter;
+				OnPropertyChanged(() => IsWithDeleted);
 				InitializeFilters();
 			}
 		}

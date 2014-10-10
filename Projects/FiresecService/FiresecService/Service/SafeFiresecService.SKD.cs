@@ -189,6 +189,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreOrganisation(uid));
 		}
+		public OperationResult<bool> IsAnyOrganisationItems(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.IsAnyOrganisationItems(uid));
+		}
 		#endregion
 
 		#region AdditionalColumnType

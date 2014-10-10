@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Windows;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -42,13 +43,19 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			var cardUIDs = SelectedItem.Cards.Select(x => x.Card.UID);
-			base.Remove();
-			foreach (var uid in cardUIDs)
+			if (SelectedItem.Cards.Count == 0 || 
+				MessageBoxService.ShowQuestionYesNo("Привязанные к сотруднику пропуска будут деактивированы. Продожить?"))
 			{
-				ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
+				var cardUIDs = SelectedItem.Cards.Select(x => x.Card.UID);
+				base.Remove();
+				foreach (var uid in cardUIDs)
+				{
+					ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
+				}
 			}
 		}
+
+		
 
 		protected override IEnumerable<ShortEmployee> GetModels(EmployeeFilter filter)
 		{

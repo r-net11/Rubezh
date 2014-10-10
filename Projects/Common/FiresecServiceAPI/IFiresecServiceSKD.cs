@@ -141,6 +141,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult RestoreOrganisation(Guid uid);
+
+		[OperationContract]
+		OperationResult<bool> IsAnyOrganisationItems(Guid uid);
 		#endregion
 
 		#region AdditionalColumnType

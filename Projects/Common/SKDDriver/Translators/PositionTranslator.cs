@@ -28,8 +28,8 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Employees.Any(x => x.PositionUID == uid && !x.IsDeleted))
-				return new OperationResult("Невозможно удалить должность, пока она указана у действующих сотрудников");
+			//if (Context.Employees.Any(x => x.PositionUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Невозможно удалить должность, пока она указана у действующих сотрудников");
 			return base.CanDelete(uid);
 		}
 

@@ -33,18 +33,6 @@ namespace SKDDriver
 				return new OperationResult();
 		}
 
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			bool isAttendant = Context.Departments.Any(x => !x.IsDeleted && x.AttendantUID == uid);
-			if (isAttendant)
-				return new OperationResult("Невозможно удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
-
-			bool isContactEmployee = Context.Departments.Any(x => !x.IsDeleted && x.ContactEmployeeUID == uid);
-			if (isContactEmployee)
-				return new OperationResult("Невозможно удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
-			return base.CanDelete(uid);
-		}
-
 		protected override Employee Translate(DataAccess.Employee tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -101,10 +89,16 @@ namespace SKDDriver
 			result.Phone = tableItem.Phone;
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
+			{
 				result.PositionName = position.Name;
+				result.IsPositionDeleted = position.IsDeleted;
+			}
 			var department = Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
 			if (department != null)
+			{
 				result.DepartmentName = department.Name;
+				result.IsDepartmentDeleted = department.IsDeleted;
+			}
 			return result;
 		}
 
@@ -167,6 +161,9 @@ namespace SKDDriver
 
 			if (filter.PositionUIDs.IsNotNullOrEmpty())
 				result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+
+			if (filter.ScheduleUIDs.IsNotNullOrEmpty())
+				result = result.And(e => e != null && filter.ScheduleUIDs.Contains(e.PositionUID.Value));
 
 			if (!string.IsNullOrEmpty(filter.LastName))
 				result = result.And(e => e.LastName.Contains(filter.LastName));

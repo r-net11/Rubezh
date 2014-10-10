@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -118,27 +119,36 @@ namespace SKDModule.ViewModels
 
 		protected override IEnumerable<ScheduleScheme> GetModels(ScheduleSchemeFilter filter)
 		{
-			return ScheduleSchemaHelper.Get(filter);
+			return ScheduleSchemeHelper.Get(filter);
 		}
 		protected override IEnumerable<ScheduleScheme> GetModelsByOrganisation(Guid organisationUID)
 		{
-			return ScheduleSchemaHelper.GetByOrganisation(organisationUID);
+			return ScheduleSchemeHelper.GetByOrganisation(organisationUID);
 		}
 		protected override bool MarkDeleted(Guid uid)
 		{
-			return ScheduleSchemaHelper.MarkDeleted(uid);
+			return ScheduleSchemeHelper.MarkDeleted(uid);
 		}
 		protected override bool Restore(Guid uid)
 		{
-			return ScheduleSchemaHelper.Restore(uid);
+			return ScheduleSchemeHelper.Restore(uid);
 		}
 		protected override bool Save(ScheduleScheme item)
 		{
-			return ScheduleSchemaHelper.Save(item);
+			return ScheduleSchemeHelper.Save(item);
 		}
 		protected override string ItemRemovingName
 		{
 			get { return "график"; }
+		}
+
+		protected override void Remove()
+		{
+			if (ScheduleHelper.Get(new ScheduleFilter { ScheduleSchemeUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0 ||
+				MessageBoxService.ShowQuestionYesNo("Существуют графики сотрудников, содержашие данный график работы. Продолжить?"))
+			{
+				base.Remove();
+			}
 		}
 	}
 }

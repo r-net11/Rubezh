@@ -66,7 +66,18 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsDeleted);
 			}
 		}
-		
+
+		string _removalDate;
+		public string RemovalDate
+		{
+			get { return _removalDate; }
+			set
+			{
+				_removalDate = value;
+				OnPropertyChanged(() => RemovalDate);
+			}
+		}
+
 		protected ViewPartViewModel ParentViewModel;
 
 		public OrganisationElementViewModel() { }
@@ -78,6 +89,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 			ParentViewModel = parentViewModel;
 			IsDeleted = organisation.IsDeleted;
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : ""; 
 		}
 
 		public virtual void InitializeModel(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel)
@@ -87,12 +99,14 @@ namespace SKDModule.ViewModels
 			IsOrganisation = false;
 			ParentViewModel = parentViewModel;
 			IsDeleted = model.IsDeleted;
+			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : "";
 		}
 
 		public virtual void Update(ModelT model)
 		{
 			Model = model;
 			IsDeleted = model.IsDeleted;
+			RemovalDate = IsDeleted ? model.RemovalDate.ToString() : "";
 			Update();
 		}
 
@@ -101,6 +115,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			IsOrganisation = true;
 			IsDeleted = organisation.IsDeleted;
+			RemovalDate = IsDeleted ? organisation.RemovalDate.ToString() : ""; 
 			Update();
 		}
 
@@ -108,6 +123,8 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => IsDeleted);
+			OnPropertyChanged(() => RemovalDate);
 		}
 	}
 

@@ -87,5 +87,11 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.SaveOrganisationChief(uid, chiefUID);
 			return Common.ShowErrorIfExists(result);
 		}
+
+		public static bool IsAnyItems(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.IsAnyOrganisationItems(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

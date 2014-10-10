@@ -32,13 +32,7 @@ namespace SKDDriver.Translators
 				return new OperationResult();
 		
 		}
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			if (Context.ScheduleDays.Any(item => item.DayIntervalUID == uid))
-				return new OperationResult("Дневной график не может быть удален, так как он содержится в одном из графиков");
-			return base.CanDelete(uid);
-		}
-
+		
 		protected override DayInterval Translate(DataAccess.DayInterval tableItem)
 		{
 			var result = base.Translate(tableItem);

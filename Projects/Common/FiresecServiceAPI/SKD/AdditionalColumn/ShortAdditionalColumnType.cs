@@ -26,5 +26,8 @@ namespace FiresecAPI.SKD
 		
 		[DataMember]
 		public bool IsDeleted { get; set; }
+
+		[DataMember]
+		public DateTime RemovalDate { get; set; }
 	}
 }

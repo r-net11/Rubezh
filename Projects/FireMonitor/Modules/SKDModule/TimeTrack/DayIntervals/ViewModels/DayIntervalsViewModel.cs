@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -64,6 +65,15 @@ namespace SKDModule.ViewModels
 				if (dayIntervalViewModel != null)
 					dayIntervalViewModel.ExpandToThis();
 				SelectedItem = dayIntervalViewModel;
+			}
+		}
+
+		protected override void Remove()
+		{
+			if (ScheduleSchemeHelper.Get(new ScheduleSchemeFilter { DayIntervalUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0 ||
+				MessageBoxService.ShowQuestionYesNo("Существуют графики работы, содержашие данный дневной график. Продолжить?"))
+			{
+				base.Remove();
 			}
 		}
 

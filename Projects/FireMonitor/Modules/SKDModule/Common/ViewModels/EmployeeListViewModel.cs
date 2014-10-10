@@ -153,6 +153,8 @@ namespace SKDModule.ViewModels
 	public class EmployeeListItemViewModel : BaseViewModel
 	{
 		public ShortEmployee Employee { get; private set; }
+		public bool IsDepartmentDeleted { get { return Employee.IsDepartmentDeleted; } }
+		public bool IsPositionDeleted { get { return Employee.IsPositionDeleted; } }
 		
 		public EmployeeListItemViewModel() { }
 
@@ -165,6 +167,8 @@ namespace SKDModule.ViewModels
 		{
 			Employee = employee;
 			OnPropertyChanged(() => Employee);
+			OnPropertyChanged(() => IsDepartmentDeleted);
+			OnPropertyChanged(() => IsPositionDeleted);
 		}
 	}
 }

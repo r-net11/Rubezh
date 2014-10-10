@@ -32,5 +32,6 @@ namespace FiresecAPI.SKD
 		string Description { get; set; }
 		Guid OrganisationUID { get; set; }
 		bool IsDeleted { get; set; }
+		DateTime RemovalDate { get; set; }
 	}
 }

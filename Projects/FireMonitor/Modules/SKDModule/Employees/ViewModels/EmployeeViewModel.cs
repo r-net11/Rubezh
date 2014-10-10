@@ -21,7 +21,15 @@ namespace SKDModule.ViewModels
 		public string PositionName
 		{
 			get { return IsOrganisation ? "" : Model.PositionName; }
-		} 
+		}
+		public bool IsDepartmentDeleted
+		{
+			get { return IsOrganisation ? false : Model.IsDepartmentDeleted; }
+		}
+		public bool IsPositionDeleted
+		{
+			get { return IsOrganisation ? false : Model.IsPositionDeleted; }
+		}
 
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
@@ -93,6 +101,8 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => AdditionalColumnValues);
+			OnPropertyChanged(() => IsDepartmentDeleted);
+			OnPropertyChanged(() => IsPositionDeleted);
 			if (IsOrganisation)
 			{
 				foreach (var child in Children)

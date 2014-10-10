@@ -148,21 +148,25 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить огранизацию?"))
 			{
-				var organisation = SelectedOrganisation.Organisation;
-				var removeResult = OrganisationHelper.MarkDeleted(organisation);
-				if (removeResult == false)
-					return;
-				if (_logicalDeletationType == LogicalDeletationType.All)
+				if (!OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) ||
+					MessageBoxService.ShowQuestionYesNo("Привязанные к организации объекты будут также архивированы. Продолжить?"))
 				{
-					SelectedOrganisation.IsDeleted = true;
-					SetItemsCanSelect(false);
+					var organisation = SelectedOrganisation.Organisation;
+					var removeResult = OrganisationHelper.MarkDeleted(organisation);
+					if (removeResult == false)
+						return;
+					if (_logicalDeletationType == LogicalDeletationType.All)
+					{
+						SelectedOrganisation.IsDeleted = true;
+						SetItemsCanSelect(false);
+					}
+					else
+					{
+						Organisations.Remove(SelectedOrganisation);
+						SelectedOrganisation = Organisations.FirstOrDefault();
+					}
+					ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 				}
-				else
-				{
-					Organisations.Remove(SelectedOrganisation);
-					SelectedOrganisation = Organisations.FirstOrDefault();
-				}
-				ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 			}
 		}
 		
@@ -176,6 +180,7 @@ namespace SKDModule.ViewModels
 					return;
 				SelectedOrganisation.IsDeleted = false;
 				SetItemsCanSelect(true);
+				ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}
 		}
 		bool CanRestore()

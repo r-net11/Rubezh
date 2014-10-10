@@ -41,12 +41,8 @@ namespace SKDDriver
 						item.RemovalDate = removalDate;
 					}
 					Table.Context.SubmitChanges();
-					return new OperationResult();
 				}
-				else
-				{
-					return new OperationResult("Не найдена запись в базе данных");
-				}
+				return new OperationResult();
 			}
 			catch (Exception e)
 			{

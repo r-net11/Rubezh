@@ -62,7 +62,7 @@ namespace SKDModule.ViewModels
 			{
 				if (!IsOrganisation)
 				{
-					var schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
+					var schemes = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter()
 					{
 						OrganisationUIDs = new List<Guid>() { Organisation.UID },
 						Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,

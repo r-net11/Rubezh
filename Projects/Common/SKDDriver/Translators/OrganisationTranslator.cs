@@ -26,32 +26,35 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Employees.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней сотрудники");
+			//if (Context.Employees.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней сотрудники");
 
-			if (Context.Departments.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней отделы");
+			//if (Context.Departments.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней отделы");
 
-			//if (Context.Positions.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней должности");
+			////if (Context.Positions.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			////    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней должности");
 
-			if (Context.AccessTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней шаблоны доступа");
+			//if (Context.AccessTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней шаблоны доступа");
 
-			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дополнительные колонки");
+			//if (Context.PassCardTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней карты доступа");
 
-			if (Context.DayIntervals.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дневные графики");
+			//if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дополнительные колонки");
 
-			if (Context.Holidays.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней праздники");
+			//if (Context.DayIntervals.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дневные графики");
 
-			if (Context.Schedules.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней графики работ");
+			//if (Context.Holidays.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней праздники");
 
-			if (Context.ScheduleSchemes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней схемы работ");
+			//if (Context.Schedules.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней графики работ");
+
+			//if (Context.ScheduleSchemes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней схемы работ");
 
 			return base.CanDelete(uid);
 		}
@@ -83,16 +86,92 @@ namespace SKDDriver
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
 		{
 			var result = new OperationResult();
+			result = DatabaseService.EmployeeTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.DepartmentTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
 			result = DatabaseService.PositionTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.AccessTemplateTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.PassCardTemplateTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.AdditionalColumnTypeTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.DayIntervalTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.HolidayTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.ScheduleTranslator.MarkDeletedByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.ScheduleSchemeTranslator.MarkDeletedByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			return result;
 		}
 
+		public OperationResult<bool> IsAnyItems(Guid organisationUID)
+		{
+			try
+			{
+				var result = Context.Employees.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Departments.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Positions.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.AccessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.PassCardTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.AdditionalColumnTypes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.DayIntervals.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Holidays.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.Schedules.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID) ||
+					Context.ScheduleSchemes.Any(x => !x.IsDeleted && x.OrganisationUID == organisationUID);
+				return new OperationResult<bool> { Result = result };
+			}
+			catch(Exception e)
+			{
+				return new OperationResult<bool>(e.Message);
+			}
+		}
+
 		protected override OperationResult BeforeRestore(Guid uid, DateTime removalDate)
 		{
 			var result = new OperationResult();
+			result = DatabaseService.EmployeeTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.DepartmentTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
 			result = DatabaseService.PositionTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.AccessTemplateTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.PassCardTemplateTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.AdditionalColumnTypeTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.DayIntervalTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.HolidayTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.ScheduleTranslator.RestoreByOrganisation(uid, removalDate);
+			if (result.HasError)
+				return result;
+			result = DatabaseService.ScheduleSchemeTranslator.RestoreByOrganisation(uid, removalDate);
 			if (result.HasError)
 				return result;
 			return result;

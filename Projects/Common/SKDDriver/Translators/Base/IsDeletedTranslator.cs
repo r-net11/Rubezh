@@ -78,6 +78,11 @@ namespace SKDDriver
 			}
 		}
 
+		protected virtual OperationResult CanDelete(Guid uid)
+		{
+			return new OperationResult();
+		}
+
 		protected virtual OperationResult BeforeDelete(Guid uid, DateTime removalDate)
 		{
 			return new OperationResult();
@@ -87,7 +92,7 @@ namespace SKDDriver
 		{
 			try
 			{
-				var verifyResult = CanDelete(uid);
+				var verifyResult = CanRestore(uid);
 				if (verifyResult.HasError)
 					return verifyResult;
 				if (uid == null || uid == Guid.Empty)
@@ -108,6 +113,11 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		protected virtual OperationResult CanRestore(Guid uid)
+		{
+			return new OperationResult();
 		}
 
 		protected virtual OperationResult BeforeRestore(Guid uid, DateTime removalDate)

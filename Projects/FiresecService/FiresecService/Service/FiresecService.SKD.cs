@@ -493,6 +493,14 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Restore(uid);
 			}
 		}
+
+		public OperationResult<bool> IsAnyOrganisationItems(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.IsAnyItems(uid);
+			}
+		}
 		#endregion
 
 		#region AdditionalColumnType

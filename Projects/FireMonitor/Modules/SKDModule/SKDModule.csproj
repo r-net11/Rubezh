@@ -118,6 +118,7 @@
     <Compile Include="Events\NewPositionEvent.cs" />
     <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
     <Compile Include="Events\RemoveOrganisationEvent.cs" />
+    <Compile Include="Events\RestoreOrganisationEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
