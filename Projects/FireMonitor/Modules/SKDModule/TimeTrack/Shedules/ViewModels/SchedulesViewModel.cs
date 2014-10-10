@@ -94,7 +94,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			var isAnyEmployees = EmployeeHelper.Get(new EmployeeFilter { ScheduleUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0;
-			if (MessageBoxService.ShowQuestionYesNo("Существуют привязанные к графику сотрудники. Продолжить?"))
+			if (MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?"))
 			{
 				base.Remove();
 			}

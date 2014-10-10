@@ -145,7 +145,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			if (ScheduleHelper.Get(new ScheduleFilter { ScheduleSchemeUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0 ||
-				MessageBoxService.ShowQuestionYesNo("Существуют графики сотрудников, содержашие данный график работы. Продолжить?"))
+				MessageBoxService.ShowQuestion("Существуют графики сотрудников, содержашие данный график работы. Продолжить?"))
 			{
 				base.Remove();
 			}

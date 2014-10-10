@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			if (ScheduleSchemeHelper.Get(new ScheduleSchemeFilter { DayIntervalUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0 ||
-				MessageBoxService.ShowQuestionYesNo("Существуют графики работы, содержашие данный дневной график. Продолжить?"))
+				MessageBoxService.ShowQuestion("Существуют графики работы, содержашие данный дневной график. Продолжить?"))
 			{
 				base.Remove();
 			}

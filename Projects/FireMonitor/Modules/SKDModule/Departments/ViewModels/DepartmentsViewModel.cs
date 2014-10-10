@@ -164,7 +164,7 @@ namespace SKDModule.ViewModels
 		protected override void Remove()
 		{
 			if (!SelectedItem.GetAllChildren().Any(x => x.EmployeeListViewModel.Employees != null && x.EmployeeListViewModel.Employees.Count > 0) ||
-				MessageBoxService.ShowQuestionYesNo("Существуют привязанные к отделу сотрудники. Продожить?"))
+				MessageBoxService.ShowQuestion("Существуют привязанные к отделу сотрудники. Продожить?"))
 			{
 				var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
 				base.Remove();

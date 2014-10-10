@@ -149,7 +149,7 @@ namespace SKDModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить огранизацию?"))
 			{
 				if (!OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) ||
-					MessageBoxService.ShowQuestionYesNo("Привязанные к организации объекты будут также архивированы. Продолжить?"))
+					MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?"))
 				{
 					var organisation = SelectedOrganisation.Organisation;
 					var removeResult = OrganisationHelper.MarkDeleted(organisation);

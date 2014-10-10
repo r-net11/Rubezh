@@ -268,7 +268,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите архивировать {0}?", ItemRemovingName)))
 			{
 				Remove();
 			}
