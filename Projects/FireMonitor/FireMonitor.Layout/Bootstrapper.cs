@@ -120,7 +120,7 @@ namespace FireMonitor.Layout
 			}
 			if (_layout == null)
 			{
-				MessageBoxService.ShowWarning2("К сожалению, для Вас нет ни одного доступного макета!");
+				MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
 				return false;
 			}
 			return true;

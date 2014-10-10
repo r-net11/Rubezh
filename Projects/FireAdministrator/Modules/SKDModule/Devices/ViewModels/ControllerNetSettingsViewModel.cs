@@ -81,17 +81,17 @@ namespace SKDModule.ViewModels
 		{
 			if (SKDManager.ValidateIPAddress(Address))
 			{
-				MessageBoxService.ShowWarningExtended("Не верно задан адрес");
+				MessageBoxService.ShowWarning("Не верно задан адрес");
 				return;
 			}
 			if (SKDManager.ValidateIPAddress(Mask))
 			{
-				MessageBoxService.ShowWarningExtended("Не верно задана маска подсети");
+				MessageBoxService.ShowWarning("Не верно задана маска подсети");
 				return;
 			}
 			if (SKDManager.ValidateIPAddress(DefaultGateway))
 			{
-				MessageBoxService.ShowWarningExtended("Не верно задан шлюз по умолчанию");
+				MessageBoxService.ShowWarning("Не верно задан шлюз по умолчанию");
 				return;
 			}
 
@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.SetControllerNetworkSettings(DeviceViewModel.Device, controllerNetworkSettings);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarningExtended(result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			else
@@ -117,7 +117,7 @@ namespace SKDModule.ViewModels
 			var result = FiresecManager.FiresecService.GetControllerNetworkSettings(DeviceViewModel.Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarningExtended(result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			else
@@ -134,7 +134,7 @@ namespace SKDModule.ViewModels
 		{
 			if (HasChanged)
 			{
-				if (MessageBoxService.ShowQuestionYesNo("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
+				if (MessageBoxService.ShowQuestion("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
 				{
 					var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
 					if (addressProperty == null)

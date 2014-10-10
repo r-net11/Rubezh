@@ -26,7 +26,6 @@ namespace VideoModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			Camera = camera;
 			Title = Camera.PresentationName;
-			TopMost = true;
 		}
 
 		public Brush CameraPicture

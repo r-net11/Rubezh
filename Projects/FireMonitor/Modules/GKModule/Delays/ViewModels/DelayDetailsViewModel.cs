@@ -25,6 +25,7 @@ namespace GKModule.ViewModels
 		public DelayDetailsViewModel(GKDelay delay)
 		{
 			Delay = delay;
+			Title = Delay.Name;
 			State.StateChanged += new Action(OnStateChanged);
 
 			ShowCommand = new RelayCommand(OnShow);
@@ -35,9 +36,6 @@ namespace GKModule.ViewModels
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
-
-			Title = Delay.Name;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

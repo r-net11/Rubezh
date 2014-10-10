@@ -34,6 +34,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		string Ping();
+
+		[OperationContract]
+		List<ServerTask> GetServerTasks();
 		#endregion
 
 		#region Journal

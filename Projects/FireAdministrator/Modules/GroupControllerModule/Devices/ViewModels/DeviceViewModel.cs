@@ -413,7 +413,7 @@ namespace GKModule.ViewModels
 			var zone = Device.Zones.FirstOrDefault();
 			if (zone != null)
 			{
-				ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+				ServiceFactoryBase.Events.GetEvent<ShowGKZoneEvent>().Publish(zone.UID);
 			}
 		}
 		bool CanShowZone()
@@ -576,7 +576,7 @@ namespace GKModule.ViewModels
 		{
 			var mpt = GKManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
 			if (mpt != null)
-				ServiceFactoryBase.Events.GetEvent<ShowXMPTEvent>().Publish(mpt.UID);
+				ServiceFactoryBase.Events.GetEvent<ShowGKMPTEvent>().Publish(mpt.UID);
 		}
 		bool CanShowMPT()
 		{

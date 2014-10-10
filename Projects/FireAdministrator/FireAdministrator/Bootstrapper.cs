@@ -50,7 +50,7 @@ namespace FireAdministrator
 					ServiceFactory.StartupService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
 					{
-						MessageBoxService.ShowExtended("Нет прав на работу с программой");
+						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
 					}
 					else if (Application.Current != null)
@@ -78,7 +78,7 @@ namespace FireAdministrator
 				catch (Exception e)
 				{
 					Logger.Error(e, "Bootstrapper.Initialize");
-					MessageBoxService.ShowExceptionExtended(e);
+					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
 					return;
@@ -139,7 +139,7 @@ namespace FireAdministrator
 
 		private void CloseOnException(string message)
 		{
-			MessageBoxService.ShowErrorExtended(message);
+			MessageBoxService.ShowError(message);
 			if (Application.Current != null)
 				Application.Current.Shutdown();
 		}

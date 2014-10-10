@@ -35,7 +35,6 @@ namespace DevicesModule.ViewModels
 			OnStateChanged();
 
 			Title = Device.DottedPresentationAddressAndName;
-			TopMost = true;
 		}
 
 		public string PresentationZone

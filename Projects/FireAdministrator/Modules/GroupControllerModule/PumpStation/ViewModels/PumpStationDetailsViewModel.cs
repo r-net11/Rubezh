@@ -136,12 +136,12 @@ namespace GKModule.ViewModels
 		{
 			if (No <= 0)
 			{
-				MessageBoxService.ShowExtended("Номер должен быть положительным числом");
+				MessageBoxService.Show("Номер должен быть положительным числом");
 				return false;
 			}
 			if (PumpStation.No != No && GKManager.PumpStations.Any(x => x.No == No))
 			{
-				MessageBoxService.ShowExtended("НС с таким номером уже существует");
+				MessageBoxService.Show("НС с таким номером уже существует");
 				return false;
 			}
 

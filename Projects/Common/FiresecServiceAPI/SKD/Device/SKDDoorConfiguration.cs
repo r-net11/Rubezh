@@ -9,17 +9,9 @@ namespace FiresecAPI.SKD
 	{
 		public SKDDoorConfiguration()
 		{
-			AccessMode = SKDDoorConfiguration_AccessMode.ACCESS_MODE_HANDPROTECTED;
-			AccessState = SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL;
 			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
 			DoorDayIntervalsCollection = new DoorDayIntervalsCollection();
 		}
-
-		[DataMember]
-		public SKDDoorConfiguration_AccessMode AccessMode { get; set; }
-
-		[DataMember]
-		public SKDDoorConfiguration_AccessState AccessState { get; set; }
 
 		[DataMember]
 		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod { get; set; }
@@ -53,30 +45,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public DoorDayIntervalsCollection DoorDayIntervalsCollection { get; set; }
-	}
-
-	public enum SKDDoorConfiguration_AccessState
-	{
-		[Description("Норма")]
-		ACCESS_STATE_NORMAL,
-
-		[Description("Всегда открыто")]
-		ACCESS_STATE_CLOSEALWAYS,
-
-		[Description("Всегда закрыто")]
-		ACCESS_STATE_OPENALWAYS,
-	}
-
-	public enum SKDDoorConfiguration_AccessMode
-	{
-		[Description("HANDPROTECTED")]
-		ACCESS_MODE_HANDPROTECTED,
-
-		[Description("SAFEROOM")]
-		ACCESS_MODE_SAFEROOM,
-
-		[Description("OTHER")]
-		ACCESS_MODE_OTHER,
 	}
 
 	public enum SKDDoorConfiguration_DoorOpenMethod

@@ -219,10 +219,10 @@ namespace DevicesModule.ViewModels
 				{
 					if (Device.IntAddress > 10)
 					{
-						MessageBoxService.ShowErrorExtended("Размещать устройства данного типа можно только на индикаторах с адресом меньше 11");
+						MessageBoxService.ShowError("Размещать устройства данного типа можно только на индикаторах с адресом меньше 11");
 						return false;
 					}
-					if (!MessageBoxService.ShowQuestionYesNo("Разместить устройство на нескольких индикаторах?"))
+					if (!MessageBoxService.ShowQuestion("Разместить устройство на нескольких индикаторах?"))
 						return false;
 
 					for (int i = 1; i < 5; i++)

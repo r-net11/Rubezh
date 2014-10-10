@@ -16,6 +16,8 @@ namespace Infrastructure.Common.Services.Content
 		Stream GetContentStream(string guid);
 		T GetObject<T>(Guid guid);
 		T GetObject<T>(string guid);
+		Visual GetVisual(Guid guid);
+		Visual GetVisual(string guid);
 		Drawing GetDrawing(Guid guid);
 		Drawing GetDrawing(string guid);
 		BitmapImage GetBitmapContent(Guid guid);

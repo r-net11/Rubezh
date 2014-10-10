@@ -111,7 +111,7 @@ namespace Infrastructure.Designer.ViewModels
 				Rect border = new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop);
 				if (border.Width > DesignerCanvas.CanvasWidth || border.Height > DesignerCanvas.CanvasHeight)
 				{
-					MessageBoxService.ShowExtended("Размер вставляемого содержимого больше размеров плана");
+					MessageBoxService.Show("Размер вставляемого содержимого больше размеров плана");
 					return false;
 				}
 				if (border.X < 0)

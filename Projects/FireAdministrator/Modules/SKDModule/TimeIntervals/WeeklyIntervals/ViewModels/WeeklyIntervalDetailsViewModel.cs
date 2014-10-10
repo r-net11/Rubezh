@@ -47,7 +47,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Name == "<Никогда>" || Name == "<Всегда>")
 			{
-				MessageBoxService.ShowWarningExtended("Запрещенное назваине");
+				MessageBoxService.ShowWarning("Запрещенное назваине");
 				return false;
 			}
 			WeeklyInterval.Name = Name;

@@ -46,15 +46,15 @@ namespace GKModule.Models
 			var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarningExtended(result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			if (string.IsNullOrEmpty(result.Result))
 			{
-				MessageBoxService.ShowWarningExtended("Ошибка при запросе информации об устройстве");
+				MessageBoxService.ShowWarning("Ошибка при запросе информации об устройстве");
 				return;
 			}
-			MessageBoxService.ShowExtended(result.Result);
+			MessageBoxService.Show(result.Result);
 		}
 
 		bool CanShowInfo()
@@ -68,15 +68,15 @@ namespace GKModule.Models
 			var result = FiresecManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowWarningExtended(result.Error);
+				MessageBoxService.ShowWarning(result.Error);
 				return;
 			}
 			if (!result.Result)
 			{
-				MessageBoxService.ShowWarningExtended("Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени");
 				return;
 			}
-			MessageBoxService.ShowExtended("Операция синхронизации времени завершилась успешно");
+			MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
 		}
 		bool CanSynchroniseTime()
 		{
@@ -112,7 +112,7 @@ namespace GKModule.Models
 							LoadingService.Close();
 							if (result.HasError)
 							{
-								MessageBoxService.ShowWarningExtended(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 						});
 					}) { Name = "DeviceCommandsViewModel WriteConfig" };
@@ -184,7 +184,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
 						{
-							MessageBoxService.ShowWarningExtended(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+							MessageBoxService.ShowWarning(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
 							return;
 						}
 						if (DialogService.ShowModalWindow(configurationCompareViewModel))
@@ -193,7 +193,7 @@ namespace GKModule.Models
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowErrorExtended(result.Error, "Ошибка при чтении конфигурации");
+						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
 					}
 				}));
 			});
@@ -223,7 +223,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
 						{
-							MessageBoxService.ShowErrorExtended(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
 							return;
 						}
 						if (DialogService.ShowModalWindow(configurationCompareViewModel))
@@ -232,7 +232,7 @@ namespace GKModule.Models
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarningExtended(result.Error, "Ошибка при чтении конфигурационного файла");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
 					}
 				}));
 			});
@@ -278,7 +278,7 @@ namespace GKModule.Models
 								LoadingService.Close();
 								if (result.HasError)
 								{
-									MessageBoxService.ShowWarningExtended(result.Error, "Ошибка при обновление ПО");
+									MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 								}
 							}));
 						});
@@ -305,7 +305,7 @@ namespace GKModule.Models
 							LoadingService.Close();
 							if (result.HasError)
 							{
-								MessageBoxService.ShowWarningExtended(result.Error, "Ошибка при обновление ПО");
+								MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 							}
 						}));
 					});
@@ -328,7 +328,7 @@ namespace GKModule.Models
 			{
 				if (validationResult.CannotSave("GK") || validationResult.CannotWrite("GK"))
 				{
-					MessageBoxService.ShowWarningExtended("Обнаружены ошибки. Операция прервана");
+					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 					return false;
 				}
 			}
@@ -339,7 +339,7 @@ namespace GKModule.Models
 		{
 			if (ServiceFactory.SaveService.GKChanged)
 			{
-				if (MessageBoxService.ShowQuestionYesNo("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
 				{
 					if (syncParameters)
 						SelectedDevice.SyncFromSystemToDeviceProperties(SelectedDevice.GetRealChildren());

@@ -16,31 +16,31 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddGKJournalItem(GKJournalItem xJournalItem)
+		public static void AddGKJournalItem(GKJournalItem gkJournalItem)
 		{
 			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = xJournalItem.SystemDateTime;
-			journalItem.DeviceDateTime = xJournalItem.DeviceDateTime;
-			journalItem.JournalEventNameType = xJournalItem.JournalEventNameType;
-			journalItem.JournalEventDescriptionType = xJournalItem.JournalEventDescriptionType;
-			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(xJournalItem.JournalEventNameType);
-			journalItem.ObjectUID = xJournalItem.ObjectUID;
-			journalItem.ObjectName = xJournalItem.ObjectName;
-			journalItem.UserName = xJournalItem.UserName;
+			journalItem.SystemDateTime = gkJournalItem.SystemDateTime;
+			journalItem.DeviceDateTime = gkJournalItem.DeviceDateTime;
+			journalItem.JournalEventNameType = gkJournalItem.JournalEventNameType;
+			journalItem.JournalEventDescriptionType = gkJournalItem.JournalEventDescriptionType;
+			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(gkJournalItem.JournalEventNameType);
+			journalItem.ObjectUID = gkJournalItem.ObjectUID;
+			journalItem.ObjectName = gkJournalItem.ObjectName;
+			journalItem.UserName = gkJournalItem.UserName;
 
-			journalItem.NameText = xJournalItem.Name;
-			journalItem.DescriptionText = xJournalItem.Description;
-			if (!string.IsNullOrEmpty(xJournalItem.AdditionalDescription))
-				journalItem.DescriptionText = xJournalItem.AdditionalDescription;
+			journalItem.NameText = gkJournalItem.Name;
+			journalItem.DescriptionText = gkJournalItem.Description;
+			if (!string.IsNullOrEmpty(gkJournalItem.AdditionalDescription))
+				journalItem.DescriptionText = gkJournalItem.AdditionalDescription;
 
-			if (xJournalItem.GKJournalRecordNo.HasValue && xJournalItem.GKJournalRecordNo.Value > 0)
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", xJournalItem.GKJournalRecordNo.Value.ToString()));
-			if (xJournalItem.GKObjectNo > 0)
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", xJournalItem.GKObjectNo.ToString()));
-			if (!string.IsNullOrEmpty(xJournalItem.GKIpAddress))
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", xJournalItem.GKIpAddress.ToString()));
+			if (gkJournalItem.GKJournalRecordNo.HasValue && gkJournalItem.GKJournalRecordNo.Value > 0)
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", gkJournalItem.GKJournalRecordNo.Value.ToString()));
+			if (gkJournalItem.GKObjectNo > 0)
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkJournalItem.GKObjectNo.ToString()));
+			if (!string.IsNullOrEmpty(gkJournalItem.GKIpAddress))
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkJournalItem.GKIpAddress.ToString()));
 
-			switch (xJournalItem.JournalObjectType)
+			switch (gkJournalItem.JournalObjectType)
 			{
 				case GKJournalObjectType.System:
 					journalItem.JournalObjectType = JournalObjectType.None;
@@ -85,7 +85,7 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddSKDJournalMessage(JournalEventNameType journalEventNameType)
+		void AddJournalMessage(JournalEventNameType journalEventNameType)
 		{
 			var journalItem = new JournalItem()
 			{

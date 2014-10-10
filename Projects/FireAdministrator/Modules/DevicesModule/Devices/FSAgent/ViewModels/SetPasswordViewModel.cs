@@ -61,13 +61,13 @@ namespace DevicesModule.ViewModels
 			if ((Password != "") && (PasswordConfirm != ""))
 				if (!DigitalPasswordHelper.Check(Password) || !DigitalPasswordHelper.Check(PasswordConfirm))
 				{
-					MessageBoxService.ShowExtended("Пароль может содержать только цифры");
+					MessageBoxService.Show("Пароль может содержать только цифры");
 					return false;
 				}
 
 			if (Password != PasswordConfirm)
 			{
-				MessageBoxService.ShowExtended("Пароль и подтверждение пароля должны совпадать");
+				MessageBoxService.Show("Пароль и подтверждение пароля должны совпадать");
 				return false;
 			}
 

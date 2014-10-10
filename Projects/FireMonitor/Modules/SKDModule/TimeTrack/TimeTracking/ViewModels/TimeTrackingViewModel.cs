@@ -98,7 +98,7 @@ namespace SKDModule.ViewModels
 		{
 			if (TimeTracks.Count == 0)
 			{
-				MessageBoxService.ShowWarning2("В отчете нет ни одного сотрудника");
+				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
 				return;
 			}
 			var organisationUIDs = new HashSet<Guid>();
@@ -110,25 +110,25 @@ namespace SKDModule.ViewModels
 
 				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
 				{
-					MessageBoxService.ShowWarning2("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному отделу");
+					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному отделу");
 					return;
 				}
 				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
 			}
 			if (organisationUIDs.Count > 1)
 			{
-				MessageBoxService.ShowWarning2("В отчете должны дыть сотрудники только из одной организации");
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
 				return;
 			}
 			if (departmentNames.Count > 1)
 			{
-				MessageBoxService.ShowWarning2("В отчете должны дыть сотрудники только из одного отдела");
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного отдела");
 				return;
 			}
 
 			if (TimeTrackFilter.StartDate.Date.Month < TimeTrackFilter.EndDate.Date.Month || TimeTrackFilter.StartDate.Date.Year < TimeTrackFilter.EndDate.Date.Year)
 			{
-				MessageBoxService.ShowWarning2("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
+				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
 			}
 
 			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults);

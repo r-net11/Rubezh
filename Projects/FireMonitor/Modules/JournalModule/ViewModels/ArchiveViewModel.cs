@@ -19,7 +19,7 @@ namespace JournalModule.ViewModels
 	public class ArchiveViewModel : ViewPartViewModel
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
-		ArchiveFilter ArchiveFilter;
+		public ArchiveFilter ArchiveFilter { get; private set; }
 		Guid ArchivePortionUID;
 
 		public ArchiveViewModel()
@@ -99,6 +99,8 @@ namespace JournalModule.ViewModels
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDelay.UID);
 			if (showArchiveEventArgs.GKGuardZone != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKGuardZone.UID);
+			if (showArchiveEventArgs.GKDoor != null)
+				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDoor.UID);
 			if (showArchiveEventArgs.SKDDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDevice.UID);
 			if (showArchiveEventArgs.SKDZone != null)
@@ -189,7 +191,7 @@ namespace JournalModule.ViewModels
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
-				MessageBoxService.ShowException2(e);
+				MessageBoxService.ShowException(e);
 			}
 		}
 

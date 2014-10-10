@@ -31,11 +31,9 @@ namespace GKModule.ViewModels
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 
 			Zone = zone;
+			Title = Zone.PresentationName;
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
-
-			Title = Zone.PresentationName;
-			TopMost = true;
 		}
 
 		void OnStateChanged()

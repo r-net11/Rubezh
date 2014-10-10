@@ -118,6 +118,7 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Automation\ProcedureThread.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GKPatchManager.cs" />
     <Compile Include="Automation\AutomationProcessor.cs" />

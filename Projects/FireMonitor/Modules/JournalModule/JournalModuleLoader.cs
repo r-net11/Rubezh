@@ -13,10 +13,12 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
+using Infrastructure.Common.Reports;
+using JournalModule.Reports;
 
 namespace JournalModule
 {
-	public class JournalModuleLoader : ModuleBase, ILayoutProviderModule
+	public class JournalModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		private NavigationItem _journalNavigationItem;
 		JournalViewModel JournalViewModel;
@@ -82,6 +84,18 @@ namespace JournalModule
 		{
 			get { return Infrastructure.Common.ModuleType.Journal; }
 		}
+
+		#region IReportProviderModule Members
+		public IEnumerable<IReportProvider> GetReportProviders()
+		{
+			return new List<IReportProvider>()
+			{
+#if DEBUG
+				new JournalReport(),
+#endif
+			};
+		}
+		#endregion
 
 		public override void AfterInitialize()
 		{

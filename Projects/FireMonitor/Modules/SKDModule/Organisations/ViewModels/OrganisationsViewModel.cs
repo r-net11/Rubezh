@@ -146,7 +146,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить огранизацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить огранизацию?"))
 			{
 				if (!OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) ||
 					MessageBoxService.ShowQuestionYesNo("Привязанные к организации объекты будут также архивированы. Продолжить?"))
@@ -173,7 +173,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите восстановить огранизацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить огранизацию?"))
 			{
 				var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
 				if (!restoreResult)

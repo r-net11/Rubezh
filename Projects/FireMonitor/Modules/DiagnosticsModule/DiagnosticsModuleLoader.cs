@@ -7,16 +7,19 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
+using DiagnosticsModule.Events;
 
 namespace DiagnosticsModule
 {
 	public class DiagnosticsModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		DiagnosticsViewModel DiagnosticsViewModel;
+		ServerViewModel ServerViewModel;
 
 		public override void CreateViewModels()
 		{
 			DiagnosticsViewModel = new DiagnosticsViewModel();
+			ServerViewModel = new ServerViewModel();
 		}
 
 		public override void Initialize()
@@ -27,11 +30,17 @@ namespace DiagnosticsModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			return new List<NavigationItem>()
-			{
-				new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Bug.png")
-			};
+			return new List<NavigationItem>
+				{
+				new NavigationItem("Диагностика", "/Controls;component/Images/Bug.png",
+					new List<NavigationItem>()
+					{
+						new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+						new NavigationItem<ShowServerEvent, object>(ServerViewModel, "Очередь операций", "/Controls;component/Images/Bug.png")
+					})
+				};
 		}
+
 		protected override ModuleType ModuleType
 		{
 			get { return Infrastructure.Common.ModuleType.Diagnostics; }

@@ -166,7 +166,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Department.Phone.Length > 50)
 			{
-				MessageBoxService.Show2("Значение поля 'Телефон' не может быть длиннее 50 символов");
+				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
 				return false;
 			}
 			return true;

@@ -71,6 +71,7 @@ namespace AutomationModule.ViewModels
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.DefaultExplicitValue, variable.DefaultExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
 			Name = variable.Name;
 			IsEditMode = true;
+			IsReference = variable.IsReference;
 		}
 
 		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; protected set; }
@@ -112,6 +113,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		private bool _isReference;
+		public bool IsReference
+		{
+			get { return _isReference; }
+			set
+			{
+				_isReference = value;
+				OnPropertyChanged(() => IsReference);
+			}
+		}
+
 		public override bool OnClosing(bool isCanceled)
 		{
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
@@ -122,12 +134,13 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarningExtended("Название не может быть пустым");
+				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
 			Variable = new Variable();
 			Variable.Name = Name;
 			Variable.IsList = IsList;
+			Variable.IsReference = IsReference;
 			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
 			Variable.EnumType = SelectedExplicitType.EnumType;
 			Variable.ObjectType = SelectedExplicitType.ObjectType;

@@ -175,7 +175,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					MessageBoxService.ShowWarningExtended(deviceInfoResult.Error);
+					MessageBoxService.ShowWarning(deviceInfoResult.Error);
 				}
 			}
 

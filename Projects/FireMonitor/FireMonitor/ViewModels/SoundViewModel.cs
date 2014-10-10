@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using FiresecAPI.SKD;
 
 namespace FireMonitor.ViewModels
 {
@@ -86,6 +87,15 @@ namespace FireMonitor.ViewModels
 							hasStateClass = true;
 							break;
 						}
+
+					foreach (var device in SKDManager.Devices)
+					{
+						if (device.State != null && device.State.StateClass == sound.StateClass)
+						{
+							hasStateClass = true;
+							break;
+						}
+					}
 
 					if (hasStateClass)
 					{

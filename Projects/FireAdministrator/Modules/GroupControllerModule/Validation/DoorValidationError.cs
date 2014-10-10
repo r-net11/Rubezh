@@ -5,7 +5,7 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	class DoorValidationError : ObjectValidationError<GKDoor, ShowXDoorEvent, Guid>
+	class DoorValidationError : ObjectValidationError<GKDoor, ShowGKDoorEvent, Guid>
 	{
 		public DoorValidationError(GKDoor door, string error, ValidationErrorLevel level)
 			: base(door, error, level)

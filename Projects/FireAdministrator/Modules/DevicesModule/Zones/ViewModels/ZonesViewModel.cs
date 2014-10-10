@@ -161,7 +161,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?"))
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				FiresecManager.FiresecConfiguration.RemoveZone(SelectedZone.Zone);
@@ -184,7 +184,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
 		void OnDeleteAllEmpty()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить все пустые зоны ?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?"))
 			{
 				var emptyZones = new List<ZoneViewModel>(
 					Zones.Where(zone => FiresecManager.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneUID == zone.Zone.UID) == false)

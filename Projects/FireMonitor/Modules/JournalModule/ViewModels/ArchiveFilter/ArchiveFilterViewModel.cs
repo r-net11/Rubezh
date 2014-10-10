@@ -58,7 +58,7 @@ namespace JournalModule.ViewModels
 		{
 			if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
 			{
-				MessageBoxService.ShowWarning2("Начальная дата должна быть меньше конечной");
+				MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
 				return;
 			}
 			ArchiveDateTimeViewModel.Save();

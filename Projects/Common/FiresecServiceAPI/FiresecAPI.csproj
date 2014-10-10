@@ -226,6 +226,7 @@
     <Compile Include="Models\Plans\ElementPolygonGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
+    <Compile Include="Models\ServerTask\ServerTask.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />
     <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />

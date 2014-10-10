@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить точку доступа " + SelectedDoor.Door.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить точку доступа " + SelectedDoor.Door.PresentationName))
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				GKManager.DeviceConfiguration.Doors.Remove(SelectedDoor.Door);

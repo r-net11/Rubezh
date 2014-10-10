@@ -14,7 +14,6 @@ namespace DevicesModule.ViewModels
 		public MPTTimerViewModel(Device device)
 		{
 			Title = "Включение МПТ. Обратный отсчет" + device.DottedAddress;
-			TopMost = true;
 			Device = device;
 			_guid = device.UID;
 		}

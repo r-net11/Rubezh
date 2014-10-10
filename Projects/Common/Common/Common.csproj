@@ -151,6 +151,7 @@
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="IIdentity.cs" />
     <Compile Include="ImageCapturer.cs" />
+    <Compile Include="ResourceType.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
     <Compile Include="Map.cs" />

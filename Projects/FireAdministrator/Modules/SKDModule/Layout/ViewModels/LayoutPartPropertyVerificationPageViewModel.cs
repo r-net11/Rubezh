@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Services.Layout;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -55,8 +56,8 @@ namespace SKDModule.ViewModels
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartVerificationViewModel.Properties;
 
-			properties.ReferenceUID = SelectedDevice.UID;
-			_layoutPartVerificationViewModel.UpdateLayoutPart();
+			properties.ReferenceUID = SelectedDevice == null ? Guid.Empty : SelectedDevice.UID;
+			_layoutPartVerificationViewModel.UpdateLayoutPart(SelectedDevice);
 			return true;
 		}
 	}

@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 		bool ConfirmDeactivation()
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
-			return !hasReference || MessageBoxService.ShowConfirmation2("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
+			return !hasReference || MessageBoxService.ShowConfirmation("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
 		}
 	}
 }

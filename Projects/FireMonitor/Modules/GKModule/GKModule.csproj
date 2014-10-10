@@ -100,16 +100,16 @@
     <Compile Include="Doors\Views\DoorToolTipView.xaml.cs">
       <DependentUpon>DoorToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ShowXAlarmsEvent.cs" />
-    <Compile Include="Events\ShowXArchiveEvent.cs" />
-    <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
-    <Compile Include="Events\ShowXJournalEvent.cs" />
+    <Compile Include="Events\ShowGKAlarmsEvent.cs" />
+    <Compile Include="Events\ShowGKArchiveEvent.cs" />
+    <Compile Include="Events\ShowGKDeviceParametersEvent.cs" />
+    <Compile Include="Events\ShowGKJournalEvent.cs" />
     <Compile Include="GKModuleLoader.Subscribe.cs" />
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Events\GKJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchivePimViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchivePumpStationViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />

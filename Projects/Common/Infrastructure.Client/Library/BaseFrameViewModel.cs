@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Devices;
 using Microsoft.Win32;
+using Infrastructure.Client.Converters;
 
 namespace Infrastructure.Client.Library
 {
@@ -99,7 +100,7 @@ namespace Infrastructure.Client.Library
 					result = SVGConverters.Svg2Xaml(openFileDialog.FileName);
 					if (result == null)
 					{
-						MessageBoxService.ShowErrorExtended("Ошибка при конвертировании файла");
+						MessageBoxService.ShowError("Ошибка при конвертировании файла");
 						return;
 					}
 				}

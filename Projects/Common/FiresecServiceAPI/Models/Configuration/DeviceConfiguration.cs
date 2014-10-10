@@ -170,67 +170,6 @@ namespace FiresecAPI.Models
 				RootDevice = device;
 				result = false;
 			}
-			foreach (var guardUser in GuardUsers)
-			{
-				if (guardUser.ZoneUIDs == null)
-				{
-					guardUser.ZoneUIDs = new List<Guid>();
-					result = false;
-				}
-			}
-			foreach (var zone in Zones)
-			{
-				if (zone.UID == Guid.Empty)
-				{
-					zone.UID = Guid.NewGuid();
-					result = false;
-				}
-			}
-			if (ParameterTemplates == null)
-			{
-				ParameterTemplates = new List<ParameterTemplate>();
-				result = false;
-			}
-
-			foreach (var parameterTemplate in ParameterTemplates)
-			{
-				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
-				{
-					if (deviceParameterTemplate.Device.SystemAUProperties == null)
-					{
-						deviceParameterTemplate.Device.SystemAUProperties = new List<Property>();
-						result = false;
-					}
-					if (deviceParameterTemplate.Device.DeviceAUProperties == null)
-					{
-						deviceParameterTemplate.Device.DeviceAUProperties = new List<Property>();
-						result = false;
-					}
-				}
-			}
-
-			foreach (var device in RootDevice.GetAllChildren())
-			{
-				if (device.SystemAUProperties == null)
-				{
-					device.SystemAUProperties = new List<Property>();
-					result = false;
-				}
-				if (device.DeviceAUProperties == null)
-				{
-					device.DeviceAUProperties = new List<Property>();
-					result = false;
-				}
-				foreach (var clause in device.ZoneLogic.Clauses)
-				{
-					if (clause.DeviceUIDs == null)
-					{
-						clause.DeviceUIDs = new List<Guid>();
-						result = false;
-					}
-				}
-			}
-
 			return result;
 		}
 	}

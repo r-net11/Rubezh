@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShowCommand()
 		{
-			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Publish(AlarmType);
+			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Publish(AlarmType);
 		}
 
 		public void Update()

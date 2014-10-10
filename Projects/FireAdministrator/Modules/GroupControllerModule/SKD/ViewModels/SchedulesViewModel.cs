@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить график работ " + SelectedSchedule.Schedule.PresentationName))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить график работ " + SelectedSchedule.Schedule.PresentationName))
 			{
 				var index = Schedules.IndexOf(SelectedSchedule);
 				GKManager.DeviceConfiguration.Schedules.Remove(SelectedSchedule.Schedule);
@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void CreateSchedule(CreateXScheduleEventArg createScheduleEventArg)
+		public void CreateSchedule(CreateGKScheduleEventArg createScheduleEventArg)
 		{
 			ScheduleDetailsViewModel result = OnAddResult();
 			if (result == null)

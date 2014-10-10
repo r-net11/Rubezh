@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 			{
 				if (ParentDevice.Children.Any(x => x.Driver.HasAddress && x.IntAddress == i))
 				{
-					MessageBoxService.ShowWarningExtended("В заданном диапазоне уже существуют устройства");
+					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
 					return false;
 				}
 			}

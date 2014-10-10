@@ -59,12 +59,12 @@ namespace SecurityModule.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(Name))
 			{
-				MessageBoxService.ShowExtended("Сначала введите название шаблона прав");
+				MessageBoxService.Show("Сначала введите название шаблона прав");
 				return false;
 			}
 			else if (Name != Role.Name && FiresecManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
 			{
-				MessageBoxService.ShowExtended("Шаблон прав с таким названием уже существует");
+				MessageBoxService.Show("Шаблон прав с таким названием уже существует");
 				return false;
 			}
 

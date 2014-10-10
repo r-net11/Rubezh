@@ -9,29 +9,23 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Microsoft.Win32;
-using SharpVectors.Converters;
-using SharpVectors.Renderers.Wpf;
+using Infrastructure.Client.Converters;
+using System.Windows.Controls;
+using Common;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutPartPropertyImagePageViewModel : LayoutPartPropertyPageViewModel
 	{
-		private const string VectorGraphicExtensions = ".svg;.svgx";
 		private LayoutPartImageViewModel _layoutPartImageViewModel;
-		private WpfDrawingSettings _settings;
 		private string _sourceName;
 		private bool _imageChanged;
 		private DrawingGroup _drawing;
+		private Canvas _canvas;
 
 		public LayoutPartPropertyImagePageViewModel(LayoutPartImageViewModel layoutPartImageViewModel)
 		{
 			_layoutPartImageViewModel = layoutPartImageViewModel;
-			_settings = new WpfDrawingSettings()
-			{
-				IncludeRuntime = false,
-				TextAsGeometry = true,
-				OptimizePath = true,
-			};
 			StretchTypes = new ObservableCollection<Stretch>(Enum.GetValues(typeof(Stretch)).Cast<Stretch>());
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
@@ -45,53 +39,70 @@ namespace LayoutModule.ViewModels
 			set
 			{
 				_stretch = value;
+				UpdateStretch();
 				OnPropertyChanged(() => Stretch);
 			}
 		}
-		private ImageSource _imageSource;
-		public ImageSource ImageSource
+		private TileBrush _imageBrush;
+		public TileBrush ImageBrush
 		{
-			get { return _imageSource; }
+			get { return _imageBrush; }
 			set
 			{
-				_imageSource = value;
-				OnPropertyChanged(() => ImageSource);
+				_imageBrush = value;
+				UpdateStretch();
+				OnPropertyChanged(() => ImageBrush);
 			}
 		}
+		private void UpdateStretch()
+		{
+			if (ImageBrush != null)
+				ImageBrush.Stretch = Stretch;
+		}
+
 
 		public RelayCommand SelectPictureCommand { get; private set; }
 		private void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg";
+			openFileDialog.Filter = ImageExtensions.GraphicFilter;
 			if (openFileDialog.ShowDialog().Value)
-			{
-				_sourceName = openFileDialog.FileName;
-				if (VectorGraphicExtensions.Contains(Path.GetExtension(_sourceName)))
+				using (new WaitWrapper())
 				{
-					using (FileSvgReader reader = new FileSvgReader(_settings))
-						_drawing = reader.Read(openFileDialog.FileName);
-					ImageSource = new DrawingImage(_drawing);
+					_sourceName = openFileDialog.FileName;
+					if (ImageExtensions.IsSVGGraphics(_sourceName))
+					{
+						_drawing = SVGConverters.ReadDrawing(_sourceName);
+						_canvas = null;
+						ImageBrush = new DrawingBrush(_drawing);
+					}
+					else if (ImageExtensions.IsWMFGraphics(_sourceName))
+					{
+						_drawing = null;
+						_canvas = WMFConverter.ReadCanvas(_sourceName);
+						ImageBrush = new VisualBrush(_canvas);
+					}
+					else
+					{
+						_drawing = null;
+						_canvas = null;
+						ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
+					}
+					_imageChanged = true;
 				}
-				else
-				{
-					_drawing = null;
-					ImageSource = new BitmapImage(new Uri(_sourceName));
-				}
-				_imageChanged = true;
-			}
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
 		private void OnRemovePicture()
 		{
 			_drawing = null;
-			ImageSource = null;
+			_canvas = null;
+			ImageBrush = null;
 			_imageChanged = true;
 		}
 		private bool CanRemovePicture()
 		{
-			return ImageSource != null;
+			return ImageBrush != null;
 		}
 
 		public override string Header
@@ -100,10 +111,11 @@ namespace LayoutModule.ViewModels
 		}
 		public override void CopyProperties()
 		{
-			Stretch = _layoutPartImageViewModel.Stretch;
 			_sourceName = null;
 			_drawing = null;
-			ImageSource = _layoutPartImageViewModel.ImageSource;
+			_canvas = null;
+			ImageBrush = _layoutPartImageViewModel.ImageBrush;
+			Stretch = ((LayoutPartImageProperties)_layoutPartImageViewModel.Properties).Stretch;
 			_imageChanged = false;
 		}
 		public override bool CanSave()
@@ -121,21 +133,30 @@ namespace LayoutModule.ViewModels
 						ServiceFactoryBase.ContentService.RemoveContent(properties.ReferenceUID);
 					if (!string.IsNullOrEmpty(_sourceName))
 					{
-						if (_drawing == null)
-							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
-						else
+						if (_drawing != null)
+						{
 							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
+							properties.ImageType = ResourceType.Drawing;
+						}
+						else if (_canvas != null)
+						{
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_canvas);
+							properties.ImageType = ResourceType.Visual;
+						}
+						else
+						{
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+							properties.ImageType = ResourceType.Image;
+						}
 					}
 					else
 						properties.ReferenceUID = Guid.Empty;
-					properties.IsVectorImage = _drawing != null;
 				}
 				properties.Stretch = Stretch;
-				_layoutPartImageViewModel.UpdateLayoutPart();
+				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;
 			}
 			return false;
 		}
-
 	}
 }

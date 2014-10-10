@@ -162,6 +162,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Reports\JournalReport.cs" />
+    <Compile Include="Reports\JournalReportPdf.cs" />
+    <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDateTimeViewModel.cs" />
@@ -244,6 +247,9 @@
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\JournalReport.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ArchiveFilterView.xaml">

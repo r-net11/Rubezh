@@ -79,7 +79,7 @@ namespace GKModule.Reports
 
 		public string Title
 		{
-			get { return "Журнал событий"; }
+			get { return "Журнал событий ГК"; }
 		}
 
 		public bool IsEnabled

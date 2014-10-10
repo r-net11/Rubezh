@@ -314,7 +314,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены, что хотите восстановить {0}?", ItemRemovingName)))
 			{
 				Restore();
 			}

@@ -96,8 +96,6 @@ namespace Infrastructure.Common
 		Video,
 		[DescriptionAttribute("Cостояния")]
 		Alarm,
-		[DescriptionAttribute("Дозвон")]
-		Call,
 		[DescriptionAttribute("Журнал событий и Архив")]
 		Journal,
 		[DescriptionAttribute("Отчёты")]

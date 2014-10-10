@@ -5,7 +5,7 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	public class DirectionValidationError : ObjectValidationError<GKDirection, ShowXDirectionEvent, Guid>
+	public class DirectionValidationError : ObjectValidationError<GKDirection, ShowGKDirectionEvent, Guid>
 	{
 		public DirectionValidationError(GKDirection direction, string error, ValidationErrorLevel level)
 			: base(direction, error, level)

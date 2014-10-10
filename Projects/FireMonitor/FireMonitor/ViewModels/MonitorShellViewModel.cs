@@ -51,13 +51,12 @@ namespace FireMonitor.ViewModels
 			}
 			if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
 			{
-				MessageBoxService.Show2("Нет прав для выхода из программы");
+				MessageBoxService.Show("Нет прав для выхода из программы");
 				return true;
 			}
 			if (!ApplicationService.IsShuttingDown)
 			{
-				var result = MessageBoxService.ShowConfirmationExtended("Вы действительно хотите выйти из программы?");
-				if (result != MessageBoxResult.Yes)
+				if (!MessageBoxService.ShowConfirmation("Вы действительно хотите выйти из программы?"))
 					return true;
 			}
 			if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))

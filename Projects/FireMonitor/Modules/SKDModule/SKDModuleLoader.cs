@@ -20,10 +20,12 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
+using Infrastructure.Common.Reports;
+using SKDModule.Reports;
 
 namespace SKDModule
 {
-	public class SKDModuleLoader : ModuleBase, ILayoutProviderModule
+	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
@@ -154,6 +156,16 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
 			DesignerLoader.RegisterResource();
 		}
+
+		#region IReportProviderModule Members
+		public IEnumerable<IReportProvider> GetReportProviders()
+		{
+			return new List<IReportProvider>()
+			{
+				new DeviceListReport(),
+			};
+		}
+		#endregion
 
 		public override bool BeforeInitialize(bool firstTime)
 		{

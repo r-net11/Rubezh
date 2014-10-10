@@ -74,5 +74,10 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
 		}
+
+		public List<ServerTask> GetServerTasks()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetServerTasks(); }, "GetServerTasks");
+		}
 	}
 }

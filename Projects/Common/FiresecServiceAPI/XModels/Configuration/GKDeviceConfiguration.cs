@@ -121,24 +121,6 @@ namespace FiresecAPI.GK
 
 			Update();
 
-			if (Delays == null)
-			{
-				Delays = new List<GKDelay>();
-				result = false;
-			}
-
-			if (PumpStations == null)
-			{
-				PumpStations = new List<GKPumpStation>();
-				result = false;
-			}
-
-			if (MPTs == null)
-			{
-				MPTs = new List<GKMPT>();
-				result = false;
-			}
-
 			foreach (var delay in Delays)
 			{
 				result &= ValidateDeviceLogic(delay.DeviceLogic);
@@ -152,21 +134,11 @@ namespace FiresecAPI.GK
 			}
 			foreach (var device in Devices)
 			{
-				device.UID = device.UID;
 				result &= ValidateDeviceLogic(device.DeviceLogic);
 				result &= ValidateDeviceLogic(device.NSLogic);
 			}
-			foreach (var zone in Zones)
-			{
-				zone.UID = zone.UID;
-			}
-			foreach (var direction in Directions)
-			{
-				direction.UID = direction.UID;
-			}
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.UID = pumpStation.UID;
 				result &= ValidateDeviceLogic(pumpStation.StartLogic);
 				result &= ValidateDeviceLogic(pumpStation.StopLogic);
 				result &= ValidateDeviceLogic(pumpStation.AutomaticOffLogic);
@@ -175,44 +147,10 @@ namespace FiresecAPI.GK
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					deviceParameterTemplate.GKDevice.UID = deviceParameterTemplate.GKDevice.UID;
 					result &= ValidateDeviceLogic(deviceParameterTemplate.GKDevice.DeviceLogic);
 					result &= ValidateDeviceLogic(deviceParameterTemplate.GKDevice.NSLogic);
 				}
 			}
-
-			if (GuardZones == null)
-			{
-				GuardZones = new List<GKGuardZone>();
-				result = false;
-			}
-			foreach (var guardZone in GuardZones)
-			{
-				if (guardZone.GuardZoneDevices == null)
-				{
-					guardZone.GuardZoneDevices = new List<GKGuardZoneDevice>();
-					result = false;
-				}
-			}
-
-			if (Codes == null)
-			{
-				Codes = new List<GKCode>();
-				result = false;
-			}
-
-			if (Doors == null)
-			{
-				Doors = new List<GKDoor>();
-				result = false;
-			}
-
-			if (Schedules == null)
-			{
-				Schedules = new List<GKSchedule>();
-				result = false;
-			}
-
 			return result;
 		}
 

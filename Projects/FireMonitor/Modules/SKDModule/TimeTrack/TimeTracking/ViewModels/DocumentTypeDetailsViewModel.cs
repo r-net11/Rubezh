@@ -114,59 +114,59 @@ namespace SKDModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarning2("Не задано название документа");
+				MessageBoxService.ShowWarning("Не задано название документа");
 				return false;
 			}
 			if (string.IsNullOrEmpty(ShortName))
 			{
-				MessageBoxService.ShowWarning2("Не задан буквенный код документа");
+				MessageBoxService.ShowWarning("Не задан буквенный код документа");
 				return false;
 			}
 			if (Code <= 0)
 			{
-				MessageBoxService.ShowWarning2("Числовой код документа должен быть положительным числом");
+				MessageBoxService.ShowWarning("Числовой код документа должен быть положительным числом");
 				return false;
 			}
 			if (TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.Any(x=>x.Name == Name))
 			{
-				MessageBoxService.ShowWarning2("Название документа совпадает с одним из предопределенных");
+				MessageBoxService.ShowWarning("Название документа совпадает с одним из предопределенных");
 				return false;
 			}
 			if (TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.Any(x => x.ShortName == ShortName))
 			{
-				MessageBoxService.ShowWarning2("Буквенный код документа совпадает с одним из предопределенных кодов");
+				MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из предопределенных кодов");
 				return false;
 			}
 			if (Code <= 36)
 			{
-				MessageBoxService.ShowWarning2("Числовой код документа совпадает с одним из предопределенных");
+				MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из предопределенных");
 				return false;
 			}
 
 			var documentTypes = DocumentTypeHelper.GetByOrganisation(OrganisationUID);
 			if (documentTypes.Any(x => x.Name == Name && x.UID != TimeTrackDocumentType.UID))
 			{
-				MessageBoxService.ShowWarning2("Название документа совпадает с одним из ранее введенным");
+				MessageBoxService.ShowWarning("Название документа совпадает с одним из ранее введенным");
 				return false;
 			}
 			if (documentTypes.Any(x => x.ShortName == ShortName && x.UID != TimeTrackDocumentType.UID))
 			{
-				MessageBoxService.ShowWarning2("Буквенный код документа совпадает с одним из ранее введенным");
+				MessageBoxService.ShowWarning("Буквенный код документа совпадает с одним из ранее введенным");
 				return false;
 			}
 			if (documentTypes.Any(x => x.Code == Code && x.UID != TimeTrackDocumentType.UID))
 			{
-				MessageBoxService.ShowWarning2("Числовой код документа совпадает с одним из ранее введенным");
+				MessageBoxService.ShowWarning("Числовой код документа совпадает с одним из ранее введенным");
 				return false;
 			}
 			if (Name.Length > 4000)
 			{
-				MessageBoxService.ShowWarning2("Значение поля 'Название' не может быть длиннее 4000 символов");
+				MessageBoxService.ShowWarning("Значение поля 'Название' не может быть длиннее 4000 символов");
 				return false;
 			}
 			if (ShortName.Length > 50)
 			{
-				MessageBoxService.ShowWarning2("Значение поля 'Сокращённое название' не может быть длиннее 50 символов");
+				MessageBoxService.ShowWarning("Значение поля 'Сокращённое название' не может быть длиннее 50 символов");
 				return false;
 			}
 			TimeTrackDocumentType.Name = Name;

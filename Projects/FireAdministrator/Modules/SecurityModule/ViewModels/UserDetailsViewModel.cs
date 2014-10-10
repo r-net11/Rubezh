@@ -129,12 +129,12 @@ namespace SecurityModule.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(Login))
 			{
-				MessageBoxService.ShowExtended("Логин не может быть пустым");
+				MessageBoxService.Show("Логин не может быть пустым");
 				return false;
 			}
 			else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
 			{
-				MessageBoxService.ShowExtended("Пользователь с таким логином уже существует");
+				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;
 			}
 			return true;
@@ -144,7 +144,7 @@ namespace SecurityModule.ViewModels
 		{
 			if (Password != PasswordConfirmation)
 			{
-				MessageBoxService.ShowExtended("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
+				MessageBoxService.Show("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
 				return false;
 			}
 			return true;

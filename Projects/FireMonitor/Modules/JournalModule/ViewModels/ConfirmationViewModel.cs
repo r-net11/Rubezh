@@ -22,13 +22,17 @@ namespace JournalModule.ViewModels
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
+			Close();
+		}
+
+		public override void OnClosed()
+		{
 			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
 			var journalItem = new JournalItem();
 			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
 			journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
 			FiresecManager.FiresecService.AddJournalItem(journalItem);
-			Close();
 		}
 	}
 }

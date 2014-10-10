@@ -185,28 +185,28 @@ namespace GKModule.ViewModels
 				case GKJournalObjectType.Zone:
 					if (GKManager.Zones.Any(x => x.UID == JournalItem.ObjectUID))
 					{
-						ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(JournalItem.ObjectUID);
+						ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 
 				case GKJournalObjectType.Direction:
 					if (GKManager.Directions.Any(x => x.UID == JournalItem.ObjectUID))
 					{
-						ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
+						ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 
 				case GKJournalObjectType.PumpStation:
 					if (GKManager.PumpStations.Any(x => x.UID == JournalItem.ObjectUID))
 					{
-						ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(JournalItem.ObjectUID);
+						ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 
 				case GKJournalObjectType.GuardZone:
 					if (GKManager.GuardZones.Any(x => x.UID == JournalItem.ObjectUID))
 					{
-						ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>().Publish(JournalItem.ObjectUID);
+						ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 			}
