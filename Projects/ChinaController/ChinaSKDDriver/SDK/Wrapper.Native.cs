@@ -4,6 +4,7 @@ using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using FiresecAPI.Journal;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace ChinaSKDDriver
 {
@@ -96,7 +97,7 @@ namespace ChinaSKDDriver
 					journalItem.szPwd = item1.szPwd;
 
 					int cardNo;
-					if (int.TryParse(item1.szCardNo, out cardNo))
+					if (int.TryParse(item1.szCardNo, NumberStyles.HexNumber, null, out cardNo))
 					{
 						journalItem.CardNo = cardNo;
 					}

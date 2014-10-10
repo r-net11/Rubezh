@@ -18,7 +18,7 @@ namespace PlansModule.Kursk.ViewModels
 			_element = element;
 			Title = "Свойства фигуры: Бак";
 
-			Devices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(item => item.DriverType == GKDriverType.RSR2_Bush));
+			Devices = new ObservableCollection<GKDevice>(GKManager.Devices.Where(item => item.DriverType == GKDriverType.RSR2_Bush_Drenazh));
 			if (_element.DeviceUID != Guid.Empty)
 				SelectedDevice = Devices.FirstOrDefault(x => x.UID == _element.DeviceUID);
 		}

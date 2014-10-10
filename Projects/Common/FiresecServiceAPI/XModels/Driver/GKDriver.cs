@@ -72,7 +72,7 @@ namespace FiresecAPI.GK
 			get
 			{
 				return (DriverType == GKDriverType.FirePump || DriverType == GKDriverType.JockeyPump ||
-						DriverType == GKDriverType.DrainagePump || DriverType == GKDriverType.RSR2_Bush);
+						DriverType == GKDriverType.DrainagePump || DriverType == GKDriverType.RSR2_Bush_Drenazh);
 			}
 		}
 

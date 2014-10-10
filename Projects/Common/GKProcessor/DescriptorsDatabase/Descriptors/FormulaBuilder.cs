@@ -25,39 +25,39 @@ namespace GKProcessor
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(GKStateBit stateBit, GKBase xBase)
+		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, xBase.GKDescriptorNo);
-			Add(FormulaOperationType.GETBIT, (byte)GKStateBit.Ignore, xBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, gkBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)GKStateBit.Ignore, gkBase.GKDescriptorNo);
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(GKStateBit stateBit, GKBase xBase)
+		public void AddGetBit(GKStateBit stateBit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, xBase.GKDescriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, gkBase.GKDescriptorNo);
 		}
 
-		public void AddPutBit(GKStateBit stateBit, GKBase xBase)
+		public void AddPutBit(GKStateBit stateBit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.PUTBIT, (byte)stateBit, xBase.GKDescriptorNo);
+			Add(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase.GKDescriptorNo);
 		}
 
-		public void AddArgumentPutBit(byte bit, GKBase xBase)
+		public void AddArgumentPutBit(byte bit, GKBase gkBase)
 		{
-			Add(FormulaOperationType.PUTBIT, (byte)bit, xBase.GKDescriptorNo);
+			Add(FormulaOperationType.PUTBIT, (byte)bit, gkBase.GKDescriptorNo);
 		}
 
-		public void AddStandardTurning(GKBase xBase)
+		public void AddStandardTurning(GKBase gkBase)
 		{
 			Add(FormulaOperationType.DUP);
-			AddGetBit(GKStateBit.Norm, xBase);
+			AddGetBit(GKStateBit.Norm, gkBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(GKStateBit.TurnOn_InAutomatic, xBase);
+			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
 			Add(FormulaOperationType.COM);
-			AddGetBit(GKStateBit.Norm, xBase);
+			AddGetBit(GKStateBit.Norm, gkBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(GKStateBit.TurnOff_InAutomatic, xBase);
+			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
 		}
 
 		public void AddClauseFormula(GKClauseGroup clauseGroup)
@@ -65,36 +65,36 @@ namespace GKProcessor
 			var clauseIndex = 0;
 			foreach (var clause in clauseGroup.Clauses)
 			{
-				var xBases = new List<GKBase>();
+				var gkBases = new List<GKBase>();
 				foreach (var device in clause.Devices)
 				{
-					xBases.Add(device);
+					gkBases.Add(device);
 				}
 				foreach (var zone in clause.Zones)
 				{
-					xBases.Add(zone);
+					gkBases.Add(zone);
 				}
 				foreach (var guardZone in clause.GuardZones)
 				{
-					xBases.Add(guardZone);
+					gkBases.Add(guardZone);
 				}
 				foreach (var direction in clause.Directions)
 				{
-					xBases.Add(direction);
+					gkBases.Add(direction);
 				}
 				foreach (var mpt in clause.MPTs)
 				{
-					xBases.Add(mpt);
+					gkBases.Add(mpt);
 				}
 				foreach (var delay in clause.Delays)
 				{
-					xBases.Add(delay);
+					gkBases.Add(delay);
 				}
 
 				var objectIndex = 0;
-				foreach (var xBase in xBases)
+				foreach (var gkBase in gkBases)
 				{
-					AddGetBitOff(clause.StateType, xBase);
+					AddGetBitOff(clause.StateType, gkBase);
 
 					if (objectIndex > 0)
 					{

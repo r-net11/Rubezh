@@ -57,7 +57,7 @@ namespace ControllerSDK
 	{
 		public ConnectionSettings()
 		{
-			Address = "172.16.6.55";
+			Address = "172.16.6.40";
 			Port = 37777;
 			Login = "admin";
 			Password = "123456";

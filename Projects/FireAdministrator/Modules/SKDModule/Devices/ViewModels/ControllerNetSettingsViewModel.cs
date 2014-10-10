@@ -79,17 +79,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			if (SKDManager.ValidateIPAddress(Address))
+			if (!SKDManager.ValidateIPAddress(Address))
 			{
 				MessageBoxService.ShowWarning("Не верно задан адрес");
 				return;
 			}
-			if (SKDManager.ValidateIPAddress(Mask))
+			if (!SKDManager.ValidateIPAddress(Mask))
 			{
 				MessageBoxService.ShowWarning("Не верно задана маска подсети");
 				return;
 			}
-			if (SKDManager.ValidateIPAddress(DefaultGateway))
+			if (!SKDManager.ValidateIPAddress(DefaultGateway))
 			{
 				MessageBoxService.ShowWarning("Не верно задан шлюз по умолчанию");
 				return;

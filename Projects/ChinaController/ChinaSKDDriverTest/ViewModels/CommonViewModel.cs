@@ -84,7 +84,7 @@ namespace ControllerSDK.ViewModels
 			{
 				var deviceNetInfo = new SKDControllerNetworkSettings()
 				{
-					Address = "172.16.6.55",
+					Address = "172.16.6.40",
 					Mask = "255.255.252.0",
 					DefaultGateway = "172.16.6.219"
 				};
