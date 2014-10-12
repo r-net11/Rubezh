@@ -32,7 +32,7 @@
 								<StackPanel Orientation="Horizontal">
 									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
 									<TextBlock VerticalAlignment="Center" Width="200">
-											<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+											<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
 												<TextBlock Text="{Binding Zone.Name}" />
 											</Hyperlink>
 											<TextBlock.ContextMenu>

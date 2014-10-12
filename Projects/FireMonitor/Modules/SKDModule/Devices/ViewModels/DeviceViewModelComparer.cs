@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			int result = string.Compare(x.PresentationZone, y.PresentationZone);
+			int result = string.Compare(x.Zone != null ? x.Zone.PresentationName : "", y.Zone != null ? y.Zone.PresentationName : "");
 			if (result == 0)
 				result = string.Compare(x.Device.Driver.ShortName, y.Device.Driver.ShortName);
 			return result;

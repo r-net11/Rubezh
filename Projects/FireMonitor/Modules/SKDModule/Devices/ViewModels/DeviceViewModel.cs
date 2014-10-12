@@ -40,7 +40,11 @@ namespace SKDModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowDoorCommand = new RelayCommand(OnShowDoor, CanShowDoor);
-			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
+
+			if(Device.Zone != null)
+			{
+				Zone = new ZoneViewModel(Device.Zone);
+			}
 		}
 
 		void OnStateChanged()
@@ -55,10 +59,9 @@ namespace SKDModule.ViewModels
 		}
 
 		#region Zone
-		public string PresentationZone
-		{
-			get { return SKDManager.GetPresentationZone(Device); }
-		}
+
+		public ZoneViewModel Zone { get; private set; }
+
 		public bool HasZone
 		{
 			get { return Device.Zone != null; }
@@ -74,15 +77,6 @@ namespace SKDModule.ViewModels
 			return Device.Zone != null;
 		}
 		#endregion
-
-		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
-		void OnShowOnPlanOrProperties()
-		{
-			if (CanShowOnPlan())
-				ServiceFactory.OnPublishEvent<SKDDevice, ShowSKDDeviceOnPlanEvent>(Device);
-			else if (CanShowProperties())
-				DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
-		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		private void OnShowOnPlan()

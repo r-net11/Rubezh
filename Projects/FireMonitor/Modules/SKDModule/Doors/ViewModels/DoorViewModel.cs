@@ -36,7 +36,6 @@ namespace SKDModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 
 			ShowInDeviceCommand = new RelayCommand(OnShowInDevice, CanShowInDevice);
 			ShowOutDeviceCommand = new RelayCommand(OnShowOutDevice, CanShowOutDevice);
@@ -88,15 +87,6 @@ namespace SKDModule.ViewModels
 			return OutDevice != null;
 		}
 		#endregion
-
-		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
-		void OnShowOnPlanOrProperties()
-		{
-			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowSKDDoor(Door);
-			else
-				DialogService.ShowWindow(new DoorDetailsViewModel(Door));
-		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()

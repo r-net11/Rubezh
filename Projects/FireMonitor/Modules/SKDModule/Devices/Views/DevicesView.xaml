@@ -22,21 +22,22 @@
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 						<GridViewColumn Width="75" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
-						<GridViewColumn ListViewLayoutManager.StarWidth="1" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock VerticalAlignment="Center" Visibility="{Binding HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
-										<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+                        <GridViewColumn ListViewLayoutManager.StarWidth="1" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" Visibility="{Binding HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
+										<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Margin="5 0" Source="/Controls;component/Images/Zone.png" />
-												<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" />
+												<Image Width="16" Source="/Controls;component/Images/Zone.png" Margin="2 0" />
+                                                <Image Source="{Binding Zone.State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2 0" />
+												<TextBlock HorizontalAlignment="Stretch" Text="{Binding Zone.PresentationName}" ToolTip="{Binding Zone.PresentationZone}" />
 											</StackPanel>
 										</Hyperlink>
 									</TextBlock>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-					</GridView>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
 		</Grid>
