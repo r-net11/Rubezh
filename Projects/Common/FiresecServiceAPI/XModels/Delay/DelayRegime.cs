@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Режим после удержания
+	/// </summary>
 	public enum DelayRegime
 	{
 		[DescriptionAttribute("Выключено")]

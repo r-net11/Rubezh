@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Модуль пожаротушения ГК
+	/// </summary>
 	[DataContract]
 	public class GKMPT : GKBase
 	{
@@ -18,27 +21,51 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
 
+		/// <summary>
+		/// Время задержки на включение
+		/// </summary>
 		[DataMember]
 		public int Delay { get; set; }
 
+		/// <summary>
+		/// Время удержания
+		/// </summary>
 		[DataMember]
 		public int Hold { get; set; }
 
+		/// <summary>
+		/// Режим после окончания удержания
+		/// </summary>
 		[DataMember]
 		public DelayRegime DelayRegime { get; set; }
 
+		/// <summary>
+		/// Логика включения
+		/// </summary>
 		[DataMember]
 		public GKDeviceLogic StartLogic { get; set; }
 
+		/// <summary>
+		/// Устройства МПТ
+		/// </summary>
 		[DataMember]
 		public List<GKMPTDevice> MPTDevices { get; set; }
 
+		/// <summary>
+		/// Отключать автоматику при срабатывании датчика двери-окна
+		/// </summary>
 		[DataMember]
 		public bool UseDoorAutomatic { get; set; }
 
+		/// <summary>
+		/// Останавливать при срабатывании датчика двери-окна
+		/// </summary>
 		[DataMember]
 		public bool UseDoorStop { get; set; }
 
+		/// <summary>
+		/// Отключать автоматику при неисправности любого устройства
+		/// </summary>
 		[DataMember]
 		public bool UseFailureAutomatic { get; set; }
 

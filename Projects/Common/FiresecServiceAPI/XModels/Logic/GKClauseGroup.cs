@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Группа условий
+	/// </summary>
 	[DataContract]
 	public class GKClauseGroup
 	{
@@ -13,12 +16,21 @@ namespace FiresecAPI.GK
 			ClauseJounOperationType = ClauseJounOperationType.Or;
 		}
 
+		/// <summary>
+		/// Дочерняя группа условий
+		/// </summary>
 		[DataMember]
 		public List<GKClauseGroup> ClauseGroups { get; set; }
 
+		/// <summary>
+		/// Условия
+		/// </summary>
 		[DataMember]
 		public List<GKClause> Clauses { get; set; }
 
+		/// <summary>
+		/// Тип объединения условий
+		/// </summary>
 		[DataMember]
 		public ClauseJounOperationType ClauseJounOperationType { get; set; }
 

@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Устройство охранной зоны
+	/// </summary>
 	[DataContract]
 	public class GKGuardZoneDevice
 	{
@@ -16,12 +19,21 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public GKDevice Device { get; set; }
 
+		/// <summary>
+		/// Идентификатор устройства
+		/// </summary>
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
+		/// <summary>
+		/// Тип действия
+		/// </summary>
 		[DataMember]
 		public GKGuardZoneDeviceActionType ActionType { get; set; }
 
+		/// <summary>
+		/// Настройки кодонаборника в охранной зоне
+		/// </summary>
 		[DataMember]
 		public GKCodeReaderSettings CodeReaderSettings { get; set; }
 	}

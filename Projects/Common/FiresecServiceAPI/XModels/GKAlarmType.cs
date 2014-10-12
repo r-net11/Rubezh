@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип тревоги
+	/// </summary>
 	public enum GKAlarmType
 	{
 		[DescriptionAttribute("Пожаротушение")]

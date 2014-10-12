@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип операции логики ГК
+	/// </summary>
 	public enum FormulaOperationType
 	{
 		[DescriptionAttribute("Взять бит")]

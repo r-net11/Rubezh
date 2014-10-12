@@ -10,6 +10,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Устройство ГК
+	/// </summary>
 	[DataContract]
 	public class GKDevice : GKBase, IPlanPresentable
 	{
@@ -115,6 +118,9 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
+		/// <summary>
+		/// Разрешить множественное размещение на плане
+		/// </summary>
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 

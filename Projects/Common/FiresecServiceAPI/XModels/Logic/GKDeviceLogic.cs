@@ -3,6 +3,9 @@ using FiresecAPI.Models;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Логика включения объектов ГК
+	/// </summary>
 	[DataContract]
 	public class GKDeviceLogic
 	{
@@ -12,9 +15,15 @@ namespace FiresecAPI.GK
 			OffClausesGroup = new GKClauseGroup();
 		}
 
+		/// <summary>
+		/// Группа условий для включения
+		/// </summary>
 		[DataMember]
 		public GKClauseGroup ClausesGroup { get; set; }
 
+		/// <summary>
+		/// Группа условий для выключения
+		/// </summary>
 		[DataMember]
 		public GKClauseGroup OffClausesGroup { get; set; }
 

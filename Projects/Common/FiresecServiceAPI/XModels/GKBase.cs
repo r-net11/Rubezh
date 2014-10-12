@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Базоый класс объектов ГК
+	/// </summary>
 	[DataContract]
 	public abstract class GKBase : ModelBase, IStateProvider
 	{

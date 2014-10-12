@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип устройства МПТ
+	/// </summary>
 	public enum GKMPTDeviceType
 	{
 		[DescriptionAttribute("Табличка Не входи")]

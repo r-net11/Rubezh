@@ -4,24 +4,20 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Шаблон параметров устройств
+	/// </summary>
 	[DataContract]
-	public class GKParameterTemplate
+	public class GKParameterTemplate : ModelBase
 	{
 		public GKParameterTemplate()
 		{
-			UID = Guid.NewGuid();
 			DeviceParameterTemplates = new List<GKDeviceParameterTemplate>();
 		}
 
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public int No { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
-
+		/// <summary>
+		/// Шаблоны параметров устройств
+		/// </summary>
 		[DataMember]
 		public List<GKDeviceParameterTemplate> DeviceParameterTemplates { get; set; }
 	}

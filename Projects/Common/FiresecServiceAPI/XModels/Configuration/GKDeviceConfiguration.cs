@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Конфигурация ГК
+	/// </summary>
 	[DataContract]
 	public partial class GKDeviceConfiguration : VersionedConfiguration
 	{
@@ -27,42 +30,81 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
 
+		/// <summary>
+		/// Устройство верхнего уровня
+		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
 
+		/// <summary>
+		/// Зоны
+		/// </summary>
 		[DataMember]
 		public List<GKZone> Zones { get; set; }
 
+		/// <summary>
+		/// Направления
+		/// </summary>
 		[DataMember]
 		public List<GKDirection> Directions { get; set; }
 
+		/// <summary>
+		/// Насосные станции
+		/// </summary>
 		[DataMember]
 		public List<GKPumpStation> PumpStations { get; set; }
 
+		/// <summary>
+		/// Модули пожаротушения
+		/// </summary>
 		[DataMember]
 		public List<GKMPT> MPTs { get; set; }
 
+		/// <summary>
+		/// Задержки
+		/// </summary>
 		[DataMember]
 		public List<GKDelay> Delays { get; set; }
 
+		/// <summary>
+		/// Фильтры журнала событий
+		/// </summary>
 		[DataMember]
 		public List<GKJournalFilter> JournalFilters { get; set; }
 
+		/// <summary>
+		/// Инструкции
+		/// </summary>
 		[DataMember]
 		public List<GKInstruction> Instructions { get; set; }
 
+		/// <summary>
+		/// Коды
+		/// </summary>
 		[DataMember]
 		public List<GKCode> Codes { get; set; }
 
+		/// <summary>
+		/// Охранные зоны
+		/// </summary>
 		[DataMember]
 		public List<GKGuardZone> GuardZones { get; set; }
 
+		/// <summary>
+		/// Точки доступа
+		/// </summary>
 		[DataMember]
 		public List<GKDoor> Doors { get; set; }
 
+		/// <summary>
+		/// Графики работ
+		/// </summary>
 		[DataMember]
 		public List<GKSchedule> Schedules { get; set; }
 
+		/// <summary>
+		/// Шаблоны параметров устройств
+		/// </summary>
 		[DataMember]
 		public List<GKParameterTemplate> ParameterTemplates { get; set; }
 

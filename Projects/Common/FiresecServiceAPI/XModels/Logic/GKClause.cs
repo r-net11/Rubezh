@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Условия
+	/// </summary>
 	[DataContract]
 	public class GKClause
 	{
@@ -39,30 +42,57 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDelay> Delays { get; set; }
 
+		/// <summary>
+		/// Тип условия
+		/// </summary>
 		[DataMember]
 		public ClauseConditionType ClauseConditionType { get; set; }
 
+		/// <summary>
+		/// Бит состояния
+		/// </summary>
 		[DataMember]
 		public GKStateBit StateType { get; set; }
 
+		/// <summary>
+		/// Идентификаторы устройств
+		/// </summary>
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
 
+		/// <summary>
+		/// Идентификаторы зон
+		/// </summary>
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
 
+		/// <summary>
+		/// Идентификаторы охрвнных зон
+		/// </summary>
 		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }
 
+		/// <summary>
+		/// Идентификаторы направлений
+		/// </summary>
 		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }
 
+		/// <summary>
+		/// Идентификаторы МПТ
+		/// </summary>
 		[DataMember]
 		public List<Guid> MPTUIDs { get; set; }
 
+		/// <summary>
+		/// Идентификаторы задержек
+		/// </summary>
 		[DataMember]
 		public List<Guid> DelayUIDs { get; set; }
 
+		/// <summary>
+		/// Тип операции
+		/// </summary>
 		[DataMember]
 		public ClauseOperationType ClauseOperationType { get; set; }
 

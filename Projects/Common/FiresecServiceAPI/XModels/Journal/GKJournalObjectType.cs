@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип объекта ГК
+	/// </summary>
 	[DataContract]
 	public enum GKJournalObjectType
 	{

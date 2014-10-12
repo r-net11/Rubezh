@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// График работ ГК
+	/// </summary>
 	[DataContract]
 	public class GKSchedule : ModelBase
 	{

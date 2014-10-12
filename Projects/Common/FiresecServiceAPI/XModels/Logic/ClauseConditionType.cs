@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип условия
+	/// </summary>
 	public enum ClauseConditionType
 	{
 		[DescriptionAttribute("Если")]

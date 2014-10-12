@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Устройство МПТ
+	/// </summary>
 	[DataContract]
 	public class GKMPTDevice
 	{
@@ -16,9 +19,15 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public GKDevice Device { get; set; }
 
+		/// <summary>
+		/// Идентификатор устройства
+		/// </summary>
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
+		/// <summary>
+		/// Тип устройства МПТ
+		/// </summary>
 		[DataMember]
 		public GKMPTDeviceType MPTDeviceType { get; set; }
 

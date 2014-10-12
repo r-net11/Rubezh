@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Класс состояния
+	/// </summary>
 	public enum XStateClass
 	{
 		[DescriptionAttribute("Отсутствует лицензия")]

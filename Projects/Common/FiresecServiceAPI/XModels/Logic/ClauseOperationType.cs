@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип операции
+	/// </summary>
 	public enum ClauseOperationType
 	{
 		[DescriptionAttribute("в любой зоне из")]

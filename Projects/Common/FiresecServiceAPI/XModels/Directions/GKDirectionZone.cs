@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Зона направления
+	/// </summary>
 	[DataContract]
 	public class GKDirectionZone
 	{
@@ -15,9 +18,15 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public GKZone Zone { get; set; }
 
+		/// <summary>
+		/// Идентификатор зоны
+		/// </summary>
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 
+		/// <summary>
+		/// Бит состояния
+		/// </summary>
 		[DataMember]
 		public GKStateBit StateBit { get; set; }
 	}
