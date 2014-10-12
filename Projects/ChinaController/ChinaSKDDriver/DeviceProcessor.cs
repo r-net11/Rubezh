@@ -66,7 +66,36 @@ namespace ChinaSKDDriver
 						{
 							journalItem.ObjectName = "Не найдено в конфигурации";
 						}
-						journalItem.DescriptionText = "Метод открытия: " + skdJournalItem.emOpenMethod.ToDescription();
+						switch (skdJournalItem.emOpenMethod)
+						{
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Неизвестно;
+								break;
+
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Пароль;
+								break;
+
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Карта;
+								break;
+
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Сначала_карта;
+								break;
+
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Сначала_пароль;
+								break;
+
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_REMOTE:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Удаленно;
+								break;
+
+							case NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_BUTTON:
+								journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Метод_открытия_Кнопка;
+								break;
+						}
 						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
 
 						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)

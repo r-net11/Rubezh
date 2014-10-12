@@ -15,7 +15,6 @@ namespace FiresecAPI.GK
 		public GKLibraryDevice()
 		{
 			UID = Guid.NewGuid();
-			IsAlternative = false;
 			States = new List<GKLibraryState>();
 		}
 

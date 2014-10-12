@@ -85,7 +85,7 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddJournalMessage(JournalEventNameType journalEventNameType)
+		void AddJournalMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
 		{
 			var journalItem = new JournalItem()
 			{
