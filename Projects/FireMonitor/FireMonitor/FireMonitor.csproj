@@ -121,6 +121,7 @@
     <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
+    <Compile Include="ViewModels\TimePresenterViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\UserFotterViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

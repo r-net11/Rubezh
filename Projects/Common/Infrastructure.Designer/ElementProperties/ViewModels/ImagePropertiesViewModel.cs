@@ -61,10 +61,19 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
-						_drawing = null;
-						_wmf = WMFConverter.ReadWMF(_sourceName);
-						ImageBrush = new VisualBrush(_wmf.Canvas);
-						_imageType = ResourceType.Visual;
+                        _wmf = WMFConverter.ReadWMF(_sourceName);
+                        _drawing = _wmf == null ? null : _wmf.ToDrawing();
+                        if (_drawing == null)
+                        {
+                            ImageBrush = new VisualBrush(_wmf.Canvas);
+                            _imageType = ResourceType.Visual;
+                        }
+                        else
+                        {
+                            _wmf = null;
+                            ImageBrush = new DrawingBrush(_drawing);
+                            _imageType = ResourceType.Drawing;
+                        }
 					}
 					else
 					{

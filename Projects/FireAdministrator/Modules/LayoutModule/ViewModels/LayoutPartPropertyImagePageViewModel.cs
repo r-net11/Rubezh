@@ -78,9 +78,15 @@ namespace LayoutModule.ViewModels
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
-						_drawing = null;
 						_wmf = WMFConverter.ReadWMF(_sourceName);
-						ImageBrush = new VisualBrush(_wmf.Canvas);
+                        _drawing = _wmf == null ? null : _wmf.ToDrawing();
+                        if (_drawing == null)
+                            ImageBrush = new VisualBrush(_wmf.Canvas);
+                        else
+                        {
+                            _wmf = null;
+                            ImageBrush = new DrawingBrush(_drawing);
+                        }
 					}
 					else
 					{
@@ -142,7 +148,7 @@ namespace LayoutModule.ViewModels
 							}
 							else if (_wmf != null)
 							{
-								properties.ReferenceUID = ImageHelper.SaveImage(_wmf);
+								properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_wmf.Canvas);
 								properties.ImageType = ResourceType.Visual;
 							}
 							else
