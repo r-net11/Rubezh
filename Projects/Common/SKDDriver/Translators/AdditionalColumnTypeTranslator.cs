@@ -94,13 +94,5 @@ namespace SKDDriver
 			result = result.And(e => e.PersonType == (int?)filter.PersonType);
 			return result;
 		}
-
-		public override OperationResult MarkDeleted(Guid uid)
-		{
-			var result = DatabaseService.AdditionalColumnTranslator.DeleteAllByType(uid);
-			if (result.HasError)
-				return result;
-			return base.MarkDeleted(uid);
-		}
 	}
 }

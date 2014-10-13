@@ -31,14 +31,108 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Guid uid)
 		{
-			bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == uid);
-			if (isHasEmployees)
-				return new OperationResult("Невозможно удалить отдел, пока он содержит действующих сотрудников");
+			//bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == uid);
+			//if (isHasEmployees)
+			//    return new OperationResult("Невозможно удалить отдел, пока он содержит действующих сотрудников");
 
-			bool isHasChildren = Table.Any(x => !x.IsDeleted && x.ParentDepartmentUID == uid);
-			if (isHasChildren)
-				return new OperationResult("Невозможно удалить отдел, пока он содержит дочерние отделы");
+			//bool isHasChildren = Table.Any(x => !x.IsDeleted && x.ParentDepartmentUID == uid);
+			//if (isHasChildren)
+			//    return new OperationResult("Невозможно удалить отдел, пока он содержит дочерние отделы");
 			return base.CanDelete(uid);
+		}
+
+		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
+		{
+			return MarkDeletedByParentWithSubmit(uid, removalDate);
+		}
+
+		OperationResult MarkDeletedByParent(Guid parentDepartmentUID, DateTime removalDate)
+		{
+			try
+			{
+				var databaseItems = Table.Where(x => !x.IsDeleted && x.ParentDepartmentUID == parentDepartmentUID);
+				if (databaseItems != null)
+				{
+					foreach (var item in databaseItems)
+					{
+						item.IsDeleted = true;
+						item.RemovalDate = removalDate;
+						var result = MarkDeletedByParent(item.UID, removalDate);
+						if (result.HasError)
+							return result;
+					}
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		OperationResult MarkDeletedByParentWithSubmit(Guid uid, DateTime removalDate)
+		{
+			try
+			{
+				var result = MarkDeletedByParent(uid, removalDate);
+				if (result.HasError)
+					return result;
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		protected override OperationResult BeforeRestore(Guid uid, DateTime removalDate)
+		{
+			return RestoreByChildWithSubmit(uid, removalDate);
+		}
+
+		OperationResult RestoreByChild(Guid uid, DateTime removalDate)
+		{
+			try
+			{
+				var parent = Table.FirstOrDefault(x => x.Departments.Any(y => y.UID == uid));
+				if (parent != null)
+				{
+					parent.IsDeleted = false;
+					var result = RestoreByChild(parent.UID, removalDate);
+					if (result.HasError)
+						return result;
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		OperationResult RestoreByChildWithSubmit(Guid uid, DateTime removalDate)
+		{
+			try
+			{
+				var result = RestoreByChild(uid, removalDate);
+				if (result.HasError)
+					return result;
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+ 
+		protected override OperationResult CanRestore(Guid uid)
+		{
+			//var parent = Table.FirstOrDefault(x => x.Departments.Any(y => y.UID == uid));
+			//if(parent != null && parent.IsDeleted)
+			//    return new OperationResult("Не могу восстановить, так как родительский отдел удалён");
+			return base.CanRestore(uid);
 		}
 
 		protected override Department Translate(DataAccess.Department tableItem)
@@ -46,7 +140,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 
 			var childDepartmentUIDs = new List<Guid>();
-			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
+			foreach (var department in Context.Departments.Where(x => x.ParentDepartmentUID == tableItem.UID))
 			{
 				childDepartmentUIDs.Add(department.UID);
 			}
@@ -87,9 +181,10 @@ namespace SKDDriver
 			result.ChiefUID = tableItem.ChiefUID;
 			result.HRChiefUID = tableItem.HRChiefUID;
 			result.Phone = tableItem.Phone;
+			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 			
 			result.ChildDepartmentUIDs = new List<Guid>();
-			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
+			foreach (var department in Context.Departments.Where(x => x.ParentDepartmentUID == tableItem.UID))
 				result.ChildDepartmentUIDs.Add(department.UID);
 			
 			return result;

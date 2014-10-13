@@ -119,7 +119,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (MessageBoxService.ShowConfirmation2(string.Format("Вы уверены, что хотите удалить макет '{0}'?", SelectedLayout.Caption)))
+			if (MessageBoxService.ShowConfirmation(string.Format("Вы уверены, что хотите удалить макет '{0}'?", SelectedLayout.Caption)))
 				OnLayoutRemove();
 		}
 		public RelayCommand EditCommand { get; private set; }

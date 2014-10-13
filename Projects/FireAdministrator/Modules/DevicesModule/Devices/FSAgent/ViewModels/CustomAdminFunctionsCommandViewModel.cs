@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 			var operationResult = FiresecManager.FiresecDriver.DeviceCustomFunctionList(device.Driver.UID);
 			if (operationResult.HasError)
 			{
-				MessageBoxService.ShowErrorExtended(operationResult.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowError(operationResult.Error, "Ошибка при выполнении операции");
 				return;
 			}
 			Functions = operationResult.Result;

@@ -37,6 +37,15 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
+                    <GridViewColumn Header="Дата удаления" ListViewLayoutManager.StarWidth="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding RemovalDate}" Style="{StaticResource IsDeletedStyle}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>

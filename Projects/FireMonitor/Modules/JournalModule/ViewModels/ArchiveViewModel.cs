@@ -19,7 +19,7 @@ namespace JournalModule.ViewModels
 	public class ArchiveViewModel : ViewPartViewModel
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
-		ArchiveFilter ArchiveFilter;
+		public ArchiveFilter ArchiveFilter { get; private set; }
 		Guid ArchivePortionUID;
 
 		public ArchiveViewModel()
@@ -191,7 +191,7 @@ namespace JournalModule.ViewModels
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
-				MessageBoxService.ShowException2(e);
+				MessageBoxService.ShowException(e);
 			}
 		}
 

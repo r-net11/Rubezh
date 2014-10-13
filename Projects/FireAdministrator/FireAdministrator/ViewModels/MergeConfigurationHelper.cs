@@ -33,7 +33,7 @@ namespace FireAdministrator.ViewModels
 			if (openDialog.ShowDialog().Value)
 			{
 				ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-				//ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
+				ZipConfigActualizeHelper.Actualize(openDialog.FileName, false);
 				var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/MergeConfiguration");
 				var configFileName = Path.Combine(folderName, "Config.fscp");
 				if (Directory.Exists(folderName))
@@ -79,7 +79,7 @@ namespace FireAdministrator.ViewModels
 				return;
 			}
 
-			foreach (var zipConfigurationItem in zipConfigurationItemsCollection.GetWellKnownZipConfigurationItems)
+			foreach (var zipConfigurationItem in zipConfigurationItemsCollection.GetWellKnownZipConfigurationItems())
 			{
 				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem.Name);
 				if (File.Exists(configurationFileName))
@@ -218,7 +218,7 @@ namespace FireAdministrator.ViewModels
 			var errorsString = errors.ToString();
 			if (!string.IsNullOrEmpty(errorsString))
 			{
-				MessageBoxService.ShowErrorExtended(errorsString, "В результате слияния конфигурации возникли ошибки");
+				MessageBoxService.ShowError(errorsString, "В результате слияния конфигурации возникли ошибки");
 			}
 		}
 

@@ -6,6 +6,9 @@ using System.ComponentModel;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Метод ввода
+	/// </summary>
 	public enum GKCodeReaderEnterType
 	{
 		[Description("<Нет>")]

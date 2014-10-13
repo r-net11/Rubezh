@@ -5,7 +5,7 @@ using FiresecAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
 {
-	public static class ScheduleSchemaHelper
+	public static class ScheduleSchemeHelper
 	{
 		public static bool Save(ScheduleScheme scheduleScheme)
 		{

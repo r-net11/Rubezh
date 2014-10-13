@@ -11,15 +11,15 @@ namespace AutomationModule.ViewModels
 		public GetListCountStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetListCountArgument = stepViewModel.Step.GetListCountArgument;
-			ListArgument = new ArgumentViewModel(GetListCountArgument.ListArgument, stepViewModel.Update, false);
-			CountArgument = new ArgumentViewModel(GetListCountArgument.CountArgument, stepViewModel.Update, false);
+			ListArgument = new ArgumentViewModel(GetListCountArgument.ListArgument, stepViewModel.Update, UpdateContent, false);
+			CountArgument = new ArgumentViewModel(GetListCountArgument.CountArgument, stepViewModel.Update, UpdateContent, false);
 			CountArgument.ExplicitType = ExplicitType.Integer;
 		}
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
-			CountArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
+			ListArgument.Update(Procedure, isList:true);
+			CountArgument.Update(Procedure, ExplicitType.Integer, isList:false);
 		}
 
 		public override string Description

@@ -36,7 +36,6 @@ namespace SKDModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 
 			ShowInDeviceCommand = new RelayCommand(OnShowInDevice, CanShowInDevice);
 			ShowOutDeviceCommand = new RelayCommand(OnShowOutDevice, CanShowOutDevice);
@@ -89,15 +88,6 @@ namespace SKDModule.ViewModels
 		}
 		#endregion
 
-		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
-		void OnShowOnPlanOrProperties()
-		{
-			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowSKDDoor(Door);
-			else
-				DialogService.ShowWindow(new DoorDetailsViewModel(Door));
-		}
-
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
@@ -132,7 +122,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -149,7 +139,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -166,7 +156,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -183,7 +173,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}

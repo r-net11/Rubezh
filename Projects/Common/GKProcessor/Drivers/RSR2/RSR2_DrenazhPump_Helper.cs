@@ -10,7 +10,7 @@ namespace GKProcessor
 			var driver = new GKDriver()
 			{
 				DriverTypeNo = 0xE0,
-				DriverType = GKDriverType.RSR2_Bush,
+				DriverType = GKDriverType.RSR2_Bush_Drenazh,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
 				Name = "Прибор пожарный управлления Дренажным Насосом",
 				ShortName = "ППУ ДН R2",

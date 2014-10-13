@@ -13,9 +13,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlSKDDeviceArguments = stepViewModel.Step.ControlSKDDeviceArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
-			SKDDeviceArgument = new ArgumentViewModel(ControlSKDDeviceArguments.SKDDeviceArgument, stepViewModel.Update);
-			SKDDeviceArgument.ObjectType = ObjectType.SKDDevice;
-			SKDDeviceArgument.ExplicitType = ExplicitType.Object;
+			SKDDeviceArgument = new ArgumentViewModel(ControlSKDDeviceArguments.SKDDeviceArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlSKDDeviceArguments.Command;
 		}
 
@@ -34,7 +32,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			SKDDeviceArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.SKDDevice, false));
+			SKDDeviceArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.SKDDevice, isList:false);
 		}
 
 		public override string Description

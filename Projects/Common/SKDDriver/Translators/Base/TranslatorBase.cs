@@ -36,11 +36,7 @@ namespace SKDDriver
 				return new OperationResult("Попытка сохранить пустую запись");
 			return new OperationResult();
 		}
-		protected virtual OperationResult CanDelete(Guid uid)
-		{
-			return new OperationResult();
-		}
-
+		
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
 			if (apiItems == null || apiItems.Count() == 0)

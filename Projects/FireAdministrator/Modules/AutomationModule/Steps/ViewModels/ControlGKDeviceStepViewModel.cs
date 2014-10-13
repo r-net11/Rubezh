@@ -15,9 +15,7 @@ namespace AutomationModule.ViewModels
 		public ControlGKDeviceStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
-			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceArgument, stepViewModel.Update);
-			GKDeviceArgument.ObjectType = ObjectType.Device;
-			GKDeviceArgument.ExplicitType = ExplicitType.Object;
+			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceArgument, stepViewModel.Update, null);
 			GKDeviceArgument.UpdateVariableScopeHandler = Update;
 			GKDeviceArgument.ExplicitValue.UpdateObjectHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
@@ -108,7 +106,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			GKDeviceArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
+			GKDeviceArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.Device, isList:false);
 		}
 
 		public override string Description

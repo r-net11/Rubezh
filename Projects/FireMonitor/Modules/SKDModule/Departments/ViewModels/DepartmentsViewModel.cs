@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Windows;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -24,7 +25,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var model in models)
 				{
-					if (model.OrganisationUID == organisation.Organisation.UID && model.ParentDepartmentUID == null)
+					if (model.OrganisationUID == organisation.Organisation.UID && (model.ParentDepartmentUID == null || model.ParentDepartmentUID == Guid.Empty))
 					{
 						var itemViewModel = new DepartmentViewModel();
 						itemViewModel.InitializeModel(organisation.Organisation, model, this);
@@ -158,6 +159,43 @@ namespace SKDModule.ViewModels
 				parent.ChildDepartmentUIDs.Add(shortDepartment.UID);
 			}
 			return result;
+		}
+
+		protected override void Remove()
+		{
+			if (!SelectedItem.GetAllChildren().Any(x => x.EmployeeListViewModel.Employees != null && x.EmployeeListViewModel.Employees.Count > 0) ||
+				MessageBoxService.ShowQuestion("Существуют привязанные к отделу сотрудники. Продожить?"))
+			{
+				var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+				base.Remove();
+				if (IsWithDeleted)
+				{
+					foreach (var child in SelectedItem.GetAllChildren())
+					{
+						child.IsDeleted = true;
+						child.RemovalDate = SelectedItem.RemovalDate;
+					}
+				}
+				foreach (var uid in employeeUIDs)
+				{
+					ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+				}
+			}
+		}
+
+		protected override void Restore()
+		{
+			base.Restore();
+			foreach (var child in SelectedItem.GetAllParents().Where(x => x.IsDeleted))
+			{
+				child.IsDeleted = false;
+				SelectedItem.RemovalDate = "";
+			}
+			var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+			foreach (var uid in employeeUIDs)
+			{
+				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+			}
 		}
 
 		protected override string ItemRemovingName

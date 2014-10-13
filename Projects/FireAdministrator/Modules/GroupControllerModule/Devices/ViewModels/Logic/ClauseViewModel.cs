@@ -81,6 +81,9 @@ namespace GKModule.ViewModels
 						{
 							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
 							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
+							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
+							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
+							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
 							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
 						}
 						break;
@@ -255,6 +258,10 @@ namespace GKModule.ViewModels
 				}
 				if (device.UID == Device.UID)
 					continue;
+				if (device.Driver.DriverType == GKDriverType.RSR2_RM_1)
+				{
+					;
+				}
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}

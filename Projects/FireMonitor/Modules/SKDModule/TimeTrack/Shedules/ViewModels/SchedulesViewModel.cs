@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -88,6 +89,15 @@ namespace SKDModule.ViewModels
 					ZoneUID = scheduleZone.ZoneUID,
 				});
 			return copy;
+		}
+
+		protected override void Remove()
+		{
+			var isAnyEmployees = EmployeeHelper.Get(new EmployeeFilter { ScheduleUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0;
+			if (MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?"))
+			{
+				base.Remove();
+			}
 		}
 
 		protected override bool Save(Schedule item)

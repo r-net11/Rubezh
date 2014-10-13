@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
@@ -20,27 +21,8 @@ namespace AutomationModule.ViewModels
 			Title = title;
 			Name = defaultName;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel();
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>();
-			foreach (var explicitType in ProcedureHelper.GetEnumObs<ExplicitType>())
-				ExplicitTypes.Add(new ExplicitTypeViewModel(explicitType));
-			foreach (var enumType in ProcedureHelper.GetEnumObs<EnumType>())
-			{
-				var explicitTypeViewModel = new ExplicitTypeViewModel(enumType);
-				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Enum);
-				if (parent != null)
-				{
-					parent.AddChild(explicitTypeViewModel);
-				}
-			}
-			foreach (var objectType in ProcedureHelper.GetEnumObs<ObjectType>())
-			{
-				var explicitTypeViewModel = new ExplicitTypeViewModel(objectType);
-				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Object);
-				if (parent != null)
-				{
-					parent.AddChild(explicitTypeViewModel);
-				}
-			}
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(ProcedureHelper.GetEnumList<ExplicitType>(),
+				ProcedureHelper.GetEnumList<EnumType>(), ProcedureHelper.GetEnumList<ObjectType>()));
 			SelectedExplicitType = ExplicitTypes.FirstOrDefault();
 			if (variable != null)
 				Copy(variable);
@@ -48,33 +30,21 @@ namespace AutomationModule.ViewModels
 
 		void Copy(Variable variable)
 		{
-			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel> { new ExplicitTypeViewModel(variable.ExplicitType) };
-			var parent = ExplicitTypes.FirstOrDefault();
-			SelectedExplicitType = parent;
-			if (variable.ExplicitType == ExplicitType.Enum)
+			ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ProcedureHelper.BuildExplicitTypes(new List<ExplicitType>{variable.ExplicitType},
+				new List<EnumType> { variable.EnumType }, new List<ObjectType> { variable.ObjectType }));
+			var explicitTypeViewModel = ExplicitTypes.FirstOrDefault();
+			if (explicitTypeViewModel != null)
 			{
-				var explicitTypeViewModel = new ExplicitTypeViewModel(variable.EnumType);
-				if (parent != null)
-					parent.AddChild(explicitTypeViewModel);
-				SelectedExplicitType = explicitTypeViewModel;
-				SelectedExplicitType.ExpandToThis();
+				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
+				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
 			}
-			if (variable.ExplicitType == ExplicitType.Object)
-			{
-				var explicitTypeViewModel = new ExplicitTypeViewModel(variable.ObjectType);
-				if (parent != null)
-					parent.AddChild(explicitTypeViewModel);
-				SelectedExplicitType = explicitTypeViewModel;
-				SelectedExplicitType.ExpandToThis();
-			}
-
 			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.DefaultExplicitValue, variable.DefaultExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
 			Name = variable.Name;
 			IsEditMode = true;
 			IsReference = variable.IsReference;
 		}
 
-		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; protected set; }
+		public ObservableCollection<ExplicitTypeViewModel> ExplicitTypes { get; set; }
 		ExplicitTypeViewModel _selectedExplicitType;
 		public ExplicitTypeViewModel SelectedExplicitType
 		{
@@ -134,7 +104,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (string.IsNullOrEmpty(Name))
 			{
-				MessageBoxService.ShowWarningExtended("Название не может быть пустым");
+				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
 			Variable = new Variable();

@@ -49,7 +49,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarningExtended(deviceInfoResult.Error);
+				MessageBoxService.ShowWarning(deviceInfoResult.Error);
 			}
 		}
 		bool CanShowController()
@@ -147,7 +147,7 @@ namespace SKDModule.ViewModels
 							if (result.HasError)
 							{
 								LoadingService.Close();
-								MessageBoxService.ShowWarningExtended(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 
 							var oldHasMissmath = HasMissmath;
@@ -189,7 +189,7 @@ namespace SKDModule.ViewModels
 							if (result.HasError)
 							{
 								LoadingService.Close();
-								MessageBoxService.ShowWarningExtended(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 
 							var oldHasMissmath = HasMissmath;
@@ -216,7 +216,7 @@ namespace SKDModule.ViewModels
 			{
 				if (validationResult.CannotSave("SKD") || validationResult.CannotWrite("SKD"))
 				{
-					MessageBoxService.ShowWarningExtended("Обнаружены ошибки. Операция прервана");
+					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 					return false;
 				}
 			}
@@ -227,7 +227,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.SKDChanged)
 			{
-				if (MessageBoxService.ShowQuestionYesNo("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
 				{
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);

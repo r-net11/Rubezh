@@ -86,10 +86,10 @@
 					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 					<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
 					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" />
-                </StackPanel>
+				</StackPanel>
 			</Grid>
-            <CheckBox Content="Показывать удалённых" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" 
-                      IsChecked="{Binding IsWithDeleted}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<CheckBox Content="Отображать архивные сведения" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" 
+					  IsChecked="{Binding IsWithDeleted}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ToolBarButton ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" 
 						   Command="{Binding EditFilterCommand}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">

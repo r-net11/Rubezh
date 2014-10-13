@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Automation;
-using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,8 +13,8 @@ namespace AutomationModule.ViewModels
 		public SetValueStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SetValueArguments = stepViewModel.Step.SetValueArguments;
-			SourceArgument = new ArgumentViewModel(SetValueArguments.SourceArgument, stepViewModel.Update);
-			TargetArgument = new ArgumentViewModel(SetValueArguments.TargetArgument, stepViewModel.Update, false);
+			SourceArgument = new ArgumentViewModel(SetValueArguments.SourceArgument, stepViewModel.Update, UpdateContent);
+			TargetArgument = new ArgumentViewModel(SetValueArguments.TargetArgument, stepViewModel.Update, UpdateContent, false);
 			ExplicitTypes = ProcedureHelper.GetEnumObs<ExplicitType>();
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
@@ -68,18 +68,11 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure, SelectedExplicitType, SelectedObjectType, SelectedEnumType).FindAll(x => !x.IsList);
-			TargetArgument.EnumType = SelectedEnumType;
-			SourceArgument.EnumType = SelectedEnumType;
-			TargetArgument.ObjectType = SelectedObjectType;
-			SourceArgument.ObjectType = SelectedObjectType;
-			TargetArgument.ExplicitType = SelectedExplicitType;
-			SourceArgument.ExplicitType = SelectedExplicitType;
-			TargetArgument.Update(allVariables);
+			TargetArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
 			if (SelectedExplicitType == ExplicitType.String)
-				SourceArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType != ExplicitType.Object));
+				SourceArgument.Update(Procedure, ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object), isList:false);
 			else
-				SourceArgument.Update(allVariables);
+				SourceArgument.Update(Procedure, SelectedExplicitType, SelectedEnumType, SelectedObjectType, false);
 		}
 
 		public override string Description 

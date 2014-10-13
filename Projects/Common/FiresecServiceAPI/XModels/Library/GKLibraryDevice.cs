@@ -6,31 +6,36 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Устройство в библиотеке устройств
+	/// </summary>
 	[DataContract]
 	public class GKLibraryDevice : ILibraryDevice<GKLibraryState, GKLibraryFrame, XStateClass>
 	{
 		public GKLibraryDevice()
 		{
 			UID = Guid.NewGuid();
-			IsAlternative = false;
 			States = new List<GKLibraryState>();
 		}
 
 		[XmlIgnore]
 		public GKDriver Driver { get; set; }
 
+		/// <summary>
+		/// Идентификатор
+		/// </summary>
 		[DataMember]
 		public Guid UID { get; set; }
 
+		/// <summary>
+		/// Идентификатор драйвера
+		/// </summary>
 		[DataMember]
 		public Guid DriverUID { get; set; }
 
-		[DataMember]
-		public bool IsAlternative { get; set; }
-
-		[DataMember]
-		public string AlternativeName { get; set; }
-
+		/// <summary>
+		/// Состояния библиотеки устройств ГК
+		/// </summary>
 		[DataMember]
 		public List<GKLibraryState> States { get; set; }
 

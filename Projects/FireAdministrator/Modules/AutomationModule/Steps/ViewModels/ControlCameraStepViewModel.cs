@@ -13,9 +13,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlCameraArguments = stepViewModel.Step.ControlCameraArguments;
 			Commands = ProcedureHelper.GetEnumObs<CameraCommandType>();
-			CameraArgument = new ArgumentViewModel(ControlCameraArguments.CameraArgument, stepViewModel.Update);
-			CameraArgument.ObjectType = ObjectType.VideoDevice;
-			CameraArgument.ExplicitType = ExplicitType.Object;
+			CameraArgument = new ArgumentViewModel(ControlCameraArguments.CameraArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlCameraArguments.CameraCommandType;
 		}
 
@@ -32,7 +30,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			CameraArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.ObjectType == ObjectType.VideoDevice && !x.IsList));
+			CameraArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.VideoDevice, isList:false);
 		}
 
 		public override string Description

@@ -439,6 +439,7 @@ namespace GKProcessor
 			var journalItem = new GKJournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
+				JournalEventDescriptionType = description,
 				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				Description = description.ToDescription(),
 				StateClass = XStateClass.Unknown,

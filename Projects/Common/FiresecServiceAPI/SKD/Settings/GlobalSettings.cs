@@ -121,7 +121,6 @@ namespace FiresecAPI
 
 			//ModuleItems.Add("DevicesModule.dll");
 			//ModuleItems.Add("LibraryModule.dll");
-			//ModuleItems.Add("InstructionsModule.dll");
 			//ModuleItems.Add("NotificationModule.dll");
 			//ModuleItems.Add("AlarmModule.dll");
 			//ModuleItems.Add("OPCModule.dll");

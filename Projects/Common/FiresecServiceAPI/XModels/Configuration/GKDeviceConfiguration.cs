@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Конфигурация ГК
+	/// </summary>
 	[DataContract]
 	public partial class GKDeviceConfiguration : VersionedConfiguration
 	{
@@ -27,42 +30,81 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
 
+		/// <summary>
+		/// Устройство верхнего уровня
+		/// </summary>
 		[DataMember]
 		public GKDevice RootDevice { get; set; }
 
+		/// <summary>
+		/// Зоны
+		/// </summary>
 		[DataMember]
 		public List<GKZone> Zones { get; set; }
 
+		/// <summary>
+		/// Направления
+		/// </summary>
 		[DataMember]
 		public List<GKDirection> Directions { get; set; }
 
+		/// <summary>
+		/// Насосные станции
+		/// </summary>
 		[DataMember]
 		public List<GKPumpStation> PumpStations { get; set; }
 
+		/// <summary>
+		/// Модули пожаротушения
+		/// </summary>
 		[DataMember]
 		public List<GKMPT> MPTs { get; set; }
 
+		/// <summary>
+		/// Задержки
+		/// </summary>
 		[DataMember]
 		public List<GKDelay> Delays { get; set; }
 
+		/// <summary>
+		/// Фильтры журнала событий
+		/// </summary>
 		[DataMember]
 		public List<GKJournalFilter> JournalFilters { get; set; }
 
+		/// <summary>
+		/// Инструкции
+		/// </summary>
 		[DataMember]
 		public List<GKInstruction> Instructions { get; set; }
 
+		/// <summary>
+		/// Коды
+		/// </summary>
 		[DataMember]
 		public List<GKCode> Codes { get; set; }
 
+		/// <summary>
+		/// Охранные зоны
+		/// </summary>
 		[DataMember]
 		public List<GKGuardZone> GuardZones { get; set; }
 
+		/// <summary>
+		/// Точки доступа
+		/// </summary>
 		[DataMember]
 		public List<GKDoor> Doors { get; set; }
 
+		/// <summary>
+		/// Графики работ
+		/// </summary>
 		[DataMember]
 		public List<GKSchedule> Schedules { get; set; }
 
+		/// <summary>
+		/// Шаблоны параметров устройств
+		/// </summary>
 		[DataMember]
 		public List<GKParameterTemplate> ParameterTemplates { get; set; }
 
@@ -121,24 +163,6 @@ namespace FiresecAPI.GK
 
 			Update();
 
-			if (Delays == null)
-			{
-				Delays = new List<GKDelay>();
-				result = false;
-			}
-
-			if (PumpStations == null)
-			{
-				PumpStations = new List<GKPumpStation>();
-				result = false;
-			}
-
-			if (MPTs == null)
-			{
-				MPTs = new List<GKMPT>();
-				result = false;
-			}
-
 			foreach (var delay in Delays)
 			{
 				result &= ValidateDeviceLogic(delay.DeviceLogic);
@@ -152,21 +176,11 @@ namespace FiresecAPI.GK
 			}
 			foreach (var device in Devices)
 			{
-				device.UID = device.UID;
 				result &= ValidateDeviceLogic(device.DeviceLogic);
 				result &= ValidateDeviceLogic(device.NSLogic);
 			}
-			foreach (var zone in Zones)
-			{
-				zone.UID = zone.UID;
-			}
-			foreach (var direction in Directions)
-			{
-				direction.UID = direction.UID;
-			}
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.UID = pumpStation.UID;
 				result &= ValidateDeviceLogic(pumpStation.StartLogic);
 				result &= ValidateDeviceLogic(pumpStation.StopLogic);
 				result &= ValidateDeviceLogic(pumpStation.AutomaticOffLogic);
@@ -175,44 +189,10 @@ namespace FiresecAPI.GK
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					deviceParameterTemplate.GKDevice.UID = deviceParameterTemplate.GKDevice.UID;
 					result &= ValidateDeviceLogic(deviceParameterTemplate.GKDevice.DeviceLogic);
 					result &= ValidateDeviceLogic(deviceParameterTemplate.GKDevice.NSLogic);
 				}
 			}
-
-			if (GuardZones == null)
-			{
-				GuardZones = new List<GKGuardZone>();
-				result = false;
-			}
-			foreach (var guardZone in GuardZones)
-			{
-				if (guardZone.GuardZoneDevices == null)
-				{
-					guardZone.GuardZoneDevices = new List<GKGuardZoneDevice>();
-					result = false;
-				}
-			}
-
-			if (Codes == null)
-			{
-				Codes = new List<GKCode>();
-				result = false;
-			}
-
-			if (Doors == null)
-			{
-				Doors = new List<GKDoor>();
-				result = false;
-			}
-
-			if (Schedules == null)
-			{
-				Schedules = new List<GKSchedule>();
-				result = false;
-			}
-
 			return result;
 		}
 

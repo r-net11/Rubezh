@@ -100,7 +100,7 @@ namespace Infrastructure.Client.Library
 					result = SVGConverters.Svg2Xaml(openFileDialog.FileName);
 					if (result == null)
 					{
-						MessageBoxService.ShowErrorExtended("Ошибка при конвертировании файла");
+						MessageBoxService.ShowError("Ошибка при конвертировании файла");
 						return;
 					}
 				}

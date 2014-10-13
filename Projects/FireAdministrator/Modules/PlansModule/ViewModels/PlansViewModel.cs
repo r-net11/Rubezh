@@ -159,7 +159,7 @@ namespace PlansModule.ViewModels
 		private void OnRemove()
 		{
 			string message = string.Format(SelectedPlan.PlanFolder != null ? "Вы уверены, что хотите удалить папку '{0}'?" : "Вы уверены, что хотите удалить план '{0}'?", SelectedPlan.Caption);
-			if (MessageBoxService.ShowConfirmationExtended(message) == System.Windows.MessageBoxResult.Yes)
+			if (MessageBoxService.ShowConfirmation(message))
 				OnPlanRemove(false);
 		}
 

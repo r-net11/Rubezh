@@ -8,6 +8,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Базовый класс всех моделей
+	/// </summary>
 	[DataContract]
 	public class ModelBase : IIdentity
 	{
@@ -16,15 +19,27 @@ namespace FiresecAPI.GK
 			UID = Guid.NewGuid();
 		}
 
+		/// <summary>
+		/// Идентификатор
+		/// </summary>
 		[DataMember]
 		public Guid UID { get; set; }
 
+		/// <summary>
+		/// Номер
+		/// </summary>
 		[DataMember]
 		public int No { get; set; }
 
+		/// <summary>
+		/// Наименование
+		/// </summary>
 		[DataMember]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Описание
+		/// </summary>
 		[DataMember]
 		public string Description { get; set; }
 

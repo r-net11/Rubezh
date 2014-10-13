@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.SKD;
+using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
@@ -17,6 +18,14 @@ namespace SKDDriver.Translators
 			return base.GetQuery(filter).OrderBy(item => item.Name);
 		}
 
+		protected override System.Linq.Expressions.Expression<Func<DataAccess.Schedule, bool>> IsInFilter(ScheduleFilter filter)
+		{
+			var result = base.IsInFilter(filter);
+			if (filter.ScheduleSchemeUIDs.Count > 0)
+				result = result.And(e => filter.ScheduleSchemeUIDs.Contains(e.ScheduleSchemeUID.Value));
+			return result;
+		}
+
 		protected override OperationResult CanSave(Schedule item)
 		{
 			var result = base.CanSave(item);
@@ -26,13 +35,6 @@ namespace SKDDriver.Translators
 			if (hasSameName)
 				return new OperationResult("График с таким же названием уже содержится в базе данных");
 			return new OperationResult();
-		}
-
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			if (Context.Employees.Any(item => !item.IsDeleted && item.ScheduleUID == uid))
-				return new OperationResult("Невозможно удалить график работ, т.к. он назначен одному из сотрудников");
-			return base.CanDelete(uid);
 		}
 
 		protected override Schedule Translate(DataAccess.Schedule tableItem)

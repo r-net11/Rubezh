@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<GKDevice>();
 			foreach (var device in GKManager.Devices)
 			{
-				if (device.Driver.DriverType == GKDriverType.FirePump || device.Driver.DriverType == GKDriverType.JockeyPump || device.Driver.DriverType == GKDriverType.RSR2_Bush)
+				if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
 				{
 					sourceDevices.Add(device);
 				}

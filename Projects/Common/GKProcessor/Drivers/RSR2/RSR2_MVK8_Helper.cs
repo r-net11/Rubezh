@@ -20,6 +20,8 @@ namespace GKProcessor
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, GKStateBit.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);

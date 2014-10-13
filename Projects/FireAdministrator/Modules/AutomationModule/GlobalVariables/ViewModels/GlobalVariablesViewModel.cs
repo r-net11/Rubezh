@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
@@ -16,8 +15,10 @@ namespace AutomationModule.ViewModels
 {
 	public class GlobalVariablesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public static GlobalVariablesViewModel Current { get; private set; }
 		public GlobalVariablesViewModel()
-		{			
+		{
+			Current = this;
 			Menu = new GlobalVariablesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);

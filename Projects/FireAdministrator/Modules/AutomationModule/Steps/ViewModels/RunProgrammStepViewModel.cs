@@ -11,16 +11,14 @@ namespace AutomationModule.ViewModels
 		public RunProgrammStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			RunProgrammArguments = stepViewModel.Step.RunProgrammArguments;
-			PathArgument = new ArgumentViewModel(RunProgrammArguments.PathArgument, stepViewModel.Update);
-			PathArgument.ExplicitType = ExplicitType.String;
-			ParametersArgument = new ArgumentViewModel(RunProgrammArguments.ParametersArgument, stepViewModel.Update);
-			ParametersArgument.ExplicitType = ExplicitType.String;
+			PathArgument = new ArgumentViewModel(RunProgrammArguments.PathArgument, stepViewModel.Update, UpdateContent);
+			ParametersArgument = new ArgumentViewModel(RunProgrammArguments.ParametersArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()
 		{
-			PathArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			ParametersArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			PathArgument.Update(Procedure, ExplicitType.String, isList:false);
+			ParametersArgument.Update(Procedure, ExplicitType.String, isList: false);
 		}
 
 		public override string Description

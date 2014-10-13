@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestionYesNo(string.Format("Вы уверены?")))
+			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены?")))
 			{
 				var result = RemoveFromParent(SelectedEmployee.Employee.UID);
 				if (!result)
@@ -153,6 +153,8 @@ namespace SKDModule.ViewModels
 	public class EmployeeListItemViewModel : BaseViewModel
 	{
 		public ShortEmployee Employee { get; private set; }
+		public bool IsDepartmentDeleted { get { return Employee.IsDepartmentDeleted; } }
+		public bool IsPositionDeleted { get { return Employee.IsPositionDeleted; } }
 		
 		public EmployeeListItemViewModel() { }
 
@@ -165,6 +167,8 @@ namespace SKDModule.ViewModels
 		{
 			Employee = employee;
 			OnPropertyChanged(() => Employee);
+			OnPropertyChanged(() => IsDepartmentDeleted);
+			OnPropertyChanged(() => IsPositionDeleted);
 		}
 	}
 }

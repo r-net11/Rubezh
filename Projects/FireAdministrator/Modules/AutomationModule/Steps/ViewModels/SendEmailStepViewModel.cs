@@ -16,31 +16,24 @@ namespace AutomationModule.ViewModels
 		public SendEmailStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			SendEmailArguments = stepViewModel.Step.SendEmailArguments;
-			EMailAddressArgument = new ArgumentViewModel(SendEmailArguments.EMailAddressArgument, stepViewModel.Update);
-			EMailAddressArgument.ExplicitType = ExplicitType.String;
-			EMailTitleArgument = new ArgumentViewModel(SendEmailArguments.EMailTitleArgument, stepViewModel.Update);
-			EMailTitleArgument.ExplicitType = ExplicitType.String;
-			EMailContentArgument = new ArgumentViewModel(SendEmailArguments.EMailContentArgument, stepViewModel.Update);
-			EMailContentArgument.ExplicitType = ExplicitType.String;
-			HostArgument = new ArgumentViewModel(SendEmailArguments.HostArgument, stepViewModel.Update);
-			HostArgument.ExplicitType = ExplicitType.String;
-			PortArgument = new ArgumentViewModel(SendEmailArguments.PortArgument, stepViewModel.Update);
-			PortArgument.ExplicitType = ExplicitType.Integer;
-			LoginArgument = new ArgumentViewModel(SendEmailArguments.LoginArgument, stepViewModel.Update);
-			LoginArgument.ExplicitType = ExplicitType.String;
-			PasswordArgument = new ArgumentViewModel(SendEmailArguments.PasswordArgument, stepViewModel.Update);
-			PasswordArgument.ExplicitType = ExplicitType.String;
+			EMailAddressArgument = new ArgumentViewModel(SendEmailArguments.EMailAddressArgument, stepViewModel.Update, UpdateContent);
+			EMailTitleArgument = new ArgumentViewModel(SendEmailArguments.EMailTitleArgument, stepViewModel.Update, UpdateContent);
+			EMailContentArgument = new ArgumentViewModel(SendEmailArguments.EMailContentArgument, stepViewModel.Update, UpdateContent);
+			HostArgument = new ArgumentViewModel(SendEmailArguments.HostArgument, stepViewModel.Update, UpdateContent);
+			PortArgument = new ArgumentViewModel(SendEmailArguments.PortArgument, stepViewModel.Update, UpdateContent);
+			LoginArgument = new ArgumentViewModel(SendEmailArguments.LoginArgument, stepViewModel.Update, UpdateContent);
+			PasswordArgument = new ArgumentViewModel(SendEmailArguments.PasswordArgument, stepViewModel.Update, UpdateContent);
 		}
 
 		public override void UpdateContent()
 		{
-			EMailAddressArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			EMailTitleArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			EMailContentArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			HostArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			PortArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Integer && !x.IsList));
-			LoginArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
-			PasswordArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.String && !x.IsList));
+			EMailAddressArgument.Update(Procedure, ExplicitType.String, isList:false);
+			EMailTitleArgument.Update(Procedure, ExplicitType.String, isList: false);
+			EMailContentArgument.Update(Procedure, ExplicitType.String, isList: false);
+			HostArgument.Update(Procedure, ExplicitType.String, isList: false);
+			PortArgument.Update(Procedure, ExplicitType.Integer, isList: false);
+			LoginArgument.Update(Procedure, ExplicitType.String, isList: false);
+			PasswordArgument.Update(Procedure, ExplicitType.String, isList: false);
 		}
 
 		public override string Description

@@ -33,16 +33,6 @@ namespace SKDModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
-		}
-
-		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
-		void OnShowOnPlanOrProperties()
-		{
-			if (CanShowOnPlan())
-				ShowOnPlanHelper.ShowZone(Zone);
-			else
-				DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
 
 		void OnStateChanged()
@@ -94,7 +84,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenZone(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -111,7 +101,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseZone(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -128,7 +118,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenZoneForever(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -145,7 +135,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseZoneForever(Zone);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}

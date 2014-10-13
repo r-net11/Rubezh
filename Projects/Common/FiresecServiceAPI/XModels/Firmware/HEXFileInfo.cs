@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Данные для обновления контроллера
+	/// </summary>
 	[DataContract]
 	public class HEXFileInfo
 	{

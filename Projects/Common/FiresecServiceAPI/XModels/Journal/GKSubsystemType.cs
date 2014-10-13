@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип подсистемы ГК
+	/// </summary>
 	public enum GKSubsystemType
 	{
 		[DescriptionAttribute("Система")]

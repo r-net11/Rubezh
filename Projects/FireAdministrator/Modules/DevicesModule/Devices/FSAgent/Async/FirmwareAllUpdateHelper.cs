@@ -44,9 +44,9 @@ namespace DevicesModule.ViewModels
 						x => UpdatingDevices.Add(new UpdatingDevice(x)));
 				ServiceFactory.ProgressService.Run(OnVerifyProgress, OnVerifyCompleted, "Сравнение прошивок");
 				if (UpdatingDevices.Any(x => x.IsOldVersion))
-					IsRewriteOld = MessageBoxService.ShowQuestionYesNo("В приборе содержится более новая версия программного обеспечения. Вы уверены что хотите вернуться к старой версии ПО ?");
+					IsRewriteOld = MessageBoxService.ShowQuestion("В приборе содержится более новая версия программного обеспечения. Вы уверены что хотите вернуться к старой версии ПО ?");
 				if (UpdatingDevices.Any(x => x.IsSameVersion))
-					IsRewriteSame = MessageBoxService.ShowQuestionYesNo("В приборе уже установлена данная версия программного обеспечения. Продолжить ?");
+					IsRewriteSame = MessageBoxService.ShowQuestion("В приборе уже установлена данная версия программного обеспечения. Продолжить ?");
 				ServiceFactory.ProgressService.Run(OnUpdateProgress, OnUpdateCompleted, "Обновление прошивки");
 			}
 		}
@@ -132,7 +132,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnUpdateCompleted()
 		{
-			MessageBoxService.ShowExtended(ReportString);
+			MessageBoxService.Show(ReportString);
 		}
 	}
 

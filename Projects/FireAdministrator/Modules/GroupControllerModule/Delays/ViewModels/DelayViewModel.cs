@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
-						presentationZone = "Нажмите для настройки логики";
+					presentationZone = "Нажмите для настройки логики";
 				}
 				return presentationZone;
 			}
@@ -51,11 +51,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, Delay.DeviceLogic, false);
+			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, Delay.DeviceLogic, true);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				Delay.DeviceLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("PresentationLogic");
+				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

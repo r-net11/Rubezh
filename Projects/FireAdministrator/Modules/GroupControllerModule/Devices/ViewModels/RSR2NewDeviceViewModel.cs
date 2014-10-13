@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 				maxAddressOnShleif = allChildren.Max(x => x.IntAddress);
 			if (maxAddressOnShleif + Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) > 255)
 			{
-				MessageBoxService.ShowWarningExtended("При добавлении количество устройств на шлейфе будет превышать 255");
+				MessageBoxService.ShowWarning("При добавлении количество устройств на шлейфе будет превышать 255");
 				return false;
 			}
 

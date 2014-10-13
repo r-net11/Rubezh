@@ -131,7 +131,7 @@ namespace FireAdministrator
 				WaitHelper.Execute(() =>
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					//ZipConfigActualizeHelper.Actualize(fileName, false);
+					ZipConfigActualizeHelper.Actualize(fileName, false);
 					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 					var configFileName = Path.Combine(folderName, "Config.fscp");
 					if (Directory.Exists(folderName))
@@ -147,7 +147,7 @@ namespace FireAdministrator
 					SKDManager.UpdateConfiguration();
 
 					if (LoadingErrorManager.HasError)
-						MessageBoxService.ShowWarningExtended(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
+						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					ConfigManager.ShowFirstDevice();

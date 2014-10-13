@@ -22,32 +22,6 @@ namespace FiresecAPI.Models
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			foreach (var userRole in UserRoles)
-			{
-				if (userRole.UID == Guid.Empty)
-				{
-					userRole.UID = Guid.NewGuid();
-					result = false;
-				}
-				if (userRole.PermissionStrings == null)
-				{
-					userRole.PermissionStrings = new List<string>();
-					result = false;
-				}
-			}
-			foreach (var user in Users)
-			{
-				if (user.UID == Guid.Empty)
-				{
-					user.UID = Guid.NewGuid();
-					result = false;
-				}
-				if (user.PermissionStrings == null)
-				{
-					user.PermissionStrings = new List<string>();
-					result = false;
-				}
-			}
 			return result;
 		}
 	}

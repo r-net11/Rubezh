@@ -104,7 +104,7 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						break;
 
-					case GKDriverType.RSR2_Bush:
+					case GKDriverType.RSR2_Bush_Drenazh:
 						var bushType = 1;
 						if (GKBase is GKDevice)
 						{
@@ -441,7 +441,7 @@ namespace GKProcessor
 						OffDelay = additionalShortParameters[2];
 						break;
 
-					case GKDriverType.RSR2_Bush:
+					case GKDriverType.RSR2_Bush_Drenazh:
 					case GKDriverType.RSR2_Bush_Jokey:
 					case GKDriverType.RSR2_Bush_Fire:
 
@@ -459,7 +459,7 @@ namespace GKProcessor
 						var bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
 						switch (driverType)
 						{
-							case GKDriverType.RSR2_Bush:
+							case GKDriverType.RSR2_Bush_Drenazh:
 								if (bitArray[0])
 									AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого уровня");
 								if (bitArray[1])

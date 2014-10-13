@@ -7,11 +7,11 @@ namespace Infrastructure.Common.Windows
 {
 	public static class MessageBoxService
 	{
-		public static void Show2(string message, string title = null)
+		public static void Show(string message, string title = null)
 		{
 			ShowExtended(message, title);
 		}
-		public static bool ShowQuestionYesNo(string message, string title = null)
+		public static bool ShowQuestion(string message, string title = null)
 		{
 			var result = ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Question);
 			switch (result)
@@ -24,19 +24,19 @@ namespace Infrastructure.Common.Windows
 					return false;
 			}
 		}
-		public static bool ShowConfirmation2(string message, string title = null)
+		public static bool ShowConfirmation(string message, string title = null)
 		{
 			return ShowConfirmationExtended(message, title) == MessageBoxResult.Yes;
 		}
-		public static void ShowError2(string message, string title = null)
+		public static void ShowError(string message, string title = null)
 		{
 			ShowErrorExtended(message, title);
 		}
-		public static void ShowWarning2(string message, string title = null)
+		public static void ShowWarning(string message, string title = null)
 		{
 			ShowWarningExtended(message, title);
 		}
-		public static void ShowException2(Exception e, string title = null)
+		public static void ShowException(Exception e, string title = null)
 		{
 			ShowExceptionExtended(e, title);
 		}

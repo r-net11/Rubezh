@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -8,6 +10,7 @@ namespace FiresecAPI.SKD
 		public ScheduleSchemeFilter()
 		{
 			WithDays = true;
+			DayIntervalUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -15,5 +18,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool WithDays { get; set; }
+
+		[DataMember]
+		public List<Guid> DayIntervalUIDs { get; set; }
 	}
 }

@@ -12,6 +12,7 @@ namespace FiresecAPI.SKD
 		{
 			DepartmentUIDs = new List<Guid>();
 			PositionUIDs = new List<Guid>();
+			ScheduleUIDs = new List<Guid>();
 			PersonType = PersonType.Employee;
 		}
 
@@ -29,6 +30,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> PositionUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> ScheduleUIDs { get; set; }
 
 		[DataMember]
 		public PersonType PersonType { get; set; }

@@ -14,15 +14,27 @@ namespace FiresecAPI.GK
 			MajorVersion = 1;
 		}
 
+		/// <summary>
+		/// Название
+		/// </summary>
 		[DataMember]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Минарная версия
+		/// </summary>
 		[DataMember]
 		public int MinorVersion { get; set; }
 
+		/// <summary>
+		/// Мажорная версия
+		/// </summary>
 		[DataMember]
 		public int MajorVersion { get; set; }
 
+		/// <summary>
+		/// Список данных для обновления контроллеров
+		/// </summary>
 		[DataMember]
 		public List<HEXFileInfo> HexFileInfos { get; set; }
 	}

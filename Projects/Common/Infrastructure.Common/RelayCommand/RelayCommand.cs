@@ -53,7 +53,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-				MessageBoxService.ShowExceptionExtended(e, "При выполнении операции возникло исключение");
+				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace Infrastructure.Common
 			catch (Exception e)
 			{
 				Logger.Error(e, "RelayCommand.ForceExecute");
-				MessageBoxService.ShowExceptionExtended(e, "При выполнении операции возникло исключение");
+				MessageBoxService.ShowException(e, "При выполнении операции возникло исключение");
 			}
 		}
 

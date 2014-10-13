@@ -307,7 +307,7 @@ namespace GKModule.ViewModels
 								"\nдолжно быть целым числом в диапазоне от " + driverProperty.Min.ToString() +
 								" до " + driverProperty.Max.ToString();
 						}
-						MessageBoxService.ShowExtended(message, "Firesec");
+						MessageBoxService.Show(message, "Firesec");
 						return false;
 					}
 				}
@@ -402,7 +402,7 @@ namespace GKModule.ViewModels
 			}
 			LoadingService.Close();
 			if (errorLog != "")
-				MessageBoxService.ShowErrorExtended("Ошибка при получении параметров следующих устройств:" + errorLog);
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + errorLog);
 		}
 
 		static bool WriteDevices(IEnumerable<GKDevice> devices)
@@ -434,7 +434,7 @@ namespace GKModule.ViewModels
 			LoadingService.Close();
 			if (errorLog != "")
 			{
-				MessageBoxService.ShowWarningExtended("Ошибка при записи параметров в следующие устройства:" + errorLog);
+				MessageBoxService.ShowWarning("Ошибка при записи параметров в следующие устройства:" + errorLog);
 				return false;
 			}
 			return true;
@@ -486,7 +486,7 @@ namespace GKModule.ViewModels
 			var result = FiresecManager.FiresecService.GKGKHash(gkParent);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowErrorExtended(result.Error + ". Операция запрещена");
+				MessageBoxService.ShowError(result.Error + ". Операция запрещена");
 				return false;
 			}
 
@@ -494,7 +494,7 @@ namespace GKModule.ViewModels
 			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
-			MessageBoxService.ShowErrorExtended("Конфигурации различны. Операция запрещена");
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
 			return false;
 		}
 

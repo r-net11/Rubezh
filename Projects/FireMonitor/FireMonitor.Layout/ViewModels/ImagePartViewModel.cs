@@ -15,9 +15,9 @@ namespace FireMonitor.Layout.ViewModels
 				Stretch = properties.Stretch;
 				if (properties.ReferenceUID != Guid.Empty)
 				{
-					if (properties.IsVectorImage)
-						ImageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(properties.ReferenceUID));
-					else
+					//if (properties.IsVectorImage)
+					//    ImageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(properties.ReferenceUID));
+					//else
 						ImageSource = ServiceFactoryBase.ContentService.GetBitmapContent(properties.ReferenceUID);
 				}
 			}

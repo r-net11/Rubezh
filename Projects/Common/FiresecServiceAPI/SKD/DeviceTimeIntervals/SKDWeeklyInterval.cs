@@ -13,6 +13,7 @@ namespace FiresecAPI.SKD
 	{
 		public SKDWeeklyInterval()
 		{
+			WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
 		}
 
 		public SKDWeeklyInterval(bool createdefault)

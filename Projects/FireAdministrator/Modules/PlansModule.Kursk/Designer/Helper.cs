@@ -21,7 +21,7 @@ namespace PlansModule.Kursk.Designer
 		}
 		public static GKDevice GetGKDevice(ElementRectangleTank element)
 		{
-			return element.DeviceUID == Guid.Empty ? null : GKManager.DeviceConfiguration.Devices.Where(item => item.DriverType == GKDriverType.RSR2_Bush && item.UID == element.DeviceUID).FirstOrDefault();
+			return element.DeviceUID == Guid.Empty ? null : GKManager.DeviceConfiguration.Devices.Where(item => item.DriverType == GKDriverType.RSR2_Bush_Drenazh && item.UID == element.DeviceUID).FirstOrDefault();
 		}
 		public static Color GetTankColor(GKDevice device)
 		{

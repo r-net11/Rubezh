@@ -35,6 +35,28 @@ namespace AutomationModule
 			return GetAllVariables(procedure).FindAll(x => x.ExplicitType == ExplicitType && x.ObjectType == objectType && x.IsList == isList);
 		}
 
+		public static List<Variable> GetAllVariables(List<Variable> allVariables, List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes, bool? isList = null)
+		{
+			var variables = new List<Variable>(allVariables);
+			if (explicitTypes != null)
+			{
+				variables = variables.FindAll(x => explicitTypes.Contains(x.ExplicitType));
+				if (explicitTypes.Contains(ExplicitType.Enum))
+				{
+					variables = variables.FindAll(x => enumTypes.Contains(x.EnumType));
+				}
+				if (explicitTypes.Contains(ExplicitType.Object))
+				{
+					variables = variables.FindAll(x => objectTypes.Contains(x.ObjectType));
+				}
+			}
+			if (isList != null)
+			{
+				variables = variables.FindAll(x => x.IsList == isList);
+			}
+			return variables;
+		}
+
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
 			if (objectType == ObjectType.Device)
@@ -183,6 +205,32 @@ namespace AutomationModule
 					break;
 			}
 			return result;
+		}
+
+		public static List<ExplicitTypeViewModel> BuildExplicitTypes(List<ExplicitType> explicitTypes, List<EnumType> enumTypes, List<ObjectType> objectTypes)
+		{
+			var ExplicitTypes = new List<ExplicitTypeViewModel>();
+			if (explicitTypes != null)
+				ExplicitTypes.AddRange(explicitTypes.Select(explicitType => new ExplicitTypeViewModel(explicitType)));
+			foreach (var enumType in enumTypes)
+			{
+				var explicitTypeViewModel = new ExplicitTypeViewModel(enumType);
+				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Enum);
+				if (parent != null)
+				{
+					parent.AddChild(explicitTypeViewModel);
+				}
+			}
+			foreach (var objectType in objectTypes)
+			{
+				var explicitTypeViewModel = new ExplicitTypeViewModel(objectType);
+				var parent = ExplicitTypes.FirstOrDefault(x => x.ExplicitType == ExplicitType.Object);
+				if (parent != null)
+				{
+					parent.AddChild(explicitTypeViewModel);
+				}
+			}
+			return ExplicitTypes;
 		}
 	}
 }

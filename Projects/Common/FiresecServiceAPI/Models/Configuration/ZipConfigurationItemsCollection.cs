@@ -15,22 +15,19 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ZipConfigurationItem> ZipConfigurationItems { get; set; }
 
-		public List<ZipConfigurationItem> GetWellKnownZipConfigurationItems
+		public List<ZipConfigurationItem> GetWellKnownZipConfigurationItems()
 		{
-			get
+			var zipConfigurationItems = new List<ZipConfigurationItem>();
+			foreach (var zipConfigurationItem in ZipConfigurationItems)
 			{
-				var zipConfigurationItems = new List<ZipConfigurationItem>();
-				foreach (var zipConfigurationItem in ZipConfigurationItems)
-				{
-					zipConfigurationItems.Add(new ZipConfigurationItem(zipConfigurationItem.Name, zipConfigurationItem.MajorVersion, zipConfigurationItem.MinorVersion));
-				}
-				foreach (var name in GetWellKnownNames())
-				{
-					if (!zipConfigurationItems.Any(x => x.Name == name))
-						zipConfigurationItems.Add(new ZipConfigurationItem(name, 1, 1));
-				}
-				return zipConfigurationItems;
+				zipConfigurationItems.Add(new ZipConfigurationItem(zipConfigurationItem.Name, zipConfigurationItem.MajorVersion, zipConfigurationItem.MinorVersion));
 			}
+			foreach (var name in GetWellKnownNames())
+			{
+				if (!zipConfigurationItems.Any(x => x.Name == name))
+					zipConfigurationItems.Add(new ZipConfigurationItem(name, 1, 1));
+			}
+			return zipConfigurationItems;
 		}
 
 		static List<string> GetWellKnownNames()

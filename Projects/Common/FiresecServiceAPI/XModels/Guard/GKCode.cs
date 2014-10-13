@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Код ГК
+	/// </summary>
 	[DataContract]
 	public class GKCode : GKBase
 	{
@@ -17,6 +20,9 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Code; } }
 
+		/// <summary>
+		/// Пароль
+		/// </summary>
 		[DataMember]
 		public int Password { get; set; }
 	}

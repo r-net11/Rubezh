@@ -250,7 +250,8 @@ namespace GKModule.ViewModels
 				return null;
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
-				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
+				var kauDeviceShleifdevice = SelectedDevice.Device.KAURSR2ShleifParent;
+				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, kauDeviceShleifdevice);
 				if (maxAddress >= 255)
 					return null;
 

@@ -14,23 +14,22 @@ namespace AutomationModule.ViewModels
 		public GetListItemStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetListItemArgument = stepViewModel.Step.GetListItemArgument;
-			ListArgument = new ArgumentViewModel(GetListItemArgument.ListArgument, stepViewModel.Update, false);
+			ListArgument = new ArgumentViewModel(GetListItemArgument.ListArgument, stepViewModel.Update, UpdateContent, false);
 			ListArgument.UpdateVariableHandler += UpdateItemVariable;
-			ItemArgument = new ArgumentViewModel(GetListItemArgument.ItemArgument, stepViewModel.Update, false);
-			IndexArgument = new ArgumentViewModel(GetListItemArgument.IndexArgument, stepViewModel.Update);
-			IndexArgument.ExplicitType = ExplicitType.Integer;
+			ItemArgument = new ArgumentViewModel(GetListItemArgument.ItemArgument, stepViewModel.Update, UpdateContent, false);
+			IndexArgument = new ArgumentViewModel(GetListItemArgument.IndexArgument, stepViewModel.Update, UpdateContent);
 			PositionTypes = ProcedureHelper.GetEnumObs<PositionType>();
 		}
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
-			IndexArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Integer).FindAll(x => !x.IsList));
+			ListArgument.Update(Procedure, isList:true);
+			IndexArgument.Update(Procedure, ExplicitType.Integer, isList:false);
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ListArgument.ExplicitType, ListArgument.ObjectType, ListArgument.EnumType).FindAll(x => !x.IsList));
+			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType, false);
 		}
 
 		public ObservableCollection<PositionType> PositionTypes { get; private set; } 

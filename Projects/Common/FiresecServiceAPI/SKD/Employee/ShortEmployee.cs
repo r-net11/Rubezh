@@ -23,7 +23,13 @@ namespace FiresecAPI.SKD
 		public string DepartmentName { get; set; }
 
 		[DataMember]
+		public bool IsDepartmentDeleted { get; set; }
+
+		[DataMember]
 		public string PositionName { get; set; }
+
+		[DataMember]
+		public bool IsPositionDeleted { get; set; }
 
 		[DataMember]
 		public List<SKDCard> Cards { get; set; }
@@ -48,6 +54,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool IsDeleted { get; set; }
+
+		[DataMember]
+		public DateTime RemovalDate { get; set; }
 
 		public string Name 
 		{ 

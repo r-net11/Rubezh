@@ -54,7 +54,8 @@ namespace SKDDriver
 			{
 				UID = tableItem.UID,
 				IsDeleted = tableItem.IsDeleted,
-				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty
+				OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty,
+				RemovalDate = tableItem.RemovalDate
 			};
 		}
 	}

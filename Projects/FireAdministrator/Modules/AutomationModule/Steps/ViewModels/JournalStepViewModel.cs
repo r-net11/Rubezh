@@ -12,7 +12,7 @@ namespace AutomationModule.ViewModels
 		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
-			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update);
+			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, null, stepViewModel.Update);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 		}
@@ -46,14 +46,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			List<Variable> allVariables;
-			if (ExplicitType == ExplicitType.Enum)
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList && x.EnumType == EnumType);
-			else
-				allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType && !x.IsList);
-			MessageArgument.Update(allVariables);
-			MessageArgument.ExplicitType = ExplicitType;
-			MessageArgument.EnumType = EnumType;
+			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 		}
 
 		public override string Description

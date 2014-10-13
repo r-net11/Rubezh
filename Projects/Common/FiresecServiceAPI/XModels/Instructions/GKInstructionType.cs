@@ -2,6 +2,9 @@
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Тип инструкции ГК
+	/// </summary>
 	public enum GKInstructionType
 	{
 		[DescriptionAttribute("Общая инструкция")]

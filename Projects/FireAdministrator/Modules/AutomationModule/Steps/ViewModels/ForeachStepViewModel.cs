@@ -11,20 +11,19 @@ namespace AutomationModule.ViewModels
 		public ForeachStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			ForeachArguments = stepViewModel.Step.ForeachArguments;
-			ListArgument = new ArgumentViewModel(ForeachArguments.ListArgument, stepViewModel.Update, false);
+			ListArgument = new ArgumentViewModel(ForeachArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
 			ListArgument.UpdateVariableHandler += UpdateItemVariable;
-			ItemArgument = new ArgumentViewModel(ForeachArguments.ItemArgument, stepViewModel.Update, false);
+			ItemArgument = new ArgumentViewModel(ForeachArguments.ItemArgument, stepViewModel.Update, UpdateContent, false);
 		}
 
 		public override void UpdateContent()
 		{
-			ListArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.IsList));
+			ListArgument.Update(Procedure, isList:true);
 		}
 
 		void UpdateItemVariable()
 		{
-			ItemArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ListArgument.SelectedVariable.Variable.ExplicitType
-				&& x.ObjectType == ListArgument.SelectedVariable.Variable.ObjectType && x.EnumType == ListArgument.SelectedVariable.Variable.EnumType));
+			ItemArgument.Update(Procedure, ListArgument.ExplicitType, ListArgument.EnumType, ListArgument.ObjectType, false);
 		}
 
 		public override string Description

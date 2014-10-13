@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 			var result = FiresecManager.FiresecService.GKGetJournalItemsCount(Device);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowExtended(result.Error);
+				MessageBoxService.Show(result.Error);
 				return false;
 			}
 			TotalCount = result.Result;
@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 			{
 				_lastCount = value;
 				OnPropertyChanged(() => LastCount);
-				StartIndex = Math.Max(0, TotalCount - value);
+				StartIndex = Math.Max(0, TotalCount + 1 - value);
 				EndIndex = TotalCount;
 			}
 		}
@@ -120,13 +120,13 @@ namespace GKModule.ViewModels
 		{
 			if (EndIndex < StartIndex)
 			{
-				MessageBoxService.ShowError2("Конечный номер записи меньше начального");
+				MessageBoxService.ShowError("Конечный номер записи меньше начального");
 				IsNotEmpty = false;
 				return;
 			}
 			if (StartIndex < 1 || EndIndex > TotalCount)
 			{
-				MessageBoxService.ShowError2("Номер записи должен быть в диапазоне от 1 до " + TotalCount);
+				MessageBoxService.ShowError("Номер записи должен быть в диапазоне от 1 до " + TotalCount);
 				IsNotEmpty = false;
 				return;
 			}
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 					var result = FiresecManager.FiresecService.GKReadJournalItem(Device, i);
 					if (result.HasError)
 					{
-						MessageBoxService.ShowExtended(result.Error);
+						MessageBoxService.Show(result.Error);
 						break;
 					}
 					var journalItemViewModel = new JournalItemViewModel(result.Result);

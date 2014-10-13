@@ -35,14 +35,14 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult.HasError)
 			{
-				MessageBoxService.ShowErrorExtended(_operationResult.Error, "Ошибка при выполнении операции");
+				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
 				Logger.Error("AutoDetectDeviceHelper.OnCompleted " + _operationResult.Error);
 				return;
 			}
 
 			if (_operationResult.Result == null)
 			{
-				MessageBoxService.ShowExtended("Устройств не обнаружено");
+				MessageBoxService.Show("Устройств не обнаружено");
 				return;
 			}
 

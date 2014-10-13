@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите точку доступа " + SelectedDoor.Door.Name))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите точку доступа " + SelectedDoor.Door.Name))
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.RemoveDoor(SelectedDoor.Door);

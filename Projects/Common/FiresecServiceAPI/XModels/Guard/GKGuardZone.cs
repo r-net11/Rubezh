@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Охранная зона ГК
+	/// </summary>
 	[DataContract]
 	public class GKGuardZone : GKBase, IPlanPresentable
 	{
@@ -22,30 +25,57 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<Guid> PlanElementUIDs { get; set; }
 
+		/// <summary>
+		/// Метод ввода
+		/// </summary>
 		[DataMember]
 		public GKGuardZoneEnterMethod GuardZoneEnterMethod { get; set; }
 
+		/// <summary>
+		/// Минимальный уровень на постановку
+		/// </summary>
 		[DataMember]
 		public int SetGuardLevel { get; set; }
 
+		/// <summary>
+		/// Минимальный уровень на снятие
+		/// </summary>
 		[DataMember]
 		public int ResetGuardLevel { get; set; }
 
+		/// <summary>
+		/// Минимальный уровень на вызов тревоги
+		/// </summary>
 		[DataMember]
 		public int SetAlarmLevel { get; set; }
 
+		/// <summary>
+		/// Задержка на постановку
+		/// </summary>
 		[DataMember]
 		public int Delay { get; set; }
 
+		/// <summary>
+		/// Задержка на снятие
+		/// </summary>
 		[DataMember]
 		public int ResetDelay { get; set; }
 
+		/// <summary>
+		/// Задержка на вызов тревоги
+		/// </summary>
 		[DataMember]
 		public int AlarmDelay { get; set; }
 
+		/// <summary>
+		/// Идентификаторы устройств
+		/// </summary>
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
 
+		/// <summary>
+		/// Устройства охранной зоны
+		/// </summary>
 		[DataMember]
 		public List<GKGuardZoneDevice> GuardZoneDevices { get; set; }
 	}

@@ -71,7 +71,8 @@ namespace FiresecClient
 		}
 		public OperationResult RestoreDepartment(Guid uid)
 		{
-			return SafeContext.Execute(() => FiresecService.RestoreDepartment(uid));
+			return SafeContext.Execute(() => 
+				FiresecService.RestoreDepartment(uid));
 		}
 		#endregion
 
@@ -215,6 +216,10 @@ namespace FiresecClient
 		public OperationResult RestoreOrganisation(Guid uid)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreOrganisation(uid));
+		}
+		public OperationResult<bool> IsAnyOrganisationItems(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.IsAnyOrganisationItems(uid));
 		}
 		#endregion
 

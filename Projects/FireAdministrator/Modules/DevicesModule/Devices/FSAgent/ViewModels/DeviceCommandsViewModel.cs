@@ -120,14 +120,14 @@ namespace DevicesModule.ViewModels
 		{
 			if (ConnectionSettingsManager.IsRemote)
 			{
-				MessageBoxService.ShowErrorExtended("Операция обновления ПО доступна только для локального сервера");
+				MessageBoxService.ShowError("Операция обновления ПО доступна только для локального сервера");
 				return;
 			}
 
 #if DEBUG
 			if (FirmwareAllUpdateHelper.IsManyDevicesToUpdate(SelectedDevice.Device))
 			{
-				if (MessageBoxService.ShowQuestionYesNo("Обновить ПО во всех устройствах этого типа?"))
+				if (MessageBoxService.ShowQuestion("Обновить ПО во всех устройствах этого типа?"))
 				{
 					FirmwareAllUpdateHelper.Run(SelectedDevice.Device);
 				}
@@ -231,12 +231,12 @@ namespace DevicesModule.ViewModels
 			var validationResult = ServiceFactory.ValidationService.Validate();
 			if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
 			{
-				MessageBoxService.ShowWarningExtended("Обнаружены ошибки. Операция прервана");
+				MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 				return false;
 			}
 			if (validationResult.HasErrors("FS"))
 			{
-				if (!MessageBoxService.ShowQuestionYesNo("Конфигурация содержит ошибки. Продолжить"))
+				if (!MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить"))
 					return false;
 			}
 			return true;
@@ -255,7 +255,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.SaveService.FSChanged)
 			{
-				if (MessageBoxService.ShowQuestionYesNo("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?"))
 				{
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);

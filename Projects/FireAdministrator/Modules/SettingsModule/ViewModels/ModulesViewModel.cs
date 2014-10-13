@@ -28,7 +28,6 @@ namespace SettingsModule.ViewModels
 
 			//Modules.Add(new ModuleViewModel("DevicesModule.dll", "Устройства FS1"));
 			//Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));			
-			//Modules.Add(new ModuleViewModel("InstructionsModule.dll", "Инструкции FS1"));
 			//Modules.Add(new ModuleViewModel("AlarmModule.dll", "Состояния FS1"));
 			//Modules.Add(new ModuleViewModel("OPCModule.dll", "OPC сервер"));
 			//Modules.Add(new ModuleViewModel("NotificationModule.dll", "Нотификация"));

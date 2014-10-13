@@ -69,15 +69,19 @@ namespace FireMonitor
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+
+						if (result)
+							AterInitialize();
 					}
 					else
 					{
-						MessageBoxService.Show2("Нет прав на работу с программой");
+						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
-					}
 
-					if (result)
-						AterInitialize();
+						if (Application.Current != null)
+							Application.Current.Shutdown();
+						return false;
+					}
 
 					//MutexHelper.KeepAlive();
 					ProgressWatcher.Run();
@@ -94,7 +98,7 @@ namespace FireMonitor
 				catch (Exception e)
 				{
 					Logger.Error(e, "Bootstrapper.InitializeFs");
-					MessageBoxService.ShowException2(e);
+					MessageBoxService.ShowException(e);
 					if (Application.Current != null)
 						Application.Current.Shutdown();
 					return false;

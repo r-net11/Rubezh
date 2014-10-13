@@ -13,9 +13,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlDirectionArguments = stepViewModel.Step.ControlDirectionArguments;
 			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
-			DirectionArgument = new ArgumentViewModel(ControlDirectionArguments.DirectionArgument, stepViewModel.Update);
-			DirectionArgument.ObjectType = ObjectType.Direction;
-			DirectionArgument.ExplicitType = ExplicitType.Object;
+			DirectionArgument = new ArgumentViewModel(ControlDirectionArguments.DirectionArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 		}
 
@@ -34,7 +32,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			DirectionArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.Direction, false));
+			DirectionArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.Direction, isList:false);
 		}
 
 		public override string Description

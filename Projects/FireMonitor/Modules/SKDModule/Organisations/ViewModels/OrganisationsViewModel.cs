@@ -146,36 +146,41 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите удалить огранизацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить огранизацию?"))
 			{
-				var organisation = SelectedOrganisation.Organisation;
-				var removeResult = OrganisationHelper.MarkDeleted(organisation);
-				if (removeResult == false)
-					return;
-				if (_logicalDeletationType == LogicalDeletationType.All)
+				if (!OrganisationHelper.IsAnyItems(SelectedOrganisation.Organisation.UID) ||
+					MessageBoxService.ShowQuestion("Привязанные к организации объекты будут также архивированы. Продолжить?"))
 				{
-					SelectedOrganisation.IsDeleted = true;
-					SetItemsCanSelect(false);
+					var organisation = SelectedOrganisation.Organisation;
+					var removeResult = OrganisationHelper.MarkDeleted(organisation);
+					if (removeResult == false)
+						return;
+					if (_logicalDeletationType == LogicalDeletationType.All)
+					{
+						SelectedOrganisation.IsDeleted = true;
+						SetItemsCanSelect(false);
+					}
+					else
+					{
+						Organisations.Remove(SelectedOrganisation);
+						SelectedOrganisation = Organisations.FirstOrDefault();
+					}
+					ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 				}
-				else
-				{
-					Organisations.Remove(SelectedOrganisation);
-					SelectedOrganisation = Organisations.FirstOrDefault();
-				}
-				ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Publish(organisation.UID);
 			}
 		}
 		
 		public RelayCommand RestoreCommand { get; private set; }
 		void OnRestore()
 		{
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите восстановить огранизацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите восстановить огранизацию?"))
 			{
 				var restoreResult = OrganisationHelper.Restore(SelectedOrganisation.Organisation);
 				if (!restoreResult)
 					return;
 				SelectedOrganisation.IsDeleted = false;
 				SetItemsCanSelect(true);
+				ServiceFactory.Events.GetEvent<RestoreOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}
 		}
 		bool CanRestore()

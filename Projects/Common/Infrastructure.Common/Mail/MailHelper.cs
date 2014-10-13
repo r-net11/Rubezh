@@ -25,7 +25,7 @@ namespace Infrastructure.Common.Mail
 				}
 				else
 				{
-					MessageBoxService.ShowErrorExtended("Неверно заданы параметры smtp-сервера");
+					MessageBoxService.ShowError("Неверно заданы параметры smtp-сервера");
 				}
 			}
 			catch (Exception e)

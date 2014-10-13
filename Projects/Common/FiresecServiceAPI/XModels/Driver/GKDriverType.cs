@@ -94,7 +94,7 @@ namespace FiresecAPI.GK
 		[Description("ИПТ RSR2")]
 		RSR2_HeatDetector,
 		[Description("ППУ ДН RSR2")]
-		RSR2_Bush,
+		RSR2_Bush_Drenazh,
 		[Description("ППУ ЖН RSR2")]
 		RSR2_Bush_Jokey,
 		[Description("ППУ ПН RSR2")]

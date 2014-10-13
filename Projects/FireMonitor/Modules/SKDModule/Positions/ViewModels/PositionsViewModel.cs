@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common.Windows;
 using SKDModule.Events;
 
 
@@ -56,6 +57,30 @@ namespace SKDModule.ViewModels
 				var viewModel = new PositionViewModel();
 				viewModel.InitializeModel(organisation.Organisation, model, this);
 				organisation.AddChild(viewModel);
+			}
+		}
+
+		protected override void Remove()
+		{
+			if (SelectedItem.EmployeeListViewModel.Employees.Count == 0 ||
+				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продожить?"))
+			{
+				var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+				base.Remove();
+				foreach (var uid in employeeUIDs)
+				{
+					ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
+				}
+			}
+		}
+
+		protected override void Restore()
+		{
+			base.Restore();
+			var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+			foreach (var uid in employeeUIDs)
+			{
+				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
 			}
 		}
 	}

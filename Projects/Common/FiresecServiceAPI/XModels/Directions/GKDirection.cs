@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Направление ГК
+	/// </summary>
 	[DataContract]
 	public class GKDirection : GKBase, IPlanPresentable
 	{
@@ -32,18 +35,30 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDevice> OutputDevices { get; set; }
 
+		/// <summary>
+		/// Задержка на включение
+		/// </summary>
 		[DataMember]
 		public ushort Delay { get; set; }
 
+		/// <summary>
+		/// Время удержания
+		/// </summary>
 		[DataMember]
 		public ushort Hold { get; set; }
 
 		[DataMember]
 		public DelayRegime DelayRegime { get; set; }
 
+		/// <summary>
+		/// Зоны направления
+		/// </summary>
 		[DataMember]
 		public List<GKDirectionZone> DirectionZones { get; set; }
 
+		/// <summary>
+		/// Устройства направления
+		/// </summary>
 		[DataMember]
 		public List<GKDirectionDevice> DirectionDevices { get; set; }
 

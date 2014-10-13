@@ -27,7 +27,23 @@ namespace GKProcessor
 			if (Delay.DeviceLogic.ClausesGroup.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(Delay.DeviceLogic.ClausesGroup);
-				Formula.AddStandardTurning(Delay);
+				if (Delay.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
+				{
+					Formula.AddStandardTurning(Delay);
+				}
+				else
+				{
+					Formula.AddGetBit(GKStateBit.Norm, Delay);
+					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
+				}
+			}
+			if (Delay.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
+			{
+				Formula.AddClauseFormula(Delay.DeviceLogic.OffClausesGroup);
+				Formula.AddGetBit(GKStateBit.Norm, Delay);
+				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
 			}
 			FormulaBytes = Formula.GetBytes();
 		}

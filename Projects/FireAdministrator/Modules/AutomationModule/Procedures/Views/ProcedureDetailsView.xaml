@@ -23,7 +23,7 @@
 				<Label Grid.Row="2" Grid.Column="0"  Content="Активно" HorizontalAlignment="Right" Margin="2" />
 				<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsActive}" Margin="2,7,0,0" />
 				<Label Grid.Row="3" Grid.Column="0" Content="Время выполнения" HorizontalAlignment="Right" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

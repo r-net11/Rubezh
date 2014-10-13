@@ -13,9 +13,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlGKGuardZoneArguments = stepViewModel.Step.ControlGKGuardZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<GuardZoneCommandType>();
-			GKGuardZoneArgument = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneArgument, stepViewModel.Update);
-			GKGuardZoneArgument.ObjectType = ObjectType.GuardZone;
-			GKGuardZoneArgument.ExplicitType = ExplicitType.Object;
+			GKGuardZoneArgument = new ArgumentViewModel(ControlGKGuardZoneArguments.GKGuardZoneArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
 		}
 
@@ -34,7 +32,7 @@ namespace AutomationModule.ViewModels
 	
 		public override void UpdateContent()
 		{
-			GKGuardZoneArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.GuardZone, false));
+			GKGuardZoneArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.GuardZone, isList:false);
 		}
 
 		public override string Description

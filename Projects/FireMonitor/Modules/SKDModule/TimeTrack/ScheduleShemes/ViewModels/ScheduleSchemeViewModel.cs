@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 		void UpdateDaysCount()
 		{
 			Model.DaysCount = Model.DayIntervals.Count;
-			ScheduleSchemaHelper.Save(Model);
+			ScheduleSchemeHelper.Save(Model);
 		}
 	}
 }

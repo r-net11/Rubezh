@@ -19,7 +19,7 @@ namespace Infrastructure
 			if (FiresecManager.FiresecDriver == null)
 				return;
 
-			if (MessageBoxService.ShowQuestionYesNo("Вы уверены, что хотите конвертировать конфигурацию?"))
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?"))
 			{
 				WaitHelper.Execute(() =>
 				{
@@ -27,7 +27,7 @@ namespace Infrastructure
 					var convertationResult = FiresecManager.FiresecDriver.Convert();
 					if (convertationResult.HasError)
 					{
-						MessageBoxService.ShowErrorExtended(convertationResult.Error);
+						MessageBoxService.ShowError(convertationResult.Error);
 						return;
 					}
 					LoadingService.Show("Синхронизация конфигурации", "Конвертирование конфигурации", 6);

@@ -198,7 +198,7 @@ namespace AlarmModule.ViewModels
 				if (e.Key == System.Windows.Input.Key.F12 && GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled)
 				{
 					var haspInfo = LicenseHelper.GetHaspInfo();
-					MessageBoxService.Show2(haspInfo);
+					MessageBoxService.Show(haspInfo);
 				}
 			}
 			catch (Exception ex)

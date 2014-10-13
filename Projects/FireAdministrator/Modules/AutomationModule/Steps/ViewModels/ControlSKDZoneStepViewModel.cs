@@ -13,9 +13,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlSKDZoneArguments = stepViewModel.Step.ControlSKDZoneArguments;
 			Commands = ProcedureHelper.GetEnumObs<SKDZoneCommandType>();
-			SKDZoneArgument = new ArgumentViewModel(ControlSKDZoneArguments.SKDZoneArgument, stepViewModel.Update);
-			SKDZoneArgument.ObjectType = ObjectType.SKDZone;
-			SKDZoneArgument.ExplicitType = ExplicitType.Object;
+			SKDZoneArgument = new ArgumentViewModel(ControlSKDZoneArguments.SKDZoneArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlSKDZoneArguments.SKDZoneCommandType;
 		}
 
@@ -34,7 +32,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			SKDZoneArgument.Update(ProcedureHelper.GetAllVariables(Procedure, ExplicitType.Object, ObjectType.SKDZone, false));
+			SKDZoneArgument.Update(Procedure, ExplicitType.Object, objectType:ObjectType.SKDZone, isList:false);
 		}
 
 		public override string Description

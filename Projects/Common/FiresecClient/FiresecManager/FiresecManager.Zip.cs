@@ -32,7 +32,7 @@ namespace FiresecClient
 				return;
 			}
 
-			foreach (var zipConfigurationItem in zipConfigurationItemsCollection.GetWellKnownZipConfigurationItems)
+			foreach (var zipConfigurationItem in zipConfigurationItemsCollection.GetWellKnownZipConfigurationItems())
 			{
 				var configurationFileName = Path.Combine(unzipFolderPath, zipConfigurationItem.Name);
 				if (File.Exists(configurationFileName))

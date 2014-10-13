@@ -20,15 +20,14 @@ namespace AutomationModule.ViewModels
 		public FindObjectStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			FindObjectArguments = stepViewModel.Step.FindObjectArguments;
-			ResultArgument = new ArgumentViewModel(FindObjectArguments.ResultArgument, stepViewModel.Update, false);
-			ResultArgument.ExplicitType = ExplicitType.Object;
+			ResultArgument = new ArgumentViewModel(FindObjectArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 			ResultArgument.UpdateVariableHandler = UpdateConditions;
 			JoinOperator = FindObjectArguments.JoinOperator;
 			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
 			FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ResultArgument.ObjectType));
 			foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 			{
-				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
+				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler, UpdateContent);
 				FindObjectConditions.Add(findObjectConditionViewModel);
 			}
 			AddCommand = new RelayCommand(OnAdd);
@@ -40,7 +39,7 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var findObjectCondition = new FindObjectCondition();
-			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler);
+			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure, UpdateDescriptionHandler, UpdateContent);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
 			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
@@ -69,9 +68,13 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ExplicitType == ExplicitType.Object && x.IsList);
 			variableUidValidator = ResultArgument.Argument.VariableUid;
-			ResultArgument.Update(allVariables);
+			ResultArgument.Update(Procedure, ExplicitType.Object, isList:true);
+			foreach (var findObjectCondition in FindObjectConditions)
+			{
+				findObjectCondition.UpdateContent();
+			}
+			UpdateConditions();
 			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
@@ -144,12 +147,12 @@ namespace AutomationModule.ViewModels
 		Procedure Procedure { get; set; }
 		Action UpdateDescriptionHandler { get; set; }
 
-		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure, Action updateDescriptionHandler)
+		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure, Action updateDescriptionHandler, Action updateContentHandler)
 		{
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			SourceArgument = new ArgumentViewModel(findObjectCondition.SourceArgument, updateDescriptionHandler);
+			SourceArgument = new ArgumentViewModel(findObjectCondition.SourceArgument, updateDescriptionHandler, updateContentHandler);
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 		}
@@ -166,14 +169,17 @@ namespace AutomationModule.ViewModels
 				if (value == Property.ShleifNo)
 				{ MinValue = 1; MaxValue = 8; }
 				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ExplicitType));
-				SourceArgument.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ExplicitType == ExplicitType && x.EnumType == EnumType));
-				SourceArgument.ExplicitType = ExplicitType;
-				SourceArgument.EnumType = EnumType;
+				SourceArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ConditionTypes);
 				OnPropertyChanged(() => MinValue);
 				OnPropertyChanged(() => MaxValue);
 			}
+		}
+
+		public void UpdateContent()
+		{
+			SourceArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

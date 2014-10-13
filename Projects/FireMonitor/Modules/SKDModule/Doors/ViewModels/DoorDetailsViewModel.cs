@@ -76,7 +76,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -110,7 +110,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
@@ -127,7 +127,7 @@ namespace SKDModule.ViewModels
 				var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
 				if (result.HasError)
 				{
-					MessageBoxService.ShowWarning2(result.Error);
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
