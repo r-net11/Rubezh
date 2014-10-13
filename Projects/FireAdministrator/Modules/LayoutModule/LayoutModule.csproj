@@ -108,6 +108,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="Validation\LayoutValidationError.cs" />
+    <Compile Include="Validation\Validator.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyTemplateContainerPageViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartTemplateContainerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsMenuViewModel.cs" />

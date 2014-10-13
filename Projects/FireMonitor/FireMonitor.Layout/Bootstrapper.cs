@@ -106,8 +106,8 @@ namespace FireMonitor.Layout
 				if (_layoutID.HasValue)
 					_layout = layouts.FirstOrDefault(item => item.UID == _layoutID.Value);
 
-				if (_layout == null&&layouts.Count == 1)
-						_layout = layouts[0];
+				if (_layout == null && layouts.Count == 1)
+					_layout = layouts[0];
 
 				if (_layout == null)
 				{

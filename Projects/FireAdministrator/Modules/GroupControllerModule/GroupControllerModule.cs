@@ -22,85 +22,85 @@ using Infrustructure.Plans.Events;
 
 namespace GKModule
 {
-    public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
-    {
-        DevicesViewModel DevicesViewModel;
-        ParameterTemplatesViewModel ParameterTemplatesViewModel;
-        ZonesViewModel ZonesViewModel;
-        DirectionsViewModel DirectionsViewModel;
-        PumpStationsViewModel PumpStationsViewModel;
-        MPTsViewModel MPTsViewModel;
-        DelaysViewModel DelaysViewModel;
-        CodesViewModel CodesViewModel;
-        GuardZonesViewModel GuardZonesViewModel;
-        DoorsViewModel DoorsViewModel;
-        SchedulesViewModel SchedulesViewModel;
-        LibraryViewModel DeviceLidraryViewModel;
-        InstructionsViewModel InstructionsViewModel;
-        OPCDevicesViewModel OPCDevicesViewModel;
-        OPCZonesViewModel OPCZonesViewModel;
-        OPCDirectionsViewModel OPCDirectionsViewModel;
-        DescriptorsViewModel DescriptorsViewModel;
-        DiagnosticsViewModel DiagnosticsViewModel;
-        GKPlanExtension _planExtension;
+	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
+	{
+		DevicesViewModel DevicesViewModel;
+		ParameterTemplatesViewModel ParameterTemplatesViewModel;
+		ZonesViewModel ZonesViewModel;
+		DirectionsViewModel DirectionsViewModel;
+		PumpStationsViewModel PumpStationsViewModel;
+		MPTsViewModel MPTsViewModel;
+		DelaysViewModel DelaysViewModel;
+		CodesViewModel CodesViewModel;
+		GuardZonesViewModel GuardZonesViewModel;
+		DoorsViewModel DoorsViewModel;
+		SchedulesViewModel SchedulesViewModel;
+		LibraryViewModel DeviceLidraryViewModel;
+		InstructionsViewModel InstructionsViewModel;
+		OPCDevicesViewModel OPCDevicesViewModel;
+		OPCZonesViewModel OPCZonesViewModel;
+		OPCDirectionsViewModel OPCDirectionsViewModel;
+		DescriptorsViewModel DescriptorsViewModel;
+		DiagnosticsViewModel DiagnosticsViewModel;
+		GKPlanExtension _planExtension;
 
-        public override void CreateViewModels()
-        {
-            ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
-            ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Subscribe(OnEditGKZone);
-            ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Subscribe(OnCreateGKGuardZone);
-            ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Subscribe(OnEditGKGuardZone);
-            ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Subscribe(OnCreateGKDirection);
-            ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(OnEditGKDirection);
-            ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
-            ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
+		public override void CreateViewModels()
+		{
+			ServiceFactory.Events.GetEvent<CreateGKZoneEvent>().Subscribe(OnCreateGKZone);
+			ServiceFactory.Events.GetEvent<EditGKZoneEvent>().Subscribe(OnEditGKZone);
+			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Subscribe(OnCreateGKGuardZone);
+			ServiceFactory.Events.GetEvent<EditGKGuardZoneEvent>().Subscribe(OnEditGKGuardZone);
+			ServiceFactory.Events.GetEvent<CreateGKDirectionEvent>().Subscribe(OnCreateGKDirection);
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(OnEditGKDirection);
+			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
+			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
 
-            DevicesViewModel = new DevicesViewModel();
-            ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
-            ZonesViewModel = new ZonesViewModel();
-            DirectionsViewModel = new DirectionsViewModel();
-            PumpStationsViewModel = new PumpStationsViewModel();
-            MPTsViewModel = new MPTsViewModel();
-            DelaysViewModel = new DelaysViewModel();
-            CodesViewModel = new CodesViewModel();
-            GuardZonesViewModel = new GuardZonesViewModel();
-            DoorsViewModel = new DoorsViewModel();
-            SchedulesViewModel = new SchedulesViewModel();
-            DeviceLidraryViewModel = new LibraryViewModel();
-            InstructionsViewModel = new InstructionsViewModel();
-            OPCDevicesViewModel = new OPCDevicesViewModel();
-            OPCZonesViewModel = new OPCZonesViewModel();
-            OPCDirectionsViewModel = new OPCDirectionsViewModel();
-            DescriptorsViewModel = new DescriptorsViewModel();
-            DiagnosticsViewModel = new DiagnosticsViewModel();
-            _planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel, DoorsViewModel);
-        }
+			DevicesViewModel = new DevicesViewModel();
+			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
+			ZonesViewModel = new ZonesViewModel();
+			DirectionsViewModel = new DirectionsViewModel();
+			PumpStationsViewModel = new PumpStationsViewModel();
+			MPTsViewModel = new MPTsViewModel();
+			DelaysViewModel = new DelaysViewModel();
+			CodesViewModel = new CodesViewModel();
+			GuardZonesViewModel = new GuardZonesViewModel();
+			DoorsViewModel = new DoorsViewModel();
+			SchedulesViewModel = new SchedulesViewModel();
+			DeviceLidraryViewModel = new LibraryViewModel();
+			InstructionsViewModel = new InstructionsViewModel();
+			OPCDevicesViewModel = new OPCDevicesViewModel();
+			OPCZonesViewModel = new OPCZonesViewModel();
+			OPCDirectionsViewModel = new OPCDirectionsViewModel();
+			DescriptorsViewModel = new DescriptorsViewModel();
+			DiagnosticsViewModel = new DiagnosticsViewModel();
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel, DoorsViewModel);
+		}
 
-        public override void Initialize()
-        {
-            DevicesViewModel.Initialize();
-            ParameterTemplatesViewModel.Initialize();
-            ZonesViewModel.Initialize();
-            DirectionsViewModel.Initialize();
-            PumpStationsViewModel.Initialize();
-            MPTsViewModel.Initialize();
-            DelaysViewModel.Initialize();
-            CodesViewModel.Initialize();
-            GuardZonesViewModel.Initialize();
-            DoorsViewModel.Initialize();
-            SchedulesViewModel.Initialize();
-            InstructionsViewModel.Initialize();
-            OPCDevicesViewModel.Initialize();
-            OPCZonesViewModel.Initialize();
-            OPCDirectionsViewModel.Initialize();
+		public override void Initialize()
+		{
+			DevicesViewModel.Initialize();
+			ParameterTemplatesViewModel.Initialize();
+			ZonesViewModel.Initialize();
+			DirectionsViewModel.Initialize();
+			PumpStationsViewModel.Initialize();
+			MPTsViewModel.Initialize();
+			DelaysViewModel.Initialize();
+			CodesViewModel.Initialize();
+			GuardZonesViewModel.Initialize();
+			DoorsViewModel.Initialize();
+			SchedulesViewModel.Initialize();
+			InstructionsViewModel.Initialize();
+			OPCDevicesViewModel.Initialize();
+			OPCZonesViewModel.Initialize();
+			OPCDirectionsViewModel.Initialize();
 
-            _planExtension.Initialize();
-            ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
-            _planExtension.Cache.BuildAllSafe();
-        }
-        public override IEnumerable<NavigationItem> CreateNavigation()
-        {
-            return new List<NavigationItem>()
+			_planExtension.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			_planExtension.Cache.BuildAllSafe();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
 			{
 				new NavigationItem(ModuleType.ToDescription(), null, new List<NavigationItem>()
 				{
@@ -141,87 +141,87 @@ namespace GKModule
 					#endif
 				}) {IsExpanded = true},
 			};
-        }
-        protected override ModuleType ModuleType
-        {
-            get { return ModuleType.GK; }
-        }
-        public override void RegisterResource()
-        {
-            base.RegisterResource();
-            var resourceService = new ResourceService();
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
-        }
+		}
+		protected override ModuleType ModuleType
+		{
+			get { return ModuleType.GK; }
+		}
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			var resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
+		}
 
-        #region IValidationModule Members
-        public IEnumerable<IValidationError> Validate()
-        {
-            var validator = new Validator();
-            return validator.Validate();
-        }
-        #endregion
+		#region IValidationModule Members
+		public IEnumerable<IValidationError> Validate()
+		{
+			var validator = new Validator();
+			return validator.Validate();
+		}
+		#endregion
 
-        private void OnCreateGKZone(CreateGKZoneEventArg createZoneEventArg)
-        {
-            ZonesViewModel.CreateZone(createZoneEventArg);
-        }
-        private void OnEditGKZone(Guid zoneUID)
-        {
-            ZonesViewModel.EditZone(zoneUID);
-        }
+		private void OnCreateGKZone(CreateGKZoneEventArg createZoneEventArg)
+		{
+			ZonesViewModel.CreateZone(createZoneEventArg);
+		}
+		private void OnEditGKZone(Guid zoneUID)
+		{
+			ZonesViewModel.EditZone(zoneUID);
+		}
 
-        private void OnCreateGKGuardZone(CreateGKGuardZoneEventArg createZoneEventArg)
-        {
-            GuardZonesViewModel.CreateZone(createZoneEventArg);
-        }
-        private void OnEditGKGuardZone(Guid zoneUID)
-        {
-            GuardZonesViewModel.EditZone(zoneUID);
-        }
+		private void OnCreateGKGuardZone(CreateGKGuardZoneEventArg createZoneEventArg)
+		{
+			GuardZonesViewModel.CreateZone(createZoneEventArg);
+		}
+		private void OnEditGKGuardZone(Guid zoneUID)
+		{
+			GuardZonesViewModel.EditZone(zoneUID);
+		}
 
-        private void OnCreateGKDirection(CreateGKDirectionEventArg createDirectionEventArg)
-        {
-            DirectionsViewModel.CreateDirection(createDirectionEventArg);
-        }
-        private void OnEditGKDirection(Guid directionUID)
-        {
-            DirectionsViewModel.EditDirection(directionUID);
-        }
+		private void OnCreateGKDirection(CreateGKDirectionEventArg createDirectionEventArg)
+		{
+			DirectionsViewModel.CreateDirection(createDirectionEventArg);
+		}
+		private void OnEditGKDirection(Guid directionUID)
+		{
+			DirectionsViewModel.EditDirection(directionUID);
+		}
 
-        private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
-        {
-            DoorsViewModel.CreateDoor(createGKDoorEventArg);
-        }
-        private void OnEditGKDoor(Guid doorUID)
-        {
-            DoorsViewModel.EditDoor(doorUID);
-        }
+		private void OnCreateGKDoor(CreateGKDoorEventArg createGKDoorEventArg)
+		{
+			DoorsViewModel.CreateDoor(createGKDoorEventArg);
+		}
+		private void OnEditGKDoor(Guid doorUID)
+		{
+			DoorsViewModel.EditDoor(doorUID);
+		}
 
-        public override bool BeforeInitialize(bool firstTime)
-        {
-            LoadingService.DoStep("Загрузка конфигурации ГК");
-            GKDriversCreator.Create();
-            GKManager.UpdateConfiguration();
-            return true;
-        }
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			LoadingService.DoStep("Загрузка конфигурации ГК");
+			GKDriversCreator.Create();
+			GKManager.UpdateConfiguration();
+			return true;
+		}
 
-        #region ILayoutDeclarationModule Members
+		#region ILayoutDeclarationModule Members
 
-        public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
-        {
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Indicator, 110, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.ConnectionIndicator, 111, "Индикатор связи", "Панель индикаторов связи", "BConnectionIndicator.png", true, new LayoutPartSize() { PreferedSize = new Size(50, 30) });
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Zones, 114, "Зоны", "Панель зон", "BZones.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GuardZones, 115, "Охранные зоны", "Панель охранных зон", "BZones.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 116, "Направления", "Панель направления", "BDirection.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png");
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 119, "Точки доступа", "Панель точек досткпа", "BMPT.png");
-        }
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Indicator, 110, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.ConnectionIndicator, 111, "Индикатор связи", "Панель индикаторов связи", "BConnectionIndicator.png", true, new LayoutPartSize() { PreferedSize = new Size(50, 30) });
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Alarms, 112, "Состояния", "Панель состояний", "BAlarm.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GDevices, 113, "Устройства", "Панель с устройствами", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Zones, 114, "Зоны", "Панель зон", "BZones.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GuardZones, 115, "Охранные зоны", "Панель охранных зон", "BZones.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 116, "Направления", "Панель направления", "BDirection.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 117, "НС", "Панель НС", "BPumpStation.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 118, "МПТ", "Панель МПТ", "BMPT.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Doors, 119, "Точки доступа", "Панель точек досткпа", "BMPT.png");
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

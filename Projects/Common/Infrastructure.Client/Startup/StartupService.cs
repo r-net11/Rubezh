@@ -107,9 +107,12 @@ namespace Infrastructure.Client.Startup
 			_viewModel = new StartupViewModel(_clientType);
 			_viewModel.Closed += new EventHandler(StartupClosed);
 			_syncEvent.Set();
-            Dispatcher.Run();
+			//Dispatcher.Run();
 			DialogService.ShowModalWindow(_viewModel);
 			ReleaseResources();
+			//DialogService.ShowWindow(_viewModel);
+			//_viewModel.Closed += (s, e) => ReleaseResources();
+			//Dispatcher.Run();
 		}
 
 		private void StartupClosed(object sender, EventArgs e)

@@ -12,10 +12,12 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using LayoutModule.ViewModels;
+using Infrastructure.Common.Validation;
+using LayoutModule.Validation;
 
 namespace LayoutModule
 {
-	public class LayoutModule : ModuleBase, ILayoutDeclarationModule
+	public class LayoutModule : ModuleBase, ILayoutDeclarationModule, IValidationModule
 	{
 		private MonitorLayoutsViewModel _monitorLayoutsViewModel;
 
@@ -69,6 +71,15 @@ namespace LayoutModule
 			{
 				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};
+		}
+
+		#endregion
+
+		#region IValidationModule Members
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			return new Validator().Validate();
 		}
 
 		#endregion

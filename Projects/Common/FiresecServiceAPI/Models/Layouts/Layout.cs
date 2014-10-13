@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
@@ -49,5 +50,14 @@ namespace FiresecAPI.Models.Layouts
 		public Color BackgroundColor { get; set; }
 		[DataMember]
 		public int Padding { get; set; }
+
+		public LayoutPart GetLayoutPart(Guid uid)
+		{
+			return Parts.FirstOrDefault(item => item.UID == uid);
+		}
+		public LayoutPart GetLayoutPartByType(Guid typeUID)
+		{
+			return Parts.FirstOrDefault(item => item.DescriptionUID == typeUID);
+		}
 	}
 }
