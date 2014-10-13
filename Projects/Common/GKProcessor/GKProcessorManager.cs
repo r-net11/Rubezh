@@ -288,6 +288,25 @@ namespace GKProcessor
 			return ParametersHelper.GetSingleParameter(xBase);
 		}
 
+		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
+		{
+			var bytes = new List<byte>();
+			var sendResult = SendManager.Send(device, (ushort)bytes.Count, 0, 0, bytes);
+			return new OperationResult<bool>() { HasError = sendResult.HasError, Error = sendResult.Error, Result = !sendResult.HasError };
+		}
+
+		public static OperationResult<GKSchedule> GKGetSchedule(GKDevice device, int no)
+		{
+			var bytes = new List<byte>();
+			var sendResult = SendManager.Send(device, (ushort)bytes.Count, 0, 0, bytes);
+			if (!sendResult.HasError)
+			{
+				var schedule = new GKSchedule();
+				return new OperationResult<GKSchedule>() { Result = schedule };
+			}
+			return new OperationResult<GKSchedule>("Ошибка");
+		}
+
 		public static OperationResult<List<byte>> GKGKHash(GKDevice device)
 		{
 			var gkFileReaderWriter = new GKFileReaderWriter();

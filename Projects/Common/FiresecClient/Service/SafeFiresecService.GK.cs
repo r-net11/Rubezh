@@ -76,6 +76,16 @@ namespace FiresecClient
 			return SafeOperationCall<List<GKProperty>>(() => { return FiresecService.GKGetSingleParameter(xBase.UID); }, "GetSingleParameter");
 		}
 
+		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
+		}
+
+		public OperationResult<GKSchedule> GKGetSchedule(int no)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetSchedule(no); }, "GKGetSchedule");
+		}
+
 		public OperationResult<List<byte>> GKGKHash(GKDevice device)
 		{
 			return SafeOperationCall<List<byte>>(() => { return FiresecService.GKGKHash(device.UID); }, "GKGKHash");

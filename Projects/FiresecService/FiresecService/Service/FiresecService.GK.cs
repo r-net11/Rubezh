@@ -193,6 +193,32 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
+		{
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+			if (gkControllerDevice != null)
+			{
+				return GKProcessorManager.GKSetSchedule(gkControllerDevice, schedule);
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найден ГК в конфигурации");
+			}
+		}
+
+		public OperationResult<GKSchedule> GKGetSchedule(int no)
+		{
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+			if (gkControllerDevice != null)
+			{
+				return GKProcessorManager.GKGetSchedule(gkControllerDevice, no);
+			}
+			else
+			{
+				return new OperationResult<GKSchedule>("Не найден ГК в конфигурации");
+			}
+		}
+
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);

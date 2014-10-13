@@ -17,6 +17,8 @@ namespace GKModule.ViewModels
 
 		public ScheduleViewModel(GKSchedule schedule)
 		{
+			ReadCommand = new RelayCommand(OnRead);
+			WriteCommand = new RelayCommand(OnWrite);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -68,6 +70,32 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
+		}
+
+
+		public RelayCommand ReadCommand { get; private set; }
+		void OnRead()
+		{
+			var result = FiresecManager.FiresecService.GKGetSchedule(Schedule.No);
+			if (!result.HasError && result.Result != null)
+			{
+				var schedule = result.Result;
+			}
+			else
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public RelayCommand WriteCommand { get; private set; }
+		void OnWrite()
+		{
+			var result = FiresecManager.FiresecService.GKSetSchedule(Schedule);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
 		}
 
 		public SortableObservableCollection<ScheduleIntervalPartViewModel> DayIntervalParts { get; private set; }
