@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecClient;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -16,8 +17,21 @@ namespace GKModule.ViewModels
 
 		public ScheduleViewModel(GKSchedule schedule)
 		{
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
 			Schedule = schedule;
 			Update();
+
+
+			DayIntervalParts = new SortableObservableCollection<ScheduleIntervalPartViewModel>();
+			foreach (var dayIntervalPart in Schedule.DayIntervalParts)
+			{
+				var dayIntervalPartViewModel = new ScheduleIntervalPartViewModel(dayIntervalPart);
+				DayIntervalParts.Add(dayIntervalPartViewModel);
+			}
+			SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
 		}
 
 		public string Name
@@ -54,6 +68,69 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
+		}
+
+		public SortableObservableCollection<ScheduleIntervalPartViewModel> DayIntervalParts { get; private set; }
+
+		ScheduleIntervalPartViewModel _selectedDayIntervalPart;
+		public ScheduleIntervalPartViewModel SelectedDayIntervalPart
+		{
+			get { return _selectedDayIntervalPart; }
+			set
+			{
+				_selectedDayIntervalPart = value;
+				OnPropertyChanged(() => SelectedDayIntervalPart);
+			}
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var scheduleIntervalPartDetailsViewModel = new ScheduleIntervalPartDetailsViewModel(Schedule);
+			if (DialogService.ShowModalWindow(scheduleIntervalPartDetailsViewModel))
+			{
+				var gkIntervalPart = scheduleIntervalPartDetailsViewModel.GKIntervalPart;
+				Schedule.DayIntervalParts.Add(gkIntervalPart);
+				var scheduleIntervalPartViewModel = new ScheduleIntervalPartViewModel(gkIntervalPart);
+				DayIntervalParts.Add(scheduleIntervalPartViewModel);
+				DayIntervalParts.Sort(item => item.BeginTime);
+				SelectedDayIntervalPart = scheduleIntervalPartViewModel;
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanAdd()
+		{
+			return true;
+		}
+
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
+		{
+			Schedule.DayIntervalParts.Remove(SelectedDayIntervalPart.IntervalPart);
+			DayIntervalParts.Remove(SelectedDayIntervalPart);
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+		bool CanDelete()
+		{
+			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var dayIntervalPartDetailsViewModel = new ScheduleIntervalPartDetailsViewModel(Schedule, SelectedDayIntervalPart.IntervalPart);
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
+			{
+				SelectedDayIntervalPart.Update();
+				var selectedDayIntervalPart = SelectedDayIntervalPart;
+				DayIntervalParts.Sort(item => item.BeginTime);
+				SelectedDayIntervalPart = selectedDayIntervalPart;
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanEdit()
+		{
+			return SelectedDayIntervalPart != null;
 		}
 	}
 }

@@ -90,14 +90,14 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (No <= 0)
+			if (No <= 0 || No >= 255)
 			{
-				MessageBoxService.Show("Номер должен быть положительным числом");
+				MessageBoxService.Show("Номер должен быть задан в диапазоне от 1 до 255");
 				return false;
 			}
 			if (Schedule.No != No && GKManager.DeviceConfiguration.Schedules.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Зона с таким номером уже существует");
+				MessageBoxService.Show("График с таким номером уже существует");
 				return false;
 			}
 

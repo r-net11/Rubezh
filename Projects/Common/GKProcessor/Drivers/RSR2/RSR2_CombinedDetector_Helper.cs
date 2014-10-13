@@ -30,8 +30,8 @@ namespace GKProcessor
 
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature" });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Градиент температуры, C/мин", InternalName = "TemperatureDelta" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Задымленность, дБ/м", InternalName = "Smokiness", Multiplier = 1000 });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Запыленность, дБ/м", InternalName = "Dustinness", Multiplier = 1000 });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
 
 			return driver;

@@ -11,5 +11,6 @@
 		Pim,
 		GuardZone,
 		Code,
+		Door,
 	}
 }

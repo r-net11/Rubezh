@@ -132,12 +132,17 @@ namespace GKProcessor
 				var packs = CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
-					var packBytesCount = pack.Count;
-					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack);
-					if (sendResult.HasError)
+					for (int i = 0; i < 10; i++)
 					{
-						GKProcessorManager.StopProgress(progressCallback);
-						return false;
+						var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(pack.Count), 17, 0, pack);
+						if (sendResult.HasError)
+						{
+							if (i >= 9)
+							{
+								GKProcessorManager.StopProgress(progressCallback);
+								return false;
+							}
+						}
 					}
 				}
 			}

@@ -13,5 +13,15 @@ namespace FiresecAPI.GK
 	[DataContract]
 	public class GKSchedule : ModelBase
 	{
+		public GKSchedule()
+		{
+			DayIntervalParts = new List<GKIntervalPart>();
+		}
+
+		/// <summary>
+		/// Список составных частей
+		/// </summary>
+		[DataMember]
+		public List<GKIntervalPart> DayIntervalParts { get; set; }
 	}
 }

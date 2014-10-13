@@ -28,7 +28,7 @@ namespace GKProcessor
 
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 0x82, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
 			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 0x91, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 0x93, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 0x93, Name = "Дата последнего обслуживания, м.г.", InternalName = "LastServiceTime" });
 
 			return driver;
 		}

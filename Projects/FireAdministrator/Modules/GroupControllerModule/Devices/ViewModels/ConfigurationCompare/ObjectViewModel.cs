@@ -39,6 +39,7 @@ namespace GKModule.ViewModels
 		public GKDelay Delay;
 		public GKGuardZone GuardZone;
 		public GKCode Code;
+		public GKDoor Door;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
 		public object Clone()
@@ -126,6 +127,16 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Code;
 		}
 
+		public ObjectViewModel(GKDoor door)
+		{
+			Door = door;
+			Name = door.PresentationName;
+			ImageSource = "/Controls;component/Images/Door.png";
+			Address = "";
+			PresentationZone = "";
+			ObjectType = ObjectType.Door;
+		}
+
 		int IComparable.CompareTo(object a)
 		{
 			return Compare(this, a);
@@ -209,6 +220,15 @@ namespace GKModule.ViewModels
 					return -1;
 				return 0;
 			}
+
+			if (object1.ObjectType == ObjectType.Door)
+			{
+				if (object1.Door.No > object2.Door.No)
+					return 1;
+				if (object1.Door.No < object2.Door.No)
+					return -1;
+				return 0;
+			}
 			return 0;
 		}
 	}
@@ -223,5 +243,6 @@ namespace GKModule.ViewModels
 		Delay = 5,
 		GuardZone = 6,
 		Code = 7,
+		Door = 8,
 	}
 }

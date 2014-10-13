@@ -272,6 +272,7 @@
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
     <Compile Include="XModels\Guard\GKGuardZoneEnterMethod.cs" />
+    <Compile Include="XModels\SKD\GKIntervalPart.cs" />
     <Compile Include="XModels\SKD\GKDoor.cs" />
     <Compile Include="XModels\Guard\GKCodeReaderEnterType.cs" />
     <Compile Include="XModels\Guard\GKCodeReaderSettings.cs" />

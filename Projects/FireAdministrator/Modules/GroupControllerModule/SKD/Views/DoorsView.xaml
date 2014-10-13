@@ -36,7 +36,7 @@
 			<Grid Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Margin="2" DataContext="{Binding SelectedDoor}">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Кодонаборник на вход" />
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Устройство на вход" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -45,7 +45,7 @@
 											<Setter Property="TextBlock.Text" Value="{Binding EnterDevice.PresentationName}" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding EnterDevice}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора кодонаборника на вход" />
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора устройства на вход" />
 												</DataTrigger>
 											</Style.Triggers>
 										</Style>
@@ -55,7 +55,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Кодонаборник на выход" />
+                        <TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -64,7 +64,7 @@
 											<Setter Property="TextBlock.Text" Value="{Binding ExitDevice.PresentationName}" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ExitDevice}" Value="{x:Null}">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора кодонаборника на выход" />
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора устройства на выход" />
 												</DataTrigger>
 											</Style.Triggers>
 										</Style>

@@ -440,8 +440,6 @@ namespace GKProcessor
 			{
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = description,
-				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
-				Description = description.ToDescription(),
 				StateClass = XStateClass.Unknown,
 				ObjectStateClass = XStateClass.Norm,
 				GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()

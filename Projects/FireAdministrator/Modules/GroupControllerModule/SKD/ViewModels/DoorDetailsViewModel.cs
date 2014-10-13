@@ -58,6 +58,7 @@ namespace GKModule.ViewModels
 			Name = Door.Name;
 			Description = Door.Description;
 			Delay = Door.Delay;
+			Hold = Door.Hold;
 			EnterLevel = Door.EnterLevel;
 		}
 
@@ -118,6 +119,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		int _hold;
+		public int Hold
+		{
+			get { return _hold; }
+			set
+			{
+				_hold = value;
+				OnPropertyChanged(() => Hold);
+			}
+		}
+
 		int _enterLevel;
 		public int EnterLevel
 		{
@@ -149,6 +161,7 @@ namespace GKModule.ViewModels
 			Door.Name = Name;
 			Door.Description = Description;
 			Door.Delay = Delay;
+			Door.Hold = Hold;
 			Door.EnterLevel = EnterLevel;
 			return base.Save();
 		}

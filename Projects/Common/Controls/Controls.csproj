@@ -809,7 +809,7 @@
     <Resource Include="Images\SaveAll.png" />
     <Resource Include="GKIcons\RSR2_SmokeDetector2.png" />
     <Resource Include="GKIcons\RSR2_HeatDetector.png" />
-    <Resource Include="GKIcons\RSR2_Bush.png" />
+    <Resource Include="GKIcons\RSR2_Bush_Drenazh.png" />
     <Resource Include="GKIcons\RSR2_CombinedDetector.png" />
     <Resource Include="StateClassIcons\TurningOff.png" />
     <Resource Include="Images\AllParameters.png" />
