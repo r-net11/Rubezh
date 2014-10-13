@@ -6,474 +6,474 @@ namespace FiresecAPI.Journal
 	public enum JournalEventNameType
 	{
 		[DescriptionAttribute("")]
-		NULL = 1,
+		NULL,
 
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]
-		Неизвестное_событие = 2,
+		Неизвестное_событие,
 
 		[EventName(JournalSubsystemType.System, "Подтверждение тревоги", XStateClass.Fire1)]
-		Подтверждение_тревоги = 3,
+		Подтверждение_тревоги,
 
 		[EventName(JournalSubsystemType.System, "Вход пользователя в систему", XStateClass.Info)]
-		Вход_пользователя_в_систему = 4,
+		Вход_пользователя_в_систему,
 
 		[EventName(JournalSubsystemType.System, "Выход пользователя из системы", XStateClass.Info)]
-		Выход_пользователя_из_системы = 5,
+		Выход_пользователя_из_системы,
 
 		[EventName(JournalSubsystemType.System, "Дежурство сдал", XStateClass.Info)]
-		Дежурство_сдал = 6,
+		Дежурство_сдал,
 
 		[EventName(JournalSubsystemType.System, "Дежурство принял", XStateClass.Info)]
-		Дежурство_принял = 7,
+		Дежурство_принял,
 
 		[EventName(JournalSubsystemType.System, "Зависание процесса отпроса", XStateClass.Unknown)]
-		Зависание_процесса_отпроса = 8,
+		Зависание_процесса_отпроса,
 
 		[EventName(JournalSubsystemType.System, "Отсутствует лицензия", XStateClass.HasNoLicense)]
-		Отсутствует_лицензия = 9,
+		Отсутствует_лицензия,
 
 		[EventName(JournalSubsystemType.System, "Лицензия обнаружена", XStateClass.HasNoLicense)]
-		Лицензия_обнаружена = 10,
+		Лицензия_обнаружена,
 
 		[EventName(JournalSubsystemType.System, "Ошибка инициализации мониторинга", XStateClass.Unknown)]
-		Ошибка_инициализации_мониторинга = 11,
+		Ошибка_инициализации_мониторинга,
 
 		[EventName(JournalSubsystemType.System, "Отмена операции", XStateClass.TechnologicalRegime)]
-		Отмена_операции = 12,
+		Отмена_операции,
 
 		[EventName(JournalSubsystemType.System, "Сообщение автоматизации", XStateClass.Info)]
-		Сообщение_автоматизации = 13,
+		Сообщение_автоматизации,
 
 		[EventName(JournalSubsystemType.GK, "Обновление ПО прибора", XStateClass.Info)]
-		Обновление_ПО_прибора = 1001,
+		Обновление_ПО_прибора,
 
 		[EventName(JournalSubsystemType.GK, "Запись конфигурации в прибор", XStateClass.Info)]
-		Запись_конфигурации_в_прибор = 1002,
+		Запись_конфигурации_в_прибор,
 
 		[EventName(JournalSubsystemType.GK, "Чтение конфигурации из прибора", XStateClass.Info)]
-		Чтение_конфигурации_из_прибора = 1003,
+		Чтение_конфигурации_из_прибора,
 
 		[EventName(JournalSubsystemType.GK, "Запрос информации об устройстве", XStateClass.TechnologicalRegime)]
-		Запрос_информации_об_устройстве = 1004,
+		Запрос_информации_об_устройстве,
 
 		[EventName(JournalSubsystemType.GK, "Синхронизация времени", XStateClass.Info)]
-		Синхронизация_времени = 1005,
+		Синхронизация_времени,
 
 		[EventName(JournalSubsystemType.GK, "Команда оператора", XStateClass.Info)]
-		Команда_оператора = 1006,
+		Команда_оператора,
 
 		[EventName(JournalSubsystemType.GK, "Ошибка при выполнении команды", XStateClass.Failure)]
-		Ошибка_при_выполнении_команды = 1007,
+		Ошибка_при_выполнении_команды,
 
 		[EventName(JournalSubsystemType.GK, "Ошибка при выполнении команды над устройством", XStateClass.Failure)]
-		Ошибка_при_выполнении_команды_над_устройством = 1008,
+		Ошибка_при_выполнении_команды_над_устройством,
 
 		[EventName(JournalSubsystemType.GK, "Нет связи с ГК", XStateClass.ConnectionLost)]
-		Нет_связи_с_ГК = 1009,
+		Нет_связи_с_ГК,
 
 		[EventName(JournalSubsystemType.GK, "Связь с ГК восстановлена", XStateClass.ConnectionLost)]
-		Связь_с_ГК_восстановлена = 1010,
+		Связь_с_ГК_восстановлена,
 
 		[EventName(JournalSubsystemType.GK, "Конфигурация прибора не соответствует конфигурации ПК", XStateClass.Unknown)]
-		Конфигурация_прибора_не_соответствует_конфигурации_ПК = 1011,
+		Конфигурация_прибора_не_соответствует_конфигурации_ПК,
 
 		[EventName(JournalSubsystemType.GK, "Конфигурация прибора соответствует конфигурации ПК", XStateClass.Unknown)]
-		Конфигурация_прибора_соответствует_конфигурации_ПК = 1012,
+		Конфигурация_прибора_соответствует_конфигурации_ПК,
 
 		[EventName(JournalSubsystemType.GK, "Ошибка при синхронизации журнала", XStateClass.Unknown)]
-		Ошибка_при_синхронизации_журнала = 1013,
+		Ошибка_при_синхронизации_журнала,
 
 		[EventName(JournalSubsystemType.GK, "Ошибка при опросе состояний компонентов ГК", XStateClass.Unknown)]
-		Ошибка_при_опросе_состояний_компонентов_ГК = 1014,
+		Ошибка_при_опросе_состояний_компонентов_ГК,
 
 		[EventName(JournalSubsystemType.GK, "Устранена ошибка при опросе состояний компонентов ГК", XStateClass.Unknown)]
-		Устранена_ошибка_при_опросе_состояний_компонентов_ГК = 1015,
+		Устранена_ошибка_при_опросе_состояний_компонентов_ГК,
 
 		[EventName(JournalSubsystemType.GK, "Восстановление связи с прибором", XStateClass.ConnectionLost)]
-		Восстановление_связи_с_прибором = 1016,
+		Восстановление_связи_с_прибором,
 
 		[EventName(JournalSubsystemType.GK, "Потеря связи с прибором", XStateClass.ConnectionLost)]
-		Потеря_связи_с_прибором = 1017,
+		Потеря_связи_с_прибором,
 
 		[EventName(JournalSubsystemType.System, "База данных прибора не соответствует базе данных ПК", XStateClass.Unknown)]
-		База_данных_прибора_не_соответствует_базе_данных_ПК = 1018,
+		База_данных_прибора_не_соответствует_базе_данных_ПК,
 
 		[EventName(JournalSubsystemType.GK, "База данных прибора соответствует базе данных ПК", XStateClass.Unknown)]
-		База_данных_прибора_соответствует_базе_данных_ПК = 1019,
+		База_данных_прибора_соответствует_базе_данных_ПК,
 
 		[EventName(JournalSubsystemType.GK, "Применение конфигурации", XStateClass.Info)]
-		Применение_конфигурации = 1020,
+		Применение_конфигурации,
 
 		[EventName(JournalSubsystemType.GK, "ГК в технологическом режиме", XStateClass.TechnologicalRegime)]
-		ГК_в_технологическом_режиме = 1021,
+		ГК_в_технологическом_режиме,
 
 		[EventName(JournalSubsystemType.GK, "ГК в рабочем режиме", XStateClass.Info)]
-		ГК_в_рабочем_режиме = 1022,
+		ГК_в_рабочем_режиме,
 
 		[EventName(JournalSubsystemType.GK, "Запись всех идентификаторов", XStateClass.Info)]
-		Запись_всех_идентификаторов = 1023,
+		Запись_всех_идентификаторов,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в технологический режим", XStateClass.TechnologicalRegime)]
-		Перевод_в_технологический_режим = 1024,
+		Перевод_в_технологический_режим,
 
 		[EventName(JournalSubsystemType.GK, "Синхронизация времени прибора с временем ПК", XStateClass.Info)]
-		Синхронизация_времени_прибора_с_временем_ПК = 1025,
+		Синхронизация_времени_прибора_с_временем_ПК,
 
 		[EventName(JournalSubsystemType.GK, "Смена ПО", XStateClass.TechnologicalRegime)]
-		Смена_ПО = 1026,
+		Смена_ПО,
 
 		[EventName(JournalSubsystemType.GK, "Смена БД", XStateClass.TechnologicalRegime)]
-		Смена_БД = 1027,
+		Смена_БД,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в рабочий режим", XStateClass.Info)]
-		Перевод_в_рабочий_режим = 1028,
+		Перевод_в_рабочий_режим,
 
 		[EventName(JournalSubsystemType.GK, "Вход пользователя в прибор", XStateClass.Info)]
-		Вход_пользователя_в_прибор = 1029,
+		Вход_пользователя_в_прибор,
 
 		[EventName(JournalSubsystemType.GK, "Выход пользователя из прибора", XStateClass.Info)]
-		Выход_пользователя_из_прибора = 1030,
+		Выход_пользователя_из_прибора,
 
 		[EventName(JournalSubsystemType.GK, "Ошибка управления", XStateClass.Failure)]
-		Ошибка_управления = 1031,
+		Ошибка_управления,
 
 		[EventName(JournalSubsystemType.GK, "Введен новый пользователь", XStateClass.Info)]
-		Введен_новый_пользователь = 1032,
+		Введен_новый_пользователь,
 
 		[EventName(JournalSubsystemType.GK, "Изменена учетная информация пользователя", XStateClass.Info)]
-		Изменена_учетная_информация_пользователя = 1033,
+		Изменена_учетная_информация_пользователя,
 
 		[EventName(JournalSubsystemType.GK, "Произведена настройка сети", XStateClass.Info)]
-		Произведена_настройка_сети = 1034,
+		Произведена_настройка_сети,
 
 		[EventName(JournalSubsystemType.GK, "Неизвестный код события контроллекра", XStateClass.Unknown)]
-		Неизвестный_код_события_контроллекра = 1035,
+		Неизвестный_код_события_контроллекра,
 
 		[EventName(JournalSubsystemType.GK, "Неизвестный тип", XStateClass.Unknown)]
-		Неизвестный_тип = 1036,
+		Неизвестный_тип,
 
 		[EventName(JournalSubsystemType.GK, "Устройство с таким адресом не описано при конфигурации", XStateClass.Unknown)]
-		Устройство_с_таким_адресом_не_описано_при_конфигурации = 1037,
+		Устройство_с_таким_адресом_не_описано_при_конфигурации,
 
 		[EventName(JournalSubsystemType.GK, "Неизвестный код события устройства", XStateClass.Unknown)]
-		Неизвестный_код_события_устройства = 1038,
+		Неизвестный_код_события_устройства,
 
 		[EventName(JournalSubsystemType.GK, "При конфигурации описан другой тип", XStateClass.Unknown)]
-		При_конфигурации_описан_другой_тип = 1039,
+		При_конфигурации_описан_другой_тип,
 
 		[EventName(JournalSubsystemType.GK, "Изменился заводской номер", XStateClass.Info)]
-		Изменился_заводской_номер = 1040,
+		Изменился_заводской_номер,
 
 		[EventName(JournalSubsystemType.GK, "Пожар-1", XStateClass.Fire1)]
-		Пожар_1 = 1041,
+		Пожар_1,
 
 		[EventName(JournalSubsystemType.GK, "Сработка-1", XStateClass.Fire1)]
-		Сработка_1 = 1042,
+		Сработка_1,
 
 		[EventName(JournalSubsystemType.GK, "Сработка охранной зоны", XStateClass.Fire1)]
-		Сработка_Охранной_Зоны = 1043,
+		Сработка_Охранной_Зоны,
 
 		[EventName(JournalSubsystemType.GK, "Пожар-2", XStateClass.Fire2)]
-		Пожар_2 = 1044,
+		Пожар_2,
 
 		[EventName(JournalSubsystemType.GK, "Сработка-2", XStateClass.Fire2)]
-		Сработка_2 = 1045,
+		Сработка_2,
 
 		[EventName(JournalSubsystemType.GK, "Внимание", XStateClass.Attention)]
-		Внимание = 1046,
+		Внимание,
 
 		[EventName(JournalSubsystemType.GK, "Неисправность", XStateClass.Failure)]
-		Неисправность = 1047,
+		Неисправность,
 
 		[EventName(JournalSubsystemType.GK, "Неисправность устранена", XStateClass.Norm)]
-		Неисправность_устранена = 1048,
+		Неисправность_устранена,
 
 		[EventName(JournalSubsystemType.GK, "Тест", XStateClass.Test)]
-		Тест = 1049,
+		Тест,
 
 		[EventName(JournalSubsystemType.GK, "Тест устранен", XStateClass.Test)]
-		Тест_устранен = 1050,
+		Тест_устранен,
 
 		[EventName(JournalSubsystemType.GK, "Запыленность", XStateClass.Service)]
-		Запыленность = 1051,
+		Запыленность,
 
 		[EventName(JournalSubsystemType.GK, "Запыленность устранена", XStateClass.Service)]
-		Запыленность_устранена = 1052,
+		Запыленность_устранена,
 
 		[EventName(JournalSubsystemType.GK, "Информация", XStateClass.Info)]
-		Информация = 1053,
+		Информация,
 
 		[EventName(JournalSubsystemType.GK, "Отсчет задержки", XStateClass.Info)]
-		Отсчет_задержки = 1054,
+		Отсчет_задержки,
 
 		[EventName(JournalSubsystemType.GK, "Включено", XStateClass.On)]
-		Включено = 1055,
+		Включено,
 
 		[EventName(JournalSubsystemType.GK, "Выключено", XStateClass.Off)]
-		Выключено = 1056,
+		Выключено,
 
 		[EventName(JournalSubsystemType.GK, "Включается", XStateClass.TurningOn)]
-		Включается = 1057,
+		Включается,
 
 		[EventName(JournalSubsystemType.GK, "Выключается", XStateClass.TurningOff)]
-		Выключается = 1058,
+		Выключается,
 
 		[EventName(JournalSubsystemType.GK, "Кнопка", XStateClass.Info)]
-		Кнопка = 1059,
+		Кнопка,
 
 		[EventName(JournalSubsystemType.GK, "Изменение автоматики по неисправности", XStateClass.AutoOff)]
-		Изменение_автоматики_по_неисправности = 1060,
+		Изменение_автоматики_по_неисправности,
 
 		[EventName(JournalSubsystemType.GK, "Изменение автоматики по кнопке СТОП", XStateClass.AutoOff)]
-		Изменение_автоматики_по_кнопке_СТОП = 1061,
+		Изменение_автоматики_по_кнопке_СТОП,
 
 		[EventName(JournalSubsystemType.GK, "Изменение автоматики по датчику ДВЕРИ-ОКНА", XStateClass.AutoOff)]
-		Изменение_автоматики_по_датчику_ДВЕРИ_ОКНА = 1062,
+		Изменение_автоматики_по_датчику_ДВЕРИ_ОКНА,
 
 		[EventName(JournalSubsystemType.GK, "Изменение автоматики по ТМ", XStateClass.AutoOff)]
-		Изменение_автоматики_по_ТМ = 1063,
+		Изменение_автоматики_по_ТМ,
 
 		[EventName(JournalSubsystemType.GK, "Автоматика включена", XStateClass.AutoOff)]
-		Автоматика_включена = 1064,
+		Автоматика_включена,
 
 		[EventName(JournalSubsystemType.GK, "Ручной пуск АУП от ИПР", XStateClass.On)]
-		Ручной_пуск_АУП_от_ИПР = 1065,
+		Ручной_пуск_АУП_от_ИПР,
 
 		[EventName(JournalSubsystemType.GK, "Отложенный пуск АУП по датчику ДВЕРИ-ОКНА", XStateClass.On)]
-		Отложенный_пуск_АУП_по_датчику_ДВЕРИ_ОКНА = 1066,
+		Отложенный_пуск_АУП_по_датчику_ДВЕРИ_ОКНА,
 
 		[EventName(JournalSubsystemType.GK, "Пуск АУП завершен", XStateClass.On)]
-		Пуск_АУП_завершен = 1067,
+		Пуск_АУП_завершен,
 
 		[EventName(JournalSubsystemType.GK, "Останов тушения по кнопке СТОП", XStateClass.Off)]
-		Останов_тушения_по_кнопке_СТОП = 1068,
+		Останов_тушения_по_кнопке_СТОП,
 
 		[EventName(JournalSubsystemType.GK, "Программирование мастер-ключа", XStateClass.Info)]
-		Программирование_мастер_ключа = 1069,
+		Программирование_мастер_ключа,
 
 		[EventName(JournalSubsystemType.GK, "Отсчет удержания", XStateClass.Info)]
-		Отсчет_удержания = 1070,
+		Отсчет_удержания,
 
 		[EventName(JournalSubsystemType.GK, "Уровень высокий", XStateClass.Info)]
-		Уровень_высокий = 1071,
+		Уровень_высокий,
 
 		[EventName(JournalSubsystemType.GK, "Уровень низкий", XStateClass.Info)]
-		Уровень_низкий = 1072,
+		Уровень_низкий,
 
 		[EventName(JournalSubsystemType.GK, "Ход по команде с УЗЗ", XStateClass.On)]
-		Ход_по_команде_с_УЗЗ = 1073,
+		Ход_по_команде_с_УЗЗ,
 
 		[EventName(JournalSubsystemType.GK, "У ДУ сообщение ПУСК НЕВОЗМОЖЕН", XStateClass.Failure)]
-		У_ДУ_сообщение_ПУСК_НЕВОЗМОЖЕН = 1074,
+		У_ДУ_сообщение_ПУСК_НЕВОЗМОЖЕН,
 
 		[EventName(JournalSubsystemType.GK, "Авария пневмоемкости", XStateClass.Failure)]
-		Авария_пневмоемкости = 1075,
+		Авария_пневмоемкости,
 
 		[EventName(JournalSubsystemType.GK, "Уровень аварийный", XStateClass.Failure)]
-		Уровень_аварийный = 1076,
+		Уровень_аварийный,
 
 		[EventName(JournalSubsystemType.GK, "Запрет пуска НС", XStateClass.Off)]
-		Запрет_пуска_НС = 1077,
+		Запрет_пуска_НС,
 
 		[EventName(JournalSubsystemType.GK, "Запрет пуска компрессора", XStateClass.Off)]
-		Запрет_пуска_компрессора = 1078,
+		Запрет_пуска_компрессора,
 
 		[EventName(JournalSubsystemType.GK, "Команда с УЗН", XStateClass.Info)]
-		Команда_с_УЗН = 1079,
+		Команда_с_УЗН,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в режим ручного управления", XStateClass.AutoOff)]
-		Перевод_в_режим_ручного_управления = 1080,
+		Перевод_в_режим_ручного_управления,
 
 		[EventName(JournalSubsystemType.GK, "Состояние не определено", XStateClass.Unknown)]
-		Состояние_не_определено = 1081,
+		Состояние_не_определено,
 
 		[EventName(JournalSubsystemType.GK, "Остановлено", XStateClass.Off)]
-		Остановлено = 1082,
+		Остановлено,
 
 		[EventName(JournalSubsystemType.GK, "Состояние Неизвестно", XStateClass.Unknown)]
-		Состояние_Неизвестно = 1083,
+		Состояние_Неизвестно,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в автоматический режим", XStateClass.Norm)]
-		Перевод_в_автоматический_режим = 1084,
+		Перевод_в_автоматический_режим,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в ручной режим", XStateClass.AutoOff)]
-		Перевод_в_ручной_режим = 1085,
+		Перевод_в_ручной_режим,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в отключенный режим", XStateClass.Ignore)]
-		Перевод_в_отключенный_режим = 1086,
+		Перевод_в_отключенный_режим,
 
 		[EventName(JournalSubsystemType.GK, "Перевод в неопределенный режим", XStateClass.Unknown)]
-		Перевод_в_неопределенный_режим = 1087,
+		Перевод_в_неопределенный_режим,
 
 		[EventName(JournalSubsystemType.GK, "Запись параметра", XStateClass.Info)]
-		Запись_параметра = 1088,
+		Запись_параметра,
 
 		[EventName(JournalSubsystemType.GK, "Норма", XStateClass.Norm)]
-		Норма = 1089,
+		Норма,
 
 		[EventName(JournalSubsystemType.GK, "Неизвестный код события объекта", XStateClass.Unknown)]
-		Неизвестный_код_события_объекта = 1090,
+		Неизвестный_код_события_объекта,
 
 		[EventName(JournalSubsystemType.SKD, "Потеря связи", XStateClass.ConnectionLost)]
-		Потеря_связи = 2000,
+		Потеря_связи,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление связи", XStateClass.ConnectionLost)]
-		Восстановление_связи = 2001,
+		Восстановление_связи,
 
 		[EventName(JournalSubsystemType.SKD, "Проход разрешен", XStateClass.Info)]
-		Проход_разрешен = 2002,
+		Проход_разрешен,
 
 		[EventName(JournalSubsystemType.SKD, "Проход запрещен", XStateClass.Attention)]
-		Проход_запрещен = 2003,
+		Проход_запрещен,
 
 		[EventName(JournalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Failure)]
-		Дверь_не_закрыта = 2004,
+		Дверь_не_закрыта,
 
 		[EventName(JournalSubsystemType.SKD, "Взлом", XStateClass.Attention)]
-		Взлом = 2005,
+		Взлом,
 
 		[EventName(JournalSubsystemType.SKD, "Повторный_проход", XStateClass.Attention)]
-		Повторный_проход = 2006,
+		Повторный_проход,
 
 		[EventName(JournalSubsystemType.SKD, "Принуждение", XStateClass.Fire1)]
-		Принуждение = 2007,
+		Принуждение,
 
 		[EventName(JournalSubsystemType.SKD, "Открытие двери", XStateClass.On)]
-		Открытие_двери = 2008,
+		Открытие_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Закрытие двери", XStateClass.Off)]
-		Закрытие_двери = 2009,
+		Закрытие_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Неизвестный статус двери", XStateClass.Unknown)]
-		Неизвестный_статус_двери = 2010,
+		Неизвестный_статус_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Вскрытие контроллера", XStateClass.Attention)]
-		Вскрытие_контроллера = 2011,
+		Вскрытие_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Сброс Контроллера", XStateClass.TechnologicalRegime)]
-		Сброс_Контроллера = 2012,
+		Сброс_Контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Перезагрузка Контроллера", XStateClass.TechnologicalRegime)]
-		Перезагрузка_Контроллера = 2013,
+		Перезагрузка_Контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись графиков работы", XStateClass.TechnologicalRegime)]
-		Запись_графиков_работы = 2014,
+		Запись_графиков_работы,
 
 		[EventName(JournalSubsystemType.SKD, "Перезапись всех карт", XStateClass.TechnologicalRegime)]
-		Перезапись_всех_карт = 2015,
+		Перезапись_всех_карт,
 
 		[EventName(JournalSubsystemType.SKD, "Обновление ПО Контроллера", XStateClass.TechnologicalRegime)]
-		Обновление_ПО_Контроллера = 2016,
+		Обновление_ПО_Контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос конфигурации контроллера", XStateClass.TechnologicalRegime)]
-		Запрос_конфигурации_контроллера = 2017,
+		Запрос_конфигурации_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Синхронизация времени контроллера", XStateClass.Info)]
-		Синхронизация_времени_контроллера = 2018,
+		Синхронизация_времени_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос конфигурации двери", XStateClass.TechnologicalRegime)]
-		Запрос_конфигурации_двери = 2019,
+		Запрос_конфигурации_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Запись конфигурации двери", XStateClass.TechnologicalRegime)]
-		Запись_конфигурации_двери = 2020,
+		Запись_конфигурации_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос направления контроллера", XStateClass.TechnologicalRegime)]
-		Запрос_направления_контроллера = 2021,
+		Запрос_направления_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись направления контроллера", XStateClass.TechnologicalRegime)]
-		Запись_направления_контроллера = 2022,
+		Запись_направления_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись пароля контроллера", XStateClass.TechnologicalRegime)]
-		Запись_пароля_контроллера = 2023,
+		Запись_пароля_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос временных настроек контроллера", XStateClass.TechnologicalRegime)]
-		Запрос_временных_настроек_контроллера = 2024,
+		Запрос_временных_настроек_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись временных настроек контроллера", XStateClass.TechnologicalRegime)]
-		Запись_временных_настроек_контроллера = 2025,
+		Запись_временных_настроек_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запрос сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
-		Запрос_сетевых_настроек_контроллера = 2026,
+		Запрос_сетевых_настроек_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Запись сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
-		Запись_сетевых_настроек_контроллера = 2027,
+		Запись_сетевых_настроек_контроллера,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на открытие двери", XStateClass.On)]
-		Команда_на_открытие_двери = 2028,
+		Команда_на_открытие_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на закрытие двери", XStateClass.Off)]
-		Команда_на_закрытие_двери = 2029,
+		Команда_на_закрытие_двери,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Открыто", XStateClass.On)]
-		Команда_на_перевод_двери_в_режим_Открыто = 2030,
+		Команда_на_перевод_двери_в_режим_Открыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод двери в режим Закрыто", XStateClass.Off)]
-		Команда_на_перевод_двери_в_режим_Закрыто = 2031,
+		Команда_на_перевод_двери_в_режим_Закрыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на открытие зоны", XStateClass.On)]
-		Команда_на_открытие_зоны = 2032,
+		Команда_на_открытие_зоны,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на закрытие зоны", XStateClass.Off)]
-		Команда_на_закрытие_зоны = 2033,
+		Команда_на_закрытие_зоны,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Открыто", XStateClass.On)]
-		Команда_на_перевод_зоны_в_режим_Открыто = 2034,
+		Команда_на_перевод_зоны_в_режим_Открыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Закрыто", XStateClass.Off)]
-		Команда_на_перевод_зоны_в_режим_Закрыто = 2035,
+		Команда_на_перевод_зоны_в_режим_Закрыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на открытие точки доступа", XStateClass.On)]
-		Команда_на_открытие_точки_доступа = 2036,
+		Команда_на_открытие_точки_доступа,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на закрытие точки доступа", XStateClass.Off)]
-		Команда_на_закрытие_точки_доступа = 2037,
+		Команда_на_закрытие_точки_доступа,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Открыто", XStateClass.On)]
-		Команда_на_перевод_точки_доступа_в_режим_Открыто = 2038,
+		Команда_на_перевод_точки_доступа_в_режим_Открыто,
 
 		[EventName(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Закрыто", XStateClass.Off)]
-		Команда_на_перевод_точки_доступа_в_режим_Закрыто = 2039,
+		Команда_на_перевод_точки_доступа_в_режим_Закрыто,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление карты", XStateClass.Info)]
-		Добавление_карты = 2040,
+		Добавление_карты,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование карты", XStateClass.Info)]
-		Редактирование_карты = 2041,
+		Редактирование_карты,
 
 		[EventName(JournalSubsystemType.SKD, "Удаление карты", XStateClass.Info)]
-		Удаление_карты = 2042,
+		Удаление_карты,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование сотрудника", XStateClass.Info)]
-		Редактирование_сотрудника = 2043,
+		Редактирование_сотрудника,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование отдела", XStateClass.Info)]
-		Редактирование_отдела = 2044,
+		Редактирование_отдела,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование должности", XStateClass.Info)]
-		Редактирование_должности = 2045,
+		Редактирование_должности,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона доступа", XStateClass.Info)]
-		Редактирование_шаблона_доступа = 2046,
+		Редактирование_шаблона_доступа,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование организации", XStateClass.Info)]
-		Редактирование_организации = 2047,
+		Редактирование_организации,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование дополнительной колонки", XStateClass.Info)]
-		Редактирование_дополнительной_колонки = 2048,
+		Редактирование_дополнительной_колонки,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование дневного графика", XStateClass.Info)]
-		Редактирование_дневного_графика = 2049,
+		Редактирование_дневного_графика,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование графика работы", XStateClass.Info)]
-		Редактирование_графика_работы = 2050,
+		Редактирование_графика_работы,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование графика работы сотрудника", XStateClass.Info)]
-		Редактирование_графика_работы_сотрудника = 2051,
+		Редактирование_графика_работы_сотрудника,
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование праздничного дня", XStateClass.Info)]
-		Редактирование_праздничного_дня = 2052,
+		Редактирование_праздничного_дня,
 
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
-		Внесение_оправдательного_документа = 2053,
+		Внесение_оправдательного_документа,
 	}
 }

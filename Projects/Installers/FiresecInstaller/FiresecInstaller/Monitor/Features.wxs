@@ -10,8 +10,8 @@
 			<ComponentRef Id="Monitor.Hasp" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
-      <ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />
-      <ComponentRef Id="Monitor.DesktopLayoutShortcut" />
+      <!--<ComponentRef Id="Monitor.ProgramsMenuLayoutShortcut" />
+      <ComponentRef Id="Monitor.DesktopLayoutShortcut" />-->
 			<ComponentRef Id="Monitor.Revisor" />
 
 			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />

@@ -220,7 +220,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Значение">
+						<DataGridTemplateColumn Width="Auto" Header="Значение">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Value}" ToolTip="{Binding Value}" Margin="5 0 0 0" />
@@ -240,7 +240,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Значение">
+                        <DataGridTemplateColumn Width="Auto" Header="Значение">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding StringValue}" ToolTip="{Binding StringValue}" Margin="5 0 0 0" />
