@@ -17,6 +17,7 @@ namespace FiresecAPI.GK
 			GuardZones = deviceConfiguration.GuardZones;
 			Directions = deviceConfiguration.Directions;
 			PumpStations = deviceConfiguration.PumpStations;
+			Doors = deviceConfiguration.Doors;
 		}
 
 		public GKDevice RootDevice { get; set; }
@@ -25,5 +26,6 @@ namespace FiresecAPI.GK
 		public List<GKGuardZone> GuardZones { get; set; }
 		public List<GKDirection> Directions { get; set; }
 		public List<GKPumpStation> PumpStations { get; set; }
+		public List<GKDoor> Doors { get; set; }
 	}
 }

@@ -389,6 +389,8 @@
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SKD\ViewModels\ScheduleIntervalPartDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\ScheduleIntervalPartViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
@@ -397,6 +399,9 @@
     <Compile Include="SKD\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml.cs">
+      <DependentUpon>ScheduleIntervalPartDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SKD\Views\DoorDetailsView.xaml.cs">
       <DependentUpon>DoorDetailsView.xaml</DependentUpon>
     </Compile>
@@ -753,6 +758,10 @@
     <Page Include="Selectation\Views\DelaysSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SKD\Views\DoorDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>

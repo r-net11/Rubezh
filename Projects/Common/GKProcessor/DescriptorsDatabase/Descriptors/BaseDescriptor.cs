@@ -18,6 +18,7 @@ namespace GKProcessor
 		public GKPim Pim { get; protected set; }
 		public GKGuardZone GuardZone { get; protected set; }
 		public GKCode Code { get; protected set; }
+		public GKDoor Door { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }

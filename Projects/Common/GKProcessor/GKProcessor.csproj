@@ -68,6 +68,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\MPTDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\GuardZoneDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\CodeDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DoorDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />

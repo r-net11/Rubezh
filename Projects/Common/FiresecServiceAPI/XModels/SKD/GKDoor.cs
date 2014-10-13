@@ -32,6 +32,12 @@ namespace FiresecAPI.GK
 		public int Delay { get; set; }
 
 		/// <summary>
+		/// Время удержания
+		/// </summary>
+		[DataMember]
+		public int Hold { get; set; }
+
+		/// <summary>
 		/// Минимальный индивидуальный уровень на вход
 		/// </summary>
 		[DataMember]

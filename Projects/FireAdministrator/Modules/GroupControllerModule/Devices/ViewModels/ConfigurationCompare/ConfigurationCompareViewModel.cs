@@ -109,6 +109,8 @@ namespace GKModule.ViewModels
 				LocalConfiguration.GuardZones.AddRange(RemoteConfiguration.GuardZones);
 				LocalConfiguration.Codes.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Codes.AddRange(RemoteConfiguration.Codes);
+				LocalConfiguration.Doors.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.Doors.AddRange(RemoteConfiguration.Doors);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			GKManager.UpdateConfiguration();
@@ -197,6 +199,11 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.Code)
 						{
 							newObject.DifferenceDiscription = GetCodesDifferences(sameObject1, sameObject2);
+							newObject.Name = sameObject1.Name;
+						}
+						if (sameObject1.ObjectType == ObjectType.Door)
+						{
+							newObject.DifferenceDiscription = GetDoorsDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 					}
@@ -358,8 +365,7 @@ namespace GKModule.ViewModels
 			var guardZonesDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				guardZonesDifferences.Append("Не совпадает название");
-			var fire1CountDiff = object1.GuardZone.Delay != object2.GuardZone.Delay;
-			if (fire1CountDiff)
+			if (object1.GuardZone.Delay != object2.GuardZone.Delay)
 			{
 				if (guardZonesDifferences.Length != 0)
 					guardZonesDifferences.Append(". ");
@@ -373,12 +379,32 @@ namespace GKModule.ViewModels
 			var differences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				differences.Append("Не совпадает название");
-			var passwordDiff = object1.Code.Password != object2.Code.Password;
-			if (passwordDiff)
+			if (object1.Code.Password != object2.Code.Password)
 			{
 				if (differences.Length != 0)
 					differences.Append(". ");
 				differences.Append("Не совпадает пароль");
+			}
+			return differences.ToString() == "" ? null : differences.ToString();
+		}
+
+
+		string GetDoorsDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			var differences = new StringBuilder();
+			if (object1.Name != object2.Name)
+				differences.Append("Не совпадает название");
+			if (object1.Door.Delay != object2.Door.Delay)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает задержка");
+			}
+			if (object1.Door.Hold != object2.Door.Hold)
+			{
+				if (differences.Length != 0)
+					differences.Append(". ");
+				differences.Append("Не совпадает удержание");
 			}
 			return differences.ToString() == "" ? null : differences.ToString();
 		}

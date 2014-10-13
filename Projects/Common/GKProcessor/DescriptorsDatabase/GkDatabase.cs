@@ -15,6 +15,7 @@ namespace GKProcessor
 		public List<GKPim> Pims { get; private set; }
 		List<GKGuardZone> GuardZones { get; set; }
 		List<GKCode> Codes { get; set; }
+		List<GKDoor> Doors { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
 		public GkDatabase(GKDevice gkControllerDevice)
@@ -28,6 +29,7 @@ namespace GKProcessor
 			Pims = new List<GKPim>();
 			GuardZones = new List<GKGuardZone>();
 			Codes = new List<GKCode>();
+			Doors = new List<GKDoor>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkControllerDevice;
@@ -139,6 +141,15 @@ namespace GKProcessor
 				}
 			}
 
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.GkDatabaseParent == RootDevice)
+				{
+					door.GKDescriptorNo = NextDescriptorNo;
+					Doors.Add(door);
+				}
+			}
+
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
@@ -201,6 +212,12 @@ namespace GKProcessor
 				Descriptors.Add(codeDescriptor);
 			}
 
+			foreach (var door in Doors)
+			{
+				var doorDescriptor = new DoorDescriptor(door);
+				Descriptors.Add(doorDescriptor);
+			}
+
 			foreach (var descriptor in Descriptors)
 			{
 				descriptor.Build();
@@ -214,11 +231,11 @@ namespace GKProcessor
 			{
 				foreach (var descriptor in kauDatabase.Descriptors)
 				{
-					var xBase = descriptor.GKBase;
-					xBase.GkDatabaseParent = RootDevice;
-					if (xBase is GKDevice)
+					var gkBase = descriptor.GKBase;
+					gkBase.GkDatabaseParent = RootDevice;
+					if (gkBase is GKDevice)
 					{
-						GKDevice device = xBase as GKDevice;
+						GKDevice device = gkBase as GKDevice;
 						AddDevice(device);
 					}
 				}

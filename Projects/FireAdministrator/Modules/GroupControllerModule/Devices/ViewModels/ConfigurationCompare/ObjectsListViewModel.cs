@@ -61,6 +61,12 @@ namespace GKModule.ViewModels
 					var objectViewModel = new ObjectViewModel(code);
 					Objects.Add(objectViewModel);
 				}
+			if (deviceConfiguration.Doors != null)
+				foreach (var door in deviceConfiguration.Doors.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
+				{
+					var objectViewModel = new ObjectViewModel(door);
+					Objects.Add(objectViewModel);
+				}
 		}
 
 		public List<ObjectViewModel> Objects { get; set; }
