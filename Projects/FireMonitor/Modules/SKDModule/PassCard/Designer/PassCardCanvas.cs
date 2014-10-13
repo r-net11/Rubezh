@@ -15,7 +15,7 @@ namespace SKDModule.PassCard.Designer
 		public PassCardCanvas()
 			: base(ServiceFactory.Events)
 		{
-			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
+			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing, ServiceFactory.ContentService.GetVisual);
 		}
 
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)

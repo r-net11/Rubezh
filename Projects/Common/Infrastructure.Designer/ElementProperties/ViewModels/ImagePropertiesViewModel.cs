@@ -19,7 +19,6 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
 	public class ImagePropertiesViewModel : BaseViewModel
 	{
-		private const string VectorGraphicExtensions = ".svg;.svgx";
 		private IElementBackground _element;
 		private Guid? _imageSource;
 		private string _sourceName;

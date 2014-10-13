@@ -27,7 +27,7 @@ namespace PlansModule.Designer
 		public PresenterCanvas()
 			: base(ServiceFactory.Events)
 		{
-			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing);
+			PainterCache.Initialize(ServiceFactory.ContentService.GetBitmapContent, ServiceFactory.ContentService.GetDrawing, ServiceFactory.ContentService.GetVisual);
 			_zoom = base.Zoom;
 			_pointZoom = base.PointZoom;
 			_border = new BorderPainter();

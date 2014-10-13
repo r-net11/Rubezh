@@ -3,6 +3,7 @@ using System.Windows.Media;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Images;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -12,18 +13,22 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			if (properties != null)
 			{
-				Stretch = properties.Stretch;
-				if (properties.ReferenceUID != Guid.Empty)
-				{
-					//if (properties.IsVectorImage)
-					//    ImageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(properties.ReferenceUID));
-					//else
-						ImageSource = ServiceFactoryBase.ContentService.GetBitmapContent(properties.ReferenceUID);
-				}
+				var brush = ImageHelper.GetResourceBrush(properties.ReferenceUID, properties.ImageType);
+				if (brush != null)
+					brush.Stretch = properties.Stretch;
+				ImageBrush = brush;
 			}
 		}
 
-		public Stretch Stretch { get; private set; }
-		public ImageSource ImageSource { get; private set; }
+		private TileBrush _imageBrush;
+		public TileBrush ImageBrush
+		{
+			get { return _imageBrush; }
+			set
+			{
+				_imageBrush = value;
+				OnPropertyChanged(() => ImageBrush);
+			}
+		}
 	}
 }
