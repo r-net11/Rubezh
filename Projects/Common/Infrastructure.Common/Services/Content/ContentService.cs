@@ -15,6 +15,7 @@ namespace Infrastructure.Common.Services.Content
 		public string ContentFolder { get; private set; }
 		private Dictionary<string, Stream> _streams;
 		private Dictionary<string, BitmapImage> _images;
+		private Dictionary<string, object> _objects;
 
 		public ContentService(string applicationName)
 		{
@@ -30,6 +31,11 @@ namespace Infrastructure.Common.Services.Content
 
 		#region IContentService Members
 
+		public bool CheckIfExists(string guid)
+		{
+			var fileName = GetContentFileName(guid);
+			return File.Exists(fileName);
+		}
 		public string GetContentFileName(Guid guid)
 		{
 			return GetContentFileName(guid.ToString());
@@ -41,11 +47,6 @@ namespace Infrastructure.Common.Services.Content
 		public Stream GetContentStream(Guid guid)
 		{
 			return GetContentStream(guid.ToString());
-		}
-		public bool CheckIfExists(string guid)
-		{
-			var fileName = GetContentFileName(guid);
-			return File.Exists(fileName);
 		}
 		public Stream GetContentStream(string guid)
 		{
@@ -91,7 +92,12 @@ namespace Infrastructure.Common.Services.Content
 		}
 		public T GetObject<T>(string guid)
 		{
-			return (T)XamlServices.Load(GetContentStream(guid));
+			if (_objects.ContainsKey(guid))
+				return (T)_objects[guid];
+
+			var obj = XamlServices.Load(GetContentStream(guid));
+			_objects.Add(guid, obj);
+			return (T)obj;
 		}
 		public Visual GetVisual(Guid guid)
 		{
@@ -128,12 +134,21 @@ namespace Infrastructure.Common.Services.Content
 					fileStream.Write(buffer, 0, count);
 			return guid;
 		}
+		public Guid AddContent(byte[] data)
+		{
+			var guid = Guid.NewGuid();
+			var contentFile = Path.Combine(ContentFolder, guid.ToString());
+			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
+				fileStream.Write(data, 0, data.Length);
+			return guid;
+		}
 		public Guid AddContent(object data)
 		{
 			var guid = Guid.NewGuid();
 			var contentFile = Path.Combine(ContentFolder, guid.ToString());
 			using (var fileStream = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
 				XamlServices.Save(fileStream, data);
+			_objects.Add(guid.ToString(), data);
 			return guid;
 		}
 
@@ -145,6 +160,8 @@ namespace Infrastructure.Common.Services.Content
 		{
 			if (_images.ContainsKey(guid))
 				_images.Remove(guid);
+			if (_objects.ContainsKey(guid))
+				_objects.Remove(guid);
 			if (_streams.ContainsKey(guid))
 			{
 				_streams[guid].Dispose();
@@ -160,6 +177,7 @@ namespace Infrastructure.Common.Services.Content
 			Close();
 			_streams = new Dictionary<string, Stream>();
 			_images = new Dictionary<string, BitmapImage>();
+			_objects = new Dictionary<string, object>();
 			if (!Directory.Exists(ContentFolder))
 				Directory.CreateDirectory(ContentFolder);
 		}
@@ -173,6 +191,8 @@ namespace Infrastructure.Common.Services.Content
 			}
 			if (_images != null)
 				_images = null;
+			if (_objects != null)
+				_objects = null;
 			PainterCache.Dispose();
 		}
 

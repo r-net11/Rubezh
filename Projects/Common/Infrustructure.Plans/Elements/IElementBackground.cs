@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Media;
+using Common;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -9,6 +10,6 @@ namespace Infrustructure.Plans.Elements
 		Color BackgroundColor { get; set; }
 		Guid? BackgroundImageSource { get; set; }
 		string BackgroundSourceName { get; set; }
-		bool IsVectorImage { get; set; }
+		ResourceType ImageType { get; set; }
 	}
 }

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using Common;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -18,7 +19,7 @@ namespace Infrustructure.Plans.Elements
 			BorderThickness = 1;
 			BackgroundImageSource = null;
 			BackgroundSourceName = null;
-			IsVectorImage = false;
+			ImageType = ResourceType.Image;
 			IsLocked = false;
 			IsHidden = false;
 		}
@@ -43,7 +44,7 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
-		public bool IsVectorImage { get; set; }
+		public ResourceType ImageType { get; set; }
 		[DataMember]
 		public int ZIndex { get; set; }
 		[DataMember]
@@ -84,7 +85,7 @@ namespace Infrustructure.Plans.Elements
 			element.BackgroundColor = BackgroundColor;
 			element.BackgroundImageSource = BackgroundImageSource;
 			element.BackgroundSourceName = BackgroundSourceName;
-			element.IsVectorImage = IsVectorImage;
+			element.ImageType = ImageType;
 			element.ZIndex = ZIndex;
 			element.IsLocked = IsLocked;
 			element.IsHidden = IsHidden;

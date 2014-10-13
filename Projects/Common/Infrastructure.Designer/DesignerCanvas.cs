@@ -34,7 +34,7 @@ namespace Infrastructure.Designer
 			Toolbox = new ToolboxViewModel(this);
 			ServiceFactoryBase.DragDropService.DragOver += OnDragServiceDragOver;
 			ServiceFactoryBase.DragDropService.Drop += OnDragServiceDrop;
-			PainterCache.Initialize(ServiceFactoryBase.ContentService.GetBitmapContent, ServiceFactoryBase.ContentService.GetDrawing);
+			PainterCache.Initialize(ServiceFactoryBase.ContentService.GetBitmapContent, ServiceFactoryBase.ContentService.GetDrawing, ServiceFactoryBase.ContentService.GetVisual);
 			Width = 100;
 			Height = 100;
 			Focusable = false;

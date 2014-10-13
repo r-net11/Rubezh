@@ -4,7 +4,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<ContentControl Grid.Column="0" Content="{Binding Image}" />
+		<Border Grid.Column="0" Background="{Binding ImageBrush}" />
 		<StackPanel Grid.Column="1">
 			<Button Margin="2" Command="{Binding SelectPictureCommand}" Content="Выбрать картинку" />
 			<Button Margin="2" Command="{Binding RemovePictureCommand}" Content="Очистить картинку" />

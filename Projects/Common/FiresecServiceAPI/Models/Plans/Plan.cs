@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
+using Common;
 
 namespace FiresecAPI.Models
 {
@@ -25,7 +26,7 @@ namespace FiresecAPI.Models
 			Width = 297;
 			Height = 210;
 			BackgroundColor = Colors.White;
-			IsVectorImage = false;
+			ImageType = ResourceType.Image;
 			ClearElements();
 		}
 
@@ -82,7 +83,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
-		public bool IsVectorImage { get; set; }
+		public ResourceType ImageType { get; set; }
 	
 		[DataMember]
 		public List<ElementRectangle> ElementRectangles { get; set; }

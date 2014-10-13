@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
+using Common;
 
 namespace FiresecAPI.SKD
 {
@@ -19,7 +20,7 @@ namespace FiresecAPI.SKD
 			BackgroundColor = Colors.Transparent;
 			BorderColor = Colors.Black;
 			BorderThickness = 0;
-			IsVectorImage = false;
+			ImageType = ResourceType.Image;
 			ClearElements();
 		}
 		public void ClearElements()
@@ -54,7 +55,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string BackgroundSourceName { get; set; }
 		[DataMember]
-		public bool IsVectorImage { get; set; }
+		public ResourceType ImageType { get; set; }
 
 		[DataMember]
 		public List<ElementRectangle> ElementRectangles { get; set; }

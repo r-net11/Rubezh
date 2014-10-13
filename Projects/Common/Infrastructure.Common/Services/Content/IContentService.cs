@@ -25,6 +25,7 @@ namespace Infrastructure.Common.Services.Content
 
 		Guid AddContent(string fileName);
 		Guid AddContent(Stream stream);
+		Guid AddContent(byte[] data);
 		Guid AddContent(object data);
 
 		void RemoveContent(Guid guid);

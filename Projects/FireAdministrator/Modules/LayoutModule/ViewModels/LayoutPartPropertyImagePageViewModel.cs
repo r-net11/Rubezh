@@ -12,6 +12,7 @@ using Microsoft.Win32;
 using Infrastructure.Client.Converters;
 using System.Windows.Controls;
 using Common;
+using Infrastructure.Client.Images;
 
 namespace LayoutModule.ViewModels
 {
@@ -21,7 +22,7 @@ namespace LayoutModule.ViewModels
 		private string _sourceName;
 		private bool _imageChanged;
 		private DrawingGroup _drawing;
-		private Canvas _canvas;
+		private WMFImage _wmf;
 
 		public LayoutPartPropertyImagePageViewModel(LayoutPartImageViewModel layoutPartImageViewModel)
 		{
@@ -60,7 +61,6 @@ namespace LayoutModule.ViewModels
 				ImageBrush.Stretch = Stretch;
 		}
 
-
 		public RelayCommand SelectPictureCommand { get; private set; }
 		private void OnSelectPicture()
 		{
@@ -73,19 +73,19 @@ namespace LayoutModule.ViewModels
 					if (ImageExtensions.IsSVGGraphics(_sourceName))
 					{
 						_drawing = SVGConverters.ReadDrawing(_sourceName);
-						_canvas = null;
+						_wmf = null;
 						ImageBrush = new DrawingBrush(_drawing);
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
 						_drawing = null;
-						_canvas = WMFConverter.ReadCanvas(_sourceName);
-						ImageBrush = new VisualBrush(_canvas);
+						_wmf = WMFConverter.ReadWMF(_sourceName);
+						ImageBrush = new VisualBrush(_wmf.Canvas);
 					}
 					else
 					{
 						_drawing = null;
-						_canvas = null;
+						_wmf = null;
 						ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
 					}
 					_imageChanged = true;
@@ -96,7 +96,7 @@ namespace LayoutModule.ViewModels
 		private void OnRemovePicture()
 		{
 			_drawing = null;
-			_canvas = null;
+			_wmf = null;
 			ImageBrush = null;
 			_imageChanged = true;
 		}
@@ -113,9 +113,10 @@ namespace LayoutModule.ViewModels
 		{
 			_sourceName = null;
 			_drawing = null;
-			_canvas = null;
-			ImageBrush = _layoutPartImageViewModel.ImageBrush;
-			Stretch = ((LayoutPartImageProperties)_layoutPartImageViewModel.Properties).Stretch;
+			_wmf = null;
+			var properties = (LayoutPartImageProperties)_layoutPartImageViewModel.Properties;
+			ImageBrush = ImageHelper.GetResourceBrush(properties.ReferenceUID, properties.ImageType);
+			Stretch = properties.Stretch;
 			_imageChanged = false;
 		}
 		public override bool CanSave()
@@ -128,30 +129,31 @@ namespace LayoutModule.ViewModels
 			if (properties.Stretch != Stretch || _imageChanged)
 			{
 				if (_imageChanged)
-				{
-					if (properties.ReferenceUID != Guid.Empty)
-						ServiceFactoryBase.ContentService.RemoveContent(properties.ReferenceUID);
-					if (!string.IsNullOrEmpty(_sourceName))
+					using (new WaitWrapper())
 					{
-						if (_drawing != null)
+						if (properties.ReferenceUID != Guid.Empty)
+							ServiceFactoryBase.ContentService.RemoveContent(properties.ReferenceUID);
+						if (!string.IsNullOrEmpty(_sourceName))
 						{
-							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
-							properties.ImageType = ResourceType.Drawing;
-						}
-						else if (_canvas != null)
-						{
-							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_canvas);
-							properties.ImageType = ResourceType.Visual;
+							if (_drawing != null)
+							{
+								properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
+								properties.ImageType = ResourceType.Drawing;
+							}
+							else if (_wmf != null)
+							{
+								properties.ReferenceUID = ImageHelper.SaveImage(_wmf);
+								properties.ImageType = ResourceType.Visual;
+							}
+							else
+							{
+								properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+								properties.ImageType = ResourceType.Image;
+							}
 						}
 						else
-						{
-							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
-							properties.ImageType = ResourceType.Image;
-						}
+							properties.ReferenceUID = Guid.Empty;
 					}
-					else
-						properties.ReferenceUID = Guid.Empty;
-				}
 				properties.Stretch = Stretch;
 				_layoutPartImageViewModel.ImageBrush = ImageBrush;
 				return true;

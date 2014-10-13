@@ -78,7 +78,8 @@ namespace Infrustructure.Plans.Painters
 			RenderOptions.SetCacheInvalidationThresholdMinimum(brush, 0.5);
 			RenderOptions.SetCacheInvalidationThresholdMaximum(brush, 2.0);
 			RenderOptions.SetCachingHint(brush, CachingHint.Cache);
-			brush.Freeze();
+			if (brush.CanFreeze)
+				brush.Freeze();
 			return brush;
 		}
 	}

@@ -13,6 +13,7 @@ namespace Infrustructure.Plans.Painters
 	{
 		private static Converter<Guid, BitmapImage> _imageFactory;
 		private static Converter<Guid, Drawing> _drawingFactory;
+		private static Converter<Guid, Visual> _visualFactory;
 		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
 		private static Dictionary<Brush, Brush> _transparentBrushes = new Dictionary<Brush, Brush>();
 		private static Dictionary<Guid, Brush> _pictureBrushes = new Dictionary<Guid, Brush>();
@@ -44,10 +45,11 @@ namespace Infrustructure.Plans.Painters
 				Logger.Error(e, "PainterCache.PainterCache()");
 			}
 		}
-		public static void Initialize(Converter<Guid, BitmapImage> imageFactory, Converter<Guid, Drawing> drawingFactory)
+		public static void Initialize(Converter<Guid, BitmapImage> imageFactory, Converter<Guid, Drawing> drawingFactory, Converter<Guid, Visual> visualFactory)
 		{
 			_imageFactory = imageFactory;
 			_drawingFactory = drawingFactory;
+			_visualFactory = visualFactory;
 		}
 		public static void Dispose()
 		{
@@ -60,7 +62,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
 			{
-				var brush = GetBrush(element.BackgroundImageSource.Value, element.IsVectorImage);
+				var brush = GetBrush(element.BackgroundImageSource.Value, element.ImageType);
 				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
 			}
 		}
@@ -101,21 +103,27 @@ namespace Infrustructure.Plans.Painters
 			return _pens[color][thickness];
 		}
 
-		private static Brush GetBrush(Guid guid, bool isVector)
+		private static Brush GetBrush(Guid guid, ResourceType imageType)
 		{
-			Brush brush;
-			if (isVector)
+			Brush brush = null;
+			switch (imageType)
 			{
-				var drawing = _drawingFactory(guid);
-				drawing.Freeze();
-				brush = new DrawingBrush(drawing);
+				case ResourceType.Drawing:
+					var drawing = _drawingFactory(guid);
+					drawing.Freeze();
+					brush = new DrawingBrush(drawing);
+					break;
+				case ResourceType.Visual:
+					var visual = _visualFactory(guid);
+					brush = new VisualBrush(visual);
+					break;
+				case ResourceType.Image:
+					var bitmap = _imageFactory(guid);
+					brush = new ImageBrush(bitmap);
+					break;
 			}
-			else
-			{
-				var bitmap = _imageFactory(guid);
-				brush = new ImageBrush(bitmap);
-			}
-			PainterHelper.FreezeBrush(brush);
+			if (brush != null)
+				PainterHelper.FreezeBrush(brush);
 			return brush;
 		}
 		private static ImageBrush CreateTransparentBackgroundBrush()

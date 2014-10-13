@@ -12,6 +12,8 @@ using Infrustructure.Plans.Elements;
 using Microsoft.Win32;
 using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
+using Infrastructure.Client.Images;
+using Infrastructure.Client.Converters;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -21,26 +23,21 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		private IElementBackground _element;
 		private Guid? _imageSource;
 		private string _sourceName;
-		private bool _isVectorImage;
+		private ResourceType _imageType;
 		private bool _newImage;
 		private DrawingGroup _drawing;
-		private WpfDrawingSettings _settings;
-		public Image Image { get; private set; }
+		private WMFImage _wmf;
+		public TileBrush ImageBrush { get; private set; }
 
 		public ImagePropertiesViewModel(IElementBackground element)
 		{
 			_drawing = null;
+			_wmf = null;
 			_newImage = false;
 			_element = element;
 			_sourceName = _element.BackgroundSourceName;
 			_imageSource = _element.BackgroundImageSource;
-			_isVectorImage = _element.IsVectorImage;
-			_settings = new WpfDrawingSettings()
-			{
-				IncludeRuntime = false,
-				TextAsGeometry = true,
-				OptimizePath = true,
-			};
+			_imageType = _element.ImageType;
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
 			UpdateImage();
@@ -50,22 +47,36 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		private void OnSelectPicture()
 		{
 			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg; *.svg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg|SVG Файлы|*.svg";
+			openFileDialog.Filter = ImageExtensions.GraphicFilter;
 			if (openFileDialog.ShowDialog().Value)
-			{
-				// TODO: ограничить размер файла
-				_newImage = true;
-				_sourceName = openFileDialog.FileName;
-				_imageSource = null;
-				_isVectorImage = VectorGraphicExtensions.Contains(Path.GetExtension(_sourceName));
-				if (_isVectorImage)
+				using (new WaitWrapper())
 				{
-					using (FileSvgReader reader = new FileSvgReader(_settings))
-						_drawing = reader.Read(_sourceName);
-					_drawing.Freeze();
+					_newImage = true;
+					_sourceName = openFileDialog.FileName;
+					if (ImageExtensions.IsSVGGraphics(_sourceName))
+					{
+						_drawing = SVGConverters.ReadDrawing(_sourceName);
+						_wmf = null;
+						ImageBrush = new DrawingBrush(_drawing);
+						_imageType = ResourceType.Drawing;
+					}
+					else if (ImageExtensions.IsWMFGraphics(_sourceName))
+					{
+						_drawing = null;
+						_wmf = WMFConverter.ReadWMF(_sourceName);
+						ImageBrush = new VisualBrush(_wmf.Canvas);
+						_imageType = ResourceType.Visual;
+					}
+					else
+					{
+						_drawing = null;
+						_wmf = null;
+						ImageBrush = new ImageBrush(new BitmapImage(new Uri(_sourceName)));
+						_imageType = ResourceType.Image;
+					}
+					OnPropertyChanged(() => ImageBrush);
 				}
-				UpdateImage();
-			}
+
 		}
 
 		public RelayCommand RemovePictureCommand { get; private set; }
@@ -75,14 +86,14 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 				ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
 			_imageSource = null;
 			_sourceName = null;
-			_isVectorImage = false;
 			_newImage = false;
 			_drawing = null;
+			_wmf = null;
 			UpdateImage();
 		}
 		private bool CanRemovePicture()
 		{
-			return Image != null && Image.Source != null;
+			return ImageBrush != null;
 		}
 
 		public void Save()
@@ -90,42 +101,32 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			if (_newImage)
 				using (new WaitWrapper())
 				{
-					if (_isVectorImage)
-						_imageSource = ServiceFactoryBase.ContentService.AddContent(_drawing);
-					else
-						_imageSource = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+					if (_imageSource.HasValue && _imageSource.Value != Guid.Empty)
+						ServiceFactoryBase.ContentService.RemoveContent(_imageSource.Value);
+					switch (_imageType)
+					{
+						case ResourceType.Drawing:
+							_imageSource = ServiceFactoryBase.ContentService.AddContent(_drawing);
+							break;
+						case ResourceType.Image:
+							_imageSource = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+							break;
+						case ResourceType.Visual:
+							_imageSource = ServiceFactoryBase.ContentService.AddContent(_wmf.Canvas);
+							break;
+					}
 				}
 			_element.BackgroundImageSource = _imageSource;
 			_element.BackgroundSourceName = _sourceName;
-			_element.IsVectorImage = _isVectorImage;
+			_element.ImageType = _imageType;
 		}
 
 		private void UpdateImage()
 		{
 			try
 			{
-				ImageSource imageSource = null;
-				if (_newImage && !string.IsNullOrEmpty(_sourceName))
-				{
-					if (_isVectorImage)
-						imageSource = new DrawingImage(_drawing);
-					else
-						imageSource = new BitmapImage(new Uri(_sourceName));
-				}
-				else if (_imageSource.HasValue)
-				{
-					if (_isVectorImage)
-						imageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(_imageSource.Value));
-					else
-						imageSource = ServiceFactoryBase.ContentService.GetBitmapContent(_imageSource.Value);
-				}
-
-				Image = new Image()
-				{
-					Source = imageSource,
-					Stretch = Stretch.Uniform
-				};
-				OnPropertyChanged(() => Image);
+				ImageBrush = ImageHelper.GetResourceBrush(_imageSource, _imageType);
+				OnPropertyChanged(() => ImageBrush);
 			}
 			catch (Exception e)
 			{
