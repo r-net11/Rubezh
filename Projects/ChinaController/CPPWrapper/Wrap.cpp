@@ -386,15 +386,16 @@ int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo)
 	{
 		switch (stuParam.emStateType)
 		{
+		case EM_NET_DOOR_STATUS_UNKNOWN:
+			return 0;
 		case EM_NET_DOOR_STATUS_OPEN:
 			return 1;
-			break;
 		case EM_NET_DOOR_STATUS_CLOSE:
 			return 2;
-			break;
+		case EM_NET_DOOR_STATUS_BREAK:
+			return 3;
 		default:
-			return 0;
-			break;
+			return -1;
 		}
 	}
 	else

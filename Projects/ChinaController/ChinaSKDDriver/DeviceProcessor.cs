@@ -193,12 +193,20 @@ namespace ChinaSKDDriver
 						var result = Wrapper.GetDoorStatus(device.IntAddress);
 						switch (result)
 						{
+							case 0:
+								device.State.StateClass = XStateClass.Unknown;
+								break;
+
 							case 1:
 								device.State.StateClass = XStateClass.On;
 								break;
 
 							case 2:
 								device.State.StateClass = XStateClass.Off;
+								break;
+
+							case 3:
+								device.State.StateClass = XStateClass.Attention;
 								break;
 
 							default:
