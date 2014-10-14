@@ -100,7 +100,6 @@ namespace GKModule.ViewModels
 					auParameterValue = value;
 					AUParameterValues.Add(auParameterValue);
 				}
-				auParameterValue.Value = value.Value;
 				auParameterValue.StringValue = value.StringValue;
 				OnPropertyChanged(() => AUParameterValues);
 			}));

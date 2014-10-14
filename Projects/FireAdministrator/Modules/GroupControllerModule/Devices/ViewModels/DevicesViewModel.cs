@@ -257,9 +257,9 @@ namespace GKModule.ViewModels
 
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU_Shleif)
 				{
-					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress % 256 + 1));
+					var addedDevice = GKManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress));
 					GKManager.CopyDevice(device, addedDevice);
-					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
+					addedDevice.IntAddress = (byte)(maxAddress);
 					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
 					AllDevices.Add(addedDeviceViewModel);
 					return addedDevice;

@@ -10,17 +10,6 @@ namespace GKModule.ViewModels
 		public bool IsDelay { get; set; }
 		public GKMeasureParameter DriverParameter { get; set; }
 
-		double _value;
-		public double Value
-		{
-			get { return _value; }
-			set
-			{
-				_value = value;
-				OnPropertyChanged(() => Value);
-			}
-		}
-
 		string _stringValue;
 		public string StringValue
 		{

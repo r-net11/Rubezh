@@ -70,13 +70,7 @@ namespace FireAdministrator
 					}
 					File.Delete(tempFileName);
 
-					if (ServiceFactory.SaveService.FSChanged ||
-						ServiceFactory.SaveService.FSParametersChanged ||
-						ServiceFactory.SaveService.PlansChanged ||
-						ServiceFactory.SaveService.GKChanged ||
-						ServiceFactory.SaveService.SKDChanged ||
-						ServiceFactory.SaveService.LayoutsChanged ||
-						ServiceFactory.SaveService.AutomationChanged)
+					if (ServiceFactory.SaveService.HasChanges)
 						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				});
 				LoadingService.Close();
@@ -111,7 +105,7 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
+				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.GKInstructionsChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
@@ -193,10 +187,9 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.InstructionsChanged = true;
 					ServiceFactory.SaveService.CamerasChanged = true;
 					ServiceFactory.SaveService.GKChanged = true;
-					ServiceFactory.SaveService.XInstructionsChanged = true;
+					ServiceFactory.SaveService.GKInstructionsChanged = true;
 					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.LayoutsChanged = true;
-
 
 					ShowFirstDevice();
 				}

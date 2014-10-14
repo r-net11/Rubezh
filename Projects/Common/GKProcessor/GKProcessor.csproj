@@ -144,6 +144,9 @@
     <Compile Include="Drivers\RSR2\RSR2_MVP_Part_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_JokeyPump_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_FirePump_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Valve_KV_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Valve_KVMV_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Valve_DU_Helper.cs" />
     <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.Common.cs" />

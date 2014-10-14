@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices);
+			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices, CanChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
 			RegisterShortcuts();
 			SetRibbonItems();
@@ -114,6 +114,10 @@ namespace GKModule.ViewModels
 		void OnChangePumpDevices()
 		{
 			SelectedPumpStation.ChangePumpDevices();
+		}
+		bool CanChangePumpDevices()
+		{
+			return SelectedPumpStation != null;
 		}
 
 		public RelayCommand DeletePumpDeviceCommand { get; private set; }

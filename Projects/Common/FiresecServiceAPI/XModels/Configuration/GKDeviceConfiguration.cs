@@ -19,11 +19,14 @@ namespace FiresecAPI.GK
 			Directions = new List<GKDirection>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
+			Delays = new List<GKDelay>();
+			GuardZones = new List<GKGuardZone>();
+			Codes = new List<GKCode>();
+			Doors = new List<GKDoor>();
+			Schedules = new List<GKSchedule>();
+
 			JournalFilters = new List<GKJournalFilter>();
 			Instructions = new List<GKInstruction>();
-			Codes = new List<GKCode>();
-			GuardZones = new List<GKGuardZone>();
-			Schedules = new List<GKSchedule>();
 			ParameterTemplates = new List<GKParameterTemplate>();
 		}
 

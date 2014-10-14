@@ -120,7 +120,7 @@ namespace GKProcessor
 					if (resievedParameterNo == measureParameter.No)
 					{
 						var parameterUshortValue = (short)BytesHelper.SubstructShort(result.Bytes, 64);
-						var measureParameterValue = ParceRSRaMeasureParameter(measureParameter, parameterUshortValue);
+						var measureParameterValue = ParceRSR1MeasureParameter(measureParameter, parameterUshortValue);
 						CanMoveToNextParameter = true;
 						return new List<GKMeasureParameterValue>() { measureParameterValue };
 					}
@@ -135,7 +135,7 @@ namespace GKProcessor
 			return null;
 		}
 
-		GKMeasureParameterValue ParceRSRaMeasureParameter(GKMeasureParameter measureParameter, short parameterShortValue)
+		GKMeasureParameterValue ParceRSR1MeasureParameter(GKMeasureParameter measureParameter, short parameterShortValue)
 		{
 			if (measureParameter.IsHighByte)
 			{
@@ -148,7 +148,7 @@ namespace GKProcessor
 			}
 			double parameterValue;
 			if (measureParameter.Multiplier != null)
-				parameterValue = parameterShortValue / (double)measureParameter.Multiplier;
+				parameterValue = (double)parameterShortValue / (double)measureParameter.Multiplier;
 			else
 				parameterValue = parameterShortValue;
 			var stringValue = parameterValue.ToString();
@@ -156,8 +156,7 @@ namespace GKProcessor
 			{
 				stringValue = (parameterShortValue % 256).ToString() + "." + (parameterShortValue / 256).ToString();
 			}
-			if ((Device.DriverType == GKDriverType.Valve || Device.Driver.IsPump)
-				&& measureParameter.Name == "Режим работы")
+			if ((Device.DriverType == GKDriverType.Valve || Device.Driver.IsPump) && measureParameter.Name == "Режим работы")
 			{
 				stringValue = "Неизвестно";
 				switch (parameterShortValue & 3)
@@ -177,7 +176,6 @@ namespace GKProcessor
 			}
 
 			var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
-			measureParameterValue.Value = parameterValue;
 			measureParameterValue.StringValue = stringValue;
 			return measureParameterValue;
 		}
@@ -191,14 +189,20 @@ namespace GKProcessor
 				{
 					var measureParameter = Device.Driver.MeasureParameters[i];
 					var parameterValue = BytesHelper.SubstructShort(result.Bytes, 48 + i * 2);
+
 					var stringValue = parameterValue.ToString();
+					if (measureParameter.Multiplier != null)
+					{
+						var doubleValue = (double)parameterValue / (double)measureParameter.Multiplier;
+						stringValue = doubleValue.ToString();
+					}
+
 					if (measureParameter.Name == "Дата последнего обслуживания, м.г.")
 					{
-						stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
+						stringValue = (parameterValue % 256).ToString() + "." + (parameterValue / 256).ToString();
 					}
 
 					var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
-					measureParameterValue.Value = parameterValue;
 					measureParameterValue.StringValue = stringValue;
 				}
 				return MeasureParameters;

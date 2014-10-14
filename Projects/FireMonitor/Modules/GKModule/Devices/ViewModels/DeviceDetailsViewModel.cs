@@ -141,7 +141,6 @@ namespace GKModule.ViewModels
 			foreach (var measureParameter in Device.State.XMeasureParameterValues)
 			{
 				var measureParameterViewModel = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
-				measureParameterViewModel.Value = measureParameter.Value;
 				measureParameterViewModel.StringValue = measureParameter.StringValue;
 			}
 		}

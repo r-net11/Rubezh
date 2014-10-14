@@ -9,9 +9,6 @@ namespace FiresecAPI.GK
 		public string Name { get; set; }
 
 		[DataMember]
-		public double Value { get; set; }
-
-		[DataMember]
 		public string StringValue { get; set; }
 	}
 }

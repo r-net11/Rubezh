@@ -31,7 +31,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации");
+				return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации");
+				return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace FiresecService.Service
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device == null)
 				{
-					return new OperationResult<bool>("Не найдено устройство в конфигурации");
+					return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 				}
 				devices.Add(device);
 			}
@@ -104,7 +104,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<bool>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<string>("Не найдено устройство в конфигурации");
+				return new OperationResult<string>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -130,7 +130,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<int>("Не найдено устройство в конфигурации");
+				return new OperationResult<int>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -143,26 +143,26 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<GKJournalItem>("Не найдено устройство в конфигурации");
+				return new OperationResult<GKJournalItem>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
 		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
-			GKBase xBase = null;
-			xBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
-			if (xBase == null)
+			GKBase gkBase = null;
+			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (gkBase == null)
 			{
-				xBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+				gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
 			}
-			if (xBase == null)
+			if (gkBase == null)
 			{
-				xBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
+				gkBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
 			}
 
-			if (xBase != null)
+			if (gkBase != null)
 			{
-				return GKProcessorManager.GKSetSingleParameter(xBase, parameterBytes);
+				return GKProcessorManager.GKSetSingleParameter(gkBase, parameterBytes);
 			}
 			else
 			{
@@ -172,20 +172,20 @@ namespace FiresecService.Service
 
 		public OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID)
 		{
-			GKBase xBase = null;
-			xBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
-			if (xBase == null)
+			GKBase gkBase = null;
+			gkBase = GKManager.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (gkBase == null)
 			{
-				xBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+				gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
 			}
-			if (xBase == null)
+			if (gkBase == null)
 			{
-				xBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
+				gkBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
 			}
 
-			if (xBase != null)
+			if (gkBase != null)
 			{
-				return GKProcessorManager.GKGetSingleParameter(xBase);
+				return GKProcessorManager.GKGetSingleParameter(gkBase);
 			}
 			else
 			{
@@ -248,10 +248,10 @@ namespace FiresecService.Service
 
 		public void GKReset(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetXBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKReset(xBase, UserName);
+				GKProcessorManager.GKReset(gkBase, UserName);
 			}
 		}
 

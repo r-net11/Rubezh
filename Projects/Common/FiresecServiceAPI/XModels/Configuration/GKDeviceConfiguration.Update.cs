@@ -228,11 +228,11 @@ namespace FiresecAPI.GK
 				var nsDeviceUIDs = new List<Guid>();
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
-					var nsDevice = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (nsDevice != null && (nsDevice.DriverType == GKDriverType.FirePump || nsDevice.DriverType == GKDriverType.JockeyPump || nsDevice.DriverType == GKDriverType.RSR2_Bush_Drenazh))
+					var device = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
 					{
-						nsDeviceUIDs.Add(nsDevice.UID);
-						pumpStation.NSDevices.Add(nsDevice);
+						nsDeviceUIDs.Add(device.UID);
+						pumpStation.NSDevices.Add(device);
 					}
 				}
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;

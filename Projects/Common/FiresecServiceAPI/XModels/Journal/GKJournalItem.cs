@@ -133,6 +133,12 @@ namespace FiresecAPI.GK
 		public ushort DescriptorAddress { get; set; }
 
 		/// <summary>
+		/// Заводской номер
+		/// </summary>
+		[DataMember]
+		public uint ObjectFactoryNo { get; set; }
+
+		/// <summary>
 		/// Имя пользователя
 		/// </summary>
 		[DataMember]

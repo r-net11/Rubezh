@@ -146,7 +146,7 @@ namespace GKProcessor
 					var UNUSED_ObjectNo = BytesHelper.SubstructShort(bytes, 32 + 18);
 					JournalItem.DescriptorType = BytesHelper.SubstructShort(bytes, 32 + 20);
 					JournalItem.DescriptorAddress = BytesHelper.SubstructShort(bytes, 32 + 22);
-					var UNUSED_ObjectFactoryNo = BytesHelper.SubstructInt(bytes, 32 + 24);
+					JournalItem.ObjectFactoryNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
 					JournalItem.ObjectState = BytesHelper.SubstructInt(bytes, 32 + 28);
 					switch (code)
 					{

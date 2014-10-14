@@ -22,10 +22,7 @@ namespace CustomAction
 						|| (process.ProcessName == "FireAdministrator")
 						|| (process.ProcessName == "Revisor")
 						|| (process.ProcessName == "GKOPCServer")
-						|| (process.ProcessName == "FS_SER~1")
-						|| (process.ProcessName == "fs_server")
-						|| (process.ProcessName == "FiresecNTService")
-						|| (process.ProcessName == "scktsrvr"))
+						|| (process.ProcessName == "FiresecNTService")) // "FS_SER~1", "fs_server", "scktsrvr"
 					{
 						process.Kill();
 					}

@@ -39,6 +39,8 @@ namespace FiresecService.Service
 				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkJournalItem.GKObjectNo.ToString()));
 			if (!string.IsNullOrEmpty(gkJournalItem.GKIpAddress))
 				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkJournalItem.GKIpAddress.ToString()));
+			if (gkJournalItem.ObjectFactoryNo > 0)
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Заводской номер", gkJournalItem.ObjectFactoryNo.ToString()));
 
 			switch (gkJournalItem.JournalObjectType)
 			{

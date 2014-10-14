@@ -7,7 +7,8 @@ namespace GKModule.ViewModels
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			return string.Compare(x.Device.Driver.ShortName, y.Device.Driver.ShortName);
+			var result = string.Compare(x.Device.Driver.ShortName, y.Device.Driver.ShortName);
+			return result;
 		}
 	}
 	public class DeviceViewModelAddressComparer : TreeNodeComparer<DeviceViewModel>

@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 				var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
 				Instructions.Add(instructionViewModel);
 				SelectedInstruction = instructionViewModel;
-				ServiceFactory.SaveService.XInstructionsChanged = true;
+				ServiceFactory.SaveService.GKInstructionsChanged = true;
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(instructionDetailsViewModel))
 			{
 				SelectedInstruction.Update();
-				ServiceFactory.SaveService.XInstructionsChanged = true;
+				ServiceFactory.SaveService.GKInstructionsChanged = true;
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 			Instructions.Remove(SelectedInstruction);
 			if (Instructions.IsNotNullOrEmpty())
 				SelectedInstruction = Instructions[0];
-			ServiceFactory.SaveService.XInstructionsChanged = true;
+			ServiceFactory.SaveService.GKInstructionsChanged = true;
 		}
 
 		public RelayCommand DeleteAllCommand { get; private set; }

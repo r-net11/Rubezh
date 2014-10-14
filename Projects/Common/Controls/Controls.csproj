@@ -1310,6 +1310,15 @@
   <ItemGroup>
     <Resource Include="Images\Time.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Valve_DU.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Valve_KV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Valve_KVMV.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
