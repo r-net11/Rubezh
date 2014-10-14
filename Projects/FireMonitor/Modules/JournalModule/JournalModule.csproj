@@ -249,9 +249,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Reports\JournalReport.xaml">
+    <Resource Include="Reports\JournalReport.xaml">
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="Views\ArchiveFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

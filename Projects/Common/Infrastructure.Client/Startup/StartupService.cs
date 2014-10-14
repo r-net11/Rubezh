@@ -70,8 +70,8 @@ namespace Infrastructure.Client.Startup
 			var result = _viewModel.PerformLogin(login, password);
 			if (result)
 			{
-				Login = ((StartupLoginViewModel)_viewModel.Content).UserName;
-				Password = ((StartupLoginViewModel)_viewModel.Content).Password;
+				//Login = ((StartupLoginViewModel)_viewModel.Content).UserName;
+				//Password = ((StartupLoginViewModel)_viewModel.Content).Password;
 			}
 			else
 				Close();
@@ -107,12 +107,8 @@ namespace Infrastructure.Client.Startup
 			_viewModel = new StartupViewModel(_clientType);
 			_viewModel.Closed += new EventHandler(StartupClosed);
 			_syncEvent.Set();
-			//Dispatcher.Run();
 			DialogService.ShowModalWindow(_viewModel);
 			ReleaseResources();
-			//DialogService.ShowWindow(_viewModel);
-			//_viewModel.Closed += (s, e) => ReleaseResources();
-			//Dispatcher.Run();
 		}
 
 		private void StartupClosed(object sender, EventArgs e)
@@ -154,7 +150,7 @@ namespace Infrastructure.Client.Startup
 
 		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
 		{
-			StartupService.Instance.Invoke(() =>
+			Invoke(() =>
 			{
 				var messageBoxImage = MessageBoxImage.None;
 				if (viewModel.IsInformationImageVisible)

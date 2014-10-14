@@ -52,9 +52,6 @@ namespace Infrastructure.Client.Login.ViewModels
 			Sizable = false;
 		}
 
-		public string Address { get; set; }
-		public int Port { get; set; }
-
 		string _userName;
 		public string UserName
 		{
@@ -73,7 +70,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			set
 			{
 				_password = value;
-				OnPropertyChanged("Password");
+				OnPropertyChanged(() => Password);
 			}
 		}
 		private bool _savePassword;
@@ -83,7 +80,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			set
 			{
 				_savePassword = value;
-				OnPropertyChanged("SavePassword");
+				OnPropertyChanged(() => SavePassword);
 			}
 		}
 		bool _canEditUserName;
@@ -93,7 +90,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			set
 			{
 				_canEditUserName = value;
-				OnPropertyChanged("CanEditUserName");
+				OnPropertyChanged(() => CanEditUserName);
 			}
 		}
 		bool _canSavePassword;
@@ -103,7 +100,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			set
 			{
 				_canSavePassword = value;
-				OnPropertyChanged("CanSavePassword");
+				OnPropertyChanged(() => CanSavePassword);
 			}
 		}
 

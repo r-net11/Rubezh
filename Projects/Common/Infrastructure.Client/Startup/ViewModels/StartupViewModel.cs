@@ -41,6 +41,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			CancelCommand = new RelayCommand(OnCancel);
 			SettingsCommand = new RelayCommand(OnSettings);
 			ShowButtons = true;
+			MessageFontSize = 12;
 		}
 
 		public override void OnLoad()
@@ -116,8 +117,6 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => MessageFontWeight);
 			}
 		}
-		
-		
 
 		public bool PerformLogin(string login, string password)
 		{
