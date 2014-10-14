@@ -123,22 +123,6 @@ namespace FireAdministrator.ViewModels
 			PlansConfiguration.Update();
 			var errors = new StringBuilder();
 
-			var maxZoneNo = 0;
-			if (GKManager.Zones.Count > 0)
-				maxZoneNo = GKManager.Zones.Max(x=>x.No);
-
-			var maxGuardZoneNo = 0;
-			if (GKManager.GuardZones.Count > 0)
-				maxGuardZoneNo = GKManager.GuardZones.Max(x => x.No);
-
-			var maxDirectionNo = 0;
-			if (GKManager.Directions.Count > 0)
-				maxDirectionNo = GKManager.Directions.Max(x => x.No);
-
-			var maxDoorNo = 0;
-			if (GKManager.Doors.Count > 0)
-				maxDoorNo = GKManager.Doors.Max(x => x.No);
-
 			if (GKDeviceConfiguration == null)
 				GKDeviceConfiguration = new GKDeviceConfiguration();
 			if (PlansConfiguration == null)
@@ -179,22 +163,30 @@ namespace FireAdministrator.ViewModels
 			}
 			foreach (var zone in GKDeviceConfiguration.Zones)
 			{
-				zone.No = zone.No + maxZoneNo;
 				GKManager.Zones.Add(zone);
 			}
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
 			{
-				guardZone.No = guardZone.No + maxGuardZoneNo;
 				GKManager.GuardZones.Add(guardZone);
 			}
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
-				direction.No = direction.No + maxDirectionNo;
 				GKManager.Directions.Add(direction);
+			}
+			foreach (var delay in GKDeviceConfiguration.Delays)
+			{
+				GKManager.DeviceConfiguration.Delays.Add(delay);
+			}
+			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
+			{
+				GKManager.DeviceConfiguration.PumpStations.Add(pumpStation);
+			}
+			foreach (var mpt in GKDeviceConfiguration.MPTs)
+			{
+				GKManager.DeviceConfiguration.MPTs.Add(mpt);
 			}
 			foreach (var door in GKDeviceConfiguration.Doors)
 			{
-				door.No = door.No + maxDoorNo;
 				GKManager.Doors.Add(door);
 			}
 			foreach (var code in GKDeviceConfiguration.Codes)
@@ -205,6 +197,16 @@ namespace FireAdministrator.ViewModels
 			{
 				GKManager.DeviceConfiguration.Schedules.Add(schedules);
 			}
+
+			ReorderNos(GKManager.Zones);
+			ReorderNos(GKManager.GuardZones);
+			ReorderNos(GKManager.GuardZones);
+			ReorderNos(GKManager.Delays);
+			ReorderNos(GKManager.PumpStations);
+			ReorderNos(GKManager.MPTs);
+			ReorderNos(GKManager.Doors);
+			ReorderNos(GKManager.DeviceConfiguration.Codes);
+			ReorderNos(GKManager.DeviceConfiguration.Schedules);
 
 			foreach (var plan in PlansConfiguration.Plans)
 			{
@@ -228,15 +230,6 @@ namespace FireAdministrator.ViewModels
 			CreateNewSKDUIDs();
 			SKDConfiguration.Update();
 
-			var maxZoneNo = 0;
-			if (SKDManager.Zones.Count > 0)
-				maxZoneNo = SKDManager.Zones.Max(x => x.No);
-
-			var maxDoorNo = 0;
-			if (SKDManager.Doors.Count > 0)
-				maxDoorNo = SKDManager.Doors.Max(x => x.No);
-
-
 			foreach (var device in SKDConfiguration.Devices)
 			{
 				SKDManager.Devices.Add(device);
@@ -247,14 +240,15 @@ namespace FireAdministrator.ViewModels
 			}
 			foreach (var zone in SKDConfiguration.Zones)
 			{
-				zone.No = zone.No + maxZoneNo;
 				SKDManager.Zones.Add(zone);
 			}
 			foreach (var door in SKDConfiguration.Doors)
 			{
-				door.No = door.No + maxDoorNo;
 				SKDManager.Doors.Add(door);
 			}
+
+			ReorderNos(SKDManager.Zones);
+			ReorderNos(SKDManager.Doors);
 		}
 
 		void CreateNewGKUIDs()
@@ -283,6 +277,24 @@ namespace FireAdministrator.ViewModels
 				GKDirectionUIDs.Add(direction.UID, uid);
 				direction.UID = uid;
 			}
+			foreach (var delay in GKDeviceConfiguration.Delays)
+			{
+				var uid = Guid.NewGuid();
+				GKDelayUIDs.Add(delay.UID, uid);
+				delay.UID = uid;
+			}
+			foreach (var pumpStation in GKDeviceConfiguration.PumpStations)
+			{
+				var uid = Guid.NewGuid();
+				GKPumpStationUIDs.Add(pumpStation.UID, uid);
+				pumpStation.UID = uid;
+			}
+			foreach (var mpt in GKDeviceConfiguration.MPTs)
+			{
+				var uid = Guid.NewGuid();
+				GKMPTUIDs.Add(mpt.UID, uid);
+				mpt.UID = uid;
+			}
 			foreach (var door in GKDeviceConfiguration.Doors)
 			{
 				var uid = Guid.NewGuid();
@@ -300,12 +312,6 @@ namespace FireAdministrator.ViewModels
 				var uid = Guid.NewGuid();
 				GKScheduleUIDs.Add(schedule.UID, uid);
 				schedule.UID = uid;
-			}
-			foreach (var delay in GKDeviceConfiguration.Delays)
-			{
-				var uid = Guid.NewGuid();
-				GKDelayUIDs.Add(delay.UID, uid);
-				delay.UID = uid;
 			}
 
 			foreach (var device in GKDeviceConfiguration.Devices)
@@ -541,14 +547,25 @@ namespace FireAdministrator.ViewModels
 		Dictionary<Guid, Guid> GKZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKGuardZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDirectionUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKPumpStationUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GKMPTUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKDoorUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKCodeUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> GKScheduleUIDs = new Dictionary<Guid, Guid>();
-		Dictionary<Guid, Guid> GKDelayUIDs = new Dictionary<Guid, Guid>();
 
 		Dictionary<Guid, Guid> SKDDeviceUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> SKDZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> SKDDoorUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> PlenElementUIDs = new Dictionary<Guid, Guid>();
+
+		void ReorderNos<T>(List<T> models)
+	where T : ModelBase
+		{
+			for (int i = 0; i < models.Count; i++)
+			{
+				models[i].No = i + 1;
+			}
+		}
 	}
 }

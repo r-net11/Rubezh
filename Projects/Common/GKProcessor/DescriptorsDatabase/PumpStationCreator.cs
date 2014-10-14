@@ -60,8 +60,8 @@ namespace GKProcessor
 
 			var delayDescriptor = new DelayDescriptor(MainDelay);
 			GkDatabase.Descriptors.Add(delayDescriptor);
-			GKDeviceConfiguration.LinkXBases(PumpStation, MainDelay);
-			GKDeviceConfiguration.LinkXBases(MainDelay, PumpStation);
+			GKDeviceConfiguration.LinkGKBases(PumpStation, MainDelay);
+			GKDeviceConfiguration.LinkGKBases(MainDelay, PumpStation);
 
 			var formula = new FormulaBuilder();
 
@@ -231,7 +231,7 @@ namespace GKProcessor
 					jnDescriptor.Formula = formula;
 					jnDescriptor.FormulaBytes = formula.GetBytes();
 				}
-				GKDeviceConfiguration.LinkXBases(jnDescriptor.GKBase, PumpStation);
+				GKDeviceConfiguration.LinkGKBases(jnDescriptor.GKBase, PumpStation);
 			}
 		}
 
@@ -259,7 +259,7 @@ namespace GKProcessor
 			}
 			foreach (var inputDevice in inputDevices)
 			{
-				GKDeviceConfiguration.LinkXBases(Pim, inputDevice);
+				GKDeviceConfiguration.LinkGKBases(Pim, inputDevice);
 			}
 			for (int i = 0; i < inputDevices.Count; i++)
 			{
@@ -281,15 +281,15 @@ namespace GKProcessor
 		{
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				GKDeviceConfiguration.LinkXBases(nsDevice, PumpStation);
+				GKDeviceConfiguration.LinkGKBases(nsDevice, PumpStation);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
 			{
-				GKDeviceConfiguration.LinkXBases(pumpDelay.Delay, PumpStation);
+				GKDeviceConfiguration.LinkGKBases(pumpDelay.Delay, PumpStation);
 				foreach (var pumpDevice in FirePumpDevices)
 				{
-					GKDeviceConfiguration.LinkXBases(pumpDelay.Delay, pumpDevice);
+					GKDeviceConfiguration.LinkGKBases(pumpDelay.Delay, pumpDevice);
 				}
 			}
 
@@ -299,7 +299,7 @@ namespace GKProcessor
 				{
 					if (pumpDelay.Device.UID == nsDevice.UID)
 					{
-						GKDeviceConfiguration.LinkXBases(nsDevice, pumpDelay.Delay);
+						GKDeviceConfiguration.LinkGKBases(nsDevice, pumpDelay.Delay);
 					}
 				}
 			}
@@ -315,16 +315,16 @@ namespace GKProcessor
 					nextDelay = PumpDelays[i + 1].Delay;
 
 				if (prevDelay != null)
-					currentDelay.InputXBases.Add(prevDelay);
+					currentDelay.InputGKBases.Add(prevDelay);
 				if (nextDelay != null)
-					currentDelay.OutputXBases.Add(nextDelay);
+					currentDelay.OutputGKBases.Add(nextDelay);
 			}
 
 			foreach (var firePumpDevice in FirePumpDevices)
 			{
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
-					GKDeviceConfiguration.LinkXBases(firePumpDevice, otherFirePumpDevice);
+					GKDeviceConfiguration.LinkGKBases(firePumpDevice, otherFirePumpDevice);
 				}
 			}
 		}

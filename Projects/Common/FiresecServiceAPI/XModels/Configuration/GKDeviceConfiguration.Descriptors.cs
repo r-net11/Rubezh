@@ -85,21 +85,21 @@ namespace FiresecAPI.GK
 			{
 				foreach (var device in zone.Devices)
 				{
-					LinkXBases(zone, device);
+					LinkGKBases(zone, device);
 				}
-				LinkXBases(zone, zone);
+				LinkGKBases(zone, zone);
 			}
 
 			foreach (var direction in Directions)
 			{
 				foreach (var zone in direction.InputZones)
 				{
-					LinkXBases(direction, zone);
+					LinkGKBases(direction, zone);
 				}
 
 				foreach (var device in direction.InputDevices)
 				{
-					LinkXBases(direction, device);
+					LinkGKBases(direction, device);
 				}
 			}
 
@@ -124,34 +124,34 @@ namespace FiresecAPI.GK
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					LinkXBases(guardZone, guardZoneDevice.Device);
+					LinkGKBases(guardZone, guardZoneDevice.Device);
 					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
 					{
-						LinkXBases(guardZoneDevice.Device, guardZone);
+						LinkGKBases(guardZoneDevice.Device, guardZone);
 					}
 				}
-				LinkXBases(guardZone, guardZone);
+				LinkGKBases(guardZone, guardZone);
 			}
 		}
 
-		void LinkDeviceLogic(GKBase xBase, List<GKClause> clauses)
+		void LinkDeviceLogic(GKBase gkBase, List<GKClause> clauses)
 		{
 			if (clauses != null)
 			{
 				foreach (var clause in clauses)
 				{
 					foreach (var clauseDevice in clause.Devices)
-						LinkXBases(xBase, clauseDevice);
+						LinkGKBases(gkBase, clauseDevice);
 					foreach (var zone in clause.Zones)
-						LinkXBases(xBase, zone);
+						LinkGKBases(gkBase, zone);
 					foreach (var guardZone in clause.GuardZones)
-						LinkXBases(xBase, guardZone);
+						LinkGKBases(gkBase, guardZone);
 					foreach (var direction in clause.Directions)
-						LinkXBases(xBase, direction);
+						LinkGKBases(gkBase, direction);
 					foreach (var mpt in clause.MPTs)
-						LinkXBases(xBase, mpt);
+						LinkGKBases(gkBase, mpt);
 					foreach (var delay in clause.Delays)
-						LinkXBases(xBase, delay);
+						LinkGKBases(gkBase, delay);
 				}
 			}
 		}
@@ -299,10 +299,10 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public static void LinkXBases(GKBase value, GKBase dependsOn)
+		public static void LinkGKBases(GKBase value, GKBase dependsOn)
 		{
-			AddInputOutputObject(value.InputXBases, dependsOn);
-			AddInputOutputObject(dependsOn.OutputXBases, value);
+			AddInputOutputObject(value.InputGKBases, dependsOn);
+			AddInputOutputObject(dependsOn.OutputGKBases, value);
 		}
 
 		static void AddInputOutputObject(List<GKBase> objects, GKBase newObject)

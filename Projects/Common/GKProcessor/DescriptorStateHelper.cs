@@ -21,9 +21,9 @@ namespace GKProcessor
 		public int HoldDelay { get; private set; }
 		public int OffDelay { get; private set; }
 
-		public void Parse(List<byte> bytes, GKBase xBase)
+		public void Parse(List<byte> bytes, GKBase gkBase)
 		{
-			GKBase = xBase;
+			GKBase = gkBase;
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
@@ -33,11 +33,11 @@ namespace GKProcessor
 
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
 			StateBits = GKStatesHelper.StatesFromInt(state);
-			ParseAdditionalParameters(bytes, xBase);
-			CheckConnectionLost(xBase);
+			ParseAdditionalParameters(bytes, gkBase);
+			CheckConnectionLost(gkBase);
 		}
 
-		void ParseAdditionalParameters(List<byte> bytes, GKBase xBase)
+		void ParseAdditionalParameters(List<byte> bytes, GKBase gkBase)
 		{
 			AdditionalStates = new List<GKAdditionalState>();
 			for (int i = 0; i < 10; i++)
@@ -314,9 +314,9 @@ namespace GKProcessor
 						//		AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
 						var pumpType = 0;
-						if (xBase is GKDevice)
+						if (gkBase is GKDevice)
 						{
-							GKDevice device = xBase as GKDevice;
+							GKDevice device = gkBase as GKDevice;
 							if (device != null && device.Driver.IsPump)
 							{
 								var pumpTypeProperty = device.Properties.FirstOrDefault(x => x.Name == "PumpType");

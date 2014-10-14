@@ -9,14 +9,14 @@ namespace GKProcessor
 {
 	public static class ParametersHelper
 	{
-		public static string SetSingleParameter(GKBase xBase, List<byte> parameterBytes)
+		public static string SetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
 		{
 			try
 			{
-				var commonDatabase = GetCommonDatabase(xBase);
+				var commonDatabase = GetCommonDatabase(gkBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == xBase.UID);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == gkBase.UID);
 					if (descriptor != null)
 					{
 						return SetDeviceParameters(commonDatabase, descriptor, parameterBytes);
@@ -30,14 +30,14 @@ namespace GKProcessor
 			return null;
 		}
 
-		public static OperationResult<List<GKProperty>> GetSingleParameter(GKBase xBase)
+		public static OperationResult<List<GKProperty>> GetSingleParameter(GKBase gkBase)
 		{
 			try
 			{
-				var commonDatabase = GetCommonDatabase(xBase);
+				var commonDatabase = GetCommonDatabase(gkBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == xBase.UID);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == gkBase.UID);
 					if (descriptor != null)
 					{
 						var result = GetDeviceParameters(commonDatabase, descriptor);
@@ -184,26 +184,26 @@ namespace GKProcessor
 			return null;
 		}
 
-		static CommonDatabase GetCommonDatabase(GKBase xBase)
+		static CommonDatabase GetCommonDatabase(GKBase gkBase)
 		{
 			CommonDatabase commonDatabase = null;
-			if (xBase.KauDatabaseParent != null)
+			if (gkBase.KauDatabaseParent != null)
 			{
-				commonDatabase = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == xBase.KauDatabaseParent);
+				commonDatabase = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == gkBase.KauDatabaseParent);
 			}
-			else if (xBase.GkDatabaseParent != null)
+			else if (gkBase.GkDatabaseParent != null)
 			{
-				commonDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice == xBase.GkDatabaseParent);
+				commonDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice == gkBase.GkDatabaseParent);
 			}
 			return commonDatabase;
 		}
 
-		public static BaseDescriptor GetBaseDescriptor(GKBase xBase)
+		public static BaseDescriptor GetBaseDescriptor(GKBase gkBase)
 		{
-			var commonDatabase = GetCommonDatabase(xBase);
+			var commonDatabase = GetCommonDatabase(gkBase);
 			if (commonDatabase != null)
 			{
-				return commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == xBase.UID);
+				return commonDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == gkBase.UID);
 			}
 			return null;
 		}

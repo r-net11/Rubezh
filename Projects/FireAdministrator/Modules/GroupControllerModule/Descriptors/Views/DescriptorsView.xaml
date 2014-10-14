@@ -47,8 +47,8 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding Descriptor.XBase.GKDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
-					<DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding Descriptor.XBase.KAUDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+					<DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding Descriptor.GKBase.GKDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+					<DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding Descriptor.GKBase.KAUDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
 					<DataGridTextColumn Header="Адрес контроллера" Binding="{Binding Descriptor.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
 					<DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding Descriptor.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
 					<DataGridTextColumn Header="Физический адрес" Binding="{Binding Descriptor.PhysicalAdress}" />

@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputXBases)
+				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
 				{
 					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 					{
@@ -100,7 +100,7 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
-				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputXBases)
+				foreach (var outputBase in descriptorViewModel.Descriptor.GKBase.OutputGKBases)
 				{
 					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 					{
