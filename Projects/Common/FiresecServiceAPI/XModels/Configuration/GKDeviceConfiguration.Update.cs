@@ -272,20 +272,20 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public void InvalidateInputObjectsBaseLogic(GKBase xBase, GKDeviceLogic deviceLogic)
+		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKDeviceLogic deviceLogic)
 		{
-			deviceLogic.ClausesGroup = InvalidateOneInputObjectsBaseLogic(xBase, deviceLogic.ClausesGroup);
-			deviceLogic.OffClausesGroup = InvalidateOneInputObjectsBaseLogic(xBase, deviceLogic.OffClausesGroup);
+			deviceLogic.ClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, deviceLogic.ClausesGroup);
+			deviceLogic.OffClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, deviceLogic.OffClausesGroup);
 		}
 
-		public GKClauseGroup InvalidateOneInputObjectsBaseLogic(GKBase xBase, GKClauseGroup clauseGroup)
+		public GKClauseGroup InvalidateOneInputObjectsBaseLogic(GKBase gkBase, GKClauseGroup clauseGroup)
 		{
 			var result = new GKClauseGroup();
 			result.ClauseJounOperationType = clauseGroup.ClauseJounOperationType;
 			var groups = new List<GKClauseGroup>();
 			foreach (var group in clauseGroup.ClauseGroups)
 			{
-				var _clauseGroup = InvalidateOneInputObjectsBaseLogic(xBase, group);
+				var _clauseGroup = InvalidateOneInputObjectsBaseLogic(gkBase, group);
 				if (_clauseGroup.Clauses.Count + _clauseGroup.ClauseGroups.Count > 0)
 					groups.Add(_clauseGroup);
 			}
@@ -308,8 +308,8 @@ namespace FiresecAPI.GK
 					{
 						deviceUIDs.Add(deviceUID);
 						clause.Devices.Add(clauseDevice);
-						if (!xBase.ClauseInputDevices.Contains(clauseDevice))
-							xBase.ClauseInputDevices.Add(clauseDevice);
+						if (!gkBase.ClauseInputDevices.Contains(clauseDevice))
+							gkBase.ClauseInputDevices.Add(clauseDevice);
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
@@ -322,8 +322,8 @@ namespace FiresecAPI.GK
 					{
 						zoneUIDs.Add(zoneUID);
 						clause.Zones.Add(zone);
-						if (!xBase.ClauseInputZones.Contains(zone))
-							xBase.ClauseInputZones.Add(zone);
+						if (!gkBase.ClauseInputZones.Contains(zone))
+							gkBase.ClauseInputZones.Add(zone);
 					}
 				}
 				clause.ZoneUIDs = zoneUIDs;
@@ -336,8 +336,8 @@ namespace FiresecAPI.GK
 					{
 						guardZoneUIDs.Add(guardZoneUID);
 						clause.GuardZones.Add(guardZone);
-						if (!xBase.ClauseInputGuardZones.Contains(guardZone))
-							xBase.ClauseInputGuardZones.Add(guardZone);
+						if (!gkBase.ClauseInputGuardZones.Contains(guardZone))
+							gkBase.ClauseInputGuardZones.Add(guardZone);
 					}
 				}
 				clause.GuardZoneUIDs = guardZoneUIDs;
@@ -350,8 +350,8 @@ namespace FiresecAPI.GK
 					{
 						directionUIDs.Add(directionUID);
 						clause.Directions.Add(direction);
-						if (!xBase.ClauseInputDirections.Contains(direction))
-							xBase.ClauseInputDirections.Add(direction);
+						if (!gkBase.ClauseInputDirections.Contains(direction))
+							gkBase.ClauseInputDirections.Add(direction);
 					}
 				}
 				clause.DirectionUIDs = directionUIDs;
@@ -364,8 +364,8 @@ namespace FiresecAPI.GK
 					{
 						mptUIDs.Add(mptUID);
 						clause.MPTs.Add(mpt);
-						if (!xBase.ClauseInputMPTs.Contains(mpt))
-							xBase.ClauseInputMPTs.Add(mpt);
+						if (!gkBase.ClauseInputMPTs.Contains(mpt))
+							gkBase.ClauseInputMPTs.Add(mpt);
 					}
 				}
 				clause.MPTUIDs = mptUIDs;
@@ -378,8 +378,8 @@ namespace FiresecAPI.GK
 					{
 						delayUIDs.Add(delayUID);
 						clause.Delays.Add(delay);
-						if (!xBase.ClauseInputDelays.Contains(delay))
-							xBase.ClauseInputDelays.Add(delay);
+						if (!gkBase.ClauseInputDelays.Contains(delay))
+							gkBase.ClauseInputDelays.Add(delay);
 					}
 				}
 				clause.DelayUIDs = delayUIDs;

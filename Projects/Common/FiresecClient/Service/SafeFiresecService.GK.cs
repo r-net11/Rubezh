@@ -66,14 +66,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device.UID, no); }, "GKReadJournalItem");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(GKBase xBase, List<byte> parameterBytes)
+		public OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
 		{
-			return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(xBase.UID, parameterBytes); }, "SetSingleParameter");
+			return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(gkBase.UID, parameterBytes); }, "SetSingleParameter");
 		}
 
-		public OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase xBase)
+		public OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
 		{
-			return SafeOperationCall<List<GKProperty>>(() => { return FiresecService.GKGetSingleParameter(xBase.UID); }, "GetSingleParameter");
+			return SafeOperationCall<List<GKProperty>>(() => { return FiresecService.GKGetSingleParameter(gkBase.UID); }, "GetSingleParameter");
 		}
 
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
@@ -101,9 +101,9 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(device.UID, stateBit); }, "GKExecuteDeviceCommand");
 		}
 
-		public void GKReset(GKBase xBase)
+		public void GKReset(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKReset(xBase.UID, xBase.ObjectType); }, "GKReset");
+			SafeOperationCall(() => { FiresecService.GKReset(gkBase.UID, gkBase.ObjectType); }, "GKReset");
 		}
 
 		public void GKResetFire1(GKZone zone)
@@ -116,44 +116,44 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.GKResetFire2(zone.UID); }, "GKResetFire2");
 		}
 
-		public void GKSetAutomaticRegime(GKBase xBase)
+		public void GKSetAutomaticRegime(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase.UID, xBase.ObjectType); }, "GKSetAutomaticRegime");
+			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(gkBase.UID, gkBase.ObjectType); }, "GKSetAutomaticRegime");
 		}
 
-		public void GKSetManualRegime(GKBase xBase)
+		public void GKSetManualRegime(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase.UID, xBase.ObjectType); }, "GKSetManualRegime");
+			SafeOperationCall(() => { FiresecService.GKSetManualRegime(gkBase.UID, gkBase.ObjectType); }, "GKSetManualRegime");
 		}
 
-		public void GKSetIgnoreRegime(GKBase xBase)
+		public void GKSetIgnoreRegime(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(xBase.UID, xBase.ObjectType); }, "GKTurnOn");
+			SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(gkBase.UID, gkBase.ObjectType); }, "GKTurnOn");
 		}
 
-		public void GKTurnOn(GKBase xBase)
+		public void GKTurnOn(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.UID, xBase.ObjectType); }, "GKTurnOn");
+			SafeOperationCall(() => { FiresecService.GKTurnOn(gkBase.UID, gkBase.ObjectType); }, "GKTurnOn");
 		}
 
-		public void GKTurnOnNow(GKBase xBase)
+		public void GKTurnOnNow(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase.UID, xBase.ObjectType); }, "GKTurnOnNow");
+			SafeOperationCall(() => { FiresecService.GKTurnOnNow(gkBase.UID, gkBase.ObjectType); }, "GKTurnOnNow");
 		}
 
-		public void GKTurnOff(GKBase xBase)
+		public void GKTurnOff(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOff(xBase.UID, xBase.ObjectType); }, "GKTurnOff");
+			SafeOperationCall(() => { FiresecService.GKTurnOff(gkBase.UID, gkBase.ObjectType); }, "GKTurnOff");
 		}
 
-		public void GKTurnOffNow(GKBase xBase)
+		public void GKTurnOffNow(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase.UID, xBase.ObjectType); }, "GKTurnOffNow");
+			SafeOperationCall(() => { FiresecService.GKTurnOffNow(gkBase.UID, gkBase.ObjectType); }, "GKTurnOffNow");
 		}
 
-		public void GKStop(GKBase xBase)
+		public void GKStop(GKBase gkBase)
 		{
-			SafeOperationCall(() => { FiresecService.GKStop(xBase.UID, xBase.ObjectType); }, "GKStop");
+			SafeOperationCall(() => { FiresecService.GKStop(gkBase.UID, gkBase.ObjectType); }, "GKStop");
 		}
 
 		public void GKStartMeasureMonitoring(GKDevice device)

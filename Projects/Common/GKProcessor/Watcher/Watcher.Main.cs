@@ -448,50 +448,50 @@ namespace GKProcessor
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void OnObjectStateChanged(GKBase xBase)
+		void OnObjectStateChanged(GKBase gkBase)
 		{
-			AddObjectStateToGKStates(GKCallbackResult.GKStates, xBase);
+			AddObjectStateToGKStates(GKCallbackResult.GKStates, gkBase);
 		}
 
-		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase xBase)
+		public static void AddObjectStateToGKStates(GKStates gkStates, GKBase gkBase)
 		{
-			if (xBase.State != null)
+			if (gkBase.State != null)
 			{
-				xBase.InternalState.CopyToXState(xBase.State);
-				if (xBase is GKDevice)
+				gkBase.InternalState.CopyToXState(gkBase.State);
+				if (gkBase is GKDevice)
 				{
-					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.UID);
-					gkStates.DeviceStates.Add(xBase.State);
+					gkStates.DeviceStates.RemoveAll(x => x.UID == gkBase.UID);
+					gkStates.DeviceStates.Add(gkBase.State);
 				}
-				if (xBase is GKZone)
+				if (gkBase is GKZone)
 				{
-					gkStates.ZoneStates.Add(xBase.State);
+					gkStates.ZoneStates.Add(gkBase.State);
 				}
-				if (xBase is GKDirection)
+				if (gkBase is GKDirection)
 				{
-					gkStates.DirectionStates.Add(xBase.State);
+					gkStates.DirectionStates.Add(gkBase.State);
 				}
-				if (xBase is GKPumpStation)
+				if (gkBase is GKPumpStation)
 				{
-					gkStates.PumpStationStates.Add(xBase.State);
+					gkStates.PumpStationStates.Add(gkBase.State);
 				}
-				if (xBase is GKMPT)
+				if (gkBase is GKMPT)
 				{
-					gkStates.MPTStates.Add(xBase.State);
+					gkStates.MPTStates.Add(gkBase.State);
 				}
-				if (xBase is GKDelay)
+				if (gkBase is GKDelay)
 				{
-					xBase.State.PresentationName = xBase.PresentationName;
-					gkStates.DelayStates.Add(xBase.State);
+					gkBase.State.PresentationName = gkBase.PresentationName;
+					gkStates.DelayStates.Add(gkBase.State);
 				}
-				if (xBase is GKPim)
+				if (gkBase is GKPim)
 				{
-					xBase.State.PresentationName = xBase.PresentationName;
-					gkStates.PimStates.Add(xBase.State);
+					gkBase.State.PresentationName = gkBase.PresentationName;
+					gkStates.PimStates.Add(gkBase.State);
 				}
-				if (xBase is GKGuardZone)
+				if (gkBase is GKGuardZone)
 				{
-					gkStates.GuardZoneStates.Add(xBase.State);
+					gkStates.GuardZoneStates.Add(gkBase.State);
 				}
 			}
 		}

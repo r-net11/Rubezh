@@ -277,15 +277,15 @@ namespace GKProcessor
 			}
 		}
 
-		public static OperationResult<bool> GKSetSingleParameter(GKBase xBase, List<byte> parameterBytes)
+		public static OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
 		{
-			var error = ParametersHelper.SetSingleParameter(xBase, parameterBytes);
+			var error = ParametersHelper.SetSingleParameter(gkBase, parameterBytes);
 			return new OperationResult<bool>() { HasError = error != null, Error = error, Result = true };
 		}
 
-		public static OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase xBase)
+		public static OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
 		{
-			return ParametersHelper.GetSingleParameter(xBase);
+			return ParametersHelper.GetSingleParameter(gkBase);
 		}
 
 		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
@@ -364,10 +364,10 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.NULL, stateBit.ToDescription(), device, userName);
 		}
 
-		public static void GKReset(GKBase xBase, string userName)
+		public static void GKReset(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.Reset, "Сброс");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.Reset, "Сброс");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", gkBase, userName);
 		}
 
 		public static void GKResetFire1(GKZone zone, string userName)
@@ -382,52 +382,52 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, "", zone, userName);
 		}
 
-		public static void GKSetAutomaticRegime(GKBase xBase, string userName)
+		public static void GKSetAutomaticRegime(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим, "", gkBase, userName);
 		}
 
-		public static void GKSetManualRegime(GKBase xBase, string userName)
+		public static void GKSetManualRegime(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.SetRegime_Manual, "Перевод в ручной режим");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Manual, "Перевод в ручной режим");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим, "", gkBase, userName);
 		}
 
-		public static void GKSetIgnoreRegime(GKBase xBase, string userName)
+		public static void GKSetIgnoreRegime(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.SetRegime_Off, "Перевод в отключенный режим");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_отключенный_режим, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.SetRegime_Off, "Перевод в отключенный режим");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_отключенный_режим, "", gkBase, userName);
 		}
 
-		public static void GKTurnOn(GKBase xBase, string userName)
+		public static void GKTurnOn(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.TurnOn_InManual, "Включить");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOn_InManual, "Включить");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить, "", gkBase, userName);
 		}
 
-		public static void GKTurnOnNow(GKBase xBase, string userName)
+		public static void GKTurnOnNow(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.TurnOnNow_InManual, "Включить немедленно");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOnNow_InManual, "Включить немедленно");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно, "", gkBase, userName);
 		}
 
-		public static void GKTurnOff(GKBase xBase, string userName)
+		public static void GKTurnOff(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.TurnOff_InManual, "Выключить");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOff_InManual, "Выключить");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить, "", gkBase, userName);
 		}
 
-		public static void GKTurnOffNow(GKBase xBase, string userName)
+		public static void GKTurnOffNow(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.TurnOffNow_InManual, "Выключить немедленно");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOffNow_InManual, "Выключить немедленно");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно, "", gkBase, userName);
 		}
 
-		public static void GKStop(GKBase xBase, string userName)
+		public static void GKStop(GKBase gkBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, GKStateBit.Stop_InManual, "Остановка пуска");
-			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Остановка_пуска, "", xBase, userName);
+			Watcher.SendControlCommand(gkBase, GKStateBit.Stop_InManual, "Остановка пуска");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Остановка_пуска, "", gkBase, userName);
 		}
 
 		public static void GKStartMeasureMonitoring(GKDevice device)
@@ -457,34 +457,34 @@ namespace GKProcessor
 		#endregion
 
 		#region JournalItem Callback
-		public static void AddGKMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType, string description, GKBase xBase, string userName)
+		public static void AddGKMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType, string description, GKBase gkBase, string userName)
 		{
 			Guid uid = Guid.Empty;
 			var journalObjectType = GKJournalObjectType.System;
-			if (xBase != null)
+			if (gkBase != null)
 			{
-				uid = xBase.UID;
-				if (xBase is GKDevice)
+				uid = gkBase.UID;
+				if (gkBase is GKDevice)
 				{
 					journalObjectType = GKJournalObjectType.Device;
 				}
-				if (xBase is GKZone)
+				if (gkBase is GKZone)
 				{
 					journalObjectType = GKJournalObjectType.Zone;
 				}
-				if (xBase is GKDirection)
+				if (gkBase is GKDirection)
 				{
 					journalObjectType = GKJournalObjectType.Direction;
 				}
-				if (xBase is GKDelay)
+				if (gkBase is GKDelay)
 				{
 					journalObjectType = GKJournalObjectType.Delay;
 				}
-				if (xBase is GKPim)
+				if (gkBase is GKPim)
 				{
 					journalObjectType = GKJournalObjectType.Pim;
 				}
-				if (xBase is GKGuardZone)
+				if (gkBase is GKGuardZone)
 				{
 					journalObjectType = GKJournalObjectType.GuardZone;
 				}
@@ -505,10 +505,10 @@ namespace GKProcessor
 				UserName = userName,
 				SubsystemType = GKSubsystemType.System
 			};
-			if (xBase != null)
+			if (gkBase != null)
 			{
-				journalItem.ObjectName = xBase.PresentationName;
-				journalItem.GKObjectNo = (ushort)xBase.GKDescriptorNo;
+				journalItem.ObjectName = gkBase.PresentationName;
+				journalItem.GKObjectNo = (ushort)gkBase.GKDescriptorNo;
 			}
 
 			GKDBHelper.Add(journalItem);

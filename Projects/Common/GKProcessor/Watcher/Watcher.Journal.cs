@@ -161,13 +161,13 @@ namespace GKProcessor
 			}
 		}
 
-		void CheckServiceRequired(GKBase xBase, GKJournalItem journalItem)
+		void CheckServiceRequired(GKBase gkBase, GKJournalItem journalItem)
 		{
 			if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность || journalItem.JournalEventNameType == JournalEventNameType.Запыленность_устранена)
 			{
-				if (xBase is GKDevice)
+				if (gkBase is GKDevice)
 				{
-					var device = xBase as GKDevice;
+					var device = gkBase as GKDevice;
 					if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность)
 						device.InternalState.IsService = true;
 					if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность_устранена)

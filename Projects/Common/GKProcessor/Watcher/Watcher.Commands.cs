@@ -7,41 +7,41 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public static void SendControlCommand(GKBase xBase, GKStateBit stateBit, string description)
+		public static void SendControlCommand(GKBase gkBase, GKStateBit stateBit, string description)
 		{
 			var code = 0x80 + (int)stateBit;
-			SendControlCommand(xBase, (byte)code, description);
+			SendControlCommand(gkBase, (byte)code, description);
 		}
 
-		public static void SendControlCommand(GKBase xBase, byte code, string description)
+		public static void SendControlCommand(GKBase gkBase, byte code, string description)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = xBase.GKDescriptorNo;
+			var databaseNo = gkBase.GKDescriptorNo;
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
-			if (xBase.GkDatabaseParent != null)
+			if (gkBase.GkDatabaseParent != null)
 			{
 				WatcherManager.Send(new Action<SendResult>(sendResult =>
 					{
 						if (sendResult.HasError)
 						{
-							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, description, xBase, null);
+							GKProcessorManager.AddGKMessage(JournalEventNameType.Ошибка_при_выполнении_команды, JournalEventDescriptionType.NULL, description, gkBase, null);
 						}
 					}),
-					xBase.GkDatabaseParent, 3, 13, 0, bytes);
+					gkBase.GkDatabaseParent, 3, 13, 0, bytes);
 			}
 		}
 
-		public static void SendControlCommandMRO(GKBase xBase, byte code, byte code2)
+		public static void SendControlCommandMRO(GKBase gkBase, byte code, byte code2)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = xBase.GKDescriptorNo;
+			var databaseNo = gkBase.GKDescriptorNo;
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 			bytes.Add(code2);
-			if (xBase.GkDatabaseParent != null)
+			if (gkBase.GkDatabaseParent != null)
 			{
-				WatcherManager.Send(OnCompleted, xBase.GkDatabaseParent, 3, 13, 0, bytes);
+				WatcherManager.Send(OnCompleted, gkBase.GkDatabaseParent, 3, 13, 0, bytes);
 			}
 		}
 

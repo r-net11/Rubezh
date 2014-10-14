@@ -42,9 +42,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
-		public List<GKBase> InputXBases { get; set; }
+		public List<GKBase> InputGKBases { get; set; }
 		[XmlIgnore]
-		public List<GKBase> OutputXBases { get; set; }
+		public List<GKBase> OutputGKBases { get; set; }
 
 		[XmlIgnore]
 		public GKDevice KauDatabaseParent { get; set; }
@@ -58,8 +58,8 @@ namespace FiresecAPI.GK
 
 		public void ClearDescriptor()
 		{
-			InputXBases = new List<GKBase>();
-			OutputXBases = new List<GKBase>();
+			InputGKBases = new List<GKBase>();
+			OutputGKBases = new List<GKBase>();
 		}
 
 		[XmlIgnore]
