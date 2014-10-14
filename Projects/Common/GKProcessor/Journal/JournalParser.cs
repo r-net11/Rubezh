@@ -308,10 +308,6 @@ namespace GKProcessor
 			}
 
 			JournalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(JournalItem.JournalEventNameType);
-			if (JournalItem.JournalEventNameType != JournalEventNameType.NULL)
-				JournalItem.Name = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventNameType);
-			if (JournalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
-				JournalItem.Description = EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventDescriptionType);
 
 			if (source == JournalSourceType.Object)
 			{
