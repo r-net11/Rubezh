@@ -33,15 +33,11 @@ namespace FireAdministrator
 				_bootstrapper = new Bootstrapper();
 				using (new DoubleLaunchLocker(SignalId, WaitId))
 					_bootstrapper.Initialize();
-				try
+                if (Application.Current != null && e.Args != null && e.Args.Length > 0)
 				{
-					if (e.Args != null && e.Args.Length > 0)
-					{
-						fileName = e.Args[0];
-						FileConfigurationHelper.LoadFromFile(fileName);
-					}
+					fileName = e.Args[0];
+					FileConfigurationHelper.LoadFromFile(fileName);
 				}
-				catch { }
 			}
 			catch (StartupCancellationException)
 			{

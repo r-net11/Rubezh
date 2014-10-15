@@ -50,7 +50,8 @@ namespace Infrastructure.Client
 				try
 				{
 					var result = module.BeforeInitialize(firstTime);
-					if (!result)
+                    ApplicationService.DoEvents();
+                    if (!result)
 					{
 						ApplicationService.ShutDown();
 						break;
@@ -58,9 +59,8 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					ApplicationService.ShutDown();
-					break;
-				}
+                    throw;
+                }
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.PreInitialize");
@@ -79,9 +79,8 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					ApplicationService.ShutDown();
-					break;
-				}
+                    throw;
+                }
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.AterInitialize");
@@ -100,8 +99,7 @@ namespace Infrastructure.Client
 				}
 				catch (StartupCancellationException)
 				{
-					ApplicationService.ShutDown();
-					break;
+                    throw;
 				}
 				catch (Exception e)
 				{
@@ -136,7 +134,11 @@ namespace Infrastructure.Client
 					StartupService.Instance.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
 				}
-				catch (Exception e)
+                catch (StartupCancellationException)
+                {
+                    throw;
+                }
+                catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
 					if (Application.Current != null)
@@ -157,7 +159,8 @@ namespace Infrastructure.Client
 				var items = module.CreateNavigation();
 				if (items != null && items.Count() > 0)
 					navigationItems.AddRange(items);
-			}
+                ApplicationService.DoEvents();
+            }
 			return navigationItems;
 		}
 
@@ -199,7 +202,11 @@ namespace Infrastructure.Client
 								InvestigateAssembly(assembly);
 						}
 					}
-					catch (Exception e)
+                    catch (StartupCancellationException)
+                    {
+                        throw;
+                    }
+                    catch (Exception e)
 					{
 						Logger.Error(e, "BaseBootstrapper.ReadConfiguration");
 						MessageBoxService.ShowError("Не удалось загрузить модуль " + moduleElement.AssemblyFile);
@@ -214,7 +221,11 @@ namespace Infrastructure.Client
 			{
 				return GetLoadedAssemblyByFileName(path) ?? Assembly.LoadFile(path);
 			}
-			catch (Exception e)
+            catch (StartupCancellationException)
+            {
+                throw;
+            }
+            catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове BaseBootstrapper.GetAssemblyByFileName");
 				MessageBoxService.ShowError(string.Format(Resources.UnableLoadModule, Path.GetFileName(path)));

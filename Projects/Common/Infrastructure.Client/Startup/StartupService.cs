@@ -39,7 +39,6 @@ namespace Infrastructure.Client.Startup
 			IsActive = true;
 			//_splash = new SplashScreen(LogoResource);
 			//_splash.Show(false);
-			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 		}
 		public void Show()
 		{
@@ -47,6 +46,7 @@ namespace Infrastructure.Client.Startup
 			var splashThread = new Thread(new ParameterizedThreadStart(InternalThreadEntryPoint));
 			splashThread.SetApartmentState(ApartmentState.STA);
 			splashThread.IsBackground = true;
+            splashThread.Name = "Startup Service Thread";
 			splashThread.Start();
 			_syncEvent.WaitOne();
 			CloseSplashImage();
@@ -70,8 +70,8 @@ namespace Infrastructure.Client.Startup
 			var result = _viewModel.PerformLogin(login, password);
 			if (result)
 			{
-				//Login = ((StartupLoginViewModel)_viewModel.Content).UserName;
-				//Password = ((StartupLoginViewModel)_viewModel.Content).Password;
+                Login = ((StartupLoginViewModel)_viewModel.Content).UserName;
+                Password = ((StartupLoginViewModel)_viewModel.Content).Password;
 			}
 			else
 				Close();
@@ -79,7 +79,8 @@ namespace Infrastructure.Client.Startup
 		}
 		public void ShowLoading(string title, int stepCount = 1)
 		{
-			_viewModel.ShowLoading(title, stepCount);
+            ApplicationService.DoEvents();
+            _viewModel.ShowLoading(title, stepCount);
 			ApplicationService.DoEvents();
 		}
 		public void DoStep(string text)
@@ -106,7 +107,8 @@ namespace Infrastructure.Client.Startup
 		{
 			_viewModel = new StartupViewModel(_clientType);
 			_viewModel.Closed += new EventHandler(StartupClosed);
-			_syncEvent.Set();
+            MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+            _syncEvent.Set();
 			DialogService.ShowModalWindow(_viewModel);
 			ReleaseResources();
 		}
