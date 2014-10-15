@@ -350,6 +350,15 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Вскрытие контроллера", XStateClass.Attention)]
 		Вскрытие_контроллера,
 
+		[EventName(JournalSubsystemType.SKD, "Множественный проход", XStateClass.Attention)]
+		Множественный_проход,
+
+		[EventName(JournalSubsystemType.SKD, "Проход по отпечатку пальца", XStateClass.Info)]
+		Проход_по_отпечатку_пальца,
+
+		[EventName(JournalSubsystemType.SKD, "Местная тревога", XStateClass.Attention)]
+		Местная_тревога,
+
 		[EventName(JournalSubsystemType.SKD, "Сброс Контроллера", XStateClass.TechnologicalRegime)]
 		Сброс_Контроллера,
 

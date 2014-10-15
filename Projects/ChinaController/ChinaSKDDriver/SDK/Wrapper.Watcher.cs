@@ -13,14 +13,6 @@ namespace ChinaSKDDriver
 		static bool IsStopping;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
-		const int DH_ALARM_ACCESS_CTL_EVENT = 0x3181;
-		const int DH_ALARM_ACCESS_CTL_NOT_CLOSE = 0x3177;
-		const int DH_ALARM_ACCESS_CTL_BREAK_IN = 0x3178;
-		const int DH_ALARM_ACCESS_CTL_REPEAT_ENTER = 0x3179;
-		const int DH_ALARM_ACCESS_CTL_DURESS = 0x3180;
-		const int DH_ALARM_ACCESS_CTL_STATUS = 0x3185;
-		const int DH_ALARM_CHASSISINTRUDED = 0x3173;
-
 		public int LoginID { get; private set; }
 
 		public static void WrapInitialize()
