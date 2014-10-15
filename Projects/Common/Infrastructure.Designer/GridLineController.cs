@@ -66,7 +66,17 @@ namespace Infrastructure.Designer
 			_accamulateX = 0;
 			_accamulateY = 0;
 		}
-		public Vector PullRectangle(Vector shift, Rect rect)
+		public Vector Pull(Point point)
+		{
+			return Pull(new Rect(point, point));
+		}
+		public Vector Pull(Rect rect)
+		{
+			var shift = Pull(new Vector(0, 0), rect);
+			PullReset();
+			return shift;
+		}
+		public Vector Pull(Vector shift, Rect rect)
 		{
 			var factor = DELTA / _canvas.Zoom;
 			if (IsVisible)
@@ -75,11 +85,13 @@ namespace Infrastructure.Designer
 					{
 						case Orientation.Vertical:
 							shift.X = Pull(shift.X, gridLine.Position - rect.Left, factor, ref _accamulateX);
-							shift.X = Pull(shift.X, gridLine.Position - rect.Right, factor, ref _accamulateX);
+							if (rect.Left != rect.Right)
+								shift.X = Pull(shift.X, gridLine.Position - rect.Right, factor, ref _accamulateX);
 							break;
 						case Orientation.Horizontal:
 							shift.Y = Pull(shift.Y, gridLine.Position - rect.Top, factor, ref _accamulateY);
-							shift.Y = Pull(shift.Y, gridLine.Position - rect.Bottom, factor, ref _accamulateY);
+							if (rect.Top != rect.Bottom)
+								shift.Y = Pull(shift.Y, gridLine.Position - rect.Bottom, factor, ref _accamulateY);
 							break;
 					}
 			return shift;

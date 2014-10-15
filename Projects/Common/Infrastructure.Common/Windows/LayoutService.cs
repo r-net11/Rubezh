@@ -22,6 +22,17 @@ namespace Infrastructure.Common.Windows
 		{
 			get { return ShellViewModel == null ? false : ShellViewModel.IsRightPanelFocused; }
 		}
+		public void SetRightPanelVisible(bool isVisible)
+		{
+			if (ShellViewModel != null)
+				ShellViewModel.RightPanelVisible = isVisible;
+		}
+		public void SetLeftPanelVisible(bool isVisible)
+		{
+			if (ShellViewModel != null)
+				ShellViewModel.LeftPanelVisible = isVisible;
+		}
+
 
 		public void Show(ViewPartViewModel viewModel)
 		{

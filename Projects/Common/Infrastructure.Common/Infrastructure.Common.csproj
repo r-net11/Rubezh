@@ -179,6 +179,7 @@
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
+    <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
     <Compile Include="Services\Layout\LayoutPartDescriptionGroup.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />

@@ -2,11 +2,11 @@
 using System.ComponentModel;
 using System.Windows;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using Infrastructure;
-using Infrastructure.Client.Startup;
 
 namespace FireAdministrator
 {
@@ -33,7 +33,7 @@ namespace FireAdministrator
 				_bootstrapper = new Bootstrapper();
 				using (new DoubleLaunchLocker(SignalId, WaitId))
 					_bootstrapper.Initialize();
-                if (Application.Current != null && e.Args != null && e.Args.Length > 0)
+				if (Application.Current != null && e.Args != null && e.Args.Length > 0)
 				{
 					fileName = e.Args[0];
 					FileConfigurationHelper.LoadFromFile(fileName);

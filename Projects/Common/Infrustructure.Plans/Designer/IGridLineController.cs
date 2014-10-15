@@ -10,7 +10,10 @@ namespace Infrustructure.Plans.Designer
 		ObservableCollection<GridLine> GridLines { get; }
 		void Render(DrawingContext drawingContext);
 		void Invalidate();
+
+		Vector Pull(Point point);
+		Vector Pull(Rect rect);
+		Vector Pull(Vector shift, Rect rect);
 		void PullReset();
-		Vector PullRectangle(Vector shift, Rect rect);
 	}
 }

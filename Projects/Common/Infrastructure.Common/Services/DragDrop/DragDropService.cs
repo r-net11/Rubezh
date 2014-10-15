@@ -9,6 +9,7 @@ namespace Infrastructure.Common.Services.DragDrop
 	{
 		public event DragServiceEventHandler DragOver;
 		public event DragServiceEventHandler Drop;
+		public event DragCorrectionEventHandler DragCorrection;
 
 		public bool IsDragging { get; private set; }
 		private bool _dragHasLeftScope;
@@ -188,8 +189,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		}
 		private void DragScope_PreviewDragOver(object sender, DragEventArgs e)
 		{
-			if (_dragAdorner != null)
-				_dragAdorner.UpdatePosition(e.GetPosition(_dragScope));
+			UpdateAdornerPosition(new DragCorrectionEventArgs(e));
 		}
 		private void DragScope_DragOver(object sender, DragEventArgs e)
 		{
@@ -208,7 +208,7 @@ namespace Infrastructure.Common.Services.DragDrop
 				Drop(this, ee);
 				if (ee.Handled)
 				{
-					Mouse.OverrideCursor = null ;
+					Mouse.OverrideCursor = null;
 					StopDragSimulate(false);
 					e.Handled = true;
 				}
@@ -218,8 +218,7 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			if (IsDragging)
 			{
-				if (_dragAdorner != null)
-					_dragAdorner.UpdatePosition(e.GetPosition(_dragScope));
+				UpdateAdornerPosition(new DragCorrectionEventArgs(_dataObject, e));
 				Mouse.OverrideCursor = Cursors.No;
 				if (DragOver != null)
 				{
@@ -241,6 +240,16 @@ namespace Infrastructure.Common.Services.DragDrop
 			{
 				StopDragSimulate(true);
 				e.Handled = true;
+			}
+		}
+
+		private void UpdateAdornerPosition(DragCorrectionEventArgs e)
+		{
+			if (_dragAdorner != null)
+			{
+				if (DragCorrection != null)
+					DragCorrection(this, e);
+				_dragAdorner.UpdatePosition(e.GetPosition(_dragScope) + e.Correction);
 			}
 		}
 	}

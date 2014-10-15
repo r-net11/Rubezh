@@ -151,6 +151,7 @@ namespace VideoModule.ViewModels
 
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
+			ServiceFactory.Layout.SetRightPanelVisible(true);
 			var brush = PictureCacheSource.CameraPicture.GetDefaultBrush();
 			return new System.Windows.Shapes.Rectangle
 			{

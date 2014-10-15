@@ -34,15 +34,16 @@ namespace Infrastructure.Designer
 			Toolbox = new ToolboxViewModel(this);
 			ServiceFactoryBase.DragDropService.DragOver += OnDragServiceDragOver;
 			ServiceFactoryBase.DragDropService.Drop += OnDragServiceDrop;
+			ServiceFactoryBase.DragDropService.DragCorrection += OnDragServiceCorrection;
 			PainterCache.Initialize(ServiceFactoryBase.ContentService.GetBitmapContent, ServiceFactoryBase.ContentService.GetDrawing, ServiceFactoryBase.ContentService.GetVisual);
 			Width = 100;
 			Height = 100;
 			Focusable = false;
 			DesignerSurface.AllowDrop = true;
-			
+
 			var menuItem = DesignerCanvasHelper.BuildMenuItem(
-				"Вставить (Ctrl+V)", 
-				"pack://application:,,,/Controls;component/Images/BPaste.png", 
+				"Вставить (Ctrl+V)",
+				"pack://application:,,,/Controls;component/Images/BPaste.png",
 				PlanDesignerViewModel.PasteCommand
 			);
 			menuItem.CommandParameter = this;
@@ -104,13 +105,15 @@ namespace Infrastructure.Designer
 				//elementBase.SetDefault();
 				Point position = e.GetPosition(this);
 				elementBase.Position = position;
+				if (GridLineController != null)
+					elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
 				CreateDesignerItem(elementBase);
 				e.Handled = true;
 			}
 		}
 		private void OnDragServiceDragOver(object sender, DragServiceEventArgs e)
 		{
-			if (IsMouseInside)
+			if (IsMouseInside())
 			{
 				e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
 				if (e.Effects == DragDropEffects.Move)
@@ -123,7 +126,7 @@ namespace Infrastructure.Designer
 		}
 		private void OnDragServiceDrop(object sender, DragServiceEventArgs e)
 		{
-			if (IsMouseInside)
+			if (IsMouseInside())
 			{
 				var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 				if (elementBase != null)
@@ -132,19 +135,29 @@ namespace Infrastructure.Designer
 					//elementBase.SetDefault();
 					Point position = Mouse.GetPosition(this);
 					elementBase.Position = position;
+					if (GridLineController != null)
+						elementBase.Position += GridLineController.Pull(elementBase.GetRectangle());
 					CreateDesignerItem(elementBase);
 					e.Handled = true;
 				}
 				_startPoint = null;
 			}
 		}
-		private bool IsMouseInside
+		private void OnDragServiceCorrection(object sender, DragCorrectionEventArgs e)
 		{
-			get
+			if (GridLineController != null)
 			{
-				Point point = Mouse.GetPosition(this);
-				return PlanDesignerViewModel.IsNotEmpty && point.X > 0 && point.Y > 0 && point.X < ActualWidth && point.Y < ActualHeight;
+				var position = e.GetPosition(this);
+				var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
+				if (elementBase != null && IsMouseInside(position))
+					e.Correction = GridLineController.Pull(position) * Zoom;
 			}
+		}
+		private bool IsMouseInside(Point? point = null)
+		{
+			if (!point.HasValue)
+				point = Mouse.GetPosition(this);
+			return PlanDesignerViewModel.IsNotEmpty && point.Value.X > 0 && point.Value.Y > 0 && point.Value.X < ActualWidth && point.Value.Y < ActualHeight;
 		}
 
 		public override void BackgroundMouseDown(MouseButtonEventArgs e)

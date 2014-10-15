@@ -46,9 +46,9 @@ namespace Infrastructure.Common.Services.DragDrop
 			}
 			else
 			{
-				Child.PreviewDragLeave += new DragEventHandler(OnPreviewDragOver);
-				Child.PreviewDragEnter += new DragEventHandler(OnPreviewDragOver);
-				Child.PreviewDragOver += new DragEventHandler(OnPreviewDragOver);
+				Child.PreviewDragLeave -= new DragEventHandler(OnPreviewDragOver);
+				Child.PreviewDragEnter -= new DragEventHandler(OnPreviewDragOver);
+				Child.PreviewDragOver -= new DragEventHandler(OnPreviewDragOver);
 			}
 		}
 

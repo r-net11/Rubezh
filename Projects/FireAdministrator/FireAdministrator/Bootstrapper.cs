@@ -2,17 +2,17 @@
 using System.Windows;
 using Common;
 using FireAdministrator.ViewModels;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
-using FiresecAPI;
-using Infrastructure.Client.Startup;
 
 namespace FireAdministrator
 {

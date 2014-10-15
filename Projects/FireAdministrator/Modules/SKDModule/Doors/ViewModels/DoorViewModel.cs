@@ -148,6 +148,7 @@ namespace SKDModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
+			ServiceFactory.Layout.SetRightPanelVisible(true);
 			var brush = PictureCacheSource.DoorPicture.GetDefaultBrush();
 			return new Rectangle
 			{

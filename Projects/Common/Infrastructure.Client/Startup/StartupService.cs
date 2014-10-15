@@ -1,16 +1,13 @@
 ﻿using System;
-using FiresecAPI;
-using Common;
+using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Client.Startup.ViewModels;
 using Infrastructure.Common.Windows;
-using System.Windows.Threading;
-using System.Windows.Media;
-using System.IO;
-using System.Threading.Tasks;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Startup
@@ -46,7 +43,7 @@ namespace Infrastructure.Client.Startup
 			var splashThread = new Thread(new ParameterizedThreadStart(InternalThreadEntryPoint));
 			splashThread.SetApartmentState(ApartmentState.STA);
 			splashThread.IsBackground = true;
-            splashThread.Name = "Startup Service Thread";
+			splashThread.Name = "Startup Service Thread";
 			splashThread.Start();
 			_syncEvent.WaitOne();
 			CloseSplashImage();
@@ -70,8 +67,8 @@ namespace Infrastructure.Client.Startup
 			var result = _viewModel.PerformLogin(login, password);
 			if (result)
 			{
-                Login = ((StartupLoginViewModel)_viewModel.Content).UserName;
-                Password = ((StartupLoginViewModel)_viewModel.Content).Password;
+				Login = ((StartupLoginViewModel)_viewModel.Content).UserName;
+				Password = ((StartupLoginViewModel)_viewModel.Content).Password;
 			}
 			else
 				Close();
@@ -79,8 +76,8 @@ namespace Infrastructure.Client.Startup
 		}
 		public void ShowLoading(string title, int stepCount = 1)
 		{
-            ApplicationService.DoEvents();
-            _viewModel.ShowLoading(title, stepCount);
+			ApplicationService.DoEvents();
+			_viewModel.ShowLoading(title, stepCount);
 			ApplicationService.DoEvents();
 		}
 		public void DoStep(string text)
@@ -107,8 +104,8 @@ namespace Infrastructure.Client.Startup
 		{
 			_viewModel = new StartupViewModel(_clientType);
 			_viewModel.Closed += new EventHandler(StartupClosed);
-            MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
-            _syncEvent.Set();
+			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
+			_syncEvent.Set();
 			DialogService.ShowModalWindow(_viewModel);
 			ReleaseResources();
 		}

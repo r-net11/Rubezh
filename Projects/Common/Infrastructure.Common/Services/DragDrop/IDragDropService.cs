@@ -17,5 +17,6 @@ namespace Infrastructure.Common.Services.DragDrop
 		void StopDragSimulate(bool cancel = true);
 		event DragServiceEventHandler DragOver;
 		event DragServiceEventHandler Drop;
+		event DragCorrectionEventHandler DragCorrection;
 	}
 }

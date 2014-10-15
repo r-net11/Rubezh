@@ -214,7 +214,7 @@ namespace Infrustructure.Plans.Designer
 					DesignerCanvas.BeginChange();
 				IsMoved = true;
 				if (DesignerCanvas.GridLineController != null)
-					shift = DesignerCanvas.GridLineController.PullRectangle(shift, Element.GetRectangle());
+					shift = DesignerCanvas.GridLineController.Pull(shift, Element.GetRectangle());
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
 					//var rect = designerItem.ContentBounds;

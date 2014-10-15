@@ -9,7 +9,10 @@ namespace Infrastructure.Common.Windows
 		void Close();
 		void ShowToolbar(BaseViewModel model);
 		void ShowFooter(BaseViewModel model);
+
 		void ShowRightContent(RightContentViewModel model);
 		bool IsRightPanelFocused { get; }
+		void SetRightPanelVisible(bool isVisible);
+		void SetLeftPanelVisible(bool isVisible);
 	}
 }

@@ -45,6 +45,16 @@ namespace FireAdministrator
 			get { return ApplicationLayoutService.IsRightPanelFocused; }
 		}
 
+		public void SetRightPanelVisible(bool isVisible)
+		{
+			ApplicationLayoutService.SetRightPanelVisible(isVisible);
+		}
+
+		public void SetLeftPanelVisible(bool isVisible)
+		{
+			ApplicationLayoutService.SetLeftPanelVisible(isVisible);
+		}
+
 		#endregion
 	}
 }
