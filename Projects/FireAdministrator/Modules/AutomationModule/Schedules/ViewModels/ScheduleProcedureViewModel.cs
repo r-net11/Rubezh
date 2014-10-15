@@ -77,13 +77,13 @@ namespace AutomationModule.ViewModels
 			argument.ExplicitType = variable.ExplicitType;
 			argument.EnumType = variable.EnumType;
 			argument.ObjectType = variable.ObjectType;
-			PropertyCopy.Copy(variable.DefaultExplicitValue, argument.ExplicitValue);
+			PropertyCopy.Copy(variable.ExplicitValue, argument.ExplicitValue);
 			argument.ExplicitValues = new List<ExplicitValue>();
-			foreach (var defaultExplicitValues in variable.DefaultExplicitValues)
+			foreach (var explicitValue in variable.ExplicitValues)
 			{
-				var explicitValue = new ExplicitValue();
-				PropertyCopy.Copy(defaultExplicitValues, explicitValue);
-				argument.ExplicitValues.Add(explicitValue);
+				var newExplicitValue = new ExplicitValue();
+				PropertyCopy.Copy(explicitValue, newExplicitValue);
+				argument.ExplicitValues.Add(newExplicitValue);
 			}
 			return argument;
 		}

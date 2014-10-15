@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract]
+	[DataContract, Serializable]
 	public class ControlCameraArguments
 	{
 		public ControlCameraArguments()

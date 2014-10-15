@@ -38,7 +38,7 @@ namespace AutomationModule.ViewModels
 				SelectedExplicitType = explicitTypeViewModel.GetAllChildren().LastOrDefault();
 				if (SelectedExplicitType != null) SelectedExplicitType.ExpandToThis();
 			}
-			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.DefaultExplicitValue, variable.DefaultExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
+			ExplicitValuesViewModel = new ExplicitValuesViewModel(variable.ExplicitValue, variable.ExplicitValues, variable.IsList, variable.ExplicitType, variable.EnumType, variable.ObjectType);
 			Name = variable.Name;
 			IsEditMode = true;
 			IsReference = variable.IsReference;
@@ -114,9 +114,9 @@ namespace AutomationModule.ViewModels
 			Variable.ExplicitType = SelectedExplicitType.ExplicitType;
 			Variable.EnumType = SelectedExplicitType.EnumType;
 			Variable.ObjectType = SelectedExplicitType.ObjectType;
-			Variable.DefaultExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
+			Variable.ExplicitValue = ExplicitValuesViewModel.ExplicitValue.ExplicitValue;
 			foreach(var explicitValue in ExplicitValuesViewModel.ExplicitValues)
-				Variable.DefaultExplicitValues.Add(explicitValue.ExplicitValue);
+				Variable.ExplicitValues.Add(explicitValue.ExplicitValue);
 			return base.Save();
 		}
 

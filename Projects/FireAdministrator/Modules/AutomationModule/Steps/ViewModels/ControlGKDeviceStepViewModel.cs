@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 			ControlGkDeviceArguments = stepViewModel.Step.ControlGKDeviceArguments;
 			GKDeviceArgument = new ArgumentViewModel(ControlGkDeviceArguments.GKDeviceArgument, stepViewModel.Update, null);
 			GKDeviceArgument.UpdateVariableScopeHandler = Update;
-			GKDeviceArgument.ExplicitValue.UpdateObjectHandler = Update;
+			GKDeviceArgument.ExplicitValue.UpdateObjectHandler += Update;
 			Commands = new ObservableCollection<CommandType>();
 		}
 

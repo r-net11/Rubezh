@@ -5,61 +5,57 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Automation;
-using FiresecService.Processor;
+using Infrastructure.Common.Video.RVI_VSS;
 
-namespace FiresecService.Automation
+namespace FiresecService.Processor
 {
-	public class ProcedureThread
+	public partial class ProcedureThread
 	{
+		public DateTime StartTime { get; private set; }
+		public bool IsAlive { get; set; }
+		public int TimeOut { get; private set; }
+		static Func<Procedure, List<Argument>, Procedure, List<Variable>, ProcedureThread> Run { get; set; }
+		AutoResetEvent AutoResetEvent { get; set; }
 		BackgroundWorker Thread { get; set; }
-		Procedure Procedure { get; set; }
-		private DateTime StartTime { get; set; }
-		static Func<Procedure, List<Argument>, Procedure, List<Variable>, bool> Run { get; set; }
+		ProcedureThread ChildProcedureThread { get; set; }
 
-		public ProcedureThread(Procedure procedure, List<Argument> arguments, Func<Procedure, List<Argument>, Procedure, List<Variable>, bool> run)
+		public ProcedureThread(Procedure procedure, List<Argument> arguments, Procedure callingProcedure, Func<Procedure, List<Argument>, Procedure, List<Variable>, ProcedureThread> run)
 		{
+			IsAlive = true;
+			TimeOut = procedure.TimeOut;
 			Run = run;
-			Procedure = procedure;
+			WinFormsPlayers = new List<WinFormsPlayer>();
+			AutoResetEvent = new AutoResetEvent(false);
+			Procedure = new Procedure();
+			Procedure = ObjectCopier.Clone(procedure);
+			InitializeArguments(Procedure, arguments, callingProcedure);
 			Thread = new BackgroundWorker();
-			Thread.DoWork += (sender, args) => RunInThread(procedure, arguments);
-			Thread.RunWorkerCompleted += (sender, args) => Complete();
+			Thread.DoWork += (sender, args) => RunInThread(Procedure, arguments);
+			Thread.RunWorkerCompleted += (sender, args) => Stop();
 		}
 
 		public void Start()
 		{
 			StartTime = DateTime.Now;
 			Thread.RunWorkerAsync();
-			if (Procedure.TimeOut > 0)
-				new Thread(CheckTimeOut).Start();
 		}
 
-		void CheckTimeOut()
+		void Stop()
 		{
-			var AutoResetEvent = new AutoResetEvent(false);
-			while (true)
+			IsAlive = ChildProcedureThread != null && ChildProcedureThread.IsAlive;
+		}
+
+		bool _isTimeOut;
+		public bool IsTimeOut
+		{
+			get { return _isTimeOut; }
+			set
 			{
-				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
-				{
-					return;
-				}
-				if ((int) ((DateTime.Now - StartTime).TotalSeconds) >= Procedure.TimeOut)
-				{
-					isTimeOut = true;
-					break;
-				}
+				_isTimeOut = value;
+				if (ChildProcedureThread != null)
+					ChildProcedureThread.IsTimeOut = value;
 			}
 		}
-
-		void Complete()
-		{
-			foreach (var argument in Procedure.Arguments)
-			{
-				argument.ExplicitValue = new ExplicitValue();
-				argument.ExplicitValues = new List<ExplicitValue>();
-			}
-		}
-
-		bool isTimeOut;
 		public bool RunInThread(Procedure procedure, List<Argument> arguments)
 		{
 			try
@@ -76,14 +72,13 @@ namespace FiresecService.Automation
 
 		Result RunStep(ProcedureStep procedureStep, Procedure procedure)
 		{
-			if (isTimeOut)
+			if (IsTimeOut)
 				return Result.Normal; 
-			ProcedureHelper.Procedure = procedure;
-			var allVariables = ProcedureHelper.GetAllVariables(procedure);
+			var allVariables = GetAllVariables(procedure);
 			switch (procedureStep.ProcedureStepType)
 			{
 				case ProcedureStepType.If:
-					if (ProcedureHelper.Compare(procedureStep))
+					if (Compare(procedureStep))
 					{
 						foreach (var childStep in procedureStep.Children[0].Children)
 						{
@@ -107,9 +102,9 @@ namespace FiresecService.Automation
 					}
 					break;
 				case ProcedureStepType.While:
-					while (ProcedureHelper.Compare(procedureStep))
+					while (Compare(procedureStep))
 					{
-						if (isTimeOut)
+						if (IsTimeOut)
 							return Result.Normal; 
 						foreach (var childStep in procedureStep.Children[0].Children)
 						{
@@ -124,11 +119,11 @@ namespace FiresecService.Automation
 					}
 					break;
 				case ProcedureStepType.GetObjectProperty:
-					ProcedureHelper.GetObjectProperty(procedureStep);
+					GetObjectProperty(procedureStep);
 					break;
 
 				case ProcedureStepType.Arithmetics:
-					ProcedureHelper.Calculate(procedureStep);
+					Calculate(procedureStep);
 					break;
 
 				case ProcedureStepType.Foreach:
@@ -139,7 +134,7 @@ namespace FiresecService.Automation
 						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
 							if (itemVariable != null)
-								ProcedureHelper.SetValue(itemVariable, ProcedureHelper.GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
+								SetValue(itemVariable, GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
 								var result = RunStep(childStep, procedure);
@@ -156,16 +151,16 @@ namespace FiresecService.Automation
 				case ProcedureStepType.For:
 					var forArguments = procedureStep.ForArguments;
 					var indexerVariable = allVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
-					var initialValue = ProcedureHelper.GetValue<int>(forArguments.InitialValueArgument);
-					var value = ProcedureHelper.GetValue<int>(forArguments.ValueArgument);
-					var iterator = ProcedureHelper.GetValue<int>(forArguments.IteratorArgument);
+					var initialValue = GetValue<int>(forArguments.InitialValueArgument);
+					var value = GetValue<int>(forArguments.ValueArgument);
+					var iterator = GetValue<int>(forArguments.IteratorArgument);
 					if (indexerVariable != null)
 					{
-						var condition = ProcedureHelper.Compare(initialValue, value, forArguments.ConditionType);
+						var condition = Compare(initialValue, value, forArguments.ConditionType);
 						var currentIntValue = indexerVariable.ExplicitValue.IntValue;
 						for (indexerVariable.ExplicitValue.IntValue = initialValue; condition != null && condition.Value; )
 						{
-							if (isTimeOut)
+							if (IsTimeOut)
 								return Result.Normal;
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
@@ -181,7 +176,7 @@ namespace FiresecService.Automation
 									return Result.Exit;
 							}
 							indexerVariable.ExplicitValue.IntValue = indexerVariable.ExplicitValue.IntValue + iterator;
-							condition = ProcedureHelper.Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
+							condition = Compare(indexerVariable.ExplicitValue.IntValue, value, forArguments.ConditionType);
 						}
 						indexerVariable.ExplicitValue.IntValue = currentIntValue;
 					}
@@ -194,78 +189,78 @@ namespace FiresecService.Automation
 					break;
 
 				case ProcedureStepType.Pause:
-					ProcedureHelper.Pause(procedureStep);
+					Pause(procedureStep);
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					ProcedureHelper.AddJournalItem(procedureStep);
+					AddJournalItem(procedureStep);
 					break;
 
 				case ProcedureStepType.ShowMessage:
-					automationCallbackResult = ProcedureHelper.ShowMessage(procedureStep);
+					automationCallbackResult = ShowMessage(procedureStep);
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 					automationCallbackResult.IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
 
 				case ProcedureStepType.FindObjects:
-					ProcedureHelper.FindObjects(procedureStep);
+					FindObjects(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
-					ProcedureHelper.ControlGKDevice(procedureStep);
+					ControlGKDevice(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlCamera:
-					ProcedureHelper.ControlCamera(procedureStep);
+					ControlCamera(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					ProcedureHelper.ControlFireZone(procedureStep);
+					ControlFireZone(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
-					ProcedureHelper.ControlGuardZone(procedureStep);
+					ControlGuardZone(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlDirection:
-					ProcedureHelper.ControlDirection(procedureStep);
+					ControlDirection(procedureStep);
 					break;
 
 				case ProcedureStepType.ControlDoor:
-					ProcedureHelper.ControlDoor(procedureStep);
+					ControlDoor(procedureStep);
 					break;
 
 				case ProcedureStepType.ProcedureSelection:
 					{
 						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
 								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-						Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, procedure, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+						ChildProcedureThread = Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, procedure, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 					}
 					break;
 
 				case ProcedureStepType.IncrementValue:
-					ProcedureHelper.IncrementValue(procedureStep);
+					IncrementValue(procedureStep);
 					break;
 
 				case ProcedureStepType.SetValue:
-					ProcedureHelper.SetValue(procedureStep);
+					SetValue(procedureStep);
 					break;
 
 				case ProcedureStepType.Random:
-					ProcedureHelper.GetRandomValue(procedureStep);
+					GetRandomValue(procedureStep);
 					break;
 
 				case ProcedureStepType.ChangeList:
-					ProcedureHelper.ChangeList(procedureStep);
+					ChangeList(procedureStep);
 					break;
 
 				case ProcedureStepType.GetListCount:
-					ProcedureHelper.GetListCount(procedureStep);
+					GetListCount(procedureStep);
 					break;
 
 				case ProcedureStepType.GetListItem:
-					ProcedureHelper.GetListItem(procedureStep);
+					GetListItem(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:
@@ -286,6 +281,52 @@ namespace FiresecService.Automation
 			Break,
 			Continue,
 			Exit
+		}
+
+		public void InitializeArguments(Procedure procedure, List<Argument> arguments, Procedure callingProcedure)
+		{
+			int i = 0;
+			foreach (var variable in procedure.Arguments)
+			{
+				variable.ExplicitValues = new List<ExplicitValue>();
+				if (arguments.Count <= i)
+					break;
+				var argument = arguments[i];
+				if (argument == null)
+					break;
+				if (argument.VariableScope == VariableScope.ExplicitValue)
+				{
+					PropertyCopy.Copy(argument.ExplicitValue, variable.ExplicitValue);
+					foreach (var explicitVal in argument.ExplicitValues)
+					{
+						var newExplicitValue = new ExplicitValue();
+						PropertyCopy.Copy(explicitVal, newExplicitValue);
+						variable.ExplicitValues.Add(newExplicitValue);
+					}
+				}
+				else
+				{
+					var argumentVariable = GetAllVariables(callingProcedure).FirstOrDefault(x => x.Uid == argument.VariableUid);
+					if (argumentVariable == null)
+						continue;
+					if (argumentVariable.IsReference)
+					{
+						variable.ExplicitValue = argumentVariable.ExplicitValue;
+						variable.ExplicitValues = argumentVariable.ExplicitValues;
+					}
+					else
+					{
+						PropertyCopy.Copy(argumentVariable.ExplicitValue, variable.ExplicitValue);
+						foreach (var explicitVal in argumentVariable.ExplicitValues)
+						{
+							var newExplicitValue = new ExplicitValue();
+							PropertyCopy.Copy(explicitVal, newExplicitValue);
+							variable.ExplicitValues.Add(newExplicitValue);
+						}
+					}
+				}
+				i++;
+			}
 		}
 	}
 }

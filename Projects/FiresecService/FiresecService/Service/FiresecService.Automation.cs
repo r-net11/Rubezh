@@ -16,12 +16,9 @@ namespace FiresecService.Service
 			if (procedure != null)
 			{
 				var result = AutomationProcessorRunner.Run(procedure, args, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-				return new OperationResult<bool>() { Result = result };
+				return new OperationResult<bool> { Result = true };
 			}
-			else
-			{
-				return new OperationResult<bool>("Процедура не найдена");
-			}
+			return new OperationResult<bool>("Процедура не найдена");
 		}
 	}
 }

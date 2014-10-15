@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace FiresecService
 {
-	public static class AutomationProcessor
+	public static class ScheduleRunner
 	{
 		static int timeValidator;
 		static DateTime startTime;
@@ -18,7 +18,6 @@ namespace FiresecService
 		}
 
 		static Thread Thread;
-		static bool IsStopping = false;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
 		public static void Start()
@@ -31,7 +30,6 @@ namespace FiresecService
 
 		public static void Stop()
 		{
-			IsStopping = true;
 			if (AutoResetEvent != null)
 			{
 				AutoResetEvent.Set();
@@ -53,7 +51,6 @@ namespace FiresecService
 			AutoResetEvent = new AutoResetEvent(false);
 			while (true)
 			{
-				var shedules = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules;
 				//Trace.WriteLine("timeValidator " + timeValidator + " TimeDelta " + TimeDelta);
 				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 				{
@@ -61,7 +58,7 @@ namespace FiresecService
 				}
 
 				timeValidator++;
-				foreach (var schedule in shedules)
+				foreach (var schedule in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
 				{
 					if (timeValidator <= TimeDelta)
 					{
@@ -97,27 +94,23 @@ namespace FiresecService
 						((schedule.Hour == dateTime.Hour) || (schedule.Hour == -1)) &&
 						((schedule.Minute == dateTime.Minute) || (schedule.Minute == -1)) &&
 						((schedule.Second == dateTime.Second) || (schedule.Second == -1)));
-			else
-			{
-				var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second, 0);
-				var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
-				if (delta <= 0)
-					return false;
-				var period = schedule.PeriodDay * 24*3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
-				return (delta % period == 0);
-			}
+			var scheduleDateTime = new DateTime(schedule.Year, schedule.Month, schedule.Day, schedule.Hour, schedule.Minute, schedule.Second);
+			var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
+			if (delta < 0)
+				return false;
+			var period = schedule.PeriodDay * 24*3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
+			return (delta % period == 0);
 		}
 
 		static void RunProcedures(AutomationSchedule schedule)
 		{
-			if (!schedule.IsActive)
-				return;
-			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.IsActive))
-			{
-				var scheduleProcedure = schedule.ScheduleProcedures.FirstOrDefault(x => (x.ProcedureUid == procedure.Uid));
-				if (scheduleProcedure != null)
-					AutomationProcessorRunner.Run(procedure, scheduleProcedure.Arguments, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			}
+			if (schedule.IsActive)
+				foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+				{
+					var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+					if (procedure != null && procedure.IsActive)
+						AutomationProcessorRunner.Run(procedure, scheduleProcedure.Arguments, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+				}
 		}
 	}
 }

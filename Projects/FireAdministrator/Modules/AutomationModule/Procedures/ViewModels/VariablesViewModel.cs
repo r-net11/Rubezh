@@ -90,7 +90,7 @@ namespace AutomationModule.ViewModels
 			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);
+				PropertyCopy.Copy(variableDetailsViewModel.Variable, SelectedVariable.Variable);
 				//PropertyCopy.Copy<ExplicitValue, ExplicitValue>(variableDetailsViewModel.Variable.DefaultExplicitValue, SelectedVariable.Variable.DefaultExplicitValue);
 				//SelectedVariable.Variable.ExplicitValues = new List<ExplicitValue>(SelectedVariable.Variable.DefaultExplicitValues);
 				SelectedVariable.Update();

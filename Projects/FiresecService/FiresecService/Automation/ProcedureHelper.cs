@@ -9,20 +9,14 @@ using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
 using FiresecAPI.Journal;
-using System.Threading;
 
 namespace FiresecService.Processor
 {
-	public static class ProcedureHelper
+	public partial class ProcedureThread
 	{
-		static ProcedureHelper()
-		{
-			WinFormsPlayers = new List<WinFormsPlayer>();
-		}
+		public Procedure Procedure { get; set; }
 
-		static public Procedure Procedure { get; set; }
-
-		public static void AddJournalItem(ProcedureStep procedureStep)
+		public void AddJournalItem(ProcedureStep procedureStep)
 		{			
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
@@ -33,7 +27,7 @@ namespace FiresecService.Processor
 			Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
-		public static bool Compare(ProcedureStep procedureStep)
+		public bool Compare(ProcedureStep procedureStep)
 		{
 			var conditionArguments = procedureStep.ConditionArguments;
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
@@ -48,7 +42,7 @@ namespace FiresecService.Processor
 			return result;
 		}
 
-		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep)
+		public AutomationCallbackResult ShowMessage(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
 			var messageValue = GetValue<object>(procedureStep.ShowMessageArguments.MessageArgument);
@@ -56,7 +50,7 @@ namespace FiresecService.Processor
 			return automationCallbackResult;
 		}
 
-		public static void Calculate(ProcedureStep procedureStep)
+		public void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
 			object variable1;
@@ -134,7 +128,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static List<Variable> GetAllVariables(Procedure procedure)
+		public List<Variable> GetAllVariables(Procedure procedure)
 		{
 			var allVariables = new List<Variable>(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 			allVariables.AddRange(procedure.Variables);
@@ -142,7 +136,7 @@ namespace FiresecService.Processor
 			return allVariables;
 		}
 
-		public static void FindObjects(ProcedureStep procedureStep)
+		public void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
 			var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultArgument.VariableUid);
@@ -152,7 +146,7 @@ namespace FiresecService.Processor
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
 		}
 
-		public static void GetObjectProperty(ProcedureStep procedureStep)
+		public void GetObjectProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
 			var target = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
@@ -165,7 +159,7 @@ namespace FiresecService.Processor
 			SetValue(target, propertyValue);
 		}
 
-		static object GetPropertyValue(ref Guid itemUid, Property property, object item)
+		object GetPropertyValue(ref Guid itemUid, Property property, object item)
 		{
 			var propertyValue = new object();
 			if (item is GKDevice)
@@ -237,7 +231,7 @@ namespace FiresecService.Processor
 			return propertyValue;
 		}
 
-		static void InitializeItems(ref IEnumerable<object> items, ref Variable result)
+		void InitializeItems(ref IEnumerable<object> items, ref Variable result)
 		{
 			var explicitValues = new List<ExplicitValue>();
 			if (result.ObjectType == ObjectType.Device)
@@ -261,7 +255,7 @@ namespace FiresecService.Processor
 			result.ExplicitValues = explicitValues;
 		}
 
-		static object InitializeItem(Guid itemUid)
+		object InitializeItem(Guid itemUid)
 		{
 			var device = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var zone = GKManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == itemUid);
@@ -282,7 +276,7 @@ namespace FiresecService.Processor
 			return null;
 		}
 
-		static void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
+		void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
@@ -307,7 +301,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		static void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
+		void FindObjectsAnd(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
 			InitializeItems(ref items, ref result);
@@ -332,7 +326,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static bool? Compare(object param1, object param2, ConditionType conditionType)
+		public bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
 			if (param1.GetType() != param2.GetType())
 				return null;
@@ -372,7 +366,7 @@ namespace FiresecService.Processor
 			return null;
 		}
 
-		public static void ControlGKDevice(ProcedureStep procedureStep)
+		public void ControlGKDevice(ProcedureStep procedureStep)
 		{
 			var deviceUid = GetValue<Guid>(procedureStep.ControlGKDeviceArguments.GKDeviceArgument);
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
@@ -381,8 +375,8 @@ namespace FiresecService.Processor
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
-		public static List<WinFormsPlayer> WinFormsPlayers { get; private set; }
-		public static void ControlCamera(ProcedureStep procedureStep)
+		public List<WinFormsPlayer> WinFormsPlayers { get; private set; }
+		public void ControlCamera(ProcedureStep procedureStep)
 		{
 			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraArgument.ExplicitValue.UidValue);
 			if (camera == null)
@@ -408,7 +402,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static void ControlFireZone(ProcedureStep procedureStep)
+		public void ControlFireZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
 			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
@@ -420,7 +414,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.Zone);
 		}
 
-		public static void ControlGuardZone(ProcedureStep procedureStep)
+		public void ControlGuardZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
 			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
@@ -440,7 +434,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, GKBaseObjectType.GuardZone);
 		}
 
-		public static void ControlDirection(ProcedureStep procedureStep)
+		public void ControlDirection(ProcedureStep procedureStep)
 		{
 			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionArgument);
 			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
@@ -460,7 +454,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
 		}
 
-		public static void ControlDoor(ProcedureStep procedureStep)
+		public void ControlDoor(ProcedureStep procedureStep)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.DoorArgument.ExplicitValue.UidValue);
 			if (door == null)
@@ -475,7 +469,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
 		}
 
-		public static void ControlSKDZone(ProcedureStep procedureStep)
+		public void ControlSKDZone(ProcedureStep procedureStep)
 		{
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.SKDZoneArgument.ExplicitValue.UidValue);
 			if (sKDZone == null)
@@ -491,7 +485,7 @@ namespace FiresecService.Processor
 			//if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
 		}
 
-		public static void Pause(ProcedureStep procedureStep)
+		public void Pause(ProcedureStep procedureStep)
 		{
 			var pauseArguments = procedureStep.PauseArguments;
 			var pause = new TimeSpan();
@@ -510,10 +504,12 @@ namespace FiresecService.Processor
 					pause = TimeSpan.FromDays(GetValue<int>(pauseArguments.PauseArgument));
 					break;
 			}
-			Thread.Sleep(pause);
+			if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(pause.TotalSeconds)))
+			{
+			}
 		}
 
-		public static void IncrementValue(ProcedureStep procedureStep)
+		public void IncrementValue(ProcedureStep procedureStep)
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
 			var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
@@ -521,7 +517,7 @@ namespace FiresecService.Processor
 				variable.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.ExplicitValue.IntValue + 1 : variable.ExplicitValue.IntValue - 1;
 		}
 
-		public static void GetRandomValue(ProcedureStep procedureStep)
+		public void GetRandomValue(ProcedureStep procedureStep)
 		{
 			var randomArguments = procedureStep.RandomArguments;
 			var resultVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
@@ -529,7 +525,7 @@ namespace FiresecService.Processor
 			if (resultVariable != null) resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
-		public static void ChangeList(ProcedureStep procedureStep)
+		public void ChangeList(ProcedureStep procedureStep)
 		{
 			var changeListArguments = procedureStep.ChangeListArguments;
 			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
@@ -561,7 +557,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static void GetListCount(ProcedureStep procedureStep)
+		public void GetListCount(ProcedureStep procedureStep)
 		{
 			var getListCountArgument = procedureStep.GetListCountArgument;
 			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
@@ -570,7 +566,7 @@ namespace FiresecService.Processor
 				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
 		}
 
-		public static void GetListItem(ProcedureStep procedureStep)
+		public void GetListItem(ProcedureStep procedureStep)
 		{
 			var getListItemArgument = procedureStep.GetListItemArgument;
 			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
@@ -590,7 +586,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		static bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
+		bool ExplicitCompare(ExplicitValue explicitValue1, ExplicitValue explicitValue2, ExplicitType explicitType, EnumType enumType)
 		{
 			if (explicitType == ExplicitType.Integer)
 				return explicitValue1.IntValue == explicitValue2.IntValue;
@@ -614,7 +610,7 @@ namespace FiresecService.Processor
 			return false;
 		}
 
-		public static void SetValue(ProcedureStep procedureStep)
+		public void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
 			var sourceVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
@@ -632,7 +628,7 @@ namespace FiresecService.Processor
 					targetVariable.ExplicitValue);
 		}
 
-		public static void SetValue(Variable target, object propertyValue)
+		public void SetValue(Variable target, object propertyValue)
 		{
 			if (target.ExplicitType == ExplicitType.Integer)
 				target.ExplicitValue.IntValue = (int) propertyValue;
@@ -651,7 +647,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static T GetValue<T>(Argument variable)
+		public T GetValue<T>(Argument variable)
 		{
 			var variableScope = variable.VariableScope;
 			var explicitType = variable.ExplicitType;
@@ -670,7 +666,7 @@ namespace FiresecService.Processor
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
 		}
 
-		public static T GetValue<T> (ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		public T GetValue<T> (ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
 			var result = new object();
 			if (explicitType == ExplicitType.Boolean)

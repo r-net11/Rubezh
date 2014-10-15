@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract]
+	[DataContract, Serializable]
 	public class ProcedureSelectionArguments
 	{
 		public ProcedureSelectionArguments()

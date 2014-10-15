@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract]
+	[DataContract, Serializable]
 	public class ShowMessageArguments
 	{
 		public ShowMessageArguments()

@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
-using FiresecAPI;
-using FiresecService.Automation;
 
 namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
-		public static List<Thread> ProceduresThreads { get; private set; }
+		public static List<ProcedureThread> ProceduresThreads { get; private set; }
 
 		static AutomationProcessorRunner()
 		{
-			ProceduresThreads = new List<Thread>();
+			ProceduresThreads = new List<ProcedureThread>();
+			AutoResetEvent = new AutoResetEvent(false);
+			new Thread(CheckProcedureThread).Start();
 		}
 
 		public static void RunOnJournal(JournalItem journalItem)
@@ -49,16 +51,32 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static bool Run(Procedure procedure, List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables)
+		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables)
 		{
-			procedure.ResetVariables(arguments, callingProcedure, globalVariables);
-			var procedureThread = new ProcedureThread(procedure, arguments, Run);
+			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedure, Run);
 			procedureThread.Start();
-			//var procedureThread = new Thread(() => RunInThread(procedure, arguments));
-			//procedureThread.Start();
-			//ProceduresThreads.Add(procedureThread);
-			//ProceduresThreads = new List<Thread>(ProceduresThreads.FindAll(x => x.IsAlive));
-			return true;
+			ProceduresThreads.Add(procedureThread);
+			return procedureThread;
+		}
+
+		static AutoResetEvent AutoResetEvent { get; set; }
+		static void CheckProcedureThread()
+		{
+			while (true)
+			{
+				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+				{
+					return;
+				}
+				ProceduresThreads = new List<ProcedureThread>(ProceduresThreads.FindAll(x => x.IsAlive));
+				foreach (var procedureThread in ProceduresThreads)
+				{
+					if ((procedureThread.TimeOut > 0) && ((int) ((DateTime.Now - procedureThread.StartTime).TotalSeconds) >= procedureThread.TimeOut))
+					{
+						procedureThread.IsTimeOut = true;
+					}
+				}
+			}
 		}
 	}
 }
