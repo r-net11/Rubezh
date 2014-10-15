@@ -13,21 +13,37 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
-		<DataGrid Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
+		<DataGrid Grid.Column="0" CanUserSortColumns="True" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Источник">
+				<DataGridTemplateColumn Header="Источник" SortMemberPath="Source">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="{Binding ImageSource}" Width="16" Margin="1 0 0 0" />
-								<TextBlock Margin="2" Text="{Binding Source}" />
+								<TextBlock>
+									<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+										Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
+										<TextBlock Text="{Binding Source}"/>
+									</Hyperlink>
+								</TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
-				<DataGridTextColumn Header="Ошибка" Binding="{Binding Error}" Width="*" />
-				<DataGridTemplateColumn Header="Уровень" MinWidth="30" MaxWidth="200">
+				<DataGridTextColumn Header="Адрес" Binding="{Binding Address}" SortMemberPath="Address" />
+				<DataGridTemplateColumn Header="Ошибка" Width="*" SortMemberPath="Error">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock>
+								<Hyperlink  Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+									Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
+									<TextBlock Text="{Binding Error}"/>
+								</Hyperlink>
+							</TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Уровень" MinWidth="30" MaxWidth="200" SortMemberPath="ErrorLevel">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid Background="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}"

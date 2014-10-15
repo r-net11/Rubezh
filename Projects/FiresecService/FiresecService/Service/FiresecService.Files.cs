@@ -120,7 +120,7 @@ namespace FiresecService.Service
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			SKDProcessor.SetNewConfig();
-			AutomationProcessor.SetNewConfig();
+			ScheduleRunner.SetNewConfig();
 		}
 
 		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)

@@ -121,7 +121,7 @@
     <Compile Include="Automation\ProcedureThread.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GKPatchManager.cs" />
-    <Compile Include="Automation\AutomationProcessor.cs" />
+    <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\AutomationProcessorRunner.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />

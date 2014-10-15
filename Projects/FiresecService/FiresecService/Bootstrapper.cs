@@ -50,7 +50,7 @@ namespace FiresecService
 				SKDProcessor.Start();
 
 				UILogger.Log("Запуск автоматизации");
-				AutomationProcessor.Start();
+				ScheduleRunner.Start();
 
 				UILogger.Log("Готово");
 			}

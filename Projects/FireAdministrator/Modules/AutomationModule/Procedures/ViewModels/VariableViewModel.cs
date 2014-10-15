@@ -19,10 +19,10 @@ namespace AutomationModule.ViewModels
 			{
 				var description = "";
 				if (!Variable.IsList)
-					description = ProcedureHelper.GetStringValue(Variable.DefaultExplicitValue, Variable.ExplicitType, Variable.EnumType);
+					description = ProcedureHelper.GetStringValue(Variable.ExplicitValue, Variable.ExplicitType, Variable.EnumType);
 				else
 				{
-					foreach (var explicitValue in Variable.DefaultExplicitValues)
+					foreach (var explicitValue in Variable.ExplicitValues)
 					{
 						description += ProcedureHelper.GetStringValue(explicitValue, Variable.ExplicitType, Variable.EnumType) + ", ";
 					}

@@ -4,7 +4,7 @@ using FiresecAPI.GK;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract]
+	[DataContract, Serializable]
 	public class ControlGKDeviceArguments
 	{
 		public ControlGKDeviceArguments()

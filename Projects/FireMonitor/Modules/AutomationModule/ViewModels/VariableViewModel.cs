@@ -25,9 +25,9 @@ namespace AutomationModule.ViewModels
 		public VariableViewModel(Variable variable)
 		{
 			Variable = variable;
-			ExplicitValue = new ExplicitValueViewModel(variable.DefaultExplicitValue);
+			ExplicitValue = new ExplicitValueViewModel(variable.ExplicitValue);
 			ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
-			foreach (var explicitValue in variable.DefaultExplicitValues)
+			foreach (var explicitValue in variable.ExplicitValues)
 				ExplicitValues.Add(new ExplicitValueViewModel(explicitValue));
 			OnPropertyChanged(() => ExplicitValues);
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
@@ -123,7 +123,7 @@ namespace AutomationModule.ViewModels
 			if (ExplicitType == ExplicitType.Object)
 				ProcedureHelper.SelectObject(SelectedObjectType, explicitValueViewModel);
 			ExplicitValues.Add(explicitValueViewModel);
-			Variable.DefaultExplicitValues.Add(explicitValueViewModel.ExplicitValue);
+			Variable.ExplicitValues.Add(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 
@@ -131,7 +131,7 @@ namespace AutomationModule.ViewModels
 		void OnRemove(ExplicitValueViewModel explicitValueViewModel)
 		{
 			ExplicitValues.Remove(explicitValueViewModel);
-			Variable.DefaultExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
+			Variable.ExplicitValues.Remove(explicitValueViewModel.ExplicitValue);
 			OnPropertyChanged(() => ExplicitValues);
 		}
 

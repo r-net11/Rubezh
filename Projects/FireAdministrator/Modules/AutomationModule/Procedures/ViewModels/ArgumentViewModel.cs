@@ -138,7 +138,6 @@ namespace AutomationModule.ViewModels
 				else
 				{
 					variableDetailsViewModel.Variable.IsGlobal = true;
-					variableDetailsViewModel.Variable.ResetValue();
 					FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
 					GlobalVariablesViewModel.Current.GlobalVariables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
 				}

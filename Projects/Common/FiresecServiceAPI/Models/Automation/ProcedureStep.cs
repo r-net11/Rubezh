@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract]
+	[DataContract, Serializable]
 	public class ProcedureStep
 	{
 		public ProcedureStep()
