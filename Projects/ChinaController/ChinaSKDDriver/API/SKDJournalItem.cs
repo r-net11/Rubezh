@@ -21,5 +21,7 @@ namespace ChinaSKDDriverAPI
 		public string szPwd;
 		public int nAction;
 		public NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE emStatus;
+		public string szReaderID;
+		public string szDoorName;
 	}
 }

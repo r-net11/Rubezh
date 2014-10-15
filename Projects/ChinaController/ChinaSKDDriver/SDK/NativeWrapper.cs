@@ -669,6 +669,8 @@ namespace ChinaSKDDriverNativeApi
 			public string szCardNo;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szPwd;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szReaderID;
 		};
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -721,6 +723,75 @@ namespace ChinaSKDDriverNativeApi
 			public int nDoor;
 			public NET_TIME stuTime;
 			public NET_ACCESS_CTL_STATUS_TYPE emStatus;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_CHASSISINTRUDED_INFO
+		{
+			public int dwSize;
+			public int nAction;
+			public NET_TIME stuTime;
+			public int nChannelID;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szReaderID;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_OPEN_DOOR_GROUP_INFO
+		{
+			public int dwSize;
+			public int nChannelID;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_CAPTURE_FINGER_PRINT_INFO
+		{
+			public int dwSize;
+			public int nChannelID;
+			public NET_TIME stuTime;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szReaderID;
+			public int nPacketLen;
+			public int nPacketNum;
+			public IntPtr szFingerPrintInfo;
+		}
+
+		public enum NET_SENSE_METHOD
+		{
+			NET_SENSE_UNKNOWN = -1,		//Unknowed type
+			NET_SENSE_DOOR = 0,			//Door Contact
+			NET_SENSE_PASSIVEINFRA,		//Passive Infrared
+			NET_SENSE_GAS,				//Gase Induce)
+			NET_SENSE_SMOKING,			//Smoking Induce
+			NET_SENSE_WATER,			//Wwater Induce)
+			NET_SENSE_ACTIVEFRA,		//Initiative Infrared
+			NET_SENSE_GLASS,			//Glass Broken
+			NET_SENSE_EMERGENCYSWITCH,	//Emergency switch
+			NET_SENSE_SHOCK,			//Shock
+			NET_SENSE_DOUBLEMETHOD,		//Double Method(Infrare+Microwave)
+			NET_SENSE_THREEMETHOD,		//Three Method
+			NET_SENSE_TEMP,				//Temperature
+			NET_SENSE_HUMIDITY,			//Humidity
+			NET_SENSE_WIND,             //Wind
+			NET_SENSE_CALLBUTTON,		//Call button
+			NET_SENSE_GASPRESSURE,      //Gas Pressure
+			NET_SENSE_GASCONCENTRATION, //Gas Concentration
+			NET_SENSE_GASFLOW,          //Gas Flow
+			NET_SENSE_OTHER,			//Other
+			NET_SENSE_OIL,              //oil detectionЈ¬gasoline, diesel vehicles detection
+			NET_SENSE_MILEAGE,          //mileage detection
+			NET_SENSE_NUM,				//Number of enumeration type
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ALARM_INFO_EX2
+		{
+			public int dwSize;
+			public int nChannelID;
+			public int nAction;
+			public NET_TIME stuTime;
+			public NET_SENSE_METHOD emSenseType;
 		}
 
 		#endregion
