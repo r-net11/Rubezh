@@ -358,7 +358,6 @@
     <Compile Include="Events\ShowTimeIntervalsEvent.cs" />
     <Compile Include="Events\ShowVerificationEvent.cs" />
     <Compile Include="Events\ShowWeeklyIntervalsEvent.cs" />
-    <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
