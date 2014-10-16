@@ -6,9 +6,9 @@
 
 	<Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="200" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
         <XDataGrid Grid.Column="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
 			<DataGrid.Columns>
@@ -28,7 +28,7 @@
 		</XDataGrid>
 
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
-        <Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedSchedule}">
+        <Grid Grid.Column="2" DataContext="{Binding SelectedSchedule}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -38,7 +38,7 @@
                 <ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
                 <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
             </StackPanel>
-            <XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding IntervalParts}" SelectedItem="{Binding SelectedIntervalPart}">
+            <XDataGrid Grid.Row="1" ItemsSource="{Binding IntervalParts}" SelectedItem="{Binding SelectedIntervalPart}" Margin="0 2 0 0">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*" Header="Начало">
                         <DataGridTemplateColumn.CellTemplate>

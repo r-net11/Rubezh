@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 
 namespace FiresecService
 {
@@ -50,7 +51,7 @@ namespace FiresecService
 			}
 		}
 
-		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables)
+		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables, User user = null)
 		{
 			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables);
 			procedureThread.Start();

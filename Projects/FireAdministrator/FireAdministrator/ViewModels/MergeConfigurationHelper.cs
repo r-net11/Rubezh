@@ -318,8 +318,7 @@ namespace FireAdministrator.ViewModels
 			{
 				for (int i = 0; i < device.ZoneUIDs.Count; i++)
 				{
-					var zoneUID = device.ZoneUIDs[i];
-					device.ZoneUIDs[i] = GKZoneUIDs[zoneUID];
+					device.ZoneUIDs[i] = ReplaceUID(device.ZoneUIDs[i], GKZoneUIDs);
 				}
 				ReplaceDeviceLogic(device.DeviceLogic);
 				ReplaceDeviceLogic(device.NSLogic);
@@ -329,13 +328,26 @@ namespace FireAdministrator.ViewModels
 			{
 				foreach (var directionZone in direction.DirectionZones)
 				{
-					var zoneUID = directionZone.ZoneUID;
-					directionZone.ZoneUID = GKZoneUIDs[zoneUID];
+					directionZone.ZoneUID = ReplaceUID(directionZone.ZoneUID, GKZoneUIDs);
 				}
 				foreach (var directionDevice in direction.DirectionDevices)
 				{
-					var deviceUID = directionDevice.DeviceUID;
-					directionDevice.DeviceUID = GKDeviceUIDs[deviceUID];
+					directionDevice.DeviceUID = ReplaceUID(directionDevice.DeviceUID, GKDeviceUIDs);
+				}
+			}
+
+			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
+			{
+				for (int i = 0; i < guardZone.DeviceUIDs.Count; i++)
+				{
+					guardZone.DeviceUIDs[i] = ReplaceUID(guardZone.DeviceUIDs[i], GKDeviceUIDs);
+				}
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+				{
+					guardZoneDevice.DeviceUID = ReplaceUID(guardZoneDevice.DeviceUID, GKDeviceUIDs);
+					guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID = ReplaceUID(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID, GKCodeUIDs);
+					guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUID = ReplaceUID(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUID, GKCodeUIDs);
+					guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID = ReplaceUID(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID, GKCodeUIDs);
 				}
 			}
 
@@ -343,12 +355,34 @@ namespace FireAdministrator.ViewModels
 			{
 				for (int i = 0; i < pumpStation.NSDeviceUIDs.Count; i++)
 				{
-					var deviceUID = pumpStation.NSDeviceUIDs[i];
-					pumpStation.NSDeviceUIDs[i] = GKDeviceUIDs[deviceUID];
+					pumpStation.NSDeviceUIDs[i] = ReplaceUID(pumpStation.NSDeviceUIDs[i], GKDeviceUIDs);
 				}
 				ReplaceDeviceLogic(pumpStation.StartLogic);
 				ReplaceDeviceLogic(pumpStation.AutomaticOffLogic);
 				ReplaceDeviceLogic(pumpStation.StopLogic);
+			}
+
+			foreach (var mpt in GKDeviceConfiguration.MPTs)
+			{
+				foreach (var mptDevice in mpt.MPTDevices)
+				{
+					mptDevice.DeviceUID = ReplaceUID(mptDevice.DeviceUID, GKDeviceUIDs);
+				}
+				ReplaceDeviceLogic(mpt.StartLogic);
+			}
+
+			foreach (var delay in GKDeviceConfiguration.Delays)
+			{
+				delay.PumpStationUID = ReplaceUID(delay.PumpStationUID, GKPumpStationUIDs);
+				ReplaceDeviceLogic(delay.DeviceLogic);
+			}
+
+			foreach (var door in GKDeviceConfiguration.Doors)
+			{
+				door.EnterDeviceUID = ReplaceUID(door.EnterDeviceUID, GKDeviceUIDs);
+				door.ExitDeviceUID = ReplaceUID(door.ExitDeviceUID, GKDeviceUIDs);
+				door.LockDeviceUID = ReplaceUID(door.LockDeviceUID, GKDeviceUIDs);
+				door.LockControlDeviceUID = ReplaceUID(door.LockControlDeviceUID, GKDeviceUIDs);
 			}
 
 			foreach (var plan in PlansConfiguration.AllPlans)
@@ -487,23 +521,14 @@ namespace FireAdministrator.ViewModels
 			{
 				if (device.ZoneUID != Guid.Empty)
 				{
-					var zoneUID = device.ZoneUID;
-					device.ZoneUID = SKDZoneUIDs[zoneUID];
+					device.ZoneUID = ReplaceUID(device.ZoneUID, SKDZoneUIDs);
 				}
 			}
 
 			foreach (var door in SKDConfiguration.Doors)
 			{
-				if (door.InDeviceUID != Guid.Empty)
-				{
-					var inDeviceUID = door.InDeviceUID;
-					door.InDeviceUID = SKDDeviceUIDs[inDeviceUID];
-				}
-				if (door.OutDeviceUID != Guid.Empty)
-				{
-					var outDeviceUID = door.OutDeviceUID;
-					door.OutDeviceUID = SKDDeviceUIDs[outDeviceUID];
-				}
+				door.InDeviceUID = ReplaceUID(door.InDeviceUID, SKDDeviceUIDs);
+				door.OutDeviceUID = ReplaceUID(door.OutDeviceUID, SKDDeviceUIDs);
 			}
 
 			foreach (var plan in PlansConfiguration.AllPlans)
@@ -559,8 +584,17 @@ namespace FireAdministrator.ViewModels
 		Dictionary<Guid, Guid> SKDDoorUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> PlenElementUIDs = new Dictionary<Guid, Guid>();
 
+		Guid ReplaceUID(Guid uid, Dictionary<Guid, Guid> dictionary)
+		{
+			if (uid != Guid.Empty)
+			{
+				return dictionary[uid];
+			}
+			return Guid.Empty;
+		}
+
 		void ReorderNos<T>(List<T> models)
-	where T : ModelBase
+			where T : ModelBase
 		{
 			for (int i = 0; i < models.Count; i++)
 			{

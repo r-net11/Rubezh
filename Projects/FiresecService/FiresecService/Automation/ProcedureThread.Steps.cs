@@ -42,18 +42,19 @@ namespace FiresecService
 		void ShowMessage(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
+			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 			var messageValue = GetValue<object>(procedureStep.ShowMessageArguments.MessageArgument);
 			automationCallbackResult.Message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
-			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 			automationCallbackResult.IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow;
+			automationCallbackResult.ProcedureLayoutCollection = procedureStep.ShowMessageArguments.ProcedureLayoutCollection;
 			Service.FiresecService.NotifyAutomation(automationCallbackResult);
 		}
 
 		static void PlaySound(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
-			automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;
 			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
+			automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;
 			Service.FiresecService.NotifyAutomation(automationCallbackResult);
 		}
 

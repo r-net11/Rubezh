@@ -10,11 +10,11 @@ namespace FiresecService.Service
 	{
 		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
 		{
-			ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
 			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)
 			{
-				var result = ProcedureRunner.Run(procedure, args, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
+				var result = ProcedureRunner.Run(procedure, args, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables, user);
 				return new OperationResult<bool> { Result = true };
 			}
 			return new OperationResult<bool>("Процедура не найдена");
