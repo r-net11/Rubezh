@@ -6,7 +6,7 @@ using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class Procedure : IPlanPresentable
 	{
 		public Procedure()
@@ -47,23 +47,8 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public int TimeOut { get; set; }
 
-		//public void ResetVariables(List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables) //TODO Remove
-		//{
-		//    foreach (var variable in Variables)
-		//        variable.ResetValue();
-		//    int i = 0;
-		//    foreach (var variable in Arguments)
-		//    {
-		//        if (arguments.Count <= i)
-		//            break;
-		//        var argument = arguments[i];
-		//        if (argument == null)
-		//            variable.ResetValue();
-		//        else
-		//            variable.CopyValue(argument, callingProcedure, globalVariables);
-		//        i++;
-		//    }
-		//}
+		[DataMember]
+		public bool IsSync { get; set; }
 
 		#region IIdentity Members
 

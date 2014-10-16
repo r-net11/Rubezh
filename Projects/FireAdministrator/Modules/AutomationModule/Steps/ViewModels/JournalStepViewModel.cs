@@ -12,7 +12,7 @@ namespace AutomationModule.ViewModels
 		public JournalStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			JournalArguments = stepViewModel.Step.JournalArguments;
-			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, null, stepViewModel.Update);
+			MessageArgument = new ArgumentViewModel(JournalArguments.MessageArgument, stepViewModel.Update, null);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
 		}
