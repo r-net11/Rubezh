@@ -15,14 +15,14 @@ namespace FireMonitor.Layout.ViewModels
 			LayoutPart = layoutPart;
 			LayoutPartPresenter = layoutPartPresenter;
 			Content = LayoutPartPresenter.CreateContent(LayoutPart.Properties);
-            ImageSource = LayoutPartPresenter.IconSource;
-            Title = LayoutPart.Title ?? LayoutPartPresenter.Name;
-            if (Content is ILayoutPartContent)
-            {
-                var layoutPartContent =(ILayoutPartContent)Content;
-                layoutPartContent.TitleChanged += (s, e) => Title = layoutPartContent.Title;
-                layoutPartContent.ImageChanged += (s, e) => ImageSource = layoutPartContent.ImageSource;
-            }
+			IconSource = LayoutPartPresenter.IconSource;
+			Title = LayoutPart.Title ?? LayoutPartPresenter.Name;
+			if (Content is ILayoutPartContent)
+			{
+				var layoutPartContent = (ILayoutPartContent)Content;
+				layoutPartContent.TitleChanged += (s, e) => Title = layoutPartContent.Title;
+				layoutPartContent.IconChanged += (s, e) => IconSource = layoutPartContent.IconSource;
+			}
 		}
 
 		public Guid UID
@@ -30,27 +30,27 @@ namespace FireMonitor.Layout.ViewModels
 			get { return LayoutPart.UID; }
 		}
 		public BaseViewModel Content { get; private set; }
-        
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set
-            {
-                _title = value;
-                OnPropertyChanged(() => Title);
-            }
-        }
-        private string _imageSource;
-        public string ImageSource
-        {
-            get { return _imageSource; }
-            set
-            {
-                _imageSource = value;
-                OnPropertyChanged(() => ImageSource);
-            }
-        }
-        
+
+		private string _title;
+		public string Title
+		{
+			get { return _title; }
+			set
+			{
+				_title = value;
+				OnPropertyChanged(() => Title);
+			}
+		}
+		private string _iconSource;
+		public string IconSource
+		{
+			get { return _iconSource; }
+			set
+			{
+				_iconSource = value;
+				OnPropertyChanged(() => IconSource);
+			}
+		}
+
 	}
 }

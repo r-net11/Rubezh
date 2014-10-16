@@ -20,22 +20,22 @@ using System.Windows.Data;
 
 namespace Xceed.Wpf.AvalonDock.Converters
 {
-    [ValueConversion(typeof(object), typeof(Visibility))] 
-    public class NullToVisibilityConverter : IValueConverter 
-    { 
+	[ValueConversion(typeof(object), typeof(Visibility))]
+	public class NullToVisibilityConverter : IValueConverter
+	{
 
-        #region IValueConverter Members 
-        
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return value == null ? Visibility.Collapsed : Visibility.Visible;
-        }
+		#region IValueConverter Members
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) 
-        { 
-            throw new ArgumentException("Invalid argument/return type. Expected argument: Visibility and return type: bool"); 
-        } 
-        
-        #endregion 
-    } 
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			return value == null ? Visibility.Collapsed : Visibility.Visible;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new ArgumentException("Invalid argument/return type. Expected argument: Visibility and return type: bool");
+		}
+
+		#endregion
+	}
 }

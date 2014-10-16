@@ -5,8 +5,8 @@
 	<avalonDockConverters:AnchorSideToOrientationConverter x:Key="AnchorSideToOrientationConverter" />
 	<avalonDockConverters:AnchorSideToAngleConverter x:Key="AnchorSideToAngleConverter" />
 	<avalonDockConverters:NullToDoNothingConverter x:Key="NullToDoNothingConverter" />
-    <avalonDockConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    <avalonDockConverters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
+	<avalonDockConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+	<avalonDockConverters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
 	<avalonDockConverters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
 	<converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 	<SolidColorBrush x:Key="PanelBackground" Color="#FFF9F9F9" />
@@ -17,7 +17,7 @@
 				<Image Width="16" Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform" />
 				<TextBlock Margin="4,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
 			</StackPanel>
-            <TextBlock VerticalAlignment="Center" Text="{Binding Description}" TextTrimming="CharacterEllipsis" Visibility="{Binding Description, Converter={StaticResource NullToVisibilityConverter}}" />
+			<TextBlock VerticalAlignment="Center" Text="{Binding Description}" TextTrimming="CharacterEllipsis" Visibility="{Binding Description, Converter={StaticResource NullToVisibilityConverter}}" />
 		</StackPanel>
 	</ToolTip>
 
@@ -106,10 +106,7 @@
 								<Image Source="/Controls;component/Layout/Images/PinDocMenu.png" />
 							</avalonDockControls:DropDownButton>
 						</Grid>
-						<Border x:Name="ContentPanel" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-								Background="{TemplateBinding Background}"
-								BorderBrush="{TemplateBinding Background}"
-								BorderThickness="0" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Cycle">
+						<Border x:Name="ContentPanel" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding Background}" BorderThickness="0" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Cycle">
 							<ContentPresenter x:Name="PART_SelectedContentHost" Margin="0" ContentSource="SelectedContent" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</Border>
 					</Grid>
