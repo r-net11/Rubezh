@@ -7,7 +7,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecService.Processor;
 using SKDDriver;
 
 namespace FiresecService
@@ -143,7 +142,7 @@ namespace FiresecService
 			}
 
 			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdStates);
-			AutomationProcessorRunner.RunOnStateChanged();
+			ProcedureRunner.RunOnStateChanged();
 		}
 
 		static List<XStateClass> GetZoneStateClasses(SKDZone zone)

@@ -23,6 +23,7 @@ namespace AutomationModule.ViewModels
 			Name = Procedure.Name;
 			Description = Procedure.Description;
 			IsActive = Procedure.IsActive;
+			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
 		}
 
@@ -59,6 +60,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		bool _isSync;
+		public bool IsSync
+		{
+			get { return _isSync; }
+			set
+			{
+				_isSync = value;
+				OnPropertyChanged(() => IsSync);
+			}
+		}
+
 		int _timeOut;
 		public int TimeOut
 		{
@@ -80,6 +92,7 @@ namespace AutomationModule.ViewModels
 			Procedure.Name = Name;
 			Procedure.Description = Description;
 			Procedure.IsActive = IsActive;
+			Procedure.IsSync = IsSync;
 			Procedure.TimeOut = TimeOut;
 			return true;
 		}

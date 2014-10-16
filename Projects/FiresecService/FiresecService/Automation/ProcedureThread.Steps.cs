@@ -7,16 +7,13 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Service;
-using Infrastructure.Common.Video.RVI_VSS;
 using FiresecAPI.Journal;
 
-namespace FiresecService.Processor
+namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
-		public Procedure Procedure { get; set; }
-
-		public void AddJournalItem(ProcedureStep procedureStep)
+		void AddJournalItem(ProcedureStep procedureStep)
 		{			
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
@@ -27,7 +24,7 @@ namespace FiresecService.Processor
 			Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
-		public bool Compare(ProcedureStep procedureStep)
+		bool Compare(ProcedureStep procedureStep)
 		{
 			var conditionArguments = procedureStep.ConditionArguments;
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
@@ -42,20 +39,30 @@ namespace FiresecService.Processor
 			return result;
 		}
 
-		public AutomationCallbackResult ShowMessage(ProcedureStep procedureStep)
+		void ShowMessage(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
 			var messageValue = GetValue<object>(procedureStep.ShowMessageArguments.MessageArgument);
 			automationCallbackResult.Message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
-			return automationCallbackResult;
+			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
+			automationCallbackResult.IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow;
+			Service.FiresecService.NotifyAutomation(automationCallbackResult);
 		}
 
-		public void Calculate(ProcedureStep procedureStep)
+		static void PlaySound(ProcedureStep procedureStep)
+		{
+			var automationCallbackResult = new AutomationCallbackResult();
+			automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;
+			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
+			Service.FiresecService.NotifyAutomation(automationCallbackResult);
+		}
+
+		void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
 			object variable1;
 			object variable2;
-			var resultVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == arithmeticArguments.ResultArgument.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == arithmeticArguments.ResultArgument.VariableUid);
 			switch (arithmeticArguments.ExplicitType)
 			{
 				case ExplicitType.Boolean:
@@ -128,28 +135,20 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public List<Variable> GetAllVariables(Procedure procedure)
-		{
-			var allVariables = new List<Variable>(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			allVariables.AddRange(procedure.Variables);
-			allVariables.AddRange(procedure.Arguments);
-			return allVariables;
-		}
-
-		public void FindObjects(ProcedureStep procedureStep)
+		void FindObjects(ProcedureStep procedureStep)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
-			var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == findObjectArguments.ResultArgument.VariableUid);
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == findObjectArguments.ResultArgument.VariableUid);
 			if (findObjectArguments.JoinOperator == JoinOperator.Or)
 				FindObjectsOr(variable, findObjectArguments.FindObjectConditions);
 			else
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
 		}
 
-		public void GetObjectProperty(ProcedureStep procedureStep)
+		void GetObjectProperty(ProcedureStep procedureStep)
 		{
 			var getObjectPropertyArguments = procedureStep.GetObjectPropertyArguments;
-			var target = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
+			var target = AllVariables.FirstOrDefault(x => x.Uid == getObjectPropertyArguments.ResultArgument.VariableUid);
 			var objectUid = GetValue<Guid>(getObjectPropertyArguments.ObjectArgument);
 			var item = InitializeItem(objectUid);
 			if (item == null)
@@ -326,7 +325,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public bool? Compare(object param1, object param2, ConditionType conditionType)
+		bool? Compare(object param1, object param2, ConditionType conditionType)
 		{
 			if (param1.GetType() != param2.GetType())
 				return null;
@@ -366,7 +365,7 @@ namespace FiresecService.Processor
 			return null;
 		}
 
-		public void ControlGKDevice(ProcedureStep procedureStep)
+		void ControlGKDevice(ProcedureStep procedureStep)
 		{
 			var deviceUid = GetValue<Guid>(procedureStep.ControlGKDeviceArguments.GKDeviceArgument);
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUid);
@@ -375,34 +374,10 @@ namespace FiresecService.Processor
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
-		public List<WinFormsPlayer> WinFormsPlayers { get; private set; }
-		public void ControlCamera(ProcedureStep procedureStep)
-		{
-			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraArgument.ExplicitValue.UidValue);
-			if (camera == null)
-				return;
-			if (procedureStep.ControlCameraArguments.CameraCommandType == CameraCommandType.StartRecord)
-			{
-				if (WinFormsPlayers.Any(x => x.Camera == camera))
-					return;
-				var winFormsPlayer = new WinFormsPlayer();
-				winFormsPlayer.Camera = camera;
-				winFormsPlayer.Connect(camera);
-				if (winFormsPlayer.StartRecord(camera, camera.ChannelNumber))
-					WinFormsPlayers.Add(winFormsPlayer);
-			}
-			else
-			{
-				var winFormsPlayer = WinFormsPlayers.FirstOrDefault(x => x.Camera == camera);
-				if (winFormsPlayer != null)
-				{
-					winFormsPlayer.StopRecord();
-					WinFormsPlayers.Remove(winFormsPlayer);
-				}
-			}
-		}
+		void ControlCamera(ProcedureStep procedureStep) // TODO: Waiting WCF from RVI_VSS
+		{ }
 
-		public void ControlFireZone(ProcedureStep procedureStep)
+		void ControlFireZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);
 			var zoneCommandType = procedureStep.ControlGKFireZoneArguments.ZoneCommandType;
@@ -414,7 +389,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.Zone);
 		}
 
-		public void ControlGuardZone(ProcedureStep procedureStep)
+		void ControlGuardZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKGuardZoneArguments.GKGuardZoneArgument);
 			var guardZoneCommandType = procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType;
@@ -434,7 +409,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, GKBaseObjectType.GuardZone);
 		}
 
-		public void ControlDirection(ProcedureStep procedureStep)
+		void ControlDirection(ProcedureStep procedureStep)
 		{
 			var directionUid = GetValue<Guid>(procedureStep.ControlDirectionArguments.DirectionArgument);
 			var directionCommandType = procedureStep.ControlDirectionArguments.DirectionCommandType;
@@ -454,7 +429,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(directionUid, GKBaseObjectType.Direction);
 		}
 
-		public void ControlDoor(ProcedureStep procedureStep)
+		void ControlDoor(ProcedureStep procedureStep)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.DoorArgument.ExplicitValue.UidValue);
 			if (door == null)
@@ -469,7 +444,7 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
 		}
 
-		public void ControlSKDZone(ProcedureStep procedureStep)
+		void ControlSKDZone(ProcedureStep procedureStep)
 		{
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.SKDZoneArgument.ExplicitValue.UidValue);
 			if (sKDZone == null)
@@ -485,7 +460,7 @@ namespace FiresecService.Processor
 			//if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
 		}
 
-		public void Pause(ProcedureStep procedureStep)
+		void Pause(ProcedureStep procedureStep)
 		{
 			var pauseArguments = procedureStep.PauseArguments;
 			var pause = new TimeSpan();
@@ -509,26 +484,26 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public void IncrementValue(ProcedureStep procedureStep)
+		void IncrementValue(ProcedureStep procedureStep)
 		{
 			var incrementValueArguments = procedureStep.IncrementValueArguments;
-			var variable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == incrementValueArguments.ResultArgument.VariableUid);
 			if (variable != null)
 				variable.ExplicitValue.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? variable.ExplicitValue.IntValue + 1 : variable.ExplicitValue.IntValue - 1;
 		}
 
-		public void GetRandomValue(ProcedureStep procedureStep)
+		void GetRandomValue(ProcedureStep procedureStep)
 		{
 			var randomArguments = procedureStep.RandomArguments;
-			var resultVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
 			var maxValue = GetValue<int>(randomArguments.MaxValueArgument);
 			if (resultVariable != null) resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
-		public void ChangeList(ProcedureStep procedureStep)
+		void ChangeList(ProcedureStep procedureStep)
 		{
 			var changeListArguments = procedureStep.ChangeListArguments;
-			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
+			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == changeListArguments.ListArgument.VariableUid);
 			var variable = new Variable();
 			variable.ExplicitType = changeListArguments.ItemArgument.ExplicitType;
 			variable.EnumType = changeListArguments.ItemArgument.EnumType;
@@ -557,20 +532,20 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public void GetListCount(ProcedureStep procedureStep)
+		void GetListCount(ProcedureStep procedureStep)
 		{
 			var getListCountArgument = procedureStep.GetListCountArgument;
-			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
-			var countVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListCountArgument.CountArgument.VariableUid);
+			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.ListArgument.VariableUid);
+			var countVariable = AllVariables.FirstOrDefault(x => x.Uid == getListCountArgument.CountArgument.VariableUid);
 			if ((countVariable != null) && (listVariable != null))
 				countVariable.ExplicitValue.IntValue = listVariable.ExplicitValues.Count;
 		}
 
-		public void GetListItem(ProcedureStep procedureStep)
+		void GetListItem(ProcedureStep procedureStep)
 		{
 			var getListItemArgument = procedureStep.GetListItemArgument;
-			var listVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
-			var itemVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
+			var listVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ListArgument.VariableUid);
+			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
 			if ((itemVariable != null) && (listVariable != null))
 			{
 				if(getListItemArgument.PositionType == PositionType.First)
@@ -610,11 +585,11 @@ namespace FiresecService.Processor
 			return false;
 		}
 
-		public void SetValue(ProcedureStep procedureStep)
+		void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
-			var sourceVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
-			var targetVariable = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == setValueArguments.TargetArgument.VariableUid);
+			var sourceVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.SourceArgument.VariableUid);
+			var targetVariable = AllVariables.FirstOrDefault(x => x.Uid == setValueArguments.TargetArgument.VariableUid);
 			if (targetVariable == null)
 				return;
 			if (setValueArguments.ExplicitType == ExplicitType.String)
@@ -628,7 +603,7 @@ namespace FiresecService.Processor
 					targetVariable.ExplicitValue);
 		}
 
-		public void SetValue(Variable target, object propertyValue)
+		void SetValue(Variable target, object propertyValue)
 		{
 			if (target.ExplicitType == ExplicitType.Integer)
 				target.ExplicitValue.IntValue = (int) propertyValue;
@@ -647,7 +622,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public T GetValue<T>(Argument variable)
+		T GetValue<T>(Argument variable)
 		{
 			var variableScope = variable.VariableScope;
 			var explicitType = variable.ExplicitType;
@@ -655,7 +630,7 @@ namespace FiresecService.Processor
 			var explicitValue = variable.ExplicitValue;
 			if (variableScope != VariableScope.ExplicitValue)
 			{
-				var argument = GetAllVariables(Procedure).FirstOrDefault(x => x.Uid == variable.VariableUid);
+				var argument = AllVariables.FirstOrDefault(x => x.Uid == variable.VariableUid);
 				if (argument != null)
 				{
 					explicitValue = argument.ExplicitValue;
@@ -666,7 +641,7 @@ namespace FiresecService.Processor
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
 		}
 
-		public T GetValue<T> (ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		T GetValue<T> (ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
 			var result = new object();
 			if (explicitType == ExplicitType.Boolean)

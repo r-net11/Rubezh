@@ -4,7 +4,7 @@ using FiresecAPI.GK;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class ExplicitValue
 	{
 		public ExplicitValue()

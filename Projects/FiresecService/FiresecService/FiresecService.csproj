@@ -122,10 +122,10 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GKPatchManager.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
-    <Compile Include="Automation\AutomationProcessorRunner.cs" />
+    <Compile Include="Automation\ProcedureRunner.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
-    <Compile Include="Automation\ProcedureHelper.cs" />
+    <Compile Include="Automation\ProcedureThread.Steps.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />

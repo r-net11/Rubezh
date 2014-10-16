@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class RunProgrammArguments
 	{
 		public RunProgrammArguments()

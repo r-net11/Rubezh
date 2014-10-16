@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class Condition
 	{
 		public Condition()

@@ -7,7 +7,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using FiresecService.Processor;
 
 namespace FiresecService.Service
 {
@@ -163,7 +162,7 @@ namespace FiresecService.Service
 		{
 			DBHelper.Add(journalItem);
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
-			AutomationProcessorRunner.RunOnJournal(journalItem);
+			ProcedureRunner.RunOnJournal(journalItem);
 		}
 
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)

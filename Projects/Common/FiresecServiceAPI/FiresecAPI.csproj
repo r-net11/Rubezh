@@ -150,7 +150,6 @@
     <Compile Include="ModelBase.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\EnumType.cs" />
-    <Compile Include="Models\Automation\ObjectCopier.cs" />
     <Compile Include="Models\Automation\PropertyCopy.cs" />
     <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />

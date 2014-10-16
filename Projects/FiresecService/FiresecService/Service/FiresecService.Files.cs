@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Common;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
@@ -121,6 +122,7 @@ namespace FiresecService.Service
 			GKProcessor.SetNewConfig();
 			SKDProcessor.SetNewConfig();
 			ScheduleRunner.SetNewConfig();
+			ProcedureRunner.SetNewConfig();
 		}
 
 		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)

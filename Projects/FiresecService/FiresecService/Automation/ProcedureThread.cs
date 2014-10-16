@@ -1,48 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
-using Infrastructure.Common.Video.RVI_VSS;
 
-namespace FiresecService.Processor
+namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
 		public DateTime StartTime { get; private set; }
 		public bool IsAlive { get; set; }
 		public int TimeOut { get; private set; }
-		static Func<Procedure, List<Argument>, Procedure, List<Variable>, ProcedureThread> Run { get; set; }
 		AutoResetEvent AutoResetEvent { get; set; }
-		BackgroundWorker Thread { get; set; }
+		Thread Thread { get; set; }
+		List<Variable> AllVariables { get; set; } 
+		List<ProcedureStep> Steps { get; set; }
+		bool IsSync { get; set; }
 		ProcedureThread ChildProcedureThread { get; set; }
 
-		public ProcedureThread(Procedure procedure, List<Argument> arguments, Procedure callingProcedure, Func<Procedure, List<Argument>, Procedure, List<Variable>, ProcedureThread> run)
+		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables)
 		{
 			IsAlive = true;
 			TimeOut = procedure.TimeOut;
-			Run = run;
-			WinFormsPlayers = new List<WinFormsPlayer>();
 			AutoResetEvent = new AutoResetEvent(false);
-			Procedure = new Procedure();
-			Procedure = ObjectCopier.Clone(procedure);
-			InitializeArguments(Procedure, arguments, callingProcedure);
-			Thread = new BackgroundWorker();
-			Thread.DoWork += (sender, args) => RunInThread(Procedure, arguments);
-			Thread.RunWorkerCompleted += (sender, args) => Stop();
+			Steps = procedure.Steps;
+			AllVariables = new List<Variable>(Utils.Clone(procedure.Variables));
+			var procedureArguments = Utils.Clone(procedure.Arguments);
+			InitializeArguments(procedureArguments, arguments, callingProcedureVariables);
+			AllVariables.AddRange(procedureArguments);
+			AllVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			Thread = new Thread(() => RunInThread(arguments));
+			IsSync = procedure.IsSync;
 		}
 
 		public void Start()
 		{
 			StartTime = DateTime.Now;
-			Thread.RunWorkerAsync();
-		}
-
-		void Stop()
-		{
-			IsAlive = ChildProcedureThread != null && ChildProcedureThread.IsAlive;
+			Thread.Start();
+			if (IsSync)
+				Thread.Join();
 		}
 
 		bool _isTimeOut;
@@ -54,27 +52,34 @@ namespace FiresecService.Processor
 				_isTimeOut = value;
 				if (ChildProcedureThread != null)
 					ChildProcedureThread.IsTimeOut = value;
+				AutoResetEvent.Set();
 			}
 		}
-		public bool RunInThread(Procedure procedure, List<Argument> arguments)
+
+		public bool RunInThread(List<Argument> arguments)
 		{
 			try
 			{
-				if (procedure.Steps.Any(step => RunStep(step, procedure) == Result.Exit))
+				if (Steps.Any(step => RunStep(step) == Result.Exit))
+				{
 					return true;
+				}
 			}
 			catch
 			{
 				return false;
 			}
+			finally
+			{
+				IsAlive = false;
+			}
 			return true;
 		}
 
-		Result RunStep(ProcedureStep procedureStep, Procedure procedure)
+		Result RunStep(ProcedureStep procedureStep)
 		{
 			if (IsTimeOut)
 				return Result.Normal; 
-			var allVariables = GetAllVariables(procedure);
 			switch (procedureStep.ProcedureStepType)
 			{
 				case ProcedureStepType.If:
@@ -82,7 +87,7 @@ namespace FiresecService.Processor
 					{
 						foreach (var childStep in procedureStep.Children[0].Children)
 						{
-							var result = RunStep(childStep, procedure);
+							var result = RunStep(childStep);
 							if (result != Result.Normal)
 							{
 								return result;
@@ -93,7 +98,7 @@ namespace FiresecService.Processor
 					{
 						foreach (var childStep in procedureStep.Children[1].Children)
 						{
-							var result = RunStep(childStep, procedure);
+							var result = RunStep(childStep);
 							if (result != Result.Normal)
 							{
 								return result;
@@ -108,7 +113,7 @@ namespace FiresecService.Processor
 							return Result.Normal; 
 						foreach (var childStep in procedureStep.Children[0].Children)
 						{
-							var result = RunStep(childStep, procedure);
+							var result = RunStep(childStep);
 							if (result == Result.Break)
 								return Result.Normal;
 							if (result == Result.Continue)
@@ -118,18 +123,11 @@ namespace FiresecService.Processor
 						}
 					}
 					break;
-				case ProcedureStepType.GetObjectProperty:
-					GetObjectProperty(procedureStep);
-					break;
-
-				case ProcedureStepType.Arithmetics:
-					Calculate(procedureStep);
-					break;
 
 				case ProcedureStepType.Foreach:
 					var foreachArguments = procedureStep.ForeachArguments;
-					var listVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
-					var itemVariable = allVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
+					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);
+					var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ItemArgument.VariableUid);
 					if (listVariable != null)
 						foreach (var explicitValue in listVariable.ExplicitValues)
 						{
@@ -137,7 +135,7 @@ namespace FiresecService.Processor
 								SetValue(itemVariable, GetValue<object>(explicitValue, itemVariable.ExplicitType, itemVariable.EnumType));
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
-								var result = RunStep(childStep, procedure);
+								var result = RunStep(childStep);
 								if (result == Result.Break)
 									return Result.Normal;
 								if (result == Result.Continue)
@@ -150,7 +148,7 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.For:
 					var forArguments = procedureStep.ForArguments;
-					var indexerVariable = allVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
+					var indexerVariable = AllVariables.FirstOrDefault(x => x.Uid == forArguments.IndexerArgument.VariableUid);
 					var initialValue = GetValue<int>(forArguments.InitialValueArgument);
 					var value = GetValue<int>(forArguments.ValueArgument);
 					var iterator = GetValue<int>(forArguments.IteratorArgument);
@@ -164,7 +162,7 @@ namespace FiresecService.Processor
 								return Result.Normal;
 							foreach (var childStep in procedureStep.Children[0].Children)
 							{
-								var result = RunStep(childStep, procedure);
+								var result = RunStep(childStep);
 								if (result == Result.Break)
 								{
 									indexerVariable.ExplicitValue.IntValue = currentIntValue;
@@ -181,11 +179,31 @@ namespace FiresecService.Processor
 						indexerVariable.ExplicitValue.IntValue = currentIntValue;
 					}
 					break;
+
+
+				case ProcedureStepType.ProcedureSelection:
+					{
+						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
+								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
+						if (childProcedure != null)
+						{
+							ChildProcedureThread = new ProcedureThread(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables);
+							ChildProcedureThread.Start();
+							ProcedureRunner.ProceduresThreads.Add(ChildProcedureThread);
+						}
+					}
+					break;
+
+				case ProcedureStepType.GetObjectProperty:
+					GetObjectProperty(procedureStep);
+					break;
+
+				case ProcedureStepType.Arithmetics:
+					Calculate(procedureStep);
+					break;
+
 				case ProcedureStepType.PlaySound:
-					var automationCallbackResult = new AutomationCallbackResult();
-					automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;
-					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
-					Service.FiresecService.NotifyAutomation(automationCallbackResult);
+					PlaySound(procedureStep);
 					break;
 
 				case ProcedureStepType.Pause:
@@ -197,10 +215,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.ShowMessage:
-					automationCallbackResult = ShowMessage(procedureStep);
-					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
-					automationCallbackResult.IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow;
-					Service.FiresecService.NotifyAutomation(automationCallbackResult);
+					ShowMessage(procedureStep);
 					break;
 
 				case ProcedureStepType.FindObjects:
@@ -231,12 +246,8 @@ namespace FiresecService.Processor
 					ControlDoor(procedureStep);
 					break;
 
-				case ProcedureStepType.ProcedureSelection:
-					{
-						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
-								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-						ChildProcedureThread = Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, procedure, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-					}
+				case ProcedureStepType.ControlSKDZone:
+					ControlSKDZone(procedureStep);
 					break;
 
 				case ProcedureStepType.IncrementValue:
@@ -283,10 +294,10 @@ namespace FiresecService.Processor
 			Exit
 		}
 
-		public void InitializeArguments(Procedure procedure, List<Argument> arguments, Procedure callingProcedure)
+		public void InitializeArguments(List<Variable> variables, List<Argument> arguments, List<Variable> callingProcedureVariables)
 		{
 			int i = 0;
-			foreach (var variable in procedure.Arguments)
+			foreach (var variable in variables)
 			{
 				variable.ExplicitValues = new List<ExplicitValue>();
 				if (arguments.Count <= i)
@@ -306,7 +317,7 @@ namespace FiresecService.Processor
 				}
 				else
 				{
-					var argumentVariable = GetAllVariables(callingProcedure).FirstOrDefault(x => x.Uid == argument.VariableUid);
+					var argumentVariable = callingProcedureVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
 					if (argumentVariable == null)
 						continue;
 					if (argumentVariable.IsReference)

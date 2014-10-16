@@ -4,8 +4,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
 using GKProcessor;
-using Infrastructure.Common;
-using FiresecService.Processor;
 
 namespace FiresecService
 {
@@ -76,7 +74,7 @@ namespace FiresecService
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 
-			AutomationProcessorRunner.RunOnStateChanged();
+			ProcedureRunner.RunOnStateChanged();
 		}
 	}
 }
