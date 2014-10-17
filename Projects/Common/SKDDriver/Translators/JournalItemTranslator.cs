@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using LinqKit;
 
@@ -25,7 +24,7 @@ namespace SKDDriver
 			{
 				JournalEventDescriptionType = (JournalEventDescriptionType)tableItem.Description,
 				DescriptionText = tableItem.DescriptionText,
-				DeviceDateTime = tableItem.DeviceDate,
+				DeviceDateTime = tableItem.DeviceDate.HasValue ? tableItem.DeviceDate.Value : new DateTime(),
 				JournalEventNameType = (JournalEventNameType)tableItem.Name,
 				NameText = tableItem.NameText,
 				ObjectName = tableItem.ObjectName,

@@ -88,6 +88,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool SaveHRChief(Guid uid, Guid chiefUID)
+		{
+			var result = FiresecManager.FiresecService.SaveOrganisationHRChief(uid, chiefUID);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static bool IsAnyItems(Guid uid)
 		{
 			var operationResult = FiresecManager.FiresecService.IsAnyOrganisationItems(uid);

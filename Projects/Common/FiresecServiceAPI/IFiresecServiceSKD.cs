@@ -51,9 +51,6 @@ namespace FiresecAPI
 		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID);
 		
 		[OperationContract]
-		OperationResult SaveDepartmentHRChief(Guid uid, Guid chiefUID);
-
-		[OperationContract]
 		OperationResult RestoreDepartment(Guid uid);
 		#endregion
 
@@ -138,6 +135,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID);
+
+		[OperationContract]
+		OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID);
 
 		[OperationContract]
 		OperationResult RestoreOrganisation(Guid uid);

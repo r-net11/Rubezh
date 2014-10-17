@@ -14,7 +14,6 @@ namespace SKDModule.ViewModels
 	public class LockPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		public SKDDevice Device { get; private set; }
-		public LockIntervalsViewModel LockIntervalsViewModel { get; private set; }
 		bool HasChanged { get; set; }
 
 		public LockPropertiesViewModel(SKDDevice device)
@@ -30,7 +29,6 @@ namespace SKDModule.ViewModels
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
-			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
 
 			SKDManager.InvalidateOneLockConfiguration(device);
 			Update(device.SKDDoorConfiguration);
@@ -47,9 +45,6 @@ namespace SKDModule.ViewModels
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
 			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
-
-			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
-			OnPropertyChanged(() => LockIntervalsViewModel);
 		}
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
@@ -62,19 +57,6 @@ namespace SKDModule.ViewModels
 			{
 				_selectedDoorOpenMethod = value;
 				OnPropertyChanged(() => SelectedDoorOpenMethod);
-				HasChanged = true;
-				CanSetTimeIntervals = value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
-			}
-		}
-
-		bool _canSetTimeIntervals;
-		public bool CanSetTimeIntervals
-		{
-			get { return _canSetTimeIntervals; }
-			set
-			{
-				_canSetTimeIntervals = value;
-				OnPropertyChanged(() => CanSetTimeIntervals);
 				HasChanged = true;
 			}
 		}
@@ -223,7 +205,6 @@ namespace SKDModule.ViewModels
 			doorConfiguration.IsSensorEnable = IsSensorEnable;
 			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;
 			doorConfiguration.IsDuressAlarmEnable = IsDuressAlarmEnable;
-			doorConfiguration.DoorDayIntervalsCollection = LockIntervalsViewModel.GetModel();
 			return doorConfiguration;
 		}
 

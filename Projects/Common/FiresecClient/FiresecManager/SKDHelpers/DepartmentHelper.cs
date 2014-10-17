@@ -59,13 +59,7 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.SaveDepartmentChief(uid, chiefUID);
 			return Common.ShowErrorIfExists(result);
 		}
-
-		public static bool SaveHRChief(Guid uid, Guid hrChiefUID)
-		{
-			var result = FiresecManager.FiresecService.SaveDepartmentHRChief(uid, hrChiefUID);
-			return Common.ShowErrorIfExists(result);
-		}
-
+		
 		public static ShortDepartment GetSingleShort(Guid uid)
 		{
 			var filter = new DepartmentFilter();

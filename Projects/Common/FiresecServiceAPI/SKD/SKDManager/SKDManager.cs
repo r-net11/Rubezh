@@ -150,26 +150,6 @@ namespace FiresecAPI.SKD
 			{
 				if (device.SKDDoorConfiguration == null)
 					device.SKDDoorConfiguration= new SKDDoorConfiguration();
-				var doorDayIntervalsCollection = device.SKDDoorConfiguration.DoorDayIntervalsCollection;
-				if (doorDayIntervalsCollection.DoorDayIntervals.Count != 7)
-				{
-					doorDayIntervalsCollection.DoorDayIntervals = new List<DoorDayInterval>();
-					for (int i = 0; i < 7; i++)
-					{
-						doorDayIntervalsCollection.DoorDayIntervals.Add(new DoorDayInterval());
-					}
-					foreach (var doorDayInterval in doorDayIntervalsCollection.DoorDayIntervals)
-					{
-						if (doorDayInterval.DoorDayIntervalParts.Count != 4)
-						{
-							doorDayInterval.DoorDayIntervalParts = new List<DoorDayIntervalPart>();
-							for (int i = 0; i < 4; i++)
-							{
-								doorDayInterval.DoorDayIntervalParts.Add(new DoorDayIntervalPart());
-							}
-						}
-					}
-				}
 			}
 		}
 

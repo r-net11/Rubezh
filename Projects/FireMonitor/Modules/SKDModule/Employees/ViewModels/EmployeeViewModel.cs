@@ -126,6 +126,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public PersonType PersonType
+		{
+			get { return (ParentViewModel as EmployeesViewModel).PersonType; }
+		}
+
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
@@ -134,7 +139,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
 				return;
 			}
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation);
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, PersonType);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;

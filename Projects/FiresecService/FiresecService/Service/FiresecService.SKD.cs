@@ -139,16 +139,7 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
 			}
 		}
-
-		public OperationResult SaveDepartmentHRChief(Guid uid, Guid hrChiefUID)
-		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, JournalEventDescriptionType.Редактирование);
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.DepartmentTranslator.SaveHRChief(uid, hrChiefUID);
-			}
-		}
-
+		
 		public OperationResult RestoreDepartment(Guid uid)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_отдела, JournalEventDescriptionType.Восстановление);
@@ -485,6 +476,16 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
+
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID)
+		{
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveHRChief(uid, chiefUID);
+			}
+		}
+
 		public OperationResult RestoreOrganisation(Guid uid)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Восстановление);

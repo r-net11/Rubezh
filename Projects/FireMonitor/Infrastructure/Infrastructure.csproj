@@ -156,6 +156,7 @@
     <Compile Include="Events\UserChangedEvent.cs" />
     <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowXGuardZoneEvent.cs" />
+    <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\MultiGridType.cs" />

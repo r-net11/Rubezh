@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		Guid OrganisationUID { get; set; }
 		Department Department { get; set; }
 		public ChiefViewModel ChiefViewModel { get; private set; }
-		public ChiefViewModel HRChiefViewModel { get; private set; }
+		public bool IsNew { get; private set; }
 
 		public DepartmentDetailsViewModel() { }
 		
@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 			if (shortDepartment == null)
 			{
 				Title = "Создание отдела";
+				IsNew = true;
 				var parentModel = (parentViewModel as DepartmentsViewModel).SelectedItem.Model;
 				Department = new Department()
 				{
@@ -39,7 +40,6 @@ namespace SKDModule.ViewModels
 			}
 			CopyProperties();
 			ChiefViewModel = new ChiefViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
-			HRChiefViewModel = new ChiefViewModel(Department.HRChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			return true;
 		}
 
@@ -148,7 +148,6 @@ namespace SKDModule.ViewModels
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
 			Department.ChiefUID = ChiefViewModel.ChiefUID;
-			Department.HRChiefUID = HRChiefViewModel.ChiefUID;
 			Department.Phone = Phone;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
@@ -172,6 +171,4 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 	}
-
-	
 }

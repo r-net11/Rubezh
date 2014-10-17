@@ -67,7 +67,6 @@
     <Compile Include="Devices\ViewModels\ControllerPaswordViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerTimeSettingsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\LockIntervalsViewModel.cs" />
     <Compile Include="Devices\ViewModels\LockPropertiesViewModel.cs" />
     <Compile Include="Devices\Views\ControllerDoorTypeView.xaml.cs">
       <DependentUpon>ControllerDoorTypeView.xaml</DependentUpon>

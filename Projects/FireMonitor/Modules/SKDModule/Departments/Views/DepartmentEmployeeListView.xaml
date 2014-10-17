@@ -33,8 +33,6 @@
 								<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
 								<Image Width="16" Source="/Controls;component/Images/Chief.png" VerticalAlignment="Center" Margin="1 0" 
 									   Visibility="{Binding IsChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
-								<Image Width="16" Source="/Controls;component/Images/HRChief.png" VerticalAlignment="Center" Margin="1 0" 
-									   Visibility="{Binding IsHRChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
 								<TextBlock Text="{Binding Employee.Name}" />
 							</StackPanel>
 						</DataTemplate>
@@ -65,10 +63,6 @@
 							   Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя" 
 							   Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-				<ToolBarButton ImageSource="/Controls;component/Images/HRChiefW.png" ToolTip="Назначить руководителя отдела кадров" 
-							   Command="{Binding SetHRChiefCommand}" Visibility="{Binding CanSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя отдела кадров" 
-							   Command="{Binding UnSetHRChiefCommand}"  Visibility="{Binding CanUnSetHRChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

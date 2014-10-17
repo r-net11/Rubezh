@@ -153,7 +153,6 @@ namespace SKDDriver
 			result.AttendantEmployeeUID = tableItem.AttendantUID;
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.ChiefUID = tableItem.ChiefUID;
-			result.HRChiefUID = tableItem.HRChiefUID;
 			result.Phone = tableItem.Phone;
 			return result;
 		}
@@ -169,7 +168,6 @@ namespace SKDDriver
 			if(apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;
-			tableItem.HRChiefUID = apiItem.HRChiefUID;
 			tableItem.Phone = apiItem.Phone;
 		}
 
@@ -179,7 +177,6 @@ namespace SKDDriver
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.ChiefUID = tableItem.ChiefUID;
-			result.HRChiefUID = tableItem.HRChiefUID;
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 			
@@ -206,21 +203,6 @@ namespace SKDDriver
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
 				tableItem.ChiefUID = chiefUID;
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
-		}
-
-		public OperationResult SaveHRChief(Guid uid, Guid hrChiefUID)
-		{
-			try
-			{
-				var tableItem = Table.FirstOrDefault(x => x.UID == uid);
-				tableItem.HRChiefUID = hrChiefUID;
 				Table.Context.SubmitChanges();
 			}
 			catch (Exception e)

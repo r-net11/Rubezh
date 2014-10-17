@@ -139,7 +139,7 @@ namespace FiresecService
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					query += "Name = '" + journalEventNameType + "'";
+					query += "Name = '" + (int)journalEventNameType + "'";
 				}
 				query += ")";
 			}
@@ -161,7 +161,7 @@ namespace FiresecService
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					query += "Description = '" + journalEventDescriptionType + "'";
+					query += "Description = '" + (int)journalEventDescriptionType + "'";
 				}
 				query += ")";
 			}
