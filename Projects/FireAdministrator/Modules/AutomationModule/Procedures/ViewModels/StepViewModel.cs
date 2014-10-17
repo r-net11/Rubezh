@@ -126,6 +126,10 @@ namespace AutomationModule.ViewModels
 					Content = new ChangeListStepViewModel(this);
 					break;
 
+				case ProcedureStepType.CheckPermission:
+					Content = new CheckPermissionStepViewModel(this);
+					break;
+
 				case ProcedureStepType.GetListCount:
 					Content = new GetListCountStepViewModel(this);
 					break;

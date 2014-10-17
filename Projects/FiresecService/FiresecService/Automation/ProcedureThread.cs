@@ -266,6 +266,10 @@ namespace FiresecService
 					ChangeList(procedureStep);
 					break;
 
+				case ProcedureStepType.CheckPermission:
+					CheckPermission(procedureStep);
+					break;
+
 				case ProcedureStepType.GetListCount:
 					GetListCount(procedureStep);
 					break;

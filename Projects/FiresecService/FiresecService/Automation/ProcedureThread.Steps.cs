@@ -4,10 +4,12 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Service;
 using FiresecAPI.Journal;
+using Property = FiresecAPI.Automation.Property;
 
 namespace FiresecService
 {
@@ -533,6 +535,15 @@ namespace FiresecService
 			}
 		}
 
+		void CheckPermission(ProcedureStep procedureStep)
+		{
+			var checkPermissionArguments = procedureStep.CheckPermissionArguments;
+			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionArguments.ResultArgument.VariableUid);
+			var permissionValue = GetValue<PermissionType>(checkPermissionArguments.PermissionArgument);
+			if (resultVariable != null)
+				resultVariable.ExplicitValue.BoolValue = ProcedureRunner.User.HasPermission(permissionValue);
+		}
+
 		void GetListCount(ProcedureStep procedureStep)
 		{
 			var getListCountArgument = procedureStep.GetListCountArgument;
@@ -661,6 +672,8 @@ namespace FiresecService
 					result = explicitValue.DriverTypeValue;
 				if (enumType == EnumType.StateType)
 					result = explicitValue.StateTypeValue;
+				if (enumType == EnumType.PermissionType)
+					result = explicitValue.PermissionTypeValue;
 			}
 			return (T)result;
 		}

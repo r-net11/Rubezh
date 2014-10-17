@@ -110,6 +110,7 @@
       <DependentUpon>StringDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\CheckPermissionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
@@ -194,6 +195,9 @@
     </Compile>
     <Compile Include="Steps\Views\ChangeListStepView.xaml.cs">
       <DependentUpon>ChangeListStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\CheckPermissionStepView.xaml.cs">
+      <DependentUpon>CheckPermissionStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlCameraStepView.xaml.cs">
       <DependentUpon>ControlCameraStepView.xaml</DependentUpon>
@@ -462,6 +466,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ChangeListStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\CheckPermissionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

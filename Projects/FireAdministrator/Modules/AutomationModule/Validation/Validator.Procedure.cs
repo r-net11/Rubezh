@@ -277,6 +277,15 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.CheckPermission:
+					{
+						var checkPermissionArguments = step.CheckPermissionArguments;
+						if (!ValidateArgument(step, checkPermissionArguments.PermissionArgument))
+							break;
+						ValidateArgument(step, checkPermissionArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.GetListCount:
 					{
 						var getListCountArgument = step.GetListCountArgument;
