@@ -31,6 +31,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate RunProgrammTemplate { get; set; }
 		public DataTemplate RandomTemplate { get; set; }
 		public DataTemplate ChangeListTemplate { get; set; }
+		public DataTemplate CheckPermissionTemplate { get; set; }
 		public DataTemplate GetListCountTemplate { get; set; }
 		public DataTemplate GetListItemTemplate { get; set; }
 
@@ -139,6 +140,10 @@ namespace AutomationModule.ViewModels
 			if (item is ChangeListStepViewModel)
 			{
 				return ChangeListTemplate;
+			}
+			if (item is CheckPermissionStepViewModel)
+			{
+				return CheckPermissionTemplate;
 			}
 			if (item is GetListCountStepViewModel)
 			{

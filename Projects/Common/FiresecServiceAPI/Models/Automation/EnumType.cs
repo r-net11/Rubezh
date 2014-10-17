@@ -8,6 +8,9 @@ namespace FiresecAPI.Automation
 		StateType,
 
 		[DescriptionAttribute("Тип устройства")]
-		DriverType
+		DriverType,
+
+		[DescriptionAttribute("Права пользователя")]
+		PermissionType
 	}
 }

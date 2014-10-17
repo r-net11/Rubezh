@@ -358,40 +358,7 @@ namespace AutomationModule.ViewModels
 					return "<" + SelectedVariable.Variable.Name + ">";
 				}
 
-				var description = "";
-				if (!IsList)
-				{
-					switch (ExplicitType)
-					{
-						case ExplicitType.Boolean:
-							description = ExplicitValue.BoolValue.ToString();
-							break;
-						case ExplicitType.DateTime:
-							description = ExplicitValue.DateTimeValue.ToString();
-							break;
-						case ExplicitType.Integer:
-							description = ExplicitValue.IntValue.ToString();
-							break;
-						case ExplicitType.String:
-							description = ExplicitValue.StringValue;
-							break;
-						case ExplicitType.Enum:
-							{
-								if (EnumType == EnumType.StateType)
-									description = ExplicitValue.StateTypeValue.ToDescription();
-								if (EnumType == EnumType.DriverType)
-									description = ExplicitValue.DriverTypeValue.ToDescription();
-							}
-							break;
-						case ExplicitType.Object:
-							{
-								description = ExplicitValue.PresentationName;
-							}
-							break;
-					}
-					return description;
-				}
-				return "Список";
+				return !IsList ? ProcedureHelper.GetStringValue(ExplicitValue.ExplicitValue, ExplicitType, EnumType) : "Список";
 			}
 		}
 

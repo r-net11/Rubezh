@@ -31,6 +31,7 @@ namespace AutomationModule.ViewModels
 			ExplicitValue = new ExplicitValue();
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
 			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
+			PermissionTypeValues = ProcedureHelper.GetEnumObs<PermissionType>();
 		}
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
@@ -38,6 +39,7 @@ namespace AutomationModule.ViewModels
 			ExplicitValue = explicitValue;
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
 			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
+			PermissionTypeValues = ProcedureHelper.GetEnumObs<PermissionType>();
 			Initialize(ExplicitValue.UidValue);
 		}
 
@@ -151,6 +153,17 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.DriverTypeValue = value;
 				OnPropertyChanged(() => DriverTypeValue);
+			}
+		}
+
+		public ObservableCollection<PermissionType> PermissionTypeValues { get; private set; }
+		public PermissionType PermissionTypeValue
+		{
+			get { return ExplicitValue.PermissionTypeValue; }
+			set
+			{
+				ExplicitValue.PermissionTypeValue = value;
+				OnPropertyChanged(() => PermissionTypeValue);
 			}
 		}
 

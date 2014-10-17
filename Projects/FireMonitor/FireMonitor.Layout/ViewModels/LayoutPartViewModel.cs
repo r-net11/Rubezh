@@ -15,20 +15,42 @@ namespace FireMonitor.Layout.ViewModels
 			LayoutPart = layoutPart;
 			LayoutPartPresenter = layoutPartPresenter;
 			Content = LayoutPartPresenter.CreateContent(LayoutPart.Properties);
+			IconSource = LayoutPartPresenter.IconSource;
+			Title = LayoutPart.Title ?? LayoutPartPresenter.Name;
+			if (Content is ILayoutPartContent)
+			{
+				var layoutPartContent = (ILayoutPartContent)Content;
+				layoutPartContent.TitleChanged += (s, e) => Title = layoutPartContent.Title;
+				layoutPartContent.IconChanged += (s, e) => IconSource = layoutPartContent.IconSource;
+			}
 		}
 
 		public Guid UID
 		{
 			get { return LayoutPart.UID; }
 		}
+		public BaseViewModel Content { get; private set; }
+
+		private string _title;
 		public string Title
 		{
-			get { return LayoutPart.Title ?? LayoutPartPresenter.Name; }
+			get { return _title; }
+			set
+			{
+				_title = value;
+				OnPropertyChanged(() => Title);
+			}
 		}
+		private string _iconSource;
 		public string IconSource
 		{
-			get { return LayoutPartPresenter.IconSource; }
+			get { return _iconSource; }
+			set
+			{
+				_iconSource = value;
+				OnPropertyChanged(() => IconSource);
+			}
 		}
-		public BaseViewModel Content { get; private set; }
+
 	}
 }

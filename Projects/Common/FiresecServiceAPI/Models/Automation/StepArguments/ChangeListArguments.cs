@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class ChangeListArguments
 	{
 		public ChangeListArguments()

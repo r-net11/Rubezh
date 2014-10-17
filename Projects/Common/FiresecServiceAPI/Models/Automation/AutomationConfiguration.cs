@@ -322,6 +322,14 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
+				case ProcedureStepType.CheckPermission:
+					{
+						var checkPermissionArguments = step.CheckPermissionArguments;
+						InvalidateArgument(procedure, checkPermissionArguments.PermissionArgument);
+						InvalidateArgument(procedure, checkPermissionArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.GetListCount:
 					{
 						var getListCountArgument = step.GetListCountArgument;

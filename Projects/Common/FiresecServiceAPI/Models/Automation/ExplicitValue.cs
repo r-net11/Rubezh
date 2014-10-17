@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using FiresecAPI.Models;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class ExplicitValue
 	{
 		public ExplicitValue()
@@ -35,5 +36,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public GKDriverType DriverTypeValue { get; set; }
+
+		[DataMember]
+		public PermissionType PermissionTypeValue { get; set; }
 	}
 }

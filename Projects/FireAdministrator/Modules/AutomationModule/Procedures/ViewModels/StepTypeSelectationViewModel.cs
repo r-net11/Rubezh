@@ -101,7 +101,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Exit),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
 							new StepTypeViewModel(ProcedureStepType.Pause),
-							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
+							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
+							new StepTypeViewModel(ProcedureStepType.CheckPermission)
 						}),
 					new StepTypeViewModel("Функции цикла",
 						new List<StepTypeViewModel>

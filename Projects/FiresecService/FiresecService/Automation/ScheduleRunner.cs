@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
-using FiresecService.Processor;
 using System.Diagnostics;
 
 namespace FiresecService
@@ -109,7 +108,7 @@ namespace FiresecService
 				{
 					var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
 					if (procedure != null && procedure.IsActive)
-						AutomationProcessorRunner.Run(procedure, scheduleProcedure.Arguments, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+						ProcedureRunner.Run(procedure, scheduleProcedure.Arguments, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
 				}
 		}
 	}

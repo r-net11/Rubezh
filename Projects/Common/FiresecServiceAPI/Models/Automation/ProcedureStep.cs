@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	[DataContract, Serializable]
+	[DataContract]
 	public class ProcedureStep
 	{
 		public ProcedureStep()
@@ -40,6 +40,7 @@ namespace FiresecAPI.Automation
 			ChangeListArguments = new ChangeListArguments();
 			GetListCountArgument = new GetListCountArgument();
 			GetListItemArgument = new GetListItemArgument();
+			CheckPermissionArguments = new CheckPermissionArguments();
 		}
 
 		[XmlIgnore]
@@ -143,5 +144,8 @@ namespace FiresecAPI.Automation
 		
 		[DataMember]
 		public ChangeListArguments ChangeListArguments { get; set; }
+
+		[DataMember]
+		public CheckPermissionArguments CheckPermissionArguments { get; set; }
 	}
 }

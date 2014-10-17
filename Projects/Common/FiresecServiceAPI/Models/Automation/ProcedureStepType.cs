@@ -49,6 +49,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Изменение списка")]
 		ChangeList,
 
+		[DescriptionAttribute("Проверка прав")]
+		CheckPermission,
+
 		[DescriptionAttribute("Получить размер списка")]
 		GetListCount,
 

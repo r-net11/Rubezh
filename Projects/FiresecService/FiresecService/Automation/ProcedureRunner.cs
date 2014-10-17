@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 
-namespace FiresecService.Processor
+namespace FiresecService
 {
-	public static class AutomationProcessorRunner
+	public static class ProcedureRunner
 	{
 		public static List<ProcedureThread> ProceduresThreads { get; private set; }
+		public static User User { get; private set; }
 
-		static AutomationProcessorRunner()
+		static ProcedureRunner()
 		{
 			ProceduresThreads = new List<ProcedureThread>();
 			AutoResetEvent = new AutoResetEvent(false);
@@ -51,12 +52,26 @@ namespace FiresecService.Processor
 			}
 		}
 
-		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, Procedure callingProcedure, List<Variable> globalVariables)
+		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables, User user = null)
 		{
-			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedure, Run);
+			User = user;
+			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables);
 			procedureThread.Start();
 			ProceduresThreads.Add(procedureThread);
 			return procedureThread;
+		}
+
+		public static void Stop()
+		{
+			foreach (var procedureThread in ProceduresThreads)
+			{
+				procedureThread.IsTimeOut = true;
+			}
+		}
+
+		public static void SetNewConfig()
+		{
+			Stop();
 		}
 
 		static AutoResetEvent AutoResetEvent { get; set; }

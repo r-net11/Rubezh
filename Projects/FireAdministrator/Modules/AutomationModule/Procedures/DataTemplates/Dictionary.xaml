@@ -175,6 +175,10 @@
 		<Views:ChangeListStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="checkPermissionTemplate">
+		<Views:CheckPermissionStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="getListCountTemplate">
 		<Views:GetListCountStepView />
 	</DataTemplate>
@@ -210,6 +214,7 @@
 		RunProgrammTemplate="{StaticResource runProgrammTemplate}"
 		RandomTemplate="{StaticResource randomTemplate}"
 		ChangeListTemplate="{StaticResource changeListTemplate}"
+		CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 		GetListCountTemplate="{StaticResource getListCountTemplate}"
 		GetListItemTemplate="{StaticResource getListItemTemplate}"
 		x:Key="stepTypeTemplateSelector" />

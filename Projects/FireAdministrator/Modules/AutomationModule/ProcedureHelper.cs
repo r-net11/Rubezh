@@ -196,6 +196,8 @@ namespace AutomationModule
 							result = explicitValue.StateTypeValue.ToDescription();
 						if (enumType == EnumType.DriverType)
 							result = explicitValue.DriverTypeValue.ToDescription();
+						if (enumType == EnumType.PermissionType)
+							result = explicitValue.PermissionTypeValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:
