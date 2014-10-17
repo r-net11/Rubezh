@@ -112,11 +112,11 @@ namespace PlansModule.ViewModels
 			if (PlanTreeViewModel != null)
 				foreach (var plan in PlanTreeViewModel.AllPlans)
 					if (plan.PlanFolder == null)
-						foreach (var elementDevice in plan.Plan.ElementUnion)
-							if (deviceUIDs.Contains(elementDevice.UID))
+						foreach (var element in plan.Plan.ElementUnion)
+							if (deviceUIDs.Contains(element.UID))
 							{
 								PlanTreeViewModel.SelectedPlan = plan;
-								OnShowElement(elementDevice.UID);
+								OnShowElement(element.UID);
 								return;
 							}
 		}

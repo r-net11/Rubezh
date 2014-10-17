@@ -138,7 +138,6 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="AutoActivationWatcher.cs" />
     <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
@@ -180,7 +179,6 @@
     <Compile Include="ViewModels\ConfirmationViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
-    <Compile Include="ViewModels\ShowOnPlanHelper.cs" />
     <Compile Include="Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>

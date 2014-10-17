@@ -60,6 +60,27 @@ namespace LayoutModule.ViewModels
 			get { return LayoutPartDescriptionViewModel.Description; }
 		}
 		public BaseLayoutPartViewModel Content { get; private set; }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(() => IsSelected);
+            }
+        }
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                _isActive = value;
+                OnPropertyChanged(() => IsActive);
+            }
+        }
+        
 
 		public RelayCommand ConfigureCommand { get; private set; }
 		private void OnConfigureCommand()

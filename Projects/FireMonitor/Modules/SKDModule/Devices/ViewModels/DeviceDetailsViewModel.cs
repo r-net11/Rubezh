@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan(Plan plan)
 		{
-			ShowOnPlanHelper.ShowDevice(Device, plan);
+			ShowOnPlanHelper.ShowSKDDevice(Device, plan);
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
@@ -168,7 +168,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowDevice(Device, Plan);
+			ShowOnPlanHelper.ShowSKDDevice(Device, Plan);
 		}
 	}
 }

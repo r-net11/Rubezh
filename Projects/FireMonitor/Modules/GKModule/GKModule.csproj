@@ -222,7 +222,6 @@
     <Compile Include="Reports\JournalReport.cs" />
     <Compile Include="Reports\JournalReportPdf.cs" />
     <Compile Include="Reports\ReportArchiveFilter.cs" />
-    <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Devices\ViewModels\DeviceControlRegime.cs" />
     <Compile Include="Devices\ViewModels\DeviceExecutableCommandViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceParametersViewModel.cs" />
@@ -287,7 +286,6 @@
     <Compile Include="PumpStations\Views\PumpStationsView.xaml.cs">
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="GKModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

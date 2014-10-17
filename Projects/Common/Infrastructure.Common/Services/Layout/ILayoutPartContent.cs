@@ -8,9 +8,7 @@ namespace Infrastructure.Common.Services.Layout
 {
     public interface ILayoutPartContent
     {
-        string Title { get; }
-        string IconSource { get; }
-        event EventHandler TitleChanged;
-        event EventHandler IconChanged;
+        ILayoutPartContainer Container { get; }
+        void SetLayoutPartContainer(ILayoutPartContainer container);
     }
 }

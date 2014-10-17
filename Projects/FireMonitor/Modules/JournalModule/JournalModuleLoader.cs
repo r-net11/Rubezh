@@ -99,8 +99,6 @@ namespace JournalModule
 
 		public override void AfterInitialize()
 		{
-			AutoActivationWatcher.Run();
-
 			SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
 			SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
 

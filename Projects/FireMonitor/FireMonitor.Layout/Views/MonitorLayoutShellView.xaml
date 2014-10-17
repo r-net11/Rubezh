@@ -9,7 +9,9 @@
 				<Setter Property="ContentId" Value="{Binding Model.UID}" />
 				<Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullToImageConverter}}" />
 				<Setter Property="ToolTip" Value="{Binding Model.Title}" />
-			</Style>
+                <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
+            </Style>
 		</xcad:DockingManager.LayoutItemContainerStyle>
 		<xcad:LayoutRoot x:Name="root">
 			<xcad:LayoutPanel IsMaximized="True">

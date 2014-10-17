@@ -13,10 +13,11 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
+using Infrastructure.Common.Services.Layout;
 
 namespace JournalModule.ViewModels
 {
-	public class ArchiveViewModel : ViewPartViewModel
+	public class ArchiveViewModel : ViewPartViewModel, ILayoutPartContent
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveFilter ArchiveFilter { get; private set; }
@@ -380,5 +381,16 @@ namespace JournalModule.ViewModels
 		{
 			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
-	}
+
+        #region ILayoutPartContent Members
+
+        public ILayoutPartContainer Container { get; private set; }
+
+        public void SetLayoutPartContainer(ILayoutPartContainer container)
+        {
+            Container = container;
+        }
+
+        #endregion
+    }
 }

@@ -181,7 +181,6 @@ namespace SKDModule
 			SafeFiresecService.SKDStatesEvent += new Action<SKDStates>(OnSKDStates);
 
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
-			AutoActivationWatcher.Run();
 		}
 
 		void OnSKDStates(SKDStates skdStates)

@@ -81,11 +81,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		private void OnShowOnPlan()
 		{
-			ServiceFactory.OnPublishEvent<SKDDevice, ShowSKDDeviceOnPlanEvent>(Device);
+            ShowOnPlanHelper.ShowSKDDevice(Device);
 		}
 		private bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowDevice(Device);
+			return ShowOnPlanHelper.CanShowSKDDevice(Device);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

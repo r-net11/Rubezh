@@ -11,7 +11,9 @@
 				<Setter Property="ToolTip" Value="{Binding Model.Title}" />
 				<Setter Property="Description" Value="{Binding Model.Description}" />
 				<Setter Property="ConfigureCommand" Value="{Binding Model.ConfigureCommand}" />
-			</Style>
+                <Setter Property="IsSelected" Value="{Binding Model.IsSelected}" />
+                <Setter Property="IsActive" Value="{Binding Model.IsActive}" />
+            </Style>
 		</xcad:DockingManager.LayoutItemContainerStyle>
 		<xcad:LayoutRoot />
 	</xcad:DockingManager>

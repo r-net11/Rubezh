@@ -23,6 +23,7 @@ namespace FireMonitor
 	{
 		private string _login;
 		private string _password;
+        private AutoActivationWatcher _watcher;
 
 		public bool Initialize()
 		{
@@ -70,8 +71,11 @@ namespace FireMonitor
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
 
-						if (result)
-							AterInitialize();
+                        if (result)
+                        {
+                            AterInitialize();
+                            RunWatcher();
+                        }
 					}
 					else
 					{
@@ -203,5 +207,11 @@ namespace FireMonitor
 				}
 			}
 		}
+
+        private void RunWatcher()
+        {
+            _watcher = new AutoActivationWatcher();
+            _watcher.Run();
+        }
 	}
 }

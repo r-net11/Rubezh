@@ -308,7 +308,6 @@ namespace GKModule
 		{
 			GKAfterInitialize();
 			AlarmsViewModel.SubscribeShortcuts();
-			AutoActivationWatcher.Run();
 			//JournalsViewModel.GetTopLast();
 		}
 

@@ -18,23 +18,14 @@ namespace FireMonitor.ViewModels
 			ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
 			ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
 
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournalItem);
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
-		}
-
-
-		void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
-		{
-			OnPropertyChanged(() => HasPermission);
 		}
 
 		public bool HasPermission
 		{
 			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
 		}
-
 		public bool IsAutoActivation
 		{
 			get { return ClientSettings.AutoActivationSettings.IsAutoActivation; }
@@ -44,7 +35,6 @@ namespace FireMonitor.ViewModels
 				OnPropertyChanged(() => IsAutoActivation);
 			}
 		}
-
 		public bool IsPlansAutoActivation
 		{
 			get { return ClientSettings.AutoActivationSettings.IsPlansAutoActivation; }
@@ -68,45 +58,9 @@ namespace FireMonitor.ViewModels
 			OnPropertyChanged(() => IsPlansAutoActivation);
 		}
 
-		void OnNewJournalItem(List<JournalItem> journalItems)
-		{
-			if (IsAutoActivation)
-			{
-				if ((App.Current.MainWindow != null) && (!App.Current.MainWindow.IsActive))
-				{
-					App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
-					App.Current.MainWindow.Activate();
-					App.Current.MainWindow.BringIntoView();
-					App.Current.MainWindow.Focus();
-					App.Current.MainWindow.Show();
-					App.Current.MainWindow.BringIntoView();
-				}
-			}
-			if (IsPlansAutoActivation)
-			{
-				foreach (var journalRecord in journalItems)
-				{
-					var globalStateType = StateType.No;
-					foreach (var device in FiresecManager.Devices)
-					{
-						if (device.DeviceState.StateType < globalStateType)
-							globalStateType = device.DeviceState.StateType;
-					}
-
-					//var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
-					//if (journalDevice != null)
-					//{
-					//	if (journalDevice.DeviceState.StateType <= globalStateType || (globalStateType != StateType.Fire && globalStateType != StateType.Attention) || journalDevice.Driver.DriverType == DriverType.AM1_O)
-					//	{
-					//		var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
-					//		if (existsOnPlan)
-					//		{
-					//			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(journalDevice.UID);
-					//		}
-					//	}
-					//}
-				}
-			}
-		}
-	}
+        private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
+        {
+            OnPropertyChanged(() => HasPermission);
+        }
+ 	}
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Infrastructure.Common.Services.Layout;
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class ViewPartViewModel : BaseViewModel, IViewPartViewModel
@@ -49,6 +50,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			IsActive = true;
 			OnShow();
+            if (this is ILayoutPartContent)
+            {
+                var content = (ILayoutPartContent)this;
+                if (content.Container != null)
+                    content.Container.IsActive = true;
+            }
 			ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
 			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}

@@ -362,7 +362,6 @@
     <Compile Include="Events\ShowShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
-    <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\NightSettingsViewModel.cs" />
     <Compile Include="TimeTrack\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
@@ -418,7 +417,6 @@
       <DependentUpon>VerificationlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />

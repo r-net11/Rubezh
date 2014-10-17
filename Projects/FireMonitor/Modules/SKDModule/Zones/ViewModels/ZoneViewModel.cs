@@ -53,11 +53,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		private void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowZone(Zone);
+			ShowOnPlanHelper.ShowSKDZone(Zone);
 		}
 		private bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowZone(Zone);
+			return ShowOnPlanHelper.CanShowSKDZone(Zone);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

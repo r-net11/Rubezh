@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
 {
-	public class LayoutPartViewModel : BaseViewModel
+	public class LayoutPartViewModel : BaseViewModel, ILayoutPartContainer
 	{
 		public ILayoutPartPresenter LayoutPartPresenter { get; private set; }
 		public LayoutPart LayoutPart { get; private set; }
@@ -17,12 +17,8 @@ namespace FireMonitor.Layout.ViewModels
 			Content = LayoutPartPresenter.CreateContent(LayoutPart.Properties);
 			IconSource = LayoutPartPresenter.IconSource;
 			Title = LayoutPart.Title ?? LayoutPartPresenter.Name;
-			if (Content is ILayoutPartContent)
-			{
-				var layoutPartContent = (ILayoutPartContent)Content;
-				layoutPartContent.TitleChanged += (s, e) => Title = layoutPartContent.Title;
-				layoutPartContent.IconChanged += (s, e) => IconSource = layoutPartContent.IconSource;
-			}
+            if (Content is ILayoutPartContent)
+                ((ILayoutPartContent)Content).SetLayoutPartContainer(this);
 		}
 
 		public Guid UID
@@ -51,6 +47,25 @@ namespace FireMonitor.Layout.ViewModels
 				OnPropertyChanged(() => IconSource);
 			}
 		}
-
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(() => IsSelected);
+            }
+        }
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set
+            {
+                _isActive = value;
+                OnPropertyChanged(() => IsActive);
+            }
+        }
 	}
 }
