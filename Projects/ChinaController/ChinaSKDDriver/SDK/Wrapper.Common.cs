@@ -277,22 +277,6 @@ namespace ChinaSKDDriver
 			info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			info.bSensorEnable = doorConfiguration.IsSensorEnable;
 
-			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
-			for (int i = 0; i < 7; i++)
-			{
-				for (int j = 0; j < 4; j++)
-				{
-					var doorDayIntervalPart = doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i].DoorDayIntervalParts[j];
-					info.stuDoorTimeSection[i * 4 + j].stuTime.stuStartTime.dwHour = doorDayIntervalPart.StartHour;
-					info.stuDoorTimeSection[i * 4 + j].stuTime.stuStartTime.dwMinute = doorDayIntervalPart.StartMinute;
-					info.stuDoorTimeSection[i * 4 + j].stuTime.stuStartTime.dwSecond = 0;
-					info.stuDoorTimeSection[i * 4 + j].stuTime.stuEndTime.dwHour = doorDayIntervalPart.EndHour;
-					info.stuDoorTimeSection[i * 4 + j].stuTime.stuEndTime.dwMinute = doorDayIntervalPart.EndMinute;
-					info.stuDoorTimeSection[i * 4 + j].stuTime.stuEndTime.dwSecond = 0;
-					info.stuDoorTimeSection[i * 4 + j].emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorDayIntervalPart.DoorOpenMethod;
-				}
-			}
-
 			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, doorNo, ref info);
 			return result;
 		}

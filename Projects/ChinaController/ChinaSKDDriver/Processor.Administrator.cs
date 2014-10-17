@@ -222,7 +222,6 @@ namespace ChinaSKDDriver
 				doorConfiguration.IsDoorNotClosedAlarmEnable = nativeDoorConfiguration.IsDoorNotClosedAlarmEnable;
 				doorConfiguration.IsDuressAlarmEnable = nativeDoorConfiguration.IsDuressAlarmEnable;
 				doorConfiguration.IsSensorEnable = nativeDoorConfiguration.IsSensorEnable;
-				doorConfiguration.DoorDayIntervalsCollection = nativeDoorConfiguration.DoorDayIntervalsCollection;
 
 				return new OperationResult<SKDDoorConfiguration>() { Result = doorConfiguration };
 			}
@@ -256,7 +255,6 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 				nativeDoorConfiguration.IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 				nativeDoorConfiguration.IsSensorEnable = doorConfiguration.IsSensorEnable;
-				nativeDoorConfiguration.DoorDayIntervalsCollection = doorConfiguration.DoorDayIntervalsCollection;
 
 				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
 				if (result)

@@ -10,7 +10,6 @@ namespace FiresecAPI.SKD
 		public SKDDoorConfiguration()
 		{
 			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
-			DoorDayIntervalsCollection = new DoorDayIntervalsCollection();
 		}
 
 		[DataMember]
@@ -42,9 +41,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool IsSensorEnable { get; set; }
-
-		[DataMember]
-		public DoorDayIntervalsCollection DoorDayIntervalsCollection { get; set; }
 	}
 
 	public enum SKDDoorConfiguration_DoorOpenMethod

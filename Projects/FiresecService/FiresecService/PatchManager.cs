@@ -8,6 +8,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+using FiresecAPI.Journal;
 
 namespace FiresecService
 {
@@ -44,6 +45,18 @@ namespace FiresecService
 				}
 				server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
 				server.ConnectionContext.Disconnect();
+
+				//var random = new Random();
+				//for (int i = 0; i < Int32.MaxValue; i++)
+				//{
+				//    var journalItem = new JournalItem();
+				//    journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
+				//    journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
+				//    journalItem.JournalEventNameType = (JournalEventNameType)random.Next(100);
+				//    journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)random.Next(100);
+				//    journalItem.ObjectUID = Guid.NewGuid();
+				//    FiresecService.Service.FiresecServiceManager.SafeFiresecService.AddJournalItem(journalItem);
+				//}
 			}
 			catch (ConnectionFailureException e)
 			{
