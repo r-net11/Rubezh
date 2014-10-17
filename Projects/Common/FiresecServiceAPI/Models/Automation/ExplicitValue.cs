@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using FiresecAPI.Models;
 
 namespace FiresecAPI.Automation
 {
@@ -35,5 +36,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public GKDriverType DriverTypeValue { get; set; }
+
+		[DataMember]
+		public PermissionType PermissionTypeValue { get; set; }
 	}
 }
