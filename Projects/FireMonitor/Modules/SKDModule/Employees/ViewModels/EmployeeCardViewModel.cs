@@ -80,7 +80,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, Card);
+			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, EmployeeViewModel.PersonType, Card);
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
 				var card = employeeCardDetailsViewModel.Card;

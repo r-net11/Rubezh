@@ -65,10 +65,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID));
 		}
-		public OperationResult SaveDepartmentHRChief(Guid uid, Guid chiefUID)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentHRChief(uid, chiefUID));
-		}
 		public OperationResult RestoreDepartment(Guid uid)
 		{
 			return SafeContext.Execute(() => 
@@ -212,6 +208,10 @@ namespace FiresecClient
 		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationChief(uid, chiefUID));
+		}
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationHRChief(uid, chiefUID));
 		}
 		public OperationResult RestoreOrganisation(Guid uid)
 		{

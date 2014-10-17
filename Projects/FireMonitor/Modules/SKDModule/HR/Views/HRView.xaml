@@ -106,7 +106,7 @@
 		</StackPanel>
 
 		<TabControl Grid.Row="1">
-			<TabItem Header="Сотрудники" IsSelected="{Binding IsEmployeesSelected}">
+            <TabItem Header="{Binding EmployeesViewModel.TabItemHeader}" IsSelected="{Binding IsEmployeesSelected}">
 				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
 			</TabItem>
 			<TabItem Header="Отделы" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">

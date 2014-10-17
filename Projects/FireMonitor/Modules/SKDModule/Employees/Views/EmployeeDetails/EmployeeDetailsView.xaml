@@ -141,7 +141,10 @@
 
 					<Label Grid.Row="11" Grid.Column="0" Content="Руководитель организации" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsOrganisationChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-				</Grid>
+
+                    <Label Grid.Row="12" Grid.Column="0" Content="Руководитель отдела кадров" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <CheckBox Grid.Row="12" Grid.Column="1" IsChecked="{Binding IsOrganisationHRChief}" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                </Grid>
 				<ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>

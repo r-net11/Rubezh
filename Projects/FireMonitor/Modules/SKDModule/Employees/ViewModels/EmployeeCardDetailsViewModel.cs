@@ -20,8 +20,8 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
-
-		public EmployeeCardDetailsViewModel(Organisation organisation, SKDCard card = null)
+		
+		public EmployeeCardDetailsViewModel(Organisation organisation, PersonType personType, SKDCard card = null)
 		{
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
@@ -75,6 +75,11 @@ namespace SKDModule.ViewModels
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
 			CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
+			if (personType == PersonType.Guest)
+			{
+				CardTypes.Remove(CardType.Constant);
+				CardTypes.Remove(CardType.Duress);
+			}
 			SelectedCardType = Card.CardType;
 		}
 

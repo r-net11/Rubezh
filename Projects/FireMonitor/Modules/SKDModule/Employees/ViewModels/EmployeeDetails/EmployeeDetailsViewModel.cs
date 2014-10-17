@@ -98,6 +98,7 @@ namespace SKDModule.ViewModels
 				CredentialsStartDate = Employee.CredentialsStartDate;
 				TabelNo = Employee.TabelNo;
 				IsOrganisationChief = _organisation.ChiefUID == Employee.UID;
+				IsOrganisationHRChief = _organisation.HRChiefUID == Employee.UID;
 			}
 			else
 			{
@@ -372,6 +373,20 @@ namespace SKDModule.ViewModels
 				{
 					_isOrganisationChief = value;
 					OnPropertyChanged(() => IsOrganisationChief);
+				}
+			}
+		}
+
+		bool _isOrganisationHRChief;
+		public bool IsOrganisationHRChief
+		{
+			get { return _isOrganisationHRChief; }
+			set
+			{
+				if (_isOrganisationHRChief != value)
+				{
+					_isOrganisationHRChief = value;
+					OnPropertyChanged(() => IsOrganisationHRChief);
 				}
 			}
 		}
@@ -751,6 +766,10 @@ namespace SKDModule.ViewModels
 					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID);
 				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
 					OrganisationHelper.SaveChief(_organisation.UID, Guid.Empty);
+				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
+					OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID);
+				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
+					OrganisationHelper.SaveHRChief(_organisation.UID, Guid.Empty);
 			}
 			else
 			{

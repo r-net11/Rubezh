@@ -103,6 +103,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => AddCommandToolTip);
 				OnPropertyChanged(() => RemoveCommandToolTip);
 				OnPropertyChanged(() => EditCommandToolTip);
+				OnPropertyChanged(() => TabItemHeader);
 			}
 		}
 		
@@ -130,6 +131,11 @@ namespace SKDModule.ViewModels
 		public string EditCommandToolTip
 		{
 			get { return "Редактировать " + ItemRemovingName; }
+		}
+
+		public string TabItemHeader
+		{
+			get { return PersonType == FiresecAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
 		}
 
 		protected override bool Save(ShortEmployee item)

@@ -13,14 +13,15 @@ namespace SKDModule.ViewModels
 		OrganisationsViewModel OrganisationsViewModel;
 		public OrganisationDetails OrganisationDetails { get; private set; }
 		public ChiefViewModel ChiefViewModel { get; private set; }
-		bool _isNew;
+		public ChiefViewModel HRChiefViewModel { get; private set; }
+		public bool IsNew { get; private set; }
 
 		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, Organisation organisation = null)
 		{
 			OrganisationsViewModel = organisationsViewModel;
 			if (organisation == null)
 			{
-				_isNew = true;
+				IsNew = true;
 				Title = "Создание новой организации";
 				OrganisationDetails = new OrganisationDetails()
 				{
@@ -34,6 +35,7 @@ namespace SKDModule.ViewModels
 			}
 			CopyProperties();
 			ChiefViewModel = new ChiefViewModel(OrganisationDetails.ChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
+			HRChiefViewModel = new ChiefViewModel(OrganisationDetails.HRChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
 		}
 
 		void CopyProperties()
@@ -131,6 +133,7 @@ namespace SKDModule.ViewModels
 				OrganisationDetails.Photo.Data = PhotoData;
 			}
 			OrganisationDetails.ChiefUID = ChiefViewModel.ChiefUID;
+			OrganisationDetails.HRChiefUID = HRChiefViewModel.ChiefUID;
 			OrganisationDetails.Phone = Phone;
 			if (Validate())
 				return OrganisationHelper.Save(OrganisationDetails);
