@@ -53,8 +53,8 @@ namespace Infrastructure.Common.Windows.ViewModels
             if (this is ILayoutPartContent)
             {
                 var content = (ILayoutPartContent)this;
-                if (content.Container != null)
-                    content.Container.IsActive = true;
+				if (content.Container != null)
+					content.Container.IsActive = true;
             }
 			ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
 			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);

@@ -215,6 +215,7 @@ namespace FireMonitor.Layout.ViewModels
 		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
 		private void OnChangeLayout(LayoutModel layout)
 		{
+			ApplicationService.CloseAllWindows();
 			UpdateLayout(layout);
 		}
 		private bool CanChangeLayout(LayoutModel layout)

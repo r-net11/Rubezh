@@ -44,8 +44,8 @@ namespace Xceed.Wpf.AvalonDock
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(typeof(DockingManager)));
 			FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
 			HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
+			IsFocusManagerEnabled = true;
 		}
-
 
 		public DockingManager()
 		{
@@ -56,6 +56,8 @@ namespace Xceed.Wpf.AvalonDock
 			this.Loaded += new RoutedEventHandler(DockingManager_Loaded);
 			this.Unloaded += new RoutedEventHandler(DockingManager_Unloaded);
 		}
+
+		public static bool IsFocusManagerEnabled { get; set; }
 
 		#region Layout
 
@@ -159,7 +161,7 @@ namespace Xceed.Wpf.AvalonDock
 				{
 					//set focus on active element only after a layout pass is completed
 					//it's possible that it is not yet visible in the visual tree
-					if (_setFocusAsyncOperation == null)
+					if (_setFocusAsyncOperation == null && IsFocusManagerEnabled)
 					{
 						_setFocusAsyncOperation = Dispatcher.BeginInvoke(new Action(() =>
 							{

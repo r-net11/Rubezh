@@ -22,9 +22,12 @@ namespace LayoutModule.Views
 
 		private void LayoutDesignerView_Loaded(object sender, RoutedEventArgs e)
 		{
-			var binding = new Binding("Manager") { Mode = BindingMode.OneWayToSource };
-			var expression = SetBinding(ManagerProperty, binding);
-			Manager = manager;
+			if (Manager == null)
+			{
+				var binding = new Binding("Manager") { Mode = BindingMode.OneWayToSource };
+				var expression = SetBinding(ManagerProperty, binding);
+				Manager = manager;
+			}
 		}
 	}
 }

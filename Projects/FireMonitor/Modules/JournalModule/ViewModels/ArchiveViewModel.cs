@@ -21,10 +21,12 @@ namespace JournalModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveFilter ArchiveFilter { get; private set; }
-		Guid ArchivePortionUID;
+		private Guid ArchivePortionUID;
+		private LayoutPartContainerCollection _container;
 
 		public ArchiveViewModel()
 		{
+			_container = new LayoutPartContainerCollection();
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			FirstPageCommand = new RelayCommand(OnFirstPage, CanFirstPage);
@@ -384,11 +386,14 @@ namespace JournalModule.ViewModels
 
         #region ILayoutPartContent Members
 
-        public ILayoutPartContainer Container { get; private set; }
+		public ILayoutPartContainer Container
+		{
+			get { return _container; }
+		}
 
         public void SetLayoutPartContainer(ILayoutPartContainer container)
         {
-            Container = container;
+            _container.Add(container);
         }
 
         #endregion

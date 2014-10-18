@@ -17,12 +17,12 @@ using FiresecClient;
 
 namespace FireMonitor.Layout.ViewModels
 {
-	public class TemplateContainerPartViewModel : BaseViewModel
+	public class TemplateContainerPartViewModel : BaseViewModel, ILayoutPartContent
 	{
 		public TemplateContainerPartViewModel(LayoutPartReferenceProperties properties)
 		{
 			Layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
-			LoadLayout();
+			Initialize();
 		}
 
 		public LayoutModel Layout { get; private set; }
@@ -30,7 +30,6 @@ namespace FireMonitor.Layout.ViewModels
 
 		private void LoadLayout()
 		{
-			Initialize();
 			if (Layout != null && Manager != null)
 			{
 				Manager.GridSplitterHeight = Layout.SplitterSize;
@@ -56,7 +55,7 @@ namespace FireMonitor.Layout.ViewModels
 			}
 			if (Layout != null)
 				foreach (var layoutPart in Layout.Parts)
-					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
+					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID), this));
 			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
 		}
 
@@ -134,5 +133,16 @@ namespace FireMonitor.Layout.ViewModels
 		private void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 		}
+
+		#region ILayoutPartContent Members
+
+		public ILayoutPartContainer Container { get; private set; }
+
+		public void SetLayoutPartContainer(ILayoutPartContainer container)
+		{
+			Container = container;
+		}
+
+		#endregion
 	}
 }
