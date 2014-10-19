@@ -12,6 +12,8 @@ using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
 using Infrastructure.Common.Services.Layout;
+using System.Windows.Threading;
+using System;
 
 namespace JournalModule.ViewModels
 {
@@ -134,14 +136,18 @@ namespace JournalModule.ViewModels
 			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 
+		private DispatcherOperation _updateUnreadOperation = null;
 		private void UpdateUnread()
 		{
-			if (Container != null)
-			{
-				if (Container.IsVisibleLayout)
-					_unreadCount = 0;
-				Container.Title = _unreadCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", _unreadCount);
-			}
+			if (_updateUnreadOperation == null && Container != null)
+				_updateUnreadOperation = Dispatcher.BeginInvoke(new Action(() =>
+				{
+					_updateUnreadOperation = null;
+					if (Container.IsVisibleLayout)
+						_unreadCount = 0;
+					var title = GetDefaultTitle();
+					Container.Title = _unreadCount == 0 ? title : string.Format("{0} {1}", title, _unreadCount);
+				}));
 		}
 
 		#region ILayoutPartContent Members
@@ -156,5 +162,10 @@ namespace JournalModule.ViewModels
 		}
 
 		#endregion
+
+		private string GetDefaultTitle()
+		{
+			return Container.LayoutPart.Title ?? Container.LayoutPartPresenter.Name;
+		}
 	}
 }

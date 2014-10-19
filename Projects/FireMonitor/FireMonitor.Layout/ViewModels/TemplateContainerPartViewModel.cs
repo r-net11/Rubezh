@@ -14,6 +14,7 @@ using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using FiresecClient;
+using Common;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -140,9 +141,28 @@ namespace FireMonitor.Layout.ViewModels
 
 		public void SetLayoutPartContainer(ILayoutPartContainer container)
 		{
+			if (Container != null)
+			{
+				Container.ActiveChanged -= OnActiveChanged;
+				Container.SelectedChanged -= OnSelectedChanged;
+			}
 			Container = container;
+			if (Container != null)
+			{
+				Container.ActiveChanged += OnActiveChanged;
+				Container.SelectedChanged += OnSelectedChanged;
+			}
 		}
 
 		#endregion
+
+		private void OnSelectedChanged(object sender, EventArgs e)
+		{
+			LayoutParts.ForEach(item => item.FireSelectedChanged());
+		}
+		private void OnActiveChanged(object sender, EventArgs e)
+		{
+			LayoutParts.ForEach(item => item.FireActiveChanged());
+		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -70,6 +71,16 @@ namespace Infrastructure.Common.Services.Layout
 		}
 
 		public bool IsVisibleLayout
+		{
+			get { throw new NotSupportedException(); }
+		}
+
+		public LayoutPart LayoutPart
+		{
+			get { throw new NotSupportedException(); }
+		}
+
+		public ILayoutPartPresenter LayoutPartPresenter
 		{
 			get { throw new NotSupportedException(); }
 		}

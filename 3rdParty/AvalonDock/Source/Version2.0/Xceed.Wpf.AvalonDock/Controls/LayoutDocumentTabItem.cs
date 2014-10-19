@@ -184,6 +184,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						Model.IsActive = true;
 						_parentDocumentTabPanel.UpdateLayout();
 						UpdateDragDetails();
+						Model.Root.Manager.OnLayoutConfigurationChanged();
 					}
 				}
 			}

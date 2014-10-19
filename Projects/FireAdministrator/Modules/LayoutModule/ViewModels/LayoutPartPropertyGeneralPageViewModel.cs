@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models.Layouts;
 
 namespace LayoutModule.ViewModels
 {
@@ -164,7 +163,6 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Title);
 			}
 		}
-
 
 		public override string Header
 		{

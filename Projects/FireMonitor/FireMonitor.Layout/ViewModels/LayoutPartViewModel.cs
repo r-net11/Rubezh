@@ -63,8 +63,7 @@ namespace FireMonitor.Layout.ViewModels
 			{
 				_isSelected = value;
 				OnPropertyChanged(() => IsSelected);
-				if (SelectedChanged != null)
-					SelectedChanged(this, EventArgs.Empty);
+				FireSelectedChanged();
 			}
 		}
 		private bool _isActive;
@@ -75,8 +74,7 @@ namespace FireMonitor.Layout.ViewModels
 			{
 				_isActive = value;
 				OnPropertyChanged(() => IsActive);
-				if (ActiveChanged != null)
-					ActiveChanged(this, EventArgs.Empty);
+				FireActiveChanged();
 			}
 		}
 		public bool IsVisibleLayout
@@ -100,6 +98,17 @@ namespace FireMonitor.Layout.ViewModels
 			}
 			IsSelected = true;
 			IsActive = true;
+		}
+
+		public void FireSelectedChanged()
+		{
+			if (SelectedChanged != null)
+				SelectedChanged(this, EventArgs.Empty);
+		}
+		public void FireActiveChanged()
+		{
+			if (ActiveChanged != null)
+				ActiveChanged(this, EventArgs.Empty);
 		}
 	}
 }
