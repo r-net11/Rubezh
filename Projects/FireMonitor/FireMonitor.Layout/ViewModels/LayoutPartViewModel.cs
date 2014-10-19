@@ -31,6 +31,10 @@ namespace FireMonitor.Layout.ViewModels
 		public BaseViewModel Content { get; private set; }
 		public ILayoutPartContent Parent { get; private set; }
 
+
+		public event EventHandler SelectedChanged;
+		public event EventHandler ActiveChanged;
+
 		private string _title;
 		public string Title
 		{
@@ -59,6 +63,8 @@ namespace FireMonitor.Layout.ViewModels
 			{
 				_isSelected = value;
 				OnPropertyChanged(() => IsSelected);
+				if (SelectedChanged != null)
+					SelectedChanged(this, EventArgs.Empty);
 			}
 		}
 		private bool _isActive;
@@ -67,15 +73,33 @@ namespace FireMonitor.Layout.ViewModels
 			get { return _isActive; }
 			set
 			{
-				if (value && Parent != null && Parent.Container != null)
-				{
-					DockingManager.IsFocusManagerEnabled = false;
-					Parent.Container.IsActive = true;
-					DockingManager.IsFocusManagerEnabled = true;
-				}
 				_isActive = value;
 				OnPropertyChanged(() => IsActive);
+				if (ActiveChanged != null)
+					ActiveChanged(this, EventArgs.Empty);
 			}
+		}
+		public bool IsVisibleLayout
+		{
+			get
+			{
+				if (!IsSelected)
+					return false;
+				if (Parent != null && Parent.Container != null)
+					return Parent.Container.IsVisibleLayout;
+				return true;
+			}
+		}
+
+		public void Activate()
+		{
+			if (Parent != null && Parent.Container != null)
+			{
+				Parent.Container.IsSelected = true;
+				Parent.Container.IsActive = true;
+			}
+			IsSelected = true;
+			IsActive = true;
 		}
 	}
 }

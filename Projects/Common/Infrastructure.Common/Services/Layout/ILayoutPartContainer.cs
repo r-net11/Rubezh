@@ -10,7 +10,12 @@ namespace Infrastructure.Common.Services.Layout
         Guid UID { get; }
         string Title { get; set; }
         string IconSource { get; set; }
-        bool IsActive { get; set; }
+		bool IsActive { get; set; }
         bool IsSelected { get; set; }
+		void Activate();
+		bool IsVisibleLayout { get; }
+
+		event EventHandler ActiveChanged;
+		event EventHandler SelectedChanged;
     }
 }

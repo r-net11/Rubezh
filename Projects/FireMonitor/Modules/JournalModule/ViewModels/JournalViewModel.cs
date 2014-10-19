@@ -17,10 +17,12 @@ namespace JournalModule.ViewModels
 {
 	public class JournalViewModel : ViewPartViewModel, ILayoutPartContent
 	{
+		private int _unreadCount;
 		public JournalFilter JournalFilter { get; private set; }
 
 		public JournalViewModel(JournalFilter journalFilter = null)
 		{
+			_unreadCount = 0;
 			JournalFilter = journalFilter;
 			if (JournalFilter == null)
 				JournalFilter = new JournalFilter();
@@ -106,6 +108,9 @@ namespace JournalModule.ViewModels
 
 			if (SelectedJournal == null)
 				SelectedJournal = JournalItems.FirstOrDefault();
+
+			_unreadCount += journalItems.Count;
+			UpdateUnread();
 		}
 
 		public List<JournalColumnType> AdditionalColumns
@@ -129,15 +134,27 @@ namespace JournalModule.ViewModels
 			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 
-        #region ILayoutPartContent Members
+		private void UpdateUnread()
+		{
+			if (Container != null)
+			{
+				if (Container.IsVisibleLayout)
+					_unreadCount = 0;
+				Container.Title = _unreadCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", _unreadCount);
+			}
+		}
 
-        public ILayoutPartContainer Container { get; private set; }
+		#region ILayoutPartContent Members
 
-        public void SetLayoutPartContainer(ILayoutPartContainer container)
-        {
-            Container = container;
-        }
+		public ILayoutPartContainer Container { get; private set; }
 
-        #endregion
-    }
+		public void SetLayoutPartContainer(ILayoutPartContainer container)
+		{
+			Container = container;
+			if (Container != null)
+				Container.SelectedChanged += (s, e) => UpdateUnread();
+		}
+
+		#endregion
+	}
 }

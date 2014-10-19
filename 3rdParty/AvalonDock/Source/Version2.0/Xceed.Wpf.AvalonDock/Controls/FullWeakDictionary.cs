@@ -72,6 +72,16 @@ namespace Xceed.Wpf.AvalonDock.Controls
             return true;
         }
 
+		public void ClearValue(K key)
+		{
+            int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<K>() == key);
+			if (vIndex > -1)
+			{
+				_keys.RemoveAt(vIndex);
+				_values.RemoveAt(vIndex);
+			}
+		}
+
 
         void CollectGarbage()
         { 
