@@ -69,11 +69,13 @@ namespace FiresecAPI.Models
 			elementProcedure.Text = Text;
 			elementProcedure.ForegroundColor = ForegroundColor;
 			elementProcedure.FontSize = FontSize;
+			elementProcedure.FontItalic = FontItalic;
+			elementProcedure.FontBold = FontBold;
 			elementProcedure.FontFamilyName = FontFamilyName;
 			elementProcedure.Stretch = Stretch;
 			elementProcedure.TextAlignment = TextAlignment;
-			elementProcedure.FontBold = FontBold;
-			elementProcedure.FontItalic = FontItalic;
+			elementProcedure.VerticalAlignment = VerticalAlignment;
+			elementProcedure.WordWrap = WordWrap;
 		}
 		public override void UpdateZLayer()
 		{

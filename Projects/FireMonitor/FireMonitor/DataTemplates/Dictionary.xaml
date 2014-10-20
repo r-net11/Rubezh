@@ -31,8 +31,4 @@
 		<Views:RestartApplicationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TimePresenterViewModel}">
-        <Views:TimePresenterView />
-    </DataTemplate>
-
 </ResourceDictionary>

@@ -9,7 +9,7 @@
 				<RowDefinition />
 				<RowDefinition Height="40" />
 			</Grid.RowDefinitions>
-			<Views:TimePresenterView Grid.Row="0" Margin="11 11 0 0" />
+			<TextBlock Name="_textBlock" Grid.Row="0" FontFamily="Arial" Foreground="White" FontSize="23" Margin="11 11 0 0" />
 
 			<ItemsControl Grid.Row="1" VerticalAlignment="Center" Focusable="False" ItemsSource="{Binding ToolbarItems}">
 				<ItemsControl.ItemsPanel>

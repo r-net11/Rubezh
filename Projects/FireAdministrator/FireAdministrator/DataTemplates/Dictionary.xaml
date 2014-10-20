@@ -12,4 +12,8 @@
 		<Views:MenuView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyTimePageViewModel}">
+		<Views:LayoutPartPropertyTimePageView />
+	</DataTemplate>
+	
 </ResourceDictionary>

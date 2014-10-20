@@ -106,6 +106,10 @@
     <Reference Include="WPFToolkit.Extended">
       <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -136,9 +140,14 @@
       <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AdministratorShellViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartTimeViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertyTimePageViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MergeConfigurationHelper.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
+    <Compile Include="Views\LayoutPartPropertyTimePageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyTimePageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
@@ -183,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Validation\Views\ValidationErrorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LayoutPartPropertyTimePageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

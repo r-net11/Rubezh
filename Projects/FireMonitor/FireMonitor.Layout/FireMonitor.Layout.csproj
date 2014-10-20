@@ -91,6 +91,7 @@
     <Compile Include="ViewModels\MonitorLayoutShellViewModel.cs" />
     <Compile Include="ViewModels\NavigationPartViewModel.cs" />
     <Compile Include="ViewModels\SelectLayoutViewModel.cs" />
+    <Compile Include="ViewModels\TimePresenterViewModel.cs" />
     <Compile Include="Views\ContentPartView.xaml.cs">
       <DependentUpon>ContentPartView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +112,9 @@
     </Compile>
     <Compile Include="Views\TemplateContainerPartView.xaml.cs">
       <DependentUpon>TemplateContainerPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimePresenterView.xaml.cs">
+      <DependentUpon>TimePresenterView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +220,10 @@
     <Page Include="Views\TemplateContainerPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TimePresenterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup />

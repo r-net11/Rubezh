@@ -122,7 +122,6 @@
     <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
-    <Compile Include="ViewModels\TimePresenterViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\UserFotterViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -149,9 +148,6 @@
     <Compile Include="Services\SecurityService.cs" />
     <Compile Include="Views\SoundView.xaml.cs">
       <DependentUpon>SoundView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TimePresenterView.xaml.cs">
-      <DependentUpon>TimePresenterView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -215,10 +211,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SoundView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TimePresenterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
