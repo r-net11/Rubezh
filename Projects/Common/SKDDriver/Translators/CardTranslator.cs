@@ -124,6 +124,12 @@ namespace SKDDriver
 					result = result.And(e => !e.IsInStopList);
 					break;
 			}
+
+			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
+			{
+				result = result.And(e => e.Employee != null && filter.OrganisationUIDs.Contains(e.Employee.OrganisationUID.Value));
+			}
+
 			return result;
 		}
 

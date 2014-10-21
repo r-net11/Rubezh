@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowSettings()
 		{
-			return !ParentOrganisation.IsDeleted;
+			return ParentOrganisation != null && !ParentOrganisation.IsDeleted;
 		}
 
 		protected override bool Save(Holiday item)

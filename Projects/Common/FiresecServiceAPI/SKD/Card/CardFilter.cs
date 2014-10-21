@@ -3,7 +3,7 @@
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class CardFilter : IsDeletedFilter
+	public class CardFilter : OrganisationFilterBase
 	{
 		public CardFilter()
 			: base()

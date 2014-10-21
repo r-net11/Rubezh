@@ -69,7 +69,7 @@
 				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Иконка">
+        <TabItem Header="Логотип">
 			<Controls:PhotoSelectation Data="{Binding PhotoData}" />
 		</TabItem>
 	</TabControl>
