@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 
 namespace FiresecAPI.Journal
 {
 	public enum JournalEventNameType
 	{
-		[DescriptionAttribute("")]
+		[EventDescriptionAttribute("")]
 		NULL,
 
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]

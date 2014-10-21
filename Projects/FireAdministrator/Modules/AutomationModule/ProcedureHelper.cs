@@ -198,6 +198,12 @@ namespace AutomationModule
 							result = explicitValue.DriverTypeValue.ToDescription();
 						if (enumType == EnumType.PermissionType)
 							result = explicitValue.PermissionTypeValue.ToDescription();
+						if (enumType == EnumType.JournalEventDescriptionType)
+							result = explicitValue.JournalEventDescriptionTypeValue.ToDescription();
+						if (enumType == EnumType.JournalEventNameType)
+							result = explicitValue.JournalEventNameTypeValue.ToDescription();
+						if (enumType == EnumType.JournalObjectType)
+							result = explicitValue.JournalObjectTypeValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:
