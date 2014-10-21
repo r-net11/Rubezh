@@ -330,9 +330,16 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
+				case ProcedureStepType.GetJournalItem:
+					{
+						var getJournalItemArguments = step.GetJournalItemArguments;
+						InvalidateArgument(procedure, getJournalItemArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.GetListCount:
 					{
-						var getListCountArgument = step.GetListCountArgument;
+						var getListCountArgument = step.GetListCountArguments;
 						InvalidateArgument(procedure, getListCountArgument.ListArgument);
 						InvalidateArgument(procedure, getListCountArgument.CountArgument);
 					}
@@ -340,7 +347,7 @@ namespace FiresecAPI.Automation
 
 				case ProcedureStepType.GetListItem:
 					{
-						var getListItemArgument = step.GetListItemArgument;
+						var getListItemArgument = step.GetListItemArguments;
 						InvalidateArgument(procedure, getListItemArgument.ListArgument);
 						InvalidateArgument(procedure, getListItemArgument.ItemArgument);
 						InvalidateArgument(procedure, getListItemArgument.IndexArgument);

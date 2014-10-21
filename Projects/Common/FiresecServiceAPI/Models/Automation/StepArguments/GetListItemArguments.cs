@@ -1,13 +1,12 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class GetListItemArgument
+	public class GetListItemArguments
 	{
-		public GetListItemArgument()
+		public GetListItemArguments()
 		{
 			ListArgument = new Argument();
 			ItemArgument = new Argument();
