@@ -23,6 +23,7 @@ namespace JournalModule.Reports
 		{
 			ArchiveViewModel = new ArchiveViewModel();
 			ArchiveViewModel.ShowFilterCommand.Execute();
+			refreshCommand.Execute();
 		}
 		#endregion
 
@@ -47,16 +48,20 @@ namespace JournalModule.Reports
 			table.Columns.Add("Description");
 			table.Columns.Add("ObjectName");
 
-			if (ArchiveViewModel.JournalItems != null)
+			if (ArchiveViewModel.Pages != null)
 			{
-				foreach (var journalItem in ArchiveViewModel.JournalItems)
+				foreach (var page in ArchiveViewModel.Pages)
 				{
-					table.Rows.Add(
-						journalItem.JournalItem.DeviceDateTime,
-						journalItem.JournalItem.SystemDateTime,
-						journalItem.Name,
-						journalItem.Description,
-						journalItem.ObjectName);
+					page.Create();
+					foreach (var journalItem in page.JournalItems)
+					{
+						table.Rows.Add(
+							journalItem.JournalItem.DeviceDateTime,
+							journalItem.JournalItem.SystemDateTime,
+							journalItem.Name,
+							journalItem.Description,
+							journalItem.ObjectName);
+					}
 				}
 			}
 			data.DataTables.Add(table);

@@ -149,6 +149,7 @@
     <Compile Include="Converters\InversedEnumToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
+    <Compile Include="Converters\NullableTimeToStringConverter.cs" />
     <Compile Include="Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\XSubsystemTypeToIconConverter.cs" />

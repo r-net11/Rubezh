@@ -61,7 +61,6 @@ namespace ChinaSKDDriver
 			var journalItem = new SKDJournalItem();
 			journalItem.LoginID = lLoginID;
 			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Потеря_связи;
 			AddJournalItem(journalItem);
 		}
@@ -71,7 +70,6 @@ namespace ChinaSKDDriver
 			var journalItem = new SKDJournalItem();
 			journalItem.LoginID = lLoginID;
 			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Восстановление_связи;
 			AddJournalItem(journalItem);
 

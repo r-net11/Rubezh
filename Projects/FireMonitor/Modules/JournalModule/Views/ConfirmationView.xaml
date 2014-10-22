@@ -26,7 +26,7 @@
 			<TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
 			<TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
 
-			<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource NullableTimeToStringConverter}}" Margin="2" />
 			<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
 			<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 			<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />

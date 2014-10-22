@@ -20,7 +20,6 @@ namespace FiresecService
 		{			
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
 			journalItem.DescriptionText = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();

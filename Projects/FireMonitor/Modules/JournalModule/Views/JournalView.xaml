@@ -14,7 +14,7 @@
                 <DataGridTemplateColumn Header="Дата в приборе" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
+                            <TextBlock Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource NullableTimeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -135,7 +135,7 @@
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
 
 					<TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" Margin="2" />
-					<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource NullableTimeToStringConverter}}" Margin="2" />
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2" />
 					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">

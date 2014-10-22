@@ -91,7 +91,6 @@ namespace FiresecService.Service
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -109,7 +108,6 @@ namespace FiresecService.Service
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -127,7 +125,6 @@ namespace FiresecService.Service
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -145,7 +142,6 @@ namespace FiresecService.Service
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -231,7 +227,7 @@ namespace FiresecService.Service
 				{
 					DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 					DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID, false);
+					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID);
 
 				}))));
 				thread.Name = "FiresecService.GetFilteredArchive";

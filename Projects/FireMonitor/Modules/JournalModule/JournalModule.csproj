@@ -138,14 +138,12 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Converters\StateTypeToColorConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Events\JournalSettingsUpdatedEvent.cs" />
     <Compile Include="JournalModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -163,7 +161,6 @@
     </Compile>
     <Compile Include="Reports\JournalReport.cs" />
     <Compile Include="Reports\JournalReportPdf.cs" />
-    <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\ArchiveDateTimeViewModel.cs" />
