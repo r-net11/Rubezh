@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class GetListCountArgument
+	public class GetListCountArguments
 	{
-		public GetListCountArgument()
+		public GetListCountArguments()
 		{
 			ListArgument = new Argument();
 			CountArgument = new Argument();

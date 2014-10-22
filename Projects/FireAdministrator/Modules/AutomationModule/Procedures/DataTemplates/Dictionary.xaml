@@ -187,6 +187,10 @@
 		<Views:GetListItemStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="getJournalItemTemplate">
+		<Views:GetJournalItemStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
@@ -217,6 +221,7 @@
 		CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 		GetListCountTemplate="{StaticResource getListCountTemplate}"
 		GetListItemTemplate="{StaticResource getListItemTemplate}"
+		GetJournalItemTemplate="{StaticResource getJournalItemTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

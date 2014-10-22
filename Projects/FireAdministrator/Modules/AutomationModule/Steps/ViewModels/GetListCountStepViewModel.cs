@@ -4,15 +4,15 @@ namespace AutomationModule.ViewModels
 {
 	public class GetListCountStepViewModel : BaseStepViewModel
 	{
-		GetListCountArgument GetListCountArgument { get; set; }
+		GetListCountArguments GetListCountArguments { get; set; }
 		public ArgumentViewModel ListArgument { get; set; }
 		public ArgumentViewModel CountArgument { get; set; }
 
 		public GetListCountStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			GetListCountArgument = stepViewModel.Step.GetListCountArgument;
-			ListArgument = new ArgumentViewModel(GetListCountArgument.ListArgument, stepViewModel.Update, UpdateContent, false);
-			CountArgument = new ArgumentViewModel(GetListCountArgument.CountArgument, stepViewModel.Update, UpdateContent, false);
+			GetListCountArguments = stepViewModel.Step.GetListCountArguments;
+			ListArgument = new ArgumentViewModel(GetListCountArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
+			CountArgument = new ArgumentViewModel(GetListCountArguments.CountArgument, stepViewModel.Update, UpdateContent, false);
 			CountArgument.ExplicitType = ExplicitType.Integer;
 		}
 

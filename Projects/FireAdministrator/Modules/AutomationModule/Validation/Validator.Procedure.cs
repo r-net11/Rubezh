@@ -286,9 +286,16 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.GetJournalItem:
+					{
+						var getJournalItemArguments = step.GetJournalItemArguments;
+						ValidateArgument(step, getJournalItemArguments.ResultArgument);
+					}
+					break;
+
 				case ProcedureStepType.GetListCount:
 					{
-						var getListCountArgument = step.GetListCountArgument;
+						var getListCountArgument = step.GetListCountArguments;
 						if (!ValidateArgument(step, getListCountArgument.ListArgument))
 							break;
 						ValidateArgument(step, getListCountArgument.CountArgument);
@@ -297,7 +304,7 @@ namespace AutomationModule.Validation
 
 				case ProcedureStepType.GetListItem:
 					{
-						var getListItemArgument = step.GetListItemArgument;
+						var getListItemArgument = step.GetListItemArguments;
 						if (!ValidateArgument(step, getListItemArgument.ListArgument))
 							break;
 						if (!ValidateArgument(step, getListItemArgument.ItemArgument))
