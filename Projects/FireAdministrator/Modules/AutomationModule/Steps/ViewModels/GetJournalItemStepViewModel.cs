@@ -18,8 +18,17 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			var explicitType = SelectedJournalColumnType == JournalColumnType.NameText ? ExplicitType.String : ExplicitType.DateTime;
-			ResultArgument.Update(Procedure, explicitType);
+			var explicitType = ExplicitType.Enum;
+			var enumType = new EnumType();
+			if (SelectedJournalColumnType == JournalColumnType.JournalEventNameType)
+				enumType = EnumType.JournalEventNameType;
+			if (SelectedJournalColumnType == JournalColumnType.JournalEventDescriptionType)
+				enumType = EnumType.JournalEventDescriptionType;
+			if (SelectedJournalColumnType == JournalColumnType.JournalObjectType)
+				enumType = EnumType.JournalObjectType;
+			if (SelectedJournalColumnType == JournalColumnType.DeviceDateTime || SelectedJournalColumnType == JournalColumnType.SystemDateTime)
+				explicitType = ExplicitType.DateTime;
+			ResultArgument.Update(Procedure, explicitType, enumType);
 		}
 
 		public ObservableCollection<JournalColumnType> JournalColumnTypes { get; private set; }

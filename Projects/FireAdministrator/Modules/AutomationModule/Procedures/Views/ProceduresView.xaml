@@ -11,6 +11,13 @@
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
+		<ContextMenu x:Key="ProcedureContextMenu">
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить процедуру" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить процедуру" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать процедуру" />
+			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать процедуру" />
+			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить процедуру" />
+		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -22,7 +29,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<XDataGrid Grid.Row="0" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+			<XDataGrid Grid.Row="0" ContextMenu="{StaticResource ProcedureContextMenu}" ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

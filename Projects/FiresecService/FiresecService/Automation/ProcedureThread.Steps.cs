@@ -585,8 +585,12 @@ namespace FiresecService
 					value = JournalItem.DeviceDateTime;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.SystemDateTime)
 					value = JournalItem.SystemDateTime;
-				if (getJournalItemArguments.JournalColumnType == JournalColumnType.NameText)
-					value = JournalItem.NameText;
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventNameType)
+					value = JournalItem.JournalEventNameType;
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalEventDescriptionType)
+					value = JournalItem.JournalEventDescriptionType;
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectType)
+					value = JournalItem.JournalObjectType;
 				SetValue(resultVariable, value);
 			}
 		}
@@ -609,6 +613,12 @@ namespace FiresecService
 					return explicitValue1.StateTypeValue == explicitValue2.StateTypeValue;
 				if (enumType == EnumType.PermissionType)
 					return explicitValue1.PermissionTypeValue == explicitValue2.PermissionTypeValue;
+				if (enumType == EnumType.JournalEventNameType)
+					return explicitValue1.JournalEventNameTypeValue == explicitValue2.JournalEventNameTypeValue;
+				if (enumType == EnumType.JournalEventDescriptionType)
+					return explicitValue1.JournalEventDescriptionTypeValue == explicitValue2.JournalEventDescriptionTypeValue;
+				if (enumType == EnumType.JournalObjectType)
+					return explicitValue1.JournalObjectTypeValue == explicitValue2.JournalObjectTypeValue;
 			}
 			if (explicitType == ExplicitType.Object)
 			{
@@ -653,6 +663,12 @@ namespace FiresecService
 					target.ExplicitValue.StateTypeValue = (XStateClass) propertyValue;
 				if (target.EnumType == EnumType.PermissionType)
 					target.ExplicitValue.PermissionTypeValue = (PermissionType)propertyValue;
+				if (target.EnumType == EnumType.JournalEventNameType)
+					target.ExplicitValue.JournalEventNameTypeValue = (JournalEventNameType)propertyValue;
+				if (target.EnumType == EnumType.JournalEventDescriptionType)
+					target.ExplicitValue.JournalEventDescriptionTypeValue = (JournalEventDescriptionType)propertyValue;
+				if (target.EnumType == EnumType.JournalObjectType)
+					target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
 			}
 		}
 
@@ -696,6 +712,12 @@ namespace FiresecService
 					result = explicitValue.StateTypeValue;
 				if (enumType == EnumType.PermissionType)
 					result = explicitValue.PermissionTypeValue;
+				if (enumType == EnumType.JournalEventNameType)
+					result = explicitValue.JournalEventNameTypeValue;
+				if (enumType == EnumType.JournalEventDescriptionType)
+					result = explicitValue.JournalEventDescriptionTypeValue;
+				if (enumType == EnumType.JournalObjectType)
+					result = explicitValue.JournalObjectTypeValue;
 			}
 			return (T)result;
 		}

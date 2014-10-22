@@ -27,6 +27,12 @@ namespace FiresecAPI.Automation
 		SystemDateTime,
 
 		[Description("Название")]
-		NameText
+		JournalEventNameType,
+
+		[Description("Уточнение")]
+		JournalEventDescriptionType,
+
+		[Description("Тип объекта")]
+		JournalObjectType
 	}
 }
