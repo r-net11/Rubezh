@@ -2,21 +2,22 @@
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using SKDModule.Events;
+using Infrastructure.Common;
 
 namespace SKDModule.Validation
 {
-	public class DoorValidationError : ObjectValidationError<SKDDoor, ShowSKDDoorEvent, Guid>
+    public class DoorValidationError : PlanObjectValidationError<SKDDoor, ShowSKDDoorEvent, Guid>
 	{
-		public DoorValidationError(SKDDoor door, string error, ValidationErrorLevel level)
-			: base(door, error, level)
+        public DoorValidationError(SKDDoor door, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+            : base(door, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "SKD"; }
+			get { return ModuleType.SKD; }
 		}
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}

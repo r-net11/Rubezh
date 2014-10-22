@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace OPCModule.Validation
 {
@@ -23,7 +24,7 @@ namespace OPCModule.Validation
 			var _errors = new List<IValidationError>();
 			if (opcCount >= 100)
 			{
-				_errors.Add(new CommonValidationError("FS", "OPC", string.Empty, string.Format("Суммарное количество устройств и зон, использующихся в OPC-сервере, не должно превышать 100"), ValidationErrorLevel.CannotSave));
+				_errors.Add(new CommonValidationError(ModuleType.Devices, "OPC", string.Empty, string.Format("Суммарное количество устройств и зон, использующихся в OPC-сервере, не должно превышать 100"), ValidationErrorLevel.CannotSave));
 			}
 			return _errors;
 		}

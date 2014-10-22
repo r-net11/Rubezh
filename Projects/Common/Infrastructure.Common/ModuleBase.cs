@@ -19,7 +19,7 @@ namespace Infrastructure.Common
 			get { return ModuleType.ToDescription(); }
 		}
 
-		protected abstract ModuleType ModuleType { get; } 
+        public abstract ModuleType ModuleType { get; } 
 
 		public virtual int Order
 		{

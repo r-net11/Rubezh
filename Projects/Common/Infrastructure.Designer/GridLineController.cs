@@ -13,7 +13,9 @@ namespace Infrastructure.Designer
 		private const double DELTA = 20;
 		private double _accamulateX = 0;
 		private double _accamulateY = 0;
-		private DesignerCanvas _canvas;
+        private double _jumpX = 0;
+        private double _jumpY = 0;
+        private DesignerCanvas _canvas;
 		private StreamGeometry _geometry;
 		private RectangleGeometry _clipGeometry;
 		private bool _isVisible;
@@ -65,6 +67,8 @@ namespace Infrastructure.Designer
 		{
 			_accamulateX = 0;
 			_accamulateY = 0;
+            _jumpX = 0;
+            _jumpY = 0;
 		}
 		public Vector Pull(Point point)
 		{
@@ -79,38 +83,47 @@ namespace Infrastructure.Designer
 		public Vector Pull(Vector shift, Rect rect)
 		{
 			var factor = DELTA / _canvas.Zoom;
-			if (IsVisible)
-				foreach (var gridLine in GridLines)
-					switch (gridLine.Orientation)
-					{
-						case Orientation.Vertical:
-							shift.X = Pull(shift.X, gridLine.Position - rect.Left, factor, ref _accamulateX);
-							if (rect.Left != rect.Right)
-								shift.X = Pull(shift.X, gridLine.Position - rect.Right, factor, ref _accamulateX);
-							break;
-						case Orientation.Horizontal:
-							shift.Y = Pull(shift.Y, gridLine.Position - rect.Top, factor, ref _accamulateY);
-							if (rect.Top != rect.Bottom)
-								shift.Y = Pull(shift.Y, gridLine.Position - rect.Bottom, factor, ref _accamulateY);
-							break;
-					}
-			return shift;
+            if (IsVisible)
+            {
+                var point = shift;
+                foreach (var gridLine in GridLines)
+                    switch (gridLine.Orientation)
+                    {
+                        case Orientation.Vertical:
+                            shift.X = Pull(shift.X, gridLine.Position - rect.Left, factor, ref _accamulateX, ref _jumpX);
+                            if (rect.Left != rect.Right)
+                                shift.X = Pull(shift.X, gridLine.Position - rect.Right, factor, ref _accamulateX, ref _jumpX);
+                            break;
+                        case Orientation.Horizontal:
+                            shift.Y = Pull(shift.Y, gridLine.Position - rect.Top, factor, ref _accamulateY, ref _jumpY);
+                            if (rect.Top != rect.Bottom)
+                                shift.Y = Pull(shift.Y, gridLine.Position - rect.Bottom, factor, ref _accamulateY, ref _jumpY);
+                            break;
+                    }
+                if (point == shift)
+                    PullReset();
+            }
+            return shift;
 		}
 
-		private double Pull(double shift, double margin, double factor, ref double accamulate)
+		private double Pull(double shift, double margin, double factor, ref double accamulate, ref double jump)
 		{
 			double result = shift;
-			if (Math.Abs(margin) < factor)
-			{
-				accamulate += shift;
-				if (Math.Abs(accamulate) < factor)
-					result = margin;
-				else
-				{
-					result = accamulate;
-					accamulate = 0;
-				}
-			}
+            if (Math.Abs(margin) < factor)
+            {
+                if (margin == 0)
+                    accamulate += shift;
+                else
+                    jump = margin;
+                if (Math.Abs(accamulate) < factor)
+                    result = margin;
+                else
+                {
+                    result = accamulate + jump;
+                    accamulate = 0;
+                    jump = 0;
+                }
+            }
 			return result;
 		}
 	}

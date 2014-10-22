@@ -14,6 +14,7 @@ namespace FireAdministrator.ViewModels
 		{
 			ClickCommand = new RelayCommand(OnClick);
 			EditValidationCommand = new RelayCommand(OnEditValidation);
+            CloseValidationCommand = new RelayCommand(OnCloseValidation);
 			Validate();
 		}
 
@@ -44,22 +45,22 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		IEnumerable<IValidationError> SortedErrors(string module)
+        IEnumerable<IValidationError> SortedErrors(ModuleType? module)
 		{
-			if (module != null)
-				return Errors.Where(x => x.Module == module);
+			if (module.HasValue)
+				return Errors.Where(x => x.Module == module.Value);
 			return Errors;
 		}
 
-		public bool HasErrors(string module = null)
+        public bool HasErrors(ModuleType? module = null)
 		{
 			return SortedErrors(module).Count() > 0;
 		}
-		public bool CannotSave(string module = null)
+        public bool CannotSave(ModuleType? module = null)
 		{
 			return SortedErrors(module).Any(x => x.ErrorLevel == ValidationErrorLevel.CannotSave);
 		}
-		public bool CannotWrite(string module = null)
+        public bool CannotWrite(ModuleType? module = null)
 		{
 			return SortedErrors(module).Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite);
 		}
@@ -76,6 +77,12 @@ namespace FireAdministrator.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<EditValidationEvent>().Publish(null);
 		}
+
+        public RelayCommand CloseValidationCommand { get; private set; }
+        void OnCloseValidation()
+        {
+            ServiceFactory.Layout.ShowFooter(null);
+        }
 
 		public void AddErrors(IEnumerable<IValidationError> validationErrors)
 		{

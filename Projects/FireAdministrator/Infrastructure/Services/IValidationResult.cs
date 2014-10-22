@@ -1,9 +1,10 @@
-﻿namespace Infrastructure
+﻿using Infrastructure.Common;
+namespace Infrastructure
 {
 	public interface IValidationResult
 	{
-		bool HasErrors(string module = null);
-		bool CannotSave(string module = null);
-		bool CannotWrite(string module = null);
+        bool HasErrors(ModuleType? module = null);
+        bool CannotSave(ModuleType? module = null);
+        bool CannotWrite(ModuleType? module = null);
 	}
 }

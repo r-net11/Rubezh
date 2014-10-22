@@ -6,6 +6,8 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System.Linq;
+using Infrastructure.Common.Validation;
 
 namespace Infrastructure.Client.Plans
 {
@@ -131,6 +133,32 @@ namespace Infrastructure.Client.Plans
 		{
 		}
 
+        public IEnumerable<Guid> FindDuplicate<TReference>(IEnumerable<TReference> elements, IEnumerable<TReference> elements2 = null)
+            where TReference : IElementReference
+        {
+            var source = elements2 == null ? elements : elements.Concat(elements2);
+            var set = new HashSet<Guid>();
+            foreach(var item in source)
+            {
+                if (set.Contains(item.ItemUID))
+                    yield return item.ItemUID;
+                else
+                    set.Add(item.ItemUID);
+            }
+        }
+        public IEnumerable<TItem> FindDuplicateItems<TItem, TReference>(IEnumerable<TReference> elements1, IEnumerable<TReference> elements2 = null)
+            where TItem : IChangedNotification, IPlanPresentable
+            where TReference : IElementReference
+        {
+            var duplicates = FindDuplicate<TReference>(elements1, elements2);
+            foreach (var duplicate in duplicates)
+            {
+                var item = GetItem<TItem>(duplicate);
+                if (item != null)
+                    yield return item;
+            }
+        }
+
 		#region IPlanExtension<Plan> Members
 
 		public abstract int Index { get; }
@@ -142,5 +170,5 @@ namespace Infrastructure.Client.Plans
 		public abstract IEnumerable<IInstrument> Instruments { get; }
 
 		#endregion
-	}
+    }
 }

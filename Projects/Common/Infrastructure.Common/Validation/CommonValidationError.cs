@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Validation
 			ImageSource = string.Empty;
 			Address = string.Empty;
 		}
-		public CommonValidationError(string module, string source, string address, string error, ValidationErrorLevel validationErrorLevel)
+        public CommonValidationError(ModuleType module, string source, string address, string error, ValidationErrorLevel validationErrorLevel)
 			: this(error, validationErrorLevel)
 		{
 			Module = module;
@@ -21,7 +21,7 @@ namespace Infrastructure.Common.Validation
 
 		#region IValidationError Members
 
-		public virtual string Module { get; protected set; }
+		public virtual ModuleType Module { get; protected set; }
 		public virtual string Source { get; protected set; }
 		public virtual string Address { get; protected set; }
 		public virtual string ImageSource { get; protected set; }

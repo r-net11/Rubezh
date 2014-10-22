@@ -38,7 +38,7 @@ namespace LayoutModule
 				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
 			};
 		}
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Layout; }
 		}

@@ -178,6 +178,7 @@
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
+    <Compile Include="Navigation\ShowOnPlanArgs.cs" />
     <Compile Include="Ribbon\RibbonViewModel.cs" />
     <Compile Include="Services\DragDrop\DragCorrectionEventArgs.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Services\Layout\LayoutPartContainerCollection.cs" />
     <Compile Include="Services\Layout\LayoutPartDescriptionGroup.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
+    <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Video\MjpegCamera.cs" />
     <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">
       <DependentUpon>CellPlayerWrap.xaml</DependentUpon>

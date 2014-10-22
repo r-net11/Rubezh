@@ -20,6 +20,7 @@ namespace SKDModule.Validation
 			ValidateSlideDayIntervals();
 			ValidateSlideWeklyIntervals();
 			ValidateHolidays();
+            ValidatePlans();
 			return Errors;
 		}
 	}

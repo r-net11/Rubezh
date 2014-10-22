@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
+using Infrastructure.Common;
 
 namespace VideoModule.Validation
 {
@@ -12,9 +13,9 @@ namespace VideoModule.Validation
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "Video"; }
+			get { return ModuleType.Video; }
 		}
 		protected override Guid Key
 		{

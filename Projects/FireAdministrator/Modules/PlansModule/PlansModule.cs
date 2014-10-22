@@ -14,10 +14,12 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using Infrastructure.Common.Validation;
+using System.Linq;
 
 namespace PlansModule
 {
-	public class PlansModule : ModuleBase, ILayoutDeclarationModule
+    public class PlansModule : ModuleBase, ILayoutDeclarationModule, IValidationModule
 	{
 		PlansViewModel PlansViewModel;
 
@@ -50,7 +52,7 @@ namespace PlansModule
 				//new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
 			};
 		}
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Plans; }
 		}
@@ -86,5 +88,14 @@ namespace PlansModule
 			};
 		}
 		#endregion
-	}
+
+        #region IValidationModule Members
+
+        public IEnumerable<IValidationError> Validate()
+        {
+            return Enumerable.Empty<IValidationError>();
+        }
+
+        #endregion
+    }
 }

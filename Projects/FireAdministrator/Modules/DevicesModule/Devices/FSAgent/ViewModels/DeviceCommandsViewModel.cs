@@ -229,12 +229,12 @@ namespace DevicesModule.ViewModels
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
-			if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
+            if (validationResult.CannotSave(ModuleType.Devices) || validationResult.CannotWrite(ModuleType.Devices))
 			{
 				MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 				return false;
 			}
-			if (validationResult.HasErrors("FS"))
+            if (validationResult.HasErrors(ModuleType.Devices))
 			{
 				if (!MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить"))
 					return false;

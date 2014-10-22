@@ -34,7 +34,7 @@ namespace FiltersModule
 				new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Filter.png"),
 			};
 		}
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Filters; }
 		}

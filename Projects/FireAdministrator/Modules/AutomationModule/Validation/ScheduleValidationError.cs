@@ -2,6 +2,7 @@
 using AutomationModule.Events;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace AutomationModule.Validation
 {
@@ -12,9 +13,9 @@ namespace AutomationModule.Validation
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "AutomationModule"; }
+			get { return ModuleType.Automation; }
 		}
 		protected override Guid Key
 		{

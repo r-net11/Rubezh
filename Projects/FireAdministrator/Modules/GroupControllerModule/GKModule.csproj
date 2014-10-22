@@ -421,6 +421,7 @@
       <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
+    <Compile Include="Validation\Validator.Plans.cs" />
     <Compile Include="Validation\Validator.Codes.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\DirectionValidationError.cs" />
