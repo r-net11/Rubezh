@@ -45,9 +45,9 @@ namespace PlansModule
 		{
 			get { return 100; }
 		}
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Plans; }
+			get { return ModuleType.Plans; }
 		}
 		public override void Initialize()
 		{

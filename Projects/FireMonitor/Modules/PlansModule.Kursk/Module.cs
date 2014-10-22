@@ -34,9 +34,9 @@ namespace PlansModule.Kursk
 			return new NavigationItem[0];
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.PlansKursk; }
+			get { return ModuleType.PlansKursk; }
 		}
 	}
 }

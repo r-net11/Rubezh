@@ -278,9 +278,9 @@ namespace GKModule
 			};
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.GK; }
+			get { return ModuleType.GK; }
 		}
 
 		#region IReportProviderModule Members

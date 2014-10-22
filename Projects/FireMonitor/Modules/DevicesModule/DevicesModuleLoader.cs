@@ -68,9 +68,9 @@ namespace DevicesModule
 			};
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Devices;; }
+			get { return ModuleType.Devices; ; }
 		}
 
 		#region IReportProviderModule Members

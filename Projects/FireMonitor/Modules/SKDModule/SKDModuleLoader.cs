@@ -130,9 +130,9 @@ namespace SKDModule
 			DoorsViewModel.Initialize();
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.SKD; }
+			get { return ModuleType.SKD; }
 		}
 		public override void RegisterResource()
 		{

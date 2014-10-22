@@ -96,9 +96,9 @@ namespace VideoModule
 			};
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Video; }
+			get { return ModuleType.Video; }
 		}
 		public override void RegisterResource()
 		{

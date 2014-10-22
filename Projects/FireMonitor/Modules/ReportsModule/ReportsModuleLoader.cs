@@ -47,9 +47,9 @@ namespace ReportsModule
 			};
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Reports; }
+			get { return ModuleType.Reports; }
 		}
 
 		#region ILayoutProviderModule Members

@@ -39,9 +39,9 @@ namespace AlarmModule
 			};
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get {return Infrastructure.Common.ModuleType.Alarm; }
+			get { return ModuleType.Alarm; }
 		}
 
 		public override void AfterInitialize()
