@@ -14,6 +14,11 @@ namespace FiresecAPI.GK
 	/// </summary>
 	public class GKDoor : GKBase, IPlanPresentable
 	{
+		public GKDoor()
+		{
+			PlanElementUIDs = new List<Guid>();
+		}
+
 		public GKDevice EnterDevice { get; set; }
 		public GKDevice ExitDevice { get; set; }
 		public GKDevice LockDevice { get; set; }

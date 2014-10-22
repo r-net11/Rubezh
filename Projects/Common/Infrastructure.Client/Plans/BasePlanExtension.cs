@@ -108,7 +108,11 @@ namespace Infrastructure.Client.Plans
 				ResetItem<TItem>(element);
 			element.ItemUID = item == null ? Guid.Empty : item.UID;
 			if (item != null)
+			{
+				if (item.PlanElementUIDs == null)
+					item.PlanElementUIDs = new List<Guid>();
 				item.PlanElementUIDs.Add(element.UID);
+			}
 			UpdateElementProperties<TItem>(element, item);
 		}
 		public void ResetItem<TItem>(IElementReference element)
@@ -121,7 +125,12 @@ namespace Infrastructure.Client.Plans
 			where TItem : IChangedNotification, IPlanPresentable
 		{
 			if (item != null)
-				item.PlanElementUIDs.Remove(element.UID);
+			{
+				if (item.PlanElementUIDs == null)
+					item.PlanElementUIDs = new List<Guid>();
+				else
+					item.PlanElementUIDs.Remove(element.UID);
+			}
 		}
 
 		protected virtual void UpdateElementProperties<TItem>(IElementReference element, TItem item)

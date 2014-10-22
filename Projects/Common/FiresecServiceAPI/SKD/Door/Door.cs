@@ -11,6 +11,11 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class SKDDoor : ModelBase, IStateProvider, IDeviceState<XStateClass>, IPlanPresentable
 	{
+		public SKDDoor()
+		{
+			PlanElementUIDs = new List<Guid>();
+		}
+
 		[XmlIgnore]
 		public SKDDoorState State { get; set; }
 

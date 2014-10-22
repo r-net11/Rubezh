@@ -18,6 +18,7 @@ namespace FiresecAPI.Automation
 			Uid = Guid.NewGuid();
 			FiltersUids = new List<Guid>();
 			IsActive = true;
+			PlanElementUIDs = new List<Guid>();
 		}
 
 		[DataMember]
