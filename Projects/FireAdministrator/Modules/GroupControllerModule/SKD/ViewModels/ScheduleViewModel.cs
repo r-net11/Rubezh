@@ -20,20 +20,19 @@ namespace GKModule.ViewModels
 			ReadCommand = new RelayCommand(OnRead);
 			WriteCommand = new RelayCommand(OnWrite);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
 			Schedule = schedule;
 			Update();
 
-
-			DayIntervalParts = new SortableObservableCollection<ScheduleIntervalPartViewModel>();
-			foreach (var dayIntervalPart in Schedule.DayIntervalParts)
+			Parts = new SortableObservableCollection<SchedulePartViewModel>();
+			for (int i = 0; i < Schedule.DayIntervalUIDs.Count; i++)
 			{
-				var dayIntervalPartViewModel = new ScheduleIntervalPartViewModel(dayIntervalPart);
-				DayIntervalParts.Add(dayIntervalPartViewModel);
+				var dayIntervalPartUID = Schedule.DayIntervalUIDs[i];
+				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayIntervalPartUID, i);
+				Parts.Add(schedulePartViewModel);
 			}
-			SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
+			SelectedPart = Parts.FirstOrDefault();
 		}
 
 		public string Name
@@ -72,7 +71,6 @@ namespace GKModule.ViewModels
 		{
 		}
 
-
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
@@ -98,33 +96,27 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public SortableObservableCollection<ScheduleIntervalPartViewModel> DayIntervalParts { get; private set; }
+		public SortableObservableCollection<SchedulePartViewModel> Parts { get; private set; }
 
-		ScheduleIntervalPartViewModel _selectedDayIntervalPart;
-		public ScheduleIntervalPartViewModel SelectedDayIntervalPart
+		SchedulePartViewModel _selectedPart;
+		public SchedulePartViewModel SelectedPart
 		{
-			get { return _selectedDayIntervalPart; }
+			get { return _selectedPart; }
 			set
 			{
-				_selectedDayIntervalPart = value;
-				OnPropertyChanged(() => SelectedDayIntervalPart);
+				_selectedPart = value;
+				OnPropertyChanged(() => SelectedPart);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var scheduleIntervalPartDetailsViewModel = new ScheduleIntervalPartDetailsViewModel(Schedule);
-			if (DialogService.ShowModalWindow(scheduleIntervalPartDetailsViewModel))
-			{
-				var gkIntervalPart = scheduleIntervalPartDetailsViewModel.GKIntervalPart;
-				Schedule.DayIntervalParts.Add(gkIntervalPart);
-				var scheduleIntervalPartViewModel = new ScheduleIntervalPartViewModel(gkIntervalPart);
-				DayIntervalParts.Add(scheduleIntervalPartViewModel);
-				DayIntervalParts.Sort(item => item.BeginTime);
-				SelectedDayIntervalPart = scheduleIntervalPartViewModel;
-				ServiceFactory.SaveService.GKChanged = true;
-			}
+			Schedule.DayIntervalUIDs.Add(Guid.Empty);
+			var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayIntervalUIDs.Count - 1);
+			Parts.Add(schedulePartViewModel);
+			SelectedPart = schedulePartViewModel;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanAdd()
 		{
@@ -134,31 +126,13 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Schedule.DayIntervalParts.Remove(SelectedDayIntervalPart.IntervalPart);
-			DayIntervalParts.Remove(SelectedDayIntervalPart);
+			Schedule.DayIntervalUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
+			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()
 		{
-			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var dayIntervalPartDetailsViewModel = new ScheduleIntervalPartDetailsViewModel(Schedule, SelectedDayIntervalPart.IntervalPart);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
-			{
-				SelectedDayIntervalPart.Update();
-				var selectedDayIntervalPart = SelectedDayIntervalPart;
-				DayIntervalParts.Sort(item => item.BeginTime);
-				SelectedDayIntervalPart = selectedDayIntervalPart;
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedDayIntervalPart != null;
+			return SelectedPart != null && Parts.Count > 1;
 		}
 	}
 }

@@ -2,7 +2,7 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" >
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 
 	<Grid>
         <Grid.ColumnDefinitions>
@@ -35,27 +35,37 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить (Ctrl+N)" />
-                <ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
                 <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
             </StackPanel>
-            <XDataGrid Grid.Row="1" ItemsSource="{Binding IntervalParts}" SelectedItem="{Binding SelectedIntervalPart}" Margin="0 2 0 0">
+            <DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" Header="Начало">
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Name, Mode=OneWay}" Header="День" />
+                    <DataGridTemplateColumn Width="*" Header="Наименование">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=BeginTime, StringFormat=hh\\-mm}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
+                                    <TextBlock Text="{Binding SelectedDaySchedule.Name}" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" Header="Конец">
-                        <DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=EndTime, StringFormat=hh\\-mm}" />
+                                <ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableDaySchedules}" SelectedItem="{Binding SelectedDaySchedule, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel Background="Transparent">
+                                                <Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Shedule.png" />
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="Black" Margin="2" />
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-            </XDataGrid>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

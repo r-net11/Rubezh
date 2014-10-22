@@ -219,7 +219,23 @@
 		<Views:DoorDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:DaySchedulesViewModel}">
+        <Views:DaySchedulesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DaySchedulesMenuViewModel}">
+        <Views:DaySchedulesMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DayScheduleDetailsViewModel}">
+        <Views:DayScheduleDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DaySchedulePartDetailsViewModel}">
+        <Views:DaySchedulePartDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
 		<Views:SchedulesView />
 	</DataTemplate>
 
@@ -230,10 +246,6 @@
 	<DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
 		<Views:ScheduleDetailsView />
 	</DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:ScheduleIntervalPartDetailsViewModel}">
-        <Views:ScheduleIntervalPartDetailsView />
-    </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:OPCDevicesViewModel}">
 		<Views:OPCDevicesView />

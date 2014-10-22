@@ -276,7 +276,8 @@
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
     <Compile Include="XModels\Guard\GKGuardZoneEnterMethod.cs" />
-    <Compile Include="XModels\SKD\GKIntervalPart.cs" />
+    <Compile Include="XModels\SKD\GKDaySchedulePart.cs" />
+    <Compile Include="XModels\SKD\GKDaySchedule.cs" />
     <Compile Include="XModels\SKD\GKDoor.cs" />
     <Compile Include="XModels\Guard\GKCodeReaderEnterType.cs" />
     <Compile Include="XModels\Guard\GKCodeReaderSettings.cs" />
@@ -523,6 +524,7 @@
     <Compile Include="XModels\PumpStation\GKPumpStation.cs" />
     <Compile Include="XModels\SKD\GKDoorType.cs" />
     <Compile Include="XModels\SKD\GKSchedule.cs" />
+    <Compile Include="XModels\SKD\GKScheduleType.cs" />
     <Compile Include="XModels\States\GKDoorInternalState.cs" />
     <Compile Include="XModels\States\GKStates.cs" />
     <Compile Include="XModels\States\GKAdditionalState.cs" />

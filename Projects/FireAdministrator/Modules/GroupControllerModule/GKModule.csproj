@@ -137,6 +137,7 @@
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="Events\CreateGKScheduleEvent.cs" />
+    <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeSelectionViewModel.cs" />
@@ -389,8 +390,13 @@
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SKD\ViewModels\ScheduleIntervalPartDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\ScheduleIntervalPartViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DayScheduleDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulePartDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulePartsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulePartViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulesMenuViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulesViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DayScheduleViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
@@ -399,6 +405,19 @@
     <Compile Include="SKD\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SchedulePartViewModel.cs" />
+    <Compile Include="SKD\Views\DayScheduleDetailsView.xaml.cs">
+      <DependentUpon>DayScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DaySchedulePartDetailsView.xaml.cs">
+      <DependentUpon>DaySchedulePartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DaySchedulesMenuView.xaml.cs">
+      <DependentUpon>DaySchedulesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DaySchedulesView.xaml.cs">
+      <DependentUpon>DaySchedulesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml.cs">
       <DependentUpon>ScheduleIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
@@ -422,10 +441,12 @@
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
+    <Compile Include="Validation\DayScheduleValidationError.cs" />
     <Compile Include="Validation\Validator.Codes.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.DaySchedules.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
     <Compile Include="Validation\Validator.Directions.cs" />
     <Compile Include="Validation\Validator.Zones.cs" />
@@ -757,6 +778,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\DelaysSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DayScheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DaySchedulePartDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DaySchedulesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DaySchedulesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

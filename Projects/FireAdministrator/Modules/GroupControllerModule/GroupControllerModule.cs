@@ -34,6 +34,7 @@ namespace GKModule
 		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		DoorsViewModel DoorsViewModel;
+		DaySchedulesViewModel DaySchedulesViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
@@ -65,6 +66,7 @@ namespace GKModule
 			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
+			DaySchedulesViewModel = new DaySchedulesViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
@@ -88,6 +90,7 @@ namespace GKModule
 			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
+			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
@@ -112,19 +115,22 @@ namespace GKModule
 					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty),
 
+#if DEBUG
 					new NavigationItem("Охрана", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
 							new NavigationItem<ShowGKGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
 							new NavigationItemEx<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
-
                     new NavigationItem("СКД", "/Controls;component/Images/tree.png",
+						new NavigationItem("СКД", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
 							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
 						}),
+#endif
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 					#if DEBUG
