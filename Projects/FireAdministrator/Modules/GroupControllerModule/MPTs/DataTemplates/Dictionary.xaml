@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+        <Views:MPTsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
+        <Views:MPTDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTDeviceTypeSelectationViewModel}">
+        <Views:MPTDeviceTypeSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTDevicePropertiesViewModel}">
+        <Views:MPTDevicePropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsMenuViewModel}">
+        <Views:MPTsMenuView />
+    </DataTemplate>
+
+</ResourceDictionary>

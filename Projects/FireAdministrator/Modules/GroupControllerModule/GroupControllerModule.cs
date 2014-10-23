@@ -156,8 +156,23 @@ namespace GKModule
 		{
 			base.RegisterResource();
 			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Delays/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Descriptors/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DeviceLibrary/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Instructions/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "MPTs/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PumpStation/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 		}
 
 		#region IValidationModule Members
