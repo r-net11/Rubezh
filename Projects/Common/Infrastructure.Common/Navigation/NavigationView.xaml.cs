@@ -45,6 +45,8 @@ namespace Infrastructure.Common.Navigation
 			if (tvi != null)
 			{
 				tvi.BringIntoView();
+				var scope = FocusManager.GetFocusScope(tvi);
+				FocusManager.SetFocusedElement(scope, tvi);
 				//tvi.IsExpanded = !tvi.IsExpanded;
 				NavigationItem navigation = tvi.Header as NavigationItem;
 				if (navigation != null)
