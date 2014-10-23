@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using Common;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
@@ -27,9 +26,9 @@ namespace AutomationModule.ViewModels
 			UpCommand = new RelayCommand(OnUp, CanUp);
 			DownCommand = new RelayCommand(OnDown, CanDown);
 			DownIntoCommand = new RelayCommand(OnDownInto, CanDownInto);
-			CopyCommand = new RelayCommand(OnCopy);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			CutCommand = new RelayCommand(OnCut, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			RegisterShortcuts();
 			Procedure = procedure;
 			BuildTree();
 			foreach (var step in AllSteps)
@@ -101,6 +100,8 @@ namespace AutomationModule.ViewModels
 			{
 				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
+				if (_selectedStep != null)
+				    _selectedStep.UpdateContent();
 				ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}
@@ -140,6 +141,18 @@ namespace AutomationModule.ViewModels
 		void OnCopy()
 		{
 			_stepToCopy = Utils.Clone(SelectedStep.Step);
+		}
+
+		public RelayCommand CutCommand { get; private set; }
+		void OnCut()
+		{
+			OnCopy();
+			OnDelete();
+		}
+
+		bool CanCopy()
+		{
+			return SelectedStep != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -430,12 +443,6 @@ namespace AutomationModule.ViewModels
 
 			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.Foreach
 				|| nextStep.ProcedureStepType == ProcedureStepType.For || nextStep.ProcedureStepType == ProcedureStepType.While));
-		}
-
-		void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}
 	}
 }

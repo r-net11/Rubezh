@@ -141,6 +141,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.GetJournalItem:
 					Content = new GetJournalItemStepViewModel(this);
 					break;
+
+				case ProcedureStepType.ControlVisual:
+					Content = new ControlVisualStepViewModel(this);
+					break;
 			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

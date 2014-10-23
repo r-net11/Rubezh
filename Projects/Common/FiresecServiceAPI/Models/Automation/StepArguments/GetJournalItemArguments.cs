@@ -33,6 +33,9 @@ namespace FiresecAPI.Automation
 		JournalEventDescriptionType,
 
 		[Description("Тип объекта")]
-		JournalObjectType
+		JournalObjectType,
+
+		[Description("Идентификатор объекта")]
+		JournalObjectUid,
 	}
 }

@@ -154,7 +154,7 @@
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\SoundLayoutViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\LayoutViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesMenuViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
@@ -242,6 +242,9 @@
     </Compile>
     <Compile Include="Steps\Views\ControlSKDZoneStepView.xaml.cs">
       <DependentUpon>ControlSKDZoneStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlVisualStepView.xaml.cs">
+      <DependentUpon>ControlVisualStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ExitStepView.xaml.cs">
       <DependentUpon>ExitStepView.xaml</DependentUpon>
@@ -475,6 +478,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\CheckPermissionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlVisualStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

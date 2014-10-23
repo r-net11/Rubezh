@@ -591,6 +591,8 @@ namespace FiresecService
 					value = JournalItem.JournalEventDescriptionType;
 				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectType)
 					value = JournalItem.JournalObjectType;
+				if (getJournalItemArguments.JournalColumnType == JournalColumnType.JournalObjectUid)
+					value = JournalItem.ObjectUID.ToString();
 				SetValue(resultVariable, value);
 			}
 		}

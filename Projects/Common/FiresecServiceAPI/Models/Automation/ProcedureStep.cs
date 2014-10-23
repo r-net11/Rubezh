@@ -42,6 +42,7 @@ namespace FiresecAPI.Automation
 			GetListItemArguments = new GetListItemArguments();
 			CheckPermissionArguments = new CheckPermissionArguments();
 			GetJournalItemArguments = new GetJournalItemArguments();
+			ControlVisualArguments = new ControlVisualArguments();
 		}
 
 		[XmlIgnore]
@@ -151,5 +152,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public GetJournalItemArguments GetJournalItemArguments { get; set; }
+
+		[DataMember]
+		public ControlVisualArguments ControlVisualArguments { get; set; }
 	}
 }

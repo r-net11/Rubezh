@@ -28,6 +28,8 @@ namespace AutomationModule.ViewModels
 				enumType = EnumType.JournalObjectType;
 			if (SelectedJournalColumnType == JournalColumnType.DeviceDateTime || SelectedJournalColumnType == JournalColumnType.SystemDateTime)
 				explicitType = ExplicitType.DateTime;
+			if (SelectedJournalColumnType == JournalColumnType.JournalObjectUid)
+				explicitType = ExplicitType.String;
 			ResultArgument.Update(Procedure, explicitType, enumType);
 		}
 

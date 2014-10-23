@@ -19,7 +19,6 @@ namespace AutomationModule.ViewModels
 
 		public VariablesViewModel(Procedure procedure)
 		{
-			RegisterShortcuts();
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -100,13 +99,6 @@ namespace AutomationModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedVariable != null;
-		}
-
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
 		public void Select(Guid variableUid)

@@ -8,6 +8,7 @@
 			<Controls:IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
 			<Controls:IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
 			<Controls:IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" />
+			<Controls:IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" />
 			<Controls:IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" />
 		</ContextMenu>
 	</UserControl.Resources>

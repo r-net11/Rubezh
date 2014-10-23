@@ -93,7 +93,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.PlaySound),
 							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
 							new StepTypeViewModel(ProcedureStepType.SendEmail),
-							new StepTypeViewModel(ProcedureStepType.ShowMessage)
+							new StepTypeViewModel(ProcedureStepType.ShowMessage),
+							new StepTypeViewModel(ProcedureStepType.ControlVisual)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>

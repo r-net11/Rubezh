@@ -7,55 +7,55 @@ namespace AutomationModule.ViewModels
 {
 	public class ControlVisualStepViewModel : BaseStepViewModel
 	{
-		public SoundArguments SoundArguments { get; private set; }
-		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
+		public ControlVisualArguments ControlVisualArguments { get; private set; }
+		public ObservableCollection<LayoutViewModel> Layouts { get; private set; }
 
 		public ControlVisualStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			SoundArguments = stepViewModel.Step.SoundArguments;
+			ControlVisualArguments = stepViewModel.Step.ControlVisualArguments;
+			Layouts = new ObservableCollection<LayoutViewModel>();
+			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+			{
+				var layoutViewModel = new LayoutViewModel(layout);
+				Layouts.Add(layoutViewModel);
+			}
+			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.LayoutUid);
+		}
+
+		LayoutViewModel _selectedLayout;
+		public LayoutViewModel SelectedLayout
+		{
+			get { return _selectedLayout; }
+			set
+			{
+				_selectedLayout = value;
+				if (_selectedLayout != null)
+					ControlVisualArguments.LayoutUid = _selectedLayout.Layout.UID;
+				OnPropertyChanged(() => SelectedLayout);
+			}
 		}
 
 		public override string Description
 		{
-			get 
-			{ 
-				return "Звук: " + (SelectedSound != null ? SelectedSound.Name : "<пусто>") ; 
-			}
+			get { return ""; }
 		}
 
 		public override void UpdateContent()
 		{
-			Sounds = new ObservableCollection<SoundViewModel>();
-			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
-			{
-				var soundViewModel = new SoundViewModel(sound);
-				Sounds.Add(soundViewModel);
-			}
-			if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
-				SelectedSound = Sounds.FirstOrDefault(x => x.Sound.Uid == SoundArguments.SoundUid);
-			else
-				SelectedSound = null;
+			//Sounds = new ObservableCollection<SoundViewModel>();
+			//foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
+			//{
+			//    var soundViewModel = new SoundViewModel(sound);
+			//    Sounds.Add(soundViewModel);
+			//}
+			//if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
+			//    SelectedSound = Sounds.FirstOrDefault(x => x.Sound.Uid == SoundArguments.SoundUid);
+			//else
+			//    SelectedSound = null;
 
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(SoundArguments.ProcedureLayoutCollection);
-			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
-			OnPropertyChanged(() => Sounds);
-		}
-
-		public ObservableCollection<SoundViewModel> Sounds { get; private set; }
-
-		SoundViewModel _selectedSound;
-		public SoundViewModel SelectedSound
-		{
-			get { return _selectedSound; }
-			set
-			{
-				_selectedSound = value;
-				if (value != null)
-					SoundArguments.SoundUid = value.Sound.Uid;
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
-				OnPropertyChanged(() => SelectedSound);
-			}
+			//ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(SoundArguments.ProcedureLayoutCollection);
+			//OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
+			//OnPropertyChanged(() => Sounds);
 		}
 	}
 }
