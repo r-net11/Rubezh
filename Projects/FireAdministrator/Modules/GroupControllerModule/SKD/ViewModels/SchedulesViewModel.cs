@@ -2,39 +2,27 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
-using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
 	public class SchedulesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		bool _lockSelection;
-		public static SchedulesViewModel Current { get; private set; }
-
 		public SchedulesViewModel()
 		{
 			Menu = new SchedulesMenuViewModel(this);
-			Current = this;
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			RegisterShortcuts();
-			SubscribeEvents();
 			SetRibbonItems();
 		}
 
@@ -67,6 +55,10 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedSchedule = value;
+				if (value != null)
+				{
+					value.Update();
+				}
 				OnPropertyChanged(() => SelectedSchedule);
 				OnPropertyChanged(() => HasSelectedSchedule);
 			}
@@ -85,10 +77,6 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			OnAddResult();
-		}
-		ScheduleDetailsViewModel OnAddResult()
-		{
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel();
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
@@ -97,10 +85,7 @@ namespace GKModule.ViewModels
 				Schedules.Add(scheduleViewModel);
 				SelectedSchedule = scheduleViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<GKSchedule>();
-				return scheduleDetailsViewModel;
 			}
-			return null;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -122,11 +107,7 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedSchedule.Schedule);
-		}
-		void OnEdit(GKSchedule schedule)
-		{
-			var scheduleDetailsViewModel = new ScheduleDetailsViewModel(schedule);
+			var scheduleDetailsViewModel = new ScheduleDetailsViewModel(SelectedSchedule.Schedule);
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
 				SelectedSchedule.Update(scheduleDetailsViewModel.Schedule);
@@ -135,37 +116,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void CreateSchedule(CreateGKScheduleEventArg createScheduleEventArg)
-		{
-			ScheduleDetailsViewModel result = OnAddResult();
-			if (result == null)
-			{
-				createScheduleEventArg.Cancel = true;
-				createScheduleEventArg.ScheduleUID = Guid.Empty;
-			}
-			else
-			{
-				createScheduleEventArg.Cancel = false;
-				createScheduleEventArg.ScheduleUID = result.Schedule.UID;
-				createScheduleEventArg.Schedule = result.Schedule;
-			}
-		}
-		public void EditSchedule(Guid scheduleUID)
-		{
-			var scheduleViewModel = scheduleUID == Guid.Empty ? null : Schedules.FirstOrDefault(x => x.Schedule.UID == scheduleUID);
-			if (scheduleViewModel != null)
-				OnEdit(scheduleViewModel.Schedule);
-		}
-
 		public override void OnShow()
 		{
 			base.OnShow();
 			SelectedSchedule = SelectedSchedule;
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
 		}
 
 		#region ISelectable<Guid> Members
@@ -184,28 +138,8 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
-		public void LockedSelect(Guid scheduleUID)
-		{
-			_lockSelection = true;
-			Select(scheduleUID);
-			_lockSelection = false;
-		}
 
-		void SubscribeEvents()
-		{
-		}
-		void OnScheduleChanged(Guid scheduleUID)
-		{
-			var schedule = Schedules.FirstOrDefault(x => x.Schedule.UID == scheduleUID);
-			if (schedule != null)
-			{
-				schedule.Update();
-				if (!_lockSelection)
-					SelectedSchedule = schedule;
-			}
-		}
-
-		private void SetRibbonItems()
+		void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{

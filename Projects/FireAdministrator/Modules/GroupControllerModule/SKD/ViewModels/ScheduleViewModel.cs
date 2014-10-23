@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecClient;
 using Common;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -24,15 +25,6 @@ namespace GKModule.ViewModels
 
 			Schedule = schedule;
 			Update();
-
-			Parts = new SortableObservableCollection<SchedulePartViewModel>();
-			for (int i = 0; i < Schedule.DayIntervalUIDs.Count; i++)
-			{
-				var dayIntervalPartUID = Schedule.DayIntervalUIDs[i];
-				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayIntervalPartUID, i);
-				Parts.Add(schedulePartViewModel);
-			}
-			SelectedPart = Parts.FirstOrDefault();
 		}
 
 		public string Name
@@ -69,6 +61,15 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
+			Parts = new SortableObservableCollection<SchedulePartViewModel>();
+			for (int i = 0; i < Schedule.DayScheduleUIDs.Count; i++)
+			{
+				var dayScheduleUID = Schedule.DayScheduleUIDs[i];
+				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayScheduleUID, i);
+				Parts.Add(schedulePartViewModel);
+			}
+			SelectedPart = Parts.FirstOrDefault();
 		}
 
 		public RelayCommand ReadCommand { get; private set; }
@@ -96,7 +97,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public SortableObservableCollection<SchedulePartViewModel> Parts { get; private set; }
+		ObservableCollection<SchedulePartViewModel> _parts;
+		public ObservableCollection<SchedulePartViewModel> Parts
+		{
+			get { return _parts; }
+			set
+			{
+				_parts = value;
+				OnPropertyChanged(() => Parts);
+			}
+		}
 
 		SchedulePartViewModel _selectedPart;
 		public SchedulePartViewModel SelectedPart
@@ -112,8 +122,8 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Schedule.DayIntervalUIDs.Add(Guid.Empty);
-			var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayIntervalUIDs.Count - 1);
+			Schedule.DayScheduleUIDs.Add(Guid.Empty);
+			var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
 			Parts.Add(schedulePartViewModel);
 			SelectedPart = schedulePartViewModel;
 			ServiceFactory.SaveService.GKChanged = true;
@@ -126,7 +136,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Schedule.DayIntervalUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
+			Schedule.DayScheduleUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
 			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.GKChanged = true;
 		}

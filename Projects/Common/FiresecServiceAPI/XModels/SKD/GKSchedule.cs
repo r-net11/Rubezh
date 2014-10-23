@@ -15,7 +15,7 @@ namespace FiresecAPI.GK
 	{
 		public GKSchedule()
 		{
-			DayIntervalUIDs = new List<Guid>();
+			DayScheduleUIDs = new List<Guid>();
 		}
 
 		/// <summary>
@@ -28,6 +28,6 @@ namespace FiresecAPI.GK
 		/// Список составных идентификаторов дневных графиков
 		/// </summary>
 		[DataMember]
-		public List<Guid> DayIntervalUIDs { get; set; }
+		public List<Guid> DayScheduleUIDs { get; set; }
 	}
 }

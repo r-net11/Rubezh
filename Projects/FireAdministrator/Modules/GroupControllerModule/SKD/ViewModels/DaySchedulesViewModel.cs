@@ -149,16 +149,6 @@ namespace GKModule.ViewModels
 			});
 		}
 
-		public override void OnShow()
-		{
-			SelectedDaySchedule = SelectedDaySchedule;
-			base.OnShow();
-		}
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
-
 		protected override void UpdateRibbonItems()
 		{
 			base.UpdateRibbonItems();

@@ -11,11 +11,11 @@ namespace GKModule.ViewModels
 	public class SchedulePartViewModel : BaseViewModel
 	{
 		public int Index { get; private set; }
-		GKSchedule _schedule;
+		GKSchedule Schedule;
 
 		public SchedulePartViewModel(GKSchedule schedule, Guid uid, int index)
 		{
-			_schedule = schedule;
+			Schedule = schedule;
 			Index = index;
 			AvailableDaySchedules = new ObservableCollection<GKDaySchedule>();
 			foreach (var dayInterval in GKManager.DeviceConfiguration.DaySchedules)
@@ -23,6 +23,8 @@ namespace GKModule.ViewModels
 				AvailableDaySchedules.Add(dayInterval);
 			}
 			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == uid);
+			if (_selectedDaySchedule == null)
+				_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 			Update();
 		}
 
@@ -41,7 +43,7 @@ namespace GKModule.ViewModels
 				{
 					_selectedDaySchedule = value;
 					OnPropertyChanged(() => SelectedDaySchedule);
-					_schedule.DayIntervalUIDs[Index] = SelectedDaySchedule.UID;
+					Schedule.DayScheduleUIDs[Index] = SelectedDaySchedule.UID;
 					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
@@ -50,7 +52,7 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			Name = string.Format("{0}", Index + 1);
-			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == _schedule.DayIntervalUIDs[Index]);
+			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.DayScheduleUIDs[Index]);
 			if (_selectedDaySchedule == null)
 				_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 			OnPropertyChanged(() => SelectedDaySchedule);
