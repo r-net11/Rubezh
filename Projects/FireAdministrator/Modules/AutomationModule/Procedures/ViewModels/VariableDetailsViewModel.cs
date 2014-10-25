@@ -15,9 +15,10 @@ namespace AutomationModule.ViewModels
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; set; }
 
-		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "")
+		public VariableDetailsViewModel(Variable variable, string defaultName = "", string title = "", bool isReferenceVisibility = true)
 		{
 			automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			IsReferenceVisibility = isReferenceVisibility;
 			Title = title;
 			Name = defaultName;
 			ExplicitValuesViewModel = new ExplicitValuesViewModel();
@@ -93,6 +94,8 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => IsReference);
 			}
 		}
+
+		public bool IsReferenceVisibility { get; private set; }
 
 		public override bool OnClosing(bool isCanceled)
 		{

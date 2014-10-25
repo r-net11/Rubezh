@@ -184,6 +184,9 @@ namespace FiresecService
 					case Property.Description:
 						propertyValue = (item as GKDevice).Description.Trim();
 						break;
+					case Property.Uid:
+						propertyValue = (item as GKDevice).UID.ToString();
+						break;
 				}
 				itemUid = (item as GKDevice).UID;
 			}
@@ -203,6 +206,9 @@ namespace FiresecService
 						break;
 					case Property.Name:
 						propertyValue = (item as GKZone).Name.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = (item as GKZone).UID.ToString();
 						break;
 				}
 				itemUid = (item as GKZone).UID;
@@ -226,6 +232,9 @@ namespace FiresecService
 						break;
 					case Property.Description:
 						propertyValue = (item as GKDirection).Description.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = (item as GKDirection).UID.ToString();
 						break;
 				}
 				itemUid = (item as GKDirection).UID;
@@ -652,7 +661,7 @@ namespace FiresecService
 			if (target.ExplicitType == ExplicitType.Integer)
 				target.ExplicitValue.IntValue = (int) propertyValue;
 			if (target.ExplicitType == ExplicitType.String)
-				target.ExplicitValue.StringValue = (string)propertyValue;
+				target.ExplicitValue.StringValue = Convert.ToString(propertyValue);
 			if (target.ExplicitType == ExplicitType.Boolean)
 				target.ExplicitValue.BoolValue = (bool)propertyValue;
 			if (target.ExplicitType == ExplicitType.DateTime)

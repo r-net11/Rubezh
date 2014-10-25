@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			GlobalVariables = new ObservableCollection<VariableViewModel>();
-			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				var globalVariableViewModel = new VariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную", false);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				globalVariableDetailsViewModel.Variable.IsGlobal = true;
@@ -92,11 +92,11 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную");
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную", false);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				globalVariableDetailsViewModel.Variable.IsGlobal = true;
-				PropertyCopy.Copy<Variable, Variable>(globalVariableDetailsViewModel.Variable, SelectedGlobalVariable.Variable);
+				PropertyCopy.Copy(globalVariableDetailsViewModel.Variable, SelectedGlobalVariable.Variable);
 				SelectedGlobalVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

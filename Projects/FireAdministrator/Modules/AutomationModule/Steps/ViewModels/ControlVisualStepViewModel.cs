@@ -8,7 +8,6 @@ namespace AutomationModule.ViewModels
 	public class ControlVisualStepViewModel : BaseStepViewModel
 	{
 		public ControlVisualArguments ControlVisualArguments { get; private set; }
-		public ObservableCollection<LayoutViewModel> Layouts { get; private set; }
 
 		public ControlVisualStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
@@ -22,6 +21,8 @@ namespace AutomationModule.ViewModels
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.LayoutUid);
 		}
 
+
+		public ObservableCollection<LayoutViewModel> Layouts { get; private set; }
 		LayoutViewModel _selectedLayout;
 		public LayoutViewModel SelectedLayout
 		{

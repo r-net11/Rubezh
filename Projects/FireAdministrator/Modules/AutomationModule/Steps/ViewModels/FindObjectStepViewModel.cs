@@ -231,7 +231,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (SelectedProperty == Property.Description)
+				if (SelectedProperty == Property.Description || SelectedProperty == Property.Name || SelectedProperty == Property.Uid)
 					return ExplicitType.String;
 				if ((SelectedProperty == Property.Type)||(SelectedProperty == Property.State))
 					return ExplicitType.Enum;
