@@ -61,7 +61,7 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(device.UID); }, "GKGetJournalItemsCount");
 		}
 
-		public OperationResult<GKJournalItem> GKReadJournalItem(GKDevice device, int no)
+		public OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device.UID, no); }, "GKReadJournalItem");
 		}

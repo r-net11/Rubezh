@@ -11,6 +11,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using System.Xml.Serialization;
+using FiresecAPI.Journal;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -175,7 +177,7 @@ namespace GKModule.ViewModels
 					var xmlSerializer = new XmlSerializer(typeof(JournalItemsCollection));
 					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 					{
-						var journalItems = new System.Collections.Generic.List<GKJournalItem>();
+						var journalItems = new List<JournalItem>();
 						JournalItems.ToList().ForEach(x => journalItems.Add(x.JournalItem));
 						var journalItemsCollection = new JournalItemsCollection
 						{

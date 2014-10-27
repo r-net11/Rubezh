@@ -106,7 +106,6 @@
     <Compile Include="Events\ShowOnPlan\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowCameraEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
-    <Compile Include="Events\NewXJournalEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXDirectionDetailsEvent.cs" />

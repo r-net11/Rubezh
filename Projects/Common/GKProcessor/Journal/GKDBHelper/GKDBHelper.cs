@@ -86,34 +86,34 @@ namespace GKProcessor
 
 		static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
-			journalItems = UpdateItemLengths(journalItems);
-			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
-				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
-					foreach (var journalItem in journalItems)
-					{
-						var sqlCeCommand = new SqlCeCommand();
-						sqlCeCommand.Connection = dataContext;
-						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,ObjectUID,Name,Description,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectName) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9)";
-						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalObjectType ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.NameText ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.DescriptionText ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.UserName ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.SystemDateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.DeviceDateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.JournalSubsystemType ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.ObjectName ?? DBNull.Value);
-						sqlCeCommand.ExecuteNonQuery();
-					}
-					dataContext.Close();
-				}
-			}
+		//    journalItems = UpdateItemLengths(journalItems);
+		//    if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+		//    {
+		//        using (var dataContext = new SqlCeConnection(ConnectionString))
+		//        {
+		//            dataContext.ConnectionString = ConnectionString;
+		//            dataContext.Open();
+		//            foreach (var journalItem in journalItems)
+		//            {
+		//                var sqlCeCommand = new SqlCeCommand();
+		//                sqlCeCommand.Connection = dataContext;
+		//                sqlCeCommand.CommandText = @"Insert Into Journal" +
+		//                    "(JournalItemType,ObjectUID,Name,Description,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectName) Values" +
+		//                    "(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9)";
+		//                sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalObjectType ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.NameText ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.DescriptionText ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.UserName ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.SystemDateTime ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.DeviceDateTime ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.JournalSubsystemType ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.ObjectName ?? DBNull.Value);
+		//                sqlCeCommand.ExecuteNonQuery();
+		//            }
+		//            dataContext.Close();
+		//        }
+		//    }
 		}
 
 		//static string BuildQuery(GKArchiveFilter archiveFilter)

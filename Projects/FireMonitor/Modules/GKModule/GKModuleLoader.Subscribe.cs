@@ -80,10 +80,6 @@ namespace GKModule
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (gkCallbackResult.JournalItems.Count > 0)
-				{
-					ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(gkCallbackResult.JournalItems);
-				}
 				CopyGKStates(gkCallbackResult.GKStates);
 				ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
 			});

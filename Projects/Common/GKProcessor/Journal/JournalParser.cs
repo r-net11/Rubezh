@@ -153,7 +153,9 @@ namespace GKProcessor
 				case JournalSourceType.Object:
 					var UNUSED_ObjectNo = BytesHelper.SubstructShort(bytes, 32 + 18);
 					var descriptorType = BytesHelper.SubstructShort(bytes, 32 + 20);
-					var UNUSED_DescriptorAddress = BytesHelper.SubstructShort(bytes, 32 + 22);
+					JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип дескриптора", descriptorType.ToString()));
+					var descriptorAddress = BytesHelper.SubstructShort(bytes, 32 + 22);
+					JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Адрес дескриптора", descriptorAddress.ToString()));
 					var objectFactoryNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
 					if (objectFactoryNo > 0)
 						JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Заводской номер", objectFactoryNo.ToString()));

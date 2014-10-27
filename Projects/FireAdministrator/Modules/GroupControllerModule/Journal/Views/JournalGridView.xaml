@@ -8,13 +8,13 @@
 	</UserControl.Resources>
 	<DataGrid ItemsSource="{Binding JournalItems}">
 		<DataGrid.Columns>
-			<DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
+			<DataGridTextColumn Header="Запись ГК" Binding="{Binding GKJournalRecordNo}" />
 			<DataGridTextColumn Header="Дата и время" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
 			<DataGridTemplateColumn Header="Событие" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+							<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 							<TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
 						</StackPanel>
 					</DataTemplate>
@@ -25,7 +25,6 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Source="{Binding JournalItem.ObjectStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
 							<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
 							<TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center" />
 						</StackPanel>
@@ -39,7 +38,7 @@
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-								<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать" Command="{Binding ShowObjectCommand}" />
+								<Controls:IconedMenuItem ImageSource="/Controls;component/Images/Map_black.png" Text="Показать" Command="{Binding ShowObjectCommand}" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>
@@ -58,7 +57,7 @@
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
-					<Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToJournalColorConverter}}" />
+					<Setter Property="Background" Value="{Binding StateClass, Converter={StaticResource XStateClassToJournalColorConverter}}" />
 				</Style.Setters>
 				<Style.Triggers>
 					<Trigger Property="IsSelected" Value="True">
