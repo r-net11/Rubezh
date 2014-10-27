@@ -2,6 +2,7 @@
 using FiresecAPI.GK;
 using Infrastructure.Common.Validation;
 using GKModule.Events;
+using Infrastructure.Common;
 
 namespace GKModule.Validation
 {
@@ -12,9 +13,9 @@ namespace GKModule.Validation
 		{
 		}
 
-		public override string Module
+		public override ModuleType Module
 		{
-			get { return "GK"; }
+			get { return ModuleType.GK; }
 		}
 		protected override Guid Key
 		{
