@@ -115,7 +115,6 @@ namespace GKModule
 					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty),
 
-#if DEBUG
 					new NavigationItem("Охрана", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
@@ -129,7 +128,6 @@ namespace GKModule
 							new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
 						}),
-#endif
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 #if DEBUG

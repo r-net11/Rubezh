@@ -785,5 +785,11 @@ namespace FiresecAPI.Journal
 
 		[EventDescriptionAttribute("Метод открытия Кнопка", JournalEventNameType.Проход_разрешен, JournalEventNameType.Проход_запрещен)]
 		Метод_открытия_Кнопка,
+
+		[EventDescriptionAttribute("Остановлено", JournalEventNameType.Информация)]
+		Остановлено,
+
+		[EventDescriptionAttribute("Отсчет задержки", JournalEventNameType.Информация)]
+		Отсчет_задержки,
 	}
 }
