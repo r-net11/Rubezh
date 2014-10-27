@@ -5,6 +5,7 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
+using FiresecAPI.Journal;
 
 namespace FiresecService
 {
@@ -19,10 +20,12 @@ namespace FiresecService
 		List<ProcedureStep> Steps { get; set; }
 		bool IsSync { get; set; }
 		ProcedureThread ChildProcedureThread { get; set; }
+		JournalItem JournalItem { get; set; }
 
-		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables)
+		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, JournalItem journalItem = null)
 		{
 			IsAlive = true;
+			JournalItem = journalItem;
 			TimeOut = procedure.TimeOut;
 			AutoResetEvent = new AutoResetEvent(false);
 			Steps = procedure.Steps;
@@ -276,6 +279,10 @@ namespace FiresecService
 
 				case ProcedureStepType.GetListItem:
 					GetListItem(procedureStep);
+					break;
+
+				case ProcedureStepType.GetJournalItem:
+					GetJournalItem(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:

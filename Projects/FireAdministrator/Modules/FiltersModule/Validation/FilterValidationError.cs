@@ -2,6 +2,7 @@
 using FiltersModule.Events;
 using FiresecAPI.Journal;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace FilterModule.Validation
 {
@@ -12,9 +13,9 @@ namespace FilterModule.Validation
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "Filter"; }
+			get { return ModuleType.Filters; }
 		}
 		protected override Guid Key
 		{

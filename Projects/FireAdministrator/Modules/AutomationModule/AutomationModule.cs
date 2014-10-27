@@ -65,8 +65,8 @@ namespace AutomationModule
 						}) {IsExpanded = true},
 				};
 		}
-		
-		protected override ModuleType ModuleType
+
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Automation; }
 		}

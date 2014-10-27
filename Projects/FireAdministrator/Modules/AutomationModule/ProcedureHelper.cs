@@ -60,11 +60,11 @@ namespace AutomationModule
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
 		{
 			if (objectType == ObjectType.Device)
-				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type };
+				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
 			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Name, Property.State };
+				return new List<Property> { Property.Description, Property.No, Property.Name, Property.State, Property.Uid };
 			if (objectType == ObjectType.Direction)
-				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime };
+				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime, Property.Uid };
 			return new List<Property>();
 		}
 
@@ -198,6 +198,12 @@ namespace AutomationModule
 							result = explicitValue.DriverTypeValue.ToDescription();
 						if (enumType == EnumType.PermissionType)
 							result = explicitValue.PermissionTypeValue.ToDescription();
+						if (enumType == EnumType.JournalEventDescriptionType)
+							result = explicitValue.JournalEventDescriptionTypeValue.ToDescription();
+						if (enumType == EnumType.JournalEventNameType)
+							result = explicitValue.JournalEventNameTypeValue.ToDescription();
+						if (enumType == EnumType.JournalObjectType)
+							result = explicitValue.JournalObjectTypeValue.ToDescription();
 					}
 					break;
 				case ExplicitType.Object:

@@ -34,6 +34,7 @@ namespace GKModule
 		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		DoorsViewModel DoorsViewModel;
+		DaySchedulesViewModel DaySchedulesViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
@@ -65,6 +66,7 @@ namespace GKModule
 			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
+			DaySchedulesViewModel = new DaySchedulesViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
@@ -88,6 +90,7 @@ namespace GKModule
 			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
+			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
@@ -106,43 +109,45 @@ namespace GKModule
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/Briefcase.png", null, null, Guid.Empty),
-					new NavigationItem<ShowGKZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+					new NavigationItemEx<ShowGKZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),
 					new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty),
 					new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty),
 
+#if DEBUG
 					new NavigationItem("Охрана", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
 							new NavigationItem<ShowGKGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
-							new NavigationItem<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+							new NavigationItemEx<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
-
-											new NavigationItem("СКД", "/Controls;component/Images/tree.png",
+                    new NavigationItem("СКД", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
 						}),
+#endif
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
-					#if DEBUG
+#if DEBUG
 					new NavigationItem("OPC Сервер", "/Controls;component/Images/tree.png",
-						new List<NavigationItem>()
-						{
-							new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowGKOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
-							new NavigationItem<ShowGKOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),
-						}),
+					    new List<NavigationItem>()
+					    {
+					        new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					        new NavigationItem<ShowGKOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+					        new NavigationItem<ShowGKOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),
+					    }),
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Descriptors.png"),
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
-					#endif
+#endif
 				}) {IsExpanded = true},
 			};
 		}
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.GK; }
 		}
@@ -150,8 +155,23 @@ namespace GKModule
 		{
 			base.RegisterResource();
 			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Delays/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Descriptors/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DeviceLibrary/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Diagnostics/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Instructions/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "MPTs/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "OPC/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PumpStation/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Selectation/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "SKD/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 		}
 
 		#region IValidationModule Members

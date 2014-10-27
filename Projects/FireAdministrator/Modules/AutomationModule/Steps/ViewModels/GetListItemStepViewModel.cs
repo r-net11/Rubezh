@@ -6,18 +6,18 @@ namespace AutomationModule.ViewModels
 {
 	public class GetListItemStepViewModel : BaseStepViewModel
 	{
-		GetListItemArgument GetListItemArgument { get; set; }
+		GetListItemArguments GetListItemArguments { get; set; }
 		public ArgumentViewModel ListArgument { get; set; }
 		public ArgumentViewModel ItemArgument { get; set; }
 		public ArgumentViewModel IndexArgument { get; set; }
 
 		public GetListItemStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
-			GetListItemArgument = stepViewModel.Step.GetListItemArgument;
-			ListArgument = new ArgumentViewModel(GetListItemArgument.ListArgument, stepViewModel.Update, UpdateContent, false);
+			GetListItemArguments = stepViewModel.Step.GetListItemArguments;
+			ListArgument = new ArgumentViewModel(GetListItemArguments.ListArgument, stepViewModel.Update, UpdateContent, false);
 			ListArgument.UpdateVariableHandler += UpdateItemVariable;
-			ItemArgument = new ArgumentViewModel(GetListItemArgument.ItemArgument, stepViewModel.Update, UpdateContent, false);
-			IndexArgument = new ArgumentViewModel(GetListItemArgument.IndexArgument, stepViewModel.Update, UpdateContent);
+			ItemArgument = new ArgumentViewModel(GetListItemArguments.ItemArgument, stepViewModel.Update, UpdateContent, false);
+			IndexArgument = new ArgumentViewModel(GetListItemArguments.IndexArgument, stepViewModel.Update, UpdateContent);
 			PositionTypes = ProcedureHelper.GetEnumObs<PositionType>();
 		}
 
@@ -35,10 +35,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<PositionType> PositionTypes { get; private set; } 
 		public PositionType SelectedPositionType
 		{
-			get { return GetListItemArgument.PositionType; }
+			get { return GetListItemArguments.PositionType; }
 			set
 			{
-				GetListItemArgument.PositionType = value;
+				GetListItemArguments.PositionType = value;
 				OnPropertyChanged(() => SelectedPositionType);
 			}
 		}

@@ -28,7 +28,7 @@ namespace SoundsModule
 				new NavigationItem<ShowSoundsEvent>(SoundsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/music.png"),
 			};
 		}
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Sounds; }
 		}

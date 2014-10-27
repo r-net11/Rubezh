@@ -8,20 +8,33 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	/// <summary>
-	/// График работ ГК
+	/// График работ
 	/// </summary>
 	[DataContract]
 	public class GKSchedule : ModelBase
 	{
 		public GKSchedule()
 		{
-			DayIntervalParts = new List<GKIntervalPart>();
+			StartDateTime = DateTime.Now;
+			DayScheduleUIDs = new List<Guid>();
 		}
 
 		/// <summary>
-		/// Список составных частей
+		/// Тип графика
 		/// </summary>
 		[DataMember]
-		public List<GKIntervalPart> DayIntervalParts { get; set; }
+		public GKScheduleType ScheduleType { get; set; }
+
+		/// <summary>
+		/// Начало действия графика
+		/// </summary>
+		[DataMember]
+		public DateTime StartDateTime { get; set; }
+
+		/// <summary>
+		/// Список составных идентификаторов дневных графиков
+		/// </summary>
+		[DataMember]
+		public List<Guid> DayScheduleUIDs { get; set; }
 	}
 }

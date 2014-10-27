@@ -10,7 +10,7 @@ namespace GKModule.Validation
 	{
 		List<IValidationError> Errors { get; set; }
 
-		public IEnumerable<IValidationError> Validate()
+		public List<IValidationError> Validate()
 		{
 			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
@@ -23,7 +23,9 @@ namespace GKModule.Validation
 			ValidateCodes();
 			ValidateGuardZones();
 			ValidateDoors();
+			ValidateDaySchedules();
 			ValidateSchedules();
+            ValidatePlans();
 			return Errors;
 		}
 

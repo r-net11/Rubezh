@@ -8,7 +8,7 @@ namespace ChinaSKDDriverAPI
 	{
 		public int LoginID { get; set; }
 		public DateTime SystemDateTime { get; set;}
-		public DateTime DeviceDateTime { get; set; }
+		public DateTime? DeviceDateTime { get; set; }
 		public JournalEventNameType JournalEventNameType { get; set; }
 		public string Description { get; set; }
 		public int CardNo { get; set; }

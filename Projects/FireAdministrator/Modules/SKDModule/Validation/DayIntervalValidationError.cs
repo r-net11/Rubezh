@@ -2,6 +2,7 @@
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using SKDModule.Events;
+using Infrastructure.Common;
 
 namespace SKDModule.Validation
 {
@@ -12,9 +13,9 @@ namespace SKDModule.Validation
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "SKD"; }
+			get { return ModuleType.SKD; }
 		}
 		protected override Guid Key
 		{

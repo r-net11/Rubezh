@@ -9,10 +9,5 @@ namespace FireAdministrator.Views
 		{
 			InitializeComponent();
 		}
-
-		void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-		{
-			ServiceFactory.Layout.ShowFooter(null);
-		}
 	}
 }

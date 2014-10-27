@@ -7,6 +7,7 @@ namespace Infrastructure.Common
 	public interface IModule : IDisposable
 	{
 		string Name { get; }
+        ModuleType ModuleType { get; }
 		int Order { get; }
 		void RegisterResource();
 		bool BeforeInitialize(bool firstTime);

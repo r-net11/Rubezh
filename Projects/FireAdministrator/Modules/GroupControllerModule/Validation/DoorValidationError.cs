@@ -2,21 +2,22 @@
 using FiresecAPI.GK;
 using GKModule.Events;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace GKModule.Validation
 {
-	class DoorValidationError : ObjectValidationError<GKDoor, ShowGKDoorEvent, Guid>
+    class DoorValidationError : PlanObjectValidationError<GKDoor, ShowGKDoorEvent, Guid>
 	{
-		public DoorValidationError(GKDoor door, string error, ValidationErrorLevel level)
-			: base(door, error, level)
+        public DoorValidationError(GKDoor door, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+            : base(door, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "GK"; }
+			get { return ModuleType.GK; }
 		}
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}

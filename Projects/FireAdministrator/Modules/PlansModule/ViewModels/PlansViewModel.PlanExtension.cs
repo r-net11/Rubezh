@@ -7,12 +7,14 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using Infrastructure.Common.Validation;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel
 	{
-		List<IPlanExtension<Plan>> _planExtensions;
+		private List<IPlanExtension<Plan>> _planExtensions;
 
 		public void RegisterExtension(IPlanExtension<Plan> planExtension)
 		{
@@ -48,7 +50,7 @@ namespace PlansModule.ViewModels
 					yield return element;
 		}
 
-		List<TabItem> _tabPages;
+        private List<TabItem> _tabPages;
 		public List<TabItem> TabPages
 		{
 			get { return _tabPages; }
@@ -58,7 +60,7 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged(() => TabPages);
 			}
 		}
-		int _selectedTabIndex;
+        private int _selectedTabIndex;
 		public int SelectedTabIndex
 		{
 			get { return _selectedTabIndex; }
@@ -68,7 +70,8 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged(() => SelectedTabIndex);
 			}
 		}
-		void CreatePages()
+
+        private void CreatePages()
 		{
 			var layers = new TabItem()
 				{
@@ -86,12 +89,12 @@ namespace PlansModule.ViewModels
 			};
 			SelectedTabIndex = -1;
 		}
-		void UpdateTabIndex()
+        private void UpdateTabIndex()
 		{
 			SelectedTabIndex = SelectedPlan == null ? -1 : 0;
 		}
 
-		void ExtensionAttached()
+        private void ExtensionAttached()
 		{
 			foreach (var planExtension in _planExtensions)
 				planExtension.ExtensionAttached();

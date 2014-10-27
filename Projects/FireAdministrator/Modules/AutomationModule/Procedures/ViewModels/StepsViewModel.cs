@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using FiresecAPI.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class StepsViewModel : BaseViewModel, ISelectable<Guid>
+	public class StepsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public Procedure Procedure { get; private set; }
 
@@ -24,8 +26,10 @@ namespace AutomationModule.ViewModels
 			UpCommand = new RelayCommand(OnUp, CanUp);
 			DownCommand = new RelayCommand(OnDown, CanDown);
 			DownIntoCommand = new RelayCommand(OnDownInto, CanDownInto);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			CutCommand = new RelayCommand(OnCut, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			Procedure = procedure;
-
 			BuildTree();
 			foreach (var step in AllSteps)
 			{
@@ -96,6 +100,8 @@ namespace AutomationModule.ViewModels
 			{
 				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
+				if (_selectedStep != null)
+				    _selectedStep.UpdateContent();
 				ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}
@@ -129,6 +135,61 @@ namespace AutomationModule.ViewModels
 			return stepViewModel;
 		}
 		#endregion
+
+		ProcedureStep _stepToCopy;
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			_stepToCopy = Utils.Clone(SelectedStep.Step);
+		}
+
+		public RelayCommand CutCommand { get; private set; }
+		void OnCut()
+		{
+			OnCopy();
+			OnDelete();
+		}
+
+		bool CanCopy()
+		{
+			return SelectedStep != null;
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			var stepViewModel = new StepViewModel(this, Utils.Clone(_stepToCopy), Procedure);
+			Add(stepViewModel);
+			foreach (var childStep in _stepToCopy.Children)
+			{
+				PasteRecursively(childStep, stepViewModel);
+			}
+			FillAllSteps();
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		bool CanPaste()
+		{
+			return _stepToCopy != null;
+		}
+
+		void PasteRecursively(ProcedureStep step, StepViewModel parentStepViewModel = null)
+		{
+			var stepViewModel = new StepViewModel(this, step, Procedure);
+			if (parentStepViewModel == null)
+			{
+				Procedure.Steps.Add(stepViewModel.Step);
+				RootSteps.Add(stepViewModel);
+			}
+			else
+			{
+				parentStepViewModel.AddChild(stepViewModel);
+			}
+			foreach (var childStep in step.Children)
+			{
+				PasteRecursively(childStep, stepViewModel);
+			}
+		}
 
 		void Add(StepViewModel stepViewModel)
 		{

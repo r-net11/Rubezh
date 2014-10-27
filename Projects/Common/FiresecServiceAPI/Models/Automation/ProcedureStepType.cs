@@ -52,6 +52,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Проверка прав")]
 		CheckPermission,
 
+		[DescriptionAttribute("Получить значение журнала")]
+		GetJournalItem,
+
 		[DescriptionAttribute("Получить размер списка")]
 		GetListCount,
 
@@ -108,6 +111,9 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Управление точкой доступа")]
 		ControlDoor,
+
+		[DescriptionAttribute("Управление визуальными элементами")]
+		ControlVisual,
 
 		[DescriptionAttribute("")]
 		DoAction,

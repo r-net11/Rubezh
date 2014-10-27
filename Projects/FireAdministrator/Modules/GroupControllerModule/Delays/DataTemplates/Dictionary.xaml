@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysViewModel}">
+        <Views:DelaysView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelayDetailsViewModel}">
+        <Views:DelayDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysMenuViewModel}">
+        <Views:DelaysMenuView />
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -56,7 +56,7 @@ namespace VideoModule
 				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,ModuleType.ToDescription(), "/Controls;component/Images/Video1.png"),
 			};
 		}
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Video; }
 		}

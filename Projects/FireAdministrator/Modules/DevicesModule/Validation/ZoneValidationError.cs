@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
+using Infrastructure.Common;
 
 namespace DevicesModule.Validation
 {
@@ -12,9 +13,9 @@ namespace DevicesModule.Validation
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "FS"; }
+            get { return ModuleType.Devices; }
 		}
 		protected override Guid Key
 		{

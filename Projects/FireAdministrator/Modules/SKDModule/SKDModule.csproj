@@ -265,6 +265,7 @@
     <Compile Include="Validation\DayIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.DayIntervals.cs" />
+    <Compile Include="Validation\Validator.Plans.cs" />
     <Compile Include="Validation\WeeklyIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.WeeklyIntervals.cs" />
     <Compile Include="Validation\SlideDayIntervalValidationError.cs" />
@@ -334,10 +335,6 @@
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrastructure.Designer\Infrastructure.Designer.csproj">
-      <Project>{9193BC5C-3DEF-49B0-844A-9385B1540381}</Project>
-      <Name>Infrastructure.Designer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>

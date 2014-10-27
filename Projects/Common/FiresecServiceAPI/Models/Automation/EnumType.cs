@@ -11,6 +11,15 @@ namespace FiresecAPI.Automation
 		DriverType,
 
 		[DescriptionAttribute("Права пользователя")]
-		PermissionType
+		PermissionType,
+
+		[DescriptionAttribute("Название события")]
+		JournalEventNameType,
+		
+		[DescriptionAttribute("Уточнение события")]
+		JournalEventDescriptionType,
+
+		[DescriptionAttribute("Тип объекта")]
+		JournalObjectType
 	}
 }

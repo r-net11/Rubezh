@@ -2,7 +2,7 @@
 {
 	public interface IValidationError
 	{
-		string Module { get; }
+        ModuleType Module { get; }
 		string Source { get; }
 		string Address { get; }
 		string Error { get; }

@@ -93,7 +93,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.PlaySound),
 							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
 							new StepTypeViewModel(ProcedureStepType.SendEmail),
-							new StepTypeViewModel(ProcedureStepType.ShowMessage)
+							new StepTypeViewModel(ProcedureStepType.ShowMessage),
+							new StepTypeViewModel(ProcedureStepType.ControlVisual)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>
@@ -102,7 +103,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
-							new StepTypeViewModel(ProcedureStepType.CheckPermission)
+							new StepTypeViewModel(ProcedureStepType.CheckPermission),
+							new StepTypeViewModel(ProcedureStepType.GetJournalItem)
 						}),
 					new StepTypeViewModel("Функции цикла",
 						new List<StepTypeViewModel>

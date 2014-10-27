@@ -2,13 +2,14 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
-			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<UserControl.Resources>
 		<ContextMenu x:Key="StepContextMenu">
-			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
-			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
+			<Controls:IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
+			<Controls:IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
+			<Controls:IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" />
+			<Controls:IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" />
+			<Controls:IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" />
 		</ContextMenu>
 	</UserControl.Resources>
 

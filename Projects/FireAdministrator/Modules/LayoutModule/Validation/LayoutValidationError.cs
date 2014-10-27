@@ -16,9 +16,9 @@ namespace LayoutModule.Validation
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return ModuleType.Layout.ToString(); }
+			get { return ModuleType.Layout; }
 		}
 		protected override Guid Key
 		{

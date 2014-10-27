@@ -16,11 +16,11 @@
 			</Style>
 		</DataGrid.ItemContainerStyle>
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Состояние" SortMemberPath="State.XStateClass" Width="*">
+			<DataGridTemplateColumn Header="Состояние" SortMemberPath="State.StateClass" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0" />
+							<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0" />
 							<TextBlock Text="{Binding Name}" />
 						</StackPanel>
 					</DataTemplate>

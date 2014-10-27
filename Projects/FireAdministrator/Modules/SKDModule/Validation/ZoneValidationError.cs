@@ -2,21 +2,22 @@
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using SKDModule.Events;
+using Infrastructure.Common;
 
 namespace SKDModule.Validation
 {
-	public class ZoneValidationError : ObjectValidationError<SKDZone, ShowSKDZoneEvent, Guid>
+    public class ZoneValidationError : PlanObjectValidationError<SKDZone, ShowSKDZoneEvent, Guid>
 	{
-		public ZoneValidationError(SKDZone zone, string error, ValidationErrorLevel level)
-			: base(zone, error, level)
+        public ZoneValidationError(SKDZone zone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+            : base(zone, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-		public override string Module
+        public override ModuleType Module
 		{
-			get { return "SKD"; }
+			get { return ModuleType.SKD; }
 		}
-		protected override Guid Key
+		protected override Guid KeyValue
 		{
 			get { return Object.UID; }
 		}

@@ -30,7 +30,7 @@ namespace NotificationModule
 			};
 		}
 
-		protected override ModuleType ModuleType
+        public override ModuleType ModuleType
 		{
 			get { return ModuleType.Notification; }
 		}

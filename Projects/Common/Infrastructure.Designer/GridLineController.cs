@@ -78,39 +78,70 @@ namespace Infrastructure.Designer
 		}
 		public Vector Pull(Vector shift, Rect rect)
 		{
-			var factor = DELTA / _canvas.Zoom;
 			if (IsVisible)
+			{
+				var factor = DELTA / _canvas.Zoom;
+				var deltaX = factor;
+				var deltaY = factor;
+				var positionX = 0.0;
+				var positionY = 0.0;
+				var gridLinePositionX = 0.0;
+				var gridLinePositionY = 0.0;
 				foreach (var gridLine in GridLines)
 					switch (gridLine.Orientation)
 					{
 						case Orientation.Vertical:
-							shift.X = Pull(shift.X, gridLine.Position - rect.Left, factor, ref _accamulateX);
-							if (rect.Left != rect.Right)
-								shift.X = Pull(shift.X, gridLine.Position - rect.Right, factor, ref _accamulateX);
+							CalculateMinimum(rect.Right, shift.X, gridLine.Position, ref deltaX, ref positionX, ref gridLinePositionX);
+							CalculateMinimum(rect.Left, shift.X, gridLine.Position, ref deltaX, ref positionX, ref gridLinePositionX);
 							break;
 						case Orientation.Horizontal:
-							shift.Y = Pull(shift.Y, gridLine.Position - rect.Top, factor, ref _accamulateY);
-							if (rect.Top != rect.Bottom)
-								shift.Y = Pull(shift.Y, gridLine.Position - rect.Bottom, factor, ref _accamulateY);
+							CalculateMinimum(rect.Top, shift.Y, gridLine.Position, ref deltaY, ref positionY, ref gridLinePositionY);
+							CalculateMinimum(rect.Bottom, shift.Y, gridLine.Position, ref deltaY, ref positionY, ref gridLinePositionY);
 							break;
 					}
+				var secondPass = false;
+				shift.X = Pull(shift.X, factor, deltaX, positionX, gridLinePositionX, ref _accamulateX, ref secondPass);
+				shift.Y = Pull(shift.Y, factor, deltaY, positionY, gridLinePositionY, ref _accamulateY, ref secondPass);
+				if (secondPass)
+					shift = Pull(shift, rect);
+			}
 			return shift;
 		}
 
-		private double Pull(double shift, double margin, double factor, ref double accamulate)
+		private void CalculateMinimum(double border, double shift, double gridLine, ref double delta, ref double position, ref double gridLinePosition)
 		{
-			double result = shift;
-			if (Math.Abs(margin) < factor)
+			if (Math.Abs(border + shift - gridLine) < delta)
 			{
-				accamulate += shift;
-				if (Math.Abs(accamulate) < factor)
-					result = margin;
+				delta = border + shift - gridLine;
+				position = border;
+				gridLinePosition = gridLine;
+			}
+		}
+		private double Pull(double shift, double factor, double delta, double position, double gridLinePosition, ref double accamulate, ref bool secondPass)
+		{
+			var result = shift;
+			if (Math.Abs(delta) < factor)
+			{
+				if (position == gridLinePosition)
+				{
+					accamulate += shift;
+					if (Math.Abs(position + accamulate - gridLinePosition) > factor)
+					{
+						result = accamulate;
+						accamulate = 0;
+						secondPass = true;
+					}
+					else
+						result = 0;
+				}
 				else
 				{
-					result = accamulate;
-					accamulate = 0;
+					accamulate = (position + shift) - gridLinePosition;
+					result = gridLinePosition - position;
 				}
 			}
+			else
+				accamulate = 0;
 			return result;
 		}
 	}

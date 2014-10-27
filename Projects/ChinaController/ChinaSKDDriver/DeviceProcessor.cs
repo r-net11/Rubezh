@@ -167,7 +167,6 @@ namespace ChinaSKDDriver
 			{
 				var journalItem = new JournalItem();
 				journalItem.SystemDateTime = DateTime.Now;
-				journalItem.DeviceDateTime = DateTime.Now;
 				if (isConnected)
 					journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
 				else

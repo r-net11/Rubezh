@@ -61,7 +61,7 @@ namespace FiresecService
 			}
 		}
 
-		public static List<JournalItem> BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<JournalItem> BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
@@ -78,26 +78,22 @@ namespace FiresecService
 						var reader = sqlCommand.ExecuteReader();
 						while (reader.Read())
 						{
-							if (IsAbort && !isReport)
+							if (IsAbort)
 								break;
 							try
 							{
 								var journalItem = ReadOneJournalItem(reader);
 								result.Add(journalItem);
-								if (!isReport)
-								{
-									journalItems.Add(journalItem);
-									if (journalItems.Count >= archiveFilter.PageSize)
-										PublishNewItemsPortion(journalItems, archivePortionUID);
-								}
+								journalItems.Add(journalItem);
+								if (journalItems.Count >= archiveFilter.PageSize)
+									PublishNewItemsPortion(journalItems, archivePortionUID);
 							}
 							catch (Exception e)
 							{
 								Logger.Error(e, "SKD DatabaseHelper.OnGetFilteredArchive");
 							}
 						}
-						if (!isReport)
-							PublishNewItemsPortion(journalItems, archivePortionUID);
+						PublishNewItemsPortion(journalItems, archivePortionUID);
 					}
 				}
 			}

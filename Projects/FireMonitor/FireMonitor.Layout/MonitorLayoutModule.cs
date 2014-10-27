@@ -23,9 +23,9 @@ namespace FireMonitor.Layout
 		{
 			return new List<NavigationItem>();
 		}
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Monitor; }
+			get { return ModuleType.Monitor; }
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

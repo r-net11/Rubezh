@@ -4,7 +4,6 @@
 - Рефакторинг ObjectsInLogic
 - IsNotUsed
 - SourceForge TreeListView. DateTimePicker
-- JournalDictionary
 - ОЗ. Свойства устройства внизу кнопки управления
 - Запись КАУ справа, если не удалось записать слева
 - Запись параметров в ГК, а не в КАУ
@@ -12,4 +11,3 @@
 - EnumToImageConverter
 - Рефакторинг BaseDescriptor
 - 6 новых индикаторов ГК
-- Группировка рисования различных зон

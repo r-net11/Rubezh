@@ -39,7 +39,7 @@ namespace FiresecService
 							continue;
 						if (filter.ObjectUIDs.Count > 0 && !filter.ObjectUIDs.Contains(journalItem.ObjectUID))
 							continue;
-						Run(procedure, new List<Argument>(), null, null);
+						Run(procedure, new List<Argument>(), null, null, null, journalItem);
 					}
 				}
 			}
@@ -52,10 +52,10 @@ namespace FiresecService
 			}
 		}
 
-		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables, User user = null)
+		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables, User user = null, JournalItem journalItem = null)
 		{
 			User = user;
-			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables);
+			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem);
 			procedureThread.Start();
 			ProceduresThreads.Add(procedureThread);
 			return procedureThread;

@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
 
 namespace DevicesModule.Validation
 {
@@ -78,7 +79,7 @@ namespace DevicesModule.Validation
 					++guardZonesCount;
 			}
 			if (guardZonesCount > 64)
-				Errors.Add(new CommonValidationError("FS", "Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
+                Errors.Add(new CommonValidationError(ModuleType.Devices, "Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateZoneType(Zone zone)

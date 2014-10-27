@@ -41,9 +41,9 @@ namespace DiagnosticsModule
 				};
 		}
 
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Diagnostics; }
+			get { return ModuleType.Diagnostics; }
 		}
 		public override void Dispose()
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using FiresecAPI.Journal;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
@@ -29,18 +30,24 @@ namespace AutomationModule.ViewModels
 		public ExplicitValueViewModel()
 		{
 			ExplicitValue = new ExplicitValue();
-			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
-			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
-			PermissionTypeValues = ProcedureHelper.GetEnumObs<PermissionType>();
+			InitializeEnums();
 		}
 
 		public ExplicitValueViewModel(ExplicitValue explicitValue)
 		{
 			ExplicitValue = explicitValue;
+			InitializeEnums();
+			Initialize(ExplicitValue.UidValue);
+		}
+
+		void InitializeEnums()
+		{
 			StateTypeValues = ProcedureHelper.GetEnumObs<XStateClass>();
 			DriverTypeValues = ProcedureHelper.GetEnumObs<GKDriverType>();
 			PermissionTypeValues = ProcedureHelper.GetEnumObs<PermissionType>();
-			Initialize(ExplicitValue.UidValue);
+			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
+			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
+			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
 		}
 
 		public void Initialize(Guid uidValue)
@@ -163,6 +170,39 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ExplicitValue.PermissionTypeValue = value;
+				OnPropertyChanged(() => PermissionTypeValue);
+			}
+		}
+
+		public ObservableCollection<JournalEventNameType> JournalEventNameTypeValues { get; private set; }
+		public JournalEventNameType JournalEventNameTypeValue
+		{
+			get { return ExplicitValue.JournalEventNameTypeValue; }
+			set
+			{
+				ExplicitValue.JournalEventNameTypeValue = value;
+				OnPropertyChanged(() => JournalEventNameTypeValue);
+			}
+		}
+
+		public ObservableCollection<JournalEventDescriptionType> JournalEventDescriptionTypeValues { get; private set; }
+		public JournalEventDescriptionType JournalEventDescriptionTypeValue
+		{
+			get { return ExplicitValue.JournalEventDescriptionTypeValue; }
+			set
+			{
+				ExplicitValue.JournalEventDescriptionTypeValue = value;
+				OnPropertyChanged(() => JournalEventDescriptionTypeValue);
+			}
+		}
+
+		public ObservableCollection<JournalObjectType> JournalObjectTypeValues { get; private set; }
+		public JournalObjectType JournalObjectTypeValue
+		{
+			get { return ExplicitValue.JournalObjectTypeValue; }
+			set
+			{
+				ExplicitValue.JournalObjectTypeValue = value;
 				OnPropertyChanged(() => PermissionTypeValue);
 			}
 		}

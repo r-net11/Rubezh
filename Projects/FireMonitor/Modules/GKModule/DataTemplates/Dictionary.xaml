@@ -40,22 +40,6 @@
 		<Views:GKConnectionIndicatorView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:JournalsViewModel}">
-		<Views:JournalsView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
-		<Views:ArchiveView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ArchiveFilterViewModel}">
-		<Views:ArchiveFilterView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ArchiveSettingsViewModel}">
-		<Views:ArchiveSettingsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:AlarmsViewModel}">
 		<Views:AlarmsView />
 	</DataTemplate>
@@ -66,10 +50,6 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:InstructionViewModel}">
 		<Views:InstructionView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:ConfirmationViewModel}">
-		<Views:ConfirmationView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">

@@ -28,6 +28,7 @@ namespace PlansModule.ViewModels
 		public PlansViewModel()
 		{
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
+            ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 
 			AddCommand = new RelayCommand(OnAdd);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
@@ -212,7 +213,17 @@ namespace PlansModule.ViewModels
 			return SelectedPlan != null;
 		}
 
-		private void OnShowElementDevice(List<Guid> deviceUIDs)
+        private void OnSelectPlan(Guid planUID)
+        {
+            DesignerCanvas.Toolbox.SetDefault();
+            DesignerCanvas.DeselectAll();
+            var plans = new List<PlanViewModel>();
+            GetAllPlans(plans, Plans);
+            var plan = plans.FirstOrDefault(item => item.Plan.UID == planUID);
+            if (plan != null)
+                SelectedPlan = plan;
+        }
+        private void OnShowElementDevice(List<Guid> deviceUIDs)
 		{
 			DesignerCanvas.Toolbox.SetDefault();
 			DesignerCanvas.DeselectAll();

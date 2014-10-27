@@ -21,6 +21,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
+using Infrustructure.Plans.Interfaces;
 
 namespace DevicesModule.Plans
 {
@@ -189,7 +190,7 @@ namespace DevicesModule.Plans
 				Helper.BuildMap();
 		}
 
-		#endregion
+        #endregion
 
 		private void UpdateDesignerItemDevice(CommonDesignerItem designerItem)
 		{
@@ -371,5 +372,5 @@ namespace DevicesModule.Plans
 			if (_instance._designerCanvas != null)
 				_instance._designerCanvas.Refresh();
 		}
-	}
+    }
 }

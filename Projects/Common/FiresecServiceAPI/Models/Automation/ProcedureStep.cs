@@ -38,9 +38,11 @@ namespace FiresecAPI.Automation
 			RunProgrammArguments = new RunProgrammArguments();
 			RandomArguments = new RandomArguments();
 			ChangeListArguments = new ChangeListArguments();
-			GetListCountArgument = new GetListCountArgument();
-			GetListItemArgument = new GetListItemArgument();
+			GetListCountArguments = new GetListCountArguments();
+			GetListItemArguments = new GetListItemArguments();
 			CheckPermissionArguments = new CheckPermissionArguments();
+			GetJournalItemArguments = new GetJournalItemArguments();
+			ControlVisualArguments = new ControlVisualArguments();
 		}
 
 		[XmlIgnore]
@@ -92,10 +94,10 @@ namespace FiresecAPI.Automation
 		public ExitArguments ExitArguments { get; set; }
 		
 		[DataMember]
-		public GetListCountArgument GetListCountArgument { get; set; }
+		public GetListCountArguments GetListCountArguments { get; set; }
 
 		[DataMember]
-		public GetListItemArgument GetListItemArgument { get; set; }
+		public GetListItemArguments GetListItemArguments { get; set; }
 
 		[DataMember]
 		public SetValueArguments SetValueArguments { get; set; }
@@ -147,5 +149,11 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public CheckPermissionArguments CheckPermissionArguments { get; set; }
+
+		[DataMember]
+		public GetJournalItemArguments GetJournalItemArguments { get; set; }
+
+		[DataMember]
+		public ControlVisualArguments ControlVisualArguments { get; set; }
 	}
 }

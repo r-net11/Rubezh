@@ -5,18 +5,21 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace GKModule.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GKSchedule Schedule;
+		public bool CanChangeScheduleType { get; private set; }
 
 		public ScheduleDetailsViewModel(GKSchedule schedule = null)
 		{
 			if (schedule == null)
 			{
 				Title = "Создание нового графика работ";
+				CanChangeScheduleType = true;
 
 				Schedule = new GKSchedule()
 				{
@@ -31,6 +34,9 @@ namespace GKModule.ViewModels
 				Title = string.Format("Свойства графика работ: {0}", schedule.PresentationName);
 				Schedule = schedule;
 			}
+
+			ScheduleTypes = new ObservableCollection<GKScheduleType>(Enum.GetValues(typeof(GKScheduleType)).Cast<GKScheduleType>());
+			SelectedScheduleType = Schedule.ScheduleType;
 
 			CopyProperties();
 
@@ -50,6 +56,7 @@ namespace GKModule.ViewModels
 			No = Schedule.No;
 			Name = Schedule.Name;
 			Description = Schedule.Description;
+			StartDateTime = Schedule.StartDateTime;
 		}
 
 		int _no;
@@ -88,6 +95,30 @@ namespace GKModule.ViewModels
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
+		DateTime _startDateTime;
+		public DateTime StartDateTime
+		{
+			get { return _startDateTime; }
+			set
+			{
+				_startDateTime = value;
+				OnPropertyChanged(() => StartDateTime);
+			}
+		}
+
+		public ObservableCollection<GKScheduleType> ScheduleTypes { get; private set; }
+
+		GKScheduleType _selectedScheduleType;
+		public GKScheduleType SelectedScheduleType
+		{
+			get { return _selectedScheduleType; }
+			set
+			{
+				_selectedScheduleType = value;
+				OnPropertyChanged(() => SelectedScheduleType);
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (No <= 0 || No >= 255)
@@ -104,6 +135,8 @@ namespace GKModule.ViewModels
 			Schedule.No = No;
 			Schedule.Name = Name;
 			Schedule.Description = Description;
+			Schedule.StartDateTime = StartDateTime;
+			Schedule.ScheduleType = SelectedScheduleType;
 			return base.Save();
 		}
 	}

@@ -75,12 +75,5 @@ namespace FiresecAPI.SKD
 
 			return result;
 		}
-
-		public bool ValidateIntervals()
-		{
-			var result = true;
-			result &= TimeIntervalsConfiguration.ValidateIntervals();
-			return result;
-		}
 	}
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
+using Common;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -22,6 +24,10 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			CutCommand = new RelayCommand(OnCut, CanCopy);
+			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
 		}
@@ -64,6 +70,49 @@ namespace AutomationModule.ViewModels
 				}
 				OnPropertyChanged(() => SelectedProcedure);
 			}
+		}
+
+		Procedure _procedureToCopy;
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			_procedureToCopy = Utils.Clone(SelectedProcedure.Procedure);
+			_procedureToCopy.Uid = new Guid();
+			foreach (var variable in _procedureToCopy.Variables)
+			{
+				variable.Uid = Guid.NewGuid();
+			}
+			foreach (var argument in _procedureToCopy.Arguments)
+			{
+				argument.Uid = Guid.NewGuid();
+			}
+		}
+
+		bool CanCopy()
+		{
+			return SelectedProcedure != null;
+		}
+
+		public RelayCommand CutCommand { get; private set; }
+		private void OnCut()
+		{
+			OnCopy();
+			OnDelete();
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			var procedureViewModel = new ProcedureViewModel(Utils.Clone(_procedureToCopy));
+			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
+			Procedures.Add(procedureViewModel);
+			SelectedProcedure = procedureViewModel;
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		bool CanPaste()
+		{
+			return _procedureToCopy != null;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -167,6 +216,16 @@ namespace AutomationModule.ViewModels
 				SelectedProcedure.StepsViewModel.UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			base.OnShow();
+		}
+
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.X, ModifierKeys.Control), CutCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
 		}
 
 		public override void OnHide()

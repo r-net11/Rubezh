@@ -80,9 +80,9 @@ namespace JournalModule
 				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
 			};
 		}
-		protected override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
-			get { return Infrastructure.Common.ModuleType.Journal; }
+			get { return ModuleType.Journal; }
 		}
 
 		#region IReportProviderModule Members

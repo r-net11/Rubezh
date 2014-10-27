@@ -212,9 +212,9 @@ namespace SKDModule.ViewModels
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
-			if (validationResult.HasErrors("SKD"))
+			if (validationResult.HasErrors(ModuleType.SKD))
 			{
-				if (validationResult.CannotSave("SKD") || validationResult.CannotWrite("SKD"))
+                if (validationResult.CannotSave(ModuleType.SKD) || validationResult.CannotWrite(ModuleType.SKD))
 				{
 					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 					return false;

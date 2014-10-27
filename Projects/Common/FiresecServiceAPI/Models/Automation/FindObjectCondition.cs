@@ -45,6 +45,9 @@ namespace FiresecAPI.Automation
 		[Description("Тип")]
 		Type,
 
+		[Description("Идентификатор")]
+		Uid,
+
 		[Description("Задержка")]
 		Delay,
 
