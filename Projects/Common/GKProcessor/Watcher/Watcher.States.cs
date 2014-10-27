@@ -21,12 +21,13 @@ namespace GKProcessor
 				if (_isJournalAnyDBMissmatch != value)
 				{
 					_isJournalAnyDBMissmatch = value;
-					var journalItem = new GKJournalItem()
+					var journalItem = new JournalItem()
 					{
-						GKIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice),
-						StateClass = XStateClass.Unknown,
 						JournalEventNameType = value ? JournalEventNameType.База_данных_прибора_не_соответствует_базе_данных_ПК : JournalEventNameType.База_данных_прибора_соответствует_базе_данных_ПК,
 					};
+					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
+					if (!string.IsNullOrEmpty(gkIpAddress))
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 					AddJournalItem(journalItem);
 				}
 			}

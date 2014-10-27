@@ -494,8 +494,6 @@
     <Compile Include="XModels\Driver\GKDriverPropertyParameter.cs" />
     <Compile Include="XModels\Driver\GKDriverPropertyTypeEnum.cs" />
     <Compile Include="XModels\Driver\GKDriverType.cs" />
-    <Compile Include="XModels\Filters\GKArchiveFilter.cs" />
-    <Compile Include="XModels\Filters\GKJournalFilter.cs" />
     <Compile Include="XModels\Firmware\HexFileCollectionInfo.cs" />
     <Compile Include="XModels\Firmware\HEXFileInfo.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
@@ -505,9 +503,6 @@
     <Compile Include="XModels\Instructions\GKInstructionType.cs" />
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
     <Compile Include="Journal\JournalItem.cs" />
-    <Compile Include="XModels\Journal\GKJournalItem.cs" />
-    <Compile Include="XModels\Journal\GKJournalObjectType.cs" />
-    <Compile Include="XModels\Journal\GKSubsystemType.cs" />
     <Compile Include="XModels\Library\GKLibraryDevice.cs" />
     <Compile Include="XModels\Library\GKLibraryFrame.cs" />
     <Compile Include="XModels\Library\GKLibraryState.cs" />

@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
+using FiresecAPI.Journal;
 
 namespace FiresecService.Service
 {
@@ -134,7 +135,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<GKJournalItem> GKReadJournalItem(Guid deviceUID, int no)
+		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -143,7 +144,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<GKJournalItem>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+				return new OperationResult<JournalItem>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -407,7 +408,7 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Journal
-		public void AddXJournalItem(GKJournalItem journalItem)
+		public void AddXJournalItem(JournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
 			AddGKJournalItem(journalItem);

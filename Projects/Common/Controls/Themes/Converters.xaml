@@ -50,7 +50,6 @@
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
 	<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	<Converters:BoolToStringColorConverter x:Key="BoolToStringColorConverter" />
-	<Converters:XSubsystemTypeToIconConverter x:Key="XSubsystemTypeToIconConverter" />
 	<Converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
 	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />

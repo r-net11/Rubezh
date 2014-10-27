@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 
 namespace FiresecAPI
 {
@@ -36,7 +37,7 @@ namespace FiresecAPI
 		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<GKJournalItem> GKReadJournalItem(Guid deviceUID, int no);
+		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
 		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes);

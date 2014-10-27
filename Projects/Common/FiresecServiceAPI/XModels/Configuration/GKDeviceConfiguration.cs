@@ -26,7 +26,6 @@ namespace FiresecAPI.GK
 			DaySchedules = new List<GKDaySchedule>();
 			Schedules = new List<GKSchedule>();
 
-			JournalFilters = new List<GKJournalFilter>();
 			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
 		}
@@ -69,12 +68,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKDelay> Delays { get; set; }
-
-		/// <summary>
-		/// Фильтры журнала событий
-		/// </summary>
-		[DataMember]
-		public List<GKJournalFilter> JournalFilters { get; set; }
 
 		/// <summary>
 		/// Инструкции

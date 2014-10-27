@@ -254,26 +254,26 @@ namespace GKProcessor
 				return new OperationResult<int>("Устройство недоступно");
 			}
 			var journalParser = new JournalParser(device, sendResult.Bytes);
-			var result = journalParser.JournalItem.GKJournalRecordNo.Value;
+			var result = journalParser.GKJournalRecordNo;
 			return new OperationResult<int>() { Result = result };
 		}
 
-		public static OperationResult<GKJournalItem> GKReadJournalItem(GKDevice device, int no)
+		public static OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
 		{
 			var data = BitConverter.GetBytes(no).ToList();
 			var sendResult = SendManager.Send(device, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<GKJournalItem>("Устройство недоступно");
+				return new OperationResult<JournalItem>("Устройство недоступно");
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<GKJournalItem>() { Result = journalParser.JournalItem };
+				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
 			}
 			else
 			{
-				return new OperationResult<GKJournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
+				return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
 			}
 		}
 
@@ -460,55 +460,55 @@ namespace GKProcessor
 		public static void AddGKMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType, string description, GKBase gkBase, string userName)
 		{
 			Guid uid = Guid.Empty;
-			var journalObjectType = GKJournalObjectType.System;
+			var journalObjectType = JournalObjectType.None;
 			if (gkBase != null)
 			{
 				uid = gkBase.UID;
 				if (gkBase is GKDevice)
 				{
-					journalObjectType = GKJournalObjectType.Device;
+					journalObjectType = JournalObjectType.GKDevice;
 				}
 				if (gkBase is GKZone)
 				{
-					journalObjectType = GKJournalObjectType.Zone;
+					journalObjectType = JournalObjectType.GKZone;
 				}
 				if (gkBase is GKDirection)
 				{
-					journalObjectType = GKJournalObjectType.Direction;
+					journalObjectType = JournalObjectType.GKDirection;
 				}
 				if (gkBase is GKDelay)
 				{
-					journalObjectType = GKJournalObjectType.Delay;
+					journalObjectType = JournalObjectType.GKDelay;
 				}
 				if (gkBase is GKPim)
 				{
-					journalObjectType = GKJournalObjectType.Pim;
+					journalObjectType = JournalObjectType.GKPim;
 				}
 				if (gkBase is GKGuardZone)
 				{
-					journalObjectType = GKJournalObjectType.GuardZone;
+					journalObjectType = JournalObjectType.GKGuardZone;
 				}
 			}
 
-			var journalItem = new GKJournalItem()
+			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalObjectType = journalObjectType,
-				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
-				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
-				Description = description,
+				NameText = EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				DescriptionText = description,
 				ObjectUID = uid,
-				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
-				SubsystemType = GKSubsystemType.System
+				JournalSubsystemType = JournalSubsystemType.System
 			};
 			if (gkBase != null)
 			{
 				journalItem.ObjectName = gkBase.PresentationName;
-				journalItem.GKObjectNo = (ushort)gkBase.GKDescriptorNo;
+				var gkObjectNo = (ushort)gkBase.GKDescriptorNo;
+				if (gkObjectNo > 0)
+					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkObjectNo.ToString()));
 			}
 
 			GKDBHelper.Add(journalItem);

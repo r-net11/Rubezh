@@ -36,10 +36,10 @@ namespace GKProcessor
 			}
 			ConnectionChanged(true);
 			var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
-			return journalParser.JournalItem.GKJournalRecordNo.Value;
+			return journalParser.GKJournalRecordNo;
 		}
 
-		GKJournalItem ReadJournal(int index)
+		JournalParser ReadJournal(int index)
 		{
 			LastUpdateTime = DateTime.Now;
 			if (IsStopping)
@@ -54,32 +54,32 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
-				return journalParser.JournalItem;
+				return journalParser;
 			}
 			return null;
 		}
 
 		void ReadAndPublish(int startIndex, int endIndex)
 		{
-			var journalItems = new List<GKJournalItem>();
+			var journalItems = new List<JournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
-				var journalItem = ReadJournal(index);
-				if (journalItem != null)
+				var journalParser = ReadJournal(index);
+				if (journalParser != null)
 				{
-					journalItems.Add(journalItem);
-					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
+					journalItems.Add(journalParser.JournalItem);
+					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
 					if (descriptor != null)
 					{
-						ChangeJournalOnDevice(descriptor, journalItem);
-						CheckServiceRequired(descriptor.GKBase, journalItem);
-						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalItem.ObjectState);
+						ChangeJournalOnDevice(descriptor, journalParser.JournalItem);
+						CheckServiceRequired(descriptor.GKBase, journalParser.JournalItem);
+						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
 						if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
 						{
 							descriptor.GKBase.InternalState.ZeroHoldDelayCount = 0;
 							CheckDelay(descriptor.GKBase);
 						}
-						ParseAdditionalStates(journalItem);
+						ParseAdditionalStates(journalParser);
 						OnObjectStateChanged(descriptor.GKBase);
 						if (descriptor.GKBase is GKDevice)
 						{
@@ -96,7 +96,7 @@ namespace GKProcessor
 						}
 					}
 
-					if (journalItem.JournalEventNameType == JournalEventNameType.Перевод_в_технологический_режим || journalItem.JournalEventNameType == JournalEventNameType.Перевод_в_рабочий_режим)
+					if (journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Перевод_в_технологический_режим || journalParser.JournalItem.JournalEventNameType == JournalEventNameType.Перевод_в_рабочий_режим)
 					{
 						MustCheckTechnologicalRegime = true;
 						LastTechnologicalRegimeCheckTime = DateTime.Now;
@@ -113,7 +113,7 @@ namespace GKProcessor
 			}
 		}
 
-		void ChangeJournalOnDevice(BaseDescriptor descriptor, GKJournalItem journalItem)
+		void ChangeJournalOnDevice(BaseDescriptor descriptor, JournalItem journalItem)
 		{
 			if (descriptor.Device != null)
 			{
@@ -125,7 +125,7 @@ namespace GKProcessor
 						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
 						if (property != null)
 						{
-							journalItem.Description = property.StringValue;
+							journalItem.DescriptionText = property.StringValue;
 						}
 					}
 					if (journalItem.JournalEventNameType == JournalEventNameType.Норма)
@@ -133,35 +133,35 @@ namespace GKProcessor
 						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
 						if (property != null)
 						{
-							journalItem.Description = property.StringValue;
+							journalItem.DescriptionText = property.StringValue;
 						}
 					}
 				}
 				if (device.DriverType == GKDriverType.Valve)
 				{
-					switch (journalItem.Name)
+					switch (journalItem.NameText)
 					{
 						case "Включено":
-							journalItem.Name = "Открыто";
+							journalItem.NameText = "Открыто";
 							break;
 
 						case "Выключено":
-							journalItem.Name = "Закрыто";
+							journalItem.NameText = "Закрыто";
 							break;
 
 						case "Включается":
-							journalItem.Name = "Открывается";
+							journalItem.NameText = "Открывается";
 							break;
 
 						case "Выключается":
-							journalItem.Name = "Закрывается";
+							journalItem.NameText = "Закрывается";
 							break;
 					}
 				}
 			}
 		}
 
-		void CheckServiceRequired(GKBase gkBase, GKJournalItem journalItem)
+		void CheckServiceRequired(GKBase gkBase, JournalItem journalItem)
 		{
 			if (journalItem.JournalEventNameType == JournalEventNameType.Запыленность || journalItem.JournalEventNameType == JournalEventNameType.Запыленность_устранена)
 			{

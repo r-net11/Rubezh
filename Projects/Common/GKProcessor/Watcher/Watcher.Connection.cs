@@ -27,16 +27,16 @@ namespace GKProcessor
 
 				if (IsConnected != isConnected)
 				{
-					var journalItem = new GKJournalItem()
+					var journalItem = new JournalItem()
 					{
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
-						GKIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalObjectType = GKJournalObjectType.System,
-						StateClass = XStateClass.Unknown,
-						ObjectStateClass = XStateClass.Norm,
+						JournalObjectType = JournalObjectType.None,
 						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,
 					};
+					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
+					if (!string.IsNullOrEmpty(gkIpAddress))
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 					AddJournalItem(journalItem);
 
 					IsConnected = isConnected;

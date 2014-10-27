@@ -152,7 +152,6 @@
     <Compile Include="Converters\NullableTimeToStringConverter.cs" />
     <Compile Include="Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
-    <Compile Include="Converters\XSubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
     <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
