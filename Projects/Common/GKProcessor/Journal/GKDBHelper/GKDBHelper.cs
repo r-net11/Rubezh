@@ -18,7 +18,7 @@ namespace GKProcessor
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
-		public static bool IsAbort { get; set; }
+		//public static bool IsAbort { get; set; }
 		public static event Action<List<GKJournalItem>, Guid> ArchivePortionReady;
 
 
@@ -91,7 +91,6 @@ namespace GKProcessor
 		static void InsertJournalRecordToDb(List<GKJournalItem> journalItems)
 		{
 			journalItems = UpdateItemLengths(journalItems);
-			UpdateNamesDescriptions(journalItems);
 			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
 				using (var dataContext = new SqlCeConnection(ConnectionString))
@@ -127,66 +126,6 @@ namespace GKProcessor
 					dataContext.Close();
 				}
 			}
-		}
-
-		public static List<GKJournalItem> BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
-		{
-			var journalItems = new List<GKJournalItem>();
-			var result = new List<GKJournalItem>();
-
-			try
-			{
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							var query = BuildQuery(archiveFilter);
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							while (reader.Read())
-							{
-								if (IsAbort && !isReport)
-									break;
-								try
-								{
-									var journalItem = ReadOneJournalItem(reader);
-									result.Add(journalItem);
-									if (!isReport)
-									{
-										journalItems.Add(journalItem);
-										if (journalItems.Count >= archiveFilter.PageSize)
-											PublishNewItemsPortion(journalItems, archivePortionUID);
-									}
-								}
-								catch (Exception e)
-								{
-									Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
-								}
-							}
-							if (!isReport)
-								PublishNewItemsPortion(journalItems, archivePortionUID);
-						}
-					}
-				}
-				
-			}
-			catch (ThreadAbortException) { }
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.Select");
-			}
-			return result;
-		}
-
-		static void PublishNewItemsPortion(List<GKJournalItem> journalItems, Guid archivePortionUID)
-		{
-			if (ArchivePortionReady != null)
-				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
-			UpdateNamesDescriptions(journalItems);
-			journalItems.Clear();
 		}
 
 		static string BuildQuery(GKArchiveFilter archiveFilter)
@@ -370,39 +309,6 @@ namespace GKProcessor
 				Logger.Error(e, "GKDBHelper.GetLastGKID");
 			}
 			return DateTime.Now;
-		}
-
-		public static List<GKJournalItem> GetGKTopLastJournalItems(int count)
-		{
-			var journalItems = new List<GKJournalItem>();
-			try
-			{
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY SystemDateTime DESC";
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							while (reader.Read())
-							{
-								var journalItem = ReadOneJournalItem(reader);
-								journalItems.Add(journalItem);
-							}
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.GetTopLast");
-			}
-			UpdateNamesDescriptions(journalItems);
-			journalItems.Reverse();
-			return journalItems;
 		}
 
 		static GKJournalItem ReadOneJournalItem(SqlCeDataReader reader)

@@ -251,16 +251,6 @@ namespace FiresecService.Service
 		{
 			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
 		}
-
-		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
-		{
-			return DBHelper.GetDistinctEventDescriptions();
-		}
-
-		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
-		{
-			return DBHelper.GetDistinctEventNames();
-		}
 		#endregion
 	}
 }

@@ -154,7 +154,6 @@
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="Events\UserChangedEvent.cs" />
-    <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowXGuardZoneEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />

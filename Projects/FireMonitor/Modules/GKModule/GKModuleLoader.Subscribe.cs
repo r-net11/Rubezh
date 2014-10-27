@@ -38,23 +38,7 @@ namespace GKModule
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			SafeFiresecService.GetFilteredGKArchiveCompletedEvent -= new Action<IEnumerable<GKJournalItem>, Guid>(OnGetFilteredGKArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredGKArchiveCompletedEvent += new Action<IEnumerable<GKJournalItem>, Guid>(OnGetFilteredGKArchiveCompletedEvent);
-
 			ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
-		}
-
-		void OnGetFilteredGKArchiveCompletedEvent(IEnumerable<GKJournalItem> journalItems, Guid archivePortionUID)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				var archiveResult = new GKArchiveResult()
-				{
-					ArchivePortionUID = archivePortionUID,
-					JournalItems = journalItems
-				};
-				ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Publish(archiveResult);
-			});
 		}
 
 		void InitializeStates()

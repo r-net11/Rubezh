@@ -415,48 +415,6 @@ namespace FiresecService.Service
 			gkCallbackResult.JournalItems.Add(journalItem);
 			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
-
-		public List<GKJournalItem> GetGKTopLastJournalItems(int count)
-		{
-			return GKDBHelper.GetGKTopLastJournalItems(count);
-		}
-
-		public void BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			if (CurrentThread != null)
-			{
-				GKDBHelper.IsAbort = true;
-				CurrentThread.Join(TimeSpan.FromMinutes(1));
-				CurrentThread = null;
-			}
-			GKDBHelper.IsAbort = false;
-			var thread = new Thread(new ThreadStart((new Action(() =>
-			{
-				GKDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-				GKDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID, false);
-
-			}))));
-			thread.Name = "GK GetFilteredArchive";
-			thread.IsBackground = true;
-			CurrentThread = thread;
-			thread.Start();
-		}
-
-		void DatabaseHelper_ArchivePortionReady(List<GKJournalItem> journalItems, Guid archivePortionUID)
-		{
-			FiresecService.NotifyGKArchiveCompleted(journalItems, archivePortionUID);
-		}
-
-		public List<string> GetDistinctGKJournalNames()
-		{
-			return GKDBHelper.EventNames;
-		}
-
-		public List<string> GetDistinctGKJournalDescriptions()
-		{
-			return GKDBHelper.EventDescriptions;
-		}
 		#endregion
 	}
 }

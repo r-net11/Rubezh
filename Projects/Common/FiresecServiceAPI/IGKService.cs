@@ -97,19 +97,5 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKStopMeasureMonitoring(Guid deviceUID);
-
-		#region Journal
-		[OperationContract]
-		List<GKJournalItem> GetGKTopLastJournalItems(int count);
-
-		[OperationContract]
-		void BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID);
-
-		[OperationContract]
-		List<string> GetDistinctGKJournalNames();
-
-		[OperationContract]
-		List<string> GetDistinctGKJournalDescriptions();
-		#endregion
 	}
 }
