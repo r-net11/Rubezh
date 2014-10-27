@@ -86,7 +86,7 @@ namespace FiresecService.Service
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddJournalMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
+		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -97,12 +97,17 @@ namespace FiresecService.Service
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
 				JournalObjectType = JournalObjectType.None,
 				ObjectUID = Guid.Empty,
-				ObjectName = null,
+				ObjectName = objectName,
 				UserName = UserName,
 			};
 
 			AddCommonJournalItem(journalItem);
 		}
+		
+		//void AddJournalMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
+		//{
+		//    AddJournalMessage(journalEventNameType, null, journalEventDescriptionType);
+		//}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
 		{

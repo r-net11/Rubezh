@@ -20,6 +20,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 	public class PassCardTemplateDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortPassCardTemplate>
 	{
 		private Guid _organisationUID { get; set; }
+		bool _isNew;
 
 		public PassCardTemplate PassCardTemplate { get; private set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
@@ -89,7 +90,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)
 		{
 			_organisationUID = organisation.UID;
-			if (model == null)
+			bool _isNew = model == null;
+			if (_isNew)
 			{
 				Title = "Создание шаблона пропусков";
 				PassCardTemplate = new PassCardTemplate()
@@ -199,7 +201,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			SaveDefaultProperties();
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return PassCardTemplateHelper.Save(PassCardTemplate);
+			return PassCardTemplateHelper.Save(PassCardTemplate, _isNew);
 		}
 		public override void OnClosed()
 		{

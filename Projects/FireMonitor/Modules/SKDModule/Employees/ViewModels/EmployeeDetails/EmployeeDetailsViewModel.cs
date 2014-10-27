@@ -17,6 +17,7 @@ namespace SKDModule.ViewModels
 	{
 		Organisation _organisation;
 		PersonType _personType;
+		bool _isNew;
 
 		public EmployeeDetailsViewModel() { }
 
@@ -46,7 +47,8 @@ namespace SKDModule.ViewModels
 			_organisation = OrganisationHelper.GetSingle(organisationUID);
 			_personType = personType;
 			IsEmployee = _personType == PersonType.Employee;
-			if (employee == null)
+			_isNew = employee == null;
+			if (_isNew)
 			{
 				Employee = new Employee();
 				Employee.OrganisationUID = organisationUID;
@@ -763,13 +765,13 @@ namespace SKDModule.ViewModels
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
 				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)
-					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID);
+					OrganisationHelper.SaveChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.ChiefUID == Employee.UID && !IsOrganisationChief)
-					OrganisationHelper.SaveChief(_organisation.UID, Guid.Empty);
+					OrganisationHelper.SaveChief(_organisation.UID, Guid.Empty, _organisation.Name);
 				if (IsOrganisationHRChief && _organisation.HRChiefUID != Employee.UID)
-					OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID);
+					OrganisationHelper.SaveHRChief(_organisation.UID, Employee.UID, _organisation.Name);
 				else if (_organisation.HRChiefUID == Employee.UID && !IsOrganisationHRChief)
-					OrganisationHelper.SaveHRChief(_organisation.UID, Guid.Empty);
+					OrganisationHelper.SaveHRChief(_organisation.UID, Guid.Empty, _organisation.Name);
 			}
 			else
 			{
@@ -794,7 +796,7 @@ namespace SKDModule.ViewModels
 			Employee.GuardZoneAccesses = guardZoneAccesses;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			var saveResult = EmployeeHelper.Save(Employee);
+			var saveResult = EmployeeHelper.Save(Employee, _isNew);
 			if (saveResult && isLaunchEvent)
 				ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Publish(Employee);
 			return saveResult;

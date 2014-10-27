@@ -110,18 +110,18 @@ namespace DiagnosticsModule.ViewModels
 			for (int i = 0; i < 10; i++)
 			{
 				var org = new OrganisationDetails { Name = "Организация " + i };
-				OrganisationHelper.Save(org);
+				OrganisationHelper.Save(org, true);
 				var posUIDs = new List<Guid>();
 				for (int j = 0; j < 10; j++)
 				{
 					var pos = new Position { Name = "Должность " + i + j, OrganisationUID = org.UID };
-					PositionHelper.Save(pos);
+					PositionHelper.Save(pos, true);
 					posUIDs.Add(pos.UID);
 				}
 				for (int j = 0; j < 10; j++)
 				{
 					var dept = new Department { Name = "Отдел " + i + j + "0", OrganisationUID = org.UID };
-					DepartmentHelper.Save(dept);
+					DepartmentHelper.Save(dept, true);
 					for (int k = 0; k < 10; k++)
 					{
 						var empl = new Employee
@@ -133,10 +133,10 @@ namespace DiagnosticsModule.ViewModels
 							Position = PositionHelper.GetSingleShort(posUIDs.FirstOrDefault()),
 							OrganisationUID = org.UID
 						};
-						EmployeeHelper.Save(empl);
+						EmployeeHelper.Save(empl, true);
 					}
 					var dept2 = new Department { Name = "Отдел " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
-					DepartmentHelper.Save(dept2);
+					DepartmentHelper.Save(dept2, true);
 					for (int k = 0; k < 10; k++)
 					{
 						var empl = new Employee
@@ -148,7 +148,7 @@ namespace DiagnosticsModule.ViewModels
 							Position = PositionHelper.GetSingleShort(posUIDs.LastOrDefault()),
 							OrganisationUID = org.UID
 						};
-						EmployeeHelper.Save(empl);
+						EmployeeHelper.Save(empl, true);
 					}
 				}
 			}

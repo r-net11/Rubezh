@@ -99,6 +99,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string Phone { get; set; }
+
+		public string Name { get { return FirstName + " " + SecondName + " " + LastName; } }
 	}
 
 	public enum Gender

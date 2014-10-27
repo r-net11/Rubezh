@@ -5,15 +5,15 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class SheduleDayIntervalHelper
 	{
-		public static bool Save(ScheduleDayInterval scheduleDayInterval)
+		public static bool Save(ScheduleDayInterval scheduleDayInterval, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveSheduleDayInterval(scheduleDayInterval);
+			var operationResult = FiresecManager.FiresecService.SaveSheduleDayInterval(scheduleDayInterval, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Remove(ScheduleDayInterval scheduleDayInterval)
+		public static bool Remove(ScheduleDayInterval scheduleDayInterval, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RemoveSheduleDayInterval(scheduleDayInterval);
+			var operationResult = FiresecManager.FiresecService.RemoveSheduleDayInterval(scheduleDayInterval, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

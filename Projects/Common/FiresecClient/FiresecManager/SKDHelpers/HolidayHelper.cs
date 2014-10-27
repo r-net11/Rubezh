@@ -7,21 +7,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class HolidayHelper
 	{
-		public static bool Save(Holiday holiday)
+		public static bool Save(Holiday holiday, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveHoliday(holiday);
+			var operationResult = FiresecManager.FiresecService.SaveHoliday(holiday, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(Holiday item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedHoliday(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(Holiday item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedHoliday(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreHoliday(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreHoliday(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

@@ -15,17 +15,17 @@ namespace SKDModule.ViewModels
 		{
 			return AccessTemplateHelper.GetByOrganisation(organisationUID);
 		}
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(AccessTemplate model)
 		{
-			return AccessTemplateHelper.MarkDeleted(uid);
+			return AccessTemplateHelper.MarkDeleted(model);
 		}
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(AccessTemplate model)
 		{
-			return AccessTemplateHelper.Restore(uid);
+			return AccessTemplateHelper.Restore(model);
 		}
-		protected override bool Save(AccessTemplate item)
+		protected override bool Add(AccessTemplate item)
 		{
-			return AccessTemplateHelper.Save(item);
+			return AccessTemplateHelper.Save(item, true);
 		}
 		
 		protected override AccessTemplate CopyModel(AccessTemplate source)

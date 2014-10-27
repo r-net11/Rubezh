@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		where TViewModel : OrganisationElementViewModel<TViewModel, TModel>, new()
 		where TModel : class, IOrganisationElement, new()
 		where TDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<TModel>, new()
-		where TFilter : OrganisationFilterBase
+		where TFilter : OrganisationFilterBase, new()
 	{
 		public OrganisationBaseViewModel()
 		{
@@ -43,9 +43,9 @@ namespace SKDModule.ViewModels
 		protected Guid _clipboardUID;
 		protected abstract IEnumerable<TModel> GetModels(TFilter filter);
 		protected abstract IEnumerable<TModel> GetModelsByOrganisation(Guid organisationUID);
-		protected abstract bool MarkDeleted(Guid uid);
-		protected abstract bool Save(TModel item);
-		protected abstract bool Restore(Guid uid);
+		protected abstract bool MarkDeleted(TModel model);
+		protected abstract bool Add(TModel item);
+		protected abstract bool Restore(TModel model);
 
 		protected TModel ShowDetails(Organisation organisation, TModel model = null)
 		{
@@ -174,8 +174,7 @@ namespace SKDModule.ViewModels
 						{
 							organisationViewModel.RemoveChild(child);
 						}
-						var filter = _filter;
-						filter.OrganisationUIDs = new List<Guid> { organisationUID };
+						var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
 						var models = GetModels(filter);
 						if (models != null)
 						{
@@ -191,8 +190,7 @@ namespace SKDModule.ViewModels
 					{
 						var organisationViewModel = new TViewModel();
 						organisationViewModel.InitializeOrganisation(organisation, this);
-						var filter = _filter;
-						filter.OrganisationUIDs = new List<Guid> { organisationUID };
+						var filter = new TFilter { OrganisationUIDs = new List<Guid> { organisationUID }, LogicalDeletationType = LogicalDeletationType.All };
 						var models = GetModels(filter);
 						if (models != null)
 						{
@@ -284,7 +282,7 @@ namespace SKDModule.ViewModels
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedItem);
 			var model = SelectedItem.Model;
-			var removeResult = MarkDeleted(model.UID);
+			var removeResult = MarkDeleted(model);
 			if (!removeResult)
 				return;
 			if (IsWithDeleted)
@@ -323,7 +321,7 @@ namespace SKDModule.ViewModels
 		{
 			if (!SelectedItem.IsDeleted)
 				return;
-			var restoreResult = Restore(SelectedItem.Model.UID);
+			var restoreResult = Restore(SelectedItem.Model);
 			if (!restoreResult)
 				return;
 			SelectedItem.IsDeleted = false;
@@ -331,7 +329,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && !ParentOrganisation.IsDeleted;
+			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && ParentOrganisation != null && !ParentOrganisation.IsDeleted;
 		}
 		
 		public RelayCommand EditCommand { get; private set; }
@@ -366,7 +364,7 @@ namespace SKDModule.ViewModels
 			var newItem = _clipboard;
 			newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
 			newItem.OrganisationUID = ParentOrganisation.Organisation.UID;
-			if (Save(newItem))
+			if (Add(newItem))
 			{
 				var viewModel = new TViewModel();
 				viewModel.InitializeModel(SelectedItem.Organisation, newItem, this);

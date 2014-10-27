@@ -90,17 +90,17 @@ namespace SKDModule.ViewModels
 		{
 			return DayIntervalHelper.GetByOrganisation(organisationUID);
 		}
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(DayInterval model)
 		{
-			return DayIntervalHelper.MarkDeleted(uid);
+			return DayIntervalHelper.MarkDeleted(model);
 		}
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(DayInterval model)
 		{
-			return DayIntervalHelper.Restore(uid);
+			return DayIntervalHelper.Restore(model);
 		}
-		protected override bool Save(DayInterval item)
+		protected override bool Add(DayInterval item)
 		{
-			return DayIntervalHelper.Save(item);
+			return DayIntervalHelper.Save(item, true);
 		}
 
 		protected override DayInterval CopyModel(DayInterval source)

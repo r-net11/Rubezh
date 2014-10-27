@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
@@ -255,7 +254,7 @@ namespace JournalModule.ViewModels
 					break;
 
 				case JournalObjectType.None:
-					ObjectName = "";
+					ObjectName = JournalItem.ObjectName != null ? JournalItem.ObjectName : "";
 					break;
 			}
 

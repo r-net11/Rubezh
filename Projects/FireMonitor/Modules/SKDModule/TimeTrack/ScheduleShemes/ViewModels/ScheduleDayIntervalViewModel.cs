@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 					if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
 					{
 						Model.DayIntervalUID = _selectedDayInterval.UID;
-						SheduleDayIntervalHelper.Save(Model);
+						SheduleDayIntervalHelper.Save(Model, _scheduleScheme.Name);
 					}
 				}
 				OnPropertyChanged(() => SelectedDayInterval);

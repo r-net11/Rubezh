@@ -10,13 +10,14 @@ namespace SKDModule.ViewModels
 		Organisation Organisation { get; set; }
 		public AccessTemplate Model { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
-
+		bool _isNew;
 		public AccessTemplateDetailsViewModel() {  }
 		
 		public bool Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
 			Organisation = OrganisationHelper.GetSingle(orgnaisation.UID); ;
-			if (accessTemplate == null)
+			_isNew = accessTemplate == null;
+			if (_isNew)
 			{
 				Title = "Создание шаблона доступа";
 				accessTemplate = new AccessTemplate()
@@ -91,7 +92,7 @@ namespace SKDModule.ViewModels
 			Model.OrganisationUID = Organisation.UID;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return AccessTemplateHelper.Save(Model);
+			return AccessTemplateHelper.Save(Model, _isNew);
 		}
 	}
 }

@@ -114,7 +114,7 @@ namespace SKDModule.ViewModels
 			}
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return ScheduleSchemeHelper.Save(Model);
+			return ScheduleSchemeHelper.Save(Model, IsNew);
 		}
 	}
 }

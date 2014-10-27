@@ -132,6 +132,7 @@ namespace SKDModule.ViewModels
 	{
 		bool IsDeleted { get; set; }
 		Guid UID { get; }
-		Guid OrganisationUID { get; } 
+		Guid OrganisationUID { get; }
+		string Name { get; }
 	}
 }

@@ -7,21 +7,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class ScheduleSchemeHelper
 	{
-		public static bool Save(ScheduleScheme scheduleScheme)
+		public static bool Save(ScheduleScheme scheduleScheme, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveScheduleScheme(scheduleScheme);
+			var operationResult = FiresecManager.FiresecService.SaveScheduleScheme(scheduleScheme, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(ScheduleScheme item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleScheme(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(ScheduleScheme item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleScheme(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreScheduleScheme(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreScheduleScheme(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

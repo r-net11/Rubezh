@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 			{
 				var viewModel = new TItem();
 				viewModel.Initialize(employeeSelectionViewModel.SelectedEmployee);
-				var result = AddToParent(viewModel.Employee.UID);
+				var result = AddToParent(viewModel.Employee);
 				if (!result)
 					return;
 				Employees.Add(viewModel);
@@ -84,7 +84,7 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены?")))
 			{
-				var result = RemoveFromParent(SelectedEmployee.Employee.UID);
+				var result = RemoveFromParent(SelectedEmployee.Employee);
 				if (!result)
 					return;
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(SelectedEmployee.Employee.UID);
@@ -113,8 +113,8 @@ namespace SKDModule.ViewModels
 			return SelectedEmployee != null;
 		}
 
-		protected abstract bool AddToParent(Guid uid);
-		protected abstract bool RemoveFromParent(Guid uid);
+		protected abstract bool AddToParent(ShortEmployee employee);
+		protected abstract bool RemoveFromParent(ShortEmployee employee);
 		protected abstract Guid GetParentUID(Employee employee);
 
 		void OnEditEmployeePositionDepartment(Employee employee)

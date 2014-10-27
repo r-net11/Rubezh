@@ -95,7 +95,7 @@ namespace SKDModule.ViewModels
 		private void OnAdd()
 		{
 			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model);
-			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && ScheduleZoneHelper.Save(scheduleZoneDetailsViewModel.ScheduleZone))
+			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && ScheduleZoneHelper.Save(scheduleZoneDetailsViewModel.ScheduleZone, Model.Name))
 			{
 				var scheduleZone = scheduleZoneDetailsViewModel.ScheduleZone;
 				Model.Zones.Add(scheduleZone);
@@ -113,7 +113,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			if (ScheduleZoneHelper.MarkDeleted(SelectedScheduleZone.Model))
+			if (ScheduleZoneHelper.MarkDeleted(SelectedScheduleZone.Model, Model.Name))
 			{
 				Model.Zones.Remove(SelectedScheduleZone.Model);
 				ScheduleZones.Remove(SelectedScheduleZone);
@@ -130,7 +130,7 @@ namespace SKDModule.ViewModels
 			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, SelectedScheduleZone.Model);
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel))
 			{
-				ScheduleZoneHelper.Save(SelectedScheduleZone.Model);
+				ScheduleZoneHelper.Save(SelectedScheduleZone.Model, Model.Name);
 				var selectedScheduleZone = SelectedScheduleZone;
 				SelectedScheduleZone.Update();
 				Sort();

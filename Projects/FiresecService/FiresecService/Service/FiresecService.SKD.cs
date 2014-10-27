@@ -27,21 +27,24 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SaveEmployee(Employee item)
+		public OperationResult SaveEmployee(Employee item, bool isNew)
 		{
 			//foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 			//{
 			//	GKAddUser(gkControllerDevice.UID);
 			//}
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, JournalEventDescriptionType.Добавление_или_редактирование);
+			if(isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, item.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.EmployeeTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedEmployee(Guid uid)
+		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Удаление);
 			var stringBuilder = new StringBuilder();
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -74,25 +77,25 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
 			}
 		}
-		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid)
+		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.EmployeeTranslator.SaveDepartment(uid, departmentUid);
 			}
 		}
-		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid)
+		public OperationResult SaveEmployeePosition(Guid uid, Guid PositionUid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.EmployeeTranslator.SavePosition(uid, PositionUid);
 			}
 		}
-		public OperationResult RestoreEmployee(Guid uid)
+		public OperationResult RestoreEmployee(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.EmployeeTranslator.Restore(uid);
@@ -115,34 +118,37 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SaveDepartment(Department item)
+		public OperationResult SaveDepartment(Department item, bool isNew)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, JournalEventDescriptionType.Добавление_или_редактирование);
+			if(isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_нового_отдела, item.Name);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_отдела, item.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedDepartment(Guid uid)
+		public OperationResult MarkDeletedDepartment(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID)
+		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.SaveChief(uid, chiefUID);
 			}
 		}
-		
-		public OperationResult RestoreDepartment(Guid uid)
+
+		public OperationResult RestoreDepartment(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.Restore(uid);
@@ -165,25 +171,28 @@ namespace FiresecService.Service
 				return databaseService.PositionTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SavePosition(Position item)
+		public OperationResult SavePosition(Position item, bool isNew)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_должности, JournalEventDescriptionType.Добавление_или_редактирование);
+			if (isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_новой_должности, item.Name);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_должности, item.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PositionTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedPosition(Guid uid)
+		public OperationResult MarkDeletedPosition(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_должности, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_должности, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PositionTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestorePosition(Guid uid)
+		public OperationResult RestorePosition(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_должности, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_должности, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PositionTranslator.Restore(uid);
@@ -203,7 +212,7 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Добавление_карты);
+				AddJournalMessage(JournalEventNameType.Добавление_карты, item.Number.ToString());
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
 				string cardWriterError = null;
@@ -231,7 +240,7 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Редактирование_карты);
+				AddJournalMessage(JournalEventNameType.Редактирование_карты, item.Number.ToString());
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
 				string cardWriterError = null;
@@ -271,7 +280,7 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Удаление_карты);
+				AddJournalMessage(JournalEventNameType.Удаление_карты, item.Number.ToString());
 
 				item.AccessTemplateUID = null;
 				item.CardDoors = new List<CardDoor>();
@@ -352,11 +361,14 @@ namespace FiresecService.Service
 				return databaseService.AccessTemplateTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate, bool isNew)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, JournalEventDescriptionType.Добавление_или_редактирование);
+				if (isNew)
+					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_доступа, accessTemplate.Name);
+				else
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, accessTemplate.Name, JournalEventDescriptionType.Редактирование);
 				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
 				var saveResult = databaseService.AccessTemplateTranslator.Save(accessTemplate);
 
@@ -386,18 +398,18 @@ namespace FiresecService.Service
 					return new OperationResult<bool>() { Result = !saveResult.HasError };
 			}
 		}
-		public OperationResult MarkDeletedAccessTemplate(Guid uid)
+		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AccessTemplateTranslator.MarkDeleted(uid);
 			}
 		}
 
-		public OperationResult RestoreAccessTemplate(Guid uid)
+		public OperationResult RestoreAccessTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AccessTemplateTranslator.Restore(uid);
@@ -413,17 +425,20 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Get(filter);
 			}
 		}
-		public OperationResult SaveOrganisation(OrganisationDetails item)
+		public OperationResult SaveOrganisation(OrganisationDetails item, bool isNew)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Добавление_или_редактирование);
+			if (isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_новой_организации, item.Name);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_организации, item.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedOrganisation(Guid uid)
+		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.MarkDeleted(uid);
@@ -431,7 +446,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveOrganisationDoors(Organisation organisation)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveDoors(organisation);
@@ -439,7 +454,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveZones(organisation);
@@ -447,7 +462,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveGuardZones(organisation);
@@ -455,7 +470,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveOrganisationUsers(Organisation organisation)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveUsers(organisation);
@@ -468,27 +483,27 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.GetDetails(uid);
 			}
 		}
-		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID)
+		public OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveChief(uid, chiefUID);
 			}
 		}
 
-		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID)
+		public OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveHRChief(uid, chiefUID);
 			}
 		}
 
-		public OperationResult RestoreOrganisation(Guid uid)
+		public OperationResult RestoreOrganisation(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.Restore(uid);
@@ -526,25 +541,28 @@ namespace FiresecService.Service
 				return databaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item)
+		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item, bool isNew)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventDescriptionType.Добавление_или_редактирование);
+			if (isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_новой_дополнительной_колонки, item.Name);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, item.Name, JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
+		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestoreAdditionalColumnType(Guid uid)
+		public OperationResult RestoreAdditionalColumnType(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Restore(uid);
@@ -1133,22 +1151,28 @@ namespace FiresecService.Service
 				return databaseService.PassCardTemplateTranslator.GetSingle(uid);
 			}
 		}
-		public OperationResult SavePassCardTemplate(PassCardTemplate item)
+		public OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
+				if (isNew)
+					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_карты, item.Caption);
+				else
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_карты, item.Caption, JournalEventDescriptionType.Редактирование);
 				return databaseService.PassCardTemplateTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedPassCardTemplate(Guid uid)
+		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
 		{
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_карты, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
 			}
 		}
-		public OperationResult RestorePassCardTemplate(Guid uid)
+		public OperationResult RestorePassCardTemplate(Guid uid, string name)
 		{
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_карты, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.Restore(uid);

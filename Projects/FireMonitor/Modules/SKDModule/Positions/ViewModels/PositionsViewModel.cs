@@ -26,22 +26,22 @@ namespace SKDModule.ViewModels
 		{
 			return PositionHelper.GetByOrganisation(organisationUID);
 		}
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(ShortPosition model)
 		{
-			return PositionHelper.MarkDeleted(uid);
+			return PositionHelper.MarkDeleted(model);
 		}
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(ShortPosition model)
 		{
-			return PositionHelper.Restore(uid);
+			return PositionHelper.Restore(model);
 		}
-		protected override bool Save(ShortPosition item)
+		protected override bool Add(ShortPosition item)
 		{
 			var position = PositionHelper.GetDetails(_clipboardUID);
 			position.UID = item.UID;
 			position.Description = item.Description;
 			position.Name = item.Name;
 			position.OrganisationUID = item.OrganisationUID;
-			return PositionHelper.Save(position);
+			return PositionHelper.Save(position, true);
 		}
 		
 		protected override string ItemRemovingName

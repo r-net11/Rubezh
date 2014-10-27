@@ -6,21 +6,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class DayIntervalHelper
 	{
-		public static bool Save(DayInterval dayInterval)
+		public static bool Save(DayInterval dayInterval, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveDayInterval(dayInterval);
+			var operationResult = FiresecManager.FiresecService.SaveDayInterval(dayInterval, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(DayInterval item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedDayInterval(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(DayInterval item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+		
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedDayInterval(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreDayInterval(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreDayInterval(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

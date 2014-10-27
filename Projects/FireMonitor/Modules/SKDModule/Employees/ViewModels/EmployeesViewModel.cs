@@ -67,14 +67,14 @@ namespace SKDModule.ViewModels
 			return EmployeeHelper.GetShortByOrganisation(organisationUID);
 		}
 
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(ShortEmployee model)
 		{
-			return EmployeeHelper.MarkDeleted(uid);
+			return EmployeeHelper.MarkDeleted(model);
 		}
 
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(ShortEmployee model)
 		{
-			return EmployeeHelper.Restore(uid);
+			return EmployeeHelper.Restore(model);
 		}
 
 		public bool IsEmployeeSelected 
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 			get { return PersonType == FiresecAPI.SKD.PersonType.Employee ? "Сотрудники" : "Посетители"; }
 		}
 
-		protected override bool Save(ShortEmployee item)
+		protected override bool Add(ShortEmployee item)
 		{
 			throw new NotImplementedException();
 		}

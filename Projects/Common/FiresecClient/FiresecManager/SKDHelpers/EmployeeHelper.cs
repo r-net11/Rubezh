@@ -7,21 +7,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class EmployeeHelper
 	{
-		public static bool Save(Employee employee)
+		public static bool Save(Employee employee, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveEmployee(employee);
+			var operationResult = FiresecManager.FiresecService.SaveEmployee(employee, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(ShortEmployee item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedEmployee(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(ShortEmployee item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedEmployee(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreEmployee(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreEmployee(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
@@ -61,15 +71,26 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool SetDepartment(Guid employeeUID, Guid departmentUID)
+
+		public static bool SetDepartment(ShortEmployee employee, Guid departmentUID)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID);
+			return SetDepartment(employee.UID, departmentUID, employee.Name);
+		}
+
+		public static bool SetPosition(ShortEmployee employee, Guid positionUID)
+		{
+			return SetPosition(employee.UID, positionUID, employee.Name);
+		}
+
+		public static bool SetDepartment(Guid employeeUID, Guid departmentUID, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.SaveEmployeeDepartment(employeeUID, departmentUID, name);
 			return Common.ShowErrorIfExists(operationResult); 
 		}
 
-		public static bool SetPosition(Guid employeeUID, Guid positionUID)
+		public static bool SetPosition(Guid employeeUID, Guid positionUID, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID);
+			var operationResult = FiresecManager.FiresecService.SaveEmployeePosition(employeeUID, positionUID, name);
 			return Common.ShowErrorIfExists(operationResult); 
 		}
 

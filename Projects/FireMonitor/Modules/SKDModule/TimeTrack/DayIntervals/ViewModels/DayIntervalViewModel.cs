@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && DayIntervalPartHelper.Save(dayIntervalPartDetailsViewModel.DayIntervalPart))
+			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel) && DayIntervalPartHelper.Save(dayIntervalPartDetailsViewModel.DayIntervalPart, Model.Name))
 			{
 				var dayIntervalPart = dayIntervalPartDetailsViewModel.DayIntervalPart;
 				Model.DayIntervalParts.Add(dayIntervalPart);
@@ -74,7 +74,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart))
+			if (DayIntervalPartHelper.Remove(SelectedDayIntervalPart.DayIntervalPart, Model.Name))
 			{
 				Model.DayIntervalParts.Remove(SelectedDayIntervalPart.DayIntervalPart);
 				DayIntervalParts.Remove(SelectedDayIntervalPart);
@@ -91,7 +91,7 @@ namespace SKDModule.ViewModels
 			var dayIntervalPartDetailsViewModel = new DayIntervalPartDetailsViewModel(Model, SelectedDayIntervalPart.DayIntervalPart);
 			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
 			{
-				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart);
+				DayIntervalPartHelper.Save(SelectedDayIntervalPart.DayIntervalPart, Model.Name);
 				SelectedDayIntervalPart.Update();
 				var selectedDayIntervalPart = SelectedDayIntervalPart;
 				DayIntervalParts.Sort(item => item.BeginTime);
