@@ -122,27 +122,54 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Schedule.DayScheduleUIDs.Add(Guid.Empty);
-			var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
-			Parts.Add(schedulePartViewModel);
-			SelectedPart = schedulePartViewModel;
+			var daysCount = 1;
+			if (Schedule.ScheduleType == GKScheduleType.Weekly)
+			{
+				daysCount = 7;
+			}
+			for (int i = 0; i < daysCount; i++)
+			{
+				Schedule.DayScheduleUIDs.Add(Guid.Empty);
+				var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
+				Parts.Add(schedulePartViewModel);
+			}
+			SelectedPart = Parts.LastOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanAdd()
 		{
-			return true;
+			return Parts.Count < 50;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Schedule.DayScheduleUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
-			Parts.Remove(SelectedPart);
+			if (Schedule.ScheduleType == GKScheduleType.Weekly)
+			{
+				var weekNo = SelectedPart.Index / 7;
+				for (int i = 6; i >= 0; i--)
+				{
+					var index = weekNo * 7 + i;
+					Schedule.DayScheduleUIDs.RemoveAt(index);
+					Parts.RemoveAt(index);
+				}
+			}
+			else
+			{
+				Schedule.DayScheduleUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
+				Parts.Remove(SelectedPart);
+			}
+			Update();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()
 		{
-			return SelectedPart != null && Parts.Count > 1;
+			if (SelectedPart == null)
+				return false;
+			if (Schedule.ScheduleType == GKScheduleType.Dayly)
+				return Parts.Count > 1;
+			else
+				return Parts.Count > 7;
 		}
 	}
 }

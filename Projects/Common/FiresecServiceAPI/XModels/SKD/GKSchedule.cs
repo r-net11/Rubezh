@@ -15,6 +15,7 @@ namespace FiresecAPI.GK
 	{
 		public GKSchedule()
 		{
+			StartDateTime = DateTime.Now;
 			DayScheduleUIDs = new List<Guid>();
 		}
 
@@ -22,7 +23,13 @@ namespace FiresecAPI.GK
 		/// Тип графика
 		/// </summary>
 		[DataMember]
-		public GKScheduleType GKScheduleType { get; set; }
+		public GKScheduleType ScheduleType { get; set; }
+
+		/// <summary>
+		/// Начало действия графика
+		/// </summary>
+		[DataMember]
+		public DateTime StartDateTime { get; set; }
 
 		/// <summary>
 		/// Список составных идентификаторов дневных графиков

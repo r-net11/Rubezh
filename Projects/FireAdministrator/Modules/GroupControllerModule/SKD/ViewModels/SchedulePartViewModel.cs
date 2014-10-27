@@ -51,12 +51,42 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			Name = string.Format("{0}", Index + 1);
+			if (Schedule.ScheduleType == GKScheduleType.Dayly)
+			{
+				Name = string.Format("{0}", Index + 1);
+			}
+			else
+			{
+				var dayOfWeekNo = Index % 7;
+				Name = IntToWeekDay(dayOfWeekNo);
+			}
 			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.DayScheduleUIDs[Index]);
 			if (_selectedDaySchedule == null)
 				_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault();
 			OnPropertyChanged(() => SelectedDaySchedule);
 			OnPropertyChanged(() => Name);
+		}
+
+		public static string IntToWeekDay(int dayNo)
+		{
+			switch (dayNo)
+			{
+				case 0:
+					return "Понедельник";
+				case 1:
+					return "Вторник";
+				case 2:
+					return "Среда";
+				case 3:
+					return "Четверг";
+				case 4:
+					return "Пятница";
+				case 5:
+					return "Суббота";
+				case 6:
+					return "Воскресенье";
+			}
+			return "Неизвестный день";
 		}
 	}
 }
