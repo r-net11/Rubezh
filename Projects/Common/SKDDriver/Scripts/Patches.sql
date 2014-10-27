@@ -1003,34 +1003,35 @@ BEGIN
 	CREATE INDEX EmployeePosUIDIndex ON Employee([PositionUID])
 	INSERT INTO Patches (Id) VALUES ('Add_Indexes')
 END
---GO
---IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Organisation_HRChief')
---BEGIN
---	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
---	BEGIN
---		DECLARE @Command nvarchar(1000)
---		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP CONSTRAINT' + d.name
---		 FROM sys.tables t   
---		  JOIN sys.default_constraints d       
---		   ON d.parent_object_id = t.object_id  
---		  JOIN sys.columns c      
---		   ON c.object_id = t.object_id      
---			AND c.column_id = d.parent_column_id
---		 WHERE t.name = N'Department'
---		  AND c.name = N'HRChiefUID'
---		EXECUTE (@Command)
---		ALTER TABLE Department DROP COLUMN HRChiefUID
---	END
---	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
---	BEGIN
---		ALTER TABLE Organisation ADD [HRChiefUID] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
---		ALTER TABLE [dbo].Organisation WITH NOCHECK ADD CONSTRAINT [FK_Organisation_Employee3] FOREIGN KEY([HRChiefUID])
---		REFERENCES [dbo].[Employee] ([Uid]) 
---		NOT FOR REPLICATION
---		ALTER TABLE [dbo].Organisation NOCHECK CONSTRAINT [FK_Organisation_Employee3]
---	END
---	INSERT INTO Patches (Id) VALUES ('Organisation_HRChief')
---END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Organisation_HRChief')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		DECLARE @Command nvarchar(1000)
+		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP ' + d.name
+		 FROM sys.tables t   
+		  JOIN sys.default_constraints d       
+		   ON d.parent_object_id = t.object_id  
+		  JOIN sys.columns c      
+		   ON c.object_id = t.object_id      
+			AND c.column_id = d.parent_column_id
+		 WHERE t.name = N'Department'
+		  AND c.name = N'HRChiefUID'
+		EXECUTE (@Command)
+		ALTER TABLE DEPARTMENT DROP CONSTRAINT FK_Department_Employee3
+		ALTER TABLE Department DROP COLUMN HRChiefUID
+	END
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
+	BEGIN
+		ALTER TABLE Organisation ADD [HRChiefUID] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+		ALTER TABLE [dbo].Organisation WITH NOCHECK ADD CONSTRAINT [FK_Organisation_Employee3] FOREIGN KEY([HRChiefUID])
+		REFERENCES [dbo].[Employee] ([Uid]) 
+		NOT FOR REPLICATION
+		ALTER TABLE [dbo].Organisation NOCHECK CONSTRAINT [FK_Organisation_Employee3]
+	END
+	INSERT INTO Patches (Id) VALUES ('Organisation_HRChief')
+END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Journal_Indexes')
 BEGIN
