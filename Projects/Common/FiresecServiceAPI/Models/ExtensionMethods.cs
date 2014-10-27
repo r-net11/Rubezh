@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using FiresecAPI.Journal;
 
 namespace FiresecAPI
 {
@@ -20,6 +21,11 @@ namespace FiresecAPI
 
 		public static string ToDescription(this Enum value)
 		{
+			if (value is JournalEventNameType)
+				return EventDescriptionAttributeHelper.ToName((JournalEventNameType)value);
+			if (value is JournalEventDescriptionType)
+				return EventDescriptionAttributeHelper.ToName((JournalEventDescriptionType)value);
+
 			FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
 			if (fieldInfo != null)
 			{

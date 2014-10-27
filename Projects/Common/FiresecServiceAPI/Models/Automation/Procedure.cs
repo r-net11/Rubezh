@@ -49,6 +49,9 @@ namespace FiresecAPI.Automation
 		public int TimeOut { get; set; }
 
 		[DataMember]
+		public TimeType TimeType { get; set; }
+
+		[DataMember]
 		public bool IsSync { get; set; }
 
 		#region IIdentity Members

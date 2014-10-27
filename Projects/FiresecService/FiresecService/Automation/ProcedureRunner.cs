@@ -56,8 +56,8 @@ namespace FiresecService
 		{
 			User = user;
 			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem);
-			procedureThread.Start();
 			ProceduresThreads.Add(procedureThread);
+			procedureThread.Start();
 			return procedureThread;
 		}
 
@@ -84,9 +84,25 @@ namespace FiresecService
 					return;
 				}
 				ProceduresThreads = new List<ProcedureThread>(ProceduresThreads.FindAll(x => x.IsAlive));
+				var timeOut = new TimeSpan();
 				foreach (var procedureThread in ProceduresThreads)
 				{
-					if ((procedureThread.TimeOut > 0) && ((int) ((DateTime.Now - procedureThread.StartTime).TotalSeconds) >= procedureThread.TimeOut))
+					switch (procedureThread.TimeType)
+					{
+						case TimeType.Sec:
+							timeOut = TimeSpan.FromSeconds(procedureThread.TimeOut);
+							break;
+						case TimeType.Min:
+							timeOut = TimeSpan.FromMinutes(procedureThread.TimeOut);
+							break;
+						case TimeType.Hour:
+							timeOut = TimeSpan.FromHours(procedureThread.TimeOut);
+							break;
+						case TimeType.Day:
+							timeOut = TimeSpan.FromDays(procedureThread.TimeOut);
+							break;
+					}
+					if ((procedureThread.TimeOut > 0) && (DateTime.Now - procedureThread.StartTime >= timeOut))
 					{
 						procedureThread.IsTimeOut = true;
 					}
