@@ -8,7 +8,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Client.Images;
 
-namespace LayoutModule.ViewModels
+namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartImageViewModel : BaseLayoutPartViewModel
 	{

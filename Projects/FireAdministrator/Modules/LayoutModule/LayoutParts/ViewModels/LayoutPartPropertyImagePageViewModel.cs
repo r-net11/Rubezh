@@ -14,7 +14,7 @@ using System.Windows.Controls;
 using Common;
 using Infrastructure.Client.Images;
 
-namespace LayoutModule.ViewModels
+namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartPropertyImagePageViewModel : LayoutPartPropertyPageViewModel
 	{

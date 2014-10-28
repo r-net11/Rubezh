@@ -3,11 +3,8 @@ using System.Windows;
 using System.Windows.Data;
 using Xceed.Wpf.AvalonDock;
 
-namespace LayoutModule.Views
+namespace LayoutModule.LayoutParts.Views
 {
-	/// <summary>
-	/// Interaction logic for LayoutPartTabControlView.xaml
-	/// </summary>
 	public partial class LayoutPartTemplateContainerView : UserControl
 	{
 		public static readonly DependencyProperty ManagerProperty = DependencyProperty.Register("Manager", typeof(DockingManager), typeof(LayoutPartTemplateContainerView), new UIPropertyMetadata(null));

@@ -6,8 +6,9 @@ using Infrastructure.Common.Services.Layout;
 using System.Collections.Generic;
 using System;
 using Infrastructure.Client.Layout;
+using LayoutModule.ViewModels;
 
-namespace LayoutModule.ViewModels
+namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartPropertyTemplateContainerPageViewModel : LayoutPartPropertyPageViewModel
 	{

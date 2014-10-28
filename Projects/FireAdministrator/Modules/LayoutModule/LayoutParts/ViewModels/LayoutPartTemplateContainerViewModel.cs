@@ -11,8 +11,9 @@ using Infrastructure.Common.Services.Layout;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using LayoutModule.ViewModels;
 
-namespace LayoutModule.ViewModels
+namespace LayoutModule.LayoutParts.ViewModels
 {
 	public class LayoutPartTemplateContainerViewModel : BaseLayoutPartViewModel
 	{

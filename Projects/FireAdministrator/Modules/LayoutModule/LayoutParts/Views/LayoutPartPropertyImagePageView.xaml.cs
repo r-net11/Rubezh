@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace LayoutModule.Views
+namespace LayoutModule.LayoutParts.Views
 {
 	public partial class LayoutPartPropertyImagePageView : UserControl
 	{

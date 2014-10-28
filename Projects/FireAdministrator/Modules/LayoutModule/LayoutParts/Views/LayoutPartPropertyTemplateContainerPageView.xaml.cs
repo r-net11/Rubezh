@@ -12,11 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LayoutModule.Views
+namespace LayoutModule.LayoutParts.Views
 {
-	/// <summary>
-	/// Interaction logic for LayoutPartPropertyTemplateContainerPageView.xaml
-	/// </summary>
 	public partial class LayoutPartPropertyTemplateContainerPageView : UserControl
 	{
 		public LayoutPartPropertyTemplateContainerPageView()

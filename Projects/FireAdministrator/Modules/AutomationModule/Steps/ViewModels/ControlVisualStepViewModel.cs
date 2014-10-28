@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
+using FiresecAPI.Models.Layouts;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace AutomationModule.ViewModels
 				var layoutViewModel = new LayoutViewModel(layout);
 				Layouts.Add(layoutViewModel);
 			}
-			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.LayoutUid);
+			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.Layout);
 		}
 
 
@@ -31,10 +32,13 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedLayout = value;
 				if (_selectedLayout != null)
-					ControlVisualArguments.LayoutUid = _selectedLayout.Layout.UID;
+					ControlVisualArguments.Layout = _selectedLayout.Layout.UID;
 				OnPropertyChanged(() => SelectedLayout);
+				UpdateContent();
 			}
 		}
+
+		public ObservableCollection<LayoutPart> Parts { get; private set; }
 
 		public override string Description
 		{
@@ -43,6 +47,8 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
+			//Parts = SelectedLayout == null ? null : new ObservableCollection<LayoutPart>(SelectedLayout.Layout.Parts);
+			//OnPropertyChanged(() => Parts);
 			//Sounds = new ObservableCollection<SoundViewModel>();
 			//foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			//{

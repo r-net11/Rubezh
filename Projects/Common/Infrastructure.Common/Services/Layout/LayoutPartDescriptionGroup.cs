@@ -17,5 +17,8 @@ namespace Infrastructure.Common.Services.Layout
 
 		[Description("Видео")]
 		Video,
+
+		[Description("Элементы управления")]
+		Control,
 	}
 }

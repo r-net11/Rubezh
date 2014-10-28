@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LayoutModule.Views.LayoutPartPropertyImagePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="LayoutModule.LayoutParts.Views.LayoutPartPropertyImagePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
 		<Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
 			<Setter Property="ItemTemplate">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI.Automation
 {
@@ -8,19 +9,35 @@ namespace FiresecAPI.Automation
 	{
 		public ControlVisualArguments()
 		{
-			LayoutUid = new Guid();
 		}
 
 		[DataMember]
-		public Guid LayoutUid { get; set; }
+		public ControlVisualType Type { get; set; }
 
 		[DataMember]
-		public string ElementName { get; set; }
+		public Guid Layout { get; set; }
 
 		[DataMember]
-		public string ElementProperty { get; set; }
+		public Guid LayoutPart { get; set; }
 
 		[DataMember]
-		public string PropertyValue { get; set; }
+		public LayoutPartPropertyName Property { get; set; }
+
+		[DataMember]
+		public Argument Argument { get; set; }
+	}
+
+	public enum ControlVisualType
+	{
+		[Description("Чтение свойства")]
+		Get,
+		[Description("Установка свойства")]
+		Set
+	}
+
+	public enum LayoutPartPropertyName
+	{
+		[Description("Текст")]
+		Text,
 	}
 }

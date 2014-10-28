@@ -1,5 +1,6 @@
 ﻿using System;
 using FiresecAPI.Models.Layouts;
+using System.Collections.Generic;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -14,5 +15,6 @@ namespace Infrastructure.Common.Services.Layout
 		bool AllowMultiple { get; }
 		LayoutPartSize Size { get; }
 		BaseLayoutPartViewModel CreateContent(ILayoutProperties properties);
+		IEnumerable<LayoutPartProperty> Properties { get; }
 	}
 }
