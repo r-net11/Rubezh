@@ -15,6 +15,7 @@
 					<RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -35,8 +36,11 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
 				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
 
-                <Label Grid.Row="3" Grid.Column="0" Content="Тип" HorizontalAlignment="Right" Margin="2" />
-                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding CanChangeScheduleType}" Margin="2">
+                <Label Grid.Row="3" Grid.Column="0" Content="Дата начала действия" HorizontalAlignment="Right" Margin="2" />
+                <loya:Dameer Grid.Row="3" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
+
+                <Label Grid.Row="4" Grid.Column="0" Content="Тип периоличности" HorizontalAlignment="Right" Margin="2" />
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding CanChangeScheduleType}" Margin="2">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -44,8 +48,8 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Дата начала действия" HorizontalAlignment="Right" Margin="2" />
-                <loya:Dameer Grid.Row="4" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
+                <Label Grid.Row="5" Grid.Column="0" Content="Период, ч" Visibility="{Binding CanChangeHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" Margin="2" />
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding HoursPeriod}" Visibility="{Binding CanChangeHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
             </Grid>
 		</TabItem>
 	</TabControl>

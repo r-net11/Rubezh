@@ -11,6 +11,11 @@ namespace GKProcessor
 	{
 		public bool ReadMissingJournalItems()
 		{
+
+
+			return true;
+
+
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
 			if (localLastDBNo == -1)

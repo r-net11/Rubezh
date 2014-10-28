@@ -129,9 +129,13 @@ namespace GKModule.ViewModels
 			}
 			for (int i = 0; i < daysCount; i++)
 			{
-				Schedule.DayScheduleUIDs.Add(Guid.Empty);
-				var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
-				Parts.Add(schedulePartViewModel);
+				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault();
+				if (daySchedule != null)
+				{
+					Schedule.DayScheduleUIDs.Add(daySchedule.UID);
+					var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
+					Parts.Add(schedulePartViewModel);
+				}
 			}
 			SelectedPart = Parts.LastOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;

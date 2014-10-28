@@ -15,6 +15,12 @@ namespace FiresecAPI.GK
 		Weekly,
 
 		[Description("Суточный")]
-		Dayly
+		Dayly,
+
+		[Description("Произвольный")]
+		Custom,
+
+		[Description("непериодичный")]
+		NonPeriodic
 	}
 }
