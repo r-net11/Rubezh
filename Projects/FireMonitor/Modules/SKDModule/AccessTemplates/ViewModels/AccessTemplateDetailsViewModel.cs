@@ -10,6 +10,7 @@ namespace SKDModule.ViewModels
 		Organisation Organisation { get; set; }
 		public AccessTemplate Model { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
+		public AccessGKDoorsSelectationViewModel AccessGKDoorsSelectationViewModel { get; private set; }
 		bool _isNew;
 		public AccessTemplateDetailsViewModel() {  }
 		
@@ -33,6 +34,7 @@ namespace SKDModule.ViewModels
 			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(Model, Organisation);
 			CopyProperties();
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
+			AccessGKDoorsSelectationViewModel = new AccessGKDoorsSelectationViewModel(Organisation, Model.GKCardDoors);
 			return true;
 		}
 
@@ -88,6 +90,7 @@ namespace SKDModule.ViewModels
 			Model.Name = Name;
 			Model.Description = Description;
 			Model.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
+			Model.GKCardDoors = AccessGKDoorsSelectationViewModel.GetCardDoors();
 			Model.CardDoors.ForEach(x => x.AccessTemplateUID = Model.UID);
 			Model.OrganisationUID = Organisation.UID;
 			if (!DetailsValidateHelper.Validate(Model))

@@ -66,6 +66,7 @@ namespace SKDDriver
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
 			result.DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID) select x.DoorUID).ToList();
+			result.GKDoorUIDs = (from x in Context.OrganisationGKDoors.Where(x => x.OrganisationUID == result.UID) select x.DoorUID).ToList();
 			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
@@ -196,6 +197,7 @@ namespace SKDDriver
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
+						GKDoorUIDs = (from x in Context.OrganisationGKDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
 						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList(),
@@ -223,25 +225,56 @@ namespace SKDDriver
 		{
 			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 		}
-
 		public OperationResult SaveDoors(OrganisationDetails apiItem)
 		{
 			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
+		}
+
+		public OperationResult SaveGKDoors(Organisation apiItem)
+		{
+			return SaveGKDoorsInternal(apiItem.UID, apiItem.GKDoorUIDs);
+		}
+		public OperationResult SaveGKDoors(OrganisationDetails apiItem)
+		{
+			return SaveGKDoorsInternal(apiItem.UID, apiItem.GKDoorUIDs);
 		}
 
 		OperationResult SaveDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
 		{
 			try
 			{
-				var tableOrganisationZones = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
-				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationZones);
+				var tableOrganisationDoors = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
+				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
 				foreach (var zoneUID in doorUIDs)
 				{
-					var tableOrganisationZone = new DataAccess.OrganisationDoor();
-					tableOrganisationZone.UID = Guid.NewGuid();
-					tableOrganisationZone.OrganisationUID = organisationUID;
-					tableOrganisationZone.DoorUID = zoneUID;
-					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationZone);
+					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
+					tableOrganisationDoor.UID = Guid.NewGuid();
+					tableOrganisationDoor.OrganisationUID = organisationUID;
+					tableOrganisationDoor.DoorUID = zoneUID;
+					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
+				}
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		OperationResult SaveGKDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
+		{
+			try
+			{
+				var tableOrganisationGKDoors = Context.OrganisationGKDoors.Where(x => x.OrganisationUID == organisationUID);
+				Context.OrganisationGKDoors.DeleteAllOnSubmit(tableOrganisationGKDoors);
+				foreach (var zoneUID in doorUIDs)
+				{
+					var tableOrganisationGKDoor = new DataAccess.OrganisationGKDoor();
+					tableOrganisationGKDoor.UID = Guid.NewGuid();
+					tableOrganisationGKDoor.OrganisationUID = organisationUID;
+					tableOrganisationGKDoor.DoorUID = zoneUID;
+					Context.OrganisationGKDoors.InsertOnSubmit(tableOrganisationGKDoor);
 				}
 				Table.Context.SubmitChanges();
 			}
@@ -386,6 +419,9 @@ namespace SKDDriver
 			var saveDoorsResult = SaveDoors(apiItem);
 			if (saveDoorsResult.HasError)
 				return saveDoorsResult;
+			var saveGKDoorsResult = SaveGKDoors(apiItem);
+			if (saveGKDoorsResult.HasError)
+				return saveGKDoorsResult;
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;

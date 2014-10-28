@@ -43,6 +43,17 @@ namespace SKDModule.ViewModels
 				copyCardDoor.AccessTemplateUID = null;
 				copy.CardDoors.Add(copyCardDoor);
 			}
+			foreach (var cardDoor in source.GKCardDoors)
+			{
+				var copyGKCardDoor = new GKCardDoor();
+				copyGKCardDoor.DoorUID = cardDoor.DoorUID;
+				copyGKCardDoor.EnterIntervalID = cardDoor.EnterIntervalID;
+				copyGKCardDoor.ExitIntervalType = cardDoor.ExitIntervalType;
+				copyGKCardDoor.ExitIntervalID = cardDoor.ExitIntervalID;
+				copyGKCardDoor.CardUID = null;
+				copyGKCardDoor.AccessTemplateUID = null;
+				copy.GKCardDoors.Add(copyGKCardDoor);
+			}
 			copy.CardDoors.ForEach(x => x.AccessTemplateUID = copy.UID);
 			return copy;
 		}
