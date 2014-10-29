@@ -64,7 +64,7 @@
 
 		<StackPanel Visibility="{Binding SelectedVariableScope, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:VariableScope.ExplicitValue}}">
 			<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<extToolkit:IntegerUpDown Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}"
+				<extToolkit:IntegerUpDown Minimum="{Binding ExplicitValue.MinIntValue}" Maximum="{Binding ExplicitValue.MaxIntValue}" Value="{Binding ExplicitValue.IntValue, UpdateSourceTrigger=PropertyChanged}"
 					Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Integer}}" Width="200" />
 				<CheckBox IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}"
 					Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" Width="200" />

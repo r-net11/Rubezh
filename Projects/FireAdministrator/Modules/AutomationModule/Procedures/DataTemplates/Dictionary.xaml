@@ -27,6 +27,10 @@
 		<Views:VariableDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ArgumentViewModel}">
+		<Views:ArgumentView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:ArgumentDetailsViewModel}">
 		<Views:ArgumentDetailsView />
 	</DataTemplate>

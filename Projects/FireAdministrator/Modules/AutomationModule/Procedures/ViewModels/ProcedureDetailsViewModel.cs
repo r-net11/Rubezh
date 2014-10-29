@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Automation;
+﻿using System.Collections.ObjectModel;
+using FiresecAPI.Automation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -25,6 +26,8 @@ namespace AutomationModule.ViewModels
 			IsActive = Procedure.IsActive;
 			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
+			SelectedTimeType = Procedure.TimeType;
+			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 		}
 
 		string _name;
@@ -82,6 +85,18 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<TimeType> TimeTypes { get; private set; }
+		TimeType _selectedTimeType;
+		public TimeType SelectedTimeType
+		{
+			get { return _selectedTimeType; }
+			set
+			{
+				_selectedTimeType = value;
+				OnPropertyChanged(() => SelectedTimeType);
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (string.IsNullOrEmpty(Name))
@@ -94,6 +109,7 @@ namespace AutomationModule.ViewModels
 			Procedure.IsActive = IsActive;
 			Procedure.IsSync = IsSync;
 			Procedure.TimeOut = TimeOut;
+			Procedure.TimeType = SelectedTimeType;
 			return true;
 		}
 	}

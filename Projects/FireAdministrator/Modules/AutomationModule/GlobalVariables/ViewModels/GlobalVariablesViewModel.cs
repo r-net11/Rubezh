@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную", false);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				globalVariableDetailsViewModel.Variable.IsGlobal = true;
@@ -92,7 +92,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную", false);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную");
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				globalVariableDetailsViewModel.Variable.IsGlobal = true;

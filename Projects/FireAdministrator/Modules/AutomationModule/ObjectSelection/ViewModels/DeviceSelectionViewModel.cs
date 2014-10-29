@@ -44,7 +44,7 @@ namespace AutomationModule.ViewModels
 		}
 		public DeviceViewModel[] RootDevices
 		{
-			get { return new DeviceViewModel[] { RootDevice }; }
+			get { return new[] { RootDevice }; }
 		}
 
 		DeviceViewModel _selectedDevice;

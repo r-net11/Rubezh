@@ -9,6 +9,7 @@
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -26,7 +27,14 @@
 				<Label Grid.Row="3" Grid.Column="0"  Content="Выполнять синхронно" HorizontalAlignment="Right" Margin="2" />
 				<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsSync}" Margin="2,7,0,0" />
 				<Label Grid.Row="4" Grid.Column="0" Content="Время выполнения" HorizontalAlignment="Right" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2" Minimum="0" Value="{Binding TimeOut, UpdateSourceTrigger=PropertyChanged}" />
+				<ComboBox Grid.Row="4" Grid.Column="2" ItemsSource="{Binding TimeTypes}" SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 			</Grid>
 		</TabItem>
 	</TabControl>

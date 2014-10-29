@@ -14,6 +14,7 @@ namespace AutomationModule.ViewModels
 			PauseArguments = stepViewModel.Step.PauseArguments;
 			TimeTypes = ProcedureHelper.GetEnumObs<TimeType>();
 			PauseArgument = new ArgumentViewModel(PauseArguments.PauseArgument, stepViewModel.Update, null);
+			PauseArgument.ExplicitValue.MinIntValue = 0;
 		}
 
 		public override void UpdateContent()
