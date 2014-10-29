@@ -421,29 +421,29 @@ namespace GKProcessor
 
 		void AddFailureJournalItem(JournalEventNameType journalEventNameType, string description = "")
 		{
-			var journalItem = new GKJournalItem()
+			var journalItem = new JournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
-				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
-				Description = description,
-				StateClass = XStateClass.Unknown,
-				ObjectStateClass = XStateClass.Norm,
-				GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
+				NameText = EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				DescriptionText = description,
 			};
+			var gkIpAddress = GkDatabase.RootDevice.GetGKIpAddress();
+			if (!string.IsNullOrEmpty(gkIpAddress))
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void AddFailureJournalItem(JournalEventNameType journalEventNameType, JournalEventDescriptionType description)
 		{
-			var journalItem = new GKJournalItem()
+			var journalItem = new JournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = description,
-				StateClass = XStateClass.Unknown,
-				ObjectStateClass = XStateClass.Norm,
-				GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
 			};
+			var gkIpAddress = GkDatabase.RootDevice.GetGKIpAddress();
+			if (!string.IsNullOrEmpty(gkIpAddress))
+				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
@@ -507,13 +507,13 @@ namespace GKProcessor
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItem(GKJournalItem journalItem)
+		void AddJournalItem(JournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItems(List<GKJournalItem> journalItems)
+		void AddJournalItems(List<JournalItem> journalItems)
 		{
 			GKDBHelper.AddMany(journalItems);
 			GKCallbackResult.JournalItems.AddRange(journalItems);

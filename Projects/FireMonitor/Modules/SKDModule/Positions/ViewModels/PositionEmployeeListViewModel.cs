@@ -9,14 +9,14 @@ namespace SKDModule.ViewModels
 	{
 		public PositionEmployeeListViewModel(PositionViewModel parent) : base(parent) { }
 
-		protected override bool AddToParent(Guid uid)
+		protected override bool AddToParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetPosition(uid, _parent.UID);
+			return EmployeeHelper.SetPosition(employee, _parent.UID);
 		}
 
-		protected override bool RemoveFromParent(Guid uid)
+		protected override bool RemoveFromParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetPosition(uid, Guid.Empty);
+			return EmployeeHelper.SetPosition(employee, Guid.Empty);
 		}
 
 		public override bool CanEditPosition { get { return false; } }

@@ -11,6 +11,7 @@ namespace SKDModule.ViewModels
 	public class AdditionalColumnTypeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortAdditionalColumnType>
 	{
 		Organisation Organisation { get; set; }
+		bool _isNew;
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
 		public ShortAdditionalColumnType Model
 		{
@@ -29,6 +30,30 @@ namespace SKDModule.ViewModels
 		}
 
 		public AdditionalColumnTypeDetailsViewModel() { }
+
+		public bool Initialize(Organisation organisation, ShortAdditionalColumnType model, ViewPartViewModel parentViewModel)
+		{
+			Organisation = organisation;
+			_isNew = model == null;
+			if (_isNew)
+			{
+				Title = "Создание дополнительной колонки";
+				AdditionalColumnType = new AdditionalColumnType()
+				{
+					Name = "Новая дополнительная колонка",
+					OrganisationUID = Organisation.UID
+				};
+				CanChangeDataType = true;
+			}
+			else
+			{
+				AdditionalColumnType = AdditionalColumnTypeHelper.GetDetails(model.UID);
+				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
+			}
+			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).OfType<AdditionalColumnDataType>());
+			CopyProperties();
+			return true;
+		}
 
 		public void CopyProperties()
 		{
@@ -117,31 +142,10 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return AdditionalColumnTypeHelper.Save(AdditionalColumnType);
+			return AdditionalColumnTypeHelper.Save(AdditionalColumnType, true);
 		}
 
 
-		public bool Initialize(Organisation organisation, ShortAdditionalColumnType model, ViewPartViewModel parentViewModel)
-		{
-			Organisation = organisation;
-			if (model == null)
-			{
-				Title = "Создание дополнительной колонки";
-				AdditionalColumnType = new AdditionalColumnType()
-				{
-					Name = "Новая дополнительная колонка",
-					OrganisationUID = Organisation.UID
-				};
-				CanChangeDataType = true;
-			}
-			else
-			{
-				AdditionalColumnType = AdditionalColumnTypeHelper.GetDetails(model.UID);
-				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
-			}
-			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).OfType<AdditionalColumnDataType>());
-			CopyProperties();
-			return true;
-		}
+		
 	}
 }

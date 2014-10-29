@@ -7,21 +7,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class DepartmentHelper
 	{
-		public static bool Save(Department department)
+		public static bool Save(Department department, bool isNew)
 		{
-			var result = FiresecManager.FiresecService.SaveDepartment(department);
+			var result = FiresecManager.FiresecService.SaveDepartment(department, isNew);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(ShortDepartment item)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedDepartment(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(ShortDepartment item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedDepartment(uid, name);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var result = FiresecManager.FiresecService.RestoreDepartment(uid);
+			var result = FiresecManager.FiresecService.RestoreDepartment(uid, name);
 			return Common.ShowErrorIfExists(result);
 		}
 
@@ -54,9 +64,14 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveChief(Guid uid, Guid chiefUID)
+		public static bool SaveChief(ShortDepartment model, Guid chiefUID)
 		{
-			var result = FiresecManager.FiresecService.SaveDepartmentChief(uid, chiefUID);
+			return SaveChief(model.UID, chiefUID, model.Name);
+		}
+		
+		public static bool SaveChief(Guid uid, Guid chiefUID, string name)
+		{
+			var result = FiresecManager.FiresecService.SaveDepartmentChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);
 		}
 		

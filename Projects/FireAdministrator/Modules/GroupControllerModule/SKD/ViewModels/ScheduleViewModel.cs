@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using FiresecClient;
 using Common;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -20,20 +21,10 @@ namespace GKModule.ViewModels
 			ReadCommand = new RelayCommand(OnRead);
 			WriteCommand = new RelayCommand(OnWrite);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
 			Schedule = schedule;
 			Update();
-
-
-			DayIntervalParts = new SortableObservableCollection<ScheduleIntervalPartViewModel>();
-			foreach (var dayIntervalPart in Schedule.DayIntervalParts)
-			{
-				var dayIntervalPartViewModel = new ScheduleIntervalPartViewModel(dayIntervalPart);
-				DayIntervalParts.Add(dayIntervalPartViewModel);
-			}
-			SelectedDayIntervalPart = DayIntervalParts.FirstOrDefault();
 		}
 
 		public string Name
@@ -70,8 +61,16 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
+			Parts = new SortableObservableCollection<SchedulePartViewModel>();
+			for (int i = 0; i < Schedule.DayScheduleUIDs.Count; i++)
+			{
+				var dayScheduleUID = Schedule.DayScheduleUIDs[i];
+				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+				var schedulePartViewModel = new SchedulePartViewModel(Schedule, dayScheduleUID, i);
+				Parts.Add(schedulePartViewModel);
+			}
+			SelectedPart = Parts.FirstOrDefault();
 		}
-
 
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
@@ -98,67 +97,83 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public SortableObservableCollection<ScheduleIntervalPartViewModel> DayIntervalParts { get; private set; }
-
-		ScheduleIntervalPartViewModel _selectedDayIntervalPart;
-		public ScheduleIntervalPartViewModel SelectedDayIntervalPart
+		ObservableCollection<SchedulePartViewModel> _parts;
+		public ObservableCollection<SchedulePartViewModel> Parts
 		{
-			get { return _selectedDayIntervalPart; }
+			get { return _parts; }
 			set
 			{
-				_selectedDayIntervalPart = value;
-				OnPropertyChanged(() => SelectedDayIntervalPart);
+				_parts = value;
+				OnPropertyChanged(() => Parts);
+			}
+		}
+
+		SchedulePartViewModel _selectedPart;
+		public SchedulePartViewModel SelectedPart
+		{
+			get { return _selectedPart; }
+			set
+			{
+				_selectedPart = value;
+				OnPropertyChanged(() => SelectedPart);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var scheduleIntervalPartDetailsViewModel = new ScheduleIntervalPartDetailsViewModel(Schedule);
-			if (DialogService.ShowModalWindow(scheduleIntervalPartDetailsViewModel))
+			var daysCount = 1;
+			if (Schedule.ScheduleType == GKScheduleType.Weekly)
 			{
-				var gkIntervalPart = scheduleIntervalPartDetailsViewModel.GKIntervalPart;
-				Schedule.DayIntervalParts.Add(gkIntervalPart);
-				var scheduleIntervalPartViewModel = new ScheduleIntervalPartViewModel(gkIntervalPart);
-				DayIntervalParts.Add(scheduleIntervalPartViewModel);
-				DayIntervalParts.Sort(item => item.BeginTime);
-				SelectedDayIntervalPart = scheduleIntervalPartViewModel;
-				ServiceFactory.SaveService.GKChanged = true;
+				daysCount = 7;
 			}
+			for (int i = 0; i < daysCount; i++)
+			{
+				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault();
+				if (daySchedule != null)
+				{
+					Schedule.DayScheduleUIDs.Add(daySchedule.UID);
+					var schedulePartViewModel = new SchedulePartViewModel(Schedule, Guid.Empty, Schedule.DayScheduleUIDs.Count - 1);
+					Parts.Add(schedulePartViewModel);
+				}
+			}
+			SelectedPart = Parts.LastOrDefault();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanAdd()
 		{
-			return true;
+			return Parts.Count < 50;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Schedule.DayIntervalParts.Remove(SelectedDayIntervalPart.IntervalPart);
-			DayIntervalParts.Remove(SelectedDayIntervalPart);
+			if (Schedule.ScheduleType == GKScheduleType.Weekly)
+			{
+				var weekNo = SelectedPart.Index / 7;
+				for (int i = 6; i >= 0; i--)
+				{
+					var index = weekNo * 7 + i;
+					Schedule.DayScheduleUIDs.RemoveAt(index);
+					Parts.RemoveAt(index);
+				}
+			}
+			else
+			{
+				Schedule.DayScheduleUIDs.Remove(SelectedPart.SelectedDaySchedule.UID);
+				Parts.Remove(SelectedPart);
+			}
+			Update();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()
 		{
-			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var dayIntervalPartDetailsViewModel = new ScheduleIntervalPartDetailsViewModel(Schedule, SelectedDayIntervalPart.IntervalPart);
-			if (DialogService.ShowModalWindow(dayIntervalPartDetailsViewModel))
-			{
-				SelectedDayIntervalPart.Update();
-				var selectedDayIntervalPart = SelectedDayIntervalPart;
-				DayIntervalParts.Sort(item => item.BeginTime);
-				SelectedDayIntervalPart = selectedDayIntervalPart;
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedDayIntervalPart != null;
+			if (SelectedPart == null)
+				return false;
+			if (Schedule.ScheduleType == GKScheduleType.Dayly)
+				return Parts.Count > 1;
+			else
+				return Parts.Count > 7;
 		}
 	}
 }

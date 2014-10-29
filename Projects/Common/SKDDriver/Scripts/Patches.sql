@@ -1009,7 +1009,7 @@ BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
 	BEGIN
 		DECLARE @Command nvarchar(1000)
-		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP CONSTRAINT' + d.name
+		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP ' + d.name
 		 FROM sys.tables t   
 		  JOIN sys.default_constraints d       
 		   ON d.parent_object_id = t.object_id  
@@ -1019,6 +1019,7 @@ BEGIN
 		 WHERE t.name = N'Department'
 		  AND c.name = N'HRChiefUID'
 		EXECUTE (@Command)
+		ALTER TABLE DEPARTMENT DROP CONSTRAINT FK_Department_Employee3
 		ALTER TABLE Department DROP COLUMN HRChiefUID
 	END
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')

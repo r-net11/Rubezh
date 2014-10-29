@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
@@ -20,7 +19,6 @@ namespace FiresecService
 		{			
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
 			var messageValue = GetValue<object>(procedureStep.JournalArguments.MessageArgument);
 			journalItem.DescriptionText = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();

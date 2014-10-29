@@ -16,22 +16,22 @@ namespace FiresecAPI
 		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveEmployee(Employee item);
+		OperationResult SaveEmployee(Employee item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedEmployee(Guid uid);
+		OperationResult MarkDeletedEmployee(Guid uid, string name);
 
 		[OperationContract]
 		OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate);
 
 		[OperationContract]
-		OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid);
+		OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name);
 
 		[OperationContract]
-		OperationResult SaveEmployeePosition(Guid uid, Guid positionUid);
+		OperationResult SaveEmployeePosition(Guid uid, Guid positionUid, string name);
 
 		[OperationContract]
-		OperationResult RestoreEmployee(Guid uid);
+		OperationResult RestoreEmployee(Guid uid, string name);
 		#endregion
 
 		#region Department
@@ -42,16 +42,16 @@ namespace FiresecAPI
 		OperationResult<Department> GetDepartmentDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveDepartment(Department item);
+		OperationResult SaveDepartment(Department item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedDepartment(Guid uid);
+		OperationResult MarkDeletedDepartment(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID);
+		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name);
 		
 		[OperationContract]
-		OperationResult RestoreDepartment(Guid uid);
+		OperationResult RestoreDepartment(Guid uid, string name);
 		#endregion
 
 		#region Position
@@ -62,13 +62,13 @@ namespace FiresecAPI
 		OperationResult<Position> GetPositionDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SavePosition(Position item);
+		OperationResult SavePosition(Position item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedPosition(Guid uid);
+		OperationResult MarkDeletedPosition(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestorePosition(Guid uid);
+		OperationResult RestorePosition(Guid uid, string name);
 		#endregion
 
 		#region Card
@@ -99,13 +99,13 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
 
 		[OperationContract]
-		OperationResult<bool> SaveAccessTemplate(AccessTemplate item);
+		OperationResult<bool> SaveAccessTemplate(AccessTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAccessTemplate(Guid uid);
+		OperationResult MarkDeletedAccessTemplate(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestoreAccessTemplate(Guid uid);
+		OperationResult RestoreAccessTemplate(Guid uid, string name);
 		#endregion
 
 		#region Organisation
@@ -113,10 +113,10 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
 
 		[OperationContract]
-		OperationResult SaveOrganisation(OrganisationDetails Organisation);
+		OperationResult SaveOrganisation(OrganisationDetails Organisation, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedOrganisation(Guid uid);
+		OperationResult MarkDeletedOrganisation(Guid uid, string name);
 
 		[OperationContract]
 		OperationResult SaveOrganisationDoors(Organisation organisation);
@@ -134,13 +134,13 @@ namespace FiresecAPI
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID);
+		OperationResult SaveOrganisationChief(Guid uid, Guid chiefUID, string name);
 
 		[OperationContract]
-		OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID);
+		OperationResult SaveOrganisationHRChief(Guid uid, Guid chiefUID, string name);
 
 		[OperationContract]
-		OperationResult RestoreOrganisation(Guid uid);
+		OperationResult RestoreOrganisation(Guid uid, string name);
 
 		[OperationContract]
 		OperationResult<bool> IsAnyOrganisationItems(Guid uid);
@@ -157,13 +157,13 @@ namespace FiresecAPI
 		OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SaveAdditionalColumnType(AdditionalColumnType item);
+		OperationResult SaveAdditionalColumnType(AdditionalColumnType item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedAdditionalColumnType(Guid uid);
+		OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestoreAdditionalColumnType(Guid uid);
+		OperationResult RestoreAdditionalColumnType(Guid uid, string name);
 		#endregion
 
 		#region DeviceCommands
@@ -274,13 +274,13 @@ namespace FiresecAPI
 		OperationResult<PassCardTemplate> GetPassCardTemplateDetails(Guid uid);
 
 		[OperationContract]
-		OperationResult SavePassCardTemplate(PassCardTemplate item);
+		OperationResult SavePassCardTemplate(PassCardTemplate item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedPassCardTemplate(Guid uid);
+		OperationResult MarkDeletedPassCardTemplate(Guid uid, string name);
 
 		[OperationContract]
-		OperationResult RestorePassCardTemplate(Guid uid);
+		OperationResult RestorePassCardTemplate(Guid uid, string name);
 		#endregion
 	}
 }

@@ -24,7 +24,7 @@ namespace SKDDriver
 			{
 				JournalEventDescriptionType = (JournalEventDescriptionType)tableItem.Description,
 				DescriptionText = tableItem.DescriptionText,
-				DeviceDateTime = tableItem.DeviceDate.HasValue ? tableItem.DeviceDate.Value : new DateTime(),
+				DeviceDateTime = tableItem.DeviceDate,
 				JournalEventNameType = (JournalEventNameType)tableItem.Name,
 				NameText = tableItem.NameText,
 				ObjectName = tableItem.ObjectName,
@@ -44,7 +44,8 @@ namespace SKDDriver
 		{
 			tableItem.Description = (int)apiItem.JournalEventDescriptionType;
 			tableItem.DescriptionText = apiItem.DescriptionText;
-			tableItem.DeviceDate = CheckDate(apiItem.DeviceDateTime);
+			if (apiItem.DeviceDateTime.HasValue)
+				tableItem.DeviceDate = CheckDate(apiItem.DeviceDateTime.Value);
 			tableItem.Name = (int)apiItem.JournalEventNameType;
 			tableItem.NameText = apiItem.NameText;
 			tableItem.ObjectName = apiItem.ObjectName;

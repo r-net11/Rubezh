@@ -9,11 +9,13 @@ namespace SKDModule.ViewModels
 	{
 		FiresecAPI.SKD.Organisation Organisation;
 		public DayInterval Model { get; private set; }
+		bool _isNew;
 
 		public bool Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
-			if (model == null)
+			_isNew = model == null;
+			if (_isNew)
 			{
 				Title = "Новый дневной график";
 				model = new DayInterval()
@@ -76,7 +78,7 @@ namespace SKDModule.ViewModels
 			Model.SlideTime = ConstantSlideTime;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return DayIntervalHelper.Save(Model);
+			return DayIntervalHelper.Save(Model, _isNew);
 		}
 	}
 }

@@ -61,7 +61,7 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(device.UID); }, "GKGetJournalItemsCount");
 		}
 
-		public OperationResult<GKJournalItem> GKReadJournalItem(GKDevice device, int no)
+		public OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device.UID, no); }, "GKReadJournalItem");
 		}
@@ -169,27 +169,5 @@ namespace FiresecClient
 		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 		}
-
-		#region Journal
-		public List<GKJournalItem> GetGKTopLastJournalItems(int count)
-		{
-			return SafeOperationCall(() => FiresecService.GetGKTopLastJournalItems(count), "GetGKTopLastJournalItems");
-		}
-
-		public void BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID), "BeginGetGKFilteredArchive");
-		}
-
-		public List<string> GetGkEventNames()
-		{
-			return SafeOperationCall(() => FiresecService.GetDistinctGKJournalNames(), "GetGkEventNames");
-		}
-
-		public List<string> GetGkEventDescriptions()
-		{
-			return SafeOperationCall(() => FiresecService.GetDistinctGKJournalDescriptions(), "GetGkEventDescriptions");
-		}
-		#endregion
 	}
 }

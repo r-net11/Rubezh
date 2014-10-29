@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 			OrganisationDetails.HRChiefUID = HRChiefViewModel.ChiefUID;
 			OrganisationDetails.Phone = Phone;
 			if (Validate())
-				return OrganisationHelper.Save(OrganisationDetails);
+				return OrganisationHelper.Save(OrganisationDetails, IsNew);
 			else
 				return false;
 		}

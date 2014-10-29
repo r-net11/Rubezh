@@ -78,7 +78,7 @@ namespace SKDModule.ViewModels
 				ScheduleSchemeUID = Model.UID,
 				DayIntervalUID = Guid.Empty,
 			};
-			if (SheduleDayIntervalHelper.Save(dayInterval))
+			if (SheduleDayIntervalHelper.Save(dayInterval, Model.Name))
 			{
 				Model.DayIntervals.Add(dayInterval);
 				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
@@ -97,7 +97,7 @@ namespace SKDModule.ViewModels
 		void OnDelete()
 		{
 			var number = SelectedSheduleDayInterval.Model.Number;
-			if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model))
+			if (SheduleDayIntervalHelper.Remove(SelectedSheduleDayInterval.Model, Model.Name))
 			{
 				for (int i = number + 1; i < Model.DayIntervals.Count; i++)
 					Model.DayIntervals[i].Number--;
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 		void UpdateDaysCount()
 		{
 			Model.DaysCount = Model.DayIntervals.Count;
-			ScheduleSchemeHelper.Save(Model);
+			ScheduleSchemeHelper.Save(Model, false);
 		}
 	}
 }

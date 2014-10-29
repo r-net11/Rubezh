@@ -18,15 +18,13 @@ namespace GKProcessor
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
-		public static bool IsAbort { get; set; }
-		public static event Action<List<GKJournalItem>, Guid> ArchivePortionReady;
 
 
-		public static void Add(GKJournalItem journalItem)
+		public static void Add(JournalItem journalItem)
 		{
 			try
 			{
-				AddMany(new List<GKJournalItem>() { journalItem });
+				AddMany(new List<JournalItem>() { journalItem });
 			}
 			catch (Exception e)
 			{
@@ -34,7 +32,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static void AddMany(List<GKJournalItem> journalItems)
+		public static void AddMany(List<JournalItem> journalItems)
 		{
 			try
 			{
@@ -52,34 +50,32 @@ namespace GKProcessor
 			}
 		}
 
-		public static GKJournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
+		public static JournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
 		{
-			var journalItem = new GKJournalItem()
+			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				JournalObjectType = GKJournalObjectType.System,
-				StateClass = XStateClass.Norm,
+				JournalObjectType = JournalObjectType.None,
 				JournalEventNameType = journalEventNameType,
-				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
-				ObjectStateClass = XStateClass.Norm,
+				NameText = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				UserName = userName,
-				SubsystemType = GKSubsystemType.System
+				JournalSubsystemType = JournalSubsystemType.System
 			};
 			Add(journalItem);
 			return journalItem;
 		}
 
-		static List<GKJournalItem> UpdateItemLengths(List<GKJournalItem> journalItems)
+		static List<JournalItem> UpdateItemLengths(List<JournalItem> journalItems)
 		{
 			foreach (var item in journalItems)
 			{
-				if (item.Description != null && item.Description.Length > 100)
-					item.Description = item.Description.Substring(0, 100);
-				if (item.Name != null && item.Name.Length > 100)
-					item.Name = item.Name.Substring(0, 100);
-				if (item.GKIpAddress != null && item.GKIpAddress.Length > 20)
-					item.GKIpAddress = item.GKIpAddress.Substring(0, 20);
+				if (item.DescriptionText != null && item.DescriptionText.Length > 100)
+					item.DescriptionText = item.DescriptionText.Substring(0, 100);
+				if (item.NameText != null && item.NameText.Length > 100)
+					item.NameText = item.NameText.Substring(0, 100);
+				//if (item.GKIpAddress != null && item.GKIpAddress.Length > 20)
+				//    item.GKIpAddress = item.GKIpAddress.Substring(0, 20);
 				if (item.UserName != null && item.UserName.Length > 50)
 					item.UserName = item.UserName.Substring(0, 50);
 				if (item.ObjectName != null && item.ObjectName.Length > 100)
@@ -88,219 +84,150 @@ namespace GKProcessor
 			return journalItems;
 		}
 
-		static void InsertJournalRecordToDb(List<GKJournalItem> journalItems)
+		static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
-			journalItems = UpdateItemLengths(journalItems);
-			UpdateNamesDescriptions(journalItems);
-			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-			{
-				using (var dataContext = new SqlCeConnection(ConnectionString))
-				{
-					dataContext.ConnectionString = ConnectionString;
-					dataContext.Open();
-					foreach (var journalItem in journalItems)
-					{
-						var sqlCeCommand = new SqlCeCommand();
-						sqlCeCommand.Connection = dataContext;
-						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass,ObjectName,KAUNo,AdditionalDescription) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)";
-						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalObjectType ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Description ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.ObjectState ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.GKObjectNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.GKIpAddress ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.StateClass ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.UserName ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.SystemDateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.DeviceDateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.SubsystemType ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.ObjectStateClass ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.ObjectName ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p16", (object)journalItem.ControllerAddress?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p17", (object)journalItem.AdditionalDescription ?? DBNull.Value);
-						sqlCeCommand.ExecuteNonQuery();
-					}
-					dataContext.Close();
-				}
-			}
+		//    journalItems = UpdateItemLengths(journalItems);
+		//    if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+		//    {
+		//        using (var dataContext = new SqlCeConnection(ConnectionString))
+		//        {
+		//            dataContext.ConnectionString = ConnectionString;
+		//            dataContext.Open();
+		//            foreach (var journalItem in journalItems)
+		//            {
+		//                var sqlCeCommand = new SqlCeCommand();
+		//                sqlCeCommand.Connection = dataContext;
+		//                sqlCeCommand.CommandText = @"Insert Into Journal" +
+		//                    "(JournalItemType,ObjectUID,Name,Description,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectName) Values" +
+		//                    "(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9)";
+		//                sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalObjectType ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.NameText ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.DescriptionText ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.UserName ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.SystemDateTime ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.DeviceDateTime ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.JournalSubsystemType ?? DBNull.Value);
+		//                sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.ObjectName ?? DBNull.Value);
+		//                sqlCeCommand.ExecuteNonQuery();
+		//            }
+		//            dataContext.Close();
+		//        }
+		//    }
 		}
 
-		public static List<GKJournalItem> BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
-		{
-			var journalItems = new List<GKJournalItem>();
-			var result = new List<GKJournalItem>();
-
-			try
-			{
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							var query = BuildQuery(archiveFilter);
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							while (reader.Read())
-							{
-								if (IsAbort && !isReport)
-									break;
-								try
-								{
-									var journalItem = ReadOneJournalItem(reader);
-									result.Add(journalItem);
-									if (!isReport)
-									{
-										journalItems.Add(journalItem);
-										if (journalItems.Count >= archiveFilter.PageSize)
-											PublishNewItemsPortion(journalItems, archivePortionUID);
-									}
-								}
-								catch (Exception e)
-								{
-									Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
-								}
-							}
-							if (!isReport)
-								PublishNewItemsPortion(journalItems, archivePortionUID);
-						}
-					}
-				}
-				
-			}
-			catch (ThreadAbortException) { }
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.Select");
-			}
-			return result;
-		}
-
-		static void PublishNewItemsPortion(List<GKJournalItem> journalItems, Guid archivePortionUID)
-		{
-			if (ArchivePortionReady != null)
-				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
-			UpdateNamesDescriptions(journalItems);
-			journalItems.Clear();
-		}
-
-		static string BuildQuery(GKArchiveFilter archiveFilter)
-		{
-			string dateTimeTypeString;
-			if (archiveFilter.UseDeviceDateTime)
-				dateTimeTypeString = "DeviceDateTime";
-			else
-				dateTimeTypeString = "SystemDateTime";
+		//static string BuildQuery(GKArchiveFilter archiveFilter)
+		//{
+		//    string dateTimeTypeString;
+		//    if (archiveFilter.UseDeviceDateTime)
+		//        dateTimeTypeString = "DeviceDateTime";
+		//    else
+		//        dateTimeTypeString = "SystemDateTime";
 			
-			var query =
-				"SELECT * FROM Journal WHERE " +
-				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+		//    var query =
+		//        "SELECT * FROM Journal WHERE " +
+		//        "\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+		//        "\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
-			if (archiveFilter.XJournalObjectTypes.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var journalObjectType in archiveFilter.XJournalObjectTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += "JournalItemType = '" + ((int)journalObjectType).ToString() + "'";
-				}
-				query += ")";
-			}
+		//    if (archiveFilter.XJournalObjectTypes.Count > 0)
+		//    {
+		//        query += "\n AND (";
+		//        int index = 0;
+		//        foreach (var journalObjectType in archiveFilter.XJournalObjectTypes)
+		//        {
+		//            if (index > 0)
+		//                query += "\n OR ";
+		//            index++;
+		//            query += "JournalItemType = '" + ((int)journalObjectType).ToString() + "'";
+		//        }
+		//        query += ")";
+		//    }
 
-			if (archiveFilter.StateClasses.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var stateClass in archiveFilter.StateClasses)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += "StateClass = '" + ((int)stateClass).ToString() + "'";
-				}
-				query += ")";
-			}
+		//    if (archiveFilter.StateClasses.Count > 0)
+		//    {
+		//        query += "\n AND (";
+		//        int index = 0;
+		//        foreach (var stateClass in archiveFilter.StateClasses)
+		//        {
+		//            if (index > 0)
+		//                query += "\n OR ";
+		//            index++;
+		//            query += "StateClass = '" + ((int)stateClass).ToString() + "'";
+		//        }
+		//        query += ")";
+		//    }
 
-			if (archiveFilter.EventNames.Count > 0)
-			{
-				query += "\n and (";
-				int index = 0;
-				foreach (var eventName in archiveFilter.EventNames)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += "Name = '" + eventName + "'";
-				}
-				query += ")";
-			}
+		//    if (archiveFilter.EventNames.Count > 0)
+		//    {
+		//        query += "\n and (";
+		//        int index = 0;
+		//        foreach (var eventName in archiveFilter.EventNames)
+		//        {
+		//            if (index > 0)
+		//                query += "\n OR ";
+		//            index++;
+		//            query += "Name = '" + eventName + "'";
+		//        }
+		//        query += ")";
+		//    }
 
-			if (archiveFilter.Descriptions.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var description in archiveFilter.Descriptions)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += "Description = '" + description + "'";
-				}
-				query += ")";
-			}
+		//    if (archiveFilter.Descriptions.Count > 0)
+		//    {
+		//        query += "\n AND (";
+		//        int index = 0;
+		//        foreach (var description in archiveFilter.Descriptions)
+		//        {
+		//            if (index > 0)
+		//                query += "\n OR ";
+		//            index++;
+		//            query += "Description = '" + description + "'";
+		//        }
+		//        query += ")";
+		//    }
 
-			if (archiveFilter.SubsystemTypes.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var subsystem in archiveFilter.SubsystemTypes)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					if (subsystem == GKSubsystemType.System)
-						query += "Subsystem = 0";
-					else
-						query += "Subsystem = 1";
-				}
-				query += ")";
-			}
+		//    if (archiveFilter.SubsystemTypes.Count > 0)
+		//    {
+		//        query += "\n AND (";
+		//        int index = 0;
+		//        foreach (var subsystem in archiveFilter.SubsystemTypes)
+		//        {
+		//            if (index > 0)
+		//                query += "\n OR ";
+		//            index++;
+		//            if (subsystem == GKSubsystemType.System)
+		//                query += "Subsystem = 0";
+		//            else
+		//                query += "Subsystem = 1";
+		//        }
+		//        query += ")";
+		//    }
 
-			var objectUIDs = new List<Guid>();
-			objectUIDs.AddRange(archiveFilter.DeviceUIDs);
-			objectUIDs.AddRange(archiveFilter.ZoneUIDs);
-			objectUIDs.AddRange(archiveFilter.DirectionUIDs);
-			objectUIDs.AddRange(archiveFilter.DelayUIDs);
-			objectUIDs.AddRange(archiveFilter.PimUIDs);
-			objectUIDs.AddRange(archiveFilter.PumpStationUIDs);
-			objectUIDs.AddRange(archiveFilter.MPTUIDs);
-			objectUIDs.AddRange(archiveFilter.GuardZoneUIDs);
-			if (objectUIDs.Count > 0)
-			{
-				int index = 0;
-				query += "\n AND (";
-				foreach (var objectUID in objectUIDs)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += "ObjectUID = '" + objectUID + "'";
-				}
-				query += ")";
-			}
+		//    var objectUIDs = new List<Guid>();
+		//    objectUIDs.AddRange(archiveFilter.DeviceUIDs);
+		//    objectUIDs.AddRange(archiveFilter.ZoneUIDs);
+		//    objectUIDs.AddRange(archiveFilter.DirectionUIDs);
+		//    objectUIDs.AddRange(archiveFilter.DelayUIDs);
+		//    objectUIDs.AddRange(archiveFilter.PimUIDs);
+		//    objectUIDs.AddRange(archiveFilter.PumpStationUIDs);
+		//    objectUIDs.AddRange(archiveFilter.MPTUIDs);
+		//    objectUIDs.AddRange(archiveFilter.GuardZoneUIDs);
+		//    if (objectUIDs.Count > 0)
+		//    {
+		//        int index = 0;
+		//        query += "\n AND (";
+		//        foreach (var objectUID in objectUIDs)
+		//        {
+		//            if (index > 0)
+		//                query += "\n OR ";
+		//            index++;
+		//            query += "ObjectUID = '" + objectUID + "'";
+		//        }
+		//        query += ")";
+		//    }
 
-			query += "\n ORDER BY " + dateTimeTypeString + " DESC ,GKJournalRecordNo DESC";
-			return query;
-		}
+		//    query += "\n ORDER BY " + dateTimeTypeString + " DESC ,GKJournalRecordNo DESC";
+		//    return query;
+		//}
 
 		public static int GetLastGKID(string gkIPAddress)
 		{
@@ -337,129 +264,96 @@ namespace GKProcessor
 			return -1;
 		}
 
-		public static DateTime GetMinDate()
-		{
-			try
-			{
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							var query = "SELECT MIN(SystemDateTime) FROM Journal";
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							var result = DateTime.Now;
-							if (reader.Read())
-							{
-								if (!reader.IsDBNull(0))
-								{
-									result = reader.GetDateTime(0);
-								}
-							}
-							dataContext.Close();
-							return result;
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.GetLastGKID");
-			}
-			return DateTime.Now;
-		}
+		//public static DateTime GetMinDate()
+		//{
+		//    try
+		//    {
+		//        lock (locker)
+		//        {
+		//            if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+		//            {
+		//                using (var dataContext = new SqlCeConnection(ConnectionString))
+		//                {
+		//                    var query = "SELECT MIN(SystemDateTime) FROM Journal";
+		//                    var sqlCeCommand = new SqlCeCommand(query, dataContext);
+		//                    dataContext.Open();
+		//                    var reader = sqlCeCommand.ExecuteReader();
+		//                    var result = DateTime.Now;
+		//                    if (reader.Read())
+		//                    {
+		//                        if (!reader.IsDBNull(0))
+		//                        {
+		//                            result = reader.GetDateTime(0);
+		//                        }
+		//                    }
+		//                    dataContext.Close();
+		//                    return result;
+		//                }
+		//            }
+		//        }
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        Logger.Error(e, "GKDBHelper.GetLastGKID");
+		//    }
+		//    return DateTime.Now;
+		//}
 
-		public static List<GKJournalItem> GetGKTopLastJournalItems(int count)
-		{
-			var journalItems = new List<GKJournalItem>();
-			try
-			{
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY SystemDateTime DESC";
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							while (reader.Read())
-							{
-								var journalItem = ReadOneJournalItem(reader);
-								journalItems.Add(journalItem);
-							}
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.GetTopLast");
-			}
-			UpdateNamesDescriptions(journalItems);
-			journalItems.Reverse();
-			return journalItems;
-		}
-
-		static GKJournalItem ReadOneJournalItem(SqlCeDataReader reader)
-		{
-			var journalItem = new GKJournalItem();
-			if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
-				journalItem.JournalObjectType = (GKJournalObjectType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
+		//static JournalItem ReadOneJournalItem(SqlCeDataReader reader)
+		//{
+		//    var journalItem = new JournalItem();
+		//    if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
+		//        journalItem.JournalObjectType = (GKJournalObjectType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 			
-			if (!reader.IsDBNull(reader.GetOrdinal("SystemDateTime")))
-				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDateTime"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("SystemDateTime")))
+		//        journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDateTime"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDateTime")))
-				journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDateTime"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("DeviceDateTime")))
+		//        journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDateTime"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
-				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
+		//        journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
-				journalItem.Name = reader.GetString(reader.GetOrdinal("Name"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("Name")))
+		//        journalItem.Name = reader.GetString(reader.GetOrdinal("Name"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
-				journalItem.Description = reader.GetString(reader.GetOrdinal("Description"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("Description")))
+		//        journalItem.Description = reader.GetString(reader.GetOrdinal("Description"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectState")))
-				journalItem.ObjectState = reader.GetInt32(reader.GetOrdinal("ObjectState"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("ObjectState")))
+		//        journalItem.ObjectState = reader.GetInt32(reader.GetOrdinal("ObjectState"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("GKObjectNo")))
-				journalItem.GKObjectNo = (ushort)reader.GetInt16(reader.GetOrdinal("GKObjectNo"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("GKObjectNo")))
+		//        journalItem.GKObjectNo = (ushort)reader.GetInt16(reader.GetOrdinal("GKObjectNo"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("GKIpAddress")))
-				journalItem.GKIpAddress = reader.GetString(reader.GetOrdinal("GKIpAddress"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("GKIpAddress")))
+		//        journalItem.GKIpAddress = reader.GetString(reader.GetOrdinal("GKIpAddress"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("GKJournalRecordNo")))
-				journalItem.GKJournalRecordNo = reader.GetInt32(reader.GetOrdinal("GKJournalRecordNo"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("GKJournalRecordNo")))
+		//        journalItem.GKJournalRecordNo = reader.GetInt32(reader.GetOrdinal("GKJournalRecordNo"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("KAUNo")))
-				journalItem.ControllerAddress = (ushort)reader.GetInt32(reader.GetOrdinal("KAUNo"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("KAUNo")))
+		//        journalItem.ControllerAddress = (ushort)reader.GetInt32(reader.GetOrdinal("KAUNo"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("StateClass")))
-				journalItem.StateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("StateClass"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("StateClass")))
+		//        journalItem.StateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("StateClass"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
-				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
+		//        journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectStateClass")))
-				journalItem.ObjectStateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("ObjectStateClass"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("ObjectStateClass")))
+		//        journalItem.ObjectStateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("ObjectStateClass"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
-				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
+		//        journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("AdditionalDescription")))
-				journalItem.AdditionalDescription = reader.GetString(reader.GetOrdinal("AdditionalDescription"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("AdditionalDescription")))
+		//        journalItem.AdditionalDescription = reader.GetString(reader.GetOrdinal("AdditionalDescription"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
-				journalItem.SubsystemType = (GKSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
+		//    if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
+		//        journalItem.jou.SubsystemType = (GKSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
 
-			return journalItem;
-		}
+		//    return journalItem;
+		//}
 	}
 }

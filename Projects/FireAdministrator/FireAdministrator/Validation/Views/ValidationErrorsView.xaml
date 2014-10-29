@@ -19,10 +19,10 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Source="{Binding ImageSource}" Width="16" Margin="1 0 0 0" />
-								<TextBlock>
+								<Image Source="{Binding ImageSource}" Width="16" Margin="2 0" />
+                                <TextBlock VerticalAlignment="Center">
 									<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
-										<TextBlock Text="{Binding Source}"/>
+										<TextBlock Text="{Binding Source}" VerticalAlignment="Center" />
 									</Hyperlink>
 								</TextBlock>
 							</StackPanel>
@@ -43,9 +43,9 @@
                 <DataGridTemplateColumn Header="Ошибка" Width="*" SortMemberPath="Error">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock>
+							<TextBlock Margin="2 0">
 								<Hyperlink  Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
-									<TextBlock Text="{Binding Error}"/>
+									<TextBlock Text="{Binding Error}" VerticalAlignment="Center" />
 								</Hyperlink>
 							</TextBlock>
 						</DataTemplate>
@@ -55,7 +55,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid Background="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}" ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}" Height="20">
-								<Image Width="16" Source="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToIconConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+								<Image Width="16" Source="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToIconConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 							</Grid>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

@@ -16,22 +16,22 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			return PassCardTemplateHelper.GetByOrganisation(organisationUID);
 		}
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(ShortPassCardTemplate model)
 		{
-			return PassCardTemplateHelper.MarkDeleted(uid);
+			return PassCardTemplateHelper.MarkDeleted(model);
 		}
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(ShortPassCardTemplate model)
 		{
-			return PassCardTemplateHelper.Restore(uid);
+			return PassCardTemplateHelper.Restore(model);
 		}
-		protected override bool Save(ShortPassCardTemplate item)
+		protected override bool Add(ShortPassCardTemplate item)
 		{
 			var passCardTemplate = PassCardTemplateHelper.GetDetails(_clipboardUID);
 			passCardTemplate.UID = item.UID;
 			passCardTemplate.Description = item.Description;
 			passCardTemplate.Caption = item.Name;
 			passCardTemplate.OrganisationUID = item.OrganisationUID;
-			return PassCardTemplateHelper.Save(passCardTemplate);
+			return PassCardTemplateHelper.Save(passCardTemplate, true);
 		}
 
 		protected override string ItemRemovingName

@@ -12,9 +12,40 @@ namespace SKDModule.ViewModels
 	public class HolidayDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Holiday>
 	{
 		Organisation Organisation;
+		bool _isNew;
 		public Holiday Model { get; private set; }
 
 		public HolidayDetailsViewModel() { }
+
+		public bool Initialize(Organisation organisation, Holiday holiday, ViewPartViewModel parentViewModel)
+		{
+			Organisation = organisation;
+			var holidaysViewModel = parentViewModel as HolidaysViewModel;
+			_isNew = holiday == null;
+			if (_isNew)
+			{
+				Title = "Новый праздничный день";
+				holiday = new Holiday()
+				{
+					Name = "Название праздника",
+					OrganisationUID = Organisation.UID,
+					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
+				};
+			}
+			else
+			{
+				Title = "Редактирование праздничного дня";
+			}
+			Model = holiday;
+			Name = holiday.Name;
+			Date = holiday.Date;
+			Reduction = holiday.Reduction;
+			TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
+
+			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
+			HolidayType = holiday.Type;
+			return true;
+		}
 
 		DateTime _date;
 		public DateTime Date
@@ -98,37 +129,7 @@ namespace SKDModule.ViewModels
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return HolidayHelper.Save(Model);
-		}
-
-
-		public bool Initialize(Organisation organisation, Holiday holiday, ViewPartViewModel parentViewModel)
-		{
-			Organisation = organisation;
-			var holidaysViewModel = parentViewModel as HolidaysViewModel;
-			if (holiday == null)
-			{
-				Title = "Новый приаздничный день";
-				holiday = new Holiday()
-				{
-					Name = "Название праздника",
-					OrganisationUID = Organisation.UID,
-					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
-				};
-			}
-			else
-			{
-				Title = "Редактирование праздничного дня";
-			}
-			Model = holiday;
-			Name = holiday.Name;
-			Date = holiday.Date;
-			Reduction = holiday.Reduction;
-			TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
-
-			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
-			HolidayType = holiday.Type;
-			return true;
+			return HolidayHelper.Save(Model, _isNew);
 		}
 	}
 }

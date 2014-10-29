@@ -125,17 +125,17 @@ namespace SKDModule.ViewModels
 		{
 			return ScheduleSchemeHelper.GetByOrganisation(organisationUID);
 		}
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(ScheduleScheme model)
 		{
-			return ScheduleSchemeHelper.MarkDeleted(uid);
+			return ScheduleSchemeHelper.MarkDeleted(model);
 		}
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(ScheduleScheme model)
 		{
-			return ScheduleSchemeHelper.Restore(uid);
+			return ScheduleSchemeHelper.Restore(model);
 		}
-		protected override bool Save(ScheduleScheme item)
+		protected override bool Add(ScheduleScheme item)
 		{
-			return ScheduleSchemeHelper.Save(item);
+			return ScheduleSchemeHelper.Save(item, true);
 		}
 		protected override string ItemRemovingName
 		{

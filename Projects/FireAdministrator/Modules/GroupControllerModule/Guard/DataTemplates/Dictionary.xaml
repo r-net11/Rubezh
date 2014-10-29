@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
+
+    <DataTemplate DataType="{x:Type ViewModels:CodesViewModel}">
+        <Views:CodesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:CodeDetailsViewModel}">
+        <Views:CodeDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
+        <Views:CodesMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardZonesViewModel}">
+        <Views:GuardZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardZoneDetailsViewModel}">
+        <Views:GuardZoneDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardZonesMenuViewModel}">
+        <Views:GuardZonesMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:CodeSelectionViewModel}">
+        <Views:CodeSelectionView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:CodeReaderDetailsViewModel}">
+        <Views:CodeReaderDetailsView />
+    </DataTemplate>
+
+</ResourceDictionary>

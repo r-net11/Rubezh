@@ -7,21 +7,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class PositionHelper
 	{
-		public static bool Save(Position position)
+		public static bool Save(Position position, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SavePosition(position);
+			var operationResult = FiresecManager.FiresecService.SavePosition(position, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(ShortPosition item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedPosition(uid);
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool Restore(ShortPosition item)
+		{
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedPosition(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestorePosition(uid);
+			var operationResult = FiresecManager.FiresecService.RestorePosition(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

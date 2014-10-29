@@ -3,6 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	xmlns:controls="clr-namespace:Controls;assembly=Controls"
+    xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 	MinWidth="650" MinHeight="400">
 
 	<TabControl>
@@ -12,6 +13,9 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -20,7 +24,7 @@
 				<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" Margin="2" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" Margin="2" />
 				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" Margin="2" ContextMenu="{x:Null}" x:Name="nameTextBox">
 					<controls:XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
@@ -29,9 +33,24 @@
 					</controls:XAutoCompleteBox.TextBoxStyle>
 				</controls:XAutoCompleteBox>
 
-				<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" Margin="2" />
 				<controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
-			</Grid>
+
+                <Label Grid.Row="3" Grid.Column="0" Content="Дата начала действия" HorizontalAlignment="Right" Margin="2" />
+                <loya:Dameer Grid.Row="3" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
+
+                <Label Grid.Row="4" Grid.Column="0" Content="Тип периоличности" HorizontalAlignment="Right" Margin="2" />
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding CanChangeScheduleType}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label Grid.Row="5" Grid.Column="0" Content="Период, ч" Visibility="{Binding CanChangeHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" Margin="2" />
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding HoursPeriod}" Visibility="{Binding CanChangeHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+            </Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

@@ -130,12 +130,10 @@ namespace ChinaSKDDriver
 			{
 				case 1:
 					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
-					journalItem.DeviceDateTime = DateTime.Now;
 					return journalItem;
 
 				case 2:
 					journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
-					journalItem.DeviceDateTime = DateTime.Now;
 					return journalItem;
 			}
 

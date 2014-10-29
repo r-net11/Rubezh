@@ -57,6 +57,19 @@ namespace GKProcessor
 			return JournalEventNameType.Состояние_Неизвестно;
 		}
 
+		public static JournalEventNameType ToValveState(byte b)
+		{
+			switch (b)
+			{
+				case 2: return JournalEventNameType.Открыто;
+				case 3: return JournalEventNameType.Закрыто;
+				case 4: return JournalEventNameType.Открытие;
+				case 5: return JournalEventNameType.Закрытие;
+				case 30: return JournalEventNameType.Остановлено;
+			}
+			return ToState(b);
+		}
+
 		public static JournalEventDescriptionType ToFailure(byte b)
 		{
 			switch (b)
@@ -329,6 +342,16 @@ namespace GKProcessor
 				case 49: return JournalEventDescriptionType.Ручной_пуск;
 			}
 			return JournalEventDescriptionType.NULL;
+		}
+
+		public static JournalEventDescriptionType ToValveInformation(byte b)
+		{
+			switch (b)
+			{
+				case 7: return JournalEventDescriptionType.Ручной_пуск;
+				case 30: return JournalEventDescriptionType.Остановлено;
+			}
+			return ToInformation(b);
 		}
 
 		public static JournalEventDescriptionType ToUser(byte b)

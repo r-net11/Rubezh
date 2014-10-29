@@ -15,22 +15,22 @@ namespace SKDModule.ViewModels
 		{
 			return AdditionalColumnTypeHelper.GetShortByOrganisation(organisationUID);
 		}
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(ShortAdditionalColumnType model)
 		{
-			return AdditionalColumnTypeHelper.MarkDeleted(uid);
+			return AdditionalColumnTypeHelper.MarkDeleted(model);
 		}
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(ShortAdditionalColumnType model)
 		{
-			return AdditionalColumnTypeHelper.Restore(uid);
+			return AdditionalColumnTypeHelper.Restore(model);
 		}
-		protected override bool Save(ShortAdditionalColumnType item)
+		protected override bool Add(ShortAdditionalColumnType item)
 		{
 			var additionalColumnType = AdditionalColumnTypeHelper.GetDetails(_clipboardUID);
 			additionalColumnType.UID = item.UID;
 			additionalColumnType.Description = item.Description;
 			additionalColumnType.Name = item.Name;
 			additionalColumnType.OrganisationUID = item.OrganisationUID;
-			return AdditionalColumnTypeHelper.Save(additionalColumnType);
+			return AdditionalColumnTypeHelper.Save(additionalColumnType, true);
 		}
 
 		protected override string ItemRemovingName

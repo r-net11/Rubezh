@@ -23,9 +23,9 @@ namespace FiresecAPI.GK
 			GuardZones = new List<GKGuardZone>();
 			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
+			DaySchedules = new List<GKDaySchedule>();
 			Schedules = new List<GKSchedule>();
 
-			JournalFilters = new List<GKJournalFilter>();
 			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
 		}
@@ -70,12 +70,6 @@ namespace FiresecAPI.GK
 		public List<GKDelay> Delays { get; set; }
 
 		/// <summary>
-		/// Фильтры журнала событий
-		/// </summary>
-		[DataMember]
-		public List<GKJournalFilter> JournalFilters { get; set; }
-
-		/// <summary>
 		/// Инструкции
 		/// </summary>
 		[DataMember]
@@ -98,6 +92,12 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKDoor> Doors { get; set; }
+
+		/// <summary>
+		/// Графики работ
+		/// </summary>
+		[DataMember]
+		public List<GKDaySchedule> DaySchedules { get; set; }
 
 		/// <summary>
 		/// Графики работ

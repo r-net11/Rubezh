@@ -58,11 +58,9 @@ namespace ChinaSKDDriver
 
 		public static void Stop()
 		{
-			foreach (var deviceProcessor in DeviceProcessors)
-			{
-				deviceProcessor.Stop();
-			}
-
+			if (DeviceProcessors != null)
+				foreach (var deviceProcessor in DeviceProcessors)
+					deviceProcessor.Stop();
 			Wrapper.Deinitialize();
 		}
 

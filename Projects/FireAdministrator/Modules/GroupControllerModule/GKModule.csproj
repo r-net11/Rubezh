@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -137,6 +140,7 @@
     <Compile Include="Events\ShowGKDoorEvent.cs" />
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="Events\CreateGKScheduleEvent.cs" />
+    <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeSelectionViewModel.cs" />
@@ -389,8 +393,13 @@
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SKD\ViewModels\ScheduleIntervalPartDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\ScheduleIntervalPartViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DayScheduleDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulePartDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulePartsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulePartViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulesMenuViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DaySchedulesViewModel.cs" />
+    <Compile Include="SKD\ViewModels\DayScheduleViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\DoorsViewModel.cs" />
@@ -399,6 +408,19 @@
     <Compile Include="SKD\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="SKD\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SchedulePartViewModel.cs" />
+    <Compile Include="SKD\Views\DayScheduleDetailsView.xaml.cs">
+      <DependentUpon>DayScheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DaySchedulePartDetailsView.xaml.cs">
+      <DependentUpon>DaySchedulePartDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DaySchedulesMenuView.xaml.cs">
+      <DependentUpon>DaySchedulesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\DaySchedulesView.xaml.cs">
+      <DependentUpon>DaySchedulesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml.cs">
       <DependentUpon>ScheduleIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
@@ -422,10 +444,12 @@
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
+    <Compile Include="Validation\DayScheduleValidationError.cs" />
     <Compile Include="Validation\Validator.Codes.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.DaySchedules.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
     <Compile Include="Validation\Validator.Directions.cs" />
     <Compile Include="Validation\Validator.Zones.cs" />
@@ -520,6 +544,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Delays\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Descriptors\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Descriptors\Views\DescriptorsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -529,6 +561,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Descriptors\Views\DescriptorsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DeviceLibrary\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -543,6 +579,10 @@
     <Page Include="DeviceLibrary\Views\StateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -580,6 +620,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Diagnostics\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Directions\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Guard\Views\CodeReaderDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -604,6 +656,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Instructions\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Journal\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MPTs\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MPTs\Views\MPTDevicePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -612,11 +676,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OPC\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Plans\Views\GKDoorPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\GuardZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PumpStation\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -760,6 +836,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SKD\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DayScheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DaySchedulePartDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DaySchedulesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\DaySchedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -785,6 +881,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SKD\Views\SchedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

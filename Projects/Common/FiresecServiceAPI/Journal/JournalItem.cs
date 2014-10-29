@@ -11,7 +11,6 @@ namespace FiresecAPI.Journal
 		public JournalItem()
 			: base()
 		{
-			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
 			JournalDetalisationItems = new List<JournalDetalisationItem>();
 		}
@@ -20,7 +19,7 @@ namespace FiresecAPI.Journal
 		public DateTime SystemDateTime { get; set; }
 
 		[DataMember]
-		public DateTime DeviceDateTime { get; set; }
+		public DateTime? DeviceDateTime { get; set; }
 
 		[DataMember]
 		public JournalSubsystemType JournalSubsystemType { get; set; }

@@ -50,12 +50,6 @@ namespace FiresecAPI
 		OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
 
 		[OperationContract]
-		OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions();
-
-		[OperationContract]
-		OperationResult<List<JournalEventNameType>> GetDistinctEventNames();
-
-		[OperationContract]
 		OperationResult<bool> AddJournalItem(JournalItem journalItem);
 		#endregion
 

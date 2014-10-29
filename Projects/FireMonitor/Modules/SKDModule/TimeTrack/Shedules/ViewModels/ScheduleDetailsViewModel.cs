@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 		FiresecAPI.SKD.Organisation Organisation;
 		IEnumerable<ScheduleScheme> _schemes;
 		public Schedule Model { get; private set; }
-
+		bool _isNew;
 		public ScheduleDetailsViewModel() { }
 
 		string _name;
@@ -121,14 +121,15 @@ namespace SKDModule.ViewModels
 			Model.AllowedLate = AllowedLate;
 			Model.AllowedEarlyLeave = AllowedEarlyLeave;
 			Model.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
-			return ScheduleHelper.Save(Model);
+			return ScheduleHelper.Save(Model, _isNew);
 		}
 
 
 		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;
-			if (model == null)
+			_isNew = model == null;
+			if (_isNew)
 			{
 				Title = "Новый график";
 				model = new Schedule()

@@ -5,15 +5,15 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class DayIntervalPartHelper
 	{
-		public static bool Save(DayIntervalPart dayIntervalPart)
+		public static bool Save(DayIntervalPart dayIntervalPart, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveDayIntervalPart(dayIntervalPart);
+			var operationResult = FiresecManager.FiresecService.SaveDayIntervalPart(dayIntervalPart, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Remove(DayIntervalPart dayIntervalPart)
+		public static bool Remove(DayIntervalPart dayIntervalPart, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RemoveDayIntervalPart(dayIntervalPart);
+			var operationResult = FiresecManager.FiresecService.RemoveDayIntervalPart(dayIntervalPart, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

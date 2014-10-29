@@ -100,9 +100,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override bool Save(Schedule item)
+		protected override bool Add(Schedule item)
 		{
-			return ScheduleHelper.Save(item);
+			return ScheduleHelper.Save(item, true);
 		}
 
 		protected override IEnumerable<Schedule> GetModels(ScheduleFilter filter)
@@ -115,14 +115,14 @@ namespace SKDModule.ViewModels
 			return ScheduleHelper.GetByOrganisation(organisauinUID);
 		}
 
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(Schedule model)
 		{
-			return ScheduleHelper.MarkDeleted(uid);
+			return ScheduleHelper.MarkDeleted(model);
 		}
 
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(Schedule model)
 		{
-			return ScheduleHelper.Restore(uid);
+			return ScheduleHelper.Restore(model);
 		}
 
 		protected override string ItemRemovingName

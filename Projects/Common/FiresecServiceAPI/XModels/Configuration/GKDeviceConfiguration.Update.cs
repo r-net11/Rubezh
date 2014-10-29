@@ -229,10 +229,13 @@ namespace FiresecAPI.GK
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
 					var device = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
+					if (device != null)
 					{
-						nsDeviceUIDs.Add(device.UID);
-						pumpStation.NSDevices.Add(device);
+						if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
+						{
+							nsDeviceUIDs.Add(device.UID);
+							pumpStation.NSDevices.Add(device);
+						}
 					}
 				}
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
@@ -443,9 +446,35 @@ namespace FiresecAPI.GK
 
 		void InitializeSchedules()
 		{
+			var neverDaySchedule = DaySchedules.FirstOrDefault(x => x.Name == "<Никогда>");
+			if (neverDaySchedule == null)
+			{
+				neverDaySchedule = new GKDaySchedule();
+				neverDaySchedule.Name = "<Никогда>";
+				DaySchedules.Add(neverDaySchedule);
+			}
+
+			var alwaysDaySchedule = DaySchedules.FirstOrDefault(x => x.Name == "<Всегда>");
+			if (alwaysDaySchedule == null)
+			{
+				alwaysDaySchedule = new GKDaySchedule();
+				alwaysDaySchedule.Name = "<Всегда>";
+				alwaysDaySchedule.DayScheduleParts.Add(new GKDaySchedulePart() { StartMilliseconds = 0, EndMilliseconds = new TimeSpan(23, 59, 59).TotalMilliseconds });
+				DaySchedules.Add(alwaysDaySchedule);
+			}
+
 			foreach (var schedule in Schedules)
 			{
-
+				var uids = new List<Guid>();
+				foreach (var dayScheduleUID in schedule.DayScheduleUIDs)
+				{
+					var daySchedule = DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+					if (daySchedule != null)
+					{
+						uids.Add(dayScheduleUID);
+					}
+				}
+				schedule.DayScheduleUIDs = uids;
 			}
 		}
 

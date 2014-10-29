@@ -6,21 +6,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class AdditionalColumnTypeHelper
 	{
-		public static bool Save(AdditionalColumnType AdditionalColumnType)
+		public static bool Save(AdditionalColumnType AdditionalColumnType, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveAdditionalColumnType(AdditionalColumnType);
+			var operationResult = FiresecManager.FiresecService.SaveAdditionalColumnType(AdditionalColumnType, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(ShortAdditionalColumnType item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedAdditionalColumnType(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(ShortAdditionalColumnType item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedAdditionalColumnType(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreAdditionalColumnType(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreAdditionalColumnType(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

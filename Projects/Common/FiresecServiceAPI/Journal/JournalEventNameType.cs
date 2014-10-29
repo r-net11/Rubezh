@@ -481,7 +481,55 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование праздничного дня", XStateClass.Info)]
 		Редактирование_праздничного_дня,
 
+		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона карты", XStateClass.Info)]
+		Редактирование_шаблона_карты,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
+		Добавление_нового_сотрудника,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового отдела", XStateClass.Info)]
+		Добавление_нового_отдела,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление новой должности", XStateClass.Info)]
+		Добавление_новой_должности,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона доступа", XStateClass.Info)]
+		Добавление_нового_шаблона_доступа,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление новой организации", XStateClass.Info)]
+		Добавление_новой_организации,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление новой дополнительной колонки", XStateClass.Info)]
+		Добавление_новой_дополнительной_колонки,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового дневного графика", XStateClass.Info)]
+		Добавление_нового_дневного_графика,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы", XStateClass.Info)]
+		Добавление_нового_графика_работы,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового графика работы сотрудника", XStateClass.Info)]
+		Добавление_нового_графика_работы_сотрудника,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового праздничного дня", XStateClass.Info)]
+		Добавление_нового_праздничного_дня,
+
+		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона карты", XStateClass.Info)]
+		Добавление_нового_шаблона_карты,
+
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
 		Внесение_оправдательного_документа,
+
+		[EventName(JournalSubsystemType.GK, "Открыто", XStateClass.On)]
+		Открыто,
+
+		[EventName(JournalSubsystemType.GK, "Закрыто", XStateClass.Off)]
+		Закрыто,
+
+		[EventName(JournalSubsystemType.GK, "Открытие", XStateClass.On)]
+		Открытие,
+
+		[EventName(JournalSubsystemType.GK, "Закрытие", XStateClass.Off)]
+		Закрытие,
 	}
 }

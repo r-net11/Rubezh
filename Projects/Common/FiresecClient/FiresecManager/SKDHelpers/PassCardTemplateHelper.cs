@@ -6,21 +6,31 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class PassCardTemplateHelper
 	{
-		public static bool Save(PassCardTemplate passCardTemplate)
+		public static bool Save(PassCardTemplate passCardTemplate, bool isNew)
 		{
-			var operationResult = FiresecManager.FiresecService.SavePassCardTemplate(passCardTemplate);
+			var operationResult = FiresecManager.FiresecService.SavePassCardTemplate(passCardTemplate, isNew);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool MarkDeleted(ShortPassCardTemplate item)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedPassCardTemplate(uid);
+			return MarkDeleted(item.UID, item.Name);
+		}
+
+		public static bool Restore(ShortPassCardTemplate item)
+		{
+			return Restore(item.UID, item.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var operationResult = FiresecManager.FiresecService.MarkDeletedPassCardTemplate(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestorePassCardTemplate(uid);
+			var operationResult = FiresecManager.FiresecService.RestorePassCardTemplate(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

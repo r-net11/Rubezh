@@ -9,6 +9,7 @@ namespace FiresecAPI.Automation
 	{
 		public ControlVisualArguments()
 		{
+			Argument = new Argument();
 		}
 
 		[DataMember]
@@ -21,7 +22,7 @@ namespace FiresecAPI.Automation
 		public Guid LayoutPart { get; set; }
 
 		[DataMember]
-		public LayoutPartPropertyName Property { get; set; }
+		public LayoutPartPropertyName? Property { get; set; }
 
 		[DataMember]
 		public Argument Argument { get; set; }

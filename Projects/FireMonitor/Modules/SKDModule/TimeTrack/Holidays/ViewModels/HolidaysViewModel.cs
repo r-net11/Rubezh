@@ -93,9 +93,9 @@ namespace SKDModule.ViewModels
 			return ParentOrganisation != null && !ParentOrganisation.IsDeleted;
 		}
 
-		protected override bool Save(Holiday item)
+		protected override bool Add(Holiday item)
 		{
-			return HolidayHelper.Save(item);
+			return HolidayHelper.Save(item, true);
 		}
 
 		protected override System.Collections.Generic.IEnumerable<Holiday> GetModels(HolidayFilter filter)
@@ -108,14 +108,14 @@ namespace SKDModule.ViewModels
 			return HolidayHelper.GetByOrganisation(organisauinUID);
 		}
 
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(Holiday model)
 		{
-			return HolidayHelper.MarkDeleted(uid);
+			return HolidayHelper.MarkDeleted(model);
 		}
 
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(Holiday model)
 		{
-			return HolidayHelper.Restore(uid);
+			return HolidayHelper.Restore(model);
 		}
 
 		protected override string ItemRemovingName

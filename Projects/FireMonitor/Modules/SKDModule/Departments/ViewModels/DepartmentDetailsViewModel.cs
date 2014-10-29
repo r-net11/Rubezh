@@ -151,7 +151,7 @@ namespace SKDModule.ViewModels
 			Department.Phone = Phone;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			var saveResult = DepartmentHelper.Save(Department);
+			var saveResult = DepartmentHelper.Save(Department, IsNew);
 			if (saveResult)
 			{
 				ServiceFactory.Events.GetEvent<ChangeDepartmentChiefEvent>().Publish(Department);

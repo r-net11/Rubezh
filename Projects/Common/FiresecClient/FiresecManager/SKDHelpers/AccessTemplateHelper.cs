@@ -17,27 +17,32 @@ namespace FiresecClient.SKDHelpers
 			return Get(new AccessTemplateFilter() { UserUID = FiresecManager.CurrentUser.UID });
 		}
 
-		public static bool Save(AccessTemplate accessTemplate)
+		public static bool Save(AccessTemplate accessTemplate, bool isNew)
 		{
-			var result = FiresecManager.FiresecService.SaveAccessTemplate(accessTemplate);
+			var result = FiresecManager.FiresecService.SaveAccessTemplate(accessTemplate, isNew);
 			Common.ShowErrorIfExists(result);
 			return result.Result;
 		}
 
 		public static bool MarkDeleted(AccessTemplate accessTemplate)
 		{
-			return MarkDeleted(accessTemplate.UID);
+			return MarkDeleted(accessTemplate.UID, accessTemplate.Name);
 		}
 
-		public static bool MarkDeleted(Guid uid)
+		public static bool Restore(AccessTemplate accessTemplate)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedAccessTemplate(uid);
+			return Restore(accessTemplate.UID, accessTemplate.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedAccessTemplate(uid, name);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreAccessTemplate(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreAccessTemplate(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

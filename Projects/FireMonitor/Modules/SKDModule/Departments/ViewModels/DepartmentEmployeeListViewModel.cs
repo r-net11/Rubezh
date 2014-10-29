@@ -30,14 +30,14 @@ namespace SKDModule.ViewModels
 			get { return Employees.FirstOrDefault(x => x.IsChief); }
 		}
 
-		protected override bool AddToParent(Guid uid)
+		protected override bool AddToParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetDepartment(uid, _parent.UID);
+			return EmployeeHelper.SetDepartment(employee, _parent.UID);
 		}
 
-		protected override bool RemoveFromParent(Guid uid)
+		protected override bool RemoveFromParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetDepartment(uid, Guid.Empty);
+			return EmployeeHelper.SetDepartment(employee, Guid.Empty);
 		}
 
 		public override bool CanEditDepartment { get { return false; } }
@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 			if (Chief != null)
 				Chief.IsChief = false;
 			SelectedEmployee.IsChief = true;
-			DepartmentHelper.SaveChief(_parent.UID, SelectedEmployee.Employee.UID);
+			DepartmentHelper.SaveChief(_parent.UID, SelectedEmployee.Employee.UID, _parent.Name);
 			UpdateCanSet();
 		}
 		public bool CanSetChief
@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 		void OnUnSetChief()
 		{
 			Chief.IsChief = false;
-			DepartmentHelper.SaveChief(_parent.UID, Guid.Empty);
+			DepartmentHelper.SaveChief(_parent.UID, Guid.Empty, _parent.Name);
 			UpdateCanSet();
 		}
 		public bool CanUnSetChief

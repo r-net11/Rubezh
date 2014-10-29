@@ -170,14 +170,6 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID));
 		}
-		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
-		{
-			return SafeContext.Execute<OperationResult<List<JournalEventDescriptionType>>>(() => FiresecService.GetDistinctEventDescriptions());
-		}
-		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
-		{
-			return SafeContext.Execute<OperationResult<List<JournalEventNameType>>>(() => FiresecService.GetDistinctEventNames());
-		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
@@ -232,7 +224,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(deviceUID); }, "GKGetJournalItemsCount");
 		}
 
-		public OperationResult<GKJournalItem> GKReadJournalItem(Guid deviceUID, int no)
+		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(deviceUID, no); }, "GKReadJournalItem");
 		}
@@ -336,25 +328,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
 		}
 
-		public List<GKJournalItem> GetGKTopLastJournalItems(int count)
-		{
-			return SafeOperationCall(() => { return FiresecService.GetGKTopLastJournalItems(count); }, "GetGKTopLastJournalItems");
-		}
-
-		public void BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetGKFilteredArchive");
-		}
-
-		public List<string> GetDistinctGKJournalNames()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalNames(); }, "GetDistinctGKJournalNames");
-		}
-
-		public List<string> GetDistinctGKJournalDescriptions()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalDescriptions(); }, "GetDistinctGKJournalDescriptions");
-		}
 		#endregion
 
 		#region Automation

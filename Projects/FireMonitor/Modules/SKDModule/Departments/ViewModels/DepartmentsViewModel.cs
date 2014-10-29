@@ -77,17 +77,17 @@ namespace SKDModule.ViewModels
 			return DepartmentHelper.GetByOrganisation(organisationUID);
 		}
 
-		protected override bool MarkDeleted(Guid uid)
+		protected override bool MarkDeleted(ShortDepartment model)
 		{
-			return DepartmentHelper.MarkDeleted(uid);
+			return DepartmentHelper.MarkDeleted(model);
 		}
 
-		protected override bool Restore(Guid uid)
+		protected override bool Restore(ShortDepartment model)
 		{
-			return DepartmentHelper.Restore(uid);
+			return DepartmentHelper.Restore(model);
 		}
 
-		protected override bool Save(ShortDepartment item)
+		protected override bool Add(ShortDepartment item)
 		{
 			var department = DepartmentHelper.GetDetails(_clipboardUID);
 			department.UID = item.UID;
@@ -96,7 +96,7 @@ namespace SKDModule.ViewModels
 			department.ParentDepartmentUID = item.ParentDepartmentUID;
 			department.OrganisationUID = item.OrganisationUID;
 			department.ChildDepartmentUIDs = item.ChildDepartmentUIDs;
-			return DepartmentHelper.Save(department);
+			return DepartmentHelper.Save(department, true);
 		}
 		 
 		protected override void OnPaste()
@@ -107,7 +107,7 @@ namespace SKDModule.ViewModels
 			_clipboard.ParentDepartmentUID = parentDepartmentUID;
 			var newItem = CopyModel(_clipboard);
 			var newItemChildren = CopyChildren(newItem, _clipboardChildren);
-			if (Save(newItem) && SaveMany(newItemChildren))
+			if (Add(newItem) && SaveMany(newItemChildren))
 			{
 				var itemViewModel = new DepartmentViewModel();
 				itemViewModel.InitializeModel(SelectedItem.Organisation, newItem, this);
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var item in models)
 			{
-				var saveResult = Save(item);
+				var saveResult = Add(item);
 				if (!saveResult)
 					return false;
 			}

@@ -18,9 +18,9 @@ namespace FiresecClient.SKDHelpers
 			return Get(new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID });
 		}
 
-		public static bool Save(OrganisationDetails organisation)
+		public static bool Save(OrganisationDetails organisation, bool isNew)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisation(organisation);
+			var result = FiresecManager.FiresecService.SaveOrganisation(organisation, isNew);
 			return Common.ShowErrorIfExists(result);
 		}
 
@@ -66,31 +66,45 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedOrganisation(organisation.UID);
-			return Common.ShowErrorIfExists(result);
+			return MarkDeleted(organisation.UID, organisation.Name);
 		}
 
 		public static bool Restore(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.RestoreOrganisation(organisation.UID);
+			return Restore(organisation.UID, organisation.Name);
+		}
+
+		public static bool MarkDeleted(Guid uid, string name)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedOrganisation(uid, name);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Restore(Guid uid)
+		public static bool Restore(Guid uid, string name)
 		{
-			var operationResult = FiresecManager.FiresecService.RestoreOrganisation(uid);
+			var operationResult = FiresecManager.FiresecService.RestoreOrganisation(uid, name);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool SaveChief(Guid uid, Guid chiefUID)
+		public static bool SaveChief(Organisation organisation, Guid chiefUID, string name)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisationChief(uid, chiefUID);
+			return SaveChief(organisation.UID, chiefUID, organisation.Name);
+		}
+
+		public static bool SaveHRChief(Organisation organisation, Guid chiefUID, string name)
+		{
+			return SaveHRChief(organisation.UID, chiefUID, organisation.Name);
+		}
+		
+		public static bool SaveChief(Guid uid, Guid chiefUID, string name)
+		{
+			var result = FiresecManager.FiresecService.SaveOrganisationChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveHRChief(Guid uid, Guid chiefUID)
+		public static bool SaveHRChief(Guid uid, Guid chiefUID, string name)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisationHRChief(uid, chiefUID);
+			var result = FiresecManager.FiresecService.SaveOrganisationHRChief(uid, chiefUID, name);
 			return Common.ShowErrorIfExists(result);
 		}
 

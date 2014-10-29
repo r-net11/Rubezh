@@ -15,101 +15,38 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddGKJournalItem(GKJournalItem gkJournalItem)
+		public static void AddGKJournalItem(JournalItem journalItem)
 		{
-			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = gkJournalItem.SystemDateTime;
-			journalItem.DeviceDateTime = gkJournalItem.DeviceDateTime;
-			journalItem.JournalEventNameType = gkJournalItem.JournalEventNameType;
-			journalItem.JournalEventDescriptionType = gkJournalItem.JournalEventDescriptionType;
-			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(gkJournalItem.JournalEventNameType);
-			journalItem.ObjectUID = gkJournalItem.ObjectUID;
-			journalItem.ObjectName = gkJournalItem.ObjectName;
-			journalItem.UserName = gkJournalItem.UserName;
-
-			journalItem.NameText = gkJournalItem.Name;
-			journalItem.DescriptionText = gkJournalItem.Description;
-			if (!string.IsNullOrEmpty(gkJournalItem.AdditionalDescription))
-				journalItem.DescriptionText = gkJournalItem.AdditionalDescription;
-
-			if (gkJournalItem.GKJournalRecordNo.HasValue && gkJournalItem.GKJournalRecordNo.Value > 0)
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", gkJournalItem.GKJournalRecordNo.Value.ToString()));
-			if (gkJournalItem.GKObjectNo > 0)
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkJournalItem.GKObjectNo.ToString()));
-			if (!string.IsNullOrEmpty(gkJournalItem.GKIpAddress))
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkJournalItem.GKIpAddress.ToString()));
-			if (gkJournalItem.ObjectFactoryNo > 0)
-				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Заводской номер", gkJournalItem.ObjectFactoryNo.ToString()));
-
-			switch (gkJournalItem.JournalObjectType)
-			{
-				case GKJournalObjectType.System:
-					journalItem.JournalObjectType = JournalObjectType.None;
-					break;
-
-				case GKJournalObjectType.GK:
-				case GKJournalObjectType.Device:
-				case GKJournalObjectType.Pim:
-				case GKJournalObjectType.GkUser:
-					journalItem.JournalObjectType = JournalObjectType.GKDevice;
-					break;
-
-				case GKJournalObjectType.Zone:
-					journalItem.JournalObjectType = JournalObjectType.GKZone;
-					break;
-
-				case GKJournalObjectType.Direction:
-					journalItem.JournalObjectType = JournalObjectType.GKDirection;
-					break;
-
-				case GKJournalObjectType.Delay:
-					journalItem.JournalObjectType = JournalObjectType.GKDelay;
-					break;
-
-				case GKJournalObjectType.PumpStation:
-					journalItem.JournalObjectType = JournalObjectType.GKPumpStation;
-					break;
-
-				case GKJournalObjectType.MPT:
-					journalItem.JournalObjectType = JournalObjectType.GKMPT;
-					break;
-
-				case GKJournalObjectType.GuardZone:
-					journalItem.JournalObjectType = JournalObjectType.GKGuardZone;
-					break;
-
-				case GKJournalObjectType.Door:
-					journalItem.JournalObjectType = JournalObjectType.GKDoor;
-					break;
-			}
-
 			AddCommonJournalItem(journalItem);
 		}
 
-		void AddJournalMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
+		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
 				JournalObjectType = JournalObjectType.None,
 				ObjectUID = Guid.Empty,
-				ObjectName = null,
+				ObjectName = objectName,
 				UserName = UserName,
 			};
 
 			AddCommonJournalItem(journalItem);
 		}
+		
+		//void AddJournalMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
+		//{
+		//    AddJournalMessage(journalEventNameType, null, journalEventDescriptionType);
+		//}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -127,7 +64,6 @@ namespace FiresecService.Service
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -145,7 +81,6 @@ namespace FiresecService.Service
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
@@ -231,7 +166,7 @@ namespace FiresecService.Service
 				{
 					DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 					DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID, false);
+					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID);
 
 				}))));
 				thread.Name = "FiresecService.GetFilteredArchive";
@@ -249,16 +184,6 @@ namespace FiresecService.Service
 		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
-		}
-
-		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
-		{
-			return DBHelper.GetDistinctEventDescriptions();
-		}
-
-		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
-		{
-			return DBHelper.GetDistinctEventNames();
 		}
 		#endregion
 	}
