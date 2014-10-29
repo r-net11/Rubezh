@@ -1043,3 +1043,26 @@ BEGIN
 	CREATE INDEX JournalObjectUIDIndex ON Journal([ObjectUID])
 	INSERT INTO Patches (Id) VALUES ('Journal_Indexes')
 END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationGKDoor')
+BEGIN
+CREATE TABLE [dbo].[OrganisationGKDoor](
+	[UID] [uniqueidentifier] NOT NULL,
+	[DoorUID] [uniqueidentifier] NOT NULL,
+	[OrganisationUID] [uniqueidentifier] NOT NULL,
+CONSTRAINT [PK_OrganisationGKDoor] PRIMARY KEY CLUSTERED 
+(
+	[UID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+INSERT INTO Patches (Id) VALUES ('OrganisationGKDoor')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_OrganisationGKDoor_Organisation')
+BEGIN
+ALTER TABLE [dbo].[OrganisationGKDoor] WITH NOCHECK ADD CONSTRAINT [FK_OrganisationGKDoor_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
+NOT FOR REPLICATION 
+ALTER TABLE [dbo].[OrganisationGKDoor] NOCHECK CONSTRAINT [FK_OrganisationGKDoor_Organisation]
+INSERT INTO Patches (Id) VALUES ('FK_OrganisationGKDoor_Organisation')
+END

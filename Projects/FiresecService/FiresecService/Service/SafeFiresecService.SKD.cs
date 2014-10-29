@@ -161,6 +161,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationDoors(organisation));
 		}
+		public OperationResult SaveOrganisationGKDoors(Organisation organisation)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationGKDoors(organisation));
+		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organisation));

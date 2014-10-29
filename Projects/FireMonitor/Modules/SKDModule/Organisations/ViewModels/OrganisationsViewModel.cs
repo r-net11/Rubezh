@@ -63,6 +63,7 @@ namespace SKDModule.ViewModels
 				{
 					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
+					OrganisationGKDoorsViewModel = new OrganisationGKDoorsViewModel(SelectedOrganisation.Organisation);
 					OrganisationGuardZonesViewModel = new OrganisationGuardZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
 				}
@@ -70,9 +71,15 @@ namespace SKDModule.ViewModels
 				{
 					OrganisationZonesViewModel = null;
 					OrganisationDoorsViewModel = null;
+					OrganisationGKDoorsViewModel = null;
 					OrganisationGuardZonesViewModel = null;
 					OrganisationUsersViewModel = null;
 				}
+
+				HasOrganisationZones = OrganisationZonesViewModel != null && OrganisationZonesViewModel.Items.Count > 0;
+				HasOrganisationDoors = OrganisationDoorsViewModel != null && OrganisationDoorsViewModel.Items.Count > 0;
+				HasOrganisationGKDoors = OrganisationGKDoorsViewModel != null && OrganisationGKDoorsViewModel.Items.Count > 0;
+				HasOrganisationGuardZones = OrganisationGuardZonesViewModel != null && OrganisationGuardZonesViewModel.Items.Count > 0;
 			}
 		}
 
@@ -98,6 +105,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		OrganisationGKDoorsViewModel _OrganisationGKDoorsViewModel;
+		public OrganisationGKDoorsViewModel OrganisationGKDoorsViewModel
+		{
+			get { return _OrganisationGKDoorsViewModel; }
+			set
+			{
+				_OrganisationGKDoorsViewModel = value;
+				OnPropertyChanged(() => OrganisationGKDoorsViewModel);
+			}
+		}
+
 		OrganisationGuardZonesViewModel _organisationGuardZonesViewModel;
 		public OrganisationGuardZonesViewModel OrganisationGuardZonesViewModel
 		{
@@ -117,6 +135,50 @@ namespace SKDModule.ViewModels
 			{
 				_organisationUsersViewModel = value;
 				OnPropertyChanged(() => OrganisationUsersViewModel);
+			}
+		}
+
+		bool _hasOrganisationZones;
+		public bool HasOrganisationZones
+		{
+			get { return _hasOrganisationZones; }
+			set
+			{
+				_hasOrganisationZones = value;
+				OnPropertyChanged(() => HasOrganisationZones);
+			}
+		}
+
+		bool _hasOrganisationDoors;
+		public bool HasOrganisationDoors
+		{
+			get { return _hasOrganisationDoors; }
+			set
+			{
+				_hasOrganisationDoors = value;
+				OnPropertyChanged(() => HasOrganisationDoors);
+			}
+		}
+
+		bool _hasOrganisationGKDoors;
+		public bool HasOrganisationGKDoors
+		{
+			get { return _hasOrganisationGKDoors; }
+			set
+			{
+				_hasOrganisationGKDoors = value;
+				OnPropertyChanged(() => HasOrganisationGKDoors);
+			}
+		}
+
+		bool _hasOrganisationGuardZones;
+		public bool HasOrganisationGuardZones
+		{
+			get { return _hasOrganisationGuardZones; }
+			set
+			{
+				_hasOrganisationGuardZones = value;
+				OnPropertyChanged(() => HasOrganisationGuardZones);
 			}
 		}
 
@@ -205,6 +267,7 @@ namespace SKDModule.ViewModels
 		{
 			OrganisationZonesViewModel.CanSelect = canSelect;
 			OrganisationDoorsViewModel.CanSelect = canSelect;
+			OrganisationGKDoorsViewModel.CanSelect = canSelect;
 			OrganisationGuardZonesViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
 		}

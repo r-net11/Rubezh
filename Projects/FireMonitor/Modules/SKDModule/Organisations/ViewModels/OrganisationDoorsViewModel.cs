@@ -7,10 +7,8 @@ namespace SKDModule.ViewModels
 	{
 		public OrganisationDoorsViewModel(Organisation organisation):base(organisation)
 		{
-			var doors = SKDManager.SKDConfiguration.Doors;
-
 			Items = new ObservableCollection<OrganisationDoorViewModel>();
-			foreach (var door in doors)
+			foreach (var door in SKDManager.SKDConfiguration.Doors)
 			{
 				Items.Add(new OrganisationDoorViewModel(Organisation, door));
 			}

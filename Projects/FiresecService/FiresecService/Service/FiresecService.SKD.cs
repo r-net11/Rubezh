@@ -452,6 +452,14 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveDoors(organisation);
 			}
 		}
+		public OperationResult SaveOrganisationGKDoors(Organisation organisation)
+		{
+			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveGKDoors(organisation);
+			}
+		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);

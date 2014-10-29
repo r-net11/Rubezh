@@ -122,6 +122,9 @@ namespace FiresecAPI
 		OperationResult SaveOrganisationDoors(Organisation organisation);
 
 		[OperationContract]
+		OperationResult SaveOrganisationGKDoors(Organisation organisation);
+
+		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organisation);
 
 		[OperationContract]
