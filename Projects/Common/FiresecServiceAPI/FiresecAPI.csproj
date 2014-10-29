@@ -277,6 +277,8 @@
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
     <Compile Include="XModels\Guard\GKGuardZoneEnterMethod.cs" />
+    <Compile Include="XModels\SKD\GKHolidayType.cs" />
+    <Compile Include="XModels\SKD\GKHoliday.cs" />
     <Compile Include="XModels\SKD\GKDaySchedulePart.cs" />
     <Compile Include="XModels\SKD\GKDaySchedule.cs" />
     <Compile Include="XModels\SKD\GKDoor.cs" />

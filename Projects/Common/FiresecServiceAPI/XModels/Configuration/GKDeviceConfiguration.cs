@@ -25,6 +25,7 @@ namespace FiresecAPI.GK
 			Doors = new List<GKDoor>();
 			DaySchedules = new List<GKDaySchedule>();
 			Schedules = new List<GKSchedule>();
+			Holidays = new List<GKHoliday>();
 
 			Instructions = new List<GKInstruction>();
 			ParameterTemplates = new List<GKParameterTemplate>();
@@ -104,6 +105,12 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<GKSchedule> Schedules { get; set; }
+
+		/// <summary>
+		/// Праздники
+		/// </summary>
+		[DataMember]
+		public List<GKHoliday> Holidays { get; set; }
 
 		/// <summary>
 		/// Шаблоны параметров устройств

@@ -36,6 +36,7 @@ namespace GKModule
 		DoorsViewModel DoorsViewModel;
 		DaySchedulesViewModel DaySchedulesViewModel;
 		SchedulesViewModel SchedulesViewModel;
+		HolidaysViewModel HolidaysViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
@@ -68,6 +69,7 @@ namespace GKModule
 			DoorsViewModel = new DoorsViewModel();
 			DaySchedulesViewModel = new DaySchedulesViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
+			HolidaysViewModel = new HolidaysViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
@@ -92,6 +94,7 @@ namespace GKModule
 			DoorsViewModel.Initialize();
 			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
+			HolidaysViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
 			OPCZonesViewModel.Initialize();
@@ -127,6 +130,7 @@ namespace GKModule
 							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowGKHolidayEvent, Guid>(HolidaysViewModel, "Праздники", "/Controls;component/Images/HolidaysW.png", null, null, Guid.Empty),
 						}),
 
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
