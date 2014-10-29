@@ -56,7 +56,6 @@ namespace FiresecAPI.SKD
 		public OrganisationDetails()
 		{
 			DoorUIDs = new List<Guid>();
-			GKDoorUIDs = new List<Guid>();
 			UserUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
 			ZoneUIDs = new List<Guid>();
@@ -73,9 +72,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> DoorUIDs { get; set; }
-
-		[DataMember]
-		public List<Guid> GKDoorUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }

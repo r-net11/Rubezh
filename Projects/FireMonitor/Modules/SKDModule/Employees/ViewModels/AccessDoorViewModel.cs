@@ -20,18 +20,21 @@ namespace SKDModule.ViewModels
 			CardDoors = cardDoors;
 			OnChecked = onChecked;
 
-			TimeCreterias = new ObservableCollection<IntervalType>();
-			TimeCreterias.Add(IntervalType.Weekly);
-
 			if (CardDoors == null)
 				CardDoors = new List<CardDoor>();
+
+			EnterTimeTypes = new ObservableCollection<CardTimeItem>();
+			ExitTimeTypes = new ObservableCollection<CardTimeItem>();
+			foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+			{
+				EnterTimeTypes.Add(new CardTimeItem(interval.ID, interval.Name));
+				ExitTimeTypes.Add(new CardTimeItem(interval.ID, interval.Name));
+			}
 
 			var cardDoor = CardDoors.FirstOrDefault(x => x.DoorUID == door.UID);
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x == cardDoor.EnterIntervalType);
-				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x == cardDoor.ExitIntervalType);
 				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.EnterIntervalID);
 				if (SelectedEnterTimeType == null)
 					SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
@@ -41,8 +44,6 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault();
-				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault();
 				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
 				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault();
 			}
@@ -68,32 +69,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => IsChecked);
 				if (OnChecked != null)
 					OnChecked(this);
-			}
-		}
-
-		public ObservableCollection<IntervalType> TimeCreterias { get; private set; }
-
-		IntervalType _selectedEnterTimeCreteria;
-		public IntervalType SelectedEnterTimeCreteria
-		{
-			get { return _selectedEnterTimeCreteria; }
-			set
-			{
-				_selectedEnterTimeCreteria = value;
-				OnPropertyChanged(() => SelectedEnterTimeCreteria);
-				EnterTimeTypes = GetTimeTypes(value);
-			}
-		}
-
-		IntervalType _selectedExitTimeCreteria;
-		public IntervalType SelectedExitTimeCreteria
-		{
-			get { return _selectedExitTimeCreteria; }
-			set
-			{
-				_selectedExitTimeCreteria = value;
-				OnPropertyChanged(() => SelectedExitTimeCreteria);
-				ExitTimeTypes = GetTimeTypes(value);
 			}
 		}
 
@@ -140,48 +115,16 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedExitTimeType);
 			}
 		}
-
-		ObservableCollection<CardTimeItem> GetTimeTypes(IntervalType intervalType)
-		{
-			var result = new ObservableCollection<CardTimeItem>();
-			//result.Add(new CardTimeItem(IntervalType.Time, 0, "<Никогда>"));
-			//result.Add(new CardTimeItem(IntervalType.Time, 1, "<Всегда>"));
-			if (intervalType != null)
-			{
-				switch (intervalType)
-				{
-					//case IntervalType.Time:
-					//    foreach (var dayInterval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.DayIntervals)
-					//        result.Add(new CardTimeItem(IntervalType.Time, dayInterval.ID, dayInterval.Name));
-					//    break;
-					case IntervalType.Weekly:
-						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-							result.Add(new CardTimeItem(IntervalType.Weekly, interval.ID, interval.Name));
-						break;
-					case IntervalType.SlideDay:
-						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals)
-							result.Add(new CardTimeItem(IntervalType.SlideDay, interval.ID, interval.Name));
-						break;
-					case IntervalType.SlideWeekly:
-						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideWeeklyIntervals)
-							result.Add(new CardTimeItem(IntervalType.SlideWeekly, interval.ID, interval.Name));
-						break;
-				};
-			};
-			return result;
-		}
 	}
 
 	public class CardTimeItem
 	{
-		public CardTimeItem(IntervalType scheduleType, int scheduleID, string name)
+		public CardTimeItem(int scheduleID, string name)
 		{
-			ScheduleType = scheduleType;
 			ScheduleID = scheduleID;
 			Name = name;
 		}
 
-		public IntervalType ScheduleType { get; private set; }
 		public int ScheduleID { get; private set; }
 		public string Name { get; private set; }
 	}

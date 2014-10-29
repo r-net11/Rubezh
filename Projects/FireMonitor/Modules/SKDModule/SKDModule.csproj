@@ -106,21 +106,16 @@
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
-    <Compile Include="Employees\ViewModels\AccessGKDoorsSelectationViewModel.cs" />
-    <Compile Include="Employees\ViewModels\AccessGKDoorViewModel.cs" />
-    <Compile Include="Employees\ViewModels\GKCardDoorsViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\ControllerSelectationView.xaml.cs">
       <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\AccessGKDoorsSelectationView.xaml.cs">
-      <DependentUpon>AccessGKDoorsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
     <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
@@ -185,8 +180,6 @@
     <Compile Include="Common\Views\EmployeeSelectionView.xaml.cs">
       <DependentUpon>EmployeeSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Organisations\ViewModels\OrganisationGKDoorsViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationGKDoorViewModel.cs" />
     <Compile Include="PassCardDesigner\Designer\DesignerCanvas.cs" />
     <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
     <Compile Include="PassCardDesigner\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
@@ -583,10 +576,6 @@
     <Page Include="Employees\Views\CardDoorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\AccessGKDoorsSelectationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Employees\Views\EmployeeCardDetailsView.xaml">
       <SubType>Designer</SubType>

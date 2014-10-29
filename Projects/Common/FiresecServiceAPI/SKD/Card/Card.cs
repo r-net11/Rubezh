@@ -57,5 +57,14 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
+
+		[DataMember]
+		public CardSubsystemType CardSubsystemType { get; set; }
+
+		[DataMember]
+		public int GKLevel { get; set; }
+
+		[DataMember]
+		public int GKLevelSchedule { get; set; }
 	}
 }

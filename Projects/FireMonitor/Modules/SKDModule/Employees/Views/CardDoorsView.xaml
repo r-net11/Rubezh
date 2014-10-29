@@ -22,22 +22,16 @@
 			<DataGridTemplateColumn Header="Вход" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<StackPanel Orientation="Horizontal" Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Margin="0 0 10 0" Text="{Binding SelectedEnterTimeCreteria.Description}" />
-							<TextBlock Text="{Binding SelectedEnterTimeType.Name}" />
-						</StackPanel>
-					</DataTemplate>
+                        <TextBlock Text="{Binding EnerScheduleName}" />
+                    </DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 
 			<DataGridTemplateColumn Header="Выход" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<StackPanel Orientation="Horizontal" Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Margin="0 0 10 0" Text="{Binding SelectedExitTimeCreteria.Description}" />
-							<TextBlock Text="{Binding SelectedExitTimeType.Name}" />
-						</StackPanel>
-					</DataTemplate>
+                        <TextBlock Text="{Binding ExitScheduleName}" />
+                    </DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>

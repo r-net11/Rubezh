@@ -16,7 +16,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Margin="1 0 0 0" />
+									<Image VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" Margin="1 0 0 0" />
 									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 									<TextBlock Text="{Binding Door.Name}" Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
@@ -29,43 +29,25 @@
 		<Grid Grid.Row="1" Margin="2" DataContext="{Binding SelectedDoor}">
 			<StackPanel IsEnabled="{Binding IsChecked}">
 				<StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left"/>
-					<StackPanel Orientation="Horizontal">
-						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedEnterTimeCreteria}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-						<ComboBox Margin="2" ItemsSource="{Binding EnterTimeTypes}" SelectedItem="{Binding SelectedEnterTimeType}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Margin="2" Text="{Binding Name}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-					</StackPanel>
-				</StackPanel>
+					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left" />
+                    <ComboBox Margin="2" ItemsSource="{Binding EnterTimeTypes}" SelectedItem="{Binding SelectedEnterTimeType}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="2" Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
 				<StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
-					<StackPanel Orientation="Horizontal">
-						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedExitTimeCreteria}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Margin="2" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-						<ComboBox Margin="2" ItemsSource="{Binding ExitTimeTypes}" SelectedItem="{Binding SelectedExitTimeType}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Margin="2" Text="{Binding Name}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-					</StackPanel>
-				</StackPanel>
+                    <ComboBox Margin="2" ItemsSource="{Binding ExitTimeTypes}" SelectedItem="{Binding SelectedExitTimeType}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="2" Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
 			</StackPanel>
 		</Grid>
 	</Grid>

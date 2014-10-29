@@ -14,6 +14,17 @@
       <Association Name="Organisation_AccessTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.TimeTrackException" Member="TimeTrackExceptions">
+    <Type Name="TimeTrackException">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Employee_TimeTrackException" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
     <Type Name="AdditionalColumn">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -58,9 +69,12 @@
       <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="DeactivationControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="UserTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="GKLevel" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="GKLevelSchedule" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
-      <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="ObjectUID" Type="Journal" />
+      <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
@@ -72,9 +86,8 @@
       <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="EnterIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EnterIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ExitIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ExitIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Card_CardDoor" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
@@ -156,6 +169,7 @@
       <Column Name="Citizenship" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Employee_TimeTrackException" Member="TimeTrackExceptions" ThisKey="UID" OtherKey="EmployeeUID" Type="TimeTrackException" />
       <Association Name="Employee_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
       <Association Name="Employee_Card" Member="Cards" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
       <Association Name="Employee_Department" Member="Departments" ThisKey="UID" OtherKey="ChiefUID" Type="Department" />
@@ -166,7 +180,6 @@
       <Association Name="Employee_Organisation" Member="Organisations" ThisKey="UID" OtherKey="ChiefUID" Type="Organisation" />
       <Association Name="Employee_Organisation1" Member="Organisations1" ThisKey="UID" OtherKey="HRChiefUID" Type="Organisation" />
       <Association Name="Employee_PassJournal" Member="PassJournals" ThisKey="UID" OtherKey="EmployeeUID" Type="PassJournal" />
-      <Association Name="Employee_TimeTrackException" Member="TimeTrackExceptions" ThisKey="UID" OtherKey="EmployeeUID" Type="TimeTrackException" />
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" />
       <Association Name="Employee_Employee" Member="Employee1" ThisKey="EscortUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Organisation_Employee" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
@@ -211,6 +224,26 @@
       <Association Name="Organisation_Holiday" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Journal" Member="Journals">
+    <Type Name="Journal">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SystemDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Subsystem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NameText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DescriptionText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Detalisation" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.NightSettings" Member="NightSettings">
     <Type Name="NightSetting">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -249,7 +282,6 @@
       <Association Name="Organisation_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganisationUID" Type="Schedule" />
       <Association Name="Organisation_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganisationUID" Type="ScheduleScheme" />
       <Association Name="Organisation_TimeTrackDocumentType" Member="TimeTrackDocumentTypes" ThisKey="UID" OtherKey="OrganisationUID" Type="TimeTrackDocumentType" />
-      <Association Name="Organisation_OrganisationGKDoor" Member="OrganisationGKDoors" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationGKDoor" />
       <Association Name="Employee_Organisation" Member="Employee" ThisKey="ChiefUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Employee_Organisation1" Member="Employee1" ThisKey="HRChiefUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
@@ -260,6 +292,7 @@
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_OrganisationDoor" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
@@ -412,45 +445,6 @@
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_TimeTrackDocumentType" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.TimeTrackException" Member="TimeTrackExceptions">
-    <Type Name="TimeTrackException">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Comment" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Association Name="Employee_TimeTrackException" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Journal" Member="Journals">
-    <Type Name="Journal">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="SystemDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Subsystem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NameText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DescriptionText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ObjectType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ObjectName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="Detalisation" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.OrganisationGKDoor" Member="OrganisationGKDoors">
-    <Type Name="OrganisationGKDoor">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="Organisation_OrganisationGKDoor" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

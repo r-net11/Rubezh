@@ -11,7 +11,6 @@ namespace FiresecAPI.SKD
 			: base()
 		{
 			CardDoors = new List<CardDoor>();
-			GKCardDoors = new List<GKCardDoor>();
 			GuardZoneAccesses = new List<GKGuardZoneAccess>();
 		}
 
@@ -23,9 +22,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<CardDoor> CardDoors { get; set; }
-
-		[DataMember]
-		public List<GKCardDoor> GKCardDoors { get; set; }
 
 		[DataMember]
 		public List<GKGuardZoneAccess> GuardZoneAccesses { get; set; }

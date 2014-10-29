@@ -40,8 +40,8 @@ namespace SKDModule.ViewModels
 
 		List<CardDoor> GetCardDoors(SKDCard card)
 		{
-			var cardZones = new List<CardDoor>();
-			cardZones.AddRange(card.CardDoors);
+			var cardDoors = new List<CardDoor>();
+			cardDoors.AddRange(card.CardDoors);
 			if (card.AccessTemplateUID != null)
 			{
 				var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
@@ -52,13 +52,13 @@ namespace SKDModule.ViewModels
 					{
 						foreach (var cardZone in accessTemplate.CardDoors)
 						{
-							if (!cardZones.Any(x => x.DoorUID == cardZone.DoorUID))
-								cardZones.Add(cardZone);
+							if (!cardDoors.Any(x => x.DoorUID == cardZone.DoorUID))
+								cardDoors.Add(cardZone);
 						}
 					}
 				}
 			}
-			return cardZones;
+			return cardDoors;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

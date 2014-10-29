@@ -16,6 +16,7 @@
 									   Command="{Binding RestoreCommand}" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 					</StackPanel>
 					<ToolBarButton Command="{Binding SelectedItem.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пропуск" />
+                    <ToolBarButton Command="{Binding SelectedItem.AddGKCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пропуск ГК" Visibility="{Binding SelectedItem.CanAddGKCard, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 						<StackPanel DataContext="{Binding SelectedItem}" Orientation="Horizontal">
 							<ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пропуск" />

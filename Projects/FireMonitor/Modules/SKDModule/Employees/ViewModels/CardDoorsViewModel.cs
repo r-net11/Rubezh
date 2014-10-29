@@ -19,25 +19,25 @@ namespace SKDModule.ViewModels
 		{
 			CardDoors = cardDoors;
 			InitializeDoors();
-			SelectedDoor = Doors.FirstOrDefault(x => x.IsChecked);
+			SelectedDoor = Doors.FirstOrDefault();
 		}
 
 		void InitializeDoors()
 		{
-			Doors = new ObservableCollection<AccessDoorViewModel>();
+			Doors = new ObservableCollection<ReadOnlyAccessDoorViewModel>();
 			foreach (var cardDoor in CardDoors)
 			{
 				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 				if (door != null)
 				{
-					var doorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
+					var doorViewModel = new ReadOnlyAccessDoorViewModel(door, cardDoor);
 					Doors.Add(doorViewModel);
 				}
 			}
 		}
 
-		ObservableCollection<AccessDoorViewModel> _doors;
-		public ObservableCollection<AccessDoorViewModel> Doors
+		ObservableCollection<ReadOnlyAccessDoorViewModel> _doors;
+		public ObservableCollection<ReadOnlyAccessDoorViewModel> Doors
 		{
 			get { return _doors; }
 			set
@@ -47,8 +47,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		AccessDoorViewModel _selectedDoor;
-		public AccessDoorViewModel SelectedDoor
+		ReadOnlyAccessDoorViewModel _selectedDoor;
+		public ReadOnlyAccessDoorViewModel SelectedDoor
 		{
 			get { return _selectedDoor; }
 			set

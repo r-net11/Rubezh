@@ -1044,25 +1044,25 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('Journal_Indexes')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationGKDoor')
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveOrganisationGKDoor')
 BEGIN
-CREATE TABLE [dbo].[OrganisationGKDoor](
-	[UID] [uniqueidentifier] NOT NULL,
-	[DoorUID] [uniqueidentifier] NOT NULL,
-	[OrganisationUID] [uniqueidentifier] NOT NULL,
-CONSTRAINT [PK_OrganisationGKDoor] PRIMARY KEY CLUSTERED 
-(
-	[UID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-INSERT INTO Patches (Id) VALUES ('OrganisationGKDoor')
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationGKDoor')
+	BEGIN
+		DROP TABLE OrganisationGKDoor
+	END
+INSERT INTO Patches (Id) VALUES ('RemoveOrganisationGKDoor')
 END
 
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_OrganisationGKDoor_Organisation')
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards')
 BEGIN
-ALTER TABLE [dbo].[OrganisationGKDoor] WITH NOCHECK ADD CONSTRAINT [FK_OrganisationGKDoor_Organisation] FOREIGN KEY([OrganisationUid])
-REFERENCES [dbo].[Organisation] ([Uid])
-NOT FOR REPLICATION 
-ALTER TABLE [dbo].[OrganisationGKDoor] NOCHECK CONSTRAINT [FK_OrganisationGKDoor_Organisation]
-INSERT INTO Patches (Id) VALUES ('FK_OrganisationGKDoor_Organisation')
+	ALTER TABLE Card ADD [CardSubsystemType] [tinyint] NOT NULL CONSTRAINT "Card_CardSubsystemType_Default" DEFAULT 0
+	ALTER TABLE Card ADD [GKLevel] [tinyint] NOT NULL CONSTRAINT "Card_GKLevel_Default" DEFAULT 0
+	ALTER TABLE Card ADD [GKLevelSchedule] [tinyint] NOT NULL CONSTRAINT "Card_GKLevelSchedule_Default" DEFAULT 0
+	ALTER TABLE CardDoor ADD [CardSubsystemType] [tinyint] NOT NULL CONSTRAINT "CardDoor_CardSubsystemType_Default" DEFAULT 0
+	ALTER TABLE OrganisationDoor ADD [CardSubsystemType] [tinyint] NOT NULL CONSTRAINT "OrganisationDoor_CardSubsystemType_Default" DEFAULT 0
+
+	ALTER TABLE CardDoor DROP COLUMN EnterIntervalType
+	ALTER TABLE CardDoor DROP COLUMN ExitIntervalType
+
+	INSERT INTO Patches (Id) VALUES ('GKCards')
 END

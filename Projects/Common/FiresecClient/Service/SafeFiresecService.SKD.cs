@@ -180,10 +180,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationDoors(item));
 		}
-		public OperationResult SaveOrganisationGKDoors(Organisation item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationGKDoors(item));
-		}
 		public OperationResult SaveOrganisationZones(Organisation item)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(item));

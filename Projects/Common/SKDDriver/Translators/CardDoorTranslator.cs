@@ -19,25 +19,23 @@ namespace SKDDriver
 		protected override CardDoor Translate(DataAccess.CardDoor tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.EnterIntervalType = (IntervalType)tableItem.EnterIntervalType;
 			result.EnterIntervalID = tableItem.EnterIntervalID;
-			result.ExitIntervalType = (IntervalType)tableItem.ExitIntervalType;
 			result.ExitIntervalID = tableItem.ExitIntervalID;
 			result.DoorUID = tableItem.DoorUID;
 			result.CardUID = tableItem.CardUID;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
+			result.CardSubsystemType = (CardSubsystemType)tableItem.CardSubsystemType;
 			return result;
 		}
 
 		protected override void TranslateBack(DataAccess.CardDoor tableItem, CardDoor apiItem)
 		{
-			tableItem.EnterIntervalType = (int?)apiItem.EnterIntervalType;
 			tableItem.EnterIntervalID = apiItem.EnterIntervalID;
-			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
 			tableItem.ExitIntervalID = apiItem.ExitIntervalID;
 			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.CardUID = apiItem.CardUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
+			tableItem.CardSubsystemType = (byte)apiItem.CardSubsystemType;
 		}
 
 		public List<CardDoor> GetForCards(Guid cardUID)

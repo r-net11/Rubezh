@@ -60,6 +60,7 @@ namespace SKDModule.ViewModels
 		{
 			base.InitializeModel(organisation, model, parentViewModel);
 			AddCardCommand = new RelayCommand(OnAddCard);
+			AddGKCardCommand = new RelayCommand(OnAddGKCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
 			InitializeCards();
 		}
@@ -152,6 +153,37 @@ namespace SKDModule.ViewModels
 				SelectedCard = cardViewModel;
 				SelectCard(cardViewModel);
 			}
+		}
+
+		public RelayCommand AddGKCardCommand { get; private set; }
+		void OnAddGKCard()
+		{
+			if (Cards.Count > 100)
+			{
+				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
+				return;
+			}
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, PersonType);
+			if (DialogService.ShowModalWindow(cardDetailsViewModel))
+			{
+				var card = cardDetailsViewModel.Card;
+				card.HolderUID = Model.UID;
+				var saveResult = CardHelper.Add(card);
+				if (!saveResult)
+					return;
+				var cardViewModel = new EmployeeCardViewModel(Organisation, this, card);
+				Cards.Add(cardViewModel);
+				SelectedCard = cardViewModel;
+				SelectCard(cardViewModel);
+			}
+		}
+
+		public bool CanAddGKCard()
+		{
+#if DEBUG
+			return true;
+#endif
+			return false;
 		}
 
 		bool _isEmployeeSelected = true;

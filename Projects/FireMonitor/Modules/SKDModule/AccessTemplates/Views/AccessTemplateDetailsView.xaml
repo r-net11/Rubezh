@@ -27,9 +27,6 @@
 		<TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
-        <TabItem Header="Точки доступа ГК">
-            <Views:AccessGKDoorsSelectationView DataContext="{Binding AccessGKDoorsSelectationViewModel}" />
-        </TabItem>
         <TabItem Header="Охранные зоны" DataContext="{Binding AccessTemplateGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid>
 				<Grid.RowDefinitions>
