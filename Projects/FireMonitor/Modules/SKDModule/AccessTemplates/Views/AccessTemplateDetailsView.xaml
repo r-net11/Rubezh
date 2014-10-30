@@ -27,33 +27,5 @@
 		<TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
-        <TabItem Header="Охранные зоны" DataContext="{Binding AccessTemplateGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<DataGrid Grid.Row="0" ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Название" Width="*">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-										<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Примечание" Binding="{Binding GuardZone.Description}" Width="*" />
-					</DataGrid.Columns>
-				</DataGrid>
-				<StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}">
-					<CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
-					<CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
-				</StackPanel>
-			</Grid>
-		</TabItem>
 	</TabControl>
 </UserControl>

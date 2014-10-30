@@ -1074,3 +1074,23 @@ BEGIN
 	ALTER TABLE Card ALTER COLUMN Number nvarchar(50) NOT NULL
 	INSERT INTO Patches (Id) VALUES ('CardNoString')
 END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CreateGKMetadata')
+BEGIN
+	CREATE TABLE [dbo].[GKMetadata](
+	[IPAddress] [nvarchar](50) NOT NULL,
+	[SerialNo] [nvarchar](50) NOT NULL,
+	[LastJournalNo] [int] NOT NULL,
+	[LastUserNo] [int] NOT NULL
+	)
+	ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('CreateGKMetadata')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEventNamesAndDescriptions')
+BEGIN
+	DROP TABLE EventNames
+	DROP TABLE EventDescriptions
+	DROP TABLE GuardZone
+	INSERT INTO Patches (Id) VALUES ('RemoveEventNamesAndDescriptions')
+END

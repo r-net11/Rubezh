@@ -63,20 +63,17 @@ namespace SKDModule.ViewModels
 				{
 					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
-					OrganisationGuardZonesViewModel = new OrganisationGuardZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
 				}
 				else
 				{
 					OrganisationZonesViewModel = null;
 					OrganisationDoorsViewModel = null;
-					OrganisationGuardZonesViewModel = null;
 					OrganisationUsersViewModel = null;
 				}
 
 				HasOrganisationZones = OrganisationZonesViewModel != null && OrganisationZonesViewModel.Items.Count > 0;
 				HasOrganisationDoors = OrganisationDoorsViewModel != null && OrganisationDoorsViewModel.Items.Count > 0;
-				HasOrganisationGuardZones = OrganisationGuardZonesViewModel != null && OrganisationGuardZonesViewModel.Items.Count > 0;
 			}
 		}
 
@@ -99,17 +96,6 @@ namespace SKDModule.ViewModels
 			{
 				_OrganisationDoorsViewModel = value;
 				OnPropertyChanged(() => OrganisationDoorsViewModel);
-			}
-		}
-
-		OrganisationGuardZonesViewModel _organisationGuardZonesViewModel;
-		public OrganisationGuardZonesViewModel OrganisationGuardZonesViewModel
-		{
-			get { return _organisationGuardZonesViewModel; }
-			set
-			{
-				_organisationGuardZonesViewModel = value;
-				OnPropertyChanged(() => OrganisationGuardZonesViewModel);
 			}
 		}
 
@@ -143,17 +129,6 @@ namespace SKDModule.ViewModels
 			{
 				_hasOrganisationDoors = value;
 				OnPropertyChanged(() => HasOrganisationDoors);
-			}
-		}
-
-		bool _hasOrganisationGuardZones;
-		public bool HasOrganisationGuardZones
-		{
-			get { return _hasOrganisationGuardZones; }
-			set
-			{
-				_hasOrganisationGuardZones = value;
-				OnPropertyChanged(() => HasOrganisationGuardZones);
 			}
 		}
 
@@ -242,7 +217,6 @@ namespace SKDModule.ViewModels
 		{
 			OrganisationZonesViewModel.CanSelect = canSelect;
 			OrganisationDoorsViewModel.CanSelect = canSelect;
-			OrganisationGuardZonesViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
 		}
 	}

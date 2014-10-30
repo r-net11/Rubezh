@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 						OnPropertyChanged(() => IsChecked);
 						return;
 					}
-					if (Organisation.DoorUIDs.Contains(Door.UID))
+					if (Organisation.DoorUIDs.Contains(DoorUID))
 					{
 						Organisation.DoorUIDs.Remove(DoorUID);
 					}
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 			var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
 			if (accessTemplates == null)
 				return false;
-			return accessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == Door.UID));
+			return accessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID));
 		}
 	}
 }

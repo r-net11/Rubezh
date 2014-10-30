@@ -184,10 +184,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(item));
 		}
-		public OperationResult SaveOrganisationGuardZones(Organisation item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationGuardZones(item));
-		}
 		public OperationResult SaveOrganisationUsers(Organisation item)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationUsers(item));

@@ -288,7 +288,6 @@
     <Compile Include="XModels\Guard\GKGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\GKGuardZone.cs" />
-    <Compile Include="XModels\Guard\GKGuardZoneAccess.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />
     <Compile Include="Models\Binary\BinaryDirection.cs" />

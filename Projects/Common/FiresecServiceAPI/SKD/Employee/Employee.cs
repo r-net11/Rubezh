@@ -13,7 +13,6 @@ namespace FiresecAPI.SKD
 		{
 			Cards = new List<SKDCard>();
 			AdditionalColumns = new List<AdditionalColumn>();
-			GuardZoneAccesses = new List<GKGuardZoneAccess>();
 		}
 
 		[DataMember]
@@ -93,9 +92,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public EmployeeDocumentType DocumentType { get; set; }
-
-		[DataMember]
-		public List<GKGuardZoneAccess> GuardZoneAccesses { get; set; }
 
 		[DataMember]
 		public string Phone { get; set; }

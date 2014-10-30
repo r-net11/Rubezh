@@ -33,7 +33,6 @@ namespace SKDDriver
 			result.DoorUIDs = Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID).Select(x => x.DoorUID).ToList();
 			result.ZoneUIDs = Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID).Select(x => x.ZoneUID).ToList();
 			result.UserUIDs = Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID).Select(x => x.UserUID).ToList();
-			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
 			result.ChiefUID = tableItem.ChiefUID;
 			result.HRChiefUID = tableItem.HRChiefUID;
 			result.Phone = tableItem.Phone;
@@ -163,7 +162,6 @@ namespace SKDDriver
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
-						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList(),
 						ChiefUID = tableItem.ChiefUID,
 						HRChiefUID = tableItem.HRChiefUID,
 						Phone = tableItem.Phone
@@ -204,7 +202,6 @@ namespace SKDDriver
 					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
 					tableOrganisationDoor.UID = Guid.NewGuid();
 					tableOrganisationDoor.OrganisationUID = organisationUID;
-					tableOrganisationZone.DoorUID = doorUID;
 					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
 				}
 
@@ -255,39 +252,6 @@ namespace SKDDriver
 					tableOrganisationZone.OrganisationUID = organisationUID;
 					tableOrganisationZone.ZoneUID = zoneUID;
 					Context.OrganisationZones.InsertOnSubmit(tableOrganisationZone);
-				}
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
-		}
-
-		public OperationResult SaveGuardZones(Organisation apiItem)
-		{
-			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
-		}
-
-		public OperationResult SaveGuardZones(OrganisationDetails apiItem)
-		{
-			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
-		}
-
-		OperationResult SaveGuardZonesInternal(Guid organisationUID, List<Guid> GuardZoneUIDs)
-		{
-			try
-			{
-				var tableOrganisationGuardZones = Context.GuardZones.Where(x => x.ParentUID == organisationUID);
-				Context.GuardZones.DeleteAllOnSubmit(tableOrganisationGuardZones);
-				foreach (var GuardZoneUID in GuardZoneUIDs)
-				{
-					var tableOrganisationGuardZone = new DataAccess.GuardZone();
-					tableOrganisationGuardZone.UID = Guid.NewGuid();
-					tableOrganisationGuardZone.ParentUID = organisationUID;
-					tableOrganisationGuardZone.ZoneUID = GuardZoneUID;
-					Context.GuardZones.InsertOnSubmit(tableOrganisationGuardZone);
 				}
 				Table.Context.SubmitChanges();
 			}
@@ -369,9 +333,6 @@ namespace SKDDriver
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
-			var saveGuardZonesResult = SaveGuardZones(apiItem);
-			if (saveGuardZonesResult.HasError)
-				return saveGuardZonesResult;
 			var saveUsersResult = SaveUsers(apiItem);
 			if (saveUsersResult.HasError)
 				return saveUsersResult;

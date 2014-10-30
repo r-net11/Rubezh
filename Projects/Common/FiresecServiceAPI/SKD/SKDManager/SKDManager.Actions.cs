@@ -143,7 +143,6 @@ namespace FiresecAPI.SKD
 			}
 
 			SKDManager.SKDConfiguration.Doors.Remove(door);
-			door.OnChanged();
 		}
 
 		public static bool ValidateIPAddress(string address)
