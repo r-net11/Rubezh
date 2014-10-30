@@ -27,7 +27,7 @@ namespace ChinaSKDDriver
 				}
 				else
 				{
-					return new OperationResult<SKDDeviceInfo>("Ошибка при запросе инфиормации о версии из контроллера");
+					return new OperationResult<SKDDeviceInfo>("Ошибка при запросе информации о версии из контроллера");
 				}
 
 				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();

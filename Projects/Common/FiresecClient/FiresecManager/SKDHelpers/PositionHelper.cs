@@ -15,12 +15,12 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(ShortPosition item)
 		{
-			return Restore(item.UID, item.Name);
+			return MarkDeleted(item.UID, item.Name);
 		}
 
 		public static bool Restore(ShortPosition item)
 		{
-			return MarkDeleted(item.UID, item.Name);
+			return Restore(item.UID, item.Name); 
 		}
 
 		public static bool MarkDeleted(Guid uid, string name)

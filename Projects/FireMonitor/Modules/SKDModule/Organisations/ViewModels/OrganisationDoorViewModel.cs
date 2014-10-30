@@ -36,7 +36,13 @@ namespace SKDModule.ViewModels
 						MessageBoxService.Show("Операция запрещена\nСуществуют карты, привязанные к данной точке доступа");
 						OnPropertyChanged(() => IsChecked);
 						return;
-					}	
+					}
+					if (HasLinkedAccessTemplates())
+					{
+						MessageBoxService.Show("Операция запрещена\nСуществуют шаблоны доступа, привязанные к данной точке доступа");
+						OnPropertyChanged(() => IsChecked);
+						return;
+					}
 					if (Organisation.DoorUIDs.Contains(Door.UID))
 					{
 						Organisation.DoorUIDs.Remove(Door.UID);
@@ -54,6 +60,14 @@ namespace SKDModule.ViewModels
 			if (cards == null)
 				return false;
 			return cards.Any(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == Door.UID));
+		}
+
+		bool HasLinkedAccessTemplates()
+		{
+			var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
+			if (accessTemplates == null)
+				return false;
+			return accessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == Door.UID));
 		}
 	}
 }

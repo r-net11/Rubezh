@@ -73,7 +73,16 @@ namespace SKDModule.ViewModels
 			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
-		public bool IsWithDeleted { get; private set;}
+		bool _isWithDeleted;
+		public bool IsWithDeleted 
+		{
+			get { return _isWithDeleted; }
+			set
+			{
+				_isWithDeleted = value;
+				OnPropertyChanged(() => IsWithDeleted);
+			}
+		}
 
 		protected virtual bool InitializeOrganisations(TFilter filter)
 		{
@@ -202,17 +211,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<TViewModel> _organisations;
-		public ObservableCollection<TViewModel> Organisations 
-		{
-			get { return _organisations; } 
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged(() => Organisations);
-			}
-		}
-
+		public ObservableCollection<TViewModel> Organisations { get; private set; }
+		
 		TViewModel _selectedItem;
 		public TViewModel SelectedItem
 		{
@@ -350,8 +350,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		protected virtual void OnCopy()
 		{
-			_clipboard = CopyModel(SelectedItem.Model);
-			_clipboardUID = SelectedItem.Model.UID;
+			if (SelectedItem.Name.Length > 46)
+			{
+				MessageBoxService.Show("Наименование копируемой записи должно быть короче 47 символов");
+			}
+			else
+			{
+				_clipboard = CopyModel(SelectedItem.Model);
+				_clipboardUID = SelectedItem.Model.UID;
+			}
 		}
 		protected virtual bool CanCopy()
 		{
@@ -361,7 +368,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		protected virtual void OnPaste()
 		{
-			var newItem = _clipboard;
+			var newItem = CopyModel(_clipboard);
 			newItem.Name = CopyHelper.CopyName(newItem.Name, ParentOrganisation.Children.Select(x => x.Name));
 			newItem.OrganisationUID = ParentOrganisation.Organisation.UID;
 			if (Add(newItem))

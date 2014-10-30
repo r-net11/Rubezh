@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
     <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
+    <Compile Include="Events\ChangeEmployeeGuestEvent.cs" />
     <Compile Include="Events\ChangeIsDeletedEvent.cs" />
     <Compile Include="Events\EditEmployeeEvent.cs" />
     <Compile Include="Events\EditEmployeePositionDepartmentEvent.cs" />

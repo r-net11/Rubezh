@@ -257,7 +257,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTextColumn Header="Описание" Binding="{Binding GuardZone.Description}" Width="*" />
+                        <DataGridTextColumn Header="Примечание" Binding="{Binding GuardZone.Description}" Width="*" />
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}" Margin="0 4 0 0">

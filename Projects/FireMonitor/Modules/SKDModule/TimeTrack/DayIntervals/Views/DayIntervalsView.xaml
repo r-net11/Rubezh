@@ -37,7 +37,7 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DayIntervalViewModelDescriptionComparer}">
+                        <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DayIntervalViewModelDescriptionComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">

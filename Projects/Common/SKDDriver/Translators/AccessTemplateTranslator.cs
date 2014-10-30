@@ -26,7 +26,7 @@ namespace SKDDriver
 				x.UID != accessTemplate.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
+				return new OperationResult("Шаблон доступа с таким же названием уже содержится в базе данных");
 			else
 				return new OperationResult();
 		}

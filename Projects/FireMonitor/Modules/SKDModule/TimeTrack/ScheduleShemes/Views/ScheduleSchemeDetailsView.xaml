@@ -16,7 +16,7 @@
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Описание" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Примечание" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Тип графика" Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}" />
 				<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" 

@@ -14,7 +14,7 @@ namespace SKDModule
 			}
 			if (item.Description != null && item.Description.Length > 50)
 			{
-				MessageBoxService.Show("Значение поля 'Описание' не может быть длиннее 4000 символов");
+				MessageBoxService.Show("Значение поля 'Примечание' не может быть длиннее 50 символов");
 				return false;
 			}
 			return true;
