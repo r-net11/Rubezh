@@ -55,7 +55,7 @@
   <Table Name="dbo.Card" Member="Cards">
     <Type Name="Card">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Number" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="CardType" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -69,7 +69,6 @@
       <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="DeactivationControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="UserTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="GKLevel" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="GKLevelSchedule" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
@@ -85,9 +84,8 @@
       <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="EnterIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ExitIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="EnterScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ExitScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Card_CardDoor" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
@@ -292,7 +290,6 @@
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_OrganisationDoor" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>

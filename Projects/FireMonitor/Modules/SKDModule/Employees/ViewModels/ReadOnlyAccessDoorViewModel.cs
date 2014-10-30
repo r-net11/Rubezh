@@ -20,12 +20,12 @@ namespace SKDModule.ViewModels
 		{
 			PresentationName = door.PresentationName;
 
-			var enterSchedule = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == cardDoor.EnterIntervalID);
+			var enterSchedule = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == cardDoor.EnterScheduleNo);
 			if (enterSchedule != null)
 			{
 				EnerScheduleName = enterSchedule.Name;
 			}
-			var exitSchedule = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == cardDoor.ExitIntervalID);
+			var exitSchedule = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == cardDoor.ExitScheduleNo);
 			if (exitSchedule != null)
 			{
 				ExitScheduleName = exitSchedule.Name;
@@ -39,12 +39,12 @@ namespace SKDModule.ViewModels
 		{
 			PresentationName = door.PresentationName;
 
-			var enterSchedule = GKManager.DeviceConfiguration.Schedules.FirstOrDefault(x => x.No == cardDoor.EnterIntervalID);
+			var enterSchedule = GKManager.DeviceConfiguration.Schedules.FirstOrDefault(x => x.No == cardDoor.EnterScheduleNo);
 			if (enterSchedule != null)
 			{
 				EnerScheduleName = enterSchedule.Name;
 			}
-			var exitSchedule = GKManager.DeviceConfiguration.Schedules.FirstOrDefault(x => x.No == cardDoor.ExitIntervalID);
+			var exitSchedule = GKManager.DeviceConfiguration.Schedules.FirstOrDefault(x => x.No == cardDoor.ExitScheduleNo);
 			if (exitSchedule != null)
 			{
 				ExitScheduleName = exitSchedule.Name;

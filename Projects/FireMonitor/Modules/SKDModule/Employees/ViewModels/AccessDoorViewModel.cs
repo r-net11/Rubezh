@@ -62,10 +62,10 @@ namespace SKDModule.ViewModels
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterIntervalID);
+				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterScheduleNo);
 				if (SelectedEnterSchedule == null)
 					SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
-				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitIntervalID);
+				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitScheduleNo);
 				if (SelectedExitSchedule == null)
 					SelectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}

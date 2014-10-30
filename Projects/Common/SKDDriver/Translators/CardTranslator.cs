@@ -58,7 +58,6 @@ namespace SKDDriver
 			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty ;
 			result.Password = tableItem.Password;
 			result.UserTime = tableItem.UserTime;
-			result.CardSubsystemType = (CardSubsystemType)tableItem.CardSubsystemType;
 			result.GKLevel = tableItem.GKLevel;
 			result.GKLevelSchedule = tableItem.GKLevelSchedule;
 
@@ -86,7 +85,6 @@ namespace SKDDriver
 			tableItem.Password = apiItem.Password;
 			tableItem.DeactivationControllerUID = apiItem.DeactivationControllerUID;
 			tableItem.UserTime = apiItem.UserTime;
-			tableItem.CardSubsystemType = (byte)apiItem.CardSubsystemType;
 			tableItem.GKLevel = (byte)apiItem.GKLevel;
 			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
 		}
@@ -160,7 +158,7 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
+		public virtual OperationResult<Guid> GetEmployeeByCardNo(string cardNo)
 		{
 			try
 			{

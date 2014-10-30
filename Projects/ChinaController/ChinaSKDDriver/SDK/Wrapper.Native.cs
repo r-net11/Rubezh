@@ -105,12 +105,7 @@ namespace ChinaSKDDriver
 					journalItem.emOpenMethod = item1.emOpenMethod;
 					journalItem.szPwd = item1.szPwd;
 					journalItem.szReaderID = item1.szReaderID;
-
-					int cardNo;
-					if (int.TryParse(item1.szCardNo, NumberStyles.HexNumber, null, out cardNo))
-					{
-						journalItem.CardNo = cardNo;
-					}
+					journalItem.CardNo = item1.szCardNo;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
@@ -142,11 +137,7 @@ namespace ChinaSKDDriver
 					NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO item5 = (NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)));
 					journalItem.DeviceDateTime = NET_TIMEToDateTime(item5.stuTime);
 					journalItem.DoorNo = item5.nDoor;
-
-					if (int.TryParse(item5.szCardNo, out cardNo))
-					{
-						journalItem.CardNo = cardNo;
-					}
+					journalItem.CardNo = item5.szCardNo;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_STATUS:

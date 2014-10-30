@@ -62,8 +62,8 @@ namespace SKDModule.ViewModels
 					var cardDoor = new CardDoor()
 					{
 						DoorUID = door.DoorUID,
-						EnterIntervalID = door.SelectedEnterSchedule != null ? door.SelectedEnterSchedule.ScheduleNo : 0,
-						ExitIntervalID = door.SelectedExitSchedule != null ? door.SelectedExitSchedule.ScheduleNo : 0,
+						EnterScheduleNo = door.SelectedEnterSchedule != null ? door.SelectedEnterSchedule.ScheduleNo : 0,
+						ExitScheduleNo = door.SelectedExitSchedule != null ? door.SelectedExitSchedule.ScheduleNo : 0,
 					};
 					CardDoors.Add(cardDoor);
 				}

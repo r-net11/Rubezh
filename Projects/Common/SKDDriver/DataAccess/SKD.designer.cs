@@ -1548,7 +1548,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private int _Number;
+		private string _Number;
 		
 		private System.Nullable<System.Guid> _EmployeeUID;
 		
@@ -1576,8 +1576,6 @@ namespace SKDDriver.DataAccess
 		
 		private int _UserTime;
 		
-		private byte _CardSubsystemType;
-		
 		private byte _GKLevel;
 		
 		private byte _GKLevelSchedule;
@@ -1598,7 +1596,7 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnNumberChanging(int value);
+    partial void OnNumberChanging(string value);
     partial void OnNumberChanged();
     partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
     partial void OnEmployeeUIDChanged();
@@ -1626,8 +1624,6 @@ namespace SKDDriver.DataAccess
     partial void OnDeactivationControllerUIDChanged();
     partial void OnUserTimeChanging(int value);
     partial void OnUserTimeChanged();
-    partial void OnCardSubsystemTypeChanging(byte value);
-    partial void OnCardSubsystemTypeChanged();
     partial void OnGKLevelChanging(byte value);
     partial void OnGKLevelChanged();
     partial void OnGKLevelScheduleChanging(byte value);
@@ -1664,8 +1660,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
-		public int Number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Number
 		{
 			get
 			{
@@ -1952,26 +1948,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardSubsystemType", DbType="TinyInt NOT NULL")]
-		public byte CardSubsystemType
-		{
-			get
-			{
-				return this._CardSubsystemType;
-			}
-			set
-			{
-				if ((this._CardSubsystemType != value))
-				{
-					this.OnCardSubsystemTypeChanging(value);
-					this.SendPropertyChanging();
-					this._CardSubsystemType = value;
-					this.SendPropertyChanged("CardSubsystemType");
-					this.OnCardSubsystemTypeChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevel", DbType="TinyInt NOT NULL")]
 		public byte GKLevel
 		{
@@ -2190,11 +2166,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _AccessTemplateUID;
 		
-		private int _EnterIntervalID;
+		private int _EnterScheduleNo;
 		
-		private int _ExitIntervalID;
-		
-		private byte _CardSubsystemType;
+		private int _ExitScheduleNo;
 		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
@@ -2212,12 +2186,10 @@ namespace SKDDriver.DataAccess
     partial void OnCardUIDChanged();
     partial void OnAccessTemplateUIDChanging(System.Nullable<System.Guid> value);
     partial void OnAccessTemplateUIDChanged();
-    partial void OnEnterIntervalIDChanging(int value);
-    partial void OnEnterIntervalIDChanged();
-    partial void OnExitIntervalIDChanging(int value);
-    partial void OnExitIntervalIDChanged();
-    partial void OnCardSubsystemTypeChanging(byte value);
-    partial void OnCardSubsystemTypeChanged();
+    partial void OnEnterScheduleNoChanging(int value);
+    partial void OnEnterScheduleNoChanged();
+    partial void OnExitScheduleNoChanging(int value);
+    partial void OnExitScheduleNoChanged();
     #endregion
 		
 		public CardDoor()
@@ -2315,62 +2287,42 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalID", DbType="Int NOT NULL")]
-		public int EnterIntervalID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterScheduleNo", DbType="Int NOT NULL")]
+		public int EnterScheduleNo
 		{
 			get
 			{
-				return this._EnterIntervalID;
+				return this._EnterScheduleNo;
 			}
 			set
 			{
-				if ((this._EnterIntervalID != value))
+				if ((this._EnterScheduleNo != value))
 				{
-					this.OnEnterIntervalIDChanging(value);
+					this.OnEnterScheduleNoChanging(value);
 					this.SendPropertyChanging();
-					this._EnterIntervalID = value;
-					this.SendPropertyChanged("EnterIntervalID");
-					this.OnEnterIntervalIDChanged();
+					this._EnterScheduleNo = value;
+					this.SendPropertyChanged("EnterScheduleNo");
+					this.OnEnterScheduleNoChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalID", DbType="Int NOT NULL")]
-		public int ExitIntervalID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitScheduleNo", DbType="Int NOT NULL")]
+		public int ExitScheduleNo
 		{
 			get
 			{
-				return this._ExitIntervalID;
+				return this._ExitScheduleNo;
 			}
 			set
 			{
-				if ((this._ExitIntervalID != value))
+				if ((this._ExitScheduleNo != value))
 				{
-					this.OnExitIntervalIDChanging(value);
+					this.OnExitScheduleNoChanging(value);
 					this.SendPropertyChanging();
-					this._ExitIntervalID = value;
-					this.SendPropertyChanged("ExitIntervalID");
-					this.OnExitIntervalIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardSubsystemType", DbType="TinyInt NOT NULL")]
-		public byte CardSubsystemType
-		{
-			get
-			{
-				return this._CardSubsystemType;
-			}
-			set
-			{
-				if ((this._CardSubsystemType != value))
-				{
-					this.OnCardSubsystemTypeChanging(value);
-					this.SendPropertyChanging();
-					this._CardSubsystemType = value;
-					this.SendPropertyChanged("CardSubsystemType");
-					this.OnCardSubsystemTypeChanged();
+					this._ExitScheduleNo = value;
+					this.SendPropertyChanged("ExitScheduleNo");
+					this.OnExitScheduleNoChanged();
 				}
 			}
 		}
@@ -6956,8 +6908,6 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _OrganisationUID;
 		
-		private byte _CardSubsystemType;
-		
 		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
@@ -6970,8 +6920,6 @@ namespace SKDDriver.DataAccess
     partial void OnDoorUIDChanged();
     partial void OnOrganisationUIDChanging(System.Guid value);
     partial void OnOrganisationUIDChanged();
-    partial void OnCardSubsystemTypeChanging(byte value);
-    partial void OnCardSubsystemTypeChanged();
     #endregion
 		
 		public OrganisationDoor()
@@ -7040,26 +6988,6 @@ namespace SKDDriver.DataAccess
 					this._OrganisationUID = value;
 					this.SendPropertyChanged("OrganisationUID");
 					this.OnOrganisationUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardSubsystemType", DbType="TinyInt NOT NULL")]
-		public byte CardSubsystemType
-		{
-			get
-			{
-				return this._CardSubsystemType;
-			}
-			set
-			{
-				if ((this._CardSubsystemType != value))
-				{
-					this.OnCardSubsystemTypeChanging(value);
-					this.SendPropertyChanging();
-					this._CardSubsystemType = value;
-					this.SendPropertyChanged("CardSubsystemType");
-					this.OnCardSubsystemTypeChanged();
 				}
 			}
 		}

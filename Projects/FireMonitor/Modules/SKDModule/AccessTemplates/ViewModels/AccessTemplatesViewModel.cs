@@ -35,8 +35,8 @@ namespace SKDModule.ViewModels
 			{
 				var copyCardDoor = new CardDoor();
 				copyCardDoor.DoorUID = cardDoor.DoorUID;
-				copyCardDoor.EnterIntervalID = cardDoor.EnterIntervalID;
-				copyCardDoor.ExitIntervalID = cardDoor.ExitIntervalID;
+				copyCardDoor.EnterScheduleNo = cardDoor.EnterScheduleNo;
+				copyCardDoor.ExitScheduleNo = cardDoor.ExitScheduleNo;
 				copyCardDoor.CardUID = null;
 				copyCardDoor.AccessTemplateUID = null;
 				copy.CardDoors.Add(copyCardDoor);
