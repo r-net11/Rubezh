@@ -19,9 +19,13 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
+		[XmlIgnore]
 		public GKDevice EnterDevice { get; set; }
+		[XmlIgnore]
 		public GKDevice ExitDevice { get; set; }
+		[XmlIgnore]
 		public GKDevice LockDevice { get; set; }
+		[XmlIgnore]
 		public GKDevice LockControlDevice { get; set; }
 
 		/// <summary>
