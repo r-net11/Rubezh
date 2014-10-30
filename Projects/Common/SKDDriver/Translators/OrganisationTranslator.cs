@@ -188,7 +188,6 @@ namespace SKDDriver
 		{
 			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 		}
-		 
 		public OperationResult SaveDoors(OrganisationDetails apiItem)
 		{
 			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
@@ -202,11 +201,11 @@ namespace SKDDriver
 				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
 				foreach (var doorUID in doorUIDs)
 				{
-					var tableOrganisationZone = new DataAccess.OrganisationDoor();
-					tableOrganisationZone.UID = Guid.NewGuid();
-					tableOrganisationZone.OrganisationUID = organisationUID;
+					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
+					tableOrganisationDoor.UID = Guid.NewGuid();
+					tableOrganisationDoor.OrganisationUID = organisationUID;
 					tableOrganisationZone.DoorUID = doorUID;
-					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationZone);
+					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
 				}
 
 				Table.Context.SubmitChanges();

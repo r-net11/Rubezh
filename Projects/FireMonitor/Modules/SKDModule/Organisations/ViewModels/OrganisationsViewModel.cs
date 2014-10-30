@@ -73,6 +73,10 @@ namespace SKDModule.ViewModels
 					OrganisationGuardZonesViewModel = null;
 					OrganisationUsersViewModel = null;
 				}
+
+				HasOrganisationZones = OrganisationZonesViewModel != null && OrganisationZonesViewModel.Items.Count > 0;
+				HasOrganisationDoors = OrganisationDoorsViewModel != null && OrganisationDoorsViewModel.Items.Count > 0;
+				HasOrganisationGuardZones = OrganisationGuardZonesViewModel != null && OrganisationGuardZonesViewModel.Items.Count > 0;
 			}
 		}
 
@@ -117,6 +121,39 @@ namespace SKDModule.ViewModels
 			{
 				_organisationUsersViewModel = value;
 				OnPropertyChanged(() => OrganisationUsersViewModel);
+			}
+		}
+
+		bool _hasOrganisationZones;
+		public bool HasOrganisationZones
+		{
+			get { return _hasOrganisationZones; }
+			set
+			{
+				_hasOrganisationZones = value;
+				OnPropertyChanged(() => HasOrganisationZones);
+			}
+		}
+
+		bool _hasOrganisationDoors;
+		public bool HasOrganisationDoors
+		{
+			get { return _hasOrganisationDoors; }
+			set
+			{
+				_hasOrganisationDoors = value;
+				OnPropertyChanged(() => HasOrganisationDoors);
+			}
+		}
+
+		bool _hasOrganisationGuardZones;
+		public bool HasOrganisationGuardZones
+		{
+			get { return _hasOrganisationGuardZones; }
+			set
+			{
+				_hasOrganisationGuardZones = value;
+				OnPropertyChanged(() => HasOrganisationGuardZones);
 			}
 		}
 

@@ -152,7 +152,6 @@
     <Compile Include="Converters\NullableTimeToStringConverter.cs" />
     <Compile Include="Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
-    <Compile Include="Converters\XSubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
     <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
@@ -1319,6 +1318,48 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_Valve_KVMV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Arithmetics.png" />
+    <Resource Include="StepIcons\Step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\SetValue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\IncrementValue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\FindObjects.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\Random.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\AddJournalItem.png" />
+    <Resource Include="StepIcons\Break.png" />
+    <Resource Include="StepIcons\ChangeList.png" />
+    <Resource Include="StepIcons\CheckPermission.png" />
+    <Resource Include="StepIcons\Continue.png" />
+    <Resource Include="StepIcons\Control.png" />
+    <Resource Include="StepIcons\ControlVisual.png" />
+    <Resource Include="StepIcons\Equal.png" />
+    <Resource Include="StepIcons\Exit.png" />
+    <Resource Include="StepIcons\For.png" />
+    <Resource Include="StepIcons\GetJournalItem.png" />
+    <Resource Include="StepIcons\GetListCount.png" />
+    <Resource Include="StepIcons\GetListItem.png" />
+    <Resource Include="StepIcons\GetObjectProperty.png" />
+    <Resource Include="StepIcons\package_system.png" />
+    <Resource Include="StepIcons\Pause.png" />
+    <Resource Include="StepIcons\PlaySound.png" />
+    <Resource Include="StepIcons\ProcedureSelection.png" />
+    <Resource Include="StepIcons\SendEmail.png" />
+    <Resource Include="StepIcons\ShowMessage.png" />
+    <Resource Include="StepIcons\While.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BText.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

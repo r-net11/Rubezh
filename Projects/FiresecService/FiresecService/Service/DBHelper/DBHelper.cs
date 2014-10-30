@@ -109,7 +109,6 @@ namespace FiresecService
 		{
 			if (ArchivePortionReady != null)
 				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
-			UpdateNamesDescriptions(journalItems);
 			journalItems.Clear();
 		}
 

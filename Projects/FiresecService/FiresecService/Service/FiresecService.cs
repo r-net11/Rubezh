@@ -99,8 +99,8 @@ namespace FiresecService.Service
 				{
 					if (FiresecService.CurrentThread != null)
 					{
-						FiresecDB.DatabaseHelper.IsAbort = true;
-						CurrentThread.Join();
+						DBHelper.IsAbort = true;
+						CurrentThread.Join(TimeSpan.FromSeconds(2));
 						CurrentThread = null;
 					}
 				}

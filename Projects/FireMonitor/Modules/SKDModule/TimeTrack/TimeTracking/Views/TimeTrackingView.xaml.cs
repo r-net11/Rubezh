@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using SKDModule.ViewModels;
 using System.Reflection;
+using System.Windows.Media;
 
 namespace SKDModule.Views
 {
@@ -35,7 +36,6 @@ namespace SKDModule.Views
 
 				var column = new DataGridTemplateColumn()
 				{
-					Header = date.ToString("dd MM"),
 					Width = 60,
 					CanUserResize = false,
 					CanUserSort = false,
@@ -44,9 +44,43 @@ namespace SKDModule.Views
 						VisualTree = factory,
 					},
 				};
+
+				var textBlock = new TextBlock();
+				textBlock.Text = date.ToString("dd MM");
+				textBlock.ToolTip = DayOfWeekToString(date.DayOfWeek);
+				if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+				{
+					textBlock.Foreground = Brushes.DarkGray;
+				}
+				textBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+				textBlock.FontWeight = FontWeights.Bold;
+				column.Header = textBlock;
+
 				grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
+		}
+
+		string DayOfWeekToString(DayOfWeek dayOfWeek)
+		{
+			switch (dayOfWeek)
+			{
+				case DayOfWeek.Sunday:
+					return "Воскресенье";
+				case DayOfWeek.Monday:
+					return "Понедельник";
+				case DayOfWeek.Tuesday:
+					return "Вторник";
+				case DayOfWeek.Wednesday:
+					return "Среда";
+				case DayOfWeek.Thursday:
+					return "Четверг";
+				case DayOfWeek.Friday:
+					return "Пятница";
+				case DayOfWeek.Saturday:
+					return "Суббота";
+			}
+			return "";
 		}
 	}
 

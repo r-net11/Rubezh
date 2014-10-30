@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -20,9 +21,14 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
+		public bool HasGK { get; private set; }
+		public bool HasSKD { get; private set; }
 		
 		public EmployeeCardDetailsViewModel(Organisation organisation, PersonType personType, SKDCard card = null)
 		{
+			HasGK = GKManager.Devices.Count > 1;
+			HasSKD = SKDManager.Devices.Count > 1;
+
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
 			ShowUSBCardReaderCommand = new RelayCommand(OnShowUSBCardReader);
@@ -35,7 +41,7 @@ namespace SKDModule.ViewModels
 				Title = "Создание пропуска";
 				card = new SKDCard()
 				{
-					Number = 0,
+					Number = "",
 					StartDate = DateTime.Now,
 					EndDate = DateTime.Now.AddYears(1)
 				};
@@ -49,6 +55,8 @@ namespace SKDModule.ViewModels
 			Password = Card.Password;
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
+			GKLevel = Card.GKLevel;
+			GKLevelSchedule = Card.GKLevelSchedule;
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
@@ -83,8 +91,8 @@ namespace SKDModule.ViewModels
 			SelectedCardType = Card.CardType;
 		}
 
-		int _number;
-		public int Number
+		string _number;
+		public string Number
 		{
 			get { return _number; }
 			set
@@ -166,6 +174,28 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		int _gkLevel;
+		public int GKLevel
+		{
+			get { return _gkLevel; }
+			set
+			{
+				_gkLevel = value;
+				OnPropertyChanged(() => GKLevel);
+			}
+		}
+
+		int _gkLevelSchedule;
+		public int GKLevelSchedule
+		{
+			get { return _gkLevelSchedule; }
+			set
+			{
+				_gkLevelSchedule = value;
+				OnPropertyChanged(() => GKLevelSchedule);
+			}
+		}
+
 		int _userTime;
 		public int UserTime
 		{
@@ -179,7 +209,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanSetUserTime
 		{
-			get { return SelectedCardType == CardType.OneTime; }
+			get { return HasSKD && SelectedCardType == CardType.OneTime; }
 		}
 
 		Guid DeactivationControllerUID;
@@ -214,7 +244,7 @@ namespace SKDModule.ViewModels
 			{
 				_useStopList = value;
 				OnPropertyChanged(() => UseStopList);
-				Number = 0;
+				Number = "";
 				UpdateStopListCard();
 			}
 		}
@@ -266,7 +296,7 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
 				{
-					if (journalItem.CardNo > 0)
+					if (!string.IsNullOrEmpty(journalItem.CardNo))
 					{
 						Number = journalItem.CardNo;
 					}
@@ -352,11 +382,27 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 			}
-			if(Number <= 0)
+
+			if(string.IsNullOrEmpty(Number))
 			{
-				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах от 1 до " + Int32.MaxValue.ToString());
+				MessageBoxService.ShowWarning("Не задан номер карты");
 				return false;
 			}
+			if(Number.Length > 10)
+			{
+				MessageBoxService.ShowWarning("Номер карты должен быть менее десяти символов");
+				return false;
+			}
+
+			foreach (var с in Number.ToCharArray())
+			{
+				if (!CheckChar(с))
+				{
+					MessageBoxService.ShowWarning("Номер карты содержит недопустимый символ");
+					return false;
+				}
+			}
+
 			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
 			{
 				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
@@ -374,6 +420,18 @@ namespace SKDModule.ViewModels
 				}
 			}
 
+			if (GKLevel < 0 || GKLevel > 255)
+			{
+				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
+				return false;
+			}
+
+			if (GKLevelSchedule < 0 || GKLevelSchedule > 255)
+			{
+				MessageBoxService.ShowWarning("Номер графика должен быть в пределах от 0 до 255");
+				return false;
+			}
+
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				Card.UID = SelectedStopListCard.UID;
@@ -385,6 +443,8 @@ namespace SKDModule.ViewModels
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
+			Card.GKLevel = GKLevel;
+			Card.GKLevelSchedule = GKLevelSchedule;
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
@@ -407,6 +467,37 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 			return true;
+		}
+
+		bool CheckChar(char c)
+		{
+			switch(c)
+			{
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'a':
+				case 'A':
+				case 'b':
+				case 'B':
+				case 'c':
+				case 'C':
+				case 'd':
+				case 'D':
+				case 'e':
+				case 'E':
+				case 'f':
+				case 'F':
+					return true;
+			}
+			return false;
 		}
 	}
 }

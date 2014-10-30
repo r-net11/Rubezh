@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using FiresecAPI.Models.Layouts;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -9,7 +11,7 @@ namespace Infrastructure.Common.Services.Layout
 		public const string IconPath = "/Controls;component/Images/";
 		public Converter<ILayoutProperties, BaseLayoutPartViewModel> Factory { get; set; }
 
-		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null)
+		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null, IEnumerable<LayoutPartProperty> properties = null)
 		{
 			Group = group;
 			UID = uid;
@@ -23,6 +25,11 @@ namespace Infrastructure.Common.Services.Layout
 			{
 				PreferedSize = new Size(100, 100)
 			};
+			Properties = properties ?? Enumerable.Empty<LayoutPartProperty>();
+		}
+		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, params LayoutPartProperty[] properties)
+			: this(group, uid, index, name, description, iconName, true, null, properties)
+		{
 		}
 
 		#region ILayoutPartDescription Members
@@ -35,6 +42,7 @@ namespace Infrastructure.Common.Services.Layout
 		public bool AllowMultiple { get; private set; }
 		public LayoutPartSize Size { get; private set; }
 		public LayoutPartDescriptionGroup Group { get; private set; }
+		public IEnumerable<LayoutPartProperty> Properties { get; private set; }
 
 		public BaseLayoutPartViewModel CreateContent(ILayoutProperties properties)
 		{

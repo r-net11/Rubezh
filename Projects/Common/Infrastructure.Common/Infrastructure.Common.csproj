@@ -186,7 +186,10 @@
     <Compile Include="Services\Layout\ILayoutPartContent.cs" />
     <Compile Include="Services\Layout\LayoutPartContainerCollection.cs" />
     <Compile Include="Services\Layout\LayoutPartDescriptionGroup.cs" />
+    <Compile Include="Services\Layout\LayoutPartProperty.cs" />
+    <Compile Include="Services\Layout\LayoutPartPropertyAccess.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
+    <Compile Include="Services\Layout\LayoutPartPropertyType.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Video\MjpegCamera.cs" />
     <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">

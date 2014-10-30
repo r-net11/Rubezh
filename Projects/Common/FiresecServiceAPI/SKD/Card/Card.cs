@@ -9,12 +9,13 @@ namespace FiresecAPI.SKD
 	{
 		public SKDCard()
 		{
+			Number = "";
 			CardDoors = new List<CardDoor>();
 			CardType = CardType.Constant;
 		}
 
 		[DataMember]
-		public int Number { get; set; }
+		public string Number { get; set; }
 
 		[DataMember]
 		public Guid? HolderUID { get; set; }
@@ -57,5 +58,11 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
+
+		[DataMember]
+		public int GKLevel { get; set; }
+
+		[DataMember]
+		public int GKLevelSchedule { get; set; }
 	}
 }

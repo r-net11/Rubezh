@@ -519,5 +519,17 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
 		Внесение_оправдательного_документа,
+
+		[EventName(JournalSubsystemType.GK, "Открыто", XStateClass.On)]
+		Открыто,
+
+		[EventName(JournalSubsystemType.GK, "Закрыто", XStateClass.Off)]
+		Закрыто,
+
+		[EventName(JournalSubsystemType.GK, "Открытие", XStateClass.On)]
+		Открытие,
+
+		[EventName(JournalSubsystemType.GK, "Закрытие", XStateClass.Off)]
+		Закрытие,
 	}
 }

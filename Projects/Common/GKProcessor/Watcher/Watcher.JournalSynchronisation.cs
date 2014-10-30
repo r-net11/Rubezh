@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -10,6 +11,11 @@ namespace GKProcessor
 	{
 		public bool ReadMissingJournalItems()
 		{
+
+
+			return true;
+
+
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
 			if (localLastDBNo == -1)
@@ -25,7 +31,7 @@ namespace GKProcessor
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
-				var journalItems = new List<GKJournalItem>();
+				var journalItems = new List<JournalItem>();
 				for (int index = localLastDBNo; index <= remoteLastId; index++)
 				{
 					LastUpdateTime = DateTime.Now;
@@ -38,16 +44,16 @@ namespace GKProcessor
 						break;
 					}
 
-					var journalItem = ReadJournal(index);
-					if (journalItem != null)
+					var journaParser = ReadJournal(index);
+					if (journaParser != null)
 					{
 						GKProcessorManager.DoProgress((index - localLastDBNo).ToString() + " из " + (remoteLastId - localLastDBNo).ToString(), progressCallback);
 
-						journalItems.Add(journalItem);
+						journalItems.Add(journaParser.JournalItem);
 						if (journalItems.Count > 100)
 						{
 							AddJournalItems(journalItems);
-							journalItems = new List<GKJournalItem>();
+							journalItems = new List<JournalItem>();
 						}
 					}
 				}

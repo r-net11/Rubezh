@@ -43,5 +43,8 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid CamerasList = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");
 		public static readonly Guid CameraVideo = new Guid("{6B780C39-A017-4B34-90B8-D7717918D13A}");
 		public static readonly Guid MultiCamera = new Guid("{521F0B43-C0D3-47CB-9C8B-CB5B7C8FF39C}");
+
+		public static readonly Guid TextBlock = new Guid("{20D4D1EC-C676-488D-9CDA-17002E82E891}");
+		public static readonly Guid TextBox = new Guid("{5F6051A8-CAFA-48E2-977E-9A018175A15D}");
 	}
 }

@@ -1003,34 +1003,35 @@ BEGIN
 	CREATE INDEX EmployeePosUIDIndex ON Employee([PositionUID])
 	INSERT INTO Patches (Id) VALUES ('Add_Indexes')
 END
---GO
---IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Organisation_HRChief')
---BEGIN
---	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
---	BEGIN
---		DECLARE @Command nvarchar(1000)
---		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP CONSTRAINT' + d.name
---		 FROM sys.tables t   
---		  JOIN sys.default_constraints d       
---		   ON d.parent_object_id = t.object_id  
---		  JOIN sys.columns c      
---		   ON c.object_id = t.object_id      
---			AND c.column_id = d.parent_column_id
---		 WHERE t.name = N'Department'
---		  AND c.name = N'HRChiefUID'
---		EXECUTE (@Command)
---		ALTER TABLE Department DROP COLUMN HRChiefUID
---	END
---	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
---	BEGIN
---		ALTER TABLE Organisation ADD [HRChiefUID] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
---		ALTER TABLE [dbo].Organisation WITH NOCHECK ADD CONSTRAINT [FK_Organisation_Employee3] FOREIGN KEY([HRChiefUID])
---		REFERENCES [dbo].[Employee] ([Uid]) 
---		NOT FOR REPLICATION
---		ALTER TABLE [dbo].Organisation NOCHECK CONSTRAINT [FK_Organisation_Employee3]
---	END
---	INSERT INTO Patches (Id) VALUES ('Organisation_HRChief')
---END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Organisation_HRChief')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		DECLARE @Command nvarchar(1000)
+		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP ' + d.name
+		 FROM sys.tables t   
+		  JOIN sys.default_constraints d       
+		   ON d.parent_object_id = t.object_id  
+		  JOIN sys.columns c      
+		   ON c.object_id = t.object_id      
+			AND c.column_id = d.parent_column_id
+		 WHERE t.name = N'Department'
+		  AND c.name = N'HRChiefUID'
+		EXECUTE (@Command)
+		ALTER TABLE DEPARTMENT DROP CONSTRAINT FK_Department_Employee3
+		ALTER TABLE Department DROP COLUMN HRChiefUID
+	END
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Organisation')
+	BEGIN
+		ALTER TABLE Organisation ADD [HRChiefUID] uniqueidentifier NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000'
+		ALTER TABLE [dbo].Organisation WITH NOCHECK ADD CONSTRAINT [FK_Organisation_Employee3] FOREIGN KEY([HRChiefUID])
+		REFERENCES [dbo].[Employee] ([Uid]) 
+		NOT FOR REPLICATION
+		ALTER TABLE [dbo].Organisation NOCHECK CONSTRAINT [FK_Organisation_Employee3]
+	END
+	INSERT INTO Patches (Id) VALUES ('Organisation_HRChief')
+END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Journal_Indexes')
 BEGIN
@@ -1041,4 +1042,35 @@ BEGIN
 	CREATE INDEX JournalDescriptionIndex ON Journal([Description])
 	CREATE INDEX JournalObjectUIDIndex ON Journal([ObjectUID])
 	INSERT INTO Patches (Id) VALUES ('Journal_Indexes')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveOrganisationGKDoor')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationGKDoor')
+	BEGIN
+		DROP TABLE OrganisationGKDoor
+	END
+INSERT INTO Patches (Id) VALUES ('RemoveOrganisationGKDoor')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards')
+BEGIN
+	ALTER TABLE Card ADD [GKLevel] [tinyint] NOT NULL CONSTRAINT "Card_GKLevel_Default" DEFAULT 0
+	ALTER TABLE Card ADD [GKLevelSchedule] [tinyint] NOT NULL CONSTRAINT "Card_GKLevelSchedule_Default" DEFAULT 0
+	ALTER TABLE CardDoor DROP COLUMN EnterIntervalType
+	ALTER TABLE CardDoor DROP COLUMN ExitIntervalType
+	INSERT INTO Patches (Id) VALUES ('GKCards')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameCardDoorIntervals')
+BEGIN
+	EXEC sp_rename 'CardDoor.EnterIntervalID', 'EnterScheduleNo', 'COLUMN'
+	EXEC sp_rename 'CardDoor.ExitIntervalID', 'ExitScheduleNo', 'COLUMN'
+	INSERT INTO Patches (Id) VALUES ('RenameCardDoorIntervals')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardNoString')
+BEGIN
+	ALTER TABLE Card ALTER COLUMN Number nvarchar(50) NOT NULL
+	INSERT INTO Patches (Id) VALUES ('CardNoString')
 END

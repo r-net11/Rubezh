@@ -48,6 +48,8 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
+			MinIntValue = Int32.MinValue;
+			MaxIntValue = Int32.MaxValue;
 		}
 
 		public void Initialize(Guid uidValue)
@@ -114,6 +116,28 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.IntValue = value;
 				OnPropertyChanged(() => IntValue);
+			}
+		}
+
+		int _minIntValue;
+		public int MinIntValue
+		{
+			get { return _minIntValue; }
+			set
+			{
+				_minIntValue = value;
+				OnPropertyChanged(() => MinIntValue);
+			}
+		}
+
+		int _maxIntValue;
+		public int MaxIntValue
+		{
+			get { return _maxIntValue; }
+			set
+			{
+				_maxIntValue = value;
+				OnPropertyChanged(() => MaxIntValue);
 			}
 		}
 

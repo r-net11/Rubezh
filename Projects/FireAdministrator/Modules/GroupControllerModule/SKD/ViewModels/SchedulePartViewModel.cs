@@ -51,14 +51,14 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			if (Schedule.ScheduleType == GKScheduleType.Dayly)
-			{
-				Name = string.Format("{0}", Index + 1);
-			}
-			else
+			if (Schedule.ScheduleType == GKScheduleType.Weekly)
 			{
 				var dayOfWeekNo = Index % 7;
 				Name = IntToWeekDay(dayOfWeekNo);
+			}
+			else
+			{
+				Name = string.Format("{0}", Index + 1);
 			}
 			_selectedDaySchedule = AvailableDaySchedules.FirstOrDefault(x => x.UID == Schedule.DayScheduleUIDs[Index]);
 			if (_selectedDaySchedule == null)

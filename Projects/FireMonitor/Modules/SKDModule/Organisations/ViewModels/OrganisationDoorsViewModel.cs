@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -7,10 +8,12 @@ namespace SKDModule.ViewModels
 	{
 		public OrganisationDoorsViewModel(Organisation organisation):base(organisation)
 		{
-			var doors = SKDManager.SKDConfiguration.Doors;
-
 			Items = new ObservableCollection<OrganisationDoorViewModel>();
-			foreach (var door in doors)
+			foreach (var door in SKDManager.SKDConfiguration.Doors)
+			{
+				Items.Add(new OrganisationDoorViewModel(Organisation, door));
+			}
+			foreach (var door in GKManager.DeviceConfiguration.Doors)
 			{
 				Items.Add(new OrganisationDoorViewModel(Organisation, door));
 			}

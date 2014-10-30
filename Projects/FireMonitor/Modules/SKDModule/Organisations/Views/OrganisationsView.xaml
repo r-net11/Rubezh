@@ -27,7 +27,7 @@
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}" >
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -43,8 +43,8 @@
 					</StackPanel>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Точки доступа" DataContext="{Binding OrganisationDoorsViewModel}" >
-				<Grid>
+            <TabItem Header="Точки доступа" Visibility="{Binding HasOrganisationDoors, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid DataContext="{Binding OrganisationDoorsViewModel}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
@@ -54,7 +54,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Door.PresentationName}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding PresentationName}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
@@ -65,8 +65,8 @@
 					</StackPanel>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Охранные зоны" DataContext="{Binding OrganisationGuardZonesViewModel}" >
-				<Grid>
+            <TabItem Header="Охранные зоны" Visibility="{Binding HasOrganisationGuardZones, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid DataContext="{Binding OrganisationGuardZonesViewModel}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
@@ -87,8 +87,8 @@
 					</StackPanel>
 				</Grid>
 			</TabItem>
-			<TabItem Header="Зоны СКД" DataContext="{Binding OrganisationZonesViewModel}" >
-				<Grid>
+            <TabItem Header="Зоны СКД" Visibility="{Binding HasOrganisationZones, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid DataContext="{Binding OrganisationZonesViewModel}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />

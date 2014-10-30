@@ -47,7 +47,7 @@
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-													<Image VerticalAlignment="Center" Source="/Controls;component/Images/Step.png" Margin="1 0 0 0" />
+													<Image VerticalAlignment="Center"  Source="{Binding ImageSource}" Margin="1 0 0 0" />
 													<TextBlock VerticalAlignment="Center" Text="{Binding Step.ProcedureStepType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
 												</StackPanel>
 											</ControlTemplate>

@@ -41,6 +41,7 @@ namespace AutomationModule
 
 		public override void Initialize()
 		{
+			ControlVisualStepViewModel.Initialize();
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			SoundsViewModel.Initialize();
 			ProceduresViewModel.Initialize();

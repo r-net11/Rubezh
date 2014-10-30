@@ -107,14 +107,6 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID), "BeginGetFilteredArchive");
 		}
-		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
-		{
-			return SafeContext.Execute<OperationResult<List<JournalEventDescriptionType>>>(() => FiresecService.GetDistinctEventDescriptions());
-		}
-		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
-		{
-			return SafeContext.Execute<OperationResult<List<JournalEventNameType>>>(() => FiresecService.GetDistinctEventNames());
-		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddJournalItem(journalItem));

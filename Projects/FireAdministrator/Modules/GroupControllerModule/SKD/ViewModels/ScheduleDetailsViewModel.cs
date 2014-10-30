@@ -57,6 +57,7 @@ namespace GKModule.ViewModels
 			Name = Schedule.Name;
 			Description = Schedule.Description;
 			StartDateTime = Schedule.StartDateTime;
+			HoursPeriod = Schedule.HoursPeriod;
 		}
 
 		int _no;
@@ -106,6 +107,28 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		int _hoursPeriod;
+		public int HoursPeriod
+		{
+			get { return _hoursPeriod; }
+			set
+			{
+				_hoursPeriod = value;
+				OnPropertyChanged(() => HoursPeriod);
+			}
+		}
+
+		bool _canChangeHoursPeriod;
+		public bool CanChangeHoursPeriod
+		{
+			get { return _canChangeHoursPeriod; }
+			set
+			{
+				_canChangeHoursPeriod = value;
+				OnPropertyChanged(() => CanChangeHoursPeriod);
+			}
+		}
+
 		public ObservableCollection<GKScheduleType> ScheduleTypes { get; private set; }
 
 		GKScheduleType _selectedScheduleType;
@@ -115,6 +138,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedScheduleType = value;
+				CanChangeHoursPeriod = value == GKScheduleType.Custom;
 				OnPropertyChanged(() => SelectedScheduleType);
 			}
 		}
@@ -132,10 +156,24 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
+			if (SelectedScheduleType == GKScheduleType.Custom && HoursPeriod <= 0)
+			{
+				MessageBoxService.Show("Величина периода должна быть положительным числом");
+				return false;
+			}
+
 			Schedule.No = No;
 			Schedule.Name = Name;
 			Schedule.Description = Description;
 			Schedule.StartDateTime = StartDateTime;
+			if (SelectedScheduleType == GKScheduleType.Custom)
+			{
+				Schedule.HoursPeriod = HoursPeriod;
+			}
+			else
+			{
+				Schedule.HoursPeriod = 0;
+			}
 			Schedule.ScheduleType = SelectedScheduleType;
 			return base.Save();
 		}

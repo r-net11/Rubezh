@@ -32,6 +32,12 @@ namespace FiresecAPI.GK
 		public DateTime StartDateTime { get; set; }
 
 		/// <summary>
+		/// Период графика в часах
+		/// </summary>
+		[DataMember]
+		public int HoursPeriod { get; set; }
+
+		/// <summary>
 		/// Список составных идентификаторов дневных графиков
 		/// </summary>
 		[DataMember]

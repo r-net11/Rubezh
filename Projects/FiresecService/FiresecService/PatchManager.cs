@@ -55,7 +55,7 @@ namespace FiresecService
 				//    journalItem.JournalEventNameType = (JournalEventNameType)random.Next(100);
 				//    journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)random.Next(100);
 				//    journalItem.ObjectUID = Guid.NewGuid();
-				//    FiresecService.Service.FiresecServiceManager.SafeFiresecService.AddJournalItem(journalItem);
+				//    DBHelper.Add(journalItem);
 				//}
 			}
 			catch (ConnectionFailureException e)

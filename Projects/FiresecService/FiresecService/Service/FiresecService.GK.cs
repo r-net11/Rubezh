@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
+using FiresecAPI.Journal;
 
 namespace FiresecService.Service
 {
@@ -134,7 +135,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<GKJournalItem> GKReadJournalItem(Guid deviceUID, int no)
+		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -143,7 +144,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<GKJournalItem>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+				return new OperationResult<JournalItem>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 			}
 		}
 
@@ -407,55 +408,13 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Journal
-		public void AddXJournalItem(GKJournalItem journalItem)
+		public void AddXJournalItem(JournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
 			AddGKJournalItem(journalItem);
 			var gkCallbackResult = new GKCallbackResult();
 			gkCallbackResult.JournalItems.Add(journalItem);
 			NotifyGKObjectStateChanged(gkCallbackResult);
-		}
-
-		public List<GKJournalItem> GetGKTopLastJournalItems(int count)
-		{
-			return GKDBHelper.GetGKTopLastJournalItems(count);
-		}
-
-		public void BeginGetGKFilteredArchive(GKArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			if (CurrentThread != null)
-			{
-				GKDBHelper.IsAbort = true;
-				CurrentThread.Join(TimeSpan.FromMinutes(1));
-				CurrentThread = null;
-			}
-			GKDBHelper.IsAbort = false;
-			var thread = new Thread(new ThreadStart((new Action(() =>
-			{
-				GKDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-				GKDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID, false);
-
-			}))));
-			thread.Name = "GK GetFilteredArchive";
-			thread.IsBackground = true;
-			CurrentThread = thread;
-			thread.Start();
-		}
-
-		void DatabaseHelper_ArchivePortionReady(List<GKJournalItem> journalItems, Guid archivePortionUID)
-		{
-			FiresecService.NotifyGKArchiveCompleted(journalItems, archivePortionUID);
-		}
-
-		public List<string> GetDistinctGKJournalNames()
-		{
-			return GKDBHelper.EventNames;
-		}
-
-		public List<string> GetDistinctGKJournalDescriptions()
-		{
-			return GKDBHelper.EventDescriptions;
 		}
 		#endregion
 	}

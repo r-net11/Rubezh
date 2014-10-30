@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using System.IO;
+using Infrastructure;
 using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 
@@ -9,6 +10,7 @@ namespace AutomationModule.ViewModels
 		public ProcedureStep Step { get; private set; }
 		public StepsViewModel StepsViewModel { get; private set; }
 		public Procedure Procedure { get; private set; }
+		public string ImageSource { get; private set; }
 
 		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step, Procedure procedure)
 		{
@@ -16,6 +18,9 @@ namespace AutomationModule.ViewModels
 			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
+			if (!File.Exists(ImageSource))
+				ImageSource = "/Controls;component/StepIcons/Step.png";
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:

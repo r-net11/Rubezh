@@ -254,26 +254,26 @@ namespace GKProcessor
 				return new OperationResult<int>("Устройство недоступно");
 			}
 			var journalParser = new JournalParser(device, sendResult.Bytes);
-			var result = journalParser.JournalItem.GKJournalRecordNo.Value;
+			var result = journalParser.GKJournalRecordNo;
 			return new OperationResult<int>() { Result = result };
 		}
 
-		public static OperationResult<GKJournalItem> GKReadJournalItem(GKDevice device, int no)
+		public static OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
 		{
 			var data = BitConverter.GetBytes(no).ToList();
 			var sendResult = SendManager.Send(device, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<GKJournalItem>("Устройство недоступно");
+				return new OperationResult<JournalItem>("Устройство недоступно");
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<GKJournalItem>() { Result = journalParser.JournalItem };
+				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
 			}
 			else
 			{
-				return new OperationResult<GKJournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
+				return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
 			}
 		}
 
@@ -290,20 +290,139 @@ namespace GKProcessor
 
 		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
 		{
+			var count = 0;
+			foreach (var dayScheduleUID in schedule.DayScheduleUIDs)
+			{
+				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+				if (daySchedule != null)
+				{
+					count += daySchedule.DayScheduleParts.Count;
+				}
+			}
+			var secondsPeriod = schedule.DayScheduleUIDs.Count * 60 * 60 * 24;
+			if (schedule.ScheduleType == GKScheduleType.Custom)
+				secondsPeriod = schedule.HoursPeriod * 60 * 60;
+			if (schedule.ScheduleType == GKScheduleType.NonPeriodic)
+				secondsPeriod = 0;
+
 			var bytes = new List<byte>();
-			var sendResult = SendManager.Send(device, (ushort)bytes.Count, 0, 0, bytes);
-			return new OperationResult<bool>() { HasError = sendResult.HasError, Error = sendResult.Error, Result = !sendResult.HasError };
+			bytes.Add((byte)schedule.No);
+			var nameBytes = BytesHelper.StringDescriptionToBytes(schedule.Name);
+			bytes.AddRange(nameBytes);
+			bytes.Add(0);
+			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(count * 2)));
+			bytes.AddRange(BytesHelper.IntToBytes(secondsPeriod));
+			bytes.Add(0);
+			bytes.Add(0);
+			bytes.Add(0);
+			bytes.Add(0);
+			bytes.Add(0);
+			bytes.Add(0);
+			bytes.Add(0);
+			bytes.Add(0);
+
+			var startDateTime = schedule.StartDateTime;
+			if (schedule.ScheduleType == GKScheduleType.Weekly)
+			{
+				if (startDateTime.DayOfWeek == DayOfWeek.Monday)
+					startDateTime.AddDays(0);
+				if (startDateTime.DayOfWeek == DayOfWeek.Tuesday)
+					startDateTime.AddDays(-1);
+				if (startDateTime.DayOfWeek == DayOfWeek.Wednesday)
+					startDateTime.AddDays(-2);
+				if (startDateTime.DayOfWeek == DayOfWeek.Thursday)
+					startDateTime.AddDays(-3);
+				if (startDateTime.DayOfWeek == DayOfWeek.Friday)
+					startDateTime.AddDays(-4);
+				if (startDateTime.DayOfWeek == DayOfWeek.Saturday)
+					startDateTime.AddDays(-5);
+				if (startDateTime.DayOfWeek == DayOfWeek.Sunday)
+					startDateTime.AddDays(-6);
+			}
+			var timeSpan = startDateTime - new DateTime(2000, 1, 1);
+			var scheduleStartSeconds = timeSpan.TotalSeconds;
+
+			for (int i = 0; i < schedule.DayScheduleUIDs.Count; i++)
+			{
+				var dayScheduleUID = schedule.DayScheduleUIDs[i];
+				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
+				if (daySchedule != null)
+				{
+					foreach (var daySchedulePart in daySchedule.DayScheduleParts)
+					{
+						bytes.AddRange(BytesHelper.ShortToBytes((ushort)(daySchedulePart.StartMilliseconds / 1000)));
+						bytes.AddRange(BytesHelper.ShortToBytes((ushort)(daySchedulePart.EndMilliseconds / 1000)));
+					}
+				}
+			}
+
+			var packs = new List<List<byte>>();
+			for (int packNo = 0; packNo <= bytes.Count / 256; packNo++)
+			{
+				int packLenght = Math.Min(256, bytes.Count - packNo * 256);
+				var packBytes = bytes.Skip(packNo * 256).Take(packLenght).ToList();
+
+				if (packBytes.Count > 0)
+				{
+					var resultBytes = new List<byte>();
+					resultBytes.Add((byte)(packNo));
+					resultBytes.AddRange(packBytes);
+					packs.Add(resultBytes);
+				}
+			}
+
+			foreach (var pack in packs)
+			{
+				var sendResult = SendManager.Send(device, (ushort)(pack.Count), 28, 0, pack);
+				if (sendResult.HasError)
+				{
+					return new OperationResult<bool>(sendResult.Error);
+				}
+			}
+
+			return new OperationResult<bool>() { Result = true };
 		}
 
 		public static OperationResult<GKSchedule> GKGetSchedule(GKDevice device, int no)
 		{
+			var resultBytes = new List<byte>();
+
 			var bytes = new List<byte>();
-			var sendResult = SendManager.Send(device, (ushort)bytes.Count, 0, 0, bytes);
+			bytes.Add(0);
+			bytes.Add(1);
+			var sendResult = SendManager.Send(device, (ushort)bytes.Count, 27, 0, bytes);
 			if (!sendResult.HasError)
 			{
+				if (sendResult.Bytes.Count > 0)
+				{
+					sendResult.Bytes.RemoveAt(0);
+					resultBytes.AddRange(sendResult.Bytes);
+				}
+			}
+
+			if (bytes.Count > 0)
+			{
 				var schedule = new GKSchedule();
+				schedule.No = bytes[0];
+				schedule.Name = BytesHelper.BytesToString(bytes.Skip(1).Take(32).ToList());
+				var holidayScheduleNo = bytes[33];
+				var partsCount = BytesHelper.SubstructShort(bytes, 34) / 2;
+				var duration = BytesHelper.SubstructInt(bytes, 36);
+				var shortScheduleNo = bytes[40];
+
+				var dayScheduleParts = new List<GKDaySchedulePart>();
+				for (int i = 48; i < bytes.Count; i+=4)
+				{
+					var startSeconds = BytesHelper.SubstructShort(bytes, i);
+					var endSeconds = BytesHelper.SubstructShort(bytes, i + 2);
+					var daySchedulePart = new GKDaySchedulePart();
+					daySchedulePart.StartMilliseconds = startSeconds * 1000;
+					daySchedulePart.EndMilliseconds = endSeconds * 1000;
+					dayScheduleParts.Add(daySchedulePart);
+				}
 				return new OperationResult<GKSchedule>() { Result = schedule };
 			}
+
 			return new OperationResult<GKSchedule>("Ошибка");
 		}
 
@@ -460,55 +579,55 @@ namespace GKProcessor
 		public static void AddGKMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType, string description, GKBase gkBase, string userName)
 		{
 			Guid uid = Guid.Empty;
-			var journalObjectType = GKJournalObjectType.System;
+			var journalObjectType = JournalObjectType.None;
 			if (gkBase != null)
 			{
 				uid = gkBase.UID;
 				if (gkBase is GKDevice)
 				{
-					journalObjectType = GKJournalObjectType.Device;
+					journalObjectType = JournalObjectType.GKDevice;
 				}
 				if (gkBase is GKZone)
 				{
-					journalObjectType = GKJournalObjectType.Zone;
+					journalObjectType = JournalObjectType.GKZone;
 				}
 				if (gkBase is GKDirection)
 				{
-					journalObjectType = GKJournalObjectType.Direction;
+					journalObjectType = JournalObjectType.GKDirection;
 				}
 				if (gkBase is GKDelay)
 				{
-					journalObjectType = GKJournalObjectType.Delay;
+					journalObjectType = JournalObjectType.GKDelay;
 				}
 				if (gkBase is GKPim)
 				{
-					journalObjectType = GKJournalObjectType.Pim;
+					journalObjectType = JournalObjectType.GKPim;
 				}
 				if (gkBase is GKGuardZone)
 				{
-					journalObjectType = GKJournalObjectType.GuardZone;
+					journalObjectType = JournalObjectType.GKGuardZone;
 				}
 			}
 
-			var journalItem = new GKJournalItem()
+			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalObjectType = journalObjectType,
-				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
-				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
-				Description = description,
+				NameText = EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				DescriptionText = description,
 				ObjectUID = uid,
-				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
-				SubsystemType = GKSubsystemType.System
+				JournalSubsystemType = JournalSubsystemType.System
 			};
 			if (gkBase != null)
 			{
 				journalItem.ObjectName = gkBase.PresentationName;
-				journalItem.GKObjectNo = (ushort)gkBase.GKDescriptorNo;
+				var gkObjectNo = (ushort)gkBase.GKDescriptorNo;
+				if (gkObjectNo > 0)
+					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkObjectNo.ToString()));
 			}
 
 			GKDBHelper.Add(journalItem);

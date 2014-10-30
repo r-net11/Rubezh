@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -15,13 +16,25 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			CardDoors = cardDoors;
+			if (CardDoors == null)
+				CardDoors = new List<CardDoor>();
 
 			Doors = new ObservableCollection<AccessDoorViewModel>();
-			var organisationDoors = SKDManager.SKDConfiguration.Doors.Where(x => Organisation.DoorUIDs.Any(y => y == x.UID));
-			foreach (var door in organisationDoors)
+			foreach (var door in SKDManager.SKDConfiguration.Doors)
 			{
-				var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
-				Doors.Add(accessDoorViewModel);
+				if (Organisation.DoorUIDs.Any(y => y == door.UID))
+				{
+					var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
+					Doors.Add(accessDoorViewModel);
+				}
+			}
+			foreach (var door in GKManager.DeviceConfiguration.Doors)
+			{
+				if (Organisation.DoorUIDs.Any(y => y == door.UID))
+				{
+					var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
+					Doors.Add(accessDoorViewModel);
+				}
 			}
 			SelectedDoor = Doors.FirstOrDefault(x => x.IsChecked);
 		}
@@ -48,11 +61,9 @@ namespace SKDModule.ViewModels
 				{
 					var cardDoor = new CardDoor()
 					{
-						DoorUID = door.Door.UID,
-						EnterIntervalType = door.SelectedEnterTimeCreteria,
-						EnterIntervalID = door.SelectedEnterTimeType != null ? door.SelectedEnterTimeType.ScheduleID : 0,
-						ExitIntervalType = door.SelectedExitTimeCreteria,
-						ExitIntervalID = door.SelectedExitTimeType != null ? door.SelectedExitTimeType.ScheduleID : 0,
+						DoorUID = door.DoorUID,
+						EnterScheduleNo = door.SelectedEnterSchedule != null ? door.SelectedEnterSchedule.ScheduleNo : 0,
+						ExitScheduleNo = door.SelectedExitSchedule != null ? door.SelectedExitSchedule.ScheduleNo : 0,
 					};
 					CardDoors.Add(cardDoor);
 				}

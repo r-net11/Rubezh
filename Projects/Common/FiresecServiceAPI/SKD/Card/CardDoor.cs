@@ -10,16 +10,10 @@ namespace FiresecAPI.SKD
 		public Guid DoorUID { get; set; }
 
 		[DataMember]
-		public IntervalType EnterIntervalType { get; set; }
+		public int EnterScheduleNo { get; set; }
 
 		[DataMember]
-		public int EnterIntervalID { get; set; }
-
-		[DataMember]
-		public IntervalType ExitIntervalType { get; set; }
-
-		[DataMember]
-		public int ExitIntervalID { get; set; }
+		public int ExitScheduleNo { get; set; }
 
 		[DataMember]
 		public Guid? CardUID { get; set; }

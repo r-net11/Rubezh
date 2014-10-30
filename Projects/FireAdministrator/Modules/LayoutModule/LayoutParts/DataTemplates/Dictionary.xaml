@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:LayoutModule.LayoutParts.ViewModels" xmlns:Views="clr-namespace:LayoutModule.LayoutParts.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartEmptyViewModel}">
+		<Views:LayoutPartEmptyView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartImageViewModel}">
+		<Views:LayoutPartImageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyImagePageViewModel}">
+		<Views:LayoutPartPropertyImagePageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartTemplateContainerViewModel}">
+		<Views:LayoutPartTemplateContainerView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyTemplateContainerPageViewModel}">
+		<Views:LayoutPartPropertyTemplateContainerPageView />
+	</DataTemplate>
+
+</ResourceDictionary>

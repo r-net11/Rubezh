@@ -110,6 +110,7 @@
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
     </Compile>

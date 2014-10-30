@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -80,8 +81,20 @@ namespace GKModule.ViewModels
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel();
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
-				GKManager.DeviceConfiguration.Schedules.Add(scheduleDetailsViewModel.Schedule);
-				var scheduleViewModel = new ScheduleViewModel(scheduleDetailsViewModel.Schedule);
+				var schedule = scheduleDetailsViewModel.Schedule;
+				if (schedule.ScheduleType == GKScheduleType.Weekly)
+				{
+					for (int i = 0; i < 7; i++)
+					{
+						var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault();
+						if (daySchedule != null)
+						{
+							schedule.DayScheduleUIDs.Add(daySchedule.UID);
+						}
+					}
+				}
+				GKManager.DeviceConfiguration.Schedules.Add(schedule);
+				var scheduleViewModel = new ScheduleViewModel(schedule);
 				Schedules.Add(scheduleViewModel);
 				SelectedSchedule = scheduleViewModel;
 				ServiceFactory.SaveService.GKChanged = true;

@@ -58,7 +58,8 @@ namespace SKDDriver
 			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty ;
 			result.Password = tableItem.Password;
 			result.UserTime = tableItem.UserTime;
-
+			result.GKLevel = tableItem.GKLevel;
+			result.GKLevelSchedule = tableItem.GKLevelSchedule;
 
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
@@ -84,6 +85,8 @@ namespace SKDDriver
 			tableItem.Password = apiItem.Password;
 			tableItem.DeactivationControllerUID = apiItem.DeactivationControllerUID;
 			tableItem.UserTime = apiItem.UserTime;
+			tableItem.GKLevel = (byte)apiItem.GKLevel;
+			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
 		}
 
 		public override OperationResult Save(SKDCard card)
@@ -155,7 +158,7 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
+		public virtual OperationResult<Guid> GetEmployeeByCardNo(string cardNo)
 		{
 			try
 			{

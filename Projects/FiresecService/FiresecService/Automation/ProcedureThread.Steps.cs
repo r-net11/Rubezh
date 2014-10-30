@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
@@ -635,6 +634,17 @@ namespace FiresecService
 				return explicitValue1.UidValue == explicitValue2.UidValue;
 			}
 			return false;
+		}
+
+		void ControlVisual(ProcedureStep procedureStep)
+		{
+			var automationCallbackResult = new AutomationCallbackResult();
+			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
+			automationCallbackResult.Message = procedureStep.ControlVisualArguments.LayoutPart.ToString();
+			automationCallbackResult.IsModalWindow = true;
+			automationCallbackResult.ProcedureLayoutCollection = new ProcedureLayoutCollection();
+			automationCallbackResult.ProcedureLayoutCollection.LayoutsUIDs.Add(procedureStep.ControlVisualArguments.Layout);
+			Service.FiresecService.NotifyAutomation(automationCallbackResult);
 		}
 
 		void SetValue(ProcedureStep procedureStep)

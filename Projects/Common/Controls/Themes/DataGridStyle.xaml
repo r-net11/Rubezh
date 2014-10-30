@@ -34,7 +34,7 @@
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="Foreground" Value="White" />
 		<Setter Property="BorderBrush" Value="Black" />
-		<Setter Property="BorderThickness" Value="0,0,0,0" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -50,8 +50,8 @@
 												 SeparatorBrush="{TemplateBinding SeparatorBrush}"
 												 SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
 												 SortDirection="{TemplateBinding SortDirection}">
-							<Border Margin="4,0,4,0" VerticalAlignment="Center" BorderThickness="0" TextBlock.FontFamily="Arial" TextBlock.FontSize="12" TextBlock.FontWeight="Bold">
-								<TextBlock Text="{Binding}" />
+							<Border Margin="4 0" VerticalAlignment="Center" BorderThickness="0" TextBlock.FontFamily="Arial" TextBlock.FontSize="12" TextBlock.FontWeight="Bold">
+                                <ContentPresenter />
 							</Border>
 						</dg:DataGridHeaderBorder>
 						<Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderRightGripperStyle}" />

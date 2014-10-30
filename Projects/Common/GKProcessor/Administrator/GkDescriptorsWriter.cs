@@ -161,7 +161,7 @@ namespace GKProcessor
 				int packLenght = Math.Min(256, descriptor.AllBytes.Count - packNo * 256);
 				var packBytes = descriptor.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-				if (packBytes.Count > 0)// || (descriptor.Device != null && descriptor.Device.DriverType == GKDriverType.Shuv))
+				if (packBytes.Count > 0)
 				{
 					var resultBytes = new List<byte>();
 					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());

@@ -110,13 +110,13 @@
     <Compile Include="LayoutModule.cs" />
     <Compile Include="Validation\LayoutValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
-    <Compile Include="ViewModels\LayoutPartPropertyTemplateContainerPageViewModel.cs" />
-    <Compile Include="ViewModels\LayoutPartTemplateContainerViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyTemplateContainerPageViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartTemplateContainerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsMenuViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionGroupViewModel.cs" />
-    <Compile Include="ViewModels\LayoutPartEmptyViewModel.cs" />
-    <Compile Include="ViewModels\LayoutPartPropertyImagePageViewModel.cs" />
-    <Compile Include="ViewModels\LayoutPartImageViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartEmptyViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyImagePageViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartImageViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyGeneralPageViewModel.cs" />
     <Compile Include="ViewModels\LayoutUpdateStrategy.cs" />
@@ -134,16 +134,16 @@
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
     <Compile Include="ViewModels\IPFilterViewModel.cs" />
     <Compile Include="ViewModels\IPFilterDetailsViewModel.cs" />
-    <Compile Include="Views\LayoutPartPropertyTemplateContainerPageView.xaml.cs">
+    <Compile Include="LayoutParts\Views\LayoutPartPropertyTemplateContainerPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTemplateContainerPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutPartTemplateContainerView.xaml.cs">
+    <Compile Include="LayoutParts\Views\LayoutPartTemplateContainerView.xaml.cs">
       <DependentUpon>LayoutPartTemplateContainerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutPartEmptyView.xaml.cs">
+    <Compile Include="LayoutParts\Views\LayoutPartEmptyView.xaml.cs">
       <DependentUpon>LayoutPartEmptyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutPartImageView.xaml.cs">
+    <Compile Include="LayoutParts\Views\LayoutPartImageView.xaml.cs">
       <DependentUpon>LayoutPartImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartPropertiesView.xaml.cs">
@@ -158,7 +158,7 @@
     <Compile Include="Views\LayoutPartPropertyGeneralPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyGeneralPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutPartPropertyImagePageView.xaml.cs">
+    <Compile Include="LayoutParts\Views\LayoutPartPropertyImagePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyImagePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartView.xaml.cs">
@@ -245,19 +245,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\LayoutPartPropertyTemplateContainerPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LayoutPartTemplateContainerView.xaml">
+    <Page Include="LayoutParts\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\LayoutPartEmptyView.xaml">
+    <Page Include="LayoutParts\Views\LayoutPartPropertyTemplateContainerPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayoutParts\Views\LayoutPartTemplateContainerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\LayoutPartImageView.xaml">
+    <Page Include="LayoutParts\Views\LayoutPartEmptyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LayoutParts\Views\LayoutPartImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,7 +281,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LayoutPartPropertyImagePageView.xaml">
+    <Page Include="LayoutParts\Views\LayoutPartPropertyImagePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,6 +318,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

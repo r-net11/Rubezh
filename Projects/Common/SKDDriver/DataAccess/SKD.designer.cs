@@ -33,6 +33,9 @@ namespace SKDDriver.DataAccess
     partial void InsertAccessTemplate(AccessTemplate instance);
     partial void UpdateAccessTemplate(AccessTemplate instance);
     partial void DeleteAccessTemplate(AccessTemplate instance);
+    partial void InsertTimeTrackException(TimeTrackException instance);
+    partial void UpdateTimeTrackException(TimeTrackException instance);
+    partial void DeleteTimeTrackException(TimeTrackException instance);
     partial void InsertAdditionalColumn(AdditionalColumn instance);
     partial void UpdateAdditionalColumn(AdditionalColumn instance);
     partial void DeleteAdditionalColumn(AdditionalColumn instance);
@@ -63,6 +66,9 @@ namespace SKDDriver.DataAccess
     partial void InsertHoliday(Holiday instance);
     partial void UpdateHoliday(Holiday instance);
     partial void DeleteHoliday(Holiday instance);
+    partial void InsertJournal(Journal instance);
+    partial void UpdateJournal(Journal instance);
+    partial void DeleteJournal(Journal instance);
     partial void InsertNightSetting(NightSetting instance);
     partial void UpdateNightSetting(NightSetting instance);
     partial void DeleteNightSetting(NightSetting instance);
@@ -111,16 +117,10 @@ namespace SKDDriver.DataAccess
     partial void InsertTimeTrackDocumentType(TimeTrackDocumentType instance);
     partial void UpdateTimeTrackDocumentType(TimeTrackDocumentType instance);
     partial void DeleteTimeTrackDocumentType(TimeTrackDocumentType instance);
-    partial void InsertTimeTrackException(TimeTrackException instance);
-    partial void UpdateTimeTrackException(TimeTrackException instance);
-    partial void DeleteTimeTrackException(TimeTrackException instance);
-    partial void InsertJournal(Journal instance);
-    partial void UpdateJournal(Journal instance);
-    partial void DeleteJournal(Journal instance);
     #endregion
 		
 		public SKDDataContext() : 
-				base("Data Source=.\\firesecinstance;Initial Catalog=SKD;Integrated Security=True", mappingSource)
+				base("Data Source=.\\sqlexpress;Initial Catalog=SKD;Integrated Security=True", mappingSource)
 		{
 			OnCreated();
 		}
@@ -154,6 +154,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<AccessTemplate>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TimeTrackException> TimeTrackExceptions
+		{
+			get
+			{
+				return this.GetTable<TimeTrackException>();
 			}
 		}
 		
@@ -250,6 +258,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Holiday>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Journal> Journals
+		{
+			get
+			{
+				return this.GetTable<Journal>();
 			}
 		}
 		
@@ -386,22 +402,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<TimeTrackDocumentType>();
-			}
-		}
-		
-		public System.Data.Linq.Table<TimeTrackException> TimeTrackExceptions
-		{
-			get
-			{
-				return this.GetTable<TimeTrackException>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Journal> Journals
-		{
-			get
-			{
-				return this.GetTable<Journal>();
 			}
 		}
 	}
@@ -710,6 +710,229 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.AccessTemplate = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackException")]
+	public partial class TimeTrackException : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _EmployeeUID;
+		
+		private System.DateTime _StartDateTime;
+		
+		private System.DateTime _EndDateTime;
+		
+		private int _DocumentType;
+		
+		private string _Comment;
+		
+		private EntityRef<Employee> _Employee;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnEmployeeUIDChanging(System.Guid value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnStartDateTimeChanging(System.DateTime value);
+    partial void OnStartDateTimeChanged();
+    partial void OnEndDateTimeChanging(System.DateTime value);
+    partial void OnEndDateTimeChanged();
+    partial void OnDocumentTypeChanging(int value);
+    partial void OnDocumentTypeChanged();
+    partial void OnCommentChanging(string value);
+    partial void OnCommentChanged();
+    #endregion
+		
+		public TimeTrackException()
+		{
+			this._Employee = default(EntityRef<Employee>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid EmployeeUID
+		{
+			get
+			{
+				return this._EmployeeUID;
+			}
+			set
+			{
+				if ((this._EmployeeUID != value))
+				{
+					if (this._Employee.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnEmployeeUIDChanging(value);
+					this.SendPropertyChanging();
+					this._EmployeeUID = value;
+					this.SendPropertyChanged("EmployeeUID");
+					this.OnEmployeeUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime StartDateTime
+		{
+			get
+			{
+				return this._StartDateTime;
+			}
+			set
+			{
+				if ((this._StartDateTime != value))
+				{
+					this.OnStartDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._StartDateTime = value;
+					this.SendPropertyChanged("StartDateTime");
+					this.OnStartDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDateTime
+		{
+			get
+			{
+				return this._EndDateTime;
+			}
+			set
+			{
+				if ((this._EndDateTime != value))
+				{
+					this.OnEndDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndDateTime = value;
+					this.SendPropertyChanged("EndDateTime");
+					this.OnEndDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentType", DbType="Int NOT NULL")]
+		public int DocumentType
+		{
+			get
+			{
+				return this._DocumentType;
+			}
+			set
+			{
+				if ((this._DocumentType != value))
+				{
+					this.OnDocumentTypeChanging(value);
+					this.SendPropertyChanging();
+					this._DocumentType = value;
+					this.SendPropertyChanged("DocumentType");
+					this.OnDocumentTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="NVarChar(100)")]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this.OnCommentChanging(value);
+					this.SendPropertyChanging();
+					this._Comment = value;
+					this.SendPropertyChanged("Comment");
+					this.OnCommentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackException", Storage="_Employee", ThisKey="EmployeeUID", OtherKey="UID", IsForeignKey=true)]
+		public Employee Employee
+		{
+			get
+			{
+				return this._Employee.Entity;
+			}
+			set
+			{
+				Employee previousValue = this._Employee.Entity;
+				if (((previousValue != value) 
+							|| (this._Employee.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Employee.Entity = null;
+						previousValue.TimeTrackExceptions.Remove(this);
+					}
+					this._Employee.Entity = value;
+					if ((value != null))
+					{
+						value.TimeTrackExceptions.Add(this);
+						this._EmployeeUID = value.UID;
+					}
+					else
+					{
+						this._EmployeeUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Employee");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -1325,7 +1548,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private int _Number;
+		private string _Number;
 		
 		private System.Nullable<System.Guid> _EmployeeUID;
 		
@@ -1353,11 +1576,15 @@ namespace SKDDriver.DataAccess
 		
 		private int _UserTime;
 		
+		private byte _GKLevel;
+		
+		private byte _GKLevelSchedule;
+		
 		private EntitySet<CardDoor> _CardDoors;
 		
-		private EntitySet<PendingCard> _PendingCards;
-		
 		private EntitySet<Journal> _Journals;
+		
+		private EntitySet<PendingCard> _PendingCards;
 		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
@@ -1369,7 +1596,7 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnNumberChanging(int value);
+    partial void OnNumberChanging(string value);
     partial void OnNumberChanged();
     partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
     partial void OnEmployeeUIDChanged();
@@ -1397,13 +1624,17 @@ namespace SKDDriver.DataAccess
     partial void OnDeactivationControllerUIDChanged();
     partial void OnUserTimeChanging(int value);
     partial void OnUserTimeChanged();
+    partial void OnGKLevelChanging(byte value);
+    partial void OnGKLevelChanged();
+    partial void OnGKLevelScheduleChanging(byte value);
+    partial void OnGKLevelScheduleChanged();
     #endregion
 		
 		public Card()
 		{
 			this._CardDoors = new EntitySet<CardDoor>(new Action<CardDoor>(this.attach_CardDoors), new Action<CardDoor>(this.detach_CardDoors));
-			this._PendingCards = new EntitySet<PendingCard>(new Action<PendingCard>(this.attach_PendingCards), new Action<PendingCard>(this.detach_PendingCards));
 			this._Journals = new EntitySet<Journal>(new Action<Journal>(this.attach_Journals), new Action<Journal>(this.detach_Journals));
+			this._PendingCards = new EntitySet<PendingCard>(new Action<PendingCard>(this.attach_PendingCards), new Action<PendingCard>(this.detach_PendingCards));
 			this._AccessTemplate = default(EntityRef<AccessTemplate>);
 			this._Employee = default(EntityRef<Employee>);
 			OnCreated();
@@ -1429,8 +1660,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
-		public int Number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Number
 		{
 			get
 			{
@@ -1717,6 +1948,46 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevel", DbType="TinyInt NOT NULL")]
+		public byte GKLevel
+		{
+			get
+			{
+				return this._GKLevel;
+			}
+			set
+			{
+				if ((this._GKLevel != value))
+				{
+					this.OnGKLevelChanging(value);
+					this.SendPropertyChanging();
+					this._GKLevel = value;
+					this.SendPropertyChanged("GKLevel");
+					this.OnGKLevelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKLevelSchedule", DbType="TinyInt NOT NULL")]
+		public byte GKLevelSchedule
+		{
+			get
+			{
+				return this._GKLevelSchedule;
+			}
+			set
+			{
+				if ((this._GKLevelSchedule != value))
+				{
+					this.OnGKLevelScheduleChanging(value);
+					this.SendPropertyChanging();
+					this._GKLevelSchedule = value;
+					this.SendPropertyChanged("GKLevelSchedule");
+					this.OnGKLevelScheduleChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardDoor", Storage="_CardDoors", ThisKey="UID", OtherKey="CardUID")]
 		public EntitySet<CardDoor> CardDoors
 		{
@@ -1730,19 +2001,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_PendingCard", Storage="_PendingCards", ThisKey="UID", OtherKey="CardUID")]
-		public EntitySet<PendingCard> PendingCards
-		{
-			get
-			{
-				return this._PendingCards;
-			}
-			set
-			{
-				this._PendingCards.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journals", ThisKey="UID", OtherKey="ObjectUID")]
 		public EntitySet<Journal> Journals
 		{
@@ -1753,6 +2011,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._Journals.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_PendingCard", Storage="_PendingCards", ThisKey="UID", OtherKey="CardUID")]
+		public EntitySet<PendingCard> PendingCards
+		{
+			get
+			{
+				return this._PendingCards;
+			}
+			set
+			{
+				this._PendingCards.Assign(value);
 			}
 		}
 		
@@ -1856,18 +2127,6 @@ namespace SKDDriver.DataAccess
 			entity.Card = null;
 		}
 		
-		private void attach_PendingCards(PendingCard entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_PendingCards(PendingCard entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
-		}
-		
 		private void attach_Journals(Journal entity)
 		{
 			this.SendPropertyChanging();
@@ -1875,6 +2134,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_Journals(Journal entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = null;
+		}
+		
+		private void attach_PendingCards(PendingCard entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = this;
+		}
+		
+		private void detach_PendingCards(PendingCard entity)
 		{
 			this.SendPropertyChanging();
 			entity.Card = null;
@@ -1895,13 +2166,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _AccessTemplateUID;
 		
-		private int _EnterIntervalID;
+		private int _EnterScheduleNo;
 		
-		private System.Nullable<int> _EnterIntervalType;
-		
-		private int _ExitIntervalID;
-		
-		private System.Nullable<int> _ExitIntervalType;
+		private int _ExitScheduleNo;
 		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
@@ -1919,14 +2186,10 @@ namespace SKDDriver.DataAccess
     partial void OnCardUIDChanged();
     partial void OnAccessTemplateUIDChanging(System.Nullable<System.Guid> value);
     partial void OnAccessTemplateUIDChanged();
-    partial void OnEnterIntervalIDChanging(int value);
-    partial void OnEnterIntervalIDChanged();
-    partial void OnEnterIntervalTypeChanging(System.Nullable<int> value);
-    partial void OnEnterIntervalTypeChanged();
-    partial void OnExitIntervalIDChanging(int value);
-    partial void OnExitIntervalIDChanged();
-    partial void OnExitIntervalTypeChanging(System.Nullable<int> value);
-    partial void OnExitIntervalTypeChanged();
+    partial void OnEnterScheduleNoChanging(int value);
+    partial void OnEnterScheduleNoChanged();
+    partial void OnExitScheduleNoChanging(int value);
+    partial void OnExitScheduleNoChanged();
     #endregion
 		
 		public CardDoor()
@@ -2024,82 +2287,42 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalID", DbType="Int NOT NULL")]
-		public int EnterIntervalID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterScheduleNo", DbType="Int NOT NULL")]
+		public int EnterScheduleNo
 		{
 			get
 			{
-				return this._EnterIntervalID;
+				return this._EnterScheduleNo;
 			}
 			set
 			{
-				if ((this._EnterIntervalID != value))
+				if ((this._EnterScheduleNo != value))
 				{
-					this.OnEnterIntervalIDChanging(value);
+					this.OnEnterScheduleNoChanging(value);
 					this.SendPropertyChanging();
-					this._EnterIntervalID = value;
-					this.SendPropertyChanged("EnterIntervalID");
-					this.OnEnterIntervalIDChanged();
+					this._EnterScheduleNo = value;
+					this.SendPropertyChanged("EnterScheduleNo");
+					this.OnEnterScheduleNoChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalType", DbType="Int")]
-		public System.Nullable<int> EnterIntervalType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitScheduleNo", DbType="Int NOT NULL")]
+		public int ExitScheduleNo
 		{
 			get
 			{
-				return this._EnterIntervalType;
+				return this._ExitScheduleNo;
 			}
 			set
 			{
-				if ((this._EnterIntervalType != value))
+				if ((this._ExitScheduleNo != value))
 				{
-					this.OnEnterIntervalTypeChanging(value);
+					this.OnExitScheduleNoChanging(value);
 					this.SendPropertyChanging();
-					this._EnterIntervalType = value;
-					this.SendPropertyChanged("EnterIntervalType");
-					this.OnEnterIntervalTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalID", DbType="Int NOT NULL")]
-		public int ExitIntervalID
-		{
-			get
-			{
-				return this._ExitIntervalID;
-			}
-			set
-			{
-				if ((this._ExitIntervalID != value))
-				{
-					this.OnExitIntervalIDChanging(value);
-					this.SendPropertyChanging();
-					this._ExitIntervalID = value;
-					this.SendPropertyChanged("ExitIntervalID");
-					this.OnExitIntervalIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalType", DbType="Int")]
-		public System.Nullable<int> ExitIntervalType
-		{
-			get
-			{
-				return this._ExitIntervalType;
-			}
-			set
-			{
-				if ((this._ExitIntervalType != value))
-				{
-					this.OnExitIntervalTypeChanging(value);
-					this.SendPropertyChanging();
-					this._ExitIntervalType = value;
-					this.SendPropertyChanged("ExitIntervalType");
-					this.OnExitIntervalTypeChanged();
+					this._ExitScheduleNo = value;
+					this.SendPropertyChanged("ExitScheduleNo");
+					this.OnExitScheduleNoChanged();
 				}
 			}
 		}
@@ -3361,6 +3584,8 @@ namespace SKDDriver.DataAccess
 		
 		private string _Phone;
 		
+		private EntitySet<TimeTrackException> _TimeTrackExceptions;
+		
 		private EntitySet<AdditionalColumn> _AdditionalColumns;
 		
 		private EntitySet<Card> _Cards;
@@ -3380,8 +3605,6 @@ namespace SKDDriver.DataAccess
 		private EntitySet<Organisation> _Organisations1;
 		
 		private EntitySet<PassJournal> _PassJournals;
-		
-		private EntitySet<TimeTrackException> _TimeTrackExceptions;
 		
 		private EntityRef<Department> _Department;
 		
@@ -3459,6 +3682,7 @@ namespace SKDDriver.DataAccess
 		
 		public Employee()
 		{
+			this._TimeTrackExceptions = new EntitySet<TimeTrackException>(new Action<TimeTrackException>(this.attach_TimeTrackExceptions), new Action<TimeTrackException>(this.detach_TimeTrackExceptions));
 			this._AdditionalColumns = new EntitySet<AdditionalColumn>(new Action<AdditionalColumn>(this.attach_AdditionalColumns), new Action<AdditionalColumn>(this.detach_AdditionalColumns));
 			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
 			this._Departments = new EntitySet<Department>(new Action<Department>(this.attach_Departments), new Action<Department>(this.detach_Departments));
@@ -3469,7 +3693,6 @@ namespace SKDDriver.DataAccess
 			this._Organisations = new EntitySet<Organisation>(new Action<Organisation>(this.attach_Organisations), new Action<Organisation>(this.detach_Organisations));
 			this._Organisations1 = new EntitySet<Organisation>(new Action<Organisation>(this.attach_Organisations1), new Action<Organisation>(this.detach_Organisations1));
 			this._PassJournals = new EntitySet<PassJournal>(new Action<PassJournal>(this.attach_PassJournals), new Action<PassJournal>(this.detach_PassJournals));
-			this._TimeTrackExceptions = new EntitySet<TimeTrackException>(new Action<TimeTrackException>(this.attach_TimeTrackExceptions), new Action<TimeTrackException>(this.detach_TimeTrackExceptions));
 			this._Department = default(EntityRef<Department>);
 			this._Employee1 = default(EntityRef<Employee>);
 			this._Organisation = default(EntityRef<Organisation>);
@@ -4063,6 +4286,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackException", Storage="_TimeTrackExceptions", ThisKey="UID", OtherKey="EmployeeUID")]
+		public EntitySet<TimeTrackException> TimeTrackExceptions
+		{
+			get
+			{
+				return this._TimeTrackExceptions;
+			}
+			set
+			{
+				this._TimeTrackExceptions.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_AdditionalColumn", Storage="_AdditionalColumns", ThisKey="UID", OtherKey="EmployeeUID")]
 		public EntitySet<AdditionalColumn> AdditionalColumns
 		{
@@ -4190,19 +4426,6 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._PassJournals.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackException", Storage="_TimeTrackExceptions", ThisKey="UID", OtherKey="EmployeeUID")]
-		public EntitySet<TimeTrackException> TimeTrackExceptions
-		{
-			get
-			{
-				return this._TimeTrackExceptions;
-			}
-			set
-			{
-				this._TimeTrackExceptions.Assign(value);
 			}
 		}
 		
@@ -4430,6 +4653,18 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		private void attach_TimeTrackExceptions(TimeTrackException entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = this;
+		}
+		
+		private void detach_TimeTrackExceptions(TimeTrackException entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = null;
+		}
+		
 		private void attach_AdditionalColumns(AdditionalColumn entity)
 		{
 			this.SendPropertyChanging();
@@ -4545,18 +4780,6 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_PassJournals(PassJournal entity)
-		{
-			this.SendPropertyChanging();
-			entity.Employee = null;
-		}
-		
-		private void attach_TimeTrackExceptions(TimeTrackException entity)
-		{
-			this.SendPropertyChanging();
-			entity.Employee = this;
-		}
-		
-		private void detach_TimeTrackExceptions(TimeTrackException entity)
 		{
 			this.SendPropertyChanging();
 			entity.Employee = null;
@@ -5161,6 +5384,445 @@ namespace SKDDriver.DataAccess
 						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organisation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
+	public partial class Journal : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.DateTime _SystemDate;
+		
+		private System.Nullable<System.DateTime> _DeviceDate;
+		
+		private int _Subsystem;
+		
+		private int _Name;
+		
+		private int _Description;
+		
+		private string _NameText;
+		
+		private string _DescriptionText;
+		
+		private int _State;
+		
+		private int _ObjectType;
+		
+		private string _ObjectName;
+		
+		private System.Guid _ObjectUID;
+		
+		private string _UserName;
+		
+		private System.Nullable<System.Guid> _EmployeeUID;
+		
+		private string _Detalisation;
+		
+		private EntityRef<Card> _Card;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnSystemDateChanging(System.DateTime value);
+    partial void OnSystemDateChanged();
+    partial void OnDeviceDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDeviceDateChanged();
+    partial void OnSubsystemChanging(int value);
+    partial void OnSubsystemChanged();
+    partial void OnNameChanging(int value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(int value);
+    partial void OnDescriptionChanged();
+    partial void OnNameTextChanging(string value);
+    partial void OnNameTextChanged();
+    partial void OnDescriptionTextChanging(string value);
+    partial void OnDescriptionTextChanged();
+    partial void OnStateChanging(int value);
+    partial void OnStateChanged();
+    partial void OnObjectTypeChanging(int value);
+    partial void OnObjectTypeChanged();
+    partial void OnObjectNameChanging(string value);
+    partial void OnObjectNameChanged();
+    partial void OnObjectUIDChanging(System.Guid value);
+    partial void OnObjectUIDChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnDetalisationChanging(string value);
+    partial void OnDetalisationChanged();
+    #endregion
+		
+		public Journal()
+		{
+			this._Card = default(EntityRef<Card>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SystemDate", DbType="DateTime NOT NULL")]
+		public System.DateTime SystemDate
+		{
+			get
+			{
+				return this._SystemDate;
+			}
+			set
+			{
+				if ((this._SystemDate != value))
+				{
+					this.OnSystemDateChanging(value);
+					this.SendPropertyChanging();
+					this._SystemDate = value;
+					this.SendPropertyChanged("SystemDate");
+					this.OnSystemDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DeviceDate
+		{
+			get
+			{
+				return this._DeviceDate;
+			}
+			set
+			{
+				if ((this._DeviceDate != value))
+				{
+					this.OnDeviceDateChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceDate = value;
+					this.SendPropertyChanged("DeviceDate");
+					this.OnDeviceDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subsystem", DbType="Int NOT NULL")]
+		public int Subsystem
+		{
+			get
+			{
+				return this._Subsystem;
+			}
+			set
+			{
+				if ((this._Subsystem != value))
+				{
+					this.OnSubsystemChanging(value);
+					this.SendPropertyChanging();
+					this._Subsystem = value;
+					this.SendPropertyChanged("Subsystem");
+					this.OnSubsystemChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="Int NOT NULL")]
+		public int Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Int NOT NULL")]
+		public int Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameText", DbType="NVarChar(MAX)")]
+		public string NameText
+		{
+			get
+			{
+				return this._NameText;
+			}
+			set
+			{
+				if ((this._NameText != value))
+				{
+					this.OnNameTextChanging(value);
+					this.SendPropertyChanging();
+					this._NameText = value;
+					this.SendPropertyChanged("NameText");
+					this.OnNameTextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DescriptionText", DbType="NVarChar(MAX)")]
+		public string DescriptionText
+		{
+			get
+			{
+				return this._DescriptionText;
+			}
+			set
+			{
+				if ((this._DescriptionText != value))
+				{
+					this.OnDescriptionTextChanging(value);
+					this.SendPropertyChanging();
+					this._DescriptionText = value;
+					this.SendPropertyChanged("DescriptionText");
+					this.OnDescriptionTextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_State", DbType="Int NOT NULL")]
+		public int State
+		{
+			get
+			{
+				return this._State;
+			}
+			set
+			{
+				if ((this._State != value))
+				{
+					this.OnStateChanging(value);
+					this.SendPropertyChanging();
+					this._State = value;
+					this.SendPropertyChanged("State");
+					this.OnStateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectType", DbType="Int NOT NULL")]
+		public int ObjectType
+		{
+			get
+			{
+				return this._ObjectType;
+			}
+			set
+			{
+				if ((this._ObjectType != value))
+				{
+					this.OnObjectTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ObjectType = value;
+					this.SendPropertyChanged("ObjectType");
+					this.OnObjectTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectName", DbType="NVarChar(50)")]
+		public string ObjectName
+		{
+			get
+			{
+				return this._ObjectName;
+			}
+			set
+			{
+				if ((this._ObjectName != value))
+				{
+					this.OnObjectNameChanging(value);
+					this.SendPropertyChanging();
+					this._ObjectName = value;
+					this.SendPropertyChanged("ObjectName");
+					this.OnObjectNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ObjectUID
+		{
+			get
+			{
+				return this._ObjectUID;
+			}
+			set
+			{
+				if ((this._ObjectUID != value))
+				{
+					if (this._Card.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnObjectUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ObjectUID = value;
+					this.SendPropertyChanged("ObjectUID");
+					this.OnObjectUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> EmployeeUID
+		{
+			get
+			{
+				return this._EmployeeUID;
+			}
+			set
+			{
+				if ((this._EmployeeUID != value))
+				{
+					this.OnEmployeeUIDChanging(value);
+					this.SendPropertyChanging();
+					this._EmployeeUID = value;
+					this.SendPropertyChanged("EmployeeUID");
+					this.OnEmployeeUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Detalisation", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string Detalisation
+		{
+			get
+			{
+				return this._Detalisation;
+			}
+			set
+			{
+				if ((this._Detalisation != value))
+				{
+					this.OnDetalisationChanging(value);
+					this.SendPropertyChanging();
+					this._Detalisation = value;
+					this.SendPropertyChanged("Detalisation");
+					this.OnDetalisationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Card", ThisKey="ObjectUID", OtherKey="UID", IsForeignKey=true)]
+		public Card Card
+		{
+			get
+			{
+				return this._Card.Entity;
+			}
+			set
+			{
+				Card previousValue = this._Card.Entity;
+				if (((previousValue != value) 
+							|| (this._Card.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Card.Entity = null;
+						previousValue.Journals.Remove(this);
+					}
+					this._Card.Entity = value;
+					if ((value != null))
+					{
+						value.Journals.Add(this);
+						this._ObjectUID = value.UID;
+					}
+					else
+					{
+						this._ObjectUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Card");
 				}
 			}
 		}
@@ -9415,668 +10077,6 @@ namespace SKDDriver.DataAccess
 						this._OrganisationUID = default(System.Guid);
 					}
 					this.SendPropertyChanged("Organisation");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackException")]
-	public partial class TimeTrackException : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Guid _EmployeeUID;
-		
-		private System.DateTime _StartDateTime;
-		
-		private System.DateTime _EndDateTime;
-		
-		private int _DocumentType;
-		
-		private string _Comment;
-		
-		private EntityRef<Employee> _Employee;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnEmployeeUIDChanging(System.Guid value);
-    partial void OnEmployeeUIDChanged();
-    partial void OnStartDateTimeChanging(System.DateTime value);
-    partial void OnStartDateTimeChanged();
-    partial void OnEndDateTimeChanging(System.DateTime value);
-    partial void OnEndDateTimeChanged();
-    partial void OnDocumentTypeChanging(int value);
-    partial void OnDocumentTypeChanged();
-    partial void OnCommentChanging(string value);
-    partial void OnCommentChanged();
-    #endregion
-		
-		public TimeTrackException()
-		{
-			this._Employee = default(EntityRef<Employee>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid EmployeeUID
-		{
-			get
-			{
-				return this._EmployeeUID;
-			}
-			set
-			{
-				if ((this._EmployeeUID != value))
-				{
-					if (this._Employee.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnEmployeeUIDChanging(value);
-					this.SendPropertyChanging();
-					this._EmployeeUID = value;
-					this.SendPropertyChanged("EmployeeUID");
-					this.OnEmployeeUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime StartDateTime
-		{
-			get
-			{
-				return this._StartDateTime;
-			}
-			set
-			{
-				if ((this._StartDateTime != value))
-				{
-					this.OnStartDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._StartDateTime = value;
-					this.SendPropertyChanged("StartDateTime");
-					this.OnStartDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime EndDateTime
-		{
-			get
-			{
-				return this._EndDateTime;
-			}
-			set
-			{
-				if ((this._EndDateTime != value))
-				{
-					this.OnEndDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndDateTime = value;
-					this.SendPropertyChanged("EndDateTime");
-					this.OnEndDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentType", DbType="Int NOT NULL")]
-		public int DocumentType
-		{
-			get
-			{
-				return this._DocumentType;
-			}
-			set
-			{
-				if ((this._DocumentType != value))
-				{
-					this.OnDocumentTypeChanging(value);
-					this.SendPropertyChanging();
-					this._DocumentType = value;
-					this.SendPropertyChanged("DocumentType");
-					this.OnDocumentTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="NVarChar(100)")]
-		public string Comment
-		{
-			get
-			{
-				return this._Comment;
-			}
-			set
-			{
-				if ((this._Comment != value))
-				{
-					this.OnCommentChanging(value);
-					this.SendPropertyChanging();
-					this._Comment = value;
-					this.SendPropertyChanged("Comment");
-					this.OnCommentChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackException", Storage="_Employee", ThisKey="EmployeeUID", OtherKey="UID", IsForeignKey=true)]
-		public Employee Employee
-		{
-			get
-			{
-				return this._Employee.Entity;
-			}
-			set
-			{
-				Employee previousValue = this._Employee.Entity;
-				if (((previousValue != value) 
-							|| (this._Employee.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Employee.Entity = null;
-						previousValue.TimeTrackExceptions.Remove(this);
-					}
-					this._Employee.Entity = value;
-					if ((value != null))
-					{
-						value.TimeTrackExceptions.Add(this);
-						this._EmployeeUID = value.UID;
-					}
-					else
-					{
-						this._EmployeeUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("Employee");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
-	public partial class Journal : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.DateTime _SystemDate;
-		
-		private System.Nullable<System.DateTime> _DeviceDate;
-		
-		private int _Subsystem;
-		
-		private int _Name;
-		
-		private int _Description;
-		
-		private string _NameText;
-		
-		private string _DescriptionText;
-		
-		private int _State;
-		
-		private int _ObjectType;
-		
-		private string _ObjectName;
-		
-		private System.Guid _ObjectUID;
-		
-		private string _UserName;
-		
-		private System.Nullable<System.Guid> _EmployeeUID;
-		
-		private string _Detalisation;
-		
-		private EntityRef<Card> _Card;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnSystemDateChanging(System.DateTime value);
-    partial void OnSystemDateChanged();
-    partial void OnDeviceDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnDeviceDateChanged();
-    partial void OnSubsystemChanging(int value);
-    partial void OnSubsystemChanged();
-    partial void OnNameChanging(int value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(int value);
-    partial void OnDescriptionChanged();
-    partial void OnNameTextChanging(string value);
-    partial void OnNameTextChanged();
-    partial void OnDescriptionTextChanging(string value);
-    partial void OnDescriptionTextChanged();
-    partial void OnStateChanging(int value);
-    partial void OnStateChanged();
-    partial void OnObjectTypeChanging(int value);
-    partial void OnObjectTypeChanged();
-    partial void OnObjectNameChanging(string value);
-    partial void OnObjectNameChanged();
-    partial void OnObjectUIDChanging(System.Guid value);
-    partial void OnObjectUIDChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnEmployeeUIDChanged();
-    partial void OnDetalisationChanging(string value);
-    partial void OnDetalisationChanged();
-    #endregion
-		
-		public Journal()
-		{
-			this._Card = default(EntityRef<Card>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SystemDate", DbType="DateTime NOT NULL")]
-		public System.DateTime SystemDate
-		{
-			get
-			{
-				return this._SystemDate;
-			}
-			set
-			{
-				if ((this._SystemDate != value))
-				{
-					this.OnSystemDateChanging(value);
-					this.SendPropertyChanging();
-					this._SystemDate = value;
-					this.SendPropertyChanged("SystemDate");
-					this.OnSystemDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DeviceDate
-		{
-			get
-			{
-				return this._DeviceDate;
-			}
-			set
-			{
-				if ((this._DeviceDate != value))
-				{
-					this.OnDeviceDateChanging(value);
-					this.SendPropertyChanging();
-					this._DeviceDate = value;
-					this.SendPropertyChanged("DeviceDate");
-					this.OnDeviceDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subsystem", DbType="Int NOT NULL")]
-		public int Subsystem
-		{
-			get
-			{
-				return this._Subsystem;
-			}
-			set
-			{
-				if ((this._Subsystem != value))
-				{
-					this.OnSubsystemChanging(value);
-					this.SendPropertyChanging();
-					this._Subsystem = value;
-					this.SendPropertyChanged("Subsystem");
-					this.OnSubsystemChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="Int NOT NULL")]
-		public int Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Int NOT NULL")]
-		public int Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NameText", DbType="NVarChar(MAX)")]
-		public string NameText
-		{
-			get
-			{
-				return this._NameText;
-			}
-			set
-			{
-				if ((this._NameText != value))
-				{
-					this.OnNameTextChanging(value);
-					this.SendPropertyChanging();
-					this._NameText = value;
-					this.SendPropertyChanged("NameText");
-					this.OnNameTextChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DescriptionText", DbType="NVarChar(MAX)")]
-		public string DescriptionText
-		{
-			get
-			{
-				return this._DescriptionText;
-			}
-			set
-			{
-				if ((this._DescriptionText != value))
-				{
-					this.OnDescriptionTextChanging(value);
-					this.SendPropertyChanging();
-					this._DescriptionText = value;
-					this.SendPropertyChanged("DescriptionText");
-					this.OnDescriptionTextChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_State", DbType="Int NOT NULL")]
-		public int State
-		{
-			get
-			{
-				return this._State;
-			}
-			set
-			{
-				if ((this._State != value))
-				{
-					this.OnStateChanging(value);
-					this.SendPropertyChanging();
-					this._State = value;
-					this.SendPropertyChanged("State");
-					this.OnStateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectType", DbType="Int NOT NULL")]
-		public int ObjectType
-		{
-			get
-			{
-				return this._ObjectType;
-			}
-			set
-			{
-				if ((this._ObjectType != value))
-				{
-					this.OnObjectTypeChanging(value);
-					this.SendPropertyChanging();
-					this._ObjectType = value;
-					this.SendPropertyChanged("ObjectType");
-					this.OnObjectTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectName", DbType="NVarChar(50)")]
-		public string ObjectName
-		{
-			get
-			{
-				return this._ObjectName;
-			}
-			set
-			{
-				if ((this._ObjectName != value))
-				{
-					this.OnObjectNameChanging(value);
-					this.SendPropertyChanging();
-					this._ObjectName = value;
-					this.SendPropertyChanged("ObjectName");
-					this.OnObjectNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ObjectUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ObjectUID
-		{
-			get
-			{
-				return this._ObjectUID;
-			}
-			set
-			{
-				if ((this._ObjectUID != value))
-				{
-					if (this._Card.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnObjectUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ObjectUID = value;
-					this.SendPropertyChanged("ObjectUID");
-					this.OnObjectUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50)")]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> EmployeeUID
-		{
-			get
-			{
-				return this._EmployeeUID;
-			}
-			set
-			{
-				if ((this._EmployeeUID != value))
-				{
-					this.OnEmployeeUIDChanging(value);
-					this.SendPropertyChanging();
-					this._EmployeeUID = value;
-					this.SendPropertyChanged("EmployeeUID");
-					this.OnEmployeeUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Detalisation", DbType="Text", UpdateCheck=UpdateCheck.Never)]
-		public string Detalisation
-		{
-			get
-			{
-				return this._Detalisation;
-			}
-			set
-			{
-				if ((this._Detalisation != value))
-				{
-					this.OnDetalisationChanging(value);
-					this.SendPropertyChanging();
-					this._Detalisation = value;
-					this.SendPropertyChanged("Detalisation");
-					this.OnDetalisationChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Card", ThisKey="ObjectUID", OtherKey="UID", IsForeignKey=true)]
-		public Card Card
-		{
-			get
-			{
-				return this._Card.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card.Entity = null;
-						previousValue.Journals.Remove(this);
-					}
-					this._Card.Entity = value;
-					if ((value != null))
-					{
-						value.Journals.Add(this);
-						this._ObjectUID = value.UID;
-					}
-					else
-					{
-						this._ObjectUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("Card");
 				}
 			}
 		}

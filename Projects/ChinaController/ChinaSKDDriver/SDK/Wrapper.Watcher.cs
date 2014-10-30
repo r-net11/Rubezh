@@ -126,7 +126,7 @@ namespace ChinaSKDDriver
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.DeviceDateTime = Wrapper.NET_TIMEToDateTime(wrapJournalItem.DeviceDateTime);
 
-			switch(wrapJournalItem.ExtraEventType)
+			switch (wrapJournalItem.ExtraEventType)
 			{
 				case 1:
 					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
@@ -151,12 +151,7 @@ namespace ChinaSKDDriver
 					journalItem.emCardType = wrapJournalItem.emCardType;
 					journalItem.emOpenMethod = wrapJournalItem.emOpenMethod;
 					journalItem.szPwd = wrapJournalItem.szPwd;
-
-					int cardNo;
-					if (int.TryParse(wrapJournalItem.szCardNo, out cardNo))
-					{
-						journalItem.CardNo = cardNo;
-					}
+					journalItem.CardNo = wrapJournalItem.szCardNo;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
@@ -178,11 +173,7 @@ namespace ChinaSKDDriver
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					journalItem.DoorNo = wrapJournalItem.nDoor;
-
-					if (int.TryParse(wrapJournalItem.szCardNo, out cardNo))
-					{
-						journalItem.CardNo = cardNo;
-					}
+					journalItem.CardNo = wrapJournalItem.szCardNo;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_STATUS:

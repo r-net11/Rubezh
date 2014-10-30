@@ -19,10 +19,8 @@ namespace SKDDriver
 		protected override CardDoor Translate(DataAccess.CardDoor tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.EnterIntervalType = (IntervalType)tableItem.EnterIntervalType;
-			result.EnterIntervalID = tableItem.EnterIntervalID;
-			result.ExitIntervalType = (IntervalType)tableItem.ExitIntervalType;
-			result.ExitIntervalID = tableItem.ExitIntervalID;
+			result.EnterScheduleNo = tableItem.EnterScheduleNo;
+			result.ExitScheduleNo = tableItem.ExitScheduleNo;
 			result.DoorUID = tableItem.DoorUID;
 			result.CardUID = tableItem.CardUID;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
@@ -31,10 +29,8 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.CardDoor tableItem, CardDoor apiItem)
 		{
-			tableItem.EnterIntervalType = (int?)apiItem.EnterIntervalType;
-			tableItem.EnterIntervalID = apiItem.EnterIntervalID;
-			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
-			tableItem.ExitIntervalID = apiItem.ExitIntervalID;
+			tableItem.EnterScheduleNo = apiItem.EnterScheduleNo;
+			tableItem.ExitScheduleNo = apiItem.ExitScheduleNo;
 			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.CardUID = apiItem.CardUID;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;

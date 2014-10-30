@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 
@@ -14,6 +13,7 @@ namespace FiresecService
 		public DateTime StartTime { get; private set; }
 		public bool IsAlive { get; set; }
 		public int TimeOut { get; private set; }
+		public TimeType TimeType { get; private set; }
 		AutoResetEvent AutoResetEvent { get; set; }
 		Thread Thread { get; set; }
 		List<Variable> AllVariables { get; set; } 
@@ -27,6 +27,7 @@ namespace FiresecService
 			IsAlive = true;
 			JournalItem = journalItem;
 			TimeOut = procedure.TimeOut;
+			TimeType = procedure.TimeType;
 			AutoResetEvent = new AutoResetEvent(false);
 			Steps = procedure.Steps;
 			AllVariables = new List<Variable>(Utils.Clone(procedure.Variables));
@@ -191,8 +192,8 @@ namespace FiresecService
 						if (childProcedure != null)
 						{
 							ChildProcedureThread = new ProcedureThread(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables);
-							ChildProcedureThread.Start();
 							ProcedureRunner.ProceduresThreads.Add(ChildProcedureThread);
+							ChildProcedureThread.Start();
 						}
 					}
 					break;
@@ -283,6 +284,10 @@ namespace FiresecService
 
 				case ProcedureStepType.GetJournalItem:
 					GetJournalItem(procedureStep);
+					break;
+
+				case ProcedureStepType.ControlVisual:
+					ControlVisual(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:

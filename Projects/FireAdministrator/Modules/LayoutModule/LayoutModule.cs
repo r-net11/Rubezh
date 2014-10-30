@@ -14,6 +14,8 @@ using Infrastructure.Events;
 using LayoutModule.ViewModels;
 using Infrastructure.Common.Validation;
 using LayoutModule.Validation;
+using LayoutModule.LayoutParts.ViewModels;
+using FiresecAPI.Automation;
 
 namespace LayoutModule
 {
@@ -41,6 +43,11 @@ namespace LayoutModule
         public override ModuleType ModuleType
 		{
 			get { return ModuleType.Layout; }
+		}
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "LayoutParts/DataTemplates/Dictionary.xaml"));
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
@@ -71,6 +78,8 @@ namespace LayoutModule
 			{
 				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBlock, 1001, "Метка", "Метка", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text));
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBox, 1002, "Текстовое поле", "Текстовое поле", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text));
 		}
 
 		#endregion
