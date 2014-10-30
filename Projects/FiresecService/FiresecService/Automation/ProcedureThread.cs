@@ -286,6 +286,10 @@ namespace FiresecService
 					GetJournalItem(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlVisual:
+					ControlVisual(procedureStep);
+					break;
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 

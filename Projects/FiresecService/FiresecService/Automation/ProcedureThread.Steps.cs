@@ -636,6 +636,17 @@ namespace FiresecService
 			return false;
 		}
 
+		void ControlVisual(ProcedureStep procedureStep)
+		{
+			var automationCallbackResult = new AutomationCallbackResult();
+			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
+			automationCallbackResult.Message = procedureStep.ControlVisualArguments.LayoutPart.ToString();
+			automationCallbackResult.IsModalWindow = true;
+			automationCallbackResult.ProcedureLayoutCollection = new ProcedureLayoutCollection();
+			automationCallbackResult.ProcedureLayoutCollection.LayoutsUIDs.Add(procedureStep.ControlVisualArguments.Layout);
+			Service.FiresecService.NotifyAutomation(automationCallbackResult);
+		}
+
 		void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;

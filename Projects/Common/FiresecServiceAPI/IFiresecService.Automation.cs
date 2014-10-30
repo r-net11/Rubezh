@@ -9,5 +9,7 @@ namespace FiresecAPI
 	{
 		[OperationContract]
 		OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args);
+		//[OperationContract(IsOneWay=true)]
+		//void ProcedureCallback(Guid procedureThreadUID, object value);
 	}
 }

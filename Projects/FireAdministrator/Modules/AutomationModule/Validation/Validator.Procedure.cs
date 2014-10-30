@@ -3,6 +3,7 @@ using FiresecClient;
 using Infrastructure.Common.Validation;
 using FiresecAPI.Automation;
 using System.Linq;
+using System;
 
 namespace AutomationModule.Validation
 {
@@ -22,7 +23,7 @@ namespace AutomationModule.Validation
 				if (nameList.Contains(procedure.Name))
 					Errors.Add(new ProcedureValidationError(procedure, "Процедура с таким именем уже существует " + procedure.Name, ValidationErrorLevel.CannotSave));
 				nameList.Add(procedure.Name);
-				
+
 				var varList = new List<string>();
 				foreach (var variable in procedure.Variables)
 				{
@@ -138,7 +139,7 @@ namespace AutomationModule.Validation
 						var procedureSelectionArguments = step.ProcedureSelectionArguments;
 						if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.All(x => x.Uid != procedureSelectionArguments.ScheduleProcedure.ProcedureUid))
 							Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
-						foreach(var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
+						foreach (var argument in procedureSelectionArguments.ScheduleProcedure.Arguments)
 							ValidateArgument(step, argument);
 					}
 					break;
@@ -312,6 +313,17 @@ namespace AutomationModule.Validation
 						if (getListItemArgument.PositionType == PositionType.ByIndex)
 							ValidateArgument(step, getListItemArgument.IndexArgument);
 					}
+					break;
+				case ProcedureStepType.ControlVisual:
+					var controlVisualArguments = step.ControlVisualArguments;
+					if (!ValidateArgument(step, controlVisualArguments.Argument))
+						break;
+					if (controlVisualArguments.Layout == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран макет", ValidationErrorLevel.CannotSave));
+					else if (controlVisualArguments.LayoutPart == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент макета", ValidationErrorLevel.CannotSave));
+					else if (!controlVisualArguments.Property.HasValue)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбрано свойство", ValidationErrorLevel.CannotSave));
 					break;
 			}
 		}

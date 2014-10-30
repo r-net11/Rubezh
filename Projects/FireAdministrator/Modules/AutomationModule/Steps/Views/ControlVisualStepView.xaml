@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AutomationModule.Views.ControlVisualStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="AutomationModule.Views.ControlVisualStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:AutomationModule.Views">
 	<UserControl.Resources>
 		<ResourceDictionary Source="ProcedureResources.xaml" />
 	</UserControl.Resources>
@@ -46,7 +46,7 @@
 		</StackPanel>
 
 		<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Операция:" />
-		<ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding ControlVisualTypes}" SelectedItem="{Binding SelectedControlVisualType}">
+		<ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding ControlVisualTypes}" SelectedItem="{Binding SelectedControlVisualType}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -55,6 +55,7 @@
 		</ComboBox>
 
 		<Label Grid.Row="4" Grid.Column="0" Content="Аргумент" />
-		<ContentPresenter Grid.Row="4" Grid.Column="1" Content="{Binding Argument}" />
+		<Views:ArgumentView Grid.Row="4" Grid.Column="1"  DataContext="{Binding Argument}" />
+		<!--<ContentPresenter Grid.Row="4" Grid.Column="1" Content="{Binding Argument}" />-->
 	</Grid>
 </UserControl>

@@ -25,12 +25,10 @@ namespace Infrastructure.Common.Services.Layout
 			{
 				if (Type == typeof(Boolean))
 					return LayoutPartPropertyType.Boolean;
-				else if (Type == typeof(String))
-					return LayoutPartPropertyType.String;
 				else if (Type == typeof(Int16) || Type == typeof(Int32) || Type == typeof(Int64))
 					return LayoutPartPropertyType.Integer;
 				else if (Type == typeof(double))
-					return LayoutPartPropertyType.DateTime;
+					return LayoutPartPropertyType.Double;
 				else if (Type == typeof(DateTime))
 					return LayoutPartPropertyType.DateTime;
 				else if (Type == typeof(string))
