@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -27,11 +28,20 @@ namespace SKDModule.ViewModels
 			Doors = new ObservableCollection<ReadOnlyAccessDoorViewModel>();
 			foreach (var cardDoor in CardDoors)
 			{
-				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-				if (door != null)
+				var skdDoor = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
+				if (skdDoor != null)
 				{
-					var doorViewModel = new ReadOnlyAccessDoorViewModel(door, cardDoor);
+					var doorViewModel = new ReadOnlyAccessDoorViewModel(skdDoor, cardDoor);
 					Doors.Add(doorViewModel);
+				}
+				else
+				{
+					var gkDoor = GKManager.DeviceConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
+					if (gkDoor != null)
+					{
+						var doorViewModel = new ReadOnlyAccessDoorViewModel(gkDoor, cardDoor);
+						Doors.Add(doorViewModel);
+					}
 				}
 			}
 		}

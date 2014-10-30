@@ -3,18 +3,30 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
+using System;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationDoorViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
-		public Organisation Organisation { get; private set; }
-		public SKDDoor Door { get; private set; }
+		Organisation Organisation;
+		Guid DoorUID;
+		public string PresentationName { get; private set; }
 
 		public OrganisationDoorViewModel(Organisation organisation, SKDDoor door)
 		{
 			Organisation = organisation;
-			Door = door;
+			DoorUID = door.UID;
+			PresentationName = door.PresentationName;
+			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
+		}
+
+		public OrganisationDoorViewModel(Organisation organisation, GKDoor door)
+		{
+			Organisation = organisation;
+			DoorUID = door.UID;
+			PresentationName = door.PresentationName;
 			_isChecked = Organisation != null && Organisation.DoorUIDs.Contains(door.UID);
 		}
 
@@ -26,8 +38,8 @@ namespace SKDModule.ViewModels
 			{
 				if (value)
 				{
-					if (!Organisation.DoorUIDs.Contains(Door.UID))
-						Organisation.DoorUIDs.Add(Door.UID);
+					if (!Organisation.DoorUIDs.Contains(DoorUID))
+						Organisation.DoorUIDs.Add(DoorUID);
 				}
 				else
 				{
@@ -37,9 +49,9 @@ namespace SKDModule.ViewModels
 						OnPropertyChanged(() => IsChecked);
 						return;
 					}	
-					if (Organisation.DoorUIDs.Contains(Door.UID))
+					if (Organisation.DoorUIDs.Contains(DoorUID))
 					{
-						Organisation.DoorUIDs.Remove(Door.UID);
+						Organisation.DoorUIDs.Remove(DoorUID);
 					}
 				}
 				_isChecked = value;
@@ -53,7 +65,7 @@ namespace SKDModule.ViewModels
 			var cards = CardHelper.Get(new CardFilter());
 			if (cards == null)
 				return false;
-			return cards.Any(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == Door.UID));
+			return cards.Any(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID));
 		}
 	}
 }

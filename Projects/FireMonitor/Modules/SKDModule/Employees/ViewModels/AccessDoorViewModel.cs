@@ -5,59 +5,79 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessDoorViewModel : BaseViewModel
 	{
-		public SKDDoor Door { get; private set; }
+		public Guid DoorUID { get; private set; }
+		public string PresentationName { get; private set; }
 		public List<CardDoor> CardDoors { get; private set; }
 		Action<AccessDoorViewModel> OnChecked;
 
 		public AccessDoorViewModel(SKDDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
 		{
-			Door = door;
+			DoorUID = door.UID;
+			PresentationName = door.PresentationName;
+			HasEnter = door.InDeviceUID != Guid.Empty;
+			HasExit = door.OutDeviceUID != Guid.Empty && door.DoorType == DoorType.TwoWay;
+
+			EnterSchedules = new ObservableCollection<CardScheduleItem>();
+			ExitSchedules = new ObservableCollection<CardScheduleItem>();
+			foreach (var schedule in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+			{
+				EnterSchedules.Add(new CardScheduleItem(schedule.ID, schedule.Name));
+				ExitSchedules.Add(new CardScheduleItem(schedule.ID, schedule.Name));
+			}
+
+			Initialize(cardDoors, onChecked);
+		}
+
+		public AccessDoorViewModel(GKDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
+		{
+			DoorUID = door.UID;
+			PresentationName = door.PresentationName;
+			HasEnter = door.EnterDeviceUID != Guid.Empty;
+			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
+
+			EnterSchedules = new ObservableCollection<CardScheduleItem>();
+			ExitSchedules = new ObservableCollection<CardScheduleItem>();
+			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
+			{
+				EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+				ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+			}
+
+			Initialize(cardDoors, onChecked);
+		}
+
+		void Initialize(List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
+		{
 			CardDoors = cardDoors;
 			OnChecked = onChecked;
 
-			if (CardDoors == null)
-				CardDoors = new List<CardDoor>();
-
-			EnterTimeTypes = new ObservableCollection<CardTimeItem>();
-			ExitTimeTypes = new ObservableCollection<CardTimeItem>();
-			foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-			{
-				EnterTimeTypes.Add(new CardTimeItem(interval.ID, interval.Name));
-				ExitTimeTypes.Add(new CardTimeItem(interval.ID, interval.Name));
-			}
-
-			var cardDoor = CardDoors.FirstOrDefault(x => x.DoorUID == door.UID);
+			var cardDoor = CardDoors.FirstOrDefault(x => x.DoorUID == DoorUID);
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.EnterIntervalID);
-				if (SelectedEnterTimeType == null)
-					SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
-				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.ExitIntervalID);
-				if (SelectedExitTimeType == null)
-					SelectedExitTimeType = ExitTimeTypes.FirstOrDefault();
+				SelectedEnterSchedule = EnterSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.EnterIntervalID);
+				if (SelectedEnterSchedule == null)
+					SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
+				SelectedExitSchedule = ExitSchedules.FirstOrDefault(x => x.ScheduleNo == cardDoor.ExitIntervalID);
+				if (SelectedExitSchedule == null)
+					SelectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
 			else
 			{
-				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
-				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault();
+				SelectedEnterSchedule = EnterSchedules.FirstOrDefault();
+				SelectedExitSchedule = ExitSchedules.FirstOrDefault();
 			}
 		}
 
-		public bool HasEnter
-		{
-			get { return Door.InDeviceUID != Guid.Empty; }
-		}
-
-		public bool HasExit
-		{
-			get { return Door.OutDeviceUID != Guid.Empty && Door.DoorType == DoorType.TwoWay; }
-		}
+		public bool HasEnter { get; private set; }
+		public bool HasExit { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked
@@ -72,60 +92,60 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<CardTimeItem> _enterTimeTypes;
-		public ObservableCollection<CardTimeItem> EnterTimeTypes
+		ObservableCollection<CardScheduleItem> _enterSchedules;
+		public ObservableCollection<CardScheduleItem> EnterSchedules
 		{
-			get { return _enterTimeTypes; }
+			get { return _enterSchedules; }
 			set
 			{
-				_enterTimeTypes = value;
-				OnPropertyChanged(() => EnterTimeTypes);
+				_enterSchedules = value;
+				OnPropertyChanged(() => EnterSchedules);
 			}
 		}
 
-		CardTimeItem _selectedEnterTimeType;
-		public CardTimeItem SelectedEnterTimeType
+		CardScheduleItem _selectedEnterSchedule;
+		public CardScheduleItem SelectedEnterSchedule
 		{
-			get { return _selectedEnterTimeType; }
+			get { return _selectedEnterSchedule; }
 			set
 			{
-				_selectedEnterTimeType = value;
-				OnPropertyChanged(() => SelectedEnterTimeType);
+				_selectedEnterSchedule = value;
+				OnPropertyChanged(() => SelectedEnterSchedule);
 			}
 		}
 
-		ObservableCollection<CardTimeItem> _exitTimeTypes;
-		public ObservableCollection<CardTimeItem> ExitTimeTypes
+		ObservableCollection<CardScheduleItem> _exitSchedules;
+		public ObservableCollection<CardScheduleItem> ExitSchedules
 		{
-			get { return _exitTimeTypes; }
+			get { return _exitSchedules; }
 			set
 			{
-				_exitTimeTypes = value;
-				OnPropertyChanged(() => ExitTimeTypes);
+				_exitSchedules = value;
+				OnPropertyChanged(() => ExitSchedules);
 			}
 		}
 
-		CardTimeItem _selectedExitTimeType;
-		public CardTimeItem SelectedExitTimeType
+		CardScheduleItem _selectedExitSchedule;
+		public CardScheduleItem SelectedExitSchedule
 		{
-			get { return _selectedExitTimeType; }
+			get { return _selectedExitSchedule; }
 			set
 			{
-				_selectedExitTimeType = value;
-				OnPropertyChanged(() => SelectedExitTimeType);
+				_selectedExitSchedule = value;
+				OnPropertyChanged(() => SelectedExitSchedule);
 			}
 		}
 	}
 
-	public class CardTimeItem
+	public class CardScheduleItem
 	{
-		public CardTimeItem(int scheduleID, string name)
+		public CardScheduleItem(int scheduleNo, string name)
 		{
-			ScheduleID = scheduleID;
+			ScheduleNo = scheduleNo;
 			Name = name;
 		}
 
-		public int ScheduleID { get; private set; }
+		public int ScheduleNo { get; private set; }
 		public string Name { get; private set; }
 	}
 }

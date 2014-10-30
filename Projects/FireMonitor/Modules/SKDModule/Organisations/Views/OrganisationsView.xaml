@@ -54,7 +54,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Door.PresentationName}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding PresentationName}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
