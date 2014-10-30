@@ -94,7 +94,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
 							new StepTypeViewModel(ProcedureStepType.SendEmail),
 							new StepTypeViewModel(ProcedureStepType.ShowMessage),
-							new StepTypeViewModel(ProcedureStepType.ControlVisual)
+							new StepTypeViewModel(ProcedureStepType.ControlVisual),
+							new StepTypeViewModel(ProcedureStepType.ControlPlan)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>

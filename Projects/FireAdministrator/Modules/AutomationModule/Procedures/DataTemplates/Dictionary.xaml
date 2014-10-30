@@ -199,6 +199,10 @@
 		<Views:ControlVisualStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="controlPlanTemplate">
+		<Views:ControlPlanStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
@@ -231,6 +235,7 @@
 		GetListItemTemplate="{StaticResource getListItemTemplate}"
 		GetJournalItemTemplate="{StaticResource getJournalItemTemplate}"
 		ControlVisualTemplate="{StaticResource controlVisualTemplate}"
+		ControlPlanTemplate="{StaticResource controlPlanTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

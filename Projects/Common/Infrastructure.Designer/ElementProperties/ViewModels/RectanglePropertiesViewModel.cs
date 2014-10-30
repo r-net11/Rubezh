@@ -22,6 +22,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			BackgroundColor = ElementRectangle.BackgroundColor;
 			BorderColor = ElementRectangle.BorderColor;
 			StrokeThickness = ElementRectangle.BorderThickness;
+			PresentationName = ElementRectangle.PresentationName;
 		}
 
 		Color _backgroundColor;
@@ -32,6 +33,17 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			{
 				_backgroundColor = value;
 				OnPropertyChanged(() => BackgroundColor);
+			}
+		}
+
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
 			}
 		}
 
@@ -62,6 +74,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			ElementRectangle.BackgroundColor = BackgroundColor;
 			ElementRectangle.BorderColor = BorderColor;
 			ElementRectangle.BorderThickness = StrokeThickness;
+			ElementRectangle.PresentationName = PresentationName;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

@@ -115,6 +115,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление визуальными элементами")]
 		ControlVisual,
 
+		[DescriptionAttribute("Управление элементами плана")]
+		ControlPlan,
+
 		[DescriptionAttribute("")]
 		DoAction,
 	}

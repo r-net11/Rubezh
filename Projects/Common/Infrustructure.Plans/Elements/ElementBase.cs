@@ -34,6 +34,8 @@ namespace Infrustructure.Plans.Elements
 		public Guid UID { get; set; }
 
 		[DataMember]
+		public string PresentationName { get; set; }
+		[DataMember]
 		public Color BorderColor { get; set; }
 		[DataMember]
 		public double BorderThickness { get; set; }

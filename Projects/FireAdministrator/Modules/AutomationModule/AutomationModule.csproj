@@ -101,8 +101,12 @@
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ElementPropertyViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\PlanViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ControlPlanStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlVisualStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ExplicitValuesViewModel.cs" />
@@ -238,6 +242,9 @@
     </Compile>
     <Compile Include="Steps\Views\ControlGKGuardZoneStepView.xaml.cs">
       <DependentUpon>ControlGKGuardZoneStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ControlPlanStepView.xaml.cs">
+      <DependentUpon>ControlPlanStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlSKDDeviceStepView.xaml.cs">
       <DependentUpon>ControlSKDDeviceStepView.xaml</DependentUpon>
@@ -480,6 +487,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\CheckPermissionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ControlPlanStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
