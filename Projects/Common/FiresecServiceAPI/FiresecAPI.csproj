@@ -145,6 +145,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AutomationCallback\VisualPropertyData.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="ModelBase.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
     <Compile Include="Models\Automation\ExplicitValue.cs" />
+    <Compile Include="Models\Automation\StepArguments\UIArguments.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
@@ -231,6 +233,11 @@
     <Compile Include="Models\Plans\ElementRectangleGKGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="Models\ServerTask\ServerTask.cs" />
+    <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
+    <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />
+    <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
+    <Compile Include="AutomationCallback\MessageCallbackData.cs" />
+    <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="SKD\Card\CardSubsystemType.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />
     <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />
@@ -548,7 +555,6 @@
     <Compile Include="XModels\GKMeasureParameterValue.cs" />
     <Compile Include="XModels\GKState.cs" />
     <Compile Include="XModels\Zone\GKZone.cs" />
-    <Compile Include="AutomationCallbackResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\System\AlarmType.cs" />

@@ -331,9 +331,9 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Automation
-		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
+		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
-			return SafeOperationCall(() => { return FiresecService.RunProcedure(procedureUID, args); }, "RunProcedure");
+			return SafeOperationCall(() => { return FiresecService.RunProcedure(clientUID, procedureUID, args); }, "RunProcedure");
 		}
 		#endregion
 	}

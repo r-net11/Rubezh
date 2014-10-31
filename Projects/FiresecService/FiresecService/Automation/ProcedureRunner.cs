@@ -11,7 +11,6 @@ namespace FiresecService
 	public static class ProcedureRunner
 	{
 		public static List<ProcedureThread> ProceduresThreads { get; private set; }
-		public static User User { get; private set; }
 
 		static ProcedureRunner()
 		{
@@ -52,10 +51,9 @@ namespace FiresecService
 			}
 		}
 
-		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables, User user = null, JournalItem journalItem = null)
+		public static ProcedureThread Run(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, List<Variable> globalVariables, User user = null, JournalItem journalItem = null, Guid? clientUID = null)
 		{
-			User = user;
-			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem);
+			var procedureThread = new ProcedureThread(procedure, arguments, callingProcedureVariables, journalItem, user, clientUID);
 			ProceduresThreads.Add(procedureThread);
 			procedureThread.Start();
 			return procedureThread;

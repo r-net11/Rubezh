@@ -10,7 +10,7 @@ namespace FiresecService.Service
 		static List<CallbackResultItem> CallbackResultItems = new List<CallbackResultItem>();
 		static int Index = 0;
 
-		public static void Add(CallbackResult callbackResult)
+		public static void Add(CallbackResult callbackResult, Guid? clientUID = null)
 		{
 			lock (CallbackResultItems)
 			{
@@ -21,7 +21,8 @@ namespace FiresecService.Service
 				{
 					CallbackResult = callbackResult,
 					Index = Index,
-					DateTime = DateTime.Now
+					DateTime = DateTime.Now,
+					ClientUID = clientUID,
 				};
 				CallbackResultItems.Add(newCallbackResultItem);
 
@@ -59,7 +60,8 @@ namespace FiresecService.Service
 				{
 					if (callbackResultItem.Index > clientInfo.CallbackIndex)
 					{
-						if (!(callbackResultItem.CallbackResult.GKProgressCallback != null && callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled))
+						if ((callbackResultItem.CallbackResult.GKProgressCallback == null || !callbackResultItem.CallbackResult.GKProgressCallback.IsCanceled) &&
+							(!callbackResultItem.ClientUID.HasValue || callbackResultItem.ClientUID.Value == clientInfo.UID))
 							result.Add(callbackResultItem.CallbackResult);
 					}
 				}
@@ -74,5 +76,6 @@ namespace FiresecService.Service
 		public CallbackResult CallbackResult { get; set; }
 		public int Index { get; set; }
 		public DateTime DateTime { get; set; }
+		public Guid? ClientUID { get; set; }
 	}
 }

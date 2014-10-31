@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class ControlVisualArguments
+	public class ControlVisualArguments : UIArguments
 	{
 		public ControlVisualArguments()
 		{
@@ -15,8 +15,19 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public ControlVisualType Type { get; set; }
 
-		[DataMember]
-		public Guid Layout { get; set; }
+		public Guid Layout
+		{
+			get
+			{
+				CheckFilter();
+				return LayoutFilter.LayoutsUIDs[0];
+			}
+			set
+			{
+				CheckFilter();
+				LayoutFilter.LayoutsUIDs[0] = value;
+			}
+		}
 
 		[DataMember]
 		public Guid LayoutPart { get; set; }
@@ -26,6 +37,14 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Argument Argument { get; set; }
+
+		private void CheckFilter()
+		{
+			if (LayoutFilter == null)
+				LayoutFilter = new ProcedureLayoutCollection();
+			if (LayoutFilter.LayoutsUIDs.Count == 0)
+				LayoutFilter.LayoutsUIDs.Add(Guid.Empty);
+		}
 	}
 
 	public enum ControlVisualType

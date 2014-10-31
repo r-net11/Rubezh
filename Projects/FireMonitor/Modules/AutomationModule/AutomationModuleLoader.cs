@@ -17,6 +17,7 @@ using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
+using FiresecAPI.AutomationCallback;
 
 namespace AutomationModule
 {
@@ -80,13 +81,14 @@ namespace AutomationModule
 				switch (automationCallbackResult.AutomationCallbackType)
 				{
 					case AutomationCallbackType.Sound:
-						var sound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
+						var soundArguments = (SoundCallbackData)automationCallbackResult.Data;
+						var sound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == soundArguments.SoundUID);
 						if (sound != null)
 							AlarmPlayerHelper.Play(FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false);
 						break;
-
 					case AutomationCallbackType.Message:
-						MessageBoxService.ShowExtended(automationCallbackResult.Message, "Сообщение", automationCallbackResult.IsModalWindow);
+						var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
+						MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
 						break;
 				}
 			});

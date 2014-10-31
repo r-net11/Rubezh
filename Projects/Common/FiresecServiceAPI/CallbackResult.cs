@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.AutomationCallback;
 
 namespace FiresecAPI
 {

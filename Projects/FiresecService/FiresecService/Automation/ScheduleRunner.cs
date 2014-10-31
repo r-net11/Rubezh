@@ -97,7 +97,7 @@ namespace FiresecService
 			var delta = (int)((dateTime - scheduleDateTime).TotalSeconds);
 			if (delta < 0)
 				return false;
-			var period = schedule.PeriodDay * 24*3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
+			var period = schedule.PeriodDay * 24 * 3600 + schedule.PeriodHour * 3600 + schedule.PeriodMinute * 60 + schedule.PeriodSecond;
 			return (delta % period == 0);
 		}
 

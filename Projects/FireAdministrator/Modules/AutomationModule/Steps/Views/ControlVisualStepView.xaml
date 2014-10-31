@@ -13,6 +13,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Макет:" />
@@ -42,7 +43,7 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<TextBox Text="{Binding SelectedLayoutPartProperty.Type, Converter={StaticResource EnumToDescriptionConverter}, Mode=OneWay}" IsReadOnly="True" />
+			<TextBox IsReadOnly="True" Text="{Binding SelectedLayoutPartProperty.Type, Converter={StaticResource EnumToDescriptionConverter}, Mode=OneWay}" />
 		</StackPanel>
 
 		<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Операция:" />
@@ -55,7 +56,9 @@
 		</ComboBox>
 
 		<Label Grid.Row="4" Grid.Column="0" Content="Аргумент" />
-		<Views:ArgumentView Grid.Row="4" Grid.Column="1"  DataContext="{Binding Argument}" />
-		<!--<ContentPresenter Grid.Row="4" Grid.Column="1" Content="{Binding Argument}" />-->
+		<Views:ArgumentView Grid.Row="4" Grid.Column="1" DataContext="{Binding Argument}" />
+
+		<Label Grid.Row="5" Grid.Column="0" Margin="2, 2, 0, 2" Content="Всем клиентам" />
+		<CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
 	</Grid>
 </UserControl>

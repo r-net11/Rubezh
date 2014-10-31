@@ -5,13 +5,17 @@ using System.Threading;
 using Common;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 
 namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
+		public Guid UID { get; private set; }
+		public Guid? ClientUID { get; private set; }
 		public DateTime StartTime { get; private set; }
 		public bool IsAlive { get; set; }
+		public User User { get; private set; }
 		public int TimeOut { get; private set; }
 		public TimeType TimeType { get; private set; }
 		AutoResetEvent AutoResetEvent { get; set; }
@@ -22,8 +26,11 @@ namespace FiresecService
 		ProcedureThread ChildProcedureThread { get; set; }
 		JournalItem JournalItem { get; set; }
 
-		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, JournalItem journalItem = null)
+		public ProcedureThread(Procedure procedure, List<Argument> arguments, List<Variable> callingProcedureVariables, JournalItem journalItem = null, User user = null, Guid? clientUID = null)
 		{
+			UID = Guid.NewGuid();
+			ClientUID = clientUID;
+			User = user;
 			IsAlive = true;
 			JournalItem = journalItem;
 			TimeOut = procedure.TimeOut;

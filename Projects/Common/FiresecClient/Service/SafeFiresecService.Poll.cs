@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using Common;
 using FiresecAPI;
+using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using Infrastructure.Common.Windows;
 
 namespace FiresecClient
 {
@@ -105,11 +107,13 @@ namespace FiresecClient
 						break;
 
 					case CallbackResultType.AutomationCallbackResult:
-						SafeOperationCall(() =>
-						{
-							if (AutomationEvent != null)
-								AutomationEvent(callbackResult.AutomationCallbackResult);
-						});
+						if (callbackResult.AutomationCallbackResult.Data == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Count == 0 ||
+							ApplicationService.Shell == null || ApplicationService.Shell.Layout == null || callbackResult.AutomationCallbackResult.Data.LayoutFilter.LayoutsUIDs.Contains(ApplicationService.Shell.Layout.UID))
+							SafeOperationCall(() =>
+							{
+								if (AutomationEvent != null)
+									AutomationEvent(callbackResult.AutomationCallbackResult);
+							});
 						break;
 
 					case CallbackResultType.NewEvents:

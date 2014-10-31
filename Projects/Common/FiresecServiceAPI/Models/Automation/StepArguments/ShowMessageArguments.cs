@@ -4,12 +4,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class ShowMessageArguments
+	public class ShowMessageArguments : UIArguments
 	{
 		public ShowMessageArguments()
 		{
 			MessageArgument = new Argument();
-			ProcedureLayoutCollection = new ProcedureLayoutCollection();
 		}
 
 		[DataMember]
@@ -23,8 +22,5 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public bool IsModalWindow { get; set; }
-
-		[DataMember]
-		public ProcedureLayoutCollection ProcedureLayoutCollection { get; set; }
 	}
 }

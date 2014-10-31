@@ -85,6 +85,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public bool ForAllClients
+		{
+			get { return ControlVisualArguments.ForAllClients; }
+			set
+			{
+				ControlVisualArguments.ForAllClients = value;
+				OnPropertyChanged(() => ForAllClients);
+			}
+		}
+
 		public override string Description
 		{
 			get

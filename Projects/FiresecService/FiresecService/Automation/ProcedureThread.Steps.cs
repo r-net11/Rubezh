@@ -10,13 +10,14 @@ using FiresecClient;
 using FiresecService.Service;
 using FiresecAPI.Journal;
 using Property = FiresecAPI.Automation.Property;
+using FiresecAPI.AutomationCallback;
 
 namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
 		void AddJournalItem(ProcedureStep procedureStep)
-		{			
+		{
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
@@ -42,21 +43,65 @@ namespace FiresecService
 
 		void ShowMessage(ProcedureStep procedureStep)
 		{
-			var automationCallbackResult = new AutomationCallbackResult();
-			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 			var messageValue = GetValue<object>(procedureStep.ShowMessageArguments.MessageArgument);
-			automationCallbackResult.Message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
-			automationCallbackResult.IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow;
-			automationCallbackResult.ProcedureLayoutCollection = procedureStep.ShowMessageArguments.ProcedureLayoutCollection;
-			Service.FiresecService.NotifyAutomation(automationCallbackResult);
+			var message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.Message,
+				Data = new MessageCallbackData()
+				{
+					IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow,
+					Message = message,
+					LayoutFilter = GetLayoutFilter(procedureStep.ShowMessageArguments.LayoutFilter),
+				},
+			};
+			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.ShowMessageArguments));
 		}
 
-		static void PlaySound(ProcedureStep procedureStep)
+		void PlaySound(ProcedureStep procedureStep)
 		{
-			var automationCallbackResult = new AutomationCallbackResult();
-			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
-			automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;
-			Service.FiresecService.NotifyAutomation(automationCallbackResult);
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.Sound,
+				Data = new SoundCallbackData()
+				{
+					SoundUID = procedureStep.SoundArguments.SoundUid,
+					LayoutFilter = GetLayoutFilter(procedureStep.SoundArguments.LayoutFilter),
+				},
+			};
+			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.SoundArguments));
+		}
+
+		void ControlVisual(ProcedureStep procedureStep)
+		{
+			if (procedureStep.ControlVisualArguments == null || !procedureStep.ControlVisualArguments.Property.HasValue)
+				return;
+			AutomationCallbackType callbackType;
+			object value = null;
+			switch (procedureStep.ControlVisualArguments.Type)
+			{
+				case ControlVisualType.Get:
+					callbackType = AutomationCallbackType.GetVisualProperty;
+					break;
+				case ControlVisualType.Set:
+					callbackType = AutomationCallbackType.SetVisualProperty;
+					value = GetValue<object>(procedureStep.ControlVisualArguments.Argument);
+					break;
+				default:
+					return;
+			}
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = callbackType,
+				Data = new VisualPropertyData()
+				{
+					LayoutFilter = GetLayoutFilter(procedureStep.ControlVisualArguments.LayoutFilter),
+					LayoutPart = procedureStep.ControlVisualArguments.LayoutPart,
+					Property = procedureStep.ControlVisualArguments.Property.Value,
+					Value = value,
+				},
+			};
+			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.ControlVisualArguments));
 		}
 
 		void Calculate(ProcedureStep procedureStep)
@@ -76,7 +121,8 @@ namespace FiresecService
 							result = (bool)variable1 & (bool)variable2;
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
 							result = (bool)variable1 || (bool)variable2;
-						if (resultVariable != null) resultVariable.ExplicitValue.BoolValue = result;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.BoolValue = result;
 						break;
 					}
 
@@ -93,7 +139,8 @@ namespace FiresecService
 							result = (int)variable1 * (int)variable2;
 						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)variable2 != 0))
 							result = (int)variable1 / (int)variable2;
-						if (resultVariable != null) resultVariable.ExplicitValue.IntValue = result;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.IntValue = result;
 						break;
 					}
 
@@ -122,7 +169,8 @@ namespace FiresecService
 						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
 							result = (DateTime)variable1 - (TimeSpan)variable2;
 
-						if (resultVariable != null) resultVariable.ExplicitValue.DateTimeValue = result;
+						if (resultVariable != null)
+							resultVariable.ExplicitValue.DateTimeValue = result;
 						break;
 					}
 				case ExplicitType.String:
@@ -275,14 +323,22 @@ namespace FiresecService
 			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
-			if (device != null) return device;
-			if (zone != null) return zone;
-			if (guardZone != null) return guardZone;
-			if (sKDDevice != null) return sKDDevice;
-			if (sKDZone != null) return sKDZone;
-			if (camera != null) return camera;
-			if (sKDDoor != null) return sKDDoor;
-			if (direction != null) return direction;
+			if (device != null)
+				return device;
+			if (zone != null)
+				return zone;
+			if (guardZone != null)
+				return guardZone;
+			if (sKDDevice != null)
+				return sKDDevice;
+			if (sKDZone != null)
+				return sKDZone;
+			if (camera != null)
+				return camera;
+			if (sKDDoor != null)
+				return sKDDoor;
+			if (direction != null)
+				return direction;
 			return null;
 		}
 
@@ -340,7 +396,7 @@ namespace FiresecService
 		{
 			if (param1.GetType() != param2.GetType())
 				return null;
-			if (param1.GetType().IsEnum|| param1 is int)
+			if (param1.GetType().IsEnum || param1 is int)
 			{
 				return (((conditionType == ConditionType.IsEqual) && ((int)param1 == (int)param2))
 					|| ((conditionType == ConditionType.IsNotEqual) && ((int)param1 != (int)param2))
@@ -370,8 +426,8 @@ namespace FiresecService
 			}
 			if (param1 is bool)
 			{
-				return (((conditionType == ConditionType.IsEqual) && ((bool) param1 == (bool) param2))
-						|| ((conditionType == ConditionType.IsNotEqual) && ((bool) param1 != (bool) param2)));
+				return (((conditionType == ConditionType.IsEqual) && ((bool)param1 == (bool)param2))
+						|| ((conditionType == ConditionType.IsNotEqual) && ((bool)param1 != (bool)param2)));
 			}
 			return null;
 		}
@@ -508,7 +564,8 @@ namespace FiresecService
 			var randomArguments = procedureStep.RandomArguments;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == randomArguments.ResultArgument.VariableUid);
 			var maxValue = GetValue<int>(randomArguments.MaxValueArgument);
-			if (resultVariable != null) resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
+			if (resultVariable != null)
+				resultVariable.ExplicitValue.IntValue = new Random().Next(0, maxValue);
 		}
 
 		void ChangeList(ProcedureStep procedureStep)
@@ -530,10 +587,10 @@ namespace FiresecService
 						listVariable.ExplicitValues.Add(explicitValue);
 						break;
 					case ChangeType.RemoveFirst:
-							listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
-								(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
-									changeListArguments.ListArgument.EnumType)));
-							break;
+						listVariable.ExplicitValues.Remove(listVariable.ExplicitValues.FirstOrDefault
+							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
+								changeListArguments.ListArgument.EnumType)));
+						break;
 					case ChangeType.RemoveAll:
 						listVariable.ExplicitValues.RemoveAll(
 							(x => ExplicitCompare(x, explicitValue, changeListArguments.ListArgument.ExplicitType,
@@ -548,8 +605,8 @@ namespace FiresecService
 			var checkPermissionArguments = procedureStep.CheckPermissionArguments;
 			var resultVariable = AllVariables.FirstOrDefault(x => x.Uid == checkPermissionArguments.ResultArgument.VariableUid);
 			var permissionValue = GetValue<PermissionType>(checkPermissionArguments.PermissionArgument);
-			if (resultVariable != null)
-				resultVariable.ExplicitValue.BoolValue = ProcedureRunner.User.HasPermission(permissionValue);
+			if (resultVariable != null && User != null)
+				resultVariable.ExplicitValue.BoolValue = User.HasPermission(permissionValue);
 		}
 
 		void GetListCount(ProcedureStep procedureStep)
@@ -568,7 +625,7 @@ namespace FiresecService
 			var itemVariable = AllVariables.FirstOrDefault(x => x.Uid == getListItemArgument.ItemArgument.VariableUid);
 			if ((itemVariable != null) && (listVariable != null))
 			{
-				if(getListItemArgument.PositionType == PositionType.First)
+				if (getListItemArgument.PositionType == PositionType.First)
 					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.FirstOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
 				if (getListItemArgument.PositionType == PositionType.Last)
 					SetValue(itemVariable, GetValue<object>(listVariable.ExplicitValues.LastOrDefault(), itemVariable.ExplicitType, itemVariable.EnumType));
@@ -636,17 +693,6 @@ namespace FiresecService
 			return false;
 		}
 
-		void ControlVisual(ProcedureStep procedureStep)
-		{
-			var automationCallbackResult = new AutomationCallbackResult();
-			automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
-			automationCallbackResult.Message = procedureStep.ControlVisualArguments.LayoutPart.ToString();
-			automationCallbackResult.IsModalWindow = true;
-			automationCallbackResult.ProcedureLayoutCollection = new ProcedureLayoutCollection();
-			automationCallbackResult.ProcedureLayoutCollection.LayoutsUIDs.Add(procedureStep.ControlVisualArguments.Layout);
-			Service.FiresecService.NotifyAutomation(automationCallbackResult);
-		}
-
 		void SetValue(ProcedureStep procedureStep)
 		{
 			var setValueArguments = procedureStep.SetValueArguments;
@@ -668,7 +714,7 @@ namespace FiresecService
 		void SetValue(Variable target, object propertyValue)
 		{
 			if (target.ExplicitType == ExplicitType.Integer)
-				target.ExplicitValue.IntValue = (int) propertyValue;
+				target.ExplicitValue.IntValue = (int)propertyValue;
 			if (target.ExplicitType == ExplicitType.String)
 				target.ExplicitValue.StringValue = Convert.ToString(propertyValue);
 			if (target.ExplicitType == ExplicitType.Boolean)
@@ -678,9 +724,9 @@ namespace FiresecService
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
 				if (target.EnumType == EnumType.DriverType)
-					target.ExplicitValue.DriverTypeValue = (GKDriverType) propertyValue;
+					target.ExplicitValue.DriverTypeValue = (GKDriverType)propertyValue;
 				if (target.EnumType == EnumType.StateType)
-					target.ExplicitValue.StateTypeValue = (XStateClass) propertyValue;
+					target.ExplicitValue.StateTypeValue = (XStateClass)propertyValue;
 				if (target.EnumType == EnumType.PermissionType)
 					target.ExplicitValue.PermissionTypeValue = (PermissionType)propertyValue;
 				if (target.EnumType == EnumType.JournalEventNameType)
@@ -711,7 +757,7 @@ namespace FiresecService
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
 		}
 
-		T GetValue<T> (ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
+		T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)
 		{
 			var result = new object();
 			if (explicitType == ExplicitType.Boolean)
@@ -740,6 +786,15 @@ namespace FiresecService
 					result = explicitValue.JournalObjectTypeValue;
 			}
 			return (T)result;
+		}
+
+		private Guid? GetClientUID(UIArguments arguments)
+		{
+			return arguments.ForAllClients ? null : ClientUID;
+		}
+		private ProcedureLayoutCollection GetLayoutFilter(ProcedureLayoutCollection filter)
+		{
+			return filter == null || filter.LayoutsUIDs == null || filter.LayoutsUIDs.Count == 0 ? null : filter;
 		}
 	}
 }

@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.AutomationCallback;
 
 namespace FiresecService.Service
 {
@@ -60,14 +61,14 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult)
+		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult, Guid? clientUID = null)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.AutomationCallbackResult,
-				AutomationCallbackResult = automationCallbackResult
+				AutomationCallbackResult = automationCallbackResult,
 			};
-			CallbackManager.Add(callbackResult);
+			CallbackManager.Add(callbackResult, clientUID);
 		}
 
 		public static void NotifyNewJournalItems(List<JournalItem> journalItems)

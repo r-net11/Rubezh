@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.ProcedureLayoutCollection);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
 
@@ -69,6 +69,16 @@ namespace AutomationModule.ViewModels
 				ShowMessageArguments.EnumType = value;
 				UpdateContent();
 				OnPropertyChanged(() => EnumType);
+			}
+		}
+
+		public bool ForAllClients
+		{
+			get { return ShowMessageArguments.ForAllClients; }
+			set 
+			{
+				ShowMessageArguments.ForAllClients = value;
+				OnPropertyChanged(() => ForAllClients);
 			}
 		}
 	}

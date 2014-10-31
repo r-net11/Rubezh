@@ -32,6 +32,11 @@ namespace FireMonitor.Layout
 		{
 			return true;
 		}
+		public override void AfterInitialize()
+		{
+			base.AfterInitialize();
+			MonitorLayoutShellViewModel.ListenAutomationEvents();
+		}
 
 		#region ILayoutProviderModule Members
 

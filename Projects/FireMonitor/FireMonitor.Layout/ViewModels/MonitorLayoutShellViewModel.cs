@@ -17,12 +17,12 @@ using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using FiresecAPI.AutomationCallback;
 
 namespace FireMonitor.Layout.ViewModels
 {
 	public class MonitorLayoutShellViewModel : MonitorShellViewModel
 	{
-		public LayoutModel Layout { get; private set; }
 		private XmlLayoutSerializer _serializer;
 		private AutoActivationViewModel _autoActivationViewModel;
 		private SoundViewModel _soundViewModel;
@@ -221,6 +221,27 @@ namespace FireMonitor.Layout.ViewModels
 		private bool CanChangeLayout(LayoutModel layout)
 		{
 			return layout != Layout;
+		}
+
+		public void ListenAutomationEvents()
+		{
+			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+			SafeFiresecService.AutomationEvent += OnAutomationCallback;
+		}
+		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				switch (automationCallbackResult.AutomationCallbackType)
+				{
+					case AutomationCallbackType.GetVisualProperty:
+						MessageBoxService.Show("GetVisualProperty");
+						break;
+					case AutomationCallbackType.SetVisualProperty:
+						MessageBoxService.Show("SetVisualProperty");
+						break;
+				}
+			});
 		}
 	}
 }

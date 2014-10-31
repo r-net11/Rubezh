@@ -10,7 +10,7 @@ namespace FiresecClient
 	{
 		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.RunProcedure(procedureUID, args));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.RunProcedure(FiresecServiceFactory.UID, procedureUID, args));
 		}
 	}
 }

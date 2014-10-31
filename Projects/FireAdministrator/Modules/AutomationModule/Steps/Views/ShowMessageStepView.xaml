@@ -38,6 +38,10 @@
 				<Label Content="Модальное окно" Width="102" Margin ="2, 2, 0, 2" />
 				<CheckBox IsChecked="{Binding IsModalWindow}" />
 			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Всем клиентам" Margin="2, 2, 0, 2" />
+				<CheckBox IsChecked="{Binding ForAllClients}" VerticalAlignment="Center" />
+			</StackPanel>
 		</StackPanel>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
 			<DataGrid ItemsSource="{Binding LayoutItems}">

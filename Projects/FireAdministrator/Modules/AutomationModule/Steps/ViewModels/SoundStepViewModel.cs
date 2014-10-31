@@ -36,7 +36,7 @@ namespace AutomationModule.ViewModels
 			else
 				SelectedSound = null;
 
-			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(SoundArguments.ProcedureLayoutCollection);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(SoundArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 			OnPropertyChanged(() => Sounds);
 		}
@@ -55,6 +55,16 @@ namespace AutomationModule.ViewModels
 				if (UpdateDescriptionHandler != null)
 					UpdateDescriptionHandler();
 				OnPropertyChanged(() => SelectedSound);
+			}
+		}
+
+		public bool ForAllClients
+		{
+			get { return SoundArguments.ForAllClients; }
+			set
+			{
+				SoundArguments.ForAllClients = value;
+				OnPropertyChanged(() => ForAllClients);
 			}
 		}
 	}

@@ -8,13 +8,13 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
-		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
+		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
 			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)
 			{
 				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
-				var result = ProcedureRunner.Run(procedure, args, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables, user);
+				var result = ProcedureRunner.Run(procedure, args, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables, user, null, clientUID);
 				return new OperationResult<bool> { Result = true };
 			}
 			return new OperationResult<bool>("Процедура не найдена");

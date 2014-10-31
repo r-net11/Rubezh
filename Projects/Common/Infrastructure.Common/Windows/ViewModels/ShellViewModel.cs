@@ -4,6 +4,7 @@ using System.Windows;
 using Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
+using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -66,6 +67,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public string Name { get; private set; }
+		public Layout Layout { get; protected set; }
 
 		private ReadOnlyCollection<NavigationItem> _navigationItems;
 		public ReadOnlyCollection<NavigationItem> NavigationItems
