@@ -40,16 +40,4 @@
         <Views:SchedulesMenuView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:HolidaysViewModel}">
-        <Views:HolidaysView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
-        <Views:HolidayDetailsView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:HolidaysMenuViewModel}">
-        <Views:HolidaysMenuView />
-    </DataTemplate>
-
 </ResourceDictionary>

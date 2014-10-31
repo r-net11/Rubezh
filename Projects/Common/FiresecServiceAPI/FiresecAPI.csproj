@@ -529,6 +529,7 @@
     <Compile Include="XModels\PumpStation\GKPumpStation.cs" />
     <Compile Include="XModels\SKD\GKDoorType.cs" />
     <Compile Include="XModels\SKD\GKSchedule.cs" />
+    <Compile Include="XModels\SKD\GKSchedulePeriodType.cs" />
     <Compile Include="XModels\SKD\GKScheduleType.cs" />
     <Compile Include="XModels\States\GKDoorInternalState.cs" />
     <Compile Include="XModels\States\GKStates.cs" />

@@ -207,19 +207,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<GKSchedule> GKGetSchedule(int no)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-			if (gkControllerDevice != null)
-			{
-				return GKProcessorManager.GKGetSchedule(gkControllerDevice, no);
-			}
-			else
-			{
-				return new OperationResult<GKSchedule>("Не найден ГК в конфигурации");
-			}
-		}
-
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);

@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
 				var schedule = scheduleDetailsViewModel.Schedule;
-				if (schedule.ScheduleType == GKScheduleType.Weekly)
+				if (schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
 				{
 					for (int i = 0; i < 7; i++)
 					{
