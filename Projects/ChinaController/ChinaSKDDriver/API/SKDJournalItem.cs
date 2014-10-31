@@ -11,7 +11,7 @@ namespace ChinaSKDDriverAPI
 		public DateTime? DeviceDateTime { get; set; }
 		public JournalEventNameType JournalEventNameType { get; set; }
 		public string Description { get; set; }
-		public int CardNo { get; set; }
+		public string CardNo { get; set; }
 		public int DoorNo { get; set; }
 
 		public NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE emEventType;

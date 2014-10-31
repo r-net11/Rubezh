@@ -32,7 +32,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Comment}" Margin="2" />
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />

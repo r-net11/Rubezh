@@ -101,30 +101,37 @@ namespace Controls
 
 		void PasteButton_Click(object sender, RoutedEventArgs e)
 		{
-			var image = Clipboard.GetImage();
-			if (image != null)
+			try
 			{
-				var stream = new MemoryStream();
-				var encoder = new JpegBitmapEncoder();
-				encoder.QualityLevel = 100;
-				encoder.Frames.Add(BitmapFrame.Create(image));
-				encoder.Save(stream);
-				Data = stream.ToArray();
-				stream.Close();
-				return;
+				var image = Clipboard.GetImage();
+				if (image != null)
+				{
+					var stream = new MemoryStream();
+					var encoder = new JpegBitmapEncoder();
+					encoder.QualityLevel = 100;
+					encoder.Frames.Add(BitmapFrame.Create(image));
+					encoder.Save(stream);
+					Data = stream.ToArray();
+					stream.Close();
+					return;
+				}
+				string fileName = null;
+				foreach (var item in Clipboard.GetFileDropList())
+				{
+					fileName = item;
+					break;
+				}
+				if (fileName != null)
+				{
+					if (Path.GetExtension(fileName) == "" || System.Drawing.Image.FromFile(fileName) == null)
+						MessageBoxService.Show("В буфере обмена отсутствуют изображения");
+					else
+						Data = System.IO.File.ReadAllBytes(fileName);
+				}
 			}
-			string fileName = null;
-			foreach (var item in Clipboard.GetFileDropList())
+			catch (Exception)
 			{
-				fileName = item;
-				break;
-			}
-			if (fileName != null)
-			{
-				if (Path.GetExtension(fileName) == "" || System.Drawing.Image.FromFile(fileName) != null)
-					MessageBoxService.Show("В буфере обмена не отсутствуют изображения");
-				else
-					Data = System.IO.File.ReadAllBytes(fileName);
+				MessageBoxService.Show("Ошибка при загрузке файла из буфера обмена");
 			}
 		}
 

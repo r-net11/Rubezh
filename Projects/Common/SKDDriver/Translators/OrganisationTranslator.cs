@@ -23,52 +23,16 @@ namespace SKDDriver
 				return new OperationResult("Организация таким же именем уже содержится в базе данных");
 			return new OperationResult();
 		}
-
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			//if (Context.Employees.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней сотрудники");
-
-			//if (Context.Departments.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней отделы");
-
-			////if (Context.Positions.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			////    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней должности");
-
-			//if (Context.AccessTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней шаблоны доступа");
-
-			//if (Context.PassCardTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней карты доступа");
-
-			//if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дополнительные колонки");
-
-			//if (Context.DayIntervals.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дневные графики");
-
-			//if (Context.Holidays.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней праздники");
-
-			//if (Context.Schedules.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней графики работ");
-
-			//if (Context.ScheduleSchemes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней схемы работ");
-
-			return base.CanDelete(uid);
-		}
-
+		
 		protected override Organisation Translate(DataAccess.Organisation tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
-			result.DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID) select x.DoorUID).ToList();
-			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
-			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
-			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
+			result.DoorUIDs = Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID).Select(x => x.DoorUID).ToList();
+			result.ZoneUIDs = Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID).Select(x => x.ZoneUID).ToList();
+			result.UserUIDs = Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID).Select(x => x.UserUID).ToList();
 			result.ChiefUID = tableItem.ChiefUID;
 			result.HRChiefUID = tableItem.HRChiefUID;
 			result.Phone = tableItem.Phone;
@@ -198,7 +162,6 @@ namespace SKDDriver
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
-						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList(),
 						ChiefUID = tableItem.ChiefUID,
 						HRChiefUID = tableItem.HRChiefUID,
 						Phone = tableItem.Phone
@@ -234,14 +197,14 @@ namespace SKDDriver
 			{
 				var tableOrganisationDoors = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
 				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationDoors);
-				foreach (var zoneUID in doorUIDs)
+				foreach (var doorUID in doorUIDs)
 				{
 					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
 					tableOrganisationDoor.UID = Guid.NewGuid();
 					tableOrganisationDoor.OrganisationUID = organisationUID;
-					tableOrganisationDoor.DoorUID = zoneUID;
 					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);
 				}
+
 				Table.Context.SubmitChanges();
 			}
 			catch (Exception e)
@@ -249,6 +212,21 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 			return new OperationResult();
+		}
+
+		void DeleteCardDoors(Guid organisationUID, List<Guid> newDoorUIDs)
+		{
+			var doorUIDsToDelete = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID).Select(x => x.DoorUID).ToList().Except(newDoorUIDs);
+			var cardDoorUIDsToDelete = new List<DataAccess.CardDoor>();
+			var cardDoors = Context.Cards.Where(x => !x.IsInStopList && x.Employee.OrganisationUID.Value == organisationUID).SelectMany(x => x.CardDoors);
+			foreach (var cardDoor in cardDoors)
+				if (doorUIDsToDelete.Any(x => x == cardDoor.DoorUID))
+					cardDoorUIDsToDelete.Add(cardDoor);
+			var accessTemplateDoors = Context.AccessTemplates.Where(x => !x.IsDeleted && x.OrganisationUID == organisationUID).SelectMany(x => x.CardDoors);
+			foreach (var cardDoor in accessTemplateDoors)
+				if (doorUIDsToDelete.Any(x => x == cardDoor.DoorUID))
+					cardDoorUIDsToDelete.Add(cardDoor);
+			Context.CardDoors.DeleteAllOnSubmit(cardDoorUIDsToDelete);
 		}
 
 		public OperationResult SaveZones(Organisation apiItem)
@@ -274,39 +252,6 @@ namespace SKDDriver
 					tableOrganisationZone.OrganisationUID = organisationUID;
 					tableOrganisationZone.ZoneUID = zoneUID;
 					Context.OrganisationZones.InsertOnSubmit(tableOrganisationZone);
-				}
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
-		}
-
-		public OperationResult SaveGuardZones(Organisation apiItem)
-		{
-			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
-		}
-
-		public OperationResult SaveGuardZones(OrganisationDetails apiItem)
-		{
-			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
-		}
-
-		OperationResult SaveGuardZonesInternal(Guid organisationUID, List<Guid> GuardZoneUIDs)
-		{
-			try
-			{
-				var tableOrganisationGuardZones = Context.GuardZones.Where(x => x.ParentUID == organisationUID);
-				Context.GuardZones.DeleteAllOnSubmit(tableOrganisationGuardZones);
-				foreach (var GuardZoneUID in GuardZoneUIDs)
-				{
-					var tableOrganisationGuardZone = new DataAccess.GuardZone();
-					tableOrganisationGuardZone.UID = Guid.NewGuid();
-					tableOrganisationGuardZone.ParentUID = organisationUID;
-					tableOrganisationGuardZone.ZoneUID = GuardZoneUID;
-					Context.GuardZones.InsertOnSubmit(tableOrganisationGuardZone);
 				}
 				Table.Context.SubmitChanges();
 			}
@@ -388,9 +333,6 @@ namespace SKDDriver
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
-			var saveGuardZonesResult = SaveGuardZones(apiItem);
-			if (saveGuardZonesResult.HasError)
-				return saveGuardZonesResult;
 			var saveUsersResult = SaveUsers(apiItem);
 			if (saveUsersResult.HasError)
 				return saveUsersResult;

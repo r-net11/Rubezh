@@ -35,7 +35,7 @@
 					<Label Grid.Row="2" Grid.Column="0" Content="Отчество" HorizontalAlignment="Right" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -76,7 +76,7 @@
 					</StackPanel>
 					
 					<Label Grid.Row="5" Grid.Column="0" Content="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+						   Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 					<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
 								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
@@ -98,7 +98,7 @@
 					</StackPanel>
 
 					<Label Grid.Row="6" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
-						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
 								Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
@@ -119,14 +119,14 @@
 						</TextBlock>
 					</StackPanel>
 
-					<Label Grid.Row="7" Grid.Column="0" Content="Назначен" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<Label Grid.Row="7" Grid.Column="0" Content="Назначен" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<TextBlock Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<Hyperlink Command="{Binding SelectAppointedCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock Text="{Binding AppointedString}" TextDecorations="Underline" />
 						</Hyperlink>
 					</TextBlock>
 						
-					<Label Grid.Row="8" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<Label Grid.Row="8" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" Margin="2" />
@@ -224,7 +224,6 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				
 				<ListBox Grid.Column="0" ItemsSource="{Binding GraphicsColumns}" SelectedItem="{Binding SelectedGraphicsColumn}" Visibility="{Binding HasAdditionalGraphicsColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
@@ -236,34 +235,6 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
-			</Grid>
-		</TabItem>
-		<TabItem Header="Охранные зоны" DataContext="{Binding EmployeeGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<DataGrid Grid.Row="0" ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Название" Width="*">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-										<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn Header="Описание" Binding="{Binding GuardZone.Description}" Width="*" />
-					</DataGrid.Columns>
-				</DataGrid>
-				<StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}" Margin="0 4 0 0">
-					<CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Foreground="White" Margin="2" />
-					<CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Foreground="White" Margin="2" />
-				</StackPanel>
 			</Grid>
 		</TabItem>
 	</TabControl>

@@ -21,8 +21,8 @@
 				</Grid.ColumnDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				
-				<Label Grid.Row="1" Grid.Column="0" Content="Описание" Margin="2" HorizontalAlignment="Right" />
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Примечание" Margin="2" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <Label Grid.Row="2" Grid.Column="0" Content="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />

@@ -125,9 +125,6 @@ namespace FiresecAPI
 		OperationResult SaveOrganisationZones(Organisation organisation);
 
 		[OperationContract]
-		OperationResult SaveOrganisationGuardZones(Organisation organisation);
-
-		[OperationContract]
 		OperationResult SaveOrganisationUsers(Organisation organisation);
 
 		[OperationContract]

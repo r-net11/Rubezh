@@ -19,9 +19,9 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Employee employee)
 		{
 			var result = base.CanSave(employee);
-			if(result.HasError)
+			if (result.HasError)
 				return result;
-			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName && 
+			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName &&
 				x.SecondName == employee.SecondName &&
 				x.LastName == employee.LastName &&
 				x.OrganisationUID == employee.OrganisationUID &&
@@ -62,16 +62,6 @@ namespace SKDDriver
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
 			result.Phone = tableItem.Phone;
-			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in guardZones)
-			{
-				result.GuardZoneAccesses.Add(new GKGuardZoneAccess
-					{
-						ZoneUID = item.ZoneUID,
-						CanReset = item.CanReset,
-						CanSet = item.CanSet
-					});
-			}
 			return result;
 		}
 
@@ -136,9 +126,6 @@ namespace SKDDriver
 			var columnSaveResult = DatabaseService.AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
 			if (columnSaveResult.HasError)
 				return columnSaveResult;
-			var zoneSaveResult = SaveGuardZones(apiItem);
-			if (zoneSaveResult.HasError)
-				return zoneSaveResult;
 			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
 				var photoSaveResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
@@ -175,36 +162,6 @@ namespace SKDDriver
 				result = result.And(e => e.SecondName.Contains(filter.SecondName));
 
 			return result;
-		}
-
-		public OperationResult SaveGuardZones(Employee apiItem)
-		{
-			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneAccesses);
-		}
-
-		OperationResult SaveGuardZonesInternal(Guid parentUID, List<GKGuardZoneAccess> GuardZones)
-		{
-			try
-			{
-				var tableOrganisationGuardZones = Context.GuardZones.Where(x => x.ParentUID == parentUID);
-				Context.GuardZones.DeleteAllOnSubmit(tableOrganisationGuardZones);
-				foreach (var guardZone in GuardZones)
-				{
-					var tableOrganisationGuardZone = new DataAccess.GuardZone();
-					tableOrganisationGuardZone.UID = Guid.NewGuid();
-					tableOrganisationGuardZone.ParentUID = parentUID;
-					tableOrganisationGuardZone.ZoneUID = guardZone.ZoneUID;
-					tableOrganisationGuardZone.CanSet = guardZone.CanSet;
-					tableOrganisationGuardZone.CanReset = guardZone.CanReset;
-					Context.GuardZones.InsertOnSubmit(tableOrganisationGuardZone);
-				}
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
 		}
 
 		public OperationResult SaveDepartment(Guid uid, Guid departmentUID)

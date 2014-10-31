@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
+using GKProcessor;
 
 namespace FiresecService.Service
 {
@@ -29,10 +30,6 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveEmployee(Employee item, bool isNew)
 		{
-			//foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
-			//{
-			//	GKAddUser(gkControllerDevice.UID);
-			//}
 			if(isNew)
 				AddJournalMessage(JournalEventNameType.Добавление_нового_сотрудника, item.Name);
 			else
@@ -208,20 +205,27 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard card)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Добавление_карты, item.Number.ToString());
-				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
+				AddJournalMessage(JournalEventNameType.Добавление_карты, card.Number.ToString());
+				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 
 				string cardWriterError = null;
-				var cardWriter = ChinaSKDDriver.Processor.AddCard(item, getAccessTemplateOperationResult.Result);
+				var cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 				cardWriterError = cardWriter.GetError();
 				var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
-				var pendingResult = databaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
+				var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, failedControllerUIDs);
 
-				var saveResult = databaseService.CardTranslator.Save(item);
+				var saveResult = databaseService.CardTranslator.Save(card);
+
+				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+				if (!employeeOperationResult.HasError)
+				{
+					var gkSKDHelper = new GKSKDHelper();
+					gkSKDHelper.AddCard(card, getAccessTemplateOperationResult.Result, employeeOperationResult.Result.Name);
+				}
 
 				var stringBuilder = new StringBuilder();
 				if (!String.IsNullOrEmpty(cardWriterError))
@@ -458,14 +462,6 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.SaveZones(organisation);
-			}
-		}
-		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
-		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.OrganisationTranslator.SaveGuardZones(organisation);
 			}
 		}
 		public OperationResult SaveOrganisationUsers(Organisation organisation)

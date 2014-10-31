@@ -11,6 +11,7 @@ namespace Infrustructure.Plans.Elements
 		{
 			Height = 50;
 			Width = 50;
+			PresentationName = "Новый прямоугольник";
 		}
 
 		[DataMember]

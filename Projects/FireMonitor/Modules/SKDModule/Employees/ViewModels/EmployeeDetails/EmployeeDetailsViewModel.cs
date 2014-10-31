@@ -71,7 +71,6 @@ namespace SKDModule.ViewModels
 				else
 					Title = string.Format("Свойства посетителя: {0}", employee.FIO);
 			}
-			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, _organisation);
 			CopyProperties();
 			return true;
 		}
@@ -392,8 +391,6 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-
-		public EmployeeGuardZonesViewModel EmployeeGuardZones { get; private set; }
 
 		#region Document
 		string _number;
@@ -779,21 +776,6 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
-			var guardZoneAccesses = new List<GKGuardZoneAccess>();
-			foreach (var guardZone in EmployeeGuardZones.GuardZones)
-			{
-				if (guardZone.IsChecked)
-				{
-					var guardZoneAccess = new GKGuardZoneAccess()
-					{
-						ZoneUID = guardZone.GuardZone.UID,
-						CanSet = guardZone.CanSetZone,
-						CanReset = guardZone.CanUnSetZone
-					};
-					guardZoneAccesses.Add(guardZoneAccess);
-				}
-			}
-			Employee.GuardZoneAccesses = guardZoneAccesses;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
 			var saveResult = EmployeeHelper.Save(Employee, _isNew);

@@ -25,6 +25,7 @@ namespace SKDModule.ViewModels
 			base.Initialize(filter);
 			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
+			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
 		}	
 
 		public void InitializeAdditionalColumns()
@@ -54,8 +55,6 @@ namespace SKDModule.ViewModels
 				}
 			}
 		}
-
-		
 
 		protected override IEnumerable<ShortEmployee> GetModels(EmployeeFilter filter)
 		{

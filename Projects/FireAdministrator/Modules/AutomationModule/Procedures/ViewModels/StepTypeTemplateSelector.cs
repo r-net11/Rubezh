@@ -36,6 +36,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate GetListItemTemplate { get; set; }
 		public DataTemplate GetJournalItemTemplate { get; set; }
 		public DataTemplate ControlVisualTemplate { get; set; }
+		public DataTemplate ControlPlanTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -162,6 +163,10 @@ namespace AutomationModule.ViewModels
 			if (item is ControlVisualStepViewModel)
 			{
 				return ControlVisualTemplate;
+			}
+			if (item is ControlPlanStepViewModel)
+			{
+				return ControlPlanTemplate;
 			}
 			return null;
 		}

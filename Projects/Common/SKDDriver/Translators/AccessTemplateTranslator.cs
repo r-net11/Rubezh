@@ -26,7 +26,7 @@ namespace SKDDriver
 				x.UID != accessTemplate.UID &&
 				!x.IsDeleted);
 			if (hasSameName)
-				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
+				return new OperationResult("Шаблон доступа с таким же названием уже содержится в базе данных");
 			else
 				return new OperationResult();
 		}
@@ -52,16 +52,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.CardDoors = DatabaseService.CardDoorTranslator.GetForAccessTemplate(tableItem.UID);
 			result.Name = tableItem.Name;
-			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in guardZones)
-			{
-				result.GuardZoneAccesses.Add(new GKGuardZoneAccess
-				{
-					ZoneUID = item.ZoneUID,
-					CanReset = item.CanReset,
-					CanSet = item.CanSet
-				});
-			}
+			result.Description = tableItem.Description;
 			return result;
 		}
 
@@ -69,6 +60,7 @@ namespace SKDDriver
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
+			tableItem.Description = apiItem.Description;
 		}
 
 		public override OperationResult Save(AccessTemplate item)
@@ -86,36 +78,6 @@ namespace SKDDriver
 			if (names != null && names.Count != 0)
 				result = result.And(e => names.Contains(e.Name));
 			return result;
-		}
-
-		public OperationResult SaveGuardZones(AccessTemplate apiItem)
-		{
-			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneAccesses);
-		}
-
-		OperationResult SaveGuardZonesInternal(Guid parentUID, List<GKGuardZoneAccess> GuardZones)
-		{
-			try
-			{
-				var tableOrganisationGuardZones = Context.GuardZones.Where(x => x.ParentUID == parentUID);
-				Context.GuardZones.DeleteAllOnSubmit(tableOrganisationGuardZones);
-				foreach (var guardZone in GuardZones)
-				{
-					var tableOrganisationGuardZone = new DataAccess.GuardZone();
-					tableOrganisationGuardZone.UID = Guid.NewGuid();
-					tableOrganisationGuardZone.ParentUID = parentUID;
-					tableOrganisationGuardZone.ZoneUID = guardZone.ZoneUID;
-					tableOrganisationGuardZone.CanSet = guardZone.CanSet;
-					tableOrganisationGuardZone.CanReset = guardZone.CanReset;
-					Context.GuardZones.InsertOnSubmit(tableOrganisationGuardZone);
-				}
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
 		}
 	}
 }

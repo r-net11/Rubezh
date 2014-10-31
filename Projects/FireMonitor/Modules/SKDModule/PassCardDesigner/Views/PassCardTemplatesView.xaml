@@ -18,7 +18,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
+                <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

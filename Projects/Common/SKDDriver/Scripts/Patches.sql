@@ -1055,14 +1055,42 @@ END
 
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards')
 BEGIN
-	ALTER TABLE Card ADD [CardSubsystemType] [tinyint] NOT NULL CONSTRAINT "Card_CardSubsystemType_Default" DEFAULT 0
 	ALTER TABLE Card ADD [GKLevel] [tinyint] NOT NULL CONSTRAINT "Card_GKLevel_Default" DEFAULT 0
 	ALTER TABLE Card ADD [GKLevelSchedule] [tinyint] NOT NULL CONSTRAINT "Card_GKLevelSchedule_Default" DEFAULT 0
-	ALTER TABLE CardDoor ADD [CardSubsystemType] [tinyint] NOT NULL CONSTRAINT "CardDoor_CardSubsystemType_Default" DEFAULT 0
-	ALTER TABLE OrganisationDoor ADD [CardSubsystemType] [tinyint] NOT NULL CONSTRAINT "OrganisationDoor_CardSubsystemType_Default" DEFAULT 0
-
 	ALTER TABLE CardDoor DROP COLUMN EnterIntervalType
 	ALTER TABLE CardDoor DROP COLUMN ExitIntervalType
-
 	INSERT INTO Patches (Id) VALUES ('GKCards')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameCardDoorIntervals')
+BEGIN
+	EXEC sp_rename 'CardDoor.EnterIntervalID', 'EnterScheduleNo', 'COLUMN'
+	EXEC sp_rename 'CardDoor.ExitIntervalID', 'ExitScheduleNo', 'COLUMN'
+	INSERT INTO Patches (Id) VALUES ('RenameCardDoorIntervals')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardNoString')
+BEGIN
+	ALTER TABLE Card ALTER COLUMN Number nvarchar(50) NOT NULL
+	INSERT INTO Patches (Id) VALUES ('CardNoString')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CreateGKMetadata')
+BEGIN
+	CREATE TABLE [dbo].[GKMetadata](
+	[IPAddress] [nvarchar](50) NOT NULL,
+	[SerialNo] [nvarchar](50) NOT NULL,
+	[LastJournalNo] [int] NOT NULL,
+	[LastUserNo] [int] NOT NULL
+	)
+	ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('CreateGKMetadata')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEventNamesAndDescriptions')
+BEGIN
+	DROP TABLE EventNames
+	DROP TABLE EventDescriptions
+	DROP TABLE GuardZone
+	INSERT INTO Patches (Id) VALUES ('RemoveEventNamesAndDescriptions')
 END

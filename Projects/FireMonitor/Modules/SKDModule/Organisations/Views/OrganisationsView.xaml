@@ -54,29 +54,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Door.PresentationName}" Margin="2" />
-								</StackPanel>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-					<StackPanel Grid.Row="1" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
-					</StackPanel>
-				</Grid>
-			</TabItem>
-            <TabItem Header="Охранные зоны" Visibility="{Binding HasOrganisationGuardZones, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid DataContext="{Binding OrganisationGuardZonesViewModel}">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding GuardZone.PresentationName}" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding PresentationName}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>

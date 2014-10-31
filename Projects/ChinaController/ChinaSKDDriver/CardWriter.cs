@@ -5,6 +5,7 @@ using ChinaSKDDriverAPI;
 using FiresecAPI.SKD;
 using FiresecAPI;
 using System.Text;
+using System.Globalization;
 
 namespace ChinaSKDDriver
 {
@@ -39,10 +40,10 @@ namespace ChinaSKDDriver
 				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 				if (door != null)
 				{
-					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterIntervalID);
+					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterScheduleNo);
 					if (door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
 					{
-						Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitIntervalID);
+						Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitScheduleNo);
 					}
 				}
 			}
@@ -173,7 +174,7 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					var card = new Card();
-					card.CardNo = controllerCardItem.Card.Number.ToString();
+					card.CardNo = controllerCardItem.Card.Number;
 					card.ValidStartDateTime = controllerCardItem.Card.StartDate;
 					card.ValidEndDateTime = controllerCardItem.Card.EndDate;
 					card.UserTime = controllerCardItem.Card.UserTime;
@@ -226,6 +227,13 @@ namespace ChinaSKDDriver
 					}
 
 					var result = false;
+
+					var intNumber = 0;
+					if (!Int32.TryParse(controllerCardItem.Card.Number, out intNumber))
+					{
+						Int32.TryParse(controllerCardItem.Card.Number, NumberStyles.HexNumber, null, out intNumber);
+					}
+
 					switch (controllerCardItem.ActionType)
 					{
 						case ControllerCardItem.ActionTypeEnum.Add:
@@ -233,7 +241,7 @@ namespace ChinaSKDDriver
 							result = cardRecordNo == controllerCardItem.Card.Number;
 							if (!result)
 							{
-								result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
+								result = deviceProcessor.Wrapper.RemoveCard(intNumber);
 								if (result)
 								{
 									cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
@@ -252,7 +260,7 @@ namespace ChinaSKDDriver
 							break;
 
 						case ControllerCardItem.ActionTypeEnum.Delete:
-							result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
+							result = deviceProcessor.Wrapper.RemoveCard(intNumber);
 							break;
 					}
 

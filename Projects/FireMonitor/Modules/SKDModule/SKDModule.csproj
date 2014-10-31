@@ -81,8 +81,6 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
-    <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
-    <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
     <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
     <Compile Include="Common\DetailsValidateHelper.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
@@ -107,8 +105,6 @@
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
@@ -119,6 +115,7 @@
     </Compile>
     <Compile Include="Events\BlockCardEvent.cs" />
     <Compile Include="Events\ChangeDepartmentChiefEvent.cs" />
+    <Compile Include="Events\ChangeEmployeeGuestEvent.cs" />
     <Compile Include="Events\ChangeIsDeletedEvent.cs" />
     <Compile Include="Events\EditEmployeeEvent.cs" />
     <Compile Include="Events\EditEmployeePositionDepartmentEvent.cs" />
@@ -275,8 +272,6 @@
     <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationGuardZonesViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationGuardZoneViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
     <Compile Include="PassCard\Designer\PassCardCanvas.cs" />

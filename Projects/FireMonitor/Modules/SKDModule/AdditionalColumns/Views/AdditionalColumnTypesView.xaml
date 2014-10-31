@@ -19,7 +19,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
+                <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
                             <TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />

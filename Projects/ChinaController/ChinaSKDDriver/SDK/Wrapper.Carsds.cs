@@ -9,11 +9,11 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
-		public int AddCard(Card card)
+		public string AddCard(Card card)
 		{
 			var nativeCard = CardToNativeCard(card);
 			var result = NativeWrapper.WRAP_Insert_Card(LoginID, ref nativeCard);
-			return result;
+			return result.ToString();
 		}
 
 		public bool EditCard(Card card)
