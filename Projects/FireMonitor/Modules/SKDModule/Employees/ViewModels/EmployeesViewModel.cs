@@ -18,6 +18,8 @@ namespace SKDModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
+			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
 		}
 
 		public override void Initialize(EmployeeFilter filter)
@@ -150,6 +152,18 @@ namespace SKDModule.ViewModels
 				var model = EmployeeHelper.GetSingleShort(employeeUID);
 				if(model != null)
 					viewModel.Update(model);
+			}
+		}
+
+		void OnUpdateAccessTemplate(Guid accessTemplateUID)
+		{
+			var cards = Organisations.SelectMany(x => x.Children).SelectMany(x => x.Cards).Where(x => x.Card.AccessTemplateUID != null && x.Card.AccessTemplateUID.Value == accessTemplateUID);;
+			if (cards != null)
+			{
+				foreach (var card in cards)
+				{
+					card.UpdateCardDoors();
+				}
 			}
 		}
 	}

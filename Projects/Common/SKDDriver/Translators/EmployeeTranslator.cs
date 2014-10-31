@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 
@@ -39,7 +37,6 @@ namespace SKDDriver
 			result.FirstName = tableItem.FirstName;
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
-			result.Appointed = tableItem.Appointed;
 			result.Department = DatabaseService.DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
 			result.Schedule = DatabaseService.ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
@@ -73,7 +70,7 @@ namespace SKDDriver
 			result.LastName = tableItem.LastName;
 			result.Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
-			result.Appointed = tableItem.Appointed.ToString("d MMM yyyy");
+			result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
 			result.TabelNo = tableItem.TabelNo;
 			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID);
 			result.Phone = tableItem.Phone;
@@ -98,7 +95,6 @@ namespace SKDDriver
 			tableItem.FirstName = apiItem.FirstName;
 			tableItem.SecondName = apiItem.SecondName;
 			tableItem.LastName = apiItem.LastName;
-			tableItem.Appointed = CheckDate(apiItem.Appointed);
 			tableItem.PositionUID = apiItem.Position != null ? apiItem.Position.UID : Guid.Empty;
 			tableItem.DepartmentUID = apiItem.Department != null ? apiItem.Department.UID : Guid.Empty;
 			tableItem.ScheduleUID = apiItem.Schedule != null ? apiItem.Schedule.UID : Guid.Empty;

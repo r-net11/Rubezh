@@ -29,8 +29,7 @@ namespace SKDModule.ViewModels
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
 
-			var cardDoors = GetCardDoors(Card);
-			CardDoorsViewModel = new CardDoorsViewModel(cardDoors);
+			SetCardDoors();
 		}
 
 		public string Name
@@ -38,16 +37,16 @@ namespace SKDModule.ViewModels
 			get { return "Пропуск " + Card.Number; }
 		}
 
-		List<CardDoor> GetCardDoors(SKDCard card)
+		List<CardDoor> GetCardDoors()
 		{
 			var cardDoors = new List<CardDoor>();
-			cardDoors.AddRange(card.CardDoors);
-			if (card.AccessTemplateUID != null)
+			cardDoors.AddRange(Card.CardDoors);
+			if (Card.AccessTemplateUID != null)
 			{
 				var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
 				if (accessTemplates != null)
 				{
-					var accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
+					var accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == Card.AccessTemplateUID);
 					if (accessTemplate != null)
 					{
 						foreach (var cardZone in accessTemplate.CardDoors)
@@ -59,6 +58,18 @@ namespace SKDModule.ViewModels
 				}
 			}
 			return cardDoors;
+		}
+
+		public void SetCardDoors()
+		{
+			var cardDoors = GetCardDoors();
+			CardDoorsViewModel = new CardDoorsViewModel(cardDoors);
+		}
+
+		public void UpdateCardDoors()
+		{
+			var cardDoors = GetCardDoors();
+			CardDoorsViewModel.Update(cardDoors);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -91,8 +102,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Card);
 				OnPropertyChanged(() => Name);
 
-				var cardDoors = GetCardDoors(Card);
-				CardDoorsViewModel.Update(cardDoors);
+				SetCardDoors();
 			}
 		}
 
