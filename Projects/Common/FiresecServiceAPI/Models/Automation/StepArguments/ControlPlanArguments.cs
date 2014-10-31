@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class ControlPlanArguments
+	public class ControlPlanArguments : UIArguments
 	{
 		public ControlPlanArguments()
 		{
@@ -26,6 +26,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ElementPropertyType ElementPropertyType { get; set; }
+
+		[DataMember]
+		public ControlVisualType ControlVisualType { get; set; }
 
 		[DataMember]
 		public Argument ValueArgument { get; set; }

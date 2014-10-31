@@ -104,6 +104,29 @@ namespace FiresecService
 			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.ControlVisualArguments));
 		}
 
+		void ControlPlan(ProcedureStep procedureStep)
+		{
+			var controlPlanArguments = procedureStep.ControlPlanArguments;
+			AutomationCallbackType callbackType;
+			object value = null;
+
+			callbackType = AutomationCallbackType.SetPlanProperty;
+			value = GetValue<object>(controlPlanArguments.ValueArgument);
+
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = callbackType,
+				Data = new PlanCallbackData()
+				{
+					PlanUid = controlPlanArguments.PlanUid,
+					ElementUid = controlPlanArguments.ElementUid,
+					ElementPropertyType = controlPlanArguments.ElementPropertyType,
+					Value = value,
+				},
+			};
+			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(controlPlanArguments));
+		}
+
 		void Calculate(ProcedureStep procedureStep)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
