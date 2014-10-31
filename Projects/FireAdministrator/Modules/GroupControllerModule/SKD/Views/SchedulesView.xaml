@@ -34,8 +34,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить (Ctrl+N)" />
-                <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
+                <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+                <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
             </StackPanel>
             <DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
                 <DataGrid.Columns>

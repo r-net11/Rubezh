@@ -9,7 +9,6 @@
 
         <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedSchedule}">
             <ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="/Controls;component/Images/ParametersWrite.png" />
-            <ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать" ImageSource="/Controls;component/Images/ParametersRead.png" />
         </StackPanel>
     </StackPanel>
 </UserControl>

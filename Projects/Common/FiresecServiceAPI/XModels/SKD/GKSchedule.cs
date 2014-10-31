@@ -15,6 +15,8 @@ namespace FiresecAPI.GK
 	{
 		public GKSchedule()
 		{
+			ScheduleType = GKScheduleType.Access;
+			SchedulePeriodType = GKSchedulePeriodType.Weekly;
 			StartDateTime = DateTime.Now;
 			DayScheduleUIDs = new List<Guid>();
 		}
@@ -26,16 +28,34 @@ namespace FiresecAPI.GK
 		public GKScheduleType ScheduleType { get; set; }
 
 		/// <summary>
+		/// Тип периодичности графика
+		/// </summary>
+		[DataMember]
+		public GKSchedulePeriodType SchedulePeriodType { get; set; }
+
+		/// <summary>
 		/// Начало действия графика
 		/// </summary>
 		[DataMember]
 		public DateTime StartDateTime { get; set; }
 
 		/// <summary>
-		/// Период графика в часах
+		/// Период в часах
 		/// </summary>
 		[DataMember]
 		public int HoursPeriod { get; set; }
+
+		/// <summary>
+		/// Номер праздничного графика
+		/// </summary>
+		[DataMember]
+		public int HolidayScheduleNo { get; set; }
+
+		/// <summary>
+		/// Номер рабочего выходного
+		/// </summary>
+		[DataMember]
+		public int WorkHolidayScheduleNo { get; set; }
 
 		/// <summary>
 		/// Список составных идентификаторов дневных графиков

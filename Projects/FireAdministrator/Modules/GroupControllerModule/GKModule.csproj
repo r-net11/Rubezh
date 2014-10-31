@@ -111,7 +111,6 @@
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ShowGKHolidayEvent.cs" />
     <Compile Include="Events\CreateGKDoorEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\EditGKGuardZoneEvent.cs" />
@@ -394,10 +393,6 @@
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SKD\ViewModels\HolidayDetailsViewModel.cs" />
-    <Compile Include="SKD\ViewModels\HolidaysMenuViewModel.cs" />
-    <Compile Include="SKD\ViewModels\HolidaysViewModel.cs" />
-    <Compile Include="SKD\ViewModels\HolidayViewModel.cs" />
     <Compile Include="SKD\ViewModels\DayScheduleDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DaySchedulePartDetailsViewModel.cs" />
     <Compile Include="SKD\ViewModels\DaySchedulePartsViewModel.cs" />
@@ -414,15 +409,7 @@
     <Compile Include="SKD\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
     <Compile Include="SKD\ViewModels\SchedulePartViewModel.cs" />
-    <Compile Include="SKD\Views\HolidayDetailsView.xaml.cs">
-      <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\HolidaysMenuView.xaml.cs">
-      <DependentUpon>HolidaysMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SKD\Views\HolidaysView.xaml.cs">
-      <DependentUpon>HolidaysView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="SKD\ViewModels\SchedulePartsViewModel.cs" />
     <Compile Include="SKD\Views\DayScheduleDetailsView.xaml.cs">
       <DependentUpon>DayScheduleDetailsView.xaml</DependentUpon>
     </Compile>
@@ -457,8 +444,6 @@
       <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
-    <Compile Include="Validation\Validator.Holidays.cs" />
-    <Compile Include="Validation\HolidayValidationError.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
     <Compile Include="Validation\DayScheduleValidationError.cs" />
     <Compile Include="Validation\Validator.Codes.cs" />
@@ -853,18 +838,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SKD\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\HolidayDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\HolidaysMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SKD\Views\HolidaysView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

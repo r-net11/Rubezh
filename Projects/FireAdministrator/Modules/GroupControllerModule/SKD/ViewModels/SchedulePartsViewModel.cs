@@ -12,50 +12,22 @@ using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
-	public class ScheduleViewModel : BaseViewModel
+	public class SchedulePartsViewModel : BaseViewModel
 	{
 		public GKSchedule Schedule { get; set; }
 
-		public ScheduleViewModel(GKSchedule schedule)
+		public SchedulePartsViewModel(GKSchedule schedule)
 		{
-			WriteCommand = new RelayCommand(OnWrite);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-
 			Schedule = schedule;
 			Update();
-		}
-
-		public string Name
-		{
-			get { return Schedule.Name; }
-			set
-			{
-				Schedule.Name = value;
-				Schedule.OnChanged();
-				OnPropertyChanged(() => Name);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public string Description
-		{
-			get { return Schedule.Description; }
-			set
-			{
-				Schedule.Description = value;
-				Schedule.OnChanged();
-				OnPropertyChanged(() => Description);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		public void Update(GKSchedule schedule)
 		{
 			Schedule = schedule;
 			OnPropertyChanged(() => Schedule);
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
 			Update();
 		}
 		public void Update()
