@@ -11,6 +11,7 @@ using FiresecService.ViewModels;
 using GKProcessor;
 using SKDDriver;
 using System.Collections.Generic;
+using SKDDriver.Translators;
 
 namespace FiresecService.Service
 {
@@ -116,9 +117,9 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var passJournalTranslator = new PassJournalTranslator())
 			{
-				databaseService.TimeTrackTranslator.InsertPassJournalTestData();
+				passJournalTranslator.InsertPassJournalTestData();
 			}
 			return "Test";
 		}

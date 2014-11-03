@@ -129,7 +129,6 @@
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
-    <Compile Include="Service\DBHelper\DBHelper.EventNames.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeTrack.cs" />
     <Compile Include="Service\FiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\FiresecService.GK.cs" />

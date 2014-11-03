@@ -1107,3 +1107,55 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('Drop_Employee_Appointed')	
 END
+
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Journal_And_PassJournal')
+BEGIN
+	DROP TABLE Journal
+	DROP TABLE PassJournal
+	INSERT INTO Patches (Id) VALUES ('Drop_Journal_And_PassJournal')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Create_Journal_And_PassJournal_Metadata')
+BEGIN
+	CREATE TABLE [dbo].[JournalMetadata](
+		[UID] [uniqueidentifier] NOT NULL,
+		[No] [int] NOT NULL,
+		[StartDateTime] [datetime] NOT NULL,
+		[EndDateTime] [datetime] NOT NULL,
+	CONSTRAINT [PK_JournalMetadata] PRIMARY KEY CLUSTERED
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	CREATE TABLE [dbo].[PassJournalMetadata](
+		[UID] [uniqueidentifier] NOT NULL,
+		[No] [int] NOT NULL,
+		[StartDateTime] [datetime] NOT NULL,
+		[EndDateTime] [datetime] NOT NULL,
+	CONSTRAINT [PK_PassJournalMetadata] PRIMARY KEY CLUSTERED
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('Create_Journal_And_PassJournal_Metadata')
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Recreate_GKMetadata')
+BEGIN
+	DROP TABLE GKMetadata
+
+	CREATE TABLE [dbo].[GKMetadata](
+		[UID] [uniqueidentifier] NOT NULL,
+		[IPAddress] [nvarchar](50) NOT NULL,
+		[SerialNo] [nvarchar](50) NOT NULL,
+		[LastJournalNo] [int] NOT NULL,
+		[LastUserNo] [int] NOT NULL
+	CONSTRAINT [PK_GKMetadata] PRIMARY KEY CLUSTERED
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata')
+END

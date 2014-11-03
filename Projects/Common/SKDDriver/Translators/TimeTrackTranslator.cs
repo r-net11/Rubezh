@@ -9,8 +9,9 @@ namespace SKDDriver.Translators
 {
 	public class TimeTrackTranslator
 	{
-		protected SKDDatabaseService DatabaseService;
-		protected DataAccess.SKDDataContext Context;
+		SKDDatabaseService DatabaseService;
+		DataAccess.SKDDataContext Context;
+		IEnumerable<DataAccess.Holiday> Holidays { get; set; }
 
 		public TimeTrackTranslator(SKDDatabaseService databaseService)
 		{
@@ -18,107 +19,12 @@ namespace SKDDriver.Translators
 			Context = databaseService.Context;
 		}
 
-		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
-		{
-			InvalidatePassJournal();
-
-			try
-			{
-				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
-				if (exitPassJournal != null)
-				{
-					exitPassJournal.ExitTime = DateTime.Now;
-				}
-				var enterPassJournal = new DataAccess.PassJournal();
-				enterPassJournal.UID = Guid.NewGuid();
-				enterPassJournal.EmployeeUID = employeeUID;
-				enterPassJournal.ZoneUID = zoneUID;
-				enterPassJournal.EnterTime = DateTime.Now;
-				enterPassJournal.ExitTime = null;
-				Context.PassJournals.InsertOnSubmit(enterPassJournal);
-				Context.SubmitChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		void InvalidatePassJournal()
-		{
-			try
-			{
-				var hasChanges = false;
-				var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
-				foreach (var emptyExitPassJournal in emptyExitPassJournals)
-				{
-					var enterTime = emptyExitPassJournal.EnterTime;
-					var nowTime = DateTime.Now;
-					if (nowTime.Date > enterTime.Date)
-					{
-						emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
-						hasChanges = true;
-					}
-				}
-				if (hasChanges)
-				{
-					Context.SubmitChanges();
-				}
-			}
-			catch { }
-		}
-
-		public void InsertPassJournalTestData()
-		{
-			var employees = DatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
-			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
-
-			foreach (var passJournal in Context.PassJournals)
-			{
-				Context.PassJournals.DeleteOnSubmit(passJournal);
-			}
-
-			var random = new Random();
-			foreach (var employee in employees)
-			{
-				for (int day = 0; day < 100; day++)
-				{
-					var dateTime = DateTime.Now.AddDays(-day);
-
-					var seconds = new List<int>();
-					var count = random.Next(0, 5);
-					for (int i = 0; i < count * 2; i++)
-					{
-						var totalSeconds = random.Next(0, 24 * 60 * 60);
-						seconds.Add(totalSeconds);
-					}
-					seconds.Sort();
-
-					for (int i = 0; i < count * 2; i += 2)
-					{
-						var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
-						var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
-
-						var passJournal = new DataAccess.PassJournal();
-						passJournal.UID = Guid.NewGuid();
-						passJournal.EmployeeUID = employee.UID;
-						passJournal.ZoneUID = zoneUID;
-						passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
-						passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
-						Context.PassJournals.InsertOnSubmit(passJournal);
-					}
-				}
-			}
-
-			Context.SubmitChanges();
-		}
-
-		IEnumerable<DataAccess.Holiday> Holidays { get; set; }
-
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			InvalidatePassJournal();
+			using (var passJournalTranslator = new PassJournalTranslator())
+			{
+				passJournalTranslator.InvalidatePassJournal();
+			}
 
 			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
 				Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value) && !x.IsDeleted).ToList();
@@ -209,23 +115,26 @@ namespace SKDDriver.Translators
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
 			timeTrackEmployeeResult.ScheduleName = schedule.Name;
 
-			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+			using (var passJournalTranslator = new PassJournalTranslator())
 			{
-				var dayTimeTrack = GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
-				dayTimeTrack.NightSettings = nightSettings;
-				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
-				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-				dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
+				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+				{
+					var dayTimeTrack = passJournalTranslator.GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
+					dayTimeTrack.NightSettings = nightSettings;
+					dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+					dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+					dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
+					dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
 
-				var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, date);
-				dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackPart.TimeTrackParts;
-				dayTimeTrack.IsHoliday = plannedTimeTrackPart.IsHoliday;
-				dayTimeTrack.HolidayReduction = plannedTimeTrackPart.HolidayReduction;
-				dayTimeTrack.SlideTime = plannedTimeTrackPart.SlideTime;
-				dayTimeTrack.Error = plannedTimeTrackPart.Error;
+					var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, date);
+					dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackPart.TimeTrackParts;
+					dayTimeTrack.IsHoliday = plannedTimeTrackPart.IsHoliday;
+					dayTimeTrack.HolidayReduction = plannedTimeTrackPart.HolidayReduction;
+					dayTimeTrack.SlideTime = plannedTimeTrackPart.SlideTime;
+					dayTimeTrack.Error = plannedTimeTrackPart.Error;
 
-				timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
+					timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
+				}
 			}
 			return timeTrackEmployeeResult;
 		}
@@ -354,37 +263,6 @@ namespace SKDDriver.Translators
 			}
 
 			return result;
-		}
-
-		DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
-		{
-			var dayTimeTrack = new DayTimeTrack();
-			dayTimeTrack.Date = date;
-
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();
-			if (passJournals != null)
-			{
-				foreach (var passJournal in passJournals)
-				{
-					var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
-					if (scheduleZone != null)
-					{
-						if (passJournal.ExitTime.HasValue)
-						{
-							var timeTrackPart = new TimeTrackPart()
-							{
-								StartTime = passJournal.EnterTime.TimeOfDay,
-								EndTime = passJournal.ExitTime.Value.TimeOfDay,
-								ZoneUID = passJournal.ZoneUID
-							};
-							dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
-						}
-					}
-				}
-			}
-			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-
-			return dayTimeTrack;
 		}
 
 		//****************************************************************************************

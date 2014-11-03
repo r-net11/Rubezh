@@ -122,7 +122,7 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				using (var dataContext = new SqlConnection(ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString))
+				using (var dataContext = new SqlConnection(PatchManager.JournalConnectionString))
 				{
 					var query = "SELECT MIN(SystemDate) FROM Journal";
 					var sqlCeCommand = new SqlCommand(query, dataContext);

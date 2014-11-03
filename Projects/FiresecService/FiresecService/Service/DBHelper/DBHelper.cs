@@ -18,16 +18,52 @@ namespace FiresecService
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		static string ConnectionString = ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString;
+		public static string ConnectionString { get; set; }
 
 		public static void Add(JournalItem journalItem)
 		{
-			lock (databaseLocker)
+			journalItem.UID = Guid.NewGuid();
+
+			try
 			{
-				using (var databaseService = new SKDDatabaseService())
+				lock (locker)
 				{
-					databaseService.JournalItemTranslator.Save(journalItem);
+					using (var dataContext = new SqlConnection(ConnectionString))
+					{
+						dataContext.ConnectionString = ConnectionString;
+						dataContext.Open();
+
+						var sqCommand = new SqlCommand();
+						sqCommand.Connection = dataContext;
+
+						string detalization = JournalDetalisationItem.ListToString(journalItem.JournalDetalisationItems);
+
+						sqCommand.CommandText = @"Insert Into Journal" +
+							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
+						sqCommand.Parameters.AddWithValue("@p1", (object)journalItem.UID);
+						sqCommand.Parameters.AddWithValue("@p2", (object)journalItem.SystemDateTime);
+						sqCommand.Parameters.AddWithValue("@p3", (object)journalItem.DeviceDateTime ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p4", (object)((int)journalItem.JournalSubsystemType));
+						sqCommand.Parameters.AddWithValue("@p5", (object)((int)journalItem.JournalEventNameType));
+						sqCommand.Parameters.AddWithValue("@p6", (object)((int)journalItem.JournalEventDescriptionType));
+						sqCommand.Parameters.AddWithValue("@p7", (object)journalItem.NameText ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p8", (object)journalItem.DescriptionText ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p9", (object)((int)journalItem.JournalObjectType));
+						sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectName ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p11", (object)journalItem.ObjectUID);
+						sqCommand.Parameters.AddWithValue("@p12", (object)detalization);
+						sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.UserName ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p14", (object)journalItem.EmployeeUID);
+						sqCommand.ExecuteNonQuery();
+
+						dataContext.Close();
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecService.GetTopLast");
 			}
 		}
 

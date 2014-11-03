@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="PassJournal">
+  <DataContextMoniker Name="/PassJournalDataContext" />
+  <nestedChildShapes>
+    <classShape Id="f6107889-0b15-4507-b490-d4f9b32712b1" absoluteBounds="6.375, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/PassJournalDataContext/PassJournal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="27f91be7-e2fa-4f4f-8dbb-b7d1c6609c10" absoluteBounds="6.39, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
