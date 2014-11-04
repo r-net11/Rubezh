@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			if (Schedule.ScheduleType == GKScheduleType.Weekly)
+			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
 			{
 				var dayOfWeekNo = Index % 7;
 				Name = IntToWeekDay(dayOfWeekNo);

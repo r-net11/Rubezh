@@ -10,6 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public ArgumentViewModel ValueArgument { get; private set; }
 		ControlPlanArguments ControlPlanArguments { get; set; }
+		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
 		public ControlPlanStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
@@ -98,6 +99,8 @@ namespace AutomationModule.ViewModels
 			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
 			OnPropertyChanged(() => Plans);
 			ValueArgument.Update(Procedure, PropertyTypeToExplicitType(SelectedElementPropertyType), isList: false);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanArguments.LayoutFilter);
+			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
 
 		public override string Description

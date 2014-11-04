@@ -10,6 +10,8 @@ namespace FiresecAPI.AutomationCallback
 		Message,
 		Sound,
 		SetVisualProperty,
-		GetVisualProperty
+		GetVisualProperty,
+		SetPlanProperty,
+		GetPlanProperty
 	}
 }

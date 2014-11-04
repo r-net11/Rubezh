@@ -18,9 +18,25 @@ namespace AutomationModule.ViewModels
 			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
-			if (!File.Exists(ImageSource))
-				ImageSource = "/Controls;component/StepIcons/Step.png";
+			ImageSource = "/Controls;component/StepIcons/Step.png";
+			if ((step.ProcedureStepType == ProcedureStepType.Arithmetics) || (step.ProcedureStepType == ProcedureStepType.SetValue)
+				|| (step.ProcedureStepType == ProcedureStepType.IncrementValue) || (step.ProcedureStepType == ProcedureStepType.FindObjects)
+				|| (step.ProcedureStepType == ProcedureStepType.GetObjectProperty) || (step.ProcedureStepType == ProcedureStepType.Random)
+				|| (step.ProcedureStepType == ProcedureStepType.ChangeList) || (step.ProcedureStepType == ProcedureStepType.GetListCount)
+				|| (step.ProcedureStepType == ProcedureStepType.GetListItem) || (step.ProcedureStepType == ProcedureStepType.PlaySound)
+				|| (step.ProcedureStepType == ProcedureStepType.AddJournalItem) || (step.ProcedureStepType == ProcedureStepType.SendEmail)
+				|| (step.ProcedureStepType == ProcedureStepType.ShowMessage) || (step.ProcedureStepType == ProcedureStepType.ControlVisual)
+				|| (step.ProcedureStepType == ProcedureStepType.Exit) || (step.ProcedureStepType == ProcedureStepType.Pause)
+				|| (step.ProcedureStepType == ProcedureStepType.ProcedureSelection) || (step.ProcedureStepType == ProcedureStepType.CheckPermission)
+				|| (step.ProcedureStepType == ProcedureStepType.For) || (step.ProcedureStepType == ProcedureStepType.While)
+				|| (step.ProcedureStepType == ProcedureStepType.Break) || (step.ProcedureStepType == ProcedureStepType.Continue)
+				|| (step.ProcedureStepType == ProcedureStepType.GetJournalItem))
+				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
+			if ((step.ProcedureStepType == ProcedureStepType.ControlCamera) || (step.ProcedureStepType == ProcedureStepType.ControlDirection)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone))
+				ImageSource = "/Controls;component/StepIcons/Control.png";
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:

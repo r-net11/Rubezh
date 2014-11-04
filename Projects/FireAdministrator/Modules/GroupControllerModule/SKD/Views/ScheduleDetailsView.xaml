@@ -16,7 +16,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition />
@@ -39,7 +42,7 @@
                 <Label Grid.Row="3" Grid.Column="0" Content="Дата начала действия" HorizontalAlignment="Right" Margin="2" />
                 <loya:Dameer Grid.Row="3" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Тип периоличности" HorizontalAlignment="Right" Margin="2" />
+                <Label Grid.Row="4" Grid.Column="0" Content="Тип графика" HorizontalAlignment="Right" Margin="2" />
                 <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding CanChangeScheduleType}" Margin="2">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -48,9 +51,77 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <Label Grid.Row="5" Grid.Column="0" Content="Период, ч" Visibility="{Binding CanChangeHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Right" Margin="2" />
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding HoursPeriod}" Visibility="{Binding CanChangeHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                <Label Grid.Row="5" Grid.Column="0" Content="Тип периодичности" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding SchedulePeriodTypes}" SelectedItem="{Binding SelectedSchedulePeriodType}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label Grid.Row="6" Grid.Column="0" Content="График праздников" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label Grid.Row="7" Grid.Column="0" Content="График рабочих выходных" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding WorkHolidays}" SelectedItem="{Binding SelectedWorkHoliday}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label Grid.Row="8" Grid.Column="0" Content="Период, ч" HorizontalAlignment="Right" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                <ComboBox Grid.Row="8" Grid.Column="1" Text="{Binding HoursPeriod}" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
             </Grid>
 		</TabItem>
+        <TabItem Header="Состав" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Grid.Column="2" DataContext="{Binding SchedulePartsViewModel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+                    <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+                </StackPanel>
+                <DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="Auto" Binding="{Binding Name, Mode=OneWay}" Header="День" />
+                        <DataGridTemplateColumn Width="*" Header="Наименование">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
+                                        <TextBlock Text="{Binding SelectedDaySchedule.Name}" VerticalAlignment="Center" Margin="2" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableDaySchedules}" SelectedItem="{Binding SelectedDaySchedule, UpdateSourceTrigger=PropertyChanged}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <DockPanel Background="Transparent">
+                                                    <Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Shedule.png" />
+                                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="Black" Margin="2" />
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
 	</TabControl>
 </UserControl>

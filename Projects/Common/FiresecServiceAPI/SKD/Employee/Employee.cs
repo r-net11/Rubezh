@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -23,9 +22,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string LastName { get; set; }
-
-		[DataMember]
-		public DateTime Appointed { get; set; }
 
 		[DataMember]
 		public ShortPosition Position { get; set; }

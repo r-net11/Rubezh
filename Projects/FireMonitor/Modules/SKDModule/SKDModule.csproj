@@ -127,6 +127,7 @@
     <Compile Include="Events\RemoveOrganisationEvent.cs" />
     <Compile Include="Events\RestoreOrganisationEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
+    <Compile Include="Events\UpdateAccessTemplateEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -38,7 +37,6 @@ namespace SKDModule.ViewModels
 			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
 			SelectGenderCommand = new RelayCommand(OnSelectGender);
 			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
-			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
 			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 
 			CanEditDepartment = canEditDepartment;
@@ -54,7 +52,6 @@ namespace SKDModule.ViewModels
 				Employee.OrganisationUID = organisationUID;
 				Title = IsEmployee ? "Добавить сотрудника" : "Добавить посетителя";
 				Employee.BirthDate = DateTime.Now;
-				Employee.Appointed = DateTime.Now;
 				Employee.CredentialsStartDate = DateTime.Now;
 				Employee.DocumentGivenDate = DateTime.Now;
 				Employee.DocumentValidTo = DateTime.Now;
@@ -95,7 +92,6 @@ namespace SKDModule.ViewModels
 				SelectedPosition = Employee.Position;
 				SelectedSchedule = Employee.Schedule;
 				ScheduleStartDate = Employee.ScheduleStartDate;
-				Appointed = Employee.Appointed;
 				CredentialsStartDate = Employee.CredentialsStartDate;
 				TabelNo = Employee.TabelNo;
 				IsOrganisationChief = _organisation.ChiefUID == Employee.UID;
@@ -139,7 +135,7 @@ namespace SKDModule.ViewModels
 					SecondName = SecondName,
 					LastName = LastName,
 					Type = Employee.Type,
-					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
+					CredentialsStartDate = CredentialsStartDateString,
 					TextColumns = new List<TextColumn>(),
 					Phone = Employee.Phone
 				};
@@ -310,25 +306,6 @@ namespace SKDModule.ViewModels
 					OnPropertyChanged(() => Phone);
 				}
 			}
-		}
-
-		DateTime _appointed;
-		public DateTime Appointed
-		{
-			get { return _appointed; }
-			set
-			{
-				if (_appointed != value)
-				{
-					_appointed = value;
-					OnPropertyChanged(() => Appointed);
-					OnPropertyChanged(() => AppointedString);
-				}
-			}
-		}
-		public string AppointedString
-		{
-			get { return Appointed.ToString("dd/MM/yyyy"); }
 		}
 
 		DateTime _credentialsStartDate;
@@ -599,16 +576,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand SelectAppointedCommand { get; private set; }
-		void OnSelectAppointed()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(Appointed);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				Appointed = selectDateViewModel.DateTime;
-			}
-		}
-
 		public RelayCommand SelectCredentialsStartDateCommand { get; private set; }
 		void OnSelectCredentialsStartDate()
 		{
@@ -758,7 +725,6 @@ namespace SKDModule.ViewModels
 				Employee.Position = SelectedPosition;
 				Employee.Schedule = SelectedSchedule;
 				Employee.ScheduleStartDate = ScheduleStartDate;
-				Employee.Appointed = Appointed;
 				Employee.CredentialsStartDate = CredentialsStartDate;
 				Employee.TabelNo = TabelNo;
 				if (IsOrganisationChief && _organisation.ChiefUID != Employee.UID)

@@ -41,7 +41,7 @@ namespace FiresecAPI.SKD
 		public List<TextColumn> TextColumns { get; set; }
 
 		[DataMember]
-		public string Appointed { get; set; }
+		public string CredentialsStartDate { get; set; }
 
 		[DataMember]
 		public int TabelNo { get; set; }

@@ -145,6 +145,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AutomationCallback\PlanCallbackData.cs" />
     <Compile Include="AutomationCallback\VisualPropertyData.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
@@ -529,6 +530,7 @@
     <Compile Include="XModels\PumpStation\GKPumpStation.cs" />
     <Compile Include="XModels\SKD\GKDoorType.cs" />
     <Compile Include="XModels\SKD\GKSchedule.cs" />
+    <Compile Include="XModels\SKD\GKSchedulePeriodType.cs" />
     <Compile Include="XModels\SKD\GKScheduleType.cs" />
     <Compile Include="XModels\States\GKDoorInternalState.cs" />
     <Compile Include="XModels\States\GKStates.cs" />

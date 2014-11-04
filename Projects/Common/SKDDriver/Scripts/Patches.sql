@@ -1094,3 +1094,16 @@ BEGIN
 	DROP TABLE GuardZone
 	INSERT INTO Patches (Id) VALUES ('RemoveEventNamesAndDescriptions')
 END
+
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_Employee_Appointed')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Employee')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'Appointed' and table_name = 'Employee')
+		BEGIN
+			ALTER TABLE Employee DROP COLUMN Appointed
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('Drop_Employee_Appointed')	
+END

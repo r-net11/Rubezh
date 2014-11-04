@@ -297,6 +297,10 @@ namespace FiresecService
 					ControlVisual(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlPlan:
+					ControlPlan(procedureStep);
+					break;
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 

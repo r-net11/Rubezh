@@ -11,16 +11,13 @@ namespace FiresecAPI.GK
 	/// </summary>
 	public enum GKScheduleType
 	{
-		[Description("Недельный")]
-		Weekly,
+		[Description("График доступа")]
+		Access,
 
-		[Description("Суточный")]
-		Dayly,
+		[Description("Праздничные дни")]
+		Holiday,
 
-		[Description("Произвольный")]
-		Custom,
-
-		[Description("непериодичный")]
-		NonPeriodic
+		[Description("Рабочие выходные")]
+		WorkHoliday,
 	}
 }
