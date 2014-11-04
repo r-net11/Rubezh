@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Automation;
 
 namespace FiresecAPI.AutomationCallback
 {
@@ -10,6 +9,9 @@ namespace FiresecAPI.AutomationCallback
 		public AutomationCallbackResult()
 		{
 		}
+
+		[DataMember]
+		public Guid ProcedureUID { get; set; }
 
 		[DataMember]
 		public AutomationCallbackType AutomationCallbackType { get; set; }

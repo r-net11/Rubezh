@@ -56,4 +56,12 @@
 		<Views:DoorSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutTextBlockPartViewModel}">
+		<Views:LayoutTextBlockPartView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutTextBoxPartViewModel}">
+		<Views:LayoutTextBoxPartView />
+	</DataTemplate>
+	
 </ResourceDictionary>

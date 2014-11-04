@@ -19,5 +19,12 @@ namespace FiresecService.Service
 			}
 			return new OperationResult<bool>("Процедура не найдена");
 		}
+
+		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
+		{
+			var procedure = ProcedureRunner.ProceduresThreads.FirstOrDefault(item => item.UID == procedureThreadUID);
+			if (procedure != null)
+				procedure.SetCallbackResponse(value);
+		}
 	}
 }

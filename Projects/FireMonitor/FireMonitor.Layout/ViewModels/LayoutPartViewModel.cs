@@ -4,6 +4,11 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using System.Collections.Generic;
+using FiresecAPI.Automation;
+using System.Windows.Controls;
+using System.Windows;
+using System.Windows.Media;
+using Common;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -30,7 +35,6 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		public BaseViewModel Content { get; private set; }
 		public ILayoutPartContent Parent { get; private set; }
-
 
 		public event EventHandler SelectedChanged;
 		public event EventHandler ActiveChanged;
@@ -89,6 +93,47 @@ namespace FireMonitor.Layout.ViewModels
 			}
 		}
 
+		private int _margin;
+		public int Margin
+		{
+			get { return _margin; }
+			set
+			{
+				_margin = value;
+				OnPropertyChanged(() => Margin);
+			}
+		}
+		private int _borderThickness;
+		public int BorderThickness
+		{
+			get { return _borderThickness; }
+			set
+			{
+				_borderThickness = value;
+				OnPropertyChanged(() => BorderThickness);
+			}
+		}
+		private Color _borderColor;
+		public Color BorderColor
+		{
+			get { return _borderColor; }
+			set
+			{
+				_borderColor = value;
+				OnPropertyChanged(() => BorderColor);
+			}
+		}
+		private Color _backgroundColor;
+		public Color BackgroundColor
+		{
+			get { return _backgroundColor; }
+			set
+			{
+				_backgroundColor = value;
+				OnPropertyChanged(() => BackgroundColor);
+			}
+		}
+
 		public void Activate()
 		{
 			if (Parent != null && Parent.Container != null)
@@ -109,6 +154,50 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			if (ActiveChanged != null)
 				ActiveChanged(this, EventArgs.Empty);
+		}
+
+		public object GetProperty(LayoutPartPropertyName property)
+		{
+			switch (property)
+			{
+				case LayoutPartPropertyName.Title:
+					return Title;
+				case LayoutPartPropertyName.BackgroundColor:
+					return BackgroundColor;
+				case LayoutPartPropertyName.BorderColor:
+					return BorderColor;
+				case LayoutPartPropertyName.BorderThickness:
+					return BorderThickness;
+				case LayoutPartPropertyName.Margin:
+					return Margin;
+				default:
+					return Content is ILayoutPartControl ? ((ILayoutPartControl)Content).GetProperty(property) : null;
+			}
+		}
+		public void SetProperty(LayoutPartPropertyName property, object value)
+		{
+			switch (property)
+			{
+				case LayoutPartPropertyName.Title:
+					Title = value.ToString();
+					break;
+				case LayoutPartPropertyName.BackgroundColor:
+					BackgroundColor = Utils.Cast<Color>(value);
+					break;
+				case LayoutPartPropertyName.BorderColor:
+					BorderColor = Utils.Cast<Color>(value);
+					break;
+				case LayoutPartPropertyName.BorderThickness:
+					BorderThickness = Utils.Cast<int>(value);
+					break;
+				case LayoutPartPropertyName.Margin:
+					Margin = Utils.Cast<int>(value);
+					break;
+				default:
+					if (Content is ILayoutPartControl)
+						((ILayoutPartControl)Content).SetProperty(property, value);
+					break;
+			}
 		}
 	}
 }

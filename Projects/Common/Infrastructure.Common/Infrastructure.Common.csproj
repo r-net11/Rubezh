@@ -184,6 +184,7 @@
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
     <Compile Include="Services\Layout\ILayoutPartContainer.cs" />
     <Compile Include="Services\Layout\ILayoutPartContent.cs" />
+    <Compile Include="Services\Layout\ILayoutPartControl.cs" />
     <Compile Include="Services\Layout\LayoutPartContainerCollection.cs" />
     <Compile Include="Services\Layout\LayoutPartDescriptionGroup.cs" />
     <Compile Include="Services\Layout\LayoutPartProperty.cs" />

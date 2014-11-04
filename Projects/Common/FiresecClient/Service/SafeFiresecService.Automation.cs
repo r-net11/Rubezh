@@ -12,5 +12,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.RunProcedure(FiresecServiceFactory.UID, procedureUID, args));
 		}
+		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
+		{
+			SafeContext.Execute(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value));
+		}
 	}
 }

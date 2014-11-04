@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Windows;
-using FiresecAPI.Models.Layouts;
 using System.Collections.Generic;
-using System.Linq;
+using System.Windows;
+using FiresecAPI.Automation;
+using FiresecAPI.Models.Layouts;
+using System.Windows.Media;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -25,7 +26,17 @@ namespace Infrastructure.Common.Services.Layout
 			{
 				PreferedSize = new Size(100, 100)
 			};
-			Properties = properties ?? Enumerable.Empty<LayoutPartProperty>();
+			var list = new List<LayoutPartProperty>()
+			{
+				new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Title),
+				new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(int), LayoutPartPropertyName.Margin),
+				new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(Color), LayoutPartPropertyName.BackgroundColor),
+				new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(Color), LayoutPartPropertyName.BorderColor),
+				new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(int), LayoutPartPropertyName.BorderThickness),
+			};
+			if (properties != null)
+				list.AddRange(properties);
+			Properties = list;
 		}
 		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, params LayoutPartProperty[] properties)
 			: this(group, uid, index, name, description, iconName, true, null, properties)

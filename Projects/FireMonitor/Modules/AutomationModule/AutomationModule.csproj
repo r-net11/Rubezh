@@ -114,6 +114,8 @@
     <Compile Include="ViewModels\ExplicitValuesViewModel.cs" />
     <Compile Include="ViewModels\ExplicitValueViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\GuardZoneSelectionViewModel.cs" />
+    <Compile Include="ViewModels\LayoutTextBlockPartViewModel.cs" />
+    <Compile Include="ViewModels\LayoutTextBoxPartViewModel.cs" />
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
     <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
@@ -139,6 +141,12 @@
     </Compile>
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
       <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutTextBlockPartView.xaml.cs">
+      <DependentUpon>LayoutTextBlockPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutTextBoxPartView.xaml.cs">
+      <DependentUpon>LayoutTextBoxPartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProcedureArgumentsView.xaml.cs">
       <DependentUpon>ProcedureArgumentsView.xaml</DependentUpon>
@@ -216,6 +224,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutProcedurePartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutTextBlockPartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutTextBoxPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

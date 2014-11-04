@@ -11,6 +11,7 @@ using FiresecService.Service;
 using FiresecAPI.Journal;
 using Property = FiresecAPI.Automation.Property;
 using FiresecAPI.AutomationCallback;
+using System.Threading;
 
 namespace FiresecService
 {
@@ -52,10 +53,9 @@ namespace FiresecService
 				{
 					IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow,
 					Message = message,
-					LayoutFilter = GetLayoutFilter(procedureStep.ShowMessageArguments.LayoutFilter),
 				},
 			};
-			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.ShowMessageArguments));
+			SendCallback(procedureStep.ShowMessageArguments, automationCallbackResult);
 		}
 
 		void PlaySound(ProcedureStep procedureStep)
@@ -66,10 +66,9 @@ namespace FiresecService
 				Data = new SoundCallbackData()
 				{
 					SoundUID = procedureStep.SoundArguments.SoundUid,
-					LayoutFilter = GetLayoutFilter(procedureStep.SoundArguments.LayoutFilter),
 				},
 			};
-			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.SoundArguments));
+			SendCallback(procedureStep.SoundArguments, automationCallbackResult);
 		}
 
 		void ControlVisual(ProcedureStep procedureStep)
@@ -78,10 +77,12 @@ namespace FiresecService
 				return;
 			AutomationCallbackType callbackType;
 			object value = null;
+			var waitResponse = false;
 			switch (procedureStep.ControlVisualArguments.Type)
 			{
 				case ControlVisualType.Get:
 					callbackType = AutomationCallbackType.GetVisualProperty;
+					waitResponse = true;
 					break;
 				case ControlVisualType.Set:
 					callbackType = AutomationCallbackType.SetVisualProperty;
@@ -95,13 +96,18 @@ namespace FiresecService
 				AutomationCallbackType = callbackType,
 				Data = new VisualPropertyData()
 				{
-					LayoutFilter = GetLayoutFilter(procedureStep.ControlVisualArguments.LayoutFilter),
 					LayoutPart = procedureStep.ControlVisualArguments.LayoutPart,
 					Property = procedureStep.ControlVisualArguments.Property.Value,
 					Value = value,
 				},
 			};
-			Service.FiresecService.NotifyAutomation(automationCallbackResult, GetClientUID(procedureStep.ControlVisualArguments));
+			if (waitResponse)
+			{
+				value = SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult, true);
+				SetValue(procedureStep.ControlVisualArguments.Argument, value);
+			}
+			else
+				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
 		}
 
 		void Calculate(ProcedureStep procedureStep)
@@ -711,6 +717,12 @@ namespace FiresecService
 					targetVariable.ExplicitValue);
 		}
 
+		void SetValue(Argument argument, object propertyValue)
+		{
+			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);
+			if (variable != null)
+				SetValue(variable, propertyValue);
+		}
 		void SetValue(Variable target, object propertyValue)
 		{
 			if (target.ExplicitType == ExplicitType.Integer)
@@ -786,15 +798,6 @@ namespace FiresecService
 					result = explicitValue.JournalObjectTypeValue;
 			}
 			return (T)result;
-		}
-
-		private Guid? GetClientUID(UIArguments arguments)
-		{
-			return arguments.ForAllClients ? null : ClientUID;
-		}
-		private ProcedureLayoutCollection GetLayoutFilter(ProcedureLayoutCollection filter)
-		{
-			return filter == null || filter.LayoutsUIDs == null || filter.LayoutsUIDs.Count == 0 ? null : filter;
 		}
 	}
 }

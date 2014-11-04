@@ -1142,5 +1142,121 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		#endregion
 
+		#region BackgroundColor
+
+		/// <summary>
+		/// BackgroundColor Dependency Property
+		/// </summary>
+		public static readonly DependencyProperty BackgroundColorProperty =
+			DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(LayoutItem),
+				new FrameworkPropertyMetadata(default(Color),
+					new PropertyChangedCallback(OnBackgroundColorChanged)));
+
+		/// <summary>
+		/// Gets or sets the BackgroundColor property.  This dependency property 
+		/// indicates the BackgroundColor of the element.
+		/// </summary>
+		public Color BackgroundColor
+		{
+			get { return (Color)GetValue(BackgroundColorProperty); }
+			set { SetValue(BackgroundColorProperty, value); }
+		}
+
+		/// <summary>
+		/// Handles changes to the BackgroundColor property.
+		/// </summary>
+		private static void OnBackgroundColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			((LayoutItem)d).OnBackgroundColorChanged(e);
+		}
+
+		/// <summary>
+		/// Provides derived classes an opportunity to handle changes to the BackgroundColor property.
+		/// </summary>
+		protected virtual void OnBackgroundColorChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (LayoutElement != null)
+				LayoutElement.BackgroundColor = (Color)e.NewValue;
+		}
+
+		#endregion
+
+		#region BorderColor
+
+		/// <summary>
+		/// BorderColor Dependency Property
+		/// </summary>
+		public static readonly DependencyProperty BorderColorProperty =
+			DependencyProperty.Register("BorderColor", typeof(Color), typeof(LayoutItem),
+				new FrameworkPropertyMetadata(default(Color),
+					new PropertyChangedCallback(OnBorderColorChanged)));
+
+		/// <summary>
+		/// Gets or sets the BorderColor property.  This dependency property 
+		/// indicates the BorderColor of the element.
+		/// </summary>
+		public Color BorderColor
+		{
+			get { return (Color)GetValue(BorderColorProperty); }
+			set { SetValue(BorderColorProperty, value); }
+		}
+
+		/// <summary>
+		/// Handles changes to the BorderColor property.
+		/// </summary>
+		private static void OnBorderColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			((LayoutItem)d).OnBorderColorChanged(e);
+		}
+
+		/// <summary>
+		/// Provides derived classes an opportunity to handle changes to the BorderColor property.
+		/// </summary>
+		protected virtual void OnBorderColorChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (LayoutElement != null)
+				LayoutElement.BorderColor = (Color)e.NewValue;
+		}
+
+		#endregion
+
+		#region BorderThickness
+
+		/// <summary>
+		/// BorderThickness Dependency Property
+		/// </summary>
+		public static readonly DependencyProperty BorderThicknessProperty =
+			DependencyProperty.Register("BorderThickness", typeof(int), typeof(LayoutItem),
+				new FrameworkPropertyMetadata((int)0,
+					new PropertyChangedCallback(OnBorderThicknessChanged)));
+
+		/// <summary>
+		/// Gets or sets the BorderThickness property.  This dependency property 
+		/// indicates the BorderThickness of the element.
+		/// </summary>
+		public int BorderThickness
+		{
+			get { return (int)GetValue(BorderThicknessProperty); }
+			set { SetValue(BorderThicknessProperty, value); }
+		}
+
+		/// <summary>
+		/// Handles changes to the BorderThickness property.
+		/// </summary>
+		private static void OnBorderThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			((LayoutItem)d).OnBorderThicknessChanged(e);
+		}
+
+		/// <summary>
+		/// Provides derived classes an opportunity to handle changes to the BorderThickness property.
+		/// </summary>
+		protected virtual void OnBorderThicknessChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (LayoutElement != null)
+				LayoutElement.BorderThickness = (int)e.NewValue;
+		}
+
+		#endregion
 	}
 }

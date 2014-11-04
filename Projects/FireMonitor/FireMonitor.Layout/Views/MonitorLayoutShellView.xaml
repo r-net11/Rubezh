@@ -9,9 +9,13 @@
 				<Setter Property="ContentId" Value="{Binding Model.UID}" />
 				<Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullToImageConverter}}" />
 				<Setter Property="ToolTip" Value="{Binding Model.Title}" />
-                <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
-                <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
-            </Style>
+				<Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+				<Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
+				<Setter Property="Margin" Value="{Binding Model.Margin}" />
+				<Setter Property="BackgroundColor" Value="{Binding Model.BackgroundColor}" />
+				<Setter Property="BorderColor" Value="{Binding Model.BorderColor}" />
+				<Setter Property="BorderThickness" Value="{Binding Model.BorderThickness}" />
+			</Style>
 		</xcad:DockingManager.LayoutItemContainerStyle>
 		<xcad:LayoutRoot x:Name="root">
 			<xcad:LayoutPanel IsMaximized="True">

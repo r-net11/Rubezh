@@ -130,7 +130,17 @@ namespace FireMonitor.Layout.ViewModels
 		private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
 		{
 			if (!string.IsNullOrWhiteSpace(e.Model.ContentId))
-				e.Content = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
+			{
+				var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
+				if (layoutPart != null)
+				{
+					layoutPart.Margin = e.Model.Margin;
+					layoutPart.BorderColor = e.Model.BorderColor;
+					layoutPart.BorderThickness = e.Model.BorderThickness;
+					layoutPart.BackgroundColor = e.Model.BackgroundColor;
+				}
+				e.Content = layoutPart;
+			}
 		}
 		private void LayoutChanged(object sender, EventArgs e)
 		{
@@ -232,14 +242,21 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			ApplicationService.Invoke(() =>
 			{
-				switch (automationCallbackResult.AutomationCallbackType)
+				if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GetVisualProperty || automationCallbackResult.AutomationCallbackType == AutomationCallbackType.SetVisualProperty)
 				{
-					case AutomationCallbackType.GetVisualProperty:
-						MessageBoxService.Show("GetVisualProperty");
-						break;
-					case AutomationCallbackType.SetVisualProperty:
-						MessageBoxService.Show("SetVisualProperty");
-						break;
+					var visuaPropertyData = (VisualPropertyData)automationCallbackResult.Data;
+					var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == visuaPropertyData.LayoutPart);
+					if (layoutPart != null)
+						switch (automationCallbackResult.AutomationCallbackType)
+						{
+							case AutomationCallbackType.GetVisualProperty:
+								var value = layoutPart.GetProperty(visuaPropertyData.Property);
+								FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.ProcedureUID, value);
+								break;
+							case AutomationCallbackType.SetVisualProperty:
+								layoutPart.SetProperty(visuaPropertyData.Property, visuaPropertyData.Value);
+								break;
+						}
 				}
 			});
 		}

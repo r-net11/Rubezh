@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
+using System.ComponentModel;
+using System;
 
 namespace Common
 {
@@ -15,6 +17,23 @@ namespace Common
 				ms.Position = 0;
 				return (T)serializer.ReadObject(ms);
 			}
+		}
+
+		public static T Cast<T>(object obj)
+		{
+			if (obj is T)
+				return (T)obj;
+			var converter = TypeDescriptor.GetConverter(typeof(T));
+			if (converter != null)
+				try
+				{
+					return (T)(obj is string ? converter.ConvertFromString((string)obj) : converter.ConvertFrom(obj));
+				}
+				catch (Exception ex)
+				{
+					Logger.Error(ex, "Исключение при вызове Cast<{0}>(obj={1})", typeof(T), obj);
+				}
+			return default(T);
 		}
 	}
 }

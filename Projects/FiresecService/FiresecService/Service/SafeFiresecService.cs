@@ -13,7 +13,7 @@ namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class   SafeFiresecService : IFiresecService
+	public partial class SafeFiresecService : IFiresecService
 	{
 		public FiresecService FiresecService { get; set; }
 
@@ -331,10 +331,17 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Automation
+
 		public OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args)
 		{
 			return SafeOperationCall(() => { return FiresecService.RunProcedure(clientUID, procedureUID, args); }, "RunProcedure");
 		}
+
+		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
+		{
+			SafeOperationCall(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value), "ProcedureCallbackResponse");
+		}
+
 		#endregion
 	}
 }

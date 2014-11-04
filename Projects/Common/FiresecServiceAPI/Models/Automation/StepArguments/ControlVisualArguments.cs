@@ -57,6 +57,16 @@ namespace FiresecAPI.Automation
 
 	public enum LayoutPartPropertyName
 	{
+		[Description("Заголовок")]
+		Title,
+		[Description("Отступ")]
+		Margin,
+		[Description("Цвет фона")]
+		BackgroundColor,
+		[Description("Цвет границы")]
+		BorderColor,
+		[Description("Ширина границы")]
+		BorderThickness,
 		[Description("Текст")]
 		Text,
 	}
