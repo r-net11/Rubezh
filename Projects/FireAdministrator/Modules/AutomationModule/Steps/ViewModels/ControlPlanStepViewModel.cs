@@ -17,6 +17,7 @@ namespace AutomationModule.ViewModels
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent);
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
+			ControlVisualTypes = ProcedureHelper.GetEnumObs<ControlVisualType>();
 		}
 
 		public ObservableCollection<PlanViewModel> Plans { get; private set; }
@@ -70,6 +71,17 @@ namespace AutomationModule.ViewModels
 				_selectedElementPropertyType = value;
 				ControlPlanArguments.ElementPropertyType = _selectedElementPropertyType;
 				OnPropertyChanged(() => SelectedElementPropertyType);
+			}
+		}
+
+		public ObservableCollection<ControlVisualType> ControlVisualTypes { get; private set; }
+		public ControlVisualType SelectedControlVisualType
+		{
+			get { return ControlPlanArguments.ControlVisualType; }
+			set
+			{
+				ControlPlanArguments.ControlVisualType = value;
+				OnPropertyChanged(() => SelectedControlVisualType);
 			}
 		}
 

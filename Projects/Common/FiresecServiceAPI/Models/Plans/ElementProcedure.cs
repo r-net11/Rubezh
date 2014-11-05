@@ -21,6 +21,7 @@ namespace FiresecAPI.Models
 			BackgroundColor = Colors.Transparent;
 
 			Text = "Процедура";
+			PresentationName = "Процедура";
 			ForegroundColor = Colors.Black;
 			FontSize = 10;
 			TextAlignment = 0;

@@ -10,6 +10,7 @@ namespace FiresecAPI.Models
 		public ElementDevice()
 		{
 			DeviceUID = Guid.Empty;
+			PresentationName = "Устройство";
 		}
 
 		[DataMember]
