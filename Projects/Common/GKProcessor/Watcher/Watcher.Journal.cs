@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using SKDDriver;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -21,6 +23,11 @@ namespace GKProcessor
 			{
 				ReadAndPublish(LastId, newLastId);
 				LastId = newLastId;
+				using (var skdDatabaseService = new SKDDatabaseService())
+				{
+					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
+					skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, LastId);
+				}
 			}
 		}
 

@@ -17,6 +17,8 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			UseHasp = false;
+			DBServerName = "SQLEXPRESS";
+			CreateNewDBOnOversize = true;
 
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
@@ -75,6 +77,12 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool Server_EnableRemoteConnections { get; set; }
+
+		[DataMember]
+		public string DBServerName { get; set; }
+
+		[DataMember]
+		public bool CreateNewDBOnOversize { get; set; }
 
 		[DataMember]
 		public List<string> ModuleItems { get; set; }

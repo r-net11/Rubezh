@@ -101,6 +101,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translators\TimeTrackDocumentTranslator.cs" />
     <Compile Include="Translators\TimeTrackTranslator.cs" />
+    <Compile Include="Translators\GKMetadataTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

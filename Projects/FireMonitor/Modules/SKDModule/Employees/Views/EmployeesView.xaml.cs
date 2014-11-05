@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Controls;
 
 namespace SKDModule.Views
 {
@@ -58,6 +59,7 @@ namespace SKDModule.Views
 
 				gridViewColumn.CellTemplate = dataTemplate;
 				gridView.Columns.Add(gridViewColumn);
+
 			}
 			else
 			{

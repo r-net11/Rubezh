@@ -68,7 +68,6 @@
       <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="DeactivationControllerUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="UserTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="GKLevel" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="GKLevelSchedule" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
@@ -85,7 +84,6 @@
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="EnterScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ExitScheduleNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" DeleteRule="CASCADE" />
       <Association Name="Card_CardDoor" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
@@ -183,6 +181,15 @@
       <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.GKMetadata" Member="GKMetadatas">
+    <Type Name="GKMetadata">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IPAddress" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SerialNo" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastJournalNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastUserNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.Holiday" Member="Holidays">
     <Type Name="Holiday">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -195,6 +202,14 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Organisation_Holiday" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JournalMetadata" Member="JournalMetadatas">
+    <Type Name="JournalMetadata">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.NightSettings" Member="NightSettings">
@@ -217,8 +232,8 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="HRChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HRChiefUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_AccessTemplate" Member="AccessTemplates" ThisKey="UID" OtherKey="OrganisationUID" Type="AccessTemplate" />
       <Association Name="Organisation_AdditionalColumnType" Member="AdditionalColumnTypes" ThisKey="UID" OtherKey="OrganisationUID" Type="AdditionalColumnType" />
       <Association Name="Organisation_DayInterval" Member="DayIntervals" ThisKey="UID" OtherKey="OrganisationUID" Type="DayInterval" />
@@ -244,7 +259,6 @@
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="CardSubsystemType" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_OrganisationDoor" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
@@ -274,6 +288,14 @@
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="Data" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Organisation_PassCardTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PassJournalMetadata" Member="PassJournalMetadatas">
+    <Type Name="PassJournalMetadata">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Patches" Member="Patches">
@@ -387,31 +409,6 @@
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_TimeTrackDocumentType" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.JournalMetadata" Member="JournalMetadatas">
-    <Type Name="JournalMetadata">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PassJournalMetadata" Member="PassJournalMetadatas">
-    <Type Name="PassJournalMetadata">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.GKMetadata" Member="GKMetadatas">
-    <Type Name="GKMetadata">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IPAddress" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="SerialNo" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastJournalNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LastUserNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

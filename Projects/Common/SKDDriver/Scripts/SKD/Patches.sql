@@ -1159,3 +1159,21 @@ BEGIN
 	) ON [PRIMARY]
 	INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata')
 END
+
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_CardSubsystemType')
+BEGIN
+	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSubsystemType' and table_name = 'Card')
+	BEGIN
+		ALTER TABLE Card DROP COLUMN CardSubsystemType
+	END
+	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSubsystemType' and table_name = 'CardDoor')
+	BEGIN
+		ALTER TABLE CardDoor DROP COLUMN CardSubsystemType
+	END
+	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSubsystemType' and table_name = 'OrganisationDoor')
+	BEGIN
+		ALTER TABLE OrganisationDoor DROP COLUMN CardSubsystemType
+	END
+	INSERT INTO Patches (Id) VALUES ('Drop_CardSubsystemType')	
+END
