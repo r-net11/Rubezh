@@ -19,6 +19,7 @@ namespace FiresecService
 
 		public static void Start()
 		{
+			// DeviceLibraryConfigurationPatchHelper.Patch();
 			GKProcessorManager.MustMonitor = true;
 			GKProcessorManager.Start();
 			GKLicenseProcessor.Start();
@@ -69,7 +70,7 @@ namespace FiresecService
 			{
 				foreach (var journalItem in gkCallbackResult.JournalItems)
 				{
-					FiresecService.Service.FiresecService.AddGKJournalItem(journalItem);
+					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);

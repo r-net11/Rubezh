@@ -23,7 +23,6 @@ namespace FireMonitor
 
 		public App()
 		{
-			PatchManager.Patch();
 		}
 
 		protected virtual Bootstrapper CreateBootstrapper()

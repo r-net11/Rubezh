@@ -15,18 +15,13 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddGKJournalItem(JournalItem journalItem)
-		{
-			AddCommonJournalItem(journalItem);
-		}
-
 		void AddJournalMessage(JournalEventNameType journalEventNameType, string objectName, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
-				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
+				JournalEventDescriptionType = journalEventDescriptionType,
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
 				JournalObjectType = JournalObjectType.None,
 				ObjectUID = Guid.Empty,
@@ -36,11 +31,6 @@ namespace FiresecService.Service
 
 			AddCommonJournalItem(journalItem);
 		}
-		
-		//void AddJournalMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
-		//{
-		//    AddJournalMessage(journalEventNameType, null, journalEventDescriptionType);
-		//}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
 		{

@@ -48,7 +48,6 @@ namespace GKModule
 		public GKModuleLoader()
 		{
 			_planPresenter = new PlanPresenter();
-			GKDBHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		}
 
 		public override void CreateViewModels()

@@ -61,13 +61,12 @@ namespace GKProcessor
 
 		void ReadAndPublish(int startIndex, int endIndex)
 		{
-			var journalItems = new List<JournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
 				var journalParser = ReadJournal(index);
 				if (journalParser != null)
 				{
-					journalItems.Add(journalParser.JournalItem);
+					AddJournalItem(journalParser.JournalItem);
 					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
 					if (descriptor != null)
 					{
@@ -106,10 +105,6 @@ namespace GKProcessor
 						NotifyAllObjectsStateChanged();
 					}
 				}
-			}
-			if (journalItems.Count > 0)
-			{
-				AddJournalItems(journalItems);
 			}
 		}
 
