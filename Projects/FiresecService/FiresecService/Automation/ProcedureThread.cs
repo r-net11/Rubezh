@@ -20,7 +20,7 @@ namespace FiresecService
 		public TimeType TimeType { get; private set; }
 		AutoResetEvent AutoResetEvent { get; set; }
 		Thread Thread { get; set; }
-		List<Variable> AllVariables { get; set; } 
+		List<Variable> AllVariables { get; set; }
 		List<ProcedureStep> Steps { get; set; }
 		bool IsSync { get; set; }
 		ProcedureThread ChildProcedureThread { get; set; }
@@ -90,7 +90,7 @@ namespace FiresecService
 		Result RunStep(ProcedureStep procedureStep)
 		{
 			if (IsTimeOut)
-				return Result.Normal; 
+				return Result.Normal;
 			switch (procedureStep.ProcedureStepType)
 			{
 				case ProcedureStepType.If:
@@ -121,7 +121,7 @@ namespace FiresecService
 					while (Compare(procedureStep))
 					{
 						if (IsTimeOut)
-							return Result.Normal; 
+							return Result.Normal;
 						foreach (var childStep in procedureStep.Children[0].Children)
 						{
 							var result = RunStep(childStep);
@@ -293,8 +293,11 @@ namespace FiresecService
 					GetJournalItem(procedureStep);
 					break;
 
-				case ProcedureStepType.ControlVisual:
-					ControlVisual(procedureStep);
+				case ProcedureStepType.ControlVisualGet:
+					ControlVisual(procedureStep, ControlVisualType.Get);
+					break;
+				case ProcedureStepType.ControlVisualSet:
+					ControlVisual(procedureStep, ControlVisualType.Set);
 					break;
 
 				case ProcedureStepType.ControlPlan:

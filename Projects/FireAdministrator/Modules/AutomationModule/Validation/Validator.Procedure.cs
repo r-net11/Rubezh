@@ -314,7 +314,8 @@ namespace AutomationModule.Validation
 							ValidateArgument(step, getListItemArgument.IndexArgument);
 					}
 					break;
-				case ProcedureStepType.ControlVisual:
+				case ProcedureStepType.ControlVisualGet:
+				case ProcedureStepType.ControlVisualSet:
 					var controlVisualArguments = step.ControlVisualArguments;
 					if (!ValidateArgument(step, controlVisualArguments.Argument))
 						break;

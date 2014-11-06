@@ -353,6 +353,10 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, getListItemArgument.IndexArgument);
 					}
 					break;
+				case ProcedureStepType.ControlVisualGet:
+				case ProcedureStepType.ControlVisualSet:
+					InvalidateArgument(procedure, step.ControlVisualArguments.Argument);
+					break;
 			}
 		}
 

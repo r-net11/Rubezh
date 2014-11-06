@@ -1342,7 +1342,7 @@
     <Resource Include="StepIcons\CheckPermission.png" />
     <Resource Include="StepIcons\Continue.png" />
     <Resource Include="StepIcons\Control.png" />
-    <Resource Include="StepIcons\ControlVisual.png" />
+    <Resource Include="StepIcons\ControlVisualGet.png" />
     <Resource Include="StepIcons\Equal.png" />
     <Resource Include="StepIcons\Exit.png" />
     <Resource Include="StepIcons\For.png" />
@@ -1360,6 +1360,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\ControlVisualSet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

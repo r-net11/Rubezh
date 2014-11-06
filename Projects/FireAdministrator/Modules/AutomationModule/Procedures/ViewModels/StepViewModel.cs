@@ -25,7 +25,8 @@ namespace AutomationModule.ViewModels
 				|| (step.ProcedureStepType == ProcedureStepType.ChangeList) || (step.ProcedureStepType == ProcedureStepType.GetListCount)
 				|| (step.ProcedureStepType == ProcedureStepType.GetListItem) || (step.ProcedureStepType == ProcedureStepType.PlaySound)
 				|| (step.ProcedureStepType == ProcedureStepType.AddJournalItem) || (step.ProcedureStepType == ProcedureStepType.SendEmail)
-				|| (step.ProcedureStepType == ProcedureStepType.ShowMessage) || (step.ProcedureStepType == ProcedureStepType.ControlVisual)
+				|| (step.ProcedureStepType == ProcedureStepType.ShowMessage) 
+				|| (step.ProcedureStepType == ProcedureStepType.ControlVisualGet) || (step.ProcedureStepType == ProcedureStepType.ControlVisualSet)
 				|| (step.ProcedureStepType == ProcedureStepType.Exit) || (step.ProcedureStepType == ProcedureStepType.Pause)
 				|| (step.ProcedureStepType == ProcedureStepType.ProcedureSelection) || (step.ProcedureStepType == ProcedureStepType.CheckPermission)
 				|| (step.ProcedureStepType == ProcedureStepType.For) || (step.ProcedureStepType == ProcedureStepType.While)
@@ -163,8 +164,12 @@ namespace AutomationModule.ViewModels
 					Content = new GetJournalItemStepViewModel(this);
 					break;
 
-				case ProcedureStepType.ControlVisual:
-					Content = new ControlVisualStepViewModel(this);
+				case ProcedureStepType.ControlVisualGet:
+					Content = new ControlVisualStepViewModel(this, ControlVisualType.Get);
+					break;
+
+				case ProcedureStepType.ControlVisualSet:
+					Content = new ControlVisualStepViewModel(this, ControlVisualType.Set);
 					break;
 
 				case ProcedureStepType.ControlPlan:

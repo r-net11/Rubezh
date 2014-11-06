@@ -8,7 +8,7 @@ namespace FiresecAPI.Models.Layouts
 	{
 		public LayoutPartProcedureProperties()
 		{
-			Text = "Надпись";
+			Text = "";
 			ForegroundColor = Colors.Black;
 			BackgroundColor = Colors.White;
 			BorderColor = Colors.Black;
