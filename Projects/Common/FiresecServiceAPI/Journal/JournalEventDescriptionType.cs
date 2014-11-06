@@ -603,8 +603,8 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Изменение автоматики по ТМ", JournalEventNameType.Информация)]
 		Изменение_автоматики_по_ТМ,
 
-		[EventDescriptionAttribute("Ручной пуск", JournalEventNameType.Информация)]
-		Ручной_пуск,
+		[EventDescriptionAttribute("Отсчет задержки", JournalEventNameType.Информация)]
+		Отсчет_задержки_2,
 
 		[EventDescriptionAttribute("Отлож пуск АУП Д-О", JournalEventNameType.Информация)]
 		Отлож_пуск_АУП_Д_О,
@@ -714,20 +714,20 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Давление неопределен", JournalEventNameType.Информация)]
 		Давление_неопределен,
 
-		[EventDescriptionAttribute("Давление на выходе есть", JournalEventNameType.Информация)]
-		Давление_на_выходе_есть,
+		[EventDescriptionAttribute("Сигнал с ДВнР есть", JournalEventNameType.Информация)]
+		Сигнал_с_ДВнР_есть,
 
-		[EventDescriptionAttribute("Давления на выходе нет", JournalEventNameType.Информация)]
-		Давления_на_выходе_нет,
+		[EventDescriptionAttribute("Сигнал с ДВнР нет", JournalEventNameType.Информация)]
+		Сигнал_с_ДВнР_нет,
 
-		[EventDescriptionAttribute("Выключить", JournalEventNameType.Информация)]
-		Выключить_Информация,
+		[EventDescriptionAttribute("ШУ вышел на режим", JournalEventNameType.Информация)]
+		ШУ_вышел_на_режим,
 
-		[EventDescriptionAttribute("Стоп", JournalEventNameType.Информация)]
-		Стоп,
+		[EventDescriptionAttribute("Блокировка пуска", JournalEventNameType.Информация)]
+		Блокировка_пуска_2,
 
-		[EventDescriptionAttribute("Запрет пуска", JournalEventNameType.Информация)]
-		Запрет_пуска,
+		[EventDescriptionAttribute("Блокировка пуска снята", JournalEventNameType.Информация)]
+		Блокировка_пуска_снята,
 
 		[EventDescriptionAttribute("Оператор", JournalEventNameType.Вход_пользователя_в_прибор, JournalEventNameType.Выход_пользователя_из_прибора)]
 		Оператор,
@@ -791,5 +791,133 @@ namespace FiresecAPI.Journal
 
 		[EventDescriptionAttribute("Отсчет задержки", JournalEventNameType.Информация)]
 		Отсчет_задержки,
+
+		[EventDescriptionAttribute("Контактор Открыть", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Контактор_Открыть,
+
+		[EventDescriptionAttribute("Контактор Закрыть", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Контактор_Закрыть,
+
+		[EventDescriptionAttribute("Обрыв ДУ Открыть", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_ДУ_Открыть,
+
+		[EventDescriptionAttribute("КЗ ДУ Открыть", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		КЗ_ДУ_Открыть,
+
+		[EventDescriptionAttribute("Обрыв ДУ Закрыть", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_ДУ_Закрыть,
+
+		[EventDescriptionAttribute("КЗ ДУ Закрыть", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		КЗ_ДУ_Закрыть,
+
+		[EventDescriptionAttribute("Обрыв ОГВ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_ОГВ,
+
+		[EventDescriptionAttribute("КЗ ОГВ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		КЗ_ОГВ,
+
+		[EventDescriptionAttribute("Истекло Время Хода", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Истекло_Время_Хода,
+
+		[EventDescriptionAttribute("Сигнал МВ без КВ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Сигнал_МВ_без_КВ,
+
+		[EventDescriptionAttribute("Сочетание КВ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Сочетание_КВ,
+
+		[EventDescriptionAttribute("Сочетание МВ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Сочетание_МВ,
+
+		[EventDescriptionAttribute("Сочетание ДНУ и ДВУ", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Сочетание_ДНУ_и_ДВУ,
+
+
+
+		[EventDescriptionAttribute("Аварии пневмоемкости нет", JournalEventNameType.Информация)]
+		Аварии_пневмоемкости_нет,
+
+		[EventDescriptionAttribute("Пуск с УЗ", JournalEventNameType.Информация)]
+		Пуск_с_УЗ,
+
+		[EventDescriptionAttribute("Пуск автоматический", JournalEventNameType.Информация)]
+		Пуск_автоматический,
+
+		[EventDescriptionAttribute("Пуск ручной", JournalEventNameType.Информация)]
+		Пуск_ручной,
+
+		[EventDescriptionAttribute("Пуск с панели шкафа", JournalEventNameType.Информация)]
+		Пуск_с_панели_шкафа,
+
+		[EventDescriptionAttribute("Стоп от переключателя", JournalEventNameType.Информация)]
+		Стоп_от_переключателя,
+
+		[EventDescriptionAttribute("Стоп с панели шкафа", JournalEventNameType.Информация)]
+		Стоп_с_панели_шкафа,
+
+		[EventDescriptionAttribute("Стоп по неисправности", JournalEventNameType.Информация)]
+		Стоп_по_неисправности,
+
+		[EventDescriptionAttribute("Стоп с УЗ", JournalEventNameType.Информация)]
+		Стоп_с_УЗ,
+
+		[EventDescriptionAttribute("Стоп автоматический", JournalEventNameType.Информация)]
+		Стоп_автоматический,
+
+		[EventDescriptionAttribute("Стоп ручной", JournalEventNameType.Информация)]
+		Стоп_ручной,
+
+		[EventDescriptionAttribute("Отсчет задержки включен", JournalEventNameType.Информация)]
+		Отсчет_задержки_включен,
+
+		[EventDescriptionAttribute("Отсчет задержки выключен", JournalEventNameType.Информация)]
+		Отсчет_задержки_выключен,
+
+		[EventDescriptionAttribute("Откр с УЗ", JournalEventNameType.Информация)]
+		Откр_с_УЗ,
+
+		[EventDescriptionAttribute("Откр автоматический", JournalEventNameType.Информация)]
+		Откр_автоматический,
+
+		[EventDescriptionAttribute("Откр ручной", JournalEventNameType.Информация)]
+		Откр_ручной,
+
+		[EventDescriptionAttribute("Откр с панели шкафа", JournalEventNameType.Информация)]
+		Откр_с_панели_шкафа,
+
+		[EventDescriptionAttribute("Закр от переключателя", JournalEventNameType.Информация)]
+		Закр_от_переключателя,
+
+		[EventDescriptionAttribute("Закр с панели шкафа", JournalEventNameType.Информация)]
+		Закр_с_панели_шкафа,
+
+		[EventDescriptionAttribute("Закр по неисправности", JournalEventNameType.Информация)]
+		Закр_по_неисправности,
+
+		[EventDescriptionAttribute("Закр с УЗ", JournalEventNameType.Информация)]
+		Закр_с_УЗ,
+
+		[EventDescriptionAttribute("Закр автоматический", JournalEventNameType.Информация)]
+		Закр_автоматический,
+
+		[EventDescriptionAttribute("Закр ручной", JournalEventNameType.Информация)]
+		Закр_ручной,
+
+		[EventDescriptionAttribute("Старт ОГВ", JournalEventNameType.Информация)]
+		Старт_ОГВ,
+
+		[EventDescriptionAttribute("Стоп ОГВ", JournalEventNameType.Информация)]
+		Стоп_ОГВ,
+
+		[EventDescriptionAttribute("Команда с панели шкафа", JournalEventNameType.Информация)]
+		Команда_с_панели_шкафа,
+
+		[EventDescriptionAttribute("Ход на открытие", JournalEventNameType.Информация)]
+		Ход_на_открытие,
+
+		[EventDescriptionAttribute("Ход на закрытие", JournalEventNameType.Информация)]
+		Ход_на_закрытие,
+
+		[EventDescriptionAttribute("Уровень неопределен", JournalEventNameType.Информация)]
+		Уровень_неопределен,
 	}
 }
