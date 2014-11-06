@@ -110,7 +110,6 @@
       <Directory Id="DesktopFolder" />
       <Directory Id="CommonAppDataFolder" Name="CommonAppDataFolder">
         <Directory Id="AppData.FiresecLocation" Name="Firesec2">
-          <Directory Id="AppData.DBLocation" Name="DB" />
           <Directory Id="AppData.ServerLocation" Name="Server" />
           <Directory Id="AppData.EmptyLocation" Name="Empty" />
         </Directory>

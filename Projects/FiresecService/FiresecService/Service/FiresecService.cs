@@ -19,7 +19,6 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService
 	{
-		public static readonly SqlCeConnection DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString);
 		ClientCredentials CurrentClientCredentials;
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)

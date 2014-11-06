@@ -120,7 +120,6 @@
     </Compile>
     <Compile Include="Automation\ProcedureThread.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="GKPatchManager.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\ProcedureRunner.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />

@@ -27,7 +27,6 @@ namespace GKProcessor
 		public JournalParser(GKDevice gkControllerDevice, List<byte> bytes)
 		{
 			JournalItem = new JournalItem();
-			JournalItem.JournalSubsystemType = JournalSubsystemType.GK;
 			JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 
 			var gkIpAddress = GKManager.GetIpAddress(gkControllerDevice);

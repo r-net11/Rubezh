@@ -630,7 +630,6 @@ namespace GKProcessor
 					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkObjectNo.ToString()));
 			}
 
-			GKDBHelper.Add(journalItem);
 			var gkCallbackResult = new GKCallbackResult();
 			gkCallbackResult.JournalItems.Add(journalItem);
 			OnGKCallbackResult(gkCallbackResult);

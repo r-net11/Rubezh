@@ -6,7 +6,6 @@
 			    ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
       <ComponentRef Id="Server.DB.Common" />
-      <ComponentRef Id="Server.DB" />
       <ComponentRef Id="Server.ChinaSKD" />
       <ComponentRef Id="Server.Config.fscp" />
       <ComponentRef Id="Server.AppData.EmptyLocation" />
