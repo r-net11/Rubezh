@@ -176,7 +176,7 @@
 								</WrapPanel.Style>
 							</WrapPanel>
 
-							<StackPanel Orientation="Horizontal" Margin="2" >
+							<StackPanel Orientation="Horizontal" Margin="2">
 								<WrapPanel>
 									<TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">

@@ -22,6 +22,9 @@ namespace FiresecAPI
 		OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
 
 		[OperationContract]
+		OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID);
+
+		[OperationContract]
 		OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]

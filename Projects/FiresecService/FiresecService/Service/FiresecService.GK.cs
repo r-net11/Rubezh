@@ -64,6 +64,20 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				DescriptorsManager.Create();
+				return GKProcessorManager.GKAutoSearch(device, UserName);
+			}
+			else
+			{
+				return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			}
+		}
+
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);

@@ -61,6 +61,7 @@
     <Compile Include="Administrator\KauDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="Administrator\GKSKDHelper.cs" />
+    <Compile Include="Administrator\GKAutoSearchHelper.cs" />
     <Compile Include="DescriptorsDatabase\DatabaseType.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />

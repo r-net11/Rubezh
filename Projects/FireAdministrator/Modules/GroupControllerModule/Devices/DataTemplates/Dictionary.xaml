@@ -36,4 +36,8 @@
         <Views:DevicesMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:AutoSearchDevicesViewModel}">
+        <Views:AutoSearchDevicesView />
+    </DataTemplate>
+
 </ResourceDictionary>

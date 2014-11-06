@@ -198,6 +198,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
 		}
 
+		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKAutoSearch(deviceUID); }, "GKAutoSearch");
+		}
+
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");

@@ -44,13 +44,6 @@ namespace GKProcessor
 			}
 			foreach (var device in gkControllerDevice.Children)
 			{
-				if (device.DriverType == GKDriverType.GKLine)
-				{
-					AddDevice(device);
-				}
-			}
-			foreach (var device in gkControllerDevice.Children)
-			{
 				if (device.DriverType == GKDriverType.GKRele)
 				{
 					AddDevice(device);

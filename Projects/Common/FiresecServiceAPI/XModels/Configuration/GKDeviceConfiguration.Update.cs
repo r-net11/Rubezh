@@ -505,6 +505,13 @@ namespace FiresecAPI.GK
 				device.Children[12].PredefinedName = "Реле 3";
 				device.Children[13].PredefinedName = "Реле 4";
 				device.Children[14].PredefinedName = "Реле 5";
+				device.Children[15].PredefinedName = "Резерв 1";
+				device.Children[16].PredefinedName = "Резерв 2";
+				device.Children[17].PredefinedName = "Резерв 3";
+				device.Children[18].PredefinedName = "Резерв 4";
+				device.Children[19].PredefinedName = "Резерв 5";
+				device.Children[20].PredefinedName = "Резерв 6";
+
 			}
 		}
 
