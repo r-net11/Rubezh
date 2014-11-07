@@ -29,15 +29,15 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на открытие, с", 2, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Удержание открытия, мин", 2, 0, 720);
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на открытие, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Удержание открытия, мин", 0, 0, 720);
 			GKDriversHelper.AddIntProprety(driver, 2, "Питание, 0.1 В", 80, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог 1, Ом", 340, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 4, "Порог 2, Ом", 1000, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 5, "Порог 3, Ом", 2350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 4, Ом", 3350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 7, "Порог 5, Ом", 4500, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 8, "Время хода, с", 1, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 8, "Время хода, с", 180, 1, 65535);
 
 			var property90 = new GKDriverProperty()
 			{

@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 		{
 			if (device != null)
 			{
-				if (device.DriverType == GKDriverType.Valve && device.DriverType == GKDriverType.RSR2_Valve_KV && device.DriverType == GKDriverType.RSR2_Valve_KVMV && device.DriverType == GKDriverType.RSR2_Valve_DU)
+				if (device.DriverType == GKDriverType.Valve || device.DriverType == GKDriverType.RSR2_Valve_KV || device.DriverType == GKDriverType.RSR2_Valve_KVMV || device.DriverType == GKDriverType.RSR2_Valve_DU)
 				{
 					switch (stateClass)
 					{
