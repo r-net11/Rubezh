@@ -388,52 +388,67 @@ namespace AutomationModule.ViewModels
 				var parentIndex = parentViewModel.Parent.Index;
 				parentViewModel.RemoveChild(SelectedStep);
 				parentViewModel.Step.Children.Remove(stepViewModel.Step);
-				var step = stepViewModel.Step;
 				if (delta == 1)
 				{
 					if (parentViewModel.ChildrenCount <= (index + delta - 1))
 					{
-						if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
+						if (parentViewModel.Step.ProcedureStepType == ProcedureStepType.IfYes)
+						{
+							var targetStepViewModel = parentViewModel.Parent.Children.LastOrDefault();
+							if (targetStepViewModel.ChildrenCount == 0)
+							{
+								targetStepViewModel.AddChild(stepViewModel);
+								stepViewModel.ExpandToThis();
+							}
+							else
+								targetStepViewModel[0].InsertTo(stepViewModel);
+							targetStepViewModel.Step.Children.Insert(0, stepViewModel.Step);
+						}
+						else if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
 						{
 							RootSteps.Insert(parentIndex + delta, stepViewModel);
-							Procedure.Steps.Insert(parentIndex + delta, step);
+							Procedure.Steps.Insert(parentIndex + delta, stepViewModel.Step);
 						}
 						else
 						{
-							parentViewModel.Parent.Parent[parentIndex + delta].InsertChild(stepViewModel);
-							parentViewModel.Parent.Parent.Step.Children.Insert(index + delta, step);
+							parentViewModel.Parent.Parent[parentIndex + delta - 1].InsertChild(stepViewModel);
+							parentViewModel.Parent.Parent.Step.Children.Insert(index + delta, stepViewModel.Step);
 						}
 					}
 					else
 					{
 						parentViewModel[index + delta - 1].InsertChild(stepViewModel);
-						parentViewModel.Step.Children.Insert(index + delta, step);
+						parentViewModel.Step.Children.Insert(index + delta, stepViewModel.Step);
 					}
 				}
 				else
 				{
 					if (index == 0)
 					{
-						if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
+						if (parentViewModel.Step.ProcedureStepType == ProcedureStepType.IfNo)
+						{
+							var targetStepViewModel = parentViewModel.Parent.Children.FirstOrDefault();
+							targetStepViewModel.Step.Children.Insert(targetStepViewModel.ChildrenCount, stepViewModel.Step);
+							targetStepViewModel.AddChild(stepViewModel);
+						}
+						else if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
 						{
 							RootSteps.Insert(parentIndex + delta + 1, stepViewModel);
-							Procedure.Steps.Insert(parentIndex + delta + 1, step);
+							Procedure.Steps.Insert(parentIndex + delta + 1, stepViewModel.Step);
 						}
 						else
 						{
 							parentViewModel.Parent.Parent[parentIndex + delta + 1].InsertTo(stepViewModel);
-							parentViewModel.Parent.Parent.Step.Children.Insert(parentIndex + delta + 1, step);
+							parentViewModel.Parent.Parent.Step.Children.Insert(parentIndex + delta + 1, stepViewModel.Step);
 						}
 					}
 					else
 					{
 						parentViewModel[index + delta].InsertTo(stepViewModel);
-						parentViewModel.Step.Children.Insert(index + delta, step);
+						parentViewModel.Step.Children.Insert(index + delta, stepViewModel.Step);
 					}
 				}
 				SelectedStep = stepViewModel;
-
-
 			}
 		}
 

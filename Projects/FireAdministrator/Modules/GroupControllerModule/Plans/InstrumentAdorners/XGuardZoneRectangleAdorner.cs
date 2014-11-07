@@ -5,6 +5,7 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -21,7 +22,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKGuardZone();
-			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
+			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel, (ElementBase)element);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			GKPlanExtension.Instance.SetItem<GKGuardZone>(element);

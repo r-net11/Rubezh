@@ -16,11 +16,13 @@ namespace GKModule.Plans.ViewModels
 	{
 		private IElementDirection _element;
 		private DirectionsViewModel _directionsViewModel;
+		ElementBase ElementBase { get; set; }
 
-		public DirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel)
+		public DirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel, ElementBase elementBase)
 		{
 			_directionsViewModel = directionsViewModel;
 			_element = element;
+			ElementBase = elementBase;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
@@ -33,6 +35,18 @@ namespace GKModule.Plans.ViewModels
 			}
 			if (_element.DirectionUID != Guid.Empty)
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
+			PresentationName = ElementBase.PresentationName;
+		}
+
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
+			}
 		}
 
 		public ObservableCollection<DirectionViewModel> Directions { get; private set; }
@@ -78,6 +92,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			Guid directionUID = _element.DirectionUID;
 			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedDirection == null ? null : SelectedDirection.Direction);
+			ElementBase.PresentationName = PresentationName;
 			UpdateDirections(directionUID);
 			return base.Save();
 		}

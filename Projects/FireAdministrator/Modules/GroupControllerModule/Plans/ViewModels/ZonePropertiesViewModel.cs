@@ -16,8 +16,9 @@ namespace GKModule.Plans.ViewModels
 	{
 		IElementZone IElementZone;
 		ZonesViewModel _zonesViewModel;
+		ElementBase ElementBase { get; set; }
 
-		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel)
+		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel, ElementBase elementBase)
 		{
 			_zonesViewModel = zonesViewModel;
 			IElementZone = iElementZone;
@@ -33,6 +34,20 @@ namespace GKModule.Plans.ViewModels
 			}
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+			ElementBase = elementBase;
+			PresentationName = elementBase.PresentationName;
+		}
+
+
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
+			}
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
@@ -77,9 +92,10 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid zoneUID = IElementZone.ZoneUID;
+			Guid zoneUID = IElementZone.ZoneUID;			
 			GKPlanExtension.Instance.SetItem<GKZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
+			ElementBase.PresentationName = PresentationName; 
 			return base.Save();
 		}
 		private void UpdateZones(Guid xzoneUID)

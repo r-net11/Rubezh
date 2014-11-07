@@ -5,6 +5,7 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -20,7 +21,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleGKDirection();
-			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);
+			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel, (ElementBase)element);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			GKPlanExtension.Instance.SetItem<GKDirection>(element);

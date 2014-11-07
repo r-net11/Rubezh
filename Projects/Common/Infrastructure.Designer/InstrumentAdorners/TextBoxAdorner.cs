@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {
@@ -14,7 +15,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementTextBlock();
-			var propertiesViewModel = new TextBlockPropertiesViewModel(element);
+			var propertiesViewModel = new TextBlockPropertiesViewModel(element, (ElementBase)element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

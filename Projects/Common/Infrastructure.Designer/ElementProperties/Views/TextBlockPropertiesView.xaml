@@ -20,21 +20,23 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Текст" />
-			<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать" />
-			<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать по высоте" />
-			<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет текста" />
-			<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
-			<Label Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
-			<Label Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
-			<Label Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Размер шрифта" />
-			<Label Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Шрифт" />
-			<Label Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Жирный" />
-			<Label Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Курсив" />
-			<Label Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Растянуть" />
-			<Label Grid.Row="12" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Перенос слов" />
+			<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Название" />
+			<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Текст" />
+			<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать" />
+			<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать по высоте" />
+			<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет текста" />
+			<Label Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
+			<Label Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
+			<Label Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
+			<Label Grid.Row="8" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Размер шрифта" />
+			<Label Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Шрифт" />
+			<Label Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Жирный" />
+			<Label Grid.Row="11" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Курсив" />
+			<Label Grid.Row="12" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Растянуть" />
+			<Label Grid.Row="13" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Перенос слов" />
 
 			<!--
 				<Grid Grid.Row="0" Grid.Column="1" Background="White" Margin="2">
@@ -51,25 +53,26 @@
 				TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" />
 				</Grid>
 			-->
-			<TextBox x:Name="_textBox" Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True" Background="White" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" />
-			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
-			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding VerticalAlignments}" SelectedIndex="{Binding VerticalAlignment, UpdateSourceTrigger=PropertyChanged}" />
-			<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
-			<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
-			<xc:ColorPicker Grid.Row="5" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Margin="2" Maximum="1000" Minimum="5" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" />
-			<ComboBox Grid.Row="8" Grid.Column="1" Margin="2" ItemsSource="{Binding Fonts}" SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
+			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalContentAlignment="Center" />
+			<TextBox x:Name="_textBox" Grid.Row="1" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True" Background="White" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" />
+			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
+			<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" ItemsSource="{Binding VerticalAlignments}" SelectedIndex="{Binding VerticalAlignment, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="5" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="6" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Margin="2" Maximum="1000" Minimum="5" Value="{Binding FontSize, UpdateSourceTrigger=PropertyChanged}" />
+			<ComboBox Grid.Row="9" Grid.Column="1" Margin="2" ItemsSource="{Binding Fonts}" SelectedItem="{Binding FontFamilyName, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock FontFamily="{Binding}" Text="{Binding}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<CheckBox Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontBold, UpdateSourceTrigger=PropertyChanged}" />
-			<CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
-			<CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
-			<CheckBox Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontBold, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding FontItalic, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Stretch, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="13" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding WordWrap, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>

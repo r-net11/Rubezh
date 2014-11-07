@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using FiresecAPI.Automation;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace AutomationModule.Plans.ViewModels
 {
@@ -17,7 +18,7 @@ namespace AutomationModule.Plans.ViewModels
 		private ElementProcedure _element;
 
 		public ProcedurePropertiesViewModel(ElementProcedure element, ProceduresViewModel proceduresViewModel)
-			: base(element)
+			: base(element, (ElementBase) element)
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;
@@ -25,6 +26,17 @@ namespace AutomationModule.Plans.ViewModels
 			if (element.ProcedureUID != Guid.Empty)
 				SelectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Uid == element.ProcedureUID);
 		}
+
+		//string _presentationName;
+		//public string PresentationName
+		//{
+		//    get { return _presentationName; }
+		//    set
+		//    {
+		//        _presentationName = value;
+		//        OnPropertyChanged(() => PresentationName);
+		//    }
+		//}
 
 		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
 

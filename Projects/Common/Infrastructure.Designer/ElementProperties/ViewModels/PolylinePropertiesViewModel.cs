@@ -19,6 +19,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		{
 			BorderColor = _elementPolyline.BorderColor;
 			StrokeThickness = _elementPolyline.BorderThickness;
+			PresentationName = _elementPolyline.PresentationName;
 		}
 
 		Color _borderColor;
@@ -29,6 +30,17 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			{
 				_borderColor = value;
 				OnPropertyChanged("BorderColor");
+			}
+		}
+
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
 			}
 		}
 
@@ -47,6 +59,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		{
 			_elementPolyline.BorderColor = BorderColor;
 			_elementPolyline.BorderThickness = StrokeThickness;
+			_elementPolyline.PresentationName = PresentationName;
 			return base.Save();
 		}
 	}

@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Collections.Generic;
+using Infrustructure.Plans.Elements;
 
 namespace AutomationModule.ViewModels
 {
@@ -31,15 +33,28 @@ namespace AutomationModule.ViewModels
 				if (_selectedPlan != null)
 				{
 					ControlPlanArguments.PlanUid = _selectedPlan.Plan.UID;
-					foreach (var elementRectangle in _selectedPlan.Plan.ElementRectangles)
-					{
-						Elements.Add(new ElementViewModel(elementRectangle));
-					}
+					Elements = GetAllElements(_selectedPlan.Plan);
 					SelectedElement = Elements.FirstOrDefault(x => x.Uid == ControlPlanArguments.ElementUid);
 					OnPropertyChanged(() => Elements);
 				}
 				OnPropertyChanged(() => SelectedPlan);
 			}
+		}
+
+		public ObservableCollection<ElementViewModel> GetAllElements(Plan plan)
+		{
+			var elements = new ObservableCollection<ElementViewModel>();
+			var allElements = new List<ElementBase>(plan.ElementUnion);
+			allElements.AddRange(plan.ElementEllipses);
+			allElements.AddRange(plan.ElementPolylines);
+			allElements.AddRange(plan.ElementRectangles);
+			allElements.AddRange(plan.ElementTextBlocks);
+			allElements.AddRange(plan.ElementPolygons);
+			foreach (var elementRectangle in allElements)
+			{
+				elements.Add(new ElementViewModel(elementRectangle));
+			}
+			return elements;
 		}
 
 		public ObservableCollection<ElementViewModel> Elements { get; private set; }
@@ -103,7 +118,6 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
-			Elements = new ObservableCollection<ElementViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				Plans.Add(new PlanViewModel(plan));
