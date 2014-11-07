@@ -69,7 +69,7 @@ namespace GKProcessor
 							bytes.Add(0);
 							bytes.Add((byte)address);
 							bytes.Add((byte)shleifNo);
-							var result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes);
+							var result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 500);
 							if (!result2.HasError)
 							{
 								if (result2.Bytes.Count == 6)
@@ -86,7 +86,7 @@ namespace GKProcessor
 										devices.Add(device);
 
 										var deviceGroup = deviceGroups.FirstOrDefault(x => x.SerialNo == serialNo);
-										if (deviceGroup == null)
+										if (deviceGroup == null || (serialNo == 0 || serialNo == -1) || (driver.DriverType != GKDriverType.RSR2_AM_1 && driver.DriverType != GKDriverType.RSR2_MAP4 && driver.DriverType != GKDriverType.RSR2_MVK8 && driver.DriverType != GKDriverType.RSR2_RM_1))
 										{
 											deviceGroup = new DeviceGroup();
 											deviceGroup.SerialNo = serialNo;
@@ -140,48 +140,6 @@ namespace GKProcessor
 								shleifDevice.Children.Add(firstDeviceInGroup);
 							}
 						}
-						//GKDevice currentGroupDevice = null;
-						//for (int i = 0; i < devices.Count; i++)
-						//{
-						//    var device = devices[i];
-						//    GKDriver groupDriver = null;
-						//    if (device.Driver.DriverType == GKDriverType.RSR2_AM_1)
-						//    {
-						//        groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_AM_4);
-						//    }
-						//    if (device.Driver.DriverType == GKDriverType.RSR2_MAP4)
-						//    {
-						//        groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MAP4_Group);
-						//    }
-						//    if (device.Driver.DriverType == GKDriverType.RSR2_MVK8)
-						//    {
-						//        groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MVK8_Group);
-						//    }
-						//    if (device.Driver.DriverType == GKDriverType.RSR2_RM_1)
-						//    {
-						//        groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_2);
-						//    }
-						//    if (groupDriver != null)
-						//    {
-						//        var groupDevice = new GKDevice();
-						//        groupDevice.Driver = groupDriver;
-						//        groupDevice.DriverUID = groupDriver.UID;
-						//        groupDevice.IntAddress = device.IntAddress;
-
-						//        for (int j = 0; j < groupDriver.GroupDeviceChildrenCount; i++)
-						//        {
-						//            //groupDevice.Children
-						//        }
-
-						//        shleifDevice.Children.Add(groupDevice);
-						//        //groupDevice.Parent = shleifDevice;
-						//    }
-						//    else
-						//    {
-						//        shleifDevice.Children.Add(device);
-						//        //device.Parent = shleifDevice;
-						//    }
-						//}
 					}
 				}
 			}
