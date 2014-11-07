@@ -15,7 +15,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-        <tree:TreeList Grid.Row="0" Grid.Column="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" 
+        <tree:TreeList Name="_treeList" Grid.Row="0" Grid.Column="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" 
                        Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
 			<tree:TreeList.View>
                 <GridView>
@@ -50,15 +50,6 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-                    <GridViewColumn Header="Дата удаления" ListViewLayoutManager.StarWidth="1">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding RemovalDate}" Style="{StaticResource IsDeletedStyle}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                 </GridView>
             </tree:TreeList.View>
 		</tree:TreeList>

@@ -24,6 +24,9 @@ namespace FiresecAPI.SKD
 		public string LastName { get; set; }
 
 		[DataMember]
+		public string Description { get; set; }
+
+		[DataMember]
 		public ShortPosition Position { get; set; }
 
 		[DataMember]

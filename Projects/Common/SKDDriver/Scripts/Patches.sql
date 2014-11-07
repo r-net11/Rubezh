@@ -1107,3 +1107,13 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('Drop_Employee_Appointed')	
 END
+
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'EmployeeDescription')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Employee')
+	BEGIN
+		ALTER TABLE Employee ADD [Description] [nvarchar](max) NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('EmployeeDescription')
+END

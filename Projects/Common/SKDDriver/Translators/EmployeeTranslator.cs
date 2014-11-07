@@ -37,6 +37,7 @@ namespace SKDDriver
 			result.FirstName = tableItem.FirstName;
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
+			result.Description = tableItem.Description;
 			result.Department = DatabaseService.DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
 			result.Schedule = DatabaseService.ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
@@ -68,6 +69,7 @@ namespace SKDDriver
 			result.FirstName = tableItem.FirstName;
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
+			result.Description = tableItem.Description;
 			result.Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
@@ -95,6 +97,7 @@ namespace SKDDriver
 			tableItem.FirstName = apiItem.FirstName;
 			tableItem.SecondName = apiItem.SecondName;
 			tableItem.LastName = apiItem.LastName;
+			tableItem.Description = apiItem.Description;
 			tableItem.PositionUID = apiItem.Position != null ? apiItem.Position.UID : Guid.Empty;
 			tableItem.DepartmentUID = apiItem.Department != null ? apiItem.Department.UID : Guid.Empty;
 			tableItem.ScheduleUID = apiItem.Schedule != null ? apiItem.Schedule.UID : Guid.Empty;

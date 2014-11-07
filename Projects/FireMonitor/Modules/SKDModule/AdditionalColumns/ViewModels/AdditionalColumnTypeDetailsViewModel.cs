@@ -3,8 +3,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -137,12 +139,22 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.Name = Name;
 			AdditionalColumnType.Description = Description;
 			AdditionalColumnType.DataType = DataType;
-			if (IsTextType)
+			bool isIsInGridChanged = false;
+			if (IsTextType && AdditionalColumnType.IsInGrid != IsInGrid)
+			{
+				isIsInGridChanged = true;
+				ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
 				AdditionalColumnType.IsInGrid = IsInGrid;
+			}
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			return AdditionalColumnTypeHelper.Save(AdditionalColumnType, true);
+			var saveResult = AdditionalColumnTypeHelper.Save(AdditionalColumnType, true);
+			if(isIsInGridChanged)
+			{
+				ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
+			}
+			return saveResult;
 		}
 
 

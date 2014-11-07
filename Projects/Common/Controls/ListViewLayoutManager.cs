@@ -1,12 +1,10 @@
 ﻿using System;
-using Common;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Collections;
-using System.Collections.Generic;
+using Common;
 
 namespace Controls
 {
