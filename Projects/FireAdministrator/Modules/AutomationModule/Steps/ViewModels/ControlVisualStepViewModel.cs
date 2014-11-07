@@ -14,13 +14,14 @@ namespace AutomationModule.ViewModels
 	public class ControlVisualStepViewModel : BaseStepViewModel
 	{
 		public ControlVisualArguments ControlVisualArguments { get; private set; }
+		public ControlVisualType Type { get; private set; }
 
-		public ControlVisualStepViewModel(StepViewModel stepViewModel)
+		public ControlVisualStepViewModel(StepViewModel stepViewModel, ControlVisualType type)
 			: base(stepViewModel)
 		{
 			ControlVisualArguments = stepViewModel.Step.ControlVisualArguments;
-			ControlVisualTypes = new ObservableCollection<ControlVisualType>(ProcedureHelper.GetEnumList<ControlVisualType>());
-			Argument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent);
+			Type = type;
+			Argument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent, type == ControlVisualType.Set);
 		}
 
 		public ArgumentViewModel Argument { get; set; }
@@ -73,18 +74,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ControlVisualType> ControlVisualTypes { get; private set; }
-		public ControlVisualType SelectedControlVisualType
-		{
-			get { return ControlVisualArguments.Type; }
-			set
-			{
-				ControlVisualArguments.Type = value;
-				OnPropertyChanged(() => SelectedControlVisualType);
-				UpdateProperties();
-			}
-		}
-
 		public bool ForAllClients
 		{
 			get { return ControlVisualArguments.ForAllClients; }
@@ -103,7 +92,7 @@ namespace AutomationModule.ViewModels
 				if (SelectedLayout != null || SelectedLayoutPart != null || SelectedLayoutPartProperty != null)
 					address = string.Format("<{0}|{1}|{2}>", SelectedLayout == null ? null : SelectedLayout.Name, SelectedLayoutPart == null ? null : SelectedLayoutPart.Name, SelectedLayoutPartProperty == null ? null : SelectedLayoutPartProperty.Name.ToDescription());
 				var template = string.Empty;
-				switch (SelectedControlVisualType)
+				switch (Type)
 				{
 					case ControlVisualType.Get:
 						template = "{0} = {1}";
@@ -119,7 +108,6 @@ namespace AutomationModule.ViewModels
 		{
 			Layouts = new ObservableCollection<LayoutViewModel>(FiresecManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.Layout);
-			SelectedControlVisualType = ControlVisualTypes.FirstOrDefault(item => item == SelectedControlVisualType);
 			if (SelectedLayoutPartProperty == null)
 				Argument.Update(Procedure);
 			else
@@ -128,7 +116,7 @@ namespace AutomationModule.ViewModels
 
 		private void UpdateProperties()
 		{
-			var access = SelectedControlVisualType == ControlVisualType.Get ? LayoutPartPropertyAccess.Get : LayoutPartPropertyAccess.Set;
+			var access = Type == ControlVisualType.Get ? LayoutPartPropertyAccess.Get : LayoutPartPropertyAccess.Set;
 			LayoutPartProperties = new ObservableCollection<LayoutPartPropertyViewModel>(SelectedLayoutPart == null || SelectedLayoutPart.Description == null ? Enumerable.Empty<LayoutPartPropertyViewModel>() : SelectedLayoutPart.Description.Properties.Where(item => item.Access == LayoutPartPropertyAccess.GetOrSet || item.Access == access).Select(item => new LayoutPartPropertyViewModel(item)));
 			SelectedLayoutPartProperty = LayoutPartProperties.FirstOrDefault(x => x.LayoutPartProperty.Name == ControlVisualArguments.Property);
 			OnPropertyChanged(() => LayoutPartProperties);

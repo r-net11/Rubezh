@@ -11,6 +11,7 @@ using FiresecService.ViewModels;
 using GKProcessor;
 using SKDDriver;
 using System.Collections.Generic;
+using SKDDriver.Translators;
 
 namespace FiresecService.Service
 {
@@ -18,7 +19,6 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService
 	{
-		public static readonly SqlCeConnection DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString);
 		ClientCredentials CurrentClientCredentials;
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
@@ -116,9 +116,9 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			using (var databaseService = new SKDDatabaseService())
+			using (var passJournalTranslator = new PassJournalTranslator())
 			{
-				databaseService.TimeTrackTranslator.InsertPassJournalTestData();
+				passJournalTranslator.InsertPassJournalTestData();
 			}
 			return "Test";
 		}

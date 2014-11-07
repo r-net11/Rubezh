@@ -1,9 +1,10 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using FiresecAPI.Journal;
+using SKDDriver;
 
 namespace GKProcessor
 {
@@ -11,13 +12,12 @@ namespace GKProcessor
 	{
 		public bool ReadMissingJournalItems()
 		{
-
-
-			return true;
-
-
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
-			var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
+			var localLastDBNo = -1;
+			using (var skdDatabaseService = new SKDDatabaseService())
+			{
+				localLastDBNo = skdDatabaseService.GKMetadataTranslator.GetLastJournalNo(gkIpAddress);
+			}
 			if (localLastDBNo == -1)
 			{
 				return true;
@@ -27,11 +27,14 @@ namespace GKProcessor
 			{
 				return false;
 			}
+			using (var skdDatabaseService = new SKDDatabaseService())
+			{
+				skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, remoteLastId);
+			}
 			if (remoteLastId > localLastDBNo)
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
-				var journalItems = new List<JournalItem>();
 				for (int index = localLastDBNo; index <= remoteLastId; index++)
 				{
 					LastUpdateTime = DateTime.Now;
@@ -48,18 +51,8 @@ namespace GKProcessor
 					if (journaParser != null)
 					{
 						GKProcessorManager.DoProgress((index - localLastDBNo).ToString() + " из " + (remoteLastId - localLastDBNo).ToString(), progressCallback);
-
-						journalItems.Add(journaParser.JournalItem);
-						if (journalItems.Count > 100)
-						{
-							AddJournalItems(journalItems);
-							journalItems = new List<JournalItem>();
-						}
+						AddJournalItem(journaParser.JournalItem);
 					}
-				}
-				if (journalItems.Count > 0)
-				{
-					AddJournalItems(journalItems);
 				}
 
 				GKProcessorManager.StopProgress(progressCallback);

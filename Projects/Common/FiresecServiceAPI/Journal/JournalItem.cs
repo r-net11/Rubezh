@@ -13,6 +13,7 @@ namespace FiresecAPI.Journal
 		{
 			SystemDateTime = DateTime.Now;
 			JournalDetalisationItems = new List<JournalDetalisationItem>();
+			JournalObjectType = JournalObjectType.None;
 		}
 
 		[DataMember]

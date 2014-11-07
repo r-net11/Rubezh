@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementRectangle()
 		{
+			PresentationName = "Прямоугольник";
 		}
 
 		public override ElementBase Clone()

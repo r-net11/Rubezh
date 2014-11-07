@@ -21,7 +21,6 @@ namespace FireAdministrator
 			base.OnStartup(e);
 			try
 			{
-				PatchManager.Patch();
 				string fileName;
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);

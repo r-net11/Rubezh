@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
 		public DeviceStateViewModel(GKState deviceState)
 		{
 			State = deviceState;
-			StateClasses = new ObservableCollection<XStateClassViewModel>();
+			StateClasses = new ObservableCollection<GKStateClassViewModel>();
 			AdditionalStates = new ObservableCollection<GKAdditionalState>();
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 			StateClasses.Clear();
 			foreach (var stateClass in State.StateClasses)
 			{
-				StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
+				StateClasses.Add(new GKStateClassViewModel(State.Device, stateClass));
 			}
 
 			AdditionalStates.Clear();
@@ -37,16 +37,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
+		public ObservableCollection<GKStateClassViewModel> StateClasses { get; private set; }
 		public ObservableCollection<GKAdditionalState> AdditionalStates { get; private set; }
 	}
 
-	public class XStateClassViewModel : BaseViewModel
+	public class GKStateClassViewModel : BaseViewModel
 	{
 		public XStateClass StateClass { get; private set; }
 		GKDevice Device { get; set; }
 
-		public XStateClassViewModel(GKDevice device, XStateClass stateClass)
+		public GKStateClassViewModel(GKDevice device, XStateClass stateClass)
 		{
 			Device = device;
 			StateClass = stateClass;
@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 		{
 			if (device != null)
 			{
-				if (device.DriverType == GKDriverType.Valve)
+				if (device.DriverType == GKDriverType.Valve || device.DriverType == GKDriverType.RSR2_Valve_KV || device.DriverType == GKDriverType.RSR2_Valve_KVMV || device.DriverType == GKDriverType.RSR2_Valve_DU)
 				{
 					switch (stateClass)
 					{

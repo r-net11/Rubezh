@@ -7,6 +7,7 @@ using Controls.TreeList;
 using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Controls;
 
 namespace SKDModule.Views
 {
@@ -31,6 +32,7 @@ namespace SKDModule.Views
 		}
 
 		void OnUpdateAdditionalColumns(object obj)
+
 		{
 			UpdateAdditionalColumns();
 			TreeList.RaiseEvent(new RoutedEventArgs(TreeList.LoadedEvent));

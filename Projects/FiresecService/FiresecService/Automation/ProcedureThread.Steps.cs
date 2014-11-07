@@ -71,14 +71,14 @@ namespace FiresecService
 			SendCallback(procedureStep.SoundArguments, automationCallbackResult);
 		}
 
-		void ControlVisual(ProcedureStep procedureStep)
+		void ControlVisual(ProcedureStep procedureStep, ControlVisualType type)
 		{
 			if (procedureStep.ControlVisualArguments == null || !procedureStep.ControlVisualArguments.Property.HasValue)
 				return;
 			AutomationCallbackType callbackType;
 			object value = null;
 			var waitResponse = false;
-			switch (procedureStep.ControlVisualArguments.Type)
+			switch (type)
 			{
 				case ControlVisualType.Get:
 					callbackType = AutomationCallbackType.GetVisualProperty;

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKD" EntityNamespace="SKDDriver.DataAccess" ContextNamespace="SKDDriver.DataAccess" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="ConnectionString" ConnectionString="Data Source=.\FIRESECINSTANCE;Initial Catalog=SKD;Integrated Security=True" Provider="System.Data.SqlClient" />
+  <Connection Mode="ConnectionString" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SKD;Integrated Security=True" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AccessTemplate" Member="AccessTemplates">
     <Type Name="AccessTemplate">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -11,6 +11,17 @@
       <Association Name="AccessTemplate_Card" Member="Cards" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
       <Association Name="AccessTemplate_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="AccessTemplateUID" Type="CardDoor" />
       <Association Name="Organisation_AccessTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TimeTrackException" Member="TimeTrackExceptions">
+    <Type Name="TimeTrackException">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Employee_TimeTrackException" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
@@ -60,7 +71,6 @@
       <Column Name="GKLevel" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Column Name="GKLevelSchedule" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="CardUID" Type="CardDoor" />
-      <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="ObjectUID" Type="Journal" />
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
@@ -154,7 +164,7 @@
       <Column Name="Citizenship" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Employee_TimeTrackException" Member="TimeTrackExceptions" ThisKey="UID" OtherKey="EmployeeUID" Type="TimeTrackException" />
       <Association Name="Employee_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
       <Association Name="Employee_Card" Member="Cards" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
       <Association Name="Employee_Department" Member="Departments" ThisKey="UID" OtherKey="ChiefUID" Type="Department" />
@@ -163,8 +173,6 @@
       <Association Name="Employee_Employee" Member="Employees" ThisKey="UID" OtherKey="EscortUID" Type="Employee" />
       <Association Name="Employee_Organisation" Member="Organisations" ThisKey="UID" OtherKey="ChiefUID" Type="Organisation" />
       <Association Name="Employee_Organisation1" Member="Organisations1" ThisKey="UID" OtherKey="HRChiefUID" Type="Organisation" />
-      <Association Name="Employee_PassJournal" Member="PassJournals" ThisKey="UID" OtherKey="EmployeeUID" Type="PassJournal" />
-      <Association Name="Employee_TimeTrackException" Member="TimeTrackExceptions" ThisKey="UID" OtherKey="EmployeeUID" Type="TimeTrackException" />
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" />
       <Association Name="Employee_Employee" Member="Employee1" ThisKey="EscortUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Organisation_Employee" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
@@ -175,6 +183,7 @@
   </Table>
   <Table Name="dbo.GKMetadata" Member="GKMetadatas">
     <Type Name="GKMetadata">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="IPAddress" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="SerialNo" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="LastJournalNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -195,24 +204,12 @@
       <Association Name="Organisation_Holiday" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Journal" Member="Journals">
-    <Type Name="Journal">
+  <Table Name="dbo.JournalMetadata" Member="JournalMetadatas">
+    <Type Name="JournalMetadata">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="SystemDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Subsystem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NameText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DescriptionText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ObjectType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ObjectName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="Detalisation" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
+      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.NightSettings" Member="NightSettings">
@@ -293,14 +290,12 @@
       <Association Name="Organisation_PassCardTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.PassJournal" Member="PassJournals">
-    <Type Name="PassJournal">
+  <Table Name="dbo.PassJournalMetadata" Member="PassJournalMetadatas">
+    <Type Name="PassJournalMetadata">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="EnterTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="ExitTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="Employee_PassJournal" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Column Name="No" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Patches" Member="Patches">
@@ -414,17 +409,6 @@
       <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_TimeTrackDocumentType" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.TimeTrackException" Member="TimeTrackExceptions">
-    <Type Name="TimeTrackException">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Comment" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Association Name="Employee_TimeTrackException" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

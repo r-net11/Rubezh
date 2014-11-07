@@ -33,6 +33,7 @@ namespace GKModule.Models
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
+			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -333,6 +334,47 @@ namespace GKModule.Models
 				}
 			}
 			return true;
+		}
+
+		public RelayCommand AutoSearchCommand { get; private set; }
+		void OnAutoSearch()
+		{
+			var thread = new Thread(() =>
+			{
+				var result = FiresecManager.FiresecService.GKAutoSearch(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+						AutoSearchDevicesViewModel autoSearchDevicesViewModel = null;
+						WaitHelper.Execute(() =>
+						{
+							//DescriptorsManager.Create();
+							//result.Result.UpdateConfiguration();
+							//result.Result.PrepareDescriptors();
+							autoSearchDevicesViewModel = new AutoSearchDevicesViewModel(result.Result);
+						});
+						LoadingService.Close();
+						if (DialogService.ShowModalWindow(autoSearchDevicesViewModel))
+						{
+							//    ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+						}
+					}
+					else
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при автопоиске конфигурации");
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel AutoSearch";
+			thread.Start();
+		}
+
+		bool CanAutoSearch()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
 		bool CheckNeedSave(bool syncParameters = false)

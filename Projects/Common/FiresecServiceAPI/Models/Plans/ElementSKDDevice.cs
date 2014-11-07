@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
 		public ElementSKDDevice()
 		{
 			DeviceUID = Guid.Empty;
+			PresentationName = "Прямоугольник СКД устройство";
 		}
 
 		[DataMember]

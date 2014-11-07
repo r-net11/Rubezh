@@ -531,5 +531,8 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Закрытие", XStateClass.Off)]
 		Закрытие,
+
+		[EventName(JournalSubsystemType.GK, "Автопоиск", XStateClass.Info)]
+		Автопоиск,
 	}
 }

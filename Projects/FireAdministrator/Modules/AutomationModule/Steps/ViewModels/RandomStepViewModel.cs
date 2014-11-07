@@ -12,6 +12,7 @@ namespace AutomationModule.ViewModels
 		{
 			RandomArguments = stepViewModel.Step.RandomArguments;
 			MaxValueArgument = new ArgumentViewModel(RandomArguments.MaxValueArgument, stepViewModel.Update, UpdateContent);
+			MaxValueArgument.ExplicitValue.MinIntValue = 1;
 			ResultArgument = new ArgumentViewModel(RandomArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
 		}
 

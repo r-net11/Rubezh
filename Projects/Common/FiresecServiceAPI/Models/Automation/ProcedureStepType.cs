@@ -112,8 +112,11 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление точкой доступа")]
 		ControlDoor,
 
-		[DescriptionAttribute("Управление визуальными элементами")]
-		ControlVisual,
+		[DescriptionAttribute("Чтение свойства визуального элемента")]
+		ControlVisualGet,
+
+		[DescriptionAttribute("Установка свойства визуального элемента")]
+		ControlVisualSet,
 
 		[DescriptionAttribute("Управление элементами плана")]
 		ControlPlan,

@@ -12,9 +12,6 @@ namespace FiresecAPI.Automation
 			Argument = new Argument();
 		}
 
-		[DataMember]
-		public ControlVisualType Type { get; set; }
-
 		public Guid Layout
 		{
 			get

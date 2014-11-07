@@ -64,6 +64,20 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				DescriptorsManager.Create();
+				return GKProcessorManager.GKAutoSearch(device, UserName);
+			}
+			else
+			{
+				return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			}
+		}
+
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -236,7 +250,7 @@ namespace FiresecService.Service
 
 		public void GKReset(Guid uid, GKBaseObjectType objectType)
 		{
-			var gkBase = GetXBase(uid, objectType);
+			var gkBase = GetGKBase(uid, objectType);
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKReset(gkBase, UserName);
@@ -263,43 +277,43 @@ namespace FiresecService.Service
 
 		public void GKSetAutomaticRegime(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetAutomaticRegime(xBase, UserName);
+				GKProcessorManager.GKSetAutomaticRegime(gkBase, UserName);
 			}
 		}
 
 		public void GKSetManualRegime(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetManualRegime(xBase, UserName);
+				GKProcessorManager.GKSetManualRegime(gkBase, UserName);
 			}
 		}
 
 		public void GKSetIgnoreRegime(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKSetIgnoreRegime(xBase, UserName);
+				GKProcessorManager.GKSetIgnoreRegime(gkBase, UserName);
 			}
 		}
 
 		public void GKTurnOn(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOn(xBase, UserName);
+				GKProcessorManager.GKTurnOn(gkBase, UserName);
 			}
 		}
 
 		public void GKTurnOnNow(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
+			var xBase = GetGKBase(uid, objectType);
 			if (xBase != null)
 			{
 				GKProcessorManager.GKTurnOnNow(xBase, UserName);
@@ -308,32 +322,32 @@ namespace FiresecService.Service
 
 		public void GKTurnOff(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOff(xBase, UserName);
+				GKProcessorManager.GKTurnOff(gkBase, UserName);
 			}
 		}
 
 		public void GKTurnOffNow(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKTurnOffNow(xBase, UserName);
+				GKProcessorManager.GKTurnOffNow(gkBase, UserName);
 			}
 		}
 
 		public void GKStop(Guid uid, GKBaseObjectType objectType)
 		{
-			var xBase = GetXBase(uid, objectType);
-			if (xBase != null)
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
 			{
-				GKProcessorManager.GKStop(xBase, UserName);
+				GKProcessorManager.GKStop(gkBase, UserName);
 			}
 		}
 
-		GKBase GetXBase(Guid uid, GKBaseObjectType objectType)
+		GKBase GetGKBase(Guid uid, GKBaseObjectType objectType)
 		{
 			switch (objectType)
 			{
@@ -391,17 +405,6 @@ namespace FiresecService.Service
 			{
 				return new OperationResult<bool>("Не найдено устройство в конфигурации");
 			}
-		}
-		#endregion
-
-		#region Journal
-		public void AddXJournalItem(JournalItem journalItem)
-		{
-			GKDBHelper.Add(journalItem);
-			AddGKJournalItem(journalItem);
-			var gkCallbackResult = new GKCallbackResult();
-			gkCallbackResult.JournalItems.Add(journalItem);
-			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 		#endregion
 	}

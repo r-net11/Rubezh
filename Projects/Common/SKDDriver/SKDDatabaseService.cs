@@ -1,15 +1,22 @@
 ﻿using System.Configuration;
 using SKDDriver.Translators;
 using System;
+using Infrastructure.Common;
 
 namespace SKDDriver
 {
 	public class SKDDatabaseService : IDisposable
 	{
 		public DataAccess.SKDDataContext Context { get; private set; }
-		string ConnectionString
+
+		static string ConnectionString
 		{
-			get	{ return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
+			get
+			{
+				var serverName = GlobalSettingsHelper.GlobalSettings.DBServerName;
+				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=SKD;Integrated Security=True;Language='English'";
+				return connectionString;
+			}
 		}
 
 		public SKDDatabaseService()
@@ -19,7 +26,6 @@ namespace SKDDriver
 			CardDoorTranslator = new CardDoorTranslator(this);
 			CardTranslator = new CardTranslator(this);
 			AccessTemplateTranslator = new AccessTemplateTranslator(this);
-			JournalItemTranslator = new JournalItemTranslator(this);
 			PhotoTranslator = new PhotoTranslator(this);
 			OrganisationTranslator = new OrganisationTranslator(this);
 			PositionTranslator = new PositionTranslator(this);
@@ -39,6 +45,8 @@ namespace SKDDriver
 			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
 			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
 			PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
+			MetadataTranslator = new MetadataTranslator(this);
+			GKMetadataTranslator = new GKMetadataTranslator(this);
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
@@ -47,7 +55,6 @@ namespace SKDDriver
 		public CardDoorTranslator CardDoorTranslator { get; private set; }
 		public AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
 		public OrganisationTranslator OrganisationTranslator { get; private set; }
-		public JournalItemTranslator JournalItemTranslator { get; private set; }
 		public EmployeeTranslator EmployeeTranslator { get; private set; }
 		public DepartmentTranslator DepartmentTranslator { get; private set; }
 		public AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
@@ -64,6 +71,8 @@ namespace SKDDriver
 		public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
 		public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
 		public PassCardTemplateTranslator PassCardTemplateTranslator { get; private set; }
+		public MetadataTranslator MetadataTranslator { get; private set; }
+		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
 
 		public void Dispose()
 		{

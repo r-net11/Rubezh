@@ -18,13 +18,12 @@ namespace AutomationModule.ViewModels
 		{
 			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(item => item.Uid == properties.ReferenceUID);
 			if (Procedure != null)
-				Title = Procedure.Name;
+				Text = Procedure.Name;
 			RunProcedureCommand = new RelayCommand(OnRunProcedure, CanRunProcedure);
 
 			UseCustomStyle = properties.UseCustomStyle;
 			if (UseCustomStyle)
 			{
-				Text = properties.Text;
 				BackgroundBrush = new SolidColorBrush(properties.BackgroundColor);
 				ForegroundBrush = new SolidColorBrush(properties.ForegroundColor);
 				BorderBrush = new SolidColorBrush(properties.BorderColor);
@@ -36,10 +35,11 @@ namespace AutomationModule.ViewModels
 				TextAlignment = (TextAlignment)properties.TextAlignment;
 				Stretch = properties.Stretch ? Stretch.Fill : Stretch.None;
 			}
+			if (!string.IsNullOrWhiteSpace(properties.Text))
+				Text = properties.Text;
 		}
 
 		public Procedure Procedure { get; private set; }
-		public string Title { get; private set; }
 
 		public bool UseCustomStyle { get; private set; }
 		public string Text { get; private set; }

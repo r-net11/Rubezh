@@ -8,6 +8,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
+using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -82,7 +83,10 @@ namespace FiresecService
 							if (readerdevice != null && readerdevice.Zone != null)
 							{
 								var zoneUID = readerdevice.Zone.UID;
-								databaseService.TimeTrackTranslator.AddPassJournal(employeeUID, zoneUID);
+								using (var passJournalTranslator = new PassJournalTranslator())
+								{
+									passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
+								}
 							}
 						}
 					}

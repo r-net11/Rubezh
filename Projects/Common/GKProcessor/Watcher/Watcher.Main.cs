@@ -137,7 +137,7 @@ namespace GKProcessor
 				}
 				catch (Exception e)
 				{
-					AddMessage(JournalEventNameType.Ошибка_инициализации_мониторинга, "");
+					AddMessage(JournalEventNameType.Ошибка_инициализации_мониторинга);
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
@@ -430,7 +430,6 @@ namespace GKProcessor
 			var gkIpAddress = GkDatabase.RootDevice.GetGKIpAddress();
 			if (!string.IsNullOrEmpty(gkIpAddress))
 				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
-			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
@@ -444,8 +443,6 @@ namespace GKProcessor
 			var gkIpAddress = GkDatabase.RootDevice.GetGKIpAddress();
 			if (!string.IsNullOrEmpty(gkIpAddress))
 				journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
-			GKDBHelper.Add(journalItem);
-			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void OnObjectStateChanged(GKBase gkBase)
@@ -501,22 +498,19 @@ namespace GKProcessor
 			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
 
-		internal void AddMessage(JournalEventNameType journalEventNameType, string userName)
+		internal void AddMessage(JournalEventNameType journalEventNameType)
 		{
-			var journalItem = GKDBHelper.AddMessage(journalEventNameType, userName);
-			GKCallbackResult.JournalItems.Add(journalItem);
+			var journalItem = new JournalItem()
+			{
+				JournalEventNameType = journalEventNameType,
+				SystemDateTime = DateTime.Now,
+			};
+			AddJournalItem(journalItem);
 		}
 
 		void AddJournalItem(JournalItem journalItem)
 		{
-			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
-		}
-
-		void AddJournalItems(List<JournalItem> journalItems)
-		{
-			GKDBHelper.AddMany(journalItems);
-			GKCallbackResult.JournalItems.AddRange(journalItems);
 		}
 
 		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)

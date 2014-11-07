@@ -70,15 +70,18 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать сервер ГК" HorizontalAlignment="Right" Margin="2" />
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Использовать HASP" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать HASP" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Название экземпляра сервера БД" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Создавать новую БД при переполнении" HorizontalAlignment="Right" Margin="2" />
 
-				<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
-				<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsGKAsAService}" HorizontalAlignment="Left" Margin="2" />
-				<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseHasp}" HorizontalAlignment="Left" Margin="2" />
-			</Grid>
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
+				<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding UseHasp}" HorizontalAlignment="Left" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DBServerName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding CreateNewDBOnOversize}" HorizontalAlignment="Left" Margin="2" />
+            </Grid>
 		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">

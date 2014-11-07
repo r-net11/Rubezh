@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using SKDDriver;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -21,6 +23,11 @@ namespace GKProcessor
 			{
 				ReadAndPublish(LastId, newLastId);
 				LastId = newLastId;
+				using (var skdDatabaseService = new SKDDatabaseService())
+				{
+					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
+					skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, LastId);
+				}
 			}
 		}
 
@@ -61,13 +68,12 @@ namespace GKProcessor
 
 		void ReadAndPublish(int startIndex, int endIndex)
 		{
-			var journalItems = new List<JournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
 				var journalParser = ReadJournal(index);
 				if (journalParser != null)
 				{
-					journalItems.Add(journalParser.JournalItem);
+					AddJournalItem(journalParser.JournalItem);
 					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
 					if (descriptor != null)
 					{
@@ -106,10 +112,6 @@ namespace GKProcessor
 						NotifyAllObjectsStateChanged();
 					}
 				}
-			}
-			if (journalItems.Count > 0)
-			{
-				AddJournalItems(journalItems);
 			}
 		}
 

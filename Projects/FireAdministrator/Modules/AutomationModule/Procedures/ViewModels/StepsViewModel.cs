@@ -41,29 +41,39 @@ namespace AutomationModule.ViewModels
 		}
 
 		#region Tree
-		public List<StepViewModel> AllSteps;
-
-		public void FillAllSteps()
+		public List<StepViewModel> AllSteps
 		{
-			AllSteps = new List<StepViewModel>();
-			foreach (var rootStep in RootSteps)
+			get
 			{
-				AddChildPlainSteps(rootStep);
+				var allSteps = new List<StepViewModel>();
+				foreach (var rootStep in RootSteps)
+				{
+					AddChildPlainSteps(rootStep, allSteps);
+				}
+				return allSteps;
 			}
 		}
 
-		void AddChildPlainSteps(StepViewModel parentViewModel)
+		//public void FillAllSteps()
+		//{
+		//    AllSteps = new List<StepViewModel>();
+		//    foreach (var rootStep in RootSteps)
+		//    {
+		//        AddChildPlainSteps(rootStep);
+		//    }
+		//}
+
+		void AddChildPlainSteps(StepViewModel parentViewModel, List<StepViewModel> allSteps)
 		{
-			AllSteps.Add(parentViewModel);
+			allSteps.Add(parentViewModel);
 			foreach (var childViewModel in parentViewModel.Children)
-				AddChildPlainSteps(childViewModel);
+				AddChildPlainSteps(childViewModel, allSteps);
 		}
 
 		public void Select(Guid stepUID)
 		{
 			if (stepUID != Guid.Empty)
 			{
-				FillAllSteps();
 				var stepViewModel = AllSteps.FirstOrDefault(x => x.Step.UID == stepUID);
 				if (stepViewModel != null)
 					stepViewModel.ExpandToThis();
@@ -115,13 +125,11 @@ namespace AutomationModule.ViewModels
 				var stepViewModel = AddStepInternal(step, null);
 				RootSteps.Add(stepViewModel);
 			}
-			FillAllSteps();
 		}
 
 		public StepViewModel AddStep(ProcedureStep step, StepViewModel parentStepViewModel)
 		{
 			var stepViewModel = AddStepInternal(step, parentStepViewModel);
-			FillAllSteps();
 			return stepViewModel;
 		}
 		private StepViewModel AddStepInternal(ProcedureStep step, StepViewModel parentStepViewModel)
@@ -164,7 +172,6 @@ namespace AutomationModule.ViewModels
 			{
 				PasteRecursively(childStep, stepViewModel);
 			}
-			FillAllSteps();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -238,7 +245,6 @@ namespace AutomationModule.ViewModels
 						AddСycleBody(stepViewModel);
 					}
 					Add(stepViewModel);
-					FillAllSteps();
 					ServiceFactory.SaveService.AutomationChanged = true;
 				}
 			}
@@ -247,7 +253,6 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			AllSteps.Remove(SelectedStep);
 			if (SelectedStep.Parent == null)
 			{
 				Procedure.Steps.Remove(SelectedStep.Step);
@@ -273,21 +278,18 @@ namespace AutomationModule.ViewModels
 			procedureStep.ProcedureStepType = ProcedureStepType.If;
 			var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
-			AllSteps.Add(stepViewModel);
 
 			var procedureStepIfYes = new ProcedureStep();
 			procedureStepIfYes.ProcedureStepType = ProcedureStepType.IfYes;
 			procedureStep.Children.Add(procedureStepIfYes);
 			var stepIfYesViewModel = new StepViewModel(this, procedureStepIfYes, Procedure);
 			stepViewModel.AddChild(stepIfYesViewModel);
-			AllSteps.Add(stepIfYesViewModel);
 
 			var procedureStepIfNo = new ProcedureStep();
 			procedureStepIfNo.ProcedureStepType = ProcedureStepType.IfNo;
 			procedureStep.Children.Add(procedureStepIfNo);
 			var stepIfNoViewModel = new StepViewModel(this, procedureStepIfNo, Procedure);
 			stepViewModel.AddChild(stepIfNoViewModel);
-			AllSteps.Add(stepIfNoViewModel);
 
 			Add(stepViewModel);
 			ServiceFactory.SaveService.AutomationChanged = true;
@@ -300,7 +302,6 @@ namespace AutomationModule.ViewModels
 			procedureStep.ProcedureStepType = ProcedureStepType.Foreach;
 			var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
-			AllSteps.Add(stepViewModel);
 			AddСycleBody(stepViewModel);
 			Add(stepViewModel);
 			ServiceFactory.SaveService.AutomationChanged = true;
@@ -313,7 +314,6 @@ namespace AutomationModule.ViewModels
 			stepViewModel.Step.Children.Add(procedureStepForeachBody);
 			var stepForeachBodyViewModel = new StepViewModel(this, procedureStepForeachBody, Procedure);
 			stepViewModel.AddChild(stepForeachBodyViewModel);
-			AllSteps.Add(stepForeachBodyViewModel);
 		}
 
 		public RelayCommand UpCommand { get; private set; }
@@ -336,9 +336,7 @@ namespace AutomationModule.ViewModels
 			}
 			else
 			{
-				var index = SelectedStep.Index;
-				if (index < 1)
-					return false;
+				return true;
 			}
 			return true;
 		}
@@ -363,9 +361,7 @@ namespace AutomationModule.ViewModels
 			}
 			else
 			{
-				var index = SelectedStep.Index;
-				if (index > SelectedStep.Parent.Children.Count() - 2)
-					return false;
+				return true;
 			}
 			return true;
 		}
@@ -389,17 +385,55 @@ namespace AutomationModule.ViewModels
 				var stepViewModel = SelectedStep;
 				var parentViewModel = SelectedStep.Parent;
 				var index = SelectedStep.Index;
+				var parentIndex = parentViewModel.Parent.Index;
 				parentViewModel.RemoveChild(SelectedStep);
-
+				parentViewModel.Step.Children.Remove(stepViewModel.Step);
+				var step = stepViewModel.Step;
 				if (delta == 1)
-					parentViewModel[index + delta - 1].InsertChild(stepViewModel);
+				{
+					if (parentViewModel.ChildrenCount <= (index + delta - 1))
+					{
+						if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
+						{
+							RootSteps.Insert(parentIndex + delta, stepViewModel);
+							Procedure.Steps.Insert(parentIndex + delta, step);
+						}
+						else
+						{
+							parentViewModel.Parent.Parent[parentIndex + delta].InsertChild(stepViewModel);
+							parentViewModel.Parent.Parent.Step.Children.Insert(index + delta, step);
+						}
+					}
+					else
+					{
+						parentViewModel[index + delta - 1].InsertChild(stepViewModel);
+						parentViewModel.Step.Children.Insert(index + delta, step);
+					}
+				}
 				else
-					parentViewModel[index + delta].InsertTo(stepViewModel);
+				{
+					if (index == 0)
+					{
+						if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
+						{
+							RootSteps.Insert(parentIndex + delta + 1, stepViewModel);
+							Procedure.Steps.Insert(parentIndex + delta + 1, step);
+						}
+						else
+						{
+							parentViewModel.Parent.Parent[parentIndex + delta + 1].InsertTo(stepViewModel);
+							parentViewModel.Parent.Parent.Step.Children.Insert(parentIndex + delta + 1, step);
+						}
+					}
+					else
+					{
+						parentViewModel[index + delta].InsertTo(stepViewModel);
+						parentViewModel.Step.Children.Insert(index + delta, step);
+					}
+				}
 				SelectedStep = stepViewModel;
 
-				var step = stepViewModel.Step;
-				parentViewModel.Step.Children.Remove(stepViewModel.Step);
-				parentViewModel.Step.Children.Insert(index + delta, step);
+
 			}
 		}
 
@@ -436,12 +470,22 @@ namespace AutomationModule.ViewModels
 		bool CanDownInto()
 		{
 			if (SelectedStep == null)
-				return false;
-			if (RootSteps.Count <= SelectedStep.Index + 1)
-				return false;
-			var nextStep = SelectedStep.Parent == null ? RootSteps[SelectedStep.Index + 1].Step : SelectedStep.Parent[SelectedStep.Index].Step;
+			    return false;
+			var nextStep = new ProcedureStep();
+			nextStep.ProcedureStepType = ProcedureStepType.Pause;
+			if (SelectedStep.Parent == null)
+			{
+				if (RootSteps.Count <= SelectedStep.Index + 1)
+					return false;
+				nextStep = RootSteps[SelectedStep.Index + 1].Step;
+			}
+			else
+			{
+				if (SelectedStep.Parent.ChildrenCount > SelectedStep.Index + 1)
+					nextStep = SelectedStep.Parent[SelectedStep.Index + 1].Step;
+			}
 
-			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.Foreach
+			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.IfNo || nextStep.ProcedureStepType == ProcedureStepType.Foreach
 				|| nextStep.ProcedureStepType == ProcedureStepType.For || nextStep.ProcedureStepType == ProcedureStepType.While));
 		}
 	}

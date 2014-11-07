@@ -13,7 +13,6 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Макет:" />
@@ -46,19 +45,10 @@
 			<TextBox IsReadOnly="True" Text="{Binding SelectedLayoutPartProperty.Type, Converter={StaticResource EnumToDescriptionConverter}, Mode=OneWay}" />
 		</StackPanel>
 
-		<Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Операция:" />
-		<ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding ControlVisualTypes}" SelectedItem="{Binding SelectedControlVisualType}">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
-				</DataTemplate>
-			</ComboBox.ItemTemplate>
-		</ComboBox>
+		<Label Grid.Row="3" Grid.Column="0" Content="Аргумент" />
+		<Views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding Argument}" />
 
-		<Label Grid.Row="4" Grid.Column="0" Content="Аргумент" />
-		<Views:ArgumentView Grid.Row="4" Grid.Column="1" DataContext="{Binding Argument}" />
-
-		<Label Grid.Row="5" Grid.Column="0" Margin="2, 2, 0, 2" Content="Всем клиентам" />
-		<CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
+		<Label Grid.Row="4" Grid.Column="0" Margin="2, 2, 0, 2" Content="Всем клиентам" />
+		<CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
 	</Grid>
 </UserControl>

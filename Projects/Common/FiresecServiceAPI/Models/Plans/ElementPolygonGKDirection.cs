@@ -9,6 +9,11 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementPolygonGKDirection : ElementBasePolygon, IPrimitive, IElementDirection, IElementReference
 	{
+		public ElementPolygonGKDirection()
+		{
+			PresentationName = "Многоугольник направление";
+		}
+
 		[DataMember]
 		public Guid DirectionUID { get; set; }
 

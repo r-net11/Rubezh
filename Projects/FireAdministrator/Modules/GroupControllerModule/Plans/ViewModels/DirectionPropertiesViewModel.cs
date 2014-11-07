@@ -25,26 +25,26 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
 			var directions = GKManager.Directions;
-			XDirections = new ObservableCollection<DirectionViewModel>();
+			Directions = new ObservableCollection<DirectionViewModel>();
 			foreach (var direction in directions)
 			{
 				var directionViewModel = new DirectionViewModel(direction);
-				XDirections.Add(directionViewModel);
+				Directions.Add(directionViewModel);
 			}
 			if (_element.DirectionUID != Guid.Empty)
-				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
 		}
 
-		public ObservableCollection<DirectionViewModel> XDirections { get; private set; }
+		public ObservableCollection<DirectionViewModel> Directions { get; private set; }
 
-		private DirectionViewModel _selectedXDirection;
-		public DirectionViewModel SelectedXDirection
+		private DirectionViewModel _selectedDirection;
+		public DirectionViewModel SelectedDirection
 		{
-			get { return _selectedXDirection; }
+			get { return _selectedDirection; }
 			set
 			{
-				_selectedXDirection = value;
-				OnPropertyChanged("SelectedXDirection");
+				_selectedDirection = value;
+				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
 
@@ -66,18 +66,18 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
-			SelectedXDirection.Update(SelectedXDirection.Direction);
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.Direction.UID);
+			SelectedDirection.Update(SelectedDirection.Direction);
 		}
 		private bool CanEdit()
 		{
-			return SelectedXDirection != null;
+			return SelectedDirection != null;
 		}
 
 		protected override bool Save()
 		{
 			Guid directionUID = _element.DirectionUID;
-			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
+			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedDirection == null ? null : SelectedDirection.Direction);
 			UpdateDirections(directionUID);
 			return base.Save();
 		}

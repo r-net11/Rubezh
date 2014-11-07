@@ -88,6 +88,7 @@
     <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\ViewModels\AutoSearchDevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
@@ -99,6 +100,9 @@
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
+    <Compile Include="Devices\Views\AutoSearchDevicesView.xaml.cs">
+      <DependentUpon>AutoSearchDevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
     </Compile>
@@ -588,6 +592,10 @@
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\AutoSearchDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DevicesOnShleifView.xaml">
       <SubType>Designer</SubType>

@@ -211,6 +211,19 @@ namespace GKProcessor
 				case 169: return JournalEventDescriptionType.АЛС_6_Другой_тип_устройства;
 				case 170: return JournalEventDescriptionType.АЛС_7_Другой_тип_устройства;
 				case 171: return JournalEventDescriptionType.АЛС_8_Другой_тип_устройства;
+				case 172: return JournalEventDescriptionType.Контактор_Открыть;
+				case 173: return JournalEventDescriptionType.Контактор_Закрыть;
+				case 174: return JournalEventDescriptionType.Обрыв_ДУ_Открыть;
+				case 175: return JournalEventDescriptionType.КЗ_ДУ_Открыть;
+				case 176: return JournalEventDescriptionType.Обрыв_ДУ_Закрыть;
+				case 177: return JournalEventDescriptionType.КЗ_ДУ_Закрыть;
+				case 178: return JournalEventDescriptionType.Обрыв_ОГВ;
+				case 179: return JournalEventDescriptionType.КЗ_ОГВ;
+				case 180: return JournalEventDescriptionType.Истекло_Время_Хода;
+				case 181: return JournalEventDescriptionType.Сигнал_МВ_без_КВ;
+				case 182: return JournalEventDescriptionType.Сочетание_КВ;
+				case 183: return JournalEventDescriptionType.Сочетание_МВ;
+				case 184: return JournalEventDescriptionType.Сочетание_ДНУ_и_ДВУ;
 				case 241: return JournalEventDescriptionType.Обрыв_АЛС_1_2;
 				case 242: return JournalEventDescriptionType.Обрыв_АЛС_3_4;
 				case 243: return JournalEventDescriptionType.Обрыв_АЛС_5_6;
@@ -297,7 +310,7 @@ namespace GKProcessor
 				case 4: return JournalEventDescriptionType.Изменение_автомат_по_СТОП;
 				case 5: return JournalEventDescriptionType.Изменение_автоматики_по_Д_О;
 				case 6: return JournalEventDescriptionType.Изменение_автоматики_по_ТМ;
-				case 7: return JournalEventDescriptionType.Ручной_пуск;
+				case 7: return JournalEventDescriptionType.Отсчет_задержки_2;
 				case 8: return JournalEventDescriptionType.Отлож_пуск_АУП_Д_О;
 				case 9: return JournalEventDescriptionType.Пуск_АУП_завершен;
 				case 10: return JournalEventDescriptionType.Стоп_по_кнопке_СТОП;
@@ -334,12 +347,41 @@ namespace GKProcessor
 				case 41: return JournalEventDescriptionType.Давление_высокое;
 				case 42: return JournalEventDescriptionType.Давление_норма;
 				case 43: return JournalEventDescriptionType.Давление_неопределен;
-				case 44: return JournalEventDescriptionType.Давление_на_выходе_есть;
-				case 45: return JournalEventDescriptionType.Давления_на_выходе_нет;
-				case 46: return JournalEventDescriptionType.Выключить_Информация;
-				case 47: return JournalEventDescriptionType.Стоп;
-				case 48: return JournalEventDescriptionType.Запрет_пуска;
-				case 49: return JournalEventDescriptionType.Ручной_пуск;
+				case 44: return JournalEventDescriptionType.Сигнал_с_ДВнР_есть;
+				case 45: return JournalEventDescriptionType.Сигнал_с_ДВнР_нет;
+				case 46: return JournalEventDescriptionType.ШУ_вышел_на_режим;
+				case 47: return JournalEventDescriptionType.Блокировка_пуска_2;
+				case 48: return JournalEventDescriptionType.Блокировка_пуска_снята;
+				case 49: return JournalEventDescriptionType.Отсчет_задержки_2;
+				case 50: return JournalEventDescriptionType.Аварии_пневмоемкости_нет;
+				case 51: return JournalEventDescriptionType.Пуск_с_УЗ;
+				case 52: return JournalEventDescriptionType.Пуск_автоматический;
+				case 53: return JournalEventDescriptionType.Пуск_ручной;
+				case 54: return JournalEventDescriptionType.Пуск_с_панели_шкафа;
+				case 55: return JournalEventDescriptionType.Стоп_от_переключателя;
+				case 56: return JournalEventDescriptionType.Стоп_с_панели_шкафа;
+				case 57: return JournalEventDescriptionType.Стоп_по_неисправности;
+				case 58: return JournalEventDescriptionType.Стоп_с_УЗ;
+				case 59: return JournalEventDescriptionType.Стоп_автоматический;
+				case 60: return JournalEventDescriptionType.Стоп_ручной;
+				case 61: return JournalEventDescriptionType.Отсчет_задержки_включен;
+				case 62: return JournalEventDescriptionType.Отсчет_задержки_выключен;
+				case 63: return JournalEventDescriptionType.Откр_с_УЗ;
+				case 64: return JournalEventDescriptionType.Откр_автоматический;
+				case 65: return JournalEventDescriptionType.Откр_ручной;
+				case 66: return JournalEventDescriptionType.Откр_с_панели_шкафа;
+				case 67: return JournalEventDescriptionType.Закр_от_переключателя;
+				case 68: return JournalEventDescriptionType.Закр_с_панели_шкафа;
+				case 69: return JournalEventDescriptionType.Закр_по_неисправности;
+				case 70: return JournalEventDescriptionType.Закр_с_УЗ;
+				case 71: return JournalEventDescriptionType.Закр_автоматический;
+				case 72: return JournalEventDescriptionType.Закр_ручной;
+				case 73: return JournalEventDescriptionType.Старт_ОГВ;
+				case 74: return JournalEventDescriptionType.Стоп_ОГВ;
+				case 75: return JournalEventDescriptionType.Команда_с_панели_шкафа;
+				case 76: return JournalEventDescriptionType.Ход_на_открытие;
+				case 77: return JournalEventDescriptionType.Ход_на_закрытие;
+				case 78: return JournalEventDescriptionType.Уровень_неопределен;
 			}
 			return JournalEventDescriptionType.NULL;
 		}
@@ -348,7 +390,7 @@ namespace GKProcessor
 		{
 			switch (b)
 			{
-				case 7: return JournalEventDescriptionType.Ручной_пуск;
+				case 7: return JournalEventDescriptionType.Отсчет_задержки_2;
 				case 30: return JournalEventDescriptionType.Остановлено;
 			}
 			return ToInformation(b);

@@ -25,10 +25,10 @@ namespace FiresecAPI.Automation
 		public Guid ElementUid { get; set; }
 
 		[DataMember]
-		public ElementPropertyType ElementPropertyType { get; set; }
+		public ControlVisualType ControlVisualType { get; set; }
 
 		[DataMember]
-		public ControlVisualType ControlVisualType { get; set; }
+		public ElementPropertyType ElementPropertyType { get; set; }
 
 		[DataMember]
 		public Argument ValueArgument { get; set; }
