@@ -120,7 +120,7 @@ namespace SKDDriver.DataAccess
     #endregion
 		
 		public SKDDataContext() : 
-				base("Data Source=.\\FIRESECINSTANCE;Initial Catalog=SKD;Integrated Security=True", mappingSource)
+				base("Data Source=.\\firesecinstance;Initial Catalog=SKD;Integrated Security=True", mappingSource)
 		{
 			OnCreated();
 		}
