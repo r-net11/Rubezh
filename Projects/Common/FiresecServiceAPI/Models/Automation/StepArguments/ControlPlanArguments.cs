@@ -40,6 +40,12 @@ namespace FiresecAPI.Automation
 		Height,
 
 		[Description("Ширина")]
-		Width
+		Width,
+		
+		[Description("Цвет")]
+		Color,
+
+		[Description("Цвет фона")]
+		BackColor
 	}
 }
