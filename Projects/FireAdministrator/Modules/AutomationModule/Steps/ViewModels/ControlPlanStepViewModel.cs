@@ -104,7 +104,7 @@ namespace AutomationModule.ViewModels
 		{
 			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			if (element.ElementType == typeof(ElementRectangle))
-				elementPropertyTypes =  new ObservableCollection<ElementPropertyType>{ElementPropertyType.Height, ElementPropertyType.Width};
+				elementPropertyTypes =  new ObservableCollection<ElementPropertyType>{ElementPropertyType.Height, ElementPropertyType.Width, ElementPropertyType.Color, ElementPropertyType.BackColor};
 			return elementPropertyTypes;
 		}
 
