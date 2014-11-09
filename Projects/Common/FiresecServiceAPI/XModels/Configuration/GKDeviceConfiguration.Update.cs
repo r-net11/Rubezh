@@ -490,28 +490,31 @@ namespace FiresecAPI.GK
 		{
 			if (device.DriverType == GKDriverType.GK && device.Children.Count >= 15)
 			{
-				device.Children[0].PredefinedName = "Неисправность";
-				device.Children[1].PredefinedName = "Пожар 1";
-				device.Children[2].PredefinedName = "Пожар 2";
-				device.Children[3].PredefinedName = "Внимание";
-				device.Children[4].PredefinedName = "Включение ПУСК";
-				device.Children[5].PredefinedName = "Тест";
-				device.Children[6].PredefinedName = "Отключение";
-				device.Children[7].PredefinedName = "Автоматика отключена";
-				device.Children[8].PredefinedName = "Звук отключен";
-				device.Children[9].PredefinedName = "Останов пуска";
-				device.Children[10].PredefinedName = "Реле 1";
-				device.Children[11].PredefinedName = "Реле 2";
-				device.Children[12].PredefinedName = "Реле 3";
-				device.Children[13].PredefinedName = "Реле 4";
-				device.Children[14].PredefinedName = "Реле 5";
-				device.Children[15].PredefinedName = "Резерв 1";
-				device.Children[16].PredefinedName = "Резерв 2";
-				device.Children[17].PredefinedName = "Резерв 3";
-				device.Children[18].PredefinedName = "Резерв 4";
-				device.Children[19].PredefinedName = "Резерв 5";
-				device.Children[20].PredefinedName = "Резерв 6";
+				if (device.Children.Count >= 21)
+				{
+					device.Children[0].PredefinedName = "Неисправность";
+					device.Children[1].PredefinedName = "Пожар 1";
+					device.Children[2].PredefinedName = "Пожар 2";
+					device.Children[3].PredefinedName = "Внимание";
+					device.Children[4].PredefinedName = "Включение ПУСК";
+					device.Children[5].PredefinedName = "Тест";
+					device.Children[6].PredefinedName = "Отключение";
+					device.Children[7].PredefinedName = "Автоматика отключена";
+					device.Children[8].PredefinedName = "Звук отключен";
+					device.Children[9].PredefinedName = "Останов пуска";
+					device.Children[10].PredefinedName = "Реле 1";
+					device.Children[11].PredefinedName = "Реле 2";
+					device.Children[12].PredefinedName = "Реле 3";
+					device.Children[13].PredefinedName = "Реле 4";
+					device.Children[14].PredefinedName = "Реле 5";
+					device.Children[15].PredefinedName = "Резерв 1";
+					device.Children[16].PredefinedName = "Резерв 2";
+					device.Children[17].PredefinedName = "Резерв 3";
+					device.Children[18].PredefinedName = "Резерв 4";
+					device.Children[19].PredefinedName = "Резерв 5";
+					device.Children[20].PredefinedName = "Резерв 6";
 
+				}
 			}
 		}
 

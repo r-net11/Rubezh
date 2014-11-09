@@ -1174,15 +1174,35 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_CardSubsystemType')
 BEGIN
 	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSubsystemType' and table_name = 'Card')
 	BEGIN
+		ALTER TABLE Card DROP CONSTRAINT Card_CardSubsystemType_Default
 		ALTER TABLE Card DROP COLUMN CardSubsystemType
 	END
 	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSubsystemType' and table_name = 'CardDoor')
 	BEGIN
+		ALTER TABLE CardDoor DROP CONSTRAINT CardDoor_CardSubsystemType_Default
 		ALTER TABLE CardDoor DROP COLUMN CardSubsystemType
 	END
 	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSubsystemType' and table_name = 'OrganisationDoor')
 	BEGIN
+		ALTER TABLE OrganisationDoor DROP CONSTRAINT OrganisationDoor_CardSubsystemType_Default
 		ALTER TABLE OrganisationDoor DROP COLUMN CardSubsystemType
 	END
 	INSERT INTO Patches (Id) VALUES ('Drop_CardSubsystemType')	
+END
+
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Recreate_GKMetadata2')
+BEGIN
+	DROP TABLE GKMetadata
+
+	CREATE TABLE [dbo].[GKMetadata](
+		[UID] [uniqueidentifier] NOT NULL,
+		[IPAddress] [nvarchar](50) NOT NULL,
+		[SerialNo] [nvarchar](50) NOT NULL,
+		[LastJournalNo] [int] NOT NULL,
+	CONSTRAINT [PK_GKMetadata] PRIMARY KEY CLUSTERED
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	INSERT INTO Patches (Id) VALUES ('Recreate_GKMetadata2')
 END
