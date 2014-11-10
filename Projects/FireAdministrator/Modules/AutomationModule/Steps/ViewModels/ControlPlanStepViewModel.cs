@@ -33,28 +33,12 @@ namespace AutomationModule.ViewModels
 				if (_selectedPlan != null)
 				{
 					ControlPlanArguments.PlanUid = _selectedPlan.Plan.UID;
-					Elements = GetAllElements(_selectedPlan.Plan);
+					Elements = ProcedureHelper.GetAllElements(_selectedPlan.Plan);
 					SelectedElement = Elements.FirstOrDefault(x => x.Uid == ControlPlanArguments.ElementUid);
 					OnPropertyChanged(() => Elements);
 				}
 				OnPropertyChanged(() => SelectedPlan);
 			}
-		}
-
-		public ObservableCollection<ElementViewModel> GetAllElements(Plan plan)
-		{
-			var elements = new ObservableCollection<ElementViewModel>();
-			var allElements = new List<ElementBase>(plan.ElementUnion);
-			allElements.AddRange(plan.ElementEllipses);
-			allElements.AddRange(plan.ElementPolylines);
-			allElements.AddRange(plan.ElementRectangles);
-			allElements.AddRange(plan.ElementTextBlocks);
-			allElements.AddRange(plan.ElementPolygons);
-			foreach (var elementRectangle in allElements)
-			{
-				elements.Add(new ElementViewModel(elementRectangle));
-			}
-			return elements;
 		}
 
 		public ObservableCollection<ElementViewModel> Elements { get; private set; }
@@ -85,6 +69,8 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedElementPropertyType = value;
 				ControlPlanArguments.ElementPropertyType = _selectedElementPropertyType;
+				var explicitTypeViewModel = PropertyTypeToExplicitType(SelectedElementPropertyType);
+				ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType, isList: false);
 				OnPropertyChanged(() => SelectedElementPropertyType);
 			}
 		}
@@ -103,16 +89,23 @@ namespace AutomationModule.ViewModels
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
 			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
-			if (element.ElementType == typeof(ElementRectangle))
-				elementPropertyTypes =  new ObservableCollection<ElementPropertyType>{ElementPropertyType.Height, ElementPropertyType.Width, ElementPropertyType.Color, ElementPropertyType.BackColor};
+			if (element.ElementType == typeof(ElementRectangle) || element.ElementType == typeof(ElementEllipse))
+				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Height, ElementPropertyType.Width,
+					ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+			if (element.ElementType == typeof(ElementPolygon))
+				elementPropertyTypes = new ObservableCollection<ElementPropertyType> {ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+			if (element.ElementType == typeof(ElementPolyline))
+				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
 			return elementPropertyTypes;
 		}
 
-		ExplicitType PropertyTypeToExplicitType(ElementPropertyType elementPropertyType)
+		ExplicitTypeViewModel PropertyTypeToExplicitType(ElementPropertyType elementPropertyType)
 		{
 			if (elementPropertyType == ElementPropertyType.Height || elementPropertyType == ElementPropertyType.Width)
-				return ExplicitType.Integer;
-			return ExplicitType.Integer;
+				return new ExplicitTypeViewModel(ExplicitType.Integer);
+			if (elementPropertyType == ElementPropertyType.Color || elementPropertyType == ElementPropertyType.BackColor)
+				return new ExplicitTypeViewModel(EnumType.ColorType);
+			return new ExplicitTypeViewModel(ExplicitType.Integer);
 		}
 
 		public override void UpdateContent()
@@ -124,7 +117,6 @@ namespace AutomationModule.ViewModels
 			}
 			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
 			OnPropertyChanged(() => Plans);
-			ValueArgument.Update(Procedure, PropertyTypeToExplicitType(SelectedElementPropertyType), isList: false);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}

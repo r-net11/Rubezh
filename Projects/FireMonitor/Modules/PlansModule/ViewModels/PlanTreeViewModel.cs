@@ -11,6 +11,8 @@ using Infrustructure.Plans;
 using Infrastructure.Common.Windows;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.Automation;
+using System.Drawing;
+using Infrustructure.Plans.Elements;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
@@ -112,19 +114,96 @@ namespace PlansModule.ViewModels
 						var plan = Plans.FirstOrDefault(x => x.Plan.UID == planArguments.PlanUid);
 						if (plan != null)
 						{
-							var element = plan.Plan.ElementRectangles.FirstOrDefault(x => x.UID == planArguments.ElementUid);
-							if (element != null)
+							var elementBase = GetAllElements(plan.Plan).FirstOrDefault(x => x.UID == planArguments.ElementUid);
+							if (elementBase is ElementBaseRectangle)
 							{
-								if (planArguments.ElementPropertyType == ElementPropertyType.Height)
-									element.Height = Convert.ToDouble(planArguments.Value);
-								if (planArguments.ElementPropertyType == ElementPropertyType.Width)
-									element.Width = Convert.ToDouble(planArguments.Value);
+								var element = elementBase as ElementBaseRectangle;
+								if (element != null)
+								{
+									if (planArguments.ElementPropertyType == ElementPropertyType.Height)
+										element.Height = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Width)
+										element.Width = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
+									{
+										var drawingColor = Color.FromName(planArguments.Value.ToString());
+										element.BorderColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
+									}
+									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
+									{
+										var drawingColor = Color.FromName(planArguments.Value.ToString());
+										element.BackgroundColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
+									}
+									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
+										element.BorderThickness = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
+										element.Left = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Top)
+										element.Top = Convert.ToDouble(planArguments.Value);
+								}
+							}
+							if (elementBase is ElementBasePolygon)
+							{
+								var element = elementBase as ElementBasePolygon;
+								if (element != null)
+								{
+									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
+									{
+										var drawingColor = Color.FromName(planArguments.Value.ToString());
+										element.BorderColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
+									}
+									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
+									{
+										var drawingColor = Color.FromName(planArguments.Value.ToString());
+										element.BackgroundColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
+									}
+									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
+										element.BorderThickness = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
+										element.Position = new System.Windows.Point(Convert.ToDouble(planArguments.Value), element.Position.Y);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Top)
+										element.Position = new System.Windows.Point(element.Position.X, Convert.ToDouble(planArguments.Value));
+								}
+							}
+
+							if (elementBase is ElementBasePolyline)
+							{
+								var element = elementBase as ElementBasePolyline;
+								if (element != null)
+								{
+									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
+									{
+										var drawingColor = Color.FromName(planArguments.Value.ToString());
+										element.BorderColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
+									}
+									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
+										element.BorderThickness = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
+										element.Position = new System.Windows.Point(Convert.ToDouble(planArguments.Value), element.Position.Y);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Top)
+										element.Position = new System.Windows.Point(element.Position.X, Convert.ToDouble(planArguments.Value));
+								}
 							}
 						}
 						SelectedPlanChanged(this, EventArgs.Empty);
 						break;
 				}
 			});
+		}
+
+		public static ObservableCollection<ElementBase> GetAllElements(Plan plan)
+		{
+			var elements = new ObservableCollection<ElementBase>();
+			var allElements = new List<ElementBase>(plan.ElementRectangles);
+			allElements.AddRange(plan.ElementEllipses);
+			allElements.AddRange(plan.ElementPolylines);
+			allElements.AddRange(plan.ElementTextBlocks);
+			allElements.AddRange(plan.ElementPolygons);
+			foreach (var elementRectangle in allElements)
+			{
+				elements.Add(elementRectangle);
+			}
+			return elements;
 		}
 	}
 }

@@ -7,6 +7,10 @@ using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
 using FiresecAPI;
+using System.Drawing;
+using Infrustructure.Plans.Elements;
+using FiresecAPI.Models;
+using Property = FiresecAPI.Automation.Property;
 
 namespace AutomationModule
 {
@@ -28,6 +32,21 @@ namespace AutomationModule
 			if (explicitType == ExplicitType.Object)
 				allVariables = allVariables.FindAll(x => x.ObjectType == objectType);
 			return allVariables;
+		}
+
+		public static ObservableCollection<ElementViewModel> GetAllElements(Plan plan)
+		{
+			var elements = new ObservableCollection<ElementViewModel>();
+			var allElements = new List<ElementBase>(plan.ElementRectangles);
+			allElements.AddRange(plan.ElementEllipses);
+			allElements.AddRange(plan.ElementPolylines);
+			allElements.AddRange(plan.ElementTextBlocks);
+			allElements.AddRange(plan.ElementPolygons);
+			foreach (var elementRectangle in allElements)
+			{
+				elements.Add(new ElementViewModel(elementRectangle));
+			}
+			return elements;
 		}
 
 		public static List<Variable> GetAllVariables(Procedure procedure, ExplicitType ExplicitType, ObjectType objectType, bool isList)
@@ -204,6 +223,8 @@ namespace AutomationModule
 							result = explicitValue.JournalEventNameTypeValue.ToDescription();
 						if (enumType == EnumType.JournalObjectType)
 							result = explicitValue.JournalObjectTypeValue.ToDescription();
+						if (enumType == EnumType.ColorType)
+							result = Enum.GetName(typeof(KnownColor), explicitValue.ColorValue);
 					}
 					break;
 				case ExplicitType.Object:

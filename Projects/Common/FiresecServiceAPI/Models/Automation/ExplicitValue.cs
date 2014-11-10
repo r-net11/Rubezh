@@ -15,6 +15,7 @@ namespace FiresecAPI.Automation
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
 			StringValue = "";
+			ColorValue = KnownColor.Black;
 			UidValue = Guid.Empty;
 		}
 
