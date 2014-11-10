@@ -43,6 +43,28 @@ namespace GKProcessor
 					var result1 = SendManager.Send(kauDevice, 0, 1, 1);
 					if (!result1.HasError)
 					{
+						var sendResult = SendManager.Send(kauDevice, 2, 12, 32, BytesHelper.ShortToBytes(1));
+						if (!sendResult.HasError && sendResult.Bytes.Count == 32)
+						{
+							var alsParameterByte = sendResult.Bytes[27];
+							if ((alsParameterByte & 0x03) == 0x03)
+							{
+								kauDevice.Properties.Add(new GKProperty() { Name = "als12", Value = 0x03 });
+							}
+							if ((alsParameterByte & 0x0C) == 0x0C)
+							{
+								kauDevice.Properties.Add(new GKProperty() { Name = "als34", Value = 0x0C });
+							}
+							if ((alsParameterByte & 0x30) == 0x30)
+							{
+								kauDevice.Properties.Add(new GKProperty() { Name = "als56", Value = 0x30 });
+							}
+							if ((alsParameterByte & 0xC0) == 0xC0)
+							{
+								kauDevice.Properties.Add(new GKProperty() { Name = "als78", Value = 0xC0 });
+							}
+						}
+
 						kauDevices.Add(kauDevice);
 						result.RootDevice.Children.Add(kauDevice);
 					}
