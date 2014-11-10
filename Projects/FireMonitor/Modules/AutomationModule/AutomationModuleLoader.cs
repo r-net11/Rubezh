@@ -92,21 +92,6 @@ namespace AutomationModule
 						var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
 						MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
 						break;
-					case AutomationCallbackType.SetPlanProperty:
-						var planArguments = (PlanCallbackData)automationCallbackResult.Data;
-						var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == planArguments.PlanUid);
-						if (plan != null)
-						{
-							var element = plan.ElementRectangles.FirstOrDefault(x => x.UID == planArguments.ElementUid);
-							if (element != null)
-							{
-								if (planArguments.ElementPropertyType == ElementPropertyType.Height)
-									element.Height = Convert.ToDouble(planArguments.Value);
-								if (planArguments.ElementPropertyType == ElementPropertyType.Width)
-									element.Width = Convert.ToDouble(planArguments.Value);
-							}
-						}
-						break;
 				}
 			});
 		}

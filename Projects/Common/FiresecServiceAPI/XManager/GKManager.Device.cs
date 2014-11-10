@@ -82,11 +82,33 @@ namespace FiresecClient
 				parentDevice.Children.Insert(index + 1, device);
 			}
 
-			AddAutoCreateChildren(device);
+			if (driver.DriverType == GKDriverType.GK)
+			{
+				var indicatorDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKIndicator);
+				var releDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.GKRele);
+
+				for (byte i = 2; i <= 11; i++)
+				{
+					AddChild(device, null, indicatorDriver, i);
+				}
+				for (byte i = 12; i <= 16; i++)
+				{
+					AddChild(device, null, releDriver, i);
+				}
+				for (byte i = 17; i <= 22; i++)
+				{
+					AddChild(device, null, indicatorDriver, i);
+				}
+				DeviceConfiguration.UpdateGKPredefinedName(device);
+			}
+			else
+			{
+				AddAutoCreateChildren(device);
+			}
 			return device;
 		}
 
-		static void AddAutoCreateChildren(GKDevice device)
+		public static void AddAutoCreateChildren(GKDevice device)
 		{
 			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
@@ -94,42 +116,6 @@ namespace FiresecClient
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
 					AddChild(device, null, autoCreateDriver, i);
-				}
-			}
-			if (device.DriverType == GKDriverType.GK)
-			{
-				DeviceConfiguration.UpdateGKPredefinedName(device);
-			}
-		}
-
-		public static void SynchronizeChildern(GKDevice device)
-		{
-			for (int i = device.Children.Count(); i > 0; i--)
-			{
-				var childDevice = device.Children[i - 1];
-
-				if (device.Driver.Children.Contains(childDevice.DriverType) == false)
-				{
-					device.Children.RemoveAt(i - 1);
-				}
-			}
-
-			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
-			{
-				var autoCreateDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
-				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
-				{
-					var newDevice = new GKDevice()
-					{
-						DriverUID = autoCreateDriver.UID,
-						Driver = autoCreateDriver,
-						IntAddress = i
-					};
-					if (device.Children.Any(x => x.DriverType == newDevice.DriverType && x.Address == newDevice.Address) == false)
-					{
-						device.Children.Add(newDevice);
-						newDevice.Parent = device;
-					}
 				}
 			}
 		}

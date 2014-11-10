@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Collections.Generic;
+using Infrustructure.Plans.Elements;
 
 namespace AutomationModule.ViewModels
 {
@@ -17,6 +19,7 @@ namespace AutomationModule.ViewModels
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent);
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
+			ControlVisualTypes = ProcedureHelper.GetEnumObs<ControlVisualType>();
 		}
 
 		public ObservableCollection<PlanViewModel> Plans { get; private set; }
@@ -30,15 +33,28 @@ namespace AutomationModule.ViewModels
 				if (_selectedPlan != null)
 				{
 					ControlPlanArguments.PlanUid = _selectedPlan.Plan.UID;
-					foreach (var elementRectangle in _selectedPlan.Plan.ElementRectangles)
-					{
-						Elements.Add(new ElementViewModel(elementRectangle));
-					}
+					Elements = GetAllElements(_selectedPlan.Plan);
 					SelectedElement = Elements.FirstOrDefault(x => x.Uid == ControlPlanArguments.ElementUid);
 					OnPropertyChanged(() => Elements);
 				}
 				OnPropertyChanged(() => SelectedPlan);
 			}
+		}
+
+		public ObservableCollection<ElementViewModel> GetAllElements(Plan plan)
+		{
+			var elements = new ObservableCollection<ElementViewModel>();
+			var allElements = new List<ElementBase>(plan.ElementUnion);
+			allElements.AddRange(plan.ElementEllipses);
+			allElements.AddRange(plan.ElementPolylines);
+			allElements.AddRange(plan.ElementRectangles);
+			allElements.AddRange(plan.ElementTextBlocks);
+			allElements.AddRange(plan.ElementPolygons);
+			foreach (var elementRectangle in allElements)
+			{
+				elements.Add(new ElementViewModel(elementRectangle));
+			}
+			return elements;
 		}
 
 		public ObservableCollection<ElementViewModel> Elements { get; private set; }
@@ -73,11 +89,22 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<ControlVisualType> ControlVisualTypes { get; private set; }
+		public ControlVisualType SelectedControlVisualType
+		{
+			get { return ControlPlanArguments.ControlVisualType; }
+			set
+			{
+				ControlPlanArguments.ControlVisualType = value;
+				OnPropertyChanged(() => SelectedControlVisualType);
+			}
+		}
+
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
 			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			if (element.ElementType == typeof(ElementRectangle))
-				elementPropertyTypes =  new ObservableCollection<ElementPropertyType>{ElementPropertyType.Height, ElementPropertyType.Width};
+				elementPropertyTypes =  new ObservableCollection<ElementPropertyType>{ElementPropertyType.Height, ElementPropertyType.Width, ElementPropertyType.Color, ElementPropertyType.BackColor};
 			return elementPropertyTypes;
 		}
 
@@ -91,7 +118,6 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
-			Elements = new ObservableCollection<ElementViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				Plans.Add(new PlanViewModel(plan));

@@ -61,6 +61,7 @@
     <Compile Include="Administrator\KauDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="Administrator\GKSKDHelper.cs" />
+    <Compile Include="Administrator\GKAutoSearchHelper.cs" />
     <Compile Include="DescriptorsDatabase\DatabaseType.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
@@ -193,9 +194,12 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SKDDriver\SKDDriver.csproj">
+      <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
+      <Name>SKDDriver</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -6,7 +6,7 @@ namespace GKModule.ViewModels
 {
 	public class DeviceTooltipViewModel : StateTooltipViewModel<GKDevice>
 	{
-		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
+		public ObservableCollection<GKStateClassViewModel> StateClasses { get; private set; }
 		public GKDevice Device
 		{
 			get { return Item; }
@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 		public DeviceTooltipViewModel(GKDevice device)
 			: base(device)
 		{
-			StateClasses = new ObservableCollection<XStateClassViewModel>();
+			StateClasses = new ObservableCollection<GKStateClassViewModel>();
 			_state = device.State;
 		}
 
@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			base.OnStateChanged();
 			StateClasses.Clear();
 			foreach (var stateClass in _state.StateClasses)
-				StateClasses.Add(new XStateClassViewModel(_state.Device, stateClass));
+				StateClasses.Add(new GKStateClassViewModel(_state.Device, stateClass));
 		}
 	}
 }

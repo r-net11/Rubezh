@@ -74,11 +74,16 @@ namespace GKProcessor
 				GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
-				sendResult = SendManager.Send(gkControllerDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
-				if (sendResult.HasError)
+				for (int j = 0; j < 10; j++)
 				{
-					Error = "Невозможно записать блок данных " + i;
-					break;
+					sendResult = SendManager.Send(gkControllerDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
+					if (!sendResult.HasError)
+						break;
+					if (j == 9)
+					{
+						Error = "Невозможно записать блок данных " + i;
+						return;
+					}
 				}
 			}
 			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();

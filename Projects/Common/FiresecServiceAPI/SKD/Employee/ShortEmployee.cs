@@ -20,6 +20,9 @@ namespace FiresecAPI.SKD
 		public string SecondName { get; set; }
 
 		[DataMember]
+		public string Description { get; set; }
+
+		[DataMember]
 		public string DepartmentName { get; set; }
 
 		[DataMember]
@@ -70,12 +73,6 @@ namespace FiresecAPI.SKD
 			{
 				return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : "");
 			}
-		}
-
-		public string Description 
-		{ 
-			get { return ""; }
-			set { return; }
 		}
 	}
 

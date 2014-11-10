@@ -10,13 +10,13 @@ namespace GKModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementGKDevice _elementXDevice;
+		private ElementGKDevice _elementGKDevice;
 		private DevicesViewModel _devicesViewModel;
 
 		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementGKDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство ГК";
-			_elementXDevice = elementDevice;
+			_elementGKDevice = elementDevice;
 			_devicesViewModel = devicesViewModel;
 
 			RootDevice = AddDeviceInternal(GKManager.DeviceConfiguration.RootDevice, null);
@@ -31,7 +31,7 @@ namespace GKModule.Plans.ViewModels
 
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
-			if (device.UID == _elementXDevice.DeviceUID)
+			if (device.UID == _elementGKDevice.DeviceUID)
 				SelectedDevice = deviceViewModel;
 			return deviceViewModel;
 		}
@@ -65,12 +65,12 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid deviceUID = _elementXDevice.DeviceUID;
-			GKPlanExtension.Instance.SetItem<GKDevice>(_elementXDevice, SelectedDevice.Device);
+			Guid deviceUID = _elementGKDevice.DeviceUID;
+			GKPlanExtension.Instance.SetItem<GKDevice>(_elementGKDevice, SelectedDevice.Device);
 
-			if (deviceUID != _elementXDevice.DeviceUID)
+			if (deviceUID != _elementGKDevice.DeviceUID)
 				Update(deviceUID);
-			_devicesViewModel.SelectedDevice = Update(_elementXDevice.DeviceUID);
+			_devicesViewModel.SelectedDevice = Update(_elementGKDevice.DeviceUID);
 			return base.Save();
 		}
 		private DeviceViewModel Update(Guid deviceUID)

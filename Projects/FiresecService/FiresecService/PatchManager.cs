@@ -11,6 +11,7 @@ using Microsoft.SqlServer.Management.Smo;
 using FiresecAPI.Journal;
 using SKDDriver.Translators;
 using SKDDriver;
+using Infrastructure.Common;
 
 namespace FiresecService
 {
@@ -20,7 +21,12 @@ namespace FiresecService
 
 		static string ConnectionString
 		{
-			get { return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.ConnectionString"].ConnectionString; }
+			get
+			{
+				var serverName = GlobalSettingsHelper.GlobalSettings.DBServerName;
+				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=master;Integrated Security=True;Language='English'";
+				return connectionString;
+			}
 		}
 
 		public static void Patch()
@@ -179,7 +185,7 @@ namespace FiresecService
 					{
 						var fileSizeString = "SELECT DB_NAME(database_id) AS DatabaseName, Name AS Logical_Name, Physical_Name, (size*8)/1024 SizeMB FROM sys.master_files WHERE DB_NAME(database_id) = 'Journal_" + journalDBNo.ToString() + "'";
 					}
-					JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
+					JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 				}
 
 				using (var skdDatabaseService = new SKDDatabaseService())
@@ -195,7 +201,7 @@ namespace FiresecService
 					{
 						var fileSizeString = "SELECT DB_NAME(database_id) AS DatabaseName, Name AS Logical_Name, Physical_Name, (size*8)/1024 SizeMB FROM sys.master_files WHERE DB_NAME(database_id) = 'PassJournal_" + passJournalDBNo.ToString() + "'";
 					}
-					PassJournalTranslator.ConnectionString = @"Data Source=.\sqlexpress;Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
+					PassJournalTranslator.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 				}
 			}
 			catch (Exception e)

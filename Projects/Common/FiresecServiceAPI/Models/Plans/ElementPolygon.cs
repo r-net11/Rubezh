@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public ElementPolygon()
 		{
+			PresentationName = "Многоугольник";
 		}
 
 		public override ElementBase Clone()

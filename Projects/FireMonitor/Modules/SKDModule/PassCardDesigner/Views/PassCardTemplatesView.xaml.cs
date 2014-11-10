@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
+using Controls.TreeList;
 
 namespace SKDModule.PassCardDesigner.Views
 {
-	/// <summary>
-	/// Interaction logic for PassCardTemplatesView.xaml
-	/// </summary>
-	public partial class PassCardTemplatesView : UserControl
+	public partial class PassCardTemplatesView : UserControl, IWithDeletedView
 	{
 		public PassCardTemplatesView()
 		{
 			InitializeComponent();
+			_changeIsDeletedViewSubscriber = new ChangeIsDeletedViewSubscriber(this);
+		}
+
+		ChangeIsDeletedViewSubscriber _changeIsDeletedViewSubscriber;
+
+		public TreeList TreeList
+		{
+			get { return _treeList; }
+			set { _treeList = value; }
 		}
 	}
 }

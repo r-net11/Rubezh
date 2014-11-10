@@ -97,9 +97,14 @@
 						</TextBlock>
 					</StackPanel>
 
-					<Label Grid.Row="6" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
+					<Label Grid.Row="6" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" VerticalAlignment="Center" 
+						   Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+					<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+							 Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+
+					<Label Grid.Row="7" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
 						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+					<StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
 								Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">

@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
 		public ElementCamera()
 		{
 			CameraUID = Guid.Empty;
+			PresentationName = "Камера";
 		}
 
 		[DataMember]

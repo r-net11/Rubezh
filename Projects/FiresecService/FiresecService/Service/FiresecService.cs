@@ -52,7 +52,7 @@ namespace FiresecService.Service
 
 			if (ClientsManager.Add(uid, clientCredentials))
 			{
-				GKProcessorManager.AddGKMessage(JournalEventNameType.Вход_пользователя_в_систему, JournalEventDescriptionType.NULL, "", null, clientCredentials.FriendlyUserName);
+				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
 			}
 
 			CurrentClientCredentials = clientCredentials;
@@ -108,7 +108,7 @@ namespace FiresecService.Service
 				clientInfo.WaitEvent.Set();
 				if (clientInfo.ClientCredentials != null)
 				{
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Выход_пользователя_из_системы, JournalEventDescriptionType.NULL, "", null, clientInfo.ClientCredentials.FriendlyUserName);
+					AddJournalMessage(JournalEventNameType.Выход_пользователя_из_системы, null);
 				}
 			}
 			ClientsManager.Remove(uid);

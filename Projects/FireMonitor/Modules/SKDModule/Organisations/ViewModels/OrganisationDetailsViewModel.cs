@@ -5,6 +5,7 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -27,6 +28,7 @@ namespace SKDModule.ViewModels
 				{
 					Name = "Огранизация",
 				};
+				OrganisationDetails.UserUIDs.Add(FiresecManager.CurrentUser.UID);
 			}
 			else
 			{
@@ -60,7 +62,8 @@ namespace SKDModule.ViewModels
 					RemovalDate = OrganisationDetails.RemovalDate,
 					UID = OrganisationDetails.UID,
 					DoorUIDs = OrganisationDetails.DoorUIDs,
-					Phone = OrganisationDetails.Phone
+					Phone = OrganisationDetails.Phone,
+					UserUIDs = OrganisationDetails.UserUIDs,
 				};
 			}
 		}

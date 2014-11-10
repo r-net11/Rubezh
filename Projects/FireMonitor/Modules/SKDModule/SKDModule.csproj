@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="Common\ChangeIsDeletedSubscriber.cs" />
+    <Compile Include="Common\ChangeIsDeletedViewSubscriber.cs" />
     <Compile Include="Common\DetailsValidateHelper.cs" />
     <Compile Include="Common\ViewModels\ChiefViewModel.cs" />
     <Compile Include="Common\ViewModels\EmployeeListViewModel.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Events\RestoreOrganisationEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
     <Compile Include="Events\UpdateAccessTemplateEvent.cs" />
+    <Compile Include="Events\UpdateIsInGridEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />

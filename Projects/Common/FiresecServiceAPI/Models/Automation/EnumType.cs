@@ -20,6 +20,9 @@ namespace FiresecAPI.Automation
 		JournalEventDescriptionType,
 
 		[DescriptionAttribute("Тип объекта")]
-		JournalObjectType
+		JournalObjectType,
+
+		[DescriptionAttribute("Цвет")]
+		ColorType
 	}
 }

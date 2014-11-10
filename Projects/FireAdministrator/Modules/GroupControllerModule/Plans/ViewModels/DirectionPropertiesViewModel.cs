@@ -16,35 +16,49 @@ namespace GKModule.Plans.ViewModels
 	{
 		private IElementDirection _element;
 		private DirectionsViewModel _directionsViewModel;
+		ElementBase ElementBase { get; set; }
 
-		public DirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel)
+		public DirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel, ElementBase elementBase)
 		{
 			_directionsViewModel = directionsViewModel;
 			_element = element;
+			ElementBase = elementBase;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
 			var directions = GKManager.Directions;
-			XDirections = new ObservableCollection<DirectionViewModel>();
+			Directions = new ObservableCollection<DirectionViewModel>();
 			foreach (var direction in directions)
 			{
 				var directionViewModel = new DirectionViewModel(direction);
-				XDirections.Add(directionViewModel);
+				Directions.Add(directionViewModel);
 			}
 			if (_element.DirectionUID != Guid.Empty)
-				SelectedXDirection = XDirections.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == _element.DirectionUID);
+			PresentationName = ElementBase.PresentationName;
 		}
 
-		public ObservableCollection<DirectionViewModel> XDirections { get; private set; }
-
-		private DirectionViewModel _selectedXDirection;
-		public DirectionViewModel SelectedXDirection
+		string _presentationName;
+		public string PresentationName
 		{
-			get { return _selectedXDirection; }
+			get { return _presentationName; }
 			set
 			{
-				_selectedXDirection = value;
-				OnPropertyChanged("SelectedXDirection");
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
+			}
+		}
+
+		public ObservableCollection<DirectionViewModel> Directions { get; private set; }
+
+		private DirectionViewModel _selectedDirection;
+		public DirectionViewModel SelectedDirection
+		{
+			get { return _selectedDirection; }
+			set
+			{
+				_selectedDirection = value;
+				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
 
@@ -66,18 +80,19 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedXDirection.Direction.UID);
-			SelectedXDirection.Update(SelectedXDirection.Direction);
+			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Publish(SelectedDirection.Direction.UID);
+			SelectedDirection.Update(SelectedDirection.Direction);
 		}
 		private bool CanEdit()
 		{
-			return SelectedXDirection != null;
+			return SelectedDirection != null;
 		}
 
 		protected override bool Save()
 		{
 			Guid directionUID = _element.DirectionUID;
-			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
+			GKPlanExtension.Instance.SetItem<GKDirection>(_element, SelectedDirection == null ? null : SelectedDirection.Direction);
+			ElementBase.PresentationName = PresentationName;
 			UpdateDirections(directionUID);
 			return base.Save();
 		}

@@ -83,7 +83,6 @@ namespace GKOPCServer
 		static void InitializeGK()
 		{
 			ServiceFactoryBase.Events = new EventAggregator();
-			GKDBHelper.CanAdd = false;
 
 			UILogger.Log("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration("GKOPC/Configuration");

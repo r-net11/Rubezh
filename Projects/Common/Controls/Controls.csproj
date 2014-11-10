@@ -122,6 +122,9 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
+    <Compile Include="IsDeletedTextBlock.xaml.cs">
+      <DependentUpon>IsDeletedTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
@@ -275,6 +278,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="IsDeletedTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Layout\Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

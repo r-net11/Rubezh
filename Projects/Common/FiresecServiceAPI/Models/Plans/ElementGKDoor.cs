@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
 		public ElementGKDoor()
 		{
 			DoorUID = Guid.Empty;
+			PresentationName = "ГК точка доступа";
 		}
 
 		[DataMember]

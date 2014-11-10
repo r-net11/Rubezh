@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.SchedulesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+﻿<UserControl x:Class="SKDModule.Views.SchedulesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels" DataContextChanged="UserControl_DataContextChanged">
 	<UserControl.Resources>
 		<viewModel:ScheduleViewModelNameComparer x:Key="ScheduleViewModelNameComparer" />
 		<viewModel:ScheduleViewModelSchemeComparer x:Key="ScheduleViewModelSchemeComparer" />
@@ -22,7 +22,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<tree:TreeList Grid.Column="0" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList Name="_treeList" Grid.Column="0" Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelNameComparer}">
@@ -45,15 +45,6 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-                        <GridViewColumn Header="Дата удаления" ListViewLayoutManager.StarWidth="1">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding RemovalDate}" Style="{StaticResource IsDeletedStyle}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
                     </GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>

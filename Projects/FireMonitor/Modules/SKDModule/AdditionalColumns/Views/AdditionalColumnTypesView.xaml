@@ -5,7 +5,7 @@
 		<Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
 	</UserControl.Resources>
 
-	<tree:TreeList Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
+	<tree:TreeList Name="_treeList"  Source="{Binding Organisations}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" Focusable="True" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
 				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
@@ -33,16 +33,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Дата удаления" ListViewLayoutManager.StarWidth="1">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding RemovalDate}" Style="{StaticResource IsDeletedStyle}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-            </GridView>
+           </GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>
 </UserControl>

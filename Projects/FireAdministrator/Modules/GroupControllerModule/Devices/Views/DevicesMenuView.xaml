@@ -22,6 +22,7 @@
 				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Синзронизация времени" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Журнал событий" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Обновление ПО" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding AutoSearchCommand}" ImageSource="/Controls;component/Images/BSearch.png" Text="Автопоиск устройств" TotalHeight="32" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

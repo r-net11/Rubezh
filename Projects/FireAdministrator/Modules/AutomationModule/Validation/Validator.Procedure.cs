@@ -327,6 +327,8 @@ namespace AutomationModule.Validation
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбрано свойство", ValidationErrorLevel.CannotSave));
 					break;
 			}
+			foreach (var childStep in step.Children)
+				ValidateStep(childStep);
 		}
 
 		bool ValidateArgument(ProcedureStep step, Argument argument)
@@ -336,13 +338,13 @@ namespace AutomationModule.Validation
 			if (argument.VariableScope == VariableScope.GlobalVariable)
 				if (FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.All(x => x.Uid != argument.VariableUid))
 				{
-					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
 					return false;
 				}
 			if (argument.VariableScope == VariableScope.LocalVariable)
 				if (localVariables.All(x => x.Uid != argument.VariableUid))
 				{
-					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы" + step.Name, ValidationErrorLevel.CannotSave));
+					Errors.Add(new ProcedureStepValidationError(step, "Все переменные должны быть инициализированы", ValidationErrorLevel.CannotSave));
 					return false;
 				}
 			return true;

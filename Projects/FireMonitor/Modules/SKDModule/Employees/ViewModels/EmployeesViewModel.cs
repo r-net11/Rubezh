@@ -20,6 +20,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
 			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
+			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Unsubscribe(OnUpdateIsInGrid);
+			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Subscribe(OnUpdateIsInGrid);
 		}
 
 		public override void Initialize(EmployeeFilter filter)
@@ -165,6 +167,11 @@ namespace SKDModule.ViewModels
 					card.UpdateCardDoors();
 				}
 			}
+		}
+
+		void OnUpdateIsInGrid(object obj)
+		{
+			InitializeAdditionalColumns();
 		}
 	}
 }

@@ -209,6 +209,16 @@ namespace GKProcessor
 			return new OperationResult<GKDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
 		}
 
+		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)
+		{
+			AddGKMessage(JournalEventNameType.Автопоиск, JournalEventDescriptionType.NULL, "", device, userName);
+			SuspendMonitoring(device);
+			var gkAutoSearchHelper = new GKAutoSearchHelper();
+			var deviceConfiguration = gkAutoSearchHelper.AutoSearch(device);
+			ResumeMonitoring(device);
+			return new OperationResult<GKDeviceConfiguration> { HasError = gkAutoSearchHelper.Error != null, Error = gkAutoSearchHelper.Error, Result = deviceConfiguration };
+		}
+
 		public static OperationResult<bool> GKUpdateFirmware(GKDevice device, string fileName, string userName)
 		{
 			Stop();

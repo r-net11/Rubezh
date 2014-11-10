@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Controls;
 using Controls.TreeList;
-using FiresecAPI.SKD;
 using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Controls;
 
 namespace SKDModule.Views
 {
@@ -19,96 +20,42 @@ namespace SKDModule.Views
 			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Subscribe(OnUpdateAdditionalColumns);
 			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Unsubscribe(OnChangeEmployeeGuest);
 			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Subscribe(OnChangeEmployeeGuest);
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Unsubscribe(OnChangeIsDeleted);
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Subscribe(OnChangeIsDeleted);
-			//changeIsDeletedViewSubscriber = new ChangeIsDeletedViewSubscriber(this);
+			_changeIsDeletedViewSubscriber = new ChangeIsDeletedViewSubscriber(this);
 		}
 
-		void OnUpdateAdditionalColumns(object obj)
-		{
-			treeList_Loaded(_treeList, null);
-		}
-
+		ChangeIsDeletedViewSubscriber _changeIsDeletedViewSubscriber;
+		
 		public TreeList TreeList
 		{
 			get { return _treeList; }
 			set { _treeList = value; }
 		}
 
-		ChangeIsDeletedViewSubscriber changeIsDeletedViewSubscriber;
+		void OnUpdateAdditionalColumns(object obj)
 
-		void OnChangeEmployeeGuest(object obj)
 		{
-			GridView gridView = _treeList.View as GridView;
-			EmployeesViewModel employeesViewModel = _treeList.DataContext as EmployeesViewModel;
-			if (employeesViewModel.PersonType == FiresecAPI.SKD.PersonType.Employee)
-			{
-				var gridViewColumn = new GridViewColumn();
-				gridViewColumn.Header = "Должность";
-				gridViewColumn.Width = 150;
-
-				var dataTemplate = new DataTemplate();
-				var txtElement = new FrameworkElementFactory(typeof(TextBlock));
-				dataTemplate.VisualTree = txtElement;
-				var binding = new Binding();
-				var bindingPath = string.Format("PositionName");
-				binding.Path = new PropertyPath(bindingPath);
-				binding.Mode = BindingMode.OneWay;
-				txtElement.SetBinding(TextBlock.TextProperty, binding);
-
-				gridViewColumn.CellTemplate = dataTemplate;
-				gridView.Columns.Add(gridViewColumn);
-			}
-			else
-			{
-				var gridViewColumn = gridView.Columns.FirstOrDefault(x => x.Header == "Должность");
-				if (gridViewColumn != null)
-				{
-					gridView.Columns.Remove(gridViewColumn);
-				}
-			}
+			UpdateAdditionalColumns();
+			TreeList.RaiseEvent(new RoutedEventArgs(TreeList.LoadedEvent));
+		}
+		
+		void treeList_Loaded(object sender, RoutedEventArgs e)
+		{
+			UpdateAdditionalColumns();
+			ChangeEmployeeGuest();
 		}
 
-		void OnChangeIsDeleted(LogicalDeletationType deletationType)
-		{
-			GridView gridView = _treeList.View as GridView;
-			EmployeesViewModel employeesViewModel = _treeList.DataContext as EmployeesViewModel;
-			if (deletationType == LogicalDeletationType.All)
-			{
-				var gridViewColumn = new GridViewColumn();
-				gridViewColumn.Header = "Дата удаления";
-				gridViewColumn.Width = 150;
-
-				var dataTemplate = new DataTemplate();
-				var txtElement = new FrameworkElementFactory(typeof(TextBlock));
-				dataTemplate.VisualTree = txtElement;
-				var binding = new Binding();
-				var bindingPath = string.Format("RemovalDate");
-				binding.Path = new PropertyPath(bindingPath);
-				binding.Mode = BindingMode.OneWay;
-				txtElement.SetBinding(TextBlock.TextProperty, binding);
-				gridViewColumn.CellTemplate = dataTemplate;
-				gridView.Columns.Add(gridViewColumn);
-			}
-			else
-			{
-				var gridViewColumn = gridView.Columns.FirstOrDefault(x => x.Header == "Дата удаления");
-				if (gridViewColumn != null)
-				{
-					gridView.Columns.Remove(gridViewColumn);
-				}
-			}
-		}
-
-		private void treeList_Loaded(object sender, RoutedEventArgs e)
+		void UpdateAdditionalColumns()
 		{
 			GridView gridView = _treeList.View as GridView;
 			EmployeesViewModel employeesViewModel = _treeList.DataContext as EmployeesViewModel;
 			if (employeesViewModel.AdditionalColumnNames == null)
 				return;
 
-			for (int i = gridView.Columns.Count - 1; i >= 4; i--)
+			var columnCount = employeesViewModel.IsWithDeleted ? 4 : 3;
+			for (int i = gridView.Columns.Count - 1; i >= columnCount; i--)
+			{
 				gridView.Columns.RemoveAt(i);
+			}
 
 			for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
 			{
@@ -129,52 +76,70 @@ namespace SKDModule.Views
 				gridView.Columns.Add(gridViewColumn);
 			}
 		}
-	}
 
-	public interface IWithDeletedView
-	{
-		TreeList TreeList { get; set; }
-	}
+		bool IsGuest { get { return (DataContext as EmployeesViewModel).PersonType == FiresecAPI.SKD.PersonType.Guest; } }
+		GridView gridView { get { return (TreeList.View as GridView); } }
+		GridViewColumn PositionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Должность"); } }
+		GridViewColumn DescriptionColumn { get { return gridView.Columns.FirstOrDefault(x => x.Header == "Примечание"); } }
+		bool IsPositionShown { get { return PositionColumn != null; } }
+		bool IsDescriptionShown { get { return PositionColumn != null; } }
 
-	public class ChangeIsDeletedViewSubscriber
-	{
-		IWithDeletedView _parent;
-
-		public ChangeIsDeletedViewSubscriber(IWithDeletedView parent)
+		void OnChangeEmployeeGuest(object obj)
 		{
-			_parent = parent;
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Unsubscribe(OnChangeIsDeleted);
-			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Subscribe(OnChangeIsDeleted);
-		}
-
-		void OnChangeIsDeleted(LogicalDeletationType deletationType)
+			ChangeEmployeeGuest();
+			TreeList.RaiseEvent(new RoutedEventArgs(TreeList.LoadedEvent));
+		} 
+		
+		void ChangeEmployeeGuest()
 		{
-			GridView gridView = _parent.TreeList.View as GridView;
-			EmployeesViewModel employeesViewModel = _parent.TreeList.DataContext as EmployeesViewModel;
-			if (deletationType == LogicalDeletationType.All)
+			if (IsGuest)
 			{
-				var gridViewColumn = new GridViewColumn();
-				gridViewColumn.Header = "Дата удаления";
-				gridViewColumn.Width = 150;
+				if (IsPositionShown)
+				{
+					gridView.Columns.Remove(PositionColumn);
+				}
+				if (!IsDescriptionShown)
+				{
+					var gridViewColumn = new GridViewColumn();
+					gridViewColumn.Header = "Примечание";
+					gridViewColumn.Width = 150;
 
-				var dataTemplate = new DataTemplate();
-				var txtElement = new FrameworkElementFactory(typeof(TextBlock));
-				dataTemplate.VisualTree = txtElement;
-				var binding = new Binding();
-				var bindingPath = string.Format("RemovalDate");
-				binding.Path = new PropertyPath(bindingPath);
-				binding.Mode = BindingMode.OneWay;
-				txtElement.SetBinding(TextBlock.TextProperty, binding);
+					var dataTemplate = new DataTemplate();
+					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
+					dataTemplate.VisualTree = txtElement;
+					var binding = new Binding();
+					var bindingPath = string.Format("Description");
+					binding.Path = new PropertyPath(bindingPath);
+					binding.Mode = BindingMode.OneWay;
+					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
 
-				gridViewColumn.CellTemplate = dataTemplate;
-				gridView.Columns.Add(gridViewColumn);
+					gridViewColumn.CellTemplate = dataTemplate;
+					gridView.Columns.Add(gridViewColumn);
+				}
 			}
 			else
 			{
-				var gridViewColumn = gridView.Columns.FirstOrDefault(x => x.Header == "Дата удаления");
-				if (gridViewColumn != null)
+				if (IsDescriptionShown)
 				{
-					gridView.Columns.Remove(gridViewColumn);
+					gridView.Columns.Remove(DescriptionColumn);
+				}
+				if (!IsPositionShown)
+				{
+					var gridViewColumn = new GridViewColumn();
+					gridViewColumn.Header = "Должность";
+					gridViewColumn.Width = 150;
+
+					var dataTemplate = new DataTemplate();
+					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
+					dataTemplate.VisualTree = txtElement;
+					var binding = new Binding();
+					var bindingPath = string.Format("Position");
+					binding.Path = new PropertyPath(bindingPath);
+					binding.Mode = BindingMode.OneWay;
+					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
+
+					gridViewColumn.CellTemplate = dataTemplate;
+					gridView.Columns.Add(gridViewColumn);
 				}
 			}
 		}

@@ -100,6 +100,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				SelectedEscort = EmployeeHelper.GetSingleShort(Employee.EscortUID);
+				Description = Employee.Description;
 			}
 			SelectedDepartment = Employee.Department;
 			TextColumns = new List<TextColumnViewModel>();
@@ -137,7 +138,8 @@ namespace SKDModule.ViewModels
 					Type = Employee.Type,
 					CredentialsStartDate = CredentialsStartDateString,
 					TextColumns = new List<TextColumn>(),
-					Phone = Employee.Phone
+					Phone = Employee.Phone,
+					Description = Employee.Description
 				};
 				if (SelectedDepartment != null)
 					result.DepartmentName = SelectedDepartment.Name;
@@ -290,6 +292,20 @@ namespace SKDModule.ViewModels
 				{
 					_lastName = value;
 					OnPropertyChanged(() => LastName);
+				}
+			}
+		}
+
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				if (_description != value)
+				{
+					_description = value;
+					OnPropertyChanged(() => Description);
 				}
 			}
 		}
@@ -739,6 +755,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Employee.EscortUID = SelectedEscort != null ? SelectedEscort.UID : (Guid?)null;
+				Employee.Description = Description;
 			}
 			Employee.Type = _personType;
 

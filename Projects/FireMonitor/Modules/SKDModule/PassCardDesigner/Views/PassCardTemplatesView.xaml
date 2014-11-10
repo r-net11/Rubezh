@@ -4,7 +4,7 @@
 		<viewModel:PassCardTemplateViewModelDescriptionComparer x:Key="PassCardTemplateViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
-	<TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations}">
+	<TreeList Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations}">
 		<TreeList.View>
 			<GridView>
 				<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelNameComparer}">
@@ -18,7 +18,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
+				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" SortBehavior.SortComparer="{StaticResource PassCardTemplateViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -27,16 +27,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Дата удаления" ListViewLayoutManager.StarWidth="1">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding RemovalDate}" Style="{StaticResource IsDeletedStyle}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-            </GridView>
+			</GridView>
 		</TreeList.View>
 	</TreeList>
 </UserControl>

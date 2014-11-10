@@ -185,10 +185,15 @@ namespace GKProcessor
 			var result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(Device.GKDescriptorNo));
 			if (!result.HasError && result.Bytes.Count > 0)
 			{
-				for (int i = 0; i < Device.Driver.MeasureParameters.Count; i++)
+				if (Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV)
 				{
-					var measureParameter = Device.Driver.MeasureParameters[i];
-					var parameterValue = BytesHelper.SubstructShort(result.Bytes, 48 + i * 2);
+					ParceRSR2Valve(result.Bytes);
+				}
+				foreach (var measureParameter in Device.Driver.MeasureParameters)
+				//for (int i = 0; i < Device.Driver.MeasureParameters.Count; i++)
+				{
+					//var measureParameter = Device.Driver.MeasureParameters[i];
+					var parameterValue = BytesHelper.SubstructShort(result.Bytes, 44 + measureParameter.No * 2);
 
 					var stringValue = parameterValue.ToString();
 					if (measureParameter.Multiplier != null)
@@ -208,6 +213,11 @@ namespace GKProcessor
 				return MeasureParameters;
 			}
 			return null;
+		}
+
+		void ParceRSR2Valve(List<byte> bytes)
+		{
+
 		}
 	}
 }

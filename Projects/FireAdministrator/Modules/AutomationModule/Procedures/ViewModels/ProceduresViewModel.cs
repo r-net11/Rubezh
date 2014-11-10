@@ -169,7 +169,7 @@ namespace AutomationModule.ViewModels
 			{
 				variables.AddRange(procedure.Procedure.Variables);
 				arguments.AddRange(procedure.Procedure.Arguments);
-				procedureSteps.AddRange(procedure.Procedure.Steps);
+				procedureSteps.AddRange(GetAllSteps(procedure.Procedure.Steps, new List<ProcedureStep>()));
 			}
 
 			if (Procedures.Any(item => item.Procedure.Uid == inputUid))
@@ -207,6 +207,16 @@ namespace AutomationModule.ViewModels
 				}
 				SelectedProcedure.StepsViewModel.SelectedStep = SelectedProcedure.StepsViewModel.AllSteps.FirstOrDefault(item => item.Step.UID == inputUid);
 			}
+		}
+
+		List<ProcedureStep> GetAllSteps(List<ProcedureStep> steps, List<ProcedureStep> resultSteps)
+		{
+			foreach (var step in steps)
+			{
+				resultSteps.Add(step);
+				GetAllSteps(step.Children, resultSteps);
+			}
+			return resultSteps;
 		}
 
 		public override void OnShow()

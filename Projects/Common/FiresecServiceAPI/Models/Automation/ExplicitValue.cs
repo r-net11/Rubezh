@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -49,5 +50,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public JournalObjectType JournalObjectTypeValue { get; set; }
+
+		[DataMember]
+		public KnownColor ColorValue { get; set; }
 	}
 }

@@ -14,8 +14,8 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
-                       Source="{Binding Organisations, Mode=OneWay}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
+		<tree:TreeList Name="_treeList" Grid.Row="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
+					   Source="{Binding Organisations, Mode=OneWay}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelNameComparer}">
@@ -24,33 +24,24 @@
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
 									<Image Width="16" Source="/Controls;component/Images/Position.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-                                    <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-                    <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelDescriptionComparer}">
+					<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelDescriptionComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}"  />
+									<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}"  />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-                    <GridViewColumn Header="Дата удаления" ListViewLayoutManager.StarWidth="1" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding RemovalDate}" Style="{StaticResource IsDeletedStyle}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 		<Views:EmployeeListView Grid.Row="2" DataContext="{Binding SelectedItem.EmployeeListViewModel}" 
 				  Visibility="{Binding DataContext.SelectedItem.IsOrganisation, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 	</Grid>

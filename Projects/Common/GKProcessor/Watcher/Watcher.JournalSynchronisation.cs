@@ -1,9 +1,10 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using FiresecAPI.Journal;
+using SKDDriver;
 
 namespace GKProcessor
 {
@@ -11,13 +12,12 @@ namespace GKProcessor
 	{
 		public bool ReadMissingJournalItems()
 		{
-
-
-			return true;
-
-
 			var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = -1;
+			using (var skdDatabaseService = new SKDDatabaseService())
+			{
+				localLastDBNo = skdDatabaseService.GKMetadataTranslator.GetLastJournalNo(gkIpAddress);
+			}
 			if (localLastDBNo == -1)
 			{
 				return true;
@@ -26,6 +26,10 @@ namespace GKProcessor
 			if (remoteLastId == -1)
 			{
 				return false;
+			}
+			using (var skdDatabaseService = new SKDDatabaseService())
+			{
+				skdDatabaseService.GKMetadataTranslator.SetLastJournalNo(gkIpAddress, remoteLastId);
 			}
 			if (remoteLastId > localLastDBNo)
 			{

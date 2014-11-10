@@ -1,15 +1,22 @@
 ﻿using System.Configuration;
 using SKDDriver.Translators;
 using System;
+using Infrastructure.Common;
 
 namespace SKDDriver
 {
 	public class SKDDatabaseService : IDisposable
 	{
 		public DataAccess.SKDDataContext Context { get; private set; }
-		string ConnectionString
+
+		static string ConnectionString
 		{
-			get	{ return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
+			get
+			{
+				var serverName = GlobalSettingsHelper.GlobalSettings.DBServerName;
+				var connectionString = @"Data Source=.\" + serverName + ";Initial Catalog=SKD;Integrated Security=True;Language='English'";
+				return connectionString;
+			}
 		}
 
 		public SKDDatabaseService()
@@ -39,6 +46,7 @@ namespace SKDDriver
 			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
 			PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
 			MetadataTranslator = new MetadataTranslator(this);
+			GKMetadataTranslator = new GKMetadataTranslator(this);
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
@@ -64,6 +72,7 @@ namespace SKDDriver
 		public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
 		public PassCardTemplateTranslator PassCardTemplateTranslator { get; private set; }
 		public MetadataTranslator MetadataTranslator { get; private set; }
+		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
 
 		public void Dispose()
 		{

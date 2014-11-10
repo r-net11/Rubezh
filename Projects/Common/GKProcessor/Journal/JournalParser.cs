@@ -226,10 +226,6 @@ namespace GKProcessor
 											JournalItem.DescriptionText = firstAdditionalDescription.ToString() + " " + secondAdditionalDescription.ToString();
 										}
 									}
-									if (Device != null && Device.DriverType == GKDriverType.Valve)
-									{
-										JournalItem.DescriptionText = "Код уточнения " + bytes[32 + 15].ToString();
-									}
 									break;
 							}
 							break;
@@ -278,10 +274,6 @@ namespace GKProcessor
 							if (Device != null && Device.DriverType == GKDriverType.Valve)
 							{
 								JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToValveInformation(bytes[32 + 15]);
-								if (JournalItem.JournalEventDescriptionType == JournalEventDescriptionType.NULL)
-								{
-									JournalItem.DescriptionText = "Код уточнения " + bytes[32 + 15].ToString();
-								}
 							}
 							break;
 
