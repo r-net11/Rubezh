@@ -20,4 +20,8 @@
 		<Views:LayoutPartPropertyTemplateContainerPageView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyTextPageViewModel}">
+		<Views:LayoutPartPropertyTextPageView />
+	</DataTemplate>
+	
 </ResourceDictionary>

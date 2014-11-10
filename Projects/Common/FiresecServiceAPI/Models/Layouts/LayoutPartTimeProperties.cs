@@ -5,7 +5,7 @@ using Common;
 namespace FiresecAPI.Models.Layouts
 {
 	[DataContract]
-	public class LayoutPartTimeProperties : LayoutPartReferenceProperties
+	public class LayoutPartTimeProperties : ILayoutProperties
 	{
 		public LayoutPartTimeProperties()
 		{
