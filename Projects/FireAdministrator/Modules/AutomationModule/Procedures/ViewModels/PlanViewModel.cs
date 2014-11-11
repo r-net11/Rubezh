@@ -16,17 +16,5 @@ namespace AutomationModule.ViewModels
 		{
 			get { return Plan.Caption; }
 		}
-
-		public ObservableCollection<ElementViewModel> Elements { get; private set; }
-		ElementViewModel _selectedElement;
-		public ElementViewModel SelectedElement
-		{
-			get { return _selectedElement; }
-			set
-			{
-				_selectedElement = value;
-				OnPropertyChanged(() => SelectedElement);
-			}
-		}
 	}
 }

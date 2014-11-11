@@ -11,8 +11,8 @@ using Infrustructure.Plans;
 using Infrastructure.Common.Windows;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.Automation;
-using System.Drawing;
 using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
@@ -125,15 +125,9 @@ namespace PlansModule.ViewModels
 									if (planArguments.ElementPropertyType == ElementPropertyType.Width)
 										element.Width = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-									{
-										var drawingColor = Color.FromName(planArguments.Value.ToString());
-										element.BorderColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
-									}
+										element.BorderColor = (Color) planArguments.Value;
 									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
-									{
-										var drawingColor = Color.FromName(planArguments.Value.ToString());
-										element.BackgroundColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
-									}
+										element.BackgroundColor = (Color)planArguments.Value;
 									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
 										element.BorderThickness = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
@@ -142,21 +136,36 @@ namespace PlansModule.ViewModels
 										element.Top = Convert.ToDouble(planArguments.Value);
 								}
 							}
+							if (elementBase is ElementTextBlock)
+							{
+								var element = elementBase as ElementTextBlock;
+								if (element != null)
+								{
+									if (planArguments.ElementPropertyType == ElementPropertyType.FontBold)
+										element.FontBold = Convert.ToBoolean(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.FontItalic)
+										element.FontItalic = Convert.ToBoolean(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.FontSize)
+										element.FontSize = Convert.ToDouble(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.ForegroundColor)
+										element.ForegroundColor = (Color)planArguments.Value;
+									if (planArguments.ElementPropertyType == ElementPropertyType.Stretch)
+										element.Stretch = Convert.ToBoolean(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.Text)
+										element.Text = Convert.ToString(planArguments.Value);
+									if (planArguments.ElementPropertyType == ElementPropertyType.WordWrap)
+										element.WordWrap = Convert.ToBoolean(planArguments.Value);
+								}
+							}
 							if (elementBase is ElementBasePolygon)
 							{
 								var element = elementBase as ElementBasePolygon;
 								if (element != null)
 								{
 									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-									{
-										var drawingColor = Color.FromName(planArguments.Value.ToString());
-										element.BorderColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
-									}
+										element.BorderColor = (Color) planArguments.Value;
 									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
-									{
-										var drawingColor = Color.FromName(planArguments.Value.ToString());
-										element.BackgroundColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
-									}
+										element.BackgroundColor = (Color)planArguments.Value;
 									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
 										element.BorderThickness = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
@@ -172,10 +181,7 @@ namespace PlansModule.ViewModels
 								if (element != null)
 								{
 									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-									{
-										var drawingColor = Color.FromName(planArguments.Value.ToString());
-										element.BorderColor = System.Windows.Media.Color.FromArgb(drawingColor.A, drawingColor.R, drawingColor.G, drawingColor.B);
-									}
+										element.BorderColor = (Color)planArguments.Value;
 									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
 										element.BorderThickness = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Left)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI.Journal;
@@ -11,6 +10,7 @@ using FiresecAPI.Models;
 using FiresecAPI.Automation;
 using FiresecClient;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
@@ -49,7 +49,6 @@ namespace AutomationModule.ViewModels
 			JournalEventNameTypeValues = ProcedureHelper.GetEnumObs<JournalEventNameType>();
 			JournalEventDescriptionTypeValues = ProcedureHelper.GetEnumObs<JournalEventDescriptionType>();
 			JournalObjectTypeValues = ProcedureHelper.GetEnumObs<JournalObjectType>();
-			ColorValues = ProcedureHelper.GetEnumObs<KnownColor>();			
 			MinIntValue = Int32.MinValue;
 			MaxIntValue = Int32.MaxValue;
 		}
@@ -222,8 +221,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<KnownColor> ColorValues { get; private set; }
-		public KnownColor ColorValue
+		public Color ColorValue
 		{
 			get { return ExplicitValue.ColorValue; }
 			set

@@ -96,15 +96,23 @@ namespace AutomationModule.ViewModels
 				elementPropertyTypes = new ObservableCollection<ElementPropertyType> {ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
 			if (element.ElementType == typeof(ElementPolyline))
 				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+			if (element.ElementType == typeof(ElementTextBlock))
+				elementPropertyTypes = ProcedureHelper.GetEnumObs<ElementPropertyType>();
 			return elementPropertyTypes;
 		}
 
 		ExplicitTypeViewModel PropertyTypeToExplicitType(ElementPropertyType elementPropertyType)
 		{
-			if (elementPropertyType == ElementPropertyType.Height || elementPropertyType == ElementPropertyType.Width)
+			if (elementPropertyType == ElementPropertyType.Height || elementPropertyType == ElementPropertyType.Width || elementPropertyType == ElementPropertyType.BorderThickness ||
+				elementPropertyType == ElementPropertyType.FontSize || elementPropertyType == ElementPropertyType.Left || elementPropertyType == ElementPropertyType.Top)
 				return new ExplicitTypeViewModel(ExplicitType.Integer);
-			if (elementPropertyType == ElementPropertyType.Color || elementPropertyType == ElementPropertyType.BackColor)
+			if (elementPropertyType == ElementPropertyType.FontBold || elementPropertyType == ElementPropertyType.FontItalic || elementPropertyType == ElementPropertyType.Stretch ||
+				elementPropertyType == ElementPropertyType.WordWrap)
+				return new ExplicitTypeViewModel(ExplicitType.Boolean);
+			if (elementPropertyType == ElementPropertyType.Color || elementPropertyType == ElementPropertyType.BackColor || elementPropertyType == ElementPropertyType.ForegroundColor)
 				return new ExplicitTypeViewModel(EnumType.ColorType);
+			if (elementPropertyType == ElementPropertyType.Text)
+				return new ExplicitTypeViewModel(ExplicitType.String);
 			return new ExplicitTypeViewModel(ExplicitType.Integer);
 		}
 

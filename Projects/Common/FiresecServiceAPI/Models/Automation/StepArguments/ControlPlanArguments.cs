@@ -48,7 +48,7 @@ namespace FiresecAPI.Automation
 		[Description("Цвет фона")]
 		BackColor,
 
-		[Description("Ширина границы")]
+		[Description("Толщина границы")]
 		BorderThickness,
 
 		[Description("Отступ слева")]

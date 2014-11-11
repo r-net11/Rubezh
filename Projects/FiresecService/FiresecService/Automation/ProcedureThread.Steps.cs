@@ -12,7 +12,7 @@ using FiresecAPI.Journal;
 using Property = FiresecAPI.Automation.Property;
 using FiresecAPI.AutomationCallback;
 using System.Threading;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace FiresecService
 {
@@ -774,7 +774,7 @@ namespace FiresecService
 				if (target.EnumType == EnumType.JournalObjectType)
 					target.ExplicitValue.JournalObjectTypeValue = (JournalObjectType)propertyValue;
 				if (target.EnumType == EnumType.ColorType)
-					target.ExplicitValue.ColorValue = (KnownColor)propertyValue;
+					target.ExplicitValue.ColorValue = (Color)propertyValue;
 			}
 		}
 
@@ -825,7 +825,7 @@ namespace FiresecService
 				if (enumType == EnumType.JournalObjectType)
 					result = explicitValue.JournalObjectTypeValue;
 				if (enumType == EnumType.ColorType)
-					result = explicitValue.ColorValue.ToString();
+					result = explicitValue.ColorValue;
 			}
 			return (T)result;
 		}

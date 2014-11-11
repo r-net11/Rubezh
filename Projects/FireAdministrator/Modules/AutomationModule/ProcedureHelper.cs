@@ -224,7 +224,7 @@ namespace AutomationModule
 						if (enumType == EnumType.JournalObjectType)
 							result = explicitValue.JournalObjectTypeValue.ToDescription();
 						if (enumType == EnumType.ColorType)
-							result = Enum.GetName(typeof(KnownColor), explicitValue.ColorValue);
+							result = explicitValue.ColorValue.ToString();
 					}
 					break;
 				case ExplicitType.Object:
