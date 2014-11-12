@@ -46,7 +46,8 @@ namespace GKProcessor
 					measureParameters = measureDeviceInfo.GetRSR2Measure();
 				}
 
-				if (measureParameters != null && measureParameters.Count > 0)
+				//if (measureParameters != null && measureParameters.Count > 0)
+				if (measureParameters != null)
 				{
 					var deviceMeasureParameters = new GKDeviceMeasureParameters();
 					deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.UID;
