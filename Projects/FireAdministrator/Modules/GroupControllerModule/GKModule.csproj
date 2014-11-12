@@ -382,7 +382,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Devices\ViewModels\Logic\DeviceLogicViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\LogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
@@ -477,8 +477,8 @@
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Devices\Views\Logic\DeviceLogicView.xaml.cs">
-      <DependentUpon>DeviceLogicView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\Logic\LogicView.xaml.cs">
+      <DependentUpon>LogicView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
@@ -617,7 +617,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Logic\DeviceLogicView.xaml">
+    <Page Include="Devices\Views\Logic\LogicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

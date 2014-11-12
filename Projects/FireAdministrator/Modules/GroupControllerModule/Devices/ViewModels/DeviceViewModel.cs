@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				Device.IsNotUsed = !value;
-				GKManager.ChangeDeviceLogic(Device, new GKDeviceLogic());
+				GKManager.ChangeLogic(Device, new GKLogic());
 				OnPropertyChanged(() => IsUsed);
 				OnPropertyChanged(() => ShowOnPlan);
 				OnPropertyChanged(() => PresentationZone);
@@ -358,10 +358,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.DeviceLogic);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				GKManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
+				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -425,10 +425,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowNSLogicCommand { get; private set; }
 		void OnShowNSLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.NSLogic, false);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(Device, Device.NSLogic, false, false);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Device.NSLogic = deviceLogicViewModel.GetModel();
+				Device.NSLogic = logicViewModel.GetModel();
 				OnPropertyChanged("NSPresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}

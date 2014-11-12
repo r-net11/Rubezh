@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.DeviceLogicView"
+﻿<UserControl x:Class="GKModule.Views.LogicView"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -10,7 +10,7 @@
 		<TabItem Header="Условие включения">
 			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<StackPanel>
-					<Views:ClausesView DataContext="{Binding ClausesGroup}" />
+					<Views:ClausesView DataContext="{Binding OnClausesGroup}" />
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
@@ -21,5 +21,12 @@
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
-	</TabControl>
+        <TabItem Header="Условие остановки" Visibility="{Binding HasStopClause, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Views:ClausesView DataContext="{Binding StopClausesGroup}" />
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
 </UserControl>

@@ -77,8 +77,9 @@ namespace FiresecAPI.GK
 
 			foreach (var device in Devices)
 			{
-				LinkDeviceLogic(device, device.DeviceLogic.ClausesGroup.Clauses);
-				LinkDeviceLogic(device, device.DeviceLogic.OffClausesGroup.Clauses);
+				LinkLogic(device, device.Logic.OnClausesGroup.Clauses);
+				LinkLogic(device, device.Logic.OffClausesGroup.Clauses);
+				LinkLogic(device, device.Logic.StopClausesGroup.Clauses);
 			}
 
 			foreach (var zone in Zones)
@@ -105,19 +106,20 @@ namespace FiresecAPI.GK
 
 			foreach (var pumpStation in PumpStations)
 			{
-				LinkDeviceLogic(pumpStation, pumpStation.StartLogic.ClausesGroup.Clauses);
-				LinkDeviceLogic(pumpStation, pumpStation.StopLogic.ClausesGroup.Clauses);
-				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic.ClausesGroup.Clauses);
+				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup.Clauses);
+				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup.Clauses);
+				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup.Clauses);
 			}
 
 			foreach (var mpt in MPTs)
 			{
-				LinkDeviceLogic(mpt, mpt.StartLogic.ClausesGroup.Clauses);
+				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup.Clauses);
 			}
 
 			foreach (var delay in Delays)
 			{
-				LinkDeviceLogic(delay, delay.DeviceLogic.ClausesGroup.Clauses);
+				LinkLogic(delay, delay.Logic.OnClausesGroup.Clauses);
+				LinkLogic(delay, delay.Logic.OffClausesGroup.Clauses);
 			}
 
 			foreach (var guardZone in GuardZones)
@@ -134,7 +136,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void LinkDeviceLogic(GKBase gkBase, List<GKClause> clauses)
+		void LinkLogic(GKBase gkBase, List<GKClause> clauses)
 		{
 			if (clauses != null)
 			{

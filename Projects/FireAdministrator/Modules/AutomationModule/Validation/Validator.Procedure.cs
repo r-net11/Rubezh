@@ -171,7 +171,7 @@ namespace AutomationModule.Validation
 					{
 						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
 						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceArguments.GKDeviceArgument.ExplicitValue.UidValue);
-						if (gkDevice != null && gkDevice.DeviceLogic.ClausesGroup.Clauses.Count > 0)
+						if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
 							Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику" + step.Name, ValidationErrorLevel.Warning));
 						ValidateArgument(step, controlGKDeviceArguments.GKDeviceArgument);
 					}

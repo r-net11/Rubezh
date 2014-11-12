@@ -245,9 +245,9 @@ namespace FiresecClient
 			direction.OnChanged();
 		}
 
-		public static void ChangeDeviceLogic(GKDevice device, GKDeviceLogic deviceLogic)
+		public static void ChangeLogic(GKDevice device, GKLogic logic)
 		{
-			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
+			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
 			{
 				foreach (var direction in clause.Directions)
 				{
@@ -256,8 +256,8 @@ namespace FiresecClient
 					device.Directions.Remove(direction);
 				}
 			}
-			device.DeviceLogic = deviceLogic;
-			DeviceConfiguration.InvalidateOneLogic(device, device.DeviceLogic);
+			device.Logic = logic;
+			DeviceConfiguration.InvalidateOneLogic(device, device.Logic);
 			device.OnChanged();
 		}
 
@@ -283,7 +283,7 @@ namespace FiresecClient
 			if (changeZone)
 			{
 				RemoveDeviceFromZone(device, null);
-				ChangeDeviceLogic(device, new GKDeviceLogic());
+				ChangeLogic(device, new GKLogic());
 			}
 			device.Properties = new List<GKProperty>();
 		}

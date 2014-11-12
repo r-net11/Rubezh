@@ -51,9 +51,9 @@ namespace GKProcessor
 			Formula = new FormulaBuilder();
 
 			var hasOnExpression = false;
-			if (MPT.StartLogic.ClausesGroup.Clauses.Count > 0)
+			if (MPT.StartLogic.OnClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(MPT.StartLogic.ClausesGroup);
+				Formula.AddClauseFormula(MPT.StartLogic.OnClausesGroup);
 				hasOnExpression = true;
 			}
 

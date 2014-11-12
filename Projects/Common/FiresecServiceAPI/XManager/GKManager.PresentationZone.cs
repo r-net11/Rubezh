@@ -27,15 +27,15 @@ namespace FiresecClient
 				return stringBuilder.ToString();
 			}
 
-			if (device.Driver.HasLogic && device.DeviceLogic != null)
-				return GetPresentationZone(device.DeviceLogic);
+			if (device.Driver.HasLogic && device.Logic != null)
+				return GetPresentationZone(device.Logic);
 
 			return "";
 		}
 
-		public static string GetPresentationZone(GKDeviceLogic DeviceLogic)
+		public static string GetPresentationZone(GKLogic logic)
 		{
-			return GetPresentationZone(DeviceLogic.ClausesGroup);
+			return GetPresentationZone(logic.OnClausesGroup);
 		}
 
 		static string GetPresentationZone(GKClauseGroup clauseGroup)

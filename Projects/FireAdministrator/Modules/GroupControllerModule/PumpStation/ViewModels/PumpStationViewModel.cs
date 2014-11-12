@@ -106,10 +106,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.StartLogic, false);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.StartLogic, false, false);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				PumpStation.StartLogic = deviceLogicViewModel.GetModel();
+				PumpStation.StartLogic = logicViewModel.GetModel();
 				OnPropertyChanged("StartPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -123,10 +123,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic, false);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic, false, false);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				PumpStation.StopLogic = deviceLogicViewModel.GetModel();
+				PumpStation.StopLogic = logicViewModel.GetModel();
 				OnPropertyChanged("StopPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -140,10 +140,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
 		void OnChangeAutomaticOffLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic, false);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(GKManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic, false, false);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				PumpStation.AutomaticOffLogic = deviceLogicViewModel.GetModel();
+				PumpStation.AutomaticOffLogic = logicViewModel.GetModel();
 				OnPropertyChanged("AutomaticOffPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}

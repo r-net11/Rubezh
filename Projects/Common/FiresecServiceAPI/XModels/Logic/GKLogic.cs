@@ -7,25 +7,32 @@ namespace FiresecAPI.GK
 	/// Логика включения объектов ГК
 	/// </summary>
 	[DataContract]
-	public class GKDeviceLogic
+	public class GKLogic
 	{
-		public GKDeviceLogic()
+		public GKLogic()
 		{
-			ClausesGroup = new GKClauseGroup();
+			OnClausesGroup = new GKClauseGroup();
 			OffClausesGroup = new GKClauseGroup();
+			StopClausesGroup = new GKClauseGroup();
 		}
 
 		/// <summary>
 		/// Группа условий для включения
 		/// </summary>
 		[DataMember]
-		public GKClauseGroup ClausesGroup { get; set; }
+		public GKClauseGroup OnClausesGroup { get; set; }
 
 		/// <summary>
 		/// Группа условий для выключения
 		/// </summary>
 		[DataMember]
 		public GKClauseGroup OffClausesGroup { get; set; }
+
+		/// <summary>
+		/// Группа условий для остановки
+		/// </summary>
+		[DataMember]
+		public GKClauseGroup StopClausesGroup { get; set; }
 
 		[DataMember]
 		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }

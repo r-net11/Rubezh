@@ -25,7 +25,7 @@ namespace GKModule.Validation
 				if (MustValidate("Устройство не подключено к зоне"))
 					ValidateDeviceZone(device);
 				if (MustValidate("Отсутствует логика срабатывания исполнительного устройства"))
-					ValidateDeviceLogic(device);
+					ValidateLogic(device);
 
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
@@ -75,7 +75,7 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(GKDevice device)
 		{
-			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
+			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
 			{
 				foreach (var clauseDevice in clause.Devices)
 				{
@@ -103,7 +103,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDeviceLogic(GKDevice device)
+		void ValidateLogic(GKDevice device)
 		{
 			if(device.IsInMPT)
 				return;
@@ -113,7 +113,7 @@ namespace GKModule.Validation
 
 			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
 			{
-				if (device.DeviceLogic.ClausesGroup.Clauses.Count == 0)
+				if (device.Logic.OnClausesGroup.Clauses.Count == 0)
 					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning));
 			}
 		}
@@ -157,7 +157,7 @@ namespace GKModule.Validation
 
 		void ValidateNotUsedLogic(GKDevice device)
 		{
-			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
+			foreach (var clause in device.Logic.OnClausesGroup.Clauses)
 			{
 				foreach (var clauseDevices in clause.Devices)
 				{

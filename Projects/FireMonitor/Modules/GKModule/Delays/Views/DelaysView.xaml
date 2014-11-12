@@ -23,7 +23,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center"/>
+								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" />
 								<TextBlock HorizontalAlignment="Stretch" Text="{Binding Delay.No}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
@@ -49,7 +49,7 @@
 				<DataGridTemplateColumn Header="Логика включения" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding PresentationLogic}" TextWrapping="NoWrap">
+							<TextBlock MinWidth="100" VerticalAlignment="Center" Text="{Binding PresentationLogic}" TextWrapping="NoWrap" Margin="2">
 								<TextBlock.ToolTip>
 									<WrapPanel>
 										<TextBlock Text="{Binding PresentationLogic}" TextWrapping="Wrap" />

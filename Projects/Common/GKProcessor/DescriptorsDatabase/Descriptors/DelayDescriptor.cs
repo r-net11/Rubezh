@@ -24,10 +24,10 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (Delay.DeviceLogic.ClausesGroup.Clauses.Count > 0)
+			if (Delay.Logic.OnClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.DeviceLogic.ClausesGroup);
-				if (Delay.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
+				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup);
+				if (Delay.Logic.OffClausesGroup.Clauses.Count == 0)
 				{
 					Formula.AddStandardTurning(Delay);
 				}
@@ -38,13 +38,14 @@ namespace GKProcessor
 					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
 				}
 			}
-			if (Delay.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
+			if (Delay.Logic.OffClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.DeviceLogic.OffClausesGroup);
+				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup);
 				Formula.AddGetBit(GKStateBit.Norm, Delay);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
 			}
+			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}
 

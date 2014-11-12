@@ -18,9 +18,9 @@ namespace FiresecAPI.GK
 			DelayRegime = DelayRegime.Off;
 			NSPumpsCount = 1;
 			NSDeltaTime = 15;
-			StartLogic = new GKDeviceLogic();
-			StopLogic = new GKDeviceLogic();
-			AutomaticOffLogic = new GKDeviceLogic();
+			StartLogic = new GKLogic();
+			StopLogic = new GKLogic();
+			AutomaticOffLogic = new GKLogic();
 
 			NSDevices = new List<GKDevice>();
 			NSDeviceUIDs = new List<Guid>();
@@ -71,19 +71,19 @@ namespace FiresecAPI.GK
 		/// Логика включения
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic StartLogic { get; set; }
+		public GKLogic StartLogic { get; set; }
 
 		/// <summary>
 		/// Логика выключения
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic StopLogic { get; set; }
+		public GKLogic StopLogic { get; set; }
 
 		/// <summary>
 		/// Логика отключения автоматики
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic AutomaticOffLogic { get; set; }
+		public GKLogic AutomaticOffLogic { get; set; }
 
 		[XmlIgnore]
 		public override string PresentationName

@@ -22,8 +22,8 @@ namespace FiresecAPI.GK
 			Properties = new List<GKProperty>();
 			DeviceProperties = new List<GKProperty>();
 			ZoneUIDs = new List<Guid>();
-			DeviceLogic = new GKDeviceLogic();
-			NSLogic = new GKDeviceLogic();
+			Logic = new GKLogic();
+			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
@@ -104,13 +104,13 @@ namespace FiresecAPI.GK
 		/// Логика сработки
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic DeviceLogic { get; set; }
+		public GKLogic Logic { get; set; }
 
 		/// <summary>
 		/// Логика насосной станции
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic NSLogic { get; set; }
+		public GKLogic NSLogic { get; set; }
 
 		[DataMember]
 		public bool IsNotUsed { get; set; }

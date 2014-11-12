@@ -320,8 +320,8 @@ namespace FireAdministrator.ViewModels
 				{
 					device.ZoneUIDs[i] = ReplaceUID(device.ZoneUIDs[i], GKZoneUIDs);
 				}
-				ReplaceDeviceLogic(device.DeviceLogic);
-				ReplaceDeviceLogic(device.NSLogic);
+				ReplaceLogic(device.Logic);
+				ReplaceLogic(device.NSLogic);
 			}
 
 			foreach (var direction in GKDeviceConfiguration.Directions)
@@ -357,9 +357,9 @@ namespace FireAdministrator.ViewModels
 				{
 					pumpStation.NSDeviceUIDs[i] = ReplaceUID(pumpStation.NSDeviceUIDs[i], GKDeviceUIDs);
 				}
-				ReplaceDeviceLogic(pumpStation.StartLogic);
-				ReplaceDeviceLogic(pumpStation.AutomaticOffLogic);
-				ReplaceDeviceLogic(pumpStation.StopLogic);
+				ReplaceLogic(pumpStation.StartLogic);
+				ReplaceLogic(pumpStation.AutomaticOffLogic);
+				ReplaceLogic(pumpStation.StopLogic);
 			}
 
 			foreach (var mpt in GKDeviceConfiguration.MPTs)
@@ -368,13 +368,13 @@ namespace FireAdministrator.ViewModels
 				{
 					mptDevice.DeviceUID = ReplaceUID(mptDevice.DeviceUID, GKDeviceUIDs);
 				}
-				ReplaceDeviceLogic(mpt.StartLogic);
+				ReplaceLogic(mpt.StartLogic);
 			}
 
 			foreach (var delay in GKDeviceConfiguration.Delays)
 			{
 				delay.PumpStationUID = ReplaceUID(delay.PumpStationUID, GKPumpStationUIDs);
-				ReplaceDeviceLogic(delay.DeviceLogic);
+				ReplaceLogic(delay.Logic);
 			}
 
 			foreach (var door in GKDeviceConfiguration.Doors)
@@ -469,9 +469,9 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		void ReplaceDeviceLogic(GKDeviceLogic deviceLogic)
+		void ReplaceLogic(GKLogic logic)
 		{
-			foreach (var clause in deviceLogic.ClausesGroup.Clauses)
+			foreach (var clause in logic.OnClausesGroup.Clauses)
 			{
 				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
 				{

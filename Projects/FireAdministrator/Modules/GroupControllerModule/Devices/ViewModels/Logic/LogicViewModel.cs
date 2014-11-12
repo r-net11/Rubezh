@@ -9,11 +9,11 @@ using Infrastructure.Common.Windows.ViewModels;
 namespace GKModule.ViewModels
 {
 	[SaveSizeAttribute]
-	public class DeviceLogicViewModel : SaveCancelDialogViewModel
+	public class LogicViewModel : SaveCancelDialogViewModel
 	{
 		public GKDevice Device { get; private set; }
 
-		public DeviceLogicViewModel(GKDevice device, GKDeviceLogic deviceLogic, bool hasOffClause = true)
+		public LogicViewModel(GKDevice device, GKLogic logic, bool hasOffClause, bool hasStopClause)
 		{
 			if (device.DriverType == GKDriverType.System)
 				Title = "Настройка логики";
@@ -21,24 +21,27 @@ namespace GKModule.ViewModels
 				Title = "Настройка логики устройства " + device.PresentationName;
 			Device = device;
 
-			if (deviceLogic.ClausesGroup.Clauses.Count == 0)
+			if (logic.OnClausesGroup.Clauses.Count == 0)
 			{
-				deviceLogic.ClausesGroup.Clauses.Add(new GKClause());
+				logic.OnClausesGroup.Clauses.Add(new GKClause());
 			}
 
-			ClausesGroup = new ClauseGroupViewModel(device, deviceLogic.ClausesGroup);
-			OffClausesGroup = new ClauseGroupViewModel(device, deviceLogic.OffClausesGroup);
+			OnClausesGroup = new ClauseGroupViewModel(device, logic.OnClausesGroup);
+			OffClausesGroup = new ClauseGroupViewModel(device, logic.OffClausesGroup);
+			StopClausesGroup = new ClauseGroupViewModel(device, logic.StopClausesGroup);
 
-			SelectedMROMessageNo = deviceLogic.ZoneLogicMROMessageNo;
-			SelectedMROMessageType = deviceLogic.ZoneLogicMROMessageType;
+			SelectedMROMessageNo = logic.ZoneLogicMROMessageNo;
+			SelectedMROMessageType = logic.ZoneLogicMROMessageType;
 
 			HasOffClause = hasOffClause;
+			HasStopClause = hasStopClause;
 		}
 
-		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
+		public LogicViewModel _deviceDetailsViewModel { get; private set; }
 
-		public ClauseGroupViewModel ClausesGroup { get; private set; }
+		public ClauseGroupViewModel OnClausesGroup { get; private set; }
 		public ClauseGroupViewModel OffClausesGroup { get; private set; }
+		public ClauseGroupViewModel StopClausesGroup { get; private set; }
 
 		#region IsMRO_2M
 		public bool IsMRO_2M
@@ -80,12 +83,13 @@ namespace GKModule.ViewModels
 		#endregion
 
 		public bool HasOffClause { get; private set; }
+		public bool HasStopClause { get; private set; }
 
 		public string OffClauseName
 		{
 			get
 			{
-				if (Device.DeviceLogic.OffClausesGroup.Clauses == null || Device.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
+				if ((Device.Logic.OffClausesGroup.Clauses == null || Device.Logic.OffClausesGroup.Clauses.Count == 0) && HasStopClause == false)
 					return "Условие выключения противоположно условию включения";
 				else
 					return "Условие выключения";
@@ -97,14 +101,15 @@ namespace GKModule.ViewModels
 			return base.Save();
 		}
 
-		public GKDeviceLogic GetModel()
+		public GKLogic GetModel()
 		{
-			var deviceLogic = new GKDeviceLogic();
-			deviceLogic.ClausesGroup = ClausesGroup.GetClauseGroup();
-			deviceLogic.OffClausesGroup = OffClausesGroup.GetClauseGroup();
-			deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
-			deviceLogic.ZoneLogicMROMessageType = SelectedMROMessageType;
-			return deviceLogic;
+			var logic = new GKLogic();
+			logic.OnClausesGroup = OnClausesGroup.GetClauseGroup();
+			logic.OffClausesGroup = OffClausesGroup.GetClauseGroup();
+			logic.StopClausesGroup = StopClausesGroup.GetClauseGroup();
+			logic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
+			logic.ZoneLogicMROMessageType = SelectedMROMessageType;
+			return logic;
 		}
 	}
 }

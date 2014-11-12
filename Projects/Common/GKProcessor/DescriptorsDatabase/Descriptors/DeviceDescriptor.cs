@@ -36,11 +36,11 @@ namespace GKProcessor
 			{
 				if (Device.Driver.HasLogic)
 				{
-					if (Device.DeviceLogic.ClausesGroup.Clauses.Count > 0)
+					if (Device.Logic.OnClausesGroup.Clauses.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.ClausesGroup);
+						Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
 						AddMro2MFormula();
-						if (Device.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
+						if (Device.Logic.OffClausesGroup.Clauses.Count == 0 && Device.Logic.StopClausesGroup.Clauses.Count == 0)
 						{
 							Formula.AddStandardTurning(Device);
 						}
@@ -51,12 +51,19 @@ namespace GKProcessor
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
-					if (Device.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
+					if (Device.Logic.OffClausesGroup.Clauses.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.OffClausesGroup);
+						Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
 						Formula.AddGetBit(GKStateBit.Norm, Device);
 						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+					}
+					if (Device.Logic.StopClausesGroup.Clauses.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
+						Formula.AddGetBit(GKStateBit.Norm, Device);
+						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+						Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
 					}
 				}
 
@@ -83,12 +90,12 @@ namespace GKProcessor
 		{
 			if (Device.DriverType == GKDriverType.MRO_2)
 			{
-				if (Device.DeviceLogic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
+				if (Device.Logic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
 					Formula.AddArgumentPutBit(31, Device);
 				}
-				var value = (int)Device.DeviceLogic.ZoneLogicMROMessageNo;
+				var value = (int)Device.Logic.ZoneLogicMROMessageNo;
 				if ((value & 1) == 1)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
