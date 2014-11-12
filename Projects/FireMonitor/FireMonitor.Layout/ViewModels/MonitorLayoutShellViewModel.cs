@@ -48,10 +48,7 @@ namespace FireMonitor.Layout.ViewModels
 			if (_serializer != null && Layout != null && !string.IsNullOrEmpty(Layout.Content))
 				using (var tr = new StringReader(Layout.Content))
 					_serializer.Deserialize(tr);
-		}
-		private void LoadLayout()
-		{
-			UpdateLayout(Layout);
+			LoadLayoutProperties();
 		}
 		private void Initialize()
 		{
@@ -71,6 +68,16 @@ namespace FireMonitor.Layout.ViewModels
 				foreach (var layoutPart in Layout.Parts)
 					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
 			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
+		}
+		private void LoadLayoutProperties()
+		{
+			//var properties = SafeFiresecService(Layout.UID);
+			//foreach (var property in properties)
+			//{
+			//    var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == property.LayoutPart);
+			//    if (layoutPart != null)
+			//        layoutPart.SetProperty(property.Property, property.Value);
+			//}
 		}
 
 		private ObservableCollection<LayoutPartViewModel> _layoutParts;
@@ -122,7 +129,7 @@ namespace FireMonitor.Layout.ViewModels
 					Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
 					_serializer = new XmlLayoutSerializer(Manager);
 					_serializer.LayoutSerializationCallback += LayoutSerializationCallback;
-					LoadLayout();
+					UpdateLayout(Layout);
 				}
 			}
 		}
