@@ -32,18 +32,21 @@
                 <DataGridTemplateColumn Width="*" SortMemberPath="Delay.Name" MinWidth="250" Header="Задержка">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-								<TextBlock Width="200" Text="{Binding Delay.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+                                <TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <TextBlock Text="{Binding Delay.Name}" />
+                                    </Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
 											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 										</ContextMenu>
 									</TextBlock.ContextMenu>
-								</TextBlock>
-							</StackPanel>
-						</DataTemplate>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Логика включения" Width="*">
