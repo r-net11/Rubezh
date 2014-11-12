@@ -170,9 +170,6 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property99, "Открыто", 2);
 			driver.Properties.Add(property99);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
-
 			return driver;
 		}
 	}

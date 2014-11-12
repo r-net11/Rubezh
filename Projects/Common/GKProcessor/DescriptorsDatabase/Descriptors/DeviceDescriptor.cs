@@ -46,23 +46,17 @@ namespace GKProcessor
 						}
 						else
 						{
-							Formula.AddGetBit(GKStateBit.Norm, Device);
-							Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
 					if (Device.Logic.OffClausesGroup.Clauses.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
-						Formula.AddGetBit(GKStateBit.Norm, Device);
-						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 					}
 					if (Device.Logic.StopClausesGroup.Clauses.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
-						Formula.AddGetBit(GKStateBit.Norm, Device);
-						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 						Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
 					}
 				}

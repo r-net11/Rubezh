@@ -170,11 +170,11 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property99, "Открыто", 2);
 			driver.Properties.Add(property99);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Неисправность" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Задержка, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Тип задержки" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Тип задвижки" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "Уточнение неисправности" });
+			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Неисправность" });
+			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Задержка, с", IsDelay = true });
+			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Тип задержки" });
+			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Тип задвижки" });
+			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "Уточнение неисправности" });
 
 			return driver;
 		}

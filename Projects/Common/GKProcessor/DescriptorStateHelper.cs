@@ -444,6 +444,9 @@ namespace GKProcessor
 					case GKDriverType.RSR2_Bush_Drenazh:
 					case GKDriverType.RSR2_Bush_Jokey:
 					case GKDriverType.RSR2_Bush_Fire:
+					case GKDriverType.RSR2_Valve_DU:
+					case GKDriverType.RSR2_Valve_KV:
+					case GKDriverType.RSR2_Valve_KVMV:
 
 						switch (additionalShortParameters[1])
 						{
