@@ -9,11 +9,6 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementPolygonSKDZone : ElementBasePolygon, IElementZone, IPrimitive, IElementReference
 	{
-		public ElementPolygonSKDZone()
-		{
-			PresentationName = "Многоугольник СКД зона";
-		}
-
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 

@@ -46,6 +46,36 @@ namespace FiresecAPI.Automation
 		Color,
 
 		[Description("Цвет фона")]
-		BackColor
+		BackColor,
+
+		[Description("Толщина границы")]
+		BorderThickness,
+
+		[Description("Отступ слева")]
+		Left,
+
+		[Description("Отступ сверху")]
+		Top,
+
+		[Description("Текст")]
+		Text,
+
+		[Description("Цвет текста")]
+		ForegroundColor,
+
+		[Description("Размер текста")]
+		FontSize,
+
+		[Description("Курсив")]
+		FontItalic,
+
+		[Description("Жирный")]
+		FontBold,
+
+		[Description("Растягивать")]
+		Stretch,
+
+		[Description("Переносить")]
+		WordWrap
 	}
 }

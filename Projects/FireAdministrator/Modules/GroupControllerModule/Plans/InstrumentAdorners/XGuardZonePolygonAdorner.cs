@@ -32,7 +32,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonGKGuardZone();
-			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel, (ElementBase)element);
+			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			GKPlanExtension.Instance.SetItem<GKGuardZone>(element);

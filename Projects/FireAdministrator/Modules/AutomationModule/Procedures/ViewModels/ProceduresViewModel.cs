@@ -77,7 +77,7 @@ namespace AutomationModule.ViewModels
 		void OnCopy()
 		{
 			_procedureToCopy = Utils.Clone(SelectedProcedure.Procedure);
-			_procedureToCopy.Uid = new Guid();
+			_procedureToCopy.Uid = Guid.NewGuid();
 			foreach (var variable in _procedureToCopy.Variables)
 			{
 				variable.Uid = Guid.NewGuid();

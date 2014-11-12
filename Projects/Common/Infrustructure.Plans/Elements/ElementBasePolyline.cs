@@ -7,10 +7,6 @@ namespace Infrustructure.Plans.Elements
 	[DataContract]
 	public abstract class ElementBasePolyline : ElementBaseShape
 	{
-		public ElementBasePolyline()
-		{
-		}
-
 		[XmlIgnore]
 		public override ElementType Type
 		{

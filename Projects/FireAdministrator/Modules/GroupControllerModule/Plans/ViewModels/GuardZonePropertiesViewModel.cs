@@ -16,13 +16,11 @@ namespace GKModule.Plans.ViewModels
 	{
 		IElementZone IElementZone;
 		GuardZonesViewModel _zonesViewModel;
-		ElementBase ElementBase { get; set; }
 
-		public GuardZonePropertiesViewModel(IElementZone iElementZone, GuardZonesViewModel zonesViewModel, ElementBase elementBase)
+		public GuardZonePropertiesViewModel(IElementZone iElementZone, GuardZonesViewModel zonesViewModel)
 		{
 			_zonesViewModel = zonesViewModel;
 			IElementZone = iElementZone;
-			ElementBase = elementBase;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Охранная зона";
@@ -34,18 +32,6 @@ namespace GKModule.Plans.ViewModels
 			}
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
-			PresentationName = ElementBase.PresentationName;
-		}
-
-		string _presentationName;
-		public string PresentationName
-		{
-			get { return _presentationName; }
-			set
-			{
-				_presentationName = value;
-				OnPropertyChanged(() => PresentationName);
-			}
 		}
 
 		public ObservableCollection<GuardZoneViewModel> Zones { get; private set; }
@@ -91,7 +77,6 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			ElementBase.PresentationName = PresentationName;
 			GKPlanExtension.Instance.SetItem<GKGuardZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();
