@@ -87,8 +87,8 @@ namespace GKProcessor
 				IsHieghByte = true,
 				Mask = 8
 			};
-			GKDriversHelper.AddPropertyParameter(property93, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property93, "Есть", 8);
+			GKDriversHelper.AddPropertyParameter(property93, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property93, "Контакт НЗ", 8);
 			driver.Properties.Add(property93);
 
 			var property94 = new GKDriverProperty()
@@ -113,8 +113,8 @@ namespace GKProcessor
 				IsHieghByte = true,
 				Mask = 32
 			};
-			GKDriversHelper.AddPropertyParameter(property95, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property95, "Есть", 32);
+			GKDriversHelper.AddPropertyParameter(property95, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property95, "Контакт НЗ", 32);
 			driver.Properties.Add(property95);
 
 			var property96 = new GKDriverProperty()
