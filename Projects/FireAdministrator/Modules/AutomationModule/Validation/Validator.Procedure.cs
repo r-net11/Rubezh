@@ -326,6 +326,14 @@ namespace AutomationModule.Validation
 					else if (!controlVisualArguments.Property.HasValue)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбрано свойство", ValidationErrorLevel.CannotSave));
 					break;
+				case ProcedureStepType.ControlPlan:
+					var controlPlanArguments = step.ControlPlanArguments;
+					ValidateArgument(step, controlPlanArguments.ValueArgument);
+					if (controlPlanArguments.PlanUid == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран план", ValidationErrorLevel.CannotSave));
+					else if (controlPlanArguments.ElementUid == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
+					break;
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

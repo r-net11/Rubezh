@@ -92,6 +92,13 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ControlPlanArguments.ControlVisualType = value;
+				if (value == ControlVisualType.Get)
+					ValueArgument.VariableScopes = new ObservableCollection<VariableScope> { VariableScope.LocalVariable, VariableScope.GlobalVariable };
+				else
+					ValueArgument.VariableScopes = ProcedureHelper.GetEnumObs<VariableScope>();
+				if (ValueArgument.VariableScopes.All(x => x != ValueArgument.SelectedVariableScope))
+					ValueArgument.SelectedVariableScope = ValueArgument.VariableScopes.FirstOrDefault();
+				ValueArgument.Update();
 				OnPropertyChanged(() => SelectedControlVisualType);
 			}
 		}
