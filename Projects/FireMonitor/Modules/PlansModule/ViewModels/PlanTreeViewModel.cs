@@ -125,9 +125,9 @@ namespace PlansModule.ViewModels
 									if (planArguments.ElementPropertyType == ElementPropertyType.Width)
 										element.Width = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-										element.BorderColor = (Color) planArguments.Value;
+										element.BorderColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
 									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
-										element.BackgroundColor = (Color)planArguments.Value;
+										element.BackgroundColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
 									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
 										element.BorderThickness = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
@@ -148,7 +148,7 @@ namespace PlansModule.ViewModels
 									if (planArguments.ElementPropertyType == ElementPropertyType.FontSize)
 										element.FontSize = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.ForegroundColor)
-										element.ForegroundColor = (Color)planArguments.Value;
+										element.ForegroundColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
 									if (planArguments.ElementPropertyType == ElementPropertyType.Stretch)
 										element.Stretch = Convert.ToBoolean(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Text)
@@ -163,9 +163,9 @@ namespace PlansModule.ViewModels
 								if (element != null)
 								{
 									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-										element.BorderColor = (Color) planArguments.Value;
+										element.BorderColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
 									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
-										element.BackgroundColor = (Color)planArguments.Value;
+										element.BackgroundColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
 									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
 										element.BorderThickness = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
@@ -181,7 +181,7 @@ namespace PlansModule.ViewModels
 								if (element != null)
 								{
 									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-										element.BorderColor = (Color)planArguments.Value;
+										element.BorderColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
 									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
 										element.BorderThickness = Convert.ToDouble(planArguments.Value);
 									if (planArguments.ElementPropertyType == ElementPropertyType.Left)

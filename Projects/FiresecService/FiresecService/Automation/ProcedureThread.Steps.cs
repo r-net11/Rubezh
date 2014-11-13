@@ -825,7 +825,7 @@ namespace FiresecService
 				if (enumType == EnumType.JournalObjectType)
 					result = explicitValue.JournalObjectTypeValue;
 				if (enumType == EnumType.ColorType)
-					result = explicitValue.ColorValue;
+					result = explicitValue.ColorValue.ToString();
 			}
 			return (T)result;
 		}
