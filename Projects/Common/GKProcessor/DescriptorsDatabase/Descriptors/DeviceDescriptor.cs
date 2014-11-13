@@ -36,7 +36,7 @@ namespace GKProcessor
 			{
 				if (Device.Driver.HasLogic)
 				{
-					if (Device.Logic.OnClausesGroup.Clauses.Count > 0)
+					if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
 						AddMro2MFormula();
@@ -49,12 +49,12 @@ namespace GKProcessor
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
-					if (Device.Logic.OffClausesGroup.Clauses.Count > 0)
+					if (Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 					}
-					if (Device.Logic.StopClausesGroup.Clauses.Count > 0)
+					if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
 						Formula.AddPutBit(GKStateBit.Stop_InManual, Device);

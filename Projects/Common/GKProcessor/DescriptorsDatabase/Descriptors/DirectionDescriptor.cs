@@ -47,14 +47,8 @@ namespace GKProcessor
 				}
 
 				Formula.Add(FormulaOperationType.DUP);
-
 				Formula.AddGetBit(GKStateBit.Norm, Direction);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction);
-
 				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-				Formula.AddGetBit(GKStateBit.Norm, Direction);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);
 			}
 			Formula.Add(FormulaOperationType.END);

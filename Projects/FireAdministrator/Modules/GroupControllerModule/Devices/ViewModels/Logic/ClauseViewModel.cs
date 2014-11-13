@@ -256,12 +256,8 @@ namespace GKModule.ViewModels
 					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
 						continue;
 				}
-				if (device.UID == Device.UID)
-					continue;
-				if (device.Driver.DriverType == GKDriverType.RSR2_RM_1)
-				{
-					;
-				}
+				//if (device.UID == Device.UID)
+				//    continue;
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}

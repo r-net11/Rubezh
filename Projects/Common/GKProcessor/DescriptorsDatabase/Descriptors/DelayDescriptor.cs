@@ -33,16 +33,12 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.AddGetBit(GKStateBit.Norm, Delay);
-					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
 				}
 			}
 			if (Delay.Logic.OffClausesGroup.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup);
-				Formula.AddGetBit(GKStateBit.Norm, Delay);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
 			}
 			Formula.Add(FormulaOperationType.END);

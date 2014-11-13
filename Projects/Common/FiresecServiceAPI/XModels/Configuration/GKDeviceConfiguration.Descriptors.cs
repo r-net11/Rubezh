@@ -77,9 +77,9 @@ namespace FiresecAPI.GK
 
 			foreach (var device in Devices)
 			{
-				LinkLogic(device, device.Logic.OnClausesGroup.Clauses);
-				LinkLogic(device, device.Logic.OffClausesGroup.Clauses);
-				LinkLogic(device, device.Logic.StopClausesGroup.Clauses);
+				LinkLogic(device, device.Logic.OnClausesGroup);
+				LinkLogic(device, device.Logic.OffClausesGroup);
+				LinkLogic(device, device.Logic.StopClausesGroup);
 			}
 
 			foreach (var zone in Zones)
@@ -106,20 +106,20 @@ namespace FiresecAPI.GK
 
 			foreach (var pumpStation in PumpStations)
 			{
-				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup.Clauses);
-				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup.Clauses);
-				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup.Clauses);
+				LinkLogic(pumpStation, pumpStation.StartLogic.OnClausesGroup);
+				LinkLogic(pumpStation, pumpStation.StopLogic.OnClausesGroup);
+				LinkLogic(pumpStation, pumpStation.AutomaticOffLogic.OnClausesGroup);
 			}
 
 			foreach (var mpt in MPTs)
 			{
-				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup.Clauses);
+				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
 			}
 
 			foreach (var delay in Delays)
 			{
-				LinkLogic(delay, delay.Logic.OnClausesGroup.Clauses);
-				LinkLogic(delay, delay.Logic.OffClausesGroup.Clauses);
+				LinkLogic(delay, delay.Logic.OnClausesGroup);
+				LinkLogic(delay, delay.Logic.OffClausesGroup);
 			}
 
 			foreach (var guardZone in GuardZones)
@@ -136,11 +136,11 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		void LinkLogic(GKBase gkBase, List<GKClause> clauses)
+		void LinkLogic(GKBase gkBase, GKClauseGroup clauseGroup)
 		{
-			if (clauses != null)
+			if (clauseGroup.Clauses != null)
 			{
-				foreach (var clause in clauses)
+				foreach (var clause in clauseGroup.Clauses)
 				{
 					foreach (var clauseDevice in clause.Devices)
 						LinkGKBases(gkBase, clauseDevice);
@@ -154,6 +154,13 @@ namespace FiresecAPI.GK
 						LinkGKBases(gkBase, mpt);
 					foreach (var delay in clause.Delays)
 						LinkGKBases(gkBase, delay);
+				}
+			}
+			if (clauseGroup.ClauseGroups != null)
+			{
+				foreach (var group in clauseGroup.ClauseGroups)
+				{
+					LinkLogic(gkBase, group);
 				}
 			}
 		}
