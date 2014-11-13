@@ -169,5 +169,10 @@ namespace FiresecService.Service
 			}
 			return null;
 		}
+
+		public OperationResult ResetDB()
+		{
+			return PatchManager.ResetDB();
+		}
 	}
 }
