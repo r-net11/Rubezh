@@ -39,8 +39,8 @@ namespace GKProcessor
 					if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
-						AddMro2MFormula();
-						if (Device.Logic.OffClausesGroup.Clauses.Count == 0 && Device.Logic.StopClausesGroup.Clauses.Count == 0)
+						//AddMro2MFormula();
+						if (Device.Logic.UseOffCounterLogic)
 						{
 							Formula.AddStandardTurning(Device);
 						}
@@ -49,10 +49,20 @@ namespace GKProcessor
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
-					if (Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
+					if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+					}
+					if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup);
+						Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device);
+					}
+					if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup);
+						Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device);
 					}
 					if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
 					{

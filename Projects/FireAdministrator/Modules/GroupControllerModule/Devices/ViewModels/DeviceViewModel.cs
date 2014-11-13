@@ -358,7 +358,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV);
+			var hasOnNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
+			var hasOffNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
+			var hasStopClause = Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
+			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, hasOnNowClause, hasOffNowClause, hasStopClause);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
@@ -425,7 +428,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowNSLogicCommand { get; private set; }
 		void OnShowNSLogic()
 		{
-			var logicViewModel = new LogicViewModel(Device, Device.NSLogic, false, false);
+			var logicViewModel = new LogicViewModel(Device, Device.NSLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Device.NSLogic = logicViewModel.GetModel();

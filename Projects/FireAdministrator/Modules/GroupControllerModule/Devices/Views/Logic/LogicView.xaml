@@ -14,13 +14,36 @@
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
-		<TabItem Header="{Binding OffClauseName}" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
-			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-				<StackPanel>
-					<Views:ClausesView DataContext="{Binding OffClausesGroup}" />
-				</StackPanel>
-			</ScrollViewer>
-		</TabItem>
+        <TabItem Header="Условие выключения" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Grid IsEnabled="{Binding UseOffCounterLogic, Converter={StaticResource InverseBooleanConverter}}">
+                            <Views:ClausesView DataContext="{Binding OffClausesGroup}" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+                <CheckBox Grid.Row="1" IsChecked="{Binding UseOffCounterLogic}" Content="Использовать условие включения в качестве противоположного для условия выключения" Foreground="White" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Условие включения немедленно" Visibility="{Binding HasOnNowClause, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Views:ClausesView DataContext="{Binding OnNowClausesGroup}" />
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+        <TabItem Header="Условие выключения немедленно" Visibility="{Binding HasOffNowClause, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Views:ClausesView DataContext="{Binding OffNowClausesGroup}" />
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
         <TabItem Header="Условие остановки" Visibility="{Binding HasStopClause, Converter={StaticResource BoolToVisibilityConverter}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <StackPanel>

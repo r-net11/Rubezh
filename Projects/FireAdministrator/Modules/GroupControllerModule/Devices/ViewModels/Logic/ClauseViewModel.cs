@@ -77,26 +77,26 @@ namespace GKModule.ViewModels
 						StateTypes = new ObservableCollection<StateTypeViewModel>();
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Norm));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						if (Device.DriverType != GKDriverType.MPT)
-						{
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
-						}
+						//if (Device.DriverType != GKDriverType.MPT)
+						//{
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
+						//}
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
 						StateTypes = new ObservableCollection<StateTypeViewModel>();
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						if (Device.DriverType != GKDriverType.MPT)
-						{
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
-							StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
-						}
+						//if (Device.DriverType != GKDriverType.MPT)
+						//{
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
+						//}
 						break;
 
 					case ClauseOperationType.AllGuardZones:
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 						};
 						break;
 				}
-				if (StateTypes.Any(x=>x.StateBit == oldSelectedStateType))
+				if (StateTypes.Any(x => x.StateBit == oldSelectedStateType))
 				{
 					SelectedStateType = StateTypes.FirstOrDefault(x => x.StateBit == oldSelectedStateType);
 				}
@@ -251,13 +251,11 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (Device.DriverType != GKDriverType.GKRele)
+				if (Device != null && Device.DriverType != GKDriverType.GKRele)
 				{
 					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
 						continue;
 				}
-				//if (device.UID == Device.UID)
-				//    continue;
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType.StateBit))
 					sourceDevices.Add(device);
 			}
@@ -309,7 +307,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(mptsSelectationViewModel))
 			{
 				MPTs = mptsSelectationViewModel.MPTs;
-				OnPropertyChanged("PresenrationMPTs");
+				OnPropertyChanged(() => PresenrationMPTs);
 			}
 		}
 
@@ -320,7 +318,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(delaysSelectationViewModel))
 			{
 				Delays = delaysSelectationViewModel.Delays;
-				OnPropertyChanged("PresenrationDelays");
+				OnPropertyChanged(() => PresenrationDelays);
 			}
 		}
 	}

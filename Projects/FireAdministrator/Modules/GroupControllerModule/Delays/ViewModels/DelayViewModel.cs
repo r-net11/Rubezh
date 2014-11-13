@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var logicViewModel = new LogicViewModel(GKManager.DeviceConfiguration.RootDevice, Delay.Logic, true, false);
+			var logicViewModel = new LogicViewModel(null, Delay.Logic, true);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				Delay.Logic = logicViewModel.GetModel();

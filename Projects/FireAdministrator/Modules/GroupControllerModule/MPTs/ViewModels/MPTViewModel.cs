@@ -177,7 +177,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var logicViewModel = new LogicViewModel(GKManager.DeviceConfiguration.RootDevice, MPT.StartLogic, false, false);
+			var logicViewModel = new LogicViewModel(null, MPT.StartLogic);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.StartLogic = logicViewModel.GetModel();
