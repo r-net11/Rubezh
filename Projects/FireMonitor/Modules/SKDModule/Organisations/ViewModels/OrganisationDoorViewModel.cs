@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using System;
 
 namespace SKDModule.ViewModels
 {
@@ -55,6 +55,12 @@ namespace SKDModule.ViewModels
 						OnPropertyChanged(() => IsChecked);
 						return;
 					}
+					if (HasLinkedSchedules())
+					{
+						MessageBoxService.Show("Операция запрещена\nСуществуют графики работ, привязанные к данной точке доступа");
+						OnPropertyChanged(() => IsChecked);
+						return;
+					}
 					if (Organisation.DoorUIDs.Contains(DoorUID))
 					{
 						Organisation.DoorUIDs.Remove(DoorUID);
@@ -80,6 +86,14 @@ namespace SKDModule.ViewModels
 			if (accessTemplates == null)
 				return false;
 			return accessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID));
+		}
+
+		bool HasLinkedSchedules()
+		{
+			var schedules = ScheduleHelper.Get(new ScheduleFilter());
+			if (schedules == null)
+				return false;
+			return schedules.Any(x => x.OrganisationUID == Organisation.UID && x.Zones.Any(y => y.DoorUID == DoorUID));
 		}
 	}
 }

@@ -111,10 +111,6 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, reason));
 		}
-		public OperationResult MarkDeletedCard(Guid uid)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCard(uid));
-		}
 		public OperationResult DeletedCard(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletedCard(uid));
@@ -160,10 +156,6 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationDoors(Organisation organisation)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationDoors(organisation));
-		}
-		public OperationResult SaveOrganisationZones(Organisation organisation)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organisation));
 		}
 		public OperationResult SaveOrganisationUsers(Organisation organisation)
 		{
@@ -374,5 +366,10 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestorePassCardTemplate(uid, name));
 		}
 		#endregion
+
+		public OperationResult ResetSKDDatabase()
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.ResetSKDDatabase());
+		}
 	}
 }

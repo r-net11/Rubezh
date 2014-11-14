@@ -14,6 +14,7 @@ namespace SKDModule.ViewModels
 	public class OrganisationsViewModel : BaseViewModel
 	{
 		LogicalDeletationType _logicalDeletationType;
+		public bool IsWithDeleted { get { return _logicalDeletationType == LogicalDeletationType.All; } }
 		
 		public OrganisationsViewModel()
 		{
@@ -26,6 +27,7 @@ namespace SKDModule.ViewModels
 		public void Initialize(LogicalDeletationType logicalDeletationType)
 		{
 			_logicalDeletationType = logicalDeletationType;
+			OnPropertyChanged(() => IsWithDeleted);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			var organisations = OrganisationHelper.Get(new OrganisationFilter { LogicalDeletationType = _logicalDeletationType });
 			if (organisations != null)
@@ -61,30 +63,16 @@ namespace SKDModule.ViewModels
 
 				if (value != null)
 				{
-					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
 					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
 				}
 				else
 				{
-					OrganisationZonesViewModel = null;
 					OrganisationDoorsViewModel = null;
 					OrganisationUsersViewModel = null;
 				}
 
-				HasOrganisationZones = OrganisationZonesViewModel != null && OrganisationZonesViewModel.Items.Count > 0;
 				HasOrganisationDoors = OrganisationDoorsViewModel != null && OrganisationDoorsViewModel.Items.Count > 0;
-			}
-		}
-
-		OrganisationZonesViewModel _organisationZonesViewModel;
-		public OrganisationZonesViewModel OrganisationZonesViewModel
-		{
-			get { return _organisationZonesViewModel; }
-			set
-			{
-				_organisationZonesViewModel = value;
-				OnPropertyChanged(() => OrganisationZonesViewModel);
 			}
 		}
 
@@ -107,17 +95,6 @@ namespace SKDModule.ViewModels
 			{
 				_organisationUsersViewModel = value;
 				OnPropertyChanged(() => OrganisationUsersViewModel);
-			}
-		}
-
-		bool _hasOrganisationZones;
-		public bool HasOrganisationZones
-		{
-			get { return _hasOrganisationZones; }
-			set
-			{
-				_hasOrganisationZones = value;
-				OnPropertyChanged(() => HasOrganisationZones);
 			}
 		}
 
@@ -215,7 +192,6 @@ namespace SKDModule.ViewModels
 
 		void SetItemsCanSelect(bool canSelect)
 		{
-			OrganisationZonesViewModel.CanSelect = canSelect;
 			OrganisationDoorsViewModel.CanSelect = canSelect;
 			OrganisationUsersViewModel.CanSelect = canSelect;
 		}

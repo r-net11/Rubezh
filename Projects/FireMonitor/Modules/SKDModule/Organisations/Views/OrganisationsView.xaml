@@ -43,8 +43,8 @@
 					</StackPanel>
 				</Grid>
 			</TabItem>
-            <TabItem Header="Точки доступа" Visibility="{Binding HasOrganisationDoors, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid DataContext="{Binding OrganisationDoorsViewModel}">
+			<TabItem Header="Точки доступа" Visibility="{Binding HasOrganisationDoors, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid DataContext="{Binding OrganisationDoorsViewModel}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
 						<RowDefinition Height="Auto" />
@@ -55,28 +55,6 @@
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
 									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding PresentationName}" Margin="2" />
-								</StackPanel>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-					<StackPanel Grid.Row="1" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
-					</StackPanel>
-				</Grid>
-			</TabItem>
-            <TabItem Header="Зоны СКД" Visibility="{Binding HasOrganisationZones, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid DataContext="{Binding OrganisationZonesViewModel}">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<ListBox Grid.Row="0" Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" IsEnabled="{Binding CanSelect}">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{Binding Zone.PresentationName}" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>

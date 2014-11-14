@@ -122,6 +122,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
     <Compile Include="Automation\ProcedureRunner.cs" />
+    <Compile Include="PatchManager\PatchManager.SKD.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
     <Compile Include="Service\FiresecService.Automation.cs" />
     <Compile Include="Service\DBHelper\DBHelper.cs" />
-    <Compile Include="PatchManager.cs" />
+    <Compile Include="PatchManager\PatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />

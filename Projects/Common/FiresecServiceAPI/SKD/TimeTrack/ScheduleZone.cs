@@ -11,5 +11,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid ZoneUID { get; set; }
+
+		[DataMember]
+		public Guid DoorUID { get; set; }
 	}
 }

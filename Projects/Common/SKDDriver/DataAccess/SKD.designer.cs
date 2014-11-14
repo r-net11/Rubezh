@@ -78,9 +78,6 @@ namespace SKDDriver.DataAccess
     partial void InsertOrganisationUser(OrganisationUser instance);
     partial void UpdateOrganisationUser(OrganisationUser instance);
     partial void DeleteOrganisationUser(OrganisationUser instance);
-    partial void InsertOrganisationZone(OrganisationZone instance);
-    partial void UpdateOrganisationZone(OrganisationZone instance);
-    partial void DeleteOrganisationZone(OrganisationZone instance);
     partial void InsertPassCardTemplate(PassCardTemplate instance);
     partial void UpdatePassCardTemplate(PassCardTemplate instance);
     partial void DeletePassCardTemplate(PassCardTemplate instance);
@@ -274,14 +271,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<OrganisationUser>();
-			}
-		}
-		
-		public System.Data.Linq.Table<OrganisationZone> OrganisationZones
-		{
-			get
-			{
-				return this.GetTable<OrganisationZone>();
 			}
 		}
 		
@@ -1297,10 +1286,6 @@ namespace SKDDriver.DataAccess
 		
 		private string _StopReason;
 		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
 		private System.Nullable<System.Guid> _PassCardTemplateUID;
 		
 		private string _Password;
@@ -1343,10 +1328,6 @@ namespace SKDDriver.DataAccess
     partial void OnIsInStopListChanged();
     partial void OnStopReasonChanging(string value);
     partial void OnStopReasonChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
     partial void OnPassCardTemplateUIDChanging(System.Nullable<System.Guid> value);
     partial void OnPassCardTemplateUIDChanged();
     partial void OnPasswordChanging(string value);
@@ -1554,46 +1535,6 @@ namespace SKDDriver.DataAccess
 					this._StopReason = value;
 					this.SendPropertyChanged("StopReason");
 					this.OnStopReasonChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
 				}
 			}
 		}
@@ -5287,8 +5228,6 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<OrganisationUser> _OrganisationUsers;
 		
-		private EntitySet<OrganisationZone> _OrganisationZones;
-		
 		private EntitySet<PassCardTemplate> _PassCardTemplates;
 		
 		private EntitySet<Position> _Positions;
@@ -5340,7 +5279,6 @@ namespace SKDDriver.DataAccess
 			this._NightSettings = new EntitySet<NightSetting>(new Action<NightSetting>(this.attach_NightSettings), new Action<NightSetting>(this.detach_NightSettings));
 			this._OrganisationDoors = new EntitySet<OrganisationDoor>(new Action<OrganisationDoor>(this.attach_OrganisationDoors), new Action<OrganisationDoor>(this.detach_OrganisationDoors));
 			this._OrganisationUsers = new EntitySet<OrganisationUser>(new Action<OrganisationUser>(this.attach_OrganisationUsers), new Action<OrganisationUser>(this.detach_OrganisationUsers));
-			this._OrganisationZones = new EntitySet<OrganisationZone>(new Action<OrganisationZone>(this.attach_OrganisationZones), new Action<OrganisationZone>(this.detach_OrganisationZones));
 			this._PassCardTemplates = new EntitySet<PassCardTemplate>(new Action<PassCardTemplate>(this.attach_PassCardTemplates), new Action<PassCardTemplate>(this.detach_PassCardTemplates));
 			this._Positions = new EntitySet<Position>(new Action<Position>(this.attach_Positions), new Action<Position>(this.detach_Positions));
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
@@ -5661,19 +5599,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationZone", Storage="_OrganisationZones", ThisKey="UID", OtherKey="OrganisationUID")]
-		public EntitySet<OrganisationZone> OrganisationZones
-		{
-			get
-			{
-				return this._OrganisationZones;
-			}
-			set
-			{
-				this._OrganisationZones.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_PassCardTemplate", Storage="_PassCardTemplates", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<PassCardTemplate> PassCardTemplates
 		{
@@ -5964,18 +5889,6 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_OrganisationUsers(OrganisationUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organisation = null;
-		}
-		
-		private void attach_OrganisationZones(OrganisationZone entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organisation = this;
-		}
-		
-		private void detach_OrganisationZones(OrganisationZone entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organisation = null;
@@ -6312,157 +6225,6 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.OrganisationUsers.Add(this);
-						this._OrganisationUID = value.UID;
-					}
-					else
-					{
-						this._OrganisationUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("Organisation");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrganisationZone")]
-	public partial class OrganisationZone : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Guid _ZoneUID;
-		
-		private System.Guid _OrganisationUID;
-		
-		private EntityRef<Organisation> _Organisation;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnZoneUIDChanging(System.Guid value);
-    partial void OnZoneUIDChanged();
-    partial void OnOrganisationUIDChanging(System.Guid value);
-    partial void OnOrganisationUIDChanged();
-    #endregion
-		
-		public OrganisationZone()
-		{
-			this._Organisation = default(EntityRef<Organisation>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ZoneUID
-		{
-			get
-			{
-				return this._ZoneUID;
-			}
-			set
-			{
-				if ((this._ZoneUID != value))
-				{
-					this.OnZoneUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ZoneUID = value;
-					this.SendPropertyChanged("ZoneUID");
-					this.OnZoneUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid OrganisationUID
-		{
-			get
-			{
-				return this._OrganisationUID;
-			}
-			set
-			{
-				if ((this._OrganisationUID != value))
-				{
-					if (this._Organisation.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganisationUIDChanging(value);
-					this.SendPropertyChanging();
-					this._OrganisationUID = value;
-					this.SendPropertyChanged("OrganisationUID");
-					this.OnOrganisationUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationZone", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organisation Organisation
-		{
-			get
-			{
-				return this._Organisation.Entity;
-			}
-			set
-			{
-				Organisation previousValue = this._Organisation.Entity;
-				if (((previousValue != value) 
-							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organisation.Entity = null;
-						previousValue.OrganisationZones.Remove(this);
-					}
-					this._Organisation.Entity = value;
-					if ((value != null))
-					{
-						value.OrganisationZones.Add(this);
 						this._OrganisationUID = value.UID;
 					}
 					else
@@ -8591,6 +8353,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _ScheduleUID;
 		
+		private System.Guid _DoorUID;
+		
 		private EntityRef<Schedule> _Schedule;
 		
     #region Определения метода расширяемости
@@ -8603,6 +8367,8 @@ namespace SKDDriver.DataAccess
     partial void OnZoneUIDChanged();
     partial void OnScheduleUIDChanging(System.Guid value);
     partial void OnScheduleUIDChanged();
+    partial void OnDoorUIDChanging(System.Guid value);
+    partial void OnDoorUIDChanged();
     #endregion
 		
 		public ScheduleZone()
@@ -8671,6 +8437,26 @@ namespace SKDDriver.DataAccess
 					this._ScheduleUID = value;
 					this.SendPropertyChanged("ScheduleUID");
 					this.OnScheduleUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoorUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid DoorUID
+		{
+			get
+			{
+				return this._DoorUID;
+			}
+			set
+			{
+				if ((this._DoorUID != value))
+				{
+					this.OnDoorUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DoorUID = value;
+					this.SendPropertyChanged("DoorUID");
+					this.OnDoorUIDChanged();
 				}
 			}
 		}

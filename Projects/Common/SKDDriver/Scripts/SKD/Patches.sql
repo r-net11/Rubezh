@@ -1186,3 +1186,83 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('Drop_CardSubsystemType')	
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Department_Chief_Default_Name')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		DECLARE @Command nvarchar(1000)
+		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP ' + d.name
+		 FROM sys.tables t   
+		  JOIN sys.default_constraints d       
+		   ON d.parent_object_id = t.object_id  
+		  JOIN sys.columns c      
+		   ON c.object_id = t.object_id      
+			AND c.column_id = d.parent_column_id
+		 WHERE t.name = N'Department'
+		  AND c.name = N'ChiefUID'
+		EXECUTE (@Command)
+		ALTER TABLE [Department] ADD CONSTRAINT Department_ChiefUID_Default DEFAULT '00000000-0000-0000-0000-000000000000' FOR ChiefUID
+	END
+	INSERT INTO Patches (Id) VALUES ('Department_Chief_Default_Name')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Organisation_Chief_Default_Name')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Department')
+	BEGIN
+		DECLARE @Command nvarchar(1000)
+		SELECT @Command = 'ALTER TABLE Organisation DROP ' + d.name
+		 FROM sys.tables t   
+		  JOIN sys.default_constraints d       
+		   ON d.parent_object_id = t.object_id  
+		  JOIN sys.columns c      
+		   ON c.object_id = t.object_id      
+			AND c.column_id = d.parent_column_id
+		 WHERE t.name = N'Organisation'
+		  AND c.name = N'ChiefUID'
+		EXECUTE (@Command)
+		ALTER TABLE [Organisation] ADD CONSTRAINT Organisation_ChiefUID_Default DEFAULT '00000000-0000-0000-0000-000000000000' FOR ChiefUID
+		SELECT @Command = 'ALTER TABLE Organisation DROP ' + d.name
+		 FROM sys.tables t   
+		  JOIN sys.default_constraints d       
+		   ON d.parent_object_id = t.object_id  
+		  JOIN sys.columns c      
+		   ON c.object_id = t.object_id      
+			AND c.column_id = d.parent_column_id
+		 WHERE t.name = N'Organisation'
+		  AND c.name = N'HRChiefUID'
+		EXECUTE (@Command)
+		ALTER TABLE [Organisation] ADD CONSTRAINT Organisation_HRChiefUID_Default DEFAULT '00000000-0000-0000-0000-000000000000' FOR HRChiefUID
+	END
+	INSERT INTO Patches (Id) VALUES ('Organisation_Chief_Default_Name')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_table_OrganisationZone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationZone')
+	BEGIN
+		DROP TABLE OrganisationZone
+	END
+	INSERT INTO Patches (Id) VALUES ('Drop_table_OrganisationZone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_DoorUID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleZone')
+	BEGIN
+		ALTER TABLE [ScheduleZone] ADD [DoorUID] [uniqueidentifier] NOT NULL CONSTRAINT "ScheduleZone_DoorUID_Default" DEFAULT '00000000-0000-0000-0000-000000000000'
+		ALTER TABLE [ScheduleZone] ADD CONSTRAINT "ScheduleZone_ZoneUID_Default" DEFAULT '00000000-0000-0000-0000-000000000000' FOR ZoneUID
+	END
+	INSERT INTO Patches (Id) VALUES ('ScheduleZone_DoorUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Card_drop_IsDeleted')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		ALTER TABLE [Card] DROP COLUMN IsDeleted
+		ALTER TABLE [Card] DROP COLUMN RemovalDate
+	END
+	INSERT INTO Patches (Id) VALUES ('Card_drop_IsDeleted')	
+END

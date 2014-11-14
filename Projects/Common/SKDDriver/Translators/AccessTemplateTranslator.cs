@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 
@@ -33,8 +31,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Cards.Any(x => x.AccessTemplateUID == uid &&
-					x.IsDeleted == false))
+			if (Context.Cards.Any(x => x.AccessTemplateUID == uid))
 				return new OperationResult("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
 			return base.CanDelete(uid);
 		}

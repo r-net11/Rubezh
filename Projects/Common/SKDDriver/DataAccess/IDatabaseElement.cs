@@ -16,6 +16,7 @@ namespace SKDDriver.DataAccess
 	{
 		bool IsDeleted { get; set; }
 		DateTime RemovalDate { get; set; }
+		string Name { get; }
 	}
 
 	public interface IOrganisationDatabaseElement
@@ -32,11 +33,10 @@ namespace SKDDriver.DataAccess
 	public partial class DayIntervalPart : IDatabaseElement { }
 
 	public partial class Organisation : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
-	
+	public partial class Card : IDatabaseElement, ILinkedToEmployee { }
+
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Department : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class Employee : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Holiday : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class DayInterval : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Position : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
@@ -44,4 +44,8 @@ namespace SKDDriver.DataAccess
 	public partial class ScheduleScheme : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class AccessTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class PassCardTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
+	public partial class Employee : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement
+	{
+		public string Name { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
+	}
 }

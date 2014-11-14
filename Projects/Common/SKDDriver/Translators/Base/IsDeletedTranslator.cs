@@ -102,6 +102,11 @@ namespace SKDDriver
 					return new OperationResult("Не найдена запись в базе данных");
 				if (!databaseItem.IsDeleted)
 					return new OperationResult("Данная запись не удалена");
+				foreach (var item in Table)
+				{
+					if (!item.IsDeleted && IsSimilarNames(item, databaseItem))
+						return new OperationResult("Существует неудалённая запись с тем названием");
+				}
 				var beforeRestoreResult = BeforeRestore(uid, databaseItem.RemovalDate);
 				if (beforeRestoreResult.HasError)
 					return beforeRestoreResult;
@@ -113,6 +118,11 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		protected virtual bool IsSimilarNames(TableT item1, TableT item2)
+		{
+			return item1.Name == item2.Name;
 		}
 
 		protected virtual OperationResult CanRestore(Guid uid)

@@ -85,9 +85,6 @@ namespace FiresecAPI
 		OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null);
 
 		[OperationContract]
-		OperationResult MarkDeletedCard(Guid uid);
-
-		[OperationContract]
 		OperationResult DeletedCard(Guid uid);
 
 		[OperationContract]
@@ -120,9 +117,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveOrganisationDoors(Organisation organisation);
-
-		[OperationContract]
-		OperationResult SaveOrganisationZones(Organisation organisation);
 
 		[OperationContract]
 		OperationResult SaveOrganisationUsers(Organisation organisation);
@@ -279,5 +273,8 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult RestorePassCardTemplate(Guid uid, string name);
 		#endregion
+
+		[OperationContract]
+		OperationResult ResetSKDDatabase();
 	}
 }

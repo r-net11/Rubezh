@@ -43,7 +43,7 @@ namespace SKDDriver
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
 			result.AdditionalColumns = DatabaseService.AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
-			result.Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
+			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Position = DatabaseService.PositionTranslator.GetSingleShort(tableItem.PositionUID);
 			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.TabelNo = tableItem.TabelNo;
@@ -70,7 +70,7 @@ namespace SKDDriver
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
 			result.Description = tableItem.Description;
-			result.Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
+			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
 			result.TabelNo = tableItem.TabelNo;
