@@ -40,6 +40,8 @@ namespace PlansModule.ViewModels
 			if (SelectedPlan != null)
 				SelectedPlan.ExpandToThis();
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
+			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
@@ -99,6 +101,132 @@ namespace PlansModule.ViewModels
 		{
 			if (SelectedPlan == null && Plans.IsNotNullOrEmpty())
 				SelectedPlan = Plans[0];
+		}
+
+		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				if (automationCallbackResult.AutomationCallbackType != AutomationCallbackType.GetPlanProperty && automationCallbackResult.AutomationCallbackType != AutomationCallbackType.SetPlanProperty)
+					return;
+				var planArguments = (PlanCallbackData)automationCallbackResult.Data;
+				var plan = Plans.FirstOrDefault(x => x.Plan.UID == planArguments.PlanUid);
+				if (plan == null)
+					return;
+				var elementBase = GetAllElements(plan.Plan).FirstOrDefault(x => x.UID == planArguments.ElementUid);
+				if (elementBase == null)
+					return;
+				switch (automationCallbackResult.AutomationCallbackType)
+				{
+					case AutomationCallbackType.SetPlanProperty:						
+						if (elementBase is ElementBaseRectangle)
+						{
+							var element = elementBase as ElementBaseRectangle;
+							if (element != null)
+							{
+								if (planArguments.ElementPropertyType == ElementPropertyType.Height)
+									element.Height = Convert.ToDouble(planArguments.Value);
+								if (planArguments.ElementPropertyType == ElementPropertyType.Width)
+									element.Width = Convert.ToDouble(planArguments.Value);
+							}
+						}
+						if (elementBase is ElementTextBlock)
+						{
+							var element = elementBase as ElementTextBlock;
+							if (element != null)
+							{
+								if (planArguments.ElementPropertyType == ElementPropertyType.FontBold)
+									element.FontBold = Convert.ToBoolean(planArguments.Value);
+								if (planArguments.ElementPropertyType == ElementPropertyType.FontItalic)
+									element.FontItalic = Convert.ToBoolean(planArguments.Value);
+								if (planArguments.ElementPropertyType == ElementPropertyType.FontSize)
+									element.FontSize = Convert.ToDouble(planArguments.Value);
+								if (planArguments.ElementPropertyType == ElementPropertyType.ForegroundColor)
+									element.ForegroundColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
+								if (planArguments.ElementPropertyType == ElementPropertyType.Stretch)
+									element.Stretch = Convert.ToBoolean(planArguments.Value);
+								if (planArguments.ElementPropertyType == ElementPropertyType.Text)
+									element.Text = Convert.ToString(planArguments.Value);
+								if (planArguments.ElementPropertyType == ElementPropertyType.WordWrap)
+									element.WordWrap = Convert.ToBoolean(planArguments.Value);
+							}
+						}
+						if (planArguments.ElementPropertyType == ElementPropertyType.Color)
+							elementBase.BorderColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
+						if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
+							elementBase.BackgroundColor = (Color)ColorConverter.ConvertFromString(planArguments.Value.ToString());
+						if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
+							elementBase.BorderThickness = Convert.ToDouble(planArguments.Value);
+						if (planArguments.ElementPropertyType == ElementPropertyType.Left)
+							elementBase.Position = new System.Windows.Point(Convert.ToDouble(planArguments.Value), elementBase.Position.Y);
+						if (planArguments.ElementPropertyType == ElementPropertyType.Top)
+							elementBase.Position = new System.Windows.Point(elementBase.Position.X, Convert.ToDouble(planArguments.Value));
+						SelectedPlanChanged(this, EventArgs.Empty);
+						break;
+
+					case AutomationCallbackType.GetPlanProperty:
+						var value = new object();
+						if (elementBase is ElementBaseRectangle)
+						{
+							var element = elementBase as ElementBaseRectangle;
+							if (element != null)
+							{
+								if (planArguments.ElementPropertyType == ElementPropertyType.Height)
+									value = Convert.ToInt32(element.Height);
+								if (planArguments.ElementPropertyType == ElementPropertyType.Width)
+									value = Convert.ToInt32(element.Width);
+							}
+						}
+						if (elementBase is ElementTextBlock)
+						{
+							var element = elementBase as ElementTextBlock;
+							if (element != null)
+							{
+								if (planArguments.ElementPropertyType == ElementPropertyType.FontBold)
+									value = element.FontBold;
+								if (planArguments.ElementPropertyType == ElementPropertyType.FontItalic)
+									value = element.FontItalic;
+								if (planArguments.ElementPropertyType == ElementPropertyType.FontSize)
+									value = Convert.ToInt32(element.FontSize);
+								if (planArguments.ElementPropertyType == ElementPropertyType.ForegroundColor)
+									value = element.ForegroundColor;
+								if (planArguments.ElementPropertyType == ElementPropertyType.Stretch)
+									value = element.Stretch;
+								if (planArguments.ElementPropertyType == ElementPropertyType.Text)
+									value = element.Text;
+								if (planArguments.ElementPropertyType == ElementPropertyType.WordWrap)
+									value = element.WordWrap;
+							}
+						}
+						if (planArguments.ElementPropertyType == ElementPropertyType.Color)
+							value = elementBase.BorderColor;
+						if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
+							value = elementBase.BackgroundColor;
+						if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
+							value = Convert.ToInt32(elementBase.BorderThickness);
+						if (planArguments.ElementPropertyType == ElementPropertyType.Left)
+							value = Convert.ToInt32(elementBase.Position.X);
+						if (planArguments.ElementPropertyType == ElementPropertyType.Top)
+							value = Convert.ToInt32(elementBase.Position.Y);
+						FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.ProcedureUID, value);
+						break;
+				}
+			});
+		}
+
+		public static ObservableCollection<ElementBase> GetAllElements(Plan plan)
+		{
+			var elements = new ObservableCollection<ElementBase>();
+			var allElements = new List<ElementBase>(plan.ElementRectangles);
+			allElements.AddRange(plan.ElementEllipses);
+			allElements.AddRange(plan.ElementPolylines);
+			allElements.AddRange(plan.ElementTextBlocks);
+			allElements.AddRange(plan.ElementPolygons);
+			foreach (var elementRectangle in allElements)
+			{
+				elements.Add(elementRectangle);
+			}
+			return elements;
 		}
 	}
 }

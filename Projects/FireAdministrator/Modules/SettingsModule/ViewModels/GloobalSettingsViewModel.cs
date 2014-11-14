@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
+using FiresecClient;
 
 namespace SettingsModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace SettingsModule.ViewModels
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
 			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
-			ResetXLibaryCommand = new RelayCommand(OnResetXLibary);
+			ResetGKLibaryCommand = new RelayCommand(OnResetGKLibary);
 			ResetSKDLibaryCommand = new RelayCommand(OnResetSKDLibary);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
@@ -160,7 +161,7 @@ namespace SettingsModule.ViewModels
 		public string LogsFolderPath { get; private set; }
 
 		public RelayCommand SaveLogsCommand { get; private set; }
-		public void OnSaveLogs()
+		void OnSaveLogs()
 		{
 			var saveFolderPath = new FolderBrowserDialog { Description = "Choose a Folder" };
 			if (saveFolderPath.ShowDialog() != DialogResult.OK)
@@ -226,7 +227,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand RemoveLogsCommand { get; private set; }
-		public void OnRemoveLogs()
+		void OnRemoveLogs()
 		{
 			foreach (var directoryName in Directory.GetDirectories(LogsFolderPath))
 			{
@@ -238,18 +239,24 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetDatabaseCommand { get; private set; }
-		public void OnResetDatabase()
+		void OnResetDatabase()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
 			{
-				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
-				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
-				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
+				var operationResult = FiresecManager.FiresecService.ResetDB();
+				if (operationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+
+				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
+				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
+				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
 			}
 		}
 
 		public RelayCommand ResetConfigurationCommand { get; private set; }
-		public void OnResetConfiguration()
+		void OnResetConfiguration()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
 			{
@@ -257,8 +264,8 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		public RelayCommand ResetXLibaryCommand { get; private set; }
-		public void OnResetXLibary()
+		public RelayCommand ResetGKLibaryCommand { get; private set; }
+		void OnResetGKLibary()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?"))
 			{
@@ -267,7 +274,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetSKDLibaryCommand { get; private set; }
-		public void OnResetSKDLibary()
+		void OnResetSKDLibary()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?"))
 			{
@@ -276,7 +283,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetSettingsCommand { get; private set; }
-		public void OnResetSettings()
+		void OnResetSettings()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки?"))
 			{

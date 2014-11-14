@@ -523,7 +523,7 @@
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\GKClause.cs" />
     <Compile Include="XModels\Logic\GKClauseGroup.cs" />
-    <Compile Include="XModels\Logic\GKDeviceLogic.cs" />
+    <Compile Include="XModels\Logic\GKLogic.cs" />
     <Compile Include="XModels\MPT\GKMPTDevice.cs" />
     <Compile Include="XModels\MPT\GKMPTDeviceType.cs" />
     <Compile Include="XModels\MPT\GKMPT.cs" />

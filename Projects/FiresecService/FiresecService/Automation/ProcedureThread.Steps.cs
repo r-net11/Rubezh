@@ -13,6 +13,7 @@ using Property = FiresecAPI.Automation.Property;
 using FiresecAPI.AutomationCallback;
 using System.Threading;
 using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecService
 {
@@ -114,11 +115,16 @@ namespace FiresecService
 		void ControlPlan(ProcedureStep procedureStep)
 		{
 			var controlPlanArguments = procedureStep.ControlPlanArguments;
-			AutomationCallbackType callbackType;
+			var callbackType = new AutomationCallbackType();
 			object value = null;
 
-			callbackType = AutomationCallbackType.SetPlanProperty;
-			value = GetValue<object>(controlPlanArguments.ValueArgument);
+			if (controlPlanArguments.ControlVisualType == ControlVisualType.Get)
+				callbackType = AutomationCallbackType.GetPlanProperty;
+			if (controlPlanArguments.ControlVisualType == ControlVisualType.Set)
+			{
+				callbackType = AutomationCallbackType.SetPlanProperty;
+				value = GetValue<object>(controlPlanArguments.ValueArgument);
+			}
 
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
@@ -131,6 +137,11 @@ namespace FiresecService
 					Value = value,
 				},
 			};
+			if (controlPlanArguments.ControlVisualType == ControlVisualType.Get)
+			{
+				value = SendCallback(controlPlanArguments, automationCallbackResult, true);
+				SetValue(controlPlanArguments.ValueArgument, value);
+			}
 			SendCallback(controlPlanArguments, automationCallbackResult);
 		}
 
@@ -825,9 +836,24 @@ namespace FiresecService
 				if (enumType == EnumType.JournalObjectType)
 					result = explicitValue.JournalObjectTypeValue;
 				if (enumType == EnumType.ColorType)
-					result = explicitValue.ColorValue;
+					result = explicitValue.ColorValue.ToString();
 			}
 			return (T)result;
+		}
+
+		public static List<ElementBase> GetAllElements(Plan plan)
+		{
+			var elements = new List<ElementBase>();
+			var allElements = new List<ElementBase>(plan.ElementRectangles);
+			allElements.AddRange(plan.ElementEllipses);
+			allElements.AddRange(plan.ElementPolylines);
+			allElements.AddRange(plan.ElementTextBlocks);
+			allElements.AddRange(plan.ElementPolygons);
+			foreach (var elementRectangle in allElements)
+			{
+				elements.Add(elementRectangle);
+			}
+			return elements;
 		}
 	}
 }

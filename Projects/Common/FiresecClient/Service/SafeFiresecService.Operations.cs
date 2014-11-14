@@ -79,5 +79,10 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.GetServerTasks(); }, "GetServerTasks");
 		}
+
+		public OperationResult ResetDB()
+		{
+			return SafeOperationCall(() => { return FiresecService.ResetDB(); }, "ResetDB");
+		}
 	}
 }

@@ -24,27 +24,24 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (Delay.DeviceLogic.ClausesGroup.Clauses.Count > 0)
+			if (Delay.Logic.OnClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.DeviceLogic.ClausesGroup);
-				if (Delay.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
+				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup);
+				if (!Delay.Logic.UseOffCounterLogic && Delay.Logic.OffClausesGroup.Clauses.Count + Delay.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddStandardTurning(Delay);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
 				}
 				else
 				{
-					Formula.AddGetBit(GKStateBit.Norm, Delay);
-					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
+					Formula.AddStandardTurning(Delay);
 				}
 			}
-			if (Delay.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
+			if (!Delay.Logic.UseOffCounterLogic && Delay.Logic.OffClausesGroup.Clauses.Count + Delay.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.DeviceLogic.OffClausesGroup);
-				Formula.AddGetBit(GKStateBit.Norm, Delay);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
+				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
 			}
+			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}
 

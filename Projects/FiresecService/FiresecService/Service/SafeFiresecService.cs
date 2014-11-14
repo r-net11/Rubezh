@@ -112,6 +112,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetServerTasks(); }, "GetServerTasks");
 		}
 
+		public OperationResult ResetDB()
+		{
+			return SafeOperationCall(() => { return FiresecService.ResetDB(); }, "ResetDB");
+		}
+
 		public List<CallbackResult> Poll(Guid uid)
 		{
 			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));

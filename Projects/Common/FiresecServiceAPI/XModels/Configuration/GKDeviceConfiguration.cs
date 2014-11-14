@@ -175,49 +175,49 @@ namespace FiresecAPI.GK
 
 			foreach (var delay in Delays)
 			{
-				result &= ValidateDeviceLogic(delay.DeviceLogic);
+				result &= ValidateLogic(delay.Logic);
 			}
 			foreach (var mpt in MPTs)
 			{
-				result &= ValidateDeviceLogic(mpt.StartLogic);
+				result &= ValidateLogic(mpt.StartLogic);
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
 				}
 			}
 			foreach (var device in Devices)
 			{
-				result &= ValidateDeviceLogic(device.DeviceLogic);
-				result &= ValidateDeviceLogic(device.NSLogic);
+				result &= ValidateLogic(device.Logic);
+				result &= ValidateLogic(device.NSLogic);
 			}
 			foreach (var pumpStation in PumpStations)
 			{
-				result &= ValidateDeviceLogic(pumpStation.StartLogic);
-				result &= ValidateDeviceLogic(pumpStation.StopLogic);
-				result &= ValidateDeviceLogic(pumpStation.AutomaticOffLogic);
+				result &= ValidateLogic(pumpStation.StartLogic);
+				result &= ValidateLogic(pumpStation.StopLogic);
+				result &= ValidateLogic(pumpStation.AutomaticOffLogic);
 			}
 			foreach (var parameterTemplate in ParameterTemplates)
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					result &= ValidateDeviceLogic(deviceParameterTemplate.GKDevice.DeviceLogic);
-					result &= ValidateDeviceLogic(deviceParameterTemplate.GKDevice.NSLogic);
+					result &= ValidateLogic(deviceParameterTemplate.GKDevice.Logic);
+					result &= ValidateLogic(deviceParameterTemplate.GKDevice.NSLogic);
 				}
 			}
 			return result;
 		}
 
-		bool ValidateDeviceLogic(GKDeviceLogic deviceLogic)
+		bool ValidateLogic(GKLogic logic)
 		{
 			var result = true;
 
-			if (deviceLogic.ClausesGroup == null)
+			if (logic.OnClausesGroup == null)
 			{
-				deviceLogic.ClausesGroup = new GKClauseGroup();
+				logic.OnClausesGroup = new GKClauseGroup();
 				result = false;
 			}
-			if (deviceLogic.OffClausesGroup == null)
+			if (logic.OffClausesGroup == null)
 			{
-				deviceLogic.OffClausesGroup = new GKClauseGroup();
+				logic.OffClausesGroup = new GKClauseGroup();
 				result = false;
 			}
 			return result;

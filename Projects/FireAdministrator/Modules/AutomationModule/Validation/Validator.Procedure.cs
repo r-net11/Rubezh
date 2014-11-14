@@ -171,7 +171,7 @@ namespace AutomationModule.Validation
 					{
 						var controlGKDeviceArguments = step.ControlGKDeviceArguments;
 						var gkDevice = GKManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == controlGKDeviceArguments.GKDeviceArgument.ExplicitValue.UidValue);
-						if (gkDevice != null && gkDevice.DeviceLogic.ClausesGroup.Clauses.Count > 0)
+						if (gkDevice != null && gkDevice.Logic.OnClausesGroup.Clauses.Count > 0)
 							Errors.Add(new ProcedureStepValidationError(step, "Исполнительное устройство содержит собственную логику" + step.Name, ValidationErrorLevel.Warning));
 						ValidateArgument(step, controlGKDeviceArguments.GKDeviceArgument);
 					}
@@ -325,6 +325,14 @@ namespace AutomationModule.Validation
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент макета", ValidationErrorLevel.CannotSave));
 					else if (!controlVisualArguments.Property.HasValue)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбрано свойство", ValidationErrorLevel.CannotSave));
+					break;
+				case ProcedureStepType.ControlPlan:
+					var controlPlanArguments = step.ControlPlanArguments;
+					ValidateArgument(step, controlPlanArguments.ValueArgument);
+					if (controlPlanArguments.PlanUid == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран план", ValidationErrorLevel.CannotSave));
+					else if (controlPlanArguments.ElementUid == Guid.Empty)
+						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
 					break;
 			}
 			foreach (var childStep in step.Children)

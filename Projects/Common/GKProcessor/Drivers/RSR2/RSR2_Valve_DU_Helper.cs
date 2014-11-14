@@ -20,6 +20,9 @@ namespace GKProcessor
 				IsPlaceable = true
 			};
 			GKDriversHelper.AddControlAvailableStates(driver);
+			driver.AvailableStateBits.Add(GKStateBit.Off);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
@@ -87,8 +90,8 @@ namespace GKProcessor
 				IsHieghByte = true,
 				Mask = 8
 			};
-			GKDriversHelper.AddPropertyParameter(property93, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property93, "Есть", 8);
+			GKDriversHelper.AddPropertyParameter(property93, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property93, "Контакт НЗ", 8);
 			driver.Properties.Add(property93);
 
 			var property94 = new GKDriverProperty()
@@ -113,8 +116,8 @@ namespace GKProcessor
 				IsHieghByte = true,
 				Mask = 32
 			};
-			GKDriversHelper.AddPropertyParameter(property95, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property95, "Есть", 32);
+			GKDriversHelper.AddPropertyParameter(property95, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property95, "Контакт НЗ", 32);
 			driver.Properties.Add(property95);
 
 			var property96 = new GKDriverProperty()
@@ -169,9 +172,6 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property99, "Закрыто", 0);
 			GKDriversHelper.AddPropertyParameter(property99, "Открыто", 2);
 			driver.Properties.Add(property99);
-
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 
 			return driver;
 		}

@@ -146,16 +146,16 @@ namespace FiresecAPI.GK
 		{
 			foreach (var device in Devices)
 			{
-				InvalidateOneLogic(device, device.DeviceLogic);
+				InvalidateOneLogic(device, device.Logic);
 				if (device.NSLogic != null)
 					InvalidateOneLogic(device, device.NSLogic);
 			}
 		}
 
-		public void InvalidateOneLogic(GKDevice device, GKDeviceLogic deviceLogic)
+		public void InvalidateOneLogic(GKDevice device, GKLogic logic)
 		{
-			InvalidateInputObjectsBaseLogic(device, deviceLogic);
-			foreach (var clause in deviceLogic.ClausesGroup.Clauses)
+			InvalidateInputObjectsBaseLogic(device, logic);
+			foreach (var clause in logic.OnClausesGroup.Clauses)
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
@@ -167,7 +167,19 @@ namespace FiresecAPI.GK
 					device.Directions.Add(clauseDirection);
 				}
 			}
-			foreach (var clause in device.DeviceLogic.OffClausesGroup.Clauses)
+			foreach (var clause in device.Logic.OffClausesGroup.Clauses)
+			{
+				foreach (var clauseZone in clause.Zones)
+				{
+					clauseZone.DevicesInLogic.Add(device);
+				}
+				foreach (var clauseDirection in clause.Directions)
+				{
+					clauseDirection.OutputDevices.Add(device);
+					device.Directions.Add(clauseDirection);
+				}
+			}
+			foreach (var clause in device.Logic.StopClausesGroup.Clauses)
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
@@ -271,14 +283,15 @@ namespace FiresecAPI.GK
 		{
 			foreach (var delay in Delays)
 			{
-				InvalidateInputObjectsBaseLogic(delay, delay.DeviceLogic);
+				InvalidateInputObjectsBaseLogic(delay, delay.Logic);
 			}
 		}
 
-		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKDeviceLogic deviceLogic)
+		public void InvalidateInputObjectsBaseLogic(GKBase gkBase, GKLogic logic)
 		{
-			deviceLogic.ClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, deviceLogic.ClausesGroup);
-			deviceLogic.OffClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, deviceLogic.OffClausesGroup);
+			logic.OnClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OnClausesGroup);
+			logic.OffClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.OffClausesGroup);
+			logic.StopClausesGroup = InvalidateOneInputObjectsBaseLogic(gkBase, logic.StopClausesGroup);
 		}
 
 		public GKClauseGroup InvalidateOneInputObjectsBaseLogic(GKBase gkBase, GKClauseGroup clauseGroup)
@@ -534,7 +547,7 @@ namespace FiresecAPI.GK
 			if (mptDevice.Device != null)
 			{
 				mptDevice.Device.IsInMPT = true;
-				GKManager.ChangeDeviceLogic(mptDevice.Device, new GKDeviceLogic());
+				GKManager.ChangeLogic(mptDevice.Device, new GKLogic());
 				mptDevice.Device.ZoneUIDs = new List<Guid>();
 				mptDevice.Device.Zones.Clear();
 			}

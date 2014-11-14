@@ -270,6 +270,11 @@ namespace AutomationModule.ViewModels
 			Update(variables, explicitTypes, enumTypes, objectTypes, isList);
 		}
 
+		public void Update()
+		{
+			OnPropertyChanged(() => VariableScopes);
+		}
+
 		public ObservableCollection<VariableScope> VariableScopes { get; set; }
 		public VariableScope SelectedVariableScope
 		{

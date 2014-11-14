@@ -5,6 +5,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
+using Infrastructure.Common.Services;
+using Infrustructure.Plans.Events;
 
 namespace AutomationModule.ViewModels
 {
@@ -20,6 +22,14 @@ namespace AutomationModule.ViewModels
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent);
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			ControlVisualTypes = ProcedureHelper.GetEnumObs<ControlVisualType>();
+			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsChanged);
+		}
+
+		private void OnElementsChanged(List<ElementBase> elements)
+		{
+			UpdateContent();
 		}
 
 		public ObservableCollection<PlanViewModel> Plans { get; private set; }
@@ -82,6 +92,13 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ControlPlanArguments.ControlVisualType = value;
+				if (value == ControlVisualType.Get)
+					ValueArgument.VariableScopes = new ObservableCollection<VariableScope> { VariableScope.LocalVariable, VariableScope.GlobalVariable };
+				else
+					ValueArgument.VariableScopes = ProcedureHelper.GetEnumObs<VariableScope>();
+				if (ValueArgument.VariableScopes.All(x => x != ValueArgument.SelectedVariableScope))
+					ValueArgument.SelectedVariableScope = ValueArgument.VariableScopes.FirstOrDefault();
+				ValueArgument.Update();
 				OnPropertyChanged(() => SelectedControlVisualType);
 			}
 		}

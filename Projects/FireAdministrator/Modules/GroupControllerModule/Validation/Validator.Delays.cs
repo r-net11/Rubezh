@@ -14,7 +14,6 @@ namespace GKModule.Validation
 			foreach (var delay in GKManager.Delays)
 			{
 				ValidateDelay(delay);
-				ValidateDelaySelfLogic(delay);
 			}
 		}
 
@@ -32,12 +31,6 @@ namespace GKModule.Validation
 		{
 			if (string.IsNullOrEmpty(delay.Name))
 				Errors.Add(new DelayValidationError(delay, "Пустое название", ValidationErrorLevel.CannotWrite));
-		}
-
-		void ValidateDelaySelfLogic(GKDelay delay)
-		{
-			if(delay.ClauseInputDelays.Contains(delay))
-				Errors.Add(new DelayValidationError(delay, "Задержка зависит от самой себя", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

@@ -37,6 +37,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		List<ServerTask> GetServerTasks();
+
+		[OperationContract]
+		OperationResult ResetDB();
 		#endregion
 
 		#region Journal

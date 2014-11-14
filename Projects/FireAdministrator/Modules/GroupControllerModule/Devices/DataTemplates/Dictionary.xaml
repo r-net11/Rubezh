@@ -12,8 +12,8 @@
         <Views:RSR2NewDeviceView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceLogicViewModel}">
-        <Views:DeviceLogicView />
+    <DataTemplate DataType="{x:Type ViewModels:LogicViewModel}">
+        <Views:LogicView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:DevicesOnShleifViewModel}">

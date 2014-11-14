@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				Device.IsNotUsed = !value;
-				GKManager.ChangeDeviceLogic(Device, new GKDeviceLogic());
+				GKManager.ChangeLogic(Device, new GKLogic());
 				OnPropertyChanged(() => IsUsed);
 				OnPropertyChanged(() => ShowOnPlan);
 				OnPropertyChanged(() => PresentationZone);
@@ -358,10 +358,13 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.DeviceLogic);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var hasOnNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOnNow_InManual);
+			var hasOffNowClause = Device.Driver.AvailableCommandBits.Contains(GKStateBit.TurnOffNow_InManual);
+			var hasStopClause = Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV;
+			var logicViewModel = new LogicViewModel(Device, Device.Logic, true, hasOnNowClause, hasOffNowClause, hasStopClause);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				GKManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
+				GKManager.ChangeLogic(Device, logicViewModel.GetModel());
 				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -425,10 +428,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowNSLogicCommand { get; private set; }
 		void OnShowNSLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.NSLogic, false);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(Device, Device.NSLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Device.NSLogic = deviceLogicViewModel.GetModel();
+				Device.NSLogic = logicViewModel.GetModel();
 				OnPropertyChanged("NSPresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}

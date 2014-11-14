@@ -12,7 +12,7 @@ namespace FiresecAPI.GK
 	{
 		public GKMPT()
 		{
-			StartLogic = new GKDeviceLogic();
+			StartLogic = new GKLogic();
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 10;
 			Devices = new List<GKDevice>();
@@ -43,7 +43,7 @@ namespace FiresecAPI.GK
 		/// Логика включения
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic StartLogic { get; set; }
+		public GKLogic StartLogic { get; set; }
 
 		/// <summary>
 		/// Устройства МПТ
