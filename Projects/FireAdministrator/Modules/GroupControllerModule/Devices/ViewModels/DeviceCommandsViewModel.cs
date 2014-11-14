@@ -350,10 +350,7 @@ namespace GKModule.Models
 						AutoSearchDevicesViewModel autoSearchDevicesViewModel = null;
 						WaitHelper.Execute(() =>
 						{
-							//DescriptorsManager.Create();
-							//result.Result.UpdateConfiguration();
-							//result.Result.PrepareDescriptors();
-							autoSearchDevicesViewModel = new AutoSearchDevicesViewModel(result.Result);
+							autoSearchDevicesViewModel = new AutoSearchDevicesViewModel(result.Result, SelectedDevice.Device);
 						});
 						LoadingService.Close();
 						if (DialogService.ShowModalWindow(autoSearchDevicesViewModel))

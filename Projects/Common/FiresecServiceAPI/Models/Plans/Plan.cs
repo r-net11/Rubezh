@@ -157,6 +157,34 @@ namespace FiresecAPI.Models
 				return union;
 			}
 		}
+		[XmlIgnore]
+		public IEnumerable<ElementBase> SimpleElements
+		{
+			get
+			{
+				foreach(var element in ElementRectangles)
+					yield return element;
+				foreach (var element in ElementEllipses)
+					yield return element;
+				foreach (var element in ElementPolylines)
+					yield return element;
+				foreach (var element in ElementPolygons)
+					yield return element;
+				foreach (var element in ElementTextBlocks)
+					yield return element;
+			}
+		}
+		[XmlIgnore]
+		public IEnumerable<ElementBase> AllElements
+		{
+			get
+			{
+				foreach (var element in ElementUnion)
+					yield return element;
+				foreach (var element in SimpleElements)
+					yield return element;
+			}
+		}
 
 		[XmlIgnore]
 		public bool AllowTransparent

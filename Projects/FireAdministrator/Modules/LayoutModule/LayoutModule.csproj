@@ -108,6 +108,11 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyTextPageViewModel.cs" />
+    <Compile Include="LayoutParts\ViewModels\LayoutPartTextViewModel.cs" />
+    <Compile Include="LayoutParts\Views\LayoutPartPropertyTextPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyTextPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\LayoutValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="LayoutParts\ViewModels\LayoutPartPropertyTemplateContainerPageViewModel.cs" />
@@ -250,6 +255,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="LayoutParts\Views\LayoutPartPropertyTemplateContainerPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LayoutParts\Views\LayoutPartPropertyTextPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

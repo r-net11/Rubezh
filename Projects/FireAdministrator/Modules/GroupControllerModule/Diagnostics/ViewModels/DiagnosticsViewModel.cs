@@ -65,15 +65,10 @@ namespace GKModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			foreach (var device in GKManager.Devices)
+			var gkDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+			if (gkDevice != null)
 			{
-				var newUID = GuidHelper.CreateOn(device.UID, 0);
-				Trace.WriteLine(device.UID + "	" + newUID);
 			}
-			return;
-
-			var baseUID = GKManager.Devices.FirstOrDefault().UID;
-			return;
 		}
 
 		public RelayCommand GoToTechnologicalCommand { get; private set; }

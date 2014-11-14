@@ -5,6 +5,7 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {

@@ -12,7 +12,7 @@ namespace FiresecAPI.GK
 	{
 		public GKDelay()
 		{
-			DeviceLogic = new GKDeviceLogic();
+			Logic = new GKLogic();
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace FiresecAPI.GK
 		/// Логика включения
 		/// </summary>
 		[DataMember]
-		public GKDeviceLogic DeviceLogic { get; set; }
+		public GKLogic Logic { get; set; }
 
 		/// <summary>
 		/// Признак автогенерации

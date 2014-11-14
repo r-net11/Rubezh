@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = GKManager.GetPresentationZone(Delay.DeviceLogic);
+				var presentationZone = GKManager.GetPresentationZone(Delay.Logic);
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
@@ -51,10 +51,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(GKManager.DeviceConfiguration.RootDevice, Delay.DeviceLogic, true);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			var logicViewModel = new LogicViewModel(null, Delay.Logic, true);
+			if (DialogService.ShowModalWindow(logicViewModel))
 			{
-				Delay.DeviceLogic = deviceLogicViewModel.GetModel();
+				Delay.Logic = logicViewModel.GetModel();
 				OnPropertyChanged(() => PresentationLogic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

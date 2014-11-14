@@ -1,10 +1,11 @@
-﻿using System;
-using System.Linq;
-using FiresecAPI.GK;
+﻿using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
+using System;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -43,57 +44,49 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-					if (HasLinkedCards())
+					var linkedCards = new List<SKDCard>();
+					var cardsHelper = CardHelper.Get(new CardFilter());
+					if (cardsHelper != null)
 					{
-						MessageBoxService.Show("Операция запрещена\nСуществуют карты, привязанные к данной точке доступа");
-						OnPropertyChanged(() => IsChecked);
-						return;
+						linkedCards = cardsHelper.Where(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
 					}
-					if (HasLinkedAccessTemplates())
+
+					var linkedAccessTemplates = new List<AccessTemplate>();
+					var accessTemplatesHelper = AccessTemplateHelper.Get(new AccessTemplateFilter());
+					if (accessTemplatesHelper != null)
 					{
-						MessageBoxService.Show("Операция запрещена\nСуществуют шаблоны доступа, привязанные к данной точке доступа");
-						OnPropertyChanged(() => IsChecked);
-						return;
+						linkedAccessTemplates = accessTemplatesHelper.Where(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
 					}
-					if (HasLinkedSchedules())
+
+					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0)
 					{
-						MessageBoxService.Show("Операция запрещена\nСуществуют графики работ, привязанные к данной точке доступа");
-						OnPropertyChanged(() => IsChecked);
-						return;
+						if (MessageBoxService.ShowQuestion("Существуют карты или шаблоны доступа, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
+						{
+							if (Organisation.DoorUIDs.Contains(DoorUID))
+							{
+								Organisation.DoorUIDs.Remove(DoorUID);
+							}
+
+							foreach (var card in linkedCards)
+							{
+								card.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
+								CardHelper.Edit(card);
+							}
+
+							foreach (var accessTemplate in linkedAccessTemplates)
+							{
+								accessTemplate.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
+								AccessTemplateHelper.Save(accessTemplate, false);
+							}
+						}
 					}
-					if (Organisation.DoorUIDs.Contains(DoorUID))
-					{
-						Organisation.DoorUIDs.Remove(DoorUID);
-					}
+
+					OnPropertyChanged(() => IsChecked);
 				}
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
 				var saveResult = OrganisationHelper.SaveDoors(Organisation);
 			}
-		}
-
-		bool HasLinkedCards()
-		{
-			var cards = CardHelper.Get(new CardFilter());
-			if (cards == null)
-				return false;
-			return cards.Any(x => x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID));
-		}
-
-		bool HasLinkedAccessTemplates()
-		{
-			var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
-			if (accessTemplates == null)
-				return false;
-			return accessTemplates.Any(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID));
-		}
-
-		bool HasLinkedSchedules()
-		{
-			var schedules = ScheduleHelper.Get(new ScheduleFilter());
-			if (schedules == null)
-				return false;
-			return schedules.Any(x => x.OrganisationUID == Organisation.UID && x.Zones.Any(y => y.DoorUID == DoorUID));
 		}
 	}
 }

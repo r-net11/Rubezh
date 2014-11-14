@@ -38,7 +38,7 @@ namespace Infrastructure.Designer.DesignerItems
 			if (Element.IsExactly<ElementEllipse>())
 				return new EllipsePropertiesViewModel(Element as ElementEllipse);
 			if (Element.IsExactly<ElementTextBlock>())
-				return new TextBlockPropertiesViewModel(Element as ElementTextBlock);
+				return new TextBlockPropertiesViewModel(Element as ElementTextBlock, (ElementBase) Element);
 			return base.CreatePropertiesViewModel();
 		}
 	}

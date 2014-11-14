@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class DeviceLogicView : UserControl
+	public partial class LogicView : UserControl
 	{
-		public DeviceLogicView()
+		public LogicView()
 		{
 			InitializeComponent();
 		}

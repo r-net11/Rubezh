@@ -224,7 +224,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			if (SelectedDocument != null &&
 				SelectedDocument.ActivateCommand.CanExecute(null))
 			{
-				System.Diagnostics.Trace.WriteLine("OnSelectedDocumentChanged()");
+				System.Diagnostics.Debug.WriteLine("OnSelectedDocumentChanged()");
 				SelectedDocument.ActivateCommand.Execute(null);
 				Hide();
 			}

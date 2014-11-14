@@ -22,6 +22,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			BackgroundColor = _elementEllipse.BackgroundColor;
 			BorderColor = _elementEllipse.BorderColor;
 			StrokeThickness = _elementEllipse.BorderThickness;
+			PresentationName = _elementEllipse.PresentationName;
 		}
 
 		Color _backgroundColor;
@@ -46,6 +47,17 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			}
 		}
 
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
+			}
+		}
+
 		double _strokeThickness;
 		public double StrokeThickness
 		{
@@ -62,6 +74,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			_elementEllipse.BackgroundColor = BackgroundColor;
 			_elementEllipse.BorderColor = BorderColor;
 			_elementEllipse.BorderThickness = StrokeThickness;
+			_elementEllipse.PresentationName = PresentationName;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

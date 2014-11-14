@@ -36,27 +36,38 @@ namespace GKProcessor
 			{
 				if (Device.Driver.HasLogic)
 				{
-					if (Device.DeviceLogic.ClausesGroup.Clauses.Count > 0)
+					if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.ClausesGroup);
-						AddMro2MFormula();
-						if (Device.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
+						Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
+						//AddMro2MFormula();
+						if (Device.Logic.UseOffCounterLogic)
 						{
 							Formula.AddStandardTurning(Device);
 						}
 						else
 						{
-							Formula.AddGetBit(GKStateBit.Norm, Device);
-							Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
-					if (Device.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
+					if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.OffClausesGroup);
-						Formula.AddGetBit(GKStateBit.Norm, Device);
-						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+						Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
 						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+					}
+					if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup);
+						Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device);
+					}
+					if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup);
+						Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device);
+					}
+					if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
+						Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
 					}
 				}
 
@@ -83,12 +94,12 @@ namespace GKProcessor
 		{
 			if (Device.DriverType == GKDriverType.MRO_2)
 			{
-				if (Device.DeviceLogic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
+				if (Device.Logic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
 					Formula.AddArgumentPutBit(31, Device);
 				}
-				var value = (int)Device.DeviceLogic.ZoneLogicMROMessageNo;
+				var value = (int)Device.Logic.ZoneLogicMROMessageNo;
 				if ((value & 1) == 1)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);

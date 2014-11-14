@@ -16,7 +16,7 @@ namespace FiresecAPI.Models
 			WordWrap = false;
 			BorderThickness = 0;
 			BackgroundColor = Colors.Transparent;
-
+			PresentationName = "Текст";
 			Text = "Надпись";
 			ForegroundColor = Colors.Black;
 			FontSize = 10;

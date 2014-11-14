@@ -38,8 +38,8 @@
 					</controls:XAutoCompleteBox.TextBoxStyle>
 				</controls:XAutoCompleteBox>
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding DelayTime}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Hold}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding DelayTime}" Minimum="0" Maximum="65535" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Hold}" Minimum="0" Maximum="65535" Margin="2" />
 				<ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>

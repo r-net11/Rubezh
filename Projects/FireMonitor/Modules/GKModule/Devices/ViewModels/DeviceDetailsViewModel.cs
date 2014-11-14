@@ -135,13 +135,20 @@ namespace GKModule.ViewModels
 			FiresecManager.FiresecService.GKStopMeasureMonitoring(Device);
 		}
 
-
 		void OnMeasureParametersChanged()
 		{
+			MeasureParameters = new ObservableCollection<MeasureParameterViewModel>();
 			foreach (var measureParameter in Device.State.XMeasureParameterValues)
 			{
-				var measureParameterViewModel = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
-				measureParameterViewModel.StringValue = measureParameter.StringValue;
+				var measureParameterViewModel = new MeasureParameterViewModel()
+				{
+					Name = measureParameter.Name,
+					StringValue = measureParameter.StringValue
+				};
+				MeasureParameters.Add(measureParameterViewModel);
+
+				//var measureParameterViewModel = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
+				//measureParameterViewModel.StringValue = measureParameter.StringValue;
 			}
 		}
 		#endregion

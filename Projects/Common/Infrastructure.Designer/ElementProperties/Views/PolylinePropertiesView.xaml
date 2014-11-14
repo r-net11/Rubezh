@@ -11,13 +11,16 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Column="0" Grid.Row="0" Content="Цвет линии" HorizontalAlignment="Right" />
-				<Label Grid.Column="0" Grid.Row="1" Content="Ширина линии" HorizontalAlignment="Right" />
+				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
+				<Label Grid.Column="0" Grid.Row="1" Content="Цвет линии" HorizontalAlignment="Right" />
+				<Label Grid.Column="0" Grid.Row="2" Content="Ширина линии" HorizontalAlignment="Right" />
 
-				<xc:ColorPicker Grid.Column="1" Grid.Row="0" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" Minimum="0" Maximum="100" />
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalContentAlignment="Center" />
+				<xc:ColorPicker Grid.Column="1" Grid.Row="1" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" Margin="2" Minimum="0" Maximum="100" />
 			</Grid>
 		</TabItem>
 	</TabControl>

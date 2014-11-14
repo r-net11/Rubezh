@@ -227,6 +227,7 @@
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />
+    <Compile Include="Models\Layouts\LayoutPartTextProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTimeProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartProcedureProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
@@ -522,7 +523,7 @@
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\GKClause.cs" />
     <Compile Include="XModels\Logic\GKClauseGroup.cs" />
-    <Compile Include="XModels\Logic\GKDeviceLogic.cs" />
+    <Compile Include="XModels\Logic\GKLogic.cs" />
     <Compile Include="XModels\MPT\GKMPTDevice.cs" />
     <Compile Include="XModels\MPT\GKMPTDeviceType.cs" />
     <Compile Include="XModels\MPT\GKMPT.cs" />

@@ -991,26 +991,25 @@ namespace Xceed.Wpf.AvalonDock
 
 		protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
 		{
-			Trace.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
-
+			Debug.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
 			base.OnPreviewGotKeyboardFocus(e);
 		}
 
 		protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
 		{
-			Trace.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
+			Debug.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
 			base.OnPreviewLostKeyboardFocus(e);
 		}
 
 		protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
 		{
-			Trace.WriteLine(string.Format("DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition(this)));
+			Debug.WriteLine(string.Format("DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition(this)));
 			base.OnMouseLeftButtonDown(e);
 		}
 
 		protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
 		{
-			//Trace.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
+			Debug.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
 			base.OnMouseMove(e);
 		}
 
@@ -1235,7 +1234,7 @@ namespace Xceed.Wpf.AvalonDock
 
 		internal void InternalAddLogicalChild(object element)
 		{
-			Trace.WriteLine(string.Format("[{0}]InternalAddLogicalChild({1})", this, element));
+			Debug.WriteLine(string.Format("[{0}]InternalAddLogicalChild({1})", this, element));
 #if DEBUG
 			if (_logicalChildren.Select(ch => ch.GetValueOrDefault<object>()).Contains(element))
 				new InvalidOperationException();
@@ -1249,7 +1248,7 @@ namespace Xceed.Wpf.AvalonDock
 
 		internal void InternalRemoveLogicalChild(object element)
 		{
-			Trace.WriteLine(string.Format("[{0}]InternalRemoveLogicalChild({1})", this, element));
+			Debug.WriteLine(string.Format("[{0}]InternalRemoveLogicalChild({1})", this, element));
 
 			var wrToRemove = _logicalChildren.FirstOrDefault(ch => ch.GetValueOrDefault<object>() == element);
 			if (wrToRemove != null)
@@ -1270,7 +1269,7 @@ namespace Xceed.Wpf.AvalonDock
 		internal void ShowAutoHideWindow(LayoutAnchorControl anchor)
 		{
 			_autoHideWindowManager.ShowAutoHideWindow(anchor);
-			Trace.WriteLine("ShowAutoHideWindow()");
+			Debug.WriteLine("ShowAutoHideWindow()");
 		}
 
 		internal void HideAutoHideWindow(LayoutAnchorControl anchor)
@@ -1614,7 +1613,7 @@ namespace Xceed.Wpf.AvalonDock
 
 		IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
 		{
-			Trace.WriteLine("ShowOverlayWindow");
+			Debug.WriteLine("ShowOverlayWindow");
 			CreateOverlayWindow();
 			_overlayWindow.Owner = draggingWindow;
 			_overlayWindow.EnableDropTargets();
@@ -1624,7 +1623,7 @@ namespace Xceed.Wpf.AvalonDock
 
 		void IOverlayWindowHost.HideOverlayWindow()
 		{
-			Trace.WriteLine("HideOverlayWindow");
+			Debug.WriteLine("HideOverlayWindow");
 			_areas = null;
 			_overlayWindow.Owner = null;
 			_overlayWindow.HideDropTargets();
@@ -2948,7 +2947,7 @@ namespace Xceed.Wpf.AvalonDock
 			_navigatorWindow.ShowDialog();
 			_navigatorWindow = null;
 
-			Trace.WriteLine("ShowNavigatorWindow()");
+			Debug.WriteLine("ShowNavigatorWindow()");
 		}
 
 		bool IsNavigatorWindowActive
@@ -2959,7 +2958,7 @@ namespace Xceed.Wpf.AvalonDock
 
 		protected override void OnPreviewKeyDown(KeyEventArgs e)
 		{
-			Trace.WriteLine(string.Format("OnPreviewKeyDown({0})", e.Key));
+			Debug.WriteLine(string.Format("OnPreviewKeyDown({0})", e.Key));
 			if (AllowChangeLayout && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.IsDown && e.Key == Key.Tab && !IsNavigatorWindowActive)
 			{
 				ShowNavigatorWindow();

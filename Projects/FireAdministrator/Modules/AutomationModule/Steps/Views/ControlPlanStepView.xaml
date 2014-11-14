@@ -42,6 +42,16 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
+				<Label Content="Тип операции" />
+				<ComboBox ItemsSource="{Binding ControlVisualTypes}" SelectedItem="{Binding SelectedControlVisualType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
 				<Label Content="Значение" />
 				<views:ArgumentView DataContext="{Binding ValueArgument}" />
 			</StackPanel>
@@ -62,7 +72,7 @@
 					<DataGridTemplateColumn Header="Использовать" Width="Auto">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

@@ -10,9 +10,6 @@ namespace FiresecAPI.Automation
 		public ControlPlanArguments()
 		{
 			ValueArgument = new Argument();
-			LayoutUid = new Guid();
-			PlanUid = new Guid();
-			ElementUid = new Guid();
 		}
 
 		[DataMember]
@@ -40,6 +37,42 @@ namespace FiresecAPI.Automation
 		Height,
 
 		[Description("Ширина")]
-		Width
+		Width,
+		
+		[Description("Цвет")]
+		Color,
+
+		[Description("Цвет фона")]
+		BackColor,
+
+		[Description("Толщина границы")]
+		BorderThickness,
+
+		[Description("Отступ слева")]
+		Left,
+
+		[Description("Отступ сверху")]
+		Top,
+
+		[Description("Текст")]
+		Text,
+
+		[Description("Цвет текста")]
+		ForegroundColor,
+
+		[Description("Размер текста")]
+		FontSize,
+
+		[Description("Курсив")]
+		FontItalic,
+
+		[Description("Жирный")]
+		FontBold,
+
+		[Description("Растягивать")]
+		Stretch,
+
+		[Description("Переносить")]
+		WordWrap
 	}
 }

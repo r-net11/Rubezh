@@ -33,8 +33,7 @@ namespace GKModule.ViewModels
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
-		{
-			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(Plan.UID, ElementUID));
+		{			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(Plan.UID, ElementUID));
 		}
 	}
 }

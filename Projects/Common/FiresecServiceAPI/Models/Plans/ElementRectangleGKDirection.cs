@@ -9,11 +9,6 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementRectangleGKDirection : ElementBaseRectangle, IPrimitive, IElementDirection, IElementReference
 	{
-		public ElementRectangleGKDirection()
-		{
-			PresentationName = "Прямоугольник направление";
-		}
-
 		[DataMember]
 		public Guid DirectionUID { get; set; }
 

@@ -77,7 +77,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid zoneUID = IElementZone.ZoneUID;
+			Guid zoneUID = IElementZone.ZoneUID;			
 			GKPlanExtension.Instance.SetItem<GKZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();

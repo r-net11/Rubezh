@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasLogic)
 				{
-					foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
+					foreach (var clause in device.Logic.OnClausesGroup.Clauses)
 					{
 						foreach (var clauseZone in clause.Zones)
 						{

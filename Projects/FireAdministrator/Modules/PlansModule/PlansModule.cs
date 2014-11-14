@@ -16,6 +16,8 @@ using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
 using Infrastructure.Common.Validation;
 using System.Linq;
+using Infrastructure.Client;
+using Microsoft.Practices.Prism.Events;
 
 namespace PlansModule
 {
@@ -49,7 +51,9 @@ namespace PlansModule
 		{
 			return new List<NavigationItem>()
 			{
-				//new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
+#if PLAN_TAB
+				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
+#endif
 			};
 		}
         public override ModuleType ModuleType
@@ -58,12 +62,14 @@ namespace PlansModule
 		}
 		private void ShowRightContent()
 		{
+#if !PLAN_TAB
 			var viewModel = new RightContentViewModel()
 			{
 				Content = PlansViewModel,
 				Menu = PlansViewModel.Menu,
 			};
 			ServiceFactory.Layout.ShowRightContent(viewModel);
+#endif
 		}
 
 		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)
@@ -98,4 +104,9 @@ namespace PlansModule
 
         #endregion
     }
+#if PLAN_TAB
+	public class ShowPlansEvent : CompositePresentationEvent<object>
+	{
+	}
+#endif
 }

@@ -5,13 +5,13 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTextPropertyViewModel : TextBlockPropertiesViewModel
 	{
-		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element)
-			: base(element)
+		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element) : base(element, element)
 		{
 			Title = "Свойства фигуры: Текстовое свойство";
 			PropertyTypes = new ObservableCollection<PassCardTextPropertyType>(Enum.GetValues(typeof(PassCardTextPropertyType)).Cast<PassCardTextPropertyType>());

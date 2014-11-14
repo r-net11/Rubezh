@@ -13,11 +13,13 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		public List<string> TextAlignments { get; private set; }
 		public List<string> VerticalAlignments { get; private set; }
 		protected IElementTextBlock ElementTextBlock { get; private set; }
+		ElementBase ElementBase { get; set; }
 
-		public TextBlockPropertiesViewModel(IElementTextBlock elementTextBlock)
+		public TextBlockPropertiesViewModel(IElementTextBlock elementTextBlock, ElementBase elementBase)
 		{
 			Title = "Свойства фигуры: Надпись";
 			ElementTextBlock = elementTextBlock;
+			ElementBase = elementBase;
 			CopyProperties();
 
 			Fonts = new List<string>();
@@ -52,6 +54,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			TextAlignment = ElementTextBlock.TextAlignment;
 			VerticalAlignment = ElementTextBlock.VerticalAlignment;
 			WordWrap = ElementTextBlock.WordWrap;
+			PresentationName = ElementBase.PresentationName;
 		}
 
 		private string _text;
@@ -95,6 +98,17 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			{
 				_borderColor = value;
 				OnPropertyChanged(() => BorderColor);
+			}
+		}
+
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
 			}
 		}
 
@@ -215,6 +229,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			ElementTextBlock.VerticalAlignment = VerticalAlignment;
 			ElementTextBlock.WordWrap = WordWrap;
 			ElementTextBlock.Stretch = Stretch;
+			ElementBase.PresentationName = PresentationName;
 			return base.Save();
 		}
 	}

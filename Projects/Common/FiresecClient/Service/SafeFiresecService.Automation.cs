@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
+using FiresecAPI.AutomationCallback;
 
 namespace FiresecClient
 {
@@ -15,6 +16,10 @@ namespace FiresecClient
 		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
 		{
 			SafeContext.Execute(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value));
+		}
+		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)
+		{
+			return SafeContext.Execute<List<VisualPropertyData>>(() => FiresecService.GetChangedProperties(layoutUID));
 		}
 	}
 }

@@ -124,11 +124,11 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new OrganisationViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				SelectedOrganisation = organisationViewModel;
-				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
-				if (currentUserViewModel.User != null)
-				{
-					currentUserViewModel.IsChecked = true;
-				}
+				//var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
+				//if (currentUserViewModel.User != null)
+				//{
+				//    currentUserViewModel.IsChecked = true;
+				//}
 			}
 		}
 

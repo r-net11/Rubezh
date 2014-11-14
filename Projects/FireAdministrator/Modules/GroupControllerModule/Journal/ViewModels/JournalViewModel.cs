@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInXManager();
+			DescriptorsManager.CreateDynamicObjectsInGKManager();
 		}
 
 		public bool Initialize()

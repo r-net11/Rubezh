@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
+using FiresecAPI.Automation;
+using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -12,6 +15,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
@@ -62,9 +66,11 @@ namespace PlansModule.ViewModels
 				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
+			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 
-		void OnSelectPlan(Guid planUID)
+		private void OnSelectPlan(Guid planUID)
 		{
 			if (PlanTreeViewModel != null)
 			{
@@ -75,11 +81,11 @@ namespace PlansModule.ViewModels
 					PlanTreeViewModel.SelectedPlan = newPlan;
 			}
 		}
-		void SelectedPlanChanged(object sender, EventArgs e)
+		private void SelectedPlanChanged(object sender, EventArgs e)
 		{
 			OnSelectedPlanChanged();
 		}
-		void OnSelectedPlanChanged()
+		private void OnSelectedPlanChanged()
 		{
 			if (_initialized)
 			{
@@ -98,7 +104,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		void OnShowElement(Guid elementUID)
+		private void OnShowElement(Guid elementUID)
 		{
 			foreach (var presenterItem in PlanDesignerViewModel.PresenterItems)
 				if (presenterItem.Element.UID == elementUID)
@@ -107,20 +113,29 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.Navigate(presenterItem);
 				}
 		}
-		void OnFindElementEvent(List<Guid> deviceUIDs)
+		private void OnFindElementEvent(List<Guid> deviceUIDs)
 		{
 			if (PlanTreeViewModel != null)
+			{
 				foreach (var plan in PlanTreeViewModel.AllPlans)
-					if (plan.PlanFolder == null)
-						foreach (var element in plan.Plan.ElementUnion)
-							if (deviceUIDs.Contains(element.UID))
-							{
-								PlanTreeViewModel.SelectedPlan = plan;
-								OnShowElement(element.UID);
-								return;
-							}
+					if (plan.PlanFolder == null && FindElementOnPlan(plan, deviceUIDs))
+						return;
+			}
+			else
+				FindElementOnPlan(PlanDesignerViewModel.PlanViewModel, deviceUIDs);
 		}
-		void OnNavigate(NavigateToPlanElementEventArgs args)
+		private bool FindElementOnPlan(PlanViewModel plan, List<Guid> deviceUIDs)
+		{
+			foreach (var element in plan.Plan.ElementUnion)
+				if (deviceUIDs.Contains(element.UID))
+				{
+					PlanTreeViewModel.SelectedPlan = plan;
+					OnShowElement(element.UID);
+					return true;
+				}
+			return false;
+		}
+		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
 			//Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
@@ -151,6 +166,158 @@ namespace PlansModule.ViewModels
 				_planNavigationWidth = value;
 				OnPropertyChanged(() => PlanNavigationWidth);
 			}
+		}
+
+		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				switch (automationCallbackResult.AutomationCallbackType)
+				{
+					case AutomationCallbackType.SetPlanProperty:
+						SetPlanProperty((PlanCallbackData)automationCallbackResult.Data);
+						break;
+					case AutomationCallbackType.GetPlanProperty:
+						GetPlanProperty((PlanCallbackData)automationCallbackResult.Data, automationCallbackResult.ProcedureUID);
+						break;
+				}
+			});
+		}
+		private void SetPlanProperty(PlanCallbackData data)
+		{
+			var element = GetElement(data);
+			if (element == null)
+				return;
+			switch (data.ElementPropertyType)
+			{
+				case ElementPropertyType.Color:
+					element.BorderColor = (Color)data.Value;
+					break;
+				case ElementPropertyType.BackColor:
+					element.BackgroundColor = (Color)data.Value;
+					break;
+				case ElementPropertyType.BorderThickness:
+					element.BorderThickness = Convert.ToDouble(data.Value);
+					break;
+				case ElementPropertyType.Left:
+					element.Position = new System.Windows.Point(Convert.ToDouble(data.Value), element.Position.Y);
+					break;
+				case ElementPropertyType.Top:
+					element.Position = new System.Windows.Point(element.Position.X, Convert.ToDouble(data.Value));
+					break;
+			}
+			var elementRectangle = element as ElementBaseRectangle;
+			if (elementRectangle != null)
+				switch (data.ElementPropertyType)
+				{
+					case ElementPropertyType.Height:
+						elementRectangle.Height = Convert.ToDouble(data.Value);
+						break;
+					case ElementPropertyType.Width:
+						elementRectangle.Width = Convert.ToDouble(data.Value);
+						break;
+				}
+			var elementText = element as IElementTextBlock;
+			if (elementText != null)
+				switch (data.ElementPropertyType)
+				{
+					case ElementPropertyType.FontBold:
+						elementText.FontBold = Convert.ToBoolean(data.Value);
+						break;
+					case ElementPropertyType.FontItalic:
+						elementText.FontItalic = Convert.ToBoolean(data.Value);
+						break;
+					case ElementPropertyType.FontSize:
+						elementText.FontSize = Convert.ToDouble(data.Value);
+						break;
+					case ElementPropertyType.ForegroundColor:
+						elementText.ForegroundColor = (Color)data.Value;
+						break;
+					case ElementPropertyType.Stretch:
+						elementText.Stretch = Convert.ToBoolean(data.Value);
+						break;
+					case ElementPropertyType.Text:
+						elementText.Text = Convert.ToString(data.Value);
+						break;
+					case ElementPropertyType.WordWrap:
+						elementText.WordWrap = Convert.ToBoolean(data.Value);
+						break;
+				}
+			var presenterItem = PlanDesignerViewModel.PresenterItems.FirstOrDefault(item => item.Element == element);
+			if (presenterItem != null)
+				presenterItem.InvalidatePainter();
+		}
+		private void GetPlanProperty(PlanCallbackData data, Guid procedureUID)
+		{
+			var value = new object();
+			var element = GetElement(data);
+			if (element != null)
+			{
+				var elementRectangle = element as ElementBaseRectangle;
+				if (elementRectangle != null)
+					switch (data.ElementPropertyType)
+					{
+						case ElementPropertyType.Height:
+							value = Convert.ToInt32(elementRectangle.Height);
+							break;
+						case ElementPropertyType.Width:
+							value = Convert.ToInt32(elementRectangle.Width);
+							break;
+					}
+				var elementText = element as IElementTextBlock;
+				if (elementText != null)
+					switch (data.ElementPropertyType)
+					{
+						case ElementPropertyType.FontBold:
+							value = elementText.FontBold;
+							break;
+						case ElementPropertyType.FontItalic:
+							value = elementText.FontItalic;
+							break;
+						case ElementPropertyType.FontSize:
+							value = Convert.ToInt32(elementText.FontSize);
+							break;
+						case ElementPropertyType.ForegroundColor:
+							value = elementText.ForegroundColor;
+							break;
+						case ElementPropertyType.Stretch:
+							value = elementText.Stretch;
+							break;
+						case ElementPropertyType.Text:
+							value = elementText.Text;
+							break;
+						case ElementPropertyType.WordWrap:
+							value = elementText.WordWrap;
+							break;
+					}
+				switch (data.ElementPropertyType)
+				{
+					case ElementPropertyType.Color:
+						value = element.BorderColor;
+						break;
+					case ElementPropertyType.BackColor:
+						value = element.BackgroundColor;
+						break;
+					case ElementPropertyType.BorderThickness:
+						value = Convert.ToInt32(element.BorderThickness);
+						break;
+					case ElementPropertyType.Left:
+						value = Convert.ToInt32(element.Position.X);
+						break;
+					case ElementPropertyType.Top:
+						value = Convert.ToInt32(element.Position.Y);
+						break;
+				}
+			}
+			FiresecManager.FiresecService.ProcedureCallbackResponse(procedureUID, value);
+		}
+		private ElementBase GetElement(PlanCallbackData data)
+		{
+			var plan = PlanTreeViewModel == null ? (PlanDesignerViewModel.Plan.UID == data.PlanUid ? PlanDesignerViewModel.PlanViewModel : null) : PlanTreeViewModel.Plans.FirstOrDefault(x => x.Plan.UID == data.PlanUid);
+			if (plan == null)
+				return null;
+			var elementBase = plan.Plan.SimpleElements.FirstOrDefault(x => x.UID == data.ElementUid);
+			return elementBase;
 		}
 	}
 }

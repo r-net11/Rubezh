@@ -11,6 +11,8 @@ using Infrustructure.Plans;
 using Infrastructure.Common.Windows;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.Automation;
+using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
@@ -38,8 +40,6 @@ namespace PlansModule.ViewModels
 			if (SelectedPlan != null)
 				SelectedPlan.ExpandToThis();
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
-			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
-			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
@@ -99,32 +99,6 @@ namespace PlansModule.ViewModels
 		{
 			if (SelectedPlan == null && Plans.IsNotNullOrEmpty())
 				SelectedPlan = Plans[0];
-		}
-
-		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				switch (automationCallbackResult.AutomationCallbackType)
-				{
-					case AutomationCallbackType.SetPlanProperty:
-						var planArguments = (PlanCallbackData)automationCallbackResult.Data;
-						var plan = Plans.FirstOrDefault(x => x.Plan.UID == planArguments.PlanUid);
-						if (plan != null)
-						{
-							var element = plan.Plan.ElementRectangles.FirstOrDefault(x => x.UID == planArguments.ElementUid);
-							if (element != null)
-							{
-								if (planArguments.ElementPropertyType == ElementPropertyType.Height)
-									element.Height = Convert.ToDouble(planArguments.Value);
-								if (planArguments.ElementPropertyType == ElementPropertyType.Width)
-									element.Width = Convert.ToDouble(planArguments.Value);
-							}
-						}
-						SelectedPlanChanged(this, EventArgs.Empty);
-						break;
-				}
-			});
 		}
 	}
 }

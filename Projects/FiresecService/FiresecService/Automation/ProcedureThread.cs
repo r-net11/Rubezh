@@ -42,7 +42,10 @@ namespace FiresecService
 			InitializeArguments(procedureArguments, arguments, callingProcedureVariables);
 			AllVariables.AddRange(procedureArguments);
 			AllVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			Thread = new Thread(() => RunInThread(arguments));
+			Thread = new Thread(() => RunInThread(arguments))
+			{
+				Name = string.Format("ProcedureThread [{0}]", UID),
+			};
 			IsSync = procedure.IsSync;
 		}
 

@@ -34,7 +34,7 @@ namespace FiresecService
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInXManager();
+			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			GKManager.UpdateConfiguration();
 
 			SKDManager.UpdateConfiguration();

@@ -22,6 +22,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			BackgroundColor = _elementPolygon.BackgroundColor;
 			BorderColor = _elementPolygon.BorderColor;
 			StrokeThickness = _elementPolygon.BorderThickness;
+			PresentationName = _elementPolygon.PresentationName;
 		}
 
 		Color _backgroundColor;
@@ -46,6 +47,17 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			}
 		}
 
+		string _presentationName;
+		public string PresentationName
+		{
+			get { return _presentationName; }
+			set
+			{
+				_presentationName = value;
+				OnPropertyChanged(() => PresentationName);
+			}
+		}
+
 		double _strokeThickness;
 		public double StrokeThickness
 		{
@@ -62,6 +74,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			_elementPolygon.BackgroundColor = BackgroundColor;
 			_elementPolygon.BorderColor = BorderColor;
 			_elementPolygon.BorderThickness = StrokeThickness;
+			_elementPolygon.PresentationName = PresentationName;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

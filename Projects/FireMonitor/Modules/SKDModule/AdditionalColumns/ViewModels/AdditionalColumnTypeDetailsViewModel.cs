@@ -149,15 +149,12 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
-			var saveResult = AdditionalColumnTypeHelper.Save(AdditionalColumnType, true);
+			var saveResult = AdditionalColumnTypeHelper.Save(AdditionalColumnType, _isNew);
 			if(isIsInGridChanged)
 			{
 				ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
 			}
 			return saveResult;
 		}
-
-
-		
 	}
 }

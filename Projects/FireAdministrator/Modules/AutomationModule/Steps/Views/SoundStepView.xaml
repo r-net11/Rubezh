@@ -36,7 +36,7 @@
 					<DataGridTemplateColumn Width="Auto" Header="Использовать">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

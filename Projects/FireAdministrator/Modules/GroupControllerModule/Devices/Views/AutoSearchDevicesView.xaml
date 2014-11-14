@@ -4,7 +4,11 @@
              xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
              MinWidth="600" MinHeight="600">
     <Grid>
-        <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
             <tree:TreeList.View>
                 <GridView>
                     <GridViewColumn Width="250" Header="Устройство">
@@ -28,5 +32,6 @@
                 </GridView>
             </tree:TreeList.View>
         </tree:TreeList>
+        <Button Grid.Row="1" Command="{Binding ChangeCommand}" Content="Заменить текущую конфигурацию" Width="300" HorizontalAlignment="Right" Margin="2 4" />
     </Grid>
 </UserControl>

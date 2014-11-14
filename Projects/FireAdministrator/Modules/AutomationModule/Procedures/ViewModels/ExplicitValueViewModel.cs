@@ -10,6 +10,7 @@ using FiresecAPI.Models;
 using FiresecAPI.Automation;
 using FiresecClient;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
@@ -217,6 +218,16 @@ namespace AutomationModule.ViewModels
 			{
 				ExplicitValue.JournalEventDescriptionTypeValue = value;
 				OnPropertyChanged(() => JournalEventDescriptionTypeValue);
+			}
+		}
+
+		public Color ColorValue
+		{
+			get { return ExplicitValue.ColorValue; }
+			set
+			{
+				ExplicitValue.ColorValue = value;
+				OnPropertyChanged(() => ColorValue);
 			}
 		}
 

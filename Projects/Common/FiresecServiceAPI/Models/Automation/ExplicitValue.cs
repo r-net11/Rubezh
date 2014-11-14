@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using System.Windows.Media;
 
 namespace FiresecAPI.Automation
 {
@@ -14,6 +15,7 @@ namespace FiresecAPI.Automation
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
 			StringValue = "";
+			ColorValue = new Color();
 			UidValue = Guid.Empty;
 		}
 
@@ -49,5 +51,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public JournalObjectType JournalObjectTypeValue { get; set; }
+
+		[DataMember]
+		public Color ColorValue { get; set; }
 	}
 }

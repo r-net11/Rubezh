@@ -40,7 +40,7 @@ namespace LayoutModule
 				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
 			};
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Layout; }
 		}
@@ -78,8 +78,14 @@ namespace LayoutModule
 			{
 				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBlock, 1001, "Метка", "Метка", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text));
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBox, 1002, "Текстовое поле", "Текстовое поле", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text));
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBlock, 1001, "Метка", "Метка", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text))
+			{
+				Factory = (p) => new LayoutPartTextViewModel(p as LayoutPartTextProperties, false),
+			};
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Control, LayoutPartIdentities.TextBox, 1002, "Текстовое поле", "Текстовое поле", "BText.png", new LayoutPartProperty(LayoutPartPropertyAccess.GetOrSet, typeof(string), LayoutPartPropertyName.Text))
+			{
+				Factory = (p) => new LayoutPartTextViewModel(p as LayoutPartTextProperties, true),
+			};
 		}
 
 		#endregion

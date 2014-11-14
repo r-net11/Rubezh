@@ -28,9 +28,6 @@ namespace GKProcessor
 		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase)
 		{
 			Add(FormulaOperationType.GETBIT, (byte)stateBit, gkBase.GKDescriptorNo);
-			Add(FormulaOperationType.GETBIT, (byte)GKStateBit.Ignore, gkBase.GKDescriptorNo);
-			Add(FormulaOperationType.COM);
-			Add(FormulaOperationType.AND);
 		}
 
 		public void AddGetBit(GKStateBit stateBit, GKBase gkBase)
@@ -51,12 +48,8 @@ namespace GKProcessor
 		public void AddStandardTurning(GKBase gkBase)
 		{
 			Add(FormulaOperationType.DUP);
-			AddGetBit(GKStateBit.Norm, gkBase);
-			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
 			Add(FormulaOperationType.COM);
-			AddGetBit(GKStateBit.Norm, gkBase);
-			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
 		}
 

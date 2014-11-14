@@ -8,7 +8,7 @@
 		<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" />
 		<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
 		<TextBlock VerticalAlignment="Center">
-			<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+			<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 				<TextBlock Text="{Binding Device.ShortName}" />
 			</Hyperlink>
 			<TextBlock.ContextMenu>

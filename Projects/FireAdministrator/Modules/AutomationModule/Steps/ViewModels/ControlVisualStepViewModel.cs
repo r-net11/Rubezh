@@ -74,6 +74,21 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public bool StoreOnServer
+		{
+			get { return ControlVisualArguments.StoreOnServer; }
+			set
+			{
+				ControlVisualArguments.StoreOnServer = value;
+				OnPropertyChanged(() => StoreOnServer);
+			}
+		}
+		public bool CanStoreOnServer
+		{
+			get { return Type == ControlVisualType.Set && ForAllClients; }
+		}
+		
+
 		public bool ForAllClients
 		{
 			get { return ControlVisualArguments.ForAllClients; }
@@ -81,6 +96,7 @@ namespace AutomationModule.ViewModels
 			{
 				ControlVisualArguments.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);
+				OnPropertyChanged(() => CanStoreOnServer);
 			}
 		}
 
@@ -120,6 +136,8 @@ namespace AutomationModule.ViewModels
 			LayoutPartProperties = new ObservableCollection<LayoutPartPropertyViewModel>(SelectedLayoutPart == null || SelectedLayoutPart.Description == null ? Enumerable.Empty<LayoutPartPropertyViewModel>() : SelectedLayoutPart.Description.Properties.Where(item => item.Access == LayoutPartPropertyAccess.GetOrSet || item.Access == access).Select(item => new LayoutPartPropertyViewModel(item)));
 			SelectedLayoutPartProperty = LayoutPartProperties.FirstOrDefault(x => x.LayoutPartProperty.Name == ControlVisualArguments.Property);
 			OnPropertyChanged(() => LayoutPartProperties);
+			OnPropertyChanged(() => StoreOnServer);
+			OnPropertyChanged(() => CanStoreOnServer);
 		}
 		private ExplicitType GetExplicitType()
 		{

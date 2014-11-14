@@ -9,6 +9,7 @@ namespace FiresecAPI.Models.Layouts
 	[KnownType(typeof(LayoutPartReferenceProperties))]
 	[KnownType(typeof(LayoutPartProcedureProperties))]
 	[KnownType(typeof(LayoutPartTimeProperties))]
+	[KnownType(typeof(LayoutPartTextProperties))]
 	public class LayoutPart
 	{
 		public LayoutPart()

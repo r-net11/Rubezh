@@ -10,6 +10,7 @@ using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using SKDDriver;
 using SKDDriver.Translators;
+using FiresecAPI;
 
 namespace FiresecService
 {
@@ -155,6 +156,28 @@ namespace FiresecService
 			{
 				Logger.Error(e, "PatchManager.Patch_NewJournal");
 			}
+		}
+
+		public static OperationResult ResetDB()
+		{
+			try
+			{
+				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
+				server.Databases["SKD"].Drop();
+				//string commandText = @"IF EXISTS(select * from sys.databases where name='SKD') DROP DATABASE SKD";
+				//server.ConnectionContext.e.ExecuteNonQuery(commandText.ToString());
+				server.ConnectionContext.Disconnect();
+			}
+			catch (ConnectionFailureException)
+			{
+				return new OperationResult("Не удалось подключиться к базе данных " + ConnectionString);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "PatchManager.ResetDB");
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
 		}
 	}
 }

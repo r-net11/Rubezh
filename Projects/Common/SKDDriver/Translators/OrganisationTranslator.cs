@@ -199,6 +199,7 @@ namespace SKDDriver
 				{
 					var tableOrganisationDoor = new DataAccess.OrganisationDoor();
 					tableOrganisationDoor.UID = Guid.NewGuid();
+					tableOrganisationDoor.DoorUID = doorUID;
 					tableOrganisationDoor.OrganisationUID = organisationUID;
 					tableOrganisationDoor.DoorUID = doorUID;
 					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationDoor);

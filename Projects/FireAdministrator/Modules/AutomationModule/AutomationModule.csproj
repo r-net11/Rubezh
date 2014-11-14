@@ -101,7 +101,6 @@
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ElementPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ElementViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartPropertyViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutPartViewModel.cs" />

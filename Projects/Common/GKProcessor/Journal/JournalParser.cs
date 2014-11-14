@@ -271,7 +271,7 @@ namespace GKProcessor
 						case 8:
 							JournalItem.JournalEventNameType = JournalEventNameType.Информация;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToInformation(bytes[32 + 15]);
-							if (Device != null && Device.DriverType == GKDriverType.Valve)
+							if (Device != null && (Device.DriverType == GKDriverType.Valve || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
 							{
 								JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToValveInformation(bytes[32 + 15]);
 							}
@@ -279,7 +279,7 @@ namespace GKProcessor
 
 						case 9:
 							JournalItem.JournalEventNameType = JournalStringsHelper.ToState(bytes[32 + 15]);
-							if (Device != null && Device.DriverType == GKDriverType.Valve)
+							if (Device != null && (Device.DriverType == GKDriverType.Valve || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV || Device.DriverType == GKDriverType.RSR2_Valve_DU))
 							{
 								JournalItem.JournalEventNameType = JournalStringsHelper.ToValveState(bytes[32 + 15]);
 							}
