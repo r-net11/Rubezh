@@ -334,6 +334,8 @@ namespace AutomationModule.Validation
 					else if (controlPlanArguments.ElementUid == Guid.Empty)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбран элемент плана", ValidationErrorLevel.CannotSave));
 					break;
+                case ProcedureStepType.ShowDialog:
+                    break;
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

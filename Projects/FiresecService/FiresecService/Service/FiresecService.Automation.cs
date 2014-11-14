@@ -16,7 +16,7 @@ namespace FiresecService.Service
 			if (procedure != null)
 			{
 				var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == CurrentClientCredentials.UserName);
-				var result = ProcedureRunner.Run(procedure, args, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables, user, null, clientUID);
+				var result = ProcedureRunner.Run(procedure, args, null, user, null, clientUID);
 				return new OperationResult<bool> { Result = true };
 			}
 			return new OperationResult<bool>("Процедура не найдена");
@@ -24,9 +24,7 @@ namespace FiresecService.Service
 
 		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
 		{
-			var procedure = ProcedureRunner.ProceduresThreads.FirstOrDefault(item => item.UID == procedureThreadUID);
-			if (procedure != null)
-				procedure.SetCallbackResponse(value);
+            ProcedureRunner.CallbackResponse(procedureThreadUID, value);
 		}
 
 		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)

@@ -87,7 +87,6 @@ namespace AutomationModule.ViewModels
 		{
 			get { return Type == ControlVisualType.Set && ForAllClients; }
 		}
-		
 
 		public bool ForAllClients
 		{
@@ -104,7 +103,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var address = "<пусто>";
+				var address = ArgumentViewModel.EmptyText;
 				if (SelectedLayout != null || SelectedLayoutPart != null || SelectedLayoutPartProperty != null)
 					address = string.Format("<{0}|{1}|{2}>", SelectedLayout == null ? null : SelectedLayout.Name, SelectedLayoutPart == null ? null : SelectedLayoutPart.Name, SelectedLayoutPartProperty == null ? null : SelectedLayoutPartProperty.Name.ToDescription());
 				var template = string.Empty;

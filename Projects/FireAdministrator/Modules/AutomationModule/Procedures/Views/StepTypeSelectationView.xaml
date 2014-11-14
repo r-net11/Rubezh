@@ -21,10 +21,7 @@
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image VerticalAlignment="Center" Source="/Controls;component/Images/CFolder.png" Margin="1 0 0 0"
-														   Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}"/>
-								<Image VerticalAlignment="Center" Source="{Binding ImageSource}" Margin="1 0 0 0" 
-														   Visibility="{Binding IsFolder, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+                                <Image VerticalAlignment="Center" Source="{Binding ImageSource, Converter={StaticResource NullToImageConverter}}" Margin="1 0 0 0" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>

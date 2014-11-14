@@ -175,7 +175,11 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ControlPlan:
 					Content = new ControlPlanStepViewModel(this);
 					break;
-			}
+
+                case ProcedureStepType.ShowDialog:
+                    Content = new ShowDialogStepViewModel(this);
+                    break;
+            }
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}

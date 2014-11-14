@@ -157,6 +157,7 @@
     <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RunProgrammStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\LayoutViewModel.cs" />

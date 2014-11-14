@@ -20,17 +20,19 @@ namespace FiresecService
 			callback.ProcedureUID = UID;
 			if (callback.Data != null)
 				callback.Data.LayoutFilter = GetLayoutFilter(arguments);
-			if (withResponse)
-				_flag = true;
-			Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
-			_callbackResponse = null;
-			if (withResponse)
-			{
-				using (_waitHandler = new AutoResetEvent(false))
-					_waitHandler.WaitOne(TimeSpan.FromMinutes(1));
-				_waitHandler = null;
-			}
-			_flag = false;
+            _callbackResponse = null;
+            if (withResponse)
+            {
+                _flag = true;
+                using (_waitHandler = new AutoResetEvent(false))
+                {
+                    Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
+                    _waitHandler.WaitOne(TimeSpan.FromMinutes(1));
+                }
+                _flag = false;
+            }
+            else
+                Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
 			return _callbackResponse;
 		}
 
@@ -41,8 +43,8 @@ namespace FiresecService
 					if (_flag)
 					{
 						_callbackResponse = value;
-						_waitHandler.Set();
-						_flag = false;
+                        _flag = false;
+                        _waitHandler.Set();
 					}
 		}
 

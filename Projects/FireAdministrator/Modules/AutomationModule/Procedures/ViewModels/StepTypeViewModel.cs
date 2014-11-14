@@ -44,14 +44,11 @@ namespace AutomationModule.ViewModels
 		{
 			Name = folderName;
 			IsFolder = true;
+            ImageSource = "/Controls;component/Images/CFolder.png";
 
 			if (children != null)
-			{
 				foreach (var child in children)
-				{
 					AddChild(child);
-				}
-			}
 		}
 	}
 }

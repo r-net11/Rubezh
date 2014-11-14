@@ -112,7 +112,7 @@ namespace FiresecService
 			else
 			{
 				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
-				if (procedureStep.ControlVisualArguments.StoreOnServer)
+				if (procedureStep.ControlVisualArguments.StoreOnServer && procedureStep.ControlVisualArguments.ForAllClients)
 					LayoutPropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyData)automationCallbackResult.Data);
 			}
 		}
@@ -142,12 +142,16 @@ namespace FiresecService
 					Value = value,
 				},
 			};
-			if (controlPlanArguments.ControlVisualType == ControlVisualType.Get)
-			{
-				value = SendCallback(controlPlanArguments, automationCallbackResult, true);
-				SetValue(controlPlanArguments.ValueArgument, value);
-			}
-			SendCallback(controlPlanArguments, automationCallbackResult);
+            switch (controlPlanArguments.ControlVisualType)
+            {
+                case ControlVisualType.Get:
+                    value = SendCallback(controlPlanArguments, automationCallbackResult, true);
+                    SetValue(controlPlanArguments.ValueArgument, value);
+                    break;
+                case ControlVisualType.Set:
+                    SendCallback(controlPlanArguments, automationCallbackResult);
+                    break;
+            }
 		}
 
 		void Calculate(ProcedureStep procedureStep)
@@ -767,14 +771,14 @@ namespace FiresecService
 		}
 		void SetValue(Variable target, object propertyValue)
 		{
-			if (target.ExplicitType == ExplicitType.Integer)
-				target.ExplicitValue.IntValue = (int)propertyValue;
+            if (target.ExplicitType == ExplicitType.Integer)
+                target.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
 			if (target.ExplicitType == ExplicitType.String)
 				target.ExplicitValue.StringValue = Convert.ToString(propertyValue);
 			if (target.ExplicitType == ExplicitType.Boolean)
-				target.ExplicitValue.BoolValue = (bool)propertyValue;
+				target.ExplicitValue.BoolValue = Convert.ToBoolean(propertyValue);
 			if (target.ExplicitType == ExplicitType.DateTime)
-				target.ExplicitValue.DateTimeValue = (DateTime)propertyValue;
+				target.ExplicitValue.DateTimeValue = Convert.ToDateTime(propertyValue);
 			if (target.ExplicitType == ExplicitType.Enum)
 			{
 				if (target.EnumType == EnumType.DriverType)

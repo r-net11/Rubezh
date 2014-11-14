@@ -15,7 +15,8 @@ namespace Infrustructure.Plans.Painters
 		public TextBlockPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
 			: base(designerCanvas, element)
 		{
-		}
+            _textDrawing = new GeometryDrawing(null, null, null);
+        }
 
 		//private const int Margin = 3;
 		protected override void InnerDraw(DrawingContext drawingContext)
@@ -83,7 +84,7 @@ namespace Infrustructure.Plans.Painters
 		public override void Invalidate()
 		{
 			IElementTextBlock elementText = (IElementTextBlock)Element;
-			_textDrawing = new GeometryDrawing(PainterCache.GetBrush(elementText.ForegroundColor), null, null);
+            _textDrawing.Brush = PainterCache.GetBrush(elementText.ForegroundColor);
 			if (elementText.Stretch)
 			{
 				_clipGeometry = null;

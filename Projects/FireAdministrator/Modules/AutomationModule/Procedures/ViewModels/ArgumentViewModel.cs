@@ -15,6 +15,7 @@ namespace AutomationModule.ViewModels
 {
 	public class ArgumentViewModel : BaseViewModel
 	{
+        public const string EmptyText = "<пусто>";
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
 		Action UpdateContentHandler { get; set; }
@@ -359,7 +360,7 @@ namespace AutomationModule.ViewModels
 				{
 					if ((SelectedVariable == null) || (SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.LocalVariable)
 						|| (!SelectedVariable.Variable.IsGlobal && SelectedVariableScope == VariableScope.GlobalVariable))
-						return "<пусто>";
+						return EmptyText;
 					return "<" + SelectedVariable.Variable.Name + ">";
 				}
 

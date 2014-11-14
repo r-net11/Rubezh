@@ -14,7 +14,7 @@ namespace FiresecServiceRunner
 		private const string SignalId = "{9C3B6318-48BB-40D0-9249-CA7D9365CDA5}";
 		private const string WaitId = "{254FBDB4-7632-42A8-B2C2-27176EF7E60C}";
 
-		protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
 			ThemeHelper.LoadThemeFromRegister();
@@ -39,6 +39,7 @@ namespace FiresecServiceRunner
 
 		protected override void OnExit(ExitEventArgs e)
 		{
+            ProcedureRunner.Terminate();
 			base.OnExit(e);
 		}
 

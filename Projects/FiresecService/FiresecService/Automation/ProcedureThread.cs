@@ -199,12 +199,8 @@ namespace FiresecService
 					{
 						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
 								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
-						if (childProcedure != null)
-						{
-							ChildProcedureThread = new ProcedureThread(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables);
-							ProcedureRunner.ProceduresThreads.Add(ChildProcedureThread);
-							ChildProcedureThread.Start();
-						}
+                        if (childProcedure != null)
+                            ProcedureRunner.Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments, AllVariables, User, JournalItem, ClientUID);
 					}
 					break;
 

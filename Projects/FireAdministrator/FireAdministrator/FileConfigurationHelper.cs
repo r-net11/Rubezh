@@ -163,6 +163,7 @@ namespace FireAdministrator
 						ServiceFactory.SaveService.GKChanged = true;
 						ServiceFactory.SaveService.SKDChanged = true;
 						ServiceFactory.SaveService.LayoutsChanged = true;
+                        ServiceFactory.SaveService.AutomationChanged = true;
 					}
 				});
 				return fileName;

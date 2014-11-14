@@ -108,7 +108,7 @@ namespace FiresecService
 				{
 					var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
 					if (procedure != null && procedure.IsActive)
-						ProcedureRunner.Run(procedure, scheduleProcedure.Arguments, null, ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+						ProcedureRunner.Run(procedure, scheduleProcedure.Arguments, null);
 				}
 		}
 	}

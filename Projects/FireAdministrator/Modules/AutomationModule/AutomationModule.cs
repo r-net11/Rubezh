@@ -98,7 +98,10 @@ namespace AutomationModule
 			{
 				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
-		}
+#if DEBUG
+            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
+#endif
+        }
 
 		#endregion
 	}
