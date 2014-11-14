@@ -9,17 +9,18 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel MessageArgument { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
-		public ShowMessageStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ShowMessageStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
 			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update, null);
-			ExplicitTypes = new ObservableCollection<ExplicitType> (ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
-			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>(); 
+			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
+			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 		}
 
 		public override void UpdateContent()
 		{
-			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
+			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
@@ -36,7 +37,7 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get 
+			get
 			{
 				return "Сообщение: " + MessageArgument.Description;
 			}
@@ -75,7 +76,7 @@ namespace AutomationModule.ViewModels
 		public bool ForAllClients
 		{
 			get { return ShowMessageArguments.ForAllClients; }
-			set 
+			set
 			{
 				ShowMessageArguments.ForAllClients = value;
 				OnPropertyChanged(() => ForAllClients);

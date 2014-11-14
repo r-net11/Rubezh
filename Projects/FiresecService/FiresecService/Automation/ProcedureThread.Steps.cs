@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Automation;
+using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecService.Service;
-using FiresecAPI.Journal;
-using Property = FiresecAPI.Automation.Property;
-using FiresecAPI.AutomationCallback;
-using System.Threading;
-using System.Windows.Media;
-using Infrustructure.Plans.Elements;
 using FiresecService.Automation;
+using FiresecService.Service;
+using Property = FiresecAPI.Automation.Property;
 
 namespace FiresecService
 {
@@ -142,16 +141,16 @@ namespace FiresecService
 					Value = value,
 				},
 			};
-            switch (controlPlanArguments.ControlVisualType)
-            {
-                case ControlVisualType.Get:
-                    value = SendCallback(controlPlanArguments, automationCallbackResult, true);
-                    SetValue(controlPlanArguments.ValueArgument, value);
-                    break;
-                case ControlVisualType.Set:
-                    SendCallback(controlPlanArguments, automationCallbackResult);
-                    break;
-            }
+			switch (controlPlanArguments.ControlVisualType)
+			{
+				case ControlVisualType.Get:
+					value = SendCallback(controlPlanArguments, automationCallbackResult, true);
+					SetValue(controlPlanArguments.ValueArgument, value);
+					break;
+				case ControlVisualType.Set:
+					SendCallback(controlPlanArguments, automationCallbackResult);
+					break;
+			}
 		}
 
 		void Calculate(ProcedureStep procedureStep)
@@ -771,8 +770,8 @@ namespace FiresecService
 		}
 		void SetValue(Variable target, object propertyValue)
 		{
-            if (target.ExplicitType == ExplicitType.Integer)
-                target.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
+			if (target.ExplicitType == ExplicitType.Integer)
+				target.ExplicitValue.IntValue = Convert.ToInt32(propertyValue);
 			if (target.ExplicitType == ExplicitType.String)
 				target.ExplicitValue.StringValue = Convert.ToString(propertyValue);
 			if (target.ExplicitType == ExplicitType.Boolean)

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
-using System.Threading;
 
 namespace FiresecService
 {
@@ -20,19 +17,19 @@ namespace FiresecService
 			callback.ProcedureUID = UID;
 			if (callback.Data != null)
 				callback.Data.LayoutFilter = GetLayoutFilter(arguments);
-            _callbackResponse = null;
-            if (withResponse)
-            {
-                _flag = true;
-                using (_waitHandler = new AutoResetEvent(false))
-                {
-                    Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
-                    _waitHandler.WaitOne(TimeSpan.FromMinutes(1));
-                }
-                _flag = false;
-            }
-            else
-                Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
+			_callbackResponse = null;
+			if (withResponse)
+			{
+				_flag = true;
+				using (_waitHandler = new AutoResetEvent(false))
+				{
+					Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
+					_waitHandler.WaitOne(TimeSpan.FromMinutes(1));
+				}
+				_flag = false;
+			}
+			else
+				Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
 			return _callbackResponse;
 		}
 
@@ -43,8 +40,8 @@ namespace FiresecService
 					if (_flag)
 					{
 						_callbackResponse = value;
-                        _flag = false;
-                        _waitHandler.Set();
+						_flag = false;
+						_waitHandler.Set();
 					}
 		}
 

@@ -44,7 +44,7 @@ namespace FiresecAPI.Automation
 			GetJournalItemArguments = new GetJournalItemArguments();
 			ControlVisualArguments = new ControlVisualArguments();
 			ControlPlanArguments = new ControlPlanArguments();
-            ShowDialogArguments = new ShowDialogArguments();
+			ShowDialogArguments = new ShowDialogArguments();
 		}
 
 		[XmlIgnore]
@@ -94,7 +94,7 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExitArguments ExitArguments { get; set; }
-		
+
 		[DataMember]
 		public GetListCountArguments GetListCountArguments { get; set; }
 
@@ -145,7 +145,7 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RandomArguments RandomArguments { get; set; }
-		
+
 		[DataMember]
 		public ChangeListArguments ChangeListArguments { get; set; }
 
@@ -161,7 +161,7 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public ControlPlanArguments ControlPlanArguments { get; set; }
 
-        [DataMember]
-        public ShowDialogArguments ShowDialogArguments { get; set; }
-    }
+		[DataMember]
+		public ShowDialogArguments ShowDialogArguments { get; set; }
+	}
 }

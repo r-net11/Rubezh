@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -11,9 +11,6 @@ namespace FiresecAPI.Automation
 		{
 			ValueArgument = new Argument();
 		}
-
-		[DataMember]
-		public Guid LayoutUid { get; set; }
 
 		[DataMember]
 		public Guid PlanUid { get; set; }
@@ -38,7 +35,7 @@ namespace FiresecAPI.Automation
 
 		[Description("Ширина")]
 		Width,
-		
+
 		[Description("Цвет")]
 		Color,
 
