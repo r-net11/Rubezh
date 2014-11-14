@@ -10,9 +10,6 @@ namespace FiresecAPI.Automation
 		public ControlPlanArguments()
 		{
 			ValueArgument = new Argument();
-			LayoutUid = new Guid();
-			PlanUid = new Guid();
-			ElementUid = new Guid();
 		}
 
 		[DataMember]

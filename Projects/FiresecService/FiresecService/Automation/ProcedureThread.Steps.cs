@@ -845,20 +845,5 @@ namespace FiresecService
 			}
 			return (T)result;
 		}
-
-		public static List<ElementBase> GetAllElements(Plan plan)
-		{
-			var elements = new List<ElementBase>();
-			var allElements = new List<ElementBase>(plan.ElementRectangles);
-			allElements.AddRange(plan.ElementEllipses);
-			allElements.AddRange(plan.ElementPolylines);
-			allElements.AddRange(plan.ElementTextBlocks);
-			allElements.AddRange(plan.ElementPolygons);
-			foreach (var elementRectangle in allElements)
-			{
-				elements.Add(elementRectangle);
-			}
-			return elements;
-		}
 	}
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Events;
+using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -148,7 +149,9 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return ""; }
+			get { return "План: " + (SelectedPlan != null ? SelectedPlan.Caption : "<пусто>") + "; Элемент: " + (SelectedElement != null ? SelectedElement.PresentationName : "<пусто>") +
+				"; Свойство: " + SelectedElementPropertyType.ToDescription() + "; Операция: " + SelectedControlVisualType.ToDescription() + "; Значение: " + ValueArgument.Description;
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Linq;
 using System;
+using FiresecAPI.Models;
 
 namespace FiresecAPI.Automation
 {
@@ -361,6 +362,19 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.ControlPlan:
 					{
 						var controlPlanArguments = step.ControlPlanArguments;
+						if (ConfigurationCash.PlansConfiguration == null || ConfigurationCash.PlansConfiguration.AllPlans == null)
+							return;
+						var plan = ConfigurationCash.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == controlPlanArguments.PlanUid);
+						if (plan == null)
+						{
+							controlPlanArguments.PlanUid = Guid.Empty;
+							controlPlanArguments.ElementUid = Guid.Empty;
+						}
+						else
+						{
+							if (plan.SimpleElements.All(x => x.UID != controlPlanArguments.ElementUid))
+								controlPlanArguments.ElementUid = Guid.Empty;
+						}
 						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
 					}
 					break;
