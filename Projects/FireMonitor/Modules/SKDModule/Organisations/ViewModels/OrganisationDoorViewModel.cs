@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using System;
-using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -58,9 +58,12 @@ namespace SKDModule.ViewModels
 						linkedAccessTemplates = accessTemplatesHelper.Where(x => !x.IsDeleted && x.OrganisationUID == Organisation.UID && x.CardDoors.Any(y => y.DoorUID == DoorUID)).ToList();
 					}
 
-					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0)
+					var schedules = ScheduleHelper.Get(new ScheduleFilter());
+					var hasLinkedSchedules = schedules.Any(x => x.OrganisationUID == Organisation.UID && x.Zones.Any(y => y.DoorUID == DoorUID));
+					
+					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules)
 					{
-						if (MessageBoxService.ShowQuestion("Существуют карты или шаблоны доступа, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
+						if (MessageBoxService.ShowQuestion("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
 						{
 							if (Organisation.DoorUIDs.Contains(DoorUID))
 							{
