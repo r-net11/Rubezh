@@ -424,7 +424,6 @@ namespace GKProcessor
 			var journalItem = new JournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
-				NameText = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				DescriptionText = description,
 			};
 			var gkIpAddress = GkDatabase.RootDevice.GetGKIpAddress();

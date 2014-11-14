@@ -51,6 +51,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
+			DelaysViewModel.Current.SelectedDelay = this;
 			var logicViewModel = new LogicViewModel(null, Delay.Logic, true);
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{

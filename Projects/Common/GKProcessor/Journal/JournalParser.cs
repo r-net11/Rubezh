@@ -433,6 +433,26 @@ namespace GKProcessor
 					}
 				}
 			}
+
+			if (Device != null && Device.DriverType == GKDriverType.AM1_T)
+			{
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
+					if (property != null)
+					{
+						JournalItem.DescriptionText = property.StringValue;
+					}
+				}
+				if (JournalItem.JournalEventNameType == JournalEventNameType.Норма)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
+					if (property != null)
+					{
+						JournalItem.DescriptionText = property.StringValue;
+					}
+				}
+			}
 		}
 
 		void InitializeDateTime(List<byte> bytes)

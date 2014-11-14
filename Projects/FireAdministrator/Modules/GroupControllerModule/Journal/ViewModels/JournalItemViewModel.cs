@@ -34,10 +34,6 @@ namespace GKModule.ViewModels
 			{
 				Name = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 			}
-			else
-			{
-				Name = journalItem.NameText;
-			}
 
 			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 			{
@@ -65,6 +61,8 @@ namespace GKModule.ViewModels
 
 		void InitializeTypeAddressImageSource(JournalItem journalItem)
 		{
+			ImageSource = "/Controls;component/Images/Blank.png";
+
 			int descriptorType = 0;
 			int descriptorAddress;
 			var descriptorTypeItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Тип дескриптора");
@@ -87,8 +85,6 @@ namespace GKModule.ViewModels
 			{
 				return;
 			}
-
-			ImageSource = "/Controls;component/Images/Blank.png";
 
 			if (descriptorType == 0)
 			{
