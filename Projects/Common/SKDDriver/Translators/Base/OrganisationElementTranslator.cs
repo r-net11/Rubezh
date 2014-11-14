@@ -106,5 +106,10 @@ namespace SKDDriver
 			TranslateBackIsDeleted<ApiType, TableType>(apiItem, tableItem);
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 		}
+
+		protected override bool IsSimilarNames(TableT item1, TableT item2)
+		{
+			return base.IsSimilarNames(item1, item2) && item1.OrganisationUID == item2.OrganisationUID;
+		}
 	}
 }

@@ -20,12 +20,31 @@ namespace GKModule.ViewModels
 		public string Address { get; private set; }
 		public string ImageSource { get; private set; }
 		public string GKJournalRecordNo { get; private set; }
+
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 		public XStateClass StateClass { get; private set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
 			JournalItem = journalItem;
+
+			if (journalItem.JournalEventNameType != JournalEventNameType.NULL)
+			{
+				Name = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
+			}
+
+			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
+			{
+				Description = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventDescriptionType);
+				if (!string.IsNullOrEmpty(journalItem.DescriptionText))
+					Description += " " + journalItem.DescriptionText;
+			}
+			else
+			{
+				Description = journalItem.DescriptionText;
+			}
 
 			InitializeTypeAddressImageSource(journalItem);
 			PresentationName = TypeName + " " + Address;
@@ -42,6 +61,8 @@ namespace GKModule.ViewModels
 
 		void InitializeTypeAddressImageSource(JournalItem journalItem)
 		{
+			ImageSource = "/Controls;component/Images/Blank.png";
+
 			int descriptorType = 0;
 			int descriptorAddress;
 			var descriptorTypeItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Тип дескриптора");
@@ -69,7 +90,6 @@ namespace GKModule.ViewModels
 			{
 				TypeName = "ГК";
 				Address = "";
-				ImageSource = "/Controls;component/Images/Blank.png"; ;
 				return;
 			}
 
@@ -139,6 +159,14 @@ namespace GKModule.ViewModels
 						}
 						break;
 
+					case JournalObjectType.GKGuardZone:
+						var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (guardZone != null)
+						{
+							PresentationName = guardZone.PresentationName;
+						}
+						break;
+
 					case JournalObjectType.GKDirection:
 						var direction = GKManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (direction != null)
@@ -169,14 +197,6 @@ namespace GKModule.ViewModels
 						if (pim != null)
 						{
 							PresentationName = pim.PresentationName;
-						}
-						break;
-
-					case JournalObjectType.GKGuardZone:
-						var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (guardZone != null)
-						{
-							PresentationName = guardZone.PresentationName;
 						}
 						break;
 
@@ -222,6 +242,13 @@ namespace GKModule.ViewModels
 					}
 					break;
 
+				case JournalObjectType.GKGuardZone:
+					if (GKManager.GuardZones.Any(x => x.UID == JournalItem.ObjectUID))
+					{
+						ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(JournalItem.ObjectUID);
+					}
+					break;
+
 				case JournalObjectType.GKDirection:
 					if (GKManager.Directions.Any(x => x.UID == JournalItem.ObjectUID))
 					{
@@ -235,13 +262,6 @@ namespace GKModule.ViewModels
 						ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
-
-				case JournalObjectType.GKGuardZone:
-					if (GKManager.GuardZones.Any(x => x.UID == JournalItem.ObjectUID))
-					{
-						ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(JournalItem.ObjectUID);
-					}
-					break;
 			}
 		}
 		bool CanShowObject()
@@ -250,9 +270,9 @@ namespace GKModule.ViewModels
 			{
 				case JournalObjectType.GKDevice:
 				case JournalObjectType.GKZone:
+				case JournalObjectType.GKGuardZone:
 				case JournalObjectType.GKDirection:
 				case JournalObjectType.GKPumpStation:
-				case JournalObjectType.GKGuardZone:
 					return true;
 			}
 			return false;

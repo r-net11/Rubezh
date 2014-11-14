@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -106,6 +106,15 @@ namespace SKDModule.ViewModels
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.RemoveDoor(SelectedDoor.Door);
+				var organisations = OrganisationHelper.Get(new OrganisationFilter());
+				foreach (var organisation in organisations)
+				{
+					if (organisation.DoorUIDs.Contains(SelectedDoor.Door.UID))
+					{
+						organisation.DoorUIDs.Remove(SelectedDoor.Door.UID);
+						OrganisationHelper.SaveDoors(organisation);
+					}
+				}
 
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);

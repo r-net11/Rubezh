@@ -15,18 +15,18 @@
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
-							<TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+							<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" MinWidth="150" />
+			<DataGridTextColumn Header="Уточнение" Binding="{Binding Description}" MinWidth="150" />
 			<DataGridTemplateColumn Header="Объект" MinWidth="100">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
-							<TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding PresentationName}" VerticalAlignment="Center" Margin="2" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>

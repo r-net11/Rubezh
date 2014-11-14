@@ -53,10 +53,6 @@ namespace JournalModule.ViewModels
 			{
 				Name = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 			}
-			else
-			{
-				Name = journalItem.NameText;
-			}
 
 			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 			{

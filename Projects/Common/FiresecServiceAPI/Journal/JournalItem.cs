@@ -32,9 +32,6 @@ namespace FiresecAPI.Journal
 		public JournalEventDescriptionType JournalEventDescriptionType { get; set; }
 
 		[DataMember]
-		public string NameText { get; set; }
-
-		[DataMember]
 		public string DescriptionText { get; set; }
 
 		[DataMember]

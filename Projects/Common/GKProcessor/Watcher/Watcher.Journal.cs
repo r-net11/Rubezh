@@ -77,7 +77,6 @@ namespace GKProcessor
 					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
 					if (descriptor != null)
 					{
-						ChangeJournalOnDevice(descriptor, journalParser.JournalItem);
 						CheckServiceRequired(descriptor.GKBase, journalParser.JournalItem);
 						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
 						if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
@@ -110,54 +109,6 @@ namespace GKProcessor
 
 						CheckTechnologicalRegime();
 						NotifyAllObjectsStateChanged();
-					}
-				}
-			}
-		}
-
-		void ChangeJournalOnDevice(BaseDescriptor descriptor, JournalItem journalItem)
-		{
-			if (descriptor.Device != null)
-			{
-				var device = descriptor.Device;
-				if (device.DriverType == GKDriverType.AM1_T)
-				{
-					if (journalItem.JournalEventNameType == JournalEventNameType.Сработка_2)
-					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
-						if (property != null)
-						{
-							journalItem.DescriptionText = property.StringValue;
-						}
-					}
-					if (journalItem.JournalEventNameType == JournalEventNameType.Норма)
-					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
-						if (property != null)
-						{
-							journalItem.DescriptionText = property.StringValue;
-						}
-					}
-				}
-				if (device.DriverType == GKDriverType.Valve)
-				{
-					switch (journalItem.NameText)
-					{
-						case "Включено":
-							journalItem.NameText = "Открыто";
-							break;
-
-						case "Выключено":
-							journalItem.NameText = "Закрыто";
-							break;
-
-						case "Включается":
-							journalItem.NameText = "Открывается";
-							break;
-
-						case "Выключается":
-							journalItem.NameText = "Закрывается";
-							break;
 					}
 				}
 			}

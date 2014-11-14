@@ -94,7 +94,7 @@ namespace GKOPCServer
 			GKManager.UpdateConfiguration();
 			GKManager.CreateStates();
 			DescriptorsManager.Create();
-			DescriptorsManager.CreateDynamicObjectsInXManager();
+			DescriptorsManager.CreateDynamicObjectsInGKManager();
 			UILogger.Log("Получение состояний объектов");
 			InitializeStates();
 

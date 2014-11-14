@@ -14,10 +14,7 @@ namespace SKDModule.ViewModels
 	public class ZoneViewModel : BaseViewModel
 	{
 		public SKDZone Zone { get; private set; }
-		public SKDZoneState State
-		{
-			get { return Zone.State; }
-		}
+		public SKDZoneState State { get { return Zone.State; } }
 
 		public ZoneViewModel(SKDZone zone)
 		{

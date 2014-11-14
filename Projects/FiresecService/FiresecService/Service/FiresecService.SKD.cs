@@ -6,8 +6,8 @@ using ChinaSKDDriver;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using SKDDriver;
 using GKProcessor;
+using SKDDriver;
 
 namespace FiresecService.Service
 {
@@ -329,13 +329,6 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult MarkDeletedCard(Guid uid)
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.CardTranslator.MarkDeleted(uid);
-			}
-		}
 		public OperationResult DeletedCard(Guid uid)
 		{
 			using (var databaseService = new SKDDatabaseService())
@@ -456,14 +449,6 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.SaveDoors(organisation);
 			}
 
-		}
-		public OperationResult SaveOrganisationZones(Organisation organisation)
-		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, organisation.Name, JournalEventDescriptionType.Редактирование);
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.OrganisationTranslator.SaveZones(organisation);
-			}
 		}
 		public OperationResult SaveOrganisationUsers(Organisation organisation)
 		{
@@ -1176,5 +1161,10 @@ namespace FiresecService.Service
 			}
 		}
 		#endregion
+
+		public OperationResult ResetSKDDatabase()
+		{
+			return PatchManager.Reset_SKD();
+		}
 	}
 }

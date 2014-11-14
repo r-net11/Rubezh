@@ -68,6 +68,14 @@ namespace GKModule.ViewModels
 			var gkDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
 			if (gkDevice != null)
 			{
+				var driver = GKManager.Drivers.FirstOrDefault(x=>x.DriverType == GKDriverType.GKIndicator);
+				var device = new GKDevice();
+				device.Driver = driver;
+				device.DriverUID = driver.UID;
+				for(int i = 0; i < 6; i++)
+				{
+					gkDevice.Children.Add(device);
+				}
 			}
 		}
 

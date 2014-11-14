@@ -8,7 +8,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
+	public class CardTranslator : WithFilterTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
 		public CardTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -20,26 +20,13 @@ namespace SKDDriver
 			var result = base.CanSave(item);
 			if (result.HasError)
 				return result;
-			bool isSameNumber = Table.Any(x => x.Number == item.Number &&
-				!x.IsDeleted &&
+			bool isSameNumber = Table.Any(x => 
+				x.Number == item.Number &&
 				x.UID != item.UID);
 			if (isSameNumber)
 				return new OperationResult("Попытка добавить карту с повторяющимся номером");
 			else
 				return new OperationResult();
-		}
-
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			var operationResult = GetSingle(uid);
-			var card = operationResult.Result;
-			if (card != null)
-			{
-				if (Context.Employees.Any(x => x.UID == card.HolderUID &&
-					!x.IsDeleted))
-					return new OperationResult("Невозможно удалить карту, пока она указана у действующих сотрудников");
-			}
-			return base.CanDelete(uid);
 		}
 
 		protected override SKDCard Translate(DataAccess.Card tableItem)
@@ -61,6 +48,8 @@ namespace SKDDriver
 			result.GKLevel = tableItem.GKLevel;
 			result.GKLevelSchedule = tableItem.GKLevelSchedule;
 
+			
+
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
 			{
@@ -72,7 +61,7 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.Card tableItem, SKDCard apiItem)
 		{
-			base.TranslateBack(tableItem, apiItem);
+			//base.TranslateBack(tableItem, apiItem);
 			tableItem.Number = apiItem.Number;
 			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.CardType = (int)apiItem.CardType;

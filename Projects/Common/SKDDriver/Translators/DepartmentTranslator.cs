@@ -29,18 +29,6 @@ namespace SKDDriver
 				return new OperationResult();
 		}
 
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			//bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == uid);
-			//if (isHasEmployees)
-			//    return new OperationResult("Невозможно удалить отдел, пока он содержит действующих сотрудников");
-
-			//bool isHasChildren = Table.Any(x => !x.IsDeleted && x.ParentDepartmentUID == uid);
-			//if (isHasChildren)
-			//    return new OperationResult("Невозможно удалить отдел, пока он содержит дочерние отделы");
-			return base.CanDelete(uid);
-		}
-
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
 		{
 			return MarkDeletedByParentWithSubmit(uid, removalDate);
@@ -127,14 +115,6 @@ namespace SKDDriver
 			}
 		}
  
-		protected override OperationResult CanRestore(Guid uid)
-		{
-			//var parent = Table.FirstOrDefault(x => x.Departments.Any(y => y.UID == uid));
-			//if(parent != null && parent.IsDeleted)
-			//    return new OperationResult("Не могу восстановить, так как родительский отдел удалён");
-			return base.CanRestore(uid);
-		}
-
 		protected override Department Translate(DataAccess.Department tableItem)
 		{
 			var result = base.Translate(tableItem);
@@ -221,6 +201,11 @@ namespace SKDDriver
 					return photoSaveResult;
 			}
 			return base.Save(apiItem);
+		}
+
+		protected override bool IsSimilarNames(DataAccess.Department item1, DataAccess.Department item2)
+		{
+			return base.IsSimilarNames(item1, item2) && item1.ParentDepartmentUID == item2.ParentDepartmentUID;
 		}
 	}
 }

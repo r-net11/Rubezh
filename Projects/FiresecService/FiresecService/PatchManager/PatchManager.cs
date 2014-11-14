@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using Common;
 using FiresecService.ViewModels;
+using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
-using FiresecAPI.Journal;
-using SKDDriver.Translators;
 using SKDDriver;
-using Infrastructure.Common;
+using SKDDriver.Translators;
 using FiresecAPI;
 
 namespace FiresecService
 {
-	public static class PatchManager
+	public static partial class PatchManager
 	{
 		public static string JournalConnectionString { get; private set; }
 
@@ -34,57 +32,6 @@ namespace FiresecService
 		{
 			Patch_SKD();
 			Patch_DynamicDB();
-		}
-
-		static void Patch_SKD()
-		{
-			try
-			{
-				var server = new Server(new ServerConnection(new SqlConnection(ConnectionString)));
-				string commandText = @"SELECT name FROM sys.databases WHERE name = 'SKD'";
-				var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
-				bool isExists = reader.Read();
-				server.ConnectionContext.Disconnect();
-				if (!isExists)
-				{
-					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/Create.sql"));
-					using (StreamReader streamReader = new StreamReader(createStream.Stream))
-					{
-						commandText = streamReader.ReadToEnd();
-					}
-					server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-					server.ConnectionContext.Disconnect();
-				}
-				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKD/Patches.sql"));
-				using (StreamReader streamReader = new StreamReader(patchesStream.Stream))
-				{
-					commandText = streamReader.ReadToEnd();
-				}
-				server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-				server.ConnectionContext.Disconnect();
-
-				//var random = new Random();
-				//for (int i = 0; i < Int32.MaxValue; i++)
-				//{
-				//    var journalItem = new JournalItem();
-				//    journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-				//    journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
-				//    journalItem.JournalEventNameType = (JournalEventNameType)random.Next(100);
-				//    journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)random.Next(100);
-				//    journalItem.ObjectUID = Guid.NewGuid();
-				//    DBHelper.Add(journalItem);
-				//}
-			}
-			catch (ConnectionFailureException e)
-			{
-				UILogger.Log("Не удалось подключиться к базе данных " + ConnectionString);
-				Logger.Error(e, "PatchManager.Patch_SKD");
-				BalloonHelper.ShowFromServer("Не удалось подключиться к базе данных");
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "PatchManager.Patch_SKD");
-			}
 		}
 
 		static void Patch_Journal(int no)

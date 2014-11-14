@@ -54,12 +54,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Guid uid)
-		{
-			var result = FiresecManager.FiresecService.MarkDeletedCard(uid);
-			return Common.ShowErrorIfExists(result);
-		}
-
 		public static bool Delete(Guid uid)
 		{
 			var result = FiresecManager.FiresecService.DeletedCard(uid);

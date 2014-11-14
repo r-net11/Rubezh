@@ -38,6 +38,7 @@ namespace SKDDriver.Translators
 			var apiItem = base.Translate(tableItem);
 			apiItem.ScheduleUID = tableItem.ScheduleUID;
 			apiItem.ZoneUID = tableItem.ZoneUID;
+			apiItem.DoorUID = tableItem.DoorUID;
 			return apiItem;
 		}
 		protected override void TranslateBack(DataAccess.ScheduleZone tableItem, ScheduleZone apiItem)
@@ -48,6 +49,7 @@ namespace SKDDriver.Translators
 			else
 				tableItem.Schedule = schedule;
 			tableItem.ZoneUID = apiItem.ZoneUID;
+			tableItem.DoorUID = apiItem.DoorUID;
 		}
 
 		public List<ScheduleZone> TranslateAll(IEnumerable<DataAccess.ScheduleZone> list)

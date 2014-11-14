@@ -39,22 +39,21 @@ namespace FiresecService
 						string detalization = JournalDetalisationItem.ListToString(journalItem.JournalDetalisationItems);
 
 						sqCommand.CommandText = @"Insert Into Journal" +
-							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
+							"(UID,SystemDate,DeviceDate,Subsystem,Name,Description,DescriptionText,ObjectType,ObjectName,ObjectUID,Detalisation,UserName,EmployeeUID) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13)";
 						sqCommand.Parameters.AddWithValue("@p1", (object)journalItem.UID);
 						sqCommand.Parameters.AddWithValue("@p2", (object)journalItem.SystemDateTime);
 						sqCommand.Parameters.AddWithValue("@p3", (object)journalItem.DeviceDateTime ?? DBNull.Value);
 						sqCommand.Parameters.AddWithValue("@p4", (object)((int)journalItem.JournalSubsystemType));
 						sqCommand.Parameters.AddWithValue("@p5", (object)((int)journalItem.JournalEventNameType));
 						sqCommand.Parameters.AddWithValue("@p6", (object)((int)journalItem.JournalEventDescriptionType));
-						sqCommand.Parameters.AddWithValue("@p7", (object)journalItem.NameText ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p8", (object)journalItem.DescriptionText ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p9", (object)((int)journalItem.JournalObjectType));
-						sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectName ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p11", (object)journalItem.ObjectUID);
-						sqCommand.Parameters.AddWithValue("@p12", (object)detalization);
-						sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.UserName ?? DBNull.Value);
-						sqCommand.Parameters.AddWithValue("@p14", (object)journalItem.EmployeeUID);
+						sqCommand.Parameters.AddWithValue("@p7", (object)journalItem.DescriptionText ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p8", (object)((int)journalItem.JournalObjectType));
+						sqCommand.Parameters.AddWithValue("@p9", (object)journalItem.ObjectName ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectUID);
+						sqCommand.Parameters.AddWithValue("@p11", (object)detalization);
+						sqCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
+						sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.EmployeeUID);
 						sqCommand.ExecuteNonQuery();
 
 						dataContext.Close();
@@ -346,9 +345,6 @@ namespace FiresecService
 
 			if (!reader.IsDBNull(reader.GetOrdinal("DescriptionText")))
 				journalItem.DescriptionText = reader.GetString(reader.GetOrdinal("DescriptionText"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("NameText")))
-				journalItem.NameText = reader.GetString(reader.GetOrdinal("NameText"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
 				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));

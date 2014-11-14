@@ -626,7 +626,6 @@ namespace GKProcessor
 				JournalObjectType = journalObjectType,
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
-				NameText = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				DescriptionText = description,
 				ObjectUID = uid,
 				UserName = userName,

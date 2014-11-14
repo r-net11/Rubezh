@@ -122,6 +122,7 @@ namespace GKModule.ViewModels
 				PropertiesViewModel.Update();
 			}
 			UpdateDeviceParameterMissmatch();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanPasteTemplate()
 		{
@@ -143,6 +144,7 @@ namespace GKModule.ViewModels
 				}
 			}
 			UpdateDeviceParameterMissmatch();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanPasteAllTemplate()
 		{

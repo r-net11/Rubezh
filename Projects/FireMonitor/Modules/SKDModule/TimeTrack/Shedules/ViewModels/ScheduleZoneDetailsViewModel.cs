@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
@@ -10,8 +11,8 @@ namespace SKDModule.ViewModels
 	{
 		Schedule _schedule;
 		public ScheduleZone ScheduleZone { get; private set; }
-
-		public ScheduleZoneDetailsViewModel(Schedule schedule, ScheduleZone sheduleZone = null)
+		 
+		public ScheduleZoneDetailsViewModel(Schedule schedule, Organisation organisation, ScheduleZone sheduleZone = null)
 		{
 			_schedule = schedule;
 			if (sheduleZone == null)
@@ -26,19 +27,23 @@ namespace SKDModule.ViewModels
 				Title = "Редактирование помещения";
 			ScheduleZone = sheduleZone;
 
-			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in FiresecAPI.SKD.SKDManager.Zones)
+
+			var doors = FiresecAPI.SKD.SKDManager.Doors.Where(x => organisation.DoorUIDs.Any(y => y == x.UID));
+			Zones = new ObservableCollection<SelectationScheduleZoneViewModel>(); 
+			foreach (var door in doors)
 			{
-				var zoneViewModel = new ZoneViewModel(zone);
-				Zones.Add(zoneViewModel);
+				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null)
+					Zones.Add(new SelectationScheduleZoneViewModel(door.OutDevice.Zone, door.UID));
+				if (door != null && door.InDevice != null && door.InDevice.Zone != null)
+					Zones.Add(new SelectationScheduleZoneViewModel(door.InDevice.Zone, door.UID));
 			}
 			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
 		}
 
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		public ObservableCollection<SelectationScheduleZoneViewModel> Zones { get; private set; }
 
-		ZoneViewModel _selectedZone;
-		public ZoneViewModel SelectedZone
+		SelectationScheduleZoneViewModel _selectedZone;
+		public SelectationScheduleZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
 			set
@@ -63,7 +68,20 @@ namespace SKDModule.ViewModels
 				}
 			}
 			ScheduleZone.ZoneUID = SelectedZone.Zone.UID;
+			ScheduleZone.DoorUID = SelectedZone.DoorUID;
 			return true;
+		}
+	}
+
+	public class SelectationScheduleZoneViewModel:BaseViewModel
+	{
+		public SKDZone Zone { get; private set; }
+		public Guid DoorUID { get; private set; }
+
+		public SelectationScheduleZoneViewModel(SKDZone zone, Guid doorUID)
+		{
+			Zone = zone;
+			DoorUID = doorUID;
 		}
 	}
 }

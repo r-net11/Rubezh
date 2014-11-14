@@ -48,9 +48,6 @@ namespace GKModule.ViewModels
 			InitializePlans();
 
 			Title = Device.PresentationName;
-			if (!string.IsNullOrEmpty(Device.Description))
-				Title += " (" + Device.Description + ")";
-
 			StartMeasureParametersMonitoring();
 		}
 

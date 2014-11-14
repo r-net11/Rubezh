@@ -17,8 +17,11 @@ namespace GKModule.ViewModels
 {
 	public class DelaysViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public static DelaysViewModel Current { get; private set; }
+
 		public DelaysViewModel()
 		{
+			Current = this;
 			Menu = new DelaysMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);

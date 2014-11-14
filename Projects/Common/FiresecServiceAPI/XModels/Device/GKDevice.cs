@@ -270,7 +270,15 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public override string PresentationName
 		{
-			get { return ShortName + " " + DottedPresentationAddress; }
+			get
+			{
+				var result = ShortName + " " + DottedPresentationAddress;
+				if (!string.IsNullOrEmpty(Description))
+				{
+					result += "(" + Description + ")";
+				}
+				return result;
+			}
 		}
 
 		public void SetAddress(string address)
