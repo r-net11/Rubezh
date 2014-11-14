@@ -200,13 +200,15 @@ namespace AutomationModule.ViewModels
 
 		void Add(StepViewModel stepViewModel)
 		{
-			if (SelectedStep == null || SelectedStep.Parent == null || SelectedStep.Step.ProcedureStepType == ProcedureStepType.If || SelectedStep.Step.ProcedureStepType == ProcedureStepType.Foreach
-				|| SelectedStep.Step.ProcedureStepType == ProcedureStepType.For || SelectedStep.Step.ProcedureStepType == ProcedureStepType.While)
+			if (SelectedStep == null || SelectedStep.Parent == null)
 			{
 				Procedure.Steps.Add(stepViewModel.Step);
-				RootSteps.Add(stepViewModel);
+				if (SelectedStep == null)
+					RootSteps.Add(stepViewModel);
+				else
+					RootSteps.Insert(RootSteps.IndexOf(SelectedStep) + 1, stepViewModel);
 			}
-			else if (SelectedStep != null)
+			else
 			{
 				if (SelectedStep.Step.ProcedureStepType == ProcedureStepType.IfNo || SelectedStep.Step.ProcedureStepType == ProcedureStepType.IfYes || SelectedStep.Step.ProcedureStepType == ProcedureStepType.ForeachBody)
 				{
@@ -216,11 +218,12 @@ namespace AutomationModule.ViewModels
 				else if (SelectedStep.Parent.Step.ProcedureStepType == ProcedureStepType.IfYes || SelectedStep.Parent.Step.ProcedureStepType == ProcedureStepType.IfNo ||
 					SelectedStep.Parent.Step.ProcedureStepType == ProcedureStepType.ForeachBody)
 				{
-					SelectedStep.Parent.Step.Children.Add(stepViewModel.Step);
-					SelectedStep.Parent.AddChild(stepViewModel);
+					SelectedStep.Parent.Step.Children.Insert(SelectedStep.Parent.Step.Children.IndexOf(stepViewModel.Step) + 1, stepViewModel.Step);
+					SelectedStep.Parent[SelectedStep.Index].InsertChild(stepViewModel);
 				}
 			}
 			SelectedStep = stepViewModel;
+			SelectedStep.ExpandToThis();
 		}
 
 		bool CanAdd()
@@ -255,15 +258,28 @@ namespace AutomationModule.ViewModels
 		{
 			if (SelectedStep.Parent == null)
 			{
+				var index = RootSteps.IndexOf(SelectedStep) - 1;
+				if (RootSteps.Count > index && index >= 0 && (RootSteps[index].Step.ProcedureStepType == ProcedureStepType.IfNo || RootSteps[index].Step.ProcedureStepType == ProcedureStepType.IfYes || RootSteps[index].Step.ProcedureStepType == ProcedureStepType.ForeachBody))
+				{
+					index = index - 1;
+				}
 				Procedure.Steps.Remove(SelectedStep.Step);
 				RootSteps.Remove(SelectedStep);
+				if (RootSteps.Count > index && index >= 0)
+					SelectedStep = RootSteps[index];
+				else
+					SelectedStep = RootSteps.FirstOrDefault();
 			}
 			else
 			{
-				SelectedStep.Parent.Step.Children.Remove(SelectedStep.Step);
-				SelectedStep.Parent.RemoveChild(SelectedStep);
+				var index = SelectedStep.Index - 1;
+				var parent = SelectedStep.Parent;
+				parent.Step.Children.Remove(SelectedStep.Step);
+				parent.RemoveChild(SelectedStep);
+				SelectedStep = parent.Children.FirstOrDefault(x => x.Index == index);
+				if (SelectedStep == null)
+					SelectedStep = parent.Parent;
 			}
-			SelectedStep = RootSteps.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleted()
@@ -407,18 +423,18 @@ namespace AutomationModule.ViewModels
 						else if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
 						{
 							RootSteps.Insert(parentIndex + delta, stepViewModel);
-							Procedure.Steps.Insert(parentIndex + delta, stepViewModel.Step);
+							Procedure.Steps.Insert(parentIndex + delta - 1, stepViewModel.Step);
 						}
 						else
 						{
 							parentViewModel.Parent.Parent[parentIndex + delta - 1].InsertChild(stepViewModel);
-							parentViewModel.Parent.Parent.Step.Children.Insert(index + delta, stepViewModel.Step);
+							parentViewModel.Parent.Parent.Step.Children.Insert(index + delta - 1, stepViewModel.Step);
 						}
 					}
 					else
 					{
 						parentViewModel[index + delta - 1].InsertChild(stepViewModel);
-						parentViewModel.Step.Children.Insert(index + delta, stepViewModel.Step);
+						parentViewModel.Step.Children.Insert(index + delta - 1, stepViewModel.Step);
 					}
 				}
 				else
