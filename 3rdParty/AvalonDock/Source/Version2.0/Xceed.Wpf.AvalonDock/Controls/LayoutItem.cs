@@ -23,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Xceed.Wpf.AvalonDock.Commands;
 using Xceed.Wpf.AvalonDock.Layout;
+using System.Diagnostics;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
@@ -51,7 +52,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			LayoutElement.IsActiveChanged += new EventHandler(LayoutElement_IsActiveChanged);
 
 			DataContext = this;
-			System.Diagnostics.Trace.WriteLine(string.Format("Attach({0})", LayoutElement.Title));
+			Debug.WriteLine(string.Format("Attach({0})", LayoutElement.Title));
 		}
 
 		void LayoutElement_IsActiveChanged(object sender, EventArgs e)
@@ -76,7 +77,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		internal virtual void Detach()
 		{
-			System.Diagnostics.Trace.WriteLine(string.Format("Detach({0})", LayoutElement.Title));
+			Debug.WriteLine(string.Format("Detach({0})", LayoutElement.Title));
 			LayoutElement.IsSelectedChanged -= new EventHandler(LayoutElement_IsSelectedChanged);
 			LayoutElement.IsActiveChanged -= new EventHandler(LayoutElement_IsActiveChanged);
 			LayoutElement = null;

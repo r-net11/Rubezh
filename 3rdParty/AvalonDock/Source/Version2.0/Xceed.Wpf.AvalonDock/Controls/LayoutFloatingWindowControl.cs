@@ -81,7 +81,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 			protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
 			{
-				Trace.WriteLine("FloatingWindowContentHost.GotKeyboardFocus");
+				Debug.WriteLine("FloatingWindowContentHost.GotKeyboardFocus");
 				base.OnGotKeyboardFocus(e);
 			}
 			protected override void DestroyWindowCore(HandleRef hwnd)
@@ -98,10 +98,10 @@ namespace Xceed.Wpf.AvalonDock.Controls
 				switch (msg)
 				{
 					case Win32Helper.WM_SETFOCUS:
-						Trace.WriteLine("FloatingWindowContentHost.WM_SETFOCUS");
+						Debug.WriteLine("FloatingWindowContentHost.WM_SETFOCUS");
 						break;
 					case Win32Helper.WM_KILLFOCUS:
-						Trace.WriteLine("FloatingWindowContentHost.WM_KILLFOCUS");
+						Debug.WriteLine("FloatingWindowContentHost.WM_KILLFOCUS");
 						break;
 				}
 				return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
@@ -338,7 +338,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
 		{
-			//Trace.WriteLine("IsDragging={0}", e.NewValue);
+			//Debug.WriteLine("IsDragging={0}", e.NewValue);
 		}
 
 		#endregion

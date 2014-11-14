@@ -58,7 +58,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
-            System.Diagnostics.Trace.WriteLine( string.Format( "OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus ) );
+			System.Diagnostics.Debug.WriteLine(string.Format("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus));
 
 
             //if (_model.SelectedContent != null)

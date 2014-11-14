@@ -367,7 +367,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override bool Save()
+		potected override bool Save()
 		{
 			if (EndDate < StartDate)
 			{

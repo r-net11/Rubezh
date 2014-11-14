@@ -40,8 +40,6 @@ namespace PlansModule.ViewModels
 			if (SelectedPlan != null)
 				SelectedPlan.ExpandToThis();
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
-			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
-			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
@@ -101,115 +99,6 @@ namespace PlansModule.ViewModels
 		{
 			if (SelectedPlan == null && Plans.IsNotNullOrEmpty())
 				SelectedPlan = Plans[0];
-		}
-
-		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				switch (automationCallbackResult.AutomationCallbackType)
-				{
-					case AutomationCallbackType.SetPlanProperty:
-						var planArguments = (PlanCallbackData)automationCallbackResult.Data;
-						var plan = Plans.FirstOrDefault(x => x.Plan.UID == planArguments.PlanUid);
-						if (plan != null)
-						{
-							var elementBase = GetAllElements(plan.Plan).FirstOrDefault(x => x.UID == planArguments.ElementUid);
-							if (elementBase is ElementBaseRectangle)
-							{
-								var element = elementBase as ElementBaseRectangle;
-								if (element != null)
-								{
-									if (planArguments.ElementPropertyType == ElementPropertyType.Height)
-										element.Height = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Width)
-										element.Width = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-										element.BorderColor = (Color) planArguments.Value;
-									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
-										element.BackgroundColor = (Color)planArguments.Value;
-									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
-										element.BorderThickness = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
-										element.Left = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Top)
-										element.Top = Convert.ToDouble(planArguments.Value);
-								}
-							}
-							if (elementBase is ElementTextBlock)
-							{
-								var element = elementBase as ElementTextBlock;
-								if (element != null)
-								{
-									if (planArguments.ElementPropertyType == ElementPropertyType.FontBold)
-										element.FontBold = Convert.ToBoolean(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.FontItalic)
-										element.FontItalic = Convert.ToBoolean(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.FontSize)
-										element.FontSize = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.ForegroundColor)
-										element.ForegroundColor = (Color)planArguments.Value;
-									if (planArguments.ElementPropertyType == ElementPropertyType.Stretch)
-										element.Stretch = Convert.ToBoolean(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Text)
-										element.Text = Convert.ToString(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.WordWrap)
-										element.WordWrap = Convert.ToBoolean(planArguments.Value);
-								}
-							}
-							if (elementBase is ElementBasePolygon)
-							{
-								var element = elementBase as ElementBasePolygon;
-								if (element != null)
-								{
-									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-										element.BorderColor = (Color) planArguments.Value;
-									if (planArguments.ElementPropertyType == ElementPropertyType.BackColor)
-										element.BackgroundColor = (Color)planArguments.Value;
-									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
-										element.BorderThickness = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
-										element.Position = new System.Windows.Point(Convert.ToDouble(planArguments.Value), element.Position.Y);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Top)
-										element.Position = new System.Windows.Point(element.Position.X, Convert.ToDouble(planArguments.Value));
-								}
-							}
-
-							if (elementBase is ElementBasePolyline)
-							{
-								var element = elementBase as ElementBasePolyline;
-								if (element != null)
-								{
-									if (planArguments.ElementPropertyType == ElementPropertyType.Color)
-										element.BorderColor = (Color)planArguments.Value;
-									if (planArguments.ElementPropertyType == ElementPropertyType.BorderThickness)
-										element.BorderThickness = Convert.ToDouble(planArguments.Value);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Left)
-										element.Position = new System.Windows.Point(Convert.ToDouble(planArguments.Value), element.Position.Y);
-									if (planArguments.ElementPropertyType == ElementPropertyType.Top)
-										element.Position = new System.Windows.Point(element.Position.X, Convert.ToDouble(planArguments.Value));
-								}
-							}
-						}
-						SelectedPlanChanged(this, EventArgs.Empty);
-						break;
-				}
-			});
-		}
-
-		public static ObservableCollection<ElementBase> GetAllElements(Plan plan)
-		{
-			var elements = new ObservableCollection<ElementBase>();
-			var allElements = new List<ElementBase>(plan.ElementRectangles);
-			allElements.AddRange(plan.ElementEllipses);
-			allElements.AddRange(plan.ElementPolylines);
-			allElements.AddRange(plan.ElementTextBlocks);
-			allElements.AddRange(plan.ElementPolygons);
-			foreach (var elementRectangle in allElements)
-			{
-				elements.Add(elementRectangle);
-			}
-			return elements;
 		}
 	}
 }

@@ -13,6 +13,11 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
+using FiresecAPI.AutomationCallback;
+using System.Collections.ObjectModel;
+using Infrustructure.Plans.Elements;
+using FiresecAPI.Automation;
+using System.Windows.Media;
 
 namespace PlansModule.ViewModels
 {
@@ -62,9 +67,11 @@ namespace PlansModule.ViewModels
 				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
+			SafeFiresecService.AutomationEvent -= OnAutomationCallback;
+			SafeFiresecService.AutomationEvent += OnAutomationCallback;
 		}
 
-		void OnSelectPlan(Guid planUID)
+		private void OnSelectPlan(Guid planUID)
 		{
 			if (PlanTreeViewModel != null)
 			{
@@ -75,11 +82,11 @@ namespace PlansModule.ViewModels
 					PlanTreeViewModel.SelectedPlan = newPlan;
 			}
 		}
-		void SelectedPlanChanged(object sender, EventArgs e)
+		private void SelectedPlanChanged(object sender, EventArgs e)
 		{
 			OnSelectedPlanChanged();
 		}
-		void OnSelectedPlanChanged()
+		private void OnSelectedPlanChanged()
 		{
 			if (_initialized)
 			{
@@ -98,7 +105,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		void OnShowElement(Guid elementUID)
+		private void OnShowElement(Guid elementUID)
 		{
 			foreach (var presenterItem in PlanDesignerViewModel.PresenterItems)
 				if (presenterItem.Element.UID == elementUID)
@@ -107,20 +114,29 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.Navigate(presenterItem);
 				}
 		}
-		void OnFindElementEvent(List<Guid> deviceUIDs)
+		private void OnFindElementEvent(List<Guid> deviceUIDs)
 		{
 			if (PlanTreeViewModel != null)
+			{
 				foreach (var plan in PlanTreeViewModel.AllPlans)
-					if (plan.PlanFolder == null)
-						foreach (var element in plan.Plan.ElementUnion)
-							if (deviceUIDs.Contains(element.UID))
-							{
-								PlanTreeViewModel.SelectedPlan = plan;
-								OnShowElement(element.UID);
-								return;
-							}
+					if (plan.PlanFolder == null && FindElementOnPlan(plan, deviceUIDs))
+						return;
+			}
+			else
+				FindElementOnPlan(PlanDesignerViewModel.PlanViewModel, deviceUIDs);
 		}
-		void OnNavigate(NavigateToPlanElementEventArgs args)
+		private bool FindElementOnPlan(PlanViewModel plan, List<Guid> deviceUIDs)
+		{
+			foreach (var element in plan.Plan.ElementUnion)
+				if (deviceUIDs.Contains(element.UID))
+				{
+					PlanTreeViewModel.SelectedPlan = plan;
+					OnShowElement(element.UID);
+					return true;
+				}
+			return false;
+		}
+		private void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
 			//Debug.WriteLine("[{0}]Navigation: PlanUID={1}\t\tElementUID={2}", DateTime.Now, args.PlanUID, args.ElementUID);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
@@ -151,6 +167,82 @@ namespace PlansModule.ViewModels
 				_planNavigationWidth = value;
 				OnPropertyChanged(() => PlanNavigationWidth);
 			}
+		}
+
+		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				switch (automationCallbackResult.AutomationCallbackType)
+				{
+					case AutomationCallbackType.SetPlanProperty:
+						var planArguments = (PlanCallbackData)automationCallbackResult.Data;
+						var plan = PlanTreeViewModel == null ? (PlanDesignerViewModel.Plan.UID == planArguments.PlanUid ? PlanDesignerViewModel.PlanViewModel : null) : PlanTreeViewModel.Plans.FirstOrDefault(x => x.Plan.UID == planArguments.PlanUid);
+						if (plan != null)
+						{
+							var elementBase = plan.Plan.SimpleElements.FirstOrDefault(x => x.UID == planArguments.ElementUid);
+							switch (planArguments.ElementPropertyType)
+							{
+								case ElementPropertyType.Color:
+									elementBase.BorderColor = (Color)planArguments.Value;
+									break;
+								case ElementPropertyType.BackColor:
+									elementBase.BackgroundColor = (Color)planArguments.Value;
+									break;
+								case ElementPropertyType.BorderThickness:
+									elementBase.BorderThickness = Convert.ToDouble(planArguments.Value);
+									break;
+							}
+							var elementRectangle = elementBase as ElementBaseRectangle;
+							if (elementRectangle != null)
+								switch (planArguments.ElementPropertyType)
+								{
+									case ElementPropertyType.Height:
+										elementRectangle.Height = Convert.ToDouble(planArguments.Value);
+										break;
+									case ElementPropertyType.Width:
+										elementRectangle.Width = Convert.ToDouble(planArguments.Value);
+										break;
+									case ElementPropertyType.Left:
+										elementRectangle.Left = Convert.ToDouble(planArguments.Value);
+										break;
+									case ElementPropertyType.Top:
+										elementRectangle.Top = Convert.ToDouble(planArguments.Value);
+										break;
+								}
+							var elementText = elementBase as IElementTextBlock;
+							if (elementText != null)
+								switch (planArguments.ElementPropertyType)
+								{
+									case ElementPropertyType.FontBold:
+										elementText.FontBold = Convert.ToBoolean(planArguments.Value);
+										break;
+									case ElementPropertyType.FontItalic:
+										elementText.FontItalic = Convert.ToBoolean(planArguments.Value);
+										break;
+									case ElementPropertyType.FontSize:
+										elementText.FontSize = Convert.ToDouble(planArguments.Value);
+										break;
+									case ElementPropertyType.ForegroundColor:
+										elementText.ForegroundColor = (Color)planArguments.Value;
+										break;
+									case ElementPropertyType.Stretch:
+										elementText.Stretch = Convert.ToBoolean(planArguments.Value);
+										break;
+									case ElementPropertyType.Text:
+										elementText.Text = Convert.ToString(planArguments.Value);
+										break;
+									case ElementPropertyType.WordWrap:
+										elementText.WordWrap = Convert.ToBoolean(planArguments.Value);
+										break;
+								}
+							var presenterItem = PlanDesignerViewModel.PresenterItems.FirstOrDefault(item => item.Element == elementBase);
+							if (presenterItem != null)
+								presenterItem.InvalidatePainter();
+						}
+						break;
+				}
+			});
 		}
 	}
 }

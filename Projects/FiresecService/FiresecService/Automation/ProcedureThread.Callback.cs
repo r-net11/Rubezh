@@ -13,12 +13,15 @@ namespace FiresecService
 		private object _lock = new object();
 		private object _callbackResponse;
 		private AutoResetEvent _waitHandler;
+		private bool _flag;
 
 		private object SendCallback(UIArguments arguments, AutomationCallbackResult callback, bool withResponse = false)
 		{
 			callback.ProcedureUID = UID;
 			if (callback.Data != null)
 				callback.Data.LayoutFilter = GetLayoutFilter(arguments);
+			if (withResponse)
+				_flag = true;
 			Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
 			_callbackResponse = null;
 			if (withResponse)
@@ -27,19 +30,19 @@ namespace FiresecService
 					_waitHandler.WaitOne(TimeSpan.FromMinutes(1));
 				_waitHandler = null;
 			}
+			_flag = false;
 			return _callbackResponse;
 		}
 
 		public void SetCallbackResponse(object value)
 		{
-			if (_waitHandler != null)
+			if (_flag)
 				lock (_lock)
-					if (_waitHandler != null)
+					if (_flag)
 					{
 						_callbackResponse = value;
 						_waitHandler.Set();
-						while (_waitHandler != null)
-							Thread.Sleep(100);
+						_flag = false;
 					}
 		}
 

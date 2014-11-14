@@ -35,6 +35,9 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public Argument Argument { get; set; }
 
+		[DataMember]
+		public bool StoreOnServer { get; set; }
+
 		private void CheckFilter()
 		{
 			if (LayoutFilter == null)
