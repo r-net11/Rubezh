@@ -14,6 +14,7 @@ using FiresecAPI.AutomationCallback;
 using System.Threading;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using FiresecService.Automation;
 
 namespace FiresecService
 {
@@ -109,7 +110,11 @@ namespace FiresecService
 				SetValue(procedureStep.ControlVisualArguments.Argument, value);
 			}
 			else
+			{
 				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
+				if (procedureStep.ControlVisualArguments.StoreOnServer)
+					LayoutPropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyData)automationCallbackResult.Data);
+			}
 		}
 
 		void ControlPlan(ProcedureStep procedureStep)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Automation;
+using FiresecAPI.AutomationCallback;
+using FiresecService.Automation;
 
 namespace FiresecService.Service
 {
@@ -25,6 +27,11 @@ namespace FiresecService.Service
 			var procedure = ProcedureRunner.ProceduresThreads.FirstOrDefault(item => item.UID == procedureThreadUID);
 			if (procedure != null)
 				procedure.SetCallbackResponse(value);
+		}
+
+		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)
+		{
+			return LayoutPropertyCache.GetProperties(layoutUID);
 		}
 	}
 }

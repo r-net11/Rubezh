@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.Automation;
 using System.Windows.Media;
+using FiresecAPI.AutomationCallback;
 
 namespace FiresecAPI
 {
@@ -13,5 +14,7 @@ namespace FiresecAPI
 		[OperationContract(IsOneWay = true)]
 		[ServiceKnownType(typeof(Color))]
 		void ProcedureCallbackResponse(Guid procedureThreadUID, object value);
+		[OperationContract]
+		List<VisualPropertyData> GetChangedProperties(Guid layoutUID);
 	}
 }

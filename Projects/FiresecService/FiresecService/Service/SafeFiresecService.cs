@@ -8,6 +8,7 @@ using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using FiresecAPI.AutomationCallback;
 
 namespace FiresecService.Service
 {
@@ -345,6 +346,11 @@ namespace FiresecService.Service
 		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
 		{
 			SafeOperationCall(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value), "ProcedureCallbackResponse");
+		}
+
+		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetChangedProperties(layoutUID); }, "GetChangedProperties");
 		}
 
 		#endregion
