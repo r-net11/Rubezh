@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var employeeSelectionViewModel = new EmployeeSelectionViewModel(EmptyFilter);
+			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(EmptyFilter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
 				var viewModel = new TItem();

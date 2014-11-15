@@ -22,73 +22,80 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
+			FillViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
+			LeadViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
+			HRViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
 		}
 
-		string _fillName;
-		public string FillName
-		{
-			get { return _fillName; }
-			set
-			{
-				_fillName = value;
-				OnPropertyChanged(() => FillName);
-			}
-		}
+		public EmployeeSelectationViewModel FillViewModel { get; private set; }
+		public EmployeeSelectationViewModel LeadViewModel { get; private set; }
+		public EmployeeSelectationViewModel HRViewModel { get; private set; }
+		
+		//string _fillName;
+		//public string FillName
+		//{
+		//    get { return _fillName; }
+		//    set
+		//    {
+		//        _fillName = value;
+		//        OnPropertyChanged(() => FillName);
+		//    }
+		//}
 
-		string _leadName;
-		public string LeadName
-		{
-			get { return _leadName; }
-			set
-			{
-				_leadName = value;
-				OnPropertyChanged(() => LeadName);
-			}
-		}
+		//string _leadName;
+		//public string LeadName
+		//{
+		//    get { return _leadName; }
+		//    set
+		//    {
+		//        _leadName = value;
+		//        OnPropertyChanged(() => LeadName);
+		//    }
+		//}
 
-		string _hrName;
-		public string HRName
-		{
-			get { return _hrName; }
-			set
-			{
-				_hrName = value;
-				OnPropertyChanged(() => HRName);
-			}
-		}
+		//string _hrName;
+		//public string HRName
+		//{
+		//    get { return _hrName; }
+		//    set
+		//    {
+		//        _hrName = value;
+		//        OnPropertyChanged(() => HRName);
+		//    }
+		//}
 
-		string _fillPosition;
-		public string FillPosition
-		{
-			get { return _fillPosition; }
-			set
-			{
-				_fillPosition = value;
-				OnPropertyChanged(() => FillPosition);
-			}
-		}
+		//string _fillPosition;
+		//public string FillPosition
+		//{
+		//    get { return _fillPosition; }
+		//    set
+		//    {
+		//        _fillPosition = value;
+		//        OnPropertyChanged(() => FillPosition);
+		//    }
+		//}
 
-		string _leadPosition;
-		public string LeadPosition
-		{
-			get { return _leadPosition; }
-			set
-			{
-				_leadPosition = value;
-				OnPropertyChanged(() => LeadPosition);
-			}
-		}
+		//string _leadPosition;
+		//public string LeadPosition
+		//{
+		//    get { return _leadPosition; }
+		//    set
+		//    {
+		//        _leadPosition = value;
+		//        OnPropertyChanged(() => LeadPosition);
+		//    }
+		//}
 
-		string _hrPosition;
-		public string HRPosition
-		{
-			get { return _hrPosition; }
-			set
-			{
-				_hrPosition = value;
-				OnPropertyChanged(() => HRPosition);
-			}
-		}
+		//string _hrPosition;
+		//public string HRPosition
+		//{
+		//    get { return _hrPosition; }
+		//    set
+		//    {
+		//        _hrPosition = value;
+		//        OnPropertyChanged(() => HRPosition);
+		//    }
+		//}
 
 		DateTime _dateTime;
 		public DateTime DateTime
@@ -105,12 +112,12 @@ namespace SKDModule.ViewModels
 		{
 			var report = new ReportT13()
 			{
-				FillName = FillName,
-				LeadName = LeadName,
-				HRName = HRName,
-				FillPosition = FillPosition,
-				LeadPosition = LeadPosition,
-				HRPosition = HRPosition,
+				FillName = FillViewModel.HasSelected ? FillViewModel.SelectedEmployee.Name : "",
+				LeadName = LeadViewModel.HasSelected ? LeadViewModel.SelectedEmployee.Name : "",
+				HRName = HRViewModel.HasSelected ? HRViewModel.SelectedEmployee.Name : "",
+				FillPosition = FillViewModel.HasSelected ? FillViewModel.SelectedEmployee.PositionName : "",
+				LeadPosition = LeadViewModel.HasSelected ? LeadViewModel.SelectedEmployee.PositionName : "",
+				HRPosition = HRViewModel.HasSelected ? HRViewModel.SelectedEmployee.PositionName : "",
 				OrganisationName = OrganisationHelper.GetByCurrentUser().Where(org => org.UID == TimeTrackEmployeeResults[0].ShortEmployee.OrganisationUID).Select(org => org.Name).FirstOrDefault(),
 				DepartmentName = TimeTrackEmployeeResults.FirstOrDefault().ShortEmployee.DepartmentName,
 				CreationDateTime = DateTime,

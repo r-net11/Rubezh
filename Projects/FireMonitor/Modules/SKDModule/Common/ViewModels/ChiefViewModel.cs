@@ -7,44 +7,44 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ChiefViewModel : BaseViewModel
+	public class EmployeeSelectationViewModel : BaseViewModel
 	{
 		EmployeeFilter _filter;
 
-		public ChiefViewModel(Guid chiefUID, EmployeeFilter filter)
+		public EmployeeSelectationViewModel(Guid chiefUID, EmployeeFilter filter)
 		{
-			SelectChiefCommand = new RelayCommand(OnSelectChief);
-			Chief = EmployeeHelper.GetSingleShort(chiefUID);
+			SelectCommand = new RelayCommand(OnSelect);
+			SelectedEmployee = EmployeeHelper.GetSingleShort(chiefUID);
 			_filter = filter;
 		}
 
-		ShortEmployee _chief;
-		public ShortEmployee Chief
+		ShortEmployee _selectedEmployee;
+		public ShortEmployee SelectedEmployee
 		{
-			get { return _chief; }
+			get { return _selectedEmployee; }
 			set
 			{
-				_chief = value;
-				OnPropertyChanged(() => Chief);
-				OnPropertyChanged(() => HasChief);
+				_selectedEmployee = value;
+				OnPropertyChanged(() => SelectedEmployee);
+				OnPropertyChanged(() => HasSelected);
 			}
 		}
-		public bool HasChief
+		public bool HasSelected
 		{
-			get { return Chief != null; }
+			get { return SelectedEmployee != null; }
 		}
-		public Guid ChiefUID
+		public Guid SelectedEmployeeUID
 		{
-			get { return HasChief ? Chief.UID : Guid.Empty; }
+			get { return HasSelected ? SelectedEmployee.UID : Guid.Empty; }
 		}
 
-		public RelayCommand SelectChiefCommand { get; private set; }
-		void OnSelectChief()
+		public RelayCommand SelectCommand { get; private set; }
+		void OnSelect()
 		{
-			var employeeSelectionViewModel = new EmployeeSelectionViewModel(HasChief ? Chief.UID : Guid.Empty, _filter);
+			var employeeSelectionViewModel = new EmployeeSelectionDialogViewModel(HasSelected ? SelectedEmployee.UID : Guid.Empty, _filter);
 			if (DialogService.ShowModalWindow(employeeSelectionViewModel))
 			{
-				Chief = employeeSelectionViewModel.SelectedEmployee;
+				SelectedEmployee = employeeSelectionViewModel.SelectedEmployee;
 			}
 		}
 	}

@@ -13,8 +13,8 @@ namespace SKDModule.ViewModels
 	{
 		OrganisationsViewModel OrganisationsViewModel;
 		public OrganisationDetails OrganisationDetails { get; private set; }
-		public ChiefViewModel ChiefViewModel { get; private set; }
-		public ChiefViewModel HRChiefViewModel { get; private set; }
+		public EmployeeSelectationViewModel ChiefViewModel { get; private set; }
+		public EmployeeSelectationViewModel HRChiefViewModel { get; private set; }
 		public bool IsNew { get; private set; }
 
 		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, Organisation organisation = null)
@@ -36,8 +36,8 @@ namespace SKDModule.ViewModels
 				OrganisationDetails = OrganisationHelper.GetDetails(organisation.UID);
 			}
 			CopyProperties();
-			ChiefViewModel = new ChiefViewModel(OrganisationDetails.ChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
-			HRChiefViewModel = new ChiefViewModel(OrganisationDetails.HRChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
+			ChiefViewModel = new EmployeeSelectationViewModel(OrganisationDetails.ChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
+			HRChiefViewModel = new EmployeeSelectationViewModel(OrganisationDetails.HRChiefUID, new EmployeeFilter { OrganisationUIDs = new List<Guid> { OrganisationDetails.UID } });
 		}
 
 		void CopyProperties()
@@ -135,8 +135,8 @@ namespace SKDModule.ViewModels
 				OrganisationDetails.Photo = new Photo();
 				OrganisationDetails.Photo.Data = PhotoData;
 			}
-			OrganisationDetails.ChiefUID = ChiefViewModel.ChiefUID;
-			OrganisationDetails.HRChiefUID = HRChiefViewModel.ChiefUID;
+			OrganisationDetails.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
+			OrganisationDetails.HRChiefUID = HRChiefViewModel.SelectedEmployeeUID;
 			OrganisationDetails.Phone = Phone;
 			if (Validate())
 				return OrganisationHelper.Save(OrganisationDetails, IsNew);

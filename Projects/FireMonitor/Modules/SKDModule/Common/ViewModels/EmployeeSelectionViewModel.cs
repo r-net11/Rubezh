@@ -7,11 +7,11 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels 
 {
-	public class EmployeeSelectionViewModel : SaveCancelDialogViewModel
+	public class EmployeeSelectionDialogViewModel : SaveCancelDialogViewModel
 	{
 		EmployeeFilter _filter;
 
-		public EmployeeSelectionViewModel(Guid selectedEmployeeUID, EmployeeFilter filter)
+		public EmployeeSelectionDialogViewModel(Guid selectedEmployeeUID, EmployeeFilter filter)
 		{
 			Initialize(filter);
 			if (selectedEmployeeUID != Guid.Empty)
@@ -20,14 +20,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public EmployeeSelectionViewModel(EmployeeFilter filter)
+		public EmployeeSelectionDialogViewModel(EmployeeFilter filter)
 		{
 			Initialize(filter);
 		}
 
 		void Initialize(EmployeeFilter filter)
 		{
-			Title = "Выбор руководителя";
+			Title = "Выбор сотрудника";
 			_filter = filter;
 			var employeeModels = EmployeeHelper.Get(_filter);
 			if (employeeModels == null)

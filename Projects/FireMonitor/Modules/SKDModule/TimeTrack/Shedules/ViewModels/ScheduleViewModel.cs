@@ -8,6 +8,8 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -30,6 +32,8 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			base.InitializeModel(organisation, model, parentViewModel);
 			_isInitialized = false;
+			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Unsubscribe(OnUpdateOrganisationDoors);
+			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Subscribe(OnUpdateOrganisationDoors);
 			Update();
 		}
 
@@ -140,6 +144,13 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedScheduleZone != null && !IsDeleted;
+		}
+
+		public void OnUpdateOrganisationDoors(Guid organisationUID)
+		{
+			Organisation = OrganisationHelper.GetSingle(organisationUID);
+			var zonesToRemove = ScheduleZones.Where(x => !Organisation.DoorUIDs.Any(y => y == x.Model.DoorUID)).ToList();
+			zonesToRemove.ForEach(x => ScheduleZones.Remove(x));
 		}
 	}
 }

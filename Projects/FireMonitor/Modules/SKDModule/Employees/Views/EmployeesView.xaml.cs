@@ -7,7 +7,6 @@ using Controls.TreeList;
 using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
-using Controls;
 
 namespace SKDModule.Views
 {
@@ -133,7 +132,7 @@ namespace SKDModule.Views
 					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
 					dataTemplate.VisualTree = txtElement;
 					var binding = new Binding();
-					var bindingPath = string.Format("Position");
+					var bindingPath = string.Format("PositionName");
 					binding.Path = new PropertyPath(bindingPath);
 					binding.Mode = BindingMode.OneWay;
 					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);

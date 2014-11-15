@@ -129,6 +129,7 @@
     <Compile Include="Events\RestoreOrganisationEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
     <Compile Include="Events\UpdateAccessTemplateEvent.cs" />
+    <Compile Include="Events\UpdateOrganisationDoorsEvent.cs" />
     <Compile Include="Events\UpdateIsInGridEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />

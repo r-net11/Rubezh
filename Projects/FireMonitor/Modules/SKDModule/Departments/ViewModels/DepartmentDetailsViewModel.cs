@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 	{
 		Guid OrganisationUID { get; set; }
 		Department Department { get; set; }
-		public ChiefViewModel ChiefViewModel { get; private set; }
+		public EmployeeSelectationViewModel ChiefViewModel { get; private set; }
 		public bool IsNew { get; private set; }
 
 		public DepartmentDetailsViewModel() { }
@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства отдела: {0}", Department.Name);
 			}
 			CopyProperties();
-			ChiefViewModel = new ChiefViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
+			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 			return true;
 		}
 
@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 				OrganisationUID = OrganisationUID
 			};
 			CopyProperties();
-			ChiefViewModel = new ChiefViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
+			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
 		}
 
 		public void CopyProperties()
@@ -147,7 +147,7 @@ namespace SKDModule.ViewModels
 			if (Department.Photo == null)
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
-			Department.ChiefUID = ChiefViewModel.ChiefUID;
+			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
 			Department.Phone = Phone;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
