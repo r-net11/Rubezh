@@ -47,7 +47,7 @@ namespace GKProcessor
 				}
 
 				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(GKStateBit.Norm, Direction);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction);
 				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);
 			}
