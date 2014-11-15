@@ -89,7 +89,7 @@ namespace GKModule.Validation
 
 		void ValidatePumpStationOutput(GKPumpStation pumpStation)
 		{
-			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == GKDriverType.FirePump || x.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh);
+			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == GKDriverType.FirePump || x.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || x.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || x.Driver.DriverType == GKDriverType.RSR2_Bush_Fire);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite));
@@ -160,7 +160,7 @@ namespace GKModule.Validation
 				{
 					if (nsDevices.Contains(nsDevice))
 					{
-						Errors.Add(new DeviceValidationError(nsDevice, "Устройство присутствует в разных НС (" + pumpStation.PresentationName + ")", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DeviceValidationError(nsDevice, "Устройство присутствует в разных НС (" + pumpStation.PresentationName + ")", ValidationErrorLevel.Warning));
 					}
 					else
 					{
