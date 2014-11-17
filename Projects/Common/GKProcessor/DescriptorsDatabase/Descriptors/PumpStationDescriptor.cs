@@ -32,34 +32,36 @@ namespace GKProcessor
 
 		void SetFormulaBytes()
 		{
+			var hasAutomaticOffLogic = PumpStation.AutomaticOffLogic.OnClausesGroup.Clauses.Count + PumpStation.AutomaticOffLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			var hasStartLogic = PumpStation.StartLogic.OnClausesGroup.Clauses.Count + PumpStation.StartLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			var hasStopLogic = PumpStation.StopLogic.OnClausesGroup.Clauses.Count + PumpStation.StopLogic.OnClausesGroup.ClauseGroups.Count > 0;
+
 			Formula = new FormulaBuilder();
 
 			Formula.AddGetBit(GKStateBit.On, MainDelay);
-			Formula.AddGetBit(GKStateBit.Norm, PumpStation);
-			Formula.Add(FormulaOperationType.AND);
-			if (PumpStation.AutomaticOffLogic.OnClausesGroup.Clauses.Count > 0)
+			if (hasAutomaticOffLogic)
 			{
+				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.OnClausesGroup);
 				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation);
 			}
-			Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation);
 
-			if (PumpStation.StartLogic.OnClausesGroup.Clauses.Count > 0)
+			if (hasStartLogic)
+			{
 				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup);
-			if (PumpStation.StopLogic.OnClausesGroup.Clauses.Count > 0)
+			}
+			if (hasStopLogic)
 			{
 				Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
 				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(GKStateBit.Norm, PumpStation);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation);
-
 				Formula.Add(FormulaOperationType.COM);
+			}
+			if (hasStartLogic || hasStopLogic)
+			{
 				Formula.Add(FormulaOperationType.AND);
 			}
-
-			Formula.AddGetBit(GKStateBit.Norm, PumpStation);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation);
 
 			Formula.Add(FormulaOperationType.END);

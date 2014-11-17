@@ -438,7 +438,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowNSLogic()
 		{
-			return (Driver.IsPump && Device.IntAddress <= 8) || Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh;
+			return Driver.IsPump;
 		}
 
 		public bool IsNSLogic

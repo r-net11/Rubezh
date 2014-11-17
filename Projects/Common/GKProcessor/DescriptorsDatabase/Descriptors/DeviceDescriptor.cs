@@ -25,7 +25,10 @@ namespace GKProcessor
 				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
 
-			SetFormulaBytes();
+			if (FormulaBytes == null)
+			{
+				SetFormulaBytes();
+			}
 			SetPropertiesBytes();
 		}
 
