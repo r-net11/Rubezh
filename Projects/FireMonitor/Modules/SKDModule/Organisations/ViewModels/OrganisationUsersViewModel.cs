@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 
@@ -15,7 +14,6 @@ namespace SKDModule.ViewModels
 				var userViewModel = new OrganisationUserViewModel(organisation, user);
 				Items.Add(userViewModel);
 			}
-			SelectedItem = Items.FirstOrDefault();
 		}
 	}
 }

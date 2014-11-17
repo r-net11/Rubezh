@@ -6,7 +6,7 @@ using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
-	public class DepartmentTranslator : WithShortTranslator<DataAccess.Department, Department, DepartmentFilter, ShortDepartment>
+	public class DepartmentTranslator : EmployeeTranslatorBase<DataAccess.Department, Department, DepartmentFilter, ShortDepartment>
 	{
 		public DepartmentTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -206,6 +206,11 @@ namespace SKDDriver
 		protected override bool IsSimilarNames(DataAccess.Department item1, DataAccess.Department item2)
 		{
 			return base.IsSimilarNames(item1, item2) && item1.ParentDepartmentUID == item2.ParentDepartmentUID;
+		}
+
+		protected override Guid? GetLinkUID(DataAccess.Employee employee)
+		{
+			return employee.DepartmentUID;
 		}
 	}
 }

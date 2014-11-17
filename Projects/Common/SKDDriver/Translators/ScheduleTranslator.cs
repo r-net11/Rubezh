@@ -6,7 +6,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleTranslator : WithShortTranslator<DataAccess.Schedule, Schedule, ScheduleFilter, ShortSchedule>
+	public class ScheduleTranslator : EmployeeTranslatorBase<DataAccess.Schedule, Schedule, ScheduleFilter, ShortSchedule>
 	{
 		public ScheduleTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -81,6 +81,11 @@ namespace SKDDriver.Translators
 			if (tableItem == null)
 				return "";
 			return tableItem.Name;
+		}
+
+		protected override Guid? GetLinkUID(DataAccess.Employee employee)
+		{
+			return employee.ScheduleUID;
 		}
 	}
 }

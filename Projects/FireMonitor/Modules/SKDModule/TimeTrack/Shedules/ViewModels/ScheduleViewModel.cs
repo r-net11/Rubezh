@@ -148,6 +148,8 @@ namespace SKDModule.ViewModels
 
 		public void OnUpdateOrganisationDoors(Guid organisationUID)
 		{
+			if (ScheduleZones == null)
+				return;
 			Organisation = OrganisationHelper.GetSingle(organisationUID);
 			var zonesToRemove = ScheduleZones.Where(x => !Organisation.DoorUIDs.Any(y => y == x.Model.DoorUID)).ToList();
 			zonesToRemove.ForEach(x => ScheduleZones.Remove(x));

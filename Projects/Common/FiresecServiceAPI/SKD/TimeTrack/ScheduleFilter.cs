@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class ScheduleFilter : OrganisationFilterBase
+	public class ScheduleFilter : EmployeeFilterBase
 	{
 		public ScheduleFilter(): base()
 		{

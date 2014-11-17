@@ -3,7 +3,7 @@
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class DepartmentFilter : OrganisationFilterBase
+	public class DepartmentFilter : EmployeeFilterBase
 	{
 	}
 }

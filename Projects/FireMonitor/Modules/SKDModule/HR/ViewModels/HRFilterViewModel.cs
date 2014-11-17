@@ -9,6 +9,7 @@ namespace SKDModule.ViewModels
 		public EmployeeFilterViewModel EmployeeFilterViewModel { get; private set; }
 		public DepartmentsFilterViewModel DepartmentsFilterViewModel { get; private set; }
 		public PositionsFilterViewModel PositionsFilterViewModel { get; private set; }
+		public EmployeesFilterViewModel EmployeesFilterViewModel { get; private set; }
 		public bool ShowEmployeeFilter { get; private set; }
 
 		public HRFilterViewModel(HRFilter filter, bool showEmployeeFilter)
@@ -24,6 +25,9 @@ namespace SKDModule.ViewModels
 			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.EmployeeFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(filter.EmployeeFilter);
+			EmployeesFilterViewModel = new EmployeesFilterViewModel();
+			EmployeesFilterViewModel.Initialize(new EmployeeFilter());
+			EmployeesFilterViewModel.SetEmployees(filter.EmplooyeeUIDs);
 			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
@@ -34,6 +38,7 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
+			Filter.EmplooyeeUIDs = EmployeesFilterViewModel.EmployeeUIDs;
 			Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			return true;
 		}

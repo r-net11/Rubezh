@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Threading;
+using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
 {

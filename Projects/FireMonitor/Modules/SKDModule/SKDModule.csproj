@@ -107,6 +107,8 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
+    <Compile Include="Events\UpdateFilterEvent.cs" />
+    <Compile Include="HR\ViewModels\EmployeesFilterItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
@@ -172,6 +174,7 @@
     <Compile Include="Events\ShowTimeTrackingEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
     <Compile Include="HR\ViewModels\EmployeeFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\EmployeesFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\PositionFilterItemViewModel.cs" />
     <Compile Include="HR\ViewModels\HRFilter.cs" />
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />

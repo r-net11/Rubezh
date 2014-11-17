@@ -5,7 +5,7 @@ using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
-	public class PositionTranslator : WithShortTranslator<DataAccess.Position, Position, PositionFilter, ShortPosition>
+	public class PositionTranslator : EmployeeTranslatorBase<DataAccess.Position, Position, PositionFilter, ShortPosition>
 	{
 		public PositionTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
@@ -24,13 +24,6 @@ namespace SKDDriver
 			if (hasSameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return new OperationResult();
-		}
-
-		protected override OperationResult CanDelete(Guid uid)
-		{
-			//if (Context.Employees.Any(x => x.PositionUID == uid && !x.IsDeleted))
-			//    return new OperationResult("Невозможно удалить должность, пока она указана у действующих сотрудников");
-			return base.CanDelete(uid);
 		}
 
 		protected override Position Translate(DataAccess.Position tableItem)
@@ -68,6 +61,11 @@ namespace SKDDriver
 					return photoSaveResult;
 			}
 			return base.Save(apiItem);
+		}
+
+		protected override Guid? GetLinkUID(DataAccess.Employee employee)
+		{
+			return employee.PositionUID;
 		}
 	}
 }

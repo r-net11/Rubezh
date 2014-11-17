@@ -243,6 +243,7 @@
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
     <Compile Include="AutomationCallback\MessageCallbackData.cs" />
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
+    <Compile Include="SKD\Common\EmployeeFilterBase.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />
     <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
@@ -254,7 +255,7 @@
     <Compile Include="SKD\Door\DoorType.cs" />
     <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
-    <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />
+    <Compile Include="SKD\Position\PositionFilter.cs" />
     <Compile Include="SKD\PassCardLibrary\ShortPassCardTemplate.cs" />
     <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
@@ -386,7 +387,7 @@
     <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Position\Position.cs" />
-    <Compile Include="SKD\Position\PositionFilter.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTemplateFilter.cs" />
     <Compile Include="Models\Notification\Email.cs" />
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />

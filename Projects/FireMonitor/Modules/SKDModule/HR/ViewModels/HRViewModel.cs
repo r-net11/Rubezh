@@ -201,8 +201,8 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType, EmployeeUIDs = Filter.EmplooyeeUIDs };
+			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType, EmployeeUIDs = Filter.EmplooyeeUIDs };
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
@@ -217,6 +217,7 @@ namespace SKDModule.ViewModels
 			OrganisationsViewModel.Initialize(Filter.LogicalDeletationType);
 
 			ServiceFactory.Events.GetEvent<ChangeIsDeletedEvent>().Publish(Filter.LogicalDeletationType);
+			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Publish(Filter);
 
 			InitializeEmployeeFilter();
 		}
@@ -224,6 +225,7 @@ namespace SKDModule.ViewModels
 		void InitializeEmployeeFilter()
 		{
 			EmployeeFilter = Filter.EmployeeFilter;
+			EmployeeFilter.UIDs = Filter.EmplooyeeUIDs;
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
 			EmployeesViewModel.Initialize(EmployeeFilter);
