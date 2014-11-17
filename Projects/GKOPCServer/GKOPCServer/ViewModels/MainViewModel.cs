@@ -1,6 +1,7 @@
 ﻿using System;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKOPCServer.ViewModels
 {
@@ -17,7 +18,7 @@ namespace GKOPCServer.ViewModels
 
 		public void AddLog(string message)
 		{
-			Dispatcher.BeginInvoke(new Action(
+			ApplicationService.BeginInvoke(new Action(
 			delegate()
 			{
 				Log += message + "\n";

@@ -26,17 +26,10 @@ namespace GKProcessor
 			FirePumpDevices = new List<GKDevice>();
 			foreach (var nsDevice in pumpStation.NSDevices)
 			{
-				if (nsDevice.Driver.IsPump)
-				{
-					var pumpTypeProperty = nsDevice.Properties.FirstOrDefault(x => x.Name == "PumpType");
-					if (pumpTypeProperty != null)
-					{
-						if (pumpTypeProperty.Value == 0)
-							FirePumpDevices.Add(nsDevice);
-						if (pumpTypeProperty.Value == 1)
-							JNPumpDevice = nsDevice;
-					}
-				}
+				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Fire)
+					FirePumpDevices.Add(nsDevice);
+				if (nsDevice.DriverType == GKDriverType.RSR2_Bush_Jokey)
+					JNPumpDevice = nsDevice;
 			}
 		}
 
@@ -66,8 +59,6 @@ namespace GKProcessor
 			var formula = new FormulaBuilder();
 
 			formula.AddGetBit(GKStateBit.On, PumpStation);
-			formula.AddGetBit(GKStateBit.Norm, PumpStation);
-			formula.Add(FormulaOperationType.AND);
 			formula.Add(FormulaOperationType.DUP);
 			formula.AddGetBit(GKStateBit.TurningOn, MainDelay);
 			formula.AddGetBit(GKStateBit.On, MainDelay);
@@ -130,14 +121,9 @@ namespace GKProcessor
 
 				formula.AddGetBit(GKStateBit.On, PumpStation);
 				formula.Add(FormulaOperationType.AND);
-
-				formula.AddGetBit(GKStateBit.Norm, pumpDelay.Delay);
-				formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 				formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
 
 				formula.AddGetBit(GKStateBit.Off, PumpStation);
-				formula.AddGetBit(GKStateBit.Norm, pumpDelay.Delay);
-				formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 				formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 
 				formula.Add(FormulaOperationType.END);
@@ -179,18 +165,12 @@ namespace GKProcessor
 
 					formula.AddGetBit(GKStateBit.On, PumpStation);
 					formula.Add(FormulaOperationType.AND);
-
-					formula.AddGetBit(GKStateBit.Norm, pumpDevice);
-					formula.Add(FormulaOperationType.AND);
 					formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, pumpDevice);
 
 					formula.AddGetBit(GKStateBit.Off, PumpStation);
-					formula.AddGetBit(GKStateBit.Norm, pumpDevice);
-					formula.Add(FormulaOperationType.AND);
 					formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, pumpDevice);
 
 					formula.Add(FormulaOperationType.END);
-
 					pumpDescriptor.Formula = formula;
 					pumpDescriptor.FormulaBytes = formula.GetBytes();
 				}
@@ -224,8 +204,6 @@ namespace GKProcessor
 				{
 					var formula = new FormulaBuilder();
 					formula.AddGetBit(GKStateBit.On, PumpStation);
-					formula.AddGetBit(GKStateBit.Norm, JNPumpDevice);
-					formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный ЖН");
 					//formula.AddGetBit(GKStateBit.ForbidStart_InAutomatic, JNPumpDevice);
 					formula.Add(FormulaOperationType.END);
 					jnDescriptor.Formula = formula;
