@@ -18,12 +18,12 @@ using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 using FiresecAPI.AutomationCallback;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
 {
     public class MonitorLayoutShellViewModel : MonitorShellViewModel
     {
-        private XmlLayoutSerializer _serializer;
         private AutoActivationViewModel _autoActivationViewModel;
         private SoundViewModel _soundViewModel;
 
@@ -31,139 +31,18 @@ namespace FireMonitor.Layout.ViewModels
             : base("Monitor.Layout")
         {
             Layout = layout;
+            LayoutContainer = new LayoutContainer(this, layout);
+            LayoutContainer.LayoutChanging += LayoutChanging;
             ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
             ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
         }
 
-        public void UpdateLayout(LayoutModel layout)
+
+        public LayoutContainer LayoutContainer { get; private set; }
+        private void LayoutChanging(object sender, EventArgs e)
         {
-            Layout = layout;
+            Layout = LayoutContainer.Layout;
             UpdateRibbon();
-            Initialize();
-            Manager.GridSplitterHeight = Layout.SplitterSize;
-            Manager.GridSplitterWidth = Layout.SplitterSize;
-            Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
-            Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
-            Manager.BorderThickness = new Thickness(Layout.BorderThickness);
-            if (_serializer != null && Layout != null && !string.IsNullOrEmpty(Layout.Content))
-                using (var tr = new StringReader(Layout.Content))
-                    _serializer.Deserialize(tr);
-            LoadLayoutProperties();
-        }
-        private void Initialize()
-        {
-            var list = new List<LayoutPartViewModel>();
-            var map = new Dictionary<Guid, ILayoutPartPresenter>();
-            foreach (var module in ApplicationService.Modules)
-            {
-                var monitorModule = module as MonitorLayoutModule;
-                if (monitorModule != null)
-                    monitorModule.MonitorLayoutShellViewModel = this;
-                var layoutProviderModule = module as ILayoutProviderModule;
-                if (layoutProviderModule != null)
-                    foreach (var layoutPart in layoutProviderModule.GetLayoutParts())
-                        map.Add(layoutPart.UID, layoutPart);
-            }
-            if (Layout != null)
-                foreach (var layoutPart in Layout.Parts)
-                    list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
-            LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
-        }
-        private void LoadLayoutProperties()
-        {
-            var properties = FiresecManager.FiresecService.GetChangedProperties(Layout.UID);
-            if (properties != null)
-                foreach (var property in properties)
-                {
-                    var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == property.LayoutPart);
-                    if (layoutPart != null)
-                        layoutPart.SetProperty(property.Property, property.Value);
-                }
-        }
-
-        private ObservableCollection<LayoutPartViewModel> _layoutParts;
-        public ObservableCollection<LayoutPartViewModel> LayoutParts
-        {
-            get { return _layoutParts; }
-            set
-            {
-                if (_layoutParts != null)
-                    _layoutParts.CollectionChanged -= LayoutPartsChanged;
-                _layoutParts = value;
-                _layoutParts.CollectionChanged += LayoutPartsChanged;
-                OnPropertyChanged(() => LayoutParts);
-            }
-        }
-
-        private LayoutPartViewModel _activeLayoutPart;
-        public LayoutPartViewModel ActiveLayoutPart
-        {
-            get { return _activeLayoutPart; }
-            set
-            {
-                _activeLayoutPart = value;
-                OnPropertyChanged(() => ActiveLayoutPart);
-            }
-        }
-
-        private DockingManager _manager;
-        public DockingManager Manager
-        {
-            get { return _manager; }
-            set
-            {
-                if (Manager != null)
-                {
-                    Manager.DocumentClosing -= LayoutPartClosing;
-                    Manager.LayoutChanged -= LayoutChanged;
-                }
-                _manager = value;
-                if (_serializer != null)
-                {
-                    _serializer.LayoutSerializationCallback -= LayoutSerializationCallback;
-                    _serializer = null;
-                }
-                if (_manager != null)
-                {
-                    Manager.LayoutChanged += LayoutChanged;
-                    Manager.DocumentClosing += LayoutPartClosing;
-                    Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
-                    _serializer = new XmlLayoutSerializer(Manager);
-                    _serializer.LayoutSerializationCallback += LayoutSerializationCallback;
-                    UpdateLayout(Layout);
-                }
-            }
-        }
-
-        private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(e.Model.ContentId))
-            {
-                var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
-                if (layoutPart != null)
-                {
-                    layoutPart.Margin = e.Model.Margin;
-                    layoutPart.BorderColor = e.Model.BorderColor;
-                    layoutPart.BorderThickness = e.Model.BorderThickness;
-                    layoutPart.BackgroundColor = e.Model.BackgroundColor;
-                }
-                e.Content = layoutPart;
-            }
-        }
-        private void LayoutChanged(object sender, EventArgs e)
-        {
-        }
-        private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
-        {
-            var layoutPartViewModel = e.Document.Content as LayoutPartViewModel;
-            if (layoutPartViewModel != null)
-            {
-                LayoutParts.Remove(layoutPartViewModel);
-                e.Cancel = true;
-            }
-        }
-        private void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
         }
 
         private void UpdateRibbon()
@@ -234,7 +113,7 @@ namespace FireMonitor.Layout.ViewModels
         private void OnChangeLayout(LayoutModel layout)
         {
             ApplicationService.CloseAllWindows();
-            UpdateLayout(layout);
+            LayoutContainer.UpdateLayout(layout);
         }
         private bool CanChangeLayout(LayoutModel layout)
         {
@@ -251,7 +130,7 @@ namespace FireMonitor.Layout.ViewModels
             if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GetVisualProperty || automationCallbackResult.AutomationCallbackType == AutomationCallbackType.SetVisualProperty)
             {
                 var visuaPropertyData = (VisualPropertyData)automationCallbackResult.Data;
-                var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == visuaPropertyData.LayoutPart);
+                var layoutPart = LayoutContainer.LayoutParts.FirstOrDefault(item => item.UID == visuaPropertyData.LayoutPart);
                 if (layoutPart != null)
                 {
                     var sendResponse = false;
@@ -273,6 +152,8 @@ namespace FireMonitor.Layout.ViewModels
                         FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, value);
                 }
             }
+            else if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.Dialog)
+                LayoutDialogViewModel.Show((DialogCallbackData)automationCallbackResult.Data);
         }
     }
 }

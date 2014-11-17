@@ -2,28 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.Automation;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Automation
+namespace FiresecAPI.AutomationCallback
 {
-    [DataContract]
-    public class ShowDialogArguments : UIArguments
-    {
-        public ShowDialogArguments()
-        {
-            Width = 300;
-            Height = 300;
-            MinWidth = 300;
-            MinHeight = 300;
-        }
-
-        [DataMember]
-        public Guid Layout { get; set; }
-        [DataMember]
-        public bool IsModalWindow { get; set; }
+	[DataContract]
+    public class DialogCallbackData : AutomationCallbackData
+	{
+		[DataMember]
+		public Guid Layout { get; set; }
         [DataMember]
         public string Title { get; set; }
+        [DataMember]
+		public bool IsModalWindow { get; set; }
         [DataMember]
         public bool AllowClose { get; set; }
         [DataMember]

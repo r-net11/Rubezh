@@ -22,123 +22,15 @@ namespace FireMonitor.Layout.ViewModels
 	{
 		public TemplateContainerPartViewModel(LayoutPartReferenceProperties properties)
 		{
-			Layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
-			Initialize();
+			var layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
+            LayoutContainer = new LayoutContainer(this, layout);
 		}
 
-		public LayoutModel Layout { get; private set; }
-		private XmlLayoutSerializer _serializer;
-
-		private void LoadLayout()
-		{
-			if (Layout != null && Manager != null)
-			{
-				Manager.GridSplitterHeight = Layout.SplitterSize;
-				Manager.GridSplitterWidth = Layout.SplitterSize;
-				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
-				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
-				Manager.BorderThickness = new Thickness(Layout.BorderThickness);
-				if (_serializer != null && !string.IsNullOrEmpty(Layout.Content))
-					using (var tr = new StringReader(Layout.Content))
-						_serializer.Deserialize(tr);
-			}
-		}
-		private void Initialize()
-		{
-			var list = new List<LayoutPartViewModel>();
-			var map = new Dictionary<Guid, ILayoutPartPresenter>();
-			foreach (var module in ApplicationService.Modules)
-			{
-				var layoutProviderModule = module as ILayoutProviderModule;
-				if (layoutProviderModule != null)
-					foreach (var layoutPart in layoutProviderModule.GetLayoutParts())
-						map.Add(layoutPart.UID, layoutPart);
-			}
-			if (Layout != null)
-				foreach (var layoutPart in Layout.Parts)
-					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID), this));
-			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
-		}
-
-		private ObservableCollection<LayoutPartViewModel> _layoutParts;
-		public ObservableCollection<LayoutPartViewModel> LayoutParts
-		{
-			get { return _layoutParts; }
-			set
-			{
-				if (_layoutParts != null)
-					_layoutParts.CollectionChanged -= LayoutPartsChanged;
-				_layoutParts = value;
-				_layoutParts.CollectionChanged += LayoutPartsChanged;
-				OnPropertyChanged(() => LayoutParts);
-			}
-		}
-
-		private LayoutPartViewModel _activeLayoutPart;
-		public LayoutPartViewModel ActiveLayoutPart
-		{
-			get { return _activeLayoutPart; }
-			set
-			{
-				_activeLayoutPart = value;
-				OnPropertyChanged(() => ActiveLayoutPart);
-			}
-		}
-
-		private DockingManager _manager;
-		public DockingManager Manager
-		{
-			get { return _manager; }
-			set
-			{
-				if (Manager != null)
-				{
-					Manager.DocumentClosing -= LayoutPartClosing;
-					Manager.LayoutChanged -= LayoutChanged;
-				}
-				_manager = value;
-				if (_serializer != null)
-				{
-					_serializer.LayoutSerializationCallback -= LayoutSerializationCallback;
-					_serializer = null;
-				}
-				if (_manager != null)
-				{
-					Manager.LayoutChanged += LayoutChanged;
-					Manager.DocumentClosing += LayoutPartClosing;
-					Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
-					_serializer = new XmlLayoutSerializer(Manager);
-					_serializer.LayoutSerializationCallback += LayoutSerializationCallback;
-					LoadLayout();
-				}
-			}
-		}
-
-		private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
-		{
-			if (!string.IsNullOrWhiteSpace(e.Model.ContentId))
-				e.Content = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
-		}
-		private void LayoutChanged(object sender, EventArgs e)
-		{
-		}
-		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
-		{
-			var layoutPartViewModel = e.Document.Content as LayoutPartViewModel;
-			if (layoutPartViewModel != null)
-			{
-				LayoutParts.Remove(layoutPartViewModel);
-				e.Cancel = true;
-			}
-		}
-		private void LayoutPartsChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-		}
+        public LayoutContainer LayoutContainer { get; private set; }
 
 		#region ILayoutPartContent Members
 
 		public ILayoutPartContainer Container { get; private set; }
-
 		public void SetLayoutPartContainer(ILayoutPartContainer container)
 		{
 			if (Container != null)
@@ -158,11 +50,11 @@ namespace FireMonitor.Layout.ViewModels
 
 		private void OnSelectedChanged(object sender, EventArgs e)
 		{
-			LayoutParts.ForEach(item => item.FireSelectedChanged());
+            LayoutContainer.LayoutParts.ForEach(item => item.FireSelectedChanged());
 		}
 		private void OnActiveChanged(object sender, EventArgs e)
 		{
-			LayoutParts.ForEach(item => item.FireActiveChanged());
+            LayoutContainer.LayoutParts.ForEach(item => item.FireActiveChanged());
 		}
 	}
 }

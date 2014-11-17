@@ -23,7 +23,7 @@ namespace FireMonitor.Layout.Views
 		{
 			if (Manager == null)
 			{
-				var binding = new Binding("Manager") { Mode = BindingMode.OneWayToSource };
+				var binding = new Binding("LayoutContainer.Manager") { Mode = BindingMode.OneWayToSource };
 				var expression = SetBinding(ManagerProperty, binding);
 				Manager = manager;
 			}

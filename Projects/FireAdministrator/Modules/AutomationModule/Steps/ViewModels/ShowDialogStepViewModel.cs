@@ -28,14 +28,95 @@ namespace AutomationModule.ViewModels
                 OnPropertyChanged(() => ForAllClients);
             }
         }
-
-        public bool IsModal
+        public bool IsModalWindow
         {
-            get { return ShowDialogArguments.IsModal; }
+            get { return ShowDialogArguments.IsModalWindow; }
             set
             {
-                ShowDialogArguments.IsModal = value;
-                OnPropertyChanged(() => IsModal);
+                ShowDialogArguments.IsModalWindow = value;
+                OnPropertyChanged(() => IsModalWindow);
+            }
+        }
+        public string Title
+        {
+            get { return ShowDialogArguments.Title; }
+            set
+            {
+                ShowDialogArguments.Title = value;
+                OnPropertyChanged(() => Title);
+            }
+        }
+
+        public bool AllowClose
+        {
+            get { return ShowDialogArguments.AllowClose; }
+            set
+            {
+                ShowDialogArguments.AllowClose = value;
+                OnPropertyChanged(() => AllowClose);
+            }
+        }
+        public bool AllowMaximize
+        {
+            get { return ShowDialogArguments.AllowMaximize; }
+            set
+            {
+                ShowDialogArguments.AllowMaximize = value;
+                OnPropertyChanged(() => AllowMaximize);
+            }
+        }
+        public bool Sizable
+        {
+            get { return ShowDialogArguments.Sizable; }
+            set
+            {
+                ShowDialogArguments.Sizable = value;
+                OnPropertyChanged(() => Sizable);
+            }
+        }
+        public bool TopMost
+        {
+            get { return ShowDialogArguments.TopMost; }
+            set
+            {
+                ShowDialogArguments.TopMost = value;
+                OnPropertyChanged(() => TopMost);
+            }
+        }
+        public double Width
+        {
+            get { return ShowDialogArguments.Width; }
+            set
+            {
+                ShowDialogArguments.Width = value;
+                OnPropertyChanged(() => Width);
+            }
+        }
+        public double Height
+        {
+            get { return ShowDialogArguments.Height; }
+            set
+            {
+                ShowDialogArguments.Height = value;
+                OnPropertyChanged(() => Height);
+            }
+        }
+        public double MinWidth
+        {
+            get { return ShowDialogArguments.MinWidth; }
+            set
+            {
+                ShowDialogArguments.MinWidth = value;
+                OnPropertyChanged(() => MinWidth);
+            }
+        }
+        public double MinHeight
+        {
+            get { return ShowDialogArguments.MinHeight; }
+            set
+            {
+                ShowDialogArguments.MinHeight = value;
+                OnPropertyChanged(() => MinHeight);
             }
         }
 
@@ -67,7 +148,7 @@ namespace AutomationModule.ViewModels
         {
             get
             {
-                return string.Format("Открыть диалог: {0} {1}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModal ? "(модальный)" : "(не модальный)");
+                return string.Format("Открыть диалог: {0} {1}", SelectedLayout == null ? ArgumentViewModel.EmptyText : SelectedLayout.Name, IsModalWindow ? "(модальный)" : "(не модальный)");
             }
         }
         public override void UpdateContent()

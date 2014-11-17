@@ -83,6 +83,8 @@
     <Compile Include="App.cs" />
     <Compile Include="MonitorLayoutModule.cs" />
     <Compile Include="ViewModels\ContentPartViewModel.cs" />
+    <Compile Include="ViewModels\LayoutContainer.cs" />
+    <Compile Include="ViewModels\LayoutDialogViewModel.cs" />
     <Compile Include="ViewModels\TemplateContainerPartViewModel.cs" />
     <Compile Include="ViewModels\ImagePartViewModel.cs" />
     <Compile Include="ViewModels\EmptyPartViewModel.cs" />
@@ -103,6 +105,9 @@
     </Compile>
     <Compile Include="Views\LayoutPartView.xaml.cs">
       <DependentUpon>LayoutPartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutDialogView.xaml.cs">
+      <DependentUpon>LayoutDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MonitorLayoutShellView.xaml.cs">
       <DependentUpon>MonitorLayoutShellView.xaml</DependentUpon>
@@ -206,6 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutPartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

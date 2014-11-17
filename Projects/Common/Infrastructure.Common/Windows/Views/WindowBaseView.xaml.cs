@@ -52,16 +52,6 @@ namespace Infrastructure.Common.Windows.Views
 
 		private void WindowBaseView_ContentRendered(object sender, EventArgs e)
 		{
-			var timeDelta = DateTime.Now - startDateTime;
-			//Trace.WriteLine("Window rendered at " + timeDelta.ToString());
-
-			if (Title.StartsWith("Выбор зоны устройства"))
-			{
-				totalMilliseconds += timeDelta.TotalMilliseconds;
-				count++;
-				avarageTime = totalMilliseconds / count;
-				//Trace.WriteLine("Window AvarageTime rendered at " + avarageTime.ToString());
-			}
 		}
 
 		protected override void OnSourceInitialized(EventArgs e)

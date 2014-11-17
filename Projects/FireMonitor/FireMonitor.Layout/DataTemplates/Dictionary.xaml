@@ -36,4 +36,8 @@
 		<Views:TimePresenterView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:LayoutDialogViewModel}">
+        <Views:LayoutDialogView />
+    </DataTemplate>
+    
 </ResourceDictionary>

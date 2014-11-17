@@ -255,6 +255,9 @@
     <Compile Include="Steps\Views\ControlVisualStepView.xaml.cs">
       <DependentUpon>ControlVisualStepView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
+      <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\Views\ExitStepView.xaml.cs">
       <DependentUpon>ExitStepView.xaml</DependentUpon>
     </Compile>
@@ -497,6 +500,10 @@
     <Page Include="Steps\Views\ControlVisualStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ShowDialogStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ForStepView.xaml">
       <SubType>Designer</SubType>

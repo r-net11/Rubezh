@@ -303,6 +303,10 @@ namespace FiresecService
 					ControlPlan(procedureStep);
 					break;
 
+                case ProcedureStepType.ShowDialog:
+                    ShowDialog(procedureStep);
+                    break;
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 

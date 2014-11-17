@@ -58,7 +58,7 @@ namespace FireMonitor.Layout
 				_layoutID = null;
 				var result = GetLayout();
 				if (result && _monitorLayoutShellViewModel != null)
-					_monitorLayoutShellViewModel.UpdateLayout(_layout);
+					_monitorLayoutShellViewModel.LayoutContainer.UpdateLayout(_layout);
 				else
 					ApplicationService.ShutDown();
 			}
