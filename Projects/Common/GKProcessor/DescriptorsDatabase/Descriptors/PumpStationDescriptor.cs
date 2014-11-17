@@ -38,7 +38,6 @@ namespace GKProcessor
 
 			Formula = new FormulaBuilder();
 
-			Formula.AddGetBit(GKStateBit.On, MainDelay);
 			if (hasAutomaticOffLogic)
 			{
 				Formula.Add(FormulaOperationType.DUP);
@@ -50,19 +49,23 @@ namespace GKProcessor
 			if (hasStartLogic)
 			{
 				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup);
+				//Formula.AddGetBit(GKStateBit.On, MainDelay);
+				//Formula.Add(FormulaOperationType.AND);
+
+				if (hasStopLogic)
+				{
+					Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.Add(FormulaOperationType.AND);
+				}
+
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation);
 			}
 			if (hasStopLogic)
 			{
 				Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
-				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation);
-				Formula.Add(FormulaOperationType.COM);
 			}
-			if (hasStartLogic || hasStopLogic)
-			{
-				Formula.Add(FormulaOperationType.AND);
-			}
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation);
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
