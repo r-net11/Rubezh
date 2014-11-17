@@ -73,7 +73,7 @@ namespace FiresecService
 			SendCallback(procedureStep.SoundArguments, automationCallbackResult);
 		}
 
-		void ControlVisual(ProcedureStep procedureStep, ControlVisualType type)
+		void ControlVisual(ProcedureStep procedureStep, ControlElementType type)
 		{
 			if (procedureStep.ControlVisualArguments == null || !procedureStep.ControlVisualArguments.Property.HasValue)
 				return;
@@ -82,11 +82,11 @@ namespace FiresecService
 			var waitResponse = false;
 			switch (type)
 			{
-				case ControlVisualType.Get:
+				case ControlElementType.Get:
 					callbackType = AutomationCallbackType.GetVisualProperty;
 					waitResponse = true;
 					break;
-				case ControlVisualType.Set:
+				case ControlElementType.Set:
 					callbackType = AutomationCallbackType.SetVisualProperty;
 					value = GetValue<object>(procedureStep.ControlVisualArguments.Argument);
 					break;
@@ -116,15 +116,15 @@ namespace FiresecService
 			}
 		}
 
-		void ControlPlan(ProcedureStep procedureStep)
+		void ControlPlan(ProcedureStep procedureStep, ControlElementType controlElementType)
 		{
 			var controlPlanArguments = procedureStep.ControlPlanArguments;
 			var callbackType = new AutomationCallbackType();
 			object value = null;
 
-			if (controlPlanArguments.ControlVisualType == ControlVisualType.Get)
+			if (controlElementType == ControlElementType.Get)
 				callbackType = AutomationCallbackType.GetPlanProperty;
-			if (controlPlanArguments.ControlVisualType == ControlVisualType.Set)
+			if (controlElementType == ControlElementType.Set)
 			{
 				callbackType = AutomationCallbackType.SetPlanProperty;
 				value = GetValue<object>(controlPlanArguments.ValueArgument);
@@ -141,13 +141,13 @@ namespace FiresecService
 					Value = value,
 				},
 			};
-			switch (controlPlanArguments.ControlVisualType)
+			switch (controlElementType)
 			{
-				case ControlVisualType.Get:
+				case ControlElementType.Get:
 					value = SendCallback(controlPlanArguments, automationCallbackResult, true);
 					SetValue(controlPlanArguments.ValueArgument, value);
 					break;
-				case ControlVisualType.Set:
+				case ControlElementType.Set:
 					SendCallback(controlPlanArguments, automationCallbackResult);
 					break;
 			}

@@ -14,14 +14,14 @@ namespace AutomationModule.ViewModels
 	public class ControlVisualStepViewModel : BaseStepViewModel
 	{
 		public ControlVisualArguments ControlVisualArguments { get; private set; }
-		public ControlVisualType Type { get; private set; }
+		public ControlElementType Type { get; private set; }
 
-		public ControlVisualStepViewModel(StepViewModel stepViewModel, ControlVisualType type)
+		public ControlVisualStepViewModel(StepViewModel stepViewModel, ControlElementType type)
 			: base(stepViewModel)
 		{
 			ControlVisualArguments = stepViewModel.Step.ControlVisualArguments;
 			Type = type;
-			Argument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent, type == ControlVisualType.Set);
+			Argument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent, type == ControlElementType.Set);
 		}
 
 		public ArgumentViewModel Argument { get; set; }
@@ -85,7 +85,7 @@ namespace AutomationModule.ViewModels
 		}
 		public bool CanStoreOnServer
 		{
-			get { return Type == ControlVisualType.Set && ForAllClients; }
+			get { return Type == ControlElementType.Set && ForAllClients; }
 		}
 
 		public bool ForAllClients
@@ -109,10 +109,10 @@ namespace AutomationModule.ViewModels
 				var template = string.Empty;
 				switch (Type)
 				{
-					case ControlVisualType.Get:
+					case ControlElementType.Get:
 						template = "{0} = {1}";
 						break;
-					case ControlVisualType.Set:
+					case ControlElementType.Set:
 						template = "{1} = {0}";
 						break;
 				}
@@ -131,7 +131,7 @@ namespace AutomationModule.ViewModels
 
 		private void UpdateProperties()
 		{
-			var access = Type == ControlVisualType.Get ? LayoutPartPropertyAccess.Get : LayoutPartPropertyAccess.Set;
+			var access = Type == ControlElementType.Get ? LayoutPartPropertyAccess.Get : LayoutPartPropertyAccess.Set;
 			LayoutPartProperties = new ObservableCollection<LayoutPartPropertyViewModel>(SelectedLayoutPart == null || SelectedLayoutPart.Description == null ? Enumerable.Empty<LayoutPartPropertyViewModel>() : SelectedLayoutPart.Description.Properties.Where(item => item.Access == LayoutPartPropertyAccess.GetOrSet || item.Access == access).Select(item => new LayoutPartPropertyViewModel(item)));
 			SelectedLayoutPartProperty = LayoutPartProperties.FirstOrDefault(x => x.LayoutPartProperty.Name == ControlVisualArguments.Property);
 			OnPropertyChanged(() => LayoutPartProperties);

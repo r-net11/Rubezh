@@ -1357,7 +1357,6 @@
     <Resource Include="StepIcons\GetListCount.png" />
     <Resource Include="StepIcons\GetListItem.png" />
     <Resource Include="StepIcons\GetObjectProperty.png" />
-    <Resource Include="StepIcons\package_system.png" />
     <Resource Include="StepIcons\Pause.png" />
     <Resource Include="StepIcons\PlaySound.png" />
     <Resource Include="StepIcons\ProcedureSelection.png" />
@@ -1370,6 +1369,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StepIcons\ControlVisualSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\ShowDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\ControlPlanGet.png" />
+    <Resource Include="StepIcons\ControlPlanSet.png" />
+    <Resource Include="StepIcons\RunProgramm.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

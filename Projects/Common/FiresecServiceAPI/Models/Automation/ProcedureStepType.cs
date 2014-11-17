@@ -118,8 +118,11 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Установка свойства визуального элемента")]
 		ControlVisualSet,
 
-		[DescriptionAttribute("Управление элементами плана")]
-		ControlPlan,
+		[DescriptionAttribute("Чтение свойства элементами плана")]
+		ControlPlanGet,
+
+		[DescriptionAttribute("Установка свойства элементами плана")]
+		ControlPlanSet,
 
         [DescriptionAttribute("Показать диалоговую форму")]
         ShowDialog,

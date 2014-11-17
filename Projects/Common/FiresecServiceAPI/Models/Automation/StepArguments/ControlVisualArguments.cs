@@ -47,7 +47,7 @@ namespace FiresecAPI.Automation
 		}
 	}
 
-	public enum ControlVisualType
+	public enum ControlElementType
 	{
 		[Description("Чтение свойства")]
 		Get,

@@ -293,14 +293,18 @@ namespace FiresecService
 					break;
 
 				case ProcedureStepType.ControlVisualGet:
-					ControlVisual(procedureStep, ControlVisualType.Get);
+					ControlVisual(procedureStep, ControlElementType.Get);
 					break;
 				case ProcedureStepType.ControlVisualSet:
-					ControlVisual(procedureStep, ControlVisualType.Set);
+					ControlVisual(procedureStep, ControlElementType.Set);
 					break;
 
-				case ProcedureStepType.ControlPlan:
-					ControlPlan(procedureStep);
+				case ProcedureStepType.ControlPlanGet:
+					ControlPlan(procedureStep, ControlElementType.Get);
+					break;
+
+				case ProcedureStepType.ControlPlanSet:
+					ControlPlan(procedureStep, ControlElementType.Set);
 					break;
 
 				case ProcedureStepType.Exit:

@@ -43,7 +43,7 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Тип операции" />
-				<ComboBox ItemsSource="{Binding ControlVisualTypes}" SelectedItem="{Binding SelectedControlVisualType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox ItemsSource="{Binding ControlElementTypes}" SelectedItem="{Binding SelectedControlElementType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
