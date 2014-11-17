@@ -40,9 +40,9 @@ namespace FiresecService
 				ConfigurationCashHelper.Update();
 				UILogger.Log("Создание конфигурации ГК");
 				GKProcessor.Create();
+				PatchManager.Patch();
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
-				PatchManager.Patch();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
