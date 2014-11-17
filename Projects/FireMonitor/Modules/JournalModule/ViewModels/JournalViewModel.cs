@@ -140,7 +140,7 @@ namespace JournalModule.ViewModels
 		private void UpdateUnread()
 		{
 			if (_updateUnreadOperation == null && Container != null)
-				_updateUnreadOperation = Dispatcher.BeginInvoke(new Action(() =>
+				_updateUnreadOperation = ApplicationService.BeginInvoke(new Action(() =>
 				{
 					_updateUnreadOperation = null;
 					if (Container.IsVisibleLayout)

@@ -13,7 +13,7 @@ namespace FiresecAPI
 		OperationResult<bool> RunProcedure(Guid clientUID, Guid procedureUID, List<Argument> args);
 		[OperationContract(IsOneWay = true)]
 		[ServiceKnownType(typeof(Color))]
-		void ProcedureCallbackResponse(Guid procedureThreadUID, object value);
+		void ProcedureCallbackResponse(Guid callbackUID, object value);
 		[OperationContract]
 		List<VisualPropertyData> GetChangedProperties(Guid layoutUID);
 	}

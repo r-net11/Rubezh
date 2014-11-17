@@ -177,7 +177,7 @@ namespace PlansModule.ViewModels
                     SetPlanProperty((PlanCallbackData)automationCallbackResult.Data);
                     break;
                 case AutomationCallbackType.GetPlanProperty:
-                    GetPlanProperty((PlanCallbackData)automationCallbackResult.Data, automationCallbackResult.ProcedureUID);
+                    GetPlanProperty((PlanCallbackData)automationCallbackResult.Data, automationCallbackResult.CallbackUID);
                     break;
             }
         }
@@ -251,7 +251,7 @@ namespace PlansModule.ViewModels
                 }
             });
         }
-        private void GetPlanProperty(PlanCallbackData data, Guid procedureUID)
+        private void GetPlanProperty(PlanCallbackData data, Guid callbackUID)
         {
             var value = new object();
             var element = GetElement(data);
@@ -313,7 +313,7 @@ namespace PlansModule.ViewModels
                         break;
                 }
             }
-            FiresecManager.FiresecService.ProcedureCallbackResponse(procedureUID, value);
+            FiresecManager.FiresecService.ProcedureCallbackResponse(callbackUID, value);
         }
         private ElementBase GetElement(PlanCallbackData data)
         {

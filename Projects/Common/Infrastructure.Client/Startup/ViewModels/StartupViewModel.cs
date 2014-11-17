@@ -40,6 +40,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			SettingsCommand = new RelayCommand(OnSettings);
 			ShowButtons = true;
 			MessageFontSize = 12;
+			Dispatcher = Dispatcher.CurrentDispatcher;
 		}
 
 		public override void OnLoad()
@@ -58,6 +59,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			return result;
 		}
 
+		public Dispatcher Dispatcher { get; private set; }
 		private bool _isUIEnabled;
 		public bool IsUIEnabled
 		{

@@ -9,12 +9,12 @@ using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrastructure.Common.Services;
 
 namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel
 	{
-		private List<ElementBase> _buffer;
 		private Plan _planBuffer;
 
 		private void InitializeCopyPaste()
@@ -73,6 +73,7 @@ namespace PlansModule.ViewModels
 				SelectedPlan = planViewModel;
 				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
+				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 			}
 		}
 		private void OnPlanRemove(bool withChild)
@@ -112,6 +113,7 @@ namespace PlansModule.ViewModels
 				}
 				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
+				ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 				ClearReferences(plan);
 				DesignerCanvas.IsLocked = false;
 				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;

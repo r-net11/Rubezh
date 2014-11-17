@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -92,7 +93,7 @@ namespace GKModule.ViewModels
 
 		public void OnNewAUParameterValue(MeasureParameterViewModel value)
 		{
-			Dispatcher.BeginInvoke(new Action(() =>
+			ApplicationService.BeginInvoke(() =>
 			{
 				var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == value.Name);
 				if (auParameterValue == null)
@@ -102,7 +103,7 @@ namespace GKModule.ViewModels
 				}
 				auParameterValue.StringValue = value.StringValue;
 				OnPropertyChanged(() => AUParameterValues);
-			}));
+			});
 		}
 
 		ObservableCollection<MeasureParameterViewModel> _auParameterValues;

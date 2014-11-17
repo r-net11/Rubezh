@@ -2,29 +2,33 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Threading;
 
 namespace FiresecService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
 		public static MainViewModel Current { get; private set; }
+		private Dispatcher _dispatcher;
 
 		public MainViewModel()
 		{
 			Current = this;
 			Title = "Сервер приложений ОПС FireSec";
+			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 		}
 
 		private string _status;
-		public string Satus
+		public string Status
 		{
 			get { return _status; }
 			set
 			{
 				_status = value;
-				OnPropertyChanged("Status");
+				OnPropertyChanged(() => Status);
 			}
 		}
 
@@ -37,56 +41,44 @@ namespace FiresecService.ViewModels
 			set
 			{
 				_selectedClient = value;
-				OnPropertyChanged("SelectedClient");
+				OnPropertyChanged(() => SelectedClient);
 			}
 		}
 
 		public void AddClient(ClientCredentials clientCredentials)
 		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
+			_dispatcher.BeginInvoke((Action)(() =>
 			{
 				var connectionViewModel = new ClientViewModel(clientCredentials);
 				Clients.Add(connectionViewModel);
-			}
-			));
+			}));
 		}
 		public void RemoveClient(Guid uid)
 		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
+			_dispatcher.BeginInvoke((Action)(() =>
 			{
 				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
-				{
 					Clients.Remove(connectionViewModel);
-				}
-			}
-			));
+			}));
 		}
 		public void EditClient(Guid uid, string userName)
 		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
+			_dispatcher.BeginInvoke((Action)(() =>
 			{
 				var connectionViewModel = Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
-				{
 					connectionViewModel.FriendlyUserName = userName;
-				}
-			}
-			));
+			}));
 		}
 
 		public void AddLog(string message)
 		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
+			_dispatcher.BeginInvoke((Action)(() =>
 			{
 				LastLog = message;
 				InfoLog += message + "\n";
-			}
-			));
+			}));
 		}
 
 		string _lastLog = "";
@@ -96,7 +88,7 @@ namespace FiresecService.ViewModels
 			set
 			{
 				_lastLog = value;
-				OnPropertyChanged("LastLog");
+				OnPropertyChanged(() => LastLog);
 			}
 		}
 
@@ -107,7 +99,7 @@ namespace FiresecService.ViewModels
 			set
 			{
 				_infoLog = value;
-				OnPropertyChanged("InfoLog");
+				OnPropertyChanged(() => InfoLog);
 			}
 		}
 

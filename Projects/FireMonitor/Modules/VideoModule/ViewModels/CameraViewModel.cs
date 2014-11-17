@@ -17,6 +17,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrustructure.Plans.Painters;
+using Infrastructure.Common.Windows;
 
 namespace VideoModule.ViewModels
 {
@@ -273,12 +274,12 @@ namespace VideoModule.ViewModels
 				return;
 			try
 			{
-				Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+				ApplicationService.BeginInvoke(() =>
 				{
 					Stop();
 					Connect();
 					Start();
-				}));
+				});
 				ClientSettings.RviMultiLayoutCameraSettings.Dictionary[_cellPlayerWrap.Name] = Camera.UID;
 			}
 			catch (Exception ex)

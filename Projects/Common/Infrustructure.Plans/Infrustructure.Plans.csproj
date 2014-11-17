@@ -68,6 +68,7 @@
     <Compile Include="Elements\IElementDirection.cs" />
     <Compile Include="Elements\IElementBackground.cs" />
     <Compile Include="Elements\IElementZone.cs" />
+    <Compile Include="Events\PlansConfigurationChangedEvent.cs" />
     <Compile Include="Events\NavigateToPlanElementEvent.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\RegisterPlanPresenterEvent.cs" />

@@ -22,9 +22,9 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Процедура не найдена");
 		}
 
-		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
+		public void ProcedureCallbackResponse(Guid callbackUID, object value)
 		{
-            ProcedureRunner.CallbackResponse(procedureThreadUID, value);
+			ProcedureThread.CallbackResponse(callbackUID, value);
 		}
 
 		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)

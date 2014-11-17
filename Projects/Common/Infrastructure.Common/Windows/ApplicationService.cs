@@ -151,9 +151,9 @@ namespace Infrastructure.Common.Windows
 					Application.Current.Dispatcher.Invoke(action);
 			}
 		}
-		public static void BeginInvoke(Action action)
+		public static DispatcherOperation BeginInvoke(Action action, DispatcherPriority priority = DispatcherPriority.Normal)
 		{
-			Application.Current.Dispatcher.BeginInvoke(action);
+			return Application.Current.Dispatcher.BeginInvoke(priority, action);
 		}
 		public static void CloseAllWindows()
 		{

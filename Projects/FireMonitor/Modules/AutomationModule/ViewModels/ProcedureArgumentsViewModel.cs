@@ -28,11 +28,7 @@ namespace AutomationModule.ViewModels
 				if (DialogService.ShowModalWindow(viewModel))
 					args = viewModel.ArgumentViewModels.Arguments.Select(x => x.Argument).ToList();
 			}
-			else
-				args = new List<Argument>();
-			if (args != null)
-				using (new WaitWrapper())
-					FiresecManager.FiresecService.RunProcedure(procedure.Uid, args);
+			ProcedureHelper.Run(procedure, args);
 		}
 	}
 }

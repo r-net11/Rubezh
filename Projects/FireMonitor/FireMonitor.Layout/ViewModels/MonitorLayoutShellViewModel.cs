@@ -270,7 +270,7 @@ namespace FireMonitor.Layout.ViewModels
                         }
                     });
                     if (sendResponse)
-                        FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.ProcedureUID, value);
+                        FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, value);
                 }
             }
         }

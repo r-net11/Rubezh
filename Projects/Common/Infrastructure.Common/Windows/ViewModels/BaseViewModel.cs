@@ -2,11 +2,10 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public abstract class BaseViewModel : DependencyObject, INotifyPropertyChanged
+	public abstract class BaseViewModel : INotifyPropertyChanged
 	{
 		#region INotifyPropertyChanged Members and helper
 

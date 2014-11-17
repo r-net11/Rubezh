@@ -1,7 +1,9 @@
 ﻿using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.DragDrop;
+using Infrustructure.Plans.Events;
 namespace PlansModule.ViewModels
 {
 	public class PlansTreeViewModel
@@ -47,6 +49,7 @@ namespace PlansModule.ViewModels
 			}
 			FiresecManager.PlansConfiguration.Update();
 			ServiceFactory.SaveService.PlansChanged = true;
+			ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Publish(null);
 			PlansViewModel.SelectedPlan = source;
 		}
 		private bool CanDrop(TreeNodeDropObject data)

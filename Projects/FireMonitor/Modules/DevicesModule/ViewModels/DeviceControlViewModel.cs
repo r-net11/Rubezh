@@ -8,6 +8,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
@@ -73,10 +74,11 @@ namespace DevicesModule.ViewModels
 					var thread = new Thread(() =>
 					{
 						Thread.Sleep(TimeSpan.FromSeconds(5));
-						Dispatcher.BeginInvoke(new Action(() =>
+						ApplicationService.BeginInvoke(() =>
 						{
-							IsBuisy = false; OnPropertyChanged(() => ConfirmCommand);
-						}));
+							IsBuisy = false;
+							OnPropertyChanged(() => ConfirmCommand);
+						});
 					});
 					thread.Name = "DeviceControlViewModel Confirm";
 					thread.Start();
@@ -105,7 +107,11 @@ namespace DevicesModule.ViewModels
 			}
 			try
 			{
-				Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged(() => ConfirmCommand); }));
+				ApplicationService.BeginInvoke(() =>
+				{
+					IsBuisy = false;
+					OnPropertyChanged(() => ConfirmCommand);
+				});
 			}
 			catch (Exception e)
 			{

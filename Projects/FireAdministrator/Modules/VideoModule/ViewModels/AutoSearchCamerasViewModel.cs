@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
-using System.Windows.Threading;
 using Entities.DeviceOriented;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
@@ -58,17 +57,15 @@ namespace VideoModule.ViewModels
 
 		void OnNewDeviceFound(object sender, SearchDevicesEventArgs e)
 		{
-			Dispatcher.BeginInvoke(
-					DispatcherPriority.Input, new ThreadStart(
-						() =>
-						{
-							var deviceInfoViewModel = e.DeviceSearchInfo;
-							if (AutoSearchCameras.Any(x => x.DeviceSearchInfo.IpAddress == deviceInfoViewModel.IpAddress))
-								return;
-							var autoSearchCameraViewModel = new AutoSearchCameraViewModel(deviceInfoViewModel);
-							autoSearchCameraViewModel.IsAdded = Cameras.Any(x => x.Camera.Ip == autoSearchCameraViewModel.DeviceSearchInfo.IpAddress && x.Camera.Port == autoSearchCameraViewModel.DeviceSearchInfo.Port);
-							AutoSearchCameras.Add(autoSearchCameraViewModel);
-						}));
+			ApplicationService.BeginInvoke(() =>
+			{
+				var deviceInfoViewModel = e.DeviceSearchInfo;
+				if (AutoSearchCameras.Any(x => x.DeviceSearchInfo.IpAddress == deviceInfoViewModel.IpAddress))
+					return;
+				var autoSearchCameraViewModel = new AutoSearchCameraViewModel(deviceInfoViewModel);
+				autoSearchCameraViewModel.IsAdded = Cameras.Any(x => x.Camera.Ip == autoSearchCameraViewModel.DeviceSearchInfo.IpAddress && x.Camera.Port == autoSearchCameraViewModel.DeviceSearchInfo.Port);
+				AutoSearchCameras.Add(autoSearchCameraViewModel);
+			});
 		}
 	}
 }

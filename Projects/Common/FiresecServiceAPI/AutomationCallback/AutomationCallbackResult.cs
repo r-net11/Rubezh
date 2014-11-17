@@ -11,7 +11,7 @@ namespace FiresecAPI.AutomationCallback
 		}
 
 		[DataMember]
-		public Guid ProcedureUID { get; set; }
+		public Guid CallbackUID { get; set; }
 
 		[DataMember]
 		public AutomationCallbackType AutomationCallbackType { get; set; }

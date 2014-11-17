@@ -44,7 +44,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_stepCount = value;
 				OnPropertyChanged("StepCount"); 
-				ApplicationService.DoEvents(Dispatcher);
+				ApplicationService.DoEvents();
 			}
 		}
 		bool _canCancel;
@@ -78,7 +78,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			CurrentStep++;
 			Text = text;
-			ApplicationService.DoEvents(Dispatcher);
+			ApplicationService.DoEvents();
 		}
 
 		public override bool OnClosing(bool isCanceled)

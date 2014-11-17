@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
 using FiresecAPI;
+using Infrastructure.Common;
+using System.Threading;
 
 namespace AutomationModule
 {
@@ -175,6 +177,22 @@ namespace AutomationModule
 					break;
 			}
 			return result;
+		}
+
+		public static void Run(Procedure procedure, List<Argument> args = null)
+		{
+			if (args == null)
+				args = new List<Argument>();
+			using (new WaitWrapper())
+			{
+				var thread = new Thread(() => FiresecManager.FiresecService.RunProcedure(procedure.Uid, args))
+				{
+					Name = "Run Procedure",
+				};
+				thread.Start();
+				while (!thread.Join(50))
+					ApplicationService.DoEvents();
+			}
 		}
 	}
 }

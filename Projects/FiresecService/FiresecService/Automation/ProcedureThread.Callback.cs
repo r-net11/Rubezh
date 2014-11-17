@@ -2,47 +2,47 @@
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
+using System.Collections.Concurrent;
 
 namespace FiresecService
 {
 	public partial class ProcedureThread
 	{
-		private object _lock = new object();
-		private object _callbackResponse;
+		private static ConcurrentDictionary<Guid, ProcedureThread> _proceduresThreads = new ConcurrentDictionary<Guid, ProcedureThread>();
 		private AutoResetEvent _waitHandler;
-		private bool _flag;
+		private object _callbackResponse;
 
 		private object SendCallback(UIArguments arguments, AutomationCallbackResult callback, bool withResponse = false)
 		{
-			callback.ProcedureUID = UID;
+			callback.CallbackUID = Guid.NewGuid();
 			if (callback.Data != null)
 				callback.Data.LayoutFilter = GetLayoutFilter(arguments);
 			_callbackResponse = null;
 			if (withResponse)
 			{
-				_flag = true;
 				using (_waitHandler = new AutoResetEvent(false))
 				{
+					_proceduresThreads.GetOrAdd(callback.CallbackUID, this);
 					Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
-					_waitHandler.WaitOne(TimeSpan.FromMinutes(1));
+					if (!_waitHandler.WaitOne(TimeSpan.FromMinutes(1)))
+						CallbackResponse(callback.CallbackUID, null);
 				}
-				_flag = false;
 			}
 			else
 				Service.FiresecService.NotifyAutomation(callback, GetClientUID(arguments));
 			return _callbackResponse;
 		}
 
-		public void SetCallbackResponse(object value)
+		public static void CallbackResponse(Guid callbackUID, object value)
 		{
-			if (_flag)
-				lock (_lock)
-					if (_flag)
-					{
-						_callbackResponse = value;
-						_flag = false;
-						_waitHandler.Set();
-					}
+			ProcedureThread procedureThread;
+			if (_proceduresThreads.TryRemove(callbackUID, out procedureThread))
+				procedureThread.CallbackResponse(value);
+		}
+		private void CallbackResponse(object value)
+		{
+			_callbackResponse = value;
+			_waitHandler.Set();
 		}
 
 		private Guid? GetClientUID(UIArguments arguments)

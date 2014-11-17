@@ -31,11 +31,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand ConnectCommand { get; private set; }
 		void OnConnect()
 		{
-			Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+			ApplicationService.BeginInvoke(() =>
 			{
 				SelectedCamera.Connect();
 				SelectedCamera.StartAll();
-			}));
+			});
 		}
 		bool CanConnect()
 		{
@@ -45,11 +45,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand DisconnectCommand { get; private set; }
 		void OnDisconnect()
 		{
-			Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+			ApplicationService.BeginInvoke(() =>
 			{
 				SelectedCamera.Disconnect();
 				SelectedCamera.StopAll();
-			}));
+			});
 		}
 		bool CanDisconnect()
 		{

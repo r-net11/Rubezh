@@ -17,7 +17,8 @@ namespace AutomationModule.ViewModels
 		ControlPlanArguments ControlPlanArguments { get; set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
-		public ControlPlanStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ControlPlanStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent);
@@ -26,6 +27,7 @@ namespace AutomationModule.ViewModels
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsChanged);
+			ServiceFactoryBase.Events.GetEvent<PlansConfigurationChangedEvent>().Subscribe((o) => UpdateContent());
 		}
 
 		private void OnElementsChanged(List<ElementBase> elements)
@@ -65,7 +67,7 @@ namespace AutomationModule.ViewModels
 					ControlPlanArguments.ElementUid = _selectedElement.Uid;
 					ElementPropertyTypes = GetElemetProperties(_selectedElement);
 					SelectedElementPropertyType = ElementPropertyTypes.FirstOrDefault(x => x == ControlPlanArguments.ElementPropertyType);
-					OnPropertyChanged(()=>ElementPropertyTypes);
+					OnPropertyChanged(() => ElementPropertyTypes);
 				}
 				OnPropertyChanged(() => SelectedElement);
 			}
@@ -111,7 +113,7 @@ namespace AutomationModule.ViewModels
 				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Height, ElementPropertyType.Width,
 					ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
 			if (element.ElementType == typeof(ElementPolygon))
-				elementPropertyTypes = new ObservableCollection<ElementPropertyType> {ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
+				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BackColor, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
 			if (element.ElementType == typeof(ElementPolyline))
 				elementPropertyTypes = new ObservableCollection<ElementPropertyType> { ElementPropertyType.Color, ElementPropertyType.BorderThickness, ElementPropertyType.Left, ElementPropertyType.Top };
 			if (element.ElementType == typeof(ElementTextBlock))
@@ -149,8 +151,10 @@ namespace AutomationModule.ViewModels
 
 		public override string Description
 		{
-			get { return "План: " + (SelectedPlan != null ? SelectedPlan.Caption : "<пусто>") + "; Элемент: " + (SelectedElement != null ? SelectedElement.PresentationName : "<пусто>") +
-				"; Свойство: " + SelectedElementPropertyType.ToDescription() + "; Операция: " + SelectedControlVisualType.ToDescription() + "; Значение: " + ValueArgument.Description;
+			get
+			{
+				return "План: " + (SelectedPlan != null ? SelectedPlan.Caption : "<пусто>") + "; Элемент: " + (SelectedElement != null ? SelectedElement.PresentationName : "<пусто>") +
+					"; Свойство: " + SelectedElementPropertyType.ToDescription() + "; Операция: " + SelectedControlVisualType.ToDescription() + "; Значение: " + ValueArgument.Description;
 			}
 		}
 	}

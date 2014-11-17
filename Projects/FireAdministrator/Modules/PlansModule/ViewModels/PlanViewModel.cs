@@ -52,6 +52,5 @@ namespace PlansModule.ViewModels
 						child.IsChecked = false;
 			}
 		}
-		
 	}
 }

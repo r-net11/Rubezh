@@ -87,13 +87,6 @@ namespace FiresecService
 			Stop();
 		}
 
-		public static void CallbackResponse(Guid procedureThreadUID, object value)
-		{
-			ProcedureThread procedure;
-			if (_proceduresThreads.TryGetValue(procedureThreadUID, out procedure))
-				procedure.SetCallbackResponse(value);
-		}
-
 		static void CheckProcedureThread()
 		{
 			while (true)
