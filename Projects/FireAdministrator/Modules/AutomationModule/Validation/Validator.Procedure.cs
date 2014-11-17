@@ -326,7 +326,8 @@ namespace AutomationModule.Validation
 					else if (!controlVisualArguments.Property.HasValue)
 						Errors.Add(new ProcedureStepValidationError(step, "Не выбрано свойство", ValidationErrorLevel.CannotSave));
 					break;
-				case ProcedureStepType.ControlPlan:
+				case ProcedureStepType.ControlPlanGet:
+				case ProcedureStepType.ControlPlanSet:
 					var controlPlanArguments = step.ControlPlanArguments;
 					ValidateArgument(step, controlPlanArguments.ValueArgument);
 					if (controlPlanArguments.PlanUid == Guid.Empty)

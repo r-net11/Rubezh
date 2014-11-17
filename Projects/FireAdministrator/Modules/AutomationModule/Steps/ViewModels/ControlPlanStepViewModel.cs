@@ -16,14 +16,18 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel ValueArgument { get; private set; }
 		ControlPlanArguments ControlPlanArguments { get; set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
+		public ControlElementType ControlElementType { get; private set; }
 
-		public ControlPlanStepViewModel(StepViewModel stepViewModel)
-			: base(stepViewModel)
+		public ControlPlanStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType) : base(stepViewModel)
 		{
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
+			ControlElementType = controlElementType;
 			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent);
+			if (ControlElementType == ControlElementType.Get)
+				ValueArgument.VariableScopes = new ObservableCollection<VariableScope> { VariableScope.LocalVariable, VariableScope.GlobalVariable };
+			else
+				ValueArgument.VariableScopes = ProcedureHelper.GetEnumObs<VariableScope>();
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
-			ControlVisualTypes = ProcedureHelper.GetEnumObs<ControlVisualType>();
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsChanged);
@@ -88,24 +92,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ControlVisualType> ControlVisualTypes { get; private set; }
-		public ControlVisualType SelectedControlVisualType
-		{
-			get { return ControlPlanArguments.ControlVisualType; }
-			set
-			{
-				ControlPlanArguments.ControlVisualType = value;
-				if (value == ControlVisualType.Get)
-					ValueArgument.VariableScopes = new ObservableCollection<VariableScope> { VariableScope.LocalVariable, VariableScope.GlobalVariable };
-				else
-					ValueArgument.VariableScopes = ProcedureHelper.GetEnumObs<VariableScope>();
-				if (ValueArgument.VariableScopes.All(x => x != ValueArgument.SelectedVariableScope))
-					ValueArgument.SelectedVariableScope = ValueArgument.VariableScopes.FirstOrDefault();
-				ValueArgument.Update();
-				OnPropertyChanged(() => SelectedControlVisualType);
-			}
-		}
-
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
 			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
@@ -154,7 +140,7 @@ namespace AutomationModule.ViewModels
 			get
 			{
 				return "План: " + (SelectedPlan != null ? SelectedPlan.Caption : "<пусто>") + "; Элемент: " + (SelectedElement != null ? SelectedElement.PresentationName : "<пусто>") +
-					"; Свойство: " + SelectedElementPropertyType.ToDescription() + "; Операция: " + SelectedControlVisualType.ToDescription() + "; Значение: " + ValueArgument.Description;
+					"; Свойство: " + SelectedElementPropertyType.ToDescription() + "; Операция: " + ControlElementType.ToDescription() + "; Значение: " + ValueArgument.Description;
 			}
 		}
 	}

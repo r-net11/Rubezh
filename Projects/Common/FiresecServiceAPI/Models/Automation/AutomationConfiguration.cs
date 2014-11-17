@@ -358,7 +358,8 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.ControlVisualSet:
 					InvalidateArgument(procedure, step.ControlVisualArguments.Argument);
 					break;
-				case ProcedureStepType.ControlPlan:
+				case ProcedureStepType.ControlPlanGet:
+				case ProcedureStepType.ControlPlanSet:
 					{
 						var controlPlanArguments = step.ControlPlanArguments;
 						if (ConfigurationCash.PlansConfiguration == null || ConfigurationCash.PlansConfiguration.AllPlans == null)

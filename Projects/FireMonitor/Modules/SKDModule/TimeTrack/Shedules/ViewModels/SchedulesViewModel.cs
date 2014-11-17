@@ -4,8 +4,10 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -20,6 +22,8 @@ namespace SKDModule.ViewModels
 		{
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
+			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
+			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
 		}
 
 		public void Initialize()
@@ -128,6 +132,17 @@ namespace SKDModule.ViewModels
 		protected override string ItemRemovingName
 		{
 			get { return "график работы"; }
+		}
+
+		void OnUpdateFilter(HRFilter hrFilter)
+		{
+			var filter = new ScheduleFilter()
+			{
+				UserUID = FiresecManager.CurrentUser.UID,
+				LogicalDeletationType = LogicalDeletationType,
+				EmployeeUIDs = hrFilter.EmplooyeeUIDs
+			};
+			Initialize(filter);
 		}
 	}
 }

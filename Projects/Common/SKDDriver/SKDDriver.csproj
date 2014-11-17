@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="Translators\AdditionalColumnTypeTranslator.cs" />
+    <Compile Include="Translators\Base\EmployeeTranslatorBase.cs" />
     <Compile Include="Translators\Base\IsDeletedTranslator.cs" />
     <Compile Include="Translators\Base\WithFilterTranslator.cs" />
     <Compile Include="Translators\Base\WithShortTranslator.cs" />

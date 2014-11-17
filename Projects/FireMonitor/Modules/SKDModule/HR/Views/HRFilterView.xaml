@@ -3,13 +3,14 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Views="clr-namespace:SKDModule.Views"
+			  xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 Width="800" Height="600">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TabControl Grid.Row="0">
 			<Views:FilterOrganisationTabItem />
 			<TabItem Header="Отделы" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
 				<tree:TreeList Focusable="True" DataContext="{Binding DepartmentsFilterViewModel}" Source="{Binding RootDepartments}">
@@ -21,19 +22,19 @@
 										<StackPanel Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 												<StackPanel Orientation="Horizontal">
-													<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+													<Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0" />
 													<TextBlock Text="{Binding Name}" />
 												</StackPanel>
 											</CheckBox>
 											<StackPanel Orientation="Horizontal" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}">
-												<Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" Margin="1 0" />
+												<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" />
 												<TextBlock Text="{Binding Name}" />
 											</StackPanel>
 										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
-                            <GridViewColumn Header="Примечание">
+							<GridViewColumn Header="Примечание">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -56,19 +57,19 @@
 										<StackPanel Orientation="Horizontal">
 											<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 												<StackPanel Orientation="Horizontal">
-													<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+													<Image Width="16" Source="/Controls;component/Images/Position.png" VerticalAlignment="Center" Margin="1 0" />
 													<TextBlock Text="{Binding Name}" />
 												</StackPanel>
 											</CheckBox>
 											<StackPanel Orientation="Horizontal" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}">
-												<Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" Margin="1 0" />
+												<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" />
 												<TextBlock Text="{Binding Name}" />
 											</StackPanel>
 										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
-                            <GridViewColumn Header="Примечание">
+							<GridViewColumn Header="Примечание">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -80,6 +81,38 @@
 						</GridView>
 					</tree:TreeList.View>
 				</tree:TreeList>
+			</TabItem>
+			<TabItem Header="Сотрудники">
+				<Grid DataContext="{Binding EmployeesFilterViewModel}" >
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" Source="{Binding Organisations, Mode=OneWay}">
+						<tree:TreeList.View>
+							<GridView>
+								<GridViewColumn Header="ФИО" ListViewLayoutManager.StarWidth="1">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<StackPanel Orientation="Horizontal">
+												<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+												<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" 
+													   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+												<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
+													   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+												<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+											</StackPanel>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+							</GridView>
+						</tree:TreeList.View>
+					</tree:TreeList>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
+						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+					</StackPanel>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Сотрудники" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid DataContext="{Binding EmployeeFilterViewModel}">
@@ -103,6 +136,6 @@
 				</Grid>
 			</TabItem>
 		</TabControl>
-        <CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
+		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
 	</Grid>
 </UserControl>

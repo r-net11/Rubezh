@@ -29,17 +29,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		T _selectedItem;
-		public T SelectedItem
-		{
-			get { return _selectedItem; }
-			set
-			{
-				_selectedItem = value;
-				OnPropertyChanged(() => SelectedItem);
-			}
-		}
-
 		public RelayCommand SelectAllCommand { get; private set; }
 		void OnSelectAll()
 		{

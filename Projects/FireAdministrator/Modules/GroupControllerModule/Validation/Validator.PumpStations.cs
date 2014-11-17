@@ -144,7 +144,7 @@ namespace GKModule.Validation
 				{
 					if (device.Driver.IsPump)
 					{
-						Errors.Add(new PumpStationValidationError(pumpStation, "В условии для запуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new PumpStationValidationError(pumpStation, "В условии для запуска не может участвовать насос", ValidationErrorLevel.CannotWrite));
 						return;
 					}
 				}
