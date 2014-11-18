@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="Infrastructure.Designer.Views.InstrumentGroupView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:i="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans" xmlns:TemplateSelector="clr-namespace:Controls.TemplateSelectors;assembly=Controls" ContextMenuService.Placement="Right" ContextMenuService.PlacementTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}">
+    <UserControl.Resources>
+        <TemplateSelector:InterfaceTemplateSelector x:Key="ToolboxItemTemplateSelector" Type="{x:Type i:IInstrument}" UseDataKey="true" />
+    </UserControl.Resources>
+    <UserControl.ContextMenu>
+        <ContextMenu ItemsSource="{Binding Instruments}" />
+    </UserControl.ContextMenu>
+        <Grid>
+            <ContentPresenter Content="{Binding ActiveInstrument}" ContentTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
+            <Path Fill="White" Data="M 0 6 L 6 0 L 6 6 Z" HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="p" />
+        </Grid>
+</UserControl>

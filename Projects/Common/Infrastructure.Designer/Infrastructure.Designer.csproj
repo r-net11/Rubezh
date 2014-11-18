@@ -118,6 +118,7 @@
     <Compile Include="InstrumentAdorners\RubberbandAdorner.cs" />
     <Compile Include="InstrumentAdorners\TextBoxAdorner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\InstrumentGroupViewModel.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.CopyPaste.cs" />
     <Compile Include="ViewModels\ElementBaseViewModel.cs" />
     <Compile Include="ViewModels\ElementGroupViewModel.cs" />
@@ -131,6 +132,9 @@
     <Compile Include="ViewModels\ToolboxViewModel.cs" />
     <Compile Include="Views\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstrumentGroupView.xaml.cs">
+      <DependentUpon>InstrumentGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InstrumentView.xaml.cs">
       <DependentUpon>InstrumentView.xaml</DependentUpon>
@@ -221,6 +225,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\InstrumentGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InstrumentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

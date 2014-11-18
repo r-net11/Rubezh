@@ -8,7 +8,7 @@
 
 		<ContentPresenter Grid.Row="0" Content="{Binding Toolbox}" DockPanel.Dock="Top" />
 
-		<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+		<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" FocusVisualStyle="{x:Null}">
 			<Grid Name="_grid" Background="Transparent" MouseDown="OnContentMouseDown">
 				<Grid.LayoutTransform>
 					<TransformGroup>

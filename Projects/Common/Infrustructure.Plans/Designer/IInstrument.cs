@@ -3,14 +3,21 @@ using Infrustructure.Plans.InstrumentAdorners;
 
 namespace Infrustructure.Plans.Designer
 {
-	public interface IInstrument
-	{
-		string ImageSource { get; set; }
-		string ToolTip { get; set; }
-		ICommand Command { get; set; }
-		InstrumentAdorner Adorner { get; set; }
-		bool Autostart { get; set; }
-		int Index { get; set; }
-		bool IsActive { get; set; }
-	}
+    public interface IInstrument
+    {
+        string ImageSource { get; }
+        string ToolTip { get; }
+        ICommand Command { get; }
+        InstrumentAdorner Adorner { get; }
+        bool Autostart { get; }
+        int Index { get; }
+        bool IsActive { get; }
+        InstrumentGroup Group { get; }
+    }
+    public enum InstrumentGroup
+    {
+        None,
+        RectangleZone,
+        PolygonZone,
+    }
 }

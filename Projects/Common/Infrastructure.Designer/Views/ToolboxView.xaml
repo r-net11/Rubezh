@@ -8,7 +8,7 @@
 			<Setter Property="ScrollViewer.CanContentScroll" Value="False" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="VerticalContentAlignment" Value="Stretch" />
-			<Setter Property="Template">
+            <Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type ListBox}">
 						<StackPanel IsItemsHost="true" Orientation="Horizontal" />
@@ -22,7 +22,8 @@
 			<Setter Property="OverridesDefaultStyle" Value="true" />
 			<Setter Property="Height" Value="40" />
 			<Setter Property="Width" Value="40" />
-			<Setter Property="Template">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type ListBoxItem}">
 						<Border Name="border" Margin="2" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTipService.ShowOnDisabled="True">
@@ -44,14 +45,15 @@
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
-			<Style.Triggers>
+            <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnListViewItemPreviewMouseRightButtonDown" />
+            <Style.Triggers>
 				<DataTrigger Binding="{Binding IsActive}" Value="False">
 					<Setter Property="Visibility" Value="Collapsed" />
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
 
-		<TemplateSelector:InterfaceTemplateSelector x:Key="ToolboxItemTemplateSelector" Type="{x:Type i:IInstrument}" />
+        <TemplateSelector:InterfaceTemplateSelector x:Key="ToolboxItemTemplateSelector" Type="{x:Type i:IInstrument}" UseDataKey="true" />
 	</UserControl.Resources>
 
 	<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
