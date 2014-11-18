@@ -194,7 +194,7 @@ namespace GKProcessor
 				{
 					foreach (var measureParameter in Device.Driver.MeasureParameters)
 					{
-						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 44 + measureParameter.No * 2);
+						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 46 + measureParameter.No * 2);
 
 						var stringValue = parameterValue.ToString();
 						if (measureParameter.Multiplier != null)

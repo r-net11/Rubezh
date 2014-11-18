@@ -180,7 +180,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.UID);
+			ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>().Publish(PumpStation.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

@@ -11,7 +11,7 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XGuardZonePainter : BaseZonePainter<GKGuardZone, ShowXGuardZoneEvent>
+	class XGuardZonePainter : BaseZonePainter<GKGuardZone, ShowGKGuardZoneEvent>
 	{
 		private GuardZoneViewModel _guardZoneViewModel;
 

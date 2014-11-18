@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-	public class ShowXPumpStationEvent : CompositePresentationEvent<Guid>
+	public class ShowGKDirectionEvent : CompositePresentationEvent<Guid>
 	{
 	}
 }

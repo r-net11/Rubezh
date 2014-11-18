@@ -145,7 +145,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(Pim.UID);
+			ServiceFactory.Events.GetEvent<ShowGKPimEvent>().Publish(Pim.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
