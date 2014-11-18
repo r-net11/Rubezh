@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using FiresecAPI.SKD;
 
 namespace FiresecAPI.Models
 {
@@ -10,6 +11,15 @@ namespace FiresecAPI.Models
 	public class ServerTask
 	{
 		[DataMember]
-		public string Name { get; set; }
+		public string DeviceName { get; set; }
+
+		[DataMember]
+		public string DeviceAddress { get; set; }
+
+		[DataMember]
+		public string CardNumber { get; set; }
+
+		[DataMember]
+		public PendingCardAction PendingCardAction { get; set; }
 	}
 }

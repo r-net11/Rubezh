@@ -14,9 +14,6 @@ namespace DiagnosticsModule.ViewModels
 		public TaskViewModel(ServerTask serverTask)
 		{
 			ServerTask = serverTask;
-			Name = serverTask.Name;
 		}
-
-		public string Name { get; private set; }
 	}
 }

@@ -582,7 +582,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_контроллера, device);
-				return ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID);
+				return ChinaSKDDriver.Processor.GetDeviceInfo(deviceUID);
 			}
 			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
 		}

@@ -226,7 +226,20 @@ namespace FiresecService
 					{
 						var card = operationResult.Result;
 						var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-						var cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+						var cardWriter = new CardWriter();
+						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
+						{
+							cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+						}
+						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Edit)
+						{
+							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
+							cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+						}
+						if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
+						{
+							cardWriter = ChinaSKDDriver.Processor.DeleteCard(card, getAccessTemplateOperationResult.Result);
+						}
 						foreach (var controllerCardItem in cardWriter.ControllerCardItems)
 						{
 							if (!controllerCardItem.HasError)
