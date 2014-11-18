@@ -15,7 +15,7 @@ namespace Controls.Converters
 
 			switch(stateType)
 			{
-				case GKStateBit.Norm:
+				//case GKStateBit.Norm:
 				case GKStateBit.Save:
 
 				case GKStateBit.SetRegime_Automatic:

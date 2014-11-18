@@ -17,8 +17,8 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			UseHasp = false;
-			//DBServerName = "SQLEXPRESS";
-			DBServerName = "FIRESECINSTANCE";
+			DBServerName = "SQLEXPRESS";
+			//DBServerName = "FIRESECINSTANCE";
 			CreateNewDBOnOversize = true;
 
 			FS_RemoteAddress = "localhost";

@@ -26,6 +26,7 @@ namespace GKModule
 	public partial class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
+		static DeviceParametersViewModel DeviceParametersViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static GuardZonesViewModel GuardZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
@@ -56,6 +57,7 @@ namespace GKModule
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 
 			DevicesViewModel = new DevicesViewModel();
+			DeviceParametersViewModel = new DeviceParametersViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
@@ -188,6 +190,7 @@ namespace GKModule
 			_pumpStationsNavigationItem.IsVisible = GKManager.PumpStations.Count > 0;
 			_mptsNavigationItem.IsVisible = GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
+			DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
@@ -202,12 +205,12 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
-			_guardZonesNavigationItem = new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
-			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
-			_delaysNavigationItem = new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
-			_pimsNavigationItem = new NavigationItem<ShowXPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Pim_White.png", null, null, Guid.Empty);
-			_pumpStationsNavigationItem = new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
+			_zonesNavigationItem = new NavigationItem<ShowGKZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
+			_guardZonesNavigationItem = new NavigationItem<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
+			_directionsNavigationItem = new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
+			_delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
+			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Pim_White.png", null, null, Guid.Empty);
+			_pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
 			_mptsNavigationItem = new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty);
 			_doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty);
 
@@ -217,7 +220,8 @@ namespace GKModule
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
-						new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						_zonesNavigationItem,
 						_guardZonesNavigationItem,
 						_directionsNavigationItem,

@@ -56,7 +56,7 @@ namespace GKProcessor
 				No = 3,
 				Name = "Состояние контакта для режима Удержания",
 				Caption = "Состояние контакта для режима Удержания",
-				Default = 0,
+				Default = 4,
 				IsLowByte = true,
 				Mask = 0x0C
 			};
@@ -70,7 +70,7 @@ namespace GKProcessor
 				No = 3,
 				Name = "Состояние контакта для режима Включено",
 				Caption = "Состояние контакта для режима Включено",
-				Default = 0,
+				Default = 16,
 				IsLowByte = true,
 				Mask = 0x30
 			};

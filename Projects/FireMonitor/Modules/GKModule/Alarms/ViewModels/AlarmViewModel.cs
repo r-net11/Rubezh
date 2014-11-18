@@ -148,15 +148,15 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Alarm.Device.UID);
+				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Alarm.Device.UID);
 			}
 			if (Alarm.Zone != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Alarm.Zone.UID);
+				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(Alarm.Zone.UID);
 			}
 			if (Alarm.Direction != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Alarm.Direction.UID);
+				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.Direction.UID);
 			}
 		}
 

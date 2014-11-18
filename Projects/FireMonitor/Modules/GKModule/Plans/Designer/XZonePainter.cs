@@ -10,7 +10,7 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XZonePainter : BaseZonePainter<GKZone, ShowXZoneEvent>
+	class XZonePainter : BaseZonePainter<GKZone, ShowGKZoneEvent>
 	{
 		private ZoneViewModel _zoneViewModel;
 

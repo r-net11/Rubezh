@@ -46,18 +46,27 @@ namespace FiresecService
 
 		void ShowMessage(ProcedureStep procedureStep)
 		{
-			var messageValue = GetValue<object>(procedureStep.ShowMessageArguments.MessageArgument);
+			var showMessageArguments = procedureStep.ShowMessageArguments;
+			var messageValue = GetValue<object>(showMessageArguments.MessageArgument);
 			var message = messageValue.GetType().IsEnum ? ((Enum)messageValue).ToDescription() : messageValue.ToString();
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = AutomationCallbackType.Message,
 				Data = new MessageCallbackData()
 				{
-					IsModalWindow = procedureStep.ShowMessageArguments.IsModalWindow,
+					IsModalWindow = showMessageArguments.IsModalWindow,
 					Message = message,
+					WithConfirmation = showMessageArguments.WithConfirmation
 				},
 			};
-			SendCallback(procedureStep.ShowMessageArguments, automationCallbackResult);
+
+			if (showMessageArguments.WithConfirmation)
+			{
+				var value = SendCallback(showMessageArguments, automationCallbackResult, true);
+				SetValue(showMessageArguments.ConfirmationValueArgument, value);
+			}
+			else
+				SendCallback(showMessageArguments, automationCallbackResult);
 		}
 
 		void ShowDialog(ProcedureStep procedureStep)
