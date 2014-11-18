@@ -4,7 +4,7 @@
 	</UserControl.Resources>
 	<Grid Margin="2">
 		<Grid.Resources>
-			<Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+			<Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
 				<Setter Property="Width" Value="NaN" />
 			</Style>
 		</Grid.Resources>
@@ -57,8 +57,8 @@
 		<Label Grid.Row="4" Grid.Column="0" Margin="2, 2, 0, 2" Content="Всем клиентам" />
 		<CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
 
-		<Label Grid.Row="5" Grid.Column="0" Margin="2, 2, 0, 2" Content="Восстанавливать" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}"/>
-		<CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding StoreOnServer}" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}"/>
-		
+		<Label Grid.Row="5" Grid.Column="0" Margin="2, 2, 0, 2" Content="Восстанавливать" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding StoreOnServer}" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
+
 	</Grid>
 </UserControl>

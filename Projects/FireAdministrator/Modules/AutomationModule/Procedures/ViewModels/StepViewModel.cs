@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.TreeList;
-using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,7 +24,7 @@ namespace AutomationModule.ViewModels
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
-			switch(step.ProcedureStepType)
+			switch (step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
 					Content = new SoundStepViewModel(this);
@@ -66,19 +65,19 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.Pause:
 					Content = new PauseStepViewModel(this);
 					break;
-				
+
 				case ProcedureStepType.ProcedureSelection:
 					Content = new ProcedureSelectionStepViewModel(this);
 					break;
 
 				case ProcedureStepType.Exit:
 					Content = new ExitStepViewModel(this);
-					break;					
-			
+					break;
+
 				case ProcedureStepType.SetValue:
 					Content = new SetValueStepViewModel(this);
 					break;
-				
+
 				case ProcedureStepType.IncrementValue:
 					Content = new IncrementValueStepViewModel(this);
 					break;
@@ -118,7 +117,7 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ControlCamera:
 					Content = new ControlCameraStepViewModel(this);
 					break;
-				
+
 				case ProcedureStepType.GetObjectProperty:
 					Content = new GetObjectPropertyStepViewModel(this);
 					break;
@@ -167,10 +166,10 @@ namespace AutomationModule.ViewModels
 					Content = new ControlPlanStepViewModel(this, ControlElementType.Set);
 					break;
 
-                case ProcedureStepType.ShowDialog:
-                    Content = new ShowDialogStepViewModel(this);
-                    break;
-            }
+				case ProcedureStepType.ShowDialog:
+					Content = new ShowDialogStepViewModel(this);
+					break;
+			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}

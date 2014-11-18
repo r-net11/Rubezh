@@ -6,7 +6,6 @@ using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
 using FiresecAPI;
-using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
@@ -17,7 +16,6 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
-using FiresecClient;
 
 namespace AutomationModule
 {
@@ -67,7 +65,7 @@ namespace AutomationModule
 				};
 		}
 
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Automation; }
 		}
@@ -99,9 +97,9 @@ namespace AutomationModule
 				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
 #if DEBUG
-            yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Automation, 159, "Процедуры", "Панель процедуры", "BProcedures.png");
 #endif
-        }
+		}
 
 		#endregion
 	}

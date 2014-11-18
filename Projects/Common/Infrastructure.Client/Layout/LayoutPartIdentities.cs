@@ -9,7 +9,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Navigation = new Guid("{8EC166C3-5D1C-4BBD-AE33-A91EC58FB74B}");
 		public static readonly Guid Content = new Guid("{7FA6996D-0E0F-4409-BFF9-064EFEAF5C35}");
 		public static readonly Guid Image = new Guid("{230B5A83-15B9-4F32-B3A4-6E00B430227E}");
-        public static readonly Guid TimePresenter = new Guid("{6A6D2CE8-C4B0-480B-BA15-CE34A5676874}");
+		public static readonly Guid TimePresenter = new Guid("{6A6D2CE8-C4B0-480B-BA15-CE34A5676874}");
 
 		public static readonly Guid Journal = new Guid("{649103B7-794A-44CF-9019-39E0BF0C1986}");
 		public static readonly Guid Archive = new Guid("{803B107F-66FD-46A8-B839-1814C43A5EE2}");
@@ -17,7 +17,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Reports = new Guid("{AF658FD9-1EDF-4418-AB5F-AC32426ED114}");
 		public static readonly Guid Diagnostics = new Guid("{FD516EB7-CF78-4783-AFD4-08AC7A840550}");
 		public static readonly Guid AutomationProcedure = new Guid("{13E8F574-38C6-460E-83CE-50574BDE5115}");
-        public static readonly Guid Automation = new Guid("{2F91D187-752A-4AF2-918F-7A3F1AD3C62D}");
+		public static readonly Guid Automation = new Guid("{2F91D187-752A-4AF2-918F-7A3F1AD3C62D}");
 
 		public static readonly Guid Indicator = new Guid("{8B0BF10A-AD4C-48CC-B1D0-ADF39552B936}");
 		public static readonly Guid Alarms = new Guid("{A8C3AA98-2684-41E8-8248-BD27E206DB81}");
@@ -28,7 +28,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid PumpStations = new Guid("{C96EB8B0-E6DA-482c-B19C-3BD862768713}");
 		public static readonly Guid MPTs = new Guid("{BE50C86B-75C2-4850-8894-A325B14F946A}");
 		public static readonly Guid Doors = new Guid("{1944B6F5-779F-4fff-949E-A546AC3493EC}");
-        public static readonly Guid ConnectionIndicator = new Guid("{203F1AD9-212D-4B92-AE61-C4B340D52DD6}");
+		public static readonly Guid ConnectionIndicator = new Guid("{203F1AD9-212D-4B92-AE61-C4B340D52DD6}");
 
 		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");
 		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");

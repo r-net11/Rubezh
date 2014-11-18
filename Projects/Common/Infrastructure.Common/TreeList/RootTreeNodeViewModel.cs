@@ -94,8 +94,18 @@ namespace Infrastructure.Common.TreeList
 		}
 		public object SelectedTreeNode
 		{
-			get { return _treeLists.Count > 0 ? _treeLists[0].SelectedTreeNode : null; }
-			set { _treeLists.ForEach(item => item.SelectedTreeNode = value); }
+			get 
+			{ 
+				return _treeLists.Count > 0 ? _treeLists[0].SelectedTreeNode : null; 
+			}
+			set 
+			{
+				_treeLists.ForEach(item =>
+				{
+					if (item.SelectedTreeNode != value)
+						item.SelectedTreeNode = value;
+				});
+			}
 		}
 
 		public void SuspendSelection()

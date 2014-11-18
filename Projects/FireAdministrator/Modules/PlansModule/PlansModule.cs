@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
@@ -6,6 +7,7 @@ using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer;
@@ -14,14 +16,10 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using Infrastructure.Common.Validation;
-using System.Linq;
-using Infrastructure.Client;
-using Microsoft.Practices.Prism.Events;
 
 namespace PlansModule
 {
-    public class PlansModule : ModuleBase, ILayoutDeclarationModule, IValidationModule
+	public class PlansModule : ModuleBase, ILayoutDeclarationModule, IValidationModule
 	{
 		PlansViewModel PlansViewModel;
 
@@ -56,7 +54,7 @@ namespace PlansModule
 #endif
 			};
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Plans; }
 		}
@@ -95,15 +93,15 @@ namespace PlansModule
 		}
 		#endregion
 
-        #region IValidationModule Members
+		#region IValidationModule Members
 
-        public IEnumerable<IValidationError> Validate()
-        {
-            return Enumerable.Empty<IValidationError>();
-        }
+		public IEnumerable<IValidationError> Validate()
+		{
+			return Enumerable.Empty<IValidationError>();
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 #if PLAN_TAB
 	public class ShowPlansEvent : CompositePresentationEvent<object>
 	{

@@ -60,6 +60,29 @@ namespace FiresecService
 			SendCallback(procedureStep.ShowMessageArguments, automationCallbackResult);
 		}
 
+		void ShowDialog(ProcedureStep procedureStep)
+		{
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.Dialog,
+				Data = new DialogCallbackData()
+				{
+					IsModalWindow = procedureStep.ShowDialogArguments.IsModalWindow,
+					Layout = procedureStep.ShowDialogArguments.Layout,
+					Title = procedureStep.ShowDialogArguments.Title,
+					AllowClose = procedureStep.ShowDialogArguments.AllowClose,
+					AllowMaximize = procedureStep.ShowDialogArguments.AllowMaximize,
+					Height = procedureStep.ShowDialogArguments.Height,
+					MinHeight = procedureStep.ShowDialogArguments.MinHeight,
+					MinWidth = procedureStep.ShowDialogArguments.MinWidth,
+					Sizable = procedureStep.ShowDialogArguments.Sizable,
+					TopMost = procedureStep.ShowDialogArguments.TopMost,
+					Width = procedureStep.ShowDialogArguments.Width,
+				},
+			};
+			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);
+		}
+
 		void PlaySound(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult()

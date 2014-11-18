@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Linq.Expressions;
-using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
 	public class ArgumentViewModel : BaseViewModel
 	{
-        public const string EmptyText = "<пусто>";
+		public const string EmptyText = "<пусто>";
 		public Action UpdateVariableScopeHandler { get; set; }
 		public Action UpdateVariableHandler { get; set; }
 		Action UpdateContentHandler { get; set; }
@@ -119,7 +118,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddVariableCommand { get; private set; }
 		void OnAddVariable()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel (null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, SelectedVariableScope == VariableScope.LocalVariable ? "локальная переменная" : "глобальная переменная",
 				SelectedVariableScope == VariableScope.LocalVariable ? "Добавить локальную переменную" : "Добавить глобальную переменную");
 			variableDetailsViewModel.IsList = IsList;
 			variableDetailsViewModel.ExplicitTypes = new ObservableCollection<ExplicitTypeViewModel>(ExplicitTypes);
@@ -127,8 +126,9 @@ namespace AutomationModule.ViewModels
 			if (explicitTypeViewModel != null)
 				variableDetailsViewModel.SelectedExplicitType = explicitTypeViewModel.GetAllChildren().FirstOrDefault(x => x.IsRealType);
 			variableDetailsViewModel.IsEditMode = true;
-			if (variableDetailsViewModel.SelectedExplicitType != null) variableDetailsViewModel.SelectedExplicitType.ExpandToThis();
-			
+			if (variableDetailsViewModel.SelectedExplicitType != null)
+				variableDetailsViewModel.SelectedExplicitType.ExpandToThis();
+
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				if (SelectedVariableScope == VariableScope.LocalVariable)
@@ -142,7 +142,7 @@ namespace AutomationModule.ViewModels
 					FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(variableDetailsViewModel.Variable);
 					GlobalVariablesViewModel.Current.GlobalVariables.Add(new VariableViewModel(variableDetailsViewModel.Variable));
 				}
-				
+
 				SelectedVariable = new VariableViewModel(variableDetailsViewModel.Variable);
 				Variables.Add(SelectedVariable);
 
@@ -228,7 +228,8 @@ namespace AutomationModule.ViewModels
 				enumTypes = ProcedureHelper.GetEnumList<EnumType>();
 			ExplicitTypes = ProcedureHelper.BuildExplicitTypes(explicitTypes, enumTypes, objectTypes);
 			var variables = ProcedureHelper.GetAllVariables(allVariables, explicitTypes, enumTypes, objectTypes, isList);
-			if (isList != null) IsList = isList.Value;
+			if (isList != null)
+				IsList = isList.Value;
 			Variables = new List<VariableViewModel>();
 			foreach (var variable in variables)
 			{
@@ -256,7 +257,7 @@ namespace AutomationModule.ViewModels
 
 		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.Device, bool? isList = null)
 		{
-			Update(variables, new List<ExplicitType>{explicitType}, new List<EnumType>{enumType}, new List<ObjectType>{objectType}, isList);
+			Update(variables, new List<ExplicitType> { explicitType }, new List<EnumType> { enumType }, new List<ObjectType> { objectType }, isList);
 		}
 
 		public void Update(Procedure procedure, ExplicitType explicitType, EnumType? enumType = null, ObjectType? objectType = null, bool? isList = null)

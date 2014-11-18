@@ -21,7 +21,7 @@ namespace FireAdministrator
 		{
 			return new List<NavigationItem>();
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Administrator; }
 		}

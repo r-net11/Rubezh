@@ -124,8 +124,8 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Установка свойства элементами плана")]
 		ControlPlanSet,
 
-        [DescriptionAttribute("Показать диалоговую форму")]
-        ShowDialog,
+		[DescriptionAttribute("Показать диалоговую форму")]
+		ShowDialog,
 
 		[DescriptionAttribute("")]
 		DoAction,

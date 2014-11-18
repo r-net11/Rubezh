@@ -23,10 +23,10 @@ namespace FireMonitor.Layout.ViewModels
 		public TemplateContainerPartViewModel(LayoutPartReferenceProperties properties)
 		{
 			var layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
-            LayoutContainer = new LayoutContainer(this, layout);
+			LayoutContainer = new LayoutContainer(this, layout);
 		}
 
-        public LayoutContainer LayoutContainer { get; private set; }
+		public LayoutContainer LayoutContainer { get; private set; }
 
 		#region ILayoutPartContent Members
 
@@ -50,11 +50,11 @@ namespace FireMonitor.Layout.ViewModels
 
 		private void OnSelectedChanged(object sender, EventArgs e)
 		{
-            LayoutContainer.LayoutParts.ForEach(item => item.FireSelectedChanged());
+			LayoutContainer.LayoutParts.ForEach(item => item.FireSelectedChanged());
 		}
 		private void OnActiveChanged(object sender, EventArgs e)
 		{
-            LayoutContainer.LayoutParts.ForEach(item => item.FireActiveChanged());
+			LayoutContainer.LayoutParts.ForEach(item => item.FireActiveChanged());
 		}
 	}
 }

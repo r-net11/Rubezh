@@ -1,8 +1,5 @@
-﻿<UserControl x:Class="FireAdministrator.Views.ValidationErrorsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Converters="clr-namespace:FireAdministrator.Converters">
-	
+﻿<UserControl x:Class="FireAdministrator.Views.ValidationErrorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:FireAdministrator.Converters">
+
 	<UserControl.Resources>
 		<Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
 		<Converters:ErrorLevelToStringConverter x:Key="ErrorLevelToStringConverter" />
@@ -19,55 +16,55 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Source="{Binding ImageSource}" Width="16" Margin="2 0" />
-                                <TextBlock VerticalAlignment="Center">
-									<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
-										<TextBlock Text="{Binding Source}" VerticalAlignment="Center" />
+								<Image Width="16" Margin="2 0" Source="{Binding ImageSource}" />
+								<TextBlock VerticalAlignment="Center">
+									<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Foreground="Black" Style="{StaticResource HyperlinkStyle}">
+										<TextBlock VerticalAlignment="Center" Text="{Binding Source}" />
 									</Hyperlink>
 								</TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Адрес" SortMemberPath="Address">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-								<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
-									<TextBlock Text="{Binding Address}" />
-								</Hyperlink>
-							</TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Ошибка" Width="*" SortMemberPath="Error">
+				<DataGridTemplateColumn Header="Адрес" SortMemberPath="Address">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Margin="2 0">
-								<Hyperlink  Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Style="{StaticResource HyperlinkStyle}" Foreground="Black">
-									<TextBlock Text="{Binding Error}" VerticalAlignment="Center" />
+							<TextBlock>
+								<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Foreground="Black" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Text="{Binding Address}" />
 								</Hyperlink>
 							</TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Уровень" MinWidth="30" MaxWidth="200" SortMemberPath="ErrorLevel">
+				<DataGridTemplateColumn Width="*" Header="Ошибка" SortMemberPath="Error">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Grid Background="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}" ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}" Height="20">
-								<Image Width="16" Source="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToIconConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+							<TextBlock Margin="2 0">
+								<Hyperlink Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ClickCommand}" Foreground="Black" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock VerticalAlignment="Center" Text="{Binding Error}" />
+								</Hyperlink>
+							</TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn MinWidth="30" MaxWidth="200" Header="Уровень" SortMemberPath="ErrorLevel">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Grid Height="20" Background="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}" ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}">
+								<Image Width="16" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToIconConverter}}" />
 							</Grid>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 			<DataGrid.InputBindings>
-				<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ClickCommand}" />
+				<MouseBinding Command="{Binding ClickCommand}" MouseAction="LeftDoubleClick" />
 			</DataGrid.InputBindings>
 		</DataGrid>
-		<StackPanel Grid.Column="1" >
-            <ToolBarButton ToolTip="Закрыть панель валидации" Command="{Binding CloseValidationCommand}" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" VerticalAlignment="Top" Margin="2" IsEnabled="True" />
-			<ToolBarButton ToolTip="Настройка фильтра ошибок" Command="{Binding EditValidationCommand}" ImageSource="/Controls;component/Images/settings.png" Height="32" Width="32" VerticalAlignment="Top" Margin="2" />
+		<StackPanel Grid.Column="1">
+			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" ImageSource="/Controls;component/Images/deleteCross.png" IsEnabled="True" ToolTip="Закрыть панель валидации" />
+			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding EditValidationCommand}" ImageSource="/Controls;component/Images/settings.png" ToolTip="Настройка фильтра ошибок" />
 		</StackPanel>
 	</Grid>
 </UserControl>

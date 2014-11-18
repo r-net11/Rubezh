@@ -93,7 +93,7 @@ namespace GKProcessor
 				gkCallbackResult.GKStates.DelayStates.Count +
 				gkCallbackResult.GKStates.PimStates.Count +
 				gkCallbackResult.GKStates.GuardZoneStates.Count +
-				gkCallbackResult .GKStates.DeviceMeasureParameters.Count > 0)
+				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
 					GKCallbackResultEvent(gkCallbackResult);
@@ -226,7 +226,7 @@ namespace GKProcessor
 			firmwareUpdateHelper.Update(device, fileName, userName);
 			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
-				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a,b)=> a + "\n" + b)) { Result = false };
+				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}
 

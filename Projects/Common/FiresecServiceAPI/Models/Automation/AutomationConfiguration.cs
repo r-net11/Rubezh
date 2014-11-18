@@ -378,11 +378,11 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, controlPlanArguments.ValueArgument);
 					}
 					break;
-                case ProcedureStepType.ShowDialog:
-                    {
-                    }
-                    break;
-            }
+				case ProcedureStepType.ShowDialog:
+					{
+					}
+					break;
+			}
 		}
 
 		void InvalidateArgument(Procedure procedure, Argument argument)

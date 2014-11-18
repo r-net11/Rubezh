@@ -1,28 +1,23 @@
-﻿<UserControl x:Class="AutomationModule.Views.ShowMessageStepView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:Views="clr-namespace:AutomationModule.Views">
+﻿<UserControl x:Class="AutomationModule.Views.ShowMessageStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI" xmlns:Views="clr-namespace:AutomationModule.Views">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="500"/>
-			<ColumnDefinition/>
+			<ColumnDefinition Width="500" />
+			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Column="0" >
+		<StackPanel Grid.Column="0">
 			<StackPanel.Resources>
 				<ResourceDictionary Source="ProcedureResources.xaml" />
 			</StackPanel.Resources>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Тип значений" />
-				<ComboBox ItemsSource="{Binding ExplicitTypes}" Margin="2" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox Margin="2" ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding ExplicitType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<ComboBox ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}"
-				Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}" Width="200">
+				<ComboBox Width="200" ItemsSource="{Binding EnumTypes}" SelectedItem="{Binding EnumType, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Enum}}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -31,22 +26,22 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Сообщение" Width="100" />
+				<Label Width="100" Content="Сообщение" />
 				<Views:ArgumentView DataContext="{Binding MessageArgument}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Модальное окно" Width="102" Margin ="2, 2, 0, 2" />
+				<Label Width="102" Margin="2, 2, 0, 2" Content="Модальное окно" />
 				<CheckBox IsChecked="{Binding IsModalWindow}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Всем клиентам" Margin="2, 2, 0, 2" />
-				<CheckBox IsChecked="{Binding ForAllClients}" VerticalAlignment="Center" />
+				<Label Margin="2, 2, 0, 2" Content="Всем клиентам" />
+				<CheckBox VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 		</StackPanel>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
 			<DataGrid ItemsSource="{Binding LayoutItems}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Наименование макета" Width="*">
+					<DataGridTemplateColumn Width="*" Header="Наименование макета">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -56,10 +51,10 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Использовать" Width="Auto">
+					<DataGridTemplateColumn Width="Auto" Header="Использовать">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+								<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

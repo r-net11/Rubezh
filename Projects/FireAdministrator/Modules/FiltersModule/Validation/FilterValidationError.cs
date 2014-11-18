@@ -1,8 +1,8 @@
 ﻿using System;
 using FiltersModule.Events;
 using FiresecAPI.Journal;
-using Infrastructure.Common.Validation;
 using Infrastructure.Common;
+using Infrastructure.Common.Validation;
 
 namespace FilterModule.Validation
 {
@@ -13,7 +13,7 @@ namespace FilterModule.Validation
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.Filters; }
 		}

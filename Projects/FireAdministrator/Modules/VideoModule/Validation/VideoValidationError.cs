@@ -1,8 +1,8 @@
 ﻿using System;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
-using Infrastructure.Common;
 
 namespace VideoModule.Validation
 {
@@ -13,7 +13,7 @@ namespace VideoModule.Validation
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.Video; }
 		}

@@ -15,28 +15,28 @@ using Xceed.Wpf.AvalonDock;
 
 namespace FireMonitor.Layout.Views
 {
-    public partial class LayoutDialogView : UserControl
-    {
-        public static readonly DependencyProperty ManagerProperty = DependencyProperty.Register("Manager", typeof(DockingManager), typeof(LayoutDialogView), new UIPropertyMetadata(null));
+	public partial class LayoutDialogView : UserControl
+	{
+		public static readonly DependencyProperty ManagerProperty = DependencyProperty.Register("Manager", typeof(DockingManager), typeof(LayoutDialogView), new UIPropertyMetadata(null));
 		public DockingManager Manager
 		{
 			get { return (DockingManager)GetValue(ManagerProperty); }
 			set { SetValue(ManagerProperty, value); }
 		}
-        public LayoutDialogView()
+		public LayoutDialogView()
 		{
 			InitializeComponent();
-            Loaded += new RoutedEventHandler(LayoutDialogView_Loaded);
+			Loaded += new RoutedEventHandler(LayoutDialogView_Loaded);
 		}
 
-        private void LayoutDialogView_Loaded(object sender, RoutedEventArgs e)
+		private void LayoutDialogView_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (Manager == null)
 			{
-                var binding = new Binding("LayoutContainer.Manager") { Mode = BindingMode.OneWayToSource };
+				var binding = new Binding("LayoutContainer.Manager") { Mode = BindingMode.OneWayToSource };
 				var expression = SetBinding(ManagerProperty, binding);
 				Manager = manager;
 			}
 		}
-    }
+	}
 }

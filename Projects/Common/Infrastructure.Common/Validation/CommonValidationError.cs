@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Validation
 			ImageSource = string.Empty;
 			Address = string.Empty;
 		}
-        public CommonValidationError(ModuleType module, string source, string address, string error, ValidationErrorLevel validationErrorLevel)
+		public CommonValidationError(ModuleType module, string source, string address, string error, ValidationErrorLevel validationErrorLevel)
 			: this(error, validationErrorLevel)
 		{
 			Module = module;

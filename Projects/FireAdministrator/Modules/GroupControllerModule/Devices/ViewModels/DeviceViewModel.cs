@@ -17,6 +17,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using GKModule.Plans.Designer;
 
 namespace GKModule.ViewModels
 {
@@ -210,6 +211,8 @@ namespace GKModule.ViewModels
 				GKManager.RemoveDevice(device);
 			}
 			allDevices.ForEach(device => device.OnChanged());
+			using (var cache = new ElementDeviceUpdater())
+				cache.ResetDevices(allDevices);
 			if (updateParameters)
 			{
 				if (Parent != null)

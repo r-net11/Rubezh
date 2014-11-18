@@ -148,7 +148,7 @@ namespace AutomationModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return ((SelectedStepType != null)&&(!SelectedStepType.IsFolder));
+			return ((SelectedStepType != null) && (!SelectedStepType.IsFolder));
 		}
 	}
 }

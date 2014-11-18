@@ -1,19 +1,15 @@
 ﻿using System;
-using System.IO;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
+using Infrastructure.Client.Converters;
+using Infrastructure.Client.Images;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Microsoft.Win32;
-using SharpVectors.Converters;
-using SharpVectors.Renderers.Wpf;
-using Infrastructure.Client.Images;
-using Infrastructure.Client.Converters;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -61,19 +57,19 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 					}
 					else if (ImageExtensions.IsWMFGraphics(_sourceName))
 					{
-                        _wmf = WMFConverter.ReadWMF(_sourceName);
-                        _drawing = _wmf == null ? null : _wmf.ToDrawing();
-                        if (_drawing == null)
-                        {
-                            ImageBrush = new VisualBrush(_wmf.Canvas);
-                            _imageType = ResourceType.Visual;
-                        }
-                        else
-                        {
-                            _wmf = null;
-                            ImageBrush = new DrawingBrush(_drawing);
-                            _imageType = ResourceType.Drawing;
-                        }
+						_wmf = WMFConverter.ReadWMF(_sourceName);
+						_drawing = _wmf == null ? null : _wmf.ToDrawing();
+						if (_drawing == null)
+						{
+							ImageBrush = new VisualBrush(_wmf.Canvas);
+							_imageType = ResourceType.Visual;
+						}
+						else
+						{
+							_wmf = null;
+							ImageBrush = new DrawingBrush(_drawing);
+							_imageType = ResourceType.Drawing;
+						}
 					}
 					else
 					{

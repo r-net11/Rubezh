@@ -23,7 +23,7 @@
 			<ContentPresenter Margin="-5" Content="{Binding LayoutUsersViewModel}" />
 		</TabItem>
 		<TabItem Header="Фильтр IP">
-			<Grid DataContext="{Binding IPFilterViewModel}" Margin="-5">
+			<Grid Margin="-5" DataContext="{Binding IPFilterViewModel}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
@@ -36,12 +36,12 @@
 					</Grid.RowDefinitions>
 					<DataGrid Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Header="IP адрес или имя компьютнра" Binding="{Binding .}" Width="*" />
+							<DataGridTextColumn Width="*" Binding="{Binding .}" Header="IP адрес или имя компьютнра" />
 						</DataGrid.Columns>
 					</DataGrid>
-					<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+					<StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+						<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+						<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 					</StackPanel>
 				</Grid>
 			</Grid>

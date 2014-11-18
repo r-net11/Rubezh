@@ -39,6 +39,16 @@ namespace GKModule.Plans.Designer
 			foreach (var child in device.Children)
 				UpdateDeviceBinding(child);
 		}
+		public void ResetDevices(List<GKDevice> devices)
+		{
+			foreach (var device in devices)
+				foreach (var planElementUID in device.PlanElementUIDs)
+					if (_map.ContainsKey(planElementUID))
+					{
+						var elementXDevice = _map[planElementUID];
+						elementXDevice.DeviceUID = Guid.Empty;
+					}
+		}
 
 		#region IDisposable Members
 

@@ -13,6 +13,6 @@ namespace FiresecAPI.AutomationCallback
 		GetVisualProperty,
 		SetPlanProperty,
 		GetPlanProperty,
-        Dialog,
+		Dialog,
 	}
 }

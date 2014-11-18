@@ -17,7 +17,7 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Margin="2, 2, 0, 2" Content="Всем клиентам" />
-				<CheckBox IsChecked="{Binding ForAllClients}" VerticalAlignment="Center"/>
+				<CheckBox VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 		</StackPanel>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
@@ -36,7 +36,7 @@
 					<DataGridTemplateColumn Width="Auto" Header="Использовать">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+								<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

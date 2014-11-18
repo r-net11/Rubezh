@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
 using FiresecAPI.Automation;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -111,7 +110,7 @@ namespace AutomationModule.ViewModels
 				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
 				if (_selectedStep != null)
-				    _selectedStep.UpdateContent();
+					_selectedStep.UpdateContent();
 				ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}
@@ -501,7 +500,7 @@ namespace AutomationModule.ViewModels
 		bool CanDownInto()
 		{
 			if (SelectedStep == null)
-			    return false;
+				return false;
 			var nextStep = new ProcedureStep();
 			nextStep.ProcedureStepType = ProcedureStepType.Pause;
 			if (SelectedStep.Parent == null)
