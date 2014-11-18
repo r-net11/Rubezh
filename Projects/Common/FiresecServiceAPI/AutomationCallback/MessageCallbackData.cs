@@ -14,5 +14,8 @@ namespace FiresecAPI.AutomationCallback
 
 		[DataMember]
 		public bool IsModalWindow { get; set; }
+
+		[DataMember]
+		public bool WithConfirmation { get; set; }
 	}
 }

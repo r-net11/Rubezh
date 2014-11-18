@@ -7,6 +7,7 @@ namespace AutomationModule.ViewModels
 	{
 		ShowMessageArguments ShowMessageArguments { get; set; }
 		public ArgumentViewModel MessageArgument { get; private set; }
+		public ArgumentViewModel ConfirmationValueArgument { get; private set; }
 		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 
 		public ShowMessageStepViewModel(StepViewModel stepViewModel)
@@ -14,6 +15,7 @@ namespace AutomationModule.ViewModels
 		{
 			ShowMessageArguments = stepViewModel.Step.ShowMessageArguments;
 			MessageArgument = new ArgumentViewModel(ShowMessageArguments.MessageArgument, stepViewModel.Update, null);
+			ConfirmationValueArgument = new ArgumentViewModel(ShowMessageArguments.ConfirmationValueArgument, stepViewModel.Update, null, false);
 			ExplicitTypes = new ObservableCollection<ExplicitType>(ProcedureHelper.GetEnumList<ExplicitType>().FindAll(x => x != ExplicitType.Object));
 			EnumTypes = ProcedureHelper.GetEnumObs<EnumType>();
 		}
@@ -21,6 +23,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			MessageArgument.Update(Procedure, ExplicitType, EnumType, isList: false);
+			ConfirmationValueArgument.Update(Procedure, ExplicitType.Boolean, isList: false);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ShowMessageArguments.LayoutFilter);
 			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 		}
@@ -32,6 +35,16 @@ namespace AutomationModule.ViewModels
 			{
 				ShowMessageArguments.IsModalWindow = value;
 				OnPropertyChanged(() => IsModalWindow);
+			}
+		}
+
+		public bool WithConfirmation
+		{
+			get { return ShowMessageArguments.WithConfirmation; }
+			set
+			{
+				ShowMessageArguments.WithConfirmation = value;
+				OnPropertyChanged(() => WithConfirmation);
 			}
 		}
 
