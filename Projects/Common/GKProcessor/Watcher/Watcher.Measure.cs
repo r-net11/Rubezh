@@ -221,6 +221,8 @@ namespace GKProcessor
 		{
 			MeasureParameters = new List<GKMeasureParameterValue>();
 			var failureParameterValue = BytesHelper.SubstructShort(bytes, 44 + 1 * 2);
+			var failureDescriptionParameterValue = BytesHelper.SubstructShort(bytes, 44 + 5 * 2);
+			var stateParameterValue = BytesHelper.SubstructShort(bytes, 44 + 6 * 2);
 
 			if (IsBitSet(failureParameterValue, 15))
 			{
@@ -228,7 +230,16 @@ namespace GKProcessor
 			}
 			if (IsBitSet(failureParameterValue, 14))
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Отказ задвижки(зклинило)", StringValue = "Да" });
+				var stringValue = "";
+				if (IsBitSet(failureDescriptionParameterValue, 14))
+				{
+					stringValue = "МВ без КВ";
+				}
+				else
+				{
+					stringValue = "Истекло время хода";
+				}
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Отказ задвижки(зклинило)", StringValue = stringValue });
 			}
 			if (IsBitSet(failureParameterValue, 13))
 			{
@@ -248,44 +259,32 @@ namespace GKProcessor
 			}
 			if (IsBitSet(failureParameterValue, 9))
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Контактор откр", StringValue = "Да" });
+				var stringValue = "Да";
+				if (IsBitSet(failureDescriptionParameterValue, 9))
+				{
+					stringValue = "Есть недопустимое сочетание у МВоткр";
+				}
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Контактор откр", StringValue = stringValue });
 			}
+
 			if (IsBitSet(failureParameterValue, 8))
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Вскрытие", StringValue = "Да" });
+				var stringValue = "Да";
+				if (IsBitSet(failureDescriptionParameterValue, 8))
+				{
+					stringValue = "Есть недопустимое сочетание у КВоткр";
+				}
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Вскрытие", StringValue = stringValue });
 			}
-			if (IsBitSet(failureParameterValue, 7))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "ДУстоп", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 6))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "ДУзакр", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 5))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "ДУоткр", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 4))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "ОГВ", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 3))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "МВзакр(ДВУ)", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 2))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "МВОткр(ДНУ)", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 1))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "КВЗакр", StringValue = "Да" });
-			}
-			if (IsBitSet(failureParameterValue, 0))
-			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "КВОткр", StringValue = "Да" });
-			}
+
+			SetValveParameter(failureParameterValue, stateParameterValue, 7, "ДУстоп");
+			SetValveParameter(failureParameterValue, stateParameterValue, 6, "ДУзакр");
+			SetValveParameter(failureParameterValue, stateParameterValue, 5, "ДУоткр");
+			SetValveParameter(failureParameterValue, stateParameterValue, 4, "ОГВ");
+			SetValveParameter(failureParameterValue, stateParameterValue, 3, "МВзакр(ДВУ)");
+			SetValveParameter(failureParameterValue, stateParameterValue, 2, "МВОткр(ДНУ)");
+			SetValveParameter(failureParameterValue, stateParameterValue, 1, "КВЗакр");
+			SetValveParameter(failureParameterValue, stateParameterValue, 0, "КВОткр");
 
 			var delayParameterValue = BytesHelper.SubstructShort(bytes, 44 + 2 * 2);
 			var delayTypeParameterValue = BytesHelper.SubstructShort(bytes, 44 + 3 * 2);
@@ -305,25 +304,27 @@ namespace GKProcessor
 			var valveTypeParameterValue = BytesHelper.SubstructShort(bytes, 44 + 4 * 2);
 			if (delayTypeParameterValue == 1)
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "Тип 1" });
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "КВ" });
 			}
 			if (delayTypeParameterValue == 2)
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "Тип 2" });
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "КВ и МВ" });
 			}
 			if (delayTypeParameterValue == 3)
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "Тип 3" });
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "ДУ" });
 			}
+		}
 
-			var failureDescriptionParameterValue = BytesHelper.SubstructShort(bytes, 44 + 5 * 2);
-			if (IsBitSet(failureDescriptionParameterValue, 9))
+		void SetValveParameter(ushort failureParameterValue, ushort stateParameterValue, int bitPosition, string name)
+		{
+			if (IsBitSet(failureParameterValue, bitPosition))
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Есть недопустимое сочетание у МВоткр", StringValue = "Да" });
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = name, StringValue = IsBitSet(failureParameterValue, 7) ? "КЗ" : "Обрыв" });
 			}
-			if (IsBitSet(failureDescriptionParameterValue, 8))
+			else
 			{
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Есть недопустимое сочетание у КВоткр", StringValue = "Да" });
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = name, StringValue = IsBitSet(stateParameterValue, 7) ? "Есть" : "Нет сигнала" });
 			}
 		}
 
