@@ -84,12 +84,14 @@ namespace AutomationModule.ViewModels
 			{
 				return (((ObjectType == ObjectType.ControlDoor) && (ExplicitValue.SKDDoor == null))
 						|| ((ObjectType == ObjectType.Device) && (ExplicitValue.Device == null))
+						|| ((ObjectType == ObjectType.Delay) && (ExplicitValue.Delay == null))
 						|| ((ObjectType == ObjectType.Direction) && (ExplicitValue.Direction == null))
 						|| ((ObjectType == ObjectType.GuardZone) && (ExplicitValue.GuardZone == null))
 						|| ((ObjectType == ObjectType.SKDDevice) && (ExplicitValue.SKDDevice == null))
 						|| ((ObjectType == ObjectType.SKDZone) && (ExplicitValue.SKDZone == null))
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
-						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Zone == null)));
+						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Zone == null))
+						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Delay == null)));
 			}
 		}
 

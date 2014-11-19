@@ -56,6 +56,10 @@
 		<Views:DoorSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DelaySelectionViewModel}">
+		<Views:DelaySelectionView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:LayoutTextBlockPartViewModel}">
 		<Views:LayoutTextBlockPartView />
 	</DataTemplate>

@@ -39,10 +39,6 @@
 				<Views:ArgumentView DataContext="{Binding MessageArgument}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Модальное окно" />
-				<CheckBox IsChecked="{Binding IsModalWindow}" />
-			</StackPanel>
-			<StackPanel Orientation="Horizontal">
 				<Label Content="Всем клиентам" />
 				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
@@ -50,9 +46,13 @@
 				<Label Content="С подтверждением" />
 				<CheckBox IsChecked="{Binding WithConfirmation}" />
 			</StackPanel>
-			<StackPanel Orientation="Horizontal">
+			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+				<Label Content="Модальное окно" />
+				<CheckBox IsChecked="{Binding IsModalWindow}" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Label Content="Значение" />
-				<Views:ArgumentView DataContext="{Binding ConfirmationValueArgument}" Visibility="{Binding WithConfirmation, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<Views:ArgumentView DataContext="{Binding ConfirmationValueArgument}" />
 			</StackPanel>
 		</StackPanel>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">

@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 			Device = device;
 			StateBit = stateType;
 			Name = ((GKStateBit)stateType).ToDescription();
-			if (Device.DriverType == GKDriverType.Valve)
+			if (Device.DriverType == GKDriverType.Valve || Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV)
 			{
 				switch (stateType)
 				{

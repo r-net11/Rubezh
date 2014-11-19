@@ -144,6 +144,7 @@
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MergeConfigurationHelper.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
+    <Compile Include="ViewModels\WindowPlacement.cs" />
     <Compile Include="Views\LayoutPartPropertyTimePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTimePageView.xaml</DependentUpon>
     </Compile>

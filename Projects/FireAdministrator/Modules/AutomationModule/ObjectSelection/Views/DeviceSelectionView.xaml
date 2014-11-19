@@ -35,6 +35,14 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
+
+				<GridViewColumn Header="Примечание" Width="100">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Device.Description}" />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
 			</GridView>
 		</TreeList.View>
 	</TreeList>

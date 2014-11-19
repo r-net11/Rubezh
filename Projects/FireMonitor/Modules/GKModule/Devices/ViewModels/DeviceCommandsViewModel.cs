@@ -43,6 +43,10 @@ namespace GKModule.ViewModels
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, GKStateBit.ForbidStart_InManual);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
+			if (Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV)
+			{
+				Device.State.MeasureParametersChanged += new Action(() => { OnPropertyChanged(() => IsControlRegime); });
+			}
 		}
 
 		public bool IsTriStateControl
@@ -71,7 +75,19 @@ namespace GKModule.ViewModels
 
 		public bool IsControlRegime
 		{
-			get { return ControlRegime == DeviceControlRegime.Manual; }
+			get
+			{
+				if (Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV)
+				{
+					var automaticParameter = Device.State.XMeasureParameterValues.FirstOrDefault(x => x.Name == "Управление с ГК");
+					if (automaticParameter != null)
+					{
+						return automaticParameter.StringValue == "Р";
+					}
+					return false;
+				}
+				return ControlRegime == DeviceControlRegime.Manual;
+			}
 		}
 
 		public RelayCommand SetAutomaticStateCommand { get; private set; }

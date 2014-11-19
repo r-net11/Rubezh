@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 
 		public bool HasMeasureParameters
 		{
-			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0; }
+			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0 || Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV; }
 		}
 
 		void StartMeasureParametersMonitoring()
