@@ -1,19 +1,19 @@
 ﻿using System;
 using FiresecAPI.GK;
 using GKModule.Events;
-using Infrastructure.Common.Validation;
 using Infrastructure.Common;
+using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-    class GuardZoneValidationError : PlanObjectValidationError<GKGuardZone, ShowGKGuardZoneEvent, Guid>
+	class GuardZoneValidationError : PlanObjectValidationError<GKGuardZone, ShowGKGuardZoneEvent, Guid>
 	{
-        public GuardZoneValidationError(GKGuardZone guardZone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
-            : base(guardZone, error, level, isRightPanelVisible, planUID)
+		public GuardZoneValidationError(GKGuardZone guardZone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(guardZone, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.GK; }
 		}

@@ -327,7 +327,7 @@ namespace GKModule.Models
 			var validationResult = ServiceFactory.ValidationService.Validate();
 			if (validationResult.HasErrors(ModuleType.GK))
 			{
-                if (validationResult.CannotSave(ModuleType.GK) || validationResult.CannotWrite(ModuleType.GK))
+				if (validationResult.CannotSave(ModuleType.GK) || validationResult.CannotWrite(ModuleType.GK))
 				{
 					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 					return false;

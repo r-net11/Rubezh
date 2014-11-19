@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.Navigation;
+using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events
 {
-    public class ShowGKDoorEvent : CompositePresentationEvent<ShowOnPlanArgs<Guid>>
+	public class ShowGKDoorEvent : CompositePresentationEvent<ShowOnPlanArgs<Guid>>
 	{
 	}
 }

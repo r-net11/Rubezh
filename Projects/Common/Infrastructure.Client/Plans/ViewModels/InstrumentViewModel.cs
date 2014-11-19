@@ -11,7 +11,7 @@ namespace Infrastructure.Client.Plans
 		{
 			Autostart = true;
 			IsActive = true;
-            Group = InstrumentGroup.None;
+			Group = InstrumentGroup.None;
 		}
 
 		private string _imageSource;
@@ -47,16 +47,16 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-        private InstrumentGroup _group;
-        public InstrumentGroup Group
-        {
-            get { return _group; }
-            set
-            {
-                _group = value;
-                OnPropertyChanged(() => Group);
-            }
-        }
+		private InstrumentGroup _group;
+		public InstrumentGroup Group
+		{
+			get { return _group; }
+			set
+			{
+				_group = value;
+				OnPropertyChanged(() => Group);
+			}
+		}
 
 		public ICommand Command { get; set; }
 		public InstrumentAdorner Adorner { get; set; }

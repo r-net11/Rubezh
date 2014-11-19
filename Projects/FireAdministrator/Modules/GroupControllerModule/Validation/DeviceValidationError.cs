@@ -1,8 +1,8 @@
 ﻿using System;
 using FiresecAPI.GK;
+using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
-using Infrastructure.Common;
 
 namespace GKModule.Validation
 {
@@ -13,7 +13,7 @@ namespace GKModule.Validation
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.GK; }
 		}

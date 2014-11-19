@@ -9,9 +9,9 @@ namespace Infrastructure.Designer.Views
 		{
 			InitializeComponent();
 		}
-        private void OnListViewItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-        }
-    }
+		private void OnListViewItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			e.Handled = true;
+		}
+	}
 }

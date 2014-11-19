@@ -1,9 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.GuardZonesView" 
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
-			 xmlns:Views="clr-namespace:GKModule.Views">
+﻿<UserControl x:Class="GKModule.Views.GuardZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -12,9 +7,9 @@
 			<ColumnDefinition Width="3*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 
-        <XDataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+		<XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
+				<DataGridTemplateColumn Width="Auto" CanUserResize="False" Header="№" SortMemberPath="Zone.No">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -55,7 +50,7 @@
 						</Style>
 					</DataGrid.ItemContainerStyle>
 					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Устройство в зоне" Width="*">
+						<DataGridTemplateColumn Width="*" Header="Устройство в зоне">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
@@ -66,7 +61,7 @@
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Width="Auto" Binding="{Binding GuardZoneDevice.Device.DottedPresentationAddress}" Header="Адрес" />
-						<DataGridTemplateColumn Header="Функция" MinWidth="100" Width="Auto">
+						<DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Функция">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<Controls:EditorPresenter>
@@ -74,20 +69,17 @@
 											<ControlTemplate>
 												<Grid>
 													<Grid VerticalAlignment="Center" Visibility="{Binding IsCodeReader, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-														<ComboBox ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding SelectedActionType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
+														<ComboBox VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding SelectedActionType, UpdateSourceTrigger=PropertyChanged}">
 															<ComboBox.ItemTemplate>
 																<DataTemplate>
-																	<Controls:IconLabel
-																		ImageSource="{Binding ., Converter={StaticResource XGuardZoneDeviceActionTypeToIconConverter}}" 
-																		Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" 
-																		Foreground="Black" />
+																	<Controls:IconLabel Foreground="Black" ImageSource="{Binding ., Converter={StaticResource XGuardZoneDeviceActionTypeToIconConverter}}" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 																</DataTemplate>
 															</ComboBox.ItemTemplate>
 														</ComboBox>
 													</Grid>
-													<TextBlock Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center">
+													<TextBlock VerticalAlignment="Center" Visibility="{Binding IsCodeReader, Converter={StaticResource BoolToVisibilityConverter}}">
 														<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
-															<TextBlock  Text="Свойства" Margin="2" />
+															<TextBlock Margin="2" Text="Свойства" />
 														</Hyperlink>
 													</TextBlock>
 												</Grid>
