@@ -259,23 +259,13 @@ namespace GKProcessor
 			}
 			if (IsBitSet(failureParameterValue, 9))
 			{
-				var stringValue = "Да";
-				if (IsBitSet(failureDescriptionParameterValue, 9))
-				{
-					stringValue = "Есть недопустимое сочетание у МВ открыто";
-				}
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Контактор открыть", StringValue = stringValue });
+				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Контактор открыть", StringValue = "Да" });
 			}
 
-			if (IsBitSet(failureParameterValue, 8))
-			{
-				var stringValue = "Да";
-				if (IsBitSet(failureDescriptionParameterValue, 8))
-				{
-					stringValue = "Есть недопустимое сочетание у КВ открыто";
-				}
-				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Вскрытие", StringValue = stringValue });
-			}
+			//if (IsBitSet(failureParameterValue, 8))
+			//{
+			//    MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Вскрытие", StringValue = "Да" });
+			//}
 
 			SetValveParameter(failureParameterValue, failureDescriptionParameterValue, stateParameterValue, 7, "ДУ кнопка стоп");
 			SetValveParameter(failureParameterValue, failureDescriptionParameterValue, stateParameterValue, 6, "ДУ кнопка закрыть");
