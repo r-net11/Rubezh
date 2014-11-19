@@ -220,9 +220,9 @@ namespace GKProcessor
 		void ParceRSR2Valve(List<byte> bytes)
 		{
 			MeasureParameters = new List<GKMeasureParameterValue>();
-			var failureParameterValue = BytesHelper.SubstructShort(bytes, 44 + 1 * 2);
-			var failureDescriptionParameterValue = BytesHelper.SubstructShort(bytes, 44 + 5 * 2);
-			var stateParameterValue = BytesHelper.SubstructShort(bytes, 44 + 6 * 2);
+			var failureParameterValue = BytesHelper.SubstructShort(bytes, 46 + 6 * 2);
+			var failureDescriptionParameterValue = BytesHelper.SubstructShort(bytes, 46 + 4 * 2);
+			var stateParameterValue = BytesHelper.SubstructShort(bytes, 46 + 5 * 2);
 
 			if (IsBitSet(failureParameterValue, 15))
 			{
@@ -288,8 +288,8 @@ namespace GKProcessor
 
 			MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Управление", StringValue = IsBitSet(stateParameterValue, 13) ? "Р" : "А" });
 
-			var delayParameterValue = BytesHelper.SubstructShort(bytes, 44 + 2 * 2);
-			var delayTypeParameterValue = BytesHelper.SubstructShort(bytes, 44 + 3 * 2);
+			var delayParameterValue = BytesHelper.SubstructShort(bytes, 46 + 1 * 2);
+			var delayTypeParameterValue = BytesHelper.SubstructShort(bytes, 46 + 2 * 2);
 			if (delayTypeParameterValue == 1)
 			{
 				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Задержка, с", StringValue = delayParameterValue.ToString() });
@@ -303,7 +303,7 @@ namespace GKProcessor
 				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Удержание, с", StringValue = delayParameterValue.ToString() });
 			}
 
-			var valveTypeParameterValue = BytesHelper.SubstructShort(bytes, 44 + 4 * 2);
+			var valveTypeParameterValue = BytesHelper.SubstructShort(bytes, 46 + 3 * 2);
 			if (valveTypeParameterValue == 1)
 			{
 				MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Тип задвижки", StringValue = "КВ" });
