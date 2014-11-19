@@ -25,6 +25,9 @@ namespace FiresecService
 		{
 			SecurityConfiguration = GetSecurityConfiguration();
 			SystemConfiguration = GetSystemConfiguration();
+			if (SystemConfiguration == null)
+				SystemConfiguration = new SystemConfiguration();
+
 			GKManager.DeviceConfiguration = GetDeviceConfiguration();
 			SKDManager.SKDConfiguration = GetSKDConfiguration();
 
