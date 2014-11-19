@@ -46,6 +46,9 @@ namespace FiresecAPI.Automation
 		public bool IsActive { get; set; }
 
 		[DataMember]
+		public bool StartWithServer { get; set; }
+
+		[DataMember]
 		public int TimeOut { get; set; }
 
 		[DataMember]

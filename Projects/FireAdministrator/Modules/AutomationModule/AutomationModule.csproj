@@ -90,6 +90,11 @@
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectSelection\ViewModels\DelaySelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\DelayViewModel.cs" />
+    <Compile Include="ObjectSelection\Views\DelaySelectionView.xaml.cs">
+      <DependentUpon>DelaySelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\ProcedurePropertiesViewModel.cs" />
@@ -462,6 +467,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObjectSelection\Views\DelaySelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

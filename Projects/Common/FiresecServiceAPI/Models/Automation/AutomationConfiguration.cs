@@ -124,6 +124,7 @@ namespace FiresecAPI.Automation
 					{
 						var showMessageArguments = step.ShowMessageArguments;
 						InvalidateArgument(procedure, showMessageArguments.MessageArgument);
+						InvalidateArgument(procedure, showMessageArguments.ConfirmationValueArgument);
 					}
 					break;
 
