@@ -35,7 +35,9 @@ namespace DiagnosticsModule
 				new NavigationItem("Диагностика", "/Controls;component/Images/Bug.png",
 					new List<NavigationItem>()
 					{
+#if DEBUG
 						new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+#endif
 						new NavigationItem<ShowServerEvent, object>(ServerViewModel, "Очередь операций", "/Controls;component/Images/Bug.png")
 					})
 				};

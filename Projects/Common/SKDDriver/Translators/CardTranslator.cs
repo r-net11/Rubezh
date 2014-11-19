@@ -203,7 +203,7 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public OperationResult AddPending(Guid cardUID, Guid controllerUID)
+		OperationResult AddPending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -217,7 +217,7 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult EditPending(Guid cardUID, Guid controllerUID)
+		OperationResult EditPending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -234,7 +234,7 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult DeletePending(Guid cardUID, Guid controllerUID)
+		OperationResult DeletePending(Guid cardUID, Guid controllerUID)
 		{
 			try
 			{
@@ -289,12 +289,5 @@ namespace SKDDriver
 			Context.SubmitChanges();
 		}
 		#endregion
-	}
-
-	public enum PendingCardAction
-	{
-		Add,
-		Edit,
-		Delete
 	}
 }

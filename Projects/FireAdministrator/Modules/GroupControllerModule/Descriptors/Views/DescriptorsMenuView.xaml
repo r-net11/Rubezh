@@ -4,6 +4,6 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<Controls:ToolBarButton Command="{Binding RefreshCommand}" ToolTip="Обновить" ImageSource="/Controls;component/Images/Refresh.png" />
+		<ToolBarButton Command="{Binding RefreshCommand}" ToolTip="Обновить" ImageSource="/Controls;component/Images/Refresh.png" />
 	</StackPanel>
 </UserControl>

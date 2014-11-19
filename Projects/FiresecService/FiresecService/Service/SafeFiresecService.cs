@@ -22,8 +22,6 @@ namespace FiresecService.Service
 		public SafeFiresecService()
 		{
 			FiresecService = new FiresecService();
-			var employeeUID = FiresecService.GetEmployeeList(new FiresecAPI.SKD.EmployeeFilter()).Result.FirstOrDefault().UID;
-			var positions = FiresecService.GetPositionList(new FiresecAPI.SKD.PositionFilter { EmployeeUIDs = new List<Guid> { employeeUID } });
 		}
 
 		public void BeginOperation(string operationName)
