@@ -11,7 +11,7 @@ namespace Infrastructure.Client.Plans
 		{
 			Autostart = true;
 			IsActive = true;
-			Group = InstrumentGroup.None;
+			GroupIndex = 0;
 		}
 
 		private string _imageSource;
@@ -47,14 +47,14 @@ namespace Infrastructure.Client.Plans
 			}
 		}
 
-		private InstrumentGroup _group;
-		public InstrumentGroup Group
+		private int _group;
+		public int GroupIndex
 		{
 			get { return _group; }
 			set
 			{
 				_group = value;
-				OnPropertyChanged(() => Group);
+				OnPropertyChanged(() => GroupIndex);
 			}
 		}
 

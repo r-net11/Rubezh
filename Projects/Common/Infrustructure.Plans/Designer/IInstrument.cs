@@ -12,14 +12,6 @@ namespace Infrustructure.Plans.Designer
 		bool Autostart { get; }
 		int Index { get; }
 		bool IsActive { get; }
-		InstrumentGroup Group { get; }
-	}
-	public enum InstrumentGroup
-	{
-		None,
-        Primitive,
-		RectangleZone,
-		PolygonZone,
-        GridLine,
+		int GroupIndex { get; }
 	}
 }

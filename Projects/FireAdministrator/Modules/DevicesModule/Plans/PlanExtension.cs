@@ -85,7 +85,7 @@ namespace DevicesModule.Plans
 							Adorner = new ZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
 							Index = 100,
 							Autostart = true,
-							Group = InstrumentGroup.RectangleZone,
+							GroupIndex = 100,
 						},
 						new InstrumentViewModel()
 						{
@@ -94,7 +94,7 @@ namespace DevicesModule.Plans
 							Adorner = new ZonePolygonAdorner(_designerCanvas, _zonesViewModel),
 							Index = 101,
 							Autostart = true,
-							Group = InstrumentGroup.PolygonZone,
+							GroupIndex = 100,
 						},
 					};
 				return _instruments;

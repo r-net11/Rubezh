@@ -76,7 +76,7 @@ namespace SKDModule.Plans
 							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 300,
 							Autostart = true,
-							Group = InstrumentGroup.RectangleZone,
+							GroupIndex = 300,
 						},
 						new InstrumentViewModel()
 						{
@@ -85,7 +85,7 @@ namespace SKDModule.Plans
 							Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 301,
 							Autostart = true,
-							Group = InstrumentGroup.PolygonZone,
+							GroupIndex = 300,
 						},
 					};
 				return _instruments;
