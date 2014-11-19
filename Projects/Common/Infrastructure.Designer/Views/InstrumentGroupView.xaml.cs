@@ -9,7 +9,7 @@ namespace Infrastructure.Designer.Views
 	{
 		public InstrumentGroupView()
 		{
-			InitializeComponent();
+			//InitializeComponent();
 		}
 	}
 }

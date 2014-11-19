@@ -24,9 +24,9 @@
 		<ElementPropertiesViews:ImagePropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:InstrumentGroupViewModel}">
+    <!--<DataTemplate DataType="{x:Type ViewModels:InstrumentGroupViewModel}">
         <Views:InstrumentGroupView />
-    </DataTemplate>
+    </DataTemplate>-->
     
 	<DataTemplate DataType="{x:Type ViewModels:ToolboxViewModel}">
 		<Views:ToolboxView />
