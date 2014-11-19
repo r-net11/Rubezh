@@ -177,7 +177,7 @@ namespace GKProcessor
 						if (failureBitArray[3])
 							AddAdditionalState(XStateClass.Failure, "Питание силовое");
 						if (failureBitArray[6])
-							AddAdditionalState(XStateClass.Failure, "Неисправность одной или обеих фаз(контроль нагрузки)");
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 						if (failureBitArray[7])
 							AddAdditionalState(XStateClass.Failure, "Несовместимость сигналов");
 
