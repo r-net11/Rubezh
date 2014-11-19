@@ -14,106 +14,109 @@ using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Designer.ViewModels
 {
-	public class ToolboxViewModel : BaseViewModel
-	{
-		private IInstrument _defaultInstrument;
-		private Dictionary<InstrumentGroup, InstrumentGroupViewModel> _instrumentGroups;
+    public class ToolboxViewModel : BaseViewModel
+    {
+        private IInstrument _defaultInstrument;
+        private Dictionary<InstrumentGroup, InstrumentGroupViewModel> _instrumentGroups;
 
-		public ToolboxViewModel(DesignerCanvas designerCanvas)
-		{
-			_instrumentGroups = new Dictionary<InstrumentGroup, InstrumentGroupViewModel>()
+        public ToolboxViewModel(DesignerCanvas designerCanvas)
+        {
+            _instrumentGroups = new Dictionary<InstrumentGroup, InstrumentGroupViewModel>()
             {
-                { InstrumentGroup.RectangleZone, new InstrumentGroupViewModel(InstrumentGroup.RectangleZone, 201) },
-                { InstrumentGroup.PolygonZone, new InstrumentGroupViewModel(InstrumentGroup.PolygonZone, 202) },
+                { InstrumentGroup.RectangleZone, new InstrumentGroupViewModel(this, InstrumentGroup.RectangleZone, 201) },
+                { InstrumentGroup.PolygonZone, new InstrumentGroupViewModel(this, InstrumentGroup.PolygonZone, 202) },
+                { InstrumentGroup.Primitive, new InstrumentGroupViewModel(this, InstrumentGroup.Primitive, 1000) },
+                { InstrumentGroup.GridLine, new InstrumentGroupViewModel(this, InstrumentGroup.GridLine, 1500) },
             };
-			DesignerCanvas = designerCanvas;
-			RegisterInstruments();
-			EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyEventHandler), true);
-		}
+            DesignerCanvas = designerCanvas;
+            RegisterInstruments();
+            EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyEventHandler), true);
+        }
 
-		public DesignerCanvas DesignerCanvas { get; private set; }
-		public bool AcceptKeyboard { get; set; }
-		public bool IsRightPanel { get; set; }
-		public bool IsDialog { get; set; }
+        public DesignerCanvas DesignerCanvas { get; private set; }
+        public bool AcceptKeyboard { get; set; }
+        public bool IsRightPanel { get; set; }
+        public bool IsDialog { get; set; }
 
-		private ObservableCollection<IInstrument> _instruments;
-		public ObservableCollection<IInstrument> Instruments
-		{
-			get { return _instruments; }
-			set
-			{
-				_instruments = value;
-				OnPropertyChanged(() => Instruments);
-			}
-		}
+        private ObservableCollection<IInstrument> _instruments;
+        public ObservableCollection<IInstrument> Instruments
+        {
+            get { return _instruments; }
+            set
+            {
+                _instruments = value;
+                OnPropertyChanged(() => Instruments);
+            }
+        }
 
-		private IInstrument _activeInstrument;
-		public IInstrument ActiveInstrument
-		{
-			get { return _activeInstrument; }
-			set
-			{
-				if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
-					ActiveInstrument.Adorner.Hide();
-				_activeInstrument = value;
-				OnPropertyChanged(() => ActiveInstrument);
-				if (ActiveInstrument != null && ActiveInstrument.Autostart)
-					ApplicationService.BeginInvoke(() => Apply(null));
-			}
-		}
+        private IInstrument _activeInstrument;
+        public IInstrument ActiveInstrument
+        {
+            get { return _activeInstrument; }
+            set
+            {
+                if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
+                    ActiveInstrument.Adorner.Hide();
+                _activeInstrument = value;
+                OnPropertyChanged(() => ActiveInstrument);
+                if (ActiveInstrument != null && ActiveInstrument.Autostart)
+                    ApplicationService.BeginInvoke(() => Apply(null));
+            }
+        }
 
-		private bool _isEnabled;
-		public bool IsEnabled
-		{
-			get { return _isEnabled; }
-			set
-			{
-				_isEnabled = value;
-				OnPropertyChanged(() => IsEnabled);
-			}
-		}
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged(() => IsEnabled);
+            }
+        }
 
-		public void Apply(Point? point)
-		{
-			DesignerCanvas.DeselectAll();
-			if (ActiveInstrument.Adorner != null)
-				using (new WaitWrapper())
-				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
-					ActiveInstrument.Adorner.Show(point);
-			else if (ActiveInstrument.Command != null)
-			{
-				ExecuteCommand(ActiveInstrument.Command);
-				SetDefault();
-				OnPropertyChanged(() => ActiveInstrument);
-			}
-		}
-		public void SetDefault()
-		{
-			if (ActiveInstrument != _defaultInstrument)
-				ActiveInstrument = _defaultInstrument;
-		}
-		public void UpdateZoom()
-		{
-			if (ActiveInstrument.Adorner != null)
-				ActiveInstrument.Adorner.UpdateZoom();
-		}
+        public void Apply(Point? point)
+        {
+            DesignerCanvas.DeselectAll();
+            if (ActiveInstrument.Adorner != null)
+                using (new WaitWrapper())
+                using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
+                    ActiveInstrument.Adorner.Show(point);
+            else if (ActiveInstrument.Command != null)
+            {
+                ExecuteCommand(ActiveInstrument.Command);
+                SetDefault();
+                OnPropertyChanged(() => ActiveInstrument);
+            }
+        }
+        public void SetDefault()
+        {
+            if (ActiveInstrument != _defaultInstrument)
+                ActiveInstrument = _defaultInstrument;
+        }
+        public void UpdateZoom()
+        {
+            if (ActiveInstrument.Adorner != null)
+                ActiveInstrument.Adorner.UpdateZoom();
+        }
 
-		public void RegisterInstruments(IEnumerable<IInstrument> instruments)
-		{
-			if (instruments != null)
-			{
-				foreach (IInstrument instrument in instruments)
-					if (instrument.Group == InstrumentGroup.None)
-						Instruments.Add(instrument);
-					else
-						_instrumentGroups[instrument.Group].Instruments.Add(instrument);
-				SortInstruments();
-			}
-		}
-		private void RegisterInstruments()
-		{
-			Instruments = new ObservableCollection<IInstrument>()
-			{
+        public void RegisterInstruments(IEnumerable<IInstrument> instruments)
+        {
+            if (instruments != null)
+            {
+                foreach (IInstrument instrument in instruments)
+                    if (instrument.Group == InstrumentGroup.None)
+                        Instruments.Add(instrument);
+                    else
+                        _instrumentGroups[instrument.Group].Instruments.Add(instrument);
+                SortInstruments();
+            }
+        }
+        private void RegisterInstruments()
+        {
+            Instruments = new ObservableCollection<IInstrument>(_instrumentGroups.Values);
+            RegisterInstruments(new IInstrument[]
+            {
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Cursor.png",
@@ -129,14 +132,13 @@ namespace Infrastructure.Designer.ViewModels
 					Index = 1,
 					Adorner = new PointsAdorner(DesignerCanvas),
 				},
-                _instrumentGroups[InstrumentGroup.RectangleZone],
-                _instrumentGroups[InstrumentGroup.PolygonZone],
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Line.png",
 					ToolTip="Линия",
 					Index = 1011,
 					Adorner = new PolylineAdorner(DesignerCanvas),
+                    Group = InstrumentGroup.Primitive,
 				},
 				new InstrumentViewModel()
 				{
@@ -144,6 +146,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Прямоугольник",
 					Index = 1012,
 					Adorner = new RectangleAdorner(DesignerCanvas),
+                    Group = InstrumentGroup.Primitive,
 				},
 				new InstrumentViewModel()
 				{
@@ -151,6 +154,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Эллипс",
 					Index = 1013,
 					Adorner = new ElipseAdorner(DesignerCanvas),
+                    Group = InstrumentGroup.Primitive,
 				},
 				new InstrumentViewModel()
 				{
@@ -158,6 +162,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Многоугольник",
 					Index = 1014,
 					Adorner = new PolygonAdorner(DesignerCanvas),
+                    Group = InstrumentGroup.Primitive,
 				},
 				new InstrumentViewModel()
 				{
@@ -172,6 +177,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Добавить горизонтальную линию привязки",
 					Index = 1501,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
+                    Group = InstrumentGroup.GridLine,
 				},
 				new InstrumentViewModel()
 				{
@@ -179,6 +185,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Добавить вертикальную линию привязки",
 					Index = 1502,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
+                    Group = InstrumentGroup.GridLine,
 				},
 				new InstrumentViewModel()
 				{
@@ -187,79 +194,79 @@ namespace Infrastructure.Designer.ViewModels
 					Index = 1503,
 					Command = DesignerCanvas.RemoveGridLinesCommand,
 				},
-			};
-			SortInstruments();
-			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
-			ActiveInstrument = _defaultInstrument;
-		}
-		private void SortInstruments()
-		{
-			var sortedItems = Instruments.OrderBy(item => item.Index);
-			int index = 0;
-			foreach (var item in sortedItems)
-			{
-				Instruments.Move(Instruments.IndexOf(item), index);
-				index++;
-			}
-		}
+			});
+            SortInstruments();
+            _defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
+            ActiveInstrument = _defaultInstrument;
+        }
+        private void SortInstruments()
+        {
+            var sortedItems = Instruments.OrderBy(item => item.Index);
+            int index = 0;
+            foreach (var item in sortedItems)
+            {
+                Instruments.Move(Instruments.IndexOf(item), index);
+                index++;
+            }
+        }
 
-		private void OnKeyEventHandler(object sender, KeyEventArgs e)
-		{
-			if (!AcceptKeyboard || (!IsDialog ^ ApplicationService.ApplicationWindow.IsKeyboardFocusWithin) || (IsRightPanel && !ApplicationService.Layout.IsRightPanelFocused))
-				return;
+        private void OnKeyEventHandler(object sender, KeyEventArgs e)
+        {
+            if (!AcceptKeyboard || (!IsDialog ^ ApplicationService.ApplicationWindow.IsKeyboardFocusWithin) || (IsRightPanel && !ApplicationService.Layout.IsRightPanelFocused))
+                return;
 
-			if (ActiveInstrument == null || ActiveInstrument == _defaultInstrument)
-			{
-				if (Keyboard.Modifiers == ModifierKeys.Control)
-					switch (e.Key)
-					{
-						case Key.C:
-							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CopyCommand);
-							break;
-						case Key.X:
-							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CutCommand);
-							break;
-						case Key.V:
-							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.PasteCommand);
-							break;
-						case Key.Z:
-							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.UndoCommand);
-							break;
-						case Key.Y:
-							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.RedoCommand);
-							break;
-						case Key.A:
-							if (DesignerCanvas != null)
-								using (new WaitWrapper())
-								using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
-									DesignerCanvas.SelectAll();
-							break;
-						case Key.D:
-							if (DesignerCanvas != null)
-								using (new WaitWrapper())
-								using (new TimeCounter("DesignerCanvas.DeselectAll: {0}"))
-									DesignerCanvas.DeselectAll();
-							break;
-					}
-				DefaultKeyHandler(e);
-			}
-			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null && !ActiveInstrument.Adorner.KeyboardInput(e.Key))
-				DefaultKeyHandler(e);
-		}
-		private void DefaultKeyHandler(KeyEventArgs e)
-		{
-			if (e.Key == Key.Escape)
-				SetDefault();
-			else if (e.Key == Key.Delete)
-			{
-				if (DesignerCanvas != null)
-					DesignerCanvas.RemoveAllSelected();
-			}
-		}
-		private void ExecuteCommand(ICommand command)
-		{
-			if (command.CanExecute(null))
-				command.Execute(null);
-		}
-	}
+            if (ActiveInstrument == null || ActiveInstrument == _defaultInstrument)
+            {
+                if (Keyboard.Modifiers == ModifierKeys.Control)
+                    switch (e.Key)
+                    {
+                        case Key.C:
+                            ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CopyCommand);
+                            break;
+                        case Key.X:
+                            ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CutCommand);
+                            break;
+                        case Key.V:
+                            ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.PasteCommand);
+                            break;
+                        case Key.Z:
+                            ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.UndoCommand);
+                            break;
+                        case Key.Y:
+                            ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.RedoCommand);
+                            break;
+                        case Key.A:
+                            if (DesignerCanvas != null)
+                                using (new WaitWrapper())
+                                using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
+                                    DesignerCanvas.SelectAll();
+                            break;
+                        case Key.D:
+                            if (DesignerCanvas != null)
+                                using (new WaitWrapper())
+                                using (new TimeCounter("DesignerCanvas.DeselectAll: {0}"))
+                                    DesignerCanvas.DeselectAll();
+                            break;
+                    }
+                DefaultKeyHandler(e);
+            }
+            else if (ActiveInstrument != null && ActiveInstrument.Adorner != null && !ActiveInstrument.Adorner.KeyboardInput(e.Key))
+                DefaultKeyHandler(e);
+        }
+        private void DefaultKeyHandler(KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                SetDefault();
+            else if (e.Key == Key.Delete)
+            {
+                if (DesignerCanvas != null)
+                    DesignerCanvas.RemoveAllSelected();
+            }
+        }
+        private void ExecuteCommand(ICommand command)
+        {
+            if (command.CanExecute(null))
+                command.Execute(null);
+        }
+    }
 }

@@ -219,6 +219,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ToolboxResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ElementsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

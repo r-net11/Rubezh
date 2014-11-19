@@ -17,7 +17,9 @@ namespace Infrustructure.Plans.Designer
 	public enum InstrumentGroup
 	{
 		None,
+        Primitive,
 		RectangleZone,
 		PolygonZone,
+        GridLine,
 	}
 }

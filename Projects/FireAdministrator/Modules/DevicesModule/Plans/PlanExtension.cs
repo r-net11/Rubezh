@@ -84,7 +84,8 @@ namespace DevicesModule.Plans
 							ToolTip="AC Зона",
 							Adorner = new ZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
 							Index = 100,
-							Autostart = true
+							Autostart = true,
+							Group = InstrumentGroup.RectangleZone,
 						},
 						new InstrumentViewModel()
 						{
@@ -92,7 +93,8 @@ namespace DevicesModule.Plans
 							ToolTip="AC Зона",
 							Adorner = new ZonePolygonAdorner(_designerCanvas, _zonesViewModel),
 							Index = 101,
-							Autostart = true
+							Autostart = true,
+							Group = InstrumentGroup.PolygonZone,
 						},
 					};
 				return _instruments;

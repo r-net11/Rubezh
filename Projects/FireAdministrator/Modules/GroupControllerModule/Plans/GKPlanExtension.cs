@@ -100,7 +100,7 @@ namespace GKModule.Plans
 							Adorner = new XZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 200,
 							Autostart = true,
-							//Group = InstrumentGroup.RectangleZone,
+							Group = InstrumentGroup.RectangleZone,
 						},
 						new InstrumentViewModel()
 						{
@@ -109,7 +109,7 @@ namespace GKModule.Plans
 							Adorner = new XZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 201,
 							Autostart = true,
-							//Group = InstrumentGroup.PolygonZone,
+							Group = InstrumentGroup.PolygonZone,
 						},
 						new InstrumentViewModel()
 						{
@@ -134,7 +134,7 @@ namespace GKModule.Plans
 							Adorner = new XGuardZoneRectangleAdorner(DesignerCanvas, _guardZonesViewModel),
 							Index = 204,
 							Autostart = true,
-							//Group = InstrumentGroup.RectangleZone,
+							Group = InstrumentGroup.RectangleZone,
 						},
 						new InstrumentViewModel()
 						{
@@ -143,7 +143,7 @@ namespace GKModule.Plans
 							Adorner = new XGuardZonePolygonAdorner(DesignerCanvas,  _guardZonesViewModel),
 							Index = 205,
 							Autostart = true,
-							//Group = InstrumentGroup.PolygonZone,
+							Group = InstrumentGroup.PolygonZone,
 						},
 	            };
 				return _instruments;
