@@ -11,21 +11,22 @@
         <Grid Grid.Row="0">
             <Controls:XDataGrid Grid.Column="0" CanUserSortColumns="True" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="Auto" CanUserResize="False" Header="№" SortMemberPath="Direction.No">
+                    <DataGridTemplateColumn Header="№" SortMemberPath="Direction.No" Width="Auto" CanUserResize="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Margin="2 0 0 0" Source="/Controls;component/Images/BDirection.png" />
-                                    <TextBlock Margin="2 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Direction.No}" />
+                                    <Image Source="/Controls;component/Images/Blue_Direction.png" Width="16" Margin="2 0 0 0" />
+                                    <TextBlock Text="{Binding Direction.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" Header="Наименование" SortMemberPath="Direction.Name">
+                    <DataGridTemplateColumn Width="*" MinWidth="250" Header="Наименование" SortMemberPath="Direction.Name">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Direction.Name}" />
+                                    <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

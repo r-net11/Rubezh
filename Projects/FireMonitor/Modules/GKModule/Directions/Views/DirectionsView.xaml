@@ -23,7 +23,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" />
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
                                 <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
