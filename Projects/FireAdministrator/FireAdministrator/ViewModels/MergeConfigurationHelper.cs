@@ -326,14 +326,7 @@ namespace FireAdministrator.ViewModels
 
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
-				foreach (var directionZone in direction.DirectionZones)
-				{
-					directionZone.ZoneUID = ReplaceUID(directionZone.ZoneUID, GKZoneUIDs);
-				}
-				foreach (var directionDevice in direction.DirectionDevices)
-				{
-					directionDevice.DeviceUID = ReplaceUID(directionDevice.DeviceUID, GKDeviceUIDs);
-				}
+				ReplaceLogic(direction.Logic);
 			}
 
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)

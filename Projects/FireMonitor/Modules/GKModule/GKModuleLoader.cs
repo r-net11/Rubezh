@@ -26,7 +26,7 @@ namespace GKModule
 	public partial class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
-		static DeviceParametersViewModel DeviceParametersViewModel;
+		//static DeviceParametersViewModel DeviceParametersViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static GuardZonesViewModel GuardZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
@@ -57,7 +57,7 @@ namespace GKModule
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 
 			DevicesViewModel = new DevicesViewModel();
-			DeviceParametersViewModel = new DeviceParametersViewModel();
+			//DeviceParametersViewModel = new DeviceParametersViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
@@ -190,7 +190,7 @@ namespace GKModule
 			_pumpStationsNavigationItem.IsVisible = GKManager.PumpStations.Count > 0;
 			_mptsNavigationItem.IsVisible = GKManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
-			DeviceParametersViewModel.Initialize();
+			//DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
@@ -221,7 +221,7 @@ namespace GKModule
 					{
 						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+						//new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						_zonesNavigationItem,
 						_guardZonesNavigationItem,
 						_directionsNavigationItem,

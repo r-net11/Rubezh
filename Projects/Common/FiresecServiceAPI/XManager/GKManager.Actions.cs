@@ -65,13 +65,6 @@ namespace FiresecClient
 			{
 				direction.InputDevices.Remove(device);
 				direction.OutputDevices.Remove(device);
-				var directionDevice = direction.DirectionDevices.FirstOrDefault(x => x.Device == device);
-				if (directionDevice != null)
-				{
-					direction.DirectionDevices.Remove(directionDevice);
-					direction.InputDevices.Remove(device);
-				}
-
 				direction.OnChanged();
 			}
 			parentDevice.Children.Remove(device);
@@ -128,12 +121,6 @@ namespace FiresecClient
 			foreach (var direction in zone.Directions)
 			{
 				direction.InputZones.Remove(zone);
-				var directionZone = direction.DirectionZones.FirstOrDefault(x => x.Zone == zone);
-				if (directionZone != null)
-				{
-					direction.DirectionZones.Remove(directionZone);
-					direction.InputZones.Remove(zone);
-				}
 				direction.OnChanged();
 			}
 			Zones.Remove(zone);
@@ -181,8 +168,6 @@ namespace FiresecClient
 				zone.OnChanged();
 			}
 			direction.InputZones.Clear();
-			var oldDirectionZones = new List<GKDirectionZone>(direction.DirectionZones);
-			direction.DirectionZones.Clear();
 			foreach (var zone in zones)
 			{
 				direction.InputZones.Add(zone);
@@ -191,12 +176,6 @@ namespace FiresecClient
 					ZoneUID = zone.UID,
 					Zone = zone
 				};
-				var existingDirectionZone = oldDirectionZones.FirstOrDefault(x => x.Zone == zone);
-				if (existingDirectionZone != null)
-				{
-					directionZone.StateBit = existingDirectionZone.StateBit;
-				}
-				direction.DirectionZones.Add(directionZone);
 				zone.Directions.Add(direction);
 				zone.OnChanged();
 			}
@@ -211,8 +190,6 @@ namespace FiresecClient
 				device.OnChanged();
 			}
 			direction.InputDevices.Clear();
-			var oldDirectionDevices = new List<GKDirectionDevice>(direction.DirectionDevices);
-			direction.DirectionDevices.Clear();
 			foreach (var device in devices)
 			{
 				var directionDevice = new GKDirectionDevice()
@@ -232,12 +209,6 @@ namespace FiresecClient
 				{
 					directionDevice.StateBit = GKStateBit.On;
 				}
-				var existingDirectionDevice = oldDirectionDevices.FirstOrDefault(x => x.Device == device);
-				if (existingDirectionDevice != null)
-				{
-					directionDevice.StateBit = existingDirectionDevice.StateBit;
-				}
-				direction.DirectionDevices.Add(directionDevice);
 				direction.InputDevices.Add(device);
 				device.Directions.Add(direction);
 				device.OnChanged();

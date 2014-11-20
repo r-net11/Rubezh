@@ -93,15 +93,8 @@ namespace FiresecAPI.GK
 
 			foreach (var direction in Directions)
 			{
-				foreach (var zone in direction.InputZones)
-				{
-					LinkGKBases(direction, zone);
-				}
-
-				foreach (var device in direction.InputDevices)
-				{
-					LinkGKBases(direction, device);
-				}
+				LinkLogic(direction, direction.Logic.OnClausesGroup);
+				LinkLogic(direction, direction.Logic.OffClausesGroup);
 			}
 
 			foreach (var pumpStation in PumpStations)
@@ -172,23 +165,23 @@ namespace FiresecAPI.GK
 				direction.KauDatabaseParent = null;
 				direction.GkDatabaseParent = null;
 
-				var inputZone = direction.InputZones.FirstOrDefault();
+				var inputDirection = direction.ClauseInputDirections.FirstOrDefault();
+				if (inputDirection != null)
+				{
+					direction.GkDatabaseParent = inputDirection.GkDatabaseParent;
+				}
+
+				var inputZone = direction.ClauseInputZones.FirstOrDefault();
 				if (inputZone != null)
 				{
 					if (inputZone.GkDatabaseParent != null)
 						direction.GkDatabaseParent = inputZone.GkDatabaseParent;
 				}
 
-				var inputDevice = direction.InputDevices.FirstOrDefault();
+				var inputDevice = direction.ClauseInputDevices.FirstOrDefault();
 				if (inputDevice != null)
 				{
 					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-
-				var outputDevice = direction.OutputDevices.FirstOrDefault();
-				if (outputDevice != null)
-				{
-					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
 				}
 			}
 		}

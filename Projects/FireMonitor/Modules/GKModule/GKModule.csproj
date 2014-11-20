@@ -144,7 +144,6 @@
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
@@ -180,7 +179,6 @@
     <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionZoneViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Delays\ViewModels\DelaysViewModel.cs" />

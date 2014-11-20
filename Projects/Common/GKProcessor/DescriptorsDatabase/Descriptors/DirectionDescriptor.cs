@@ -24,31 +24,21 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (Direction.InputZones.Count > 0 || Direction.InputDevices.Count > 0)
+			if (Direction.Logic.OnClausesGroup.Clauses.Count > 0)
 			{
-				var inputObjectsCount = 0;
-				foreach (var directionZone in Direction.DirectionZones)
+				Formula.AddClauseFormula(Direction.Logic.OnClausesGroup);
+				if (!Direction.Logic.UseOffCounterLogic)
 				{
-					Formula.AddGetBitOff(directionZone.StateBit, directionZone.Zone);
-					if (inputObjectsCount > 0)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-					inputObjectsCount++;
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction);
 				}
-				foreach (var directionDevice in Direction.DirectionDevices)
+				else
 				{
-					Formula.AddGetBitOff(directionDevice.StateBit, directionDevice.Device);
-					if (inputObjectsCount > 0)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-					inputObjectsCount++;
+					Formula.AddStandardTurning(Direction);
 				}
-
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Direction);
-				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
+			}
+			if (!Direction.Logic.UseOffCounterLogic && Direction.Logic.OffClausesGroup.Clauses.Count + Direction.Logic.OffClausesGroup.ClauseGroups.Count > 0)
+			{
+				Formula.AddClauseFormula(Direction.Logic.OffClausesGroup);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Direction);
 			}
 			Formula.Add(FormulaOperationType.END);
