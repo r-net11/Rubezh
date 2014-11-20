@@ -6,7 +6,6 @@ namespace SKDModule.ViewModels
 {
 	public class HRFilterViewModel : OrganisationFilterBaseViewModel<HRFilter>
 	{
-		public EmployeeFilterViewModel EmployeeFilterViewModel { get; private set; }
 		public DepartmentsFilterViewModel DepartmentsFilterViewModel { get; private set; }
 		public PositionsFilterViewModel PositionsFilterViewModel { get; private set; }
 		public EmployeesFilterViewModel EmployeesFilterViewModel { get; private set; }
@@ -22,23 +21,20 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilter(HRFilter filter)
 		{
-			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.EmployeeFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(filter.EmployeeFilter);
 			EmployeesFilterViewModel = new EmployeesFilterViewModel();
-			EmployeesFilterViewModel.Initialize(new EmployeeFilter());
-			EmployeesFilterViewModel.SetEmployees(filter.EmplooyeeUIDs);
+			EmployeesFilterViewModel.Initialize(filter.EmployeeFilter);
 			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
 		protected override bool Save()
 		{
 			base.Save();
-			Filter.EmployeeFilter = EmployeeFilterViewModel.Save();
+			Filter.EmployeeFilter = EmployeesFilterViewModel.Filter;
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
-			Filter.EmplooyeeUIDs = EmployeesFilterViewModel.EmployeeUIDs;
 			Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			return true;
 		}
@@ -51,6 +47,9 @@ namespace SKDModule.ViewModels
 			{
 				_isWithDeleted = value;
 				OnPropertyChanged(() => IsWithDeleted);
+				var filter = Filter.EmployeeFilter;
+				filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
+				EmployeesFilterViewModel.Initialize(filter);
 			}
 		}
 

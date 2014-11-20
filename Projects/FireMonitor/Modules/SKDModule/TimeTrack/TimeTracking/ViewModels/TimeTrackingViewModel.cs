@@ -136,8 +136,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPrint()
 		{
-			//return ApplicationService.IsReportEnabled;
-			return true;
+			return ApplicationService.IsReportEnabled;
 		}
 
 		void UpdateGrid()

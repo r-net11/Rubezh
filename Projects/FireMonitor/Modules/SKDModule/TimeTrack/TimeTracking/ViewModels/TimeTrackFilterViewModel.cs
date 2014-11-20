@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackFilterViewModel : OrganisationFilterBaseViewModel<TimeTrackFilter>
 	{
-		public EmployeeFilterViewModel EmployeeFilterViewModel { get; private set; }
+		public EmployeesFilterViewModel EmployeeFilterViewModel { get; private set; }
 		public DepartmentsFilterViewModel DepartmentsFilterViewModel { get; private set; }
 		public PositionsFilterViewModel PositionsFilterViewModel { get; private set; }
 		public TimeTrackFilter TimeTrackFilter { get; private set; }
@@ -26,7 +26,8 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilter(TimeTrackFilter timeTrackFilter)
 		{
-			EmployeeFilterViewModel = new EmployeeFilterViewModel(timeTrackFilter.EmployeeFilter);
+			EmployeeFilterViewModel = new EmployeesFilterViewModel();
+			EmployeeFilterViewModel.Initialize(timeTrackFilter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(timeTrackFilter.EmployeeFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(timeTrackFilter.EmployeeFilter);
 
@@ -137,7 +138,7 @@ namespace SKDModule.ViewModels
 					break;
 			}
 
-			Filter.EmployeeFilter = EmployeeFilterViewModel.Save();
+			Filter.EmployeeFilter = EmployeeFilterViewModel.Filter;
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;

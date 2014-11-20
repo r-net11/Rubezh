@@ -105,6 +105,8 @@ namespace SKDDriver.Translators
 			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID && !x.IsDeleted);
 			if (schedule == null)
 				return new TimeTrackEmployeeResult("Не найден график");
+			if (schedule.ScheduleSchemeUID == null)
+				return new TimeTrackEmployeeResult("Не найдена схема работы");
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value && !x.IsDeleted);
 			if (scheduleScheme == null)
 				return new TimeTrackEmployeeResult("Не найдена схема работы");

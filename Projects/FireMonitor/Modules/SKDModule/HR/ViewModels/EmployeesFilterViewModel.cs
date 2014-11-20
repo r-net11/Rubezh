@@ -15,6 +15,20 @@ namespace SKDModule.ViewModels
 			SelectNoneCommand = new RelayCommand(OnSelectNone);
 		}
 
+		public override void Initialize(EmployeeFilter filter)
+		{
+			var emptyFilter = new EmployeeFilter{ LogicalDeletationType = filter.LogicalDeletationType };
+			base.Initialize(emptyFilter);
+			FirstName = filter.FirstName;
+			LastName = filter.LastName;
+			SecondName = filter.SecondName;
+			var employees = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
+			foreach (var employee in employees)
+			{
+				employee.IsChecked = true;
+			}
+		}
+
 		public RelayCommand SelectAllCommand { get; private set; }
 		void OnSelectAll()
 		{
@@ -56,18 +70,69 @@ namespace SKDModule.ViewModels
 			throw new NotImplementedException();
 		}
 
-		public void SetEmployees(List<Guid> employeeUIDs)
+		public EmployeeFilter Filter
 		{
-			var employees = Organisations.SelectMany(x => x.Children).Where(x => employeeUIDs.Any(y => y == x.Model.UID));
-			foreach (var employee in employees)
+			get
 			{
-				employee.IsChecked = true;
+				var filter = new EmployeeFilter();
+				if (IsSelection)
+				{
+					filter.UIDs = Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList();
+				}
+				else
+				{
+					filter.FirstName = FirstName;
+					filter.LastName = LastName;
+					filter.SecondName = SecondName;
+				}
+				return filter;
 			}
 		}
 
-		public List<Guid> EmployeeUIDs
+		public bool IsSelection { get { return !IsSearch; } }
+		bool _isSearch;
+		public bool IsSearch
 		{
-			get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); }
+			get { return _isSearch; }
+			set
+			{
+				_isSearch = value;
+				OnPropertyChanged(() => IsSearch);
+				OnPropertyChanged(() => IsSelection);
+			}
+		}
+
+		string _firstName;
+		public string FirstName
+		{
+			get { return _firstName; }
+			set
+			{
+				_firstName = value;
+				OnPropertyChanged(() => FirstName);
+			}
+		}
+
+		string _lastName;
+		public string LastName
+		{
+			get { return _lastName; }
+			set
+			{
+				_lastName = value;
+				OnPropertyChanged(() => LastName);
+			}
+		}
+
+		string _secondName;
+		public string SecondName
+		{
+			get { return _secondName; }
+			set
+			{
+				_secondName = value;
+				OnPropertyChanged(() => SecondName);
+			}
 		}
 	}
 }

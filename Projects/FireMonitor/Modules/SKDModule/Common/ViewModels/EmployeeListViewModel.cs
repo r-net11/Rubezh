@@ -19,11 +19,13 @@ namespace SKDModule.ViewModels
 		public virtual bool CanEditDepartment { get { return false; } }
 		public virtual bool CanEditPosition { get { return false; } }
 		protected IOrganisationElementViewModel _parent;
+		protected bool _isWithDeleted;
 		public ObservableCollection<TItem> Employees { get; private set; }
-
-		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent)
+		
+		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
 			_parent = parent;
+			_isWithDeleted = isWithDeleted;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)
 				return;
@@ -42,6 +44,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeePositionDepartmentEvent>().Subscribe(OnEditEmployeePositionDepartment);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Unsubscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
 		}
 
 		TItem _selectedEmployee;
@@ -155,6 +159,7 @@ namespace SKDModule.ViewModels
 		public ShortEmployee Employee { get; private set; }
 		public bool IsDepartmentDeleted { get { return Employee.IsDepartmentDeleted; } }
 		public bool IsPositionDeleted { get { return Employee.IsPositionDeleted; } }
+		public bool IsDeleted { get { return Employee.IsDeleted; } }
 		
 		public EmployeeListItemViewModel() { }
 
@@ -169,6 +174,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Employee);
 			OnPropertyChanged(() => IsDepartmentDeleted);
 			OnPropertyChanged(() => IsPositionDeleted);
+			OnPropertyChanged(() => IsDeleted);
 		}
 	}
 }

@@ -129,13 +129,13 @@ namespace SKDModule.Views
 					gridViewColumn.Width = 150;
 
 					var dataTemplate = new DataTemplate();
-					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
+					var txtElement = new FrameworkElementFactory(typeof(IsPositionDeletedTextBlock));
 					dataTemplate.VisualTree = txtElement;
 					var binding = new Binding();
 					var bindingPath = string.Format("PositionName");
 					binding.Path = new PropertyPath(bindingPath);
 					binding.Mode = BindingMode.OneWay;
-					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
+					txtElement.SetBinding(IsPositionDeletedTextBlock.TextProperty, binding);
 
 					gridViewColumn.CellTemplate = dataTemplate;
 					gridView.Columns.Add(gridViewColumn);

@@ -11,8 +11,8 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentEmployeeListViewModel : EmployeeListBaseViewModel<DepartmentEmployeeListItemViewModel>
 	{
-		public DepartmentEmployeeListViewModel(DepartmentViewModel parent)
-			: base(parent)
+		public DepartmentEmployeeListViewModel(DepartmentViewModel parent, bool isWithDeleted)
+			: base(parent, isWithDeleted)
 		{
 			var chief = Employees.FirstOrDefault(x => x.Employee.UID == parent.Model.ChiefUID);
 			if (chief != null)
@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool RemoveFromParent(ShortEmployee employee)
 		{
-			return EmployeeHelper.SetDepartment(employee, Guid.Empty);
+			return EmployeeHelper.SetDepartment(employee, Guid.Empty); 
 		}
 
 		public override bool CanEditDepartment { get { return false; } }
@@ -45,12 +45,12 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { _parent.UID } }; }
+			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { _parent.UID }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter
 		{
-			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Guid.Empty } }; }
+			get { return new EmployeeFilter { DepartmentUIDs = new List<Guid> { Guid.Empty }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override Guid GetParentUID(Employee employee)

@@ -16,12 +16,12 @@
 									<StackPanel Orientation="Horizontal">
 										<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+												<Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0" />
 												<TextBlock Text="{Binding Name}" />
 											</StackPanel>
 										</CheckBox>
 										<StackPanel Orientation="Horizontal" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}">
-											<Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" Margin="1 0" />
+											<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" />
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</StackPanel>
@@ -51,12 +51,12 @@
 									<StackPanel Orientation="Horizontal">
 										<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+												<Image Width="16" Source="/Controls;component/Images/Position.png" VerticalAlignment="Center" Margin="1 0" />
 												<TextBlock Text="{Binding Name}" />
 											</StackPanel>
 										</CheckBox>
 										<StackPanel Orientation="Horizontal" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}">
-											<Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" Margin="1 0" />
+                                            <Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" />
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</StackPanel>
@@ -76,26 +76,8 @@
 				</tree:TreeList.View>
 			</tree:TreeList>
 		</TabItem>
-		<TabItem Header="Сотрудники" DataContext="{Binding EmployeeFilterViewModel}">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="200" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Имя" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-			</Grid>
+		<TabItem Header="Сотрудники">
+            <Views:EmployeesFilterView DataContext="{Binding EmployeeFilterViewModel}" />
 		</TabItem>
 		<TabItem Header="Период">
 			<Grid>
