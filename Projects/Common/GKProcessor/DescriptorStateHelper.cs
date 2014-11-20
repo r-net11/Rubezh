@@ -484,7 +484,7 @@ namespace GKProcessor
 								break;
 							case GKDriverType.RSR2_Bush_Fire:
 								if (bitArray[0])
-									AddAdditionalState(XStateClass.Failure, "Неисправность датчика давления а выходе");
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика давления на выходе");
 								if (bitArray[1])
 									AddAdditionalState(XStateClass.Failure, "Неисправность ДУ ПУСК");
 								if (bitArray[2])
