@@ -248,11 +248,6 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionZoneViewModel.cs" />
-    <Compile Include="Directions\Views\DirectionDevicesView.xaml.cs">
-      <DependentUpon>DirectionDevicesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Instructions\Converters\DevicesToStringConverter.cs" />
     <Compile Include="Instructions\Converters\ZonesToStringConverter.cs" />
     <Compile Include="Instructions\ViewModels\InstructionDetailsViewModel.cs" />
@@ -730,10 +725,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Diagnostics\Views\DiagnosticsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Directions\Views\DirectionDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

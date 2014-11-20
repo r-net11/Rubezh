@@ -15,9 +15,8 @@ namespace FiresecAPI.GK
 	{
 		public GKDirection()
 		{
-			DirectionZones = new List<GKDirectionZone>();
-			DirectionDevices = new List<GKDirectionDevice>();
 			DelayRegime = DelayRegime.Off;
+			Logic = new GKLogic();
 
 			InputDevices = new List<GKDevice>();
 			InputZones = new List<GKZone>();
@@ -51,16 +50,10 @@ namespace FiresecAPI.GK
 		public DelayRegime DelayRegime { get; set; }
 
 		/// <summary>
-		/// Зоны направления
+		/// Логика включения
 		/// </summary>
 		[DataMember]
-		public List<GKDirectionZone> DirectionZones { get; set; }
-
-		/// <summary>
-		/// Устройства направления
-		/// </summary>
-		[DataMember]
-		public List<GKDirectionDevice> DirectionDevices { get; set; }
+		public GKLogic Logic { get; set; }
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
