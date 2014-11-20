@@ -392,8 +392,14 @@ namespace FiresecService
 					case Property.Delay:
 						propertyValue = (int)(item as GKDirection).Delay;
 						break;
+					case Property.CurrentDelay:
+						propertyValue = (int)(item as GKDirection).State.OnDelay;
+						break;
 					case Property.Hold:
 						propertyValue = (int)(item as GKDirection).Hold;
+						break;
+					case Property.CurrentHold:
+						propertyValue = (int)(item as GKDirection).State.HoldDelay;
 						break;
 					case Property.DelayRegime:
 						propertyValue = (int)(item as GKDirection).DelayRegime;
