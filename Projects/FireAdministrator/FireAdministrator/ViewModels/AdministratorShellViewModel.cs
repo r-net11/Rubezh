@@ -39,7 +39,7 @@ namespace FireAdministrator.ViewModels
 
 		public override void Run()
 		{
-			SetPlacement(Settings.Default.MainWindowPlacement);
+			//SetPlacement(Settings.Default.MainWindowPlacement); // TODO or not TODO?
 			base.Run();
 			ServiceFactory.Layout.ShortcutService.Shortcuts.Add(new KeyGesture(Key.S, ModifierKeys.Control), _menu.SaveCommand);			
 		}
@@ -62,8 +62,8 @@ namespace FireAdministrator.ViewModels
 					}
 				}
 				FiresecManager.Disconnect();
-				Properties.Settings.Default.MainWindowPlacement = GetPlacement();
-				Settings.Default.Save();
+				//Properties.Settings.Default.MainWindowPlacement = GetPlacement(); // TODO or not TODO?
+				//Settings.Default.Save();
 				return base.OnClosing(isCanceled);
 			}
 			finally

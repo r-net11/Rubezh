@@ -318,6 +318,44 @@ namespace FiresecService
 				itemUid = (item as GKDevice).UID;
 			}
 
+			if (item is GKDelay)
+			{
+				switch (property)
+				{
+					case Property.Name:
+						propertyValue = (item as GKDelay).Name.Trim();
+						break;
+					case Property.No:
+						propertyValue = (item as GKDelay).No;
+						break;
+					case Property.Delay:
+						propertyValue = (item as GKDelay).DelayTime;
+						break;
+					case Property.CurrentDelay:
+						propertyValue = (item as GKDelay).State.OnDelay;
+						break;
+					case Property.State:
+						propertyValue = (int)(item as GKDelay).State.StateClass;
+						break;
+					case Property.Hold:
+						propertyValue = (item as GKDelay).Hold;
+						break;
+					case Property.CurrentHold:
+						propertyValue = (item as GKDelay).State.HoldDelay;
+						break;
+					case Property.DelayRegime:
+						propertyValue = (item as GKDelay).DelayRegime;
+						break;
+					case Property.Description:
+						propertyValue = (item as GKDelay).Description.Trim();
+						break;
+					case Property.Uid:
+						propertyValue = (item as GKDelay).UID.ToString();
+						break;
+				}
+				itemUid = (item as GKDelay).UID;
+			}
+
 			if (item is GKZone)
 			{
 				switch (property)
@@ -345,6 +383,9 @@ namespace FiresecService
 			{
 				switch (property)
 				{
+					case Property.Name:
+						propertyValue = (item as GKDirection).Name.Trim();
+						break;
 					case Property.No:
 						propertyValue = (item as GKDirection).No;
 						break;
@@ -362,6 +403,9 @@ namespace FiresecService
 						break;
 					case Property.Uid:
 						propertyValue = (item as GKDirection).UID.ToString();
+						break;
+					case Property.State:
+						propertyValue = (int)(item as GKDirection).State.StateClass;
 						break;
 				}
 				itemUid = (item as GKDirection).UID;
@@ -404,6 +448,7 @@ namespace FiresecService
 			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
+			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
 			if (device != null)
 				return device;
 			if (zone != null)
@@ -420,6 +465,8 @@ namespace FiresecService
 				return sKDDoor;
 			if (direction != null)
 				return direction;
+			if (delay != null)
+				return delay;
 			return null;
 		}
 
@@ -606,6 +653,24 @@ namespace FiresecService
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.CloseForever)
 				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
 			//if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
+		}
+
+		void ControlDelay(ProcedureStep procedureStep)
+		{
+			var delayUid = GetValue<Guid>(procedureStep.ControlDelayArguments.DelayArgument);
+			var delayCommandType = procedureStep.ControlDelayArguments.DelayCommandType;
+			if (delayCommandType == DelayCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(delayUid, GKBaseObjectType.Delay);
+			if (delayCommandType == DelayCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(delayUid, GKBaseObjectType.Delay);
+			if (delayCommandType == DelayCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(delayUid, GKBaseObjectType.Delay);
+			if (delayCommandType == DelayCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(delayUid, GKBaseObjectType.Delay);
+			if (delayCommandType == DelayCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(delayUid, GKBaseObjectType.Delay);
+			if (delayCommandType == DelayCommandType.TurnOnNow)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(delayUid, GKBaseObjectType.Delay);
 		}
 
 		void Pause(ProcedureStep procedureStep)

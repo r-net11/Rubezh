@@ -113,7 +113,7 @@ namespace AutomationModule
 				}
 			}
 
-			if (objectType == ObjectType.ControlDoor)
+			if (objectType == ObjectType.Door)
 			{
 				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor != null ? currentExplicitValue.SKDDoor : null);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))

@@ -160,6 +160,10 @@
 		<Views:ControlDoorStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="controlDelayTemplate">
+		<Views:ControlDelayStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="getObjectPropertyTemplate">
 		<Views:GetObjectPropertyStepView />
 	</DataTemplate>
@@ -209,7 +213,7 @@
 	</DataTemplate>
 
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
-	                                     ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 	                                     ChangeListTemplate="{StaticResource changeListTemplate}"
 	                                     CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 	                                     ConditionTemplate="{StaticResource conditionTemplate}"
@@ -241,6 +245,7 @@
 	                                     SetValueTemplate="{StaticResource setValueTemplate}"
 	                                     ShowDialogTemplate="{StaticResource showDialogStepView}"
 	                                     ShowMessageTemplate="{StaticResource sendMessageTemplate}"
-	                                     SoundsTemplate="{StaticResource soundsTemplate}" />
+	                                     SoundsTemplate="{StaticResource soundsTemplate}"
+										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"/>
 
 </ResourceDictionary>

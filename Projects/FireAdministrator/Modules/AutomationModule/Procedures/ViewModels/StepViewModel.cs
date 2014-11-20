@@ -20,7 +20,8 @@ namespace AutomationModule.ViewModels
 			if ((step.ProcedureStepType == ProcedureStepType.ControlCamera) || (step.ProcedureStepType == ProcedureStepType.ControlDirection)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone))
+				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
@@ -116,6 +117,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ControlCamera:
 					Content = new ControlCameraStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ControlDelay:
+					Content = new ControlDelayStepViewModel(this);
 					break;
 
 				case ProcedureStepType.GetObjectProperty:

@@ -201,11 +201,16 @@ namespace AutomationModule.ViewModels
 		{
 			if (SelectedStep == null || SelectedStep.Parent == null)
 			{
-				Procedure.Steps.Add(stepViewModel.Step);
 				if (SelectedStep == null)
+				{
+					Procedure.Steps.Add(stepViewModel.Step);
 					RootSteps.Add(stepViewModel);
+				}
 				else
+				{
+					Procedure.Steps.Insert(RootSteps.IndexOf(SelectedStep) + 1, stepViewModel.Step);
 					RootSteps.Insert(RootSteps.IndexOf(SelectedStep) + 1, stepViewModel);
+				}
 			}
 			else
 			{

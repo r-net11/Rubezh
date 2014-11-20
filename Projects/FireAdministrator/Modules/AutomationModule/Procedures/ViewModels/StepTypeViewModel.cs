@@ -21,7 +21,8 @@ namespace AutomationModule.ViewModels
 			if ((procedureStepType == ProcedureStepType.ControlCamera) || (procedureStepType == ProcedureStepType.ControlDirection)
 				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
-				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone))
+				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
+				|| (procedureStepType == ProcedureStepType.ControlDelay))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + procedureStepType + ".png";

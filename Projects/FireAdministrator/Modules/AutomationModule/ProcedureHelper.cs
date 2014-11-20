@@ -81,9 +81,11 @@ namespace AutomationModule
 			if (objectType == ObjectType.Device)
 				return new List<Property> { Property.Description, Property.ShleifNo, Property.IntAddress, Property.State, Property.Type, Property.Uid };
 			if (objectType == ObjectType.Zone)
-				return new List<Property> { Property.Description, Property.No, Property.Name, Property.State, Property.Uid };
+				return new List<Property> { Property.Description, Property.No, Property.Uid, Property.Name, Property.State };
 			if (objectType == ObjectType.Direction)
-				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime, Property.Uid };
+				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.Hold, Property.DelayRegime, Property.Uid, Property.Name, Property.State };
+			if (objectType == ObjectType.Delay)
+				return new List<Property> { Property.Description, Property.No, Property.Delay, Property.CurrentDelay, Property.Hold, Property.CurrentHold, Property.DelayRegime, Property.Uid, Property.Name, Property.State };
 			return new List<Property>();
 		}
 
@@ -160,7 +162,7 @@ namespace AutomationModule
 				}
 			}
 
-			if (objectType == ObjectType.ControlDoor)
+			if (objectType == ObjectType.Door)
 			{
 				var doorSelectationViewModel = new DoorSelectionViewModel(currentExplicitValue.SKDDoor);
 				if (DialogService.ShowModalWindow(doorSelectationViewModel))
