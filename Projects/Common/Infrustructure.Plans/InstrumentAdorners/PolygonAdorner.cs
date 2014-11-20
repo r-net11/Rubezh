@@ -140,7 +140,8 @@ namespace Infrustructure.Plans.InstrumentAdorners
 		private void Cleanup()
 		{
 			_opened = false;
-			Points.Clear();
+            if (Rubberband != null)
+			    Points.Clear();
 			AdornerCanvas.ReleaseMouseCapture();
 			AdornerCanvas.Children.Remove(rubberband);
 		}

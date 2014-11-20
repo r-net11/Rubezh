@@ -41,6 +41,6 @@
 			</Grid>
 		</DockPanel>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}" Margin="-4 0 0 0" />
-		<ContentPresenter x:Name="RightContent" Grid.Column="2" MinWidth="200" Content="{Binding RightContent}" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="RightContent_GotKeyboardFocus" PreviewMouseDown="RightContent_PreviewMouseDown" />
+		<ContentPresenter x:Name="RightContent" Grid.Column="2" MinWidth="200" Content="{Binding RightContent}" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="RightContent_GotKeyboardFocus" PreviewMouseDown="RightContent_PreviewMouseDown" FocusVisualStyle="{x:Null}" />
 	</Grid>
 </UserControl>

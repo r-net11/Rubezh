@@ -86,7 +86,16 @@ namespace AutomationModule
 					break;
 				case AutomationCallbackType.Message:
 					var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
-					ApplicationService.Invoke(() => MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow));
+					ApplicationService.Invoke(() =>
+					{
+						if (messageArguments.WithConfirmation)
+						{
+							var confirm = MessageBoxService.ShowConfirmation(messageArguments.Message, "Сообщение");
+							FiresecManager.FiresecService.ProcedureCallbackResponse(automationCallbackResult.CallbackUID, confirm);
+						}
+						else
+							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
+					});
 					break;
 			}
 		}

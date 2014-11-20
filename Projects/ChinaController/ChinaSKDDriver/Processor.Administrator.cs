@@ -9,7 +9,7 @@ namespace ChinaSKDDriver
 {
 	public static partial class Processor
 	{
-		public static OperationResult<SKDDeviceInfo> GetdeviceInfo(Guid deviceUID)
+		public static OperationResult<SKDDeviceInfo> GetDeviceInfo(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)

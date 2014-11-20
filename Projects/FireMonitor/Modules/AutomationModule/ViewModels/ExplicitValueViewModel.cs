@@ -18,6 +18,7 @@ namespace AutomationModule.ViewModels
 	public class ExplicitValueViewModel : BaseViewModel
 	{
 		public GKDevice Device { get; private set; }
+		public GKDelay Delay { get; private set; }
 		public GKZone Zone { get; private set; }
 		public GKGuardZone GuardZone { get; private set; }
 		public SKDDevice SKDDevice { get; private set; }
@@ -52,6 +53,7 @@ namespace AutomationModule.ViewModels
 			Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
+			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
@@ -75,6 +77,8 @@ namespace AutomationModule.ViewModels
 					return SKDDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
+				if (Delay != null)
+					return Delay.PresentationName;
 				return "";
 			}
 		}
@@ -157,12 +161,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null));
+				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (Delay == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null;
+					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; Delay = null;
 			}
 		}
 	}

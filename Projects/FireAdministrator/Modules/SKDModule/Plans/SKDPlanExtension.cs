@@ -75,7 +75,8 @@ namespace SKDModule.Plans
 							ToolTip="СКД Зона",
 							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 300,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 300,
 						},
 						new InstrumentViewModel()
 						{
@@ -83,7 +84,8 @@ namespace SKDModule.Plans
 							ToolTip="СКД Зона",
 							Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 301,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 300,
 						},
 					};
 				return _instruments;

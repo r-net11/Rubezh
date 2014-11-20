@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer.Views
 {
@@ -7,6 +8,10 @@ namespace Infrastructure.Designer.Views
 		public ToolboxView()
 		{
 			InitializeComponent();
+		}
+		private void OnListViewItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			e.Handled = true;
 		}
 	}
 }

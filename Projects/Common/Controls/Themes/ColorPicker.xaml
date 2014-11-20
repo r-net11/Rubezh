@@ -157,6 +157,7 @@
 		<Setter Property="RecentColorsHeader" Value="Недавние" />
 		<Setter Property="ShowRecentColors" Value="False" />
 		<Setter Property="DisplayColorAndName" Value="False" />
+		<Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=SelectedColor}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type xc:ColorPicker}">

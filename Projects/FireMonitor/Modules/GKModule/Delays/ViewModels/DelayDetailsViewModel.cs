@@ -156,7 +156,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.UID);
+			ServiceFactory.Events.GetEvent<ShowGKDelayEvent>().Publish(Delay.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

@@ -37,7 +37,7 @@ namespace Infrastructure.Designer.ViewModels
 			set
 			{
 				_instruments = value;
-				OnPropertyChanged("Instruments");
+				OnPropertyChanged(() => Instruments);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace Infrastructure.Designer.ViewModels
 			set
 			{
 				_isEnabled = value;
-				OnPropertyChanged("IsEnabled");
+				OnPropertyChanged(() => IsEnabled);
 			}
 		}
 
@@ -97,14 +97,26 @@ namespace Infrastructure.Designer.ViewModels
 			if (instruments != null)
 			{
 				foreach (IInstrument instrument in instruments)
-					Instruments.Add(instrument);
+					if (instrument.GroupIndex > 0)
+					{
+						var instrumentGroup = Instruments.OfType<InstrumentGroupViewModel>().FirstOrDefault(item => item.Index == instrument.GroupIndex);
+						if (instrumentGroup == null)
+						{
+							instrumentGroup = new InstrumentGroupViewModel(this, instrument.GroupIndex);
+							Instruments.Add(instrumentGroup);
+						}
+						instrumentGroup.Instruments.Add(instrument);
+					}
+					else
+						Instruments.Add(instrument);
 				SortInstruments();
 			}
 		}
 		private void RegisterInstruments()
 		{
-			Instruments = new ObservableCollection<IInstrument>()
-			{
+			Instruments = new ObservableCollection<IInstrument>();
+			RegisterInstruments(new IInstrument[]
+            {
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Cursor.png",
@@ -126,6 +138,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Линия",
 					Index = 1011,
 					Adorner = new PolylineAdorner(DesignerCanvas),
+                    GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -133,6 +146,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Прямоугольник",
 					Index = 1012,
 					Adorner = new RectangleAdorner(DesignerCanvas),
+                    GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -140,6 +154,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Эллипс",
 					Index = 1013,
 					Adorner = new ElipseAdorner(DesignerCanvas),
+                    GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -147,6 +162,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Многоугольник",
 					Index = 1014,
 					Adorner = new PolygonAdorner(DesignerCanvas),
+                    GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -161,6 +177,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Добавить горизонтальную линию привязки",
 					Index = 1501,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
+                    GroupIndex = 1501,
 				},
 				new InstrumentViewModel()
 				{
@@ -168,6 +185,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Добавить вертикальную линию привязки",
 					Index = 1502,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
+                    GroupIndex = 1501,
 				},
 				new InstrumentViewModel()
 				{
@@ -176,7 +194,7 @@ namespace Infrastructure.Designer.ViewModels
 					Index = 1503,
 					Command = DesignerCanvas.RemoveGridLinesCommand,
 				},
-			};
+			});
 			SortInstruments();
 			_defaultInstrument = Instruments.FirstOrDefault(item => item.Index == 0);
 			ActiveInstrument = _defaultInstrument;

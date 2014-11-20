@@ -61,6 +61,10 @@
 											ConverterParameter={x:Static procedures:MenuType.IsSteps}}" Value="True">
 											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 										</DataTrigger>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsSteps}, Mode=OneWay}" Value="False">
+											<Setter Property="Background" Value="LightGray" />
+										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</Button.Style>
@@ -73,6 +77,10 @@
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsVariables}, Mode=OneWay}" Value="True">
 											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+										</DataTrigger>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsVariables}, Mode=OneWay}" Value="False">
+											<Setter Property="Background" Value="LightGray" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
@@ -87,6 +95,10 @@
 											ConverterParameter={x:Static procedures:MenuType.IsArguments}, Mode=OneWay}" Value="True">
 											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 										</DataTrigger>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsArguments}, Mode=OneWay}" Value="False">
+											<Setter Property="Background" Value="LightGray" />
+										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</Button.Style>
@@ -99,6 +111,10 @@
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsConditions}, Mode=OneWay}" Value="True">
 											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+										</DataTrigger>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsConditions}, Mode=OneWay}" Value="False">
+											<Setter Property="Background" Value="LightGray" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>

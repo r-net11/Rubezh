@@ -8,10 +8,14 @@ namespace FiresecAPI.Automation
 		public ShowMessageArguments()
 		{
 			MessageArgument = new Argument();
+			ConfirmationValueArgument = new Argument();
 		}
 
 		[DataMember]
 		public Argument MessageArgument { get; set; }
+
+		[DataMember]
+		public Argument ConfirmationValueArgument { get; set; }
 
 		[DataMember]
 		public ExplicitType ExplicitType { get; set; }
@@ -21,5 +25,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public bool IsModalWindow { get; set; }
+
+		[DataMember]
+		public bool WithConfirmation { get; set; }
 	}
 }

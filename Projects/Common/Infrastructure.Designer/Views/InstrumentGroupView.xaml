@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Infrastructure.Designer.Views.InstrumentGroupView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:i="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans" xmlns:TemplateSelector="clr-namespace:Controls.TemplateSelectors;assembly=Controls">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ToolboxResource.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+			<Style x:Key="PopupToolbox" TargetType="{x:Type ContextMenu}">
+				<Setter Property="SnapsToDevicePixels" Value="true" />
+				<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+				<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+				<Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Stretch" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type ContextMenu}">
+							<Border Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="Orange" BorderThickness="1" CornerRadius="2,2,2,2">
+								<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" SelectedItem="{Binding SelectedInstrument}" Style="{StaticResource ToolBox}">
+									<ListBox.Triggers>
+										<EventTrigger RoutedEvent="Selector.SelectionChanged">
+											<BeginStoryboard>
+												<Storyboard>
+													<BooleanAnimationUsingKeyFrames Storyboard.Target="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}}" Storyboard.TargetProperty="IsOpen">
+														<DiscreteBooleanKeyFrame KeyTime="0:0:0.1" Value="False" />
+													</BooleanAnimationUsingKeyFrames>
+												</Storyboard>
+											</BeginStoryboard>
+										</EventTrigger>
+									</ListBox.Triggers>
+								</ListBox>
+							</Border>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<UserControl.Style>
+		<Style TargetType="{x:Type UserControl}">
+			<Setter Property="ContextMenuService.Placement" Value="Bottom" />
+			<Setter Property="ContextMenuService.PlacementTarget" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}}" />
+			<Setter Property="ContextMenu">
+				<Setter.Value>
+					<ContextMenu Style="{StaticResource PopupToolbox}" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Style>
+	<Grid>
+		<ContentPresenter Content="{Binding ActiveInstrument}" ContentTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
+		<Path x:Name="p" HorizontalAlignment="Right" VerticalAlignment="Bottom" Data="M 0 6 L 6 0 L 6 6 Z" Fill="White" />
+	</Grid>
+</UserControl>

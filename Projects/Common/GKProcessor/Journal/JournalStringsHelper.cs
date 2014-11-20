@@ -180,7 +180,7 @@ namespace GKProcessor
 				case 104: return JournalEventDescriptionType.Питание_силовое; // ППУ
 				case 105: return JournalEventDescriptionType.Питание_контроллера; // ППУ
 				case 106: return JournalEventDescriptionType.Несовместимость_сигналов; // ППУ
-				case 107: return JournalEventDescriptionType.Неисправность_одной_или_обеих_фаз_контроль_нагрузки; // ППУ
+				case 107: return JournalEventDescriptionType.Обрыв_цепи_питания_двигателя; // ППУ
 				case 108: return JournalEventDescriptionType.Обрыв_Давление_на_выходе; // ППУ
 				case 109: return JournalEventDescriptionType.КЗ_Давление_на_выходе; // ППУ
 				case 110: return JournalEventDescriptionType.Обрыв_ДУ_ПУСК; // ППУ
@@ -259,7 +259,7 @@ namespace GKProcessor
 		//		//case 9: return "Питание силовое"; //
 		//		//case 10: return "Питание контроллера"; //
 		//		//case 11: return "Несовместимость сигналов"; //
-		//		//case 12: return "Неисправность одной или обеих фаз(контроль нагрузки)"; //
+		//		//case 12: return "Обрыв цепи питания двигателя"; //
 		//		case 13: return "Обрыв Давление низкое"; //
 		//		case 14: return "КЗ Давление низкое"; // 
 		//		case 15: return "Таймаут по давлению"; //

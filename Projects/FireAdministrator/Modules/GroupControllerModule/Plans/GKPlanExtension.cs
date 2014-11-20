@@ -99,7 +99,8 @@ namespace GKModule.Plans
 							ToolTip="Зона",
 							Adorner = new XZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 200,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 200,
 						},
 						new InstrumentViewModel()
 						{
@@ -107,7 +108,8 @@ namespace GKModule.Plans
 							ToolTip="Зона",
 							Adorner = new XZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 201,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 200,
 						},
 						new InstrumentViewModel()
 						{
@@ -115,7 +117,8 @@ namespace GKModule.Plans
 							ToolTip="Направление",
 							Adorner = new XDirectionRectangleAdorner(DesignerCanvas, _directionsViewModel),
 							Index = 202,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 202,
 						},
 						new InstrumentViewModel()
 						{
@@ -123,7 +126,8 @@ namespace GKModule.Plans
 							ToolTip="Направление",
 							Adorner = new XDirectionPolygonAdorner(DesignerCanvas, _directionsViewModel),
 							Index = 203,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 202,
 						},
 						new InstrumentViewModel()
 						{
@@ -131,7 +135,8 @@ namespace GKModule.Plans
 							ToolTip="Охранная зона",
 							Adorner = new XGuardZoneRectangleAdorner(DesignerCanvas, _guardZonesViewModel),
 							Index = 204,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 204,
 						},
 						new InstrumentViewModel()
 						{
@@ -139,9 +144,10 @@ namespace GKModule.Plans
 							ToolTip="Охранная зона",
 							Adorner = new XGuardZonePolygonAdorner(DesignerCanvas,  _guardZonesViewModel),
 							Index = 205,
-							Autostart = true
+							Autostart = true,
+							GroupIndex = 204,
 						},
-	};
+	            };
 				return _instruments;
 			}
 		}

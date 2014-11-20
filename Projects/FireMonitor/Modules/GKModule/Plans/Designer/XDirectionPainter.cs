@@ -19,7 +19,7 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XDirectionPainter : BaseZonePainter<GKDirection, ShowXDirectionEvent>
+	class XDirectionPainter : BaseZonePainter<GKDirection, ShowGKDirectionEvent>
 	{
 		private GeometryDrawing _textDrawing;
 		private ScaleTransform _scaleTransform;

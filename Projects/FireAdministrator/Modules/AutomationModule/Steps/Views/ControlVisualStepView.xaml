@@ -21,7 +21,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Макет:" />
+		<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Макет" />
 		<ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -30,7 +30,7 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Элемент:" />
+		<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Элемент" />
 		<ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -39,7 +39,7 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Свойство:" />
+		<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Свойство" />
 		<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
 			<ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
 				<ComboBox.ItemTemplate>
@@ -54,11 +54,11 @@
 		<Label Grid.Row="3" Grid.Column="0" Content="Аргумент" />
 		<Views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding Argument}" />
 
-		<Label Grid.Row="4" Grid.Column="0" Margin="2, 2, 0, 2" Content="Всем клиентам" />
-		<CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
+		<Label Grid.Row="4" Grid.Column="0" Content="Всем клиентам" />
+		<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding ForAllClients}" />
 
-		<Label Grid.Row="5" Grid.Column="0" Margin="2, 2, 0, 2" Content="Восстанавливать" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding StoreOnServer}" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<Label Grid.Row="5" Grid.Column="0" Content="Восстанавливать" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding StoreOnServer}" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 	</Grid>
 </UserControl>

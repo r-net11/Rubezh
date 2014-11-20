@@ -23,6 +23,12 @@ namespace GKModule.ViewModels
 			LastServiceTime = " - ";
 			Resistance = " - ";
 			AUParameterValues = new ObservableCollection<MeasureParameterViewModel>();
+
+			device.State.MeasureParametersChanged += new Action(OnMeasureParametersChanged);
+		}
+
+		void OnMeasureParametersChanged()
+		{
 		}
 
 		bool _isCurrent;

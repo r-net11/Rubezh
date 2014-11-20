@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 
 		public bool HasMeasureParameters
 		{
-			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0; }
+			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0 || Device.DriverType == GKDriverType.RSR2_Valve_DU || Device.DriverType == GKDriverType.RSR2_Valve_KV || Device.DriverType == GKDriverType.RSR2_Valve_KVMV; }
 		}
 
 		void StartMeasureParametersMonitoring()
@@ -143,9 +143,6 @@ namespace GKModule.ViewModels
 					StringValue = measureParameter.StringValue
 				};
 				MeasureParameters.Add(measureParameterViewModel);
-
-				//var measureParameterViewModel = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
-				//measureParameterViewModel.StringValue = measureParameter.StringValue;
 			}
 		}
 		#endregion
@@ -153,13 +150,13 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Device.UID);
 		}
 
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(Device.Parent.UID);
 		}
 		bool CanShowParent()
 		{
@@ -212,7 +209,7 @@ namespace GKModule.ViewModels
 			var zone = Device.Zones.FirstOrDefault();
 			if (zone != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(zone.UID);
 			}
 		}
 

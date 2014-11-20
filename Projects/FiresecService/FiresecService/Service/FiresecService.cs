@@ -12,6 +12,7 @@ using GKProcessor;
 using SKDDriver;
 using System.Collections.Generic;
 using SKDDriver.Translators;
+using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -155,11 +156,24 @@ namespace FiresecService.Service
 			try
 			{
 				var result = new List<ServerTask>();
-				for (int i = 0; i < 10; i++)
+				using (var databaseService = new SKDDatabaseService())
 				{
-					var serverTask = new ServerTask();
-					serverTask.Name = "Name_" + i.ToString();
-					result.Add(serverTask);
+					foreach (var device in SKDManager.Devices)
+					{
+						if (device.Driver.IsController)
+						{
+							var pendingCards = databaseService.CardTranslator.GetAllPendingCards(device.UID);
+							foreach (var pendingCard in pendingCards)
+							{
+								var serverTask = new ServerTask();
+								serverTask.DeviceName = device.Name;
+								serverTask.DeviceAddress = device.Address;
+								serverTask.CardNumber = pendingCard.Card.Number;
+								serverTask.PendingCardAction = (PendingCardAction)pendingCard.Action;
+								result.Add(serverTask);
+							}
+						}
+					}
 				}
 				return result;
 			}

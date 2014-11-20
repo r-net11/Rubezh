@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -15,8 +16,6 @@ namespace GKModule.ViewModels
 
 		public DeviceParametersViewModel()
 		{
-			//ParameterUpdateHelper.NewAUParameterValue -= new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
-			//ParameterUpdateHelper.NewAUParameterValue += new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
 		}
 
 		public void Initialize()
@@ -91,7 +90,7 @@ namespace GKModule.ViewModels
 						deviceParameterViewModel.Resistance = "опрос";
 
 					deviceParameterViewModel.IsCurrent = true;
-					//ParameterUpdateHelper.UpdateDevice(deviceParameterViewModel.Device);
+					FiresecManager.FiresecService.GKStartMeasureMonitoring(deviceParameterViewModel.Device);
 					deviceParameterViewModel.IsCurrent = false;
 
 					if (deviceParameterViewModel.Smokiness == "опрос")
@@ -161,6 +160,12 @@ namespace GKModule.ViewModels
 		public override void OnHide()
 		{
 			CancelBackgroundWorker = true;
+
+			for (int i = 0; i < Devices.Count; i++)
+			{
+				var deviceParameterViewModel = Devices[i];
+				FiresecManager.FiresecService.GKStopMeasureMonitoring(deviceParameterViewModel.Device);
+			}
 		}
 	}
 }

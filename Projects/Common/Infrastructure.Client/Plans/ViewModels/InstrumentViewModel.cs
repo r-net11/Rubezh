@@ -11,6 +11,7 @@ namespace Infrastructure.Client.Plans
 		{
 			Autostart = true;
 			IsActive = true;
+			GroupIndex = 0;
 		}
 
 		private string _imageSource;
@@ -43,6 +44,17 @@ namespace Infrastructure.Client.Plans
 			{
 				_isActive = value;
 				OnPropertyChanged(() => IsActive);
+			}
+		}
+
+		private int _group;
+		public int GroupIndex
+		{
+			get { return _group; }
+			set
+			{
+				_group = value;
+				OnPropertyChanged(() => GroupIndex);
 			}
 		}
 

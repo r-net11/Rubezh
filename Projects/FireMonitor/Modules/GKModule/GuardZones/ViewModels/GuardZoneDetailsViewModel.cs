@@ -203,7 +203,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(Zone.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

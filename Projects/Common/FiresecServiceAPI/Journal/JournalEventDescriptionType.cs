@@ -401,8 +401,8 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Несовместимость сигналов", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
 		Несовместимость_сигналов,
 
-		[EventDescriptionAttribute("Неисправность одной или обеих фаз(контроль нагрузки)", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
-		Неисправность_одной_или_обеих_фаз_контроль_нагрузки,
+		[EventDescriptionAttribute("Обрыв цепи питания двигателя", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
+		Обрыв_цепи_питания_двигателя,
 
 		[EventDescriptionAttribute("Обрыв Давление на выходе", JournalEventNameType.Неисправность, JournalEventNameType.Неисправность_устранена)]
 		Обрыв_Давление_на_выходе,

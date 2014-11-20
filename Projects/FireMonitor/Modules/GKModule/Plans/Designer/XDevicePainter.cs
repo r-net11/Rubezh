@@ -15,7 +15,7 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XDevicePainter : BasePointPainter<GKDevice, ShowXDeviceEvent>
+	class XDevicePainter : BasePointPainter<GKDevice, ShowGKDeviceEvent>
 	{
 		public XDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem)

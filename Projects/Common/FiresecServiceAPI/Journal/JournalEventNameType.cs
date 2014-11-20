@@ -4,7 +4,7 @@ namespace FiresecAPI.Journal
 {
 	public enum JournalEventNameType
 	{
-		[EventDescriptionAttribute("")]
+		[EventName(JournalSubsystemType.System, "NULL", XStateClass.No)]
 		NULL,
 
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]

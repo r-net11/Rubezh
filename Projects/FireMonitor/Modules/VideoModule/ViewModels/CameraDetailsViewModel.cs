@@ -43,7 +43,7 @@ namespace VideoModule.ViewModels
 		void OnShowZone()
 		{
 			var zoneUid = Camera.ZoneUIDs.FirstOrDefault();
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zoneUid);
+			ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(zoneUid);
 		}
 
 		public string PresentationZones

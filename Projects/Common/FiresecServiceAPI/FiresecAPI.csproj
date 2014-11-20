@@ -244,6 +244,7 @@
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
     <Compile Include="AutomationCallback\MessageCallbackData.cs" />
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
+    <Compile Include="SKD\Card\PendingCardAction.cs" />
     <Compile Include="SKD\Common\EmployeeFilterBase.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />
     <Compile Include="SKD\Device\SKDControllerTimeSettings.cs" />

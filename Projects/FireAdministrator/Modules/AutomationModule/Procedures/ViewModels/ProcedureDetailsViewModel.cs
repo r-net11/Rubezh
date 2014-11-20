@@ -24,6 +24,7 @@ namespace AutomationModule.ViewModels
 			Name = Procedure.Name;
 			Description = Procedure.Description;
 			IsActive = Procedure.IsActive;
+			StartWithServer = Procedure.StartWithServer;
 			IsSync = Procedure.IsSync;
 			TimeOut = Procedure.TimeOut;
 			SelectedTimeType = Procedure.TimeType;
@@ -60,6 +61,17 @@ namespace AutomationModule.ViewModels
 			{
 				_isActive = value;
 				OnPropertyChanged(() => IsActive);
+			}
+		}
+
+		bool _startWithServer;
+		public bool StartWithServer
+		{
+			get { return _startWithServer; }
+			set
+			{
+				_startWithServer = value;
+				OnPropertyChanged(() => StartWithServer);
 			}
 		}
 
@@ -107,6 +119,7 @@ namespace AutomationModule.ViewModels
 			Procedure.Name = Name;
 			Procedure.Description = Description;
 			Procedure.IsActive = IsActive;
+			Procedure.StartWithServer = StartWithServer;
 			Procedure.IsSync = IsSync;
 			Procedure.TimeOut = TimeOut;
 			Procedure.TimeType = SelectedTimeType;

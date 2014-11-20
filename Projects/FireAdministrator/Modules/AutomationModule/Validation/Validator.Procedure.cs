@@ -58,6 +58,8 @@ namespace AutomationModule.Validation
 					{
 						var showMessageArguments = step.ShowMessageArguments;
 						ValidateArgument(step, showMessageArguments.MessageArgument);
+						if (showMessageArguments.WithConfirmation)
+							ValidateArgument(step, showMessageArguments.ConfirmationValueArgument);
 					}
 					break;
 
