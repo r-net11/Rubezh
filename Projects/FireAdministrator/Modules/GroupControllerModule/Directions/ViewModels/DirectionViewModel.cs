@@ -35,24 +35,24 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = GKManager.GetPresentationZone(Direction.Logic);
-				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
-				if (string.IsNullOrEmpty(presentationZone))
+				var presentationLogic = GKManager.GetPresentationLogic(Direction.Logic);
+				IsLogicGrayed = string.IsNullOrEmpty(presentationLogic);
+				if (string.IsNullOrEmpty(presentationLogic))
 				{
-					presentationZone = "Нажмите для настройки логики";
+					presentationLogic = "Нажмите для настройки логики";
 				}
-				return presentationZone;
+				return presentationLogic;
 			}
 		}
 
-		bool _isZoneGrayed;
-		public bool IsZoneGrayed
+		bool _isLogicGrayed;
+		public bool IsLogicGrayed
 		{
-			get { return _isZoneGrayed; }
+			get { return _isLogicGrayed; }
 			set
 			{
-				_isZoneGrayed = value;
-				OnPropertyChanged(() => IsZoneGrayed);
+				_isLogicGrayed = value;
+				OnPropertyChanged(() => IsLogicGrayed);
 			}
 		}
 

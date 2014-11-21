@@ -131,6 +131,12 @@ namespace GKProcessor
 				properties.Add(new GKProperty() { Value = binProperties[1].Value });
 				properties.Add(new GKProperty() { Value = binProperties[2].Value });
 			}
+			if (descriptor.Delay != null && binProperties.Count >= 3)
+			{
+				properties.Add(new GKProperty() { Value = binProperties[0].Value });
+				properties.Add(new GKProperty() { Value = binProperties[1].Value });
+				properties.Add(new GKProperty() { Value = binProperties[2].Value });
+			}
 			if (descriptor.Code != null && binProperties.Count >= 2)
 			{
 				properties.Add(new GKProperty() { Value = binProperties[0].Value });

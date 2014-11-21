@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if(Device.Driver.HasLogic)
-					return GKManager.GetPresentationZone(Device);
+					return GKManager.GetPresentationZoneOrLogic(Device);
 				return null;
 			}
 		}

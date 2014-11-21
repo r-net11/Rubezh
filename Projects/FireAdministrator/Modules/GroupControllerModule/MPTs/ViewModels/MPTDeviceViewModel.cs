@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				return GKManager.GetPresentationZone(Device);
+				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}
 

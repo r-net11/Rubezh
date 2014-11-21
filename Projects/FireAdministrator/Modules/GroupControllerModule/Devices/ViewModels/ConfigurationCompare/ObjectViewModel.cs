@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 			Device = device;
 			Name = device.ShortName;
 			Address = device.DottedPresentationAddress;
-			PresentationZone = device.IsNotUsed ? "" : GKManager.GetPresentationZone(Device);
+			PresentationZone = device.IsNotUsed ? "" : GKManager.GetPresentationZoneOrLogic(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
 		}

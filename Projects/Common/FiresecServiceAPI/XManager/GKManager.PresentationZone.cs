@@ -8,7 +8,7 @@ namespace FiresecClient
 {
 	public partial class GKManager
 	{
-		public static string GetPresentationZone(GKDevice device)
+		public static string GetPresentationZoneOrLogic(GKDevice device)
 		{
 			if (device.Driver.HasZone)
 			{
@@ -28,17 +28,17 @@ namespace FiresecClient
 			}
 
 			if (device.Driver.HasLogic && device.Logic != null)
-				return GetPresentationZone(device.Logic);
+				return GetPresentationLogic(device.Logic);
 
 			return "";
 		}
 
-		public static string GetPresentationZone(GKLogic logic)
+		public static string GetPresentationLogic(GKLogic logic)
 		{
-			return GetPresentationZone(logic.OnClausesGroup);
+			return GetPresentationLogic(logic.OnClausesGroup);
 		}
 
-		static string GetPresentationZone(GKClauseGroup clauseGroup)
+		static string GetPresentationLogic(GKClauseGroup clauseGroup)
 		{
 			var stringBuilder = new StringBuilder();
 			var index = 0;
@@ -65,7 +65,7 @@ namespace FiresecClient
 				if (index > 0)
 					stringBuilder.Append(" " + clauseGroup.ClauseJounOperationType.ToDescription() + " ");
 
-				var groupString = GetPresentationZone(group);
+				var groupString = GetPresentationLogic(group);
 
 				stringBuilder.Append("(" + groupString + ")");
 				index++;

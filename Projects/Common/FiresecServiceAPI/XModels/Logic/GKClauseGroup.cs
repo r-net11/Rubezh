@@ -65,5 +65,25 @@ namespace FiresecAPI.GK
 
 			return result;
 		}
+
+		public List<GKBase> GetObjects()
+		{
+			var result = new List<GKBase>();
+			foreach (var clause in Clauses)
+			{
+				clause.Devices.ForEach(x => result.Add(x));
+				clause.Zones.ForEach(x => result.Add(x));
+				clause.GuardZones.ForEach(x => result.Add(x));
+				clause.Directions.ForEach(x => result.Add(x));
+				clause.Delays.ForEach(x => result.Add(x));
+				clause.MPTs.ForEach(x => result.Add(x));
+				clause.Devices.ForEach(x => result.Add(x));
+			}
+			foreach (var clauseGroup in ClauseGroups)
+			{
+				result.AddRange(clauseGroup.GetObjects());
+			}
+			return result;
+		}
 	}
 }

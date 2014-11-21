@@ -25,8 +25,8 @@ namespace FiresecAPI.GK
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
 			Directions = new List<GKDirection>();
-			MPTs = new List<GKMPT>();
 			Delays = new List<GKDelay>();
+			MPTs = new List<GKMPT>();
 		}
 
 		[XmlIgnore]
@@ -38,9 +38,9 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDirection> Directions { get; set; }
 		[XmlIgnore]
-		public List<GKMPT> MPTs { get; set; }
-		[XmlIgnore]
 		public List<GKDelay> Delays { get; set; }
+		[XmlIgnore]
+		public List<GKMPT> MPTs { get; set; }
 
 		/// <summary>
 		/// Тип условия
@@ -79,16 +79,16 @@ namespace FiresecAPI.GK
 		public List<Guid> DirectionUIDs { get; set; }
 
 		/// <summary>
-		/// Идентификаторы МПТ
-		/// </summary>
-		[DataMember]
-		public List<Guid> MPTUIDs { get; set; }
-
-		/// <summary>
 		/// Идентификаторы задержек
 		/// </summary>
 		[DataMember]
 		public List<Guid> DelayUIDs { get; set; }
+
+		/// <summary>
+		/// Идентификаторы МПТ
+		/// </summary>
+		[DataMember]
+		public List<Guid> MPTUIDs { get; set; }
 
 		/// <summary>
 		/// Тип операции

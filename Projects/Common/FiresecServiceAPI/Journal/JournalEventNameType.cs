@@ -100,7 +100,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.GK, "База данных прибора соответствует базе данных ПК", XStateClass.Unknown)]
 		База_данных_прибора_соответствует_базе_данных_ПК,
 
-		[EventName(JournalSubsystemType.GK, "Применение конфигурации", XStateClass.Info)]
+		[EventName(JournalSubsystemType.System, "Применение конфигурации", XStateClass.Info)]
 		Применение_конфигурации,
 
 		[EventName(JournalSubsystemType.GK, "ГК в технологическом режиме", XStateClass.TechnologicalRegime)]

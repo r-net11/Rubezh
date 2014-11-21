@@ -271,9 +271,9 @@ namespace GKModule.ViewModels
 					pumpStationsDifferences.Append(". ");
 				pumpStationsDifferences.Append("Не совпадает количество насосов");
 			}
-			bool startDiff = GKManager.GetPresentationZone(object1.PumpStation.StartLogic) != GKManager.GetPresentationZone(object2.PumpStation.StartLogic);
-			bool stopDiff = GKManager.GetPresentationZone(object1.PumpStation.StopLogic) != GKManager.GetPresentationZone(object2.PumpStation.StopLogic);
-			bool automaticDiff = GKManager.GetPresentationZone(object1.PumpStation.AutomaticOffLogic) != GKManager.GetPresentationZone(object2.PumpStation.AutomaticOffLogic);
+			bool startDiff = GKManager.GetPresentationLogic(object1.PumpStation.StartLogic) != GKManager.GetPresentationLogic(object2.PumpStation.StartLogic);
+			bool stopDiff = GKManager.GetPresentationLogic(object1.PumpStation.StopLogic) != GKManager.GetPresentationLogic(object2.PumpStation.StopLogic);
+			bool automaticDiff = GKManager.GetPresentationLogic(object1.PumpStation.AutomaticOffLogic) != GKManager.GetPresentationLogic(object2.PumpStation.AutomaticOffLogic);
 			if (startDiff || stopDiff || automaticDiff)
 			{
 				if (pumpStationsDifferences.Length != 0)
@@ -322,7 +322,7 @@ namespace GKModule.ViewModels
 					mptsDifferences.Append(". ");
 				mptsDifferences.Append("Не совпадают устройства");
 			}
-			bool startDiff = GKManager.GetPresentationZone(object1.MPT.StartLogic) != GKManager.GetPresentationZone(object2.MPT.StartLogic);
+			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.StartLogic) != GKManager.GetPresentationLogic(object2.MPT.StartLogic);
 			if (startDiff)
 			{
 				mptsDifferences.Append("Не совпадают условия запуска");

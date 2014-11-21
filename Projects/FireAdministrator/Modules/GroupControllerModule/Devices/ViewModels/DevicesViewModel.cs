@@ -194,8 +194,9 @@ namespace GKModule.ViewModels
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, false);
+						var pasteDevice = GKManager.CopyDevice(deviceToCopy, true);
 						var device = PasteDevice(pasteDevice);
+						device.UID = pasteDevice.UID;
 						if (device != null)
 							cache.UpdateDeviceBinding(device);
 					}
