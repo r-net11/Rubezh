@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return GKManager.GetPresentationZone(Device); }
+			get { return GKManager.GetPresentationZoneOrLogic(Device); }
 		}
 
 		public bool HasOnDelay

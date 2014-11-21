@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return GKManager.GetPresentationZone(Device); }
+			get { return GKManager.GetPresentationZoneOrLogic(Device); }
 		}
 
 		public string PresentationLogic
@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Device.Driver.HasLogic)
-					return GKManager.GetPresentationZone(Device);
+					return GKManager.GetPresentationZoneOrLogic(Device);
 				return null;
 			}
 		}
@@ -75,8 +75,8 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Device.DriverType == GKDriverType.FirePump)
-					return GKManager.GetPresentationZone(Device.NSLogic);
-				return GKManager.GetPresentationZone(Device);
+					return GKManager.GetPresentationLogic(Device.NSLogic);
+				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}
 

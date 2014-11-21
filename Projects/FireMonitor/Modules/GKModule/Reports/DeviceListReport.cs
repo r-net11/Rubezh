@@ -34,7 +34,7 @@ namespace GKModule.Reports
 
 					var type = device.ShortName;
 					var address = device.DottedPresentationAddress;
-					var zonePresentationName = GKManager.GetPresentationZone(device);
+					var zonePresentationName = GKManager.GetPresentationZoneOrLogic(device);
 					table.Rows.Add(type, address, zonePresentationName);
 				}
 			}

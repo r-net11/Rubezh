@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 
 		public string StartPresentationName
 		{
-			get { return GKManager.GetPresentationZone(MPT.StartLogic); }
+			get { return GKManager.GetPresentationLogic(MPT.StartLogic); }
 		}
 
 		#region PIM

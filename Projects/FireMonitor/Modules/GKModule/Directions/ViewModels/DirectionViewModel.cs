@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = GKManager.GetPresentationZone(Direction.Logic);
+				var presentationZone = GKManager.GetPresentationLogic(Direction.Logic);
 				return presentationZone;
 			}
 		}
