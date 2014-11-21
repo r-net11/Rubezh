@@ -13,15 +13,21 @@ namespace AutomationModule.ViewModels
 		public GetObjectPropertyStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
 		{
 			GetObjectPropertyArguments = stepViewModel.Step.GetObjectPropertyArguments;
-			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, UpdateContent, false);
-			ObjectArgument.UpdateVariableHandler += UpdateProperies;
+			ObjectArgument = new ArgumentViewModel(GetObjectPropertyArguments.ObjectArgument, stepViewModel.Update, UpdateContent);
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			ResultArgument = new ArgumentViewModel(GetObjectPropertyArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
-		}
+		}		
 
-		void UpdateProperies()
+		EnumType? SelectedEnumType
 		{
-			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(ObjectArgument.SelectedVariable.Variable.ObjectType));
-			OnPropertyChanged(() => Properties);
+			get
+			{
+				if (SelectedProperty == Property.Type)
+					return EnumType.DriverType;
+				if (SelectedProperty == Property.State)
+					return EnumType.StateType;
+				return null;
+			}
 		}
 
 		public ObservableCollection<Property> Properties { get; private set; }
@@ -31,15 +37,17 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				GetObjectPropertyArguments.Property = value;
+				ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType, isList: false);
 				OnPropertyChanged(() => SelectedProperty);
-				ResultArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
 			}
 		}
 
 		public override void UpdateContent()
 		{
-			ObjectArgument.Update(Procedure, ExplicitType.Object, isList:false);
-			ResultArgument.Update(Procedure, ExplicitType, EnumType, isList:false);
+			ObjectArgument.Update(Procedure, ExplicitType.Object, objectType: SelectedObjectType, isList: false);
+			ResultArgument.Update(Procedure, ExplicitType, SelectedEnumType, isList: false);
+			Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(SelectedObjectType));
+			OnPropertyChanged(() => Properties);
 		}
 
 		public override string Description
@@ -50,17 +58,24 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public EnumType EnumType
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+		public ObjectType SelectedObjectType
 		{
 			get
 			{
-				if (SelectedProperty == Property.Type)
-					return EnumType.DriverType;
-				if (SelectedProperty == Property.State)
-					return EnumType.StateType;
-				return EnumType.StateType;
+				return GetObjectPropertyArguments.ObjectType;
+			}
+			set
+			{
+				GetObjectPropertyArguments.ObjectType = value;
+				Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(SelectedObjectType));
+				UpdateContent();
+				OnPropertyChanged(() => Properties);
+				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
+
+
 
 		public ExplicitType ExplicitType
 		{

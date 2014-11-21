@@ -20,5 +20,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Property Property { get; set; }
+
+		[DataMember]
+		public ObjectType ObjectType { get; set; }
 	}
 }
