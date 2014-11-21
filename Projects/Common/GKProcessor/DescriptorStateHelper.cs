@@ -459,7 +459,7 @@ namespace GKProcessor
 								break;
 						}
 
-						var bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
+						var bitArray = new BitArray(new int[1] { additionalShortParameters[6] });
 						switch (driverType)
 						{
 							case GKDriverType.RSR2_Bush_Drenazh:
@@ -496,7 +496,7 @@ namespace GKProcessor
 						if (bitArray[7])
 							AddAdditionalState(XStateClass.Failure, "Неисправность питания контроллера");
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[2] / 256 });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[6] / 256 });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Вскрытие");
 						if (bitArray[1])
