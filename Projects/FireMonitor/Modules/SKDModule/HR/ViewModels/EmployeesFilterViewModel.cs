@@ -29,6 +29,12 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public void Initialize(HRFilter hrFilter)
+		{
+			var filter = new EmployeeFilter { LogicalDeletationType = hrFilter.LogicalDeletationType, UIDs = hrFilter.EmployeeFilter.UIDs };
+			Initialize(filter);
+		}
+
 		public RelayCommand SelectAllCommand { get; private set; }
 		void OnSelectAll()
 		{

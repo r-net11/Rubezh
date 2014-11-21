@@ -1,31 +1,9 @@
-﻿using System;
-using FiresecAPI.SKD;
-using Infrastructure.Common.TreeList;
+﻿using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionFilterItemViewModel : TreeNodeViewModel<PositionFilterItemViewModel>
+	public class PositionFilterItemViewModel : OrganisationElementViewModel<PositionFilterItemViewModel, ShortPosition>
 	{
-		public bool IsOrganisation { get; set; }
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public Guid UID { get; set; }
-
-		public PositionFilterItemViewModel(Organisation organisation)
-		{
-			IsOrganisation = true;
-			Name = organisation.Name;
-			IsExpanded = true;
-		}
-
-		public PositionFilterItemViewModel(string name, string description, Guid uid)
-		{
-			IsOrganisation = false;
-			Name = name;
-			Description = description;
-			UID = uid;
-		}
-
 		bool _isChecked;
 		public bool IsChecked
 		{

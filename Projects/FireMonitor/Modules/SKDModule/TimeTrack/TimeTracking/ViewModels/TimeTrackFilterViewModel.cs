@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
-using SKDModule.Model;
-using System.Collections.ObjectModel;
-using System;
 using Infrastructure.Common.Windows;
-using System.Collections.Generic;
+using SKDModule.Model;
 
 namespace SKDModule.ViewModels
 {
@@ -28,8 +28,10 @@ namespace SKDModule.ViewModels
 		{
 			EmployeeFilterViewModel = new EmployeesFilterViewModel();
 			EmployeeFilterViewModel.Initialize(timeTrackFilter.EmployeeFilter);
-			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(timeTrackFilter.EmployeeFilter);
-			PositionsFilterViewModel = new PositionsFilterViewModel(timeTrackFilter.EmployeeFilter);
+			DepartmentsFilterViewModel = new DepartmentsFilterViewModel();
+			DepartmentsFilterViewModel.Initialize(new DepartmentFilter { UIDs = Filter.EmployeeFilter.DepartmentUIDs });
+			PositionsFilterViewModel = new PositionsFilterViewModel();
+			PositionsFilterViewModel.Initialize(new PositionFilter { UIDs = Filter.EmployeeFilter.PositionUIDs });
 
 			Periods = new ObservableCollection<TimeTrackingPeriod>(Enum.GetValues(typeof(TimeTrackingPeriod)).OfType<TimeTrackingPeriod>());
 			Period = timeTrackFilter.Period;

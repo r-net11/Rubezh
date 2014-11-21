@@ -1,71 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionsFilterViewModel : BaseViewModel
+	public class PositionsFilterViewModel : OrganisationBaseViewModel<ShortPosition, PositionFilter, PositionFilterItemViewModel, PositionDetailsViewModel>
 	{
-		public PositionsFilterViewModel(EmployeeFilter filter)
+		public PositionsFilterViewModel()
+			: base()
 		{
-			var organisations = OrganisationHelper.GetByCurrentUser();
-			if (organisations == null)
-				return;
-			var positions = PositionHelper.GetByCurrentUser();
-			if (positions == null)
-				return;
-			AllPositions = new List<PositionFilterItemViewModel>();
-			Organisations = new List<PositionFilterItemViewModel>();
-			foreach (var organisation in organisations)
+			SelectAllCommand = new RelayCommand(OnSelectAll);
+			SelectNoneCommand = new RelayCommand(OnSelectNone);
+		}
+
+		public override void Initialize(PositionFilter filter)
+		{
+			var emptyFilter = new PositionFilter { LogicalDeletationType = filter.LogicalDeletationType };
+			base.Initialize(emptyFilter);
+			var models = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
+			foreach (var model in models)
 			{
-				var organisationViewModel = new PositionFilterItemViewModel(organisation);
-				Organisations.Add(organisationViewModel);
-				AllPositions.Add(organisationViewModel);
-				foreach (var position in positions)
-				{
-					if (position.OrganisationUID == organisation.UID)
-					{
-						var positionViewModel = new PositionFilterItemViewModel(position.Name, position.Description, position.UID);
-						positionViewModel.IsChecked = filter.PositionUIDs.Contains(position.UID);
-						organisationViewModel.AddChild(positionViewModel);
-						AllPositions.Add(positionViewModel);
-					}
-				}
+				model.IsChecked = true;
 			}
 		}
 
-		public List<PositionFilterItemViewModel> AllPositions;
-		public List<PositionFilterItemViewModel> Organisations { get; private set; }
-
-		public PositionFilterItemViewModel[] RootPositions
+		public void Initialize(HRFilter hrFilter)
 		{
-			get 
-			{ 
-				if(Organisations != null)
-					return Organisations.ToArray();
-				return null;
-			}
+			var filter = new PositionFilter { LogicalDeletationType = hrFilter.LogicalDeletationType, UIDs = hrFilter.EmployeeFilter.PositionUIDs };
+			Initialize(filter);
 		}
 
-		public List<Guid> UIDs
+		public RelayCommand SelectAllCommand { get; private set; }
+		void OnSelectAll()
 		{
-			get
-			{
-				var result = new List<Guid>();
-				if (AllPositions != null)
-				{
-					foreach (var department in AllPositions)
-					{
-						if (department.IsChecked && !department.IsOrganisation)
-						{
-							result.Add(department.UID);
-						}
-					}
-				}
-				return result;
-			}
+			var models = Organisations.SelectMany(x => x.Children);
+			foreach (var model in models)
+				model.IsChecked = true;
 		}
+
+		public RelayCommand SelectNoneCommand { get; private set; }
+		void OnSelectNone()
+		{
+			var models = Organisations.SelectMany(x => x.Children);
+			foreach (var model in models)
+				model.IsChecked = false;
+		}
+
+		protected override IEnumerable<ShortPosition> GetModels(PositionFilter filter)
+		{
+			return PositionHelper.Get(filter);
+		}
+		protected override IEnumerable<ShortPosition> GetModelsByOrganisation(Guid organisationUID)
+		{
+			return PositionHelper.GetByOrganisation(organisationUID);
+		}
+		protected override bool MarkDeleted(ShortPosition model)
+		{
+			return PositionHelper.MarkDeleted(model);
+		}
+		protected override bool Restore(ShortPosition model)
+		{
+			return PositionHelper.Restore(model);
+		}
+		protected override bool Add(ShortPosition item)
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
 	}
 }
