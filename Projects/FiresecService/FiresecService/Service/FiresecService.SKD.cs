@@ -1166,5 +1166,13 @@ namespace FiresecService.Service
 		{
 			return PatchManager.Reset_SKD();
 		}
+
+		public OperationResult GenerateEmployeeDays()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.GenerateEmployeeDays();
+			}
+		}
 	}
 }

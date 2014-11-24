@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using SKDDriver.Translators;
 
 namespace SKDDriver
 {
@@ -191,6 +193,64 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 			return new OperationResult();
+		}
+
+		public OperationResult GenerateEmployeeDays()
+		{
+			try
+			{
+				var result = new List<EmployeeDay>();
+				var employees = Table.Where(x => !x.IsDeleted);
+				foreach (var employee in employees)
+				{
+
+					var employeeDay = new EmployeeDay();
+					employeeDay.EmployeeUID = employee.UID;
+					var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
+					if (schedule != null)
+					{
+						employeeDay.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+						employeeDay.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+						employeeDay.AllowedLate = schedule.AllowedLate;
+						employeeDay.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
+						employeeDay.Date = DateTime.Now;
+						var scheduleScheme = schedule.ScheduleScheme;
+						if(scheduleScheme != null)
+						{
+							var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
+							int dayNo = -1;
+							switch (scheduleSchemeType)
+							{
+								case ScheduleSchemeType.Week:
+									dayNo = (int)employeeDay.Date.DayOfWeek - 1;
+									if (dayNo == -1)
+										dayNo = 6;
+									break;
+								case ScheduleSchemeType.SlideDay:
+									var ticksDelta = new TimeSpan(employeeDay.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
+									var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+									dayNo = daysDelta % schedule.ScheduleScheme.DaysCount;
+									break;
+								case ScheduleSchemeType.Month:
+									dayNo = (int)employeeDay.Date.Day - 1;
+									break;
+							}
+							var dayIntervalParts = scheduleScheme.ScheduleDays.FirstOrDefault(x => x.Number == dayNo).DayInterval.DayIntervalParts;
+							foreach (var dayIntervalPart in dayIntervalParts)
+							{
+								employeeDay.DayIntervalsString += dayIntervalPart.BeginTime + "-" + dayIntervalPart.EndTime + ";";
+							}
+							result.Add(employeeDay);
+						}
+					}
+				}
+				var passJournalTranslator = new PassJournalTranslator();
+				return passJournalTranslator.SaveEmployeeDays(result);
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 	}
 }
