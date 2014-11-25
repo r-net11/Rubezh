@@ -23,6 +23,7 @@ namespace FiresecService
 			}
 			catch { }
 #endif
+			SKDDaylyUpdateProcessor.Start();
 		}
 
 		public static void Start()

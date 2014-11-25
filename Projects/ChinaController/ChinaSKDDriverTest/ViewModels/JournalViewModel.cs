@@ -7,6 +7,7 @@ using ChinaSKDDriverAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ChinaSKDDriverNativeApi;
+using Infrastructure.Common.Windows;
 
 namespace ControllerSDK.ViewModels
 {
@@ -20,7 +21,7 @@ namespace ControllerSDK.ViewModels
 
 		void Wrapper_NewJournalItem(SKDJournalItem journalItem)
 		{
-			Dispatcher.BeginInvoke(new Action(() =>
+			ApplicationService.BeginInvoke(new Action(() =>
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				JournalItems.Add(journalItemViewModel);

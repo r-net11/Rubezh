@@ -10,6 +10,7 @@ using ChinaSKDDriverNativeApi;
 using System.Threading;
 using System.Runtime.InteropServices;
 using FiresecAPI.Journal;
+using Infrastructure.Common.Windows;
 
 namespace ControllerSDK.ViewModels
 {
@@ -24,7 +25,7 @@ namespace ControllerSDK.ViewModels
 		void AddJournalItem(SKDJournalItem journalItem)
 		{
 			var journalItemViewModel = new JournalItemViewModel(journalItem);
-			Dispatcher.BeginInvoke(new Action(() =>
+			ApplicationService.BeginInvoke(new Action(() =>
 			{
 				JournalItems.Add(journalItemViewModel);
 			}));
