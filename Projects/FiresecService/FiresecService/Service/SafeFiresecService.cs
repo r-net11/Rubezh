@@ -21,7 +21,6 @@ namespace FiresecService.Service
 		public SafeFiresecService()
 		{
 			FiresecService = new FiresecService();
-			FiresecService.GenerateEmployeeDays();
 		}
 
 		public void BeginOperation(string operationName)

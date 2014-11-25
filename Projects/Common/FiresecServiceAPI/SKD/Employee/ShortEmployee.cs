@@ -61,6 +61,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public DateTime RemovalDate { get; set; }
 
+		[DataMember]
+		public DateTime LastEmployeeDayUpdate { get; set; }
+
 		public string Name 
 		{ 
 			get { return FIO; } 

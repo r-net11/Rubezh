@@ -1286,3 +1286,12 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('Card_drop_IsDeleted')	
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_LastEmployeeDayUpdate')
+BEGIN
+	ALTER TABLE Employee ADD LastEmployeeDayUpdate datetime NOT NULL CONSTRAINT "Schedule_LastEmployeeDayUpdate_Default" DEFAULT '1900-01-01 00:00:00.000'
+	INSERT INTO Patches (Id) VALUES ('Employee_LastEmployeeDayUpdate')
+END
+
+
+

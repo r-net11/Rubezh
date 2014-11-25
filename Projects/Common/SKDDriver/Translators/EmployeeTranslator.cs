@@ -62,6 +62,7 @@ namespace SKDDriver
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
 			result.Phone = tableItem.Phone;
+			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
 			return result;
 		}
 
@@ -78,6 +79,7 @@ namespace SKDDriver
 			result.TabelNo = tableItem.TabelNo;
 			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID);
 			result.Phone = tableItem.Phone;
+			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
 			{
@@ -120,6 +122,7 @@ namespace SKDDriver
 			tableItem.Citizenship = apiItem.Citizenship;
 			tableItem.DocumentType = (int)apiItem.DocumentType;
 			tableItem.Phone = apiItem.Phone;
+			tableItem.LastEmployeeDayUpdate = CheckDate(apiItem.LastEmployeeDayUpdate);
 		}
 
 		public override OperationResult Save(Employee apiItem)
@@ -240,6 +243,8 @@ namespace SKDDriver
 							{
 								employeeDay.DayIntervalsString += dayIntervalPart.BeginTime + "-" + dayIntervalPart.EndTime + ";";
 							}
+							employee.LastEmployeeDayUpdate = employeeDay.Date;
+							Context.SubmitChanges();
 							result.Add(employeeDay);
 						}
 					}

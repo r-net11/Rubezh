@@ -93,6 +93,9 @@ namespace FiresecAPI.SKD
 		public EmployeeDocumentType DocumentType { get; set; }
 
 		[DataMember]
+		public DateTime LastEmployeeDayUpdate { get; set; }
+
+		[DataMember]
 		public string Phone { get; set; }
 
 		public string Name { get { return FirstName + " " + SecondName + " " + LastName; } }
