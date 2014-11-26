@@ -99,6 +99,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ControlPlanGet),
 							new StepTypeViewModel(ProcedureStepType.ControlPlanSet),
                             new StepTypeViewModel(ProcedureStepType.ShowDialog),
+							new StepTypeViewModel(ProcedureStepType.ShowProperty)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>

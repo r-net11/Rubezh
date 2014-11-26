@@ -9,6 +9,7 @@ namespace FiresecAPI.AutomationCallback
 	[KnownType(typeof(VisualPropertyCallbackData))]
 	[KnownType(typeof(PlanCallbackData))]
 	[KnownType(typeof(DialogCallbackData))]
+	[KnownType(typeof(PropertyCallBackData))]
 	public class AutomationCallbackData
 	{
 		public AutomationCallbackData()

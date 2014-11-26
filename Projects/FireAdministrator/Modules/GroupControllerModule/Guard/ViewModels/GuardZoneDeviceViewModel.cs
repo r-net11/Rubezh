@@ -28,9 +28,10 @@ namespace GKModule.ViewModels
 					break;
 
 				case GKDriverType.RSR2_AM_1:
-				case GKDriverType.RSR2_HandDetector:
+				case GKDriverType.RSR2_MAP4:
 					ActionTypes.Add(GKGuardZoneDeviceActionType.SetGuard);
 					ActionTypes.Add(GKGuardZoneDeviceActionType.ResetGuard);
+					ActionTypes.Add(GKGuardZoneDeviceActionType.ChangeGuard);
 					ActionTypes.Add(GKGuardZoneDeviceActionType.SetAlarm);
 					break;
 			}

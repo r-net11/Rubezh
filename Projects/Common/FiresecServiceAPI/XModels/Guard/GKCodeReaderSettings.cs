@@ -15,9 +15,10 @@ namespace FiresecAPI.GK
 	{
 		public GKCodeReaderSettings()
 		{
-			SetGuardSettings = new XCodeReaderSettingsPart();
-			ResetGuardSettings = new XCodeReaderSettingsPart();
-			AlarmSettings = new XCodeReaderSettingsPart();
+			SetGuardSettings = new GKCodeReaderSettingsPart();
+			ResetGuardSettings = new GKCodeReaderSettingsPart();
+			ChangeGuardSettings = new GKCodeReaderSettingsPart();
+			AlarmSettings = new GKCodeReaderSettingsPart();
 
 			SetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
 			ResetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndTwo;
@@ -27,28 +28,34 @@ namespace FiresecAPI.GK
 		/// Настройка на постановку на охрану
 		/// </summary>
 		[DataMember]
-		public XCodeReaderSettingsPart SetGuardSettings { get; set; }
+		public GKCodeReaderSettingsPart SetGuardSettings { get; set; }
 
 		/// <summary>
 		/// Настройка на снятие с охраны
 		/// </summary>
 		[DataMember]
-		public XCodeReaderSettingsPart ResetGuardSettings { get; set; }
+		public GKCodeReaderSettingsPart ResetGuardSettings { get; set; }
+
+		/// <summary>
+		/// Настройка на снятие с охраны
+		/// </summary>
+		[DataMember]
+		public GKCodeReaderSettingsPart ChangeGuardSettings { get; set; }
 
 		/// <summary>
 		/// Настройка на вызов тревоги
 		/// </summary>
 		[DataMember]
-		public XCodeReaderSettingsPart AlarmSettings { get; set; }
+		public GKCodeReaderSettingsPart AlarmSettings { get; set; }
 	}
 
 	/// <summary>
 	/// Настройка кодонаборника
 	/// </summary>
 	[DataContract]
-	public class XCodeReaderSettingsPart
+	public class GKCodeReaderSettingsPart
 	{
-		public XCodeReaderSettingsPart()
+		public GKCodeReaderSettingsPart()
 		{
 			CodeReaderEnterType = GKCodeReaderEnterType.None;
 		}

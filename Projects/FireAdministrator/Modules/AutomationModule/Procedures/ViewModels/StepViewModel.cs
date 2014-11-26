@@ -174,6 +174,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ShowDialog:
 					Content = new ShowDialogStepViewModel(this);
 					break;
+
+				case ProcedureStepType.ShowProperty:
+					Content = new ShowPropertyStepViewModel(this);
+					break;
 			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

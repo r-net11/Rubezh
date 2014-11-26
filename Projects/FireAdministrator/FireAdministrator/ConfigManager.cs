@@ -219,7 +219,7 @@ namespace FireAdministrator
 				var firstDevice = GKManager.Devices.FirstOrDefault();
 				if (firstDevice != null)
 					deviceUID = firstDevice.UID;
-				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(deviceUID);
+				ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(deviceUID);
 			}
 		}
 	}

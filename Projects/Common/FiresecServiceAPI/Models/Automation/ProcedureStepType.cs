@@ -130,6 +130,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Показать диалоговую форму")]
 		ShowDialog,
 
+		[DescriptionAttribute("Показать свойство объекта")]
+		ShowProperty,
+
 		[DescriptionAttribute("")]
 		DoAction,
 	}

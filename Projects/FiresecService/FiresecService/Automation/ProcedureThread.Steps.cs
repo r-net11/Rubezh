@@ -92,6 +92,21 @@ namespace FiresecService
 			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);
 		}
 
+		void ShowProperty(ProcedureStep procedureStep)
+		{
+			var showPropertyArguments = procedureStep.ShowPropertyArguments;
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.Property,
+				Data = new PropertyCallBackData()
+				{
+					ObjectType = showPropertyArguments.ObjectType,
+					ObjectUid = showPropertyArguments.ObjectArgument.ExplicitValue.UidValue
+				},
+			};
+			SendCallback(showPropertyArguments, automationCallbackResult);
+		}
+
 		void PlaySound(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult()
