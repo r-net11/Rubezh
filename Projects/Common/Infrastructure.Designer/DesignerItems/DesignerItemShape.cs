@@ -14,15 +14,11 @@ namespace Infrastructure.Designer.DesignerItems
 			: base(element)
 		{
 			SetResizeChrome(new ResizeChromeShape(this));
-			if (Element is ElementPolygon)
+			if (Element.IsExactly<ElementPolygon>() || Element.IsExactly<ElementPolyline>())
 			{
-				Title = "Многоугольник";
+				Title = Element.PresentationName;
 				Group = LayerGroupService.ElementAlias;
-			}
-			else if (Element is ElementPolyline)
-			{
-				Title = "Линия";
-				Group = LayerGroupService.ElementAlias;
+				ClassName = Element.IsExactly<ElementPolygon>() ? "Многоугольник" : "Линия";
 			}
 		}
 

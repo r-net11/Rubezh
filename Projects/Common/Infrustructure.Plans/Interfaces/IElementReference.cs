@@ -1,10 +1,10 @@
 ﻿using System;
+using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Interfaces
 {
-	public interface IElementReference
+	public interface IElementReference : IElementBase
 	{
-		Guid UID { get; set; }
 		Guid ItemUID { get; set; }
 	}
 }

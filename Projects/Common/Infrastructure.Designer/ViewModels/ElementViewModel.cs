@@ -12,13 +12,18 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			DesignerItem = designerItem;
-			DesignerItem.TitleChanged += (s, e) => OnPropertyChanged(() => Name);
+			DesignerItem.TitleChanged += (s, e) => 
+			{
+				OnPropertyChanged(() => Name);
+				OnPropertyChanged(() => ToolTip);
+			};
 			IsGroupHasChild = true;
 			IconSource = DesignerItem.IconSource;
 			DesignerItem.IconSourceChanged += (s, e) =>
 			{
 				IconSource = DesignerItem.IconSource;
 				OnPropertyChanged(() => IconSource);
+				OnPropertyChanged(() => ToolTip);
 			};
 		}
 
