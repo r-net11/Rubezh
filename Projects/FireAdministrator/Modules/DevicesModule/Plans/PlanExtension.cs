@@ -195,12 +195,13 @@ namespace DevicesModule.Plans
 		public IEnumerable<ElementError> Validate()
 		{
 			List<ElementError> errors = new List<ElementError>();
-			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-			{
-				errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementDevice, ShowDeviceEvent, Guid>(plan.ElementDevices, plan.UID, "Несвязанное устройство", "/Controls;component/Images/Tree.png", Guid.Empty));
-				errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementRectangleZone, ShowZoneEvent, Guid>(plan.ElementRectangleZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zones.png", Guid.Empty));
-				errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementPolygonZone, ShowZoneEvent, Guid>(plan.ElementPolygonZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zones.png", Guid.Empty));
-			});
+            if (GlobalSettingsHelper.GlobalSettings.Administrator_ValidateUnbindedPlanElements)
+                FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+                {
+                    errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementDevice, ShowDeviceEvent, Guid>(plan.ElementDevices, plan.UID, "Несвязанное устройство", "/Controls;component/Images/Tree.png", Guid.Empty));
+                    errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementRectangleZone, ShowZoneEvent, Guid>(plan.ElementRectangleZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zones.png", Guid.Empty));
+                    errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementPolygonZone, ShowZoneEvent, Guid>(plan.ElementPolygonZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zones.png", Guid.Empty));
+                });
 			return errors;
 		}
 

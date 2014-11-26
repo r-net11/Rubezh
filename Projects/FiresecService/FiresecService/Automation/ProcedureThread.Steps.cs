@@ -128,7 +128,7 @@ namespace FiresecService
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = callbackType,
-				Data = new VisualPropertyData()
+				Data = new VisualPropertyCallbackData()
 				{
 					LayoutPart = procedureStep.ControlVisualArguments.LayoutPart,
 					Property = procedureStep.ControlVisualArguments.Property.Value,
@@ -144,7 +144,7 @@ namespace FiresecService
 			{
 				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
 				if (procedureStep.ControlVisualArguments.StoreOnServer && procedureStep.ControlVisualArguments.ForAllClients)
-					LayoutPropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyData)automationCallbackResult.Data);
+					ProcedurePropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyCallbackData)automationCallbackResult.Data);
 			}
 		}
 
@@ -181,7 +181,9 @@ namespace FiresecService
 					break;
 				case ControlElementType.Set:
 					SendCallback(controlPlanArguments, automationCallbackResult);
-					break;
+                    if (controlPlanArguments.ForAllClients)
+                        ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
+                    break;
 			}
 		}
 

@@ -129,7 +129,7 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			if (automationCallbackResult.AutomationCallbackType == AutomationCallbackType.GetVisualProperty || automationCallbackResult.AutomationCallbackType == AutomationCallbackType.SetVisualProperty)
 			{
-				var visuaPropertyData = (VisualPropertyData)automationCallbackResult.Data;
+				var visuaPropertyData = (VisualPropertyCallbackData)automationCallbackResult.Data;
 				var layoutPart = LayoutContainer.LayoutParts.FirstOrDefault(item => item.UID == visuaPropertyData.LayoutPart);
 				if (layoutPart != null)
 				{

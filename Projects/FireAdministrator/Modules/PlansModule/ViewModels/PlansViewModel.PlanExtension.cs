@@ -62,13 +62,12 @@ namespace PlansModule.ViewModels
 							PlanUID = plan.UID,
 							Error = "Несвязанная ссылка на план",
 							Element = element,
-							IsCritical = false,
+                            IsCritical = false,
 							ImageSource = "/Controls;component/Images/CMap.png",
 						});
-			foreach (var planExtension in _planExtensions)
-				foreach (var error in planExtension.Validate())
-					if (error.IsCritical || GlobalSettingsHelper.GlobalSettings.Administrator_ValidateUnbindedPlanElements)
-						yield return new PlanElementValidationError(error);
+            foreach (var planExtension in _planExtensions)
+                foreach (var error in planExtension.Validate())
+                    yield return new PlanElementValidationError(error);
 		}
 
 		private List<TabItem> _tabPages;

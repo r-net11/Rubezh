@@ -59,6 +59,7 @@
 	<Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
 	<Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
 	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
+    <Converters:StringToSingleLineString x:Key="StringToSingleLineString" />
 
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 

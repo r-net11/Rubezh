@@ -60,13 +60,13 @@ namespace GKModule.Plans
 		{
 			foreach (var element in plan.ElementGKDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
-			foreach (var element in plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+			foreach (var element in plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
-			foreach (var element in plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+            foreach (var element in plan.ElementPolygonGKZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
-			foreach (var element in plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+            foreach (var element in plan.ElementRectangleGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
-			foreach (var element in plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+            foreach (var element in plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
 			foreach (var element in plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				yield return element;

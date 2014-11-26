@@ -348,9 +348,9 @@ namespace FiresecService.Service
 			SafeOperationCall(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value), "ProcedureCallbackResponse");
 		}
 
-		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)
+		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetChangedProperties(layoutUID); }, "GetChangedProperties");
+            return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
 		}
 
 		#endregion

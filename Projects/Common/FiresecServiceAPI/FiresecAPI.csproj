@@ -147,7 +147,8 @@
     </Compile>
     <Compile Include="AutomationCallback\DialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />
-    <Compile Include="AutomationCallback\VisualPropertyData.cs" />
+    <Compile Include="AutomationCallback\ProcedureProperties.cs" />
+    <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="ModelBase.cs" />
