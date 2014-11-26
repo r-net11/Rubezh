@@ -17,100 +17,76 @@ namespace GKModule.ViewModels
 			Device = device;
 			DeviceViewModel = new DeviceViewModel(device);
 
-			Smokiness = " - ";
-			Temperature = " - ";
-			Dustinness = " - ";
-			LastServiceTime = " - ";
-			Resistance = " - ";
 			AUParameterValues = new ObservableCollection<MeasureParameterViewModel>();
+			foreach (var measureParameter in device.Driver.MeasureParameters)
+			{
+				var measureParameterViewModel = new MeasureParameterViewModel();
+				measureParameterViewModel.Device = device;
+				measureParameterViewModel.Name = measureParameter.Name;
+				measureParameterViewModel.DriverParameter = measureParameter;
+				AUParameterValues.Add(measureParameterViewModel);
+			}
 
 			device.State.MeasureParametersChanged += new Action(OnMeasureParametersChanged);
 		}
 
 		void OnMeasureParametersChanged()
 		{
-		}
+			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Задымленность, дБ/м"))
+				Smokiness = " - ";
+			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Температура, C"))
+				Temperature = " - ";
+			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Запыленность, дБ/м"))
+				Dustinness = " - ";
+			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Дата последнего обслуживания, м.г."))
+				LastServiceTime = " - ";
+			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Сопротивление, Ом"))
+				Resistance = " - ";
 
-		bool _isCurrent;
-		public bool IsCurrent
-		{
-			get { return _isCurrent; }
-			set
+			foreach (var measureParameterValue in Device.State.XMeasureParameterValues)
 			{
-				_isCurrent = value;
-				OnPropertyChanged(() => IsCurrent);
-			}
-		}
-
-		string _temperature;
-		public string Temperature
-		{
-			get { return _temperature; }
-			set
-			{
-				_temperature = value;
-				OnPropertyChanged(() => Temperature);
-			}
-		}
-
-		string _smokiness;
-		public string Smokiness
-		{
-			get { return _smokiness; }
-			set
-			{
-				_smokiness = value;
-				OnPropertyChanged(() => Smokiness);
-			}
-		}
-
-		string _dustinness;
-		public string Dustinness
-		{
-			get { return _dustinness; }
-			set
-			{
-				_dustinness = value;
-				OnPropertyChanged(() => Dustinness);
-			}
-		}
-
-		string _lastServiceTime;
-		public string LastServiceTime
-		{
-			get { return _lastServiceTime; }
-			set
-			{
-				_lastServiceTime = value;
-				OnPropertyChanged(() => LastServiceTime);
-			}
-		}
-
-		string _resistance;
-		public string Resistance
-		{
-			get { return _resistance; }
-			set
-			{
-				_resistance = value;
-				OnPropertyChanged(() => Resistance);
-			}
-		}
-
-		public void OnNewAUParameterValue(MeasureParameterViewModel value)
-		{
-			ApplicationService.BeginInvoke(() =>
-			{
-				var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == value.Name);
-				if (auParameterValue == null)
+				var measureParameterViewModel = AUParameterValues.FirstOrDefault(x => x.Name == measureParameterValue.Name);
+				if (measureParameterViewModel != null)
 				{
-					auParameterValue = value;
-					AUParameterValues.Add(auParameterValue);
+					measureParameterViewModel.StringValue = measureParameterValue.StringValue;
 				}
-				auParameterValue.StringValue = value.StringValue;
-				OnPropertyChanged(() => AUParameterValues);
-			});
+
+				switch (measureParameterValue.Name)
+				{
+					case "Задымленность, дБ/м":
+						Smokiness = measureParameterValue.StringValue;
+						break;
+
+					case "Температура, C":
+						Temperature = measureParameterValue.StringValue;
+						break;
+
+					case "Запыленность, дБ/м":
+						Dustinness = measureParameterValue.StringValue;
+						break;
+
+					case "Дата последнего обслуживания, м.г.":
+						LastServiceTime = measureParameterValue.StringValue;
+						break;
+
+					case "Сопротивление, Ом":
+						Resistance = measureParameterValue.StringValue;
+						break;
+				}
+			}
+
+			OnPropertyChanged(() => Temperature);
+			OnPropertyChanged(() => Smokiness);
+			OnPropertyChanged(() => Dustinness);
+			OnPropertyChanged(() => LastServiceTime);
+			OnPropertyChanged(() => Resistance);
 		}
+
+		public string Temperature { get; private set; }
+		public string Smokiness { get; private set; }
+		public string Dustinness { get; private set; }
+		public string LastServiceTime { get; private set; }
+		public string Resistance { get; private set; }
 
 		ObservableCollection<MeasureParameterViewModel> _auParameterValues;
 		public ObservableCollection<MeasureParameterViewModel> AUParameterValues

@@ -286,7 +286,7 @@ namespace ManagementConsole
 			var result = MessageBox.Show("Вы уверены, что хотите сбросить по умолчанию настройки?");
 			if (result == MessageBoxResult.OK)
 			{
-				GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
+				GlobalSettingsHelper.Reset();
 				GlobalSettingsHelper.Save();
 				GlobalSettingsViewModel = new GlobalSettingsViewModel();
 				OnPropertyChanged("GlobalSettingsViewModel");
