@@ -15,6 +15,7 @@ using PlansModule.Kursk.ViewModels;
 using FiresecAPI.GK;
 using FiresecClient;
 using System.Windows.Media;
+using Infrastructure.Events;
 
 namespace PlansModule.Kursk
 {
@@ -111,6 +112,14 @@ namespace PlansModule.Kursk
 		public override void ExtensionAttached()
 		{
 			base.ExtensionAttached();
+		}
+
+		public override IEnumerable<ElementError> Validate()
+		{
+			List<ElementError> errors = new List<ElementError>();
+			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				errors.AddRange(FindUnbindedErrors<ElementRectangleTank, ShowXDeviceEvent, Guid>(plan.ElementExtensions.OfType<ElementRectangleTank>(), plan.UID, "Несвязанный бак", "/Controls;component/Images/Tree.png", Guid.Empty)));
+			return errors;
 		}
 
 		#endregion

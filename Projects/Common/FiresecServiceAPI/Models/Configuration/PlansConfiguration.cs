@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
+using System;
 namespace FiresecAPI.Models
 {
 	[DataContract]
@@ -20,10 +21,20 @@ namespace FiresecAPI.Models
 
 		[XmlIgnore]
 		public List<Plan> AllPlans { get; set; }
+		private Dictionary<Guid, Plan> _planMap;
+		[XmlIgnore]
+		public Plan this[Guid uid]
+		{
+			get
+			{
+				return _planMap.ContainsKey(uid) ? _planMap[uid] : null;
+			}
+		}
 
 		public void Update()
 		{
 			AllPlans = new List<Plan>();
+			_planMap = new Dictionary<Guid, Plan>();
 			AddChildren(Plans, null);
 		}
 		private void AddChildren(List<Plan> plans, Plan parent)
@@ -33,7 +44,10 @@ namespace FiresecAPI.Models
 				plan.Parent = parent;
 				var realPlan = plan as Plan;
 				if (realPlan != null)
+				{
 					AllPlans.Add(realPlan);
+					_planMap.Add(realPlan.UID, realPlan);
+				}
 				if (plan.Children == null)
 					plan.Children = new List<Plan>();
 				AddChildren(plan.Children, plan);

@@ -13,6 +13,7 @@ using Infrustructure.Plans.Services;
 using VideoModule.Plans.Designer;
 using VideoModule.Plans.ViewModels;
 using VideoModule.ViewModels;
+using Infrastructure.Events;
 
 namespace VideoModule.Plans
 {
@@ -99,6 +100,14 @@ namespace VideoModule.Plans
 		{
 			using (new TimeCounter("CamerasList.ExtensionAttached.BuildMap: {0}"))
 				base.ExtensionAttached();
+		}
+
+		public override IEnumerable<ElementError> Validate()
+		{
+			List<ElementError> errors = new List<ElementError>();
+			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, "Несвязанная камера", "/Controls;component/Images/Video1.png", Guid.Empty)));
+			return errors;
 		}
 
 		#endregion

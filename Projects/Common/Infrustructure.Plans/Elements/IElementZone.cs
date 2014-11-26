@@ -5,7 +5,7 @@ using Infrustructure.Plans.Interfaces;
 
 namespace Infrustructure.Plans.Elements
 {
-	public interface IElementZone : IElementReference
+	public interface IElementZone : IElementReference, IElementBase
 	{
 		Guid ZoneUID { get; set; }
 		Color BackgroundColor { get; set; }

@@ -17,6 +17,7 @@ using Infrustructure.Plans.Interfaces;
 using System.Windows.Media;
 using AutomationModule.Plans.InstrumentAdorners;
 using AutomationModule.Plans.ViewModels;
+using AutomationModule.Events;
 
 namespace AutomationModule.Plans
 {
@@ -120,6 +121,13 @@ namespace AutomationModule.Plans
 				base.ExtensionAttached();
 		}
 
+		public override IEnumerable<ElementError> Validate()
+		{
+			List<ElementError> errors = new List<ElementError>();
+			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/Procedure.png", Guid.Empty)));
+			return errors;
+		}
 		#endregion
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

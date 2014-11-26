@@ -90,6 +90,7 @@
     <Compile Include="Events\EditZoneEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
     <Compile Include="Events\SetNewConfigurationEvent.cs" />
+    <Compile Include="Events\ShowPlanElementEvent.cs" />
     <Compile Include="Events\ShowSimulationEvent.cs" />
     <Compile Include="Events\ShowParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowNotificationEvent.cs" />

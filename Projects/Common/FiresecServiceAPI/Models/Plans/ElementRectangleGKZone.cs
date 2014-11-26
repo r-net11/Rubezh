@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
-using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
 	public class ElementRectangleGKZone : ElementBaseRectangle, IElementZone, IPrimitive, IElementReference
 	{
+		public ElementRectangleGKZone()
+		{
+			PresentationName = "Зона";
+		}
+
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 		[DataMember]
@@ -49,7 +54,7 @@ namespace FiresecAPI.Models
 		}
 
 		#region IElementReference Members
-	
+
 		Guid IElementReference.ItemUID
 		{
 			get { return ZoneUID; }

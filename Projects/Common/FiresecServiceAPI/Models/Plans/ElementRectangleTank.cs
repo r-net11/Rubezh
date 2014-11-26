@@ -9,6 +9,11 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementRectangleTank : ElementBaseRectangle, IPrimitive, IElementReference
 	{
+		public ElementRectangleTank()
+		{
+			PresentationName = "Бак";
+		}
+
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 

@@ -283,8 +283,7 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки?"))
 			{
-				GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
-				GlobalSettingsHelper.Save();
+				GlobalSettingsHelper.Reset();
 				ModulesViewModel = new ModulesViewModel();
 				OnPropertyChanged(() => "GlobalSettingsViewModel");
 			}

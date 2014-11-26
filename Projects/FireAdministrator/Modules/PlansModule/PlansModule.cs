@@ -16,12 +16,13 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using FiresecClient;
 
 namespace PlansModule
 {
 	public class PlansModule : ModuleBase, ILayoutDeclarationModule, IValidationModule
 	{
-		PlansViewModel PlansViewModel;
+		private PlansViewModel _plansViewModel;
 
 		public override int Order
 		{
@@ -32,7 +33,7 @@ namespace PlansModule
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Subscribe(OnConfigurationClosedEvent);
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnConfigurationSavingEvent);
-			PlansViewModel = new PlansViewModel();
+			_plansViewModel = new PlansViewModel();
 			ApplicationService.Starting += (s, e) => ShowRightContent();
 		}
 
@@ -43,7 +44,7 @@ namespace PlansModule
 		}
 		public override void Initialize()
 		{
-			PlansViewModel.Initialize();
+			_plansViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -63,8 +64,8 @@ namespace PlansModule
 #if !PLAN_TAB
 			var viewModel = new RightContentViewModel()
 			{
-				Content = PlansViewModel,
-				Menu = PlansViewModel.Menu,
+				Content = _plansViewModel,
+				Menu = _plansViewModel.Menu,
 			};
 			ServiceFactory.Layout.ShowRightContent(viewModel);
 #endif
@@ -72,11 +73,11 @@ namespace PlansModule
 
 		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)
 		{
-			PlansViewModel.RegisterExtension(planExtension);
+			_plansViewModel.RegisterExtension(planExtension);
 		}
 		private void OnConfigurationSavingEvent(object obj)
 		{
-			PlansViewModel.PlanDesignerViewModel.Save();
+			_plansViewModel.PlanDesignerViewModel.Save();
 		}
 		private void OnConfigurationClosedEvent(object obj)
 		{
@@ -97,7 +98,8 @@ namespace PlansModule
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			return Enumerable.Empty<IValidationError>();
+			FiresecManager.PlansConfiguration.Update();
+			return _plansViewModel.Validate();
 		}
 
 		#endregion

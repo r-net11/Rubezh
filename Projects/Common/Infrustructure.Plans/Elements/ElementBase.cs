@@ -8,7 +8,7 @@ using Common;
 namespace Infrustructure.Plans.Elements
 {
 	[DataContract]
-	public abstract class ElementBase : IElementBackground, IElementBorder
+	public abstract class ElementBase : IElementBackground, IElementBorder, IElementBase
 	{
 		public ElementBase()
 		{

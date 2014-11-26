@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
-using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
 	public class ElementPolygonGKDirection : ElementBasePolygon, IPrimitive, IElementDirection, IElementReference
 	{
+		public ElementPolygonGKDirection()
+		{
+			PresentationName = "Направление";
+		}
+
 		[DataMember]
 		public Guid DirectionUID { get; set; }
 

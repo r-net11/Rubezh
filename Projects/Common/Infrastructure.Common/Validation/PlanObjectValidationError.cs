@@ -1,7 +1,6 @@
-﻿using Infrastructure.Common.Services;
-using Microsoft.Practices.Prism.Events;
+﻿using System;
 using Infrastructure.Common.Navigation;
-using System;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Common.Validation
 {

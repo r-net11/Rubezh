@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
 using System.Xml.Serialization;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementSubPlan : ElementBaseRectangle, IPrimitive
+	public class ElementSubPlan : ElementBaseRectangle, IPrimitive, IElementReference
 	{
+		public ElementSubPlan()
+		{
+			PresentationName = "Ссылка на план";
+		}
+
 		[DataMember]
 		public Guid PlanUID { get; set; }
 
@@ -33,6 +39,17 @@ namespace FiresecAPI.Models
 		public Primitive Primitive
 		{
 			get { return Infrustructure.Plans.Elements.Primitive.SubPlan; }
+		}
+
+		#endregion
+
+		#region IElementReference Members
+
+
+		public Guid ItemUID
+		{
+			get { return PlanUID; }
+			set { PlanUID = value; }
 		}
 
 		#endregion

@@ -7,6 +7,11 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using Infrastructure.Common.Validation;
+using PlansModule.Validation;
+using Infrastructure.Common;
+using Infrastructure.Client.Plans;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
@@ -46,6 +51,24 @@ namespace PlansModule.ViewModels
 			foreach (var planExtension in _planExtensions)
 				foreach (var element in planExtension.LoadPlan(plan))
 					yield return element;
+		}
+		public IEnumerable<IValidationError> Validate()
+		{
+			if (GlobalSettingsHelper.GlobalSettings.Administrator_ValidateUnbindedPlanElements)
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+					foreach (var element in BasePlanExtension.FindUnbinded<ElementSubPlan>(plan.ElementSubPlans))
+						yield return new PlanElementValidationError(new ElementError()
+						{
+							PlanUID = plan.UID,
+							Error = "Несвязанная ссылка на план",
+							Element = element,
+							IsCritical = false,
+							ImageSource = "/Controls;component/Images/CMap.png",
+						});
+			foreach (var planExtension in _planExtensions)
+				foreach (var error in planExtension.Validate())
+					if (error.IsCritical || GlobalSettingsHelper.GlobalSettings.Administrator_ValidateUnbindedPlanElements)
+						yield return new PlanElementValidationError(error);
 		}
 
 		private List<TabItem> _tabPages;

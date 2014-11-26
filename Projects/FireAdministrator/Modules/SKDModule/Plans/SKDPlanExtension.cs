@@ -15,6 +15,10 @@ using SKDModule.Plans.InstrumentAdorners;
 using SKDModule.Plans.ViewModels;
 using SKDModule.ViewModels;
 using Infrustructure.Plans.Interfaces;
+using System;
+using FiresecClient;
+using SKDModule.Events;
+using Infrastructure.Common.Navigation;
 
 namespace SKDModule.Plans
 {
@@ -188,6 +192,19 @@ namespace SKDModule.Plans
 		{
 			using (new TimeCounter("GKDevice.ExtensionAttached.BuildMap: {0}"))
 				base.ExtensionAttached();
+		}
+
+		public override IEnumerable<ElementError> Validate()
+		{
+			List<ElementError> errors = new List<ElementError>();
+			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+			{
+				errors.AddRange(FindUnbindedErrors<ElementSKDDevice, ShowSKDDeviceEvent, Guid>(plan.ElementSKDDevices, plan.UID, "Несвязанное СКД устройство", "/Controls;component/Images/Tree.png", Guid.Empty));
+				errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/Zones.png", Guid.Empty));
+				errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/Zones.png", Guid.Empty));
+				errors.AddRange(FindUnbindedErrors<ElementDoor, ShowSKDDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementDoors, plan.UID, "Несвязанное точка доступа", "/Controls;component/Images/DoorW.png", Guid.Empty));
+			});
+			return errors;
 		}
 
 		#endregion

@@ -105,6 +105,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
+		[DataMember]
+		public bool Administrator_ValidateUnbindedPlanElements { get; set; }
 
 		[DataMember]
 		public List<string> IgnoredErrors { get; set; }
