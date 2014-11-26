@@ -93,8 +93,17 @@
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\Views\DepartmentsFilterView.xaml.cs">
+      <DependentUpon>DepartmentsFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Views\EmployeeListView.xaml.cs">
       <DependentUpon>EmployeeListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\EmployeesFilterView.xaml.cs">
+      <DependentUpon>EmployeesFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\PositionsFilterView.xaml.cs">
+      <DependentUpon>PositionsFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
@@ -107,6 +116,10 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
+    <Compile Include="Employees\Views\IsPositionDeletedTextBlock.xaml.cs">
+      <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\EditEmployee2Event.cs" />
     <Compile Include="Events\UpdateFilterEvent.cs" />
     <Compile Include="HR\ViewModels\EmployeesFilterItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
@@ -173,7 +186,6 @@
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\ShowTimeTrackingEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
-    <Compile Include="HR\ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\EmployeesFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\PositionFilterItemViewModel.cs" />
     <Compile Include="HR\ViewModels\HRFilter.cs" />
@@ -549,7 +561,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Common\Views\DepartmentsFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\Views\EmployeeListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\EmployeesFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\PositionsFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -630,6 +654,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Departments\Views\DepartmentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\IsPositionDeletedTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

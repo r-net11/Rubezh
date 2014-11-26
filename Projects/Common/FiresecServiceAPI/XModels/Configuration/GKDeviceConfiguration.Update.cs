@@ -197,39 +197,7 @@ namespace FiresecAPI.GK
 		{
 			foreach (var direction in Directions)
 			{
-				var directionDevices = new List<GKDirectionDevice>();
-				foreach (var directionDevice in direction.DirectionDevices)
-				{
-					if (directionDevice.DeviceUID != Guid.Empty)
-					{
-						var device = Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
-						directionDevice.Device = device;
-						if (device != null)
-						{
-							directionDevices.Add(directionDevice);
-							direction.InputDevices.Add(device);
-							device.Directions.Add(direction);
-						}
-					}
-				}
-				direction.DirectionDevices = directionDevices;
-
-				var directionZones = new List<GKDirectionZone>();
-				foreach (var directionZone in direction.DirectionZones)
-				{
-					if (directionZone.ZoneUID != Guid.Empty)
-					{
-						var zone = Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
-						directionZone.Zone = zone;
-						if (zone != null)
-						{
-							directionZones.Add(directionZone);
-							direction.InputZones.Add(zone);
-							zone.Directions.Add(direction);
-						}
-					}
-				}
-				direction.DirectionZones = directionZones;
+				InvalidateInputObjectsBaseLogic(direction, direction.Logic);
 			}
 		}
 

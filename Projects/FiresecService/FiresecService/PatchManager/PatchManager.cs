@@ -139,9 +139,8 @@ namespace FiresecService
 				using (var skdDatabaseService = new SKDDatabaseService())
 				{
 					var passJournalDBNo = skdDatabaseService.MetadataTranslator.GetPassJournalNo();
-					if (passJournalDBNo == 0)
+					if (passJournalDBNo != 0)
 					{
-						passJournalDBNo = 1;
 						Patch_PassJournal(passJournalDBNo);
 						skdDatabaseService.MetadataTranslator.AddPassJournalMetadata(passJournalDBNo, DateTime.Now, DateTime.Now);
 					}

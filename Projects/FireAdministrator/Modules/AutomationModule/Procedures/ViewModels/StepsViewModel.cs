@@ -53,15 +53,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		//public void FillAllSteps()
-		//{
-		//    AllSteps = new List<StepViewModel>();
-		//    foreach (var rootStep in RootSteps)
-		//    {
-		//        AddChildPlainSteps(rootStep);
-		//    }
-		//}
-
 		void AddChildPlainSteps(StepViewModel parentViewModel, List<StepViewModel> allSteps)
 		{
 			allSteps.Add(parentViewModel);
@@ -115,6 +106,40 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedStep);
 			}
 		}
+#region TEST
+
+		bool TestValidate()
+		{
+			int i = 0;
+			foreach (var step in AllSteps)
+			{
+				if (AllProcedureSteps[i] != step.Step)
+					return false;
+				i++;
+			}
+			return true;
+		}
+
+		public List<ProcedureStep> AllProcedureSteps
+		{
+			get
+			{
+				var allSteps = new List<ProcedureStep>();
+				foreach (var rootStep in Procedure.Steps)
+				{
+					AddChildPlainProcedureSteps(rootStep, allSteps);
+				}
+				return allSteps;
+			}
+		}
+
+		void AddChildPlainProcedureSteps(ProcedureStep parentViewModel, List<ProcedureStep> allSteps)
+		{
+			allSteps.Add(parentViewModel);
+			foreach (var childViewModel in parentViewModel.Children)
+				AddChildPlainProcedureSteps(childViewModel, allSteps);
+		}
+#endregion
 
 		void BuildTree()
 		{
@@ -167,7 +192,7 @@ namespace AutomationModule.ViewModels
 		{
 			var stepViewModel = new StepViewModel(this, Utils.Clone(_stepToCopy), Procedure);
 			Add(stepViewModel);
-			foreach (var childStep in _stepToCopy.Children)
+			foreach (var childStep in stepViewModel.Step.Children)
 			{
 				PasteRecursively(childStep, stepViewModel);
 			}
@@ -184,7 +209,6 @@ namespace AutomationModule.ViewModels
 			var stepViewModel = new StepViewModel(this, step, Procedure);
 			if (parentStepViewModel == null)
 			{
-				Procedure.Steps.Add(stepViewModel.Step);
 				RootSteps.Add(stepViewModel);
 			}
 			else
@@ -201,23 +225,28 @@ namespace AutomationModule.ViewModels
 		{
 			if (SelectedStep == null || SelectedStep.Parent == null)
 			{
-				Procedure.Steps.Add(stepViewModel.Step);
 				if (SelectedStep == null)
+				{
+					Procedure.Steps.Add(stepViewModel.Step);
 					RootSteps.Add(stepViewModel);
+				}
 				else
+				{
+					Procedure.Steps.Insert(RootSteps.IndexOf(SelectedStep) + 1, stepViewModel.Step);
 					RootSteps.Insert(RootSteps.IndexOf(SelectedStep) + 1, stepViewModel);
+				}
 			}
 			else
 			{
 				if (SelectedStep.Step.ProcedureStepType == ProcedureStepType.IfNo || SelectedStep.Step.ProcedureStepType == ProcedureStepType.IfYes || SelectedStep.Step.ProcedureStepType == ProcedureStepType.ForeachBody)
 				{
-					SelectedStep.Step.Children.Add(stepViewModel.Step);
-					SelectedStep.AddChild(stepViewModel);
+					SelectedStep.Step.Children.Insert(0, stepViewModel.Step);
+					SelectedStep.AddChildFirst(stepViewModel); ;
 				}
 				else if (SelectedStep.Parent.Step.ProcedureStepType == ProcedureStepType.IfYes || SelectedStep.Parent.Step.ProcedureStepType == ProcedureStepType.IfNo ||
 					SelectedStep.Parent.Step.ProcedureStepType == ProcedureStepType.ForeachBody)
 				{
-					SelectedStep.Parent.Step.Children.Insert(SelectedStep.Parent.Step.Children.IndexOf(stepViewModel.Step) + 1, stepViewModel.Step);
+					SelectedStep.Parent.Step.Children.Insert(SelectedStep.Parent.Step.Children.IndexOf(SelectedStep.Step) + 1, stepViewModel.Step);
 					SelectedStep.Parent[SelectedStep.Index].InsertChild(stepViewModel);
 				}
 			}
@@ -233,6 +262,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddStepCommand { get; private set; }
 		void OnAddStep()
 		{
+#if DEBUG
+			if (!TestValidate())
+				MessageBoxService.ShowError("Debug Warning: StepViewModels/Steps Discrepancy");
+#endif
 			var stepTypeSelectationViewModel = new StepTypeSelectationViewModel();
 			if (DialogService.ShowModalWindow(stepTypeSelectationViewModel))
 			{
@@ -422,12 +455,12 @@ namespace AutomationModule.ViewModels
 						else if ((parentViewModel.Parent == null) || ((parentViewModel.Parent.Parent == null)))
 						{
 							RootSteps.Insert(parentIndex + delta, stepViewModel);
-							Procedure.Steps.Insert(parentIndex + delta - 1, stepViewModel.Step);
+							Procedure.Steps.Insert(parentIndex + delta, stepViewModel.Step);
 						}
 						else
 						{
 							parentViewModel.Parent.Parent[parentIndex + delta - 1].InsertChild(stepViewModel);
-							parentViewModel.Parent.Parent.Step.Children.Insert(index + delta - 1, stepViewModel.Step);
+							parentViewModel.Parent.Parent.Step.Children.Insert(parentIndex + delta - 1, stepViewModel.Step);
 						}
 					}
 					else
@@ -471,18 +504,18 @@ namespace AutomationModule.ViewModels
 		void OnDownInto()
 		{
 			var stepViewModel = SelectedStep;
-			var index = RootSteps.IndexOf(SelectedStep);
 			StepViewModel targetStepViewModel;
 
 			if (SelectedStep.Parent == null)
 			{
-				targetStepViewModel = RootSteps[index + 1].Children.FirstOrDefault();
+				targetStepViewModel = RootSteps[SelectedStep.Index + 1].Children.FirstOrDefault();
 				RootSteps.Remove(SelectedStep);
 				Procedure.Steps.Remove(stepViewModel.Step);
 			}
 			else
 			{
 				targetStepViewModel = SelectedStep.Parent[SelectedStep.Index + 1].Children.FirstOrDefault();
+				SelectedStep.Parent.Step.Children.Remove(SelectedStep.Step);
 				SelectedStep.Parent.RemoveChild(SelectedStep);
 			}
 

@@ -40,7 +40,7 @@ namespace GKModule.Reports
 
 					if (device.Driver.HasZone)
 					{
-						zonePresentationName = GKManager.GetPresentationZone(device);
+						zonePresentationName = GKManager.GetPresentationZoneOrLogic(device);
 					}
 
 					var deviceState = device.State;

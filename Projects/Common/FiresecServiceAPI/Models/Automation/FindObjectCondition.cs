@@ -51,8 +51,14 @@ namespace FiresecAPI.Automation
 		[Description("Задержка")]
 		Delay,
 
+		[Description("Текущая задержка")]
+		CurrentDelay,
+
 		[Description("Удержание")]
 		Hold,
+
+		[Description("Текущее удержание")]
+		CurrentHold,
 
 		[Description("Режим")]
 		DelayRegime

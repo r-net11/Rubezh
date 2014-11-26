@@ -402,6 +402,10 @@ namespace Infrastructure.Common.TreeList
 		{
 			Nodes.Add(item);
 		}
+		public void AddChildFirst(T item)
+		{
+			Nodes.Insert(0, item);
+		}
 		public void InsertChild(T item)
 		{
 			var index = this.Parent.Nodes.IndexOf(this);

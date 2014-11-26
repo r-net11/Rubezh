@@ -157,6 +157,12 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override void OnEdit()
+		{
+			base.OnEdit();
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(SelectedItem.Model.UID);
+		}
+
 		void OnUpdateAccessTemplate(Guid accessTemplateUID)
 		{
 			var cards = Organisations.SelectMany(x => x.Children).SelectMany(x => x.Cards).Where(x => x.Card.AccessTemplateUID != null && x.Card.AccessTemplateUID.Value == accessTemplateUID);;

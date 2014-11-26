@@ -174,7 +174,7 @@ namespace GKProcessor
 							break;
 						case 1:
 							JournalItem.JournalEventNameType = JournalEventNameType.Изменился_заводской_номер;
-							JournalItem.DescriptionText = "Старый заводской номер: " + BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
+							JournalItem.DescriptionText = "Старый заводской номер: " + BytesHelper.SubstructInt(bytes, 32 + 14).ToString() + " Новый заводской номер: " + objectFactoryNo.ToString();
 							break;
 						case 2:
 							JournalItem.JournalEventNameType = JournalEventNameType.Пожар_1;

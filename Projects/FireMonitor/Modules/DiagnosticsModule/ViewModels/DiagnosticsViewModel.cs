@@ -22,6 +22,7 @@ namespace DiagnosticsModule.ViewModels
 			CheckHaspCommand = new RelayCommand(OnCheckHasp);
 			TestCommand = new RelayCommand(OnTest);
 			SKDDataCommand = new RelayCommand(OnSKDData);
+			GenerateEmployeeDaysCommand = new RelayCommand(OnGenerateEmployeeDays);
 		}
 
 		public void StopThreads()
@@ -152,6 +153,12 @@ namespace DiagnosticsModule.ViewModels
 					}
 				}
 			}
+		}
+
+		public RelayCommand GenerateEmployeeDaysCommand { get; private set; }
+		void OnGenerateEmployeeDays()
+		{
+			FiresecManager.FiresecService.GenerateEmployeeDays();
 		}
 	}
 }

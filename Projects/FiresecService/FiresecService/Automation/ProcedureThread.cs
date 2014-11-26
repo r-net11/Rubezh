@@ -256,6 +256,10 @@ namespace FiresecService
 					ControlDoor(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlDelay:
+					ControlDelay(procedureStep);
+					break;
+
 				case ProcedureStepType.ControlSKDZone:
 					ControlSKDZone(procedureStep);
 					break;

@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 			Title = "Выбор зоны";
 			CreateCommand = new RelayCommand(OnCreate);
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in SKDManager.Zones)
+			foreach (var zone in SKDManager.Zones.OrderBy(x => x.No))
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 				Zones.Add(zoneViewModel);

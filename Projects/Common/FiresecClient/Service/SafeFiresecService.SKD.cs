@@ -427,5 +427,10 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.ResetSKDDatabase());
 		}
 
+		public OperationResult GenerateEmployeeDays()
+		{
+			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
+		}
+
 	}
 }

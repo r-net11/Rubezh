@@ -127,7 +127,8 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlGKFireZone),
 									new StepTypeViewModel(ProcedureStepType.ControlGKGuardZone),
-									new StepTypeViewModel(ProcedureStepType.ControlDirection)
+									new StepTypeViewModel(ProcedureStepType.ControlDirection),
+									new StepTypeViewModel(ProcedureStepType.ControlDelay)
 								}),
 							new StepTypeViewModel("Управление СКД",
 								new List<StepTypeViewModel>

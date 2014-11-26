@@ -26,7 +26,7 @@ namespace SettingsModule.ViewModels
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
 			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
 			ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
-			ResetXLibaryCommand = new RelayCommand(OnResetXLibary);
+			ResetGKLibaryCommand = new RelayCommand(OnResetGKLibary);
 			ResetSKDLibaryCommand = new RelayCommand(OnResetSKDLibary);
 			ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			ModulesViewModel = new ModulesViewModel();
@@ -242,9 +242,9 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
 			{
-				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
-				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
-				File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
+				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
+				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
+				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
 				var result = FiresecManager.FiresecService.ResetSKDDatabase();
 				if (result.HasError)
 					MessageBoxService.Show(result.Error);
@@ -260,8 +260,8 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		public RelayCommand ResetXLibaryCommand { get; private set; }
-		public void OnResetXLibary()
+		public RelayCommand ResetGKLibaryCommand { get; private set; }
+		public void OnResetGKLibary()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?"))
 			{

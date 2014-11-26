@@ -7,6 +7,7 @@ using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
+using FiresecAPI.Journal;
 
 namespace FiresecService.Service
 {
@@ -115,9 +116,9 @@ namespace FiresecService.Service
 			zipFile.Save();
 			zipFile.Dispose();
 			newZipFile.Dispose();
-
 			File.Delete(newFileName);
 
+			AddJournalMessage(JournalEventNameType.Применение_конфигурации, null);
 			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			SKDProcessor.SetNewConfig();

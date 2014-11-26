@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
 using FiresecAPI.SKD;
 using OperationResult = FiresecAPI.OperationResult;
-using System.Configuration;
 
 namespace SKDDriver.Translators
 {
@@ -12,7 +10,7 @@ namespace SKDDriver.Translators
 	{
 		public static string ConnectionString { get; set; }
 		DataAccess.PassJournalDataContext Context;
-
+		
 		public PassJournalTranslator()
 		{
 			Context = new DataAccess.PassJournalDataContext(ConnectionString);
@@ -152,6 +150,34 @@ namespace SKDDriver.Translators
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 
 			return dayTimeTrack;
+		}
+
+		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)
+		{
+			try
+			{
+				foreach (var employeeDay in employeeDays)
+				{
+					var tableEmployeeDay = new DataAccess.EmployeeDay
+					{
+						UID = employeeDay.UID,
+						AllowedEarlyLeave = employeeDay.AllowedEarlyLeave,
+						AllowedLate = employeeDay.AllowedLate,
+						Date = employeeDay.Date,
+						DayIntervalsString = employeeDay.DayIntervalsString,
+						EmployeeUID = employeeDay.EmployeeUID,
+						IsIgnoreHoliday = employeeDay.IsIgnoreHoliday,
+						IsOnlyFirstEnter = employeeDay.IsOnlyFirstEnter
+					};
+					Context.EmployeeDays.InsertOnSubmit(tableEmployeeDay);
+				}
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 	}
 }

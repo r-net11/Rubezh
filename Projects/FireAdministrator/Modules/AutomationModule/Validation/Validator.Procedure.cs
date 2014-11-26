@@ -214,6 +214,13 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.ControlDelay:
+					{
+						var controlDelayArguments = step.ControlDelayArguments;
+						ValidateArgument(step, controlDelayArguments.DelayArgument);
+					}
+					break;
+
 				case ProcedureStepType.ControlSKDZone:
 					{
 						var controlSKDZoneArguments = step.ControlSKDZoneArguments;

@@ -10,13 +10,13 @@
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
-		<Style x:Key="IsPositionDeletedStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+		<!--<Style x:Key="IsPositionDeletedStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Style.Triggers>
 				<DataTrigger Binding="{Binding IsPositionDeleted}" Value="True">
 					<Setter Property="Foreground" Value="Gray" />
 				</DataTrigger>
 			</Style.Triggers>
-		</Style>
+		</Style>-->
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -35,7 +35,7 @@
 										   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
 										   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-									<TextBlock Text="{Binding Name}"/>
+									<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}"/>
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>

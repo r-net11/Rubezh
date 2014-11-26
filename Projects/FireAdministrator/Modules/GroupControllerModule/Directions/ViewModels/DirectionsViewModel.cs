@@ -23,20 +23,17 @@ namespace GKModule.ViewModels
 {
 	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		public static DirectionsViewModel Current { get; private set; }
+		bool _lockSelection;
+
 		public DirectionsViewModel()
 		{
+			Current = this;
 			Menu = new DirectionsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanDeleteZone);
-			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
-			DeleteDeviceCommand = new RelayCommand(OnDeleteDevice, CanDeleteDevice);
-			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
-			DeleteOutputDeviceCommand = new RelayCommand(OnDeleteOutputDevice, CanDeleteOutputDevice);
-			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
 			
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -127,7 +124,7 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?"))
 			{
-				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count == 0).ToList();
+				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count == 0).ToList();
 				foreach (var emptyDirection in emptyDirections)
 				{
 					GKManager.RemoveDirection(emptyDirection.Direction);
@@ -140,7 +137,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Directions.Count(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count == 0) > 0;
+			return Directions.Count(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count == 0) > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -157,63 +154,6 @@ namespace GKModule.ViewModels
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
-		}
-
-		public RelayCommand DeleteZoneCommand { get; private set; }
-		void OnDeleteZone()
-		{
-			if (SelectedDirection.SelectedZone == null)
-				return;
-			SelectedDirection.DeleteZone(SelectedDirection.SelectedZone.DirectionZone);
-			SelectedDirection.SelectedZone = null;
-		}
-
-		public RelayCommand ChangeZonesCommand { get; private set; }
-		void OnChangeZones()
-		{
-			SelectedDirection.ChangeZones();
-		}
-		bool CanDeleteZone()
-		{
-			return SelectedDirection!=null && SelectedDirection.SelectedZone != null;
-		}
-
-		public RelayCommand ChangeDevicesCommand { get; private set; }
-		void OnChangeDevices()
-		{
-			SelectedDirection.ChangeDevices();
-		}
-
-		public RelayCommand DeleteDeviceCommand { get; private set; }
-		void OnDeleteDevice()
-		{
-			if (SelectedDirection.SelectedDevice == null)
-				return;
-			SelectedDirection.DeleteDevice(SelectedDirection.SelectedDevice.DirectionDevice.Device);
-			SelectedDirection.SelectedDevice = null;
-		}
-		bool CanDeleteDevice()
-		{
-			return SelectedDirection != null && SelectedDirection.SelectedDevice != null;
-		}
-
-		public RelayCommand ChangeOutputDevicesCommand { get; private set; }
-		void OnChangeOutputDevices()
-		{
-			SelectedDirection.ChangeOutputDevices();
-		}
-
-		public RelayCommand DeleteOutputDeviceCommand { get; private set; }
-		void OnDeleteOutputDevice()
-		{
-			if (SelectedDirection.SelectedOutputDevice == null)
-				return;
-			SelectedDirection.DeleteOutputDevice(SelectedDirection.SelectedOutputDevice.Device);
-			SelectedDirection.SelectedOutputDevice = null;
-		}
-		bool CanDeleteOutputDevice()
-		{
-			return SelectedDirection != null && SelectedDirection.SelectedOutputDevice != null;
 		}
 
 		public void CreateDirection(CreateGKDirectionEventArg createDirectionEventArg)
@@ -303,14 +243,9 @@ namespace GKModule.ViewModels
 				if (elementDirection != null)
 				{
 					OnDirectionChanged(elementDirection.DirectionUID);
-					//if (guid != Guid.Empty)
-					//	OnZoneChanged(guid);
-					//guid = elementZone.ZoneUID;
 				}
 			});
 			_lockSelection = false;
-			//if (guid != Guid.Empty)
-			//	OnZoneChanged(guid);
 		}
 		private void OnElementSelected(ElementBase element)
 		{

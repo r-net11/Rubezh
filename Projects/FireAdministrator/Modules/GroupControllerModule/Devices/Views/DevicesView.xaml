@@ -133,7 +133,7 @@
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>
-															<DataTrigger Binding="{Binding IsZoneGrayed}" Value="True">
+															<DataTrigger Binding="{Binding IsLogicGrayed}" Value="True">
 																<Setter Property="TextBlock.Foreground" Value="Gray" />
 															</DataTrigger>
 														</Style.Triggers>

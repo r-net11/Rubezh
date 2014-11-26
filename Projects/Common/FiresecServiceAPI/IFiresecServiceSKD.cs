@@ -276,5 +276,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult ResetSKDDatabase();
+
+		[OperationContract]
+		OperationResult GenerateEmployeeDays();
 	}
 }

@@ -33,7 +33,7 @@
 								<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" />
 								<Image Width="16" Source="/Controls;component/Images/Chief.png" VerticalAlignment="Center" Margin="1 0" 
 									   Visibility="{Binding IsChief, Converter={StaticResource BoolToVisibilityConverter}}"/>
-								<TextBlock Text="{Binding Employee.Name}" />
+                                <TextBlock Text="{Binding Employee.Name}" Style="{StaticResource IsDeletedStyle}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

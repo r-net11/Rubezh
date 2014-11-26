@@ -264,7 +264,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				return GKManager.GetPresentationZone(Device);
+				return GKManager.GetPresentationZoneOrLogic(Device);
 			}
 		}
 
@@ -274,8 +274,8 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				var presentationZone = GKManager.GetPresentationZone(Device);
-				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
+				var presentationZone = GKManager.GetPresentationZoneOrLogic(Device);
+				IsLogicGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
 					if (Driver.HasZone)
@@ -287,14 +287,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		bool _isZoneGrayed;
-		public bool IsZoneGrayed
+		bool _isLogicGrayed;
+		public bool IsLogicGrayed
 		{
-			get { return _isZoneGrayed; }
+			get { return _isLogicGrayed; }
 			set
 			{
-				_isZoneGrayed = value;
-				OnPropertyChanged(() => IsZoneGrayed);
+				_isLogicGrayed = value;
+				OnPropertyChanged(() => IsLogicGrayed);
 			}
 		}
 
@@ -453,8 +453,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var presentationZone = GKManager.GetPresentationZone(Device.NSLogic);
-				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
+				var presentationZone = GKManager.GetPresentationLogic(Device.NSLogic);
+				IsLogicGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
 					if (CanShowNSLogic())

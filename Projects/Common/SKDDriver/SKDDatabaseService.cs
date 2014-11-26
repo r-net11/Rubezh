@@ -1,7 +1,6 @@
-﻿using System.Configuration;
-using SKDDriver.Translators;
-using System;
+﻿using System;
 using Infrastructure.Common;
+using SKDDriver.Translators;
 
 namespace SKDDriver
 {
@@ -73,6 +72,7 @@ namespace SKDDriver
 		public PassCardTemplateTranslator PassCardTemplateTranslator { get; private set; }
 		public MetadataTranslator MetadataTranslator { get; private set; }
 		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
+		public PassJournalTranslator PassJournalTranslator { get; private set; }
 
 		public void Dispose()
 		{

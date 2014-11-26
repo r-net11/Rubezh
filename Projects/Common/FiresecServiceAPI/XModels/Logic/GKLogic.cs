@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace FiresecAPI.GK
 {
@@ -60,5 +61,16 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
+
+		public List<GKBase> GetObjects()
+		{
+			var result = new List<GKBase>();
+			result.AddRange(OnClausesGroup.GetObjects());
+			result.AddRange(OffClausesGroup.GetObjects());
+			result.AddRange(OnNowClausesGroup.GetObjects());
+			result.AddRange(OffNowClausesGroup.GetObjects());
+			result.AddRange(StopClausesGroup.GetObjects());
+			return result;
+		}
 	}
 }

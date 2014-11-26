@@ -3,89 +3,105 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentsFilterViewModel : BaseViewModel
+	public class DepartmentsFilterViewModel : OrganisationBaseViewModel<ShortDepartment, DepartmentFilter, DepartmentFilterItemViewModel, DepartmentDetailsViewModel>
 	{
-		public DepartmentsFilterViewModel(EmployeeFilter filter)
+		public DepartmentsFilterViewModel()
+			: base()
 		{
-			var organisations = OrganisationHelper.GetByCurrentUser();
-			if (organisations == null)
-				return;
-			var departments = DepartmentHelper.GetByCurrentUser();
-			if (departments == null)
-				return;
+			SelectAllCommand = new RelayCommand(OnSelectAll);
+			SelectNoneCommand = new RelayCommand(OnSelectNone);
+		}
 
-			AllDepartments = new List<DepartmentFilterItemViewModel>();
-			Organisations = new List<DepartmentFilterItemViewModel>();
-			foreach (var organisation in organisations)
+		public override void Initialize(DepartmentFilter filter)
+		{
+			var emptyFilter = new DepartmentFilter { LogicalDeletationType = filter.LogicalDeletationType };
+			base.Initialize(emptyFilter);
+			var models = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
+			foreach (var model in models)
 			{
-				var organisationViewModel = new DepartmentFilterItemViewModel(organisation);
-				Organisations.Add(organisationViewModel);
-				AllDepartments.Add(organisationViewModel);
-				foreach (var department in departments)
+				model.IsChecked = true;
+			}
+		}
+
+		public void Initialize(HRFilter hrFilter)
+		{
+			var filter = new DepartmentFilter { LogicalDeletationType = hrFilter.LogicalDeletationType, UIDs = hrFilter.EmployeeFilter.DepartmentUIDs };
+			Initialize(filter);
+		}
+
+		public RelayCommand SelectAllCommand { get; private set; }
+		void OnSelectAll()
+		{
+			var models = Organisations.SelectMany(x => x.GetAllChildren(false));
+			foreach (var model in models)
+				model.IsChecked = true;
+		}
+
+		public RelayCommand SelectNoneCommand { get; private set; }
+		void OnSelectNone()
+		{
+			var models = Organisations.SelectMany(x => x.GetAllChildren(false));
+			foreach (var model in models)
+				model.IsChecked = false;
+		}
+
+		protected override IEnumerable<ShortDepartment> GetModels(DepartmentFilter filter)
+		{
+			return DepartmentHelper.Get(filter);
+		}
+		protected override IEnumerable<ShortDepartment> GetModelsByOrganisation(Guid organisationUID)
+		{
+			return DepartmentHelper.GetByOrganisation(organisationUID);
+		}
+		protected override bool MarkDeleted(ShortDepartment model)
+		{
+			return DepartmentHelper.MarkDeleted(model);
+		}
+		protected override bool Restore(ShortDepartment model)
+		{
+			return DepartmentHelper.Restore(model);
+		}
+		protected override bool Add(ShortDepartment item)
+		{
+			throw new NotImplementedException();
+		}
+
+		protected override void InitializeModels(IEnumerable<ShortDepartment> models)
+		{
+			foreach (var organisation in Organisations)
+			{
+				foreach (var model in models)
 				{
-					if (department.OrganisationUID == organisation.UID)
+					if (model.OrganisationUID == organisation.Organisation.UID && (model.ParentDepartmentUID == null || model.ParentDepartmentUID == Guid.Empty))
 					{
-						var departmentViewModel = new DepartmentFilterItemViewModel(department);
-						departmentViewModel.IsChecked = filter.DepartmentUIDs.Contains(department.UID);
-						organisationViewModel.AddChild(departmentViewModel);
-						AllDepartments.Add(departmentViewModel);
+						var itemViewModel = new DepartmentFilterItemViewModel();
+						itemViewModel.InitializeModel(organisation.Organisation, model, this);
+						organisation.AddChild(itemViewModel);
+						AddChildren(itemViewModel, models);
 					}
-				}
-				foreach (var departmentViewModel in AllDepartments)
-				{
-					if (departmentViewModel.Department != null && departmentViewModel.Department.ParentDepartmentUID == null)
-						AddChildren(departmentViewModel);
 				}
 			}
 		}
 
-		void AddChildren(DepartmentFilterItemViewModel departmentViewModel)
+		void AddChildren(DepartmentFilterItemViewModel parentViewModel, IEnumerable<ShortDepartment> models)
 		{
-			if (departmentViewModel.Department.ChildDepartmentUIDs != null && departmentViewModel.Department.ChildDepartmentUIDs.Count > 0)
+			if (parentViewModel.Model.ChildDepartmentUIDs != null && parentViewModel.Model.ChildDepartmentUIDs.Count > 0)
 			{
-				var children = AllDepartments.Where(x => departmentViewModel.Department.ChildDepartmentUIDs.Any(y => x.Department != null && y == x.Department.UID));
+				var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID);
 				foreach (var child in children)
 				{
-					departmentViewModel.AddChild(child);
-					AddChildren(child);
+					var itemViewModel = new DepartmentFilterItemViewModel();
+					itemViewModel.InitializeModel(parentViewModel.Organisation, child, this);
+					parentViewModel.AddChild(itemViewModel);
+					AddChildren(itemViewModel, models);
 				}
 			}
 		}
 
-		public List<DepartmentFilterItemViewModel> AllDepartments;
-		public List<DepartmentFilterItemViewModel> Organisations { get; private set; }
-
-		public DepartmentFilterItemViewModel[] RootDepartments
-		{
-			get 
-			{ 
-				if(Organisations != null)
-					return Organisations.ToArray();
-				return null;
-			}
-		}
-
-		public List<Guid> UIDs
-		{
-			get
-			{
-				var result = new List<Guid>();
-				if (AllDepartments != null)
-				{
-					foreach (var department in AllDepartments)
-					{
-						if (department.IsChecked && !department.IsOrganisation)
-						{
-							result.Add(department.UID);
-						}
-					}
-				}
-				return result;
-			}
-		}
+		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
 	}
 }

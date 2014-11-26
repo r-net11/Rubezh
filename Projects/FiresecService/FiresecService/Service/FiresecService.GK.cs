@@ -172,6 +172,10 @@ namespace FiresecService.Service
 			}
 			if (gkBase == null)
 			{
+				gkBase = GKManager.Delays.FirstOrDefault(x => x.UID == objectUID);
+			}
+			if (gkBase == null)
+			{
 				gkBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
 			}
 
@@ -192,6 +196,10 @@ namespace FiresecService.Service
 			if (gkBase == null)
 			{
 				gkBase = GKManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+			}
+			if (gkBase == null)
+			{
+				gkBase = GKManager.Delays.FirstOrDefault(x => x.UID == objectUID);
 			}
 			if (gkBase == null)
 			{

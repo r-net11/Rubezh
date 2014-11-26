@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 {
 	public class PositionEmployeeListViewModel : EmployeeListBaseViewModel<EmployeeListItemViewModel>
 	{
-		public PositionEmployeeListViewModel(PositionViewModel parent) : base(parent) { }
+		public PositionEmployeeListViewModel(PositionViewModel parent, bool isWithDeleted) : base(parent, isWithDeleted) { }
 
 		protected override bool AddToParent(ShortEmployee employee)
 		{
@@ -24,12 +24,12 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parent.UID } }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parent.UID }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Guid.Empty } }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Guid.Empty }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override Guid GetParentUID(Employee employee)

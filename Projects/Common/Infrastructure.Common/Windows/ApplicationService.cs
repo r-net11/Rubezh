@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,6 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System.Linq;
 
 namespace Infrastructure.Common.Windows
 {
@@ -168,7 +168,7 @@ namespace Infrastructure.Common.Windows
 		public static void RegisterModules(List<IModule> modules)
 		{
 			Modules = new ReadOnlyCollection<IModule>(modules);
-			IsReportEnabled = Modules.Any(item => item.Name == "Отчеты");
+			IsReportEnabled = Modules.Any(item => item.Name == "Отчёты");
 		}
 		public static void RegisterShell(ShellViewModel shell)
 		{

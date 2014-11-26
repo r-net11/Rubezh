@@ -29,6 +29,6 @@ namespace FiresecAPI.Automation
 		VideoDevice,
 
 		[DescriptionAttribute("Точка доступа")]
-		ControlDoor
+		Door
 	}
 }

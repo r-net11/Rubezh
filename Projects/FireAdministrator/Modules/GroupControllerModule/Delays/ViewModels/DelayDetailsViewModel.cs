@@ -6,6 +6,9 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using GKProcessor;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -15,6 +18,11 @@ namespace GKModule.ViewModels
 
 		public DelayDetailsViewModel(GKDelay delay = null)
 		{
+			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
+			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
+			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
+			DelayRegimes = Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>().ToList();
+
 			if (delay == null)
 			{
 				Title = "Создание новой задержки";
@@ -41,8 +49,6 @@ namespace GKModule.ViewModels
 				availableNames.Add(existingDelay.Name);
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
-
-			DelayRegimes = Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>().ToList();
 		}
 
 		void CopyProperties()
@@ -145,6 +151,90 @@ namespace GKModule.ViewModels
 			Delay.Hold = Hold;
 			Delay.DelayRegime = DelayRegime;
 			return base.Save();
+		}
+
+		public RelayCommand ReadPropertiesCommand { get; private set; }
+		void OnReadProperties()
+		{
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var result = FiresecManager.FiresecService.GKGetSingleParameter(Delay);
+			if (!result.HasError && result.Result != null && result.Result.Count == 3)
+			{
+				DelayTime = result.Result[0].Value;
+				Hold = result.Result[1].Value;
+				DelayRegime = (DelayRegime)result.Result[2].Value;
+				OnPropertyChanged(() => Delay);
+				OnPropertyChanged(() => Hold);
+				OnPropertyChanged(() => DelayRegime);
+			}
+			else
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public RelayCommand WritePropertiesCommand { get; private set; }
+		void OnWriteProperties()
+		{
+			Delay.Name = Name;
+			Delay.No = No;
+			Delay.Description = Description;
+			Delay.DelayTime = DelayTime;
+			Delay.Hold = Hold;
+			Delay.DelayRegime = DelayRegime;
+
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Delay);
+			if (baseDescriptor != null)
+			{
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(Delay, baseDescriptor.Parameters);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowError(result.Error);
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
+			}
+		}
+
+		public RelayCommand ResetPropertiesCommand { get; private set; }
+		void OnResetProperties()
+		{
+			DelayTime = 10;
+			Hold = 10;
+			DelayRegime = DelayRegime.Off;
+		}
+
+		bool CompareLocalWithRemoteHashes()
+		{
+			if (Delay.GkDatabaseParent == null)
+			{
+				MessageBoxService.ShowError("Задержка не относится ни к одному ГК");
+				return false;
+			}
+
+			var result = FiresecManager.FiresecService.GKGKHash(Delay.GkDatabaseParent);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				return false;
+			}
+
+			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, Delay.GkDatabaseParent);
+			var remoteHash = result.Result;
+			if (GKFileInfo.CompareHashes(localHash, remoteHash))
+				return true;
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
+			return false;
 		}
 	}
 }

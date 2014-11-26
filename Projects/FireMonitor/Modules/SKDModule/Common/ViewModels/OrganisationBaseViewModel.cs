@@ -59,6 +59,7 @@ namespace SKDModule.ViewModels
 		public virtual void Initialize(TFilter filter)
 		{
 			_filter = filter;
+			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 			var result = InitializeOrganisations(_filter);
 			if (result)
 			{
@@ -70,7 +71,6 @@ namespace SKDModule.ViewModels
 					SelectedItem = Organisations.FirstOrDefault();
 				}
 			}
-			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
 		bool _isWithDeleted;
@@ -333,7 +333,7 @@ namespace SKDModule.ViewModels
 		}
 		
 		public RelayCommand EditCommand { get; private set; }
-		protected void OnEdit()
+		protected virtual void OnEdit()
 		{
 			var model = ShowDetails(SelectedItem.Organisation, SelectedItem.Model);
 			if (model != null)
