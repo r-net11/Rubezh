@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common;
+using FiresecAPI;
 
 namespace GKModule.Validation
 {
@@ -17,7 +19,7 @@ namespace GKModule.Validation
 				if (IsManyGK())
 					ValidateDifferentGK(zone);
 				ValidateZoneHasNoDevices(zone);
-				if (MustValidate("Количество подключенных к зоне датчиков"))
+				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
 				{
 					ValidateZoneDetectorCount(zone);
 					ValidateZoneFire1Fire2Count(zone);

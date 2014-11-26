@@ -19,6 +19,7 @@ using AutomationModule.Plans.InstrumentAdorners;
 using AutomationModule.Plans.ViewModels;
 using AutomationModule.Events;
 using Infrastructure.Common;
+using FiresecAPI;
 
 namespace AutomationModule.Plans
 {
@@ -125,9 +126,9 @@ namespace AutomationModule.Plans
 		public override IEnumerable<ElementError> Validate()
 		{
 			List<ElementError> errors = new List<ElementError>();
-            if (GlobalSettingsHelper.GlobalSettings.Administrator_ValidateUnbindedPlanElements)
+			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
                 FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-				    errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/Procedure.png", Guid.Empty)));
+					errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
 			return errors;
 		}
 		#endregion

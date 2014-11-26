@@ -34,7 +34,7 @@ namespace FiresecAPI
 			Monitor_F4_Enabled = true;
 			Monitor_IsControlMPT = false;
 			Monitor_HaspInfo_Enabled = false;
-			IgnoredErrors = new List<string>();
+			IgnoredErrors = 0;
 		}
 
 		[DataMember]
@@ -105,11 +105,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
-		[DataMember]
-		public bool Administrator_ValidateUnbindedPlanElements { get; set; }
 
 		[DataMember]
-		public List<string> IgnoredErrors { get; set; }
+		public ValidationErrorType IgnoredErrors { get; set; }
 
 		public void SetDefaultModules()
 		{

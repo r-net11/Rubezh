@@ -6,6 +6,7 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
+using FiresecAPI;
 
 namespace GKModule.Validation
 {
@@ -22,11 +23,10 @@ namespace GKModule.Validation
 				if (IsManyGK())
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
-				if (MustValidate("Устройство не подключено к зоне"))
+				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceNotConnected))
 					ValidateDeviceZone(device);
-				if (MustValidate("Отсутствует логика срабатывания исполнительного устройства"))
+				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.DeviceHaveNoLogic))
 					ValidateLogic(device);
-
 				ValidateGKNotEmptyChildren(device);
 				ValidateParametersMinMax(device);
 				ValidateNotUsedLogic(device);
@@ -34,11 +34,6 @@ namespace GKModule.Validation
 				ValidateKAUAddressFollowing(device);
 				ValidateGuardDevice(device);
 			}
-		}
-
-		bool MustValidate(string errorName)
-		{
-			return GlobalSettingsHelper.GlobalSettings.IgnoredErrors == null || !GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(errorName);
 		}
 
 		void ValidateAddressEquality()

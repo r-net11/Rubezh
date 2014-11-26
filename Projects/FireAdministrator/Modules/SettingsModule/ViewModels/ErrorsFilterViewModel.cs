@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -11,38 +12,17 @@ namespace SettingsModule.ViewModels
 		public ErrorsFilterViewModel()
 		{
 			Title = "Настройка фильтра ошибок";
-			ErrorFilters = new ObservableCollection<ErrorFilterViewModel>();
-			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors == null)
-				GlobalSettingsHelper.GlobalSettings.IgnoredErrors = new List<string>();
-
-			ErrorFilters.Add(new ErrorFilterViewModel("Устройство не подключено к зоне"));
-			ErrorFilters.Add(new ErrorFilterViewModel("Отсутствует логика срабатывания исполнительного устройства"));
-			ErrorFilters.Add(new ErrorFilterViewModel("В направлении отсутствуют входные устройства или зоны"));
-			ErrorFilters.Add(new ErrorFilterViewModel("В направлении отсутствуют выходные устройства"));
-			ErrorFilters.Add(new ErrorFilterViewModel("Количество подключенных к зоне датчиков"));
-			
-			foreach (var ignoredError in GlobalSettingsHelper.GlobalSettings.IgnoredErrors)
-			{
-				var errorFilter = ErrorFilters.FirstOrDefault(x => x.Name == ignoredError);
-				if (errorFilter != null)
-				{
-					errorFilter.IsChecked = true;
-				}
-			}
+			ErrorFilters = new ObservableCollection<ErrorFilterViewModel>(Enum.GetValues(typeof(ValidationErrorType)).Cast<ValidationErrorType>().Select(item => new ErrorFilterViewModel(item)));
 		}
 
 		public ObservableCollection<ErrorFilterViewModel> ErrorFilters { get; private set; }
 
 		protected override bool Save()
 		{
-			GlobalSettingsHelper.GlobalSettings.IgnoredErrors = new List<string>();
+			GlobalSettingsHelper.GlobalSettings.IgnoredErrors = 0;
 			foreach (var errorFilter in ErrorFilters)
-			{
 				if (errorFilter.IsChecked)
-				{
-					GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Add(errorFilter.Name);
-				}
-			}
+					GlobalSettingsHelper.GlobalSettings.IgnoredErrors |= errorFilter.ErrorType;
 			GlobalSettingsHelper.Save();
 			return true;
 		}
