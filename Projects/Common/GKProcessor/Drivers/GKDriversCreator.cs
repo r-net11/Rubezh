@@ -74,6 +74,7 @@ namespace GKProcessor
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_MVP_Part_Helper.Create());
 
 			AddDriverToKau_RSR2(RSR2_CodeReader_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_CardReader_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_GuardDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_Valve_KV_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_Valve_KVMV_Helper.Create());

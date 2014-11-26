@@ -63,7 +63,8 @@ namespace GKProcessor
 			cardSchedules = cardSchedules.OrderBy(x => x.Device.GKDescriptorNo).ToList();
 
 			var no = 10;
-			var intPassword = Int32.Parse(card.Number);
+			var intPassword = 0;
+			Int32.TryParse(card.Number, out intPassword);
 
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
