@@ -315,6 +315,10 @@ namespace FiresecService
 					ShowDialog(procedureStep);
 					break;
 
+				case ProcedureStepType.ShowProperty:
+					ShowProperty(procedureStep);
+					break;
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 

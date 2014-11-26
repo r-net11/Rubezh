@@ -211,6 +211,10 @@
 	<DataTemplate x:Key="showDialogStepView">
 		<Views:ShowDialogStepView />
 	</DataTemplate>
+	
+	<DataTemplate x:Key="showPropertyTemplate">
+		<Views:ShowPropertyStepView />
+	</DataTemplate>
 
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -246,6 +250,7 @@
 	                                     ShowDialogTemplate="{StaticResource showDialogStepView}"
 	                                     ShowMessageTemplate="{StaticResource sendMessageTemplate}"
 	                                     SoundsTemplate="{StaticResource soundsTemplate}"
-										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"/>
+										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"
+										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" />
 
 </ResourceDictionary>

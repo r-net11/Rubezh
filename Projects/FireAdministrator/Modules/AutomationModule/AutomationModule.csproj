@@ -172,6 +172,7 @@
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ShowPropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SoundStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
@@ -317,6 +318,9 @@
     </Compile>
     <Compile Include="Steps\Views\SetValueStepView.xaml.cs">
       <DependentUpon>SetValueStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ShowPropertyStepView.xaml.cs">
+      <DependentUpon>ShowPropertyStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
@@ -675,6 +679,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\SetValueStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ShowPropertyStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
