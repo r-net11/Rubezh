@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class RunProgrammStepView
+	public partial class RunProgramStepView
 	{
-		public RunProgrammStepView()
+		public RunProgramStepView()
 		{
 			InitializeComponent();
 		}

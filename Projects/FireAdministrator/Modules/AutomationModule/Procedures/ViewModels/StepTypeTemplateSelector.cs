@@ -28,7 +28,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlDoorTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
-		public DataTemplate RunProgrammTemplate { get; set; }
+		public DataTemplate RunProgramTemplate { get; set; }
 		public DataTemplate RandomTemplate { get; set; }
 		public DataTemplate ChangeListTemplate { get; set; }
 		public DataTemplate CheckPermissionTemplate { get; set; }
@@ -91,8 +91,8 @@ namespace AutomationModule.ViewModels
 				return GetObjectPropertyTemplate;
 			if (item is SendEmailStepViewModel)
 				return SendEmailTemplate;
-			if (item is RunProgrammStepViewModel)
-				return RunProgrammTemplate;
+			if (item is RunProgramStepViewModel)
+				return RunProgramTemplate;
 			if (item is RandomStepViewModel)
 				return RandomTemplate;
 			if (item is ChangeListStepViewModel)

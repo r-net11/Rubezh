@@ -190,6 +190,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
+			_stepToCopy.UID = new Guid();
 			var stepViewModel = new StepViewModel(this, Utils.Clone(_stepToCopy), Procedure);
 			Add(stepViewModel);
 			foreach (var childStep in stepViewModel.Step.Children)

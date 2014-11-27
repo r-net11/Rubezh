@@ -105,7 +105,7 @@ namespace AutomationModule.ViewModels
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.Exit),
-							new StepTypeViewModel(ProcedureStepType.RunProgramm),
+							new StepTypeViewModel(ProcedureStepType.RunProgram),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
 							new StepTypeViewModel(ProcedureStepType.CheckPermission),
