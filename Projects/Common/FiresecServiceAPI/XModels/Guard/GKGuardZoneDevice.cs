@@ -46,6 +46,9 @@ namespace FiresecAPI.GK
 		[Description("Снятие с охраны")]
 		ResetGuard,
 
+		[Description("Изменение")]
+		ChangeGuard,
+
 		[Description("Тревожный датчик")]
 		SetAlarm,
 	}

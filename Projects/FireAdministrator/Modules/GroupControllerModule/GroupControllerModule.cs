@@ -107,7 +107,7 @@ namespace GKModule
 			{
 				new NavigationItem(ModuleType.ToDescription(), null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/Briefcase.png", null, null, Guid.Empty),
 					new NavigationItemEx<ShowGKZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),

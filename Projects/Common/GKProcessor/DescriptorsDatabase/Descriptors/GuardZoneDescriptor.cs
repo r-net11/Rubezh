@@ -27,9 +27,10 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			var setAlarmDevices = new List<GKGuardZoneDevice>();
 			var setGuardDevices = new List<GKGuardZoneDevice>();
 			var resetGuardDevices = new List<GKGuardZoneDevice>();
+			var changeGuardDevices = new List<GKGuardZoneDevice>();
+			var setAlarmDevices = new List<GKGuardZoneDevice>();
 			foreach (var guardZoneDevice in GuardZone.GuardZoneDevices)
 			{
 				switch (guardZoneDevice.Device.DriverType)
@@ -38,10 +39,6 @@ namespace GKProcessor
 					case GKDriverType.RSR2_GuardDetector:
 						switch (guardZoneDevice.ActionType)
 						{
-							case GKGuardZoneDeviceActionType.SetAlarm:
-								setAlarmDevices.Add(guardZoneDevice);
-								break;
-
 							case GKGuardZoneDeviceActionType.SetGuard:
 								setGuardDevices.Add(guardZoneDevice);
 								break;
@@ -49,19 +46,18 @@ namespace GKProcessor
 							case GKGuardZoneDeviceActionType.ResetGuard:
 								resetGuardDevices.Add(guardZoneDevice);
 								break;
+
+							case GKGuardZoneDeviceActionType.ChangeGuard:
+								changeGuardDevices.Add(guardZoneDevice);
+								break;
+
+							case GKGuardZoneDeviceActionType.SetAlarm:
+								setAlarmDevices.Add(guardZoneDevice);
+								break;
 						}
 						break;
 
 					case GKDriverType.RSR2_CodeReader:
-						if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
-						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID);
-							if (code != null)
-							{
-								setAlarmDevices.Add(guardZoneDevice);
-							}
-						}
-
 						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
 							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
@@ -79,6 +75,24 @@ namespace GKProcessor
 								resetGuardDevices.Add(guardZoneDevice);
 							}
 						}
+
+						if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
+						{
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUID);
+							if (code != null)
+							{
+								changeGuardDevices.Add(guardZoneDevice);
+							}
+						}
+
+						if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
+						{
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID);
+							if (code != null)
+							{
+								setAlarmDevices.Add(guardZoneDevice);
+							}
+						}
 						break;
 				}
 			}
@@ -86,6 +100,7 @@ namespace GKProcessor
 			AddGuardDevicesLogic(setAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(setGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(resetGuardDevices, GKStateBit.TurnOff_InAutomatic);
+			AddChangeDevicesLogic(changeGuardDevices);
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
@@ -100,7 +115,7 @@ namespace GKProcessor
 				{
 					if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
 					{
-						XCodeReaderSettingsPart settingsPart = null;
+						GKCodeReaderSettingsPart settingsPart = null;
 						switch(commandStateBit)
 						{
 							case GKStateBit.TurnOn_InAutomatic:
@@ -158,6 +173,63 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.OR);
 				}
 				Formula.AddPutBit(commandStateBit, GuardZone);
+			}
+		}
+
+		void AddChangeDevicesLogic(List<GKGuardZoneDevice> guardZoneDevices)
+		{
+			if (guardZoneDevices.Count > 0)
+			{
+				var count = 0;
+				foreach (var guardDevice in guardZoneDevices)
+				{
+					if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+					{
+						var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;
+						var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
+						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUID);
+
+						Formula.AddGetBit(stateBit, guardDevice.Device);
+						switch (GuardZone.GuardZoneEnterMethod)
+						{
+							case GKGuardZoneEnterMethod.GlobalOnly:
+								Formula.Add(FormulaOperationType.BR, 1, 3);
+								Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
+								Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+								break;
+
+							case GKGuardZoneEnterMethod.UserOnly:
+								Formula.Add(FormulaOperationType.BR, 1, 2);
+								Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
+								Formula.Add(FormulaOperationType.AND);
+								break;
+
+							case GKGuardZoneEnterMethod.Both:
+								Formula.Add(FormulaOperationType.BR, 1, 5);
+								Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
+								Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+								Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
+								Formula.Add(FormulaOperationType.OR);
+								break;
+						}
+					}
+					else
+					{
+						Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
+					}
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
+				}
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.AddGetBit(GKStateBit.On, GuardZone);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
+				Formula.AddGetBit(GKStateBit.Off, GuardZone);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, GuardZone);
 			}
 		}
 

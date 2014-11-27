@@ -231,7 +231,7 @@ namespace GKModule.ViewModels
 				case JournalObjectType.GKDevice:
 					if (GKManager.Devices.Any(x => x.UID == JournalItem.ObjectUID))
 					{
-						ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
+						ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 
