@@ -16,6 +16,7 @@ namespace FiresecAPI.GK
 		{
 			ClearDescriptor();
 			ClearClauseDependencies();
+			State = new GKState();
 		}
 
 		[XmlIgnore]

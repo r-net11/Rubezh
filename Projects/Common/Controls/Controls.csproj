@@ -1377,7 +1377,6 @@
   <ItemGroup>
     <Resource Include="StepIcons\ControlPlanGet.png" />
     <Resource Include="StepIcons\ControlPlanSet.png" />
-    <Resource Include="StepIcons\RunProgramm.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StateClassIcons\Norm.png" />
@@ -1387,6 +1386,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BAdrparameters.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StepIcons\RunProgram.png" />
+    <Resource Include="StepIcons\ShowProperty.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

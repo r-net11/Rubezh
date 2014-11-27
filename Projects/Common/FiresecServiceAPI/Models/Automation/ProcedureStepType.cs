@@ -74,7 +74,7 @@ namespace FiresecAPI.Automation
 		SetValue,
 
 		[DescriptionAttribute("Запуск программы")]
-		RunProgramm,
+		RunProgram,
 
 		[DescriptionAttribute("Инкремент значения переменной")]
 		IncrementValue,

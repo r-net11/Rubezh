@@ -308,11 +308,11 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.RunProgramm:
+				case ProcedureStepType.RunProgram:
 					{
-						var runProgrammArguments = step.RunProgrammArguments;
-						InvalidateArgument(procedure, runProgrammArguments.ParametersArgument);
-						InvalidateArgument(procedure, runProgrammArguments.PathArgument);
+						var RunProgramArguments = step.RunProgramArguments;
+						InvalidateArgument(procedure, RunProgramArguments.ParametersArgument);
+						InvalidateArgument(procedure, RunProgramArguments.PathArgument);
 					}
 					break;
 

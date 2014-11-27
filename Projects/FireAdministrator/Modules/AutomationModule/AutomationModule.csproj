@@ -161,7 +161,7 @@
     <Compile Include="Steps\ViewModels\JournalStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PauseStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\RunProgrammStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
@@ -307,8 +307,8 @@
     <Compile Include="Steps\Views\RandomStepView.xaml.cs">
       <DependentUpon>RandomStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Steps\Views\RunProgrammStepView.xaml.cs">
-      <DependentUpon>RunProgrammStepView.xaml</DependentUpon>
+    <Compile Include="Steps\Views\RunProgramStepView.xaml.cs">
+      <DependentUpon>RunProgramStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SendEmailStepView.xaml.cs">
       <DependentUpon>SendEmailStepView.xaml</DependentUpon>
@@ -666,7 +666,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Steps\Views\RunProgrammStepView.xaml">
+    <Page Include="Steps\Views\RunProgramStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

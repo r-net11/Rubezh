@@ -263,12 +263,12 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.RunProgramm:
+				case ProcedureStepType.RunProgram:
 					{
-						var runProgrammArguments = step.RunProgrammArguments;
-						if (!ValidateArgument(step, runProgrammArguments.ParametersArgument))
+						var RunProgramArguments = step.RunProgramArguments;
+						if (!ValidateArgument(step, RunProgramArguments.ParametersArgument))
 							break;
-						ValidateArgument(step, runProgrammArguments.PathArgument);
+						ValidateArgument(step, RunProgramArguments.PathArgument);
 					}
 					break;
 

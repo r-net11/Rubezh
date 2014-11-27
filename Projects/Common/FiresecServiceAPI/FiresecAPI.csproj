@@ -179,7 +179,7 @@
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\RunProgrammArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowDialogArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowMessageArguments.cs" />

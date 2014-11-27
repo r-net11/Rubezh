@@ -11,6 +11,7 @@ using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD;
 using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
@@ -138,6 +139,36 @@ namespace AutomationModule
 							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (delay != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
+							break;
+
+						case ObjectType.SKDDevice:
+							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (skdDevice != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>();
+							break;
+
+						case ObjectType.SKDZone:
+							var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (skdZone != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>();
+							break;
+
+						case ObjectType.GuardZone:
+							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (guardZone != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>();
+							break;
+
+						case ObjectType.VideoDevice:
+							var videoDevice = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (videoDevice != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
+							break;
+
+						case ObjectType.Door:
+							var door = SKDManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (door != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>();
 							break;
 
 					}

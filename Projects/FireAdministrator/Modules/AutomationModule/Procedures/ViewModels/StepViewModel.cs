@@ -131,8 +131,8 @@ namespace AutomationModule.ViewModels
 					Content = new SendEmailStepViewModel(this);
 					break;
 
-				case ProcedureStepType.RunProgramm:
-					Content = new RunProgrammStepViewModel(this);
+				case ProcedureStepType.RunProgram:
+					Content = new RunProgramStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ChangeList:

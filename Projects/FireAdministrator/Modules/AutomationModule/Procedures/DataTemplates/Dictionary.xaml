@@ -172,8 +172,8 @@
 		<Views:SendEmailStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="runProgrammTemplate">
-		<Views:RunProgrammStepView />
+	<DataTemplate x:Key="RunProgramTemplate">
+		<Views:RunProgramStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="randomTemplate">
@@ -244,7 +244,7 @@
 	                                     PauseTemplate="{StaticResource pauseTemplate}"
 	                                     ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 	                                     RandomTemplate="{StaticResource randomTemplate}"
-	                                     RunProgrammTemplate="{StaticResource runProgrammTemplate}"
+	                                     RunProgramTemplate="{StaticResource RunProgramTemplate}"
 	                                     SendEmailTemplate="{StaticResource sendEmailTemplate}"
 	                                     SetValueTemplate="{StaticResource setValueTemplate}"
 	                                     ShowDialogTemplate="{StaticResource showDialogStepView}"
