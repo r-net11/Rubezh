@@ -8,12 +8,12 @@ namespace GKProcessor
 	{
 		List<GKDevice> Devices { get; set; }
 		List<GKZone> Zones { get; set; }
+		List<GKGuardZone> GuardZones { get; set; }
 		List<GKDirection> Directions { get; set; }
 		List<GKPumpStation> PumpStations { get; set; }
 		List<GKMPT> MPTs { get; set; }
 		public List<GKDelay> Delays { get; private set; }
 		public List<GKPim> Pims { get; private set; }
-		List<GKGuardZone> GuardZones { get; set; }
 		List<GKCode> Codes { get; set; }
 		List<GKDoor> Doors { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
@@ -22,12 +22,12 @@ namespace GKProcessor
 		{
 			Devices = new List<GKDevice>();
 			Zones = new List<GKZone>();
+			GuardZones = new List<GKGuardZone>();
 			Directions = new List<GKDirection>();
 			PumpStations = new List<GKPumpStation>();
 			MPTs = new List<GKMPT>();
 			Delays = new List<GKDelay>();
 			Pims = new List<GKPim>();
-			GuardZones = new List<GKGuardZone>();
 			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
 			KauDatabases = new List<KauDatabase>();
@@ -85,6 +85,14 @@ namespace GKProcessor
 					Zones.Add(zone);
 				}
 			}
+			foreach (var guardZone in GKManager.GuardZones)
+			{
+				if (guardZone.GkDatabaseParent == RootDevice)
+				{
+					guardZone.GKDescriptorNo = NextDescriptorNo;
+					GuardZones.Add(guardZone);
+				}
+			}
 			foreach (var direction in GKManager.Directions)
 			{
 				if (direction.GkDatabaseParent == RootDevice)
@@ -106,15 +114,6 @@ namespace GKProcessor
 				if (mpt.GkDatabaseParent == RootDevice)
 				{
 					MPTs.Add(mpt);
-				}
-			}
-
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				if (guardZone.GkDatabaseParent == RootDevice)
-				{
-					guardZone.GKDescriptorNo = NextDescriptorNo;
-					GuardZones.Add(guardZone);
 				}
 			}
 
@@ -146,6 +145,11 @@ namespace GKProcessor
 			{
 				var zoneDescriptor = new ZoneDescriptor(zone);
 				Descriptors.Add(zoneDescriptor);
+			}
+			foreach (var guardZone in GuardZones)
+			{
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
+				Descriptors.Add(guardZoneDescriptor);
 			}
 			foreach (var direction in Directions)
 			{
@@ -184,12 +188,6 @@ namespace GKProcessor
 					var delayDescriptor = new DelayDescriptor(delay);
 					Descriptors.Add(delayDescriptor);
 				}
-			}
-
-			foreach (var guardZone in GuardZones)
-			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
-				Descriptors.Add(guardZoneDescriptor);
 			}
 
 			foreach (var code in Codes)

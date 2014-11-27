@@ -224,12 +224,9 @@ namespace GKProcessor
 					count++;
 				}
 				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(GKStateBit.On, GuardZone);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
-				Formula.AddGetBit(GKStateBit.Off, GuardZone);
-				Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, GuardZone);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
 			}
 		}
 
