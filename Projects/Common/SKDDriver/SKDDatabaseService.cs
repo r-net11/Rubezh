@@ -46,6 +46,7 @@ namespace SKDDriver
 			PassCardTemplateTranslator = new PassCardTemplateTranslator(this);
 			MetadataTranslator = new MetadataTranslator(this);
 			GKMetadataTranslator = new GKMetadataTranslator(this);
+			GKCardTranslator = new GKCardTranslator(this);
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
@@ -72,6 +73,7 @@ namespace SKDDriver
 		public PassCardTemplateTranslator PassCardTemplateTranslator { get; private set; }
 		public MetadataTranslator MetadataTranslator { get; private set; }
 		public GKMetadataTranslator GKMetadataTranslator { get; private set; }
+		public GKCardTranslator GKCardTranslator { get; private set; }
 		public PassJournalTranslator PassJournalTranslator { get; private set; }
 
 		public void Dispose()

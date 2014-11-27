@@ -103,6 +103,7 @@
     <Compile Include="Translators\TimeTrackDocumentTranslator.cs" />
     <Compile Include="Translators\TimeTrackTranslator.cs" />
     <Compile Include="Translators\GKMetadataTranslator.cs" />
+    <Compile Include="Translators\GKCardTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

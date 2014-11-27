@@ -65,7 +65,7 @@ namespace FiresecService
 			{
 				commandText = streamReader.ReadToEnd();
 			}
-			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+			server.ConnectionContext.ExecuteNonQuery(commandText);
 			server.ConnectionContext.Disconnect();
 		}
 
@@ -77,7 +77,7 @@ namespace FiresecService
 			{
 				commandText = streamReader.ReadToEnd();
 			}
-			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+			server.ConnectionContext.ExecuteNonQuery(commandText);
 			server.ConnectionContext.Disconnect();
 		}
 
@@ -105,7 +105,7 @@ namespace FiresecService
 			{
 				commandText = streamReader.ReadToEnd();
 			}
-			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+			server.ConnectionContext.ExecuteNonQuery(commandText);
 			server.ConnectionContext.Disconnect();
 		}
 	}

@@ -163,6 +163,7 @@ namespace GKModule.ViewModels
 			Door.Delay = Delay;
 			Door.Hold = Hold;
 			Door.EnterLevel = EnterLevel;
+			Door.DoorType = SelectedDoorType;
 			return base.Save();
 		}
 	}

@@ -17,7 +17,7 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[OrganisationUser] NOCHECK CONSTRAINT [FK_OrganisationUser_Organisation]
 	END
-	INSERT INTO Patches (Id) VALUES ('OrganisationUser')	
+	INSERT INTO Patches (Id) VALUES ('OrganisationUser')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AlterPatches')
@@ -1292,6 +1292,26 @@ BEGIN
 	ALTER TABLE Employee ADD LastEmployeeDayUpdate datetime NOT NULL CONSTRAINT "Schedule_LastEmployeeDayUpdate_Default" DEFAULT '1900-01-01 00:00:00.000'
 	INSERT INTO Patches (Id) VALUES ('Employee_LastEmployeeDayUpdate')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCards_Table')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'GKCards')
+	BEGIN
+		CREATE TABLE GKCards(
+			[UID] [uniqueidentifier] NOT NULL,
+			[IPAddress] [nvarchar](50) NOT NULL,
+			[No] [int] NOT NULL,
+			[CardNo] [int] NOT NULL,
+			[Action] [int] NOT NULL,
+		CONSTRAINT [PK_GKCards] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+	END
 
+	CREATE INDEX GKCardsIPAddressIndex ON [dbo].[GKCards]([IPAddress])
 
-
+	INSERT INTO Patches (Id) VALUES ('GKCards_Table')
+END
+GO

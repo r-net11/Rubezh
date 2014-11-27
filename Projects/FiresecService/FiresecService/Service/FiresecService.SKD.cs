@@ -280,26 +280,26 @@ namespace FiresecService.Service
 					return new OperationResult<bool>() { Result = !saveResult.HasError };
 			}
 		}
-		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string reason = null)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Удаление_карты, item.Number.ToString());
+				AddJournalMessage(JournalEventNameType.Удаление_карты, card.Number.ToString());
 
-				item.AccessTemplateUID = null;
-				item.CardDoors = new List<CardDoor>();
-				item.PassCardTemplateUID = null;
-				item.EmployeeName = null;
-				item.HolderUID = null;
-				item.IsInStopList = true;
-				item.StopReason = reason;
-				item.StartDate = DateTime.Now;
-				item.EndDate = DateTime.Now;
+				card.AccessTemplateUID = null;
+				card.CardDoors = new List<CardDoor>();
+				card.PassCardTemplateUID = null;
+				card.EmployeeName = null;
+				card.HolderUID = null;
+				card.IsInStopList = true;
+				card.StopReason = reason;
+				card.StartDate = DateTime.Now;
+				card.EndDate = DateTime.Now;
 
 				string cardWriterError = null;
 				OperationResult pendingResult;
 
-				var operationResult = databaseService.CardTranslator.GetSingle(item.UID);
+				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
 					var oldCard = operationResult.Result;
@@ -313,7 +313,10 @@ namespace FiresecService.Service
 					pendingResult = new OperationResult("Не найдена предидущая карта");
 				}
 
-				var saveResult = databaseService.CardTranslator.Save(item);
+				var saveResult = databaseService.CardTranslator.Save(card);
+
+				var gkSKDHelper = new GKSKDHelper();
+				gkSKDHelper.RemoveCard(card);
 
 				var stringBuilder = new StringBuilder();
 				if (!String.IsNullOrEmpty(cardWriterError))
