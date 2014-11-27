@@ -18,6 +18,7 @@ namespace Controls
 
 		public XDataGrid()
 		{
+			ClipboardCopyMode = DataGridClipboardCopyMode.None;
 			SelectionChanged += new SelectionChangedEventHandler(DataGrid_SelectionChanged);
 			PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(DataGrid_PreviewMouseDown);
 			MouseDoubleClick += new System.Windows.Input.MouseButtonEventHandler(DataGrid_MouseDoubleClick);
@@ -70,6 +71,12 @@ namespace Controls
 				var dataGrid = sender as DataGrid;
 				dataGrid.SelectedItem = null;
 			}
+		}
+
+		protected override void OnCanExecuteCopy(CanExecuteRoutedEventArgs args)
+		{
+			args.CanExecute = false;
+			args.ContinueRouting = true;
 		}
 	}
 }

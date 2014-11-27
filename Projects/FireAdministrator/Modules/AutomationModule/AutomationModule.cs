@@ -21,30 +21,30 @@ namespace AutomationModule
 {
 	public class AutomationModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
-		SoundsViewModel SoundsViewModel;
-		ProceduresViewModel ProceduresViewModel;
-		SchedulesViewModel SchedulesViewModel;
-		GlobalVariablesViewModel GlobalVariablesViewModel;
-		AutomationPlanExtension _planExtension;
+		private SoundsViewModel _soundsViewModel;
+		private ProceduresViewModel _proceduresViewModel;
+		private SchedulesViewModel _schedulesViewModel;
+		private GlobalVariablesViewModel _globalVariablesViewModel;
+		private AutomationPlanExtension _planExtension;
 
 		public override void CreateViewModels()
 		{
 			//FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
-			SoundsViewModel = new SoundsViewModel();
-			ProceduresViewModel = new ProceduresViewModel();
-			SchedulesViewModel = new SchedulesViewModel();
-			GlobalVariablesViewModel = new GlobalVariablesViewModel();
-			_planExtension = new AutomationPlanExtension(ProceduresViewModel);
+			_soundsViewModel = new SoundsViewModel();
+			_proceduresViewModel = new ProceduresViewModel();
+			_schedulesViewModel = new SchedulesViewModel();
+			_globalVariablesViewModel = new GlobalVariablesViewModel();
+			_planExtension = new AutomationPlanExtension(_proceduresViewModel);
 		}
 
 		public override void Initialize()
 		{
 			ControlVisualStepViewModel.Initialize();
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			SoundsViewModel.Initialize();
-			ProceduresViewModel.Initialize();
-			SchedulesViewModel.Initialize();
-			GlobalVariablesViewModel.Initialize();
+			_soundsViewModel.Initialize();
+			_proceduresViewModel.Initialize();
+			_schedulesViewModel.Initialize();
+			_globalVariablesViewModel.Initialize();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
@@ -57,10 +57,10 @@ namespace AutomationModule
 					new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowProceduresEvent, Guid>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Procedure.png"),
-							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(SchedulesViewModel, "Расписания", "/Controls;component/Images/Shedules.png"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(GlobalVariablesViewModel, "Глобальные переменные", "/Controls;component/Images/GlobalVariables.png"),
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png")
+							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "/Controls;component/Images/Procedure.png"),
+							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "/Controls;component/Images/Shedules.png"),
+							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "/Controls;component/Images/GlobalVariables.png"),
+							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "/Controls;component/Images/Music.png")
 						}) {IsExpanded = true},
 				};
 		}
