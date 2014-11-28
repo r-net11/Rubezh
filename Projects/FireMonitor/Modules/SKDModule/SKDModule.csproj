@@ -120,6 +120,7 @@
       <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\EditEmployee2Event.cs" />
+    <Compile Include="Events\NewOrganisationEvent.cs" />
     <Compile Include="Events\UpdateFilterEvent.cs" />
     <Compile Include="HR\ViewModels\EmployeesFilterItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
@@ -148,8 +149,6 @@
     <Compile Include="Events\UpdateIsInGridEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EscortSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\ScheduleSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
@@ -162,14 +161,8 @@
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\PositionSelectionViewModel.cs" />
-    <Compile Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml.cs">
-      <DependentUpon>DocumentTypeSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml.cs">
       <DependentUpon>EscortSelectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml.cs">
-      <DependentUpon>GenderSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\ScheduleSelectionView.xaml.cs">
       <DependentUpon>ScheduleSelectionView.xaml</DependentUpon>
@@ -605,19 +598,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Employees\Views\EmployeeDetails\EmployeeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

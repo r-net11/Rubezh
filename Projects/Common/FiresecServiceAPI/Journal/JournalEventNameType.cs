@@ -481,8 +481,8 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование праздничного дня", XStateClass.Info)]
 		Редактирование_праздничного_дня,
 
-		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона карты", XStateClass.Info)]
-		Редактирование_шаблона_карты,
+		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона пропуска", XStateClass.Info)]
+		Редактирование_шаблона_пропуска,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
 		Добавление_нового_сотрудника,
@@ -514,8 +514,8 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Добавление нового праздничного дня", XStateClass.Info)]
 		Добавление_нового_праздничного_дня,
 
-		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона карты", XStateClass.Info)]
-		Добавление_нового_шаблона_карты,
+		[EventName(JournalSubsystemType.SKD, "Добавление нового шаблона пропуска", XStateClass.Info)]
+		Добавление_нового_шаблона_пропуска,
 
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
 		Внесение_оправдательного_документа,

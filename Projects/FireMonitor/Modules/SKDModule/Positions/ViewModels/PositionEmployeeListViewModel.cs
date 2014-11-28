@@ -24,12 +24,12 @@ namespace SKDModule.ViewModels
 
 		protected override EmployeeFilter Filter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parent.UID }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { _parent.UID }, OrganisationUIDs = new List<Guid> { _parent.OrganisationUID }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
 		}
 
 		protected override EmployeeFilter EmptyFilter
 		{
-			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Guid.Empty }, LogicalDeletationType = _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active }; }
+			get { return new EmployeeFilter { PositionUIDs = new List<Guid> { Guid.Empty }, OrganisationUIDs = new List<Guid> { _parent.OrganisationUID }, WithDeletedPositions = true }; }
 		}
 
 		protected override Guid GetParentUID(Employee employee)

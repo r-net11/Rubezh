@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -90,6 +91,7 @@ namespace SKDModule.ViewModels
 			{
 				if (IsNew)
 				{
+					Model.DayIntervals = new List<ScheduleDayInterval>();
 					switch (SelectedScheduleSchemeType)
 					{
 						case ScheduleSchemeType.Month:

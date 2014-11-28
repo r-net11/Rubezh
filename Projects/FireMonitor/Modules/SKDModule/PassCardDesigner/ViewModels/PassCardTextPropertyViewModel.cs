@@ -5,7 +5,6 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans.Elements;
 
 namespace SKDModule.PassCardDesigner.ViewModels
 {
@@ -15,7 +14,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			Title = "Свойства фигуры: Текстовое свойство";
 			PropertyTypes = new ObservableCollection<PassCardTextPropertyType>(Enum.GetValues(typeof(PassCardTextPropertyType)).Cast<PassCardTextPropertyType>());
+			_organisationUID = element.OrganisationUID;
 		}
+
+		Guid _organisationUID;
 
 		public ObservableCollection<PassCardTextPropertyType> PropertyTypes { get; private set; }
 		private PassCardTextPropertyType _selectedPropertyType;
@@ -55,6 +57,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				LogicalDeletationType = LogicalDeletationType.Active,
 				Type = AdditionalColumnDataType.Text,
+				OrganisationUIDs = new System.Collections.Generic.List<Guid> { ((ElementPassCardTextProperty)ElementTextBlock).OrganisationUID }
 			};
 			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();

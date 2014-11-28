@@ -53,7 +53,8 @@ namespace SKDModule.ViewModels
 
 		void OnNewDepartment(ShortDepartment model)
 		{
-			var parent = Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID);
+			var parent = Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) || 
+				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
 			if (parent != null)
 			{
 				var viewModel = new DepartmentViewModel();

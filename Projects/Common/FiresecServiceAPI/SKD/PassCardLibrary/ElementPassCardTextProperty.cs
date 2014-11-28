@@ -30,6 +30,8 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid AdditionalColumnUID { get; set; }
 
+		public Guid OrganisationUID { get; set; }
+
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;

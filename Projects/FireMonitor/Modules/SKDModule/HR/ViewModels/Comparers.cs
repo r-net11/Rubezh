@@ -35,6 +35,14 @@ namespace SKDModule.ViewModels
 		}
 	}
 
+	public class DepartmentViewModelPhoneComparer : TreeNodeComparer<DepartmentViewModel>
+	{
+		protected override int Compare(DepartmentViewModel x, DepartmentViewModel y)
+		{
+			return string.Compare(x.Phone, y.Phone);
+		}
+	}
+
 	public class DepartmentViewModelDescriptionComparer : TreeNodeComparer<DepartmentViewModel>
 	{
 		protected override int Compare(DepartmentViewModel x, DepartmentViewModel y)

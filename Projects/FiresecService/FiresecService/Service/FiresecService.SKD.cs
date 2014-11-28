@@ -1138,15 +1138,15 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				if (isNew)
-					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_карты, item.Caption);
+					AddJournalMessage(JournalEventNameType.Добавление_нового_шаблона_пропуска, item.Caption);
 				else
-					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_карты, item.Caption, JournalEventDescriptionType.Редактирование);
+					AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, item.Caption, JournalEventDescriptionType.Редактирование);
 				return databaseService.PassCardTemplateTranslator.Save(item);
 			}
 		}
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_карты, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
@@ -1154,7 +1154,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestorePassCardTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_карты, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, name, JournalEventDescriptionType.Восстановление);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.Restore(uid);

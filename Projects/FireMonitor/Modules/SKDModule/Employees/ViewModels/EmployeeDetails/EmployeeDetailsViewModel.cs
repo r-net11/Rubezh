@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
@@ -17,6 +18,8 @@ namespace SKDModule.ViewModels
 		Organisation _organisation;
 		PersonType _personType;
 		bool _isNew;
+		public ObservableCollection<Gender> Genders { get; private set; }
+		public ObservableCollection<EmployeeDocumentType> DocumentTypes { get; private set; }
 
 		public EmployeeDetailsViewModel() { }
 
@@ -35,12 +38,22 @@ namespace SKDModule.ViewModels
 			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
 			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
 			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
-			SelectGenderCommand = new RelayCommand(OnSelectGender);
-			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
 			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 
 			CanEditDepartment = canEditDepartment;
 			_canEditPosition = canEditPosition;
+			
+			Genders = new ObservableCollection<Gender>();
+			foreach (Gender item in Enum.GetValues(typeof(Gender)))
+			{
+				Genders.Add(item);
+			}
+
+			DocumentTypes = new ObservableCollection<EmployeeDocumentType>();
+			foreach (EmployeeDocumentType item in Enum.GetValues(typeof(EmployeeDocumentType)))
+			{
+				DocumentTypes.Add(item);
+			}
 
 			_organisation = OrganisationHelper.GetSingle(organisationUID);
 			_personType = personType;
@@ -582,16 +595,6 @@ namespace SKDModule.ViewModels
 		#endregion
 
 		#region Commands
-		public RelayCommand SelectDocumentTypeCommand { get; private set; }
-		void OnSelectDocumentType()
-		{
-			var selectDateViewModel = new DocumentTypeSelectionViewModel(DocumentType);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				DocumentType = selectDateViewModel.DocumentType;
-			}
-		}
-
 		public RelayCommand SelectCredentialsStartDateCommand { get; private set; }
 		void OnSelectCredentialsStartDate()
 		{
@@ -613,16 +616,6 @@ namespace SKDModule.ViewModels
 				{
 					ScheduleStartDate = scheduleSelectionViewModel.StartDate;
 				}
-			}
-		}
-
-		public RelayCommand SelectGenderCommand { get; private set; }
-		void OnSelectGender()
-		{
-			var selectDateViewModel = new GenderSelectionViewModel(Gender);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				Gender = selectDateViewModel.Gender;
 			}
 		}
 

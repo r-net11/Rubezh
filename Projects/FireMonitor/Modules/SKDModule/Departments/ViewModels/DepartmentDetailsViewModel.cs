@@ -135,7 +135,8 @@ namespace SKDModule.ViewModels
 					Name = Department.Name,
 					ParentDepartmentUID = Department.ParentDepartmentUID,
 					ChildDepartmentUIDs = Department.ChildDepartmentUIDs,
-					Phone = Department.Phone
+					Phone = Department.Phone, 
+					OrganisationUID = OrganisationUID
 				};
 			}
 		}

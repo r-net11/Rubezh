@@ -68,7 +68,6 @@ namespace SKDModule.PassCardDesigner.ViewModels
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "/Controls;component/Images/shapes-align-verti-middle.png", "Выровнять по горизонтали"));
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "/Controls;component/Images/shapes-align-verti-bottom.png", "Выровнять по нижнему краю"));
 			}
-			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 		}
 
 		#region IDetailsViewModel<ShortPassCardTemplate> Members
@@ -90,6 +89,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		public bool Initialize(Organisation organisation, ShortPassCardTemplate model, ViewPartViewModel parentViewModel)
 		{
 			_organisationUID = organisation.UID;
+			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 			bool _isNew = model == null;
 			if (_isNew)
 			{
@@ -120,7 +120,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				ImageSource = "/Controls;component/Images/Text.png",
 				ToolTip = "Текстовое свойство",
-				Adorner = new PassCardTextPropertyAdorner(DesignerCanvas),
+				Adorner = new PassCardTextPropertyAdorner(DesignerCanvas, _organisationUID),
 				Index = 300,
 				Autostart = true
 			};
@@ -128,7 +128,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				ImageSource = "/Controls;component/Images/Photo.png",
 				ToolTip = "Графическое свойство",
-				Adorner = new PassCardImagePropertyAdorner(DesignerCanvas),
+				Adorner = new PassCardImagePropertyAdorner(DesignerCanvas, _organisationUID),
 				Index = 301,
 				Autostart = true
 			};

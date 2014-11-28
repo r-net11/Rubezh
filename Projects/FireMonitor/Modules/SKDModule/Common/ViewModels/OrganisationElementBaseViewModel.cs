@@ -134,5 +134,6 @@ namespace SKDModule.ViewModels
 		Guid UID { get; }
 		Guid OrganisationUID { get; }
 		string Name { get; }
+		string Description { get; }
 	}
 }

@@ -146,12 +146,24 @@ namespace SKDDriver
 
 			if (filter.DepartmentUIDs.IsNotNullOrEmpty())
 			{
-				result = result.And(e => e != null && filter.DepartmentUIDs.Contains(e.DepartmentUID.Value));
-				result = result.And(e => e != null);
+				if (filter.WithDeletedDepartments)
+				{
+					result = result.And(e => filter.DepartmentUIDs.Contains(e.DepartmentUID.Value) || Context.Departments.Any(x => x.IsDeleted && x.UID == e.DepartmentUID));
+				}
+				else
+				{
+					result = result.And(e => e != null && filter.DepartmentUIDs.Contains(e.DepartmentUID.Value));
+					result = result.And(e => e != null);
+				}
 			}
 
 			if (filter.PositionUIDs.IsNotNullOrEmpty())
-				result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+			{
+				if (filter.WithDeletedPositions)
+					result = result.And(e => filter.PositionUIDs.Contains(e.PositionUID.Value) || Context.Positions.Any(x => x.IsDeleted && x.UID == e.PositionUID));
+				else
+					result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
+			}
 
 			if (filter.ScheduleUIDs.IsNotNullOrEmpty())
 				result = result.And(e => e != null && filter.ScheduleUIDs.Contains(e.PositionUID.Value));

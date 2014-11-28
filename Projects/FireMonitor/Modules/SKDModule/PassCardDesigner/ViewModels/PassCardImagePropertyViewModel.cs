@@ -70,7 +70,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				LogicalDeletationType = LogicalDeletationType.Active,
 				Type = AdditionalColumnDataType.Graphics,
-				OrganisationUIDs = OrganisationHelper.Get(new OrganisationFilter()).Select(x => x.UID).ToList()
+				OrganisationUIDs = new System.Collections.Generic.List<Guid> { ((ElementPassCardImageProperty)ElementRectangle).OrganisationUID }
 			};
 			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();

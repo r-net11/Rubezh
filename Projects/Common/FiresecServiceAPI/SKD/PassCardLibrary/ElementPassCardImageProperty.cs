@@ -38,6 +38,8 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Text { get; set; }
 
+		public Guid OrganisationUID { get; set; }
+
 		public override Primitive Primitive
 		{
 			get { return Primitive.NotPrimitive; }

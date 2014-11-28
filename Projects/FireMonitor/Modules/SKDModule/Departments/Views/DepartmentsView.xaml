@@ -8,6 +8,7 @@
 	<UserControl.Resources>
 		<viewModel:DepartmentViewModelNameComparer x:Key="DepartmentViewModelNameComparer" />
 		<viewModel:DepartmentViewModelDescriptionComparer x:Key="DepartmentViewModelDescriptionComparer" />
+        <viewModel:DepartmentViewModelPhoneComparer x:Key="DepartmentViewModelPhoneComparer" />
     </UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -41,11 +42,11 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Телефон" ListViewLayoutManager.StarWidth="1">
+                    <GridViewColumn Header="Телефон" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelPhoneComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Phone}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{StaticResource IsDeletedStyle}" />
+									<TextBlock Text="{Binding Phone}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>

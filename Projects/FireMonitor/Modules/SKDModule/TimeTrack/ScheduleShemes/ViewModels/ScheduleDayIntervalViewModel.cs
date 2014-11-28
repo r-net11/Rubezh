@@ -43,7 +43,6 @@ namespace SKDModule.ViewModels
 			{
 				Name = (Model.Number + 1).ToString();
 			}
-			//Name = _scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString("dddd") : (Model.Number + 1).ToString();
 			SelectedDayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayIntervalUID) ?? DayIntervals[0];
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DayIntervals);

@@ -106,9 +106,20 @@ namespace SKDModule.ViewModels
 		protected override DayInterval CopyModel(DayInterval source)
 		{
 			var copy = base.CopyModel(source);
-			copy.DayIntervalParts = source.DayIntervalParts;
+			foreach (var item in source.DayIntervalParts)
+			{
+				var dayIntervalPart = new DayIntervalPart
+				{
+					DayIntervalUID = copy.UID,
+					BeginTime = item.BeginTime,
+					EndTime = item.EndTime,
+					TransitionType = item.TransitionType
+				};
+				copy.DayIntervalParts.Add(dayIntervalPart);
+			}
 			return copy;
 		}
+
 
 		protected override string ItemRemovingName
 		{

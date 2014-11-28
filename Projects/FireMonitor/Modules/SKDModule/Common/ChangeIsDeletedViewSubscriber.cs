@@ -49,7 +49,6 @@ namespace SKDModule
 					var gridViewColumn = new GridViewColumn();
 					gridViewColumn.Header = "Дата удаления";
 					gridViewColumn.Width = 150;
-
 					var dataTemplate = new DataTemplate();
 					var txtElement = new FrameworkElementFactory(typeof(IsDeletedTextBlock));
 					dataTemplate.VisualTree = txtElement;
@@ -58,7 +57,6 @@ namespace SKDModule
 					binding.Path = new PropertyPath(bindingPath);
 					binding.Mode = BindingMode.OneWay;
 					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
-
 					gridViewColumn.CellTemplate = dataTemplate;
 					gridView.Columns.Add(gridViewColumn);
 				}

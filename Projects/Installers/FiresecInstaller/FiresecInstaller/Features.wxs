@@ -18,7 +18,7 @@
       </Feature>
 
       <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
-        <Condition Level="2">INSTALL_GK</Condition>
+        <Condition Level="1">INSTALL_GK</Condition>
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>

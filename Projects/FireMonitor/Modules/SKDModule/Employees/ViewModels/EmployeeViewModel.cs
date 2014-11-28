@@ -144,6 +144,7 @@ namespace SKDModule.ViewModels
 			{
 				var card = cardDetailsViewModel.Card;
 				card.HolderUID = Model.UID;
+				card.EmployeeName = Model.Name;
 				var saveResult = CardHelper.Add(card);
 				if (!saveResult)
 					return;

@@ -36,6 +36,11 @@ namespace SKDModule.ViewModels
 		}
 
 		public ObservableCollection<ShortEmployee> Employees { get; set; }
+		
+		protected override bool CanSave()
+		{
+			return SelectedEmployee != null;
+		}
 
 		ShortEmployee _selectedEmployee;
 		public ShortEmployee SelectedEmployee

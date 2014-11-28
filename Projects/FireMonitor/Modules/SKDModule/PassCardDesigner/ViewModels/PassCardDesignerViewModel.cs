@@ -90,9 +90,17 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
 			if (e.Element is ElementPassCardImageProperty)
-				e.PropertyViewModel = new PassCardImagePropertyViewModel((ElementPassCardImageProperty)e.Element);
+			{
+				var elementPassCardImageProperty = (ElementPassCardImageProperty)e.Element;
+				elementPassCardImageProperty.OrganisationUID = PassCardTemplate.OrganisationUID;
+				e.PropertyViewModel = new PassCardImagePropertyViewModel(elementPassCardImageProperty);
+			}
 			else if (e.Element is ElementPassCardTextProperty)
-				e.PropertyViewModel = new PassCardTextPropertyViewModel((ElementPassCardTextProperty)e.Element);
+			{
+				var elementPassCardTextProperty = (ElementPassCardTextProperty)e.Element;
+				elementPassCardTextProperty.OrganisationUID = PassCardTemplate.OrganisationUID;
+				e.PropertyViewModel = new PassCardTextPropertyViewModel(elementPassCardTextProperty);
+			}
 		}
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{

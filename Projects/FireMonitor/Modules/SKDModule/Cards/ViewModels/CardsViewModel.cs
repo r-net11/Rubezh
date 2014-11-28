@@ -30,6 +30,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<RemoveOrganisationEvent>().Subscribe(OnRemoveOrganisation);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
 			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Unsubscribe(OnEditEmployee);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Subscribe(OnEditEmployee);
 		}
 
 		void OnNewCard(SKDCard newCard)
@@ -74,6 +76,17 @@ namespace SKDModule.ViewModels
 				organisation.Update(newOrganisation);
 			}
 			OnPropertyChanged(() => RootItems);
+		}
+
+		void OnEditEmployee(Guid employeeUID)
+		{
+			var card = RootItems.SelectMany(x => x.Children).FirstOrDefault(x => x.Card.HolderUID == employeeUID);
+			if (card != null)
+			{
+				var employee = EmployeeHelper.GetSingleShort(employeeUID);
+				card.Card.EmployeeName = employee.Name;
+				card.Update(card.Card);
+			}
 		}
 
 		void OnOrganisationUsersChanged(Organisation newOrganisation)

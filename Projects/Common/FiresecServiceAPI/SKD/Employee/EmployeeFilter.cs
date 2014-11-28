@@ -29,7 +29,13 @@ namespace FiresecAPI.SKD
 		public List<Guid> DepartmentUIDs { get; set; }
 
 		[DataMember]
+		public bool WithDeletedDepartments { get; set; }
+
+		[DataMember]
 		public List<Guid> PositionUIDs { get; set; }
+
+		[DataMember]
+		public bool WithDeletedPositions { get; set; }
 
 		[DataMember]
 		public List<Guid> ScheduleUIDs { get; set; }
