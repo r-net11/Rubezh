@@ -1,15 +1,14 @@
 ﻿<UserControl x:Class="AutomationModule.Views.StepsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<UserControl.Resources>
 		<ContextMenu x:Key="StepContextMenu">
-			<Controls:IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
-			<Controls:IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
-			<Controls:IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" />
-			<Controls:IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" />
-			<Controls:IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" />
+			<IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
+			<IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
+			<IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" />
+			<IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" />
+			<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" />
 		</ContextMenu>
 	</UserControl.Resources>
 
@@ -21,13 +20,13 @@
 			<RowDefinition Height="200" MinHeight="150"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Controls:ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
-			<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
-			<Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/AddCondition.png" />
+			<ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
+			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
+			<ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/AddCondition.png" />
 			<ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/AddCycle.png" />
-			<Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/ArrowUp.png" />
-			<Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/ArrowDown.png" />
-			<Controls:ToolBarButton Command="{Binding DownIntoCommand}" ToolTip="Войти" ImageSource="/Controls;component/Images/ArrowInto.png" />
+			<ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/ArrowUp.png" />
+			<ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/ArrowDown.png" />
+			<ToolBarButton Command="{Binding DownIntoCommand}" ToolTip="Войти" ImageSource="/Controls;component/Images/ArrowInto.png" />
 
 		</StackPanel>
 		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
@@ -43,16 +42,16 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<DockPanel ContextMenu="{StaticResource StepContextMenu}">
-									<Controls:EditorPresenter>
-										<Controls:EditorPresenter.ViewTemplate>
+									<EditorPresenter>
+										<EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
 													<Image VerticalAlignment="Center"  Source="{Binding ImageSource}" Margin="1 0 0 0" />
 													<TextBlock VerticalAlignment="Center" Text="{Binding Step.ProcedureStepType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
 												</StackPanel>
 											</ControlTemplate>
-										</Controls:EditorPresenter.ViewTemplate>
-									</Controls:EditorPresenter>
+										</EditorPresenter.ViewTemplate>
+									</EditorPresenter>
 								</DockPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -61,13 +60,13 @@
 					<GridViewColumn Width="100" Header="Значение">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<Controls:EditorPresenter>
-									<Controls:EditorPresenter.ViewTemplate>
+								<EditorPresenter>
+									<EditorPresenter.ViewTemplate>
 										<ControlTemplate>
 											<TextBlock Text="{Binding Content.Description}" ToolTip="{Binding Content.Description}"  />
 										</ControlTemplate>
-									</Controls:EditorPresenter.ViewTemplate>
-								</Controls:EditorPresenter>
+									</EditorPresenter.ViewTemplate>
+								</EditorPresenter>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

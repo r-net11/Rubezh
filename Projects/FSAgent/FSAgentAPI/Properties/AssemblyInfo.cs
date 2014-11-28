@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Группа компаний 'Рубеж'")]
 [assembly: AssemblyProduct("FSAgentAPI")]
-[assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2013")]
+[assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

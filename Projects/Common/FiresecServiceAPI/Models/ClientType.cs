@@ -6,7 +6,7 @@ namespace FiresecAPI.Models
 		[Description("Администратор")]
 		Administrator,
 
-		[Description("ОЗ")]
+		[Description("Оперативная задача")]
 		Monitor,
 
 		[Description("Itv")]
