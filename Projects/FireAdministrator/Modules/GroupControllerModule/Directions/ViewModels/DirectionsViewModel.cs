@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
+using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -34,7 +34,8 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -78,6 +79,42 @@ namespace GKModule.ViewModels
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
 			}
+		}
+
+		GKDirection _directionToCopy;
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			_directionToCopy = Utils.Clone(SelectedDirection.Direction);
+			var logicViewModel = new LogicViewModel(null, SelectedDirection.Direction.Logic, true);
+			_directionToCopy.Logic = logicViewModel.GetModel();
+		}
+
+		bool CanCopy()
+		{
+			return SelectedDirection != null;
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			_directionToCopy.UID = Guid.NewGuid();
+			var directionViewModel = new DirectionViewModel(Utils.Clone(_directionToCopy));
+			var logicViewModel = new LogicViewModel(null, _directionToCopy.Logic, true);
+			directionViewModel.Direction.Logic = logicViewModel.GetModel();
+			directionViewModel.Direction.No = (ushort)(GKManager.Directions.Select(x => x.No).Max() + 1);
+			directionViewModel.Direction.InputDevices = new List<GKDevice>();
+			directionViewModel.Direction.InputZones = new List<GKZone>();
+			directionViewModel.Direction.OutputDevices = new List<GKDevice>();
+			GKManager.Directions.Add(directionViewModel.Direction);
+			Directions.Add(directionViewModel);
+			SelectedDirection = directionViewModel;
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		bool CanPaste()
+		{
+			return _directionToCopy != null;
 		}
 
 		bool CanEditDelete()
@@ -198,6 +235,8 @@ namespace GKModule.ViewModels
 
 		void RegisterShortcuts()
 		{
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
@@ -273,6 +312,8 @@ namespace GKModule.ViewModels
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
 					new RibbonMenuItemViewModel("Удалить все пустые направления", DeleteAllEmptyCommand, "/Controls;component/Images/BDeleteEmpty.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 2 }

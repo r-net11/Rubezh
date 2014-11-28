@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;

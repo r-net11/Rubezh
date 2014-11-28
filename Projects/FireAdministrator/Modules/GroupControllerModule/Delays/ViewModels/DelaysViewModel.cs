@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -26,6 +27,8 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -59,6 +62,39 @@ namespace GKModule.ViewModels
 				_selectedDelay = value;
 				OnPropertyChanged(() => SelectedDelay);
 			}
+		}
+
+		GKDelay _delayToCopy;
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			_delayToCopy = Utils.Clone(SelectedDelay.Delay);
+			var logicViewModel = new LogicViewModel(null, SelectedDelay.Delay.Logic, true);
+			_delayToCopy.Logic = logicViewModel.GetModel();
+		}
+
+		bool CanCopy()
+		{
+			return SelectedDelay != null;
+		}
+
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			_delayToCopy.UID = Guid.NewGuid();
+			var delayViewModel = new DelayViewModel(Utils.Clone(_delayToCopy));
+			var logicViewModel = new LogicViewModel(null, _delayToCopy.Logic, true);
+			delayViewModel.Delay.Logic = logicViewModel.GetModel();
+			delayViewModel.Delay.No = (ushort)(GKManager.Delays.Select(x => x.No).Max() + 1);
+			GKManager.Delays.Add(delayViewModel.Delay);
+			Delays.Add(delayViewModel);
+			SelectedDelay = delayViewModel;
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		bool CanPaste()
+		{
+			return _delayToCopy != null;
 		}
 
 		public bool HasSelectedDelay
@@ -130,6 +166,8 @@ namespace GKModule.ViewModels
 
 		private void RegisterShortcuts()
 		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
@@ -143,6 +181,8 @@ namespace GKModule.ViewModels
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};

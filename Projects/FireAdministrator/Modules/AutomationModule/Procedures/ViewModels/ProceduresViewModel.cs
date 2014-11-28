@@ -7,6 +7,7 @@ using Common;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
@@ -28,6 +29,7 @@ namespace AutomationModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			CutCommand = new RelayCommand(OnCut, CanCopy);
 			RegisterShortcuts();
+			SetRibbonItems();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = false;
 		}
@@ -232,6 +234,22 @@ namespace AutomationModule.ViewModels
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.X, ModifierKeys.Control), CutCommand);
 			RegisterShortcut(new KeyGesture(System.Windows.Input.Key.E, ModifierKeys.Control), EditCommand);
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
+					new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
+			};
 		}
 
 		public override void OnHide()
