@@ -4,7 +4,7 @@ using Infrastructure.Common.Navigation;
 
 namespace SKDModule.Events
 {
-    public class ShowSKDDoorEvent : CompositePresentationEvent<ShowOnPlanArgs<Guid>>
+	public class ShowSKDDoorEvent : CompositePresentationEvent<ShowOnPlanArgs<Guid>>
 	{
 	}
 }

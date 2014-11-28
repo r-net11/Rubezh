@@ -17,7 +17,7 @@ namespace ChinaSKDDriver
 		const int DH_ALARM_ACCESS_CTL_DURESS = 0x3180;
 		const int DH_ALARM_ACCESS_CTL_STATUS = 0x3185;
 		const int DH_ALARM_CHASSISINTRUDED = 0x3173;
-		const int DH_ALARM_OPENDOORGROUP = 0x318c;     // Multi-people group unlock event
+		const int DH_ALARM_OPENDOORGROUP = 0x318c;	 // Multi-people group unlock event
 		const int DH_ALARM_FINGER_PRINT = 0x318d;
 		const int DH_ALARM_ALARM_EX2 = 0x2175;		// local alarm event
 

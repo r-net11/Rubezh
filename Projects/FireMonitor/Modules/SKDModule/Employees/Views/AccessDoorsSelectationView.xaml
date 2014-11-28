@@ -17,8 +17,8 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-                                    <TextBlock Text="{Binding PresentationName}" Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
+									<TextBlock Text="{Binding PresentationName}" Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
@@ -30,24 +30,24 @@
 			<StackPanel IsEnabled="{Binding IsChecked}">
 				<StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left" />
-                    <ComboBox Margin="2" ItemsSource="{Binding EnterSchedules}" SelectedItem="{Binding SelectedEnterSchedule}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="2" Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
+					<ComboBox Margin="2" ItemsSource="{Binding EnterSchedules}" SelectedItem="{Binding SelectedEnterSchedule}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Margin="2" Text="{Binding Name}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</StackPanel>
 				<StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
-                    <ComboBox Margin="2" ItemsSource="{Binding ExitSchedules}" SelectedItem="{Binding SelectedExitSchedule}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="2" Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
+					<ComboBox Margin="2" ItemsSource="{Binding ExitSchedules}" SelectedItem="{Binding SelectedExitSchedule}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Margin="2" Text="{Binding Name}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</StackPanel>
 			</StackPanel>
 		</Grid>
 	</Grid>

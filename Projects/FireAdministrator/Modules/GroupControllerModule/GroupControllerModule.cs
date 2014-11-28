@@ -121,7 +121,7 @@ namespace GKModule
 							new NavigationItem<ShowGKGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
 							new NavigationItemEx<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
-                    new NavigationItem("СКД", "/Controls;component/Images/tree.png",
+					new NavigationItem("СКД", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
 							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
@@ -132,12 +132,12 @@ namespace GKModule
 					new NavigationItem<ShowGKInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 #if DEBUG
 					new NavigationItem("OPC Сервер", "/Controls;component/Images/tree.png",
-					    new List<NavigationItem>()
-					    {
-					        new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					        new NavigationItem<ShowGKOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
-					        new NavigationItem<ShowGKOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),
-					    }),
+						new List<NavigationItem>()
+						{
+							new NavigationItem<ShowGKOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowGKOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+							new NavigationItem<ShowGKOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty),
+						}),
 					new NavigationItem<ShowGKDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
 					new NavigationItem<ShowGKDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Descriptors.png"),
 					new NavigationItem<ShowGKDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),

@@ -15,6 +15,6 @@ namespace FiresecAPI
 		[ServiceKnownType(typeof(Color))]
 		void ProcedureCallbackResponse(Guid callbackUID, object value);
 		[OperationContract]
-        ProcedureProperties GetProperties(Guid layoutUID);
+		ProcedureProperties GetProperties(Guid layoutUID);
 	}
 }

@@ -773,14 +773,14 @@ namespace ChinaSKDDriverNativeApi
 			NET_SENSE_THREEMETHOD,		//Three Method
 			NET_SENSE_TEMP,				//Temperature
 			NET_SENSE_HUMIDITY,			//Humidity
-			NET_SENSE_WIND,             //Wind
+			NET_SENSE_WIND,			 //Wind
 			NET_SENSE_CALLBUTTON,		//Call button
-			NET_SENSE_GASPRESSURE,      //Gas Pressure
+			NET_SENSE_GASPRESSURE,	  //Gas Pressure
 			NET_SENSE_GASCONCENTRATION, //Gas Concentration
-			NET_SENSE_GASFLOW,          //Gas Flow
+			NET_SENSE_GASFLOW,		  //Gas Flow
 			NET_SENSE_OTHER,			//Other
-			NET_SENSE_OIL,              //oil detectionЈ¬gasoline, diesel vehicles detection
-			NET_SENSE_MILEAGE,          //mileage detection
+			NET_SENSE_OIL,			  //oil detectionЈ¬gasoline, diesel vehicles detection
+			NET_SENSE_MILEAGE,		  //mileage detection
 			NET_SENSE_NUM,				//Number of enumeration type
 		}
 

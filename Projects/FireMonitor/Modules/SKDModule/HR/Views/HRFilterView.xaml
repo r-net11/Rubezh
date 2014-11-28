@@ -13,14 +13,14 @@
 		<TabControl Grid.Row="0">
 			<Views:FilterOrganisationTabItem />
 			<TabItem Header="Отделы" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
+				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>
 			<TabItem Header="Должности" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
-            </TabItem>
+				<Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
+			</TabItem>
 			<TabItem Header="Сотрудники">
-                <Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
-            </TabItem>
+				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
+			</TabItem>
 		</TabControl>
 		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
 	</Grid>

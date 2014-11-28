@@ -27,13 +27,13 @@ namespace FiresecService
 				//var random = new Random();
 				//for (int i = 0; i < Int32.MaxValue; i++)
 				//{
-				//    var journalItem = new JournalItem();
-				//    journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-				//    journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
-				//    journalItem.JournalEventNameType = (JournalEventNameType)random.Next(100);
-				//    journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)random.Next(100);
-				//    journalItem.ObjectUID = Guid.NewGuid();
-				//    DBHelper.Add(journalItem);
+				//	var journalItem = new JournalItem();
+				//	journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
+				//	journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
+				//	journalItem.JournalEventNameType = (JournalEventNameType)random.Next(100);
+				//	journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)random.Next(100);
+				//	journalItem.ObjectUID = Guid.NewGuid();
+				//	DBHelper.Add(journalItem);
 				//}
 			}
 			catch (ConnectionFailureException e)

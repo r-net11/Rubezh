@@ -14,7 +14,7 @@
 			<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 			<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
 			<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
-            <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 
 		<Grid Grid.Row="1">
@@ -31,7 +31,7 @@
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 										<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Schedule.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" RenderOptions.BitmapScalingMode="NearestNeighbor" RenderOptions.EdgeMode="Aliased" />
-                                        <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+										<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -40,12 +40,12 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Scheme}" Style="{StaticResource IsDeletedStyle}" />
+										<TextBlock Text="{Binding Scheme}" Style="{StaticResource IsDeletedStyle}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-                    </GridView>
+					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
 			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
@@ -65,7 +65,7 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-                                        <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
+										<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>

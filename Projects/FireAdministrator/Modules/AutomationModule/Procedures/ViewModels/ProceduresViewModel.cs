@@ -66,12 +66,12 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedProcedure = value;
 				OnPropertyChanged(() => SelectedProcedure);
-                if (value != null)
-                {
-                    value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
-                    value.StepsViewModel.UpdateContent();
-                }
-            }
+				if (value != null)
+				{
+					value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
+					value.StepsViewModel.UpdateContent();
+				}
+			}
 		}
 
 		Procedure _procedureToCopy;

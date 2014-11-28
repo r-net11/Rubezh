@@ -116,7 +116,7 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			Instruments = new ObservableCollection<IInstrument>();
 			RegisterInstruments(new IInstrument[]
-            {
+			{
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Cursor.png",
@@ -138,7 +138,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Линия",
 					Index = 1011,
 					Adorner = new PolylineAdorner(DesignerCanvas),
-                    GroupIndex = 1010,
+					GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -146,7 +146,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Прямоугольник",
 					Index = 1012,
 					Adorner = new RectangleAdorner(DesignerCanvas),
-                    GroupIndex = 1010,
+					GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -154,7 +154,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Эллипс",
 					Index = 1013,
 					Adorner = new ElipseAdorner(DesignerCanvas),
-                    GroupIndex = 1010,
+					GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -162,7 +162,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Многоугольник",
 					Index = 1014,
 					Adorner = new PolygonAdorner(DesignerCanvas),
-                    GroupIndex = 1010,
+					GroupIndex = 1010,
 				},
 				new InstrumentViewModel()
 				{
@@ -177,7 +177,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Добавить горизонтальную линию привязки",
 					Index = 1501,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
-                    GroupIndex = 1501,
+					GroupIndex = 1501,
 				},
 				new InstrumentViewModel()
 				{
@@ -185,7 +185,7 @@ namespace Infrastructure.Designer.ViewModels
 					ToolTip="Добавить вертикальную линию привязки",
 					Index = 1502,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
-                    GroupIndex = 1501,
+					GroupIndex = 1501,
 				},
 				new InstrumentViewModel()
 				{

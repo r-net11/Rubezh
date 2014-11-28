@@ -5,12 +5,12 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 
 	<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" MinWidth="200" />
-        </Grid.ColumnDefinitions>
-        <XDataGrid Grid.Column="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" MinWidth="200" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" MinWidth="200" />
+		</Grid.ColumnDefinitions>
+		<XDataGrid Grid.Column="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="№" SortMemberPath="Schedule.No" Width="Auto" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
@@ -27,45 +27,45 @@
 			</DataGrid.Columns>
 		</XDataGrid>
 
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
-        <Grid Grid.Column="2" DataContext="{Binding SelectedSchedule}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
-                <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
-            </StackPanel>
-            <DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Width="Auto" Binding="{Binding Name, Mode=OneWay}" Header="День" />
-                    <DataGridTemplateColumn Width="*" Header="Наименование">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-                                    <TextBlock Text="{Binding SelectedDaySchedule.Name}" VerticalAlignment="Center" Margin="2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableDaySchedules}" SelectedItem="{Binding SelectedDaySchedule, UpdateSourceTrigger=PropertyChanged}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <DockPanel Background="Transparent">
-                                                <Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Shedule.png" />
-                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="Black" Margin="2" />
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-    </Grid>
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
+		<Grid Grid.Column="2" DataContext="{Binding SelectedSchedule}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+				<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+			</StackPanel>
+			<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Width="Auto" Binding="{Binding Name, Mode=OneWay}" Header="День" />
+					<DataGridTemplateColumn Width="*" Header="Наименование">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
+									<TextBlock Text="{Binding SelectedDaySchedule.Name}" VerticalAlignment="Center" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+						<DataGridTemplateColumn.CellEditingTemplate>
+							<DataTemplate>
+								<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableDaySchedules}" SelectedItem="{Binding SelectedDaySchedule, UpdateSourceTrigger=PropertyChanged}">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<DockPanel Background="Transparent">
+												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Shedule.png" />
+												<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="Black" Margin="2" />
+											</DockPanel>
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellEditingTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+	</Grid>
 </UserControl>

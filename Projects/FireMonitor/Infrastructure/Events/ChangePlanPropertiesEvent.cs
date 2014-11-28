@@ -7,7 +7,7 @@ using FiresecAPI.AutomationCallback;
 
 namespace Infrastructure.Events
 {
-    public class ChangePlanPropertiesEvent : CompositePresentationEvent<List<PlanCallbackData>>
-    {
-    }
+	public class ChangePlanPropertiesEvent : CompositePresentationEvent<List<PlanCallbackData>>
+	{
+	}
 }

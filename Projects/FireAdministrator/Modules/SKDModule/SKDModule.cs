@@ -89,7 +89,7 @@ namespace SKDModule
 				}) {IsExpanded = true},
 			};
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.SKD; }
 		}

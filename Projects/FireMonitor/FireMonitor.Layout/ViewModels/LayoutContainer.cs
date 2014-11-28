@@ -79,18 +79,18 @@ namespace FireMonitor.Layout.ViewModels
 		private void LoadLayoutProperties()
 		{
 			var properties = FiresecManager.FiresecService.GetProperties(Layout.UID);
-            if (properties != null)
-            {
-                if (properties.VisualProperties!=null)
-                    foreach (var visualProperty in properties.VisualProperties)
-                    {
-                        var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == visualProperty.LayoutPart);
-                        if (layoutPart != null)
-                            layoutPart.SetProperty(visualProperty.Property, visualProperty.Value);
-                    }
-                if (properties.PlanProperties != null)
-                    ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Publish(properties.PlanProperties);
-            }
+			if (properties != null)
+			{
+				if (properties.VisualProperties!=null)
+					foreach (var visualProperty in properties.VisualProperties)
+					{
+						var layoutPart = LayoutParts.FirstOrDefault(item => item.UID == visualProperty.LayoutPart);
+						if (layoutPart != null)
+							layoutPart.SetProperty(visualProperty.Property, visualProperty.Value);
+					}
+				if (properties.PlanProperties != null)
+					ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Publish(properties.PlanProperties);
+			}
 		}
 
 		private ObservableCollection<LayoutPartViewModel> _layoutParts;

@@ -8,12 +8,12 @@ namespace GKModule.Validation
 {
 	class ZoneValidationError : PlanObjectValidationError<GKZone, ShowGKZoneEvent, Guid>
 	{
-        public ZoneValidationError(GKZone zone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+		public ZoneValidationError(GKZone zone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
 			: base(zone, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.GK; }
 		}

@@ -151,7 +151,7 @@ namespace GKModule.Plans
 							Autostart = true,
 							GroupIndex = 204,
 						},
-	            };
+				};
 				return _instruments;
 			}
 		}
@@ -332,7 +332,7 @@ namespace GKModule.Plans
 			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
-                    errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementPolygonGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
 					errors.AddRange(FindUnbindedErrors<ElementRectangleGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));

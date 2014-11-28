@@ -384,18 +384,18 @@ namespace JournalModule.ViewModels
 			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 
-        #region ILayoutPartContent Members
+		#region ILayoutPartContent Members
 
 		public ILayoutPartContainer Container
 		{
 			get { return _container; }
 		}
 
-        public void SetLayoutPartContainer(ILayoutPartContainer container)
-        {
-            _container.Add(container);
-        }
+		public void SetLayoutPartContainer(ILayoutPartContainer container)
+		{
+			_container.Add(container);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -2,7 +2,7 @@
 {
 	public partial class ShowDialogStepView
 	{
-        public ShowDialogStepView()
+		public ShowDialogStepView()
 		{
 			InitializeComponent();
 		}

@@ -264,7 +264,7 @@ namespace GKProcessor
 
 			//if (IsBitSet(failureParameterValue, 8))
 			//{
-			//    MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Вскрытие", StringValue = "Да" });
+			//	MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Вскрытие", StringValue = "Да" });
 			//}
 
 			SetValveParameter(failureParameterValue, failureDescriptionParameterValue, stateParameterValue, 7, "ДУ кнопка стоп");
@@ -280,15 +280,15 @@ namespace GKProcessor
 
 			//if (IsBitSet(stateParameterValue, 8))
 			//{
-			//    MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Отсчет задержки на открытие", StringValue = "Да" });
+			//	MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Отсчет задержки на открытие", StringValue = "Да" });
 			//}
 			//if (IsBitSet(stateParameterValue, 12))
 			//{
-			//    MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Ход на закрытие", StringValue = "Да" });
+			//	MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Ход на закрытие", StringValue = "Да" });
 			//}
 			//if (IsBitSet(stateParameterValue, 11))
 			//{
-			//    MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Ход на открытие", StringValue = "Да" });
+			//	MeasureParameters.Add(new GKMeasureParameterValue() { Name = "Ход на открытие", StringValue = "Да" });
 			//}
 
 			var delayParameterValue = BytesHelper.SubstructShort(bytes, 46 + 1 * 2);

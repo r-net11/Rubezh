@@ -355,7 +355,7 @@ namespace FiresecService.Service
 
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
-            return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
+			return SafeOperationCall(() => { return FiresecService.GetProperties(layoutUID); }, "GetProperties");
 		}
 
 		#endregion

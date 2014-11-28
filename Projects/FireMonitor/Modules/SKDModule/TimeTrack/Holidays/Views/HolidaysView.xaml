@@ -23,7 +23,7 @@
 				<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
 				<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
 				<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
-                <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>
 

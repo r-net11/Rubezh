@@ -14,26 +14,26 @@
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
 								<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/AdditionalColumn.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-                                <TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
+								<TextBlock Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 							</StackPanel>
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
+				<GridViewColumn Header="Примечание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
+							<TextBlock Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 				<GridViewColumn Header="Формат данных" Width="100">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding Model.DataType, Converter={StaticResource DataTypeToStringConverter}}" Style="{StaticResource IsDeletedStyle}" />
+							<TextBlock Text="{Binding Model.DataType, Converter={StaticResource DataTypeToStringConverter}}" Style="{StaticResource IsDeletedStyle}" />
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-           </GridView>
+		   </GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>
 </UserControl>

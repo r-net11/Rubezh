@@ -15,7 +15,7 @@ namespace AutomationModule.Validation
 
 		public override ModuleType Module
 		{
-            get { return ModuleType.Automation; }
+			get { return ModuleType.Automation; }
 		}
 		protected override Guid Key
 		{

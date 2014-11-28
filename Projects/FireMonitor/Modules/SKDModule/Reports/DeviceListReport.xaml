@@ -1,8 +1,8 @@
 ﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-              xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
-              xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
-              ColumnWidth="21cm" PageHeight="29.7cm" PageWidth="21cm">
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports"
+			  xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"
+			  ColumnWidth="21cm" PageHeight="29.7cm" PageWidth="21cm">
 	<FlowDocument.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -55,14 +55,14 @@
 			</TableRowGroup>
 			<TableRowGroup Style="{StaticResource header2}">
 				<TableRow>
-                    <TableCell>
-                        <Paragraph TextAlignment="Center">Название</Paragraph>
-                    </TableCell>
-                    <TableCell>
-                        <Paragraph TextAlignment="Center">Адрес</Paragraph>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Название</Paragraph>
 					</TableCell>
 					<TableCell>
-                        <Paragraph TextAlignment="Center">Тип</Paragraph>
+						<Paragraph TextAlignment="Center">Адрес</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Тип</Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>

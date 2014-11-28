@@ -39,7 +39,7 @@ namespace SecurityModule
 				}),
 			};
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Security; }
 		}

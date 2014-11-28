@@ -197,12 +197,12 @@ namespace DevicesModule.Plans
 		{
 			List<ElementError> errors = new List<ElementError>();
 			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
-                FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-                {
-                    errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementDevice, ShowDeviceEvent, Guid>(plan.ElementDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
+				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				{
+					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementDevice, ShowDeviceEvent, Guid>(plan.ElementDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
 					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementRectangleZone, ShowZoneEvent, Guid>(plan.ElementRectangleZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
 					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementPolygonZone, ShowZoneEvent, Guid>(plan.ElementPolygonZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
-                });
+				});
 			return errors;
 		}
 

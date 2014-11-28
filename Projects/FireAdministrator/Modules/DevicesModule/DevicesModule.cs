@@ -98,7 +98,7 @@ namespace DevicesModule
 				_guardNavigationItem
 			};
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Devices; }
 		}

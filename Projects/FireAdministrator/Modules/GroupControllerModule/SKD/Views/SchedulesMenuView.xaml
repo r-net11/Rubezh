@@ -7,8 +7,8 @@
 		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
 
-        <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedSchedule}">
-            <ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="/Controls;component/Images/ParametersWrite.png" />
-        </StackPanel>
-    </StackPanel>
+		<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedSchedule}">
+			<ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="/Controls;component/Images/ParametersWrite.png" />
+		</StackPanel>
+	</StackPanel>
 </UserControl>

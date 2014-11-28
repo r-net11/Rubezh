@@ -25,7 +25,7 @@ namespace GKModule.Validation
 			ValidateDoors();
 			ValidateDaySchedules();
 			ValidateSchedules();
-            ValidatePlans();
+			ValidatePlans();
 			return Errors;
 		}
 

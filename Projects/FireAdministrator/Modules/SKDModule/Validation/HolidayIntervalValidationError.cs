@@ -13,7 +13,7 @@ namespace SKDModule.Validation
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.SKD; }
 		}

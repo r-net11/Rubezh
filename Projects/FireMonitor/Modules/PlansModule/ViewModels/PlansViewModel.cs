@@ -41,10 +41,10 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnFindElementEvent);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
-            ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Unsubscribe(OnChangePlanProperties);
-            ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Subscribe(OnChangePlanProperties);
-            
-            _initialized = false;
+			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Unsubscribe(OnChangePlanProperties);
+			ServiceFactory.Events.GetEvent<ChangePlanPropertiesEvent>().Subscribe(OnChangePlanProperties);
+			
+			_initialized = false;
 			if (_properties.Type != LayoutPartPlansType.Single)
 			{
 				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
@@ -172,11 +172,11 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-        private void OnChangePlanProperties(List<PlanCallbackData> properties)
-        {
-            foreach (var property in properties)
-                SetPlanProperty(property);
-        }
+		private void OnChangePlanProperties(List<PlanCallbackData> properties)
+		{
+			foreach (var property in properties)
+				SetPlanProperty(property);
+		}
 		private void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
 		{
 			switch (automationCallbackResult.AutomationCallbackType)

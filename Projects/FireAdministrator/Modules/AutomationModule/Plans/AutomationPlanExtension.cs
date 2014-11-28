@@ -127,7 +127,7 @@ namespace AutomationModule.Plans
 		{
 			List<ElementError> errors = new List<ElementError>();
 			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
-                FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 					errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
 			return errors;
 		}

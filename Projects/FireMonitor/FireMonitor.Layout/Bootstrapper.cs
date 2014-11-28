@@ -49,7 +49,7 @@ namespace FireMonitor.Layout
 			var viewModel = new SelectLayoutViewModel(layouts);
 			var isSelected = DialogService.ShowModalWindow(viewModel);
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
-            return isSelected ? viewModel.SelectedLayout : null;
+			return isSelected ? viewModel.SelectedLayout : null;
 		}
 		private void UpdateLayout()
 		{

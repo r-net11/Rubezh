@@ -196,9 +196,9 @@ namespace FiresecService
 					break;
 				case ControlElementType.Set:
 					SendCallback(controlPlanArguments, automationCallbackResult);
-                    if (controlPlanArguments.ForAllClients)
-                        ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
-                    break;
+					if (controlPlanArguments.ForAllClients)
+						ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
+					break;
 			}
 		}
 

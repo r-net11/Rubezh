@@ -174,12 +174,12 @@ namespace DiagnosticsModule.ViewModels
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
-        public DevicesViewModel DevicesViewModel
-        {
-            get
-            {
-                return DevicesViewModel.Current;
-            }
-        }
+		public DevicesViewModel DevicesViewModel
+		{
+			get
+			{
+				return DevicesViewModel.Current;
+			}
+		}
 	}
 }

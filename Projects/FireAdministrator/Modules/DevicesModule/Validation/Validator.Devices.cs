@@ -58,13 +58,13 @@ namespace DevicesModule.Validation
 				}
 			}
 			if (pduCount > 10)
-                Errors.Add(new CommonValidationError(ModuleType.Devices, "Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
+				Errors.Add(new CommonValidationError(ModuleType.Devices, "Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
 		}
 
 		void ValidateEmptyConfiguration()
 		{
 			if (_firesecConfiguration.DeviceConfiguration.Devices.Count <= 1)
-                Errors.Add(new CommonValidationError(ModuleType.Devices, "Устройства", string.Empty, string.Format("Конфигурация не содержит подключенных приборов"), ValidationErrorLevel.Warning));
+				Errors.Add(new CommonValidationError(ModuleType.Devices, "Устройства", string.Empty, string.Format("Конфигурация не содержит подключенных приборов"), ValidationErrorLevel.Warning));
 		}
 
 		void ValidateAddressEquality(Device device)

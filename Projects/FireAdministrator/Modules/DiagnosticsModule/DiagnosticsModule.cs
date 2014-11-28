@@ -30,7 +30,7 @@ namespace DiagnosticsModule
 			};
 		}
 
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Diagnostics; }
 		}

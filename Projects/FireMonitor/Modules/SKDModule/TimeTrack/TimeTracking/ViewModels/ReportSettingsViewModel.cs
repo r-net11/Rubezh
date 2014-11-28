@@ -34,67 +34,67 @@ namespace SKDModule.ViewModels
 		//string _fillName;
 		//public string FillName
 		//{
-		//    get { return _fillName; }
-		//    set
-		//    {
-		//        _fillName = value;
-		//        OnPropertyChanged(() => FillName);
-		//    }
+		//	get { return _fillName; }
+		//	set
+		//	{
+		//		_fillName = value;
+		//		OnPropertyChanged(() => FillName);
+		//	}
 		//}
 
 		//string _leadName;
 		//public string LeadName
 		//{
-		//    get { return _leadName; }
-		//    set
-		//    {
-		//        _leadName = value;
-		//        OnPropertyChanged(() => LeadName);
-		//    }
+		//	get { return _leadName; }
+		//	set
+		//	{
+		//		_leadName = value;
+		//		OnPropertyChanged(() => LeadName);
+		//	}
 		//}
 
 		//string _hrName;
 		//public string HRName
 		//{
-		//    get { return _hrName; }
-		//    set
-		//    {
-		//        _hrName = value;
-		//        OnPropertyChanged(() => HRName);
-		//    }
+		//	get { return _hrName; }
+		//	set
+		//	{
+		//		_hrName = value;
+		//		OnPropertyChanged(() => HRName);
+		//	}
 		//}
 
 		//string _fillPosition;
 		//public string FillPosition
 		//{
-		//    get { return _fillPosition; }
-		//    set
-		//    {
-		//        _fillPosition = value;
-		//        OnPropertyChanged(() => FillPosition);
-		//    }
+		//	get { return _fillPosition; }
+		//	set
+		//	{
+		//		_fillPosition = value;
+		//		OnPropertyChanged(() => FillPosition);
+		//	}
 		//}
 
 		//string _leadPosition;
 		//public string LeadPosition
 		//{
-		//    get { return _leadPosition; }
-		//    set
-		//    {
-		//        _leadPosition = value;
-		//        OnPropertyChanged(() => LeadPosition);
-		//    }
+		//	get { return _leadPosition; }
+		//	set
+		//	{
+		//		_leadPosition = value;
+		//		OnPropertyChanged(() => LeadPosition);
+		//	}
 		//}
 
 		//string _hrPosition;
 		//public string HRPosition
 		//{
-		//    get { return _hrPosition; }
-		//    set
-		//    {
-		//        _hrPosition = value;
-		//        OnPropertyChanged(() => HRPosition);
-		//    }
+		//	get { return _hrPosition; }
+		//	set
+		//	{
+		//		_hrPosition = value;
+		//		OnPropertyChanged(() => HRPosition);
+		//	}
 		//}
 
 		DateTime _dateTime;

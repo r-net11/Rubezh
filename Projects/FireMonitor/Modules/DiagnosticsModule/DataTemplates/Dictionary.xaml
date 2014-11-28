@@ -7,8 +7,8 @@
 		<Views:DiagnosticsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ServerViewModel}">
-        <Views:ServerView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ServerViewModel}">
+		<Views:ServerView />
+	</DataTemplate>
 
 </ResourceDictionary>

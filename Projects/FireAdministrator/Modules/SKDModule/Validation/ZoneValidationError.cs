@@ -6,14 +6,14 @@ using Infrastructure.Common;
 
 namespace SKDModule.Validation
 {
-    public class ZoneValidationError : PlanObjectValidationError<SKDZone, ShowSKDZoneEvent, Guid>
+	public class ZoneValidationError : PlanObjectValidationError<SKDZone, ShowSKDZoneEvent, Guid>
 	{
-        public ZoneValidationError(SKDZone zone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
-            : base(zone, error, level, isRightPanelVisible, planUID)
+		public ZoneValidationError(SKDZone zone, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(zone, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.SKD; }
 		}

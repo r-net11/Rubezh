@@ -7,13 +7,13 @@
 	<TabControl>
 		<Views:FilterOrganisationTabItem />
 		<TabItem Header="Отделы">
-            <Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
-        </TabItem>
+			<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
+		</TabItem>
 		<TabItem Header="Должности">
-            <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
-        </TabItem>
+			<Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
+		</TabItem>
 		<TabItem Header="Сотрудники">
-            <Views:EmployeesFilterView DataContext="{Binding EmployeeFilterViewModel}" />
+			<Views:EmployeesFilterView DataContext="{Binding EmployeeFilterViewModel}" />
 		</TabItem>
 		<TabItem Header="Период">
 			<Grid>

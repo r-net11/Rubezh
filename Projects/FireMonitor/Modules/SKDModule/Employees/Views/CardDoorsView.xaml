@@ -4,14 +4,14 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 
-    <DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" Focusable="True">
+	<DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" Focusable="True">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Width="250" Header="Точка доступа">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
-                            <TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding PresentationName}" Margin="2" />
+							<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding PresentationName}" Margin="2" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
@@ -20,16 +20,16 @@
 			<DataGridTemplateColumn Header="Вход" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-                        <TextBlock Text="{Binding EnerScheduleName}" Margin="2" />
-                    </DataTemplate>
+						<TextBlock Text="{Binding EnerScheduleName}" Margin="2" />
+					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 
 			<DataGridTemplateColumn Header="Выход" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-                        <TextBlock Text="{Binding ExitScheduleName}" Margin="2" />
-                    </DataTemplate>
+						<TextBlock Text="{Binding ExitScheduleName}" Margin="2" />
+					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>

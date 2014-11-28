@@ -22,18 +22,18 @@
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Name="Image" Width="16" Source="/Controls;component/Images/CMap.png" />
+								<Image Name="Image" Width="16" Source="/Controls;component/Images/CMap.png" />
 								<TextBlock Text="{Binding Plan.Caption}" />
 							</StackPanel>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsFolder}" Value="True">
-                                    <Setter TargetName="Image" Property="Image.Source" Value="/Controls;component/Images/CFolder.png" />
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
+							<DataTemplate.Triggers>
+								<DataTrigger Binding="{Binding IsFolder}" Value="True">
+									<Setter TargetName="Image" Property="Image.Source" Value="/Controls;component/Images/CFolder.png" />
+								</DataTrigger>
+							</DataTemplate.Triggers>
+						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-                <GridViewColumn DisplayMemberBinding="{Binding Plan.Description, Converter={StaticResource StringToSingleLineString}}" Header="Описание" />
+				<GridViewColumn DisplayMemberBinding="{Binding Plan.Description, Converter={StaticResource StringToSingleLineString}}" Header="Описание" />
 			</GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>

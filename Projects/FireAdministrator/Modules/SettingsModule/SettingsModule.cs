@@ -42,7 +42,7 @@ namespace SettingsModule
 		{
 			return null;
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Settings; }
 		}

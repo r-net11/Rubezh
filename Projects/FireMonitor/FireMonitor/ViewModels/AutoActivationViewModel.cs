@@ -58,9 +58,9 @@ namespace FireMonitor.ViewModels
 			OnPropertyChanged(() => IsPlansAutoActivation);
 		}
 
-        private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
-        {
-            OnPropertyChanged(() => HasPermission);
-        }
+		private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
+		{
+			OnPropertyChanged(() => HasPermission);
+		}
  	}
 }

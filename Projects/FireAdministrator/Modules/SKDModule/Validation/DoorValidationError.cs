@@ -6,14 +6,14 @@ using Infrastructure.Common;
 
 namespace SKDModule.Validation
 {
-    public class DoorValidationError : PlanObjectValidationError<SKDDoor, ShowSKDDoorEvent, Guid>
+	public class DoorValidationError : PlanObjectValidationError<SKDDoor, ShowSKDDoorEvent, Guid>
 	{
-        public DoorValidationError(SKDDoor door, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
-            : base(door, error, level, isRightPanelVisible, planUID)
+		public DoorValidationError(SKDDoor door, string error, ValidationErrorLevel level, bool? isRightPanelVisible = null, Guid? planUID = null)
+			: base(door, error, level, isRightPanelVisible, planUID)
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.SKD; }
 		}

@@ -356,7 +356,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						if (DialogService.ShowModalWindow(autoSearchDevicesViewModel))
 						{
-							//    ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+							//	ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 						}
 					}
 					else

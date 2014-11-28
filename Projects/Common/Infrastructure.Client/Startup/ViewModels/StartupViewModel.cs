@@ -139,11 +139,11 @@ namespace Infrastructure.Client.Startup.ViewModels
 		}
 		public void DoStep(string text)
 		{
-            Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.DoStep(text)), DispatcherPriority.Send);
+			Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.DoStep(text)), DispatcherPriority.Send);
 		}
 		public void AddCount(int count)
 		{
-            Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.StepCount += count), DispatcherPriority.Send);
+			Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.StepCount += count), DispatcherPriority.Send);
 		}
 
 		private void Login(string login, string password)

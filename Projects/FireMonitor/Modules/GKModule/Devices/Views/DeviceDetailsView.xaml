@@ -216,7 +216,7 @@
 						<DataGridTemplateColumn Width="*" Header="Параметр">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5 0 0 0" />
+									<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5 0 0 0" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
@@ -236,11 +236,11 @@
 						<DataGridTemplateColumn Width="*" Header="Параметр">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5 0 0 0" />
+									<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="5 0 0 0" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="Auto" Header="Значение">
+						<DataGridTemplateColumn Width="Auto" Header="Значение">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding StringValue}" ToolTip="{Binding StringValue}" Margin="5 0 0 0" />

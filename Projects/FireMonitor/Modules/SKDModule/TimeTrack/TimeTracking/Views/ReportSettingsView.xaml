@@ -29,79 +29,79 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Ответственное лицо" HorizontalAlignment="Right" VerticalAlignment="Center" />
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
-                <TextBlock VerticalAlignment="Center">
-				    <Hyperlink Command="{Binding FillViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
-					    <TextBlock Text="{Binding FillViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
-					    <TextBlock>
-						    <TextBlock.Style>
-							    <Style>
-								    <Style.Triggers>
-									    <DataTrigger Binding="{Binding FillViewModel.HasSelected}" Value="false">
-										    <Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-									    </DataTrigger>
-								    </Style.Triggers>
-							    </Style>
-						    </TextBlock.Style>
-					    </TextBlock>
-				    </Hyperlink>
-			    </TextBlock>
-            </StackPanel>
+			<TextBlock Grid.Row="0" Grid.Column="0" Text="Ответственное лицо" HorizontalAlignment="Right" VerticalAlignment="Center" />
+			<StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+				<TextBlock VerticalAlignment="Center">
+					<Hyperlink Command="{Binding FillViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
+						<TextBlock Text="{Binding FillViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
+						<TextBlock>
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding FillViewModel.HasSelected}" Value="false">
+											<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Hyperlink>
+				</TextBlock>
+			</StackPanel>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Должность ответственного лица" />
-            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
-                       Text="{Binding FillViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding FillViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<TextBlock Grid.Row="1" Grid.Column="0" Text="Должность ответственного лица" />
+			<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"
+					   Text="{Binding FillViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding FillViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Руководитель структурного подразделения" HorizontalAlignment="Right" VerticalAlignment="Center" />
-            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
-                <TextBlock VerticalAlignment="Center">
-				    <Hyperlink Command="{Binding LeadViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
-					    <TextBlock Text="{Binding LeadViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
-					    <TextBlock>
-						    <TextBlock.Style>
-							    <Style>
-								    <Style.Triggers>
-									    <DataTrigger Binding="{Binding LeadViewModel.HasSelected}" Value="false">
-										    <Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-									    </DataTrigger>
-								    </Style.Triggers>
-							    </Style>
-						    </TextBlock.Style>
-					    </TextBlock>
-				    </Hyperlink>
-			    </TextBlock>
-            </StackPanel>
+			<TextBlock Grid.Row="2" Grid.Column="0" Text="Руководитель структурного подразделения" HorizontalAlignment="Right" VerticalAlignment="Center" />
+			<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+				<TextBlock VerticalAlignment="Center">
+					<Hyperlink Command="{Binding LeadViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
+						<TextBlock Text="{Binding LeadViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
+						<TextBlock>
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding LeadViewModel.HasSelected}" Value="false">
+											<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Hyperlink>
+				</TextBlock>
+			</StackPanel>
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Должность руководителя структурного подразделения" />
-            <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"
-                       Text="{Binding LeadViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding LeadViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="Должность руководителя структурного подразделения" />
+			<TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"
+					   Text="{Binding LeadViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding LeadViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Руководитель кадровой службы" HorizontalAlignment="Right" VerticalAlignment="Center" />
-            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
-                <TextBlock VerticalAlignment="Center">
-				    <Hyperlink Command="{Binding HRViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
-					    <TextBlock Text="{Binding HRViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
-					    <TextBlock>
-						    <TextBlock.Style>
-							    <Style>
-								    <Style.Triggers>
-									    <DataTrigger Binding="{Binding HRViewModel.HasSelected}" Value="false">
-										    <Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
-									    </DataTrigger>
-								    </Style.Triggers>
-							    </Style>
-						    </TextBlock.Style>
-					    </TextBlock>
-				    </Hyperlink>
-			    </TextBlock>
-            </StackPanel>
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="Руководитель кадровой службы" HorizontalAlignment="Right" VerticalAlignment="Center" />
+			<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+				<TextBlock VerticalAlignment="Center">
+					<Hyperlink Command="{Binding HRViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle2}">
+						<TextBlock Text="{Binding HRViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
+						<TextBlock>
+							<TextBlock.Style>
+								<Style>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding HRViewModel.HasSelected}" Value="false">
+											<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Hyperlink>
+				</TextBlock>
+			</StackPanel>
 
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Должность руководителя кадровой службы" />
-            <TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"
-                       Text="{Binding HRViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HRViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
-            
-           <TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Top" />
+			<TextBlock Grid.Row="5" Grid.Column="0" Text="Должность руководителя кадровой службы" />
+			<TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"
+					   Text="{Binding HRViewModel.SelectedEmployee.PositionName, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding HRViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+			
+		   <TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Top" />
 			<Calendar Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 		</Grid>
 	</Border>

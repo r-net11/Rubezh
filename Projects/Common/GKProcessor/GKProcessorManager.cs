@@ -395,45 +395,45 @@ namespace GKProcessor
 
 		//public static OperationResult<GKSchedule> GKGetSchedule(GKDevice device, int no)
 		//{
-		//    var resultBytes = new List<byte>();
+		//	var resultBytes = new List<byte>();
 
-		//    var bytes = new List<byte>();
-		//    bytes.Add(0);
-		//    bytes.Add(1);
-		//    var sendResult = SendManager.Send(device, (ushort)bytes.Count, 27, 0, bytes);
-		//    if (!sendResult.HasError)
-		//    {
-		//        if (sendResult.Bytes.Count > 0)
-		//        {
-		//            sendResult.Bytes.RemoveAt(0);
-		//            resultBytes.AddRange(sendResult.Bytes);
-		//        }
-		//    }
+		//	var bytes = new List<byte>();
+		//	bytes.Add(0);
+		//	bytes.Add(1);
+		//	var sendResult = SendManager.Send(device, (ushort)bytes.Count, 27, 0, bytes);
+		//	if (!sendResult.HasError)
+		//	{
+		//		if (sendResult.Bytes.Count > 0)
+		//		{
+		//			sendResult.Bytes.RemoveAt(0);
+		//			resultBytes.AddRange(sendResult.Bytes);
+		//		}
+		//	}
 
-		//    if (bytes.Count > 0)
-		//    {
-		//        var schedule = new GKSchedule();
-		//        schedule.No = bytes[0];
-		//        schedule.Name = BytesHelper.BytesToString(bytes.Skip(1).Take(32).ToList());
-		//        var holidayScheduleNo = bytes[33];
-		//        var partsCount = BytesHelper.SubstructShort(bytes, 34) / 2;
-		//        var duration = BytesHelper.SubstructInt(bytes, 36);
-		//        var shortScheduleNo = bytes[40];
+		//	if (bytes.Count > 0)
+		//	{
+		//		var schedule = new GKSchedule();
+		//		schedule.No = bytes[0];
+		//		schedule.Name = BytesHelper.BytesToString(bytes.Skip(1).Take(32).ToList());
+		//		var holidayScheduleNo = bytes[33];
+		//		var partsCount = BytesHelper.SubstructShort(bytes, 34) / 2;
+		//		var duration = BytesHelper.SubstructInt(bytes, 36);
+		//		var shortScheduleNo = bytes[40];
 
-		//        var dayScheduleParts = new List<GKDaySchedulePart>();
-		//        for (int i = 48; i < bytes.Count; i+=4)
-		//        {
-		//            var startSeconds = BytesHelper.SubstructShort(bytes, i);
-		//            var endSeconds = BytesHelper.SubstructShort(bytes, i + 2);
-		//            var daySchedulePart = new GKDaySchedulePart();
-		//            daySchedulePart.StartMilliseconds = startSeconds * 1000;
-		//            daySchedulePart.EndMilliseconds = endSeconds * 1000;
-		//            dayScheduleParts.Add(daySchedulePart);
-		//        }
-		//        return new OperationResult<GKSchedule>() { Result = schedule };
-		//    }
+		//		var dayScheduleParts = new List<GKDaySchedulePart>();
+		//		for (int i = 48; i < bytes.Count; i+=4)
+		//		{
+		//			var startSeconds = BytesHelper.SubstructShort(bytes, i);
+		//			var endSeconds = BytesHelper.SubstructShort(bytes, i + 2);
+		//			var daySchedulePart = new GKDaySchedulePart();
+		//			daySchedulePart.StartMilliseconds = startSeconds * 1000;
+		//			daySchedulePart.EndMilliseconds = endSeconds * 1000;
+		//			dayScheduleParts.Add(daySchedulePart);
+		//		}
+		//		return new OperationResult<GKSchedule>() { Result = schedule };
+		//	}
 
-		//    return new OperationResult<GKSchedule>("Ошибка");
+		//	return new OperationResult<GKSchedule>("Ошибка");
 		//}
 
 		public static OperationResult<List<byte>> GKGKHash(GKDevice device)

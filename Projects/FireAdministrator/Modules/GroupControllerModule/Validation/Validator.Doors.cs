@@ -45,7 +45,7 @@ namespace GKModule.Validation
 			}
 			//if (door.LockControlDevice == null)
 			//{
-			//    Errors.Add(new DoorValidationError(door, "К точке доступа не подключен датчик контроля двери", ValidationErrorLevel.CannotWrite));
+			//	Errors.Add(new DoorValidationError(door, "К точке доступа не подключен датчик контроля двери", ValidationErrorLevel.CannotWrite));
 			//}
 		}
 

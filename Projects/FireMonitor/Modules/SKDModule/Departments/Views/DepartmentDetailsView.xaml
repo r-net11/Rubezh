@@ -23,8 +23,8 @@
 				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-                <Label Grid.Row="2" Grid.Column="0" Content="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+				<Label Grid.Row="2" Grid.Column="0" Content="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+				<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 					<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding ChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />

@@ -28,7 +28,7 @@ namespace LibraryModule
 				new NavigationItem<ShowLibraryEvent>(LibraryViewModel, ModuleType.ToDescription(), "/Controls;component/Images/book.png"),
 			};
 		}
-        public override ModuleType ModuleType
+		public override ModuleType ModuleType
 		{
 			get { return ModuleType.Library; }
 		}

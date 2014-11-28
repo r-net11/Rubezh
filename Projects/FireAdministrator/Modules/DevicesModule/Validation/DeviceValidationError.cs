@@ -13,9 +13,9 @@ namespace DevicesModule.Validation
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
-            get { return ModuleType.Devices; }
+			get { return ModuleType.Devices; }
 		}
 		protected override Guid Key
 		{

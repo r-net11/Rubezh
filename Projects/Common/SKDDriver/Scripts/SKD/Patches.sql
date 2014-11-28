@@ -1011,10 +1011,10 @@ BEGIN
 		DECLARE @Command nvarchar(1000)
 		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP ' + d.name
 		 FROM sys.tables t   
-		  JOIN sys.default_constraints d       
+		  JOIN sys.default_constraints d	   
 		   ON d.parent_object_id = t.object_id  
-		  JOIN sys.columns c      
-		   ON c.object_id = t.object_id      
+		  JOIN sys.columns c	  
+		   ON c.object_id = t.object_id	  
 			AND c.column_id = d.parent_column_id
 		 WHERE t.name = N'Department'
 		  AND c.name = N'HRChiefUID'
@@ -1214,10 +1214,10 @@ BEGIN
 		DECLARE @Command nvarchar(1000)
 		SELECT @Command = 'ALTER TABLE DEPARTMENT DROP ' + d.name
 		 FROM sys.tables t   
-		  JOIN sys.default_constraints d       
+		  JOIN sys.default_constraints d	   
 		   ON d.parent_object_id = t.object_id  
-		  JOIN sys.columns c      
-		   ON c.object_id = t.object_id      
+		  JOIN sys.columns c	  
+		   ON c.object_id = t.object_id	  
 			AND c.column_id = d.parent_column_id
 		 WHERE t.name = N'Department'
 		  AND c.name = N'ChiefUID'
@@ -1234,10 +1234,10 @@ BEGIN
 		DECLARE @Command nvarchar(1000)
 		SELECT @Command = 'ALTER TABLE Organisation DROP ' + d.name
 		 FROM sys.tables t   
-		  JOIN sys.default_constraints d       
+		  JOIN sys.default_constraints d	   
 		   ON d.parent_object_id = t.object_id  
-		  JOIN sys.columns c      
-		   ON c.object_id = t.object_id      
+		  JOIN sys.columns c	  
+		   ON c.object_id = t.object_id	  
 			AND c.column_id = d.parent_column_id
 		 WHERE t.name = N'Organisation'
 		  AND c.name = N'ChiefUID'
@@ -1245,10 +1245,10 @@ BEGIN
 		ALTER TABLE [Organisation] ADD CONSTRAINT Organisation_ChiefUID_Default DEFAULT '00000000-0000-0000-0000-000000000000' FOR ChiefUID
 		SELECT @Command = 'ALTER TABLE Organisation DROP ' + d.name
 		 FROM sys.tables t   
-		  JOIN sys.default_constraints d       
+		  JOIN sys.default_constraints d	   
 		   ON d.parent_object_id = t.object_id  
-		  JOIN sys.columns c      
-		   ON c.object_id = t.object_id      
+		  JOIN sys.columns c	  
+		   ON c.object_id = t.object_id	  
 			AND c.column_id = d.parent_column_id
 		 WHERE t.name = N'Organisation'
 		  AND c.name = N'HRChiefUID'

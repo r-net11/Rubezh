@@ -244,7 +244,7 @@ namespace GKModule.ViewModels
 			//var result = FiresecManager.FiresecService.GKSetSchedule(Schedule);
 			//if (result.HasError)
 			//{
-			//    MessageBoxService.ShowError(result.Error);
+			//	MessageBoxService.ShowError(result.Error);
 			//}
 
 			return base.Save();

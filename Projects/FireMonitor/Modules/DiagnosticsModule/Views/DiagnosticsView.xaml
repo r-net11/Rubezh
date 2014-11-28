@@ -14,8 +14,8 @@
 					<Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
 					<Button Content="Сгенерировать графика  сотрудников" Command="{Binding TestCommand}" Width="200" Margin="2" />
 					<Button Content="Сгенерировать тестовые данные" Command="{Binding SKDDataCommand}" Width="200" Margin="2" />
-                    <Button Content="GenerateEmployeeDays" Command="{Binding GenerateEmployeeDaysCommand}" Width="200" Margin="2" />
-                </WrapPanel>
+					<Button Content="GenerateEmployeeDays" Command="{Binding GenerateEmployeeDaysCommand}" Width="200" Margin="2" />
+				</WrapPanel>
 			</TabItem>
 			<TabItem Header="Основные">
 				<WrapPanel>

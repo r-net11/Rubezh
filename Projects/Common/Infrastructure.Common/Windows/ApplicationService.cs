@@ -132,10 +132,10 @@ namespace Infrastructure.Common.Windows
 					Application.Current.Shutdown();
 				});
 		}
-        public static bool IsApplicationThread()
-        {
-            return Application.Current == null ? false : Application.Current.Dispatcher.Thread == Thread.CurrentThread;
-        }
+		public static bool IsApplicationThread()
+		{
+			return Application.Current == null ? false : Application.Current.Dispatcher.Thread == Thread.CurrentThread;
+		}
 		public static void DoEvents()
 		{
 			if (Application.Current != null)

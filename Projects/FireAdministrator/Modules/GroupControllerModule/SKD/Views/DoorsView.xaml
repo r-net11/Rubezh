@@ -2,9 +2,9 @@
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<SwitchCase Then="Точка доступа может быть размещена на плане" When="Multiple" />
-            <SwitchCase Then="Точка доступа не размещена на плане" When="NotPresent" />
-            <SwitchCase Then="Точку доступа нельзя размещать на плане" When="Prohibit" />
-            <SwitchCase Then="Точка доступа уже размещена на плане" When="Single" />
+			<SwitchCase Then="Точка доступа не размещена на плане" When="NotPresent" />
+			<SwitchCase Then="Точку доступа нельзя размещать на плане" When="Prohibit" />
+			<SwitchCase Then="Точка доступа уже размещена на плане" When="Single" />
 		</SwitchConverter>
 	</UserControl.Resources>
 	<Grid>
@@ -55,7 +55,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-                        <TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">

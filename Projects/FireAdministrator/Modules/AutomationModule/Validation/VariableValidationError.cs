@@ -14,7 +14,7 @@ namespace AutomationModule.Validation
 		{
 		}
 
-        public override ModuleType Module
+		public override ModuleType Module
 		{
 			get { return ModuleType.Automation; }
 		}
