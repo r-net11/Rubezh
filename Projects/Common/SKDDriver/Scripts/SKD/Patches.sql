@@ -1300,9 +1300,11 @@ BEGIN
 		CREATE TABLE GKCards(
 			[UID] [uniqueidentifier] NOT NULL,
 			[IPAddress] [nvarchar](50) NOT NULL,
-			[No] [int] NOT NULL,
+			[GKNo] [int] NOT NULL,
 			[CardNo] [int] NOT NULL,
-			[Action] [int] NOT NULL,
+			[FIO] [nvarchar](50) NOT NULL,
+			[IsActive] [bit] NOT NULL,
+			[UserType] [tinyint] NOT NULL,
 		CONSTRAINT [PK_GKCards] PRIMARY KEY CLUSTERED 
 		(
 			[UID] ASC

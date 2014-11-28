@@ -543,6 +543,8 @@
     <Compile Include="XModels\SKD\GKSchedule.cs" />
     <Compile Include="XModels\SKD\GKSchedulePeriodType.cs" />
     <Compile Include="XModels\SKD\GKScheduleType.cs" />
+    <Compile Include="XModels\SKD\GKUser.cs" />
+    <Compile Include="XModels\SKD\GKUserType.cs" />
     <Compile Include="XModels\States\GKDoorInternalState.cs" />
     <Compile Include="XModels\States\GKStates.cs" />
     <Compile Include="XModels\States\GKAdditionalState.cs" />

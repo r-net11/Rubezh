@@ -40,4 +40,8 @@
 		<Views:AutoSearchDevicesView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GKUsersViewModel}">
+        <Views:GKUsersView />
+    </DataTemplate>
+
 </ResourceDictionary>

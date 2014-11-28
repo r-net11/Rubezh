@@ -229,6 +229,28 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID)
+		{
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			if (gkControllerDevice != null)
+			{
+				var gkSKDHelper = new GKSKDHelper();
+				try
+				{
+					var users = gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
+					return new OperationResult<List<GKUser>>() { Result = users };
+				}
+				catch(Exception e)
+				{
+					return new OperationResult<List<GKUser>>(e.Message);
+				}
+			}
+			else
+			{
+				return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
+			}
+		}
+
 		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);

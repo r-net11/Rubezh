@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecAPI.GK;
 using FiresecAPI;
 using SKDDriver;
+using System.ComponentModel;
 
 namespace GKProcessor
 {
@@ -75,7 +76,7 @@ namespace GKProcessor
 			bool isNew = true;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetFreeNo(device.Address, out isNew);
+				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.Address, out isNew);
 			}
 
 			var intPassword = 0;
@@ -141,7 +142,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(device.Address, no, intPassword);
+				skdDatabaseService.GKCardTranslator.AddOrEdit(device.Address, no, intPassword, employeeName);
 			}
 
 			return new OperationResult<bool>() { Result = true };
@@ -149,15 +150,18 @@ namespace GKProcessor
 
 		OperationResult<bool> RemoveOneCard(GKDevice device, SKDCard card)
 		{
-			var no = 1;
-			bool isNew = true;
-			using (var skdDatabaseService = new SKDDatabaseService())
-			{
-				no = skdDatabaseService.GKCardTranslator.GetFreeNo(device.Address, out isNew);
-			}
-
 			var intPassword = 0;
 			Int32.TryParse(card.Number, out intPassword);
+
+			var no = 1;
+			using (var skdDatabaseService = new SKDDatabaseService())
+			{
+				no = skdDatabaseService.GKCardTranslator.GetNoByCardNo(device.Address, intPassword);
+			}
+			if (no == -1)
+			{
+				return new OperationResult<bool>("По номеру карты не найдена порядковая запись");
+			}
 
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
@@ -166,64 +170,58 @@ namespace GKProcessor
 			var nameBytes = BytesHelper.StringDescriptionToBytes("Удален");
 			bytes.AddRange(nameBytes);
 			bytes.AddRange(BytesHelper.IntToBytes(intPassword));
-			bytes.Add((byte)card.GKLevel);
-			bytes.Add((byte)card.GKLevelSchedule);
+			bytes.Add(0);
+			bytes.Add(0);
 
-			var cardSchedules = new List<GKCardSchedule>();
-			foreach (var cardSchedule in cardSchedules)
-			{
-				bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));
-			}
-			for (int i = 0; i < 70 - cardSchedules.Count; i++)
-			{
-				bytes.Add(0);
-				bytes.Add(0);
-			}
-			foreach (var cardSchedule in cardSchedules)
-			{
-				bytes.Add((byte)cardSchedule.ScheduleNo);
-			}
-			for (int i = 0; i < 70 - cardSchedules.Count; i++)
+			for (int i = 0; i < 256 - 42; i++)
 			{
 				bytes.Add(0);
 			}
 
-			bytes.Add(0);
-			bytes.Add(0);
-
-			bytes.Add(0);
-			bytes.Add(0);
-
-			var packs = new List<List<byte>>();
-			for (int packNo = 0; packNo <= bytes.Count / 256; packNo++)
+			var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
+			if (sendResult.HasError)
 			{
-				int packLenght = Math.Min(256, bytes.Count - packNo * 256);
-				var packBytes = bytes.Skip(packNo * 256).Take(packLenght).ToList();
-
-				if (packBytes.Count > 0)
-				{
-					var resultBytes = new List<byte>();
-					resultBytes.Add((byte)(packNo));
-					resultBytes.AddRange(packBytes);
-					packs.Add(resultBytes);
-				}
-			}
-
-			foreach (var pack in packs)
-			{
-				var sendResult = SendManager.Send(device, (ushort)(pack.Count), 25, 0, pack);
-				if (sendResult.HasError)
-				{
-					return new OperationResult<bool>(sendResult.Error);
-				}
+				return new OperationResult<bool>(sendResult.Error);
 			}
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(device.Address, no, intPassword);
+				skdDatabaseService.GKCardTranslator.Remove(device.Address, no);
 			}
 
 			return new OperationResult<bool>() { Result = true };
+		}
+
+		public List<GKUser> ActualizeGKUsers(GKDevice device)
+		{
+			var users = new List<GKUser>();
+			for (int i = 1; i <= 65535; i++)
+			{
+				var bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(i)));
+
+				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+				if (sendResult.HasError || sendResult.Bytes.Count == 0)
+				{
+					break;
+				}
+
+				var user = new GKUser();
+				user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
+				user.UserType = (GKUserType)sendResult.Bytes[3];
+				user.IsActive = sendResult.Bytes[4] == 0;
+				user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
+				user.Number = BytesHelper.SubstructInt(sendResult.Bytes, 37);
+				users.Add(user);
+			}
+
+			using (var skdDatabaseService = new SKDDatabaseService())
+			{
+				skdDatabaseService.GKCardTranslator.Actualize(device.Address, users);
+			}
+
+			return users;
 		}
 
 		class GKCardSchedule

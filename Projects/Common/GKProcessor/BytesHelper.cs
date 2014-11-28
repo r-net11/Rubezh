@@ -40,6 +40,14 @@ namespace GKProcessor
 			return result;
 		}
 
+		public static string BytesToStringDescription(List<byte> bytes, int startIndex)
+		{
+			bytes = bytes.Skip(startIndex).Take(32).ToList();
+			var encoding = Encoding.GetEncoding(1251);
+			string result = encoding.GetString(bytes.ToArray()).TrimEnd();
+			return result;
+		}
+
 		public static string BytesToString(List<byte> bytes)
 		{
 			var stringBuilder = new StringBuilder();

@@ -34,6 +34,7 @@ namespace GKModule.Models
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
+			ActualizeUsersCommand = new RelayCommand(OnActualizeUsers, CanActualizeUsers);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -370,6 +371,36 @@ namespace GKModule.Models
 		}
 
 		bool CanAutoSearch()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
+		}
+
+		public RelayCommand ActualizeUsersCommand { get; private set; }
+		void OnActualizeUsers()
+		{
+			var thread = new Thread(() =>
+			{
+				var result = FiresecManager.FiresecService.GKActualizeUsers(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+						var gkUsersViewModel = new GKUsersViewModel(result.Result);
+						DialogService.ShowModalWindow(gkUsersViewModel);
+					}
+					else
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при автопоиске конфигурации");
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel ActualizeUsers";
+			thread.Start();
+		}
+
+		bool CanActualizeUsers()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}

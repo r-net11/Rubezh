@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SKDDriver.DataAccess;
+using FiresecAPI.GK;
 
 namespace SKDDriver
 {
@@ -15,18 +16,28 @@ namespace SKDDriver
 			Context = databaseService.Context;
 		}
 
-		public int GetFreeNo(string gkIPAddress, out bool isNew)
+		public int GetNoByCardNo(string gkIPAddress, int cardNo)
 		{
-			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.Action == 0);
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.CardNo == cardNo);
+			if (gkCard != null)
+			{
+				return gkCard.GKNo;
+			}
+			return -1;
+		}
+
+		public int GetFreeGKNo(string gkIPAddress, out bool isNew)
+		{
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
 			if (gkCard != null)
 			{
 				isNew = false;
-				return gkCard.No;
+				return gkCard.GKNo;
 			}
 			if (Context.GKCards.Where(x => x.IPAddress == gkIPAddress).Count() > 0)
 			{
 				isNew = true;
-				return Context.GKCards.Where(x => x.IPAddress == gkIPAddress).Max(x => x.No) + 1;
+				return Context.GKCards.Where(x => x.IPAddress == gkIPAddress).Max(x => x.GKNo) + 1;
 			}
 			else
 			{
@@ -35,17 +46,18 @@ namespace SKDDriver
 			}
 		}
 
-		public void AddOrEdit(string gkIPAddress, int no, int cardNo)
+		public void AddOrEdit(string gkIPAddress, int gkNo, int cardNo, string employeeName)
 		{
 			if (string.IsNullOrEmpty(gkIPAddress))
 			{
 				return;
 			}
-			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.No == no);
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.GKNo == gkNo);
 			if (gkCard != null)
 			{
 				gkCard.CardNo = cardNo;
-				gkCard.Action = 1;
+				gkCard.FIO = employeeName;
+				gkCard.IsActive = true;
 				Context.SubmitChanges();
 			}
 			else
@@ -54,25 +66,46 @@ namespace SKDDriver
 				{
 					UID = Guid.NewGuid(),
 					IPAddress = gkIPAddress,
-					No = no,
+					GKNo = gkNo,
 					CardNo = cardNo,
-					Action = 1
+					FIO = employeeName,
+					IsActive = true
 				};
 				Context.GKCards.InsertOnSubmit(gkCard);
 				Context.SubmitChanges();
 			}
 		}
 
-		public void Remove(string gkIPAddress, int no)
+		public void Remove(string gkIPAddress, int gkNo)
 		{
 			if (string.IsNullOrEmpty(gkIPAddress))
 			{
 				return;
 			}
-			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.No == no);
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.GKNo == gkNo);
 			if (gkCard != null)
 			{
-				gkCard.Action = 0;
+				gkCard.CardNo = 0;
+				gkCard.FIO = "Удален";
+				gkCard.IsActive = false;
+			}
+			Context.SubmitChanges();
+		}
+
+		public void Actualize(string gkIPAddress, List<GKUser> users)
+		{
+			var gkCards = Context.GKCards.Where(x => x.IPAddress == gkIPAddress);
+			Context.GKCards.DeleteAllOnSubmit(gkCards);
+			foreach (var user in users)
+			{
+				var gkCard = new GKCard();
+				gkCard.UID = Guid.NewGuid();
+				gkCard.IPAddress = gkIPAddress;
+				gkCard.GKNo = user.GKNo;
+				gkCard.CardNo = user.Number;
+				gkCard.FIO = user.FIO;
+				gkCard.IsActive = user.IsActive;
+				Context.GKCards.InsertOnSubmit(gkCard);
 			}
 			Context.SubmitChanges();
 		}

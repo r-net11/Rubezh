@@ -9213,11 +9213,15 @@ namespace SKDDriver.DataAccess
 		
 		private string _IPAddress;
 		
+		private int _GKNo;
+		
 		private int _CardNo;
 		
-		private int _Action;
+		private string _FIO;
 		
-		private int _No;
+		private bool _IsActive;
+		
+		private byte _UserType;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -9227,12 +9231,16 @@ namespace SKDDriver.DataAccess
     partial void OnUIDChanged();
     partial void OnIPAddressChanging(string value);
     partial void OnIPAddressChanged();
+    partial void OnGKNoChanging(int value);
+    partial void OnGKNoChanged();
     partial void OnCardNoChanging(int value);
     partial void OnCardNoChanged();
-    partial void OnActionChanging(int value);
-    partial void OnActionChanged();
-    partial void OnNoChanging(int value);
-    partial void OnNoChanged();
+    partial void OnFIOChanging(string value);
+    partial void OnFIOChanged();
+    partial void OnIsActiveChanging(bool value);
+    partial void OnIsActiveChanged();
+    partial void OnUserTypeChanging(byte value);
+    partial void OnUserTypeChanged();
     #endregion
 		
 		public GKCard()
@@ -9280,6 +9288,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKNo", DbType="Int NOT NULL")]
+		public int GKNo
+		{
+			get
+			{
+				return this._GKNo;
+			}
+			set
+			{
+				if ((this._GKNo != value))
+				{
+					this.OnGKNoChanging(value);
+					this.SendPropertyChanging();
+					this._GKNo = value;
+					this.SendPropertyChanged("GKNo");
+					this.OnGKNoChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardNo", DbType="Int NOT NULL")]
 		public int CardNo
 		{
@@ -9300,42 +9328,62 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Action", DbType="Int NOT NULL")]
-		public int Action
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FIO", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string FIO
 		{
 			get
 			{
-				return this._Action;
+				return this._FIO;
 			}
 			set
 			{
-				if ((this._Action != value))
+				if ((this._FIO != value))
 				{
-					this.OnActionChanging(value);
+					this.OnFIOChanging(value);
 					this.SendPropertyChanging();
-					this._Action = value;
-					this.SendPropertyChanged("Action");
-					this.OnActionChanged();
+					this._FIO = value;
+					this.SendPropertyChanged("FIO");
+					this.OnFIOChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_No", DbType="Int NOT NULL")]
-		public int No
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
 		{
 			get
 			{
-				return this._No;
+				return this._IsActive;
 			}
 			set
 			{
-				if ((this._No != value))
+				if ((this._IsActive != value))
 				{
-					this.OnNoChanging(value);
+					this.OnIsActiveChanging(value);
 					this.SendPropertyChanging();
-					this._No = value;
-					this.SendPropertyChanged("No");
-					this.OnNoChanged();
+					this._IsActive = value;
+					this.SendPropertyChanged("IsActive");
+					this.OnIsActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="TinyInt NOT NULL")]
+		public byte UserType
+		{
+			get
+			{
+				return this._UserType;
+			}
+			set
+			{
+				if ((this._UserType != value))
+				{
+					this.OnUserTypeChanging(value);
+					this.SendPropertyChanging();
+					this._UserType = value;
+					this.SendPropertyChanged("UserType");
+					this.OnUserTypeChanged();
 				}
 			}
 		}
