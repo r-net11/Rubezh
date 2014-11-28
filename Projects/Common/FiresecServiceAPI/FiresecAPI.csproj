@@ -147,7 +147,9 @@
     </Compile>
     <Compile Include="AutomationCallback\DialogCallbackData.cs" />
     <Compile Include="AutomationCallback\PlanCallbackData.cs" />
-    <Compile Include="AutomationCallback\VisualPropertyData.cs" />
+    <Compile Include="AutomationCallback\ProcedureProperties.cs" />
+    <Compile Include="AutomationCallback\PropertyCallBackData.cs" />
+    <Compile Include="AutomationCallback\VisualPropertyCallbackData.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="ModelBase.cs" />
@@ -177,7 +179,7 @@
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
-    <Compile Include="Models\Automation\StepArguments\RunProgrammArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowDialogArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowMessageArguments.cs" />
@@ -224,6 +226,7 @@
     <Compile Include="Models\Automation\StepArguments\ForeachArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ShowPropertyArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
     <Compile Include="Models\Automation\ExplicitValue.cs" />
     <Compile Include="Models\Automation\StepArguments\UIArguments.cs" />
@@ -261,6 +264,7 @@
     <Compile Include="SKD\EmployeeDay.cs" />
     <Compile Include="SKD\Position\PositionFilter.cs" />
     <Compile Include="SKD\PassCardLibrary\ShortPassCardTemplate.cs" />
+    <Compile Include="SKD\Settings\ValidationErrorType.cs" />
     <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />

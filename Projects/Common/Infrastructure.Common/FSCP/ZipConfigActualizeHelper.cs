@@ -27,52 +27,34 @@ namespace Infrastructure.Common
 				//}
 				var systemConfiguration = GetConfigurationFromZip<SystemConfiguration>(zipFile, "SystemConfiguration.xml", out result);
 				if (!result)
-				{
 					AddConfigurationToZip(zipFile, systemConfiguration, "SystemConfiguration.xml");
-				}
 				var deviceConfiguration = GetConfigurationFromZip<DeviceConfiguration>(zipFile, "DeviceConfiguration.xml", out result);
 				if (!result)
-				{
 					AddConfigurationToZip(zipFile, deviceConfiguration, "DeviceConfiguration.xml");
-				}
 				var gkDeviceConfiguration = GetConfigurationFromZip<GKDeviceConfiguration>(zipFile, "GKDeviceConfiguration.xml", out result);
 				if (!result)
-				{
 					AddConfigurationToZip(zipFile, gkDeviceConfiguration, "GKDeviceConfiguration.xml");
-				}
 				var skdConfiguration = GetConfigurationFromZip<SKDConfiguration>(zipFile, "SKDConfiguration.xml", out result);
 				if (!result)
-				{
 					AddConfigurationToZip(zipFile, skdConfiguration, "SKDConfiguration.xml");
-				}
-				var skdLibraryConfiguration = GetConfigurationFromZip<SKDLibraryConfiguration>(zipFile, "SKDLibraryConfiguration.xml", out result);
-				if (!result)
-				{
-					AddConfigurationToZip(zipFile, skdLibraryConfiguration, "SKDLibraryConfiguration.xml");
-				}
 
 				if (isFull)
 				{
 					var securityConfiguration = GetConfigurationFromZip<SecurityConfiguration>(zipFile, "SecurityConfiguration.xml", out result);
 					if (!result)
-					{
 						AddConfigurationToZip(zipFile, securityConfiguration, "SecurityConfiguration.xml");
-					}
 					var driversConfiguration = GetConfigurationFromZip<DriversConfiguration>(zipFile, "DriversConfiguration.xml", out result);
 					if (!result)
-					{
 						AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
-					}
 					var deviceLibraryConfiguration = GetConfigurationFromZip<DeviceLibraryConfiguration>(zipFile, "DeviceLibraryConfiguration.xml", out result);
 					if (!result)
-					{
 						AddConfigurationToZip(zipFile, deviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
-					}
 					var gkDeviceLibraryConfiguration = GetConfigurationFromZip<GKDeviceLibraryConfiguration>(zipFile, "GKDeviceLibraryConfiguration.xml", out result);
 					if (!result)
-					{
 						AddConfigurationToZip(zipFile, gkDeviceLibraryConfiguration, "GKDeviceLibraryConfiguration.xml");
-					}
+					var skdLibraryConfiguration = GetConfigurationFromZip<SKDLibraryConfiguration>(zipFile, "SKDLibraryConfiguration.xml", out result);
+					if (!result)
+						AddConfigurationToZip(zipFile, skdLibraryConfiguration, "SKDLibraryConfiguration.xml");
 				}
 
 				var zipConfigurationItemsCollection = GetConfigurationFromZip<ZipConfigurationItemsCollection>(zipFile, "ZipConfigurationItemsCollection.xml", out result);

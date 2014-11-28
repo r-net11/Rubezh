@@ -1,15 +1,18 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
+using Infrastructure.Common;
 
 namespace SettingsModule.ViewModels
 {
 	public class ErrorFilterViewModel : BaseViewModel
 	{
-		public ErrorFilterViewModel(string name)
+		public ErrorFilterViewModel(ValidationErrorType errorType)
 		{
-			Name = name;
+			ErrorType = errorType;
+			IsChecked = GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ErrorType);
 		}
 
-		public string Name { get; private set; }
+		public ValidationErrorType ErrorType { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

@@ -17,9 +17,9 @@ namespace FiresecClient
 		{
 			SafeContext.Execute(() => FiresecService.ProcedureCallbackResponse(procedureThreadUID, value));
 		}
-		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)
+        public ProcedureProperties GetProperties(Guid layoutUID)
 		{
-			return SafeContext.Execute<List<VisualPropertyData>>(() => FiresecService.GetChangedProperties(layoutUID));
+            return SafeContext.Execute<ProcedureProperties>(() => FiresecService.GetProperties(layoutUID));
 		}
 	}
 }

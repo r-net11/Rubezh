@@ -14,20 +14,11 @@ namespace Infrastructure.Designer.DesignerItems
 			: base(element)
 		{
 			SetResizeChrome(new ResizeChromeRectangle(this));
-			if (Element is ElementRectangle)
+			if (Element.IsExactly<ElementRectangle>() || Element.IsExactly<ElementEllipse>() || Element.IsExactly<ElementTextBlock>())
 			{
-				Title = "Прямоугольник";
+				Title = element.PresentationName;
 				Group = LayerGroupService.ElementAlias;
-			}
-			else if (Element is ElementEllipse)
-			{
-				Title = "Эллипс";
-				Group = LayerGroupService.ElementAlias;
-			}
-			else if (Element is ElementTextBlock)
-			{
-				Title = "Надпись";
-				Group = LayerGroupService.ElementAlias;
+				ClassName = Element.IsExactly<ElementRectangle>() ? "Прямоугольник" : (Element.IsExactly<ElementEllipse>() ? "Эллипс" : "Надпись");
 			}
 		}
 
@@ -38,7 +29,7 @@ namespace Infrastructure.Designer.DesignerItems
 			if (Element.IsExactly<ElementEllipse>())
 				return new EllipsePropertiesViewModel(Element as ElementEllipse);
 			if (Element.IsExactly<ElementTextBlock>())
-				return new TextBlockPropertiesViewModel(Element as ElementTextBlock, (ElementBase) Element);
+				return new TextBlockPropertiesViewModel(Element as ElementTextBlock);
 			return base.CreatePropertiesViewModel();
 		}
 	}

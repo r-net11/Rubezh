@@ -172,8 +172,8 @@
 		<Views:SendEmailStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="runProgrammTemplate">
-		<Views:RunProgrammStepView />
+	<DataTemplate x:Key="RunProgramTemplate">
+		<Views:RunProgramStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="randomTemplate">
@@ -211,6 +211,10 @@
 	<DataTemplate x:Key="showDialogStepView">
 		<Views:ShowDialogStepView />
 	</DataTemplate>
+	
+	<DataTemplate x:Key="showPropertyTemplate">
+		<Views:ShowPropertyStepView />
+	</DataTemplate>
 
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
@@ -240,12 +244,13 @@
 	                                     PauseTemplate="{StaticResource pauseTemplate}"
 	                                     ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 	                                     RandomTemplate="{StaticResource randomTemplate}"
-	                                     RunProgrammTemplate="{StaticResource runProgrammTemplate}"
+	                                     RunProgramTemplate="{StaticResource RunProgramTemplate}"
 	                                     SendEmailTemplate="{StaticResource sendEmailTemplate}"
 	                                     SetValueTemplate="{StaticResource setValueTemplate}"
 	                                     ShowDialogTemplate="{StaticResource showDialogStepView}"
 	                                     ShowMessageTemplate="{StaticResource sendMessageTemplate}"
 	                                     SoundsTemplate="{StaticResource soundsTemplate}"
-										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"/>
+										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"
+										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" />
 
 </ResourceDictionary>

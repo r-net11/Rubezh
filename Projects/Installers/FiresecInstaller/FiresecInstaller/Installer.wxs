@@ -39,7 +39,6 @@
     <Property Id="INSTALL_FIRESEC2" Secure="yes" />
     <Property Id="INSTALL_HASP" Value="0" Secure="yes" />
     <Property Id="INSTALL_OPC" Value="0" Secure="yes" />
-    <Property Id="INSTALL_SDK" Value="0" Secure="yes" />
     <Property Id="INSTALL_GK" Value="0" Secure="yes" />
     <Property Id="INSTALL_SKD" Value="1" Secure="yes" />
     <Property Id="INSTALL_VIDEO" Value="0" Secure="yes" />
@@ -47,10 +46,6 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="FIRESECLOCATION" Name="Firesec">
-          <Directory Id="INTL" Name="intl" />
-          <Directory Id="FIRESECLOCATION.Cache" Name="Cache" />
-        </Directory>
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
           <Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
             <Directory Id="Server.Dll" Name="Dll">
@@ -85,14 +80,6 @@
           <Directory Id="UTILSLOCATION" Name="Утилиты" />
           <Directory Id="GKOPCLOCATION" Name="GKOPC" />
           <Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
-
-          <Directory Id="SDKLOCATION" Name="SDK">
-            <Directory Id="SDKLOCATION_GKSDK" Name="GKSDK">
-              <Directory Id="SDKLOCATION_Infrastructure" Name="Infrastructure" />
-              <Directory Id="SDKLOCATION_Properties" Name="Properties" />
-            </Directory>
-            <Directory Id="SDKLOCATION_Assemblies" Name="Assemblies" />
-          </Directory>
           
         </Directory>
       </Directory>

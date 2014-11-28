@@ -2,8 +2,8 @@
 
 namespace Infrustructure.Plans.Elements
 {
-	public interface IElementTextBlock : IElementBackground, IElementBorder
-	{	
+	public interface IElementTextBlock : IElementBackground, IElementBorder, IElementBase
+	{
 		string Text { get; set; }
 		Color ForegroundColor { get; set; }
 		double FontSize { get; set; }

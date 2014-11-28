@@ -7,6 +7,8 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using Infrastructure.Common.Services;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Client.Plans
 {
@@ -141,6 +143,27 @@ namespace Infrastructure.Client.Plans
 		{
 		}
 
+		public static IEnumerable<TReference> FindUnbinded<TReference>(IEnumerable<TReference> elements)
+			where TReference : IElementReference
+		{
+			return elements.Where(item => item.ItemUID == Guid.Empty);
+		}
+		public static IEnumerable<ElementError> FindUnbindedErrors<TReference, TEvent, TArg>(IEnumerable<TReference> elements, Guid planUID, string error, string imageSource, TArg arg = default(TArg))
+			where TReference : ElementBase, IElementReference
+			where TEvent : CompositePresentationEvent<TArg>, new()
+		{
+			return FindUnbinded<TReference>(elements).Select(element =>
+				new ElementError()
+				{
+					PlanUID = planUID,
+					Error = error,
+					Element = element,
+					IsCritical = false,
+					ImageSource = imageSource,
+					Navigate = () => ServiceFactoryBase.Events.GetEvent<TEvent>().Publish(arg),
+				});
+		}
+
 		public IEnumerable<Guid> FindDuplicate<TReference>(IEnumerable<TReference> elements, IEnumerable<TReference> elements2 = null)
 			where TReference : IElementReference
 		{
@@ -176,6 +199,7 @@ namespace Infrastructure.Client.Plans
 		public abstract void RegisterDesignerItem(DesignerItem designerItem);
 		public abstract IEnumerable<ElementBase> LoadPlan(Plan plan);
 		public abstract IEnumerable<IInstrument> Instruments { get; }
+		public abstract IEnumerable<ElementError> Validate();
 
 		#endregion
 	}

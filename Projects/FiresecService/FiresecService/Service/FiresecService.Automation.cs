@@ -27,9 +27,9 @@ namespace FiresecService.Service
 			ProcedureThread.CallbackResponse(callbackUID, value);
 		}
 
-		public List<VisualPropertyData> GetChangedProperties(Guid layoutUID)
+        public ProcedureProperties GetProperties(Guid layoutUID)
 		{
-			return LayoutPropertyCache.GetProperties(layoutUID);
+            return ProcedurePropertyCache.GetProcedureProperties(layoutUID);
 		}
 	}
 }

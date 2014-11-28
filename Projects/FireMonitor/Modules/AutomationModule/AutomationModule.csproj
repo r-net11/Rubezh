@@ -298,6 +298,10 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GKModule\GKModule.csproj">
+      <Project>{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}</Project>
+      <Name>GKModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

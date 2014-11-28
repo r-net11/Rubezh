@@ -13,7 +13,7 @@
 				<ItemsControl Grid.Row="1" ItemsSource="{Binding ErrorFilters}" Margin="2" Background="White">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" Foreground="Black" Margin="2" />
+							<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding ErrorType,Converter={StaticResource EnumToDescriptionConverter}}" Foreground="Black" Margin="2" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>

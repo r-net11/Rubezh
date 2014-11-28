@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class RunProgrammArguments
+	public class RunProgramArguments
 	{
-		public RunProgrammArguments()
+		public RunProgramArguments()
 		{
 			PathArgument = new Argument();
 			ParametersArgument = new Argument();

@@ -9,6 +9,11 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementRectangleSKDZone : ElementBaseRectangle, IElementZone, IPrimitive, IElementReference
 	{
+		public ElementRectangleSKDZone()
+		{
+			PresentationName = "СКД Зона";
+		}
+
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 

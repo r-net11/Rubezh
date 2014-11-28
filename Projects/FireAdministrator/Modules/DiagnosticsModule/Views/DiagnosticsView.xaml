@@ -1,19 +1,51 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<UserControl.Resources />
-	<TabControl>
-		<TabItem Header="Отладка">
-            <Border Background="White" BorderThickness="0" CornerRadius="10" Margin="2">
-				<Grid>
-					<StackPanel>
-                        <Button Command="{Binding AddJournalCommand}" Content="AddJournal" Width="100" Margin="2" />
-						<Button Command="{Binding SaveCommand}" Content="Save" Width="100" Margin="2" />
-						<Button Command="{Binding LoadCommand}" Content="Load" Width="100" Margin="2" />
-					</StackPanel>
-				</Grid>
-			</Border>
-		</TabItem>
-	</TabControl>
+    <UserControl.Resources />
+    <TabControl>
+        <TabItem Header="Отладка">
+            <Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
+                <Grid>
+                    <StackPanel>
+                        <Button Width="100" Margin="2" Command="{Binding AddJournalCommand}" Content="AddJournal" />
+                        <Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Save" />
+                        <Button Width="100" Margin="2" Command="{Binding LoadCommand}" Content="Load" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </TabItem>
+        <TabItem Header="TreeList Horizontal Scroll">
+            <Grid DataContext="{Binding DevicesViewModel}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TreeList Grid.Row="0" ListViewLayoutManager.Enabled="True" Source="{Binding RootDevices}">
+                    <TreeList.View>
+                        <GridView>
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                        </GridView>
+                    </TreeList.View>
+                </TreeList>
+                <TreeList Grid.Row="1" ListViewLayoutManager.Enabled="False" Source="{Binding RootDevices}">
+                    <TreeList.View>
+                        <GridView>
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                            <GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />
+                        </GridView>
+                    </TreeList.View>
+                </TreeList>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

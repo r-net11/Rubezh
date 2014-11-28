@@ -131,8 +131,8 @@ namespace AutomationModule.ViewModels
 					Content = new SendEmailStepViewModel(this);
 					break;
 
-				case ProcedureStepType.RunProgramm:
-					Content = new RunProgrammStepViewModel(this);
+				case ProcedureStepType.RunProgram:
+					Content = new RunProgramStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ChangeList:
@@ -173,6 +173,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ShowDialog:
 					Content = new ShowDialogStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ShowProperty:
+					Content = new ShowPropertyStepViewModel(this);
 					break;
 			}
 			UpdateContent();

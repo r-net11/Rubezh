@@ -99,12 +99,13 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ControlPlanGet),
 							new StepTypeViewModel(ProcedureStepType.ControlPlanSet),
                             new StepTypeViewModel(ProcedureStepType.ShowDialog),
+							new StepTypeViewModel(ProcedureStepType.ShowProperty)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.Exit),
-							new StepTypeViewModel(ProcedureStepType.RunProgramm),
+							new StepTypeViewModel(ProcedureStepType.RunProgram),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
 							new StepTypeViewModel(ProcedureStepType.CheckPermission),

@@ -135,15 +135,15 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => Content);
 				ShowButtons = false;
 				IsUIEnabled = true;
-			}));
+			}), DispatcherPriority.Send);
 		}
 		public void DoStep(string text)
 		{
-			Dispatcher.BeginInvoke((Action)(() => _startupLoadingViewModel.DoStep(text)));
+            Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.DoStep(text)), DispatcherPriority.Send);
 		}
 		public void AddCount(int count)
 		{
-			Dispatcher.BeginInvoke((Action)(() => _startupLoadingViewModel.StepCount += count));
+            Dispatcher.Invoke((Action)(() => _startupLoadingViewModel.StepCount += count), DispatcherPriority.Send);
 		}
 
 		private void Login(string login, string password)

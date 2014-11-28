@@ -8,7 +8,7 @@ using FiresecAPI.Automation;
 namespace FiresecAPI.AutomationCallback
 {
 	[DataContract]
-	public class VisualPropertyData : AutomationCallbackData
+	public class VisualPropertyCallbackData : AutomationCallbackData
 	{
 		[DataMember]
 		public Guid LayoutPart { get; set; }

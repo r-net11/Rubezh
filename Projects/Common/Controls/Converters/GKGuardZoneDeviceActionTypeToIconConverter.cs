@@ -4,7 +4,7 @@ using FiresecAPI.GK;
 
 namespace Controls.Converters
 {
-	public class XGuardZoneDeviceActionTypeToIconConverter : IValueConverter
+	public class GKGuardZoneDeviceActionTypeToIconConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
@@ -16,6 +16,9 @@ namespace Controls.Converters
 
 				case GKGuardZoneDeviceActionType.ResetGuard:
 					return "/Controls;component/StateClassIcons/Off.png";
+
+				case GKGuardZoneDeviceActionType.ChangeGuard:
+					return "/Controls;component/StateClassIcons/Test.png";
 
 				case GKGuardZoneDeviceActionType.SetAlarm:
 					return "/Controls;component/StateClassIcons/Attention.png";

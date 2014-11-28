@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
-using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
 	public class ElementRectangleZone : ElementBaseRectangle, IElementZone, IPrimitive
 	{
+		public ElementRectangleZone()
+		{
+			PresentationName = "Зона";
+		}
+
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 		[DataMember]

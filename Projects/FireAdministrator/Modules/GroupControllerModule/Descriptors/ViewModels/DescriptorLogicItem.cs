@@ -72,6 +72,7 @@ namespace GKModule.ViewModels
 
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.KOD)
 			{
+				StateIcon = null;
 				FirstOperand = "";
 			}
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.CMPKOD)

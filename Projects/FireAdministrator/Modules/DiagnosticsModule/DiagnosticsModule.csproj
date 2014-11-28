@@ -185,6 +185,10 @@
       <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
       <Name>DevicesModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GroupControllerModule\GKModule.csproj">
+      <Project>{75276EBA-15D7-4F08-8239-3C40E6835CB6}</Project>
+      <Name>GKModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

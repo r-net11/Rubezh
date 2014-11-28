@@ -10,7 +10,8 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTextPropertyViewModel : TextBlockPropertiesViewModel
 	{
-		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element) : base(element, element)
+		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element)
+			: base(element)
 		{
 			Title = "Свойства фигуры: Текстовое свойство";
 			PropertyTypes = new ObservableCollection<PassCardTextPropertyType>(Enum.GetValues(typeof(PassCardTextPropertyType)).Cast<PassCardTextPropertyType>());

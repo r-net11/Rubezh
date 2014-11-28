@@ -47,9 +47,9 @@ namespace FireMonitor.Layout
 			layouts.Sort((x, y) => string.Compare(x.Caption, y.Caption));
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var viewModel = new SelectLayoutViewModel(layouts);
-			DialogService.ShowModalWindow(viewModel);
+			var isSelected = DialogService.ShowModalWindow(viewModel);
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
-			return viewModel.SelectedLayout;
+            return isSelected ? viewModel.SelectedLayout : null;
 		}
 		private void UpdateLayout()
 		{

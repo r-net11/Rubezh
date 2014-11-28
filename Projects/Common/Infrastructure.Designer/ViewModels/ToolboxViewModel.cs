@@ -128,7 +128,7 @@ namespace Infrastructure.Designer.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Pen.png",
-					ToolTip="Нож",
+					ToolTip="Редактирование фигур",
 					Index = 1,
 					Adorner = new PointsAdorner(DesignerCanvas),
 				},

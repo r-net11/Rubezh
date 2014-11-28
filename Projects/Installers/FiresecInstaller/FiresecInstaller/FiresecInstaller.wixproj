@@ -46,8 +46,6 @@
     <Compile Include="OPC\Files.wxs" />
     <Compile Include="OPC\Shortcuts.wxs" />
     <Compile Include="OPC\Uninstall.wxs" />
-    <Compile Include="SDK\Features.wxs" />
-    <Compile Include="SDK\Files.wxs" />
     <Compile Include="Server\Features.wxs" />
     <Compile Include="Server\Files.wxs" />
     <Compile Include="Server\Shortcuts.wxs" />
@@ -98,7 +96,6 @@
     <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
     <Content Include="OPC\Variables.wxi" />
-    <Content Include="SDK\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="ManagementConsole\Variables.wxi" />
@@ -112,7 +109,6 @@
   <ItemGroup>
     <Folder Include="Data" />
     <Folder Include="ManagementConsole" />
-    <Folder Include="SDK" />
     <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />

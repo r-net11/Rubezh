@@ -35,7 +35,7 @@ namespace FiresecAPI.Automation
 			JournalArguments = new JournalArguments();
 			GetObjectPropertyArguments = new GetObjectPropertyArguments();
 			SendEmailArguments = new SendEmailArguments();
-			RunProgrammArguments = new RunProgrammArguments();
+			RunProgramArguments = new RunProgramArguments();
 			RandomArguments = new RandomArguments();
 			ChangeListArguments = new ChangeListArguments();
 			GetListCountArguments = new GetListCountArguments();
@@ -46,6 +46,7 @@ namespace FiresecAPI.Automation
 			ControlPlanArguments = new ControlPlanArguments();
 			ShowDialogArguments = new ShowDialogArguments();
 			ControlDelayArguments = new ControlDelayArguments();
+			ShowPropertyArguments = new ShowPropertyArguments();
 		}
 
 		[XmlIgnore]
@@ -145,7 +146,7 @@ namespace FiresecAPI.Automation
 		public SendEmailArguments SendEmailArguments { get; set; }
 
 		[DataMember]
-		public RunProgrammArguments RunProgrammArguments { get; set; }
+		public RunProgramArguments RunProgramArguments { get; set; }
 
 		[DataMember]
 		public RandomArguments RandomArguments { get; set; }
@@ -167,5 +168,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ShowDialogArguments ShowDialogArguments { get; set; }
+
+		[DataMember]
+		public ShowPropertyArguments ShowPropertyArguments { get; set; }
 	}
 }

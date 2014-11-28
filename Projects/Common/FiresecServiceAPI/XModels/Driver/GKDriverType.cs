@@ -65,39 +65,39 @@ namespace FiresecAPI.GK
 		RSR2_KAU,
 		[Description("АЛС")]
 		RSR2_KAU_Shleif,
-		[Description("ИПР RSR2")]
+		[Description("ИПР R2")]
 		RSR2_HandDetector,
-		[Description("ИПД RSR2")]
+		[Description("ИПД R2")]
 		RSR2_SmokeDetector,
-		[Description("ИПК RSR2")]
+		[Description("ИПК R2")]
 		RSR2_CombinedDetector,
-		[Description("ИП2Д RSR2")]
+		[Description("ИП2Д R2")]
 		RSR2_SmokeDetector2,
-		[Description("МР RSR2")]
+		[Description("МР R2")]
 		RSR2_RM_1,
-		[Description("МР-2 RSR2")]
+		[Description("МР-2 R2")]
 		RSR2_RM_2,
-		[Description("МА RSR2")]
+		[Description("МА R2")]
 		RSR2_AM_1,
-		[Description("МА-4 RSR2")]
+		[Description("МА-4 R2")]
 		RSR2_AM_4,
-		[Description("МДУ-1 RSR2")]
+		[Description("МДУ-1 R2")]
 		RSR2_MDU,
-		[Description("МАП RSR2")]
+		[Description("МАП R2")]
 		RSR2_MAP4,
-		[Description("МВК RSR2")]
+		[Description("МВК R2")]
 		RSR2_MVK8,
-		[Description("МАП-4 RSR2")]
+		[Description("МАП-4 R2")]
 		RSR2_MAP4_Group,
-		[Description("МВК-8 RSR2")]
+		[Description("МВК-8 R2")]
 		RSR2_MVK8_Group,
-		[Description("ИПТ RSR2")]
+		[Description("ИПТ R2")]
 		RSR2_HeatDetector,
-		[Description("ППУ ДН RSR2")]
+		[Description("ППУ ДН R2")]
 		RSR2_Bush_Drenazh,
-		[Description("ППУ ЖН RSR2")]
+		[Description("ППУ ЖН R2")]
 		RSR2_Bush_Jokey,
-		[Description("ППУ ПН RSR2")]
+		[Description("ППУ ПН R2")]
 		RSR2_Bush_Fire,
 		[Description("БУЗ КВ R2")]
 		RSR2_Valve_KV,
@@ -111,19 +111,21 @@ namespace FiresecAPI.GK
 		Shu,
 		[Description("ШУВ")]
 		Shuv,
-		[Description("ОПК-RSR2")]
+		[Description("ОПК-R2")]
 		RSR2_OPK,
-		[Description("ОПС-RSR2")]
+		[Description("ОПС-R2")]
 		RSR2_OPS,
-		[Description("ОПЗ-RSR2")]
+		[Description("ОПЗ-R2")]
 		RSR2_OPZ,
-		[Description("МВП RSR2")]
+		[Description("МВП R2")]
 		RSR2_MVP,
 		[Description("Линия МВП")]
 		RSR2_MVP_Part,
-		[Description("НК RSR2")]
+		[Description("НК R2")]
 		RSR2_CodeReader,
-		[Description("ИО-ИК RSR2")]
-		RSR2_GuardDetector
+		[Description("ИО-ИК R2")]
+		RSR2_GuardDetector,
+		[Description("Считыватель R2")]
+		RSR2_CardReader,
 	}
 }

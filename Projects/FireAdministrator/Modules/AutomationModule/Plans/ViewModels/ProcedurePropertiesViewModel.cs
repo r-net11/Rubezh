@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
-using AutomationModule.ViewModels;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
+using System.Linq;
+using AutomationModule.ViewModels;
 using FiresecAPI.Automation;
+using FiresecAPI.Models;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using Infrustructure.Plans.Elements;
 
 namespace AutomationModule.Plans.ViewModels
 {
@@ -18,7 +13,7 @@ namespace AutomationModule.Plans.ViewModels
 		private ElementProcedure _element;
 
 		public ProcedurePropertiesViewModel(ElementProcedure element, ProceduresViewModel proceduresViewModel)
-			: base(element, (ElementBase) element)
+			: base(element)
 		{
 			Procedures = proceduresViewModel.Procedures;
 			_element = element;

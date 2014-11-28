@@ -28,7 +28,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlDoorTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
-		public DataTemplate RunProgrammTemplate { get; set; }
+		public DataTemplate RunProgramTemplate { get; set; }
 		public DataTemplate RandomTemplate { get; set; }
 		public DataTemplate ChangeListTemplate { get; set; }
 		public DataTemplate CheckPermissionTemplate { get; set; }
@@ -39,6 +39,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlPlanTemplate { get; set; }
 		public DataTemplate ShowDialogTemplate { get; set; }
 		public DataTemplate ControlDelayTemplate { get; set; }
+		public DataTemplate ShowPropertyTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -90,8 +91,8 @@ namespace AutomationModule.ViewModels
 				return GetObjectPropertyTemplate;
 			if (item is SendEmailStepViewModel)
 				return SendEmailTemplate;
-			if (item is RunProgrammStepViewModel)
-				return RunProgrammTemplate;
+			if (item is RunProgramStepViewModel)
+				return RunProgramTemplate;
 			if (item is RandomStepViewModel)
 				return RandomTemplate;
 			if (item is ChangeListStepViewModel)
@@ -110,6 +111,8 @@ namespace AutomationModule.ViewModels
 				return ControlPlanTemplate;
 			if (item is ShowDialogStepViewModel)
 				return ShowDialogTemplate;
+			if (item is ShowPropertyStepViewModel)
+				return ShowPropertyTemplate;
 			return null;
 		}
 	}

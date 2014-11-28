@@ -63,13 +63,13 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedProcedure = value;
-				if (value != null)
-				{
-					value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
-					value.StepsViewModel.UpdateContent();
-				}
 				OnPropertyChanged(() => SelectedProcedure);
-			}
+                if (value != null)
+                {
+                    value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
+                    value.StepsViewModel.UpdateContent();
+                }
+            }
 		}
 
 		Procedure _procedureToCopy;
@@ -77,15 +77,6 @@ namespace AutomationModule.ViewModels
 		void OnCopy()
 		{
 			_procedureToCopy = Utils.Clone(SelectedProcedure.Procedure);
-			_procedureToCopy.Uid = Guid.NewGuid();
-			foreach (var variable in _procedureToCopy.Variables)
-			{
-				variable.Uid = Guid.NewGuid();
-			}
-			foreach (var argument in _procedureToCopy.Arguments)
-			{
-				argument.Uid = Guid.NewGuid();
-			}
 		}
 
 		bool CanCopy()
@@ -103,6 +94,11 @@ namespace AutomationModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
+			_procedureToCopy.Uid = Guid.NewGuid();
+			foreach (var variable in _procedureToCopy.Variables)
+				variable.Uid = Guid.NewGuid();
+			foreach (var argument in _procedureToCopy.Arguments)
+				argument.Uid = Guid.NewGuid();
 			var procedureViewModel = new ProcedureViewModel(Utils.Clone(_procedureToCopy));
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureViewModel.Procedure);
 			Procedures.Add(procedureViewModel);

@@ -16,6 +16,8 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
+using Infrastructure.Events;
+using Infrastructure.Common.Navigation;
 
 namespace PlansModule.ViewModels
 {
@@ -27,6 +29,7 @@ namespace PlansModule.ViewModels
 
 		public PlansViewModel()
 		{
+			ServiceFactory.Events.GetEvent<ShowPlanElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 
@@ -222,6 +225,16 @@ namespace PlansModule.ViewModels
 			var plan = plans.FirstOrDefault(item => item.Plan.UID == planUID);
 			if (plan != null)
 				SelectedPlan = plan;
+		}
+		private void OnShowElement(ShowOnPlanArgs<Guid> arg)
+		{
+			DesignerCanvas.Toolbox.SetDefault();
+			DesignerCanvas.DeselectAll();
+			if (arg.PlanUID.HasValue)
+				OnSelectPlan(arg.PlanUID.Value);
+			foreach (var item in DesignerCanvas.Items)
+				if (arg.Value == item.Element.UID && item.IsEnabled)
+					item.IsSelected = true;
 		}
 		private void OnShowElementDevice(List<Guid> deviceUIDs)
 		{

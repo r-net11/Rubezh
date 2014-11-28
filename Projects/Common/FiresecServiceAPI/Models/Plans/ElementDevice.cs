@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementDevice : ElementBasePoint
+	public class ElementDevice : ElementBasePoint, IElementReference
 	{
 		public ElementDevice()
 		{
@@ -34,5 +35,16 @@ namespace FiresecAPI.Models
 		{
 			ZLayer = 70;
 		}
+
+		#region IElementReference Members
+
+
+		public Guid ItemUID
+		{
+			get { return DeviceUID; }
+			set { DeviceUID = value; }
+		}
+
+		#endregion
 	}
 }

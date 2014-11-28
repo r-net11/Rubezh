@@ -118,7 +118,7 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Automation\LayoutPropertyCache.cs" />
+    <Compile Include="Automation\ProcedurePropertyCache.cs" />
     <Compile Include="Automation\ProcedureThread.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Automation\ScheduleRunner.cs" />
@@ -127,6 +127,7 @@
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Automation\ProcedureThread.Steps.cs" />
+    <Compile Include="Processor\SKDDaylyUpdateProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />

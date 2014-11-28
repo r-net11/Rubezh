@@ -15,6 +15,7 @@ using Infrastructure.Events;
 using Ionic.Zip;
 using DiagnosticsModule.Models;
 using FiresecAPI.Journal;
+using GKModule.ViewModels;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -27,6 +28,7 @@ namespace DiagnosticsModule.ViewModels
 			AddJournalCommand = new RelayCommand(OnAddJournal);
 			SaveCommand = new RelayCommand(OnSave);
 			LoadCommand = new RelayCommand(OnLoad);
+
 		}
 
 		public RelayCommand AddJournalCommand { get; private set; }
@@ -171,5 +173,13 @@ namespace DiagnosticsModule.ViewModels
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
+
+        public DevicesViewModel DevicesViewModel
+        {
+            get
+            {
+                return DevicesViewModel.Current;
+            }
+        }
 	}
 }

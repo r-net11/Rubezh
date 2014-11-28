@@ -41,6 +41,8 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
+		public string ClassName { get; set; }
+
 		private string _iconSource;
 		public string IconSource
 		{
@@ -86,6 +88,7 @@ namespace Infrustructure.Plans.Designer
 		{
 			IsBusy = false;
 			Element = element;
+			ClassName = null;
 		}
 
 		internal void Bind(CommonDesignerCanvas designerCanvas)

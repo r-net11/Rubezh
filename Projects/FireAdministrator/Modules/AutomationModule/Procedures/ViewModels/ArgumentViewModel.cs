@@ -91,7 +91,7 @@ namespace AutomationModule.ViewModels
 						|| ((ObjectType == ObjectType.SKDZone) && (ExplicitValue.SKDZone == null))
 						|| ((ObjectType == ObjectType.VideoDevice) && (ExplicitValue.Camera == null))
 						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Zone == null))
-						|| ((ObjectType == ObjectType.Zone) && (ExplicitValue.Delay == null)));
+						|| ((ObjectType == ObjectType.Delay) && (ExplicitValue.Delay == null)));
 			}
 		}
 

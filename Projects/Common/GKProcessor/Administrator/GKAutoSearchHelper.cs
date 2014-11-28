@@ -115,7 +115,7 @@ namespace GKProcessor
 				bytes.Add(0);
 				bytes.Add((byte)address);
 				bytes.Add((byte)shleifNo);
-				var result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 500);
+				var result2 = SendManager.Send(kauDevice, 3, 0x86, 6, bytes, true, false, 2000);
 				if (!result2.HasError)
 				{
 					if (result2.Bytes.Count == 6)

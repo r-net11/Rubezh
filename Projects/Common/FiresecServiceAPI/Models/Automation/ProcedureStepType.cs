@@ -74,7 +74,7 @@ namespace FiresecAPI.Automation
 		SetValue,
 
 		[DescriptionAttribute("Запуск программы")]
-		RunProgramm,
+		RunProgram,
 
 		[DescriptionAttribute("Инкремент значения переменной")]
 		IncrementValue,
@@ -129,6 +129,9 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Показать диалоговую форму")]
 		ShowDialog,
+
+		[DescriptionAttribute("Показать свойство объекта")]
+		ShowProperty,
 
 		[DescriptionAttribute("")]
 		DoAction,

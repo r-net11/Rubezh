@@ -90,6 +90,7 @@
     <Compile Include="Events\EditZoneEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
     <Compile Include="Events\SetNewConfigurationEvent.cs" />
+    <Compile Include="Events\ShowPlanElementEvent.cs" />
     <Compile Include="Events\ShowSimulationEvent.cs" />
     <Compile Include="Events\ShowParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowNotificationEvent.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="Events\ShowOPCDeviceEvent.cs" />
     <Compile Include="Events\ShowOPCSettingsEvent.cs" />
     <Compile Include="Events\ShowDevicePropertiesEvent.cs" />
-    <Compile Include="Events\ShowXDeviceEvent.cs" />
+    <Compile Include="Events\ShowGKDeviceEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />

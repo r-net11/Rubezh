@@ -161,7 +161,7 @@
     <Compile Include="Steps\ViewModels\JournalStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PauseStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\RunProgrammStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
@@ -172,6 +172,7 @@
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ShowPropertyStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SoundStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
@@ -306,8 +307,8 @@
     <Compile Include="Steps\Views\RandomStepView.xaml.cs">
       <DependentUpon>RandomStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Steps\Views\RunProgrammStepView.xaml.cs">
-      <DependentUpon>RunProgrammStepView.xaml</DependentUpon>
+    <Compile Include="Steps\Views\RunProgramStepView.xaml.cs">
+      <DependentUpon>RunProgramStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SendEmailStepView.xaml.cs">
       <DependentUpon>SendEmailStepView.xaml</DependentUpon>
@@ -317,6 +318,9 @@
     </Compile>
     <Compile Include="Steps\Views\SetValueStepView.xaml.cs">
       <DependentUpon>SetValueStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ShowPropertyStepView.xaml.cs">
+      <DependentUpon>ShowPropertyStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
@@ -662,7 +666,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Steps\Views\RunProgrammStepView.xaml">
+    <Page Include="Steps\Views\RunProgramStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -675,6 +679,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\SetValueStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ShowPropertyStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

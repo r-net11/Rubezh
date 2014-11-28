@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AutomationModule.Events;
 using AutomationModule.Plans;
 using AutomationModule.ViewModels;
 using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.AutomationCallback;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD;
 using FiresecClient;
+using GKModule.Events;
+using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -17,7 +22,10 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
+using Infrastructure.Models;
 using Infrustructure.Plans.Events;
+using Microsoft.Practices.Prism.Events;
 
 namespace AutomationModule
 {
@@ -80,9 +88,15 @@ namespace AutomationModule
 			{
 				case AutomationCallbackType.Sound:
 					var soundArguments = (SoundCallbackData)automationCallbackResult.Data;
-					var sound = FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == soundArguments.SoundUID);
+					var sound =
+						FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(
+							x => x.Uid == soundArguments.SoundUID);
 					if (sound != null)
-						ApplicationService.Invoke(() => AlarmPlayerHelper.Play(FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false));
+						ApplicationService.Invoke(
+							() =>
+								AlarmPlayerHelper.Play(
+									FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())),
+									BeeperType.Alarm, false));
 					break;
 				case AutomationCallbackType.Message:
 					var messageArguments = (MessageCallbackData)automationCallbackResult.Data;
@@ -97,6 +111,71 @@ namespace AutomationModule
 							MessageBoxService.ShowExtended(messageArguments.Message, "Сообщение", messageArguments.IsModalWindow);
 					});
 					break;
+				case AutomationCallbackType.Property:
+				{
+					var propertyArguments = (PropertyCallBackData) automationCallbackResult.Data;
+					var ShowObjectDetailsEvent = new CompositePresentationEvent<Guid>();
+					switch (propertyArguments.ObjectType)
+					{
+						case ObjectType.Device:
+							var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (device != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>();
+							break;
+
+						case ObjectType.Zone:
+							var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (zone != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>();
+							break;
+
+						case ObjectType.Direction:
+							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (direction != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDirectionDetailsEvent>();
+							break;
+
+						case ObjectType.Delay:
+							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (delay != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
+							break;
+
+						case ObjectType.SKDDevice:
+							var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (skdDevice != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>();
+							break;
+
+						case ObjectType.SKDZone:
+							var skdZone = SKDManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (skdZone != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>();
+							break;
+
+						case ObjectType.GuardZone:
+							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (guardZone != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>();
+							break;
+
+						case ObjectType.VideoDevice:
+							var videoDevice = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (videoDevice != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
+							break;
+
+						case ObjectType.Door:
+							var door = SKDManager.Doors.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							if (door != null)
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>();
+							break;
+
+					}
+					if (ShowObjectDetailsEvent != null)
+						ApplicationService.BeginInvoke(() => ShowObjectDetailsEvent.Publish(propertyArguments.ObjectUid));
+				}
+				break;
 			}
 		}
 

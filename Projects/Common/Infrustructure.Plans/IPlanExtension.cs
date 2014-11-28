@@ -16,5 +16,6 @@ namespace Infrustructure.Plans
 		IEnumerable<IInstrument> Instruments { get; }
 		void ExtensionRegistered(CommonDesignerCanvas designerCanvas);
 		void ExtensionAttached();
+		IEnumerable<ElementError> Validate();
 	}
 }

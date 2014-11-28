@@ -15,13 +15,14 @@ using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using Infrustructure.Plans.Interfaces;
+using FiresecAPI;
 
 namespace DevicesModule.Plans
 {
@@ -192,7 +193,20 @@ namespace DevicesModule.Plans
 				Helper.BuildMap();
 		}
 
-        #endregion
+		public IEnumerable<ElementError> Validate()
+		{
+			List<ElementError> errors = new List<ElementError>();
+			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
+                FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
+                {
+                    errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementDevice, ShowDeviceEvent, Guid>(plan.ElementDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
+					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementRectangleZone, ShowZoneEvent, Guid>(plan.ElementRectangleZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
+					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementPolygonZone, ShowZoneEvent, Guid>(plan.ElementPolygonZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
+                });
+			return errors;
+		}
+
+		#endregion
 
 		private void UpdateDesignerItemDevice(CommonDesignerItem designerItem)
 		{
@@ -374,5 +388,5 @@ namespace DevicesModule.Plans
 			if (_instance._designerCanvas != null)
 				_instance._designerCanvas.Refresh();
 		}
-    }
+	}
 }

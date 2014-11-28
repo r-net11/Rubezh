@@ -15,7 +15,7 @@ namespace Infrastructure.Designer.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementTextBlock();
-			var propertiesViewModel = new TextBlockPropertiesViewModel(element, (ElementBase)element);
+			var propertiesViewModel = new TextBlockPropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

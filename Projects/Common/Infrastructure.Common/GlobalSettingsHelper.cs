@@ -10,7 +10,7 @@ namespace Infrastructure.Common
 	public static class GlobalSettingsHelper
 	{
 		static string FileName = AppDataFolderHelper.GetGlobalSettingsFileName();
-		public static GlobalSettings GlobalSettings { get; set; }
+		public static GlobalSettings GlobalSettings { get; private set; }
 
 		static GlobalSettingsHelper()
 		{
@@ -37,7 +37,6 @@ namespace Infrastructure.Common
 				Logger.Error(e);
 			}
 		}
-
 		public static void Save()
 		{
 			try
@@ -52,6 +51,11 @@ namespace Infrastructure.Common
 			{
 				Logger.Error(e);
 			}
+		}
+		public static void Reset()
+		{
+			GlobalSettings = new GlobalSettings();
+			Save();
 		}
 	}
 }

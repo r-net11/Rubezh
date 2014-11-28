@@ -92,6 +92,21 @@ namespace FiresecService
 			SendCallback(procedureStep.ShowDialogArguments, automationCallbackResult);
 		}
 
+		void ShowProperty(ProcedureStep procedureStep)
+		{
+			var showPropertyArguments = procedureStep.ShowPropertyArguments;
+			var automationCallbackResult = new AutomationCallbackResult()
+			{
+				AutomationCallbackType = AutomationCallbackType.Property,
+				Data = new PropertyCallBackData()
+				{
+					ObjectType = showPropertyArguments.ObjectType,
+					ObjectUid = showPropertyArguments.ObjectArgument.ExplicitValue.UidValue
+				},
+			};
+			SendCallback(showPropertyArguments, automationCallbackResult);
+		}
+
 		void PlaySound(ProcedureStep procedureStep)
 		{
 			var automationCallbackResult = new AutomationCallbackResult()
@@ -128,7 +143,7 @@ namespace FiresecService
 			var automationCallbackResult = new AutomationCallbackResult()
 			{
 				AutomationCallbackType = callbackType,
-				Data = new VisualPropertyData()
+				Data = new VisualPropertyCallbackData()
 				{
 					LayoutPart = procedureStep.ControlVisualArguments.LayoutPart,
 					Property = procedureStep.ControlVisualArguments.Property.Value,
@@ -144,7 +159,7 @@ namespace FiresecService
 			{
 				SendCallback(procedureStep.ControlVisualArguments, automationCallbackResult);
 				if (procedureStep.ControlVisualArguments.StoreOnServer && procedureStep.ControlVisualArguments.ForAllClients)
-					LayoutPropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyData)automationCallbackResult.Data);
+					ProcedurePropertyCache.SetProperty(procedureStep.ControlVisualArguments.Layout, (VisualPropertyCallbackData)automationCallbackResult.Data);
 			}
 		}
 
@@ -181,7 +196,9 @@ namespace FiresecService
 					break;
 				case ControlElementType.Set:
 					SendCallback(controlPlanArguments, automationCallbackResult);
-					break;
+                    if (controlPlanArguments.ForAllClients)
+                        ProcedurePropertyCache.SetProperty((PlanCallbackData)automationCallbackResult.Data);
+                    break;
 			}
 		}
 
