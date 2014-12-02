@@ -19,10 +19,11 @@ namespace FireMonitor
 		private const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
 		private const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
 		private Bootstrapper _bootstrapper;
-		public static bool IsClosingOnException = false;
+		public bool IsClosingOnException { get; private set; }
 
 		public App()
 		{
+			IsClosingOnException = false;
 		}
 
 		protected virtual Bootstrapper CreateBootstrapper()
@@ -118,11 +119,8 @@ namespace FireMonitor
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
-			if (ShellIntegrationHelper.IsIntegrated)
-			{
-				if (!IsClosingOnException)
+			if (ShellIntegrationHelper.IsIntegrated && !IsClosingOnException)
 					ShellIntegrationHelper.ShutDown();
-			}
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
 		}
 		private void ApplicationService_Closed(object sender, EventArgs e)
