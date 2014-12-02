@@ -8,8 +8,12 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FireAdministrator.Properties;
-using WindowPlacementExample;
 using System.Windows.Interop;
+using System.Windows.Forms;
+using System.Windows.Shapes;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace FireAdministrator.ViewModels
 {
@@ -39,7 +43,6 @@ namespace FireAdministrator.ViewModels
 
 		public override void Run()
 		{
-			//SetPlacement(Settings.Default.MainWindowPlacement); // TODO or not TODO?
 			base.Run();
 			ServiceFactory.Layout.ShortcutService.Shortcuts.Add(new KeyGesture(Key.S, ModifierKeys.Control), _menu.SaveCommand);			
 		}
@@ -62,8 +65,6 @@ namespace FireAdministrator.ViewModels
 					}
 				}
 				FiresecManager.Disconnect();
-				//Properties.Settings.Default.MainWindowPlacement = GetPlacement(); // TODO or not TODO?
-				//Settings.Default.Save();
 				return base.OnClosing(isCanceled);
 			}
 			finally
@@ -71,15 +72,7 @@ namespace FireAdministrator.ViewModels
 
 			}
 		}
-		public static void SetPlacement(string placementXml)
-		{
-			WindowPlacement.SetPlacement(new WindowInteropHelper(Application.Current.MainWindow).Handle, placementXml);
-		}
 
-		public static string GetPlacement()
-		{
-			return WindowPlacement.GetPlacement(new WindowInteropHelper(Application.Current.MainWindow).Handle);
-		}
 		public override void OnClosed()
 		{
 			//FiresecManager.Disconnect();

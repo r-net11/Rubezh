@@ -44,6 +44,13 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public override string ToString()
+		{
+			if (Variable != null)
+				return Variable.Name;
+			return "";
+		}
+
 		public void Update()
 		{
 			OnPropertyChanged(() => Variable);

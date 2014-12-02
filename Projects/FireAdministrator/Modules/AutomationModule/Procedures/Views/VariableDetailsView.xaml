@@ -22,9 +22,10 @@
 							<GridViewColumn Header="Тип" Width="Auto">
 								<GridViewColumn.CellTemplate>
 									<DataTemplate>
-										<Grid>
+										<StackPanel Orientation="Horizontal">
+											<Image VerticalAlignment="Center" Source="/Controls;component/Images/GlobalVariable.png" Margin="2" Width="24" />
 											<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-										</Grid>
+										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>

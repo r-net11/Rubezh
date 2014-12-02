@@ -41,7 +41,7 @@ namespace FireMonitor.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (App.IsClosingOnException)
+			if (((App)Application.Current).IsClosingOnException)
 			{
 #if DEBUG
 				return false;
@@ -64,6 +64,7 @@ namespace FireMonitor.ViewModels
 				try
 				{
 					RegistrySettingsHelper.SetBool("isException", false);
+					WindowsPositionHelper.GetPlacement();
 				}
 				catch (Exception ex)
 				{
@@ -76,6 +77,12 @@ namespace FireMonitor.ViewModels
 		public override void OnClosed()
 		{
 			base.OnClosed();
+		}
+
+		public override void Run()
+		{
+			WindowsPositionHelper.SetPlacement();
+			base.Run();
 		}
 	}
 }

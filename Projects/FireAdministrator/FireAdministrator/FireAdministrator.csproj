@@ -85,6 +85,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -144,7 +145,6 @@
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MergeConfigurationHelper.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />
-    <Compile Include="ViewModels\WindowPlacement.cs" />
     <Compile Include="Views\LayoutPartPropertyTimePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTimePageView.xaml</DependentUpon>
     </Compile>
