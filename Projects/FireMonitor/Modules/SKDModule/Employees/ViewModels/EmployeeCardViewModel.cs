@@ -91,17 +91,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, EmployeeViewModel.PersonType, Card);
+			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, EmployeeViewModel.Model, Card);
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
 				var card = employeeCardDetailsViewModel.Card;
-				var saveResult = CardHelper.Edit(card);
-				if (!saveResult)
-					return;
 				Card = card;
 				OnPropertyChanged(() => Card);
 				OnPropertyChanged(() => Name);
-
 				SetCardDoors();
 			}
 		}

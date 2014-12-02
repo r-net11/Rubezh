@@ -70,7 +70,7 @@ namespace SKDModule.Views
 				binding.Path = new PropertyPath(bindingPath);
 				binding.Mode = BindingMode.OneWay;
 				txtElement.SetBinding(TextBlock.TextProperty, binding);
-
+				ListViewLayoutManager.SetStarWidth(gridViewColumn, 5);
 				gridViewColumn.CellTemplate = dataTemplate;
 				gridView.Columns.Add(gridViewColumn);
 			}
@@ -111,7 +111,7 @@ namespace SKDModule.Views
 					binding.Path = new PropertyPath(bindingPath);
 					binding.Mode = BindingMode.OneWay;
 					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
-
+					SortBehavior.SetSortComparer(gridViewColumn, new EmployeeViewModelDescriptionComparer());
 					gridViewColumn.CellTemplate = dataTemplate;
 					gridView.Columns.Add(gridViewColumn);
 				}
@@ -136,7 +136,7 @@ namespace SKDModule.Views
 					binding.Path = new PropertyPath(bindingPath);
 					binding.Mode = BindingMode.OneWay;
 					txtElement.SetBinding(IsPositionDeletedTextBlock.TextProperty, binding);
-
+					SortBehavior.SetSortComparer(gridViewColumn, new EmployeeViewModelPositionComparer());
 					gridViewColumn.CellTemplate = dataTemplate;
 					gridView.Columns.Add(gridViewColumn);
 				}

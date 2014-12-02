@@ -251,7 +251,7 @@ namespace FiresecService.Service
 				OperationResult pendingResult;
 
 				var operationResult = databaseService.CardTranslator.GetSingle(item.UID);
-				if (!operationResult.HasError)
+				if (!operationResult.HasError && operationResult.Result != null)
 				{
 					var oldCard = operationResult.Result;
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
@@ -262,7 +262,7 @@ namespace FiresecService.Service
 				}
 				else
 				{
-					pendingResult = new OperationResult("Не найдена предидущая карта");
+					pendingResult = new OperationResult("Не найдена предыдущая карта");
 				}
 
 				var saveResult = databaseService.CardTranslator.Save(item);

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -11,7 +12,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
-using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -23,11 +23,13 @@ namespace SKDModule.ViewModels
 		public bool IsNewCard { get; private set; }
 		public bool HasGK { get; private set; }
 		public bool HasSKD { get; private set; }
+		ShortEmployee _employee;
 		
-		public EmployeeCardDetailsViewModel(Organisation organisation, PersonType personType, SKDCard card = null)
+		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
 			HasGK = GKManager.Devices.Count > 1;
 			HasSKD = SKDManager.Devices.Count > 1;
+			_employee = employee;
 
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
@@ -83,7 +85,7 @@ namespace SKDModule.ViewModels
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
 			CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
-			if (personType == PersonType.Guest)
+			if (_employee.Type == PersonType.Guest)
 			{
 				CardTypes.Remove(CardType.Constant);
 				CardTypes.Remove(CardType.Duress);
@@ -432,13 +434,28 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
+			Card.Number = Number;
+			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
+			if (stopListCard != null)
+			{
+				if (MessageBoxService.ShowQuestion("Карта с таким номеромнаходится в стоп-листе. Использовать её?"))
+				{
+					UseStopList = true;
+					SelectedStopListCard = stopListCard;
+				}
+				else
+				{
+					return false;
+				}
+			}
+	
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
 			}
-			Card.Number = Number;
+			
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
@@ -450,13 +467,20 @@ namespace SKDModule.ViewModels
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 			Card.OrganisationUID = Organisation.UID;
+			Card.HolderUID = _employee.UID;
+			Card.EmployeeName = _employee.Name;
 
 			if (SelectedAccessTemplate != null)
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;
 			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
 				Card.AccessTemplateUID = null;
+			if (!Validate())
+				return false;
+			var saveResult = CardHelper.Edit(Card);
+			if (!saveResult)
+				return false;
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
-			return Validate();
+			return true;
 		}
 
 		bool Validate()

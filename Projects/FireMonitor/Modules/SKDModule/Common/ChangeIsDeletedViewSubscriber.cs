@@ -58,6 +58,7 @@ namespace SKDModule
 					binding.Mode = BindingMode.OneWay;
 					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
 					gridViewColumn.CellTemplate = dataTemplate;
+					ListViewLayoutManager.SetCanUserResize(gridViewColumn, false);
 					gridView.Columns.Add(gridViewColumn);
 				}
 			}

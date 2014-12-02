@@ -1,5 +1,6 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView" 
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources />
 	<TabControl>
 		<TabItem Header="Отладка">
@@ -19,7 +20,7 @@
 					<RowDefinition />
 					<RowDefinition />
 				</Grid.RowDefinitions>
-				<TreeList Grid.Row="0" ListViewLayoutManager.Enabled="True" Source="{Binding RootDevices}">
+                <TreeList Grid.Row="0" ListViewLayoutManager.Enabled="True" Source="{Binding RootDevices}">
 					<TreeList.View>
 						<GridView>
 							<GridViewColumn Header="Устройство" DisplayMemberBinding="{Binding Device.ShortName}" />

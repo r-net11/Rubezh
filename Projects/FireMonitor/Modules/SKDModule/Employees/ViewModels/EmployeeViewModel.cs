@@ -139,15 +139,10 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
 				return;
 			}
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, PersonType);
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, Model);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				card.HolderUID = Model.UID;
-				card.EmployeeName = Model.Name;
-				var saveResult = CardHelper.Add(card);
-				if (!saveResult)
-					return;
 				var cardViewModel = new EmployeeCardViewModel(Organisation, this, card);
 				Cards.Add(cardViewModel);
 				SelectedCard = cardViewModel;

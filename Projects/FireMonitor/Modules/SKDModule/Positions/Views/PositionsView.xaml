@@ -14,7 +14,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Name="_treeList" Grid.Row="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True"
+		<tree:TreeList Name="_treeList" Grid.Row="0" Focusable="True" tree:SortBehavior.CanUserSortColumns="True" 
 					   Source="{Binding Organisations, Mode=OneWay}" SelectedTreeNode="{Binding SelectedItem}" ItemActivatedCommand="{Binding EditCommand}" >
 			<tree:TreeList.View>
 				<GridView>
