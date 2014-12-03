@@ -9,6 +9,7 @@ namespace Infrastructure.Common
 {
 	public static class WindowsPositionHelper
 	{
+        private static int MainWindowScreen;
 		public static void GetPlacement()
 		{
 			var leftValue = System.Windows.Application.Current.MainWindow.Left;
@@ -16,15 +17,15 @@ namespace Infrastructure.Common
 			var screen = screens.FirstOrDefault(x => x.WorkingArea.Left <= leftValue);
 			if (screen == null)
 				screen = screens.LastOrDefault();
-			Properties.Settings.Default.MainWindowScreen = new List<Screen>(Screen.AllScreens).IndexOf(screen);
+			MainWindowScreen = new List<Screen>(Screen.AllScreens).IndexOf(screen);
 			Settings.Default.Save();
 		}
 
 		public static void SetPlacement()
 		{
-			if (Screen.AllScreens.Length <= Properties.Settings.Default.MainWindowScreen || Properties.Settings.Default.MainWindowScreen < 0)
+			if (Screen.AllScreens.Length <= MainWindowScreen || MainWindowScreen < 0)
 				return;
-			var screen = Screen.AllScreens[Properties.Settings.Default.MainWindowScreen];
+			var screen = Screen.AllScreens[MainWindowScreen];
 			System.Windows.Application.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
 			System.Windows.Application.Current.MainWindow.Left = screen.WorkingArea.Left;
 			System.Windows.Application.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;

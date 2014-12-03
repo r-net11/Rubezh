@@ -280,6 +280,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Width3 = RightPanelVisible ? new GridLength(1, GridUnitType.Star) : _emptyGridColumn;
 		}
 
+        public override bool OnClosing(bool isCanceled)
+        {
+            return base.OnClosing(isCanceled);
+        }
 		public override void OnClosed()
 		{
 			ApplicationService.Layout.Close();

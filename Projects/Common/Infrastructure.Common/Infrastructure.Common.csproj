@@ -203,6 +203,7 @@
     <Compile Include="Video\RVI_VSS\WinFormsPlayer.Designer.cs">
       <DependentUpon>WinFormsPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MonitorHelper.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />
     <Compile Include="WindowsPositionHelper.cs" />

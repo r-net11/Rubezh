@@ -111,7 +111,6 @@ namespace Infrastructure.Client
 
 		protected bool RunShell(ShellViewModel shellViewModel)
 		{
-			ApplicationService.RegisterShell(shellViewModel);
 			StartupService.Instance.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
 			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());

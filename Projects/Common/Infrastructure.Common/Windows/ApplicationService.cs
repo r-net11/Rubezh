@@ -174,10 +174,6 @@ namespace Infrastructure.Common.Windows
 			Modules = new ReadOnlyCollection<IModule>(modules);
 			IsReportEnabled = Modules.Any(item => item.Name == "Отчёты");
 		}
-		public static void RegisterShell(ShellViewModel shell)
-		{
-			Shell = shell;
-		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)
 		{

@@ -41,6 +41,8 @@ namespace FireMonitor.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
+            if (base.OnClosing(isCanceled))
+                return true;
 			if (((App)Application.Current).IsClosingOnException)
 			{
 #if DEBUG
