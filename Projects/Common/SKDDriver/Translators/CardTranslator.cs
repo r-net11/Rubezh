@@ -119,7 +119,7 @@ namespace SKDDriver
 
 			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
 			{
-				result = result.And(e => e.Employee != null && filter.OrganisationUIDs.Contains(e.Employee.OrganisationUID.Value));
+				result = result.And(e => (e.Employee != null && filter.OrganisationUIDs.Contains(e.Employee.OrganisationUID.Value)) || e.IsInStopList);
 			}
 
 			return result;

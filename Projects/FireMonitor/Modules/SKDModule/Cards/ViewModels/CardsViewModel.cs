@@ -14,11 +14,11 @@ namespace SKDModule.ViewModels
 {
 	public class CardsViewModel : ViewPartViewModel
 	{
-		CardFilter Filter;
+		CardFilter _filter;
 		
 		public CardsViewModel()
 		{
-			Filter = new CardFilter();
+			_filter = new CardFilter();
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
@@ -38,6 +38,19 @@ namespace SKDModule.ViewModels
 		{
 			var condition = newCard.IsInStopList ? (Func<CardViewModel, bool>)(x => x.IsDeactivatedRootItem) : x => x.IsOrganisation && x.Organisation.UID == newCard.OrganisationUID;
 			var rootItem = RootItems.FirstOrDefault(condition);
+			if (rootItem == null)
+			{
+				if (newCard.IsInStopList)
+					RootItems.Add(CardViewModel.DeactivatedRootItem);
+				else
+				{
+					var organisation = OrganisationHelper.GetSingle(newCard.OrganisationUID);
+					if (organisation == null)
+						return;
+					rootItem = new CardViewModel(organisation);
+					RootItems.Add(rootItem);
+				}
+			}
 			var cards = rootItem.Children;
 			var cardViewModel = cards.FirstOrDefault(x => x.Card.UID == newCard.UID);
 			if (cardViewModel != null)
@@ -59,11 +72,20 @@ namespace SKDModule.ViewModels
 		void OnBlockCard(Guid uid)
 		{
 			var card = RootItems.SelectMany(x => x.Children).FirstOrDefault(x => x.Card.UID == uid);
-			card.Parent.RemoveChild(card);
+			var parent = card.Parent;
+			parent.RemoveChild(card);
+			if (parent.Children.Count() == 0)
+				RootItems.Remove(parent);
 			var newCard = CardHelper.GetSingle(uid);
 			if (newCard == null)
 				return;
-			RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem).AddChild(new CardViewModel(newCard));
+			var deactivatedRoot = RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem);
+			if(deactivatedRoot == null)
+			{
+				deactivatedRoot = CardViewModel.DeactivatedRootItem;
+				RootItems.Add(deactivatedRoot);
+			}
+			deactivatedRoot.AddChild(new CardViewModel(newCard));
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
 		} 
@@ -156,6 +178,11 @@ namespace SKDModule.ViewModels
 			{
 				if (rootItem.HasChildren)
 					rootItem.ExpandChildren();
+			}
+			var rootItemsToRemove = RootItems.Where(x => x.GetAllChildren(false).Count == 0).ToList();
+			foreach (var rootItem in rootItemsToRemove)
+			{
+				RootItems.Remove(rootItem);
 			}
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
