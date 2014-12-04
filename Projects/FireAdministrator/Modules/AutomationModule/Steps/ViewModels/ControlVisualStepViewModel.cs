@@ -13,18 +13,17 @@ namespace AutomationModule.ViewModels
 {
 	public class ControlVisualStepViewModel : BaseStepViewModel
 	{
+		public ArgumentViewModel ValueArgument { get; private set; }
 		public ControlVisualArguments ControlVisualArguments { get; private set; }
-		public ControlElementType Type { get; private set; }
+		public ControlElementType ControlElementType { get; private set; }
 
-		public ControlVisualStepViewModel(StepViewModel stepViewModel, ControlElementType type)
-			: base(stepViewModel)
+		public ControlVisualStepViewModel(StepViewModel stepViewModel, ControlElementType controlElementType) : base(stepViewModel)
 		{
 			ControlVisualArguments = stepViewModel.Step.ControlVisualArguments;
-			Type = type;
-			Argument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent, type == ControlElementType.Set);
+			ControlElementType = controlElementType;
+			ValueArgument = new ArgumentViewModel(ControlVisualArguments.Argument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
 		}
 
-		public ArgumentViewModel Argument { get; set; }
 
 		public ObservableCollection<LayoutViewModel> Layouts { get; private set; }
 		private LayoutViewModel _selectedLayout;
@@ -36,7 +35,6 @@ namespace AutomationModule.ViewModels
 				_selectedLayout = value;
 				ControlVisualArguments.Layout = SelectedLayout == null ? Guid.Empty : SelectedLayout.Layout.UID;
 				OnPropertyChanged(() => SelectedLayout);
-
 				LayoutParts = new ObservableCollection<LayoutPartViewModel>(SelectedLayout == null ? Enumerable.Empty<LayoutPartViewModel>() : SelectedLayout.Layout.Parts.Select(item => new LayoutPartViewModel(item, GetDescription(item))).Where(item => item.Description != null && item.Description.Properties.Count() > 0));
 				SelectedLayoutPart = LayoutParts.FirstOrDefault(x => x.LayoutPart.UID == ControlVisualArguments.LayoutPart);
 				OnPropertyChanged(() => LayoutParts);
@@ -53,7 +51,6 @@ namespace AutomationModule.ViewModels
 				_selectedLayoutPart = value;
 				ControlVisualArguments.LayoutPart = SelectedLayoutPart == null ? Guid.Empty : SelectedLayoutPart.LayoutPart.UID;
 				OnPropertyChanged(() => SelectedLayoutPart);
-
 				UpdateProperties();
 			}
 		}
@@ -65,12 +62,14 @@ namespace AutomationModule.ViewModels
 			get { return _selectedLayoutPartProperty; }
 			set
 			{
-				var isChanged = SelectedLayoutPartProperty != value && (SelectedLayoutPartProperty == null || value == null || SelectedLayoutPartProperty.Name != value.Name);
 				_selectedLayoutPartProperty = value;
 				ControlVisualArguments.Property = SelectedLayoutPartProperty == null ? null : (LayoutPartPropertyName?)SelectedLayoutPartProperty.LayoutPartProperty.Name;
+				if (SelectedLayoutPartProperty != null)
+				{
+					var explicitTypeViewModel = PropertyTypeToExplicitType(SelectedLayoutPartProperty);
+					ValueArgument.Update(Procedure, explicitTypeViewModel.ExplicitType, explicitTypeViewModel.EnumType, isList: false);
+				}
 				OnPropertyChanged(() => SelectedLayoutPartProperty);
-				if (isChanged)
-					UpdateContent();
 			}
 		}
 
@@ -83,9 +82,10 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => StoreOnServer);
 			}
 		}
+
 		public bool CanStoreOnServer
 		{
-			get { return Type == ControlElementType.Set && ForAllClients; }
+			get { return ControlElementType == ControlElementType.Set && ForAllClients; }
 		}
 
 		public bool ForAllClients
@@ -94,6 +94,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ControlVisualArguments.ForAllClients = value;
+				if (value == false)
+					StoreOnServer = false;
 				OnPropertyChanged(() => ForAllClients);
 				OnPropertyChanged(() => CanStoreOnServer);
 			}
@@ -103,57 +105,37 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var address = ArgumentViewModel.EmptyText;
-				if (SelectedLayout != null || SelectedLayoutPart != null || SelectedLayoutPartProperty != null)
-					address = string.Format("<{0}|{1}|{2}>", SelectedLayout == null ? null : SelectedLayout.Name, SelectedLayoutPart == null ? null : SelectedLayoutPart.Name, SelectedLayoutPartProperty == null ? null : SelectedLayoutPartProperty.Name.ToDescription());
-				var template = string.Empty;
-				switch (Type)
-				{
-					case ControlElementType.Get:
-						template = "{0} = {1}";
-						break;
-					case ControlElementType.Set:
-						template = "{1} = {0}";
-						break;
-				}
-				return string.Format(template, Argument.Description, address);
+				return "Макет: " + (SelectedLayout != null ? SelectedLayout.Name : "<пусто>") + "; Элемент: " + (SelectedLayoutPart != null ? SelectedLayoutPart.Name : "<пусто>") +
+					"; Свойство: " + (SelectedLayoutPartProperty != null ? SelectedLayoutPartProperty.Name.ToDescription() : "<пусто>") + "; Операция: " + ControlElementType.ToDescription() + "; Значение: " + ValueArgument.Description;
 			}
 		}
+
 		public override void UpdateContent()
 		{
 			Layouts = new ObservableCollection<LayoutViewModel>(FiresecManager.LayoutsConfiguration.Layouts.Select(item => new LayoutViewModel(item)));
 			SelectedLayout = Layouts.FirstOrDefault(x => x.Layout.UID == ControlVisualArguments.Layout);
-			if (SelectedLayoutPartProperty == null)
-				Argument.Update(Procedure);
-			else
-				Argument.Update(Procedure, GetExplicitType());
+			OnPropertyChanged(() => Layouts);
 		}
 
 		private void UpdateProperties()
 		{
-			var access = Type == ControlElementType.Get ? LayoutPartPropertyAccess.Get : LayoutPartPropertyAccess.Set;
+			var access = ControlElementType == ControlElementType.Get ? LayoutPartPropertyAccess.Get : LayoutPartPropertyAccess.Set;
 			LayoutPartProperties = new ObservableCollection<LayoutPartPropertyViewModel>(SelectedLayoutPart == null || SelectedLayoutPart.Description == null ? Enumerable.Empty<LayoutPartPropertyViewModel>() : SelectedLayoutPart.Description.Properties.Where(item => item.Access == LayoutPartPropertyAccess.GetOrSet || item.Access == access).Select(item => new LayoutPartPropertyViewModel(item)));
 			SelectedLayoutPartProperty = LayoutPartProperties.FirstOrDefault(x => x.LayoutPartProperty.Name == ControlVisualArguments.Property);
 			OnPropertyChanged(() => LayoutPartProperties);
 			OnPropertyChanged(() => StoreOnServer);
 			OnPropertyChanged(() => CanStoreOnServer);
 		}
-		private ExplicitType GetExplicitType()
+
+		ExplicitTypeViewModel PropertyTypeToExplicitType(LayoutPartPropertyViewModel layoutPartPropertyViewModel)
 		{
-			switch (SelectedLayoutPartProperty.Type)
-			{
-				case LayoutPartPropertyType.Boolean:
-					return ExplicitType.Boolean;
-				case LayoutPartPropertyType.DateTime:
-					return ExplicitType.DateTime;
-				case LayoutPartPropertyType.Double:
-				case LayoutPartPropertyType.Integer:
-					return ExplicitType.Integer;
-				case LayoutPartPropertyType.String:
-				case LayoutPartPropertyType.Object:
-					return ExplicitType.String;
-			}
-			return ExplicitType.String;
+			if (layoutPartPropertyViewModel.Name == LayoutPartPropertyName.BorderThickness || layoutPartPropertyViewModel.Name == LayoutPartPropertyName.Margin)
+				return new ExplicitTypeViewModel(ExplicitType.Integer);
+			if (layoutPartPropertyViewModel.Name == LayoutPartPropertyName.BackgroundColor || layoutPartPropertyViewModel.Name == LayoutPartPropertyName.BorderColor)
+				return new ExplicitTypeViewModel(EnumType.ColorType);
+			if (layoutPartPropertyViewModel.Name == LayoutPartPropertyName.Text || layoutPartPropertyViewModel.Name == LayoutPartPropertyName.Title)
+				return new ExplicitTypeViewModel(ExplicitType.String);
+			return new ExplicitTypeViewModel(ExplicitType.Integer);
 		}
 
 		private static Dictionary<Guid, ILayoutPartDescription> _map;
@@ -168,6 +150,7 @@ namespace AutomationModule.ViewModels
 						_map.Add(layoutPartDescription.UID, layoutPartDescription);
 			}
 		}
+
 		private static ILayoutPartDescription GetDescription(LayoutPart layoutPart)
 		{
 			return layoutPart == null || !_map.ContainsKey(layoutPart.DescriptionUID) ? null : _map[layoutPart.DescriptionUID];

@@ -1,64 +1,64 @@
-﻿<UserControl x:Class="AutomationModule.Views.ControlVisualStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:AutomationModule.Views">
+﻿<UserControl x:Class="AutomationModule.Views.ControlVisualStepView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:AutomationModule.Views" xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
 	<UserControl.Resources>
-		<ResourceDictionary Source="ProcedureResources.xaml" />
-	</UserControl.Resources>
-	<Grid Margin="2">
-		<Grid.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ProcedureResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
 			<Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
-				<Setter Property="Width" Value="NaN" />
+				<Setter Property="Width" Value="108" />
+				<Setter Property="Margin" Value="2" />
+				<Setter Property="Foreground" Value="White" />
 			</Style>
-		</Grid.Resources>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Макет" />
-		<ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text="{Binding Name}" />
-				</DataTemplate>
-			</ComboBox.ItemTemplate>
-		</ComboBox>
+		</ResourceDictionary>
+	</UserControl.Resources>
 
-		<Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Элемент" />
-		<ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
-			<ComboBox.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text="{Binding Name}" />
-				</DataTemplate>
-			</ComboBox.ItemTemplate>
-		</ComboBox>
+	<StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Макет" />
+			<ComboBox ItemsSource="{Binding Layouts}" SelectedItem="{Binding SelectedLayout}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
 
-		<Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Свойство" />
-		<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-			<ComboBox HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Элемент" />
+			<ComboBox IsEnabled="{Binding SelectedLayout, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutParts}" SelectedItem="{Binding SelectedLayoutPart}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Свойство" />
+			<ComboBox IsEnabled="{Binding SelectedLayoutPart, Converter={StaticResource NullToBoolConverter}}" ItemsSource="{Binding LayoutPartProperties}" SelectedItem="{Binding SelectedLayoutPartProperty}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name, Converter={StaticResource EnumToDescriptionConverter}}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<TextBox IsReadOnly="True" Text="{Binding SelectedLayoutPartProperty.Type, Converter={StaticResource EnumToDescriptionConverter}, Mode=OneWay}" />
 		</StackPanel>
 
-		<Label Grid.Row="3" Grid.Column="0" Content="Аргумент" />
-		<Views:ArgumentView Grid.Row="3" Grid.Column="1" DataContext="{Binding Argument}" />
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Аргумент" />
+			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
+		</StackPanel>
 
-		<Label Grid.Row="4" Grid.Column="0" Content="Всем клиентам" />
-		<CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding ForAllClients}" />
+		<StackPanel Orientation="Horizontal">
+			<Label Content="Всем клиентам" />
+			<CheckBox IsChecked="{Binding ForAllClients}" />
+		</StackPanel>
 
-		<Label Grid.Row="5" Grid.Column="0" Content="Восстанавливать" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding StoreOnServer}" Visibility="{Binding CanStoreOnServer, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-	</Grid>
+		<StackPanel Orientation="Horizontal" Visibility="{Binding Path=ControlElementType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ControlElementType.Set}}" >
+			<Label Content="Восстанавливать" />
+			<CheckBox IsChecked="{Binding StoreOnServer}" IsEnabled="{Binding CanStoreOnServer}" />
+		</StackPanel>
+	</StackPanel>
 </UserControl>

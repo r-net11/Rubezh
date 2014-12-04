@@ -23,6 +23,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Argument ValueArgument { get; set; }
+
+		[DataMember]
+		public bool StoreOnServer { get; set; }
 	}
 
 	public enum ElementPropertyType

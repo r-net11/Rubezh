@@ -255,6 +255,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ExplicitValues);
 			OnPropertyChanged(() => LocalVariables);
 			OnPropertyChanged(() => GlobalVariables);
+			OnPropertyChanged(() => AddVariableVisibility);
 		}
 
 		public void Update(List<Variable> variables, ExplicitType explicitType = ExplicitType.Integer, EnumType enumType = EnumType.DriverType, ObjectType objectType = ObjectType.Device, bool? isList = null)

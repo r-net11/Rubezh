@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.GK;
 using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace GKProcessor
 {
@@ -16,7 +17,12 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
+			if (DatabaseType != DatabaseType.Gk)
+				SetFormulaBytes();
+			else
+			{
+				FormulaBytes = new List<byte>();
+			}
 		}
 
 		void SetFormulaBytes()

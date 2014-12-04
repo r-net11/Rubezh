@@ -22,11 +22,7 @@ namespace AutomationModule.ViewModels
 		{
 			ControlPlanArguments = stepViewModel.Step.ControlPlanArguments;
 			ControlElementType = controlElementType;
-			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent);
-			if (ControlElementType == ControlElementType.Get)
-				ValueArgument.VariableScopes = new ObservableCollection<VariableScope> { VariableScope.LocalVariable, VariableScope.GlobalVariable };
-			else
-				ValueArgument.VariableScopes = ProcedureHelper.GetEnumObs<VariableScope>();
+			ValueArgument = new ArgumentViewModel(ControlPlanArguments.ValueArgument, stepViewModel.Update, UpdateContent, controlElementType == ControlElementType.Set);
 			ElementPropertyTypes = new ObservableCollection<ElementPropertyType>();
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
 			ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsChanged);
@@ -92,6 +88,34 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public bool ForAllClients
+		{
+			get { return ControlPlanArguments.ForAllClients; }
+			set
+			{
+				ControlPlanArguments.ForAllClients = value;
+				if (value == false)
+					StoreOnServer = false;
+				OnPropertyChanged(() => ForAllClients);
+				OnPropertyChanged(() => CanStoreOnServer);
+			}
+		}
+
+		public bool StoreOnServer
+		{
+			get { return ControlPlanArguments.StoreOnServer; }
+			set
+			{
+				ControlPlanArguments.StoreOnServer = value;
+				OnPropertyChanged(() => StoreOnServer);
+			}
+		}
+
+		public bool CanStoreOnServer
+		{
+			get { return ControlElementType == ControlElementType.Set && ForAllClients; }
+		}
+
 		ObservableCollection<ElementPropertyType> GetElemetProperties(ElementViewModel element)
 		{
 			var elementPropertyTypes = new ObservableCollection<ElementPropertyType>();
@@ -124,11 +148,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Plans = new ObservableCollection<PlanViewModel>();
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				Plans.Add(new PlanViewModel(plan));
-			}
+			Plans = new ObservableCollection<PlanViewModel>(FiresecManager.PlansConfiguration.AllPlans.Select(x => new PlanViewModel(x)));
 			SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == ControlPlanArguments.PlanUid);
 			OnPropertyChanged(() => Plans);
 			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(ControlPlanArguments.LayoutFilter);
