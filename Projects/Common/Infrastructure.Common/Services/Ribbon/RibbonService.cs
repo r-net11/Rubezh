@@ -21,8 +21,8 @@ namespace Infrastructure.Common.Services.Ribbon
 		{
 			ForEach(ribbonMenuItems, item =>
 			{
-				if (!ApplicationService.Shell.RibbonContent.Items.Contains(item))
-					ApplicationService.Shell.RibbonContent.Items.Add(item);
+				//if (!ApplicationService.Shell.RibbonContent.Items.Contains(item))
+				//    ApplicationService.Shell.RibbonContent.Items.Add(item);
 			});
 		}
 		public void RemoveRibbonItems(IEnumerable<RibbonMenuItemViewModel> ribbonMenuItems)

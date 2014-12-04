@@ -7,6 +7,7 @@ using FiresecAPI.GK;
 using FiresecClient;
 using System.Reflection;
 using FiresecAPI.Journal;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -354,33 +355,39 @@ namespace GKProcessor
 			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
 			{
 				if (startDateTime.DayOfWeek == DayOfWeek.Monday)
-					startDateTime.AddDays(0);
+					startDateTime = startDateTime.AddDays(0);
 				if (startDateTime.DayOfWeek == DayOfWeek.Tuesday)
-					startDateTime.AddDays(-1);
+					startDateTime = startDateTime.AddDays(-1);
 				if (startDateTime.DayOfWeek == DayOfWeek.Wednesday)
-					startDateTime.AddDays(-2);
+					startDateTime = startDateTime.AddDays(-2);
 				if (startDateTime.DayOfWeek == DayOfWeek.Thursday)
-					startDateTime.AddDays(-3);
+					startDateTime = startDateTime.AddDays(-3);
 				if (startDateTime.DayOfWeek == DayOfWeek.Friday)
-					startDateTime.AddDays(-4);
+					startDateTime = startDateTime.AddDays(-4);
 				if (startDateTime.DayOfWeek == DayOfWeek.Saturday)
-					startDateTime.AddDays(-5);
+					startDateTime = startDateTime.AddDays(-5);
 				if (startDateTime.DayOfWeek == DayOfWeek.Sunday)
-					startDateTime.AddDays(-6);
+					startDateTime = startDateTime.AddDays(-6);
 			}
-			var timeSpan = startDateTime - new DateTime(2000, 1, 1);
+			var timeSpan = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day) - new DateTime(2000, 1, 1);
 			var scheduleStartSeconds = timeSpan.TotalSeconds;
 
-			for (int i = 0; i < schedule.DayScheduleUIDs.Count; i++)
+			for (int dayNo = 0; dayNo < schedule.DayScheduleUIDs.Count; dayNo++)
 			{
-				var dayScheduleUID = schedule.DayScheduleUIDs[i];
+				var dayScheduleUID = schedule.DayScheduleUIDs[dayNo];
 				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
 				if (daySchedule != null)
 				{
 					foreach (var daySchedulePart in daySchedule.DayScheduleParts)
 					{
-						bytes.AddRange(BytesHelper.ShortToBytes((ushort)(daySchedulePart.StartMilliseconds / 1000)));
-						bytes.AddRange(BytesHelper.ShortToBytes((ushort)(daySchedulePart.EndMilliseconds / 1000)));
+						//scheduleStartSeconds = 0;
+						bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000)));
+						bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000)));
+
+						var startSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000;
+						var endSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000;
+
+						Trace.WriteLine("Time interval " + startSeconds + " " + endSeconds);
 					}
 				}
 			}
