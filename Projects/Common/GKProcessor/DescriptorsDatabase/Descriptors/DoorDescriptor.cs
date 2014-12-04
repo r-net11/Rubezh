@@ -29,7 +29,7 @@ namespace GKProcessor
 				if (Door.EnterDevice != null)
 				{
 					Formula.AddGetBit(GKStateBit.Attention, Door.EnterDevice);
-					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.EnterDevice.GKDescriptorNo);
 					Formula.Add(FormulaOperationType.AND);
 				}
 				if (Door.ExitDevice != null)
@@ -37,7 +37,7 @@ namespace GKProcessor
 					if (Door.ExitDevice.DriverType == GKDriverType.RSR2_CodeReader)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, Door.ExitDevice);
-						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.ExitDevice.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.AND);
 					}
 					else

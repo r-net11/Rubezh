@@ -78,23 +78,23 @@ namespace GKModule
 		#region ShowDelailsEvent
 		void SubscribeShowDelailsEvent()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>().Unsubscribe(OnShowZoneDetails);
-			ServiceFactory.Events.GetEvent<ShowXDirectionDetailsEvent>().Unsubscribe(OnShowDirectionDetails);
-			ServiceFactory.Events.GetEvent<ShowXMPTDetailsEvent>().Unsubscribe(OnShowMPTDetails);
-			ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>().Unsubscribe(OnShowPumpStationDetails);
-			ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>().Unsubscribe(OnShowDelayDetails);
-			ServiceFactory.Events.GetEvent<ShowXPIMDetailsEvent>().Unsubscribe(OnShowPIMDetails);
-			ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>().Unsubscribe(OnShowGuardZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>().Unsubscribe(OnShowZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>().Unsubscribe(OnShowDirectionDetails);
+			ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>().Unsubscribe(OnShowMPTDetails);
+			ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>().Unsubscribe(OnShowPumpStationDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>().Unsubscribe(OnShowDelayDetails);
+			ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>().Unsubscribe(OnShowPIMDetails);
+			ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>().Unsubscribe(OnShowGuardZoneDetails);
 
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>().Subscribe(OnShowZoneDetails);
-			ServiceFactory.Events.GetEvent<ShowXDirectionDetailsEvent>().Subscribe(OnShowDirectionDetails);
-			ServiceFactory.Events.GetEvent<ShowXMPTDetailsEvent>().Subscribe(OnShowMPTDetails);
-			ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>().Subscribe(OnShowPumpStationDetails);
-			ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>().Subscribe(OnShowDelayDetails);
-			ServiceFactory.Events.GetEvent<ShowXPIMDetailsEvent>().Subscribe(OnShowPIMDetails);
-			ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>().Subscribe(OnShowGuardZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>().Subscribe(OnShowZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>().Subscribe(OnShowDirectionDetails);
+			ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>().Subscribe(OnShowMPTDetails);
+			ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>().Subscribe(OnShowPumpStationDetails);
+			ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>().Subscribe(OnShowDelayDetails);
+			ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>().Subscribe(OnShowPIMDetails);
+			ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>().Subscribe(OnShowGuardZoneDetails);
 		}
 
 		void OnShowDeviceDetails(Guid deviceUID)

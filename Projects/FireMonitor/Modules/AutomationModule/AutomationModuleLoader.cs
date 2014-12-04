@@ -120,25 +120,25 @@ namespace AutomationModule
 						case ObjectType.Device:
 							var device = GKManager.Devices.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (device != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 							break;
 
 						case ObjectType.Zone:
 							var zone = GKManager.Zones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (zone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
 							break;
 
 						case ObjectType.Direction:
 							var direction = GKManager.Directions.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (direction != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDirectionDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
 							break;
 
 						case ObjectType.Delay:
 							var delay = GKManager.Delays.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (delay != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
 							break;
 
 						case ObjectType.SKDDevice:
@@ -156,7 +156,7 @@ namespace AutomationModule
 						case ObjectType.GuardZone:
 							var guardZone = GKManager.GuardZones.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (guardZone != null)
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
 							break;
 
 						case ObjectType.VideoDevice:

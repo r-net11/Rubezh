@@ -20,6 +20,7 @@ namespace GKProcessor
 		public GKDelay Delay { get; private set; }
 		public GKPim Pim { get; private set; }
 		public GKGuardZone GuardZone { get; private set; }
+		public GKDoor Door { get; private set; }
 		public int GKJournalRecordNo { get; private set; }
 		public ushort GKObjectNo { get; private set; }
 		public int ObjectState { get; private set; }
@@ -109,6 +110,14 @@ namespace GKProcessor
 
 						case 12:
 							JournalItem.JournalEventNameType = JournalEventNameType.Произведена_настройка_сети;
+							break;
+
+						case 13:
+							JournalItem.JournalEventNameType = JournalEventNameType.Проход_пользователя_разрешен;
+							JournalItem.JournalObjectType = JournalObjectType.GKUser;
+							var objectFactoryNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
+							JournalItem.CardNo = objectFactoryNo.ToString();
+							JournalItem.EmployeeUID = Guid.Empty;
 							break;
 
 						default:
@@ -400,6 +409,13 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = JournalObjectType.GKGuardZone;
 					JournalItem.ObjectUID = GuardZone.UID;
 					JournalItem.ObjectName = GuardZone.PresentationName;
+				}
+				Door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
+				if (Door != null)
+				{
+					JournalItem.JournalObjectType = JournalObjectType.GKDoor;
+					JournalItem.ObjectUID = Door.UID;
+					JournalItem.ObjectName = Door.PresentationName;
 				}
 			}
 		}

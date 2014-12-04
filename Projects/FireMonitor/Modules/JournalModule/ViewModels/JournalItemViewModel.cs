@@ -35,9 +35,10 @@ namespace JournalModule.ViewModels
 		GKDelay Delay { get; set; }
 		GKPim Pim { get; set; }
 		GKGuardZone GuardZone { get; set; }
+		GKDoor GKDoor { get; set; }
 		SKDDevice SKDDevice { get; set; }
 		SKDZone SKDZone { get; set; }
-		SKDDoor Door { get; set; }
+		SKDDoor SKDDoor { get; set; }
 		Camera Camera { get; set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
@@ -78,7 +79,7 @@ namespace JournalModule.ViewModels
 						ObjectName = Device.PresentationName;
 						ObjectImageSource = Device.Driver.ImageSource;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDeviceDetailsEvent>();
 					}
 					break;
 
@@ -88,7 +89,7 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = Zone.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKZoneEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
@@ -99,7 +100,7 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = Direction.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDirectionDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
@@ -110,7 +111,7 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = PumpStation.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
@@ -121,7 +122,7 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = MPT.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXMPTDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/BMPT.png";
 					break;
@@ -132,7 +133,7 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = Delay.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDelayEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
 						ObjectImageSource = "/Controls;component/Images/Delay.png";
 					}
 					else
@@ -142,7 +143,7 @@ namespace JournalModule.ViewModels
 						{
 							ObjectName = Delay.PresentationName;
 							ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDelayEvent>();
-							ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
+							ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
 							if (Delay.PumpStationUID != Guid.Empty)
 							{
 								PumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == Delay.PumpStationUID);
@@ -150,7 +151,7 @@ namespace JournalModule.ViewModels
 								{
 									ObjectName += " (" + PumpStation.PresentationName + ")";
 									ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
-									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>();
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
 									ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 									break;
 								}
@@ -165,7 +166,7 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = Pim.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPimEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPIMDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>();
 						ObjectImageSource = "/Controls;component/Images/Pim.png";
 						if (Pim.PumpStationUID != Guid.Empty)
 						{
@@ -174,7 +175,7 @@ namespace JournalModule.ViewModels
 							{
 								ObjectName += " (" + PumpStation.PresentationName + ")";
 								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
 								ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 								break;
 							}
@@ -186,7 +187,7 @@ namespace JournalModule.ViewModels
 							{
 								ObjectName += " (" + MPT.PresentationName + ")";
 								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
-								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXMPTDetailsEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 								ObjectImageSource = "/Controls;component/Images/BMPT.png";
 								break;
 							}
@@ -200,9 +201,20 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = GuardZone.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>();
-						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
+				case JournalObjectType.GKDoor:
+					GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (GKDoor != null)
+					{
+						ObjectName = GKDoor.PresentationName;
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDoorEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
+					}
+					ObjectImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.SKDDevice:
@@ -228,10 +240,10 @@ namespace JournalModule.ViewModels
 					break;
 
 				case JournalObjectType.SKDDoor:
-					Door = SKDManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (Door != null)
+					SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (SKDDoor != null)
 					{
-						ObjectName = Door.Name;
+						ObjectName = SKDDoor.Name;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>();
 					}
@@ -343,9 +355,9 @@ namespace JournalModule.ViewModels
 					}
 					break;
 				case JournalObjectType.SKDDoor:
-					if (Door != null)
+					if (SKDDoor != null)
 					{
-						ShowOnPlanHelper.ShowSKDDoor(Door);
+						ShowOnPlanHelper.ShowSKDDoor(SKDDoor);
 					}
 					break;
 			}
@@ -394,9 +406,9 @@ namespace JournalModule.ViewModels
 					}
 					break;
 				case JournalObjectType.SKDDoor:
-					if (Door != null)
+					if (SKDDoor != null)
 					{
-						return ShowOnPlanHelper.CanShowSKDDoor(Door);
+						return ShowOnPlanHelper.CanShowSKDDoor(SKDDoor);
 					}
 					break;
 			}
