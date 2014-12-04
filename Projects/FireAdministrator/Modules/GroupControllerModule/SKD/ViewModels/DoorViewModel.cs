@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 
 			if (ExitDevice != null)
 			{
-				if (Door.DoorType == GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.AM_1)
+				if (Door.DoorType == GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.RSR2_AM_1)
 				{
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeExitDeviceCommand { get; private set; }
 		void OnChangeExitDevice()
 		{
-			var driverType = Door.DoorType == GKDoorType.OneWay ? GKDriverType.AM_1 : GKDriverType.RSR2_CodeReader;
+			var driverType = Door.DoorType == GKDoorType.OneWay ? GKDriverType.RSR2_AM_1 : GKDriverType.RSR2_CodeReader;
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, GKManager.Devices.Where(x => x.DriverType == driverType));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{

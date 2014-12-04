@@ -26,9 +26,15 @@ namespace SKDDriver
 			return -1;
 		}
 
-		public int GetFreeGKNo(string gkIPAddress, out bool isNew)
+		public int GetFreeGKNo(string gkIPAddress, int cardNo, out bool isNew)
 		{
-			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.CardNo == cardNo);
+			if (gkCard != null)
+			{
+				isNew = false;
+				return gkCard.GKNo;
+			}
+			gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && !x.IsActive);
 			if (gkCard != null)
 			{
 				isNew = false;
@@ -76,7 +82,7 @@ namespace SKDDriver
 			}
 		}
 
-		public void Remove(string gkIPAddress, int gkNo)
+		public void Remove(string gkIPAddress, int gkNo, int cardNo)
 		{
 			if (string.IsNullOrEmpty(gkIPAddress))
 			{
@@ -85,7 +91,7 @@ namespace SKDDriver
 			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.GKNo == gkNo);
 			if (gkCard != null)
 			{
-				gkCard.CardNo = 0;
+				gkCard.CardNo = cardNo;
 				gkCard.FIO = "Удален";
 				gkCard.IsActive = false;
 			}

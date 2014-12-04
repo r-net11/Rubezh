@@ -240,32 +240,39 @@ namespace FiresecService.Service
 					return new OperationResult<bool>() { Result = !saveResult.HasError };
 			}
 		}
-		public OperationResult<bool> EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard card)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				AddJournalMessage(JournalEventNameType.Редактирование_карты, item.Number.ToString());
-				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
+				AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString());
+				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 
 				string cardWriterError = null;
 				OperationResult pendingResult;
 
-				var operationResult = databaseService.CardTranslator.GetSingle(item.UID);
+				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
 					var oldCard = operationResult.Result;
 					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
-					var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, item, getAccessTemplateOperationResult.Result);
+					var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, card, getAccessTemplateOperationResult.Result);
 					cardWriterError = cardWriter.GetError();
-					pendingResult = databaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+					pendingResult = databaseService.CardTranslator.EditPendingList(card.UID, GetFailedControllerUIDs(cardWriter));
 				}
 				else
 				{
 					pendingResult = new OperationResult("Не найдена предыдущая карта");
 				}
 
-				var saveResult = databaseService.CardTranslator.Save(item);
+				var saveResult = databaseService.CardTranslator.Save(card);
+
+				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+				if (!employeeOperationResult.HasError)
+				{
+					var gkSKDHelper = new GKSKDHelper();
+					gkSKDHelper.EditCard(card, getAccessTemplateOperationResult.Result, employeeOperationResult.Result.Name);
+				}
 
 				var stringBuilder = new StringBuilder();
 				if (!String.IsNullOrEmpty(cardWriterError))

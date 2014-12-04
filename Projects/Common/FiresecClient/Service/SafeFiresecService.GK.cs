@@ -81,6 +81,11 @@ namespace FiresecClient
 			return SafeOperationCall<List<GKProperty>>(() => { return FiresecService.GKGetSingleParameter(gkBase.UID); }, "GetSingleParameter");
 		}
 
+		public OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKRemoveAllSchedules(device.UID); }, "GKRemoveAllSchedules");
+		}
+
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSetSchedule(schedule); }, "GKSetSchedule");
@@ -89,6 +94,16 @@ namespace FiresecClient
 		public OperationResult<List<GKUser>> GKActualizeUsers(GKDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKActualizeUsers(device.UID); }, "GKActualizeUsers");
+		}
+
+		public OperationResult<bool> GKRemoveUsers(GKDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKRemoveUsers(device.UID); }, "GKRemoveUsers");
+		}
+
+		public OperationResult<bool> GKRewriteUsers(GKDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKRewriteUsers(device.UID); }, "GKRewriteUsers");
 		}
 
 		public OperationResult<List<byte>> GKGKHash(GKDevice device)

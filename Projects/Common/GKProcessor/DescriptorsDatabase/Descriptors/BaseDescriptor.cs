@@ -183,6 +183,9 @@ namespace GKProcessor
 
 					case DescriptorType.Code:
 						return Code;
+
+					case DescriptorType.Door:
+						return Door;
 				}
 				return null;
 			}

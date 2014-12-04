@@ -61,6 +61,11 @@ namespace GKModule.ViewModels
 					ImageSource = "/Controls;component/Images/Code.png";
 					Description = descriptor.Code.Description;
 					break;
+
+				case DescriptorType.Door:
+					ImageSource = "/Controls;component/Images/Door.png";
+					Description = descriptor.Door.Description;
+					break;
 			}
 
 			IsFormulaInvalid = Descriptor.Formula.CalculateStackLevels();

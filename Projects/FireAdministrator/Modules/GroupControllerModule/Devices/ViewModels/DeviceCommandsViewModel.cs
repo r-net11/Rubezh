@@ -35,6 +35,9 @@ namespace GKModule.Models
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			AutoSearchCommand = new RelayCommand(OnAutoSearch, CanAutoSearch);
 			ActualizeUsersCommand = new RelayCommand(OnActualizeUsers, CanActualizeUsers);
+			RemoveUsersCommand = new RelayCommand(OnRemoveUsers, CanRemoveUsers);
+			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
+			RemoveAllSchedulesCommand = new RelayCommand(OnRemoveAllSchedules, CanRemoveAllSchedules);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -392,7 +395,7 @@ namespace GKModule.Models
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при автопоиске конфигурации");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при актулизации пользователей");
 					}
 				}));
 			});
@@ -401,6 +404,90 @@ namespace GKModule.Models
 		}
 
 		bool CanActualizeUsers()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
+		}
+
+		public RelayCommand RemoveUsersCommand { get; private set; }
+		void OnRemoveUsers()
+		{
+			var thread = new Thread(() =>
+			{
+				var result = FiresecManager.FiresecService.GKRemoveUsers(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+					}
+					else
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при удалении пользователей");
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel RemoveUsers";
+			thread.Start();
+		}
+
+		bool CanRemoveUsers()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
+		}
+
+		public RelayCommand RewriteUsersCommand { get; private set; }
+		void OnRewriteUsers()
+		{
+			var thread = new Thread(() =>
+			{
+				var result = FiresecManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+					}
+					else
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel RewriteUsers";
+			thread.Start();
+		}
+
+		bool CanRewriteUsers()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
+		}
+
+		public RelayCommand RemoveAllSchedulesCommand { get; private set; }
+		void OnRemoveAllSchedules()
+		{
+			var thread = new Thread(() =>
+			{
+				var result = FiresecManager.FiresecService.GKRemoveAllSchedules(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+					}
+					else
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при удалении всех графиков");
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel RemoveAllSchedules";
+			thread.Start();
+		}
+
+		bool CanRemoveAllSchedules()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}

@@ -24,6 +24,19 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if (Door.EnterDevice != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, Door.EnterDevice);
+			}
+			if (Door.ExitDevice != null)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, Door.ExitDevice);
+			}
+			if (Door.EnterDevice != null && Door.ExitDevice != null)
+			{
+				Formula.Add(FormulaOperationType.AND);
+			}
+			Formula.AddPutBit(GKStateBit.On, Door);
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}

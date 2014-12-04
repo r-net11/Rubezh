@@ -21,6 +21,14 @@ namespace GKProcessor
 			}
 		}
 
+		public void EditCard(SKDCard card, AccessTemplate accessTemplate, string employeeName)
+		{
+			foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
+			{
+				//EditOneCard(gkControllerDevice, card, accessTemplate, employeeName);
+			}
+		}
+
 		public void RemoveCard(SKDCard card)
 		{
 			foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
@@ -72,15 +80,15 @@ namespace GKProcessor
 
 			cardSchedules = cardSchedules.OrderBy(x => x.Device.GKDescriptorNo).ToList();
 
+			var intPassword = 0;
+			Int32.TryParse(card.Number, out intPassword);
+
 			var no = 1;
 			bool isNew = true;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.Address, out isNew);
+				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.Address, intPassword, out isNew);
 			}
-
-			var intPassword = 0;
-			Int32.TryParse(card.Number, out intPassword);
 
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
@@ -164,12 +172,13 @@ namespace GKProcessor
 			}
 
 			var bytes = new List<byte>();
+			bytes.Add(0);
 			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
 			bytes.Add(0);
 			bytes.Add(1);
 			var nameBytes = BytesHelper.StringDescriptionToBytes("Удален");
 			bytes.AddRange(nameBytes);
-			bytes.AddRange(BytesHelper.IntToBytes(intPassword));
+			bytes.AddRange(BytesHelper.IntToBytes(999999));
 			bytes.Add(0);
 			bytes.Add(0);
 
@@ -186,7 +195,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.Remove(device.Address, no);
+				skdDatabaseService.GKCardTranslator.Remove(device.Address, no, intPassword);
 			}
 
 			return new OperationResult<bool>() { Result = true };
@@ -222,6 +231,51 @@ namespace GKProcessor
 			}
 
 			return users;
+		}
+
+
+		public bool RemoveGKUsers(GKDevice device)
+		{
+			for (int no = 1; no <= 65535; no++)
+			{
+				var bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
+
+				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 24, 0, bytes);
+				if (sendResult.HasError || sendResult.Bytes.Count == 0)
+				{
+					break;
+				}
+
+				var userType = (GKUserType)sendResult.Bytes[3];
+				if (userType == 0)
+				{
+					bytes = new List<byte>();
+					bytes.Add(0);
+					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
+					bytes.Add(0);
+					bytes.Add(1);
+					var nameBytes = BytesHelper.StringDescriptionToBytes("Удален");
+					bytes.AddRange(nameBytes);
+					bytes.AddRange(BytesHelper.IntToBytes(999999));
+					bytes.Add(0);
+					bytes.Add(0);
+
+					for (int i = 0; i < 256 - 42; i++)
+					{
+						bytes.Add(0);
+					}
+
+					sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
+					if (sendResult.HasError || sendResult.Bytes.Count == 256)
+					{
+						//return new OperationResult<bool>(sendResult.Error);
+					}
+				}
+			}
+
+			return true;
 		}
 
 		class GKCardSchedule

@@ -7,6 +7,8 @@ using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
 using FiresecAPI.Journal;
+using SKDDriver;
+using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -216,6 +218,19 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<bool> GKRemoveAllSchedules(Guid deviceUID)
+		{
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (gkControllerDevice != null)
+			{
+				return GKProcessorManager.GKRemoveAllSchedules(gkControllerDevice);
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найден ГК в конфигурации");
+			}
+		}
+
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
 		{
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
@@ -248,6 +263,73 @@ namespace FiresecService.Service
 			else
 			{
 				return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID)
+		{
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			if (gkControllerDevice != null)
+			{
+				var gkSKDHelper = new GKSKDHelper();
+				try
+				{
+					var users = gkSKDHelper.RemoveGKUsers(gkControllerDevice);
+					return new OperationResult<bool>() { Result = users };
+				}
+				catch (Exception e)
+				{
+					return new OperationResult<bool>(e.Message);
+				}
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найден ГК в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
+		{
+			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			if (gkControllerDevice != null)
+			{
+				try
+				{
+					var gkSKDHelper = new GKSKDHelper();
+					gkSKDHelper.RemoveGKUsers(gkControllerDevice);
+					gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
+
+					using (var databaseService = new SKDDatabaseService())
+					{
+						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+						if (!cardsResult.HasError)
+						{
+							foreach (var card in cardsResult.Result)
+							{
+								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+								var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
+								var accessTemplate = getAccessTemplateOperationResult.Result != null ? getAccessTemplateOperationResult.Result : null;
+								var employee = employeeOperationResult.Result != null ? employeeOperationResult.Result : null;
+
+								if (employee != null)
+								{
+									gkSKDHelper = new GKSKDHelper();
+									gkSKDHelper.AddCard(card, accessTemplate, employee.Name);
+								}
+							}
+						}
+					}
+
+					return new OperationResult<bool>();
+				}
+				catch (Exception e)
+				{
+					return new OperationResult<bool>(e.Message);
+				}
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найден ГК в конфигурации");
 			}
 		}
 

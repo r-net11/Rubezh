@@ -298,6 +298,25 @@ namespace GKProcessor
 			return ParametersHelper.GetSingleParameter(gkBase);
 		}
 
+		public static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
+		{
+			for (int no = 1; no <= 255; no++)
+			{
+				var bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.Add((byte)no);
+				var nameBytes = BytesHelper.StringDescriptionToBytes("");
+				bytes.AddRange(nameBytes);
+				for (int i = 0; i < 255 - 32; i++)
+				{
+					bytes.Add(0);
+				}
+
+				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 28, 0, bytes);
+			}
+			return new OperationResult<bool>();
+		}
+
 		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
 		{
 			var count = 0;

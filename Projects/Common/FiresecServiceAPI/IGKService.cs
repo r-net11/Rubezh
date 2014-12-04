@@ -49,10 +49,19 @@ namespace FiresecAPI
 		OperationResult<List<GKProperty>> GKGetSingleParameter(Guid objectUID);
 
 		[OperationContract]
+		OperationResult<bool> GKRemoveAllSchedules(Guid gkDeviceUID);
+
+		[OperationContract]
 		OperationResult<bool> GKSetSchedule(GKSchedule schedule);
 
 		[OperationContract]
 		OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID);
+
+		[OperationContract]
+		OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID);
+
+		[OperationContract]
+		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);
 
 		[OperationContract]
 		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);

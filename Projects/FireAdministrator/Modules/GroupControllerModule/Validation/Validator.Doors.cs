@@ -58,7 +58,7 @@ namespace GKModule.Validation
 
 			if (door.ExitDevice != null)
 			{
-				if (door.DoorType == GKDoorType.OneWay && door.ExitDevice.DriverType != GKDriverType.AM_1)
+				if (door.DoorType == GKDoorType.OneWay && door.ExitDevice.DriverType != GKDriverType.RSR2_AM_1)
 				{
 					Errors.Add(new DoorValidationError(door, "К точке доступа подключено неверное устройство на выход", ValidationErrorLevel.CannotWrite));
 				}

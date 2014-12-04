@@ -16,6 +16,7 @@ namespace FiresecAPI.GK
 			PrepareDelays();
 			PrepareGuardZones();
 			PrepareCodes();
+			PrepareDoors();
 		}
 
 		void PrepareZones()
@@ -74,6 +75,10 @@ namespace FiresecAPI.GK
 			{
 				code.ClearDescriptor();
 			}
+			foreach (var door in Doors)
+			{
+				door.ClearDescriptor();
+			}
 
 			foreach (var device in Devices)
 			{
@@ -126,6 +131,18 @@ namespace FiresecAPI.GK
 					}
 				}
 				LinkGKBases(guardZone, guardZone);
+			}
+
+			foreach (var door in Doors)
+			{
+				if (door.EnterDevice != null)
+					LinkGKBases(door, door.EnterDevice);
+				if (door.ExitDevice != null)
+					LinkGKBases(door, door.ExitDevice);
+				if (door.LockDevice != null)
+					LinkGKBases(door, door.LockDevice);
+				if (door.LockControlDevice != null)
+					LinkGKBases(door, door.LockControlDevice);
 			}
 		}
 
@@ -298,6 +315,15 @@ namespace FiresecAPI.GK
 			{
 				code.KauDatabaseParent = null;
 				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x=>x.DriverType == GKDriverType.GK);
+			}
+		}
+
+		void PrepareDoors()
+		{
+			foreach (var door in Doors)
+			{
+				door.KauDatabaseParent = null;
+				door.GkDatabaseParent = door.EnterDevice != null ? door.EnterDevice.GKParent : null;
 			}
 		}
 
