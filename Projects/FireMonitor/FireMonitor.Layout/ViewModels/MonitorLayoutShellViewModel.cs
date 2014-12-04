@@ -28,7 +28,7 @@ namespace FireMonitor.Layout.ViewModels
 		private SoundViewModel _soundViewModel;
 
 		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
-			: base("Monitor.Layout")
+			: base()
 		{
 			Layout = layout;
 			LayoutContainer = new LayoutContainer(this, layout);

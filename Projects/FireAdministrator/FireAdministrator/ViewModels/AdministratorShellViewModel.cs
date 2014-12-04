@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using FiresecAPI.Models;
 
 namespace FireAdministrator.ViewModels
 {
@@ -24,7 +25,7 @@ namespace FireAdministrator.ViewModels
 		private RibbonMenuItemViewModel _showMenu;
 
 		public AdministratorShellViewModel()
-			: base("Administrator")
+			: base(ClientType.Administrator)
 		{
 			Title = "Администратор ОПС FireSec";
 			Height = 700;
