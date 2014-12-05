@@ -534,5 +534,8 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Автопоиск", XStateClass.Info)]
 		Автопоиск,
+
+		[EventName(JournalSubsystemType.GK, "Проход пользователя разрешен", XStateClass.Info)]
+		Проход_пользователя_разрешен,
 	}
 }
