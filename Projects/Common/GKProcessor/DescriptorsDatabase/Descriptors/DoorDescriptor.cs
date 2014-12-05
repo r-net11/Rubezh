@@ -34,7 +34,7 @@ namespace GKProcessor
 				}
 				if (Door.ExitDevice != null)
 				{
-					if (Door.ExitDevice.DriverType == GKDriverType.RSR2_CodeReader)
+					if (Door.ExitDevice.DriverType == GKDriverType.RSR2_CodeReader || Door.ExitDevice.DriverType == GKDriverType.RSR2_CardReader)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, Door.ExitDevice);
 						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.ExitDevice.GKDescriptorNo);

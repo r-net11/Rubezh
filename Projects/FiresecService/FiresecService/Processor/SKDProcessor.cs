@@ -77,6 +77,14 @@ namespace FiresecService
 					{
 						var employeeUID = operationResult.Result;
 						journalItem.EmployeeUID = employeeUID;
+						if (employeeUID != Guid.Empty)
+						{
+							var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+							if (employee != null)
+							{
+								journalItem.UserName = employee.Result.Name;
+							}
+						}
 
 						if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
 						{

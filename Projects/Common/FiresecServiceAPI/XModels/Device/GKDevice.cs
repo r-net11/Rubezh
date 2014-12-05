@@ -51,6 +51,8 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKDirection> Directions { get; set; }
 		[XmlIgnore]
+		public GKDoor Door { get; set; }
+		[XmlIgnore]
 		public bool HasDifferences { get; set; }
 		[XmlIgnore]
 		public bool HasMissingDifferences { get; set; }

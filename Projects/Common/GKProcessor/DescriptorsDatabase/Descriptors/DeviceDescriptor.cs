@@ -42,7 +42,6 @@ namespace GKProcessor
 					if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 					{
 						Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
-						//AddMro2MFormula();
 						if (Device.Logic.UseOffCounterLogic)
 						{
 							Formula.AddStandardTurning(Device);
@@ -76,6 +75,7 @@ namespace GKProcessor
 
 				if (Device.DriverType == GKDriverType.RSR2_GuardDetector && Device.GuardZone != null)
 				{
+					Formula = new FormulaBuilder();
 					Formula.AddGetBit(GKStateBit.On, Device.GuardZone);
 					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone);
@@ -83,42 +83,23 @@ namespace GKProcessor
 				}
 				if (Device.DriverType == GKDriverType.RSR2_CodeReader && Device.GuardZone != null)
 				{
+					Formula = new FormulaBuilder();
 					Formula.AddGetBit(GKStateBit.On, Device.GuardZone);
 					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
 					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone);
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
 				}
+				if (Device.Door != null)
+				{
+					Formula = new FormulaBuilder();
+					Formula.AddGetBit(GKStateBit.On, Device.Door);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.Off, Device.Door);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+				}
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
-		}
-
-		void AddMro2MFormula()
-		{
-			if (Device.DriverType == GKDriverType.MRO_2)
-			{
-				if (Device.Logic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(31, Device);
-				}
-				var value = (int)Device.Logic.ZoneLogicMROMessageNo;
-				if ((value & 1) == 1)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(28, Device);
-				}
-				if ((value & 2) == 2)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(29, Device);
-				}
-				if ((value & 4) == 4)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(30, Device);
-				}
-			}
 		}
 
 		void SetPropertiesBytes()

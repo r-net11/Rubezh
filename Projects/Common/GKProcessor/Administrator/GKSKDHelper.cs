@@ -25,7 +25,7 @@ namespace GKProcessor
 		{
 			foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 			{
-				//EditOneCard(gkControllerDevice, card, accessTemplate, employeeName);
+				AddOneCard(gkControllerDevice, card, accessTemplate, employeeName);
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace GKProcessor
 			var no = 1;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetNoByCardNo(device.Address, intPassword);
+				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.Address, intPassword);
 			}
 			if (no == -1)
 			{
