@@ -91,11 +91,15 @@
     <Compile Include="ViewModels\ReportPreviewViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SKDReportsViewModel.cs" />
     <Compile Include="Views\ReportPreviewView.xaml.cs">
       <DependentUpon>ReportPreviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SKDReportsView.xaml.cs">
+      <DependentUpon>SKDReportsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +136,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SKDReportsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Resource Include="DataTemplates\ReportResources.xaml">
       <SubType>Designer</SubType>
