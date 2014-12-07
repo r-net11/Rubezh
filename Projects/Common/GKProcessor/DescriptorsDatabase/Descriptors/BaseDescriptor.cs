@@ -91,6 +91,15 @@ namespace GKProcessor
 					OutputDependenses.AddRange(BitConverter.GetBytes(no));
 				}
 			}
+
+			if (DatabaseType == DatabaseType.Kau)
+			{
+				foreach (var outputGKBase in GKBase.OutputGKBases)
+				{
+					var no = outputGKBase.KAUDescriptorNo;
+					OutputDependenses.AddRange(BitConverter.GetBytes(no));
+				}
+			}
 		}
 
 		public void InitializeDescription()

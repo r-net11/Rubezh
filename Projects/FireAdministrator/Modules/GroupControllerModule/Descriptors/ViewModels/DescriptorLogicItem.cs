@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 					var stateTypeToStringConverter = new EnumToDescriptionConverter();
 					FirstOperand = (string)stateTypeToStringConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
-					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand);
+					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
 					if (descriptorViewModel != null)
 					{
 						DescriptorIcon = descriptorViewModel.ImageSource;

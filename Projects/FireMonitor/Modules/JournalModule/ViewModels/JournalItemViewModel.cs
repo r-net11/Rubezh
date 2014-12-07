@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
+using FiresecClient.SKDHelpers;
 
 namespace JournalModule.ViewModels
 {
@@ -275,6 +276,15 @@ namespace JournalModule.ViewModels
 
 			if (ObjectName == null)
 				ObjectName = "<Нет в конфигурации>";
+
+			//if (JournalItem.EmployeeUID != Guid.Empty)
+			//{
+			//    var employee = EmployeeHelper.GetDetails(JournalItem.EmployeeUID);
+			//    if (employee != null)
+			//    {
+
+			//    }
+			//}
 		}
 
 		public bool CanShow

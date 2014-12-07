@@ -89,6 +89,7 @@ namespace FiresecAPI.GK
 				device.Zones = new List<GKZone>();
 				device.Directions = new List<GKDirection>();
 				device.GuardZone = null;
+				device.Door = null;
 			}
 			foreach (var zone in Zones)
 			{
@@ -418,6 +419,10 @@ namespace FiresecAPI.GK
 				door.LockDevice = Devices.FirstOrDefault(x => x.UID == door.LockDeviceUID);
 				if (door.LockDevice == null)
 					door.LockDeviceUID = Guid.Empty;
+				else
+				{
+					door.LockDevice.Door = door;
+				}
 
 				door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
 				if (door.LockControlDevice == null)

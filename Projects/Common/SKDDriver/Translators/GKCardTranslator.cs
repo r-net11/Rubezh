@@ -16,12 +16,22 @@ namespace SKDDriver
 			Context = databaseService.Context;
 		}
 
-		public int GetNoByCardNo(string gkIPAddress, int cardNo)
+		public int GetGKNoByCardNo(string gkIPAddress, int cardNo)
 		{
 			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.CardNo == cardNo);
 			if (gkCard != null)
 			{
 				return gkCard.GKNo;
+			}
+			return -1;
+		}
+
+		public int GetCardNoByGKNo(string gkIPAddress, int gkNo)
+		{
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.GKNo == gkNo);
+			if (gkCard != null)
+			{
+				return gkCard.CardNo;
 			}
 			return -1;
 		}

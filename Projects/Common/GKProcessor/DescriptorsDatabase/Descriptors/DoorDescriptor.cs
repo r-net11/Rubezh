@@ -28,34 +28,34 @@ namespace GKProcessor
 			{
 				if (Door.EnterDevice != null)
 				{
-					Formula.AddGetBit(GKStateBit.Attention, Door.EnterDevice);
+					Formula.AddGetBit(GKStateBit.Attention, Door.EnterDevice, DatabaseType.Gk);
 					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.EnterDevice.GKDescriptorNo);
 					Formula.Add(FormulaOperationType.AND);
 				}
 				if (Door.ExitDevice != null)
 				{
-					if (Door.ExitDevice.DriverType == GKDriverType.RSR2_CodeReader)
+					if (Door.ExitDevice.DriverType == GKDriverType.RSR2_CodeReader || Door.ExitDevice.DriverType == GKDriverType.RSR2_CardReader)
 					{
-						Formula.AddGetBit(GKStateBit.Attention, Door.ExitDevice);
+						Formula.AddGetBit(GKStateBit.Attention, Door.ExitDevice, DatabaseType.Gk);
 						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.ExitDevice.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, Door.ExitDevice);
+						Formula.AddGetBit(GKStateBit.Fire1, Door.ExitDevice, DatabaseType.Gk);
 					}
 				}
 				if (Door.EnterDevice != null && Door.ExitDevice != null)
 				{
 					Formula.Add(FormulaOperationType.OR);
 				}
-				Formula.AddGetBit(GKStateBit.On, Door);
+				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
-				Formula.AddGetBit(GKStateBit.TurningOn, Door);
+				Formula.AddGetBit(GKStateBit.TurningOn, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

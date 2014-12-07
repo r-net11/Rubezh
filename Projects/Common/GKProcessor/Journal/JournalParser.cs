@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI.GK;
 using FiresecClient;
 using FiresecAPI.Journal;
+using SKDDriver;
 
 namespace GKProcessor
 {
@@ -41,7 +42,6 @@ namespace GKProcessor
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			var UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
-			InitializeFromObjectUID();
 			InitializeDateTime(bytes);
 
 			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
@@ -114,9 +114,28 @@ namespace GKProcessor
 
 						case 13:
 							JournalItem.JournalEventNameType = JournalEventNameType.Проход_пользователя_разрешен;
-							JournalItem.JournalObjectType = JournalObjectType.GKUser;
-							var objectFactoryNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
-							JournalItem.CardNo = objectFactoryNo.ToString();
+							var gkCardNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
+							JournalItem.CardNo = gkCardNo.ToString();
+
+							using (var databaseService = new SKDDatabaseService())
+							{
+								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.Address, (int)gkCardNo);
+								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo.ToString());
+								if (!operationResult.HasError)
+								{
+									var employeeUID = operationResult.Result;
+									JournalItem.EmployeeUID = employeeUID;
+									if (employeeUID != Guid.Empty)
+									{
+										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+										if (employee != null)
+										{
+											JournalItem.UserName = employee.Result.Name;
+										}
+									}
+								}
+							}
+
 							JournalItem.EmployeeUID = Guid.Empty;
 							break;
 
@@ -335,6 +354,7 @@ namespace GKProcessor
 					break;
 			}
 
+			InitializeFromObjectUID();
 			InitializeMAMessage();
 		}
 

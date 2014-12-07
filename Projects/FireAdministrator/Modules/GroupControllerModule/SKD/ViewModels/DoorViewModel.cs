@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
-			EnterDevice = GKManager.Devices.FirstOrDefault(x=>x.UID == Door.EnterDeviceUID);
+			EnterDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.EnterDeviceUID);
 			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
 			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
 			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
 				}
-				if (Door.DoorType == GKDoorType.TwoWay && ExitDevice.DriverType != GKDriverType.RSR2_CodeReader)
+				if (Door.DoorType == GKDoorType.TwoWay && ExitDevice.DriverType != GKDriverType.RSR2_CodeReader && ExitDevice.DriverType != GKDriverType.RSR2_CardReader)
 				{
 					Door.ExitDeviceUID = Guid.Empty;
 					ExitDevice = null;
@@ -106,7 +106,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeEnterDeviceCommand { get; private set; }
 		void OnChangeEnterDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterDevice, GKManager.Devices.Where(x=>x.DriverType == GKDriverType.RSR2_CodeReader));
+			var devices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader).ToList();
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(EnterDevice, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.EnterDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
@@ -118,8 +119,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeExitDeviceCommand { get; private set; }
 		void OnChangeExitDevice()
 		{
+			var devices = new List<GKDevice>();
+			if (Door.DoorType == GKDoorType.OneWay)
+			{
+				devices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1).ToList();
+			}
+			else
+			{
+				devices = GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_CodeReader || x.DriverType == GKDriverType.RSR2_CardReader).ToList();
+			}
 			var driverType = Door.DoorType == GKDoorType.OneWay ? GKDriverType.RSR2_AM_1 : GKDriverType.RSR2_CodeReader;
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, GKManager.Devices.Where(x => x.DriverType == driverType));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(ExitDevice, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.ExitDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;

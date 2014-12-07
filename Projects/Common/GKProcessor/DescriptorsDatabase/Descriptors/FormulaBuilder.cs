@@ -25,35 +25,40 @@ namespace GKProcessor
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase)
+		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
 		{
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, gkBase.GKDescriptorNo);
+			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo);
 		}
 
-		public void AddGetBit(GKStateBit stateBit, GKBase gkBase)
+		public void AddGetBit(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
 		{
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, gkBase.GKDescriptorNo);
+			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo);
 		}
 
-		public void AddPutBit(GKStateBit stateBit, GKBase gkBase)
+		public void AddPutBit(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
 		{
-			Add(FormulaOperationType.PUTBIT, (byte)stateBit, gkBase.GKDescriptorNo);
+			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
+			Add(FormulaOperationType.PUTBIT, (byte)stateBit, descriptorNo);
 		}
 
-		public void AddArgumentPutBit(byte bit, GKBase gkBase)
+		public void AddArgumentPutBit(byte bit, GKBase gkBase, DatabaseType dataBaseType)
 		{
-			Add(FormulaOperationType.PUTBIT, (byte)bit, gkBase.GKDescriptorNo);
+			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
+			Add(FormulaOperationType.PUTBIT, (byte)bit, descriptorNo);
 		}
 
-		public void AddStandardTurning(GKBase gkBase)
+		public void AddStandardTurning(GKBase gkBase, DatabaseType dataBaseType)
 		{
+			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
 			Add(FormulaOperationType.DUP);
-			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase);
+			AddPutBit(GKStateBit.TurnOn_InAutomatic, gkBase, dataBaseType);
 			Add(FormulaOperationType.COM);
-			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase);
+			AddPutBit(GKStateBit.TurnOff_InAutomatic, gkBase, dataBaseType);
 		}
 
-		public void AddClauseFormula(GKClauseGroup clauseGroup)
+		public void AddClauseFormula(GKClauseGroup clauseGroup, DatabaseType dataBaseType)
 		{
 			var clauseIndex = 0;
 			foreach (var clause in clauseGroup.Clauses)
@@ -87,7 +92,7 @@ namespace GKProcessor
 				var objectIndex = 0;
 				foreach (var gkBase in gkBases)
 				{
-					AddGetBitOff(clause.StateType, gkBase);
+					AddGetBitOff(clause.StateType, gkBase, dataBaseType);
 
 					if (objectIndex > 0)
 					{
@@ -136,7 +141,7 @@ namespace GKProcessor
 
 			foreach (var group in clauseGroup.ClauseGroups)
 			{
-				AddClauseFormula(group);
+				AddClauseFormula(group, dataBaseType);
 
 				if (clauseIndex > 0)
 				{
