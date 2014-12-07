@@ -46,7 +46,7 @@ namespace ReportsModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "/Controls;component/Images/levels.png"),
-				new NavigationItem<ShowReportsEvent>(_skdReportViewModel, "Отчеты 2", "/Controls;component/Images/levels.png"),
+				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, "Отчеты 2", "/Controls;component/Images/levels.png"),
 			};
 		}
 

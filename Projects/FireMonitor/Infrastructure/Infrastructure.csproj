@@ -96,6 +96,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\ChangePlanPropertiesEvent.cs" />
+    <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\Reports\PrintReportPreviewEvent.cs" />
     <Compile Include="Events\Reports\PrintReportEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
