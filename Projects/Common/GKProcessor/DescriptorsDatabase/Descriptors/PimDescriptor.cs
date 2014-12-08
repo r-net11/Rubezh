@@ -20,9 +20,12 @@ namespace GKProcessor
 
 		void SetFormulaBytes()
 		{
-			Formula = new FormulaBuilder();
-			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
+			if (Formula == null)
+			{
+				Formula = new FormulaBuilder();
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+			}
 		}
 	}
 }

@@ -148,8 +148,15 @@ namespace GKProcessor
 			}
 			foreach (var guardZone in GuardZones)
 			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
+				var guardZoneDescriptor = new GuardZoneDescriptor(this, guardZone);
 				Descriptors.Add(guardZoneDescriptor);
+
+				guardZoneDescriptor.Build();
+				if (guardZoneDescriptor.GuardZonePim != null)
+				{
+					AddPim(guardZoneDescriptor.GuardZonePim);
+					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
+				}
 			}
 			foreach (var direction in Directions)
 			{
