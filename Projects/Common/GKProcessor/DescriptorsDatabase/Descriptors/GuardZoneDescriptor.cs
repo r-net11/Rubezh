@@ -246,6 +246,12 @@ namespace GKProcessor
 				GuardZonePimDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType.Gk);
 				GuardZonePimDescriptor.Formula.Add(FormulaOperationType.END);
 				GuardZonePimDescriptor.FormulaBytes = GuardZonePimDescriptor.Formula.GetBytes();
+
+				GKDeviceConfiguration.LinkGKBases(GuardZone, GuardZonePim);
+				Formula.AddGetBit(GKStateBit.On, GuardZone, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, GuardZone, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Off, GuardZone, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType.Gk);
 			}
 		}
 

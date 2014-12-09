@@ -267,8 +267,10 @@ namespace FiresecAPI.GK
 
 		static void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
 		{
-			if (!objects.Contains(newObject))
+			if (!objects.Any(x => x.UID == newObject.UID))
 				objects.Add(newObject);
+			//if (!objects.Contains(newObject))
+			//    objects.Add(newObject);
 		}
 	}
 }

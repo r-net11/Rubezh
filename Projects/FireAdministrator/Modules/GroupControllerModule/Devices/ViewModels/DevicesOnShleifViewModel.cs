@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsActive)
 				{
-					devicesToCopy.Add(device.Device);
+					devicesToCopy.Add(GKManager.CopyDevice(device.Device, false));
 				}
 			}
 			DevicesViewModel.Current.DevicesToCopy = devicesToCopy;
