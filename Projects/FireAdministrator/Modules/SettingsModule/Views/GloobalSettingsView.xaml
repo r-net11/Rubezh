@@ -85,10 +85,8 @@
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
 				<TextBlock Margin="2" FontSize="12" Foreground="White" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
-				<CheckBox Margin="5,5,5,1" Content="Сервер приложений ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsServerAuto}" />
-				<CheckBox Margin="5 1" Content="Агент FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsFsAgentAuto}" />
-				<CheckBox Margin="5 1" Content="OPC Сервер ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsOpcServerAuto}" />
-				<CheckBox Margin="5 1" Content="OPC Сервер ГК ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsGKOpcServerAuto}" />
+                <CheckBox Content="Сервер приложений ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
+                <CheckBox Content="OPC Сервер ГК ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" />
 			</StackPanel>
 		</TabItem>
 		<TabItem Header="Логи">
@@ -96,7 +94,7 @@
 				<StackPanel Margin="2">
 					<TextBox Margin="2" Background="LightGray" Text="{Binding LogsFolderPath, Mode=OneWay}" />
 					<StackPanel Orientation="Horizontal">
-						<Button Width="100" Margin="2" Command="{Binding SaveLogsCommand}" Content="Собрать логи" FontSize="13" />
+						<Button Width="100" Margin="2" Command="{Binding SaveLogsCommand}" Content="Сохранить логи" FontSize="13" />
 						<Button Width="100" Margin="2" Command="{Binding RemoveLogsCommand}" Content="Удалить логи" FontSize="13" />
 					</StackPanel>
 				</StackPanel>
@@ -150,7 +148,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</TabItem>
-		<TabItem DataContext="{Binding GlobalSettings}" Header="FS1">
+		<TabItem DataContext="{Binding GlobalSettings}" Header="FS1" Visibility="Collapsed">
 			<Grid Margin="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />

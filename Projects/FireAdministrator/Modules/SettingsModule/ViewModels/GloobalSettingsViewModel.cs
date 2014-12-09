@@ -64,68 +64,6 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		public bool IsFsAgentAuto
-		{
-			get
-			{
-				var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (registryKey.GetValue("FSAgentServer") == null)
-						return false;
-					registryKey.Close();
-				}
-				return true;
-			}
-			set
-			{
-				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (value)
-					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FSAgent\FSAgentServer.exe");
-						registryKey.SetValue("FSAgentServer", path);
-					}
-					else
-						registryKey.DeleteValue("FSAgentServer");
-					registryKey.Close();
-				}
-				OnPropertyChanged(() => IsFsAgentAuto);
-			}
-		}
-
-		public bool IsOpcServerAuto
-		{
-			get
-			{
-				var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (registryKey.GetValue("FiresecOPCServer") == null)
-						return false;
-					registryKey.Close();
-				}
-				return true;
-			}
-			set
-			{
-				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (value)
-					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\OPC\FiresecOPCServer.exe");
-						registryKey.SetValue("FiresecOPCServer", path);
-					}
-					else
-						registryKey.DeleteValue("FiresecOPCServer");
-					registryKey.Close();
-				}
-				OnPropertyChanged(() => IsOpcServerAuto);
-			}
-		}
-
 		public bool IsGKOpcServerAuto
 		{
 			get
@@ -160,7 +98,7 @@ namespace SettingsModule.ViewModels
 		public string LogsFolderPath { get; private set; }
 
 		public RelayCommand SaveLogsCommand { get; private set; }
-		public void OnSaveLogs()
+		void OnSaveLogs()
 		{
 			var saveFolderPath = new FolderBrowserDialog { Description = "Choose a Folder" };
 			if (saveFolderPath.ShowDialog() != DialogResult.OK)
@@ -226,7 +164,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand RemoveLogsCommand { get; private set; }
-		public void OnRemoveLogs()
+		void OnRemoveLogs()
 		{
 			foreach (var directoryName in Directory.GetDirectories(LogsFolderPath))
 			{
@@ -238,13 +176,10 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetDatabaseCommand { get; private set; }
-		public void OnResetDatabase()
+		void OnResetDatabase()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить базу данных?"))
 			{
-				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
-				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
-				//File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
 				var result = FiresecManager.FiresecService.ResetSKDDatabase();
 				if (result.HasError)
 					MessageBoxService.Show(result.Error);
@@ -252,7 +187,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetConfigurationCommand { get; private set; }
-		public void OnResetConfiguration()
+		void OnResetConfiguration()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по конфигурацию?"))
 			{
@@ -261,7 +196,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetGKLibaryCommand { get; private set; }
-		public void OnResetGKLibary()
+		void OnResetGKLibary()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?"))
 			{
@@ -270,7 +205,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetSKDLibaryCommand { get; private set; }
-		public void OnResetSKDLibary()
+		void OnResetSKDLibary()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?"))
 			{
@@ -279,7 +214,7 @@ namespace SettingsModule.ViewModels
 		}
 
 		public RelayCommand ResetSettingsCommand { get; private set; }
-		public void OnResetSettings()
+		void OnResetSettings()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите сбросить по умолчанию настройки?"))
 			{
