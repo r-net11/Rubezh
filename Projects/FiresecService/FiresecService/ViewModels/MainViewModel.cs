@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace FiresecService.ViewModels
 {
@@ -29,6 +30,11 @@ namespace FiresecService.ViewModels
 				_status = value;
 				OnPropertyChanged(() => Status);
 			}
+		}
+
+		public override int GetPreferedMonitor()
+		{
+			return MonitorHelper.PrimaryMonitor;
 		}
 
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
