@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using Common;
+using FiresecAPI;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
@@ -10,7 +11,6 @@ using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using SKDDriver;
 using SKDDriver.Translators;
-using FiresecAPI;
 
 namespace FiresecService
 {
@@ -139,15 +139,10 @@ namespace FiresecService
 				using (var skdDatabaseService = new SKDDatabaseService())
 				{
 					var passJournalDBNo = skdDatabaseService.MetadataTranslator.GetPassJournalNo();
-					if (passJournalDBNo != 0)
-					{
-						Patch_PassJournal(passJournalDBNo);
-						skdDatabaseService.MetadataTranslator.AddPassJournalMetadata(passJournalDBNo, DateTime.Now, DateTime.Now);
-					}
-					else
-					{
-						var fileSizeString = "SELECT DB_NAME(database_id) AS DatabaseName, Name AS Logical_Name, Physical_Name, (size*8)/1024 SizeMB FROM sys.master_files WHERE DB_NAME(database_id) = 'PassJournal_" + passJournalDBNo.ToString() + "'";
-					}
+					if (passJournalDBNo == 0)
+						passJournalDBNo++;
+					Patch_PassJournal(passJournalDBNo);
+					skdDatabaseService.MetadataTranslator.AddPassJournalMetadata(passJournalDBNo, DateTime.Now, DateTime.Now);
 					PassJournalTranslator.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=PassJournal_" + passJournalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 				}
 			}
