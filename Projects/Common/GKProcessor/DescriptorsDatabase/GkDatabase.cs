@@ -143,7 +143,7 @@ namespace GKProcessor
 			}
 			foreach (var zone in Zones)
 			{
-				var zoneDescriptor = new ZoneDescriptor(zone);
+				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Gk);
 				Descriptors.Add(zoneDescriptor);
 			}
 			foreach (var guardZone in GuardZones)

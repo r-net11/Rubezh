@@ -24,10 +24,14 @@ namespace GKProcessor
 			if (Device.Driver.IsDeviceOnShleif)
 				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
-
 			if (FormulaBytes == null)
 			{
-				SetFormulaBytes();
+				if (DatabaseType != DatabaseType.Gk)
+					SetFormulaBytes();
+				else
+				{
+					FormulaBytes = new List<byte>();
+				}
 			}
 			SetPropertiesBytes();
 		}
@@ -35,7 +39,7 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (DatabaseType == DatabaseType.Gk)
+			//if (DatabaseType == DatabaseType.Gk)
 			{
 				if (Device.Driver.HasLogic)
 				{

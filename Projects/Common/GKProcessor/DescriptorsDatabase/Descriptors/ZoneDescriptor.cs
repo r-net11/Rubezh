@@ -7,9 +7,9 @@ namespace GKProcessor
 {
 	public class ZoneDescriptor : BaseDescriptor
 	{
-		public ZoneDescriptor(GKZone zone)
+		public ZoneDescriptor(GKZone zone, DatabaseType dataBaseType)
 		{
-			DatabaseType = DatabaseType.Gk;
+			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.Zone;
 			Zone = zone;
 		}
@@ -19,12 +19,10 @@ namespace GKProcessor
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
 			SetFormulaBytes();
-			//if (DatabaseType != DatabaseType.Gk)
-			//    SetFormulaBytes();
-			//else
-			//{
-			//    FormulaBytes = new List<byte>();
-			//}
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+				FormulaBytes = new List<byte>();
+			else
+			    SetFormulaBytes();
 		}
 
 		void SetFormulaBytes()

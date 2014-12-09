@@ -8,36 +8,120 @@ namespace FiresecAPI.GK
 	{
 		public void PrepareDescriptors()
 		{
-			PrepareZones();
 			PrepareInputOutputDependences();
-			PrepareDirections();
-			PreparePumpStations();
-			PrepareMPTs();
-			PrepareDelays();
-			PrepareGuardZones();
+			PrepareDevices();
+			PrepareObjects();
 			PrepareCodes();
 			PrepareDoors();
 		}
 
-		void PrepareZones()
+		GKDevice GetDataBaseParent(List<GKDevice> devices)
 		{
-			foreach (var zone in Zones)
+			var allDependentDevices = new List<GKDevice>(devices);
+			foreach (var device in devices)
 			{
-				zone.KauDatabaseParent = null;
-				zone.GkDatabaseParent = null;
 
-				var gkParents = new HashSet<GKDevice>();
-				foreach (var device in zone.Devices)
-				{
-					var gkParent = device.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-					gkParents.Add(gkParent);
-				}
+			}
+			List<GKDevice> kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
+			if (kauParents != null && kauParents.Count == 1)
+				return kauParents.FirstOrDefault();
+			else
+				return devices.FirstOrDefault().GKParent;
+		}
 
-				var gkControllerDevice = gkParents.FirstOrDefault();
-				if (gkControllerDevice != null)
+		GKDevice GetDataBaseParent(GKBase gkBase)
+		{
+			var allDependentDevices = GetFullTree(gkBase);
+			var kauParents = allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
+			if (kauParents != null && kauParents.Count == 1)
+				return kauParents.FirstOrDefault();
+			else
+			{
+				if (gkBase is GKDevice)
+					return (gkBase as GKDevice).GKParent;
+				else
 				{
-					zone.GkDatabaseParent = gkControllerDevice;
+					if (allDependentDevices != null && allDependentDevices.Count > 0)
+						return allDependentDevices.FirstOrDefault().GKParent;
+					else
+						return null;
 				}
+			}				
+		}
+
+		List<GKDevice> GetFullTree(GKBase gkBase)
+		{
+			return GetAllDependentObjects(gkBase).Where(x => x is GKDevice).Cast<GKDevice>().ToList();
+		}
+
+		List<GKBase> GetAllDependentObjects(GKBase gkBase)
+		{
+			var result = new List<GKBase>();
+			var inputObjects = gkBase.InputGKBases;
+			inputObjects.RemoveAll(x => x == gkBase);
+			result.AddRange(gkBase.InputGKBases);
+			foreach (var inputObject in inputObjects)
+				result.AddRange(GetAllDependentObjects(inputObject));
+			return result;
+		}
+
+		void InitializeDataBaseParent(GKBase gkBase)
+		{
+			gkBase.KauDatabaseParent = null;
+			gkBase.GkDatabaseParent = null;
+
+			var dataBaseParent = GetDataBaseParent(gkBase);
+			if (dataBaseParent == null)
+				return;
+			gkBase.IsLogicOnKau = dataBaseParent.Driver.IsKauOrRSR2Kau;
+			if (dataBaseParent.Driver.IsKauOrRSR2Kau)
+			{
+				gkBase.KauDatabaseParent = dataBaseParent;
+				gkBase.GkDatabaseParent = dataBaseParent.GKParent;
+			}
+			else
+				gkBase.GkDatabaseParent = dataBaseParent;
+		}
+
+		void PrepareObjects()
+		{
+			var gkBases = new List<GKBase>();
+			gkBases.AddRange(Zones);
+			gkBases.AddRange(Directions);
+			gkBases.AddRange(PumpStations);
+			gkBases.AddRange(MPTs);
+			gkBases.AddRange(Delays);
+			gkBases.AddRange(GuardZones);
+			foreach (var gkBase in gkBases)
+				InitializeDataBaseParent(gkBase);
+		}
+
+		void PrepareDevices()
+		{
+			foreach (var device in Devices)
+			{
+				var dataBaseParent = GetDataBaseParent(device);
+				if (dataBaseParent == null)
+					return;
+				device.IsLogicOnKau = dataBaseParent.Driver.IsKauOrRSR2Kau;
+			}
+		}
+
+		void PrepareCodes()
+		{
+			foreach (var code in Codes)
+			{
+				code.KauDatabaseParent = null;
+				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+			}
+		}
+
+		void PrepareDoors()
+		{
+			foreach (var door in Doors)
+			{
+				door.KauDatabaseParent = null;
+				door.GkDatabaseParent = door.EnterDevice != null ? door.EnterDevice.GKParent : null;
 			}
 		}
 
@@ -172,158 +256,6 @@ namespace FiresecAPI.GK
 				{
 					LinkLogic(gkBase, group);
 				}
-			}
-		}
-
-		void PrepareDirections()
-		{
-			foreach (var direction in Directions)
-			{
-				direction.KauDatabaseParent = null;
-				direction.GkDatabaseParent = null;
-
-				var inputDirection = direction.ClauseInputDirections.FirstOrDefault();
-				if (inputDirection != null)
-				{
-					direction.GkDatabaseParent = inputDirection.GkDatabaseParent;
-				}
-
-				var inputZone = direction.ClauseInputZones.FirstOrDefault();
-				if (inputZone != null)
-				{
-					if (inputZone.GkDatabaseParent != null)
-						direction.GkDatabaseParent = inputZone.GkDatabaseParent;
-				}
-
-				var inputDevice = direction.ClauseInputDevices.FirstOrDefault();
-				if (inputDevice != null)
-				{
-					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-			}
-		}
-
-		void PreparePumpStations()
-		{
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.KauDatabaseParent = null;
-				pumpStation.GkDatabaseParent = null;
-
-				var inputZone = pumpStation.ClauseInputZones.FirstOrDefault();
-				if (inputZone != null)
-				{
-					if (inputZone.GkDatabaseParent != null)
-						pumpStation.GkDatabaseParent = inputZone.GkDatabaseParent;
-				}
-
-				var inputDevice = pumpStation.ClauseInputDevices.FirstOrDefault();
-				if (inputDevice != null)
-				{
-					pumpStation.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-
-				var outputDevice = pumpStation.NSDevices.FirstOrDefault();
-				if (outputDevice != null)
-				{
-					pumpStation.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-			}
-		}
-
-		void PrepareMPTs()
-		{
-			foreach (var mpt in MPTs)
-			{
-				mpt.KauDatabaseParent = null;
-				mpt.GkDatabaseParent = null;
-
-				var inputZone = mpt.ClauseInputZones.FirstOrDefault();
-				if (inputZone != null)
-				{
-					if (inputZone.GkDatabaseParent != null)
-						mpt.GkDatabaseParent = inputZone.GkDatabaseParent;
-				}
-
-				var inputDevice = mpt.ClauseInputDevices.FirstOrDefault();
-				if (inputDevice != null)
-				{
-					mpt.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-
-				var outputDevice = mpt.Devices.FirstOrDefault();
-				if (outputDevice != null)
-				{
-					mpt.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-			}
-		}
-
-		void PrepareDelays()
-		{
-			foreach (var delay in Delays)
-			{
-				delay.KauDatabaseParent = null;
-				delay.GkDatabaseParent = null;
-
-				var inputDirection = delay.ClauseInputDirections.FirstOrDefault();
-				if (inputDirection != null)
-				{
-					delay.GkDatabaseParent = inputDirection.GkDatabaseParent;
-				}
-
-				var inputZone = delay.ClauseInputZones.FirstOrDefault();
-				if (inputZone != null)
-				{
-					if (inputZone.GkDatabaseParent != null)
-						delay.GkDatabaseParent = inputZone.GkDatabaseParent;
-				}
-
-				var inputDevice = delay.ClauseInputDevices.FirstOrDefault();
-				if (inputDevice != null)
-				{
-					delay.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-				}
-			}
-		}
-
-		void PrepareGuardZones()
-		{
-			foreach (var guardZone in GuardZones)
-			{
-				guardZone.KauDatabaseParent = null;
-				guardZone.GkDatabaseParent = null;
-
-				var gkParents = new HashSet<GKDevice>();
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					var gkParent = guardZoneDevice.Device.AllParents.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
-					gkParents.Add(gkParent);
-				}
-
-				var gkControllerDevice = gkParents.FirstOrDefault();
-				if (gkControllerDevice != null)
-				{
-					guardZone.GkDatabaseParent = gkControllerDevice;
-				}
-			}
-		}
-
-		void PrepareCodes()
-		{
-			foreach (var code in Codes)
-			{
-				code.KauDatabaseParent = null;
-				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x=>x.DriverType == GKDriverType.GK);
-			}
-		}
-
-		void PrepareDoors()
-		{
-			foreach (var door in Doors)
-			{
-				door.KauDatabaseParent = null;
-				door.GkDatabaseParent = door.EnterDevice != null ? door.EnterDevice.GKParent : null;
 			}
 		}
 

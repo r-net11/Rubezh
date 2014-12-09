@@ -65,7 +65,7 @@ namespace GKProcessor
 			}
 			foreach (var zone in Zones)
 			{
-				var zoneDescriptor = new ZoneDescriptor(zone);
+				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Gk);
 				zoneDescriptor.DatabaseType = DatabaseType.Kau;
 				zoneDescriptor.GKBase.KauDatabaseParent = RootDevice;
 				Descriptors.Add(zoneDescriptor);
