@@ -8,4 +8,8 @@
 		<Views:ReportPreviewView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SKDReportsViewModel}">
+		<Views:SKDReportsView />
+	</DataTemplate>
+	
 </ResourceDictionary>

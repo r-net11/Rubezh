@@ -2,9 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using Common;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
-using FiresecAPI.Models.Layouts;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -12,11 +13,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		private double _splitterDistance;
 		private GridLength _emptyGridColumn;
-		public ShellViewModel(string name)
+		public ShellViewModel(ClientType clientType)
 		{
-			Name = name;
+			ClientType = clientType;
 			_emptyGridColumn = new GridLength(0, GridUnitType.Pixel);
-			_splitterDistance = RegistrySettingsHelper.GetDouble(Name + ".Shell.SplitterDistance");
+			_splitterDistance = RegistrySettingsHelper.GetDouble(ClientType + ".Shell.SplitterDistance");
 			if (_splitterDistance == 0)
 				_splitterDistance = 1;
 			Width1 = new GridLength(_splitterDistance, GridUnitType.Star);
@@ -29,7 +30,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
 			MinimizeCommand = new RelayCommand<MinimizeTarget>(OnMinimize);
-			TextVisibility = !RegistrySettingsHelper.GetBool(Name + ".Shell.TextVisibility");
+			TextVisibility = !RegistrySettingsHelper.GetBool(ClientType + ".Shell.TextVisibility");
 			RibbonVisible = false;
 			ToolbarVisible = true;
 		}
@@ -60,13 +61,13 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				if (TextVisibility != value)
-					RegistrySettingsHelper.SetBool(Name + ".Shell.TextVisibility", !value);
+					RegistrySettingsHelper.SetBool(ClientType + ".Shell.TextVisibility", !value);
 				textVisibility = value;
 				OnPropertyChanged(() => TextVisibility);
 			}
 		}
 
-		public string Name { get; private set; }
+		public ClientType ClientType { get; private set; }
 		public Layout Layout { get; protected set; }
 
 		private ReadOnlyCollection<NavigationItem> _navigationItems;
@@ -280,15 +281,23 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Width3 = RightPanelVisible ? new GridLength(1, GridUnitType.Star) : _emptyGridColumn;
 		}
 
-        public override bool OnClosing(bool isCanceled)
-        {
-            return base.OnClosing(isCanceled);
-        }
+		public override int GetPreferedMonitor()
+		{
+			var monitorID = RegistrySettingsHelper.GetInt(ClientType + ".Shell.PreferedMonitor", -1);
+			if (monitorID == -1)
+				monitorID = MonitorHelper.PrimaryMonitor;
+			return monitorID;
+		}
+		public override bool OnClosing(bool isCanceled)
+		{
+			RegistrySettingsHelper.SetInt(ClientType + ".Shell.PreferedMonitor", ApplicationService.GetActiveMonitor(true));
+			return base.OnClosing(isCanceled);
+		}
 		public override void OnClosed()
 		{
 			ApplicationService.Layout.Close();
 			UpdateWidth();
-			RegistrySettingsHelper.SetDouble(Name + ".Shell.SplitterDistance", _splitterDistance);
+			RegistrySettingsHelper.SetDouble(ClientType + ".Shell.SplitterDistance", _splitterDistance);
 			base.OnClosed();
 		}
 

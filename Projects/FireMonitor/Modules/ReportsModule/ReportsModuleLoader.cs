@@ -17,10 +17,12 @@ namespace ReportsModule
 	public class ReportsModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		private ReportsViewModel _reportViewModel;
+		private SKDReportsViewModel _skdReportViewModel;
 
 		public override void CreateViewModels()
 		{
 			_reportViewModel = new ReportsViewModel();
+			_skdReportViewModel = new SKDReportsViewModel();
 
 			ServiceFactory.Events.GetEvent<PrintReportEvent>().Unsubscribe(OnPrintReport);
 			ServiceFactory.Events.GetEvent<PrintReportEvent>().Subscribe(OnPrintReport);
@@ -44,6 +46,7 @@ namespace ReportsModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "/Controls;component/Images/levels.png"),
+				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, "Отчеты 2", "/Controls;component/Images/levels.png"),
 			};
 		}
 

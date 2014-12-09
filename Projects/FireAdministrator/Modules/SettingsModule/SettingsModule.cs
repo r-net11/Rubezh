@@ -23,7 +23,15 @@ namespace SettingsModule
 
 			SettingsViewModel = new SettingsViewModel();
 			ChangeThemeCommand = new RelayCommand<Theme>(OnChangeTheme, CanChangeTheme);
-			//ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
+		}
+
+		public override void Initialize()
+		{
+			SettingsViewModel.Initialize();
+		}
+		public override void AfterInitialize()
+		{
+			base.AfterInitialize();
 			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel("Настройки", SettingsViewModel.ShowSettingsCommand, "/Controls;component/Images/BSettings.png"),
@@ -32,11 +40,6 @@ namespace SettingsModule
 					new ObservableCollection<RibbonMenuItemViewModel>(Enum.GetValues(typeof(Theme)).Cast<Theme>().Select(t=>new RibbonMenuItemViewModel(t.ToDescription(), ChangeThemeCommand, t, "/Controls;component/Images/BLayouts.png"))),
 					"/Controls;component/Images/BLayouts.png"),
 			}, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
-		}
-
-		public override void Initialize()
-		{
-			SettingsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

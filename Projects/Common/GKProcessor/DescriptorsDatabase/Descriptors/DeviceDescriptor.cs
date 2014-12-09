@@ -41,52 +41,52 @@ namespace GKProcessor
 				{
 					if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.Logic.OnClausesGroup);
+						Formula.AddClauseFormula(Device.Logic.OnClausesGroup, DatabaseType);
 						//AddMro2MFormula();
 						if (Device.Logic.UseOffCounterLogic)
 						{
-							Formula.AddStandardTurning(Device);
+							Formula.AddStandardTurning(Device, DatabaseType);
 						}
 						else
 						{
-							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
+							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
 						}
 					}
 					if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.Logic.OffClausesGroup);
-						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+						Formula.AddClauseFormula(Device.Logic.OffClausesGroup, DatabaseType);
+						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 					}
 					if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup);
-						Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device);
+						Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup, DatabaseType);
+						Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device, DatabaseType);
 					}
 					if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup);
-						Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device);
+						Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup, DatabaseType);
+						Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device, DatabaseType);
 					}
 					if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.Logic.StopClausesGroup);
-						Formula.AddPutBit(GKStateBit.Stop_InManual, Device);
+						Formula.AddClauseFormula(Device.Logic.StopClausesGroup, DatabaseType);
+						Formula.AddPutBit(GKStateBit.Stop_InManual, Device, DatabaseType);
 					}
 				}
 
 				if (Device.DriverType == GKDriverType.RSR2_GuardDetector && Device.GuardZone != null)
 				{
-					Formula.AddGetBit(GKStateBit.On, Device.GuardZone);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 				}
 				if (Device.DriverType == GKDriverType.RSR2_CodeReader && Device.GuardZone != null)
 				{
-					Formula.AddGetBit(GKStateBit.On, Device.GuardZone);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device);
-					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device);
+					Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 				}
 			}
 			Formula.Add(FormulaOperationType.END);
@@ -100,23 +100,23 @@ namespace GKProcessor
 				if (Device.Logic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(31, Device);
+					Formula.AddArgumentPutBit(31, Device, DatabaseType);
 				}
 				var value = (int)Device.Logic.ZoneLogicMROMessageNo;
 				if ((value & 1) == 1)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(28, Device);
+					Formula.AddArgumentPutBit(28, Device, DatabaseType);
 				}
 				if ((value & 2) == 2)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(29, Device);
+					Formula.AddArgumentPutBit(29, Device, DatabaseType);
 				}
 				if ((value & 4) == 4)
 				{
 					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(30, Device);
+					Formula.AddArgumentPutBit(30, Device, DatabaseType);
 				}
 			}
 		}

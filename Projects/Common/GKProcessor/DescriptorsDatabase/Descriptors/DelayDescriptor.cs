@@ -29,20 +29,20 @@ namespace GKProcessor
 			Formula = new FormulaBuilder();
 			if (Delay.Logic.OnClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup);
+				Formula.AddClauseFormula(Delay.Logic.OnClausesGroup, DatabaseType);
 				if (!Delay.Logic.UseOffCounterLogic)
 				{
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay);
+					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Delay, DatabaseType);
 				}
 				else
 				{
-					Formula.AddStandardTurning(Delay);
+					Formula.AddStandardTurning(Delay, DatabaseType);
 				}
 			}
 			if (!Delay.Logic.UseOffCounterLogic && Delay.Logic.OffClausesGroup.Clauses.Count + Delay.Logic.OffClausesGroup.ClauseGroups.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay);
+				Formula.AddClauseFormula(Delay.Logic.OffClausesGroup, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Delay, DatabaseType);
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

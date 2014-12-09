@@ -133,7 +133,7 @@ namespace GKProcessor
 						var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUID);
 
-						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType.Gk);
 						switch (GuardZone.GuardZoneEnterMethod)
 						{
 							case GKGuardZoneEnterMethod.GlobalOnly:
@@ -159,7 +159,7 @@ namespace GKProcessor
 					}
 					else
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
+						Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType.Gk);
 					}
 					if (count > 0)
 					{
@@ -169,10 +169,10 @@ namespace GKProcessor
 				}
 				if (commandStateBit == GKStateBit.Fire1)
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, GuardZone);
+					Formula.AddGetBit(GKStateBit.Fire1, GuardZone, DatabaseType.Gk);
 					Formula.Add(FormulaOperationType.OR);
 				}
-				Formula.AddPutBit(commandStateBit, GuardZone);
+				Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType.Gk);
 			}
 		}
 
@@ -189,7 +189,7 @@ namespace GKProcessor
 						var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUID);
 
-						Formula.AddGetBit(stateBit, guardDevice.Device);
+						Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType.Gk);
 						switch (GuardZone.GuardZoneEnterMethod)
 						{
 							case GKGuardZoneEnterMethod.GlobalOnly:
@@ -215,7 +215,7 @@ namespace GKProcessor
 					}
 					else
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device);
+						Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType.Gk);
 					}
 					if (count > 0)
 					{
@@ -224,9 +224,9 @@ namespace GKProcessor
 					count++;
 				}
 				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, GuardZone);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, GuardZone, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.COM);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType.Gk);
 			}
 		}
 

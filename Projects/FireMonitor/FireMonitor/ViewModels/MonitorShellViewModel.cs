@@ -15,11 +15,11 @@ namespace FireMonitor.ViewModels
 	public class MonitorShellViewModel : ShellViewModel
 	{
 		public MonitorShellViewModel()
-			: this("Monitor")
+			: this(ClientType.Monitor)
 		{
 		}
-		public MonitorShellViewModel(string name)
-			: base(name)
+		protected MonitorShellViewModel(ClientType clientType)
+			: base(clientType)
 		{
 			Title = "Оперативная задача ОПС FireSec";
 			Toolbar = new ToolbarViewModel();
@@ -41,8 +41,8 @@ namespace FireMonitor.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-            if (base.OnClosing(isCanceled))
-                return true;
+			if (base.OnClosing(isCanceled))
+				return true;
 			if (((App)Application.Current).IsClosingOnException)
 			{
 #if DEBUG
@@ -66,7 +66,6 @@ namespace FireMonitor.ViewModels
 				try
 				{
 					RegistrySettingsHelper.SetBool("isException", false);
-					WindowsPositionHelper.GetPlacement();
 				}
 				catch (Exception ex)
 				{
@@ -83,7 +82,6 @@ namespace FireMonitor.ViewModels
 
 		public override void Run()
 		{
-			WindowsPositionHelper.SetPlacement();
 			base.Run();
 		}
 	}

@@ -24,14 +24,14 @@ namespace Infrastructure.Common
 			return null;
 		}
 
-		public static int GetInt(string name)
+		public static int GetInt(string name, int defaultValue = default(int))
 		{
 			var registryData = GetRegistryData(name);
 			if (registryData != null)
 			{
 				return registryData.IntValue;
 			}
-			return 0;
+			return defaultValue;
 		}
 
 		public static double GetDouble(string name)

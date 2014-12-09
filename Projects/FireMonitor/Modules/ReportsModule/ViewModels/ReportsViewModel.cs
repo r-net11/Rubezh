@@ -25,7 +25,7 @@ namespace ReportsModule.ViewModels
 			SelectedReport = null;
 		}
 
-		DocumentPaginator _documentPaginator;
+		private DocumentPaginator _documentPaginator;
 		public DocumentPaginator DocumentPaginator
 		{
 			get { return _documentPaginator; }

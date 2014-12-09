@@ -26,11 +26,11 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
+			SetFormulaBytes(DatabaseType);
 			SetPropertiesBytes();
 		}
 
-		void SetFormulaBytes()
+		void SetFormulaBytes(DatabaseType databaseType)
 		{
 			var hasAutomaticOffLogic = PumpStation.AutomaticOffLogic.OnClausesGroup.Clauses.Count + PumpStation.AutomaticOffLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			var hasStartLogic = PumpStation.StartLogic.OnClausesGroup.Clauses.Count + PumpStation.StartLogic.OnClausesGroup.ClauseGroups.Count > 0;
@@ -41,30 +41,30 @@ namespace GKProcessor
 			if (hasAutomaticOffLogic)
 			{
 				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.OnClausesGroup);
+				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.OnClausesGroup, databaseType);
 				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation);
+				Formula.AddPutBit(GKStateBit.SetRegime_Manual, PumpStation, databaseType);
 			}
 
 			if (hasStartLogic)
 			{
-				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup);
+				Formula.AddClauseFormula(PumpStation.StartLogic.OnClausesGroup, databaseType);
 				//Formula.AddGetBit(GKStateBit.On, MainDelay);
 				//Formula.Add(FormulaOperationType.AND);
 
 				if (hasStopLogic)
 				{
-					Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
+					Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup, databaseType);
 					Formula.Add(FormulaOperationType.COM);
 					Formula.Add(FormulaOperationType.AND);
 				}
 
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, PumpStation, databaseType);
 			}
 			if (hasStopLogic)
 			{
-				Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation);
+				Formula.AddClauseFormula(PumpStation.StopLogic.OnClausesGroup, databaseType);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, PumpStation, databaseType);
 			}
 
 			Formula.Add(FormulaOperationType.END);

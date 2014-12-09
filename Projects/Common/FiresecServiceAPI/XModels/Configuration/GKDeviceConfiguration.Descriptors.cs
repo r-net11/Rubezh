@@ -140,7 +140,7 @@ namespace FiresecAPI.GK
 				if (door.ExitDevice != null)
 					LinkGKBases(door, door.ExitDevice);
 				if (door.LockDevice != null)
-					LinkGKBases(door, door.LockDevice);
+					LinkGKBases(door.LockDevice, door);
 				if (door.LockControlDevice != null)
 					LinkGKBases(door, door.LockControlDevice);
 			}

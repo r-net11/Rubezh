@@ -5,13 +5,13 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {
 	public class StartupSettingsViewModel : SaveCancelDialogViewModel
 	{
-		private StartupViewModel _startupViewModel;
-		public StartupSettingsViewModel(StartupViewModel startupViewModel)
+		public StartupSettingsViewModel()
 		{
 			Title = "Настройки подключения";
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
@@ -19,14 +19,17 @@ namespace Infrastructure.Client.Startup.ViewModels
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			Login = GlobalSettingsHelper.GlobalSettings.Login;
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
-			_startupViewModel = startupViewModel;
 		}
 
 		public override void OnLoad()
 		{
-			Surface.Owner = _startupViewModel.Surface;
+			Surface.Owner = StartupService.Instance.OwnerWindow;
 			Surface.ShowInTaskbar = false;
 			Surface.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+		}
+		public override int GetPreferedMonitor()
+		{
+			return MonitorHelper.FindMonitor(StartupService.Instance.OwnerWindow.RestoreBounds);
 		}
 
 		private bool _autoConnect;

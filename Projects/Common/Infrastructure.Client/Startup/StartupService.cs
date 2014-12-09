@@ -91,7 +91,7 @@ namespace Infrastructure.Client.Startup
 			ApplicationService.DoEvents();
 		}
 
-		internal Window OwnerWindow
+		public Window OwnerWindow
 		{
 			get { return _viewModel.Surface; }
 		}

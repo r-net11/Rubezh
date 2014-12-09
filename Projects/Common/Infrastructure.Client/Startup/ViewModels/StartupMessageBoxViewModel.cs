@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Startup.ViewModels
 {
@@ -24,6 +25,13 @@ namespace Infrastructure.Client.Startup.ViewModels
 			}
 			else
 				base.OnLoad();
+		}
+		public override int GetPreferedMonitor()
+		{
+			if (StartupService.Instance.IsActive)
+				return MonitorHelper.FindMonitor(StartupService.Instance.OwnerWindow.RestoreBounds);
+			else
+				return base.GetPreferedMonitor();
 		}
 	}
 }

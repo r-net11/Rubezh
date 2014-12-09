@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.GK;
 using FiresecAPI.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GKProcessor
 {
@@ -17,12 +18,13 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			if (DatabaseType != DatabaseType.Gk)
-				SetFormulaBytes();
-			else
-			{
-				FormulaBytes = new List<byte>();
-			}
+			SetFormulaBytes();
+			//if (DatabaseType != DatabaseType.Gk)
+			//    SetFormulaBytes();
+			//else
+			//{
+			//    FormulaBytes = new List<byte>();
+			//}
 		}
 
 		void SetFormulaBytes()
@@ -37,20 +39,20 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(GKStateBit.Fire2, Zone);
+			Formula.AddGetBit(GKStateBit.Fire2, Zone, DatabaseType);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.Fire2, Zone);
+			Formula.AddPutBit(GKStateBit.Fire2, Zone, DatabaseType);
 
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(GKStateBit.Fire1, Zone);
+			Formula.AddGetBit(GKStateBit.Fire1, Zone, DatabaseType);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(GKStateBit.Fire1, Zone);
+			Formula.AddPutBit(GKStateBit.Fire1, Zone, DatabaseType);
 
 			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddPutBit(GKStateBit.Attention, Zone);
+			Formula.AddPutBit(GKStateBit.Attention, Zone, DatabaseType);
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
@@ -63,7 +65,7 @@ namespace GKProcessor
 			{
 				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire1))
 				{
-					Formula.AddGetBitOff(GKStateBit.Fire1, device);
+					Formula.AddGetBitOff(GKStateBit.Fire1, device, DatabaseType);
 
 					if (count > 0)
 					{
@@ -84,7 +86,7 @@ namespace GKProcessor
 			{
 				if (device.Driver.AvailableStateBits.Contains(GKStateBit.Fire2))
 				{
-					Formula.AddGetBitOff(GKStateBit.Fire2, device);
+					Formula.AddGetBitOff(GKStateBit.Fire2, device, DatabaseType);
 
 					if (count > 0)
 					{

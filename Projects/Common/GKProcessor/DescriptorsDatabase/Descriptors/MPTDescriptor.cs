@@ -53,7 +53,7 @@ namespace GKProcessor
 			var hasOnExpression = false;
 			if (MPT.StartLogic.OnClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(MPT.StartLogic.OnClausesGroup);
+				Formula.AddClauseFormula(MPT.StartLogic.OnClausesGroup, DatabaseType);
 				hasOnExpression = true;
 			}
 
@@ -63,8 +63,8 @@ namespace GKProcessor
 				{
 					if (mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device);
-						Formula.AddGetBit(GKStateBit.TurningOn, MPT);
+						Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
+						Formula.AddGetBit(GKStateBit.TurningOn, MPT, DatabaseType);
 						Formula.Add(FormulaOperationType.AND);
 						Formula.Add(FormulaOperationType.COM);
 						if (hasOnExpression)
@@ -75,16 +75,16 @@ namespace GKProcessor
 			}
 			if (hasOnExpression)
 			{
-				Formula.AddGetBit(GKStateBit.Norm, MPT);
+				Formula.AddGetBit(GKStateBit.Norm, MPT, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
 
-				Formula.AddGetBit(GKStateBit.Norm, HandAutomaticOffPim);
+				Formula.AddGetBit(GKStateBit.Norm, HandAutomaticOffPim, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "");
 
-				Formula.AddGetBit(GKStateBit.Norm, DoorAutomaticOffPim);
+				Formula.AddGetBit(GKStateBit.Norm, DoorAutomaticOffPim, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "");
 
-				Formula.AddGetBit(GKStateBit.Norm, FailureAutomaticOffPim);
+				Formula.AddGetBit(GKStateBit.Norm, FailureAutomaticOffPim, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "");
 			}
 
@@ -92,7 +92,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.HandStart)
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device);
+					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
 					if (hasOnExpression)
 						Formula.Add(FormulaOperationType.OR);
 					hasOnExpression = true;
@@ -101,7 +101,7 @@ namespace GKProcessor
 
 			if (hasOnExpression)
 			{
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT, DatabaseType);
 			}
 
 			var hasOffExpression = false;
@@ -111,8 +111,8 @@ namespace GKProcessor
 				{
 					if (mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device);
-						Formula.AddGetBit(GKStateBit.TurningOn, MPT);
+						Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
+						Formula.AddGetBit(GKStateBit.TurningOn, MPT, DatabaseType);
 						Formula.Add(FormulaOperationType.AND);
 						if (hasOffExpression)
 							Formula.Add(FormulaOperationType.OR);
@@ -123,16 +123,16 @@ namespace GKProcessor
 
 			if (hasOffExpression)
 			{
-				Formula.AddGetBit(GKStateBit.Norm, MPT);
+				Formula.AddGetBit(GKStateBit.Norm, MPT, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
 
-				Formula.AddGetBit(GKStateBit.Norm, HandAutomaticOffPim);
+				Formula.AddGetBit(GKStateBit.Norm, HandAutomaticOffPim, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "");
 
 				//Formula.AddGetBit(GKStateBit.Norm, DoorAutomaticOffPim);
 				//Formula.Add(FormulaOperationType.AND, comment: "");
 
-				Formula.AddGetBit(GKStateBit.Norm, FailureAutomaticOffPim);
+				Formula.AddGetBit(GKStateBit.Norm, FailureAutomaticOffPim, DatabaseType);
 				Formula.Add(FormulaOperationType.AND, comment: "");
 			}
 
@@ -140,7 +140,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.HandStop)
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device);
+					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
 					if (hasOffExpression)
 						Formula.Add(FormulaOperationType.OR);
 					hasOffExpression = true;
@@ -148,7 +148,7 @@ namespace GKProcessor
 			}
 			if (hasOffExpression)
 			{
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, MPT, DatabaseType);
 			}
 
 			Formula.Add(FormulaOperationType.END);
