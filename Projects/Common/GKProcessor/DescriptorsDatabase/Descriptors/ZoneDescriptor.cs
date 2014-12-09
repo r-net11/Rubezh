@@ -18,7 +18,6 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			SetFormulaBytes();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 				FormulaBytes = new List<byte>();
 			else

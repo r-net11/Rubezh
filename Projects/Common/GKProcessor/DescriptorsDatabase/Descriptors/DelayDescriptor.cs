@@ -6,9 +6,9 @@ namespace GKProcessor
 {
 	public class DelayDescriptor : BaseDescriptor
 	{
-		public DelayDescriptor(GKDelay delay)
+		public DelayDescriptor(GKDelay delay, DatabaseType dataBaseType)
 		{
-			DatabaseType = DatabaseType.Gk;
+			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.Delay;
 			Delay = delay;
 		}
@@ -17,10 +17,10 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x101);
 			SetAddress((ushort)0);
-			if (FormulaBytes == null)
-			{
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+				FormulaBytes = new List<byte>();
+			else
 				SetFormulaBytes();
-			}
 			SetPropertiesBytes();
 		}
 
