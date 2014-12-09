@@ -20,7 +20,7 @@ namespace SettingsModule.ViewModels
 
 		public GloobalSettingsViewModel()
 		{
-			Title = "Настройки";
+			Title = "Параметры";
 			Curent = this;
 			SaveLogsCommand = new RelayCommand(OnSaveLogs);
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);

@@ -151,7 +151,6 @@ namespace GKProcessor
 				var guardZoneDescriptor = new GuardZoneDescriptor(this, guardZone);
 				Descriptors.Add(guardZoneDescriptor);
 
-				guardZoneDescriptor.Build();
 				if (guardZoneDescriptor.GuardZonePim != null)
 				{
 					AddPim(guardZoneDescriptor.GuardZonePim);

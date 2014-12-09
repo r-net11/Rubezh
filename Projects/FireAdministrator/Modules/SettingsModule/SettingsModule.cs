@@ -34,7 +34,7 @@ namespace SettingsModule
 			base.AfterInitialize();
 			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Настройки", SettingsViewModel.ShowSettingsCommand, "/Controls;component/Images/BSettings.png"),
+				new RibbonMenuItemViewModel("Параметры", SettingsViewModel.ShowSettingsCommand, "/Controls;component/Images/BSettings.png"),
 				new RibbonMenuItemViewModel("Сообщения об ошибках", SettingsViewModel.ShowErrorsFilterCommand, "/Controls;component/Images/BJournal.png"),
 				new RibbonMenuItemViewModel("Выбор темы", 
 					new ObservableCollection<RibbonMenuItemViewModel>(Enum.GetValues(typeof(Theme)).Cast<Theme>().Select(t=>new RibbonMenuItemViewModel(t.ToDescription(), ChangeThemeCommand, t, "/Controls;component/Images/BLayouts.png"))),

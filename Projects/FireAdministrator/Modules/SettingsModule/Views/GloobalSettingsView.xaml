@@ -94,8 +94,8 @@
 				<StackPanel Margin="2">
 					<TextBox Margin="2" Background="LightGray" Text="{Binding LogsFolderPath, Mode=OneWay}" />
 					<StackPanel Orientation="Horizontal">
-						<Button Width="100" Margin="2" Command="{Binding SaveLogsCommand}" Content="Сохранить логи" FontSize="13" />
-						<Button Width="100" Margin="2" Command="{Binding RemoveLogsCommand}" Content="Удалить логи" FontSize="13" />
+						<Button Width="150" Margin="2" Command="{Binding SaveLogsCommand}" Content="Сохранить логи" FontSize="13" />
+						<Button Width="150" Margin="2" Command="{Binding RemoveLogsCommand}" Content="Удалить логи" FontSize="13" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
