@@ -60,6 +60,7 @@
 	<Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
 	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
 	<Converters:StringToSingleLineString x:Key="StringToSingleLineString" />
+	<Converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
 
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 

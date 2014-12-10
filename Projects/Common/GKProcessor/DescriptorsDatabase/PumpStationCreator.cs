@@ -7,19 +7,21 @@ namespace GKProcessor
 {
 	public class PumpStationCreator
 	{
-		GkDatabase GkDatabase;
+		CommonDatabase Database;
 		GKPumpStation PumpStation;
 		List<GKDevice> FirePumpDevices;
 		GKDevice JNPumpDevice;
 		List<PumpDelay> PumpDelays;
 		GKPim Pim;
 		GKDelay MainDelay;
+		DatabaseType DatabaseType;
 
-		public PumpStationCreator(GkDatabase gkDatabase, GKPumpStation pumpStation, GKDelay mainDelay)
+		public PumpStationCreator(CommonDatabase database, GKPumpStation pumpStation, GKDelay mainDelay, DatabaseType dataBaseType)
 		{
-			GkDatabase = gkDatabase;
+			Database = database;
 			PumpStation = pumpStation;
 			MainDelay = mainDelay;
+			DatabaseType = dataBaseType;
 
 			PumpDelays = new List<PumpDelay>();
 
@@ -51,8 +53,9 @@ namespace GKProcessor
 			MainDelay.Hold = 5;
 			MainDelay.DelayRegime = DelayRegime.Off;
 
-			var delayDescriptor = new DelayDescriptor(MainDelay);
-			GkDatabase.Descriptors.Add(delayDescriptor);
+			var delayDescriptor = new DelayDescriptor(MainDelay, DatabaseType);
+			delayDescriptor.GKBase.IsLogicOnKau = DatabaseType == DatabaseType.Kau;
+			Database.Descriptors.Add(delayDescriptor);
 			GKDeviceConfiguration.LinkGKBases(PumpStation, MainDelay);
 			GKDeviceConfiguration.LinkGKBases(MainDelay, PumpStation);
 
@@ -97,9 +100,10 @@ namespace GKProcessor
 				};
 				PumpDelays.Add(pumpDelay);
 
-				GkDatabase.AddDelay(delay);
-				var delayDescriptor = new DelayDescriptor(delay);
-				GkDatabase.Descriptors.Add(delayDescriptor);
+				Database.AddDelay(delay);
+				var delayDescriptor = new DelayDescriptor(delay, DatabaseType);
+				delayDescriptor.GKBase.IsLogicOnKau = DatabaseType == DatabaseType.Kau;
+				Database.Descriptors.Add(delayDescriptor);
 			}
 		}
 
@@ -108,7 +112,7 @@ namespace GKProcessor
 			for (int i = 0; i < PumpDelays.Count; i++)
 			{
 				var pumpDelay = PumpDelays[i];
-				var delayDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
+				var delayDescriptor = Database.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
 				var formula = new FormulaBuilder();
 
 				AddCountFirePumpDevicesFormula(formula, delayDescriptor.DatabaseType);
@@ -137,7 +141,7 @@ namespace GKProcessor
 			for (int i = 0; i < FirePumpDevices.Count; i++)
 			{
 				var pumpDevice = FirePumpDevices[i];
-				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+				var pumpDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
 				if (pumpDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
@@ -199,7 +203,7 @@ namespace GKProcessor
 		{
 			if (JNPumpDevice != null)
 			{
-				var jnDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == JNPumpDevice.UID);
+				var jnDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == JNPumpDevice.UID);
 				if (jnDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
@@ -222,9 +226,9 @@ namespace GKProcessor
 				PumpStationUID = PumpStation.UID
 			};
 			Pim.UID = GuidHelper.CreateOn(PumpStation.UID, 0);
-			GkDatabase.AddPim(Pim);
-			var pimDescriptor = new PimDescriptor(Pim);
-			GkDatabase.Descriptors.Add(pimDescriptor);
+			Database.AddPim(Pim);
+			var pimDescriptor = new PimDescriptor(Pim, DatabaseType);
+			Database.Descriptors.Add(pimDescriptor);
 
 			var formula = new FormulaBuilder();
 

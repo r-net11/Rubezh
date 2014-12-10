@@ -28,4 +28,8 @@
 		<Views:DelaysSelectationView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectationViewModel}">
+		<Views:SKDZoneSelectationView />
+	</DataTemplate>
+
 </ResourceDictionary>

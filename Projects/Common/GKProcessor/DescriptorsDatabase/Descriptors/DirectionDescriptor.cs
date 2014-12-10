@@ -6,9 +6,9 @@ namespace GKProcessor
 {
 	public class DirectionDescriptor : BaseDescriptor
 	{
-		public DirectionDescriptor(GKDirection direction)
+		public DirectionDescriptor(GKDirection direction, DatabaseType dataBaseType)
 		{
-			DatabaseType = DatabaseType.Gk;
+			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.Direction;
 			Direction = direction;
 		}
@@ -24,6 +24,13 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
+
 			if (Direction.Logic.OnClausesGroup.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(Direction.Logic.OnClausesGroup, DatabaseType);

@@ -53,6 +53,8 @@ namespace FiresecAPI.GK
 		public GKDevice GkDatabaseParent { get; set; }
 
 		[XmlIgnore]
+		public bool IsLogicOnKau { get; set; }
+		[XmlIgnore]
 		public ushort GKDescriptorNo { get; set; }
 		[XmlIgnore]
 		public ushort KAUDescriptorNo { get; set; }

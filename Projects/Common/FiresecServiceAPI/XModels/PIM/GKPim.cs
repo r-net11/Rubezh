@@ -29,6 +29,12 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public Guid PumpStationUID { get; set; }
 
+		/// <summary>
+		/// Идентификатор Охранной зоны
+		/// </summary>
+		[DataMember]
+		public Guid GuardZoneUID { get; set; }
+
 		public override string PresentationName
 		{
 			get { return Name; }
