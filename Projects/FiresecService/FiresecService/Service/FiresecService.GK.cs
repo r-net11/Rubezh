@@ -16,7 +16,13 @@ namespace FiresecService.Service
 	{
 		string UserName
 		{
-			get { return CurrentClientCredentials != null ? CurrentClientCredentials.FriendlyUserName : "<Нет>"; }
+			get
+			{
+				if (CurrentClientCredentials != null)
+					return CurrentClientCredentials.FriendlyUserName;
+				return "<Нет>";
+				//return CurrentClientCredentials != null ? CurrentClientCredentials.FriendlyUserName : "<Нет>";
+			}
 		}
 
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)

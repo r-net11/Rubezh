@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.ViewModels;
+using FiresecAPI.GK;
 
 namespace SKDModule.Plans.Designer
 {
@@ -70,9 +71,39 @@ namespace SKDModule.Plans.Designer
 			return PictureCacheSource.DoorPicture.GetBrush(background);
 		}
 
-		private Color GetStateColor()
+		Color GetStateColor()
 		{
-			return Colors.Green;
+			if (Item == null)
+				return Colors.Transparent;
+
+			switch (Item.State.StateClass)
+			{
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+
+				case XStateClass.On:
+					return Colors.Blue;
+				case XStateClass.TurningOn:
+					return Colors.LightBlue;
+				case XStateClass.Norm:
+				case XStateClass.Off:
+					return Colors.Green;
+
+				case XStateClass.AutoOff:
+					return Colors.Gray;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+				case XStateClass.Attention:
+					return Colors.Red;
+				default:
+					return Colors.White;
+			}
 		}
 	}
 }
