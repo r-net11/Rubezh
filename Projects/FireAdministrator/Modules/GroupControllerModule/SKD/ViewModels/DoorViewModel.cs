@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
-			door.Changed += () => Update(Door);
+			door.Changed += () => Update(Door);			
 		}
 
 		public string Name
@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
 			EnterZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
 			ExitZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
-
+			
 			if (ExitDevice != null)
 			{
 				if (Door.DoorType == GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.RSR2_AM_1)

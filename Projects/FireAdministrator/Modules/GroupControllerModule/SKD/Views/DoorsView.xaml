@@ -120,7 +120,7 @@
 										<Style>
 											<Setter Property="TextBlock.Text" Value="{Binding EnterZone.Name}" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding LockControlDevice}" Value="{x:Null}">
+												<DataTrigger Binding="{Binding EnterZone}" Value="{x:Null}">
 													<Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны входа" />
 												</DataTrigger>
 											</Style.Triggers>
@@ -139,7 +139,7 @@
 										<Style>
 											<Setter Property="TextBlock.Text" Value="{Binding ExitZone.Name}" />
 											<Style.Triggers>
-												<DataTrigger Binding="{Binding LockControlDevice}" Value="{x:Null}">
+												<DataTrigger Binding="{Binding ExitZone}" Value="{x:Null}">
 													<Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны выхода" />
 												</DataTrigger>
 											</Style.Triggers>
