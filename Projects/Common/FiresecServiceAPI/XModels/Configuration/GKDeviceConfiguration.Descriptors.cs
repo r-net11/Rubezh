@@ -33,7 +33,7 @@ namespace FiresecAPI.GK
 		{
 			var allDependentDevices = GetFullTree(gkBase);
 			var kauParents = allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
-			if (kauParents != null && kauParents.Count == 1)
+			if (kauParents != null && kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
 				return kauParents.FirstOrDefault();
 			else
 			{
@@ -102,7 +102,7 @@ namespace FiresecAPI.GK
 			{
 				var dataBaseParent = GetDataBaseParent(device);
 				if (dataBaseParent == null)
-					return;
+					continue;
 				device.IsLogicOnKau = dataBaseParent.Driver.IsKauOrRSR2Kau;
 			}
 		}

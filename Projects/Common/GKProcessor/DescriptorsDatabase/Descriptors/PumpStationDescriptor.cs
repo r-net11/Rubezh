@@ -26,21 +26,23 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
 			SetAddress((ushort)0);
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
-				FormulaBytes = new List<byte>();
-			else
-				SetFormulaBytes();
+			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
 		void SetFormulaBytes()
 		{
+			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
+
 			var hasAutomaticOffLogic = PumpStation.AutomaticOffLogic.OnClausesGroup.Clauses.Count + PumpStation.AutomaticOffLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			var hasStartLogic = PumpStation.StartLogic.OnClausesGroup.Clauses.Count + PumpStation.StartLogic.OnClausesGroup.ClauseGroups.Count > 0;
 			var hasStopLogic = PumpStation.StopLogic.OnClausesGroup.Clauses.Count + PumpStation.StopLogic.OnClausesGroup.ClauseGroups.Count > 0;
-
-			Formula = new FormulaBuilder();
-
 			if (hasAutomaticOffLogic)
 			{
 				Formula.Add(FormulaOperationType.DUP);

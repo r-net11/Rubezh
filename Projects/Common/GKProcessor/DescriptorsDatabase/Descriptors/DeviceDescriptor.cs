@@ -24,22 +24,20 @@ namespace GKProcessor
 			if (Device.Driver.IsDeviceOnShleif)
 				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
-			if (FormulaBytes == null)
-			{
-				if (DatabaseType != DatabaseType.Gk)
-					SetFormulaBytes();
-				else
-				{
-					FormulaBytes = new List<byte>();
-				}
-			}
+			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			//if (DatabaseType == DatabaseType.Gk)
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
+
 			{
 				if (Device.Driver.HasLogic)
 				{

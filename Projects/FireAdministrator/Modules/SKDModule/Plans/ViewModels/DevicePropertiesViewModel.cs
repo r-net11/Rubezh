@@ -78,6 +78,12 @@ namespace SKDModule.Plans.ViewModels
 			_devicesViewModel.SelectedDevice = Update(_elementSKDDevice.DeviceUID);
 			return base.Save();
 		}
+
+		protected override bool CanSave()
+		{
+			return SelectedDevice.Driver.IsPlaceable;
+		}
+
 		DeviceViewModel Update(Guid deviceUID)
 		{
 			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);

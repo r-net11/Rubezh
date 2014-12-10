@@ -96,6 +96,8 @@ namespace GKProcessor
 			{
 				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
+					if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
+						return;
 					var no = outputGKBase.KAUDescriptorNo;
 					OutputDependenses.AddRange(BitConverter.GetBytes(no));
 				}

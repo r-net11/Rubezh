@@ -10,8 +10,7 @@ namespace GKProcessor
 		public List<GKGuardZoneDevice> GuardZoneDevices { get; private set; }
 		public GKGuardZone PimGuardZone { get; private set; }
 
-		public GuardZonePimDescriptor(GKPim pim, GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices)
-			: base(pim)
+		public GuardZonePimDescriptor(GKPim pim, GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, DatabaseType databaseType) : base(pim, databaseType)
 		{
 			PimGuardZone = pimGuardZone;
 			GuardZoneDevices = guardZoneDevices;
@@ -27,6 +26,12 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
 
 			var count = 0;
 			foreach (var guardDevice in GuardZoneDevices)

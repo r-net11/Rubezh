@@ -18,18 +18,21 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
-				FormulaBytes = new List<byte>();
-			else
-			    SetFormulaBytes();
+			SetFormulaBytes();
 		}
 
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
+
 			var fire1Count = AddDeviceFire1();
 			AddDeviceFire2();
-
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.MUL);
 			Formula.Add(FormulaOperationType.ADD);

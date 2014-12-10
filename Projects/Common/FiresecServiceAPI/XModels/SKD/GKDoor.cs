@@ -76,6 +76,18 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public Guid LockControlDeviceUID { get; set; }
 
+		/// <summary>
+		/// Идентификатор зоны входа
+		/// </summary>
+		[DataMember]
+		public Guid EnterZoneUID { get; set; }
+
+		/// <summary>
+		/// Идентификатор зоны выхода
+		/// </summary>
+		[DataMember]
+		public Guid ExitZoneUID { get; set; }
+
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Door; } }
 

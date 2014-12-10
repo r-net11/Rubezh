@@ -109,7 +109,7 @@ namespace GKProcessor
 				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Kau);
 				Descriptors.Add(mptDescriptor);
 
-				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim);
+				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim, DatabaseType.Kau);
 				mptCreator.Create();
 			}
 

@@ -112,7 +112,7 @@ namespace GKProcessor
 			}
 			foreach (var guardZone in GuardZones)
 			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(this, guardZone);
+				var guardZoneDescriptor = new GuardZoneDescriptor(this, guardZone, DatabaseType.Gk);
 				Descriptors.Add(guardZoneDescriptor);
 
 				if (guardZoneDescriptor.GuardZonePim != null)
@@ -143,7 +143,7 @@ namespace GKProcessor
 				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
 				Descriptors.Add(mptDescriptor);
 
-				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim);
+				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim, DatabaseType.Gk);
 				mptCreator.Create();
 			}
 

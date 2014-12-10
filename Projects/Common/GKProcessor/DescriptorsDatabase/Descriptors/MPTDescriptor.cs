@@ -42,16 +42,19 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
 			SetAddress((ushort)0);
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
-				FormulaBytes = new List<byte>();
-			else
-				SetFormulaBytes();
+			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
 
 			var hasOnExpression = false;
 			if (MPT.StartLogic.OnClausesGroup.Clauses.Count > 0)

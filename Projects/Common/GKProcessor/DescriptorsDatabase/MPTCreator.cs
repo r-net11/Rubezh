@@ -10,9 +10,11 @@ namespace GKProcessor
 		public GKPim HandAutomaticOffPim { get; private set; }
 		public GKPim DoorAutomaticOffPim { get; private set; }
 		public GKPim FailureAutomaticOffPim { get; private set; }
+		DatabaseType DatabaseType;
 
-		public MPTCreator(CommonDatabase database, GKMPT mpt, GKPim handAutomaticOffPim, GKPim doorAutomaticOffPim, GKPim failureAutomaticOffPim)
+		public MPTCreator(CommonDatabase database, GKMPT mpt, GKPim handAutomaticOffPim, GKPim doorAutomaticOffPim, GKPim failureAutomaticOffPim, DatabaseType dataBaseType)
 		{
+			DatabaseType = dataBaseType;
 			Database = database;
 			MPT = mpt;
 			HandAutomaticOffPim = handAutomaticOffPim;
@@ -118,7 +120,7 @@ namespace GKProcessor
 		{
 			pim.Name = "АО Р " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(pim);
+			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
 			GKDeviceConfiguration.LinkGKBases(MPT, pim);
 
@@ -158,7 +160,7 @@ namespace GKProcessor
 		{
 			pim.Name = "АО Д " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(pim);
+			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
 			GKDeviceConfiguration.LinkGKBases(MPT, pim);
 
@@ -197,7 +199,7 @@ namespace GKProcessor
 		{
 			pim.Name = "АО Н " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(pim);
+			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
 			GKDeviceConfiguration.LinkGKBases(MPT, pim);
 

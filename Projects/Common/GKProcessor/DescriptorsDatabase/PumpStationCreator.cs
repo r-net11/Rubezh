@@ -54,6 +54,7 @@ namespace GKProcessor
 			MainDelay.DelayRegime = DelayRegime.Off;
 
 			var delayDescriptor = new DelayDescriptor(MainDelay, DatabaseType);
+			delayDescriptor.GKBase.IsLogicOnKau = DatabaseType == DatabaseType.Kau;
 			Database.Descriptors.Add(delayDescriptor);
 			GKDeviceConfiguration.LinkGKBases(PumpStation, MainDelay);
 			GKDeviceConfiguration.LinkGKBases(MainDelay, PumpStation);
@@ -101,6 +102,7 @@ namespace GKProcessor
 
 				Database.AddDelay(delay);
 				var delayDescriptor = new DelayDescriptor(delay, DatabaseType);
+				delayDescriptor.GKBase.IsLogicOnKau = DatabaseType == DatabaseType.Kau;
 				Database.Descriptors.Add(delayDescriptor);
 			}
 		}
@@ -225,7 +227,7 @@ namespace GKProcessor
 			};
 			Pim.UID = GuidHelper.CreateOn(PumpStation.UID, 0);
 			Database.AddPim(Pim);
-			var pimDescriptor = new PimDescriptor(Pim);
+			var pimDescriptor = new PimDescriptor(Pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
 
 			var formula = new FormulaBuilder();

@@ -17,10 +17,10 @@ namespace GKProcessor
 		List<GKGuardZoneDevice> changeGuardDevices;
 		List<GKGuardZoneDevice> setAlarmDevices;
 
-		public GuardZoneDescriptor(GkDatabase gkDatabase, GKGuardZone zone)
+		public GuardZoneDescriptor(GkDatabase gkDatabase, GKGuardZone zone, DatabaseType databaseType)
 		{
 			GkDatabase = gkDatabase;
-			DatabaseType = DatabaseType.Gk;
+			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.GuardZone;
 			GuardZone = zone;
 
@@ -103,7 +103,7 @@ namespace GKProcessor
 					GuardZoneUID = GuardZone.UID
 				};
 				GuardZonePim.UID = GuidHelper.CreateOn(GuardZone.UID, 0);
-				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZonePim, GuardZone, changeGuardDevices);
+				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZonePim, GuardZone, changeGuardDevices, DatabaseType);
 			}
 		}
 
@@ -118,6 +118,12 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			{
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
 
 			AddGuardDevicesLogic(setAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(setGuardDevices, GKStateBit.TurnOn_InAutomatic);

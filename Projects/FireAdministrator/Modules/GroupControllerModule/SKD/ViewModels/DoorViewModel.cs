@@ -14,6 +14,8 @@ using Infrastructure.Common.Services;
 using Infrustructure.Plans.Painters;
 using System.Windows.Shapes;
 using FiresecAPI.Models;
+using Infrastructure.Events;
+using FiresecAPI.SKD;
 
 namespace GKModule.ViewModels
 {
@@ -28,6 +30,8 @@ namespace GKModule.ViewModels
 			ChangeExitDeviceCommand = new RelayCommand(OnChangeExitDevice);
 			ChangeLockDeviceCommand = new RelayCommand(OnChangeLockDevice);
 			ChangeLockControlDeviceCommand = new RelayCommand(OnChangeLockControlDevice);
+			ChangeEnterZoneCommand = new RelayCommand(OnChangeEnterZone);
+			ChangeExitZoneCommand = new RelayCommand(OnChangeExitZone);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
@@ -72,6 +76,8 @@ namespace GKModule.ViewModels
 			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
 			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
 			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
+			EnterZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
+			ExitZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
 
 			if (ExitDevice != null)
 			{
@@ -87,11 +93,12 @@ namespace GKModule.ViewModels
 				}
 			}
 
-
 			OnPropertyChanged(() => EnterDevice);
 			OnPropertyChanged(() => ExitDevice);
 			OnPropertyChanged(() => LockDevice);
 			OnPropertyChanged(() => LockControlDevice);
+			OnPropertyChanged(() => EnterZone);
+			OnPropertyChanged(() => ExitZone);
 			if (Door.PlanElementUIDs == null)
 				Door.PlanElementUIDs = new List<Guid>();
 			OnPropertyChanged(() => IsOnPlan);
@@ -102,6 +109,8 @@ namespace GKModule.ViewModels
 		public GKDevice ExitDevice { get; private set; }
 		public GKDevice LockDevice { get; private set; }
 		public GKDevice LockControlDevice { get; private set; }
+		public SKDZone EnterZone { get; private set; }
+		public SKDZone ExitZone { get; private set; }
 
 		public RelayCommand ChangeEnterDeviceCommand { get; private set; }
 		void OnChangeEnterDevice()
@@ -157,6 +166,30 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.LockControlDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
+				Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand ChangeEnterZoneCommand { get; private set; }
+		void OnChangeEnterZone()
+		{
+			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(EnterZone);
+			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+			{
+				Door.EnterZoneUID = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.UID : Guid.Empty;
+				Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand ChangeExitZoneCommand { get; private set; }
+		void OnChangeExitZone()
+		{
+			var zoneSelectationViewModel = new SKDZoneSelectationViewModel(ExitZone);
+			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+			{
+				Door.ExitZoneUID = zoneSelectationViewModel.SelectedZone != null ? zoneSelectationViewModel.SelectedZone.UID : Guid.Empty;
 				Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
