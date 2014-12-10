@@ -19,8 +19,22 @@ namespace FiresecService.ViewModels
 			Title = "Сервер приложений ОПС FireSec";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
+			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 		}
 
+		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
+		{
+			_dispatcher.Invoke((Action)(() =>
+			{
+				var startupMessageBoxViewModel = new ServerMessageBoxViewModel(viewModel.Title, viewModel.Message, viewModel.MessageBoxButton, viewModel.MessageBoxImage, viewModel.IsException);
+				if (isModal)
+					DialogService.ShowModalWindow(startupMessageBoxViewModel);
+				else
+					DialogService.ShowWindow(startupMessageBoxViewModel);
+				viewModel.Result = startupMessageBoxViewModel.Result;
+			}));
+		}
+		
 		private string _status;
 		public string Status
 		{

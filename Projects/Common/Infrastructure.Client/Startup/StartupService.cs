@@ -151,24 +151,7 @@ namespace Infrastructure.Client.Startup
 		{
 			Invoke(() =>
 			{
-				var messageBoxImage = MessageBoxImage.None;
-				if (viewModel.IsInformationImageVisible)
-					messageBoxImage = MessageBoxImage.Information;
-				else if (viewModel.IsQuestionImageVisible)
-					messageBoxImage = MessageBoxImage.Question;
-				else if (viewModel.IsWarningImageVisible)
-					messageBoxImage = MessageBoxImage.Warning;
-				else if (viewModel.IsErrorImageVisible)
-					messageBoxImage = MessageBoxImage.Error;
-				var messageBoxButton = MessageBoxButton.OK;
-				if (viewModel.IsOkButtonVisible)
-				{
-					if (viewModel.IsCancelButtonVisible)
-						messageBoxButton = MessageBoxButton.OKCancel;
-				}
-				else
-					messageBoxButton = viewModel.IsCancelButtonVisible ? MessageBoxButton.YesNoCancel : MessageBoxButton.YesNo;
-				var startupMessageBoxViewModel = new StartupMessageBoxViewModel(viewModel.Title, viewModel.Message, messageBoxButton, messageBoxImage, viewModel.IsException);
+				var startupMessageBoxViewModel = new StartupMessageBoxViewModel(viewModel.Title, viewModel.Message, viewModel.MessageBoxButton, viewModel.MessageBoxImage, viewModel.IsException);
 				if (isModal)
 					DialogService.ShowModalWindow(startupMessageBoxViewModel);
 				else

@@ -118,5 +118,37 @@ namespace Infrastructure.Common.Windows.ViewModels
 				return;
 			}
 		}
+
+		public MessageBoxImage MessageBoxImage
+		{
+			get
+			{
+				var messageBoxImage = MessageBoxImage.None;
+				if (IsInformationImageVisible)
+					messageBoxImage = MessageBoxImage.Information;
+				else if (IsQuestionImageVisible)
+					messageBoxImage = MessageBoxImage.Question;
+				else if (IsWarningImageVisible)
+					messageBoxImage = MessageBoxImage.Warning;
+				else if (IsErrorImageVisible)
+					messageBoxImage = MessageBoxImage.Error;
+				return messageBoxImage;
+			}
+		}
+		public MessageBoxButton MessageBoxButton
+		{
+			get
+			{
+				var messageBoxButton = MessageBoxButton.OK;
+				if (IsOkButtonVisible)
+				{
+					if (IsCancelButtonVisible)
+						messageBoxButton = MessageBoxButton.OKCancel;
+				}
+				else
+					messageBoxButton = IsCancelButtonVisible ? MessageBoxButton.YesNoCancel : MessageBoxButton.YesNo;
+				return messageBoxButton;
+			}
+		}
 	}
 }
