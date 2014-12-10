@@ -140,7 +140,7 @@ namespace GKProcessor
 			foreach (var mpt in MPTs)
 			{
 				mpt.GKDescriptorNo = NextDescriptorNo;
-				var mptDescriptor = new MPTDescriptor(this, mpt);
+				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
 				Descriptors.Add(mptDescriptor);
 
 				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim);

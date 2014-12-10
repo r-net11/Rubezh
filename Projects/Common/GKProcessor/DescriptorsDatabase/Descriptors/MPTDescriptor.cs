@@ -11,9 +11,9 @@ namespace GKProcessor
 		public GKPim DoorAutomaticOffPim { get; private set; }
 		public GKPim FailureAutomaticOffPim { get; private set; }
 
-		public MPTDescriptor(CommonDatabase database, GKMPT mpt)
+		public MPTDescriptor(CommonDatabase database, GKMPT mpt, DatabaseType dataBaseType)
 		{
-			DatabaseType = DatabaseType.Gk;
+			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
 			MPT.Hold = 10;
