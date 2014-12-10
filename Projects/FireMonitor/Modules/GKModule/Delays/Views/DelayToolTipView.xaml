@@ -14,17 +14,7 @@
 			<Image Margin="2 0" Width="16" Height="16" Source="/Controls;component/Images/Delay.png" />
 			<TextBlock Text="{Binding Delay.Name}" FontWeight="Bold" Margin="2 0" />
 		</StackPanel>
-		<TextBlock Text="{Binding Delay.Description}">
-			<TextBlock.Style>
-                <Style>
-                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Delay.Description}" Value="{x:Null}">
-							<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                     </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-		</TextBlock>
+		<TextBlock Text="{Binding Delay.Description}" Visibility="{Binding Delay.Description, Converter={StaticResource StringToVisibilityConverter}}" />
 		<ItemsControl ItemsSource="{Binding State.StateClasses}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>

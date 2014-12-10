@@ -14,17 +14,7 @@
 			<Image Margin="2 0" Width="16" Height="16" Source="/Controls;component/Images/Blue_Direction.png" />
 			<TextBlock Text="{Binding Direction.PresentationName}" FontWeight="Bold" Margin="2 0" />
 		</StackPanel>
-		<TextBlock Text="{Binding Direction.Description}">
-			<TextBlock.Style>
-                <Style>
-                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Direction.Description}" Value="{x:Null}">
-							<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                     </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-		</TextBlock>
+		<TextBlock Text="{Binding Direction.Description}" Visibility="{Binding Direction.Description, Converter={StaticResource StringToVisibilityConverter}}" />
 		<ItemsControl ItemsSource="{Binding State.StateClasses}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>

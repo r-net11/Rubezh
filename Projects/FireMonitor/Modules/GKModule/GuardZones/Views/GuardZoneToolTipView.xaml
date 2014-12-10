@@ -14,17 +14,7 @@
 			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/GuardZone.png" />
 			<TextBlock Text="{Binding GuardZone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
-		<TextBlock Text="{Binding GuardZone.Description}">
-			<TextBlock.Style>
-                <Style>
-                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding GuardZone.Description}" Value="{x:Null}">
-							<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                     </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-		</TextBlock>
+		<TextBlock Text="{Binding GuardZone.Description}" Visibility="{Binding GuardZone.Description, Converter={StaticResource StringToVisibilityConverter}}" />
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="0 0 2 0" Width="16" Height="16" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XGuardZoneStateClassToStringConverter}}" />
