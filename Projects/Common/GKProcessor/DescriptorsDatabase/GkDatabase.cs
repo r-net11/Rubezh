@@ -6,13 +6,11 @@ namespace GKProcessor
 {
 	public class GkDatabase : CommonDatabase
 	{
-		List<GKCode> Codes { get; set; }
 		List<GKDoor> Doors { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
 		public GkDatabase(GKDevice gkControllerDevice)
 		{
-			Codes = new List<GKCode>();
 			Doors = new List<GKDoor>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
@@ -52,8 +50,7 @@ namespace GKProcessor
 			foreach (var guardZone in GKManager.GuardZones)
 			{
 				if (guardZone.GkDatabaseParent == RootDevice)
-				{
-					guardZone.GKDescriptorNo = NextDescriptorNo;
+				{					
 					GuardZones.Add(guardZone);
 				}
 			}
@@ -61,7 +58,6 @@ namespace GKProcessor
 			{
 				if (direction.GkDatabaseParent == RootDevice)
 				{
-					direction.GKDescriptorNo = NextDescriptorNo;
 					Directions.Add(direction);
 				}
 			}
@@ -110,43 +106,6 @@ namespace GKProcessor
 				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Gk);
 				Descriptors.Add(zoneDescriptor);
 			}
-			foreach (var guardZone in GuardZones)
-			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Gk);
-				Descriptors.Add(guardZoneDescriptor);
-
-				if (guardZoneDescriptor.GuardZonePim != null)
-				{
-					AddPim(guardZoneDescriptor.GuardZonePim);
-					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
-				}
-			}
-			foreach (var direction in Directions)
-			{
-				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Gk);
-				Descriptors.Add(directionDescriptor);
-			}
-
-			foreach (var pumpStation in PumpStations)
-			{
-				pumpStation.GKDescriptorNo = NextDescriptorNo;
-				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Gk);
-				Descriptors.Add(pumpStationDescriptor);
-
-				var pumpStationCreator = new PumpStationCreator(this, pumpStation, pumpStationDescriptor.MainDelay, DatabaseType.Gk);
-				pumpStationCreator.Create();
-			}
-
-			foreach (var mpt in MPTs)
-			{
-				mpt.GKDescriptorNo = NextDescriptorNo;
-				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
-				Descriptors.Add(mptDescriptor);
-
-				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim, DatabaseType.Gk);
-				mptCreator.Create();
-			}
-
 			foreach (var delay in GKManager.Delays)
 			{
 				if (delay.GkDatabaseParent == RootDevice)
@@ -158,6 +117,44 @@ namespace GKProcessor
 					var delayDescriptor = new DelayDescriptor(delay, DatabaseType.Gk);
 					Descriptors.Add(delayDescriptor);
 				}
+			}
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.GKDescriptorNo = NextDescriptorNo;
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Gk);
+				Descriptors.Add(guardZoneDescriptor);
+
+				if (guardZone.Pim != null)
+				{
+					AddPim(guardZone.Pim);
+					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
+				}
+			}
+			foreach (var direction in Directions)
+			{
+				direction.GKDescriptorNo = NextDescriptorNo;
+				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Gk);
+				Descriptors.Add(directionDescriptor);
+			}
+
+			foreach (var pumpStation in PumpStations)
+			{
+				pumpStation.GKDescriptorNo = NextDescriptorNo;
+				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation, DatabaseType.Gk);
+				Descriptors.Add(pumpStationDescriptor);
+
+				var pumpStationCreator = new PumpStationCreator(this, pumpStation, DatabaseType.Gk);
+				pumpStationCreator.Create();
+			}
+
+			foreach (var mpt in MPTs)
+			{
+				mpt.GKDescriptorNo = NextDescriptorNo;
+				var mptDescriptor = new MPTDescriptor(this, mpt, DatabaseType.Gk);
+				Descriptors.Add(mptDescriptor);
+
+				var mptCreator = new MPTCreator(this, mpt, DatabaseType.Gk);
+				mptCreator.Create();
 			}
 
 			foreach (var code in Codes)
