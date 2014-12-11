@@ -42,7 +42,7 @@ namespace GKProcessor
 				{
 					var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
-					var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUID);
+					var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUIDs.FirstOrDefault());
 
 					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType.Gk);
 					switch (PimGuardZone.GuardZoneEnterMethod)
@@ -79,8 +79,12 @@ namespace GKProcessor
 				count++;
 			}
 			Formula.Add(FormulaOperationType.DUP);
+			Formula.AddGetBit(GKStateBit.Off, Pim, DatabaseType);
+			Formula.Add(FormulaOperationType.AND);
 			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Pim, DatabaseType);
 			Formula.Add(FormulaOperationType.COM);
+			Formula.AddGetBit(GKStateBit.On, Pim, DatabaseType);
+			Formula.Add(FormulaOperationType.AND);
 			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Pim, DatabaseType);
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

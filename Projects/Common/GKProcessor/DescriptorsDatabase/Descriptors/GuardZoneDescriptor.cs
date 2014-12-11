@@ -10,10 +10,10 @@ namespace GKProcessor
 	public class GuardZoneDescriptor : BaseDescriptor
 	{
 		public GuardZonePimDescriptor GuardZonePimDescriptor { get; private set; }
-		List<GKGuardZoneDevice> setGuardDevices;
-		List<GKGuardZoneDevice> resetGuardDevices;
-		List<GKGuardZoneDevice> changeGuardDevices;
-		List<GKGuardZoneDevice> setAlarmDevices;
+		List<GKGuardZoneDevice> SetGuardDevices;
+		List<GKGuardZoneDevice> ResetGuardDevices;
+		List<GKGuardZoneDevice> ChangeGuardDevices;
+		List<GKGuardZoneDevice> SetAlarmDevices;
 
 		public GuardZoneDescriptor(GKGuardZone zone, DatabaseType databaseType)
 		{
@@ -21,10 +21,10 @@ namespace GKProcessor
 			DescriptorType = DescriptorType.GuardZone;
 			GuardZone = zone;
 
-			setGuardDevices = new List<GKGuardZoneDevice>();
-			resetGuardDevices = new List<GKGuardZoneDevice>();
-			changeGuardDevices = new List<GKGuardZoneDevice>();
-			setAlarmDevices = new List<GKGuardZoneDevice>();
+			SetGuardDevices = new List<GKGuardZoneDevice>();
+			ResetGuardDevices = new List<GKGuardZoneDevice>();
+			ChangeGuardDevices = new List<GKGuardZoneDevice>();
+			SetAlarmDevices = new List<GKGuardZoneDevice>();
 			foreach (var guardZoneDevice in GuardZone.GuardZoneDevices)
 			{
 				switch (guardZoneDevice.Device.DriverType)
@@ -34,19 +34,19 @@ namespace GKProcessor
 						switch (guardZoneDevice.ActionType)
 						{
 							case GKGuardZoneDeviceActionType.SetGuard:
-								setGuardDevices.Add(guardZoneDevice);
+								SetGuardDevices.Add(guardZoneDevice);
 								break;
 
 							case GKGuardZoneDeviceActionType.ResetGuard:
-								resetGuardDevices.Add(guardZoneDevice);
+								ResetGuardDevices.Add(guardZoneDevice);
 								break;
 
 							case GKGuardZoneDeviceActionType.ChangeGuard:
-								changeGuardDevices.Add(guardZoneDevice);
+								ChangeGuardDevices.Add(guardZoneDevice);
 								break;
 
 							case GKGuardZoneDeviceActionType.SetAlarm:
-								setAlarmDevices.Add(guardZoneDevice);
+								SetAlarmDevices.Add(guardZoneDevice);
 								break;
 						}
 						break;
@@ -54,46 +54,46 @@ namespace GKProcessor
 					case GKDriverType.RSR2_CodeReader:
 						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID);
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.FirstOrDefault());
 							if (code != null)
 							{
-								setGuardDevices.Add(guardZoneDevice);
+								SetGuardDevices.Add(guardZoneDevice);
 							}
 						}
 
 						if (guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUID);
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.FirstOrDefault());
 							if (code != null)
 							{
-								resetGuardDevices.Add(guardZoneDevice);
+								ResetGuardDevices.Add(guardZoneDevice);
 							}
 						}
 
 						if (guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUID);
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs.FirstOrDefault());
 							if (code != null)
 							{
-								changeGuardDevices.Add(guardZoneDevice);
+								ChangeGuardDevices.Add(guardZoneDevice);
 							}
 						}
 
 						if (guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
-							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID);
+							var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.FirstOrDefault());
 							if (code != null)
 							{
-								setAlarmDevices.Add(guardZoneDevice);
+								SetAlarmDevices.Add(guardZoneDevice);
 							}
 						}
 						break;
 				}
 			}
 
-			if (changeGuardDevices.Count > 0)
+			if (ChangeGuardDevices.Count > 0)
 			{
-				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone, changeGuardDevices, DatabaseType);
+				GuardZonePimDescriptor = new GuardZonePimDescriptor(GuardZone, ChangeGuardDevices, DatabaseType);
 			}
 		}
 
@@ -115,10 +115,10 @@ namespace GKProcessor
 				return;
 			}
 
-			AddGuardDevicesLogic(setAlarmDevices, GKStateBit.Fire1);
-			AddGuardDevicesLogic(setGuardDevices, GKStateBit.TurnOn_InAutomatic);
-			AddGuardDevicesLogic(resetGuardDevices, GKStateBit.TurnOff_InAutomatic);
-			AddChangeDevicesLogic(changeGuardDevices);
+			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
+			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
+			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
+			AddChangeDevicesLogic(ChangeGuardDevices);
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
@@ -149,7 +149,7 @@ namespace GKProcessor
 								break;
 						}
 						var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
-						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUID);
+						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUIDs.FirstOrDefault());
 
 						Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
 						switch (GuardZone.GuardZoneEnterMethod)

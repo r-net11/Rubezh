@@ -57,6 +57,7 @@ namespace FiresecAPI.GK
 	{
 		public GKCodeReaderSettingsPart()
 		{
+			CodeUIDs = new List<Guid>();
 			CodeReaderEnterType = GKCodeReaderEnterType.None;
 		}
 
@@ -67,9 +68,9 @@ namespace FiresecAPI.GK
 		public GKCodeReaderEnterType CodeReaderEnterType { get; set; }
 
 		/// <summary>
-		/// Идентификатор кода
+		/// Идентификаторы кодов
 		/// </summary>
 		[DataMember]
-		public Guid CodeUID { get; set; }
+		public List<Guid> CodeUIDs { get; set; }
 	}
 }

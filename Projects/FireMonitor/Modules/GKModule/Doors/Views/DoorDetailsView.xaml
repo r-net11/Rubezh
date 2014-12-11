@@ -94,10 +94,12 @@
                             <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
                             <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
                         </StackPanel>
-                        <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-                            <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Стоп немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+                        <StackPanel Grid.Column="1">
+                            <StackPanel IsEnabled="{Binding IsControlRegime}">
+                                <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
+                                <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
+                                <Button Content="Стоп немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+                            </StackPanel>
                             <Button Content="Сброс" Command="{Binding ResetCommand}" Width="200" Height="50" Margin="2" />
                         </StackPanel>
                     </Grid>

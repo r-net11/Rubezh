@@ -88,6 +88,13 @@ namespace FiresecAPI.GK
 		public int AlarmDelay { get; set; }
 
 		/// <summary>
+		/// Особо охраняемая
+		/// </summary>
+		[DataMember]
+		public bool IsExtraProtected { get; set; }
+
+
+		/// <summary>
 		/// Идентификаторы устройств
 		/// </summary>
 		[DataMember]

@@ -11,7 +11,7 @@ namespace GKModule.Validation
 		void ValidateGuardZones()
 		{
 			ValidateGuardZoneNoEquality();
-			ValidateDevicesinGuardZone();
+			//ValidateDevicesinGuardZone();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
@@ -50,19 +50,19 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDevicesinGuardZone()
-		{
-			var devices = new HashSet<GKDevice>();
-			foreach (var guardZone in GKManager.GuardZones)
-			{
-				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-				{
-					if (!devices.Add(guardZoneDevice.Device))
-					{
-						Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже подключено к другой охранной зоне", ValidationErrorLevel.CannotWrite));
-					}
-				}
-			}
-		}
+		//void ValidateDevicesinGuardZone()
+		//{
+		//    var devices = new HashSet<GKDevice>();
+		//    foreach (var guardZone in GKManager.GuardZones)
+		//    {
+		//        foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+		//        {
+		//            if (!devices.Add(guardZoneDevice.Device))
+		//            {
+		//                Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже подключено к другой охранной зоне", ValidationErrorLevel.CannotWrite));
+		//            }
+		//        }
+		//    }
+		//}
 	}
 }

@@ -175,8 +175,15 @@ namespace GKProcessor
 		{
 			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, JournalEventDescriptionType.NULL, "", device, userName);
 			Stop();
+			
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
+			OperationResult<bool> rewriteResult = new OperationResult<bool>();
+			if (gkDescriptorsWriter.Errors.Count == 0)
+			{
+				rewriteResult = GKRewriteAllSchedules(device);
+			}
+
 			Start();
 			if (gkDescriptorsWriter.Errors.Count > 0)
 			{
@@ -185,6 +192,8 @@ namespace GKProcessor
 				{
 					errors.AppendLine(error);
 				}
+				if (rewriteResult.HasError)
+					errors.AppendLine(rewriteResult.Error);
 				return new OperationResult<bool>(errors.ToString()) { Result = false };
 			}
 			return new OperationResult<bool>() { Result = true };
@@ -298,6 +307,20 @@ namespace GKProcessor
 		public static OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
 		{
 			return ParametersHelper.GetSingleParameter(gkBase);
+		}
+
+		public static OperationResult<bool> GKRewriteAllSchedules(GKDevice device)
+		{
+			var removeResult = GKRemoveAllSchedules(device);
+			if (removeResult.HasError)
+				return new OperationResult<bool>(removeResult.Error);
+			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
+			{
+				var setResult = GKSetSchedule(device, schedule);
+				if (setResult.HasError)
+					return new OperationResult<bool>(setResult.Error);
+			}
+			return new OperationResult<bool>();
 		}
 
 		public static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)

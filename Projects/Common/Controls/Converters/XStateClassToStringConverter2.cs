@@ -5,23 +5,21 @@ using FiresecAPI.GK;
 
 namespace Controls.Converters
 {
-	public class XStateClassToSKDStringConverter : IValueConverter
+	public class XStateClassToStringConverter2 : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var stateClass = (XStateClass)value;
-			switch(stateClass)
+			if (stateClass == XStateClass.Fire1)
 			{
-				case XStateClass.On:
-					return "Открыто";
-
-				case XStateClass.Off:
-					return "Закрыто";
-
-				case XStateClass.Fire1:
-					return "Тревога";
+				return "Сработка 1";
 			}
-			return stateClass.ToDescription();
+			if (stateClass == XStateClass.Fire2)
+			{
+				return "Сработка 2";
+			}
+			var result = stateClass.ToDescription();
+			return result;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
