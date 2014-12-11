@@ -94,6 +94,7 @@ namespace GKProcessor
 				gkCallbackResult.GKStates.DelayStates.Count +
 				gkCallbackResult.GKStates.PimStates.Count +
 				gkCallbackResult.GKStates.GuardZoneStates.Count +
+				gkCallbackResult.GKStates.DoorStates.Count +
 				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
@@ -510,6 +511,10 @@ namespace GKProcessor
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, guardZone);
 			}
+			foreach (var door in GKManager.Doors)
+			{
+				Watcher.AddObjectStateToGKStates(gkStates, door);
+			}
 			return gkStates;
 		}
 
@@ -642,6 +647,10 @@ namespace GKProcessor
 				if (gkBase is GKGuardZone)
 				{
 					journalObjectType = JournalObjectType.GKGuardZone;
+				}
+				if (gkBase is GKDoor)
+				{
+					journalObjectType = JournalObjectType.GKDoor;
 				}
 			}
 

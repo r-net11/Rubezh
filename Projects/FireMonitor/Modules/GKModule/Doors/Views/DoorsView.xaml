@@ -24,10 +24,6 @@
 									</Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-											<Controls:IconedMenuItem Command="{Binding OpenCommand}" ImageSource="/Controls;component/Images/BTurnOff.png" Text="Открыть" />
-											<Controls:IconedMenuItem Command="{Binding CloseCommand}" ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть" />
-											<Controls:IconedMenuItem Command="{Binding OpenForeverCommand}" ImageSource="/Controls;component/Images/BTurnOn.png" Text="Установить режим ОТКРЫТО" />
-											<Controls:IconedMenuItem Command="{Binding CloseForeverCommand}" ImageSource="/Controls;component/Images/BTurnOff.png" Text="Установить режим ЗАКРЫТО" />
 											<Controls:IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" />
 											<Controls:IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" />
 											<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
@@ -48,28 +44,28 @@
 				<DataGridTemplateColumn Width="*" Header="Устройство входа">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<!--<TextBlock VerticalAlignment="Center" Visibility="{Binding HasInDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-								<Hyperlink Command="{Binding ShowInDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+                            <TextBlock VerticalAlignment="Center" Visibility="{Binding HasEnterDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+								<Hyperlink Command="{Binding ShowEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding InDevice.Driver.ImageSource}" />
-										<TextBlock HorizontalAlignment="Stretch" Text="{Binding InDevice.Name}" ToolTip="{Binding InDevice.Name}" />
+										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding EnterDevice.Driver.ImageSource}" />
+										<TextBlock HorizontalAlignment="Stretch" Text="{Binding EnterDevice.PresentationName}" ToolTip="{Binding EnterDevice.PresentationName}" />
 									</StackPanel>
 								</Hyperlink>
-							</TextBlock>-->
+							</TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Width="*" Header="Устройство выхода">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<!--<TextBlock VerticalAlignment="Center" Visibility="{Binding HasOutDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-								<Hyperlink Command="{Binding ShowOutDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
+                            <TextBlock VerticalAlignment="Center" Visibility="{Binding HasExitDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+								<Hyperlink Command="{Binding ShowExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding OutDevice.Driver.ImageSource}" />
-										<TextBlock HorizontalAlignment="Stretch" Text="{Binding OutDevice.Name}" ToolTip="{Binding OutDevice.Name}" />
+										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding ExitDevice.Driver.ImageSource}" />
+										<TextBlock HorizontalAlignment="Stretch" Text="{Binding ExitDevice.PresentationName}" ToolTip="{Binding ExitDevice.PresentationName}" />
 									</StackPanel>
 								</Hyperlink>
-							</TextBlock>-->
+							</TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

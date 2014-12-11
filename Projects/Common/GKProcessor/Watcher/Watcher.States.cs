@@ -289,6 +289,14 @@ namespace GKProcessor
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_кода;
 				}
 			}
+			if (gkBase is GKDoor)
+			{
+				if (descriptorStateHelper.TypeNo != 0x104)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_кода;
+				}
+			}
 
 			var stringLength = Math.Min(gkBase.PresentationName.Length, 32);
 			var description = gkBase.PresentationName.Substring(0, stringLength);
@@ -399,6 +407,13 @@ namespace GKProcessor
 					if (guardZone.GkDatabaseParent == gkControllerDevice)
 					{
 						OnObjectStateChanged(guardZone);
+					}
+				}
+				foreach (var door in GKManager.Doors)
+				{
+					if (door.GkDatabaseParent == gkControllerDevice)
+					{
+						OnObjectStateChanged(door);
 					}
 				}
 			}

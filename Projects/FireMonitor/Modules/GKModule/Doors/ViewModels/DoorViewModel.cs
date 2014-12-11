@@ -27,14 +27,15 @@ namespace GKModule.ViewModels
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
-			OpenCommand = new RelayCommand(OnOpen, CanOpen);
-			CloseCommand = new RelayCommand(OnClose, CanClose);
-			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
-			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
+			ShowEnterDeviceCommand = new RelayCommand(OnShowEnterDevice, CanShowEnterDevice);
+			ShowExitDeviceCommand = new RelayCommand(OnShowExitDevice, CanShowExitDevice);
+
+			EnterDevice = Door.EnterDevice;
+			ExitDevice = Door.ExitDevice;
 		}
 
 		void OnStateChanged()
@@ -50,6 +51,36 @@ namespace GKModule.ViewModels
 		public string PresentationDescription
 		{
 			get { return Door.Description; }
+		}
+
+		public GKDevice EnterDevice { get; private set; }
+		public bool HasEnterDevice
+		{
+			get { return EnterDevice != null; }
+		}
+		public RelayCommand ShowEnterDeviceCommand { get; private set; }
+		void OnShowEnterDevice()
+		{
+			ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(EnterDevice.UID);
+		}
+		bool CanShowEnterDevice()
+		{
+			return EnterDevice != null;
+		}
+
+		public GKDevice ExitDevice { get; private set; }
+		public bool HasExitDevice
+		{
+			get { return ExitDevice.Name != null; }
+		}
+		public RelayCommand ShowExitDeviceCommand { get; private set; }
+		void OnShowExitDevice()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(ExitDevice.UID);
+		}
+		bool CanShowExitDevice()
+		{
+			return ExitDevice != null;
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
@@ -85,74 +116,6 @@ namespace GKModule.ViewModels
 		private void OnShowProperties()
 		{
 			DialogService.ShowWindow(new DoorDetailsViewModel(Door));
-		}
-
-		public RelayCommand OpenCommand { get; private set; }
-		void OnOpen()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				//var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
-			}
-		}
-		bool CanOpen()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.On && Door.State.StateClass != XStateClass.ConnectionLost;
-		}
-
-		public RelayCommand CloseCommand { get; private set; }
-		void OnClose()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				//var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
-			}
-		}
-		bool CanClose()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.Off && Door.State.StateClass != XStateClass.ConnectionLost;
-		}
-
-		public RelayCommand OpenForeverCommand { get; private set; }
-		void OnOpenForever()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				//var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
-			}
-		}
-		bool CanOpenForever()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
-		}
-
-		public RelayCommand CloseForeverCommand { get; private set; }
-		void OnCloseForever()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				//var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
-			}
-		}
-		bool CanCloseForever()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public bool IsBold { get; set; }
