@@ -72,6 +72,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\CodeDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DoorDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\GuardZonePimDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\LockControlPimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />

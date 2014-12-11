@@ -57,6 +57,15 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 			}
+
+			if (Door.LockControlDevice != null)
+			{
+				Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice, DatabaseType);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType);
+			}
+
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}

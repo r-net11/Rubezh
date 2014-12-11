@@ -71,7 +71,7 @@ namespace GKModule.ViewModels
 		public GKDevice ExitDevice { get; private set; }
 		public bool HasExitDevice
 		{
-			get { return ExitDevice.Name != null; }
+			get { return ExitDevice != null; }
 		}
 		public RelayCommand ShowExitDeviceCommand { get; private set; }
 		void OnShowExitDevice()
