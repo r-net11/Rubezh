@@ -28,6 +28,12 @@ namespace GKProcessor
 				Zones.Add(zone);
 			}
 
+			foreach (var guardZone in GKManager.GuardZones.FindAll(x => x.KauDatabaseParent == RootDevice && x.GuardZoneEnterMethod == GKGuardZoneEnterMethod.GlobalOnly))
+			{
+				guardZone.KAUDescriptorNo = NextDescriptorNo;
+				GuardZones.Add(guardZone);
+			}
+
 			foreach (var direction in GKManager.Directions.FindAll(x => x.KauDatabaseParent == RootDevice))
 			{
 				direction.KAUDescriptorNo = NextDescriptorNo;
@@ -81,6 +87,12 @@ namespace GKProcessor
 				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Kau);
 				zoneDescriptor.GKBase.KauDatabaseParent = RootDevice;
 				Descriptors.Add(zoneDescriptor);
+			}
+			foreach (var guardZone in GuardZones)
+			{
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Kau);
+				guardZoneDescriptor.GKBase.KauDatabaseParent = RootDevice;
+				Descriptors.Add(guardZoneDescriptor);
 			}
 			foreach (var direction in Directions)
 			{

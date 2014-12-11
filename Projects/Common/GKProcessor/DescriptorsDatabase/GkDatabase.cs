@@ -112,7 +112,7 @@ namespace GKProcessor
 			}
 			foreach (var guardZone in GuardZones)
 			{
-				var guardZoneDescriptor = new GuardZoneDescriptor(this, guardZone, DatabaseType.Gk);
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone, DatabaseType.Gk);
 				Descriptors.Add(guardZoneDescriptor);
 
 				if (guardZoneDescriptor.GuardZonePim != null)
