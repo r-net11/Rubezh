@@ -46,8 +46,11 @@ namespace SKDModule.ViewModels
 			ExitSchedules = new ObservableCollection<CardScheduleItem>();
 			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
 			{
-				EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
-				ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+				if (schedule.ScheduleType == GKScheduleType.Access)
+				{
+					EnterSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+					ExitSchedules.Add(new CardScheduleItem(schedule.No, schedule.Name));
+				}
 			}
 
 			Initialize(cardDoors, onChecked);

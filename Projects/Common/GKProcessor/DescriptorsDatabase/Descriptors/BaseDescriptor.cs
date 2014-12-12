@@ -96,6 +96,8 @@ namespace GKProcessor
 			{
 				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
+					if ((outputGKBase is GKGuardZone) && (outputGKBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
+						return;
 					if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
 						return;
 					var no = outputGKBase.KAUDescriptorNo;

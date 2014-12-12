@@ -6,6 +6,7 @@ namespace GKProcessor
 	public abstract class CommonDatabase
 	{
 		ushort currentChildNo = 1;
+		protected List<GKCode> Codes { get; set; }
 		protected List<GKDevice> Devices { get; set; }
 		protected List<GKZone> Zones { get; set; }
 		protected List<GKGuardZone> GuardZones { get; set; }
@@ -26,6 +27,7 @@ namespace GKProcessor
 
 		public CommonDatabase()
 		{
+			Codes = new List<GKCode>();
 			Devices = new List<GKDevice>();
 			Zones = new List<GKZone>();
 			GuardZones = new List<GKGuardZone>();
@@ -41,8 +43,18 @@ namespace GKProcessor
 		{
 			if (!Delays.Contains(delay))
 			{
-				delay.GKDescriptorNo = NextDescriptorNo;
-				delay.GkDatabaseParent = RootDevice;
+				if (DatabaseType == DatabaseType.Gk)
+				{
+					delay.GKDescriptorNo = NextDescriptorNo;
+					delay.GkDatabaseParent = RootDevice;
+				}
+				else
+				{
+					delay.KAUDescriptorNo = NextDescriptorNo;
+					delay.KauDatabaseParent = RootDevice;
+					delay.IsLogicOnKau = true;
+					delay.GkDatabaseParent = RootDevice.GKParent;
+				}
 				Delays.Add(delay);
 			}
 		}
@@ -51,8 +63,17 @@ namespace GKProcessor
 		{
 			if (!Pims.Contains(pim))
 			{
-				pim.GKDescriptorNo = NextDescriptorNo;
-				pim.GkDatabaseParent = RootDevice;
+				if (DatabaseType == DatabaseType.Gk)
+				{
+					pim.GKDescriptorNo = NextDescriptorNo;
+					pim.GkDatabaseParent = RootDevice;
+				}
+				else
+				{
+					pim.KAUDescriptorNo = NextDescriptorNo;
+					pim.KauDatabaseParent = RootDevice;
+					pim.GkDatabaseParent = RootDevice.GKParent;
+				}
 				Pims.Add(pim);
 			}
 		}

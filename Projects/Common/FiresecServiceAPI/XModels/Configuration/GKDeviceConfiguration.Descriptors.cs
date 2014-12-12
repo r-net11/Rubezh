@@ -104,6 +104,10 @@ namespace FiresecAPI.GK
 				if (dataBaseParent == null)
 					continue;
 				device.IsLogicOnKau = dataBaseParent.Driver.IsKauOrRSR2Kau;
+				if (device.Door != null && device.Door.LockDeviceUID == device.UID)
+				{
+					device.IsLogicOnKau = false;
+				}
 			}
 		}
 
@@ -208,10 +212,13 @@ namespace FiresecAPI.GK
 			{
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					LinkGKBases(guardZone, guardZoneDevice.Device);
-					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
 					{
-						LinkGKBases(guardZoneDevice.Device, guardZone);
+						LinkGKBases(guardZone, guardZoneDevice.Device);
+						if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+						{
+							LinkGKBases(guardZoneDevice.Device, guardZone);
+						}
 					}
 				}
 				LinkGKBases(guardZone, guardZone);
@@ -269,8 +276,6 @@ namespace FiresecAPI.GK
 		{
 			if (!objects.Any(x => x.UID == newObject.UID))
 				objects.Add(newObject);
-			//if (!objects.Contains(newObject))
-			//    objects.Add(newObject);
 		}
 	}
 }

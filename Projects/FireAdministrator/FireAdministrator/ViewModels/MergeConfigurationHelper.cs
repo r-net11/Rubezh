@@ -338,9 +338,18 @@ namespace FireAdministrator.ViewModels
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZoneDevice.DeviceUID = ReplaceUID(guardZoneDevice.DeviceUID, GKDeviceUIDs);
-					guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID = ReplaceUID(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUID, GKCodeUIDs);
-					guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUID = ReplaceUID(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUID, GKCodeUIDs);
-					guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID = ReplaceUID(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUID, GKCodeUIDs);
+					for (int i = 0; i < guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs.Count; i++)
+					{
+						guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs[i] = ReplaceUID(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs[i], GKCodeUIDs);
+					}
+					for (int i = 0; i < guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs.Count; i++)
+					{
+						guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs[i] = ReplaceUID(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs[i], GKCodeUIDs);
+					}
+					for (int i = 0; i < guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count; i++)
+					{
+						guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs[i] = ReplaceUID(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs[i], GKCodeUIDs);
+					}
 				}
 			}
 

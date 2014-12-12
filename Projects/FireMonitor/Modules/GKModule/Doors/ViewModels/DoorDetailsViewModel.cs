@@ -27,21 +27,25 @@ namespace GKModule.ViewModels
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			OpenCommand = new RelayCommand(OnOpen, CanOpen);
-			CloseCommand = new RelayCommand(OnClose, CanClose);
-			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
-			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
+			TurnOnCommand = new RelayCommand(OnTurnOn);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff);
+			ResetCommand = new RelayCommand(OnReset);
 
 			Door = door;
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
-
 			Title = Door.PresentationName;
 		}
 
 		void OnStateChanged()
 		{
+			OnPropertyChanged(() => ControlRegime);
+			OnPropertyChanged(() => IsControlRegime);
 			OnPropertyChanged(() => State);
 			CommandManager.InvalidateRequerySuggested();
 		}
@@ -69,72 +73,98 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand OpenCommand { get; private set; }
-		void OnOpen()
+		public DeviceControlRegime ControlRegime
 		{
-			if (ServiceFactory.SecurityService.Validate())
+			get
 			{
-				//var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
+				if (State.StateClasses.Contains(XStateClass.Ignore))
+					return DeviceControlRegime.Ignore;
+
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
+					return DeviceControlRegime.Automatic;
+
+				return DeviceControlRegime.Manual;
 			}
-		}
-		bool CanOpen()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.On && Door.State.StateClass != XStateClass.ConnectionLost;
 		}
 
-		public RelayCommand CloseCommand { get; private set; }
-		void OnClose()
+		public bool IsControlRegime
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				//var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
-			}
-		}
-		bool CanClose()
-		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.Off && Door.State.StateClass != XStateClass.ConnectionLost;
+			get { return ControlRegime == DeviceControlRegime.Manual; }
 		}
 
-		public RelayCommand OpenForeverCommand { get; private set; }
-		void OnOpenForever()
+		public RelayCommand SetAutomaticStateCommand { get; private set; }
+		void OnSetAutomaticState()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Door);
 			}
 		}
-		bool CanOpenForever()
+		bool CanSetAutomaticState()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return ControlRegime != DeviceControlRegime.Automatic;
 		}
 
-		public RelayCommand CloseForeverCommand { get; private set; }
-		void OnCloseForever()
+		public RelayCommand SetManualStateCommand { get; private set; }
+		void OnSetManualState()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
-				//if (result.HasError)
-				//{
-				//	MessageBoxService.ShowWarning(result.Error);
-				//}
+				FiresecManager.FiresecService.GKSetManualRegime(Door);
 			}
 		}
-		bool CanCloseForever()
+		bool CanSetManualState()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
+
+		public RelayCommand SetIgnoreStateCommand { get; private set; }
+		void OnSetIgnoreState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Door);
+			}
+		}
+		bool CanSetIgnoreState()
+		{
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
+
+		public RelayCommand TurnOnCommand { get; private set; }
+		void OnTurnOn()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOn(Door);
+			}
+		}
+
+		public RelayCommand TurnOnNowCommand { get; private set; }
+		void OnTurnOnNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOnNow(Door);
+			}
+		}
+
+		public RelayCommand TurnOffCommand { get; private set; }
+		void OnTurnOff()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOff(Door);
+			}
+		}
+
+		public RelayCommand ResetCommand { get; private set; }
+		void OnReset()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKReset(Door);
+			}
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

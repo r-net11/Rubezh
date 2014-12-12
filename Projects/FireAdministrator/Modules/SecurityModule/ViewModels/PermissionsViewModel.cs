@@ -92,6 +92,7 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_ControlDevices),
 							new PermissionViewModel(PermissionType.Oper_ChangeView),
 							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
+							new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
 							new PermissionViewModel(PermissionType.Oper_SKD,
 								new List<PermissionViewModel>()
 								{

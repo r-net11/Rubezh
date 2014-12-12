@@ -10,7 +10,7 @@ namespace GKProcessor
 		public List<GKGuardZoneDevice> GuardZoneDevices { get; private set; }
 		public GKGuardZone PimGuardZone { get; private set; }
 
-		public GuardZonePimDescriptor(GKPim pim, GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, DatabaseType databaseType) : base(pim, databaseType)
+		public GuardZonePimDescriptor(GKGuardZone pimGuardZone, List<GKGuardZoneDevice> guardZoneDevices, DatabaseType databaseType) : base(pimGuardZone.Pim, databaseType)
 		{
 			PimGuardZone = pimGuardZone;
 			GuardZoneDevices = guardZoneDevices;
@@ -42,15 +42,15 @@ namespace GKProcessor
 				{
 					var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
-					var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUID);
+					var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == settingsPart.CodeUIDs.FirstOrDefault());
 
 					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType.Gk);
 					switch (PimGuardZone.GuardZoneEnterMethod)
 					{
 						case GKGuardZoneEnterMethod.GlobalOnly:
 							Formula.Add(FormulaOperationType.BR, 1, 3);
-							Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
-							Formula.Add(FormulaOperationType.CMPKOD, 1, code.GKDescriptorNo);
+							Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
+							Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
 							break;
 
 						case GKGuardZoneEnterMethod.UserOnly:
@@ -70,7 +70,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType.Gk);
+					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
 				}
 				if (count > 0)
 				{
@@ -79,9 +79,13 @@ namespace GKProcessor
 				count++;
 			}
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Pim, DatabaseType.Gk);
+			Formula.AddGetBit(GKStateBit.Off, Pim, DatabaseType);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Pim, DatabaseType);
 			Formula.Add(FormulaOperationType.COM);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Pim, DatabaseType.Gk);
+			Formula.AddGetBit(GKStateBit.On, Pim, DatabaseType);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Pim, DatabaseType);
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}

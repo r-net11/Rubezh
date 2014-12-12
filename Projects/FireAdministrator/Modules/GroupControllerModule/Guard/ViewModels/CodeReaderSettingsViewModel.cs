@@ -17,7 +17,16 @@ namespace GKModule.ViewModels
 			SelectCodeCommand = new RelayCommand(OnSelectCode);
 			EnterTypes = Enum.GetValues(typeof(GKCodeReaderEnterType)).Cast<GKCodeReaderEnterType>().ToList();
 			SelectedEnterType = EnterTypes.FirstOrDefault(x => x == codeReaderSettingsPart.CodeReaderEnterType);
-			Code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeReaderSettingsPart.CodeUID);
+
+			Codes = new List<GKCode>();
+			foreach (var codeUID in codeReaderSettingsPart.CodeUIDs)
+			{
+				var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+				if (code != null)
+				{
+					Codes.Add(code);
+				}
+			}
 		}
 
 		public List<GKCodeReaderEnterType> EnterTypes { get; private set; }
@@ -33,15 +42,15 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public GKCode Code { get; private set; }
+		public List<GKCode> Codes { get; private set; }
 
 		public RelayCommand SelectCodeCommand { get; private set; }
 		void OnSelectCode()
 		{
-			var codeSelectionViewModel = new CodeSelectionViewModel(Code);
-			if (DialogService.ShowModalWindow(codeSelectionViewModel))
+			var codesSelectationViewModel = new CodesSelectationViewModel(Codes);
+			if (DialogService.ShowModalWindow(codesSelectationViewModel))
 			{
-				Code = codeSelectionViewModel.SelectedCode;
+				Codes = codesSelectationViewModel.Codes;
 			}
 			OnPropertyChanged(() => PresentationCode);
 		}
@@ -50,11 +59,11 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Code != null)
+				if (Codes != null && Codes.Count > 0)
 				{
-					return Code.PresentationName;
+					return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Codes));
 				}
-				return "Нажмите для выбора кода";
+				return "Нажмите для выбора кодов";
 			}
 		}
 
@@ -62,7 +71,7 @@ namespace GKModule.ViewModels
 		{
 			var codeReaderSettingsPart = new GKCodeReaderSettingsPart();
 			codeReaderSettingsPart.CodeReaderEnterType = SelectedEnterType;
-			codeReaderSettingsPart.CodeUID = Code != null ? Code.UID : Guid.Empty;
+			codeReaderSettingsPart.CodeUIDs = (from code in Codes select code.UID).ToList();
 			return codeReaderSettingsPart;
 		}
 	}

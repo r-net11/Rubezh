@@ -218,7 +218,14 @@ namespace GKModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get
+			{
+				if (Zone.IsExtraProtected)
+				{
+					return FiresecManager.CheckPermission(PermissionType.Oper_ExtraGuardZone);
+				}
+				return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			}
 		}
 
 		#region IWindowIdentity Members

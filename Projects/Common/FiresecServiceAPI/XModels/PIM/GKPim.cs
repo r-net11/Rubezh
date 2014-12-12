@@ -35,6 +35,12 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public Guid GuardZoneUID { get; set; }
 
+		/// <summary>
+		/// Идентификатор Точки Доступа
+		/// </summary>
+		[DataMember]
+		public Guid DoorUID { get; set; }
+
 		public override string PresentationName
 		{
 			get { return Name; }

@@ -60,6 +60,7 @@ namespace GKModule.ViewModels
 			Delay = Zone.Delay;
 			ResetDelay = Zone.ResetDelay;
 			AlarmDelay = Zone.AlarmDelay;
+			IsExtraProtected = Zone.IsExtraProtected;
 		}
 
 		int _no;
@@ -177,6 +178,17 @@ namespace GKModule.ViewModels
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
+		bool _isExtraProtected;
+		public bool IsExtraProtected
+		{
+			get { return _isExtraProtected; }
+			set
+			{
+				_isExtraProtected = value;
+				OnPropertyChanged(() => IsExtraProtected);
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (No <= 0)
@@ -200,6 +212,7 @@ namespace GKModule.ViewModels
 			Zone.Delay = Delay;
 			Zone.ResetDelay = ResetDelay;
 			Zone.AlarmDelay = AlarmDelay;
+			Zone.IsExtraProtected = IsExtraProtected;
 			return base.Save();
 		}
 	}
