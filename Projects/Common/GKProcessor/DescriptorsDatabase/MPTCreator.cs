@@ -116,7 +116,7 @@ namespace GKProcessor
 
 			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
-			GKDeviceConfiguration.LinkGKBases(MPT, pim);
+			MPT.LinkGKBases(pim);
 
 			var formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
@@ -134,7 +134,7 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					GKDeviceConfiguration.LinkGKBases(pim, mptDevice.Device);
+					pim.LinkGKBases(mptDevice.Device);
 				}
 			}
 			if (hasAutomaticExpression)
@@ -161,7 +161,7 @@ namespace GKProcessor
 
 			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
-			GKDeviceConfiguration.LinkGKBases(MPT, pim);
+			MPT.LinkGKBases(pim);
 
 			var formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
@@ -182,7 +182,7 @@ namespace GKProcessor
 						if (hasAutomaticExpression)
 							formula.Add(FormulaOperationType.OR);
 						hasAutomaticExpression = true;
-						GKDeviceConfiguration.LinkGKBases(pim, mptDevice.Device);
+						pim.LinkGKBases(mptDevice.Device);
 					}
 				}
 
@@ -206,7 +206,7 @@ namespace GKProcessor
 
 			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
 			Database.Descriptors.Add(pimDescriptor);
-			GKDeviceConfiguration.LinkGKBases(MPT, pim);
+			MPT.LinkGKBases(pim);
 
 			var formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
@@ -225,7 +225,7 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					GKDeviceConfiguration.LinkGKBases(pim, mptDevice.Device);
+					pim.LinkGKBases(mptDevice.Device);
 				}
 
 				if (hasAutomaticExpression)
@@ -250,7 +250,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.HandStop ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
 				{
-					GKDeviceConfiguration.LinkGKBases(MPT, mptDevice.Device);
+					MPT.LinkGKBases(mptDevice.Device);
 				}
 
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard ||
@@ -259,7 +259,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
 				{
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, MPT);
+					mptDevice.Device.LinkGKBases(MPT);
 				}
 			}
 
@@ -267,9 +267,9 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)
 				{
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, MPT.HandAutomaticOffPim);
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, MPT.DoorAutomaticOffPim);
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, MPT.FailureAutomaticOffPim);
+					mptDevice.Device.LinkGKBases(MPT.HandAutomaticOffPim);
+					mptDevice.Device.LinkGKBases(MPT.DoorAutomaticOffPim);
+					mptDevice.Device.LinkGKBases(MPT.FailureAutomaticOffPim);
 				}
 			}
 		}

@@ -16,11 +16,20 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentMPT(mpt);
-				ValidateMPTHasNoDevices(mpt);
+				//ValidateMPTHasNoDevices(mpt);
+				ValidateEmpty(mpt);
 				ValidateMPTHasNoLogic(mpt);
 				ValidateMPTSameDevices(mpt);
 				ValidateMPTDeviceParameters(mpt);
 				ValidateMPTSelfLogic(mpt);
+			}
+		}
+
+		void ValidateEmpty(GKMPT mpt)
+		{
+			if (mpt.GetDataBaseParent() == null)
+			{
+				Errors.Add(new MPTValidationError(mpt, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

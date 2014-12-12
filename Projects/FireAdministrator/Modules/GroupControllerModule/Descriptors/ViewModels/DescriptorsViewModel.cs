@@ -93,6 +93,8 @@ namespace GKModule.ViewModels
 							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.GKBase.UID == inputDescriptor.GKBase.UID);
 							if (inputDescriptorViewModel != null)
 								descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
+							else
+								MessageBoxService.ShowError("Отсутствует ссылка на входную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
 						}
 					}
 				}
@@ -114,6 +116,8 @@ namespace GKModule.ViewModels
 							}
 							if (outputDescriptorViewModel != null)
 								descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
+							else
+								MessageBoxService.ShowError("Отсутствует ссылка на выходную зависимость" + descriptorViewModel.Descriptor.GKBase.GKDescriptorNo + " " + descriptorViewModel.Descriptor.GKBase.PresentationName);
 						}
 					}
 				}

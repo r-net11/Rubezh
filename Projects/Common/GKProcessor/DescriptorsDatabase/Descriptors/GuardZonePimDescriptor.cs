@@ -36,7 +36,7 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var guardDevice in GuardZoneDevices)
 			{
-				GKDeviceConfiguration.LinkGKBases(Pim, guardDevice.Device);
+				Pim.LinkGKBases(guardDevice.Device);
 
 				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
 				{
