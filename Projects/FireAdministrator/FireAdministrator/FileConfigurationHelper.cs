@@ -175,38 +175,5 @@ namespace FireAdministrator
 			}
 			return null;
 		}
-
-		public static void SaveAllToFile()
-		{
-			try
-			{
-				var saveDialog = new SaveFileDialog()
-				{
-					Filter = "firesec2 files|*.fscp",
-					DefaultExt = "firesec2 files|*.fscp"
-				};
-				if (saveDialog.InitialDirectory != null)
-				{
-					var fileName = DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
-					fileName = fileName.Replace(":", " ");
-					saveDialog.FileName = Path.Combine(saveDialog.InitialDirectory, fileName + ".fscp");
-				}
-
-				if (saveDialog.ShowDialog().Value)
-				{
-					WaitHelper.Execute(() =>
-					{
-						var tempFileName = ConfigManager.SaveAllConfigToFile();
-						File.Copy(tempFileName, saveDialog.FileName);
-						File.Delete(tempFileName);
-					});
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "MenuView.SaveToFile");
-				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
-			}
-		}
 	}
 }

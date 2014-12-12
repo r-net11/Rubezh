@@ -241,11 +241,11 @@ namespace GKModule.ViewModels
 			Schedule.SchedulePeriodType = SelectedSchedulePeriodType;
 			Schedule.HoursPeriod = HoursPeriod;
 
-			//var result = FiresecManager.FiresecService.GKSetSchedule(Schedule);
-			//if (result.HasError)
-			//{
-			//	MessageBoxService.ShowError(result.Error);
-			//}
+			var result = FiresecManager.FiresecService.GKSetSchedule(Schedule);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
 
 			return base.Save();
 		}

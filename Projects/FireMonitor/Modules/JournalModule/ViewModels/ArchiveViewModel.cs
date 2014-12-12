@@ -83,6 +83,8 @@ namespace JournalModule.ViewModels
 			ArchiveFilter = new ArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
+			ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
+			ClientSettings.ArchiveDefaultState.Count = 7;
 
 			if (showArchiveEventArgs.GKDevice != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.GKDevice.UID);

@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters;assembly=Xceed.Wpf.Toolkit" xmlns:loc="clr-namespace:Controls" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters;assembly=Xceed.Wpf.Toolkit" xmlns:loc="clr-namespace:Controls" xmlns:xc="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" xmlns:c="clr-namespace:Controls.Converters">
 	<SolidColorBrush x:Key="ButtonHover" Color="#C2E0FF" />
 	<SolidColorBrush x:Key="ButtonHoverBorder" Color="#3399FF" />
 	<SolidColorBrush x:Key="ButtonChecked" Color="#E6F0FA" />
@@ -28,6 +28,7 @@
 	<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	<conv:InverseBoolConverter x:Key="InverseBoolConverter" />
 	<conv:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+	<c:ColorToNameConverter x:Key="ColorToNameConverter" />
 
 	<LinearGradientBrush x:Key="ColorPickerDarkBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
 		<GradientStop Offset="0" Color="#FFA3AEB9" />
@@ -46,11 +47,11 @@
 	</LinearGradientBrush>
 
 	<Style x:Key="ColorItemContainerStyle" TargetType="{x:Type ListBoxItem}">
-		<Setter Property="ToolTip" Value="{Binding Name}" />
+		<Setter Property="ToolTip" Value="{Binding Color, Converter={StaticResource ColorToNameConverter}}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ListBoxItem}">
-					<Grid ToolTip="{Binding Name}">
+					<Grid ToolTip="{Binding Color, Converter={StaticResource ColorToNameConverter}}">
 						<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
 						<Border x:Name="_outerBorder" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
 							<Border x:Name="_innerBorder" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" />
@@ -163,20 +164,20 @@
 				<ControlTemplate TargetType="{x:Type xc:ColorPicker}">
 					<Grid>
 						<ToggleButton x:Name="PART_ColorPickerToggleButton" MinHeight="22"
-									  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-									  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-									  Background="{TemplateBinding Background}"
-									  BorderBrush="{TemplateBinding BorderBrush}"
-									  BorderThickness="{TemplateBinding BorderThickness}"
-									  IsChecked="{Binding IsOpen,
-														  RelativeSource={RelativeSource TemplatedParent},
-														  Mode=TwoWay}"
-									  IsHitTestVisible="{Binding IsOpen,
-																 RelativeSource={RelativeSource TemplatedParent},
-																 Converter={StaticResource InverseBoolConverter}}"
-									  IsTabStop="True"
-									  Padding="{TemplateBinding Padding}"
-									  Style="{TemplateBinding ButtonStyle}">
+						              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+						              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+						              Background="{TemplateBinding Background}"
+						              BorderBrush="{TemplateBinding BorderBrush}"
+						              BorderThickness="{TemplateBinding BorderThickness}"
+						              IsChecked="{Binding IsOpen,
+						                                  RelativeSource={RelativeSource TemplatedParent},
+						                                  Mode=TwoWay}"
+						              IsHitTestVisible="{Binding IsOpen,
+						                                         RelativeSource={RelativeSource TemplatedParent},
+						                                         Converter={StaticResource InverseBoolConverter}}"
+						              IsTabStop="True"
+						              Padding="{TemplateBinding Padding}"
+						              Style="{TemplateBinding ButtonStyle}">
 							<Grid Margin="2">
 								<ContentControl x:Name="ColorOnly" Style="{StaticResource ColorDisplayStyle}" />
 								<Border x:Name="ColorAndName" Background="White" Visibility="Hidden">
@@ -541,40 +542,40 @@
 
 									<TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="R" />
 									<Slider x:Name="PART_RSlider" Grid.Row="0" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
-											LargeChange="10" Maximum="255" SmallChange="1"
-											Style="{StaticResource ColorCanvasSliderStyle}"
-											TickFrequency="1"
-											Value="{Binding R,
-															RelativeSource={RelativeSource TemplatedParent}}" />
+									        LargeChange="10" Maximum="255" SmallChange="1"
+									        Style="{StaticResource ColorCanvasSliderStyle}"
+									        TickFrequency="1"
+									        Value="{Binding R,
+									                        RelativeSource={RelativeSource TemplatedParent}}" />
 									<TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_RSlider}" />
 
 									<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="G" />
 									<Slider x:Name="PART_GSlider" Grid.Row="1" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
-											LargeChange="10" Maximum="255" SmallChange="1"
-											Style="{StaticResource ColorCanvasSliderStyle}"
-											TickFrequency="1"
-											Value="{Binding G,
-															RelativeSource={RelativeSource TemplatedParent}}" />
+									        LargeChange="10" Maximum="255" SmallChange="1"
+									        Style="{StaticResource ColorCanvasSliderStyle}"
+									        TickFrequency="1"
+									        Value="{Binding G,
+									                        RelativeSource={RelativeSource TemplatedParent}}" />
 									<TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_GSlider}" />
 
 									<TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="B" />
 									<Slider x:Name="PART_BSlider" Grid.Row="2" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
-											LargeChange="10" Maximum="255" SmallChange="1"
-											Style="{StaticResource ColorCanvasSliderStyle}"
-											TickFrequency="1"
-											Value="{Binding B,
-															RelativeSource={RelativeSource TemplatedParent}}" />
+									        LargeChange="10" Maximum="255" SmallChange="1"
+									        Style="{StaticResource ColorCanvasSliderStyle}"
+									        TickFrequency="1"
+									        Value="{Binding B,
+									                        RelativeSource={RelativeSource TemplatedParent}}" />
 									<TextBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_BSlider}" />
 
 									<TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="A" Visibility="{Binding Path=UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 									<Slider x:Name="PART_OpacitySlider" Grid.Row="3" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
-											LargeChange="10" Maximum="255" SmallChange="1"
-											Style="{StaticResource ColorCanvasSliderStyle}"
-											Visibility="{Binding Path=UsingAlphaChannel,
-																 RelativeSource={RelativeSource TemplatedParent},
-																 Converter={StaticResource BooleanToVisibilityConverter}}"
-											Value="{Binding Path=A,
-															RelativeSource={RelativeSource TemplatedParent}}" />
+									        LargeChange="10" Maximum="255" SmallChange="1"
+									        Style="{StaticResource ColorCanvasSliderStyle}"
+									        Visibility="{Binding Path=UsingAlphaChannel,
+									                             RelativeSource={RelativeSource TemplatedParent},
+									                             Converter={StaticResource BooleanToVisibilityConverter}}"
+									        Value="{Binding Path=A,
+									                        RelativeSource={RelativeSource TemplatedParent}}" />
 									<TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_OpacitySlider}" Visibility="{Binding Path=UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 								</Grid>
 							</Border>

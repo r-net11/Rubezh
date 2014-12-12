@@ -16,6 +16,15 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(direction);
+				ValidateEmpty(direction);
+			}
+		}
+
+		void ValidateEmpty(GKDirection direction)
+		{
+			if (direction.GetDataBaseParent() == null)
+			{
+				Errors.Add(new DirectionValidationError(direction, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

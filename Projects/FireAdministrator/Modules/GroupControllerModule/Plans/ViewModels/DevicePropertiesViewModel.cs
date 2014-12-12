@@ -73,6 +73,12 @@ namespace GKModule.Plans.ViewModels
 			_devicesViewModel.SelectedDevice = Update(_elementGKDevice.DeviceUID);
 			return base.Save();
 		}
+
+		protected override bool CanSave()
+		{
+			return SelectedDevice.Driver.IsPlaceable;
+		}
+
 		private DeviceViewModel Update(Guid deviceUID)
 		{
 			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);

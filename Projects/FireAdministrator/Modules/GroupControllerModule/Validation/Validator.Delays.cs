@@ -14,6 +14,15 @@ namespace GKModule.Validation
 			foreach (var delay in GKManager.Delays)
 			{
 				ValidateDelay(delay);
+				ValidateEmpty(delay);
+			}
+		}
+
+		void ValidateEmpty(GKDelay delay)
+		{
+			if (delay.GetDataBaseParent() == null)
+			{
+				Errors.Add(new DelayValidationError(delay, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

@@ -68,6 +68,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
+				if (_selectedDoor != null)
+					_selectedDoor.Update();
 				OnPropertyChanged(() => SelectedDoor);
 				OnPropertyChanged(() => HasSelectedDoor);
 				if (!_lockSelection && _selectedDoor != null && _selectedDoor.Door.PlanElementUIDs.Count > 0)

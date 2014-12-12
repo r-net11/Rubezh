@@ -24,8 +24,8 @@
 		<Views:GuardZonesMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:CodeSelectionViewModel}">
-		<Views:CodeSelectionView />
+    <DataTemplate DataType="{x:Type ViewModels:CodesSelectationViewModel}">
+        <Views:CodesSelectationView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:CodeReaderDetailsViewModel}">

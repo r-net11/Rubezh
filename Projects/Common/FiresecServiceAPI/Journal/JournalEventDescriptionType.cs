@@ -919,5 +919,8 @@ namespace FiresecAPI.Journal
 
 		[EventDescriptionAttribute("Уровень неопределен", JournalEventNameType.Информация)]
 		Уровень_неопределен,
+
+		[EventDescriptionAttribute("Не совпадает тип для точки доступа", JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК)]
+		Не_совпадает_тип_для_точки_доступа,
 	}
 }

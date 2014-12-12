@@ -5,19 +5,15 @@ namespace GKProcessor
 {
 	public class MPTCreator
 	{
-		GkDatabase GkDatabase;
+		CommonDatabase Database;
 		GKMPT MPT;
-		public GKPim HandAutomaticOffPim { get; private set; }
-		public GKPim DoorAutomaticOffPim { get; private set; }
-		public GKPim FailureAutomaticOffPim { get; private set; }
+		DatabaseType DatabaseType;
 
-		public MPTCreator(GkDatabase gkDatabase, GKMPT mpt, GKPim handAutomaticOffPim, GKPim doorAutomaticOffPim, GKPim failureAutomaticOffPim)
+		public MPTCreator(CommonDatabase database, GKMPT mpt, DatabaseType dataBaseType)
 		{
-			GkDatabase = gkDatabase;
+			DatabaseType = dataBaseType;
+			Database = database;
 			MPT = mpt;
-			HandAutomaticOffPim = handAutomaticOffPim;
-			DoorAutomaticOffPim = doorAutomaticOffPim;
-			FailureAutomaticOffPim = failureAutomaticOffPim;
 		}
 
 		public void Create()
@@ -25,9 +21,9 @@ namespace GKProcessor
 			CreateAutomaticOffBoards();
 			CreateOnDevices();
 			CreateBombDevices();
-			CreateHandAutomaticOffPim(HandAutomaticOffPim);
-			CreateDoorAutomaticOffPim(DoorAutomaticOffPim);
-			CreateFailureAutomaticOffPim(FailureAutomaticOffPim);
+			CreateHandAutomaticOffPim(MPT.HandAutomaticOffPim);
+			CreateDoorAutomaticOffPim(MPT.DoorAutomaticOffPim);
+			CreateFailureAutomaticOffPim(MPT.FailureAutomaticOffPim);
 
 			SetCrossReferences();
 		}
@@ -38,15 +34,15 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)
 				{
-					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var deviceDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(GKStateBit.Norm, MPT, deviceDescriptor.DatabaseType);
-					formula.AddGetBit(GKStateBit.Norm, HandAutomaticOffPim, deviceDescriptor.DatabaseType);
+					formula.AddGetBit(GKStateBit.Norm, MPT.HandAutomaticOffPim, deviceDescriptor.DatabaseType);
 					formula.Add(FormulaOperationType.AND, comment: "");
-					formula.AddGetBit(GKStateBit.Norm, DoorAutomaticOffPim, deviceDescriptor.DatabaseType);
+					formula.AddGetBit(GKStateBit.Norm, MPT.DoorAutomaticOffPim, deviceDescriptor.DatabaseType);
 					formula.Add(FormulaOperationType.AND, comment: "");
-					formula.AddGetBit(GKStateBit.Norm, FailureAutomaticOffPim, deviceDescriptor.DatabaseType);
+					formula.AddGetBit(GKStateBit.Norm, MPT.FailureAutomaticOffPim, deviceDescriptor.DatabaseType);
 					formula.Add(FormulaOperationType.AND, comment: "");
 
 					formula.Add(FormulaOperationType.COM);
@@ -66,7 +62,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.ExitBoard ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker)
 				{
-					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var deviceDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(GKStateBit.TurningOn, MPT, deviceDescriptor.DatabaseType);
@@ -94,7 +90,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
 				{
-					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var deviceDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(GKStateBit.On, MPT, deviceDescriptor.DatabaseType);
@@ -118,12 +114,17 @@ namespace GKProcessor
 		{
 			pim.Name = "АО Р " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(pim);
-			GkDatabase.Descriptors.Add(pimDescriptor);
-			GKDeviceConfiguration.LinkGKBases(MPT, pim);
+			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
+			Database.Descriptors.Add(pimDescriptor);
+			MPT.LinkGKBases(pim);
 
 			var formula = new FormulaBuilder();
-
+			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
+			{
+				formula.Add(FormulaOperationType.END);
+				pimDescriptor.FormulaBytes = formula.GetBytes();
+				return;
+			}
 			var hasAutomaticExpression = false;
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
@@ -133,7 +134,7 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					GKDeviceConfiguration.LinkGKBases(pim, mptDevice.Device);
+					pim.LinkGKBases(mptDevice.Device);
 				}
 			}
 			if (hasAutomaticExpression)
@@ -158,11 +159,17 @@ namespace GKProcessor
 		{
 			pim.Name = "АО Д " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(pim);
-			GkDatabase.Descriptors.Add(pimDescriptor);
-			GKDeviceConfiguration.LinkGKBases(MPT, pim);
+			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
+			Database.Descriptors.Add(pimDescriptor);
+			MPT.LinkGKBases(pim);
 
 			var formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
+			{
+				formula.Add(FormulaOperationType.END);
+				pimDescriptor.FormulaBytes = formula.GetBytes();
+				return;
+			}
 
 			if (MPT.UseDoorAutomatic)
 			{
@@ -175,7 +182,7 @@ namespace GKProcessor
 						if (hasAutomaticExpression)
 							formula.Add(FormulaOperationType.OR);
 						hasAutomaticExpression = true;
-						GKDeviceConfiguration.LinkGKBases(pim, mptDevice.Device);
+						pim.LinkGKBases(mptDevice.Device);
 					}
 				}
 
@@ -197,11 +204,17 @@ namespace GKProcessor
 		{
 			pim.Name = "АО Н " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(pim);
-			GkDatabase.Descriptors.Add(pimDescriptor);
-			GKDeviceConfiguration.LinkGKBases(MPT, pim);
+			var pimDescriptor = new PimDescriptor(pim, DatabaseType);
+			Database.Descriptors.Add(pimDescriptor);
+			MPT.LinkGKBases(pim);
 
 			var formula = new FormulaBuilder();
+			if ((DatabaseType == DatabaseType.Gk && pimDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !pimDescriptor.GKBase.IsLogicOnKau))
+			{
+				formula.Add(FormulaOperationType.END);
+				pimDescriptor.FormulaBytes = formula.GetBytes();
+				return;
+			}
 
 			if (MPT.UseFailureAutomatic)
 			{
@@ -212,7 +225,7 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					GKDeviceConfiguration.LinkGKBases(pim, mptDevice.Device);
+					pim.LinkGKBases(mptDevice.Device);
 				}
 
 				if (hasAutomaticExpression)
@@ -237,7 +250,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.HandStop ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
 				{
-					GKDeviceConfiguration.LinkGKBases(MPT, mptDevice.Device);
+					MPT.LinkGKBases(mptDevice.Device);
 				}
 
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard ||
@@ -246,7 +259,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == GKMPTDeviceType.Bomb)
 				{
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, MPT);
+					mptDevice.Device.LinkGKBases(MPT);
 				}
 			}
 
@@ -254,9 +267,9 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == GKMPTDeviceType.AutomaticOffBoard)
 				{
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, HandAutomaticOffPim);
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, DoorAutomaticOffPim);
-					GKDeviceConfiguration.LinkGKBases(mptDevice.Device, FailureAutomaticOffPim);
+					mptDevice.Device.LinkGKBases(MPT.HandAutomaticOffPim);
+					mptDevice.Device.LinkGKBases(MPT.DoorAutomaticOffPim);
+					mptDevice.Device.LinkGKBases(MPT.FailureAutomaticOffPim);
 				}
 			}
 		}

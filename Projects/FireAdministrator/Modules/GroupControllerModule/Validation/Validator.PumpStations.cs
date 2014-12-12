@@ -20,12 +20,21 @@ namespace GKModule.Validation
 					ValidateDifferentGK(pumpStation);
 				if (ValidateEmptyPumpStation(pumpStation))
 				{
+					ValidateEmpty(pumpStation);
 					ValidatePumpStationInput(pumpStation);
 					ValidatePumpStationOutput(pumpStation);
 
 					ValidateEmptyObjectsInPumpStation(pumpStation);
 					ValidatePumpInNSInputLogic(pumpStation);
 				}
+			}
+		}
+
+		void ValidateEmpty(GKPumpStation pumpStation)
+		{
+			if (pumpStation.GetDataBaseParent() == null)
+			{
+				Errors.Add(new PumpStationValidationError(pumpStation, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -121,7 +130,7 @@ namespace GKModule.Validation
 		{
 			foreach (var zone in pumpStation.ClauseInputZones)
 			{
-				if (zone.Devices.Count == 0)
+				if (zone.GetDataBaseParent() == null)
 				{
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустая зона " + zone.PresentationName, ValidationErrorLevel.CannotWrite));
 				}
@@ -129,7 +138,7 @@ namespace GKModule.Validation
 
 			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
-				if (direction.InputDevices.Count + direction.InputZones.Where(x => x.Devices.Count > 0).Count() == 0)
+				if (direction.GetDataBaseParent() == null)
 				{
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустое направление " + direction.PresentationName, ValidationErrorLevel.CannotWrite));
 				}

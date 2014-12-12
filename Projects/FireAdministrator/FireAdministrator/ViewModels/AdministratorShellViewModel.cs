@@ -93,7 +93,6 @@ namespace FireAdministrator.ViewModels
 				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "/Controls;component/Images/BDownload.png", "Применить конфигурацию"),
 				new RibbonMenuItemViewModel("Сохранить", _menu.SaveCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
 				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "/Controls;component/Images/BSaveAs.png", "Сохранить как"),
-				new RibbonMenuItemViewModel("Сохранить все", _menu.SaveAllCommand, "/Controls;component/Images/BSaveAll.png", "Сохранить все"),
 				new RibbonMenuItemViewModel("Слияние конфигураций", _menu.MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png", "Слияние конфигураций"),
 				new RibbonMenuItemViewModel("Вид", new ObservableCollection<RibbonMenuItemViewModel>()
 				{

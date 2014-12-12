@@ -21,7 +21,6 @@ namespace FireAdministrator.ViewModels
 			LoadFromFileCommand = new RelayCommand(OnLoadFromFile);
 			SaveCommand = new RelayCommand(OnSave, CanSave);
 			SaveAsCommand = new RelayCommand(OnSaveAs);
-			SaveAllCommand = new RelayCommand(OnSaveAll);
 			CreateNewCommand = new RelayCommand(OnCreateNew);
 			ValidateCommand = new RelayCommand(OnValidate);
 			SetNewConfigCommand = new RelayCommand(OnSetNewConfig, CanSetNewConfig);
@@ -114,13 +113,6 @@ namespace FireAdministrator.ViewModels
 				if (!string.IsNullOrEmpty(fileName))
 					FileName = fileName;
 			});
-		}
-
-		public RelayCommand SaveAllCommand { get; private set; }
-		void OnSaveAll()
-		{
-			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
-			FileConfigurationHelper.SaveAllToFile();
 		}
 
 		public RelayCommand CreateNewCommand { get; private set; }

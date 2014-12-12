@@ -118,7 +118,7 @@ namespace Infrastructure.Common
 		}
 		private bool RequestConfirmation()
 		{
-			return MessageBoxService.ShowConfirmation("Другой экзэмпляр программы уже запущен. Завершить?");
+			return MessageBoxService.ShowConfirmation("Другой экземпляр программы уже запущен. Завершить?");
 		}
 		private void WaitingHandler(object startInfo)
 		{

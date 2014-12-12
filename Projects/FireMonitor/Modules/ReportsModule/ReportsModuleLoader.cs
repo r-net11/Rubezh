@@ -11,10 +11,11 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Events.Reports;
 using ReportsModule.ViewModels;
+using Infrastructure.Common.SKDReports;
 
 namespace ReportsModule
 {
-	public class ReportsModuleLoader : ModuleBase, ILayoutProviderModule
+	public class ReportsModuleLoader : ModuleBase, ILayoutProviderModule, ISKDReportProviderModule
 	{
 		private ReportsViewModel _reportViewModel;
 		private SKDReportsViewModel _skdReportViewModel;
@@ -38,6 +39,9 @@ namespace ReportsModule
 				var reportProviderModule = module as IReportProviderModule;
 				if (reportProviderModule != null)
 					_reportViewModel.AddReports(reportProviderModule.GetReportProviders());
+				var skdReportProviderModule = module as ISKDReportProviderModule;
+				if (skdReportProviderModule != null)
+					_skdReportViewModel.RegisterReportProviderModule(skdReportProviderModule);
 			}
 		}
 
@@ -45,8 +49,8 @@ namespace ReportsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "/Controls;component/Images/levels.png"),
 				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, "Отчеты 2", "/Controls;component/Images/levels.png"),
+				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "/Controls;component/Images/levels.png"),
 			};
 		}
 
@@ -73,5 +77,22 @@ namespace ReportsModule
 		{
 			DialogService.ShowModalWindow(new ReportPreviewViewModel(provider));
 		}
+
+		#region ISKDReportProviderModule Members
+
+		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
+		{
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test1", 10, null);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test2", 110, null);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test3", 211, null);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test4", 210, null);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test5", 50, SKDReportGroup.HR);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test6", 10, SKDReportGroup.HR);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test7", 60, SKDReportGroup.HR);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test8", 10, SKDReportGroup.WorkingTime);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test9", 20, SKDReportGroup.WorkingTime);
+		}
+
+		#endregion
 	}
 }

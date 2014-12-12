@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
+﻿<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:gk="clr-namespace:FiresecAPI.GK;assembly=FiresecAPI" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
 	<UserControl.Resources>
 		<SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<SwitchCase Then="Точка доступа может быть размещена на плане" When="Multiple" />
@@ -103,6 +103,44 @@
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding LockControlDevice}" Value="{x:Null}">
 													<Setter Property="TextBlock.Text" Value="Нажмите для выбора датчика контроля двери" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
+						<TextBlock Margin="2" VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ChangeEnterZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding EnterZone.Name}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding EnterZone}" Value="{x:Null}">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны входа" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Visibility="{Binding Path=Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}">
+						<TextBlock Width="250" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
+						<TextBlock Margin="2" VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ChangeExitZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding ExitZone.Name}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding ExitZone}" Value="{x:Null}">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны выхода" />
 												</DataTrigger>
 											</Style.Triggers>
 										</Style>

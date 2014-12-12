@@ -75,5 +75,8 @@ namespace FiresecAPI.Models
 
 		[DescriptionAttribute("ОЗ: Организации картотеки СКД")]
 		Oper_SKD_Organisations,
+
+		[DescriptionAttribute("ОЗ: Управление особо охраняемыми охранными зонами")]
+		Oper_ExtraGuardZone,
 	}
 }

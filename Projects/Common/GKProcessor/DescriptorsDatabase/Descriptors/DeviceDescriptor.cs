@@ -24,70 +24,77 @@ namespace GKProcessor
 			if (Device.Driver.IsDeviceOnShleif)
 				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
-
-			if (FormulaBytes == null)
-			{
-				SetFormulaBytes();
-			}
+			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
 
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (DatabaseType == DatabaseType.Gk)
+			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
-				if (Device.Driver.HasLogic)
-				{
-					if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
-					{
-						Formula.AddClauseFormula(Device.Logic.OnClausesGroup, DatabaseType);
-						//AddMro2MFormula();
-						if (Device.Logic.UseOffCounterLogic)
-						{
-							Formula.AddStandardTurning(Device, DatabaseType);
-						}
-						else
-						{
-							Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-						}
-					}
-					if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
-					{
-						Formula.AddClauseFormula(Device.Logic.OffClausesGroup, DatabaseType);
-						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
-					}
-					if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
-					{
-						Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup, DatabaseType);
-						Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device, DatabaseType);
-					}
-					if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
-					{
-						Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup, DatabaseType);
-						Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device, DatabaseType);
-					}
-					if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
-					{
-						Formula.AddClauseFormula(Device.Logic.StopClausesGroup, DatabaseType);
-						Formula.AddPutBit(GKStateBit.Stop_InManual, Device, DatabaseType);
-					}
-				}
+				Formula.Add(FormulaOperationType.END);
+				FormulaBytes = Formula.GetBytes();
+				return;
+			}
 
-				if (Device.DriverType == GKDriverType.RSR2_GuardDetector && Device.GuardZone != null)
+			if (Device.Driver.HasLogic)
+			{
+				if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.OnClausesGroup, DatabaseType);
+					//AddMro2MFormula();
+					if (Device.Logic.UseOffCounterLogic)
+					{
+						Formula.AddStandardTurning(Device, DatabaseType);
+					}
+					else
+					{
+						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+					}
+				}
+				if (!Device.Logic.UseOffCounterLogic && Device.Logic.OffClausesGroup.Clauses.Count + Device.Logic.OffClausesGroup.ClauseGroups.Count > 0)
+				{
+					Formula.AddClauseFormula(Device.Logic.OffClausesGroup, DatabaseType);
 					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 				}
-				if (Device.DriverType == GKDriverType.RSR2_CodeReader && Device.GuardZone != null)
+				if (Device.Logic.OnNowClausesGroup.Clauses.Count + Device.Logic.OnNowClausesGroup.ClauseGroups.Count > 0)
 				{
-					Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
-					Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
-					Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+					Formula.AddClauseFormula(Device.Logic.OnNowClausesGroup, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Device, DatabaseType);
 				}
+				if (Device.Logic.OffNowClausesGroup.Clauses.Count + Device.Logic.OffNowClausesGroup.ClauseGroups.Count > 0)
+				{
+					Formula.AddClauseFormula(Device.Logic.OffNowClausesGroup, DatabaseType);
+					Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Device, DatabaseType);
+				}
+				if (Device.Logic.StopClausesGroup.Clauses.Count + Device.Logic.StopClausesGroup.ClauseGroups.Count > 0)
+				{
+					Formula.AddClauseFormula(Device.Logic.StopClausesGroup, DatabaseType);
+					Formula.AddPutBit(GKStateBit.Stop_InManual, Device, DatabaseType);
+				}
+			}
+
+			if (Device.DriverType == GKDriverType.RSR2_GuardDetector && Device.GuardZone != null)
+			{
+				Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			}
+			if (Device.DriverType == GKDriverType.RSR2_CodeReader && Device.GuardZone != null)
+			{
+				Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+			}
+			if (Device.Door != null && Device.Door.LockDeviceUID == Device.UID)
+			{
+				Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+				Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

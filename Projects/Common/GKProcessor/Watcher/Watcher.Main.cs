@@ -489,6 +489,10 @@ namespace GKProcessor
 				{
 					gkStates.GuardZoneStates.Add(gkBase.State);
 				}
+				if (gkBase is GKDoor)
+				{
+					gkStates.DoorStates.Add(gkBase.State);
+				}
 			}
 		}
 

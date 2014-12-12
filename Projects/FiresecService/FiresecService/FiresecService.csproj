@@ -150,6 +150,7 @@
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ServerMessageBoxViewModel.cs" />
     <Compile Include="Views\UILogger.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -235,6 +236,10 @@
     <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>SKDDriver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
+      <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
+      <Name>FiresecService.Report</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
