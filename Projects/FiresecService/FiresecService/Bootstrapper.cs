@@ -9,6 +9,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using FiresecService.Report;
 
 namespace FiresecService
 {
@@ -48,6 +49,9 @@ namespace FiresecService
 				GKProcessor.Start();
 				UILogger.Log("Создание конфигурации СКД");
 				SKDProcessor.Start();
+
+				UILogger.Log("Запуск сервиса отчетов");
+				ReportServiceManager.Run();
 
 				UILogger.Log("Запуск автоматизации");
 				ScheduleRunner.Start();

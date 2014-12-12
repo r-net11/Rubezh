@@ -35,6 +35,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Xpf.Core.v14.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\DevExpress\DevExpress 14.1\DevExpress.Xpf.Printing.v14.1.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
@@ -63,6 +76,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
@@ -91,12 +105,19 @@
     <Compile Include="ViewModels\ReportPreviewViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\SKDReportBaseViewModel.cs" />
+    <Compile Include="ViewModels\SKDReportGroupViewModel.cs" />
+    <Compile Include="ViewModels\SKDReportPresenterViewModel.cs" />
     <Compile Include="ViewModels\SKDReportsViewModel.cs" />
+    <Compile Include="ViewModels\SKDReportViewModel.cs" />
     <Compile Include="Views\ReportPreviewView.xaml.cs">
       <DependentUpon>ReportPreviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SKDReportPresenterView.xaml.cs">
+      <DependentUpon>SKDReportPresenterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SKDReportsView.xaml.cs">
       <DependentUpon>SKDReportsView.xaml</DependentUpon>
@@ -137,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\SKDReportPresenterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SKDReportsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +184,9 @@
     <None Include="Properties\DataSources\ReportsModule2.Models.ReportDriverCounterModel.datasource" />
     <None Include="Properties\DataSources\ReportsModule2.Models.ReportIndicationBlockModel.datasource" />
     <None Include="Properties\DataSources\ReportsModule2.Models.ReportJournalModel.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

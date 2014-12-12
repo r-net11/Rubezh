@@ -51,12 +51,9 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
-			if (ClientsManager.Add(uid, clientCredentials))
-			{
-				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
-			}
-
 			CurrentClientCredentials = clientCredentials;
+			if (ClientsManager.Add(uid, clientCredentials))
+				AddJournalMessage(JournalEventNameType.Вход_пользователя_в_систему, null);
 			return operationResult;
 		}
 

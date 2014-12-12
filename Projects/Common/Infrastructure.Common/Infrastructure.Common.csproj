@@ -191,6 +191,10 @@
     <Compile Include="Services\Layout\LayoutPartPropertyAccess.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyType.cs" />
+    <Compile Include="SKDReports\ISKDReportProvider.cs" />
+    <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
+    <Compile Include="SKDReports\SKDReportGroup.cs" />
+    <Compile Include="SKDReports\SKDReportProvider.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
     <Compile Include="Video\MjpegCamera.cs" />
     <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">

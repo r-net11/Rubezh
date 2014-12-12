@@ -122,6 +122,7 @@ namespace Infrastructure.Common.TreeList
 			Index = -1;
 			Nodes = new TreeItemCollection(this);
 			Nodes.CollectionChanged += ChildrenChanged;
+			Nodes.CollectionChanged += OnChildrenChanged;
 		}
 
 		private bool IsVisible
@@ -196,6 +197,9 @@ namespace Infrastructure.Common.TreeList
 			}
 		}
 
+		protected virtual void OnChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+		}
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (IsExpanded && Root != null)
@@ -363,6 +367,7 @@ namespace Infrastructure.Common.TreeList
 		{
 			return IsSorted ? Nodes[_sortOrder[index]] : Nodes[index];
 		}
+
 
 		#region IDisposable Members
 
