@@ -82,15 +82,15 @@ namespace ReportsModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			yield return new SKDReportProvider("Test1", "Test1", 10, null);
-			yield return new SKDReportProvider("Test2", "Test2", 110, null);
-			yield return new SKDReportProvider("Test3", "Test3", 211, null);
-			yield return new SKDReportProvider("Test4", "Test4", 210, null);
-			yield return new SKDReportProvider("Test5", "Test5", 50, SKDReportGroup.HR);
-			yield return new SKDReportProvider("Test6", "Test6", 10, SKDReportGroup.HR);
-			yield return new SKDReportProvider("Test7", "Test7", 60, SKDReportGroup.HR);
-			yield return new SKDReportProvider("Test8", "Test8", 10, SKDReportGroup.WorkingTime);
-			yield return new SKDReportProvider("Test9", "Test9", 20, SKDReportGroup.WorkingTime);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test1", 10, null);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test2", 110, null);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test3", 211, null);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test4", 210, null);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test5", 50, SKDReportGroup.HR);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test6", 10, SKDReportGroup.HR);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test7", 60, SKDReportGroup.HR);
+			yield return new SKDReportProvider("FiresecService.Report.XtraReport1, FiresecService.Report", "Test8", 10, SKDReportGroup.WorkingTime);
+			yield return new SKDReportProvider("FiresecService.Report.Report, FiresecService.Report", "Test9", 20, SKDReportGroup.WorkingTime);
 		}
 
 		#endregion

@@ -12,8 +12,6 @@ namespace ReportsModule.ViewModels
 		public SKDReportPresenterViewModel()
 		{
 			Model = new ReportServicePreviewModel("http://127.0.0.1:2323/FiresecReportService/");
-			Model.ReportName = "FiresecService.Report.Report, FiresecService.Report";
-			Model.CreateDocument();
 		}
 
 		private SKDReportBaseViewModel _selectedReport;
@@ -27,8 +25,8 @@ namespace ReportsModule.ViewModels
 				var reportViewModel = SelectedReport as SKDReportViewModel;
 				if (reportViewModel != null)
 				{
-					//Model.ReportName = reportViewModel.ReportProvider.Name;
-					//Model.CreateDocument();
+					Model.ReportName = reportViewModel.ReportProvider.Name;
+					Model.CreateDocument();
 				}
 			}
 		}
