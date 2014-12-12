@@ -90,6 +90,7 @@
     <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganisationsFilterViewModel.cs" />
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
@@ -107,6 +108,7 @@
     </Compile>
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
+    <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentEmployeeListViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentEmployeeListView.xaml.cs">
       <DependentUpon>DepartmentEmployeeListView.xaml</DependentUpon>
@@ -219,6 +221,14 @@
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\T13Report.cs" />
+    <Compile Include="Reports\ViewModels\CardReportFilterDetailsViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportNameViewModel.cs" />
+    <Compile Include="Reports\Views\CardReportFilterDetailsView.xaml.cs">
+      <DependentUpon>CardReportFilterDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\CardReportNameView.xaml.cs">
+      <DependentUpon>CardReportNameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
@@ -325,8 +335,8 @@
     <Compile Include="Common\Views\FilterMarkDeletedTabItem.xaml.cs">
       <DependentUpon>FilterMarkDeletedTabItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\Views\FilterOrganizationTabItem.xaml.cs">
-      <DependentUpon>FilterOrganizationTabItem.xaml</DependentUpon>
+    <Compile Include="Common\Views\OrganisationsFilterView.xaml.cs">
+      <DependentUpon>OrganisationsFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Departments\ViewModels\DepartmentDetailsViewModel.cs" />
     <Compile Include="Departments\ViewModels\DepartmentViewModel.cs" />
@@ -630,7 +640,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\Views\FilterOrganizationTabItem.xaml">
+    <Page Include="Common\Views\OrganisationsFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -699,6 +709,18 @@
     <Resource Include="Reports\DeviceListReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Reports\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\CardReportFilterDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\CardReportNameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
@@ -22,11 +21,11 @@ namespace SKDModule.ViewModels
 		void InitializeFilter(HRFilter filter)
 		{
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel();
-			DepartmentsFilterViewModel.Initialize(Filter);
+			DepartmentsFilterViewModel.Initialize(filter.EmployeeFilter.DepartmentUIDs, filter.LogicalDeletationType);
 			PositionsFilterViewModel = new PositionsFilterViewModel();
-			PositionsFilterViewModel.Initialize(Filter);
+			PositionsFilterViewModel.Initialize(filter.EmployeeFilter.PositionUIDs, filter.LogicalDeletationType);
 			EmployeesFilterViewModel = new EmployeesFilterViewModel();
-			EmployeesFilterViewModel.Initialize(Filter);
+			EmployeesFilterViewModel.Initialize(filter.EmployeeFilter);
 			IsWithDeleted = filter.LogicalDeletationType == LogicalDeletationType.All;
 		}
 
@@ -35,8 +34,8 @@ namespace SKDModule.ViewModels
 			base.Save();
 			Filter.EmployeeFilter = EmployeesFilterViewModel.Filter;
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
-			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
-			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
+			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs;
+			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs;
 			Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			return true;
 		}
@@ -50,9 +49,9 @@ namespace SKDModule.ViewModels
 				_isWithDeleted = value;
 				OnPropertyChanged(() => IsWithDeleted);
 				Filter.LogicalDeletationType = IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
-				EmployeesFilterViewModel.Initialize(Filter);
-				PositionsFilterViewModel.Initialize(Filter);
-				DepartmentsFilterViewModel.Initialize(Filter);
+				EmployeesFilterViewModel.Initialize(Filter.EmployeeFilter);
+				PositionsFilterViewModel.Initialize(Filter.EmployeeFilter.PositionUIDs, Filter.LogicalDeletationType);
+				DepartmentsFilterViewModel.Initialize(Filter.EmployeeFilter.DepartmentUIDs, Filter.LogicalDeletationType);
 			}
 		}
 

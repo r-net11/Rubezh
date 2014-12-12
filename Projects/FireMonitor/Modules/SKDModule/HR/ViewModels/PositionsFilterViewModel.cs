@@ -27,9 +27,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Initialize(HRFilter hrFilter)
+		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
-			var filter = new PositionFilter { LogicalDeletationType = hrFilter.LogicalDeletationType, UIDs = hrFilter.EmployeeFilter.PositionUIDs };
+			var filter = new PositionFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids };
 			Initialize(filter);
 		}
 

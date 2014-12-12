@@ -11,6 +11,7 @@ using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
@@ -19,9 +20,8 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
-using SKDModule.ViewModels;
-using Infrastructure.Common.Reports;
 using SKDModule.Reports;
+using SKDModule.ViewModels;
 
 namespace SKDModule
 {
@@ -154,6 +154,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
 			DesignerLoader.RegisterResource();
 		}
 
