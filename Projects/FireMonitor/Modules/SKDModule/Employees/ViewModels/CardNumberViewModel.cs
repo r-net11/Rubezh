@@ -9,8 +9,8 @@ namespace SKDModule.ViewModels
 			Title = "Ввод номера карты с USB-считывателя";
 		}
 
-		string _number;
-		public string Number
+		int _number;
+		public int Number
 		{
 			get { return _number; }
 			set

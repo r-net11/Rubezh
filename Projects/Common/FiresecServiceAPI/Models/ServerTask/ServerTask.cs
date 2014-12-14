@@ -17,7 +17,7 @@ namespace FiresecAPI.Models
 		public string DeviceAddress { get; set; }
 
 		[DataMember]
-		public string CardNumber { get; set; }
+		public int CardNumber { get; set; }
 
 		[DataMember]
 		public PendingCardAction PendingCardAction { get; set; }

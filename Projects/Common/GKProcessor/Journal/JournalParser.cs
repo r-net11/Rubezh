@@ -114,13 +114,13 @@ namespace GKProcessor
 
 						case 13:
 							JournalItem.JournalEventNameType = JournalEventNameType.Проход_пользователя_разрешен;
-							var gkCardNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
-							JournalItem.CardNo = gkCardNo.ToString();
+							var gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
+							JournalItem.CardNo = gkCardNo;
 
 							using (var databaseService = new SKDDatabaseService())
 							{
 								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.Address, (int)gkCardNo);
-								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo.ToString());
+								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
 								if (!operationResult.HasError)
 								{
 									var employeeUID = operationResult.Result;

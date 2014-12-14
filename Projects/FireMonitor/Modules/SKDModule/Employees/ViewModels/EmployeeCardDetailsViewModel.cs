@@ -43,7 +43,6 @@ namespace SKDModule.ViewModels
 				Title = "Создание пропуска";
 				card = new SKDCard()
 				{
-					Number = "",
 					StartDate = DateTime.Now,
 					EndDate = DateTime.Now.AddYears(1)
 				};
@@ -93,8 +92,8 @@ namespace SKDModule.ViewModels
 			SelectedCardType = Card.CardType;
 		}
 
-		string _number;
-		public string Number
+		int _number;
+		public int Number
 		{
 			get { return _number; }
 			set
@@ -246,7 +245,7 @@ namespace SKDModule.ViewModels
 			{
 				_useStopList = value;
 				OnPropertyChanged(() => UseStopList);
-				Number = "";
+				Number = 0;
 				UpdateStopListCard();
 			}
 		}
@@ -298,10 +297,7 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
 				{
-					if (!string.IsNullOrEmpty(journalItem.CardNo))
-					{
-						Number = journalItem.CardNo;
-					}
+					Number = journalItem.CardNo;
 				}
 			}
 		}
@@ -385,24 +381,10 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			if(string.IsNullOrEmpty(Number))
+			if(Number <= 0)
 			{
 				MessageBoxService.ShowWarning("Не задан номер карты");
 				return false;
-			}
-			if(Number.Length > 10)
-			{
-				MessageBoxService.ShowWarning("Номер карты должен быть менее десяти символов");
-				return false;
-			}
-
-			foreach (var с in Number.ToCharArray())
-			{
-				if (!CheckChar(с))
-				{
-					MessageBoxService.ShowWarning("Номер карты содержит недопустимый символ");
-					return false;
-				}
 			}
 
 			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)

@@ -68,7 +68,7 @@ namespace FiresecService
 
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
-			if (!string.IsNullOrEmpty(journalItem.CardNo))
+			if (journalItem.CardNo > 0)
 			{
 				using (var databaseService = new SKDDatabaseService())
 				{

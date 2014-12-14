@@ -20,13 +20,12 @@ namespace GKProcessor
 			Watchers = new List<Watcher>();
 			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
-				if (!GKManager.IsValidIpAddress(gkDatabase.RootDevice))
+				if (GKManager.IsValidIpAddress(gkDatabase.RootDevice))
 				{
-					continue;
+					var watcher = new Watcher(gkDatabase);
+					watcher.StartThread();
+					Watchers.Add(watcher);
 				}
-				var watcher = new Watcher(gkDatabase);
-				watcher.StartThread();
-				Watchers.Add(watcher);
 			}
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			TimeSynchronisationHelper.Start();
