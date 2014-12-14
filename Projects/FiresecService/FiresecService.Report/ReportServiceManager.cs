@@ -7,6 +7,8 @@ using Common;
 using DevExpress.XtraReports.Service;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using System.Xml;
+using DevExpress.Xpf.Printing;
+using FiresecAPI.Models;
 
 namespace FiresecService.Report
 {
@@ -17,19 +19,20 @@ namespace FiresecService.Report
 		public static void Run()
 		{
 			_instance = new ReportServiceManager();
+			_instance.RegisterFilters();
 			_instance.Open();
 		}
 
 
 		private ServiceHost _serviceHost;
 
-		public bool Open()
+		private bool Open()
 		{
 			try
 			{
 				Close();
 				var remoteAddress = "http://127.0.0.1:2323/FiresecReportService/";
-				_serviceHost = new ServiceHost(typeof(ReportService));
+				_serviceHost = new ServiceHost(typeof(FiresecReportService));
 				var binding = new BasicHttpBinding() 
 				{ 
 					MaxReceivedMessageSize = 2097152, 
@@ -39,7 +42,7 @@ namespace FiresecService.Report
 						MaxArrayLength = 2097152 
 					} 
 				};
-				_serviceHost.AddServiceEndpoint("DevExpress.XtraReports.Service.IReportService", binding, new Uri(remoteAddress));
+				_serviceHost.AddServiceEndpoint(typeof(IReportService), binding, new Uri(remoteAddress));
 				_serviceHost.Open();
 				return true;
 			}
@@ -50,10 +53,14 @@ namespace FiresecService.Report
 				return false;
 			}
 		}
-		public void Close()
+		private void Close()
 		{
 			if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
 				_serviceHost.Close();
+		}
+		private void RegisterFilters()
+		{
+			ServiceKnownTypeProvider.Register<Parameter>();
 		}
 	}
 }
