@@ -41,7 +41,11 @@ namespace ChinaSKDDriver
 				journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
 				journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
 				journalItem.DescriptionText = skdJournalItem.Description;
-				journalItem.CardNo = skdJournalItem.CardNo;
+				var cardNo = 0;
+				if (Int32.TryParse(skdJournalItem.CardNo, out cardNo))
+				{
+					journalItem.CardNo = cardNo;
+				}
 
 				switch (skdJournalItem.JournalEventNameType)
 				{
@@ -106,7 +110,7 @@ namespace ChinaSKDDriver
 						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
 						{
 							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd.ToString()));
-							journalItem.CardNo = "";
+							journalItem.CardNo = 0;
 						}
 						break;
 

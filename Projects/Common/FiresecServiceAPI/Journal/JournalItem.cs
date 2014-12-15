@@ -47,7 +47,7 @@ namespace FiresecAPI.Journal
 		public string UserName { get; set; }
 
 		[DataMember]
-		public string CardNo { get; set; }
+		public int CardNo { get; set; }
 
 		[DataMember]
 		public Guid EmployeeUID { get; set; }

@@ -174,7 +174,7 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					var card = new Card();
-					card.CardNo = controllerCardItem.Card.Number;
+					card.CardNo = controllerCardItem.Card.Number.ToString("X");
 					card.ValidStartDateTime = controllerCardItem.Card.StartDate;
 					card.ValidEndDateTime = controllerCardItem.Card.EndDate;
 					card.UserTime = controllerCardItem.Card.UserTime;
@@ -228,24 +228,18 @@ namespace ChinaSKDDriver
 
 					var result = false;
 
-					var intNumber = 0;
-					if (!Int32.TryParse(controllerCardItem.Card.Number, out intNumber))
-					{
-						Int32.TryParse(controllerCardItem.Card.Number, NumberStyles.HexNumber, null, out intNumber);
-					}
-
 					switch (controllerCardItem.ActionType)
 					{
 						case ControllerCardItem.ActionTypeEnum.Add:
 							var cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
-							result = cardRecordNo == controllerCardItem.Card.Number;
+							result = cardRecordNo == controllerCardItem.Card.Number.ToString();
 							if (!result)
 							{
-								result = deviceProcessor.Wrapper.RemoveCard(intNumber);
+								result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
 								if (result)
 								{
 									cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
-									result = cardRecordNo == controllerCardItem.Card.Number;
+									result = cardRecordNo == controllerCardItem.Card.Number.ToString();
 								}
 							}
 							break;
@@ -255,12 +249,12 @@ namespace ChinaSKDDriver
 							if (!result)
 							{
 								cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
-								result = cardRecordNo == controllerCardItem.Card.Number;
+								result = cardRecordNo == controllerCardItem.Card.Number.ToString();
 							}
 							break;
 
 						case ControllerCardItem.ActionTypeEnum.Delete:
-							result = deviceProcessor.Wrapper.RemoveCard(intNumber);
+							result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
 							break;
 					}
 

@@ -9,13 +9,12 @@ namespace FiresecAPI.SKD
 	{
 		public SKDCard()
 		{
-			Number = "";
 			CardDoors = new List<CardDoor>();
 			CardType = CardType.Constant;
 		}
 
 		[DataMember]
-		public string Number { get; set; }
+		public int Number { get; set; }
 
 		[DataMember]
 		public Guid? HolderUID { get; set; }

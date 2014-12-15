@@ -147,7 +147,7 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult<Guid> GetEmployeeByCardNo(string cardNo)
+		public virtual OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
 		{
 			try
 			{

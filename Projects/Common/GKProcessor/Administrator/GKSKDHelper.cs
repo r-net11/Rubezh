@@ -13,31 +13,7 @@ namespace GKProcessor
 {
 	public class GKSKDHelper
 	{
-		public void AddCard(SKDCard card, AccessTemplate accessTemplate, string employeeName)
-		{
-			foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
-			{
-				AddOneCard(gkControllerDevice, card, accessTemplate, employeeName);
-			}
-		}
-
-		public void EditCard(SKDCard card, AccessTemplate accessTemplate, string employeeName)
-		{
-			foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
-			{
-				AddOneCard(gkControllerDevice, card, accessTemplate, employeeName);
-			}
-		}
-
-		public void RemoveCard(SKDCard card)
-		{
-			foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
-			{
-				RemoveOneCard(gkControllerDevice, card);
-			}
-		}
-
-		OperationResult<bool> AddOneCard(GKDevice device, SKDCard card, AccessTemplate accessTemplate, string employeeName)
+		public OperationResult<bool> AddOneCard(GKDevice device, SKDCard card, AccessTemplate accessTemplate, string employeeName)
 		{
 			var cardSchedules = new List<GKCardSchedule>();
 
@@ -80,14 +56,11 @@ namespace GKProcessor
 
 			cardSchedules = cardSchedules.OrderBy(x => x.Device.GKDescriptorNo).ToList();
 
-			var intPassword = 0;
-			Int32.TryParse(card.Number, out intPassword);
-
 			var no = 1;
 			bool isNew = true;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.Address, intPassword, out isNew);
+				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.Address, card.Number, out isNew);
 			}
 
 			var bytes = new List<byte>();
@@ -96,7 +69,7 @@ namespace GKProcessor
 			bytes.Add(0);
 			var nameBytes = BytesHelper.StringDescriptionToBytes(employeeName);
 			bytes.AddRange(nameBytes);
-			bytes.AddRange(BytesHelper.IntToBytes(intPassword));			
+			bytes.AddRange(BytesHelper.IntToBytes(card.Number));			
 			bytes.Add((byte)card.GKLevel);
 			bytes.Add((byte)card.GKLevelSchedule);
 
@@ -150,21 +123,18 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(device.Address, no, intPassword, employeeName);
+				skdDatabaseService.GKCardTranslator.AddOrEdit(device.Address, no, card.Number, employeeName);
 			}
 
 			return new OperationResult<bool>() { Result = true };
 		}
 
-		OperationResult<bool> RemoveOneCard(GKDevice device, SKDCard card)
+		public OperationResult<bool> RemoveOneCard(GKDevice device, SKDCard card)
 		{
-			var intPassword = 0;
-			Int32.TryParse(card.Number, out intPassword);
-
 			var no = 1;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.Address, intPassword);
+				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.Address, card.Number);
 			}
 			if (no == -1)
 			{
@@ -195,7 +165,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.Remove(device.Address, no, intPassword);
+				skdDatabaseService.GKCardTranslator.Remove(device.Address, no, card.Number);
 			}
 
 			return new OperationResult<bool>() { Result = true };

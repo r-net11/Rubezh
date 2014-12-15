@@ -320,7 +320,7 @@ namespace FiresecService.Service
 								if (employee != null)
 								{
 									gkSKDHelper = new GKSKDHelper();
-									gkSKDHelper.AddCard(card, accessTemplate, employee.Name);
+									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.Name);
 								}
 							}
 						}

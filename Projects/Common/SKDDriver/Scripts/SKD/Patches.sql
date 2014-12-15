@@ -213,8 +213,8 @@ BEGIN
 		[ObjectName] [nvarchar](50) NULL, 
 		[ObjectUID] [uniqueidentifier] NOT NULL,
 		[UserName] [nvarchar](50) NULL, 
-		[CardSeries] int NOT NULL, 
-		[CardNo] int NOT NULL, 
+		[CardSeries] [int] NOT NULL, 
+		[CardNo] [int] NOT NULL, 
 	CONSTRAINT [PK_Journal] PRIMARY KEY CLUSTERED 
 	(
 		[UID] ASC
@@ -600,7 +600,7 @@ BEGIN
 			[StartDateTime] [datetime] NOT NULL,
 			[EndDateTime] [datetime] NOT NULL,
 			[DocumentType] [int] NOT NULL,
-			[Comment] nvarchar(100) NULL,
+			[Comment] [nvarchar](100) NULL,
 		 CONSTRAINT [PK_TimeTrackException] PRIMARY KEY CLUSTERED 
 		(
 			[UID] ASC
@@ -665,10 +665,10 @@ BEGIN
 		CREATE TABLE HolidaySettings(
 			[UID] [uniqueidentifier] NOT NULL,
 			[OrganisationUID] [uniqueidentifier] NULL,
-			NightStartTime bigint NOT NULL,
-			NightEndTime bigint NOT NULL,
-			EveningStartTime bigint NOT NULL,
-			EveningEndTime bigint NOT NULL,
+			NightStartTime [bigint] NOT NULL,
+			NightEndTime [bigint] NOT NULL,
+			EveningStartTime [bigint] NOT NULL,
+			EveningEndTime [bigint] NOT NULL,
 		 CONSTRAINT [PK_HolidaySettings] PRIMARY KEY CLUSTERED 
 		(
 			[UID] ASC
@@ -1284,7 +1284,7 @@ BEGIN
 		ALTER TABLE [Card] DROP COLUMN IsDeleted
 		ALTER TABLE [Card] DROP COLUMN RemovalDate
 	END
-	INSERT INTO Patches (Id) VALUES ('Card_drop_IsDeleted')	
+	INSERT INTO Patches (Id) VALUES ('Card_drop_IsDeleted')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_LastEmployeeDayUpdate')
@@ -1315,5 +1315,17 @@ BEGIN
 	CREATE INDEX GKCardsIPAddressIndex ON [dbo].[GKCards]([IPAddress])
 
 	INSERT INTO Patches (Id) VALUES ('GKCards_Table')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Card_Number_Int')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		DELETE FROM Card
+		ALTER TABLE Card
+		ALTER COLUMN Number int NOT NULL
+	END
+
+	INSERT INTO Patches (Id) VALUES ('Card_Number_Int')
 END
 GO
