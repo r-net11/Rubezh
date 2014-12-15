@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
+using System;
 
 namespace FiresecAPI.GK
 {
@@ -8,10 +9,27 @@ namespace FiresecAPI.GK
 	{
 		public void PrepareDescriptors()
 		{
+			GKBases.ForEach(x => x.ClearDescriptor());
+			Devices.ForEach(x => x.ClearDescriptor());
 			PrepareDevices();
 			PrepareObjects();
 			PrepareCodes();
 			PrepareDoors();
+		}
+
+		List<GKBase> GKBases
+		{
+			get
+			{
+				var gkBases = new List<GKBase>();
+				gkBases.AddRange(Zones);
+				gkBases.AddRange(Directions);
+				gkBases.AddRange(PumpStations);
+				gkBases.AddRange(MPTs);
+				gkBases.AddRange(Delays);
+				gkBases.AddRange(GuardZones);
+				return gkBases;
+			}
 		}
 
 		void InitializeDataBaseParent(GKBase gkBase)
@@ -34,14 +52,7 @@ namespace FiresecAPI.GK
 
 		void PrepareObjects()
 		{
-			var gkBases = new List<GKBase>();
-			gkBases.AddRange(Zones);
-			gkBases.AddRange(Directions);
-			gkBases.AddRange(PumpStations);
-			gkBases.AddRange(MPTs);
-			gkBases.AddRange(Delays);
-			gkBases.AddRange(GuardZones);
-			foreach (var gkBase in gkBases)
+			foreach (var gkBase in GKBases)
 				InitializeDataBaseParent(gkBase);
 		}
 
@@ -64,7 +75,26 @@ namespace FiresecAPI.GK
 		{
 			foreach (var code in Codes)
 			{
-				code.KauDatabaseParent = null;
+				code.PrepareInputOutputDependences();
+				var codeGuardZones = new List<GKGuardZone>();
+				foreach (var guardZone in GKManager.GuardZones)
+				{
+					var codeUids = new List<Guid>();
+					foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+					{
+						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
+						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs);
+						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs);
+						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs);
+					}
+					if (codeUids.Contains(code.UID))
+						codeGuardZones.Add(guardZone);
+				}
+				List<GKDevice> kauParents = codeGuardZones.Select(x => x.KauDatabaseParent).ToList();
+				if (kauParents != null && kauParents.Count == 1)
+					code.KauDatabaseParent = kauParents.FirstOrDefault();
+				else
+					code.KauDatabaseParent = null;
 				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
 			}
 		}

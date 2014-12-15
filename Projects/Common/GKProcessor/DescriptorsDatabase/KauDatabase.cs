@@ -63,7 +63,7 @@ namespace GKProcessor
 
 			foreach (var code in GKManager.DeviceConfiguration.Codes)
 			{
-				if (code.GkDatabaseParent == RootDevice)
+				if (code.KauDatabaseParent == RootDevice)
 				{					
 					Codes.Add(code);
 				}

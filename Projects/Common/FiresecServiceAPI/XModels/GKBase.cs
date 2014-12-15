@@ -55,14 +55,14 @@ namespace FiresecAPI.GK
 
 		[XmlIgnore]
 		public virtual bool IsLogicOnKau { get; set; }
+
 		[XmlIgnore]
 		public ushort GKDescriptorNo { get; set; }
 		[XmlIgnore]
 		public ushort KAUDescriptorNo { get; set; }
 
-		void PrepareInputOutputDependences()
+		public void PrepareInputOutputDependences()
 		{
-			ClearDescriptor();
 			var device = this as GKDevice;
 			var zone = this as GKZone;
 			var direction = this as GKDirection;
@@ -253,43 +253,31 @@ namespace FiresecAPI.GK
 
 		List<GKDevice> GetFullTree(GKBase gkBase)
 		{
-			return GetAllDependentObjects(gkBase).Where(x => x is GKDevice).Cast<GKDevice>().ToList();
+			return GetAllDependentObjects(gkBase, new List<GKBase>()).Where(x => x is GKDevice).Cast<GKDevice>().ToList();
 		}
 
-		List<GKBase> GetAllDependentObjects(GKBase gkBase) // TODO FIX IT
+		List<GKBase> GetAllDependentObjects(GKBase gkBase, List<GKBase> result)
 		{
-			var result = new List<GKBase>();
-			var inputObjects = gkBase.InputGKBases;
-			inputObjects.RemoveAll(x => x == gkBase);
-			result.AddRange(inputObjects);
-			foreach (var inputObject in inputObjects)
+			var inputObjects = new List<GKBase>(gkBase.InputGKBases);
+			inputObjects.RemoveAll(x => x.UID == gkBase.UID);
+			foreach (var inputObject in new List<GKBase>(inputObjects))
 			{
-				var list = GetAllDependentObjects(inputObject);
-				result.AddRange(list.FindAll(x => !result.Contains(x)));
-			}
-			if (gkBase is GKGuardZone)
-			{
-				var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
-				if (guardZoneDevice != null)
+				if (!result.Any(x => x.UID == inputObject.UID))
+					result.Add(inputObject);
+				else
+					continue;
+				result.AddRange(GetAllDependentObjects(inputObject, result).FindAll(x => !result.Contains(x)));
+				if (gkBase is GKGuardZone)
 				{
-					if (!result.Any(x => x.UID == guardZoneDevice.Device.UID))
-						result.Add(guardZoneDevice.Device);
+					var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
+					if (guardZoneDevice != null)
+					{
+						if (!result.Any(x => x.UID == guardZoneDevice.Device.UID))
+							result.Add(guardZoneDevice.Device);
+					}
 				}
 			}
 			return result;
 		}
-
-		//List<GKBase> GetAllDependentObjects(GKBase gkBase, List<GKBase> currentList)
-		//{
-		//    var result = new List<GKBase>();
-		//    var inputObjects = gkBase.InputGKBases;
-		//    inputObjects.RemoveAll(x => x == gkBase);
-		//    foreach (var current in currentList)
-		//        inputObjects.RemoveAll(x => x == current);
-		//    result.AddRange(inputObjects);
-		//    foreach (var inputObject in inputObjects)
-		//        result.AddRange(GetAllDependentObjects(inputObject, inputObjects));
-		//    return result;
-		//}
 	}
 }
