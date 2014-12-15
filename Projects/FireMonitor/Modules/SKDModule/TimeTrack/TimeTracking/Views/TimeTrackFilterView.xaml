@@ -5,8 +5,10 @@
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 Width="800" Height="600">
 	<TabControl>
-		<Views:FilterOrganisationTabItem />
-		<TabItem Header="Отделы">
+        <TabItem Header="Организации" >
+            <Views:OrganisationsFilterView />
+        </TabItem>
+        <TabItem Header="Отделы">
 			<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 		</TabItem>
 		<TabItem Header="Должности">

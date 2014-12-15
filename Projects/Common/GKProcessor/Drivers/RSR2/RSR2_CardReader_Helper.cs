@@ -42,10 +42,10 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение 1, с", 1, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания 1, с", 1, 1, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на включение 2, с", 1, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 3, "Время удержания 2, с", 1, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение 1, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания 1, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на включение 2, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 3, "Время удержания 2, с", 0, 0, 65535);
 
 
 			var property1 = new GKDriverProperty()
@@ -66,7 +66,7 @@ namespace GKProcessor
 				No = 4,
 				Name = "Наличие реле",
 				Caption = "Наличие реле",
-				Default = 0,
+				Default = 2,
 				IsLowByte = true,
 				Mask = 0x02
 			};
@@ -77,43 +77,43 @@ namespace GKProcessor
 			var property3 = new GKDriverProperty()
 			{
 				No = 4,
-				Name = "Контакт реле в состоянии ВЫКЛЮЧЕНО",
-				Caption = "Контакт реле в состоянии ВЫКЛЮЧЕНО",
+				Name = "Состояние контакта для режима Выключено",
+				Caption = "Состояние контакта для режима Выключено",
 				Default = 0,
 				IsHieghByte = true,
 				Mask = 0x03
 			};
 			GKDriversHelper.AddPropertyParameter(property3, "Контакт НР", 0x00);
 			GKDriversHelper.AddPropertyParameter(property3, "Контакт НЗ", 0x01);
-			GKDriversHelper.AddPropertyParameter(property3, "Мерцание", 0x02);
+			GKDriversHelper.AddPropertyParameter(property3, "Контакт переключается", 0x02);
 			driver.Properties.Add(property3);
 
 			var property4 = new GKDriverProperty()
 			{
 				No = 4,
-				Name = "Контакт реле в состоянии УДЕРЖАНИЕ",
-				Caption = "Контакт реле в состоянии УДЕРЖАНИЕ",
-				Default = 0,
+				Name = "Состояние контакта для режима Удержания",
+				Caption = "Состояние контакта для режима Удержания",
+				Default = 4,
 				IsHieghByte = true,
 				Mask = 0x0C
 			};
 			GKDriversHelper.AddPropertyParameter(property4, "Контакт НР", 0x00);
 			GKDriversHelper.AddPropertyParameter(property4, "Контакт НЗ", 0x04);
-			GKDriversHelper.AddPropertyParameter(property4, "Мерцание", 0x08);
+			GKDriversHelper.AddPropertyParameter(property4, "Контакт переключается", 0x08);
 			driver.Properties.Add(property4);
 
 			var property5 = new GKDriverProperty()
 			{
 				No = 4,
-				Name = "Контакт реле в состоянии ВКЛЮЧЕНО",
-				Caption = "Контакт реле в состоянии ВКЛЮЧЕНО",
-				Default = 0,
+				Name = "Состояние контакта для режима Включено",
+				Caption = "Состояние контакта для режима Включено",
+				Default = 0x10,
 				IsHieghByte = true,
 				Mask = 0x30
 			};
 			GKDriversHelper.AddPropertyParameter(property5, "Контакт НР", 0x00);
 			GKDriversHelper.AddPropertyParameter(property5, "Контакт НЗ", 0x10);
-			GKDriversHelper.AddPropertyParameter(property5, "Мерцание", 0x20);
+			GKDriversHelper.AddPropertyParameter(property5, "Контакт переключается", 0x20);
 			driver.Properties.Add(property5);
 
 			GKDriversHelper.AddIntProprety(driver, 5, "Длительность удержания сработки, с", 3, 3, 65535);

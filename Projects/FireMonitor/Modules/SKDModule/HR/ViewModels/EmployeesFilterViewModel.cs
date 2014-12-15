@@ -15,13 +15,19 @@ namespace SKDModule.ViewModels
 			SelectNoneCommand = new RelayCommand(OnSelectNone);
 		}
 
+		EmployeeFilter _Filter;
+		
 		public override void Initialize(EmployeeFilter filter)
 		{
+			_Filter = filter;
 			var emptyFilter = new EmployeeFilter{ LogicalDeletationType = filter.LogicalDeletationType };
 			base.Initialize(emptyFilter);
 			FirstName = filter.FirstName;
 			LastName = filter.LastName;
 			SecondName = filter.SecondName;
+			IsSearch = (FirstName != null && FirstName.Length != 0) ||
+				(LastName != null && LastName.Length != 0) ||
+				(SecondName != null && SecondName.Length != 0);
 			var employees = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
 			foreach (var employee in employees)
 			{
@@ -29,10 +35,15 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Initialize(HRFilter hrFilter)
+		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
 		{
-			var filter = new EmployeeFilter { LogicalDeletationType = hrFilter.LogicalDeletationType, UIDs = hrFilter.EmployeeFilter.UIDs };
+			var filter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids };
 			Initialize(filter);
+		}
+
+		public void Initialize()
+		{
+			Initialize(_Filter);
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
@@ -140,5 +151,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SecondName);
 			}
 		}
+
+		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
 	}
 }

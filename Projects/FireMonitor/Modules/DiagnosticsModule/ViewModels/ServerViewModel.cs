@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
-using GKProcessor;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -49,11 +41,12 @@ namespace DiagnosticsModule.ViewModels
 		{
 			Tasks = new ObservableCollection<TaskViewModel>();
 			var serverTasks = FiresecManager.FiresecService.GetServerTasks();
-			foreach (var serverTask in serverTasks)
-			{
-				var taskViewModel = new TaskViewModel(serverTask);
-				Tasks.Add(taskViewModel);
-			}
+			if(serverTasks != null)
+				foreach (var serverTask in serverTasks)
+				{
+					var taskViewModel = new TaskViewModel(serverTask);
+					Tasks.Add(taskViewModel);
+				}
 			SelectedTask = Tasks.FirstOrDefault();
 		}
 	}

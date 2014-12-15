@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
+using DevExpress.Xpf.Printing;
 
 namespace ReportsModule.ViewModels
 {
@@ -14,6 +15,8 @@ namespace ReportsModule.ViewModels
 		{
 			ReportProvider = reportProvider;
 			HasGroupChildren = true;
+			if (ReportProvider is IFilteredSKDReportProvider)
+				ServiceKnownTypeProvider.Register(((IFilteredSKDReportProvider)ReportProvider).FilterType);
 		}
 
 		public ISKDReportProvider ReportProvider { get; private set; }

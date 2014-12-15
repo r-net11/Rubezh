@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class FilterOrganisationTabItem : TabItem
+	public partial class OrganisationsFilterView : UserControl
 	{
-		public FilterOrganisationTabItem()
+		public OrganisationsFilterView()
 		{
 			InitializeComponent();
 		}

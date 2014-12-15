@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace Infrastructure.Common.CheckBoxList
 {

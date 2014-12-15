@@ -18,12 +18,21 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(zone);
-				ValidateZoneHasNoDevices(zone);
+				//ValidateZoneHasNoDevices(zone);
+				ValidateEmpty(zone);
 				if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.ZoneSensorQuantity))
 				{
 					ValidateZoneDetectorCount(zone);
 					ValidateZoneFire1Fire2Count(zone);
 				}
+			}
+		}
+
+		void ValidateEmpty(GKZone zone)
+		{
+			if (zone.GetDataBaseParent() == null)
+			{
+				Errors.Add(new ZoneValidationError(zone, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

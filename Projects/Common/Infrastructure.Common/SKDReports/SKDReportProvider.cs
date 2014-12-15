@@ -21,7 +21,6 @@ namespace Infrastructure.Common.SKDReports
 		public string Name { get; set; }
 		public string Title { get; set; }
 		public PermissionType? Permission { get; set; }
-		public object Filter { get; set; }
 		public int Index { get; set; }
 		public string IconSource { get; set; }
 		public SKDReportGroup? Group { get; set; }

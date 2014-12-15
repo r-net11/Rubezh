@@ -17,7 +17,16 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(guardZone);
-				ValidateGuardZoneHasNoDevices(guardZone);
+				//ValidateGuardZoneHasNoDevices(guardZone);
+				ValidateEmpty(guardZone);
+			}
+		}
+
+		void ValidateEmpty(GKGuardZone guardZone)
+		{
+			if (guardZone.GetDataBaseParent() == null)
+			{
+				Errors.Add(new GuardZoneValidationError(guardZone, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

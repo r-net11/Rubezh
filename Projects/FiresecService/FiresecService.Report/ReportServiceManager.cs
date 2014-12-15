@@ -9,11 +9,13 @@ using DevExpress.DocumentServices.ServiceModel.Client;
 using System.Xml;
 using DevExpress.Xpf.Printing;
 using FiresecAPI.Models;
+using Infrastructure.Common.SKDReports;
 
 namespace FiresecService.Report
 {
 	public class ReportServiceManager
 	{
+		private const string FilterNamespace = @"Infrastructure.Common.SKDReports.Filters";
 		private static ReportServiceManager _instance;
 
 		public static void Run()
@@ -60,7 +62,7 @@ namespace FiresecService.Report
 		}
 		private void RegisterFilters()
 		{
-			ServiceKnownTypeProvider.Register<Parameter>();
+			ServiceKnownTypeProvider.Register(typeof(IFilteredSKDReportProvider).Assembly.GetTypes().Where(t=>t.Namespace == FilterNamespace));
 		}
 	}
 }

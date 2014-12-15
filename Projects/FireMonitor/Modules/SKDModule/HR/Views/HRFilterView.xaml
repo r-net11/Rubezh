@@ -11,7 +11,9 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0">
-			<Views:FilterOrganisationTabItem />
+            <TabItem Header="Организации" >
+                <Views:OrganisationsFilterView />
+            </TabItem>
 			<TabItem Header="Отделы" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>

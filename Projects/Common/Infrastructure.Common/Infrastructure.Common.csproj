@@ -191,6 +191,9 @@
     <Compile Include="Services\Layout\LayoutPartPropertyAccess.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyType.cs" />
+    <Compile Include="SKDReports\FilteredSKDReportProvider.cs" />
+    <Compile Include="SKDReports\Filters\TestReportFilter.cs" />
+    <Compile Include="SKDReports\IFilteredSKDReportProvider.cs" />
     <Compile Include="SKDReports\ISKDReportProvider.cs" />
     <Compile Include="SKDReports\ISKDReportProviderModule.cs" />
     <Compile Include="SKDReports\SKDReportGroup.cs" />
@@ -209,7 +212,11 @@
     </Compile>
     <Compile Include="Windows\MonitorHelper.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
+    <Compile Include="Windows\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingBaseViewModel.cs" />
+    <Compile Include="Windows\Views\DateSelectionView.xaml.cs">
+      <DependentUpon>DateSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />
@@ -419,6 +426,10 @@
     <Page Include="Windows\Views\ApplicationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\DateSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\Views\RightContentView.xaml">
       <Generator>MSBuild:Compile</Generator>

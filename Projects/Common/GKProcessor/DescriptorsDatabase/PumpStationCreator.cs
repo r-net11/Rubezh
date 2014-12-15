@@ -47,8 +47,8 @@ namespace GKProcessor
 		{
 			var delayDescriptor = new DelayDescriptor(PumpStation.MainDelay, DatabaseType);
 			Database.Descriptors.Add(delayDescriptor);
-			GKDeviceConfiguration.LinkGKBases(PumpStation, PumpStation.MainDelay);
-			GKDeviceConfiguration.LinkGKBases(PumpStation.MainDelay, PumpStation);
+			PumpStation.LinkGKBases(PumpStation.MainDelay);
+			PumpStation.MainDelay.LinkGKBases(PumpStation);
 
 			var formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && delayDescriptor.GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !delayDescriptor.GKBase.IsLogicOnKau))
@@ -210,7 +210,7 @@ namespace GKProcessor
 					jnDescriptor.Formula = formula;
 					jnDescriptor.FormulaBytes = formula.GetBytes();
 				}
-				GKDeviceConfiguration.LinkGKBases(jnDescriptor.GKBase, PumpStation);
+				jnDescriptor.GKBase.LinkGKBases(PumpStation);
 			}
 		}
 
@@ -236,7 +236,7 @@ namespace GKProcessor
 			}
 			foreach (var inputDevice in inputDevices)
 			{
-				GKDeviceConfiguration.LinkGKBases(PumpStation.Pim, inputDevice);
+				PumpStation.Pim.LinkGKBases(inputDevice);
 			}
 			for (int i = 0; i < inputDevices.Count; i++)
 			{
@@ -258,15 +258,15 @@ namespace GKProcessor
 		{
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				GKDeviceConfiguration.LinkGKBases(nsDevice, PumpStation);
+				nsDevice.LinkGKBases(PumpStation);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
 			{
-				GKDeviceConfiguration.LinkGKBases(pumpDelay.Delay, PumpStation);
+				pumpDelay.Delay.LinkGKBases(PumpStation);
 				foreach (var pumpDevice in FirePumpDevices)
 				{
-					GKDeviceConfiguration.LinkGKBases(pumpDelay.Delay, pumpDevice);
+					pumpDelay.Delay.LinkGKBases(pumpDevice);
 				}
 			}
 
@@ -276,7 +276,7 @@ namespace GKProcessor
 				{
 					if (pumpDelay.Device.UID == nsDevice.UID)
 					{
-						GKDeviceConfiguration.LinkGKBases(nsDevice, pumpDelay.Delay);
+						nsDevice.LinkGKBases(pumpDelay.Delay);
 					}
 				}
 			}
@@ -301,7 +301,7 @@ namespace GKProcessor
 			{
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
-					GKDeviceConfiguration.LinkGKBases(firePumpDevice, otherFirePumpDevice);
+					firePumpDevice.LinkGKBases(otherFirePumpDevice);
 				}
 			}
 		}

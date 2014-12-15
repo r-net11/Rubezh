@@ -29,6 +29,7 @@ namespace GKProcessor
 			{
 				switch (guardZoneDevice.Device.DriverType)
 				{
+					case GKDriverType.RSR2_MAP4:
 					case GKDriverType.RSR2_AM_1:
 					case GKDriverType.RSR2_GuardDetector:
 						switch (guardZoneDevice.ActionType)
@@ -196,9 +197,9 @@ namespace GKProcessor
 
 		void AddChangeDevicesLogic(List<GKGuardZoneDevice> guardZoneDevices)
 		{
-			if (GuardZone.Pim != null)
+			if (GuardZone.Pim != null && guardZoneDevices.Count > 0)
 			{
-				GKDeviceConfiguration.LinkGKBases(GuardZone, GuardZone.Pim);
+				GuardZone.LinkGKBases(GuardZone.Pim);
 				Formula.AddGetBit(GKStateBit.On, GuardZone.Pim, DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, GuardZone, DatabaseType);
 				Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim, DatabaseType);

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -23,6 +24,8 @@ namespace SKDModule.ViewModels
 		AccessTemplateFilter AccessTemplateFilter;
 		PassCardTemplateFilter PassCardTemplateFilter;
 
+		List<CardReportFilter> CardReportFilters; 
+
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
 		public PositionsViewModel PositionsViewModel { get; private set; }
@@ -35,6 +38,7 @@ namespace SKDModule.ViewModels
 		public HRViewModel()
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
+			ShowCardReportFilterDetailsCommand = new RelayCommand(OnShowCardReportFilterDetails);
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -49,6 +53,11 @@ namespace SKDModule.ViewModels
 			CardFilter = new CardFilter();
 			IsEmployeesSelected = true;
 
+			CardReportFilters = new List<CardReportFilter>();
+			CardReportFilters.Add(new CardReportFilter { Name = "По умолчанию" });
+			CardReportFilters.Add(new CardReportFilter { Name = "Фильтр 1" });
+			CardReportFilters.Add(new CardReportFilter { Name = "Фильтр 2" });
+
 			PersonTypes = new ObservableCollection<PersonType>();
 			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees))
 				PersonTypes.Add(PersonType.Employee);
@@ -61,6 +70,17 @@ namespace SKDModule.ViewModels
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
 			InitializeFilters();
+		}
+
+		public bool IsDebug
+		{
+			get
+			{
+#if DEBUG
+				return true;
+#endif
+				return false;
+			}
 		}
 
 		bool _isEmployeesSelected;
@@ -229,6 +249,12 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
 			EmployeesViewModel.Initialize(EmployeeFilter);
+		}
+
+		public RelayCommand ShowCardReportFilterDetailsCommand { get; private set; }
+		void OnShowCardReportFilterDetails()
+		{
+			DialogService.ShowModalWindow(new CardReportFilterDetailsViewModel(CardReportFilters));
 		}
 	}
 }
