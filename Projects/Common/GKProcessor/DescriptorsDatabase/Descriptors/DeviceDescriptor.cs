@@ -30,6 +30,9 @@ namespace GKProcessor
 
 		void SetFormulaBytes()
 		{
+			//if (Formula != null && Formula.FormulaOperations.Count > 1)
+			//    return;
+
 			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
@@ -38,12 +41,16 @@ namespace GKProcessor
 				return;
 			}
 
+			CreateFormula();
+		}
+
+		protected virtual void CreateFormula()
+		{
 			if (Device.Driver.HasLogic)
 			{
 				if (Device.Logic.OnClausesGroup.Clauses.Count + Device.Logic.OnClausesGroup.ClauseGroups.Count > 0)
 				{
 					Formula.AddClauseFormula(Device.Logic.OnClausesGroup, DatabaseType);
-					//AddMro2MFormula();
 					if (Device.Logic.UseOffCounterLogic)
 					{
 						Formula.AddStandardTurning(Device, DatabaseType);
@@ -100,34 +107,6 @@ namespace GKProcessor
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
-		}
-
-		void AddMro2MFormula()
-		{
-			if (Device.DriverType == GKDriverType.MRO_2)
-			{
-				if (Device.Logic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(31, Device, DatabaseType);
-				}
-				var value = (int)Device.Logic.ZoneLogicMROMessageNo;
-				if ((value & 1) == 1)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(28, Device, DatabaseType);
-				}
-				if ((value & 2) == 2)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(29, Device, DatabaseType);
-				}
-				if ((value & 4) == 4)
-				{
-					Formula.Add(FormulaOperationType.CONST, 0, 1);
-					Formula.AddArgumentPutBit(30, Device, DatabaseType);
-				}
-			}
 		}
 
 		void SetPropertiesBytes()
