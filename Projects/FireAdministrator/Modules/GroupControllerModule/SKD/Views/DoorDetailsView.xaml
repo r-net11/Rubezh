@@ -45,7 +45,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<Label Grid.Row="4" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
+				<Label Grid.Row="4" Grid.Column="0" Content="Задержка на выключение, с" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Delay}" Minimum="0" Maximum="65535" Margin="2" />
 
 				<Label Grid.Row="5" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />

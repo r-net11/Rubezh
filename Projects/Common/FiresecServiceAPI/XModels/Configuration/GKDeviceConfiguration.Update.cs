@@ -391,10 +391,31 @@ namespace FiresecAPI.GK
 							guardZoneDevices.Add(guardZoneDevice);
 							device.GuardZone = guardZone;
 						}
+						if (device.DriverType == GKDriverType.RSR2_CodeReader)
+						{
+							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
+							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);
+							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings);
+							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.AlarmSettings);
+						}
 					}
 				}
 				guardZone.GuardZoneDevices = guardZoneDevices;
 			}
+		}
+
+		void InvalidateGKCodeReaderSettingsPart(GKCodeReaderSettingsPart codeReaderSettingsPart)
+		{
+			var codeUIDs = new List<Guid>();
+			foreach (var codeUID in codeReaderSettingsPart.CodeUIDs)
+			{
+				var code = Codes.FirstOrDefault(x => x.UID == codeUID);
+				if (code != null)
+				{
+					codeUIDs.Add(codeUID);
+				}
+			}
+			codeReaderSettingsPart.CodeUIDs = codeUIDs;
 		}
 
 		void InitializeCodes()
