@@ -16,6 +16,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			Title = "Настройки подключения";
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
+			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
 			RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 			Login = GlobalSettingsHelper.GlobalSettings.Login;
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
@@ -62,6 +63,16 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => RemotePort);
 			}
 		}
+		private int _reportRemotePort;
+		public int ReportRemotePort
+		{
+			get { return _reportRemotePort; }
+			set
+			{
+				_reportRemotePort = value;
+				OnPropertyChanged(() => ReportRemotePort);
+			}
+		}
 		private string _login;
 		public string Login
 		{
@@ -86,6 +97,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 		protected override bool Save()
 		{
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
+			GlobalSettingsHelper.GlobalSettings.ReportRemotePort = ReportRemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemotePort = RemotePort;
 			GlobalSettingsHelper.GlobalSettings.RemoteAddress = RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.Login = Login;

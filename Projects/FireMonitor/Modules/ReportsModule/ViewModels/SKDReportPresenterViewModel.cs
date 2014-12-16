@@ -10,6 +10,10 @@ using FiresecAPI.Models;
 using DevExpress.DocumentServices.ServiceModel.Client;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common;
+using System.ServiceModel;
+using Common;
+using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
+using DevExpress.DocumentServices.ServiceModel.DataContracts;
 
 namespace ReportsModule.ViewModels
 {
@@ -19,11 +23,22 @@ namespace ReportsModule.ViewModels
 		{
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
-			Model = new XReportServicePreviewModel("http://127.0.0.1:2323/FiresecReportService/");
-			Model.IsParametersPanelVisible = false;
-			Model.AutoShowParametersPanel = false;
-			Model.IsDocumentMapVisible = false;
+		}
+
+		public void CreateClient()
+		{
+			var endpoint = new EndpointAddress(ConnectionSettingsManager.ReportServerAddress);
+			var binding = BindingHelper.CreateBindingFromAddress(ConnectionSettingsManager.ReportServerAddress);
+			var factory = new ReportServiceClientFactory(endpoint, binding);
+			Model = new XReportServicePreviewModel()
+			{
+				ServiceClientFactory = factory,
+				IsParametersPanelVisible = false,
+				AutoShowParametersPanel = false,
+				IsDocumentMapVisible = false,
+			};
 			Model.CreateDocumentError += Model_CreateDocumentError;
+			Model.Clear();
 		}
 
 		private SKDReportBaseViewModel _selectedReport;
@@ -91,6 +106,10 @@ namespace ReportsModule.ViewModels
 	}
 	public class XReportServicePreviewModel : ReportServicePreviewModel
 	{
+		public XReportServicePreviewModel()
+			: base()
+		{
+		}
 		public XReportServicePreviewModel(string s)
 			: base(s)
 		{
@@ -102,6 +121,12 @@ namespace ReportsModule.ViewModels
 		public IReportServiceClient ServiceClient
 		{
 			get { return Client; }
+		}
+
+		protected override CreateDocumentOperation ConstructCreateDocumentOperation(ReportBuildArgs buildArgs)
+		{
+			var operation = base.ConstructCreateDocumentOperation(buildArgs);
+			return operation;
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
 using Infrastructure.Common.SKDReports.Filters;
+using System.Threading;
 
 namespace FiresecService.Report.Templates
 {
@@ -22,6 +23,7 @@ namespace FiresecService.Report.Templates
 			var filter = args as TestReportFilter;
 			if (filter != null)
 				Argument.Value = filter.Timestamp;
+			Thread.Sleep(5000);
 		}
 
 		#endregion

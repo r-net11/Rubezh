@@ -44,6 +44,7 @@ namespace ReportsModule
 				if (skdReportProviderModule != null)
 					_skdReportViewModel.RegisterReportProviderModule(skdReportProviderModule);
 			}
+			_skdReportViewModel.Initialize();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()

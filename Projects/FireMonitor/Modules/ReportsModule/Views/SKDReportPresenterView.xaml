@@ -63,7 +63,7 @@
 				</Style>
 				<dx:FormatStringConverter x:Key="formatStringConverter" Converter="{x:Null}" FormatString="/ {0}" />
 				<DataTemplate x:Key="progressBarTemplate">
-					<dxe:ProgressBarEdit Height="12" MinWidth="150" MaxHeight="12" Maximum="{Binding Model.ProgressMaximum, ElementName=viewer}" Minimum="0">
+					<dxe:ProgressBarEdit Height="12" MinWidth="150" MaxHeight="12" Maximum="{Binding Model.ProgressMaximum, Source={x:Reference viewer}}" Minimum="0">
 						<dxe:ProgressBarEdit.StyleSettings>
 							<dxe:ProgressBarStyleSettings />
 						</dxe:ProgressBarEdit.StyleSettings>

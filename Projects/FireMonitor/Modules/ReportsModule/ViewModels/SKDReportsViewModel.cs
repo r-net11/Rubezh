@@ -50,6 +50,11 @@ namespace ReportsModule.ViewModels
 				Reports.Add(new SKDReportViewModel(provider));
 		}
 
+		public void Initialize()
+		{
+			ReportPresenter.CreateClient();
+		}
+
 		public override void OnShow()
 		{
 			if (SelectedReport == null)

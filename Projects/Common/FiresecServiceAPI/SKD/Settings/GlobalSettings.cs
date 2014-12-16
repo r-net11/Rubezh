@@ -10,6 +10,7 @@ namespace FiresecAPI
 		{
 			RemoteAddress = "localhost";
 			RemotePort = 8000;
+			ReportRemotePort = 8800;
 			Login = "adm";
 			Password = "";
 			AutoConnect = false;
@@ -42,6 +43,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public int RemotePort { get; set; }
+
+		[DataMember]
+		public int ReportRemotePort { get; set; }
 
 		[DataMember]
 		public string Login { get; set; }
