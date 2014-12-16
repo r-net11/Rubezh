@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Data.SqlServerCe;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
-using FiresecService.Properties;
+using FiresecAPI.SKD;
 using FiresecService.ViewModels;
 using GKProcessor;
 using SKDDriver;
-using System.Collections.Generic;
 using SKDDriver.Translators;
-using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -165,7 +163,8 @@ namespace FiresecService.Service
 								var serverTask = new ServerTask();
 								serverTask.DeviceName = device.Name;
 								serverTask.DeviceAddress = device.Address;
-								serverTask.CardNumber = pendingCard.Card.Number;
+								if (pendingCard.Card != null)
+									serverTask.CardNumber = pendingCard.Card.Number;
 								serverTask.PendingCardAction = (PendingCardAction)pendingCard.Action;
 								result.Add(serverTask);
 							}

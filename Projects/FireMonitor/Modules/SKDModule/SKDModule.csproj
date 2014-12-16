@@ -218,16 +218,20 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
+    <Compile Include="Reports\CardReportProvider.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
+    <Compile Include="Reports\EndDateType.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CardReportFilterDetailsViewModel.cs" />
+    <Compile Include="Reports\ViewModels\CardTypesViewModel.cs" />
+    <Compile Include="Reports\ViewModels\CardTypeViewModel.cs" />
     <Compile Include="Reports\ViewModels\ReportNameViewModel.cs" />
     <Compile Include="Reports\Views\CardReportFilterDetailsView.xaml.cs">
       <DependentUpon>CardReportFilterDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Views\CardReportNameView.xaml.cs">
-      <DependentUpon>CardReportNameView.xaml</DependentUpon>
+    <Compile Include="Reports\Views\ReportNameView.xaml.cs">
+      <DependentUpon>ReportNameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
@@ -717,7 +721,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Reports\Views\CardReportNameView.xaml">
+    <Page Include="Reports\Views\ReportNameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

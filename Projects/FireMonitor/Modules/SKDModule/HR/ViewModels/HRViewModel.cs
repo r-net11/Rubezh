@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -10,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
+using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -254,7 +256,18 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowCardReportFilterDetailsCommand { get; private set; }
 		void OnShowCardReportFilterDetails()
 		{
-			DialogService.ShowModalWindow(new CardReportFilterDetailsViewModel(CardReportFilters));
+			var cardReportFilterDetailsViewModel = new CardReportFilterDetailsViewModel(CardReportFilters);
+			if (DialogService.ShowModalWindow(cardReportFilterDetailsViewModel))
+			{
+				//var cardReportItemsResult = FiresecManager.FiresecService.GetCardReport(cardReportFilterDetailsViewModel.SelectedCardReportFilter);
+				//if(cardReportItemsResult.HasError)
+				//    return;
+				//var cardReportItems = cardReportItemsResult.Result;
+				//foreach (var item in cardReportItems)
+				//{
+				//    Trace.WriteLine(item.CardType + " " + item.Number + " " + item.Organisation + " " + item.Department + " " + item.Position + " " + item.Employee + " " + item.EndDate);
+				//}
+			}
 		}
 	}
 }

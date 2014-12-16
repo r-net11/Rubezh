@@ -92,6 +92,9 @@ namespace SKDDriver
 				result.DepartmentName = department.Name;
 				result.IsDepartmentDeleted = department.IsDeleted;
 			}
+			var organisation = Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
+			if (organisation != null)
+				result.OrganisationName = organisation.Name;
 			return result;
 		}
 

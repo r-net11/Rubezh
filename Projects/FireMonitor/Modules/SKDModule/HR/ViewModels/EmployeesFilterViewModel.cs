@@ -16,11 +16,16 @@ namespace SKDModule.ViewModels
 		}
 
 		EmployeeFilter _Filter;
-		
+
 		public override void Initialize(EmployeeFilter filter)
 		{
+			Initialize(filter, filter.LogicalDeletationType, filter.PersonType);
+		}
+
+		public void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
+		{
 			_Filter = filter;
-			var emptyFilter = new EmployeeFilter{ LogicalDeletationType = filter.LogicalDeletationType };
+			var emptyFilter = new EmployeeFilter{ LogicalDeletationType = logicalDeletationType, PersonType = personType };
 			base.Initialize(emptyFilter);
 			FirstName = filter.FirstName;
 			LastName = filter.LastName;

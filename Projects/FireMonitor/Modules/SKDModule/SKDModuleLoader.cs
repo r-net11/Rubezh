@@ -182,6 +182,7 @@ namespace SKDModule
 			SafeFiresecService.SKDStatesEvent += new Action<SKDStates>(OnSKDStates);
 
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
+			ServiceFactoryBase.Events.GetEvent<NewReportProviderEvent>().Publish(new CardReportProvider(999));
 		}
 
 		void OnSKDStates(SKDStates skdStates)

@@ -89,6 +89,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
+
+		[OperationContract]
+		OperationResult<List<CardReportItem>> GetCardReport(CardReportFilter cardReportFilter);
 		#endregion
 
 		#region AccessTemplate

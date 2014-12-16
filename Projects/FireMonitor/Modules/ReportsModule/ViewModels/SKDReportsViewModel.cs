@@ -1,13 +1,12 @@
 ﻿using System;
-using Common;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Common;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ReportsModule.ViewModels
 {
@@ -18,6 +17,8 @@ namespace ReportsModule.ViewModels
 			ReportPresenter = new SKDReportPresenterViewModel();
 			Reports = new ObservableCollection<SKDReportBaseViewModel>();
 			Enum.GetValues(typeof(SKDReportGroup)).Cast<SKDReportGroup>().ForEach(group => Reports.Add(new SKDReportGroupViewModel(group)));
+			ServiceFactory.Events.GetEvent<NewReportProviderEvent>().Unsubscribe(OnNewReportProvider);
+			ServiceFactory.Events.GetEvent<NewReportProviderEvent>().Subscribe(OnNewReportProvider);
 		}
 
 		public ObservableCollection<SKDReportBaseViewModel> Reports { get; private set; }
@@ -37,7 +38,7 @@ namespace ReportsModule.ViewModels
 
 		public void RegisterReportProviderModule(ISKDReportProviderModule module)
 		{
-			module.GetSKDReportProviders().Where(item => !item.Permission.HasValue || FiresecManager.CheckPermission(item.Permission.Value)).ForEach(item => RegisterReportProvider(item));
+			module.GetSKDReportProviders().Where(item => CheckPermission(item)).ForEach(item => RegisterReportProvider(item));
 		}
 		private void RegisterReportProvider(ISKDReportProvider provider)
 		{
@@ -55,5 +56,18 @@ namespace ReportsModule.ViewModels
 			if (SelectedReport == null)
 				SelectedReport = Reports.FirstOrDefault(item => item is SKDReportViewModel);
 		}
+
+		void OnNewReportProvider(ISKDReportProvider provider)
+		{
+			if(CheckPermission(provider))
+				RegisterReportProvider(provider);
+		}
+
+		bool CheckPermission(ISKDReportProvider provider)
+		{
+			return !provider.Permission.HasValue || FiresecManager.CheckPermission(provider.Permission.Value);
+		}
 	}
+
+	
 }

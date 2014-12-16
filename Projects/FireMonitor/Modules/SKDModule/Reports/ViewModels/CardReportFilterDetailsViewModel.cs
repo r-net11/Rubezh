@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
-using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
+using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -55,7 +54,11 @@ namespace SKDModule.ViewModels
 			IsShowPeriod = SelectedCardReportFilter.IsShowPeriod;
 			IsShowNameInHeader = SelectedCardReportFilter.IsShowNameInHeader;
 			IsShowName = SelectedCardReportFilter.IsShowName;
-
+			_IsWithDeleted = SelectedCardReportFilter.EmployeeFilter.LogicalDeletationType == LogicalDeletationType.All;
+			OnPropertyChanged(() => IsWithDeleted);
+			_IsGuests = SelectedCardReportFilter.EmployeeFilter.PersonType == PersonType.Guest;
+			OnPropertyChanged(() => IsGuests);
+			OnPropertyChanged(() => EmployeeTabItemHeader);
 			switch (SelectedCardReportFilter.CardFilter.DeactivationType)
 			{
 				case LogicalDeletationType.Active:
@@ -73,9 +76,9 @@ namespace SKDModule.ViewModels
 				default:
 					break;
 			}
-			DepartmentsFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter.DepartmentUIDs);
-			PositionsFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter.PositionUIDs);
-			EmployeesFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter);
+			DepartmentsFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter.DepartmentUIDs, DeletationType);
+			PositionsFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter.PositionUIDs, DeletationType);
+			EmployeesFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter, DeletationType, CurrentPersonType);
 			OrganisationsFilterViewModel.Initialize(SelectedCardReportFilter.CardFilter.OrganisationUIDs);
 		}
 
@@ -91,6 +94,8 @@ namespace SKDModule.ViewModels
 			SelectedCardReportFilter.IsShowPeriod = IsShowPeriod;
 			SelectedCardReportFilter.IsShowDate = IsShowDate;
 			SelectedCardReportFilter.IsShowUser = IsShowUser;
+			SelectedCardReportFilter.EmployeeFilter.LogicalDeletationType = DeletationType;
+			SelectedCardReportFilter.EmployeeFilter.PersonType = CurrentPersonType;
 			if (IsWithActive && IsWithBlocked)
 				SelectedCardReportFilter.CardFilter.DeactivationType = LogicalDeletationType.All;
 			else if(IsWithActive)
@@ -120,7 +125,6 @@ namespace SKDModule.ViewModels
 		public EmployeesFilterViewModel EmployeesFilterViewModel { get; private set; }
 		public OrganisationsFilterViewModel OrganisationsFilterViewModel { get; private set; }
 		
-
 		CardReportFilter _SelectedCardReportFilter;
 		public CardReportFilter SelectedCardReportFilter
 		{
@@ -287,6 +291,49 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _IsWithDeleted;
+		public bool IsWithDeleted
+		{
+			get { return _IsWithDeleted; }
+			set
+			{
+				_IsWithDeleted = value;
+				OnPropertyChanged(() => IsWithDeleted);
+				DepartmentsFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter.DepartmentUIDs, DeletationType);
+				PositionsFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter.PositionUIDs, DeletationType);
+				EmployeesFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter, DeletationType, CurrentPersonType);
+			}
+		}
+
+		public LogicalDeletationType DeletationType
+		{
+			get{ return IsWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;}
+		}
+		
+		bool _IsGuests;
+		public bool IsGuests
+		{
+			get { return _IsGuests; }
+			set
+			{
+				_IsGuests = value;
+				OnPropertyChanged(() => IsGuests);
+				OnPropertyChanged(() => EmployeeTabItemHeader);
+				EmployeesFilterViewModel.Initialize(SelectedCardReportFilter.EmployeeFilter, DeletationType, CurrentPersonType);
+			}
+		}
+
+		public string EmployeeTabItemHeader
+		{
+			get { return IsGuests ? "Посетители" : "Сотрудники"; }
+		}
+
+		public PersonType CurrentPersonType
+		{
+			get{ return IsGuests ? PersonType.Guest : PersonType.Employee;}
+		}
+		
+
 		DateTime _EndDate;
 		public DateTime EndDate
 		{
@@ -358,82 +405,4 @@ namespace SKDModule.ViewModels
 		#endregion
 	}
 
-	public class CardTypesViewModel : BaseViewModel
-	{
-		public CheckBoxItemList<CardTypeViewModel> CardTypes { get; private set; }
-
-		public CardTypesViewModel()
-		{
-			SelectAllCommand = new RelayCommand(OnSelectAll, () => CanSelect);
-			SelectNoneCommand = new RelayCommand(OnSelectNone, () => CanSelect);
-
-			CardTypes = new CheckBoxItemList<CardTypeViewModel>();
-			foreach (CardType cardType in Enum.GetValues(typeof(CardType)))
-				CardTypes.Add(new CardTypeViewModel(cardType));
-		}
-
-		public void Update(CardReportFilter cardReportFilter)
-		{
-			foreach (var cardType in CardTypes.Items)
-				cardType.IsChecked = false;
-			var checkedCardTypes = CardTypes.Items.Where(x => cardReportFilter.CardFilter.CardTypes.Any(y => y == x.CardType));
-			foreach (var cardType in checkedCardTypes)
-				cardType.IsChecked = true;
-		}
-
-		public List<CardType> GetCheckedCardTypes()
-		{
-			return CardTypes.Items.Where(x => x.IsChecked).Select(x => x.CardType).ToList();
-		}
-
-		public RelayCommand SelectAllCommand { get; private set; }
-		void OnSelectAll()
-		{
-			foreach (var item in CardTypes.Items)
-				item.IsChecked = true;
-		}
-
-		public RelayCommand SelectNoneCommand { get; private set; }
-		void OnSelectNone()
-		{
-			foreach (var item in CardTypes.Items)
-				item.IsChecked = false;
-		}
-
-		bool _canSelect;
-		public bool CanSelect
-		{
-			get { return _canSelect; }
-			set
-			{
-				_canSelect = value;
-				OnPropertyChanged(() => CanSelect);
-			}
-		}
-	}
-
-	public class CardTypeViewModel : CheckBoxItemViewModel
-	{
-		public CardType CardType { get; private set; }
-
-		public CardTypeViewModel(CardType cardType)
-		{
-			CardType = cardType;
-		}
-	}
-
-	public enum EndDateType
-	{
-		[Description("Сутки")]
-		Day,
-
-		[Description("Неделя")]
-		Week,
-
-		[Description("Месяц")]
-		Month,
-
-		[Description("Произвольный период")]
-		Arbitrary
-	}
 }

@@ -6,9 +6,9 @@ using ChinaSKDDriver;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecClient;
 using GKProcessor;
 using SKDDriver;
-using FiresecClient;
 
 namespace FiresecService.Service
 {
@@ -393,6 +393,14 @@ namespace FiresecService.Service
 		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
 		{
 			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
+		}
+
+		public OperationResult<List<CardReportItem>> GetCardReport(CardReportFilter cardReportFilter)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator. GetCardReport(cardReportFilter);
+			}
 		}
 		#endregion
 

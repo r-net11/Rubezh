@@ -5,7 +5,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:SKDModule.Converters"
              xmlns:Views="clr-namespace:SKDModule.Views"
-			 Width="800" Height="600">
+			 Width="600" Height="400">
     <UserControl.Resources>
         <sys:Int32 x:Key="IntZero">0</sys:Int32>
         <sys:Int32 x:Key="IntUnit">1</sys:Int32>
@@ -17,7 +17,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0">
-			<TabItem Header="Общие настройки">
+			<TabItem Header="Настройки">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
@@ -145,8 +145,23 @@
             <TabItem Header="Должности">
                 <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
             </TabItem>
-            <TabItem Header="Сотрудники">
-                <Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
+            <TabItem Header="{Binding EmployeeTabItemHeader}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Views:EmployeesFilterView Grid.Row="0" DataContext="{Binding EmployeesFilterViewModel}" />
+                    <StackPanel Grid.Row="1" >
+                        <RadioButton GroupName="SortAscDescGroup" Content="Сотрудники" Margin="2" Foreground="White"
+                            IsChecked="{Binding IsGuests, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource IntZero}}">
+                        </RadioButton>
+                        <RadioButton GroupName="SortAscDescGroup" Content="Посетители" Margin="2" Foreground="White" 
+                            IsChecked="{Binding IsGuests, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={StaticResource IntUnit}}">
+                        </RadioButton>
+                    </StackPanel>
+                </Grid>
+                
             </TabItem>
             <TabItem Header="Сортировка" >
                 <Grid>
@@ -171,6 +186,6 @@
                 </Grid>
             </TabItem>
 		</TabControl>
-		<!--<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />-->
+		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
 	</Grid>
 </UserControl>
