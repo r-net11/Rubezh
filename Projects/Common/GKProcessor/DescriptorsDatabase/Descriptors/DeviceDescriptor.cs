@@ -14,6 +14,7 @@ namespace GKProcessor
 			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.Device;
 			Device = device;
+			CreateFormula();
 		}
 
 		public override void Build()
@@ -24,24 +25,15 @@ namespace GKProcessor
 			if (Device.Driver.IsDeviceOnShleif)
 				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
-			SetFormulaBytes();
 			SetPropertiesBytes();
-		}
 
-		void SetFormulaBytes()
-		{
-			//if (Formula != null && Formula.FormulaOperations.Count > 1)
-			//    return;
-
-			Formula = new FormulaBuilder();
 			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
 			{
+				Formula = new FormulaBuilder();
 				Formula.Add(FormulaOperationType.END);
-				FormulaBytes = Formula.GetBytes();
-				return;
 			}
-
-			CreateFormula();
+			Formula.Resolve(DatabaseType);
+			FormulaBytes = Formula.GetBytes();
 		}
 
 		protected virtual void CreateFormula()

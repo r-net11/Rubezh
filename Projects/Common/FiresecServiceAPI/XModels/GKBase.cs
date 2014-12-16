@@ -104,6 +104,7 @@ namespace FiresecAPI.GK
 			if (mpt != null)
 			{
 				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
+				LinkLogic(mpt, mpt.StopLogic.OnClausesGroup);
 			}
 
 			if (delay != null)

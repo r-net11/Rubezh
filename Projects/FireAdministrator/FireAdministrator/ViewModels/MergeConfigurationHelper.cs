@@ -371,6 +371,7 @@ namespace FireAdministrator.ViewModels
 					mptDevice.DeviceUID = ReplaceUID(mptDevice.DeviceUID, GKDeviceUIDs);
 				}
 				ReplaceLogic(mpt.StartLogic);
+				ReplaceLogic(mpt.StopLogic);
 			}
 
 			foreach (var delay in GKDeviceConfiguration.Delays)

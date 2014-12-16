@@ -2,14 +2,14 @@
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using SKDModule.ViewModels;
-using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
+using FiresecAPI.SKD;
 
 namespace SKDModule
 {
 	public class CardReportProvider : FilteredSKDReportProvider<CardReportFilter>
 	{
-		List<CardReportFilter> CardReportFilters; 
-		
+		List<CardReportFilter> CardReportFilters;
+
 		public CardReportProvider(int index)
 			: base("Фильтр по пропускам", "Фильтр по пропускам", index)
 		{

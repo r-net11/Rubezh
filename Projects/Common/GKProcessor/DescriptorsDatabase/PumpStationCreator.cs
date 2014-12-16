@@ -192,7 +192,7 @@ namespace GKProcessor
 				}
 				inputPumpsCount++;
 			}
-			formula.Add(FormulaOperationType.CONST, 0, (ushort)PumpStation.NSPumpsCount, "Количество основных пожарных насосов");
+			formula.Add(FormulaOperationType.CONST, 0, (ushort)PumpStation.NSPumpsCount, comment: "Количество основных пожарных насосов");
 			formula.Add(FormulaOperationType.LT);
 		}
 

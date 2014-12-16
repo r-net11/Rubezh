@@ -19,6 +19,7 @@ namespace GKModule.ViewModels
 		{
 			MPT = mpt;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
+			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -82,22 +83,6 @@ namespace GKModule.ViewModels
 				if (GKMPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
 					if (!device.IsInMPT)
 						devices.Add(device);
-					else if (SelectedDevice.MPTDeviceType == GKMPTDeviceType.Door)
-					{
-						foreach (var mpt in GKManager.MPTs)
-						{
-							if (mpt.UID != MPT.UID)
-							{
-								foreach (var mptDevice in mpt.MPTDevices)
-								{
-									if (mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
-									{
-										devices.Add(device);
-									}
-								}
-							}
-						}
-					}
 			}
 
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices);
@@ -181,7 +166,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				MPT.StartLogic = logicViewModel.GetModel();
-				OnPropertyChanged("StartPresentationName");
+				OnPropertyChanged(() => StartPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -191,6 +176,23 @@ namespace GKModule.ViewModels
 			get { return GKManager.GetPresentationLogic(MPT.StartLogic); }
 		}
 
+		public RelayCommand ChangeStopLogicCommand { get; private set; }
+		void OnChangeStopLogic()
+		{
+			var logicViewModel = new LogicViewModel(null, MPT.StopLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				MPT.StopLogic = logicViewModel.GetModel();
+				OnPropertyChanged(() => StopPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string StopPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(MPT.StopLogic); }
+		}
+
 		public int Delay
 		{
 			get { return MPT.Delay; }
@@ -198,39 +200,6 @@ namespace GKModule.ViewModels
 			{
 				MPT.Delay = value;
 				OnPropertyChanged(() => Delay);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public bool UseDoorAutomatic
-		{
-			get { return MPT.UseDoorAutomatic; }
-			set
-			{
-				MPT.UseDoorAutomatic = value;
-				OnPropertyChanged(() => UseDoorAutomatic);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public bool UseDoorStop
-		{
-			get { return MPT.UseDoorStop; }
-			set
-			{
-				MPT.UseDoorStop = value;
-				OnPropertyChanged(() => UseDoorStop);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public bool UseFailureAutomatic
-		{
-			get { return MPT.UseFailureAutomatic; }
-			set
-			{
-				MPT.UseFailureAutomatic = value;
-				OnPropertyChanged("UseFailureAutomatic");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

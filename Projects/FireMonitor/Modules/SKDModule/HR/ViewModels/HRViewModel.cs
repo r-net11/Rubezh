@@ -11,7 +11,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
-using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule.ViewModels
 {

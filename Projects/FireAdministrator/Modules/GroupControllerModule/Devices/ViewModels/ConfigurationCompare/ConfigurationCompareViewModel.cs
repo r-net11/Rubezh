@@ -325,7 +325,12 @@ namespace GKModule.ViewModels
 			bool startDiff = GKManager.GetPresentationLogic(object1.MPT.StartLogic) != GKManager.GetPresentationLogic(object2.MPT.StartLogic);
 			if (startDiff)
 			{
-				mptsDifferences.Append("Не совпадают условия запуска");
+				mptsDifferences.Append("Не совпадают условия включения");
+			}
+			bool stopDiff = GKManager.GetPresentationLogic(object1.MPT.StopLogic) != GKManager.GetPresentationLogic(object2.MPT.StopLogic);
+			if (stopDiff)
+			{
+				mptsDifferences.Append("Не совпадают условия выключения");
 			}
 			bool delayDiff = object1.MPT.Delay != object2.MPT.Delay;
 			if (delayDiff)

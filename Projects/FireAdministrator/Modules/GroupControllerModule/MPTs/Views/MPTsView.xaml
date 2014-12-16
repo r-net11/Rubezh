@@ -6,7 +6,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="2*" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="100" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
@@ -111,7 +111,7 @@
 			<Grid Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="200" Margin="2" />
+						<TextBlock Text="Условие для включения" FontWeight="Bold" Width="200" Margin="2" />
 						<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeStartLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -130,16 +130,32 @@
 						</TextBlock>
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Условие для выключения" FontWeight="Bold" Width="200" Margin="2" />
+                        <TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding StopPresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding StopPresentationName}" Value="">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка" Width="200" Margin="2" />
 						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
 					</StackPanel>
-					<CheckBox IsChecked="{Binding UseDoorAutomatic}" Content="Отключать автоматику при срабатывании датчика двери-окна" Margin="2" />
-					<CheckBox IsChecked="{Binding UseDoorStop}" Content="Останавливать при срабатывании датчика двери-окна" Margin="2" />
-					<CheckBox IsChecked="{Binding UseFailureAutomatic}" Content="Отключать автоматику при неисправности любого устройства" Margin="2" />
 				</StackPanel>
 			</Grid>
 		</Border>
-		
 	</Grid>
 </UserControl>

@@ -7,7 +7,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
-using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule.ViewModels
 {
