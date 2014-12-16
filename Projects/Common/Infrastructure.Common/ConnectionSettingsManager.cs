@@ -18,6 +18,7 @@ namespace Infrastructure.Common
 		}
 
 		public static int RemotePort { get; set; }
+		public static int ReportRemotePort { get; set; }
 
 		static ConnectionSettingsManager()
 		{
@@ -25,6 +26,7 @@ namespace Infrastructure.Common
 			{
 				RemoteAddress = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
 				RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
+				ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
 			}
 			catch (Exception e)
 			{
@@ -66,6 +68,19 @@ namespace Infrastructure.Common
 				if (IsRemote)
 				{
 					serviceAddress = "net.tcp://" + RemoteAddress + ":" + (RemotePort + 2).ToString() + "/FS2/";
+				}
+				return serviceAddress;
+			}
+		}
+
+		public static string ReportServerAddress
+		{
+			get
+			{
+				var serviceAddress = "net.pipe://127.0.0.1/ReportFiresecService/";
+				if (IsRemote)
+				{
+					serviceAddress = "net.tcp://" + RemoteAddress + ":" + ReportRemotePort.ToString() + "/ReportFiresecService/";
 				}
 				return serviceAddress;
 			}

@@ -38,11 +38,10 @@ namespace GKProcessor
 				return;
 			}
 
-			var hasOnExpression = false;
-			if (MPT.StartLogic.OnClausesGroup.Clauses.Count > 0)
+			var hasOnExpression = MPT.StartLogic.OnClausesGroup.GetObjects().Count > 0;
+			if (hasOnExpression)
 			{
 				Formula.AddClauseFormula(MPT.StartLogic.OnClausesGroup, DatabaseType);
-				hasOnExpression = true;
 			}
 
 			if (MPT.UseDoorStop)
@@ -52,8 +51,8 @@ namespace GKProcessor
 					if (mptDevice.MPTDeviceType == GKMPTDeviceType.Door)
 					{
 						Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
-						Formula.AddGetBit(GKStateBit.TurningOn, MPT, DatabaseType);
-						Formula.Add(FormulaOperationType.AND);
+						//Formula.AddGetBit(GKStateBit.TurningOn, MPT, DatabaseType);
+						//Formula.Add(FormulaOperationType.OR);
 						Formula.Add(FormulaOperationType.COM);
 						if (hasOnExpression)
 							Formula.Add(FormulaOperationType.AND);
@@ -67,13 +66,13 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
 
 				Formula.AddGetBit(GKStateBit.Norm, MPT.HandAutomaticOffPim, DatabaseType);
-				Formula.Add(FormulaOperationType.AND, comment: "");
+				Formula.Add(FormulaOperationType.AND);
 
 				Formula.AddGetBit(GKStateBit.Norm, MPT.DoorAutomaticOffPim, DatabaseType);
-				Formula.Add(FormulaOperationType.AND, comment: "");
+				Formula.Add(FormulaOperationType.AND);
 
 				Formula.AddGetBit(GKStateBit.Norm, MPT.FailureAutomaticOffPim, DatabaseType);
-				Formula.Add(FormulaOperationType.AND, comment: "");
+				Formula.Add(FormulaOperationType.AND);
 			}
 
 			foreach (var mptDevice in MPT.MPTDevices)
