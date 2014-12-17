@@ -117,5 +117,18 @@ namespace FiresecAPI.GK
 				return presentationName;
 			}
 		}
+
+		public List<Guid> GetCodeUids()
+		{
+			var codeUids = new List<Guid>();
+			foreach (var guardZoneDevice in GuardZoneDevices)
+			{
+				codeUids.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
+				codeUids.AddRange(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs);
+				codeUids.AddRange(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs);
+				codeUids.AddRange(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs);
+			}
+			return codeUids;
+		}
 	}
 }
