@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common.Reports;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -17,8 +15,11 @@ namespace ReportsModule.ViewModels
 			ReportPresenter = new SKDReportPresenterViewModel();
 			Reports = new ObservableCollection<SKDReportBaseViewModel>();
 			Enum.GetValues(typeof(SKDReportGroup)).Cast<SKDReportGroup>().ForEach(group => Reports.Add(new SKDReportGroupViewModel(group)));
-			ServiceFactory.Events.GetEvent<NewReportProviderEvent>().Unsubscribe(OnNewReportProvider);
-			ServiceFactory.Events.GetEvent<NewReportProviderEvent>().Subscribe(OnNewReportProvider);
+		}
+
+		public void Initialize()
+		{
+			ReportPresenter.CreateClient();
 		}
 
 		public ObservableCollection<SKDReportBaseViewModel> Reports { get; private set; }
@@ -38,7 +39,11 @@ namespace ReportsModule.ViewModels
 
 		public void RegisterReportProviderModule(ISKDReportProviderModule module)
 		{
-			module.GetSKDReportProviders().Where(item => CheckPermission(item)).ForEach(item => RegisterReportProvider(item));
+			module.GetSKDReportProviders().Where(CheckPermission).ForEach(RegisterReportProvider);
+		}
+		private bool CheckPermission(ISKDReportProvider provider)
+		{
+			return !provider.Permission.HasValue || FiresecManager.CheckPermission(provider.Permission.Value);
 		}
 		private void RegisterReportProvider(ISKDReportProvider provider)
 		{
@@ -51,28 +56,10 @@ namespace ReportsModule.ViewModels
 				Reports.Add(new SKDReportViewModel(provider));
 		}
 
-		public void Initialize()
-		{
-			ReportPresenter.CreateClient();
-		}
-
 		public override void OnShow()
 		{
 			if (SelectedReport == null)
 				SelectedReport = Reports.FirstOrDefault(item => item is SKDReportViewModel);
 		}
-
-		void OnNewReportProvider(ISKDReportProvider provider)
-		{
-			if(CheckPermission(provider))
-				RegisterReportProvider(provider);
-		}
-
-		bool CheckPermission(ISKDReportProvider provider)
-		{
-			return !provider.Permission.HasValue || FiresecManager.CheckPermission(provider.Permission.Value);
-		}
 	}
-
-	
 }

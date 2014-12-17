@@ -26,8 +26,9 @@ namespace SKDModule
 			if (DialogService.ShowModalWindow(cardReportFilterDetailsViewModel))
 			{
 				Filter = cardReportFilterDetailsViewModel.SelectedCardReportFilter;
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }
