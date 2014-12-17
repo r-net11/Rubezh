@@ -7,9 +7,11 @@ namespace GKProcessor
 {
 	public class ZoneDescriptor : BaseDescriptor
 	{
+		GKZone Zone { get; set; }
+
 		public ZoneDescriptor(GKZone zone, DatabaseType dataBaseType)
+			: base(zone, dataBaseType)
 		{
-			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.Zone;
 			Zone = zone;
 		}
@@ -24,7 +26,7 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && Zone.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !Zone.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				FormulaBytes = Formula.GetBytes();

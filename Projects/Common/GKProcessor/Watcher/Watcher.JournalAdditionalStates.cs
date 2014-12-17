@@ -13,15 +13,16 @@ namespace GKProcessor
 			var description = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventDescriptionType);
 			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalParser.GKObjectNo);
 
-			if (descriptor != null && descriptor.Device != null)
+			if (descriptor != null && descriptor.GKBase is GKDevice)
 			{
-				var deviceState = descriptor.Device.InternalState;
+				var device = descriptor.GKBase as GKDevice;
+				var deviceState = device.InternalState;
 				if (journalItem.JournalEventNameType == JournalEventNameType.Неисправность)
 				{
 					if (!string.IsNullOrEmpty(description))
 					{
 						AddAdditionalState(deviceState, description, XStateClass.Failure);
-						if (descriptor.Device.DriverType == GKDriverType.Battery)
+						if (device.DriverType == GKDriverType.Battery)
 						{
 							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.Names.Contains(description));
 							if (batteryNamesGroup != null)
@@ -46,7 +47,7 @@ namespace GKProcessor
 					else
 					{
 						deviceState.AdditionalStates.RemoveAll(x => x.Name == description);
-						if (descriptor.Device.DriverType == GKDriverType.Battery)
+						if (device.DriverType == GKDriverType.Battery)
 						{
 							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == description);
 							if (batteryNamesGroup != null)

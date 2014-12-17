@@ -9,6 +9,7 @@ namespace GKProcessor
 {
 	public class GuardZoneDescriptor : BaseDescriptor
 	{
+		GKGuardZone GuardZone { get; set; }
 		public GuardZonePimDescriptor GuardZonePimDescriptor { get; private set; }
 		List<GKGuardZoneDevice> SetGuardDevices;
 		List<GKGuardZoneDevice> ResetGuardDevices;
@@ -16,6 +17,7 @@ namespace GKProcessor
 		List<GKGuardZoneDevice> SetAlarmDevices;
 
 		public GuardZoneDescriptor(GKGuardZone zone, DatabaseType databaseType)
+			: base(zone, databaseType)
 		{
 			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.GuardZone;

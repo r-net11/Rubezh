@@ -6,9 +6,11 @@ namespace GKProcessor
 {
 	public class CodeDescriptor : BaseDescriptor
 	{
+		GKCode Code { get; set; }
+
 		public CodeDescriptor(GKCode code)
+			: base(code, DatabaseType.Gk)
 		{
-			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Code;
 			Code = code;
 		}

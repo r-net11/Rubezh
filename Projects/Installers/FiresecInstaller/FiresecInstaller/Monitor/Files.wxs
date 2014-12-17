@@ -47,6 +47,16 @@
 				<File Id="Monitor.itextsharp.xtra.dll" Name="itextsharp.xtra.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.itextsharp.pdfa.dll" Name="itextsharp.pdfa.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
+
+        <File Id="Monitor.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Mvvm.v14.1.dll" Name="DevExpress.Mvvm.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Printing.v14.1.Core.dll" Name="DevExpress.Printing.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Xpf.Core.v14.1.dll" Name="DevExpress.Xpf.Core.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Xpf.Docking.v14.1.dll" Name="DevExpress.Xpf.Docking.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Xpf.Layout.v14.1.Core.dll" Name="DevExpress.Xpf.Layout.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Xpf.Printing.v14.1.dll" Name="DevExpress.Xpf.Printing.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
 			<Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">
@@ -83,9 +93,6 @@
 
 			<Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
 				<File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-				<File Id="Monitor.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
 			<Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">

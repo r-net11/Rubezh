@@ -9,9 +9,11 @@ namespace GKProcessor
 {
 	public class DeviceDescriptor : BaseDescriptor
 	{
+		GKDevice Device { get; set; }
+
 		public DeviceDescriptor(GKDevice device, DatabaseType databaseType)
+			: base(device, databaseType)
 		{
-			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.Device;
 			Device = device;
 			CreateFormula();

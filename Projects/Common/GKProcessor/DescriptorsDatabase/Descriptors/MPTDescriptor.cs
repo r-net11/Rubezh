@@ -8,9 +8,11 @@ namespace GKProcessor
 {
 	public class MPTDescriptor : BaseDescriptor
 	{
+		GKMPT MPT { get; set; }
+
 		public MPTDescriptor(CommonDatabase database, GKMPT mpt, DatabaseType dataBaseType)
+			: base(mpt, dataBaseType)
 		{
-			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
 			MPT.Hold = 10;

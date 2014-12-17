@@ -7,9 +7,11 @@ namespace GKProcessor
 {
 	public class PumpStationDescriptor : BaseDescriptor
 	{
+		GKPumpStation PumpStation { get; set; }
+
 		public PumpStationDescriptor(CommonDatabase database, GKPumpStation pumpStation, DatabaseType dataBaseType)
+			: base(pumpStation, dataBaseType)
 		{
-			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
 			database.AddDelay(pumpStation.MainDelay);

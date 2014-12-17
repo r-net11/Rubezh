@@ -9,16 +9,8 @@ namespace GKProcessor
 	{
 		public DatabaseType DatabaseType { get; set; }
 		public DescriptorType DescriptorType { get; protected set; }
-		public GKDevice Device { get; protected set; }
-		public GKZone Zone { get; protected set; }
-		public GKDirection Direction { get; protected set; }
-		public GKPumpStation PumpStation { get; protected set; }
-		public GKMPT MPT { get; protected set; }
-		public GKDelay Delay { get; protected set; }
-		public GKPim Pim { get; protected set; }
-		public GKGuardZone GuardZone { get; protected set; }
-		public GKCode Code { get; protected set; }
-		public GKDoor Door { get; protected set; }
+		public GKBase GKBase { get; private set; }
+
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }
@@ -37,8 +29,10 @@ namespace GKProcessor
 		public List<byte> AllBytes { get; private set; }
 		public FormulaBuilder Formula { get; set; }
 
-		public BaseDescriptor()
+		public BaseDescriptor(GKBase gkBase, DatabaseType databaseType)
 		{
+			GKBase = gkBase;
+			DatabaseType = databaseType;
 			Formula = new FormulaBuilder();
 			Parameters = new List<byte>();
 		}
@@ -96,8 +90,8 @@ namespace GKProcessor
 			{
 				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
-					if ((outputGKBase is GKGuardZone) && (outputGKBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
-						return;
+					//if ((outputGKBase is GKGuardZone) && (outputGKBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
+					//    return;
 					if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
 						return;
 					var no = outputGKBase.KAUDescriptorNo;
@@ -164,45 +158,45 @@ namespace GKProcessor
 			AllBytes.AddRange(Parameters);
 		}
 
-		public GKBase GKBase
-		{
-			get
-			{
-				switch (DescriptorType)
-				{
-					case DescriptorType.Device:
-						return Device;
+		//public GKBase GKBase
+		//{
+		//    get
+		//    {
+		//        switch (DescriptorType)
+		//        {
+		//            case DescriptorType.Device:
+		//                return Device;
 
-					case DescriptorType.Zone:
-						return Zone;
+		//            case DescriptorType.Zone:
+		//                return Zone;
 
-					case DescriptorType.Direction:
-						return Direction;
+		//            case DescriptorType.Direction:
+		//                return Direction;
 
-					case DescriptorType.PumpStation:
-						return PumpStation;
+		//            case DescriptorType.PumpStation:
+		//                return PumpStation;
 
-					case DescriptorType.MPT:
-						return MPT;
+		//            case DescriptorType.MPT:
+		//                return MPT;
 
-					case DescriptorType.Delay:
-						return Delay;
+		//            case DescriptorType.Delay:
+		//                return Delay;
 
-					case DescriptorType.Pim:
-						return Pim;
+		//            case DescriptorType.Pim:
+		//                return Pim;
 
-					case DescriptorType.GuardZone:
-						return GuardZone;
+		//            case DescriptorType.GuardZone:
+		//                return GuardZone;
 
-					case DescriptorType.Code:
-						return Code;
+		//            case DescriptorType.Code:
+		//                return Code;
 
-					case DescriptorType.Door:
-						return Door;
-				}
-				return null;
-			}
-		}
+		//            case DescriptorType.Door:
+		//                return Door;
+		//        }
+		//        return null;
+		//    }
+		//}
 
 		public ushort GetDescriptorNo()
 		{
