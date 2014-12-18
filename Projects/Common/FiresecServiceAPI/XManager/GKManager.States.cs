@@ -36,6 +36,11 @@ namespace FiresecClient
 				guardZone.InternalState = new GKGuardZoneInternalState(guardZone);
 				guardZone.State = new GKState(guardZone);
 			}
+			foreach (var delay in Delays)
+			{
+				delay.InternalState = new GKDelayInternalState(delay);
+				delay.State = new GKState(delay);
+			}
 			foreach (var door in Doors)
 			{
 				door.InternalState = new GKDoorInternalState(door);
