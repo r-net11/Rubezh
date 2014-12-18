@@ -258,14 +258,14 @@ namespace SKDModule.ViewModels
 			var cardReportFilterDetailsViewModel = new CardReportFilterDetailsViewModel(CardReportFilters);
 			if (DialogService.ShowModalWindow(cardReportFilterDetailsViewModel))
 			{
-				//var cardReportItemsResult = FiresecManager.FiresecService.GetCardReport(cardReportFilterDetailsViewModel.SelectedCardReportFilter);
-				//if(cardReportItemsResult.HasError)
-				//    return;
-				//var cardReportItems = cardReportItemsResult.Result;
-				//foreach (var item in cardReportItems)
-				//{
-				//    Trace.WriteLine(item.CardType + " " + item.Number + " " + item.Organisation + " " + item.Department + " " + item.Position + " " + item.Employee + " " + item.EndDate);
-				//}
+				var cardReportItemsResult = FiresecManager.FiresecService.GetCardReport(cardReportFilterDetailsViewModel.SelectedCardReportFilter);
+				if (cardReportItemsResult.HasError)
+					return;
+				var cardReportItems = cardReportItemsResult.Result;
+				foreach (var item in cardReportItems)
+				{
+					Trace.WriteLine(item.CardType + " " + item.Number + " " + item.Organisation + " " + item.Department + " " + item.Position + " " + item.Employee + " " + item.EndDate);
+				}
 			}
 		}
 	}
