@@ -58,6 +58,7 @@
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Core.v14.1.resources.dll" Name="DevExpress.Xpf.Core.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.resources.dll" Name="DevExpress.Xpf.Printing.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)" />
+				<File Id="Monitor.DevExpress.Xpf.Docking.v14.1.resources.dll" Name="DevExpress.Xpf.Docking.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 

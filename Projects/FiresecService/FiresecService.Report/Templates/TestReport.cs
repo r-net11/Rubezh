@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
-using Infrastructure.Common.SKDReports.Filters;
 using System.Threading;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Templates
 {

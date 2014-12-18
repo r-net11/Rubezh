@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Infrastructure.Common.SKDReports.Filters
+namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
 	public class TestReportFilter

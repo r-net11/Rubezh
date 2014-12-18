@@ -192,7 +192,6 @@
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyType.cs" />
     <Compile Include="SKDReports\FilteredSKDReportProvider.cs" />
-    <Compile Include="SKDReports\Filters\TestReportFilter.cs" />
     <Compile Include="SKDReports\IFilteredSKDReportProvider.cs" />
     <Compile Include="SKDReports\ISKDReportProvider.cs" />
     <Compile Include="SKDReports\ISKDReportProviderModule.cs" />

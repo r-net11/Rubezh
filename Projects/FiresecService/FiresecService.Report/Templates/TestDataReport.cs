@@ -7,8 +7,8 @@ using SKDDriver;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.DataSources.TestDataReportDataSetTableAdapters;
 using System.Data.SqlClient;
-using Infrastructure.Common.SKDReports.Filters;
 using System.Threading;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report.Templates
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.SKDReports.Filters;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace ReportsModule.Test
 {

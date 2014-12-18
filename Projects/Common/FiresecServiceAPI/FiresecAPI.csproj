@@ -266,6 +266,7 @@
     <Compile Include="SKD\EmployeeDay.cs" />
     <Compile Include="SKD\Position\PositionFilter.cs" />
     <Compile Include="SKD\PassCardLibrary\ShortPassCardTemplate.cs" />
+    <Compile Include="SKD\ReportFilters\TestReportFilter.cs" />
     <Compile Include="SKD\Settings\ValidationErrorType.cs" />
     <Compile Include="SKD\SKDManager\CommonChinaControllerHelper.cs" />
     <Compile Include="SKD\TimeTrack\DocumentType.cs" />
