@@ -32,7 +32,8 @@ namespace FiresecAPI.GK
 			set
 			{
 				_isLogicOnKau = value;
-				Pim.IsLogicOnKau = true;
+				if (Pim != null)
+					Pim.IsLogicOnKau = true;
 			}
 		}
 

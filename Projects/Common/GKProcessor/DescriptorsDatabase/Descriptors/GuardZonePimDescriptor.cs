@@ -14,6 +14,10 @@ namespace GKProcessor
 		{
 			PimGuardZone = pimGuardZone;
 			GuardZoneDevices = guardZoneDevices;
+			foreach (var guardDevice in GuardZoneDevices)
+			{
+				Pim.LinkGKBases(guardDevice.Device);
+			}
 		}
 
 		public override void Build()
@@ -36,8 +40,6 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var guardDevice in GuardZoneDevices)
 			{
-				Pim.LinkGKBases(guardDevice.Device);
-
 				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
 				{
 					var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;

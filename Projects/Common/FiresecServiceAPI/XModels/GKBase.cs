@@ -262,14 +262,14 @@ namespace FiresecAPI.GK
 				else
 					continue;
 				result.AddRange(GetAllDependentObjects(inputObject, result).FindAll(x => !result.Contains(x)));
-				if (gkBase is GKGuardZone)
+			}
+			if (gkBase is GKGuardZone)
+			{
+				var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
+				if (guardZoneDevice != null)
 				{
-					var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
-					if (guardZoneDevice != null)
-					{
-						if (result.All(x => x.UID != guardZoneDevice.Device.UID))
-							result.Add(guardZoneDevice.Device);
-					}
+					if (result.All(x => x.UID != guardZoneDevice.Device.UID))
+						result.Add(guardZoneDevice.Device);
 				}
 			}
 			return result;

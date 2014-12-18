@@ -429,6 +429,9 @@
     <Compile Include="SKD\Views\DaySchedulesView.xaml.cs">
       <DependentUpon>DaySchedulesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SKD\Views\HolidayScheduleView.xaml.cs">
+      <DependentUpon>HolidayScheduleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml.cs">
       <DependentUpon>ScheduleIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
@@ -871,6 +874,10 @@
     <Page Include="SKD\Views\DaySchedulesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\HolidayScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SKD\Views\ScheduleIntervalPartDetailsView.xaml">
       <SubType>Designer</SubType>

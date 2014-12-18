@@ -17,15 +17,19 @@ namespace GKProcessor
 
 			foreach (var device in AllDevices)
 			{
-				device.KAUDescriptorNo = NextDescriptorNo;
 				device.KauDatabaseParent = RootDevice;
 				Devices.Add(device);
+			}
+
+			foreach (var delay in GKManager.Delays.FindAll(x => x.KauDatabaseParent == RootDevice))
+			{
+				delay.KauDatabaseParent = RootDevice;
+				Delays.Add(delay);
 			}
 
 			foreach (var zone in GKManager.Zones.FindAll(x => x.KauDatabaseParent == RootDevice))
 			{
 				zone.KauDatabaseParent = RootDevice;
-				zone.KAUDescriptorNo = NextDescriptorNo;
 				Zones.Add(zone);
 			}
 
@@ -38,15 +42,7 @@ namespace GKProcessor
 			foreach (var direction in GKManager.Directions.FindAll(x => x.KauDatabaseParent == RootDevice))
 			{
 				direction.KauDatabaseParent = RootDevice;
-				direction.KAUDescriptorNo = NextDescriptorNo;
 				Directions.Add(direction);
-			}
-
-			foreach (var delay in GKManager.Delays.FindAll(x => x.KauDatabaseParent == RootDevice))
-			{
-				delay.KauDatabaseParent = RootDevice;
-				delay.KAUDescriptorNo = NextDescriptorNo;
-				Delays.Add(delay);
 			}
 
 			foreach (var pumpStation in GKManager.PumpStations.FindAll(x => x.KauDatabaseParent == RootDevice))
@@ -90,19 +86,18 @@ namespace GKProcessor
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
+				device.KAUDescriptorNo = NextDescriptorNo;
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
 			}
+
 			foreach (var zone in Zones)
 			{
+				zone.KAUDescriptorNo = NextDescriptorNo;
 				var zoneDescriptor = new ZoneDescriptor(zone, DatabaseType.Kau);
 				Descriptors.Add(zoneDescriptor);
 			}
-			foreach (var delay in Delays)
-			{
-				var delayDescriptor = new DelayDescriptor(delay, DatabaseType.Kau);
-				Descriptors.Add(delayDescriptor);
-			}
+
 			foreach (var guardZone in GuardZones)
 			{
 				guardZone.KAUDescriptorNo = NextDescriptorNo;
@@ -115,11 +110,21 @@ namespace GKProcessor
 					Descriptors.Add(guardZoneDescriptor.GuardZonePimDescriptor);
 				}
 			}
+
 			foreach (var direction in Directions)
 			{
+				direction.KAUDescriptorNo = NextDescriptorNo;
 				var directionDescriptor = new DirectionDescriptor(direction, DatabaseType.Kau);
 				Descriptors.Add(directionDescriptor);
 			}
+
+			foreach (var delay in Delays)
+			{
+				delay.KAUDescriptorNo = NextDescriptorNo;
+				var delayDescriptor = new DelayDescriptor(delay, DatabaseType.Kau);
+				Descriptors.Add(delayDescriptor);
+			}
+
 			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.KAUDescriptorNo = NextDescriptorNo;
