@@ -7,9 +7,11 @@ namespace GKProcessor
 {
 	public class ZoneDescriptor : BaseDescriptor
 	{
+		GKZone Zone { get; set; }
+
 		public ZoneDescriptor(GKZone zone, DatabaseType dataBaseType)
+			: base(zone, dataBaseType)
 		{
-			DatabaseType = dataBaseType;
 			DescriptorType = DescriptorType.Zone;
 			Zone = zone;
 		}
@@ -24,7 +26,7 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if ((DatabaseType == DatabaseType.Gk && GKBase.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !GKBase.IsLogicOnKau))
+			if ((DatabaseType == DatabaseType.Gk && Zone.IsLogicOnKau) || (DatabaseType == DatabaseType.Kau && !Zone.IsLogicOnKau))
 			{
 				Formula.Add(FormulaOperationType.END);
 				FormulaBytes = Formula.GetBytes();
@@ -33,24 +35,24 @@ namespace GKProcessor
 
 			var fire1Count = AddDeviceFire1();
 			AddDeviceFire2();
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, comment:"Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.MUL);
 			Formula.Add(FormulaOperationType.ADD);
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, comment: "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
 			Formula.AddGetBit(GKStateBit.Fire2, Zone, DatabaseType);
 			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(GKStateBit.Fire2, Zone, DatabaseType);
 
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, "Количество устройств для формирования Пожар1");
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, comment: "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
 			Formula.AddGetBit(GKStateBit.Fire1, Zone, DatabaseType);
 			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(GKStateBit.Fire1, Zone, DatabaseType);
 
-			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
+			Formula.Add(FormulaOperationType.CONST, 0, 1, comment: "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
 			Formula.AddPutBit(GKStateBit.Attention, Zone, DatabaseType);
 
@@ -75,7 +77,7 @@ namespace GKProcessor
 				}
 			}
 			if (count == 0)
-				Formula.Add(FormulaOperationType.CONST, 0, 0, "Нулевое количество устройств в состоянии Пожар1");
+				Formula.Add(FormulaOperationType.CONST, 0, 0, comment: "Нулевое количество устройств в состоянии Пожар1");
 
 			return count;
 		}
@@ -96,7 +98,7 @@ namespace GKProcessor
 				}
 			}
 			if (count == 0)
-				Formula.Add(FormulaOperationType.CONST, 0, 0, "Количество устройств в состоянии Пожар2");
+				Formula.Add(FormulaOperationType.CONST, 0, 0, comment: "Количество устройств в состоянии Пожар2");
 
 			return count;
 		}

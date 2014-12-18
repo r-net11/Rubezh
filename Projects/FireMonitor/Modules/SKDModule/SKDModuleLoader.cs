@@ -22,10 +22,11 @@ using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.Reports;
 using SKDModule.ViewModels;
+using Infrastructure.Common.SKDReports;
 
 namespace SKDModule
 {
-	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
+	public class SKDModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule, ISKDReportProviderModule
 	{
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
@@ -182,7 +183,6 @@ namespace SKDModule
 			SafeFiresecService.SKDStatesEvent += new Action<SKDStates>(OnSKDStates);
 
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
-			ServiceFactoryBase.Events.GetEvent<NewReportProviderEvent>().Publish(new CardReportProvider(999));
 		}
 
 		void OnSKDStates(SKDStates skdStates)
@@ -249,6 +249,15 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Графики работ", "Tree.png", (p) => SchedulesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учета рабочего времени", "Tree.png", (p) => TimeTrackingViewModel);
 		}
+		#endregion
+
+		#region ISKDReportProviderModule Members
+
+		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
+		{
+			yield return new CardReportProvider(999);
+		}
+
 		#endregion
 	}
 }

@@ -14,6 +14,7 @@ using System.ServiceModel;
 using Common;
 using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
 using DevExpress.DocumentServices.ServiceModel.DataContracts;
+using System.Collections.ObjectModel;
 
 namespace ReportsModule.ViewModels
 {
@@ -109,6 +110,7 @@ namespace ReportsModule.ViewModels
 		public XReportServicePreviewModel()
 			: base()
 		{
+			ZoomValues = new ReadOnlyCollection<double>(new double[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 });
 		}
 		public XReportServicePreviewModel(string s)
 			: base(s)
@@ -128,5 +130,7 @@ namespace ReportsModule.ViewModels
 			var operation = base.ConstructCreateDocumentOperation(buildArgs);
 			return operation;
 		}
+
+		protected override ReadOnlyCollection<double> ZoomValues { get; private set; }
 	}
 }

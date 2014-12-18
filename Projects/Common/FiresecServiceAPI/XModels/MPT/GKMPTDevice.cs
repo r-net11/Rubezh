@@ -50,10 +50,10 @@ namespace FiresecAPI.GK
 					result.Add(GKDriverType.RSR2_OPK);
 					break;
 
-				case GKMPTDeviceType.Door:
 				case GKMPTDeviceType.HandStart:
 				case GKMPTDeviceType.HandStop:
-				case GKMPTDeviceType.HandAutomatic:
+				case GKMPTDeviceType.HandAutomaticOn:
+				case GKMPTDeviceType.HandAutomaticOff:
 					result.Add(GKDriverType.RSR2_AM_1);
 					break;
 

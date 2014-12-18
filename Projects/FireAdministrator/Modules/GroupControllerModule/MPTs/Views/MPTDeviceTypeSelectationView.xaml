@@ -19,7 +19,7 @@
 			<DataGridTemplateColumn Header="Тип" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding MPTDeviceType, Converter={StaticResource MPTDeviceTypeToStringConverter}}" />
+						<TextBlock Text="{Binding MPTDeviceType, Converter={StaticResource MPTDeviceTypeToStringConverter}}" Margin="2" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>

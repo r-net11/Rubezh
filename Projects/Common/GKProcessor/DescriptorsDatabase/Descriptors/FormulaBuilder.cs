@@ -13,13 +13,25 @@ namespace GKProcessor
 			FormulaOperations = new List<FormulaOperation>();
 		}
 
-		public void Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, string comment = null)
+		public void Resolve(DatabaseType dataBaseType)
+		{
+			foreach (var formulaOperation in FormulaOperations)
+			{
+				if (formulaOperation.GKBaseSecondOperand != null)
+				{
+					formulaOperation.SecondOperand = dataBaseType == DatabaseType.Gk ? formulaOperation.GKBaseSecondOperand.GKDescriptorNo : formulaOperation.GKBaseSecondOperand.KAUDescriptorNo;
+				}
+			}
+		}
+
+		public void Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, GKBase gkBase = null, string comment = null)
 		{
 			var formulaOperation = new FormulaOperation()
 			{
 				FormulaOperationType = formulaOperationType,
 				FirstOperand = firstOperand,
 				SecondOperand = secondOperand,
+				GKBaseSecondOperand = gkBase,
 				Comment = comment
 			};
 			FormulaOperations.Add(formulaOperation);
@@ -28,25 +40,25 @@ namespace GKProcessor
 		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
 		{
 			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo, gkBase);
 		}
 
 		public void AddGetBit(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
 		{
 			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo);
+			Add(FormulaOperationType.GETBIT, (byte)stateBit, descriptorNo, gkBase);
 		}
 
 		public void AddPutBit(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)
 		{
 			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.PUTBIT, (byte)stateBit, descriptorNo);
+			Add(FormulaOperationType.PUTBIT, (byte)stateBit, descriptorNo, gkBase);
 		}
 
 		public void AddArgumentPutBit(byte bit, GKBase gkBase, DatabaseType dataBaseType)
 		{
 			var descriptorNo = dataBaseType == DatabaseType.Gk ? gkBase.GKDescriptorNo : gkBase.KAUDescriptorNo;
-			Add(FormulaOperationType.PUTBIT, (byte)bit, descriptorNo);
+			Add(FormulaOperationType.PUTBIT, (byte)bit, descriptorNo, gkBase);
 		}
 
 		public void AddStandardTurning(GKBase gkBase, DatabaseType dataBaseType)

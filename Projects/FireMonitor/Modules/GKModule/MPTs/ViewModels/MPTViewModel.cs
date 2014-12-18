@@ -2,8 +2,6 @@
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
-using GKModule.Events;
-using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -37,8 +35,6 @@ namespace GKModule.ViewModels
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
 				Devices.Add(deviceViewModel);
 			}
-
-			InitializePIMs();
 		}
 
 		void OnStateChanged()
@@ -75,92 +71,9 @@ namespace GKModule.ViewModels
 			get { return GKManager.GetPresentationLogic(MPT.StartLogic); }
 		}
 
-		#region PIM
-		void InitializePIMs()
+		public string StopPresentationName
 		{
-			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-			{
-				foreach (var pim in gkDatabase.Pims)
-				{
-					if (pim.MPTUID == MPT.UID)
-					{
-						if (pim.Name.StartsWith("АО Р "))
-						{
-							HandAutomaticOffPim = pim;
-							OnHandAutomaticOffStateChanged();
-							pim.State.StateChanged -= new System.Action(OnHandAutomaticOffStateChanged);
-							pim.State.StateChanged += new System.Action(OnHandAutomaticOffStateChanged);
-						}
-						if (pim.Name.StartsWith("АО Д "))
-						{
-							DoorAutomaticOffPim = pim;
-							OnDoorAutomaticOffStateChanged();
-							pim.State.StateChanged -= new System.Action(OnDoorAutomaticOffStateChanged);
-							pim.State.StateChanged += new System.Action(OnDoorAutomaticOffStateChanged);
-						}
-						if (pim.Name.StartsWith("АО Н "))
-						{
-							FailureAutomaticOffPim = pim;
-							OnFailureAutomaticOffStateChanged();
-							pim.State.StateChanged -= new System.Action(OnFailureAutomaticOffStateChanged);
-							pim.State.StateChanged += new System.Action(OnFailureAutomaticOffStateChanged);
-						}
-					}
-				}
-			}
+			get { return GKManager.GetPresentationLogic(MPT.StopLogic); }
 		}
-
-		GKPim HandAutomaticOffPim;
-		GKPim DoorAutomaticOffPim;
-		GKPim FailureAutomaticOffPim;
-
-		void OnHandAutomaticOffStateChanged()
-		{
-			IsHandAutomaticOff = HandAutomaticOffPim.State.StateClasses.Contains(XStateClass.AutoOff);
-		}
-
-		void OnDoorAutomaticOffStateChanged()
-		{
-			IsDoorAutomaticOff = DoorAutomaticOffPim.State.StateClasses.Contains(XStateClass.AutoOff);
-		}
-
-		void OnFailureAutomaticOffStateChanged()
-		{
-			IsFailureAutomaticOff = FailureAutomaticOffPim.State.StateClasses.Contains(XStateClass.AutoOff);
-		}
-
-		bool _isHandAutomaticOff;
-		public bool IsHandAutomaticOff
-		{
-			get { return _isHandAutomaticOff; }
-			set
-			{
-				_isHandAutomaticOff = value;
-				OnPropertyChanged(() => IsHandAutomaticOff);
-			}
-		}
-
-		bool _isDoorAutomaticOff;
-		public bool IsDoorAutomaticOff
-		{
-			get { return _isDoorAutomaticOff; }
-			set
-			{
-				_isDoorAutomaticOff = value;
-				OnPropertyChanged(() => IsDoorAutomaticOff);
-			}
-		}
-
-		bool _isFailureAutomaticOff;
-		public bool IsFailureAutomaticOff
-		{
-			get { return _isFailureAutomaticOff; }
-			set
-			{
-				_isFailureAutomaticOff = value;
-				OnPropertyChanged(() => IsFailureAutomaticOff);
-			}
-		}
-		#endregion
 	}
 }

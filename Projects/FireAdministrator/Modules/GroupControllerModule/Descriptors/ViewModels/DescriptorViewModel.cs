@@ -3,6 +3,7 @@ using System.Linq;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -16,36 +17,35 @@ namespace GKModule.ViewModels
 			DescriptorsViewModel = descriptorsViewModel;
 			Descriptor = descriptor;
 			PresentationName = descriptor.GKBase.PresentationName;
+			Description = descriptor.GKBase.Description;
 			switch (descriptor.DescriptorType)
 			{
 				case DescriptorType.Device:
-					ImageSource = descriptor.Device.Driver.ImageSource;
-					Description = descriptor.Device.Description;
+					var device = descriptor.GKBase as GKDevice;
+					if (device != null)
+					{
+						ImageSource = device.Driver.ImageSource;
+					}
 					break;
 
 				case DescriptorType.Zone:
 					ImageSource = "/Controls;component/Images/Zone.png";
-					Description = descriptor.Zone.Description;
 					break;
 
 				case DescriptorType.Direction:
 					ImageSource = "/Controls;component/Images/Blue_Direction.png";
-					Description = descriptor.Direction.Description;
 					break;
 
 				case DescriptorType.PumpStation:
 					ImageSource = "/Controls;component/Images/BPumpStation.png";
-					Description = descriptor.PumpStation.Description;
 					break;
 
 				case DescriptorType.MPT:
 					ImageSource = "/Controls;component/Images/BMPT.png";
-					Description = descriptor.MPT.Description;
 					break;
 
 				case DescriptorType.Delay:
 					ImageSource = "/Controls;component/Images/Delay.png";
-					Description = descriptor.Delay.Description;
 					break;
 
 				case DescriptorType.Pim:
@@ -54,17 +54,14 @@ namespace GKModule.ViewModels
 
 				case DescriptorType.GuardZone:
 					ImageSource = "/Controls;component/Images/GuardZone.png";
-					Description = descriptor.GuardZone.Description;
 					break;
 
 				case DescriptorType.Code:
 					ImageSource = "/Controls;component/Images/Code.png";
-					Description = descriptor.Code.Description;
 					break;
 
 				case DescriptorType.Door:
 					ImageSource = "/Controls;component/Images/Door.png";
-					Description = descriptor.Door.Description;
 					break;
 			}
 

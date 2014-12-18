@@ -76,9 +76,10 @@ namespace GKProcessor
 				binProperties.Add(binProperty);
 			}
 
-			if (descriptor.Device != null)
+			var device = descriptor.GKBase as GKDevice;
+			if (device != null)
 			{
-				foreach (var driverProperty in descriptor.Device.Driver.Properties)
+				foreach (var driverProperty in device.Driver.Properties)
 				{
 					if (!driverProperty.IsAUParameter)
 						continue;
@@ -100,11 +101,11 @@ namespace GKProcessor
 						{
 							paramValue = (byte)(paramValue & driverProperty.Mask);
 						}
-						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property == null)
 						{
-							var systemProperty = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-							descriptor.Device.DeviceProperties.Add(new GKProperty()
+							var systemProperty = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+							device.DeviceProperties.Add(new GKProperty()
 							{
 								DriverProperty = systemProperty.DriverProperty,
 								Name = systemProperty.Name,
@@ -125,19 +126,19 @@ namespace GKProcessor
 						return new OperationResult<List<GKProperty>>("Неизвестный номер параметра");
 				}
 			}
-			if (descriptor.Direction != null && binProperties.Count >= 3)
+			if (descriptor.DescriptorType == DescriptorType.Direction != null && binProperties.Count >= 3)
 			{
 				properties.Add(new GKProperty() { Value = binProperties[0].Value });
 				properties.Add(new GKProperty() { Value = binProperties[1].Value });
 				properties.Add(new GKProperty() { Value = binProperties[2].Value });
 			}
-			if (descriptor.Delay != null && binProperties.Count >= 3)
+			if (descriptor.DescriptorType == DescriptorType.Delay != null && binProperties.Count >= 3)
 			{
 				properties.Add(new GKProperty() { Value = binProperties[0].Value });
 				properties.Add(new GKProperty() { Value = binProperties[1].Value });
 				properties.Add(new GKProperty() { Value = binProperties[2].Value });
 			}
-			if (descriptor.Code != null && binProperties.Count >= 2)
+			if (descriptor.DescriptorType == DescriptorType.Code != null && binProperties.Count >= 2)
 			{
 				properties.Add(new GKProperty() { Value = binProperties[0].Value });
 				properties.Add(new GKProperty() { Value = binProperties[1].Value });
@@ -146,11 +147,12 @@ namespace GKProcessor
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, List<byte> parameterBytes)
 		{
-			if (descriptor.Device != null)
+			var device = descriptor.GKBase as GKDevice;
+			if (device != null)
 			{
-				foreach (var property in descriptor.Device.Properties)
+				foreach (var property in device.Properties)
 				{
-					var driverProperty = descriptor.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
 					{
 						double minValue = driverProperty.Min;

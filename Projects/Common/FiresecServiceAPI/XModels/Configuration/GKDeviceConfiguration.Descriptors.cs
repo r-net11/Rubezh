@@ -76,25 +76,9 @@ namespace FiresecAPI.GK
 			foreach (var code in Codes)
 			{
 				code.PrepareInputOutputDependences();
-				var codeGuardZones = new List<GKGuardZone>();
-				foreach (var guardZone in GKManager.GuardZones)
-				{
-					var codeUids = new List<Guid>();
-					foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
-					{
-						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs);
-						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.ResetGuardSettings.CodeUIDs);
-						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.ChangeGuardSettings.CodeUIDs);
-						codeUids.AddRange(guardZoneDevice.CodeReaderSettings.AlarmSettings.CodeUIDs);
-					}
-					if (codeUids.Contains(code.UID))
-						codeGuardZones.Add(guardZone);
-				}
-				List<GKDevice> kauParents = codeGuardZones.Select(x => x.KauDatabaseParent).ToList();
-				if (kauParents != null && kauParents.Count == 1)
-					code.KauDatabaseParent = kauParents.FirstOrDefault();
-				else
-					code.KauDatabaseParent = null;
+				var codeGuardZones = GKManager.GuardZones.Where(x => x.GetCodeUids().Contains(code.UID)).ToList();
+				var kauParents = codeGuardZones.Select(x => x.KauDatabaseParent).Distinct().ToList();
+				code.KauDatabaseParent = kauParents.Count == 1 ? kauParents.FirstOrDefault() : null;
 				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
 			}
 		}

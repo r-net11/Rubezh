@@ -128,12 +128,13 @@
 			<Border Grid.Column="0" CornerRadius="5" Background="White" MinHeight="100" Margin="0 4 0 0">
 				<StackPanel Margin="2">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />
+						<TextBlock Text="Условие для включения" FontWeight="Bold" Width="250" Margin="5 2" />
 						<TextBlock Text="{Binding StartPresentationName}" VerticalAlignment="Center" Margin="2" />
 					</StackPanel>
-					<TextBlock Text="Автоматика отключена по кнопке ручного изменения режима автоматики" Visibility="{Binding IsHandAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBlock Text="Автоматика отключена по датчику двеи-окна" Visibility="{Binding IsDoorAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBlock Text="Автоматика отключена по неисправности устройств" Visibility="{Binding IsFailureAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Условие для выключения" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock Text="{Binding StopPresentationName}" VerticalAlignment="Center" Margin="2" />
+                    </StackPanel>
 				</StackPanel>
 			</Border>
 			<Views:MPTControlView Grid.Column="1" DataContext="{Binding MPTDetailsViewModel}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}" Margin="4 4 0 0" />

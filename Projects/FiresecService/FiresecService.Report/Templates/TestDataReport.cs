@@ -8,6 +8,7 @@ using FiresecService.Report.DataSources;
 using FiresecService.Report.DataSources.TestDataReportDataSetTableAdapters;
 using System.Data.SqlClient;
 using Infrastructure.Common.SKDReports.Filters;
+using System.Threading;
 
 namespace FiresecService.Report.Templates
 {
@@ -26,6 +27,11 @@ namespace FiresecService.Report.Templates
 			var filter = args as TestReportFilter;
 			if (filter != null)
 				timestamp.Value = filter.Timestamp;
+			if (args is bool)
+			{
+				if ((bool)args)
+					Thread.Sleep(5000);
+			}
 			using (var connection = new SqlConnection(@"Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True"))
 			{
 				var ds = new TestDataReportDataSet();

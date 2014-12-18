@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Common;
 using System.Xml.Serialization;
 using System.Linq;
+using FiresecClient;
 
 namespace FiresecAPI.GK
 {
@@ -104,6 +105,7 @@ namespace FiresecAPI.GK
 			if (mpt != null)
 			{
 				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
+				LinkLogic(mpt, mpt.StopLogic.OnClausesGroup);
 			}
 
 			if (delay != null)
@@ -216,44 +218,37 @@ namespace FiresecAPI.GK
 
 		#endregion
 
-		GKDevice GetDataBaseParent(List<GKDevice> devices)
-		{
-			var allDependentDevices = new List<GKDevice>(devices);
-			foreach (var device in devices)
-			{
-
-			}
-			List<GKDevice> kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
-			if (kauParents != null && kauParents.Count == 1)
-				return kauParents.FirstOrDefault();
-			else
-				return devices.FirstOrDefault().GKParent;
-		}
-
 		public GKDevice GetDataBaseParent()
 		{
 			PrepareInputOutputDependences();
-			var allDependentDevices = GetFullTree(this);
-			var kauParents = allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
-			if (kauParents != null && kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
+			var allDependentDevices = GetFullTree(this).Cast<GKDevice>().ToList();
+			var allDependentGuardZones = GetFullTree(this, true).Cast<GKGuardZone>().ToList();
+			allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
+			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
+			kauParents = kauParents.Distinct().ToList();
+			if (kauParents.Count == 1 && kauParents.FirstOrDefault() != null)
 				return kauParents.FirstOrDefault();
-			else
-			{
-				if (this is GKDevice)
-					return (this as GKDevice).GKParent;
-				else
-				{
-					if (allDependentDevices != null && allDependentDevices.Count > 0)
-						return allDependentDevices.FirstOrDefault().GKParent;
-					else
-						return null;
-				}
-			}
+			if (this is GKDevice)
+				return (this as GKDevice).GKParent;
+			if (allDependentDevices != null && allDependentDevices.Count > 0)
+				return allDependentDevices.FirstOrDefault().GKParent;
+			return null;
 		}
 
-		List<GKDevice> GetFullTree(GKBase gkBase)
+		List<GKDevice> GetGuardZoneDependetnDevicesByCodes(GKGuardZone currentZone)
 		{
-			return GetAllDependentObjects(gkBase, new List<GKBase>()).Where(x => x is GKDevice).Cast<GKDevice>().ToList();
+			var dependentZones = GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect(currentZone.GetCodeUids()).Any());
+			var allDependentDevices = new List<GKDevice>();
+			dependentZones.ForEach(x => x.PrepareInputOutputDependences());
+			dependentZones.ForEach(x => allDependentDevices.AddRange(GetFullTree(x).Cast<GKDevice>().ToList()));
+			return allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
+		}
+
+		List<GKBase> GetFullTree(GKBase gkBase, bool isGuardZone = false)
+		{
+			if (isGuardZone)
+				return GetAllDependentObjects(gkBase, new List<GKBase>()).Where(x => x is GKGuardZone).ToList();
+			return GetAllDependentObjects(gkBase, new List<GKBase>()).Where(x => x is GKDevice).ToList();
 		}
 
 		List<GKBase> GetAllDependentObjects(GKBase gkBase, List<GKBase> result)
@@ -262,7 +257,7 @@ namespace FiresecAPI.GK
 			inputObjects.RemoveAll(x => x.UID == gkBase.UID);
 			foreach (var inputObject in new List<GKBase>(inputObjects))
 			{
-				if (!result.Any(x => x.UID == inputObject.UID))
+				if (result.All(x => x.UID != inputObject.UID))
 					result.Add(inputObject);
 				else
 					continue;
@@ -272,7 +267,7 @@ namespace FiresecAPI.GK
 					var guardZoneDevice = (gkBase as GKGuardZone).GuardZoneDevices.FirstOrDefault(x => x.ActionType == GKGuardZoneDeviceActionType.ChangeGuard);
 					if (guardZoneDevice != null)
 					{
-						if (!result.Any(x => x.UID == guardZoneDevice.Device.UID))
+						if (result.All(x => x.UID != guardZoneDevice.Device.UID))
 							result.Add(guardZoneDevice.Device);
 					}
 				}

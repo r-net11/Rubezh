@@ -109,7 +109,7 @@ namespace GKProcessor
 			for (int i = 0; i < PumpDelays.Count; i++)
 			{
 				var pumpDelay = PumpDelays[i];
-				var delayDescriptor = Database.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
+				var delayDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Delay && x.GKBase.UID == pumpDelay.Delay.UID);
 				var formula = new FormulaBuilder();
 
 				AddCountFirePumpDevicesFormula(formula, delayDescriptor.DatabaseType);
@@ -138,7 +138,7 @@ namespace GKProcessor
 			for (int i = 0; i < FirePumpDevices.Count; i++)
 			{
 				var pumpDevice = FirePumpDevices[i];
-				var pumpDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+				var pumpDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Device && x.GKBase.UID == pumpDevice.UID);
 				if (pumpDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
@@ -192,7 +192,7 @@ namespace GKProcessor
 				}
 				inputPumpsCount++;
 			}
-			formula.Add(FormulaOperationType.CONST, 0, (ushort)PumpStation.NSPumpsCount, "Количество основных пожарных насосов");
+			formula.Add(FormulaOperationType.CONST, 0, (ushort)PumpStation.NSPumpsCount, comment: "Количество основных пожарных насосов");
 			formula.Add(FormulaOperationType.LT);
 		}
 
@@ -200,7 +200,7 @@ namespace GKProcessor
 		{
 			if (JNPumpDevice != null)
 			{
-				var jnDescriptor = Database.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == JNPumpDevice.UID);
+				var jnDescriptor = Database.Descriptors.FirstOrDefault(x => x.DescriptorType == DescriptorType.Device && x.GKBase.UID == JNPumpDevice.UID);
 				if (jnDescriptor != null)
 				{
 					var formula = new FormulaBuilder();

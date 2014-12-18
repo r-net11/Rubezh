@@ -6,7 +6,6 @@ using System.Windows;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;

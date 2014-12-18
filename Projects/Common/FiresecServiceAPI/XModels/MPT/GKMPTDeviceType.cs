@@ -19,17 +19,17 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Сирена")]
 		Speaker,
 
-		[DescriptionAttribute("Двери-окна")]
-		Door,
-
 		[DescriptionAttribute("Ручной запуск")]
 		HandStart,
 
 		[DescriptionAttribute("Ручной останов")]
 		HandStop,
 
-		[DescriptionAttribute("Ручное изменение режима автоматики")]
-		HandAutomatic,
+		[DescriptionAttribute("Ручное включение автоматики")]
+		HandAutomaticOn,
+
+		[DescriptionAttribute("Ручное выключение автоматики")]
+		HandAutomaticOff,
 
 		[DescriptionAttribute("Пуск")]
 		Bomb,

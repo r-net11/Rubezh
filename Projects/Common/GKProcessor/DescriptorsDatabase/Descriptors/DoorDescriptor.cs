@@ -7,9 +7,11 @@ namespace GKProcessor
 {
 	public class DoorDescriptor : BaseDescriptor
 	{
+		GKDoor Door { get; set; }
+
 		public DoorDescriptor(GKDoor door)
+			: base(door, DatabaseType.Gk)
 		{
-			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Door;
 			Door = door;
 		}

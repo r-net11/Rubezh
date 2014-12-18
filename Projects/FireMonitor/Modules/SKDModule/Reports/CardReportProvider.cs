@@ -8,8 +8,8 @@ namespace SKDModule
 {
 	public class CardReportProvider : FilteredSKDReportProvider<CardReportFilter>
 	{
-		List<CardReportFilter> CardReportFilters; 
-		
+		List<CardReportFilter> CardReportFilters;
+
 		public CardReportProvider(int index)
 			: base("Фильтр по пропускам", "Фильтр по пропускам", index)
 		{
@@ -26,8 +26,9 @@ namespace SKDModule
 			if (DialogService.ShowModalWindow(cardReportFilterDetailsViewModel))
 			{
 				Filter = cardReportFilterDetailsViewModel.SelectedCardReportFilter;
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }
