@@ -220,6 +220,28 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetControllerTimeConfiguration(int loginID, CFG_NTP_INFO cfg_NTP_INFO);
 
+		public enum CFG_ACCESS_FIRSTENTER_STATUS
+		{
+			ACCESS_FIRSTENTER_STATUS_UNKNOWN,
+			ACCESS_FIRSTENTER_STATUS_KEEPOPEN,
+			ACCESS_FIRSTENTER_STATUS_NORMAL
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_ACCESS_FIRSTENTER_INFO
+		{
+			public bool bEnable;
+			public CFG_ACCESS_FIRSTENTER_STATUS emStatus;
+			public int nTimeIndex;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_REMOTE_DETAIL_INFO
+		{
+			int nTimeOut;
+			bool bTimeOutDoorStatus;
+		}
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{
@@ -241,7 +263,11 @@ namespace ChinaSKDDriverNativeApi
 			public byte abDuressAlarmEnable;
 			public byte abDoorTimeSection;
 			public byte abSensorEnable;
-			public byte byReserved;
+			public byte abFirstEnterEnable;
+			public byte abRemoteCheck;
+			public byte abRemoteDetail;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+			public byte[] byReserved;
 
 			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
 			public int nUnlockHoldInterval;
@@ -255,6 +281,10 @@ namespace ChinaSKDDriverNativeApi
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
 			public CFG_DOOROPEN_TIMESECTION_INFO[] stuDoorTimeSection;
 			public bool bSensorEnable;
+
+			CFG_ACCESS_FIRSTENTER_INFO stuFirstEnterInfo;
+			public bool bRemoteCheck;
+			CFG_REMOTE_DETAIL_INFO stuRemoteDetail;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -323,6 +353,15 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct NET_ACCESSCTLCARD_FINGERPRINT_PACKET
+		{
+			public int dwSize;
+			public int nLength;
+			public int nCount;
+			public IntPtr pPacketData;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_RECORDSET_ACCESS_CTL_CARD
 		{
 			public Int32 dwSize;
@@ -346,6 +385,12 @@ namespace ChinaSKDDriverNativeApi
 			public NET_TIME stuValidStartTime;
 			public NET_TIME stuValidEndTime;
 			public bool bIsValid;
+			NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;
+			public bool bFirstEnter;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szCardName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szVTOPosition;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]

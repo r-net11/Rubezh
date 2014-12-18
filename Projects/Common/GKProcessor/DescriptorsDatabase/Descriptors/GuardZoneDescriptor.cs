@@ -236,7 +236,17 @@ namespace GKProcessor
 			binProperties.Add(new BinProperty()
 			{
 				No = 0,
-				Value = (ushort)GuardZone.Delay
+				Value = (ushort)GuardZone.SetDelay
+			});
+			binProperties.Add(new BinProperty()
+			{
+				No = 1,
+				Value = (ushort)GuardZone.ResetDelay
+			});
+			binProperties.Add(new BinProperty()
+			{
+				No = 2,
+				Value = (ushort)GuardZone.AlarmDelay
 			});
 
 			foreach (var binProperty in binProperties)

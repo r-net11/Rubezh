@@ -370,7 +370,7 @@ namespace GKModule.ViewModels
 			var guardZonesDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				guardZonesDifferences.Append("Не совпадает название");
-			if (object1.GuardZone.Delay != object2.GuardZone.Delay)
+			if (object1.GuardZone.SetDelay != object2.GuardZone.SetDelay)
 			{
 				if (guardZonesDifferences.Length != 0)
 					guardZonesDifferences.Append(". ");

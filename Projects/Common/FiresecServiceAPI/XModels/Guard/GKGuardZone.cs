@@ -73,7 +73,7 @@ namespace FiresecAPI.GK
 		/// Задержка на постановку
 		/// </summary>
 		[DataMember]
-		public int Delay { get; set; }
+		public int SetDelay { get; set; }
 
 		/// <summary>
 		/// Задержка на снятие
