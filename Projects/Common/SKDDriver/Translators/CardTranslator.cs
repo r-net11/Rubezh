@@ -127,6 +127,16 @@ namespace SKDDriver
 				result = result.And(e => (e.EmployeeUID != null && filter.HolderUIDs.Contains(e.EmployeeUID.Value)));
 			}
 
+			if (filter.IsWithEndDate)
+			{
+				result = result.And(e => e.EndDate >= filter.EndDate);
+			}
+
+			if (filter.CardTypes.IsNotNullOrEmpty())
+			{
+				result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
+			}
+
 			return result;
 		}
 
@@ -139,7 +149,7 @@ namespace SKDDriver
 					return new OperationResult<List<CardReportItem>>(employeesResult.Error);
 				var employees = employeesResult.Result;
 				var cardFilter = cardReportFilter.CardFilter;
-				//cardFilter.HolderUIDs = employees.Select(x => x.UID).ToList();
+				cardFilter.HolderUIDs = employees.Select(x => x.UID).ToList();
 				var cardsResult = Get(cardReportFilter.CardFilter);
 				if (cardsResult.HasError)
 					return new OperationResult<List<CardReportItem>>(cardsResult.Error);
@@ -159,6 +169,7 @@ namespace SKDDriver
 						reportItem.Position = employee.PositionName;
 						reportItem.Employee = employee.Name;
 					}
+					reportItems.Add(reportItem);
 				}
 				return new OperationResult<List<CardReportItem>> { Result = reportItems };
 			}

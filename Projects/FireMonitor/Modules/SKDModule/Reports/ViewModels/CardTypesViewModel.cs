@@ -5,7 +5,6 @@ using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows.ViewModels;
-using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule.ViewModels
 {

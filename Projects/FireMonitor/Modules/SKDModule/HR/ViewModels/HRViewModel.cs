@@ -11,7 +11,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
-using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -259,14 +258,14 @@ namespace SKDModule.ViewModels
 			var cardReportFilterDetailsViewModel = new CardReportFilterDetailsViewModel(CardReportFilters);
 			if (DialogService.ShowModalWindow(cardReportFilterDetailsViewModel))
 			{
-				//var cardReportItemsResult = FiresecManager.FiresecService.GetCardReport(cardReportFilterDetailsViewModel.SelectedCardReportFilter);
-				//if(cardReportItemsResult.HasError)
-				//    return;
-				//var cardReportItems = cardReportItemsResult.Result;
-				//foreach (var item in cardReportItems)
-				//{
-				//    Trace.WriteLine(item.CardType + " " + item.Number + " " + item.Organisation + " " + item.Department + " " + item.Position + " " + item.Employee + " " + item.EndDate);
-				//}
+				var cardReportItemsResult = FiresecManager.FiresecService.GetCardReport(cardReportFilterDetailsViewModel.SelectedCardReportFilter);
+				if (cardReportItemsResult.HasError)
+					return;
+				var cardReportItems = cardReportItemsResult.Result;
+				foreach (var item in cardReportItems)
+				{
+					Trace.WriteLine(item.CardType + " " + item.Number + " " + item.Organisation + " " + item.Department + " " + item.Position + " " + item.Employee + " " + item.EndDate);
+				}
 			}
 		}
 	}

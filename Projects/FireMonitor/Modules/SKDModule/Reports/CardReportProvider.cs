@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.SKD;
 using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using SKDModule.ViewModels;
-using CardReportFilter = Infrastructure.Common.SKDReports.Filters.CardReportFilter;
 
 namespace SKDModule
 {
