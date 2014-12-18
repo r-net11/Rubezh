@@ -110,11 +110,12 @@ namespace ReportsModule.ViewModels
 		public XReportServicePreviewModel()
 			: base()
 		{
-			ZoomValues = new ReadOnlyCollection<double>(new double[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 });
+			_zoomValues = new ReadOnlyCollection<double>(new double[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 });
 		}
 		public XReportServicePreviewModel(string s)
 			: base(s)
 		{
+			_zoomValues = new ReadOnlyCollection<double>(new double[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 });
 		}
 		public void Build(object args)
 		{
@@ -131,6 +132,10 @@ namespace ReportsModule.ViewModels
 			return operation;
 		}
 
-		protected override ReadOnlyCollection<double> ZoomValues { get; private set; }
+		private ReadOnlyCollection<double> _zoomValues;
+		protected override ReadOnlyCollection<double> ZoomValues
+		{
+			get { return _zoomValues; }
+		}
 	}
 }
