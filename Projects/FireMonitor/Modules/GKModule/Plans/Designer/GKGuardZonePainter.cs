@@ -11,11 +11,11 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XGuardZonePainter : BaseZonePainter<GKGuardZone, ShowGKGuardZoneEvent>
+	class GKGuardZonePainter : BaseZonePainter<GKGuardZone, ShowGKGuardZoneEvent>
 	{
 		private GuardZoneViewModel _guardZoneViewModel;
 
-		public XGuardZonePainter(PresenterItem presenterItem)
+		public GKGuardZonePainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
 			if (Item != null)

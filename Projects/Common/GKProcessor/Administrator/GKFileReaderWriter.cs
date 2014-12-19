@@ -31,12 +31,21 @@ namespace GKProcessor
 					{ Error = "Операция отменена"; return null; }
 					GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
-					var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
-					if (sendResult.HasError)
-					{ Error = "Невозможно прочитать блок данных " + i; return null; }
-					allbytes.AddRange(sendResult.Bytes);
-					if (sendResult.Bytes.Count() < 256)
-						break;
+
+					for (int j = 0; j < 10; j++)
+					{
+						var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
+						allbytes.AddRange(sendResult.Bytes);
+						if (sendResult.Bytes.Count() < 256)
+							break;
+						if (!sendResult.HasError)
+							break;
+						if (j == 9)
+						{
+							Error = "Невозможно прочитать блок данных " + i;
+							return null;
+						}
+					}
 				}
 				if (allbytes.Count == 0)
 				{ Error = "Конфигурационный файл отсутствует"; return null; }

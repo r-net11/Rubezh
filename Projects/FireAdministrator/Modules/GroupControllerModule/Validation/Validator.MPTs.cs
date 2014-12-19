@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using System;
 
 namespace GKModule.Validation
 {
@@ -11,25 +12,19 @@ namespace GKModule.Validation
 		void ValidateMPTs()
 		{
 			ValidateMPTNameEquality();
+			ValidateMPTSameDevices();
 
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
 				if (IsManyGK())
-					ValidateDifferentMPT(mpt);
-				//ValidateMPTHasNoDevices(mpt);
+					ValidateMPTDifferentGK(mpt);
 				ValidateEmpty(mpt);
+				ValidateMPTHasNoDevices(mpt);
 				ValidateMPTHasNoLogic(mpt);
 				ValidateMPTSameDevices(mpt);
+				ValidateMPTSameDevicesAndLogic(mpt);
 				ValidateMPTDeviceParameters(mpt);
 				ValidateMPTSelfLogic(mpt);
-			}
-		}
-
-		void ValidateEmpty(GKMPT mpt)
-		{
-			if (mpt.GetDataBaseParent() == null)
-			{
-				Errors.Add(new MPTValidationError(mpt, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -43,7 +38,26 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateDifferentMPT(GKMPT mpt)
+		void ValidateMPTSameDevices()
+		{
+			var deviceUIDs = new HashSet<Guid>();
+			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
+			{
+				foreach(var device in mpt.Devices)
+					if (!deviceUIDs.Add(device.UID))
+					Errors.Add(new MPTValidationError(mpt, "Устройство " + device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateEmpty(GKMPT mpt)
+		{
+			if (mpt.GetDataBaseParent() == null)
+			{
+				Errors.Add(new MPTValidationError(mpt, "Пустые зависимости", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateMPTDifferentGK(GKMPT mpt)
 		{
 			if (AreDevicesInSameGK(GetAllMPTDevices(mpt)))
 				Errors.Add(new MPTValidationError(mpt, "МПТ содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
@@ -51,24 +65,16 @@ namespace GKModule.Validation
 
 		void ValidateMPTHasNoDevices(GKMPT mpt)
 		{
-			var allDevices = GetAllMPTDevices(mpt);
-			if (allDevices.Count == 0)
+			if (mpt.MPTDevices.Count == 0)
 			{
-				Errors.Add(new MPTValidationError(mpt, "К МПТ не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
-			}
-			else
-			{
-				if (mpt.MPTDevices.Count == 0)
-				{
-					Errors.Add(new MPTValidationError(mpt, "К МПТ не подключены устройства", ValidationErrorLevel.CannotWrite));
-				}
+				Errors.Add(new MPTValidationError(mpt, "К МПТ не подключены устройства", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
 		void ValidateMPTHasNoLogic(GKMPT mpt)
 		{
-			//if (mpt.StartLogic.Clauses.Count + mpt.MPTDevices.Count(x => x.MPTDeviceType == MPTDeviceType.HandStart) == 0)
-			//	Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения и устройства ручного пуска", ValidationErrorLevel.CannotWrite));
+			if (mpt.StartLogic.GetObjects().Count == 0)
+				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateMPTSameDevices(GKMPT mpt)
@@ -78,6 +84,19 @@ namespace GKModule.Validation
 			{
 				if (!devices.Add(device))
 					Errors.Add(new MPTValidationError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateMPTSameDevicesAndLogic(GKMPT mpt)
+		{
+			var devicesInLogic = new List<GKBase>();
+			devicesInLogic.AddRange(mpt.StartLogic.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
+			devicesInLogic.AddRange(mpt.StartLogic.GetObjects().Where(x => x.ObjectType == GKBaseObjectType.Deivce));
+			var devices = new HashSet<GKDevice>();
+			foreach (var device in GetAllMPTDevices(mpt))
+			{
+				if (devicesInLogic.Any(x => x.UID == device.UID))
+					Errors.Add(new MPTValidationError(mpt, "Совпадают устройства условий включения или выключения с устройствами из состава МПТ", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

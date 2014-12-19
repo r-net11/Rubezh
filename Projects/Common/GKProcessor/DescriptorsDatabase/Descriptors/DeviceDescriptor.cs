@@ -94,9 +94,22 @@ namespace GKProcessor
 			{
 				Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);
+
 				Formula.AddGetBit(GKStateBit.TurningOff, Device.Door, DatabaseType);
 				Formula.AddGetBit(GKStateBit.Off, Device.Door, DatabaseType);
 				Formula.Add(FormulaOperationType.OR);
+				if (Device.Door.LockControlDevice != null)
+				{
+					Formula.AddGetBit(GKStateBit.On, Device.Door, DatabaseType);
+					Formula.Add(FormulaOperationType.COM);
+					Formula.AddGetBit(GKStateBit.Fire1, Device.Door.LockControlDevice, DatabaseType);
+					Formula.Add(FormulaOperationType.AND);
+					Formula.Add(FormulaOperationType.OR);
+					//if (Device.Door.LockControlDevice.Properties.FirstOrDefault(x => x.Name == "Конфигурация").Value == 1)
+					//{
+					//    Formula.Add(FormulaOperationType.COM);
+					//}
+				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 			}
 			Formula.Add(FormulaOperationType.END);

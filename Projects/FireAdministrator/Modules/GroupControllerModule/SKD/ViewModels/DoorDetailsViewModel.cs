@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			AvailableDoorTypes.Add(GKDoorType.OneWay);
 			AvailableDoorTypes.Add(GKDoorType.TwoWay);
 			SelectedDoorType = Door.DoorType;
+			IsGate = Door.IsGate;
 
 			CopyProperties();
 
@@ -141,6 +142,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		bool _isGate;
+		public bool IsGate
+		{
+			get { return _isGate; }
+			set
+			{
+				_isGate = value;
+				OnPropertyChanged(() => IsGate);
+			}
+		}
+
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
@@ -164,6 +176,7 @@ namespace GKModule.ViewModels
 			Door.Hold = Hold;
 			Door.EnterLevel = EnterLevel;
 			Door.DoorType = SelectedDoorType;
+			Door.IsGate = IsGate;
 			return base.Save();
 		}
 	}
