@@ -22,6 +22,7 @@ namespace Infrastructure.Common.Windows
 		public static event EventHandler Closed;
 		public static event Action ShuttingDown;
 		public static Window ApplicationWindow { get; private set; }
+		public static bool ApplicationActivated { get; private set; }
 		public static User User { get; set; }
 		public static Action<FrameworkElement> ApplicationController { get; set; }
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
@@ -32,6 +33,7 @@ namespace Infrastructure.Common.Windows
 
 		static ApplicationService()
 		{
+			ApplicationActivated = false;
 			IsShuttingDown = false;
 			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
 			{
@@ -54,6 +56,7 @@ namespace Infrastructure.Common.Windows
 			}
 			if (isMaximized.HasValue)
 				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
+			windowBaseView.ContentRendered += (s, e) => ApplicationActivated = true;
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
 			windowBaseView.Closed += new EventHandler(win_Closed);
 			model.Surface.Owner = null;

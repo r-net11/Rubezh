@@ -19,7 +19,6 @@ namespace FiresecService.Report.Templates
 			InitializeComponent();
 		}
 
-
 		#region IFilteredReport Members
 
 		public void ApplyFilter(object args)

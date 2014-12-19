@@ -290,7 +290,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		public override bool OnClosing(bool isCanceled)
 		{
-			RegistrySettingsHelper.SetInt(ClientType + ".Shell.PreferedMonitor", ApplicationService.GetActiveMonitor(true));
+			if (ApplicationService.ApplicationWindow != null)
+				RegistrySettingsHelper.SetInt(ClientType + ".Shell.PreferedMonitor", ApplicationService.GetActiveMonitor(true));
 			return base.OnClosing(isCanceled);
 		}
 		public override void OnClosed()

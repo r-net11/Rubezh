@@ -72,10 +72,20 @@ namespace ReportsModule.ViewModels
 		{
 			var reportProvider = SelectedReport != null && SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
 			if (reportProvider != null)
-			{
-				Model.ReportName = reportProvider.Name;
-				Model.Build(reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)reportProvider).FilterObject : null);
-			}
+				try
+				{
+					using (new WaitWrapper())
+					{
+						Model.ReportName = reportProvider.Name;
+						Model.Build(reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)reportProvider).FilterObject : null);
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.Error(ex);
+					if (ApplicationService.ApplicationActivated)
+						MessageBoxService.ShowException(ex, "Возникла ошибка при построении отчета");
+				}
 		}
 
 		private void Model_CreateDocumentError(object sender, FaultEventArgs e)

@@ -15,6 +15,14 @@ namespace FiresecService.Report
 
 		public void InvokeAfter(XtraReport report, object customArgs)
 		{
+			report.Disposed += (s, e) =>
+			{
+				var rep = (XtraReport)report;
+				var dataSource = report.DataSource as IDisposable;
+				if (dataSource != null)
+					dataSource.Dispose();
+				report.DataSource = null;
+			};
 		}
 
 		public void InvokeBefore(XtraReport report, object customArgs)
