@@ -574,8 +574,8 @@ namespace FiresecAPI.GK
 						SetDeviceProperty(device, "Время удержания, с", 2);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 4);
+						SetDeviceProperty(device, "Состояние контакта для режима Включено", 16);
 						SetDeviceProperty(device, "Контроль", 0);
 						SetDeviceProperty(device, "Норма питания, 0.1В", 80);
 						break;
@@ -585,8 +585,8 @@ namespace FiresecAPI.GK
 						SetDeviceProperty(device, "Время удержания, с", 2);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 4);
+						SetDeviceProperty(device, "Состояние контакта для режима Включено", 16);
 						break;
 				}
 			}

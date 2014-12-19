@@ -19,13 +19,13 @@ using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans.Designer
 {
-	class XDirectionPainter : BaseZonePainter<GKDirection, ShowGKDirectionEvent>
+	class GKDirectionPainter : BaseZonePainter<GKDirection, ShowGKDirectionEvent>
 	{
 		private GeometryDrawing _textDrawing;
 		private ScaleTransform _scaleTransform;
 		private bool _showText = false;
 
-		public XDirectionPainter(PresenterItem presenterItem)
+		public GKDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
 			_textDrawing = null;

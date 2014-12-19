@@ -62,29 +62,8 @@ namespace GKProcessor
 
 				foreach (var kauDevice in kauDevices)
 				{
-					var shleifNos = new List<int>();
-
-					shleifNos.Add(0);
-					if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als12").Value == 0)
-						shleifNos.Add(1);
-
-					shleifNos.Add(2);
-					if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als34").Value == 0)
-						shleifNos.Add(3);
-
-					shleifNos.Add(4);
-					if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als56").Value == 0)
-						shleifNos.Add(5);
-
-					shleifNos.Add(6);
-					if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als78").Value == 0)
-						shleifNos.Add(7);
-
-					foreach (var shleifNo in shleifNos)
-					{
-						if (!FindDevicesOnShleif(kauDevice, shleifNo, progressCallback))
-							return null;
-					}
+					if(!FindDevicesOnKau(kauDevice, progressCallback))
+						return null;
 				}
 			}
 			catch (Exception e)
@@ -96,6 +75,34 @@ namespace GKProcessor
 			}
 
 			return result;
+		}
+
+		bool FindDevicesOnKau(GKDevice kauDevice, GKProgressCallback progressCallback)
+		{
+			var shleifNos = new List<int>();
+
+			shleifNos.Add(0);
+			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als12").Value == 0)
+				shleifNos.Add(1);
+
+			shleifNos.Add(2);
+			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als34").Value == 0)
+				shleifNos.Add(3);
+
+			shleifNos.Add(4);
+			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als56").Value == 0)
+				shleifNos.Add(5);
+
+			shleifNos.Add(6);
+			if (kauDevice.Properties.FirstOrDefault(x => x.Name == "als78").Value == 0)
+				shleifNos.Add(7);
+
+			foreach (var shleifNo in shleifNos)
+			{
+				if (!FindDevicesOnShleif(kauDevice, shleifNo, progressCallback))
+					return false;
+			}
+			return true;
 		}
 
 		bool FindDevicesOnShleif(GKDevice kauDevice, int shleifNo, GKProgressCallback progressCallback)

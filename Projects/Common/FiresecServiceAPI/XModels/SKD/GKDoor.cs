@@ -35,6 +35,12 @@ namespace FiresecAPI.GK
 		public GKDoorType DoorType { get; set; }
 
 		/// <summary>
+		/// Режим турникета
+		/// </summary>
+		[DataMember]
+		public bool IsGate { get; set; }
+
+		/// <summary>
 		/// Задержка
 		/// </summary>
 		[DataMember]

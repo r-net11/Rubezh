@@ -127,5 +127,7 @@ namespace FiresecAPI.GK
 		RSR2_GuardDetector,
 		[Description("Считыватель R2")]
 		RSR2_CardReader,
+		[Description("МР-4 R2")]
+		RSR2_RM_4,
 	}
 }

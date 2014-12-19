@@ -79,13 +79,13 @@ namespace GKModule.Plans
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
 			if (presenterItem.Element is ElementGKDevice)
-				presenterItem.OverridePainter(new XDevicePainter(presenterItem));
+				presenterItem.OverridePainter(new GKDevicePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonGKZone || presenterItem.Element is ElementRectangleGKZone)
-				presenterItem.OverridePainter(new XZonePainter(presenterItem));
+				presenterItem.OverridePainter(new GKZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonGKGuardZone || presenterItem.Element is ElementRectangleGKGuardZone)
-				presenterItem.OverridePainter(new XGuardZonePainter(presenterItem));
+				presenterItem.OverridePainter(new GKGuardZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
-				presenterItem.OverridePainter(new XDirectionPainter(presenterItem));
+				presenterItem.OverridePainter(new GKDirectionPainter(presenterItem));
 			else if (presenterItem.Element is ElementGKDoor)
 				presenterItem.OverridePainter(new GKDoorPainter(presenterItem));
 		}

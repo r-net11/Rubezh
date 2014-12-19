@@ -121,7 +121,7 @@
       <DependentUpon>MPTToolTipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
-    <Compile Include="Plans\Designer\XGuardZonePainter.cs" />
+    <Compile Include="Plans\Designer\GKGuardZonePainter.cs" />
     <Compile Include="Plans\ViewModels\GuardZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
@@ -159,11 +159,11 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
-    <Compile Include="Plans\Designer\XDirectionPainter.cs" />
-    <Compile Include="Plans\Designer\XDevicePainter.cs" />
+    <Compile Include="Plans\Designer\GKDirectionPainter.cs" />
+    <Compile Include="Plans\Designer\GKDevicePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
-    <Compile Include="Plans\Designer\XZonePainter.cs" />
+    <Compile Include="Plans\Designer\GKZonePainter.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\DeviceParametersReport.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
