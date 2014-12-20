@@ -15,5 +15,17 @@
 	<DataTemplate DataType="{x:Type ViewModels:SKDReportPresenterViewModel}">
 		<Views:SKDReportPresenterView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDReportFilterViewModel}">
+		<Views:SKDReportFilterView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:FilterMainViewModel}">
+		<Views:FilterMainView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:FilterSortViewModel}">
+		<Views:FilterSortView />
+	</DataTemplate>
+
 </ResourceDictionary>

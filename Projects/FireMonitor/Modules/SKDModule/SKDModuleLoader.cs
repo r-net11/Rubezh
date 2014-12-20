@@ -255,7 +255,7 @@ namespace SKDModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			yield return new CardReportProvider(999);
+			return Enumerable.Empty<ISKDReportProvider>();
 		}
 
 		#endregion

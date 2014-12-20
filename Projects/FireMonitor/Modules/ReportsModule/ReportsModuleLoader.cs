@@ -12,7 +12,6 @@ using Infrastructure.Events;
 using Infrastructure.Events.Reports;
 using ReportsModule.ViewModels;
 using Infrastructure.Common.SKDReports;
-using ReportsModule.Test;
 
 namespace ReportsModule
 {
@@ -84,12 +83,7 @@ namespace ReportsModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			yield return new TestReportProvider(false, 1);
-			yield return new TestReportProvider(false, 2);
-			yield return new TestReportProvider(false, 11);
-			yield return new TestReportProvider(true, 1);
-			yield return new TestReportProvider(true, 2);
-			yield return new TestReportProvider(true, 11);
+			yield return new TESTREPORT();
 			yield return new SKDReportProvider("Report", "Test1", 10, null);
 			yield return new SKDReportProvider("XtraReport1", "Test2", 110, null);
 			yield return new SKDReportProvider("Report", "Test3", 211, null);

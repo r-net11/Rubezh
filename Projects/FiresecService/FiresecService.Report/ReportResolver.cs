@@ -5,6 +5,7 @@ using System.Text;
 using DevExpress.XtraReports.Service.Extensions;
 using System.ComponentModel.Composition;
 using DevExpress.XtraReports.UI;
+using FiresecService.Report.Templates;
 
 namespace FiresecService.Report
 {
@@ -23,7 +24,10 @@ namespace FiresecService.Report
 			var name = string.Format(ReportNameTemplate, reportName);
 			var type = Type.GetType(name);
 			if (type == null)
-				return null;
+			{
+				//return null;
+				return new TestReport();
+			}
 			return (XtraReport)Activator.CreateInstance(type);
 		}
 

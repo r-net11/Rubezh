@@ -1,18 +1,18 @@
 ﻿using System;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace Infrastructure.Common.SKDReports
 {
-	public class FilteredSKDReportProvider<T> : SKDReportProvider, IFilteredSKDReportProvider
+	public abstract class FilteredSKDReportProvider<T> : SKDReportProvider, IFilteredSKDReportProvider
+		where T : SKDReportFilter
 	{
-		public T Filter { get; set; }
-		public Predicate<T> EditFilter { get; set; }
-
-		public FilteredSKDReportProvider(string name, string title, int index, SKDReportGroup? group = null, Predicate<T> editFilter = null, T filter = default(T))
+		public FilteredSKDReportProvider(string name, string title, int index, SKDReportGroup? group = null)
 			: base(name, title, index, group)
 		{
-			EditFilter = editFilter;
-			Filter = filter;
+			Filter = Activator.CreateInstance<T>();
 		}
+
+		protected T Filter { get; private set; }
 
 		#region IFilteredSKDReportProvider Members
 
@@ -20,20 +20,18 @@ namespace Infrastructure.Common.SKDReports
 		{
 			get { return typeof(T); }
 		}
-
-		public object FilterObject
+		public SKDReportFilter FilterObject
 		{
 			get { return Filter; }
 		}
 
-		public virtual bool ChangeFilter()
+		public abstract FilterModel CreateFilterModel();
+
+		public void UpdateFilter(SKDReportFilter filter)
 		{
-			if (EditFilter == null)
-				return false;
-			return EditFilter(Filter);
+			Filter = filter as T;
 		}
 
 		#endregion
 	}
-
 }

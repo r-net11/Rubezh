@@ -23,7 +23,7 @@ namespace FiresecService.Report.Templates
 			var filter = args as TestReportFilter;
 			if (filter != null)
 				Argument.Value = filter.Timestamp;
-			Thread.Sleep(5000);
+			//Thread.Sleep(5000);
 		}
 
 		#endregion

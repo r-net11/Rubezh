@@ -13,6 +13,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			CancelCaption = "Отмена";
 			SaveCommand = new RelayCommand(OnSave, CanSave);
 			CancelCommand = new RelayCommand(OnCancel);
+			CommandPanel = null;
 		}
 
 		private bool _allowSave;
@@ -45,6 +46,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("CancelCaption");
 			}
 		}
+
+		private BaseViewModel _commandPanel;
+		public BaseViewModel CommandPanel
+		{
+			get { return _commandPanel; }
+			set
+			{
+				_commandPanel = value;
+				OnPropertyChanged(() => CommandPanel);
+			}
+		}
+		
 
 		protected virtual bool CanSave()
 		{

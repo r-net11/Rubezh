@@ -15,11 +15,14 @@ using Common;
 using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
 using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using DialogService = Infrastructure.Common.Windows.DialogService;
 
 namespace ReportsModule.ViewModels
 {
 	public class SKDReportPresenterViewModel : BaseViewModel
 	{
+		private ISKDReportProvider _reportProvider;
 		public SKDReportPresenterViewModel()
 		{
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
@@ -38,6 +41,7 @@ namespace ReportsModule.ViewModels
 				AutoShowParametersPanel = false,
 				IsDocumentMapVisible = false,
 			};
+			Model.PropertyChanged += (s, e) => CommandManager.InvalidateRequerySuggested();
 			Model.CreateDocumentError += Model_CreateDocumentError;
 			Model.Clear();
 		}
@@ -70,14 +74,14 @@ namespace ReportsModule.ViewModels
 
 		private void BuildReport()
 		{
-			var reportProvider = SelectedReport != null && SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
-			if (reportProvider != null)
+			_reportProvider = SelectedReport != null && SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
+			if (_reportProvider != null)
 				try
 				{
 					using (new WaitWrapper())
 					{
-						Model.ReportName = reportProvider.Name;
-						Model.Build(reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)reportProvider).FilterObject : null);
+						Model.ReportName = _reportProvider.Name;
+						Model.Build(_reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).FilterObject : null);
 					}
 				}
 				catch (Exception ex)
@@ -85,6 +89,8 @@ namespace ReportsModule.ViewModels
 					Logger.Error(ex);
 					if (ApplicationService.ApplicationActivated)
 						MessageBoxService.ShowException(ex, "Возникла ошибка при построении отчета");
+					if (ex is CommunicationException)
+						CreateClient();
 				}
 		}
 
@@ -97,12 +103,18 @@ namespace ReportsModule.ViewModels
 		public RelayCommand ChangeFilterCommand { get; private set; }
 		private void OnChangeFilter()
 		{
-			if (((IFilteredSKDReportProvider)((SKDReportViewModel)SelectedReport).ReportProvider).ChangeFilter())
+			var provider = ((IFilteredSKDReportProvider)_reportProvider);
+			var model = provider.CreateFilterModel();
+			var filterViewModel = new SKDReportFilterViewModel(provider.FilterObject, model);
+			if (DialogService.ShowModalWindow(filterViewModel))
+			{
+				provider.UpdateFilter(filterViewModel.Filter);
 				BuildReport();
+			}
 		}
 		private bool CanChangeFilter()
 		{
-			return SelectedReport != null && SelectedReport is SKDReportViewModel && ((SKDReportViewModel)SelectedReport).ReportProvider is IFilteredSKDReportProvider;
+			return _reportProvider != null && _reportProvider is IFilteredSKDReportProvider;
 		}
 
 		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
@@ -113,37 +125,6 @@ namespace ReportsModule.ViewModels
 		private bool CanFitPageSize(ZoomFitMode fitMode)
 		{
 			return Model != null && !Model.IsEmptyDocument;
-		}
-	}
-	public class XReportServicePreviewModel : ReportServicePreviewModel
-	{
-		public XReportServicePreviewModel()
-			: base()
-		{
-		}
-		public XReportServicePreviewModel(string s)
-			: base(s)
-		{
-		}
-		public void Build(object args)
-		{
-			CreateDocument(args);
-		}
-		public IReportServiceClient ServiceClient
-		{
-			get { return Client; }
-		}
-
-		protected override CreateDocumentOperation ConstructCreateDocumentOperation(ReportBuildArgs buildArgs)
-		{
-			var operation = base.ConstructCreateDocumentOperation(buildArgs);
-			return operation;
-		}
-
-		private ReadOnlyCollection<double> _zoomValues;
-		protected override ReadOnlyCollection<double> ZoomValues
-		{
-			get { return _zoomValues ?? (_zoomValues = new ReadOnlyCollection<double>(new double[] { 10.0, 25.0, 50.0, 75.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0 })); }
 		}
 	}
 }

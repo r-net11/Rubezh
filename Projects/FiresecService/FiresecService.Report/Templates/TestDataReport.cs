@@ -44,5 +44,10 @@ namespace FiresecService.Report.Templates
 		}
 
 		#endregion
+
+		private void TestDataReport_DataSourceDemanded(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
