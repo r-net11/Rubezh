@@ -13,6 +13,7 @@ namespace ReportsModule.ViewModels
 		{
 			Title = "Сортировка";
 			Columns = columns;
+			SortColumn = Columns.First().Key;
 		}
 
 		public Dictionary<string, string> Columns { get; private set; }
@@ -26,13 +27,26 @@ namespace ReportsModule.ViewModels
 				OnPropertyChanged(() => SortAscending);
 			}
 		}
-		
+		private string _sortColumn;
+		public string SortColumn
+		{
+			get { return _sortColumn; }
+			set
+			{
+				_sortColumn = value;
+				OnPropertyChanged(() => SortColumn);
+			}
+		}
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
+			SortColumn = !string.IsNullOrEmpty(filter.SortColumn) && Columns.ContainsKey(filter.SortColumn) ? filter.SortColumn : Columns.First().Key;
+			SortAscending = filter.SortAscending;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
+			filter.SortColumn = SortColumn;
+			filter.SortAscending = SortAscending;
 		}
 	}
 }

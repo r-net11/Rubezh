@@ -6,6 +6,7 @@ using Common;
 using Infrastructure.Common;
 using Infrastructure.Models;
 using System.Xml.Serialization;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace Infrastructure
 {
@@ -16,6 +17,7 @@ namespace Infrastructure
 		public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
 		public static readonly string RviMultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("RviMultiLayoutCameraSettings.xml");
 		public static readonly string SKDSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("SKDSettings.xml");
+		public static readonly string RepoftFiltersFileName = AppDataFolderHelper.GetMonitorSettingsPath("RepoftFilters.xml");
 
 		static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
@@ -45,6 +47,13 @@ namespace Infrastructure
 			set { _skdSettings = value; }
 		}
 
+		static SKDReportFilters _reportFilters;
+		public static SKDReportFilters ReportFilters
+		{
+			get { return _reportFilters ?? (_reportFilters = new SKDReportFilters()); }
+			set { _reportFilters = value; }
+		}
+
 		public static void LoadSettings()
 		{
 			try
@@ -53,6 +62,7 @@ namespace Infrastructure
 				LoadAutoActivationSettings();
 				LoadRviCameraSettings();
 				LoadSKDSettings();
+				LoadSKDReportFilters();
 			}
 			catch (Exception e)
 			{
@@ -71,6 +81,7 @@ namespace Infrastructure
 				SaveAutoActivationSettings();
 				SaveRviCameraSettings();
 				SaveSKDSettings();
+				SaveSKDReportFilters();
 			}
 			catch (Exception e)
 			{
@@ -97,6 +108,14 @@ namespace Infrastructure
 				ArchiveDefaultState = new ArchiveDefaultState();
 			}
 		}
+		static void SaveArchiveDefaultState()
+		{
+			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
+			{
+				var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
+				xmlSerializer.Serialize(fileStream, ArchiveDefaultState);
+			}
+		}
 
 		static void LoadAutoActivationSettings()
 		{
@@ -111,6 +130,14 @@ namespace Infrastructure
 			else
 			{
 				AutoActivationSettings = new AutoActivationSettings();
+			}
+		}
+		static void SaveAutoActivationSettings()
+		{
+			using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Create))
+			{
+				var xmlSerializer = new XmlSerializer(typeof(AutoActivationSettings));
+				xmlSerializer.Serialize(fileStream, AutoActivationSettings);
 			}
 		}
 
@@ -131,6 +158,14 @@ namespace Infrastructure
 				RviMultiLayoutCameraSettings = new RviMultiLayoutCameraSettings();
 			}
 		}
+		static void SaveRviCameraSettings()
+		{
+			using (var fileStream = new FileStream(RviMultiLayoutCameraSettingsFileName, FileMode.Create))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(RviMultiLayoutCameraSettings));
+				dataContractSerializer.WriteObject(fileStream, RviMultiLayoutCameraSettings);
+			}
+		}
 
 		static void LoadSKDSettings()
 		{
@@ -147,40 +182,34 @@ namespace Infrastructure
 				SKDSettings = new SKDSettings();
 			}
 		}
-
-		static void SaveArchiveDefaultState()
-		{
-			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
-			{
-				var xmlSerializer = new XmlSerializer(typeof(ArchiveDefaultState));
-				xmlSerializer.Serialize(fileStream, ArchiveDefaultState);
-			}
-		}
-
-		static void SaveAutoActivationSettings()
-		{
-			using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Create))
-			{
-				var xmlSerializer = new XmlSerializer(typeof(AutoActivationSettings));
-				xmlSerializer.Serialize(fileStream, AutoActivationSettings);
-			}
-		}
-
-		static void SaveRviCameraSettings()
-		{
-			using (var fileStream = new FileStream(RviMultiLayoutCameraSettingsFileName, FileMode.Create))
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(RviMultiLayoutCameraSettings));
-				dataContractSerializer.WriteObject(fileStream, RviMultiLayoutCameraSettings);
-			}
-		}
-
 		static void SaveSKDSettings()
 		{
 			using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Create))
 			{
 				var xmlSerializer = new XmlSerializer(typeof(SKDSettings));
 				xmlSerializer.Serialize(fileStream, SKDSettings);
+			}
+		}
+
+		static void LoadSKDReportFilters()
+		{
+			if (File.Exists(RepoftFiltersFileName))
+			{
+				using (var fileStream = new FileStream(RepoftFiltersFileName, FileMode.Open))
+				{
+					var xmlSerializer = new XmlSerializer(typeof(SKDReportFilters));
+					ReportFilters = (SKDReportFilters)xmlSerializer.Deserialize(fileStream);
+				}
+			}
+			else
+				ReportFilters = new SKDReportFilters();
+		}
+		static void SaveSKDReportFilters()
+		{
+			using (var fileStream = new FileStream(RepoftFiltersFileName, FileMode.Create))
+			{
+				var xmlSerializer = new XmlSerializer(typeof(SKDReportFilters));
+				xmlSerializer.Serialize(fileStream, ReportFilters);
 			}
 		}
 	}

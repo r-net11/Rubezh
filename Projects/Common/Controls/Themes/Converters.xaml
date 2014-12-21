@@ -62,6 +62,7 @@
 	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
 	<Converters:StringToSingleLineString x:Key="StringToSingleLineString" />
 	<Converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+	<Converters:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
 
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 

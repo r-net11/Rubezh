@@ -57,7 +57,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => CommandPanel);
 			}
 		}
-		
 
 		protected virtual bool CanSave()
 		{

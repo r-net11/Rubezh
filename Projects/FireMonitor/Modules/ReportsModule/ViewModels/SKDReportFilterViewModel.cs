@@ -21,11 +21,12 @@ namespace ReportsModule.ViewModels
 			_model = model;
 			Filter = filter;
 			Pages = new ObservableCollection<FilterContainerViewModel>();
-			Pages.Add(new FilterMainViewModel());
+			Pages.Add(new FilterMainViewModel(model, Filter, LoadFilter, UpdateFilter));
 			model.Pages.ForEach(page => Pages.Add(page));
 			if (model.AllowSort)
 				Pages.Add(new FilterSortViewModel(model.Columns));
-			Pages.ForEach(page => page.LoadFilter(filter));
+			CommandPanel = model.CommandsViewModel;
+			LoadFilter(Filter);
 		}
 
 		private ObservableCollection<FilterContainerViewModel> _pages;
@@ -42,12 +43,24 @@ namespace ReportsModule.ViewModels
 
 		protected override bool Save()
 		{
-			// UpdateFilter -> sort + common
-			if (_model.CommandsViewModel != null)
-				_model.CommandsViewModel.UpdateFilter(Filter);
-			if (_model.Pages != null)
-				_model.Pages.ForEach(page => page.UpdateFilter(Filter));
+			UpdateFilter(Filter);
 			return base.Save();
+		}
+		private void LoadFilter(SKDReportFilter filter)
+		{
+			if (_model.MainViewModel != null)
+				_model.MainViewModel.LoadFilter(filter);
+			if (_model.CommandsViewModel != null)
+				_model.CommandsViewModel.LoadFilter(filter);
+			Pages.ForEach(page => page.LoadFilter(filter));
+		}
+		private void UpdateFilter(SKDReportFilter filter)
+		{
+			if (_model.MainViewModel != null)
+				_model.MainViewModel.UpdateFilter(filter);
+			if (_model.CommandsViewModel != null)
+				_model.CommandsViewModel.UpdateFilter(filter);
+			Pages.ForEach(page => page.UpdateFilter(filter));
 		}
 	}
 }
