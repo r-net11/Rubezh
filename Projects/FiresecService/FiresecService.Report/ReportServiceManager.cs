@@ -70,7 +70,7 @@ namespace FiresecService.Report
 		}
 		private void RegisterFilters()
 		{
-			ServiceKnownTypeProvider.Register(typeof(IFiresecService).Assembly.GetTypes().Where(t => t.Namespace == FilterNamespace));
+			ServiceKnownTypeProvider.Register(typeof(IFiresecService).Assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.Namespace == FilterNamespace));
 		}
 	}
 }
