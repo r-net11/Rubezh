@@ -11,6 +11,7 @@ namespace Infrastructure.Common.SKDReports
 		public FilterModel()
 		{
 			AllowSort = true;
+			HasPeriod = false;
 		}
 
 		public bool HasPeriod { get; set; }

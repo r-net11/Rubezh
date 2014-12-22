@@ -222,6 +222,16 @@
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\EndDateType.cs" />
+    <Compile Include="Reports\Providers\ReportProvider431.cs" />
+    <Compile Include="Reports\Providers\ReportProvider423.cs" />
+    <Compile Include="Reports\Providers\ReportProvider422.cs" />
+    <Compile Include="Reports\Providers\ReportProvider421.cs" />
+    <Compile Include="Reports\Providers\ReportProvider417.cs" />
+    <Compile Include="Reports\Providers\ReportProvider416.cs" />
+    <Compile Include="Reports\Providers\ReportProvider415.cs" />
+    <Compile Include="Reports\Providers\ReportProvider413.cs" />
+    <Compile Include="Reports\Providers\ReportProvider412.cs" />
+    <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CardReportFilterDetailsViewModel.cs" />
     <Compile Include="Reports\ViewModels\CardTypesViewModel.cs" />

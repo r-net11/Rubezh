@@ -18,6 +18,7 @@ namespace ReportsModule
 		{
 			return new FilterModel()
 			{
+				HasPeriod = true,
 				Columns = new Dictionary<string, string>()
 				{
 					{ "Column 10", "Column 10" },

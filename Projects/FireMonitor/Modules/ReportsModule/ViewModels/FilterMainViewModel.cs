@@ -160,6 +160,63 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
+		private ReportPeriodType _selectedReportPeriod;
+		public ReportPeriodType SelectedReportPeriod
+		{
+			get { return _selectedReportPeriod; }
+			set
+			{
+				_selectedReportPeriod = value;
+				OnPropertyChanged(() => SelectedReportPeriod);
+				if (_isLoaded)
+					switch (SelectedReportPeriod)
+					{
+						case ReportPeriodType.Day:
+							_isLoaded = false;
+							DateTimeFrom = DateTime.Today;
+							DateTimeTo = DateTimeFrom.AddDays(1).AddSeconds(-1);
+							_isLoaded = true;
+							break;
+						case ReportPeriodType.Week:
+							_isLoaded = false;
+							DateTimeFrom = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek);
+							DateTimeTo = DateTimeFrom.AddDays(7).AddSeconds(-1);
+							_isLoaded = true;
+							break;
+						case ReportPeriodType.Month:
+							_isLoaded = false;
+							DateTimeFrom = DateTime.Today.AddDays(1 - DateTime.Today.Day);
+							DateTimeTo = DateTimeFrom.AddMonths(1).AddSeconds(-1);
+							_isLoaded = true;
+							break;
+					}
+			}
+		}
+		private DateTime _dateTimeFrom;
+		public DateTime DateTimeFrom
+		{
+			get { return _dateTimeFrom; }
+			set
+			{
+				_dateTimeFrom = value;
+				OnPropertyChanged(() => DateTimeFrom);
+				if (_isLoaded)
+					SelectedReportPeriod = ReportPeriodType.Arbitrary;
+			}
+		}
+		private DateTime _dateTimeTo;
+		public DateTime DateTimeTo
+		{
+			get { return _dateTimeTo; }
+			set
+			{
+				_dateTimeTo = value;
+				OnPropertyChanged(() => DateTimeTo);
+				if (_isLoaded)
+					SelectedReportPeriod = ReportPeriodType.Arbitrary;
+			}
+		}
+
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			PrintName = filter.PrintName;
@@ -167,6 +224,15 @@ namespace ReportsModule.ViewModels
 			PrintPeriod = filter.PrintPeriod;
 			PrintDate = filter.PrintDate;
 			PrintUser = filter.PrintUser;
+			var periodFilter = filter as IReportFilterPeriod;
+			if (periodFilter != null)
+			{
+				_isLoaded = false;
+				SelectedReportPeriod = periodFilter.PeriodType;
+				DateTimeFrom = periodFilter.DateTimeFrom;
+				DateTimeTo = periodFilter.DateTimeTo;
+				_isLoaded = true;
+			}
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
@@ -175,6 +241,13 @@ namespace ReportsModule.ViewModels
 			filter.PrintPeriod = PrintPeriod;
 			filter.PrintDate = PrintDate;
 			filter.PrintUser = PrintUser;
+			var periodFilter = filter as IReportFilterPeriod;
+			if (periodFilter != null)
+			{
+				periodFilter.PeriodType = SelectedReportPeriod;
+				periodFilter.DateTimeFrom = DateTimeFrom;
+				periodFilter.DateTimeTo = DateTimeTo;
+			}
 		}
 	}
 }

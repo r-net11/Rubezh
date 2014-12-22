@@ -122,6 +122,7 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
+    <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
     <Compile Include="Converters\IfConverter.cs" />
     <Compile Include="Converters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Converters\StringToSingleLineString.cs" />
@@ -340,6 +341,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\CommonDataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

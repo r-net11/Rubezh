@@ -23,6 +23,7 @@ using SKDModule.Plans;
 using SKDModule.Reports;
 using SKDModule.ViewModels;
 using Infrastructure.Common.SKDReports;
+using SKDModule.Reports.Providers;
 
 namespace SKDModule
 {
@@ -255,7 +256,16 @@ namespace SKDModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			return Enumerable.Empty<ISKDReportProvider>();
+			yield return new ReportProvider411();
+			yield return new ReportProvider412();
+			yield return new ReportProvider413();
+			yield return new ReportProvider415();
+			yield return new ReportProvider416();
+			yield return new ReportProvider417();
+			yield return new ReportProvider421();
+			yield return new ReportProvider422();
+			yield return new ReportProvider423();
+			yield return new ReportProvider431();
 		}
 
 		#endregion
