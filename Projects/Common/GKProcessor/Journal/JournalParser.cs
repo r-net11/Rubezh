@@ -311,6 +311,10 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalStringsHelper.ToValveState(bytes[32 + 15]);
 							}
+							if (GuardZone != null)
+							{
+								JournalItem.JournalEventNameType = JournalStringsHelper.ToGuardZoneState(bytes[32 + 15]);
+							}
 							break;
 
 						case 10:

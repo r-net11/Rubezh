@@ -35,6 +35,10 @@ namespace GKModule.ViewModels
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ResetCommand = new RelayCommand(OnReset);
 
+			SetRegimeNormCommand = new RelayCommand(OnSetRegimeNorm);
+			SetRegimeOpenCommand = new RelayCommand(OnSetRegimeOpen);
+			SetRegimeCloseCommand = new RelayCommand(OnSetRegimeClose);
+
 			Door = door;
 			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
@@ -164,6 +168,39 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				FiresecManager.FiresecService.GKReset(Door);
+			}
+		}
+
+
+		public RelayCommand SetRegimeNormCommand { get; private set; }
+		void OnSetRegimeNorm()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Door);
+				FiresecManager.FiresecService.GKTurnOff(Door);
+			}
+		}
+
+
+		public RelayCommand SetRegimeOpenCommand { get; private set; }
+		void OnSetRegimeOpen()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetManualRegime(Door);
+				FiresecManager.FiresecService.GKTurnOn(Door);
+			}
+		}
+
+
+		public RelayCommand SetRegimeCloseCommand { get; private set; }
+		void OnSetRegimeClose()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetManualRegime(Door);
+				FiresecManager.FiresecService.GKTurnOn(Door);
 			}
 		}
 

@@ -114,7 +114,7 @@ namespace GKProcessor
 				return;
 			}
 
-			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
+			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire2);
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
 			AddChangeDevicesLogic(ChangeGuardDevices);
@@ -193,11 +193,11 @@ namespace GKProcessor
 					}
 					count++;
 				}
-				if (commandStateBit == GKStateBit.Fire1)
-				{
-					Formula.AddGetBit(GKStateBit.Fire1, GuardZone, DatabaseType);
-					Formula.Add(FormulaOperationType.OR);
-				}
+				//if (commandStateBit == GKStateBit.Fire2)
+				//{
+				//    Formula.AddGetBit(GKStateBit.Fire2, GuardZone, DatabaseType);
+				//    Formula.Add(FormulaOperationType.OR);
+				//}
 				Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);
 			}
 		}

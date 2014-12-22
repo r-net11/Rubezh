@@ -105,6 +105,16 @@
                     </Grid>
                 </Grid>
 			</TabItem>
-		</TabControl>
+
+            <TabItem Header="Управление СКД" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid>
+                    <StackPanel>
+                        <Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="200" Height="50" Margin="2" />
+                        <Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="200" Height="50" Margin="2" />
+                        <Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="200" Height="50" Margin="2" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
 	</Grid>
 </UserControl>

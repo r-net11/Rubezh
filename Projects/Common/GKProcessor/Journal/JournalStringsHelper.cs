@@ -70,6 +70,18 @@ namespace GKProcessor
 			return ToState(b);
 		}
 
+		public static JournalEventNameType ToGuardZoneState(byte b)
+		{
+			switch (b)
+			{
+				case 2: return JournalEventNameType.На_охране;
+				case 3: return JournalEventNameType.Не_на_охране;
+				case 4: return JournalEventNameType.Постановка_на_охрану;
+				case 5: return JournalEventNameType.Снятие_с_охраны;
+			}
+			return ToState(b);
+		}
+
 		public static JournalEventDescriptionType ToFailure(byte b)
 		{
 			switch (b)
