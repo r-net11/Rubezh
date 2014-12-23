@@ -19,7 +19,11 @@ namespace FiresecAPI.GK
 			SchedulePeriodType = GKSchedulePeriodType.Weekly;
 			StartDateTime = DateTime.Now;
 			DayScheduleUIDs = new List<Guid>();
+			Calendar = new Calendar();
 		}
+
+		[DataMember]
+		public Calendar Calendar { get; set; }
 
 		/// <summary>
 		/// Тип графика
@@ -62,5 +66,11 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public List<Guid> DayScheduleUIDs { get; set; }
+
+		/// <summary>
+		/// Список праздников
+		/// </summary>
+		[DataMember]
+		public List<DateTime> Holidays { get; set; }
 	}
 }

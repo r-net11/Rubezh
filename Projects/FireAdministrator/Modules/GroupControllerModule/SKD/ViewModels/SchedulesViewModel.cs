@@ -62,7 +62,13 @@ namespace GKModule.ViewModels
 				}
 				OnPropertyChanged(() => SelectedSchedule);
 				OnPropertyChanged(() => HasSelectedSchedule);
+				OnPropertyChanged(() => IsHolidaySchedule);
 			}
+		}
+
+		public bool IsHolidaySchedule
+		{
+			get { return (SelectedSchedule != null && SelectedSchedule.Schedule != null && SelectedSchedule.Schedule.ScheduleType == GKScheduleType.Holiday); }
 		}
 
 		public bool HasSelectedSchedule
