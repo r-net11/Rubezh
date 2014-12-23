@@ -148,7 +148,7 @@ namespace GKProcessor
 			foreach (var code in Codes)
 			{
 				code.KAUDescriptorNo = NextDescriptorNo;
-				var codeDescriptor = new CodeDescriptor(code);
+				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Kau);
 				Descriptors.Add(codeDescriptor);
 			}
 

@@ -162,7 +162,7 @@ namespace GKProcessor
 			foreach (var code in Codes)
 			{
 				code.GKDescriptorNo = NextDescriptorNo;
-				var codeDescriptor = new CodeDescriptor(code);
+				var codeDescriptor = new CodeDescriptor(code, DatabaseType.Gk);
 				Descriptors.Add(codeDescriptor);
 			}
 

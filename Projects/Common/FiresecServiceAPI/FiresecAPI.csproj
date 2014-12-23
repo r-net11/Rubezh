@@ -304,6 +304,9 @@
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\TimeTrack\NightSettings.cs" />
     <Compile Include="XModels\Guard\GKGuardZoneEnterMethod.cs" />
+    <Compile Include="XModels\SKD\Calendar\Calendar.cs" />
+    <Compile Include="XModels\SKD\Calendar\Month.cs" />
+    <Compile Include="XModels\SKD\Calendar\MonthType.cs" />
     <Compile Include="XModels\SKD\GKHolidayType.cs" />
     <Compile Include="XModels\SKD\GKHoliday.cs" />
     <Compile Include="XModels\SKD\GKDaySchedulePart.cs" />

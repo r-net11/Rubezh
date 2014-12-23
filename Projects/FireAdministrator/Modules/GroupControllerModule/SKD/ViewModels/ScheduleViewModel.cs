@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using FiresecAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
@@ -15,9 +14,11 @@ namespace GKModule.ViewModels
 	public class ScheduleViewModel : BaseViewModel
 	{
 		public GKSchedule Schedule { get; set; }
+		public CalendarViewModel Calendar { get; private set; }
 
 		public ScheduleViewModel(GKSchedule schedule)
 		{
+			Calendar = new CalendarViewModel(schedule.Calendar);
 			WriteCommand = new RelayCommand(OnWrite);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -100,6 +101,24 @@ namespace GKModule.ViewModels
 			{
 				_selectedPart = value;
 				OnPropertyChanged(() => SelectedPart);
+			}
+		}
+
+		DateTime _selectedHoliday;
+		public DateTime SelectedHoliday
+		{
+			get { return _selectedHoliday; }
+			set
+			{
+				_selectedHoliday = value;
+				if (Schedule != null)
+				{
+					if (Schedule.Holidays.Contains(_selectedHoliday))
+						Schedule.Holidays.Remove(_selectedHoliday);
+					else
+						Schedule.Holidays.Add(_selectedHoliday);
+				}
+				OnPropertyChanged(() => SelectedHoliday);
 			}
 		}
 
