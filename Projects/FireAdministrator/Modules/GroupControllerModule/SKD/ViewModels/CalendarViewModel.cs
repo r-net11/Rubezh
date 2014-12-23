@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
+using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
+using Calendar = FiresecAPI.GK.Calendar;
 
 namespace GKModule.ViewModels
 {
@@ -40,6 +44,21 @@ namespace GKModule.ViewModels
 			Months.Add(OctoberMonth = new MonthViewModel(MonthType.October, Calendar));
 			Months.Add(NovemberMonth = new MonthViewModel(MonthType.November, Calendar));
 			Months.Add(DecemberMonth = new MonthViewModel(MonthType.December, Calendar));
+			PreviousYearCommand = new RelayCommand(OnPreviousYear);
+			NextYearCommand = new RelayCommand(OnNextYear);
+			UpdateMonths();
+		}
+
+		public RelayCommand PreviousYearCommand { get; private set; }
+		void OnPreviousYear()
+		{
+			Year--;
+		}
+
+		public RelayCommand NextYearCommand { get; private set; }
+		void OnNextYear()
+		{
+			Year++;
 		}
 
 		public int Year
@@ -48,13 +67,17 @@ namespace GKModule.ViewModels
 			set
 			{
 				Calendar.Year = value;
-				UpdateMonth();
+				UpdateMonths();
 				OnPropertyChanged(() => Year);
 			}
 		}
 
-		void UpdateMonth()
+		void UpdateMonths()
 		{
+			foreach (var month in Months)
+			{
+				month.Update(Year);
+			}
 			foreach (var selectedDay in Calendar.SelectedDays.FindAll(x => x.Year == Year))
 			{
 				var month = Months.FirstOrDefault(x => (int) x.MonthType == selectedDay.Month);
@@ -65,6 +88,7 @@ namespace GKModule.ViewModels
 						day.IsSelected = true;
 				}
 			}
+			OnPropertyChanged(() => Months);
 		}
 	}
 
@@ -78,26 +102,24 @@ namespace GKModule.ViewModels
 		{
 			Calendar = calendar;
 			MonthType = monthType;
+			Update(Calendar.Year);
+		}
+
+		public void Update(int year)
+		{
 			Days = new List<DayViewModel>();
 			for (int i = 1; i <= 31; i++)
 			{
-				if ((monthType == MonthType.April || monthType == MonthType.June || monthType == MonthType.September || monthType == MonthType.November)&&(i == 31))
+				if ((MonthType == MonthType.April || MonthType == MonthType.June || MonthType == MonthType.September || MonthType == MonthType.November)&&(i == 31))
 					break;
-				if (monthType == MonthType.February && Calendar.Year % 4 == 0 && i == 30)
+				if (MonthType == MonthType.February && year % 4 == 0 && i == 30)
 					break;
-				if (monthType == MonthType.February && Calendar.Year % 4 != 0 && i == 29)
+				if (MonthType == MonthType.February && year % 4 != 0 && i == 29)
 					break;
 				Days.Add(new DayViewModel(i, MonthType, Calendar));
 			}
+			OnPropertyChanged(()=>Days);
 		}
-
-		public ObservableCollection<DayViewModel> Mondays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Monday)); }}
-		public ObservableCollection<DayViewModel> Tuesdays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Tuesday)); } }
-		public ObservableCollection<DayViewModel> Wednesdays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Wednesday)); } }
-		public ObservableCollection<DayViewModel> Thursdays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Thursday)); } }
-		public ObservableCollection<DayViewModel> Fridays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Friday)); } }
-		public ObservableCollection<DayViewModel> Saturdays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Saturday)); } }
-		public ObservableCollection<DayViewModel> Sundays { get { return new ObservableCollection<DayViewModel>(Days.FindAll(x => x.DayOfWeek == DayOfWeek.Sunday)); } }
 	}
 
 	public class DayViewModel : BaseViewModel
@@ -114,6 +136,28 @@ namespace GKModule.ViewModels
 			DayOfWeek = dateTime.DayOfWeek;
 			MonthType = monthType;
 			No = no;
+			SelectCommand = new RelayCommand(OnSelect);
+		}
+
+		public RelayCommand SelectCommand { get; private set; }
+		void OnSelect()
+		{
+			IsSelected = !IsSelected;
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public int X
+		{
+			get { return ((int)DayOfWeek + 6) % 7; }
+		}
+
+		public int Y
+		{
+			get
+			{
+				var dateTime = new DateTime(Calendar.Year, (int)MonthType, No);
+				return dateTime.GetWeekOfMonth();
+			}
 		}
 
 		bool _isSelected;
@@ -130,6 +174,21 @@ namespace GKModule.ViewModels
 					Calendar.SelectedDays.Remove(dateTime);
 				OnPropertyChanged(()=>IsSelected);
 			}
+		}
+	}
+
+	static class DateTimeExtensions
+	{
+		static GregorianCalendar _gc = new GregorianCalendar();
+		public static int GetWeekOfMonth(this DateTime time)
+		{
+			var first = new DateTime(time.Year, time.Month, 1);
+			return time.GetWeekOfYear() - first.GetWeekOfYear() + 1;
+		}
+
+		static int GetWeekOfYear(this DateTime time)
+		{
+			return _gc.GetWeekOfYear(time, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
 		}
 	}
 }

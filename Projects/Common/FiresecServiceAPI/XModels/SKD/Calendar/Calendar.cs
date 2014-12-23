@@ -10,6 +10,7 @@ namespace FiresecAPI.GK
 		public Calendar()
 		{
 			Year = DateTime.Now.Year;
+			SelectedDays = new List<DateTime>();
 		}
 
 		[DataMember]
