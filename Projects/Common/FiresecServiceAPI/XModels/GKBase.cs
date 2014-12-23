@@ -180,7 +180,7 @@ namespace FiresecAPI.GK
 
 		void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
 		{
-			if (!objects.Any(x => x.UID == newObject.UID))
+			if (objects.All(x => x.UID != newObject.UID))
 				objects.Add(newObject);
 		}
 
