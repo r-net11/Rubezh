@@ -8,11 +8,13 @@ namespace Infrastructure.Common.SKDReports
 {
 	public enum SKDReportGroup
 	{
-		[DescriptionAttribute("Пустышка")]
-		Empty = 1,
-		[DescriptionAttribute("Учет рабочего времени")]
-		WorkingTime = 100,
-		[DescriptionAttribute("Картотека")]
-		HR = 200,
+        [DescriptionAttribute("Конфигурация")]
+        Configuration = 100,
+        [DescriptionAttribute("События")]
+        Events = 200,
+        [DescriptionAttribute("Картотека")]
+        HR = 300,
+        [DescriptionAttribute("Учет рабочего времени")]
+        TimeTracking = 400,
 	}
 }

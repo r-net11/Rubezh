@@ -7,7 +7,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider413 : FilteredSKDReportProvider<TestReportFilter>
 	{
 		public ReportProvider413()
-			: base("FilteredTestReport", "413. Отчет по правам доступа", 413)
+            : base("FilteredTestReport", "413. Отчет по правам доступа", 413, SKDReportGroup.HR)
 		{
 		}
 

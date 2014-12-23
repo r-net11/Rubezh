@@ -7,7 +7,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider415 : FilteredSKDReportProvider<TestReportFilter>
 	{
 		public ReportProvider415()
-			: base("FilteredTestReport", "415. Отчет \"Список отделов организации\"", 415)
+            : base("FilteredTestReport", "415. Отчет \"Список отделов организации\"", 415, SKDReportGroup.HR)
 		{
 		}
 

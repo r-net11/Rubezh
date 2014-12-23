@@ -84,10 +84,6 @@ namespace ReportsModule
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
 			yield return new TESTREPORT();
-			yield return new SKDReportProvider("Report", "Test1", 10, SKDReportGroup.HR);
-			yield return new SKDReportProvider("XtraReport1", "Test2", 20, SKDReportGroup.HR);
-			yield return new SKDReportProvider("XtraReport1", "Test3", 30, SKDReportGroup.WorkingTime);
-			yield return new SKDReportProvider("Report", "Test4", 40, SKDReportGroup.WorkingTime);
 		}
 
 		#endregion

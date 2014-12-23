@@ -7,7 +7,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider421 : FilteredSKDReportProvider<TestReportFilter>
 	{
 		public ReportProvider421()
-			: base("FilteredTestReport", "421. Дисциплинарный отчет", 421)
+            : base("FilteredTestReport", "421. Дисциплинарный отчет", 421, SKDReportGroup.TimeTracking)
 		{
 		}
 

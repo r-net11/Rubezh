@@ -222,6 +222,11 @@
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\EndDateType.cs" />
+    <Compile Include="Reports\Providers\1ReportProvider418.cs" />
+    <Compile Include="Reports\Providers\1ReportProvider402.cs" />
+    <Compile Include="Reports\Providers\1ReportProvider401.cs" />
+    <Compile Include="Reports\Providers\1ReportProvider424.cs" />
+    <Compile Include="Reports\Providers\1ReportProvider432.cs" />
     <Compile Include="Reports\Providers\ReportProvider431.cs" />
     <Compile Include="Reports\Providers\ReportProvider423.cs" />
     <Compile Include="Reports\Providers\ReportProvider422.cs" />
