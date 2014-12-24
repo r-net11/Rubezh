@@ -8,7 +8,7 @@ namespace SKDDriver
 	{
 		public DataAccess.SKDDataContext Context { get; private set; }
 
-		static string ConnectionString
+		public static string ConnectionString
 		{
 			get
 			{

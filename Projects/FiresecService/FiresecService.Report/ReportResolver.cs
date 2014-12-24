@@ -24,10 +24,7 @@ namespace FiresecService.Report
 			var name = string.Format(ReportNameTemplate, reportName);
 			var type = Type.GetType(name);
 			if (type == null)
-			{
-				//return null;
-				return new TestReport();
-			}
+				return new EmptyReport();
 			return (XtraReport)Activator.CreateInstance(type);
 		}
 

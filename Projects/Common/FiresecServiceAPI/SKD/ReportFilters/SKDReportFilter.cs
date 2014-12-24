@@ -13,8 +13,8 @@ namespace FiresecAPI.SKD.ReportFilters
 		{
 			Name = "По умолчанию";
 
-			PrintName = true;
-			PrintNameInHeader = false;
+			PrintFilterName = true;
+            PrintFilterNameInHeader = false;
 			PrintPeriod = true;
 			PrintDate = true;
 			PrintUser = true;
@@ -24,6 +24,10 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public string Name { get; set; }
+        [DataMember]
+        public string User { get; set; }
+        [DataMember]
+        public DateTime Timestamp { get; set; }
 
 		[DataMember]
 		public string SortColumn { get; set; }
@@ -31,9 +35,9 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool SortAscending { get; set; }
 
 		[DataMember]
-		public bool PrintName { get; set; }
+		public bool PrintFilterName { get; set; }
 		[DataMember]
-		public bool PrintNameInHeader { get; set; }
+		public bool PrintFilterNameInHeader { get; set; }
 		[DataMember]
 		public bool PrintPeriod { get; set; }
 		[DataMember]

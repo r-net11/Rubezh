@@ -5,6 +5,7 @@ using System.Text;
 using DevExpress.XtraReports.Service.Extensions;
 using System.ComponentModel.Composition;
 using DevExpress.XtraReports.UI;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace FiresecService.Report
 {
@@ -29,7 +30,7 @@ namespace FiresecService.Report
 		{
 			var filteredReport = report as IFilteredReport;
 			if (filteredReport != null)
-				filteredReport.ApplyFilter(customArgs);
+                filteredReport.ApplyFilter(customArgs as SKDReportFilter);
 		}
 
 		#endregion

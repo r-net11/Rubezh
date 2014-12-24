@@ -17,6 +17,8 @@ using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using DialogService = Infrastructure.Common.Windows.DialogService;
+using FiresecClient;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace ReportsModule.ViewModels
 {
@@ -72,26 +74,73 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
+        private string _filterName;
+        public string FilterName
+        {
+            get { return _filterName; }
+            set
+            {
+                _filterName = value;
+                OnPropertyChanged(() => FilterName);
+            }
+        }
+        private bool _isPeriodReport;
+        public bool IsPeriodReport
+        {
+            get { return _isPeriodReport; }
+            set
+            {
+                _isPeriodReport = value;
+                OnPropertyChanged(() => IsPeriodReport);
+            }
+        }
+        private ReportPeriodType _periodType;
+        public ReportPeriodType PeriodType
+        {
+            get { return _periodType; }
+            set
+            {
+                _periodType = value;
+                OnPropertyChanged(() => PeriodType);
+            }
+        }
+
 		private void BuildReport()
 		{
 			_reportProvider = SelectedReport != null && SelectedReport is SKDReportViewModel ? ((SKDReportViewModel)SelectedReport).ReportProvider : null;
-			if (_reportProvider != null)
-				try
-				{
-					using (new WaitWrapper())
-					{
-						Model.ReportName = _reportProvider.Name;
-						Model.Build(_reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).FilterObject : null);
-					}
-				}
-				catch (Exception ex)
-				{
-					Logger.Error(ex);
-					if (ApplicationService.ApplicationActivated)
-						MessageBoxService.ShowException(ex, "Возникла ошибка при построении отчета");
-					if (ex is CommunicationException)
-						CreateClient();
-				}
+            if (_reportProvider != null)
+                try
+                {
+                    using (new WaitWrapper())
+                    {
+                        Model.ReportName = _reportProvider.Name;
+                        var filter = _reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).FilterObject : null;
+                        if (filter != null)
+                        {
+                            filter.User = FiresecManager.CurrentUser.Name;
+                            filter.Timestamp = DateTime.Now;
+                        };
+                        FilterName = filter == null ? null : filter.Name;
+                        var filterPeriod = filter as IReportFilterPeriod;
+                        IsPeriodReport = filterPeriod != null;
+                        if (IsPeriodReport)
+                            PeriodType = filterPeriod.PeriodType;
+                        Model.Build(filter);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    if (ApplicationService.ApplicationActivated)
+                        MessageBoxService.ShowException(ex, "Возникла ошибка при построении отчета");
+                    if (ex is CommunicationException)
+                        CreateClient();
+                }
+            else
+            {
+                IsPeriodReport = false;
+                FilterName = null;
+            }
 		}
 
 		private void Model_CreateDocumentError(object sender, FaultEventArgs e)

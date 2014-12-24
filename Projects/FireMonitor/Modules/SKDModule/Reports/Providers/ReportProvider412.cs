@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SKDModule.Reports.Providers
 {
-	public class ReportProvider412 : FilteredSKDReportProvider<TestReportFilter>
+    public class ReportProvider412 : FilteredSKDReportProvider<SKDReportFilter>
 	{
 		public ReportProvider412()
 			: base("FilteredTestReport", "412. Отчет по доступу в зоны", 412, SKDReportGroup.HR)

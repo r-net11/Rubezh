@@ -109,24 +109,24 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
-		private bool _printName;
-		public bool PrintName
+		private bool _printFilterName;
+		public bool PrintFilterName
 		{
-			get { return _printName; }
+			get { return _printFilterName; }
 			set
 			{
-				_printName = value;
-				OnPropertyChanged(() => PrintName);
+				_printFilterName = value;
+				OnPropertyChanged(() => PrintFilterName);
 			}
 		}
-		private bool _printNameInHeader;
-		public bool PrintNameInHeader
+		private bool _printFilterNameInHeader;
+		public bool PrintFilterNameInHeader
 		{
-			get { return _printNameInHeader; }
+			get { return _printFilterNameInHeader; }
 			set
 			{
-				_printNameInHeader = value;
-				OnPropertyChanged(() => PrintNameInHeader);
+				_printFilterNameInHeader = value;
+				OnPropertyChanged(() => PrintFilterNameInHeader);
 			}
 		}
 		private bool _printPeriod;
@@ -219,8 +219,8 @@ namespace ReportsModule.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			PrintName = filter.PrintName;
-			PrintNameInHeader = filter.PrintNameInHeader;
+			PrintFilterName = filter.PrintFilterName;
+			PrintFilterNameInHeader = filter.PrintFilterNameInHeader;
 			PrintPeriod = filter.PrintPeriod;
 			PrintDate = filter.PrintDate;
 			PrintUser = filter.PrintUser;
@@ -236,8 +236,8 @@ namespace ReportsModule.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			filter.PrintName = PrintName;
-			filter.PrintNameInHeader = PrintNameInHeader;
+            filter.PrintFilterName = PrintFilterName;
+            filter.PrintFilterNameInHeader = PrintFilterNameInHeader;
 			filter.PrintPeriod = PrintPeriod;
 			filter.PrintDate = PrintDate;
 			filter.PrintUser = PrintUser;

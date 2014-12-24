@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Infrastructure.Events.Reports;
 using ReportsModule.ViewModels;
 using Infrastructure.Common.SKDReports;
+using System.Linq;
 
 namespace ReportsModule
 {
@@ -83,7 +84,7 @@ namespace ReportsModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			yield return new TESTREPORT();
+            return Enumerable.Empty<ISKDReportProvider>();
 		}
 
 		#endregion

@@ -18,11 +18,11 @@ namespace FiresecService.Report.Templates
 
 		#region IFilteredReport Members
 
-		public void ApplyFilter(object args)
+        public void ApplyFilter(SKDReportFilter args)
 		{
-			var filter = args as TestReportFilter;
-			if (filter != null)
-				Argument.Value = filter.Timestamp;
+            //var filter = args as TestReportFilter;
+            //if (filter != null)
+            //    Argument.Value = filter.Timestamp;
 			//Thread.Sleep(5000);
 		}
 

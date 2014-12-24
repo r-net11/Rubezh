@@ -134,11 +134,25 @@
   <ItemGroup>
     <Compile Include="DataSetHelper.cs" />
     <Compile Include="DataSourceService.cs" />
-    <Compile Include="DataSources\TestDataReportDataSet.cs">
+    <Compile Include="DataSources\DataSet415.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet415.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\BaseSKDReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmptyReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\EmptyReport.Designer.cs">
+      <DependentUpon>EmptyReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\_old\TestDataReportDataSet.cs">
       <DependentUpon>TestDataReportDataSet.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataSources\TestDataReportDataSet.Designer.cs">
+    <Compile Include="Templates\_old\TestDataReportDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TestDataReportDataSet.xsd</DependentUpon>
@@ -151,10 +165,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ReportBuildInterceptor.cs" />
-    <Compile Include="Templates\Report.cs">
+    <Compile Include="Templates\BaseReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report.designer.cs">
+    <Compile Include="Templates\BaseReport.Designer.cs">
+      <DependentUpon>BaseReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\_old\Report.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\_old\Report.designer.cs">
       <DependentUpon>Report.cs</DependentUpon>
     </Compile>
     <Compile Include="ReportResolver.cs" />
@@ -172,22 +192,22 @@
     <Compile Include="Templates\Report416.Designer.cs">
       <DependentUpon>Report416.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\TestDataReport.cs">
+    <Compile Include="Templates\_old\TestDataReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\TestDataReport.Designer.cs">
+    <Compile Include="Templates\_old\TestDataReport.Designer.cs">
       <DependentUpon>TestDataReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\TestReport.cs">
+    <Compile Include="Templates\_old\TestReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\TestReport.Designer.cs">
+    <Compile Include="Templates\_old\TestReport.Designer.cs">
       <DependentUpon>TestReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\XtraReport1.cs">
+    <Compile Include="Templates\_old\XtraReport1.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\XtraReport1.Designer.cs">
+    <Compile Include="Templates\_old\XtraReport1.Designer.cs">
       <DependentUpon>XtraReport1.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -211,7 +231,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="Templates\Report.resx">
+    <EmbeddedResource Include="Templates\BaseReport.resx">
+      <DependentUpon>BaseReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\_old\Report.resx">
       <DependentUpon>Report.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\Report415.resx">
@@ -220,27 +243,38 @@
     <EmbeddedResource Include="Templates\Report416.resx">
       <DependentUpon>Report416.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\TestDataReport.resx">
+    <EmbeddedResource Include="Templates\_old\TestDataReport.resx">
       <DependentUpon>TestDataReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\TestReport.resx">
+    <EmbeddedResource Include="Templates\_old\TestReport.resx">
       <DependentUpon>TestReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\XtraReport1.resx">
+    <EmbeddedResource Include="Templates\_old\XtraReport1.resx">
       <DependentUpon>XtraReport1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="DataSources\TestDataReportDataSet.xsc">
+    <None Include="DataSources\DataSet415.xsc">
+      <DependentUpon>DataSet415.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DataSet415.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet415.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\DataSet415.xss">
+      <DependentUpon>DataSet415.xsd</DependentUpon>
+    </None>
+    <None Include="Templates\_old\TestDataReportDataSet.xsc">
       <DependentUpon>TestDataReportDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\TestDataReportDataSet.xsd">
+    <None Include="Templates\_old\TestDataReportDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>TestDataReportDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\TestDataReportDataSet.xss">
+    <None Include="Templates\_old\TestDataReportDataSet.xss">
       <DependentUpon>TestDataReportDataSet.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">

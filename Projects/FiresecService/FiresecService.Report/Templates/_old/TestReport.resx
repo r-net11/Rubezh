@@ -117,26 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.DataSourceSchema" xml:space="preserve">
-    <value>&lt;?xml version="1.0"?&gt;
-&lt;xs:schema id="DataSet415" targetNamespace="http://tempuri.org/DataSet415.xsd" xmlns:mstns="http://tempuri.org/DataSet415.xsd" xmlns="http://tempuri.org/DataSet415.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified"&gt;
-  &lt;xs:element name="DataSet415" msdata:IsDataSet="true" msdata:UseCurrentLocale="true"&gt;
-    &lt;xs:complexType&gt;
-      &lt;xs:choice minOccurs="0" maxOccurs="unbounded"&gt;
-        &lt;xs:element name="Data"&gt;
-          &lt;xs:complexType&gt;
-            &lt;xs:sequence&gt;
-              &lt;xs:element name="Department" type="xs:string" minOccurs="0" /&gt;
-              &lt;xs:element name="Phone" type="xs:string" minOccurs="0" /&gt;
-              &lt;xs:element name="Chief" type="xs:string" minOccurs="0" /&gt;
-              &lt;xs:element name="ParentDepartment" type="xs:string" minOccurs="0" /&gt;
-              &lt;xs:element name="Description" type="xs:string" minOccurs="0" /&gt;
-            &lt;/xs:sequence&gt;
-          &lt;/xs:complexType&gt;
-        &lt;/xs:element&gt;
-      &lt;/xs:choice&gt;
-    &lt;/xs:complexType&gt;
-  &lt;/xs:element&gt;
-&lt;/xs:schema&gt;</value>
-  </data>
 </root>

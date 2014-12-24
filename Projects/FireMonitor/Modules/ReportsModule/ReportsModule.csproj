@@ -133,7 +133,6 @@
     <Compile Include="DocumentPaginatorModel\ReportPaginator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportsModuleLoader.cs" />
-    <Compile Include="TESTREPORT.cs" />
     <Compile Include="ViewModels\FilterMainPageViewModel.cs" />
     <Compile Include="ViewModels\FilterSortPageViewModel.cs" />
     <Compile Include="ViewModels\ReportPreviewViewModel.cs" />

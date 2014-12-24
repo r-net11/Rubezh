@@ -4,7 +4,7 @@ using Infrastructure.Common.SKDReports;
 
 namespace SKDModule.Reports.Providers
 {
-	public class ReportProvider432 : FilteredSKDReportProvider<TestReportFilter>
+    public class ReportProvider432 : FilteredSKDReportProvider<SKDReportFilter>
 	{
 		public ReportProvider432()
             : base("FilteredTestReport", "432. Список устройств", 432, SKDReportGroup.Configuration)

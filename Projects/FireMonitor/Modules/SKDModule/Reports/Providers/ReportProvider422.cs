@@ -4,7 +4,7 @@ using Infrastructure.Common.SKDReports;
 
 namespace SKDModule.Reports.Providers
 {
-	public class ReportProvider422 : FilteredSKDReportProvider<TestReportFilter>
+    public class ReportProvider422 : FilteredSKDReportProvider<SKDReportFilter>
 	{
 		public ReportProvider422()
             : base("FilteredTestReport", "422. Отчет по графикам работы", 422, SKDReportGroup.TimeTracking)

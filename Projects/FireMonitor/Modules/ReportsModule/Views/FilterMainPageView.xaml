@@ -62,8 +62,8 @@
 				</TextBlock>
 			</GroupBox.Header>
 			<StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-				<CheckBox Margin="4" Content="Отображать название фильтра" Foreground="White" IsChecked="{Binding PrintName}" />
-				<CheckBox Margin="4" Content="Отображать название фильтра в заголовке" Foreground="White" IsChecked="{Binding PrintNameInHeader}" />
+				<CheckBox Margin="4" Content="Отображать название фильтра" Foreground="White" IsChecked="{Binding PrintFilterName}" />
+                <CheckBox Margin="4" Content="Отображать название фильтра в заголовке" Foreground="White" IsChecked="{Binding PrintFilterNameInHeader}" />
 				<CheckBox Margin="4" Content="Отображать границы периода формирования отчёта" Foreground="White" IsChecked="{Binding PrintPeriod}" Visibility="{Binding HasPeriod, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneTime}" />
 				<CheckBox Margin="4" Content="Отображать дату и время формирования отчёта" Foreground="White" IsChecked="{Binding PrintDate}" />
 				<CheckBox Margin="4" Content="Отображать сведения о пользователе, сформировавшем отчёт" Foreground="White" IsChecked="{Binding PrintUser}" />
