@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ReportsModule.Views
+namespace SKDModule.Reports.Views
 {
 	/// <summary>
-	/// Interaction logic for FilterMainView.xaml
+	/// Interaction logic for OrganizationPageView.xaml
 	/// </summary>
-	public partial class FilterMainView : UserControl
+	public partial class OrganizationPageView : UserControl
 	{
-		public FilterMainView()
+		public OrganizationPageView()
 		{
 			InitializeComponent();
 		}

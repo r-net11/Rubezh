@@ -15,6 +15,7 @@ namespace SKDModule.Reports.Providers
 		{
 			return new FilterModel()
 			{
+				HasPeriod = true,
 				Columns = new Dictionary<string, string> 
 				{ 
 					{ "c01", "Сотрудник" },

@@ -160,6 +160,18 @@
     <Compile Include="ReportResolver.cs" />
     <Compile Include="ReportServiceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\Report415.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\Report415.Designer.cs">
+      <DependentUpon>Report415.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Report416.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\Report416.Designer.cs">
+      <DependentUpon>Report416.cs</DependentUpon>
+    </Compile>
     <Compile Include="Templates\TestDataReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -198,8 +210,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Templates\Report.resx">
       <DependentUpon>Report.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Report415.resx">
+      <DependentUpon>Report415.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Report416.resx">
+      <DependentUpon>Report416.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\TestDataReport.resx">
       <DependentUpon>TestDataReport.cs</DependentUpon>

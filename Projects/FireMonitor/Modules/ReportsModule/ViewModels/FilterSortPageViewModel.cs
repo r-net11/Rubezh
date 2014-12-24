@@ -7,9 +7,9 @@ using FiresecAPI.SKD.ReportFilters;
 
 namespace ReportsModule.ViewModels
 {
-	public class FilterSortViewModel : FilterContainerViewModel
+	public class FilterSortPageViewModel : FilterContainerViewModel
 	{
-		public FilterSortViewModel(Dictionary<string, string> columns)
+		public FilterSortPageViewModel(Dictionary<string, string> columns)
 		{
 			Title = "Сортировка";
 			Columns = columns;

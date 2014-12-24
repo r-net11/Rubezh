@@ -6,7 +6,7 @@ using System.Linq;
 namespace Infrastructure.Common.CheckBoxList
 {
 	public class CheckBoxItemList<T> : BaseViewModel, ICheckBoxItemList
-		where T:ICheckBoxItem
+		where T : ICheckBoxItem
 	{
 		public CheckBoxItemList()
 		{
@@ -27,7 +27,7 @@ namespace Infrastructure.Common.CheckBoxList
 
 		public void Update()
 		{
-			OnPropertyChanged(()=>HasCheckedItems);
+			OnPropertyChanged(() => HasCheckedItems);
 		}
 	}
 

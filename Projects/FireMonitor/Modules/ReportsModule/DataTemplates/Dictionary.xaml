@@ -20,12 +20,12 @@
 		<Views:SKDReportFilterView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:FilterMainViewModel}">
-		<Views:FilterMainView />
+	<DataTemplate DataType="{x:Type ViewModels:FilterMainPageViewModel}">
+		<Views:FilterMainPageView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:FilterSortViewModel}">
-		<Views:FilterSortView />
+	<DataTemplate DataType="{x:Type ViewModels:FilterSortPageViewModel}">
+		<Views:FilterSortPageView />
 	</DataTemplate>
 
 </ResourceDictionary>

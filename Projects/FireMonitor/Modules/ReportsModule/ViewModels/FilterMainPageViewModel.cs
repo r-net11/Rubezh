@@ -8,13 +8,13 @@ using Infrastructure.Common.SKDReports;
 
 namespace ReportsModule.ViewModels
 {
-	public class FilterMainViewModel : FilterContainerViewModel
+	public class FilterMainPageViewModel : FilterContainerViewModel
 	{
 		private Action<SKDReportFilter> _updateFilterAction;
 		private Action<SKDReportFilter> _loadFilterAction;
 		private Type _filterType;
 		private bool _isLoaded;
-		public FilterMainViewModel(FilterModel model, SKDReportFilter filter, Action<SKDReportFilter> loadFilterAction, Action<SKDReportFilter> updateFilterAction)
+		public FilterMainPageViewModel(FilterModel model, SKDReportFilter filter, Action<SKDReportFilter> loadFilterAction, Action<SKDReportFilter> updateFilterAction)
 		{
 			_isLoaded = false;
 			Title = "Настройки";

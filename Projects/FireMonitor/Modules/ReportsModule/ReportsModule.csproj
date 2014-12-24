@@ -134,8 +134,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportsModuleLoader.cs" />
     <Compile Include="TESTREPORT.cs" />
-    <Compile Include="ViewModels\FilterMainViewModel.cs" />
-    <Compile Include="ViewModels\FilterSortViewModel.cs" />
+    <Compile Include="ViewModels\FilterMainPageViewModel.cs" />
+    <Compile Include="ViewModels\FilterSortPageViewModel.cs" />
     <Compile Include="ViewModels\ReportPreviewViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
@@ -146,11 +146,11 @@
     <Compile Include="ViewModels\SKDReportsViewModel.cs" />
     <Compile Include="ViewModels\SKDReportViewModel.cs" />
     <Compile Include="ViewModels\XReportServicePreviewModel.cs" />
-    <Compile Include="Views\FilterMainView.xaml.cs">
-      <DependentUpon>FilterMainView.xaml</DependentUpon>
+    <Compile Include="Views\FilterMainPageView.xaml.cs">
+      <DependentUpon>FilterMainPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FilterSortView.xaml.cs">
-      <DependentUpon>FilterSortView.xaml</DependentUpon>
+    <Compile Include="Views\FilterSortPageView.xaml.cs">
+      <DependentUpon>FilterSortPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReportPreviewView.xaml.cs">
       <DependentUpon>ReportPreviewView.xaml</DependentUpon>
@@ -203,11 +203,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FilterMainView.xaml">
+    <Page Include="Views\FilterMainPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FilterSortView.xaml">
+    <Page Include="Views\FilterSortPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

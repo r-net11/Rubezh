@@ -97,6 +97,7 @@ namespace ReportsModule.ViewModels
 		private void Model_CreateDocumentError(object sender, FaultEventArgs e)
 		{
 			e.Handled = true;
+			CommandManager.InvalidateRequerySuggested();
 			MessageBoxService.ShowException(e.Fault);
 		}
 

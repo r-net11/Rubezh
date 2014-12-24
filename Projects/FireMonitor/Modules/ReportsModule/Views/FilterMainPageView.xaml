@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ReportsModule.Views.FilterMainView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI" xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+﻿<UserControl x:Class="ReportsModule.Views.FilterMainPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI" xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
 	<UserControl.Resources>
 		<IfConverter x:Key="AdditionalLinkText" FalseValue="Показать настройки отображения отчёта" TrueValue="Скрыть настройки отображения отчёта" />
 		<Style x:Key="label" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">

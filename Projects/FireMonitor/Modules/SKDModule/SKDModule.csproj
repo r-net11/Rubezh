@@ -222,11 +222,11 @@
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
     <Compile Include="Reports\EndDateType.cs" />
-    <Compile Include="Reports\Providers\1ReportProvider418.cs" />
-    <Compile Include="Reports\Providers\1ReportProvider402.cs" />
-    <Compile Include="Reports\Providers\1ReportProvider401.cs" />
-    <Compile Include="Reports\Providers\1ReportProvider424.cs" />
-    <Compile Include="Reports\Providers\1ReportProvider432.cs" />
+    <Compile Include="Reports\Providers\ReportProvider418.cs" />
+    <Compile Include="Reports\Providers\ReportProvider402.cs" />
+    <Compile Include="Reports\Providers\ReportProvider401.cs" />
+    <Compile Include="Reports\Providers\ReportProvider424.cs" />
+    <Compile Include="Reports\Providers\ReportProvider432.cs" />
     <Compile Include="Reports\Providers\ReportProvider431.cs" />
     <Compile Include="Reports\Providers\ReportProvider423.cs" />
     <Compile Include="Reports\Providers\ReportProvider422.cs" />
@@ -238,14 +238,24 @@
     <Compile Include="Reports\Providers\ReportProvider412.cs" />
     <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
-    <Compile Include="Reports\ViewModels\CardReportFilterDetailsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\CardTypesViewModel.cs" />
-    <Compile Include="Reports\ViewModels\CardTypeViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReportNameViewModel.cs" />
-    <Compile Include="Reports\Views\CardReportFilterDetailsView.xaml.cs">
+    <Compile Include="Reports\ViewModels\EmployeePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PositionPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DepartmentPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\OrganizationPageViewModel.cs" />
+    <Compile Include="Reports\Views\FilterPageView.xaml.cs">
+      <DependentUpon>FilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\OrganizationPageView.xaml.cs">
+      <DependentUpon>OrganizationPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\_old\CardReportFilterDetailsViewModel.cs" />
+    <Compile Include="Reports\_old\CardTypesViewModel.cs" />
+    <Compile Include="Reports\_old\CardTypeViewModel.cs" />
+    <Compile Include="Reports\_old\ReportNameViewModel.cs" />
+    <Compile Include="Reports\_old\CardReportFilterDetailsView.xaml.cs">
       <DependentUpon>CardReportFilterDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Views\ReportNameView.xaml.cs">
+    <Compile Include="Reports\_old\ReportNameView.xaml.cs">
       <DependentUpon>ReportNameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
@@ -732,11 +742,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Reports\Views\CardReportFilterDetailsView.xaml">
+    <Page Include="Reports\Views\FilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\OrganizationPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\_old\CardReportFilterDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Reports\Views\ReportNameView.xaml">
+    <Page Include="Reports\_old\ReportNameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

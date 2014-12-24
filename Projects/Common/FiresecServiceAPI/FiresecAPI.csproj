@@ -248,8 +248,14 @@
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
     <Compile Include="AutomationCallback\MessageCallbackData.cs" />
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
-    <Compile Include="SKD\CardReport\CardReportFilter.cs" />
-    <Compile Include="SKD\CardReport\CardSortType.cs" />
+    <Compile Include="SKD\ReportFilters\ReportFilter416.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterEmployee.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterPosition.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterDepartment.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterOrganisation.cs" />
+    <Compile Include="SKD\ReportFilters\ReportFilter415.cs" />
+    <Compile Include="SKD\_oldCardReport\CardReportFilter.cs" />
+    <Compile Include="SKD\_oldCardReport\CardSortType.cs" />
     <Compile Include="SKD\Card\PendingCardAction.cs" />
     <Compile Include="SKD\Common\EmployeeFilterBase.cs" />
     <Compile Include="SKD\DeviceTimeIntervals\SKDDayOfWeek.cs" />

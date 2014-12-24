@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
+using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers
 {
-	public class ReportProvider415 : FilteredSKDReportProvider<TestReportFilter>
+	public class ReportProvider415 : FilteredSKDReportProvider<ReportFilter415>
 	{
 		public ReportProvider415()
-            : base("FilteredTestReport", "415. Отчет \"Список отделов организации\"", 415, SKDReportGroup.HR)
+			: base("Report415", "415. Отчет \"Список отделов организации\"", 415, SKDReportGroup.HR)
 		{
 		}
 
@@ -22,6 +23,11 @@ namespace SKDModule.Reports.Providers
 					{ "c03", "Руководитель" },
 					{ "c04", "Подразделение" },
 					{ "c05", "Примечание" },
+				},
+				Pages = new List<FilterContainerViewModel>()
+				{
+					new OrganizationPageViewModel(false),
+					new DepartmentPageViewModel(),
 				},
 			};
 		}

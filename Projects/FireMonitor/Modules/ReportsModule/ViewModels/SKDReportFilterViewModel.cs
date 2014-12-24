@@ -21,10 +21,10 @@ namespace ReportsModule.ViewModels
 			_model = model;
 			Filter = filter;
 			Pages = new ObservableCollection<FilterContainerViewModel>();
-			Pages.Add(new FilterMainViewModel(model, Filter, LoadFilter, UpdateFilter));
+			Pages.Add(new FilterMainPageViewModel(model, Filter, LoadFilter, UpdateFilter));
 			model.Pages.ForEach(page => Pages.Add(page));
 			if (model.AllowSort)
-				Pages.Add(new FilterSortViewModel(model.Columns));
+				Pages.Add(new FilterSortPageViewModel(model.Columns));
 			CommandPanel = model.CommandsViewModel;
 			LoadFilter(Filter);
 		}

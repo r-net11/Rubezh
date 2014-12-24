@@ -17,9 +17,9 @@ namespace ReportsModule.Views
 	/// <summary>
 	/// Interaction logic for FilterSortView.xaml
 	/// </summary>
-	public partial class FilterSortView : UserControl
+	public partial class FilterSortPageView : UserControl
 	{
-		public FilterSortView()
+		public FilterSortPageView()
 		{
 			InitializeComponent();
 		}

@@ -31,6 +31,8 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var organisation in Organisations.Items)
 				organisation.IsChecked = false;
+			if (uids == null)
+				return;
 			var checkedOrganisations = Organisations.Items.Where(x => uids.Any(y => y == x.Organisation.UID));
 			foreach (var organisation in checkedOrganisations)
 			    organisation.IsChecked = true;

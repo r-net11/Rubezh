@@ -33,11 +33,11 @@ namespace SKDModule.ViewModels
 			IsSearch = (FirstName != null && FirstName.Length != 0) ||
 				(LastName != null && LastName.Length != 0) ||
 				(SecondName != null && SecondName.Length != 0);
+			if (filter.UIDs == null)
+				return;
 			var employees = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
 			foreach (var employee in employees)
-			{
 				employee.IsChecked = true;
-			}
 		}
 
 		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)

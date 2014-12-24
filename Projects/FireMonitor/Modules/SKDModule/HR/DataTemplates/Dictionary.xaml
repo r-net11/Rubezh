@@ -11,4 +11,16 @@
 		<Views:HRFilterView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DepartmentsFilterViewModel}">
+		<Views:DepartmentsFilterView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:EmployeesFilterViewModel}">
+		<Views:EmployeesFilterView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PositionsFilterViewModel}">
+		<Views:PositionsFilterView />
+	</DataTemplate>
+
 </ResourceDictionary>

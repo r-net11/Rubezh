@@ -20,11 +20,11 @@ namespace SKDModule.ViewModels
 		{
 			var emptyFilter = new DepartmentFilter { LogicalDeletationType = filter.LogicalDeletationType };
 			base.Initialize(emptyFilter);
+			if (filter.UIDs == null)
+				return;
 			var models = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
 			foreach (var model in models)
-			{
 				model.IsChecked = true;
-			}
 		}
 
 		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
