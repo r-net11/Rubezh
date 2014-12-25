@@ -143,6 +143,11 @@ namespace GKModule.ViewModels
 		void OnSelect()
 		{
 			IsSelected = !IsSelected;
+			var dateTime = new DateTime(Calendar.Year, (int)MonthType, No);
+			if (IsSelected)
+				Calendar.SelectedDays.Add(dateTime);
+			else
+				Calendar.SelectedDays.Remove(dateTime);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
@@ -167,11 +172,6 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isSelected = value;
-				var dateTime = new DateTime(Calendar.Year, (int)MonthType, No);
-				if (_isSelected)
-					Calendar.SelectedDays.Add(dateTime);
-				else
-					Calendar.SelectedDays.Remove(dateTime);
 				OnPropertyChanged(()=>IsSelected);
 			}
 		}
