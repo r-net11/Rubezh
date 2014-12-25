@@ -175,8 +175,7 @@ namespace GKModule.ViewModels
 				return false;
 			if (Schedule.SchedulePeriodType == GKSchedulePeriodType.Dayly)
 				return Parts.Count > 1;
-			else
-				return Parts.Count > 7;
+			return Parts.Count > 7;
 		}
 	}
 }

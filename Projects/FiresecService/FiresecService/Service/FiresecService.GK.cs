@@ -229,12 +229,9 @@ namespace FiresecService.Service
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (gkControllerDevice != null)
 			{
-				return GKProcessorManager.GKRemoveAllSchedules(gkControllerDevice);
+				return GKScheduleHelper.GKRemoveAllSchedules(gkControllerDevice);
 			}
-			else
-			{
-				return new OperationResult<bool>("Не найден ГК в конфигурации");
-			}
+			return new OperationResult<bool>("Не найден ГК в конфигурации");
 		}
 
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
@@ -242,12 +239,9 @@ namespace FiresecService.Service
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
 			if (gkControllerDevice != null)
 			{
-				return GKProcessorManager.GKSetSchedule(gkControllerDevice, schedule);
+				return GKScheduleHelper.GKSetSchedule(gkControllerDevice, schedule);
 			}
-			else
-			{
-				return new OperationResult<bool>("Не найден ГК в конфигурации");
-			}
+			return new OperationResult<bool>("Не найден ГК в конфигурации");
 		}
 
 		public OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID)

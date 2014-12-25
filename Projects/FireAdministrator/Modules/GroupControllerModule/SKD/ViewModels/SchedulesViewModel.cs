@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 
 		public bool IsHolidaySchedule
 		{
-			get { return (SelectedSchedule != null && SelectedSchedule.Schedule != null && SelectedSchedule.Schedule.ScheduleType == GKScheduleType.Holiday); }
+			get { return (SelectedSchedule != null && SelectedSchedule.Schedule != null && SelectedSchedule.Schedule.ScheduleType != GKScheduleType.Access); }
 		}
 
 		public bool HasSelectedSchedule

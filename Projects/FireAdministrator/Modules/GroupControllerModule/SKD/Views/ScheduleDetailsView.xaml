@@ -80,46 +80,5 @@
 				<ComboBox Grid.Row="8" Grid.Column="1" Text="{Binding HoursPeriod}" Visibility="{Binding ShowHoursPeriod, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Состав" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid Grid.Column="2" DataContext="{Binding SchedulePartsViewModel}">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
-				<StackPanel Grid.Row="0" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
-				</StackPanel>
-				<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Width="Auto" Binding="{Binding Name, Mode=OneWay}" Header="День" />
-						<DataGridTemplateColumn Width="*" Header="Наименование">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-										<TextBlock Text="{Binding SelectedDaySchedule.Name}" VerticalAlignment="Center" Margin="2" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-							<DataGridTemplateColumn.CellEditingTemplate>
-								<DataTemplate>
-									<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableDaySchedules}" SelectedItem="{Binding SelectedDaySchedule, UpdateSourceTrigger=PropertyChanged}">
-										<ComboBox.ItemTemplate>
-											<DataTemplate>
-												<DockPanel Background="Transparent">
-													<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Shedule.png" />
-													<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="Black" Margin="2" />
-												</DockPanel>
-											</DataTemplate>
-										</ComboBox.ItemTemplate>
-									</ComboBox>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellEditingTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
-			</Grid>
-		</TabItem>
 	</TabControl>
 </UserControl>

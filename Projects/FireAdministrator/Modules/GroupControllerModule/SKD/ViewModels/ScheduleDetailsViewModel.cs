@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 					WorkHolidays.Add(workHolidaySchedule);
 				}
 			}
-			SelectedWorkHoliday = Holidays.FirstOrDefault(x => x.No == Schedule.WorkHolidayScheduleNo);
+			SelectedWorkHoliday = WorkHolidays.FirstOrDefault(x => x.No == Schedule.WorkHolidayScheduleNo);
 
 			CopyProperties();
 
@@ -142,6 +142,18 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedScheduleType = value;
+				switch (_selectedScheduleType)
+				{
+					case GKScheduleType.Holiday:
+						Name = "Новый график праздников";
+						break;
+					case GKScheduleType.WorkHoliday:
+						Name = "Новый график рабочих выходных";
+						break;
+					default:
+						Name = "Новый график доступа";
+						break;
+				}
 				OnPropertyChanged(() => SelectedScheduleType);
 				IsAccessSchedule = value == GKScheduleType.Access;
 			}
@@ -240,6 +252,10 @@ namespace GKModule.ViewModels
 			Schedule.ScheduleType = SelectedScheduleType;
 			Schedule.SchedulePeriodType = SelectedSchedulePeriodType;
 			Schedule.HoursPeriod = HoursPeriod;
+			if (SelectedHoliday != null)
+				Schedule.HolidayScheduleNo = SelectedHoliday.No;
+			if (SelectedWorkHoliday != null)
+				Schedule.WorkHolidayScheduleNo = SelectedWorkHoliday.No;
 
 			var result = FiresecManager.FiresecService.GKSetSchedule(Schedule);
 			if (result.HasError)

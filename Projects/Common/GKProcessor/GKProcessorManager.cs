@@ -5,9 +5,7 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
-using System.Reflection;
 using FiresecAPI.Journal;
-using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -30,7 +28,7 @@ namespace GKProcessor
 
 		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
 		{
-			var gkProgressCallback = new GKProgressCallback()
+			var gkProgressCallback = new GKProgressCallback
 			{
 				GKProgressCallbackType = GKProgressCallbackType.Start,
 				Title = title,
@@ -46,7 +44,7 @@ namespace GKProcessor
 
 		public static void DoProgress(string text, GKProgressCallback progressCallback)
 		{
-			var gkProgressCallback = new GKProgressCallback()
+			var gkProgressCallback = new GKProgressCallback
 			{
 				UID = progressCallback.UID,
 				LastActiveDateTime = DateTime.Now,
@@ -62,7 +60,7 @@ namespace GKProcessor
 
 		public static void StopProgress(GKProgressCallback progressCallback)
 		{
-			var gkProgressCallback = new GKProgressCallback()
+			var gkProgressCallback = new GKProgressCallback
 			{
 				UID = progressCallback.UID,
 				LastActiveDateTime = DateTime.Now,
@@ -178,10 +176,10 @@ namespace GKProcessor
 			
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
-			OperationResult<bool> rewriteResult = new OperationResult<bool>();
+			var rewriteResult = new OperationResult<bool>();
 			if (gkDescriptorsWriter.Errors.Count == 0)
 			{
-				rewriteResult = GKRewriteAllSchedules(device);
+				rewriteResult = GKScheduleHelper.GKRewriteAllSchedules(device);
 			}
 
 			Start();
@@ -196,7 +194,7 @@ namespace GKProcessor
 					errors.AppendLine(rewriteResult.Error);
 				return new OperationResult<bool>(errors.ToString()) { Result = false };
 			}
-			return new OperationResult<bool>() { Result = true };
+			return new OperationResult<bool> { Result = true };
 		}
 
 		public static OperationResult<GKDeviceConfiguration> GKReadConfiguration(GKDevice device, string userName)
@@ -261,10 +259,7 @@ namespace GKProcessor
 		public static string GKGetDeviceInfo(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Запрос_информации_об_устройстве, JournalEventDescriptionType.NULL, "", device, userName);
-			var result = DeviceBytesHelper.GetDeviceInfo(device);
-			if (result == null)
-				result = "Устройство недоступно";
-			return result;
+			return DeviceBytesHelper.GetDeviceInfo(device) ?? "Устройство недоступно";
 		}
 
 		public static OperationResult<int> GKGetJournalItemsCount(GKDevice device)
@@ -276,7 +271,7 @@ namespace GKProcessor
 			}
 			var journalParser = new JournalParser(device, sendResult.Bytes);
 			var result = journalParser.GKJournalRecordNo;
-			return new OperationResult<int>() { Result = result };
+			return new OperationResult<int> { Result = result };
 		}
 
 		public static OperationResult<JournalItem> GKReadJournalItem(GKDevice device, int no)
@@ -290,18 +285,15 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+				return new OperationResult<JournalItem> { Result = journalParser.JournalItem };
 			}
-			else
-			{
-				return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
-			}
+			return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
 		}
 
 		public static OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
 		{
 			var error = ParametersHelper.SetSingleParameter(gkBase, parameterBytes);
-			return new OperationResult<bool>() { HasError = error != null, Error = error, Result = true };
+			return new OperationResult<bool> { HasError = error != null, Error = error, Result = true };
 		}
 
 		public static OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
@@ -309,190 +301,13 @@ namespace GKProcessor
 			return ParametersHelper.GetSingleParameter(gkBase);
 		}
 
-		public static OperationResult<bool> GKRewriteAllSchedules(GKDevice device)
-		{
-			var removeResult = GKRemoveAllSchedules(device);
-			if (removeResult.HasError)
-				return new OperationResult<bool>(removeResult.Error);
-			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
-			{
-				var setResult = GKSetSchedule(device, schedule);
-				if (setResult.HasError)
-					return new OperationResult<bool>(setResult.Error);
-			}
-			return new OperationResult<bool>();
-		}
-
-		public static OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
-		{
-			for (int no = 1; no <= 255; no++)
-			{
-				var bytes = new List<byte>();
-				bytes.Add(0);
-				bytes.Add((byte)no);
-				var nameBytes = BytesHelper.StringDescriptionToBytes("");
-				bytes.AddRange(nameBytes);
-				for (int i = 0; i < 255 - 32; i++)
-				{
-					bytes.Add(0);
-				}
-
-				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 28, 0, bytes);
-			}
-			return new OperationResult<bool>();
-		}
-
-		public static OperationResult<bool> GKSetSchedule(GKDevice device, GKSchedule schedule)
-		{
-			var count = 0;
-			foreach (var dayScheduleUID in schedule.DayScheduleUIDs)
-			{
-				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
-				if (daySchedule != null)
-				{
-					count += daySchedule.DayScheduleParts.Count;
-				}
-			}
-			var secondsPeriod = schedule.DayScheduleUIDs.Count * 60 * 60 * 24;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Custom)
-				secondsPeriod = schedule.HoursPeriod * 60 * 60;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.NonPeriodic)
-				secondsPeriod = 0;
-
-			var bytes = new List<byte>();
-			bytes.Add((byte)schedule.No);
-			var nameBytes = BytesHelper.StringDescriptionToBytes(schedule.Name);
-			bytes.AddRange(nameBytes);
-			bytes.Add(0);
-			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(count * 2)));
-			bytes.AddRange(BytesHelper.IntToBytes(secondsPeriod));
-			bytes.Add(0);
-			bytes.Add(0);
-			bytes.Add(0);
-			bytes.Add(0);
-			bytes.Add(0);
-			bytes.Add(0);
-			bytes.Add(0);
-			bytes.Add(0);
-
-			var startDateTime = schedule.StartDateTime;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
-			{
-				if (startDateTime.DayOfWeek == DayOfWeek.Monday)
-					startDateTime = startDateTime.AddDays(0);
-				if (startDateTime.DayOfWeek == DayOfWeek.Tuesday)
-					startDateTime = startDateTime.AddDays(-1);
-				if (startDateTime.DayOfWeek == DayOfWeek.Wednesday)
-					startDateTime = startDateTime.AddDays(-2);
-				if (startDateTime.DayOfWeek == DayOfWeek.Thursday)
-					startDateTime = startDateTime.AddDays(-3);
-				if (startDateTime.DayOfWeek == DayOfWeek.Friday)
-					startDateTime = startDateTime.AddDays(-4);
-				if (startDateTime.DayOfWeek == DayOfWeek.Saturday)
-					startDateTime = startDateTime.AddDays(-5);
-				if (startDateTime.DayOfWeek == DayOfWeek.Sunday)
-					startDateTime = startDateTime.AddDays(-6);
-			}
-			var timeSpan = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day) - new DateTime(2000, 1, 1);
-			var scheduleStartSeconds = timeSpan.TotalSeconds;
-
-			for (int dayNo = 0; dayNo < schedule.DayScheduleUIDs.Count; dayNo++)
-			{
-				var dayScheduleUID = schedule.DayScheduleUIDs[dayNo];
-				var daySchedule = GKManager.DeviceConfiguration.DaySchedules.FirstOrDefault(x => x.UID == dayScheduleUID);
-				if (daySchedule != null)
-				{
-					foreach (var daySchedulePart in daySchedule.DayScheduleParts)
-					{
-						//scheduleStartSeconds = 0;
-						bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000)));
-						bytes.AddRange(BytesHelper.IntToBytes((int)(scheduleStartSeconds + 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000)));
-
-						var startSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.StartMilliseconds / 1000;
-						var endSeconds = 24 * 60 * 60 * dayNo + daySchedulePart.EndMilliseconds / 1000;
-
-						Trace.WriteLine("Time interval " + startSeconds + " " + endSeconds);
-					}
-				}
-			}
-
-			var packs = new List<List<byte>>();
-			for (int packNo = 0; packNo <= bytes.Count / 256; packNo++)
-			{
-				int packLenght = Math.Min(256, bytes.Count - packNo * 256);
-				var packBytes = bytes.Skip(packNo * 256).Take(packLenght).ToList();
-
-				if (packBytes.Count > 0)
-				{
-					var resultBytes = new List<byte>();
-					resultBytes.Add((byte)(packNo));
-					resultBytes.AddRange(packBytes);
-					packs.Add(resultBytes);
-				}
-			}
-
-			foreach (var pack in packs)
-			{
-				var sendResult = SendManager.Send(device, (ushort)(pack.Count), 28, 0, pack);
-				if (sendResult.HasError)
-				{
-					return new OperationResult<bool>(sendResult.Error);
-				}
-			}
-
-			return new OperationResult<bool>() { Result = true };
-		}
-
-		//public static OperationResult<GKSchedule> GKGetSchedule(GKDevice device, int no)
-		//{
-		//	var resultBytes = new List<byte>();
-
-		//	var bytes = new List<byte>();
-		//	bytes.Add(0);
-		//	bytes.Add(1);
-		//	var sendResult = SendManager.Send(device, (ushort)bytes.Count, 27, 0, bytes);
-		//	if (!sendResult.HasError)
-		//	{
-		//		if (sendResult.Bytes.Count > 0)
-		//		{
-		//			sendResult.Bytes.RemoveAt(0);
-		//			resultBytes.AddRange(sendResult.Bytes);
-		//		}
-		//	}
-
-		//	if (bytes.Count > 0)
-		//	{
-		//		var schedule = new GKSchedule();
-		//		schedule.No = bytes[0];
-		//		schedule.Name = BytesHelper.BytesToString(bytes.Skip(1).Take(32).ToList());
-		//		var holidayScheduleNo = bytes[33];
-		//		var partsCount = BytesHelper.SubstructShort(bytes, 34) / 2;
-		//		var duration = BytesHelper.SubstructInt(bytes, 36);
-		//		var shortScheduleNo = bytes[40];
-
-		//		var dayScheduleParts = new List<GKDaySchedulePart>();
-		//		for (int i = 48; i < bytes.Count; i+=4)
-		//		{
-		//			var startSeconds = BytesHelper.SubstructShort(bytes, i);
-		//			var endSeconds = BytesHelper.SubstructShort(bytes, i + 2);
-		//			var daySchedulePart = new GKDaySchedulePart();
-		//			daySchedulePart.StartMilliseconds = startSeconds * 1000;
-		//			daySchedulePart.EndMilliseconds = endSeconds * 1000;
-		//			dayScheduleParts.Add(daySchedulePart);
-		//		}
-		//		return new OperationResult<GKSchedule>() { Result = schedule };
-		//	}
-
-		//	return new OperationResult<GKSchedule>("Ошибка");
-		//}
-
 		public static OperationResult<List<byte>> GKGKHash(GKDevice device)
 		{
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var readInfoBlock = gkFileReaderWriter.ReadInfoBlock(device);
 			if (gkFileReaderWriter.Error != null)
 				return new OperationResult<List<byte>>(gkFileReaderWriter.Error);
-			return new OperationResult<List<byte>>() { Result = readInfoBlock.Hash1 };
+			return new OperationResult<List<byte>> { Result = readInfoBlock.Hash1 };
 		}
 
 		public static GKStates GKGetStates()
@@ -677,7 +492,7 @@ namespace GKProcessor
 				}
 			}
 
-			var journalItem = new JournalItem()
+			var journalItem = new JournalItem
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
@@ -692,7 +507,7 @@ namespace GKProcessor
 			if (gkBase != null)
 			{
 				journalItem.ObjectName = gkBase.PresentationName;
-				var gkObjectNo = (ushort)gkBase.GKDescriptorNo;
+				var gkObjectNo = gkBase.GKDescriptorNo;
 				if (gkObjectNo > 0)
 					journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Компонент ГК", gkObjectNo.ToString()));
 			}
