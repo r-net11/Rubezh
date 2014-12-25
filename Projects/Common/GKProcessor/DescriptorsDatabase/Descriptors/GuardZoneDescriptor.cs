@@ -154,12 +154,12 @@ namespace GKProcessor
 					switch (GuardZone.GuardZoneEnterMethod)
 					{
 						case GKGuardZoneEnterMethod.GlobalOnly:
-							Formula.Add(FormulaOperationType.BR, 1, (byte)(2 + settingsPart.CodeUIDs.Count * 2));
-							Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
+							Formula.Add(FormulaOperationType.BR, 1, (byte)(2 + settingsPart.CodeUIDs.Count * 2 + Math.Max(settingsPart.CodeUIDs.Count - 1, 0)));
 							var codeIndex = 0;
 							foreach (var codeUID in settingsPart.CodeUIDs)
 							{
 								var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+								Formula.Add(FormulaOperationType.KOD, 0, DatabaseType == DatabaseType.Gk ? guardDevice.Device.GKDescriptorNo : guardDevice.Device.KAUDescriptorNo);
 								Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
 								if (codeIndex > 0)
 								{
@@ -167,6 +167,7 @@ namespace GKProcessor
 								}
 								codeIndex++;
 							}
+							Formula.Add(FormulaOperationType.AND);
 							break;
 
 						case GKGuardZoneEnterMethod.UserOnly:
@@ -176,12 +177,12 @@ namespace GKProcessor
 							break;
 
 						case GKGuardZoneEnterMethod.Both:
-							Formula.Add(FormulaOperationType.BR, 1, (byte)(4 + settingsPart.CodeUIDs.Count * 2));
-							Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
+							Formula.Add(FormulaOperationType.BR, 1, (byte)(3 + settingsPart.CodeUIDs.Count * 2 + Math.Min(settingsPart.CodeUIDs.Count - 1, 0)));
 							codeIndex = 0;
 							foreach (var codeUID in settingsPart.CodeUIDs)
 							{
 								var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+								Formula.Add(FormulaOperationType.KOD, 0, guardDevice.Device.GKDescriptorNo);
 								Formula.Add(FormulaOperationType.CMPKOD, 1, DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
 								if (codeIndex > 0)
 								{
@@ -191,6 +192,7 @@ namespace GKProcessor
 							}
 							Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
 							Formula.Add(FormulaOperationType.OR);
+							Formula.Add(FormulaOperationType.AND);
 							break;
 					}
 				}

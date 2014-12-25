@@ -219,11 +219,8 @@ namespace GKProcessor
 					case FormulaOperationType.PUTWORD:
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
-						stackDepth -= 1;
-						break;
-
 					case FormulaOperationType.CMPKOD:
-						stackDepth -= 2;
+						stackDepth -= 1;
 						break;
 
 					case FormulaOperationType.COM:
