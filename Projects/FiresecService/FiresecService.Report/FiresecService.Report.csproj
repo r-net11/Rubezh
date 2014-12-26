@@ -204,8 +204,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-      <DependentUpon>BaseReport.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Templates\EmptyReport.resx">
       <DependentUpon>EmptyReport.cs</DependentUpon>
     </EmbeddedResource>
