@@ -150,11 +150,9 @@ namespace GKProcessor
 					}
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 
-					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
 					switch (GuardZone.GuardZoneEnterMethod)
 					{
 						case GKGuardZoneEnterMethod.GlobalOnly:
-							Formula.Add(FormulaOperationType.BR, 1, (byte)(settingsPart.CodeUIDs.Count * 2 + Math.Max(settingsPart.CodeUIDs.Count - 1, 0) + 1 + 1));
 							var codeIndex = 0;
 							foreach (var codeUID in settingsPart.CodeUIDs)
 							{
@@ -171,13 +169,10 @@ namespace GKProcessor
 							break;
 
 						case GKGuardZoneEnterMethod.UserOnly:
-							Formula.Add(FormulaOperationType.BR, 1, 3);
 							Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
-							Formula.Add(FormulaOperationType.AND);
 							break;
 
 						case GKGuardZoneEnterMethod.Both:
-							Formula.Add(FormulaOperationType.BR, 1, (byte)(settingsPart.CodeUIDs.Count * 2 + Math.Min(settingsPart.CodeUIDs.Count - 1, 0) + 1 + (settingsPart.CodeUIDs.Count > 0 ? 1 : 0) + 1 + 1));
 							codeIndex = 0;
 							foreach (var codeUID in settingsPart.CodeUIDs)
 							{
@@ -195,9 +190,11 @@ namespace GKProcessor
 							{
 								Formula.Add(FormulaOperationType.OR);
 							}
-							Formula.Add(FormulaOperationType.AND);
 							break;
 					}
+
+					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
+					Formula.Add(FormulaOperationType.AND);
 				}
 				else
 				{
