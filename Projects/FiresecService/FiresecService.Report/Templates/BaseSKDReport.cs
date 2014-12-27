@@ -44,10 +44,10 @@ namespace FiresecService.Report.Templates
 			sb.Append(BuildSelectRoutine());
 			var sql = BuildWhereRouting();
 			if (sql.Length > 0)
-				sb.AppendFormat(" WHERE {0}", sql);
+				sb.AppendFormat("{0}{1}", SqlBuilder.WHERE, sql);
 			sql = BuildOrderRouting();
 			if (sql.Length > 0)
-				sb.AppendFormat(" ORDER BY {0}", sql);
+				sb.AppendFormat("{0}{1}", SqlBuilder.ORDERBY, sql);
 			return sb;
 		}
 		protected virtual string BuildSelectRoutine()
@@ -63,7 +63,7 @@ namespace FiresecService.Report.Templates
 			var column = Filter.SortColumn;
 			if (string.IsNullOrEmpty(column))
 				column = DataSet.Tables[0].Columns[0].ColumnName;
-			var asc = Filter.SortAscending ? "ASC" : "DESC";
+			var asc = Filter.SortAscending ? SqlBuilder.ASC : SqlBuilder.DESC;
 			return string.Format("{0} {1}", column, asc);
 		}
 

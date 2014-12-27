@@ -9,6 +9,10 @@ namespace FiresecService.Report
 	{
 		public const string OR = " OR ";
 		public const string AND = " AND ";
+		public const string WHERE = " WHERE ";
+		public const string ORDERBY = " ORDER BY ";
+		public const string ASC = " ASC";
+		public const string DESC = " DESC";
 
 		public static void BuildConditionOR<T>(StringBuilder sb, string field, IEnumerable<T> objects)
 		{

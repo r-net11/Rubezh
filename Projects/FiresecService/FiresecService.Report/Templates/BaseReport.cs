@@ -56,6 +56,7 @@ namespace FiresecService.Report.Templates
 				BottomMargin.HeightF -= lTimestamp.HeightF;
 			if (!lUserName.Visible && lTimestamp.Visible)
 				BottomMargin.HeightF -= lUserName.HeightF;
+			ReportPrintOptions.DetailCountOnEmptyDataSource = 0;
 		}
 
 		#endregion

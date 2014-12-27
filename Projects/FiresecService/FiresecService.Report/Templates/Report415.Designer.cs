@@ -92,9 +92,9 @@
 			// 
 			// xrTable1
 			// 
-			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
-			| DevExpress.XtraPrinting.BorderSide.Right)
-			| DevExpress.XtraPrinting.BorderSide.Bottom)));
+			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 10.00001F);
 			this.xrTable1.Name = "xrTable1";
 			this.xrTable1.SizeF = new System.Drawing.SizeF(650F, 25F);
@@ -165,8 +165,9 @@
 			// xrTable3
 			// 
 			this.xrTable3.AnchorVertical = ((DevExpress.XtraReports.UI.VerticalAnchorStyles)((DevExpress.XtraReports.UI.VerticalAnchorStyles.Top | DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom)));
-			this.xrTable3.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
-			| DevExpress.XtraPrinting.BorderSide.Right)));
+			this.xrTable3.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable3.KeepTogether = true;
 			this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(9.536743E-05F, 0F);
 			this.xrTable3.Name = "xrTable3";
@@ -233,9 +234,8 @@
 			// 
 			// xrTable2
 			// 
-			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
-			| DevExpress.XtraPrinting.BorderSide.Right)
-			| DevExpress.XtraPrinting.BorderSide.Bottom)));
+			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable2.KeepTogether = true;
 			this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(3.178914E-05F, 0F);
 			this.xrTable2.Name = "xrTable2";
@@ -314,6 +314,8 @@
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
 			this.Version = "14.1";
+			this.Controls.SetChildIndex(this.Detail1, 0);
+			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
