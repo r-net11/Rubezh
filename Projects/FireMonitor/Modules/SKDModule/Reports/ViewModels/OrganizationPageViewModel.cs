@@ -22,12 +22,15 @@ namespace SKDModule.Reports.ViewModels
 			Organisations = new ObservableCollection<FilterOrganisationViewModel>(_organisationsFilter.Organisations.Items);
 		}
 		public bool AllowMultiple { get; set; }
-		public ObservableCollection<FilterOrganisationViewModel> Organisations {get;private set;}
+		public ObservableCollection<FilterOrganisationViewModel> Organisations { get; private set; }
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			var organisationFilter = filter as IReportFilterOrganisation;
-			_organisationsFilter.Initialize(organisationFilter == null ? null : organisationFilter.Organisations);
+			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
+			if (!AllowMultiple && uids == null && _organisationsFilter.Organisations.Items.Count > 0)
+				uids = new List<Guid>() { _organisationsFilter.Organisations.Items.First().Organisation.UID };
+			_organisationsFilter.Initialize(uids);
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{

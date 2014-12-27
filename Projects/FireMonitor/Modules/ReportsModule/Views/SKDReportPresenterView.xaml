@@ -35,8 +35,17 @@
             </DockPanel>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <ToolBarButton Command="{Binding Model.PrintCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
-                <ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в CSV" />
-            </StackPanel>
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Pdf" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в PDF" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Htm" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в HTM" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Mht" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в MHT" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Rtf" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в RTF" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xls" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XLS" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XLSX" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в CSV" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в TXT" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
+				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XPS" />
+			</StackPanel>
         </Grid>
 
         <dxp:DocumentViewer x:Name="viewer" Grid.Row="1" Model="{Binding Model}" />

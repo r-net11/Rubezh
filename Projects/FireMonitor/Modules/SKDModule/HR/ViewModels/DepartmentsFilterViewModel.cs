@@ -20,11 +20,8 @@ namespace SKDModule.ViewModels
 		{
 			var emptyFilter = new DepartmentFilter { LogicalDeletationType = filter.LogicalDeletationType };
 			base.Initialize(emptyFilter);
-			if (filter.UIDs == null)
-				return;
-			var models = Organisations.SelectMany(x => x.Children).Where(x => filter.UIDs.Any(y => y == x.Model.UID));
-			foreach (var model in models)
-				model.IsChecked = true;
+			var models = Organisations.SelectMany(x => x.Children);
+			SetSelected(models, filter.UIDs ?? new List<Guid>());
 		}
 
 		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
@@ -102,6 +99,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
+		public List<Guid> UIDs { get { return GetSelected(Organisations.SelectMany(x => x.Children)).ToList(); } }
+		private IEnumerable<Guid> GetSelected(IEnumerable<DepartmentFilterItemViewModel> departments)
+		{
+			foreach (var department in departments)
+			{
+				if (department.IsChecked)
+					yield return department.Model.UID;
+				foreach (var subdepartment in GetSelected(department.Children))
+					yield return subdepartment;
+			}
+		}
+		private void SetSelected(IEnumerable<DepartmentFilterItemViewModel> departments, List<Guid> selected)
+		{
+			foreach (var department in departments)
+			{
+				department.IsChecked = selected.Contains(department.Model.UID);
+				SetSelected(department.Children, selected);
+			}
+		}
 	}
 }

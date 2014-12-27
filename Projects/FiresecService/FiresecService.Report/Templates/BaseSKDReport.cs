@@ -5,31 +5,74 @@ using System.Text;
 using FiresecAPI.SKD.ReportFilters;
 using SKDDriver;
 using FiresecAPI;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace FiresecService.Report.Templates
 {
-    public class BaseSKDReport<T, TItem, TDataSet> : BaseReport
-        where T : SKDReportFilter
-    {
-        protected T Filter { get; set; }
+	public class BaseSKDReport : BaseReport
+	{
+		protected DataSet DataSet { get; private set; }
 
-        public override void ApplyFilter(SKDReportFilter filter)
-        {
-            base.ApplyFilter(filter);
-            Filter = (T)filter;
-        }
-        protected override void DataSourceRequered()
-        {
-            //using (var service = new SKDDatabaseService())
-            //{
-            //    var result = GetData(service);
-            //    if (result != null && !result.HasError)
-            //        DataSource = result.Result.ToDataSet<TDataSet>();
-            //}
-        }
-        protected OperationResult<IEnumerable<TItem>> GetData(SKDDatabaseService service)
-        {
-            return null;
-        }
-    }
+		protected override void DataSourceRequered()
+		{
+			DataSet = CreateDataSet();
+			var query = BuildQuery();
+			using (var connection = new SqlConnection(SKDDatabaseService.ConnectionString))
+			{
+				var adapter = new SqlDataAdapter(query.ToString(), connection);
+				AddTableMapping(adapter, DataSet);
+				adapter.Fill(DataSet);
+			}
+			UpdateDataSource();
+			DataSource = DataSet;
+		}
+
+		protected T GetFilter<T>()
+			where T : SKDReportFilter
+		{
+			return (T)Filter ?? Activator.CreateInstance<T>();
+		}
+
+		protected virtual void AddTableMapping(IDataAdapter adapter, DataSet dataSet)
+		{
+			adapter.TableMappings.Add("Table", dataSet.Tables[0].TableName);
+		}
+		protected virtual StringBuilder BuildQuery()
+		{
+			var sb = new StringBuilder();
+			sb.Append(BuildSelectRoutine());
+			var sql = BuildWhereRouting();
+			if (sql.Length > 0)
+				sb.AppendFormat(" WHERE {0}", sql);
+			sql = BuildOrderRouting();
+			if (sql.Length > 0)
+				sb.AppendFormat(" ORDER BY {0}", sql);
+			return sb;
+		}
+		protected virtual string BuildSelectRoutine()
+		{
+			return string.Empty;
+		}
+		protected virtual string BuildWhereRouting()
+		{
+			return string.Empty;
+		}
+		protected virtual string BuildOrderRouting()
+		{
+			var column = Filter.SortColumn;
+			if (string.IsNullOrEmpty(column))
+				column = DataSet.Tables[0].Columns[0].ColumnName;
+			var asc = Filter.SortAscending ? "ASC" : "DESC";
+			return string.Format("{0} {1}", column, asc);
+		}
+
+		protected virtual DataSet CreateDataSet()
+		{
+			return new DataSet();
+		}
+		protected virtual void UpdateDataSource()
+		{
+		}
+	}
 }

@@ -11,6 +11,7 @@ using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using System.Threading;
 using Infrastructure.Client.Startup;
+using System.Globalization;
 
 namespace FireMonitor
 {
@@ -32,6 +33,8 @@ namespace FireMonitor
 		}
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
 			base.OnStartup(e);
 			try
 			{
@@ -120,7 +123,7 @@ namespace FireMonitor
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
 			if (ShellIntegrationHelper.IsIntegrated && !IsClosingOnException)
-					ShellIntegrationHelper.ShutDown();
+				ShellIntegrationHelper.ShutDown();
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
 		}
 		private void ApplicationService_Closed(object sender, EventArgs e)

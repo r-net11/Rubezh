@@ -8,9 +8,9 @@ namespace Infrastructure.Common.SKDReports
 	public interface IFilteredSKDReportProvider : ISKDReportProvider
 	{
 		Type FilterType { get; }
-		SKDReportFilter FilterObject { get; }
 
-		FilterModel CreateFilterModel();
+		SKDReportFilter GetFilter();
+		FilterModel GetFilterModel();
 		void UpdateFilter(SKDReportFilter filter);
 	}
 }

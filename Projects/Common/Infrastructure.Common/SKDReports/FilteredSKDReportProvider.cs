@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.SKD.ReportFilters;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.SKDReports
 {
 	public abstract class FilteredSKDReportProvider<T> : SKDReportProvider, IFilteredSKDReportProvider
 		where T : SKDReportFilter
 	{
+		private bool _modelCreated;
 		public FilteredSKDReportProvider(string name, string title, int index, SKDReportGroup? group = null)
 			: base(name, title, index, group)
 		{
+			_modelCreated = false;
 			Filter = Activator.CreateInstance<T>();
 		}
 
@@ -20,12 +24,15 @@ namespace Infrastructure.Common.SKDReports
 		{
 			get { return typeof(T); }
 		}
-		public SKDReportFilter FilterObject
+
+		public virtual SKDReportFilter GetFilter()
 		{
-			get { return Filter; }
+			Filter.User = ApplicationService.User.Name;
+			Filter.Timestamp = DateTime.Now;
+			return Filter;
 		}
 
-		public abstract FilterModel CreateFilterModel();
+		public abstract FilterModel GetFilterModel();
 
 		public void UpdateFilter(SKDReportFilter filter)
 		{

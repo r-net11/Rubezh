@@ -10,19 +10,20 @@ namespace SKDModule.Reports.Providers
 		public ReportProvider415()
 			: base("Report415", "415. Отчет \"Список отделов организации\"", 415, SKDReportGroup.HR)
 		{
+
 		}
 
-		public override FilterModel CreateFilterModel()
+		public override FilterModel GetFilterModel()
 		{
 			return new FilterModel()
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Отдел" },
-					{ "c02", "Телефон" },
-					{ "c03", "Руководитель" },
-					{ "c04", "Подразделение" },
-					{ "c05", "Примечание" },
+					{ "Department", "Отдел" },
+					{ "Phone", "Телефон" },
+					{ "Chief", "Руководитель" },
+					{ "ParentDepartment", "Подразделение" },
+					{ "Description", "Примечание" },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
