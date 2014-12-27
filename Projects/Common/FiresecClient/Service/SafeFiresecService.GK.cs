@@ -73,17 +73,17 @@ namespace FiresecClient
 
 		public OperationResult<bool> GKSetSingleParameter(GKBase gkBase, List<byte> parameterBytes)
 		{
-			return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(gkBase.UID, parameterBytes); }, "SetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(gkBase.UID, parameterBytes); }, "SetSingleParameter");
 		}
 
 		public OperationResult<List<GKProperty>> GKGetSingleParameter(GKBase gkBase)
 		{
-			return SafeOperationCall<List<GKProperty>>(() => { return FiresecService.GKGetSingleParameter(gkBase.UID); }, "GetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(gkBase.UID); }, "GetSingleParameter");
 		}
 
-		public OperationResult<bool> GKRemoveAllSchedules(GKDevice device)
+		public OperationResult<bool> GKRewriteAllSchedules(GKDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKRemoveAllSchedules(device.UID); }, "GKRemoveAllSchedules");
+			return SafeOperationCall(() => { return FiresecService.GKRewriteAllSchedules(device.UID); }, "GKRewriteAllSchedules");
 		}
 
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)
@@ -113,7 +113,7 @@ namespace FiresecClient
 
 		public GKStates GKGetStates()
 		{
-			return SafeOperationCall<GKStates>(() => { return FiresecService.GKGetStates(); }, "GKGetStates");
+			return SafeOperationCall(() => { return FiresecService.GKGetStates(); }, "GKGetStates");
 		}
 
 		public void GKExecuteDeviceCommand(GKDevice device, GKStateBit stateBit)

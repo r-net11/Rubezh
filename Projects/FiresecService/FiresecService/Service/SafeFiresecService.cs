@@ -250,9 +250,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(objectUID); }, "GKGetSingleParameter");
 		}
 
-		public OperationResult<bool> GKRemoveAllSchedules(Guid gkDeviceUID)
+		public OperationResult<bool> GKRewriteAllSchedules(Guid gkDeviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKRemoveAllSchedules(gkDeviceUID); }, "GKRemoveAllSchedules");
+			return SafeOperationCall(() => { return FiresecService.GKRewriteAllSchedules(gkDeviceUID); }, "GKRewriteAllSchedules");
 		}
 
 		public OperationResult<bool> GKSetSchedule(GKSchedule schedule)

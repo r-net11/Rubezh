@@ -76,10 +76,10 @@
 						</DockPanel>
 					</Border>
 					<ControlTemplate.Triggers>
-						<Trigger Property="UIBehavior.ShowSelectionMark" Value="True">
+						<Trigger Property="Controls:UIBehavior.ShowSelectionMark" Value="True">
 							<Setter TargetName="mark" Property="Visibility" Value="Visible" />
 						</Trigger>
-						<Trigger Property="UIBehavior.IsActiveSelectionMark" Value="True">
+						<Trigger Property="Controls:UIBehavior.IsActiveSelectionMark" Value="True">
 							<Setter TargetName="mark" Property="IsHitTestVisible" Value="True" />
 						</Trigger>
 						<Trigger Property="IsSelected" Value="true">

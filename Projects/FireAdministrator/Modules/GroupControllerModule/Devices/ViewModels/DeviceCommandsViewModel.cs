@@ -37,7 +37,7 @@ namespace GKModule.Models
 			ActualizeUsersCommand = new RelayCommand(OnActualizeUsers, CanActualizeUsers);
 			RemoveUsersCommand = new RelayCommand(OnRemoveUsers, CanRemoveUsers);
 			RewriteUsersCommand = new RelayCommand(OnRewriteUsers, CanRewriteUsers);
-			RemoveAllSchedulesCommand = new RelayCommand(OnRemoveAllSchedules, CanRemoveAllSchedules);
+			RewriteAllSchedulesCommand = new RelayCommand(OnRewriteAllSchedules, CanRemoveAllSchedules);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -305,14 +305,14 @@ namespace GKModule.Models
 					{
 						var result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
 
-						ApplicationService.Invoke(new Action(() =>
+						ApplicationService.Invoke(() =>
 						{
 							LoadingService.Close();
 							if (result.HasError)
 							{
 								MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 							}
-						}));
+						});
 					});
 					thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
 					thread.Start();
@@ -347,7 +347,7 @@ namespace GKModule.Models
 			{
 				var result = FiresecManager.FiresecService.GKAutoSearch(SelectedDevice.Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
@@ -367,7 +367,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при автопоиске конфигурации");
 					}
-				}));
+				});
 			});
 			thread.Name = "DeviceCommandsViewModel AutoSearch";
 			thread.Start();
@@ -385,7 +385,7 @@ namespace GKModule.Models
 			{
 				var result = FiresecManager.FiresecService.GKActualizeUsers(SelectedDevice.Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
@@ -397,7 +397,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при актулизации пользователей");
 					}
-				}));
+				});
 			});
 			thread.Name = "DeviceCommandsViewModel ActualizeUsers";
 			thread.Start();
@@ -415,7 +415,7 @@ namespace GKModule.Models
 			{
 				var result = FiresecManager.FiresecService.GKRemoveUsers(SelectedDevice.Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
@@ -425,7 +425,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при удалении пользователей");
 					}
-				}));
+				});
 			});
 			thread.Name = "DeviceCommandsViewModel RemoveUsers";
 			thread.Start();
@@ -443,7 +443,7 @@ namespace GKModule.Models
 			{
 				var result = FiresecManager.FiresecService.GKRewriteUsers(SelectedDevice.Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
@@ -453,7 +453,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи пользователей");
 					}
-				}));
+				});
 			});
 			thread.Name = "DeviceCommandsViewModel RewriteUsers";
 			thread.Start();
@@ -464,14 +464,14 @@ namespace GKModule.Models
 			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == GKDriverType.GK);
 		}
 
-		public RelayCommand RemoveAllSchedulesCommand { get; private set; }
-		void OnRemoveAllSchedules()
+		public RelayCommand RewriteAllSchedulesCommand { get; private set; }
+		void OnRewriteAllSchedules()
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKRemoveAllSchedules(SelectedDevice.Device);
+				var result = FiresecManager.FiresecService.GKRewriteAllSchedules(SelectedDevice.Device);
 
-				ApplicationService.Invoke(new Action(() =>
+				ApplicationService.Invoke(() =>
 				{
 					if (!result.HasError)
 					{
@@ -479,11 +479,11 @@ namespace GKModule.Models
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при удалении всех графиков");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при перезаписи всех графиков");
 					}
-				}));
+				});
 			});
-			thread.Name = "DeviceCommandsViewModel RemoveAllSchedules";
+			thread.Name = "DeviceCommandsViewModel RewriteAllSchedules";
 			thread.Start();
 		}
 

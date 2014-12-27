@@ -188,11 +188,11 @@
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=Column.DisplayIndex, RelativeSource={RelativeSource Self}}" Value="0" />
-								<Condition Binding="{Binding Path=(UIBehavior.ShowSelectionMark), RelativeSource={RelativeSource Self}}" Value="True" />
+								<Condition Binding="{Binding Path=(local:UIBehavior.ShowSelectionMark), RelativeSource={RelativeSource Self}}" Value="True" />
 							</MultiDataTrigger.Conditions>
 							<Setter TargetName="mark" Property="Visibility" Value="Visible" />
 						</MultiDataTrigger>
-						<DataTrigger Binding="{Binding Path=(UIBehavior.IsActiveSelectionMark), RelativeSource={RelativeSource Self}}" Value="True">
+						<DataTrigger Binding="{Binding Path=(local:UIBehavior.IsActiveSelectionMark), RelativeSource={RelativeSource Self}}" Value="True">
 							<Setter TargetName="mark" Property="IsHitTestVisible" Value="True" />
 						</DataTrigger>
 						<Trigger Property="IsSelected" Value="False">

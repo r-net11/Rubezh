@@ -27,7 +27,7 @@
 				<IconedMenuItem Command="{Binding ActualizeUsersCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Актуализация пользователей прибора" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding RemoveUsersCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Стереть пользователей прибора" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding RewriteUsersCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Перезаписать пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RemoveAllSchedulesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Стереть все графики работ" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Перезаписать все графики" TotalHeight="32" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

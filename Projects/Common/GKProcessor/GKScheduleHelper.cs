@@ -15,9 +15,14 @@ namespace GKProcessor
 			var removeResult = GKRemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return new OperationResult<bool>(removeResult.Error);
+			var emptySchedule = new GKSchedule();
+			emptySchedule.Name = "Никогда";
+			var setResult = GKSetSchedule(device, emptySchedule);
+			if (setResult.HasError)
+				return new OperationResult<bool>(setResult.Error);
 			foreach (var schedule in GKManager.DeviceConfiguration.Schedules)
 			{
-				var setResult = GKSetSchedule(device, schedule);
+				setResult = GKSetSchedule(device, schedule);
 				if (setResult.HasError)
 					return new OperationResult<bool>(setResult.Error);
 			}
@@ -57,7 +62,7 @@ namespace GKProcessor
 				}
 			else
 			{
-				count = schedule.Calendar.SelectedDays.Count;
+				count = schedule.Calendar.SelectedDays.FindAll(x => x > schedule.StartDateTime).Count;
 			}
 			var secondsPeriod = schedule.DayScheduleUIDs.Count * 60 * 60 * 24;
 			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Custom)
@@ -82,7 +87,7 @@ namespace GKProcessor
 			bytes.Add(0);
 
 			var startDateTime = schedule.StartDateTime;
-			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly)
+			if (schedule.SchedulePeriodType == GKSchedulePeriodType.Weekly && schedule.ScheduleType == GKScheduleType.Access)
 			{
 				if (startDateTime.DayOfWeek == DayOfWeek.Monday)
 					startDateTime = startDateTime.AddDays(0);
@@ -123,7 +128,7 @@ namespace GKProcessor
 				}
 			else
 			{
-				foreach (var day in schedule.Calendar.SelectedDays)
+				foreach (var day in schedule.Calendar.SelectedDays.FindAll(x => x >= schedule.StartDateTime))
 				{
 					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1)).TotalSeconds)));
 					bytes.AddRange(BytesHelper.IntToBytes((int)((day - new DateTime(2000, 1, 1) + TimeSpan.FromDays(1) - TimeSpan.FromSeconds(1)).TotalSeconds)));

@@ -248,7 +248,7 @@
 		<Setter Property="OverridesDefaultStyle" Value="True"/>
 		<Style.Triggers>
 			<Trigger Property="Role" Value="SubmenuHeader">
-				<Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.SubmenuHeaderTemplateKey}}"/>
+				<Setter Property="Template" Value="{StaticResource {x:Static local:IconedMenuItem.SubmenuHeaderTemplateKey}}"/>
 			</Trigger>
 		</Style.Triggers>
 	</Style>
