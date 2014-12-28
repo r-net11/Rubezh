@@ -60,7 +60,7 @@
 			<DataGrid Grid.Row="2" Name="UsersDataGrid" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" CanUserSortColumns="True">
 				<DataGrid.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-						<MouseBinding Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=usersDataGrid, Path=SelectedItems}" />
+						<MouseBinding Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=UsersDataGrid, Path=SelectedItems}" />
 					</InputBindingCollection>
 				</DataGrid.Resources>
 				<DataGrid.ItemContainerStyle>
