@@ -77,7 +77,6 @@
             </Directory>
           </Directory>
           <Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
-          <Directory Id="UTILSLOCATION" Name="Утилиты" />
           <Directory Id="GKOPCLOCATION" Name="GKOPC" />
           <Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
           

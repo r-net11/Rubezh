@@ -76,9 +76,6 @@ namespace GKOPCServer
 
 			OPCDAServer.Initialize(srvGuid, 50, 50, ServerOptions.NoAccessPaths, '/', 100);
 
-			if (FiresecManager.Devices == null)
-				return;
-
 			foreach (var device in GKManager.Devices)
 			{
 				if (TagsCount >= 100)

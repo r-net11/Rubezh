@@ -17,12 +17,11 @@ namespace CustomAction
 				try
 				{
 					if ((process.ProcessName == "FiresecService")
-						|| (process.ProcessName == "FSAgentServer")
 						|| (process.ProcessName == "FireMonitor")
 						|| (process.ProcessName == "FireAdministrator")
 						|| (process.ProcessName == "Revisor")
 						|| (process.ProcessName == "GKOPCServer")
-						|| (process.ProcessName == "FiresecNTService")) // "FS_SER~1", "fs_server", "scktsrvr"
+						|| (process.ProcessName == "FiresecNTService"))
 					{
 						process.Kill();
 					}
