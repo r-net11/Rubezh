@@ -11,7 +11,6 @@ namespace DeviceControls
 	{
 		public static FrameworkElement EmptyPicture { get; private set; }
 		public static Brush EmptyBrush { get; private set; }
-		public static DevicePicture DevicePicture { get; private set; }
 		public static GKDevicePicture GKDevicePicture { get; private set; }
 		public static SKDDevicePicture SKDDevicePicture { get; private set; }
 		public static CameraPicture CameraPicture { get; private set; }
@@ -27,7 +26,6 @@ namespace DeviceControls
 			};
 			EmptyBrush = new VisualBrush(EmptyPicture);
 
-			DevicePicture = new DevicePicture();
 			GKDevicePicture = new GKDevicePicture();
 			SKDDevicePicture = new SKDDevicePicture();
 			CameraPicture = new CameraPicture();

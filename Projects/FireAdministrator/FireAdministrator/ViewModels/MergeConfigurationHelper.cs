@@ -560,14 +560,6 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
-				foreach (var element in plan.ElementDevices)
-				{
-					if (element.UID != Guid.Empty)
-						element.UID = SKDDoorUIDs[element.UID];
-					var uid = Guid.NewGuid();
-					PlenElementUIDs.Add(element.UID, uid);
-					element.UID = uid;
-				}
 			}
 		}
 

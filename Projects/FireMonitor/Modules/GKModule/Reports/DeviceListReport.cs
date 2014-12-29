@@ -23,7 +23,7 @@ namespace GKModule.Reports
 			table.Columns.Add("Address");
 			table.Columns.Add("Zone");
 
-			if (FiresecManager.Devices.IsNotNullOrEmpty())
+			if (GKManager.Devices.IsNotNullOrEmpty())
 			{
 				foreach (var device in GKManager.Devices)
 				{

@@ -7,28 +7,6 @@ namespace Infrastructure
 	public class SaveService
 	{
 		public int FSChangesCount { get; private set; }
-		bool _fsChanged;
-		public bool FSChanged
-		{
-			get { return _fsChanged; }
-			set
-			{
-				_fsChanged = value;
-				OnChanged();
-				FSChangesCount++;
-			}
-		}
-
-		bool _fsParametersChanged;
-		public bool FSParametersChanged
-		{
-			get { return _fsParametersChanged; }
-			set
-			{
-				_fsParametersChanged = value;
-				OnChanged();
-			}
-		}
 
 		bool _gkChanged;
 		public bool GKChanged
@@ -74,17 +52,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _libraryChanged;
-		public bool LibraryChanged
-		{
-			get { return _libraryChanged; }
-			set
-			{
-				_libraryChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _filterChanged;
 		public bool FilterChanged
 		{
@@ -118,17 +85,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _instructionsChanged;
-		public bool InstructionsChanged
-		{
-			get { return _instructionsChanged; }
-			set
-			{
-				_instructionsChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _camerasChanged;
 		public bool CamerasChanged
 		{
@@ -147,17 +103,6 @@ namespace Infrastructure
 			set
 			{
 				_emailsChanged = value;
-				OnChanged();
-			}
-		}
-
-		bool _opcChanged;
-		public bool OPCChanged
-		{
-			get { return _opcChanged; }
-			set
-			{
-				_opcChanged = value;
 				OnChanged();
 			}
 		}
@@ -229,7 +174,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || GKLibraryChanged || GKInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
+				return PlansChanged || FilterChanged || SecurityChanged || SoundsChanged ||  GKLibraryChanged || GKInstructionsChanged || GKChanged || CamerasChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -245,19 +190,14 @@ namespace Infrastructure
 
 		void SetAllValues(bool value)
 		{
-			FSChanged = value;
-			FSParametersChanged = value;
 			GKChanged = value;
 			PlansChanged = value;
-			LibraryChanged = value;
 			GKLibraryChanged = value;
 			GKInstructionsChanged = value;
 			FilterChanged = value;
 			SecurityChanged = value;
 			SoundsChanged = value;
-			InstructionsChanged = value;
 			CamerasChanged = value;
-			OPCChanged = value;
 			SKDChanged = value;
 			SKDLibraryChanged = value;
 			EmailsChanged = value;

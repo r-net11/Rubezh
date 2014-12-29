@@ -114,7 +114,6 @@
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="AutoActivationWatcher.cs" />
-    <Compile Include="Notifier.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />

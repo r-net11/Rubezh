@@ -13,7 +13,6 @@ namespace FiresecAPI.Models
 		{
 			Sounds = new List<Sound>();
 			JournalFilters = new List<JournalFilter>();
-			Instructions = new List<Instruction>();
 			Cameras = new List<Camera>();
 			EmailData = new EmailData();
 			AutomationConfiguration = new AutomationConfiguration();
@@ -24,9 +23,6 @@ namespace FiresecAPI.Models
 	
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }
-
-		[DataMember]
-		public List<Instruction> Instructions { get; set; }
 
 		[DataMember]
 		public List<Camera> Cameras { get; set; }

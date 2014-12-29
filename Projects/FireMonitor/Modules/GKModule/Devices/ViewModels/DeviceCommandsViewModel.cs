@@ -30,7 +30,6 @@ namespace GKModule.ViewModels
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
-			ExecuteMROCommand = new RelayCommand(OnExecuteMRO);
 
 			DeviceExecutableCommands = new ObservableCollection<DeviceExecutableCommandViewModel>();
 			foreach (var availableCommand in Device.Driver.AvailableCommandBits)
@@ -154,74 +153,5 @@ namespace GKModule.ViewModels
 		{
 			return DeviceState.StateClasses.Contains(XStateClass.Fire2) || DeviceState.StateClasses.Contains(XStateClass.Fire1);
 		}
-
-		#region IsMRO
-		public bool IsMRO
-		{
-			get
-			{
-#if DEBUG
-				return Device.DriverType == GKDriverType.MRO_2;
-#endif
-				return false;
-			}
-		}
-
-		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
-		{
-			get { return Enum.GetValues(typeof(ZoneLogicMROMessageNo)).Cast<ZoneLogicMROMessageNo>().ToList(); }
-		}
-
-		ZoneLogicMROMessageNo _selectedMROMessageNo;
-		public ZoneLogicMROMessageNo SelectedMROMessageNo
-		{
-			get { return _selectedMROMessageNo; }
-			set
-			{
-				_selectedMROMessageNo = value;
-				OnPropertyChanged(() => SelectedMROMessageNo);
-			}
-		}
-
-		public List<ZoneLogicMROMessageType> AvailableMROMessageTypes
-		{
-			get { return Enum.GetValues(typeof(ZoneLogicMROMessageType)).Cast<ZoneLogicMROMessageType>().ToList(); }
-		}
-
-		ZoneLogicMROMessageType _selectedMROMessageType;
-		public ZoneLogicMROMessageType SelectedMROMessageType
-		{
-			get { return _selectedMROMessageType; }
-			set
-			{
-				_selectedMROMessageType = value;
-				OnPropertyChanged(() => SelectedMROMessageType);
-			}
-		}
-
-		public RelayCommand ExecuteMROCommand { get; private set; }
-		void OnExecuteMRO()
-		{
-			var code = 0x80 + (int)GKStateBit.TurnOnNow_InManual;
-			var code2 = 0;
-			code2 += ((byte)SelectedMROMessageNo << 1);
-			code2 += ((byte)SelectedMROMessageType << 4);
-			code2 = 18;
-			code2 = 20;
-			code2 = MROCode;
-			Watcher.SendControlCommandMRO(Device, (byte)code, (byte)code2);
-		}
-
-		int _mroCode;
-		public int MROCode
-		{
-			get { return _mroCode; }
-			set
-			{
-				_mroCode = value;
-				OnPropertyChanged(() => MROCode);
-			}
-		}
-		#endregion
 	}
 }

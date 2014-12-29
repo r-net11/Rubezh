@@ -10,21 +10,5 @@ namespace DiagnosticsModule.Views
 		{
 			InitializeComponent();
 		}
-
-		private void AutoCompleteBox_Populating(object sender, PopulatingEventArgs e)
-		{
-			var zones = new List<string>();
-			foreach (var zone in FiresecManager.Zones)
-			{
-				zones.Add(zone.Name);
-			}
-			AutoCompleteBox autoCompleteBox = sender as AutoCompleteBox;
-			autoCompleteBox.ItemsSource = zones;
-		}
-
-		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-		{
-			//ColorPicker
-		}
 	}
 }

@@ -23,26 +23,6 @@ namespace FiresecClient
 							elementSubPlans.Add(elementSubPlan);
 					Plan.ElementSubPlans = elementSubPlans;
 
-					keys = Zones.Select(item => item.UID).ToList();
-					var elementRectangleZones = new List<ElementRectangleZone>();
-					foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementRectangleZone.ZoneUID))
-							elementRectangleZones.Add(elementRectangleZone);
-					Plan.ElementRectangleZones = elementRectangleZones;
-
-					var elementPolygonZones = new List<ElementPolygonZone>();
-					foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
-						if (keys.Contains(elementPolygonZone.ZoneUID))
-							elementPolygonZones.Add(elementPolygonZone);
-					Plan.ElementPolygonZones = elementPolygonZones;
-
-					keys = Devices.Select(item => item.UID).ToList();
-					var elementDevices = new List<ElementDevice>();
-					foreach (var elementDevice in Plan.ElementDevices.Where(x => x.DeviceUID != Guid.Empty))
-						if (keys.Contains(elementDevice.DeviceUID))
-							elementDevices.Add(elementDevice);
-					Plan.ElementDevices = elementDevices;
-
 					keys = GKManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleGKZones = new List<ElementRectangleGKZone>();
 					foreach (var elementRectangleGKZone in Plan.ElementRectangleGKZones.Where(x => x.ZoneUID != Guid.Empty))
@@ -151,7 +131,6 @@ namespace FiresecClient
 		}
 		public static bool PlanValidator(PlansConfiguration configuration)
 		{
-			//ServiceFactoryBase.ContentService.
 			return true;
 		}
 	}

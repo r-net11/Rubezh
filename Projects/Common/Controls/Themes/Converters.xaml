@@ -9,17 +9,11 @@
 	<Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 	<Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
-	<Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
-	<Converters:StateTypeToColorConverter x:Key="StateTypeToColorConverter" />
-	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-	<Converters:StateTypeToIntConverter x:Key="StateTypeToIntConverter" />
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
-	<Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
-	<Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
 	<Converters:NullableTimeToStringConverter x:Key="NullableTimeToStringConverter" />
 	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
@@ -35,8 +29,6 @@
 	<Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
-	<Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
-	<Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
 	<Converters:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter" />
 	<Converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
@@ -45,7 +37,6 @@
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
-	<Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
 	<Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />

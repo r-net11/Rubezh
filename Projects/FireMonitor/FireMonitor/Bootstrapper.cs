@@ -66,7 +66,6 @@ namespace FireMonitor
 					{
 						ServiceFactory.StartupService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
-						Notifier.Initialize();
 
 						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };

@@ -23,7 +23,6 @@ namespace FiresecClient
 			set { ConfigurationCash.PlansConfiguration = value; }
 		}
 
-		public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 		public static LayoutsConfiguration LayoutsConfiguration { get; set; }
@@ -73,7 +72,6 @@ namespace FiresecClient
 				LoadFromZipFile(configFileName, out isFullConfiguration);
 
 				UpdateConfiguration();
-				FiresecConfiguration.CreateStates();
 			}
 			catch (Exception e)
 			{
@@ -91,7 +89,6 @@ namespace FiresecClient
 				LayoutsConfiguration.Update();
 				PlansConfiguration.Update();
 				SystemConfiguration.UpdateConfiguration();
-				FiresecConfiguration.UpdateConfiguration();
 				GKDriversCreator.Create();
 				GKManager.UpdateConfiguration();
 				GKManager.CreateStates();
@@ -109,8 +106,6 @@ namespace FiresecClient
 		{
 			try
 			{
-				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -123,11 +118,6 @@ namespace FiresecClient
 
 				SystemConfiguration.AllCameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
-
-				var deviceMap = new Dictionary<Guid, Device>();
-				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
-				var zoneMap = new Dictionary<Guid, Zone>();
-				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 
 				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
 				foreach (var device in GKManager.Devices)
@@ -197,31 +187,12 @@ namespace FiresecClient
 				PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
 				foreach (var plan in PlansConfiguration.AllPlans)
 				{
-					for (int i = plan.ElementDevices.Count(); i > 0; i--)
-					{
-						var elementDevice = plan.ElementDevices[i - 1];
-						elementDevice.UpdateZLayer();
-						if (deviceMap.ContainsKey(elementDevice.DeviceUID))
-							deviceMap[elementDevice.DeviceUID].PlanElementUIDs.Add(elementDevice.UID);
-					}
 					for (int i = plan.ElementGKDevices.Count(); i > 0; i--)
 					{
 						var elementGKDevice = plan.ElementGKDevices[i - 1];
 						elementGKDevice.UpdateZLayer();
 						if (gkDeviceMap.ContainsKey(elementGKDevice.DeviceUID))
 							gkDeviceMap[elementGKDevice.DeviceUID].PlanElementUIDs.Add(elementGKDevice.UID);
-					}
-					foreach (var elementZone in plan.ElementPolygonZones)
-					{
-						UpdateZoneType(elementZone, elementZone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(elementZone.ZoneUID) ? zoneMap[elementZone.ZoneUID] : null);
-						if (zoneMap.ContainsKey(elementZone.ZoneUID))
-							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
-					}
-					foreach (var elementZone in plan.ElementRectangleZones)
-					{
-						UpdateZoneType(elementZone, elementZone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(elementZone.ZoneUID) ? zoneMap[elementZone.ZoneUID] : null);
-						if (zoneMap.ContainsKey(elementZone.ZoneUID))
-							zoneMap[elementZone.ZoneUID].PlanElementUIDs.Add(elementZone.UID);
 					}
 					foreach (var zone in plan.ElementPolygonGKZones)
 					{
@@ -320,105 +291,6 @@ namespace FiresecClient
 			}
 		}
 
-		public static void SetEmptyConfiguration()
-		{
-			FiresecConfiguration.SetEmptyConfiguration();
-		}
-
-		public static List<Driver> Drivers
-		{
-			get
-			{
-				if (FiresecConfiguration == null || FiresecConfiguration.DriversConfiguration == null || FiresecConfiguration.DriversConfiguration.Drivers == null)
-				{
-					Logger.Error("FiresecManager Drivers = null");
-					return new List<Driver>();
-				}
-				return FiresecConfiguration.DriversConfiguration.Drivers;
-			}
-		}
-
-		public static List<Device> Devices
-		{
-			get
-			{
-				if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.Devices == null)
-				{
-					Logger.Error("FiresecManager Devices = null");
-					return new List<Device>();
-				}
-				return FiresecConfiguration.DeviceConfiguration.Devices;
-			}
-		}
-
-		public static List<Zone> Zones
-		{
-			get
-			{
-				if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.Zones == null)
-				{
-					Logger.Error("FiresecManager Zones = null");
-					return new List<Zone>();
-				}
-				return FiresecConfiguration.DeviceConfiguration.Zones;
-			}
-		}
-
-		public static List<Direction> Directions
-		{
-			get
-			{
-				if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.Directions == null)
-				{
-					Logger.Error("FiresecManager Direction = null");
-					return new List<Direction>();
-				}
-				return FiresecConfiguration.DeviceConfiguration.Directions;
-			}
-		}
-
-		public static List<GuardUser> GuardUsers
-		{
-			get
-			{
-				if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.GuardUsers == null)
-				{
-					Logger.Error("FiresecManager GuardUser = null");
-					return new List<GuardUser>();
-				}
-				return FiresecConfiguration.DeviceConfiguration.GuardUsers;
-			}
-		}
-
-		public static List<ParameterTemplate> ParameterTemplates
-		{
-			get
-			{
-				if (FiresecConfiguration.DeviceConfiguration.ParameterTemplates == null)
-				{
-					FiresecConfiguration.DeviceConfiguration.ParameterTemplates = new List<ParameterTemplate>();
-				}
-				return FiresecConfiguration.DeviceConfiguration.ParameterTemplates;
-			}
-		}
-
-		private static void UpdateZoneType(IElementZone elementZone, Zone zone)
-		{
-			elementZone.BackgroundColor = System.Windows.Media.Colors.Black;
-			elementZone.SetZLayer(20);
-			if (zone != null)
-				switch (zone.ZoneType)
-				{
-					case ZoneType.Fire:
-						elementZone.BackgroundColor = System.Windows.Media.Colors.Green;
-						elementZone.SetZLayer(30);
-						break;
-					case ZoneType.Guard:
-						elementZone.BackgroundColor = System.Windows.Media.Colors.Brown;
-						elementZone.SetZLayer(40);
-						break;
-				}
-		}
 		private static void UpdateZoneType(IElementZone elementZone, GKGuardZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 20 : 40);

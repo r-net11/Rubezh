@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 		{
 			SelectedInstruction = null;
 			Instructions.Clear();
-			FiresecManager.SystemConfiguration.Instructions.Clear();
+			GKManager.DeviceConfiguration.Instructions.Clear();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 

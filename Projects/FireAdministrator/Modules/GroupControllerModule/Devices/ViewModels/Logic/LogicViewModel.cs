@@ -44,9 +44,6 @@ namespace GKModule.ViewModels
 			HasOnNowClause = hasOnNowClause;
 			HasOffNowClause = hasOffNowClause;
 			HasStopClause = hasStopClause;
-
-			SelectedMROMessageNo = logic.ZoneLogicMROMessageNo;
-			SelectedMROMessageType = logic.ZoneLogicMROMessageType;
 		}
 
 		bool _useOffCounterLogic;
@@ -74,49 +71,7 @@ namespace GKModule.ViewModels
 			logic.OffNowClausesGroup = OffNowClausesGroup.GetClauseGroup();
 			logic.StopClausesGroup = StopClausesGroup.GetClauseGroup();
 			logic.UseOffCounterLogic = UseOffCounterLogic;
-			logic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
-			logic.ZoneLogicMROMessageType = SelectedMROMessageType;
 			return logic;
 		}
-
-		#region IsMRO_2M
-		public bool IsMRO_2M
-		{
-			//get { return Device.DriverType == GKDriverType.MRO_2; }
-			get { return false; }
-		}
-
-		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
-		{
-			get { return Enum.GetValues(typeof(ZoneLogicMROMessageNo)).Cast<ZoneLogicMROMessageNo>().ToList(); }
-		}
-
-		ZoneLogicMROMessageNo _selectedMROMessageNo;
-		public ZoneLogicMROMessageNo SelectedMROMessageNo
-		{
-			get { return _selectedMROMessageNo; }
-			set
-			{
-				_selectedMROMessageNo = value;
-				OnPropertyChanged(() => SelectedMROMessageNo);
-			}
-		}
-
-		public List<ZoneLogicMROMessageType> AvailableMROMessageTypes
-		{
-			get { return Enum.GetValues(typeof(ZoneLogicMROMessageType)).Cast<ZoneLogicMROMessageType>().ToList(); }
-		}
-
-		ZoneLogicMROMessageType _selectedMROMessageType;
-		public ZoneLogicMROMessageType SelectedMROMessageType
-		{
-			get { return _selectedMROMessageType; }
-			set
-			{
-				_selectedMROMessageType = value;
-				OnPropertyChanged(() => SelectedMROMessageType);
-			}
-		}
-		#endregion
 	}
 }

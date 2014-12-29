@@ -1,10 +1,10 @@
-﻿using Shell = FireMonitor;
-using System;
-using Infrastructure;
+﻿using System;
 using System.Windows;
-using Infrastructure.Common;
-using Controls;
 using System.Windows.Shapes;
+using Controls;
+using Infrastructure;
+using Infrastructure.Common;
+using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
 {

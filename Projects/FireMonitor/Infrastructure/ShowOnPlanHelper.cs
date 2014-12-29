@@ -15,7 +15,7 @@ namespace Infrastructure
 		{
 			var element = plan == null ? null : plan.ElementGKDevices.FirstOrDefault(item => item.DeviceUID == device.UID);
 			if (plan == null || element == null)
-				ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(device);
+				ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Publish(device);
 			else
 				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 		}
@@ -30,7 +30,7 @@ namespace Infrastructure
 
 		public static void ShowZone(GKZone zone)
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
+			ServiceFactory.Events.GetEvent<ShowGKZoneOnPlanEvent>().Publish(zone);
 		}
 		public static bool CanShowZone(GKZone zone)
 		{
@@ -47,7 +47,7 @@ namespace Infrastructure
 
 		public static void ShowGuardZone(GKGuardZone zone)
 		{
-			ServiceFactory.Events.GetEvent<ShowXGuardZoneOnPlanEvent>().Publish(zone);
+			ServiceFactory.Events.GetEvent<ShowGKGuardZoneOnPlanEvent>().Publish(zone);
 		}
 		public static bool CanShowGuardZone(GKGuardZone zone)
 		{
@@ -64,7 +64,7 @@ namespace Infrastructure
 
 		public static void ShowDirection(GKDirection direction)
 		{
-			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
+			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Publish(direction);
 		}
 		public static bool CanShowDirection(GKDirection direction)
 		{

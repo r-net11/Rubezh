@@ -17,10 +17,6 @@ namespace DeviceControls
 		private List<FrameworkElement> _canvases;
 		private List<TimeSpan> _times;
 		private int _index;
-		public FramesControl(List<LibraryFrame> frames) :
-			this(frames.Cast<ILibraryFrame>())
-		{
-		}
 		public FramesControl(List<GKLibraryFrame> frames) :
 			this(frames.Cast<ILibraryFrame>())
 		{

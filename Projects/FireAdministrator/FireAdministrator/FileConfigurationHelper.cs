@@ -61,7 +61,6 @@ namespace FireAdministrator
 
 			TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-			AddConfiguration(folderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1, true);
 			AddConfiguration(folderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
 			AddConfiguration(folderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
 			AddConfiguration(folderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
@@ -158,7 +157,6 @@ namespace FireAdministrator
 					}
 					else
 					{
-						ServiceFactory.SaveService.FSChanged = true;
 						ServiceFactory.SaveService.PlansChanged = true;
 						ServiceFactory.SaveService.GKChanged = true;
 						ServiceFactory.SaveService.SKDChanged = true;

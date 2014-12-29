@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
+using FiresecAPI.GK;
 
 namespace Infrastructure.Common.Mail
 {
@@ -38,7 +39,7 @@ namespace Infrastructure.Common.Mail
 		{
 			var presenrationStates = new StringBuilder();
 			if (email.States == null)
-				email.States = new List<StateType>();
+				email.States = new List<XStateClass>();
 			for (int i = 0; i < email.States.Count; i++)
 			{
 				if (i > 0)

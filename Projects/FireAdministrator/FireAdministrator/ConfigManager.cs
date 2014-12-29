@@ -81,18 +81,14 @@ namespace FireAdministrator
 
 				TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-				if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
+				if (ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.GKInstructionsChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "GKDeviceConfiguration.xml", GKManager.DeviceConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1, true);
-				if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.GKLibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "GKDeviceLibraryConfiguration.xml", GKManager.DeviceLibraryConfiguration, 1, 1, true);
 				if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
@@ -152,10 +148,8 @@ namespace FireAdministrator
 				if (MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию"))
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					FiresecManager.SetEmptyConfiguration();
 					GKManager.SetEmptyConfiguration();
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
-					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
 					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					FiresecManager.PlansConfiguration.Update();
@@ -164,9 +158,7 @@ namespace FireAdministrator
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-					ServiceFactory.SaveService.FSChanged = true;
 					ServiceFactory.SaveService.PlansChanged = true;
-					ServiceFactory.SaveService.InstructionsChanged = true;
 					ServiceFactory.SaveService.CamerasChanged = true;
 					ServiceFactory.SaveService.GKChanged = true;
 					ServiceFactory.SaveService.GKInstructionsChanged = true;
@@ -187,15 +179,7 @@ namespace FireAdministrator
 		{
 			ServiceFactory.Layout.Close();
 			ServiceFactory.Layout.ShowFooter(null);
-			if (ApplicationService.Modules.Any(x => x.Name == "Устройства, Зоны, Направления"))
-			{
-				var deviceUID = Guid.Empty;
-				var firstDevice = FiresecManager.Devices.FirstOrDefault();
-				if (firstDevice != null)
-					deviceUID = firstDevice.UID;
-				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(deviceUID);
-			}
-			else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
+			if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 			{
 				var deviceUID = Guid.Empty;
 				var firstDevice = GKManager.Devices.FirstOrDefault();

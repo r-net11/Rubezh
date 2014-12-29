@@ -56,12 +56,6 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public bool UseOffCounterLogic { get; set; }
 
-		[DataMember]
-		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }
-
-		[DataMember]
-		public ZoneLogicMROMessageType ZoneLogicMROMessageType { get; set; }
-
 		public List<GKBase> GetObjects()
 		{
 			var result = new List<GKBase>();

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
-using Common;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Client.Login;
 using Infrastructure.Client.Startup;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
-using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
@@ -40,40 +36,6 @@ namespace Infrastructure
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();
-		}
-
-		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
-		{
-			foreach (var deviceState in deviceStates)
-			{
-				if (deviceState != null)
-				{
-					deviceState.OnStateChanged();
-				}
-			}
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
-		}
-		static void OnDeviceParametersChangedEvent(List<DeviceState> deviceStates)
-		{
-			foreach (var deviceState in deviceStates)
-			{
-				ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.Device.UID);
-				if (deviceState != null)
-				{
-					deviceState.OnParametersChanged();
-				}
-			}
-		}
-		static void OnZoneStateChangedEvent(List<ZoneState> zoneStates)
-		{
-			foreach (var zoneState in zoneStates)
-			{
-				ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.Zone.UID);
-				if (zoneState != null)
-				{
-					zoneState.OnStateChanged();
-				}
-			}
 		}
 
 		public static void SafeCall(Action action)

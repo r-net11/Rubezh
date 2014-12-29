@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.Models
 {
@@ -10,7 +11,7 @@ namespace FiresecAPI.Models
 	{
 		public Email()
 		{
-			States = new List<StateType>();
+			States = new List<XStateClass>();
 			Zones = new List<Guid>();
 			IsActivated = false;
 		}
@@ -22,7 +23,7 @@ namespace FiresecAPI.Models
 		public string Name { get; set; }
 
 		[DataMember]
-		public List<StateType> States { get; set; }
+		public List<XStateClass> States { get; set; }
 
 		[DataMember]
 		public List<Guid> Zones { get; set; }
