@@ -165,7 +165,6 @@ namespace GKProcessor
 								}
 								codeIndex++;
 							}
-							Formula.Add(FormulaOperationType.AND);
 							break;
 
 						case GKGuardZoneEnterMethod.UserOnly:
