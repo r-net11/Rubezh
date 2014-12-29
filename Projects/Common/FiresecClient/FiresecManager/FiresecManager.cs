@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Data;
@@ -110,9 +109,6 @@ namespace FiresecClient
 				{
 					if (!IsDisconnected)
 					{
-						if (FSAgent != null)
-							FSAgent.Stop();
-
 						if (FiresecService != null)
 						{
 							FiresecService.Dispose();
@@ -137,136 +133,6 @@ namespace FiresecClient
 			{
 				Logger.Error(e, "FiresecManager.StartPoll");
 			}
-		}
-
-		public static OperationResult<DeviceConfiguration> AutoDetectDevice(Device device, bool fastSearch)
-		{
-			return SafeOperationCall<DeviceConfiguration>(() =>
-				{
-					return FiresecDriver.DeviceAutoDetectChildren(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID, fastSearch);
-				}, "AutoDetectDevice");
-		}
-
-		public static OperationResult<DeviceConfiguration> DeviceReadConfiguration(Device device, bool isUsb)
-		{
-			return SafeOperationCall<DeviceConfiguration>(() =>
-				{
-					return FiresecDriver.DeviceReadConfiguration(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
-				}, "DeviceReadConfiguration");
-		}
-
-		public static OperationResult<bool> DeviceWriteConfiguration(Device device, bool isUsb)
-		{
-			return SafeOperationCall<bool>(() =>
-				{
-					if (isUsb)
-					{
-						try
-						{
-							device.IsAltInterface = true;
-							return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, device.UID);
-						}
-						finally
-						{
-							device.IsAltInterface = false;
-						}
-					}
-					else
-					{
-						return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, device.UID);
-					}
-				}, "DeviceWriteConfiguration");
-		}
-
-		public static OperationResult<string> ReadDeviceJournal(Device device, bool isUsb)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					var journalType = 0;
-					if (device.Driver.DriverType == DriverType.Rubezh_2OP || device.Driver.DriverType == DriverType.USB_Rubezh_2OP)
-						journalType = 2;
-					return FiresecDriver.DeviceReadEventLog(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, journalType);
-				}, "ReadDeviceJournal");
-		}
-
-		public static OperationResult<bool> SynchronizeDevice(Device device, bool isUsb)
-		{
-			return SafeOperationCall<bool>(() =>
-				{
-					return FiresecDriver.DeviceDatetimeSync(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
-				}, "SynchronizeDevice");
-		}
-
-		public static OperationResult<string> DeviceUpdateFirmware(Device device, bool isUsb, string fileName)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					return FiresecDriver.DeviceUpdateFirmware(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, fileName);
-				}, "DeviceUpdateFirmware");
-		}
-
-		public static OperationResult<string> DeviceVerifyFirmwareVersion(Device device, bool isUsb, string fileName)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					return FiresecDriver.DeviceVerifyFirmwareVersion(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, fileName);
-				}, "DeviceVerifyFirmwareVersion");
-		}
-
-		public static OperationResult<string> DeviceGetInformation(Device device, bool isUsb)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					return FiresecDriver.DeviceGetInformation(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
-				}, "DeviceGetInformation");
-		}
-
-		public static OperationResult<List<string>> DeviceGetSerialList(Device device)
-		{
-			return SafeOperationCall<List<string>>(() =>
-				{
-					return FiresecDriver.DeviceGetSerialList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID);
-				}, "DeviceGetSerialList");
-		}
-
-		public static OperationResult<bool> SetPassword(Device device, bool isUsb, DevicePasswordType devicePasswordType, string password)
-		{
-			return SafeOperationCall<bool>(() =>
-				{
-					return FiresecDriver.DeviceSetPassword(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, devicePasswordType, password);
-				}, "SetPassword");
-		}
-
-		public static OperationResult<string> DeviceCustomFunctionExecute(Device device, bool isUsb, string functionName)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					return FiresecDriver.DeviceCustomFunctionExecute(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, functionName);
-				}, "DeviceCustomFunctionExecute");
-		}
-
-		public static OperationResult<string> DeviceGetGuardUsersList(Device device)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					return FiresecDriver.DeviceGetGuardUsersList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID);
-				}, "DeviceGetGuardUsersList");
-		}
-
-		public static OperationResult<bool> DeviceSetGuardUsersList(Device device, string users)
-		{
-			return SafeOperationCall<bool>(() =>
-				{
-					return FiresecDriver.DeviceSetGuardUsersList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID, users);
-				}, "DeviceSetGuardUsersList");
-		}
-
-		public static OperationResult<string> DeviceGetMDS5Data(Device device)
-		{
-			return SafeOperationCall<string>(() =>
-				{
-					return FiresecDriver.DeviceGetMDS5Data(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID);
-				}, "DeviceGetMDS5Data");
 		}
 
 		static OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> action, string methodName)

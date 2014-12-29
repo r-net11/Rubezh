@@ -115,10 +115,8 @@
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="AutoActivationWatcher.cs" />
     <Compile Include="Notifier.cs" />
-    <Compile Include="Services\ProgressWatcher.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
-    <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\RestartApplicationViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
@@ -128,9 +126,6 @@
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
-    <Compile Include="Views\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\RestartApplicationView.xaml.cs">
       <DependentUpon>RestartApplicationView.xaml</DependentUpon>
     </Compile>
@@ -189,10 +184,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProgressView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\RestartApplicationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,10 +226,6 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\GKProcessor\GKProcessor.csproj">
       <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
       <Name>GKProcessor</Name>
@@ -254,14 +241,6 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FSAgent\FSAgentAPI\FSAgentAPI.csproj">
-      <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
-      <Name>FSAgentAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FSAgent\FSAgentClient\FSAgentClient.csproj">
-      <Project>{31F451DF-6C15-4867-A2A3-241D9B1A882C}</Project>
-      <Name>FSAgentClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>

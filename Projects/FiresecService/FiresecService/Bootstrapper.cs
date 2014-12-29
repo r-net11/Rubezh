@@ -24,7 +24,6 @@ namespace FiresecService
 			try
 			{
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));

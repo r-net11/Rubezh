@@ -30,7 +30,6 @@ namespace Infrastructure
 		public static AppSettings AppSettings { get; set; }
 		public static ILayoutService Layout { get; private set; }
 		public static LoginService LoginService { get; private set; }
-		static bool IsSubcsribed = false;
 
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
@@ -41,29 +40,6 @@ namespace Infrastructure
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
 			DragDropService = new DragDropService();
-		}
-
-		public static void SubscribeEvents()
-		{
-			if (FiresecManager.FiresecDriver == null)
-			{
-				Logger.Error("ServiceFactory.SubscribeEvents FiresecManager.FiresecDriver = null");
-				return;
-			}
-			if (FiresecManager.FiresecDriver.Watcher == null)
-			{
-				Logger.Error("ServiceFactory.SubscribeEvents FiresecManager.FiresecDriver.Watcher = null");
-				return;
-			}
-
-			if (!IsSubcsribed)
-			{
-				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
-				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
-				FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-				//FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalItem>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
-			}
-			IsSubcsribed = true;
 		}
 
 		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)

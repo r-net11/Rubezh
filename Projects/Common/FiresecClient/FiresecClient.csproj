@@ -127,8 +127,6 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="FiresecManager\FiresecManager.FS2.cs" />
-    <Compile Include="FiresecManager\FiresecManager.FS2OrAgentComands.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
     <Compile Include="FiresecManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
@@ -151,17 +149,10 @@
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Actions.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Device.cs" />
     <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />
     <Compile Include="FiresecManager\FiresecManager.cs" />
-    <Compile Include="FiresecManager\FiresecManager.Disabling.cs" />
-    <Compile Include="FiresecManager\FiresecManager.Firesec.cs" />
-    <Compile Include="FiresecManager\FiresecManager.Guard.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.PresentationZone.cs" />
     <Compile Include="FiresecManager\FiresecManager.Plans.cs" />
-    <Compile Include="FiresecManager\FiresecManager.Reset.cs" />
     <Compile Include="Service\FiresecServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -194,14 +185,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FSAgent\FSAgentAPI\FSAgentAPI.csproj">
-      <Project>{FAD8F3BF-5491-47C5-A250-CDBA3218B6FD}</Project>
-      <Name>FSAgentAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\FSAgent\FSAgentClient\FSAgentClient.csproj">
-      <Project>{31F451DF-6C15-4867-A2A3-241D9B1A882C}</Project>
-      <Name>FSAgentClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
@@ -209,10 +192,6 @@
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
     </ProjectReference>
     <ProjectReference Include="..\GKProcessor\GKProcessor.csproj">
       <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>

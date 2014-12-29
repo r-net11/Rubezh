@@ -88,7 +88,6 @@ namespace FireMonitor
 					}
 
 					//MutexHelper.KeepAlive();
-					ProgressWatcher.Run();
 					if (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 					{
 						RegistrySettingsHelper.SetBool("isException", true);
@@ -158,10 +157,7 @@ namespace FireMonitor
 				ApplicationService.ApplicationWindow.IsEnabled = false;
 				ServiceFactory.ContentService.Invalidate();
 				FiresecManager.FiresecService.StopPoll();
-				if (FiresecManager.FSAgent != null)
-					FiresecManager.FSAgent.Stop();
 				LoadingErrorManager.Clear();
-				ProgressWatcher.Close();
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();
 				ApplicationService.ShutDown();

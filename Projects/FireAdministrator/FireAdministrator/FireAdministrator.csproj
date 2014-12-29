@@ -129,7 +129,6 @@
     <Compile Include="FileConfigurationHelper.cs" />
     <Compile Include="AdministratorModule.cs" />
     <Compile Include="Services\LayoutService.cs" />
-    <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\ValidationService.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToIconConverter.cs" />
@@ -144,15 +143,11 @@
     <Compile Include="ViewModels\LayoutPartPropertyTimePageViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MergeConfigurationHelper.cs" />
-    <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="Views\LayoutPartPropertyTimePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyTimePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -200,10 +195,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

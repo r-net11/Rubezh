@@ -24,13 +24,12 @@ namespace Infrastructure
 			}
 		}
 		
-		public static void Initialize(ILayoutService ILayoutService, IProgressService IProgressService, IValidationService IValidationService)
+		public static void Initialize(ILayoutService ILayoutService, IValidationService IValidationService)
 		{
 			SaveService = new SaveService();
 			Events = new EventAggregator();
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
-			ProgressService = IProgressService;
 			ValidationService = IValidationService;
 			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
 			ContentService = new ContentService("Administrator");
@@ -40,8 +39,6 @@ namespace Infrastructure
 
 		public static SaveService SaveService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
-		public static IProgressService ProgressService { get; private set; }
-		public static IProgressService FS2ProgressService { get; set; }
 		public static IValidationService ValidationService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		public static MenuService MenuService { get; set; }

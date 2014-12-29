@@ -1,21 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading;
+using DiagnosticsModule.Models;
 using FiresecAPI;
-using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using Ionic.Zip;
-using DiagnosticsModule.Models;
-using FiresecAPI.Journal;
-using GKModule.ViewModels;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -68,41 +63,6 @@ namespace DiagnosticsModule.ViewModels
 				_text = value;
 				OnPropertyChanged(() => Text);
 			}
-		}
-
-		public static bool SetNewConfig()
-		{
-			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
-
-			WaitHelper.Execute(() =>
-			{
-				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
-				if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
-				{
-					if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
-					{
-						LoadingService.DoStep("Применение конфигурации устройств");
-						if (FiresecManager.FiresecDriver != null)
-						{
-							var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-							LoadingService.DoStep("Синхронизация конфигурации");
-							FiresecManager.FiresecDriver.Synchronyze(false);
-						}
-					}
-				}
-
-				var tempFileName = SaveAllConfigToFile();
-				using (var fileStream = new FileStream(tempFileName, FileMode.Open))
-				{
-					FiresecManager.FiresecService.SetConfig(fileStream);
-				}
-				File.Delete(tempFileName);
-
-				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-			});
-			LoadingService.Close();
-			ServiceFactory.SaveService.Reset();
-			return true;
 		}
 
 		public static string SaveAllConfigToFile(bool saveAnyway = false)
