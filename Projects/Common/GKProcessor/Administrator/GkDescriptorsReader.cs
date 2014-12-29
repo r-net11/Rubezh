@@ -174,7 +174,7 @@ namespace GKProcessor
 						driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
 					}
 				}
-				if (driver.DriverType == GKDriverType.GKIndicator && descriptorNo > 14)
+				if (driver.DriverType == GKDriverType.GKIndicator && descriptorNo > 22)
 					driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.KAUIndicator);
 
 				var shleifNo = (byte)(physicalAdress / 256) + 1;
