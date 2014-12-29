@@ -143,6 +143,8 @@ namespace GKProcessor
 								return false;
 							}
 						}
+						else
+							break;
 					}
 				}
 			}

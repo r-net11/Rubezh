@@ -31,13 +31,12 @@ namespace GKProcessor
 					{ Error = "Операция отменена"; return null; }
 					GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
-
+					var sendResultBytesCount = 256;
 					for (int j = 0; j < 10; j++)
 					{
 						var sendResult = SendManager.Send(gkControllerDevice, 4, 23, 256, data);
 						allbytes.AddRange(sendResult.Bytes);
-						if (sendResult.Bytes.Count() < 256)
-							break;
+						sendResultBytesCount = sendResult.Bytes.Count();
 						if (!sendResult.HasError)
 							break;
 						if (j == 9)
@@ -46,6 +45,8 @@ namespace GKProcessor
 							return null;
 						}
 					}
+					if (sendResultBytesCount < 256)
+						break;
 				}
 				if (allbytes.Count == 0)
 				{ Error = "Конфигурационный файл отсутствует"; return null; }
