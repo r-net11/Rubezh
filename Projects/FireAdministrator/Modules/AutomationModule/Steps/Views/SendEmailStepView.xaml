@@ -9,8 +9,12 @@
 		<Grid>
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Адрес" />
-					<Views:ArgumentView DataContext="{Binding EMailAddressArgument}" />
+					<Label Content="От кого (адрес)" />
+					<Views:ArgumentView DataContext="{Binding EMailAddressFromArgument}" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Кому (адрес)" />
+					<Views:ArgumentView DataContext="{Binding EMailAddressToArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Заголовок" />
@@ -21,8 +25,8 @@
 					<Views:ArgumentView DataContext="{Binding EMailContentArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<Label Content="Хост" />
-					<Views:ArgumentView DataContext="{Binding HostArgument}" />
+					<Label Content="SMTP Сервер" />
+					<Views:ArgumentView DataContext="{Binding SmtpArgument}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Порт" />
