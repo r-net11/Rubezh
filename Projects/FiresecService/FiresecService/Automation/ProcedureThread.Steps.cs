@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading;
 using System.Windows.Media;
 using FiresecAPI;
@@ -105,6 +107,34 @@ namespace FiresecService
 				},
 			};
 			SendCallback(showPropertyArguments, automationCallbackResult);
+		}
+
+		void SendEmail(ProcedureStep procedureStep)
+		{
+			var sendEmailArguments = procedureStep.SendEmailArguments;
+			var smtp = GetValue<string>(sendEmailArguments.SmtpArgument);
+			var port = GetValue<int>(sendEmailArguments.PortArgument);
+			var login = GetValue<string>(sendEmailArguments.LoginArgument);
+			var password = GetValue<string>(sendEmailArguments.PasswordArgument);
+			var eMailAddressFrom = GetValue<string>(sendEmailArguments.EMailAddressFromArgument);
+			var eMailAddressTo = GetValue<string>(sendEmailArguments.EMailAddressToArgument);
+			var title = GetValue<string>(sendEmailArguments.EMailTitleArgument);
+			var content = GetValue<string>(sendEmailArguments.EMailContentArgument);
+			var Smtp = new SmtpClient(smtp, port);
+			Smtp.Credentials = new NetworkCredential(login, password);
+			var Message = new MailMessage();
+			Message.From = new MailAddress(eMailAddressFrom);
+			Message.To.Add(new MailAddress(eMailAddressTo));
+			Message.Subject = title;
+			Message.Body = content;
+
+			try
+			{
+				Smtp.Send(Message);
+			}
+			catch
+			{
+			}
 		}
 
 		void PlaySound(ProcedureStep procedureStep)

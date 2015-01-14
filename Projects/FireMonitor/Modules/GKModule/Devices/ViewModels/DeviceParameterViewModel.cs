@@ -38,8 +38,6 @@ namespace GKModule.ViewModels
 				Temperature = " - ";
 			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Запыленность, дБ/м"))
 				Dustinness = " - ";
-			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Дата последнего обслуживания, м.г."))
-				LastServiceTime = " - ";
 			if (Device.Driver.MeasureParameters.Any(x => x.Name == "Сопротивление, Ом"))
 				Resistance = " - ";
 
@@ -65,10 +63,6 @@ namespace GKModule.ViewModels
 						Dustinness = measureParameterValue.StringValue;
 						break;
 
-					case "Дата последнего обслуживания, м.г.":
-						LastServiceTime = measureParameterValue.StringValue;
-						break;
-
 					case "Сопротивление, Ом":
 						Resistance = measureParameterValue.StringValue;
 						break;
@@ -78,14 +72,12 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => Temperature);
 			OnPropertyChanged(() => Smokiness);
 			OnPropertyChanged(() => Dustinness);
-			OnPropertyChanged(() => LastServiceTime);
 			OnPropertyChanged(() => Resistance);
 		}
 
 		public string Temperature { get; private set; }
 		public string Smokiness { get; private set; }
 		public string Dustinness { get; private set; }
-		public string LastServiceTime { get; private set; }
 		public string Resistance { get; private set; }
 
 		ObservableCollection<MeasureParameterViewModel> _auParameterValues;

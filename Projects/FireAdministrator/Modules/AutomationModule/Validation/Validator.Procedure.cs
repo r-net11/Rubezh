@@ -247,13 +247,15 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.SendEmail:
 					{
 						var sendEmailArguments = step.SendEmailArguments;
-						if (!ValidateArgument(step, sendEmailArguments.EMailAddressArgument))
+						if (!ValidateArgument(step, sendEmailArguments.EMailAddressFromArgument))
+							break;
+						if (!ValidateArgument(step, sendEmailArguments.EMailAddressToArgument))
 							break;
 						if (!ValidateArgument(step, sendEmailArguments.EMailContentArgument))
 							break;
 						if (!ValidateArgument(step, sendEmailArguments.EMailTitleArgument))
 							break;
-						if (!ValidateArgument(step, sendEmailArguments.HostArgument))
+						if (!ValidateArgument(step, sendEmailArguments.SmtpArgument))
 							break;
 						if (!ValidateArgument(step, sendEmailArguments.LoginArgument))
 							break;

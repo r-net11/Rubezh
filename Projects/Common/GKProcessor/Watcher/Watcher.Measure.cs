@@ -153,10 +153,6 @@ namespace GKProcessor
 			else
 				parameterValue = parameterShortValue;
 			var stringValue = parameterValue.ToString();
-			if (measureParameter.Name == "Дата последнего обслуживания, м.г.")
-			{
-				stringValue = (parameterShortValue % 256).ToString() + "." + (parameterShortValue / 256).ToString();
-			}
 			if ((Device.DriverType == GKDriverType.Valve || Device.Driver.IsPump) && measureParameter.Name == "Режим работы")
 			{
 				stringValue = "Неизвестно";
@@ -195,19 +191,12 @@ namespace GKProcessor
 					foreach (var measureParameter in Device.Driver.MeasureParameters)
 					{
 						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 46 + measureParameter.No * 2);
-
 						var stringValue = parameterValue.ToString();
 						if (measureParameter.Multiplier != null)
 						{
-							var doubleValue = (double)parameterValue / (double)measureParameter.Multiplier;
+							var doubleValue = (ushort)((double)parameterValue / (double)measureParameter.Multiplier);
 							stringValue = doubleValue.ToString();
 						}
-
-						if (measureParameter.Name == "Дата последнего обслуживания, м.г.")
-						{
-							stringValue = (parameterValue % 256).ToString() + "." + (parameterValue / 256).ToString();
-						}
-
 						var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
 						measureParameterValue.StringValue = stringValue;
 					}

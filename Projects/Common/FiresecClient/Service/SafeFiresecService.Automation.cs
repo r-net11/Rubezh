@@ -11,7 +11,7 @@ namespace FiresecClient
 	{
 		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.RunProcedure(FiresecServiceFactory.UID, procedureUID, args));
+			return SafeContext.Execute(() => FiresecService.RunProcedure(FiresecServiceFactory.UID, procedureUID, args));
 		}
 		public void ProcedureCallbackResponse(Guid procedureThreadUID, object value)
 		{
@@ -19,7 +19,7 @@ namespace FiresecClient
 		}
 		public ProcedureProperties GetProperties(Guid layoutUID)
 		{
-			return SafeContext.Execute<ProcedureProperties>(() => FiresecService.GetProperties(layoutUID));
+			return SafeContext.Execute(() => FiresecService.GetProperties(layoutUID));
 		}
 	}
 }

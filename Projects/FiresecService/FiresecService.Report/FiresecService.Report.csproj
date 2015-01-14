@@ -204,6 +204,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Templates\EmptyReport.resx">
       <DependentUpon>EmptyReport.cs</DependentUpon>
     </EmbeddedResource>

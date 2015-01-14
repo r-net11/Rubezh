@@ -319,6 +319,10 @@ namespace FiresecService
 					ShowProperty(procedureStep);
 					break;
 
+				case ProcedureStepType.SendEmail:
+					SendEmail(procedureStep);
+					break;
+
 				case ProcedureStepType.Exit:
 					return Result.Exit;
 
