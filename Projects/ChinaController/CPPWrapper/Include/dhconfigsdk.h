@@ -24,10 +24,10 @@
 
 #ifndef LLONG
 #if (defined(WIN32) || defined(WIN64))
-#ifdef WIN64
-#define LLONG __int64
-#else //WIN32 
+#ifdef WIN32
 #define LLONG LONG
+#else //WIN64 
+#define LLONG __int64
 #endif
 #else	//linux
 #define LLONG long 
@@ -36,10 +36,10 @@
 
 #ifndef LDWORD
 #if (defined(WIN32) || defined(WIN64))
-#ifdef WIN64
-#define LDWORD __int64
-#else //WIN32 
+#ifdef WIN32
 #define LDWORD DWORD
+#else //WIN64 
+#define LDWORD __int64
 #endif
 #else	//linux
 #define LDWORD long 
@@ -72,7 +72,7 @@ extern "C" {
  ** Constant Definition 
  ***********************************************************************/
 
-#define MAX_CHANNEL_COUNT		16
+#define MAX_CHANNEL_COUNT		8
 #define MAX_VIDEO_CHANNEL_NUM	256					// Max 64 channels
 #define MAX_CHANNELNAME_LEN		64					// Max channel name length
 #define MAX_VIDEOSTREAM_NUM		3					// Max video stream amount
@@ -124,7 +124,7 @@ extern "C" {
 #define MAX_STRORAGEPOS_NUM     16                  // storage pos max number
 #define	MAX_VIDEODEV_NUM        256                 // video device number
 #define MAX_REMOTEDEVICENAME_LEN 32					// remote device name number
-#define	MAX_REMOTE_DEV_NUM       256                // remote device number
+#define	MAX_REMOTE_DEV_NUM       64                 // remote device number
 #define MAX_PLATEHINT_NUM       8                   // plate hint string length
 #define MAX_LIGHT_NUM           8                   // traffic light max number
 #define MAX_LIGHTGROUP_NUM      8                   // traffic light group max number
@@ -260,12 +260,9 @@ extern "C" {
 #define MAX_ADDRESS_NUM                     16      // Max serial address quantity
 #define MAX_AIRCONDITION_NUM                16      // Max air conditioner device quantity
 #define CFG_MAX_COLLECTION_NUM              64      // Max collection quantity
-#define MAX_FLOOR_NUM                       128     // Max floor
-#define MAX_SEAT_NUM                        8       // Max Seat
-#define AV_CFG_Local_Device_ID				"Local"	// local device ID
-#define AV_CFG_Remote_Devce_ID				"Remote"// remote device ID
-#define MAX_LANE_CONFIG_NUMBER              32      // Max lane number
-#define MAX_PRIORITY_NUMBER                 256     // Violation priority includes max violation number
+
+#define AV_CFG_Local_Device_ID				"Local"		// local device ID
+#define AV_CFG_Remote_Devce_ID				"Remote"	// remote device ID
 
 /************************************************************************
  ** Configuration Command
@@ -445,13 +442,8 @@ extern "C" {
 #define CFG_CMD_PARKINGSPACE_LIGHT_STATE "ParkingSpaceLightState"    // Vehicle status corresponding spot indicator(CFG_PARKINGSPACE_LIGHT_STATE)
 #define CFG_CMD_AIRCONDITION		"AirCondition"		        // Air conditioner device config(CFG_AIRCONDITION_INFO)
 #define CFG_CMD_COMPRESS_PLAY       "CompressPlay"              //Compression playback config(CFG_COMPRESS_PLAY_INFO)
-#define CFG_CMD_BUILDING            "Building"          // VTO floor config (CFG_BUILDING_INFO)
-#define CFG_CMD_BUILDING_EXTERNAL   "BuildingExternal"  // VTO floor expansion config(CFG_BUILDING_EXTERNAL_INFO)
-#define CFG_CMD_DIALRULE            "DialRule"          // Dial rule (CFG_DIALRULE_INFO)
 #define CFG_CMD_OIL_MASS_INFO       "OilMassInfo"       // Vehicle tank config(CFG_OIL_MASS_INFO)
 #define CFG_CMD_FISHEYE_INFO        "FishEye"           // Fish eye detailed info config(CFG_FISHEYE_DETAIL_INFO)
-#define CFG_CMD_VTNOANSWER_FORWARD  "VTNoAnswerForward" // Platform issues call no-response transfer config list(CFG_VT_NOANSWER_FORWARD_INFO)
-#define CFG_CMD_VTO_CALL            "VTOCall"           // VTO call config (CFG_VTO_CALL_INFO)
 #define CFG_CMD_MACCONFLICT         "MacConflict"       // MAC conflict alarm config(CFG_MACCONFLICT_INFO)
 #define CFG_CMD_IDLEMOTION_INFO     "IdleMotion"        // idle config(CFG_IDLE_MOTION_INFO)
 #define CFG_CMD_MONITORWALL_COLL_TOUR "MonitorWallCollectionTour"   //TV wall scheme tour config(CFG_MONITORWALL_COLLECTION_TOUR_INFO)
@@ -462,16 +454,6 @@ extern "C" {
 #define CFG_CMD_TRAFFICVOICE        "TrafficVoiceBroadcast"         // intelligent traffic audio report config(CFG_TRAFFICVOICE_BROADCAST)
 #define CFG_CMD_STANDING_TIME       "StandingTime"      // oarking time config(CFG_STANDING_TIME_INFO)
 #define CFG_CMD_ENCLOSURE_TIME_SCHEDULE  "EnclosureTimeSchedule"     // e-fence alarm period config(CFG_ENCLOSURE_TIME_SCHEDULE_INFO)
-#define CFG_CMD_ECKCONFIG			"ECKConfig"			// Parking lot entrance/exit controller config(CFG_ECKCONFIG_INFO)
-#define CFG_CMD_PARKING_CARD        "ParkingCard"       // Parking lot entrance/exit swiping card alarm event config(CFG_PARKING_CARD_INFO)
-#define CFG_CMD_RCEMERGENCY_CALL    "RCEmergencyCall"   // Emergency call alarm event config(CFG_RCEMERGENCY_CALL_INFO)
-#define CFG_CMD_LANES_STATE_REPORT  "LanesStateReport"  // Lane info report config(CFG_LANES_STATE_REPORT)
-#define CFG_CMD_OPEN_DOOR_GROUP     "OpenDoorGroup"     // Multiple people multi-door combination config(CFG_OPEN_DOOR_GROUP_INFO)
-#define CFG_CMD_OPEN_DOOR_ROUTE     "OpenDoorRoute"     // Unlock path collection£¬or anti-passby path config(CFG_OPEN_DOOR_ROUTE_INFO)
-#define CFG_CMD_BURNPLAN            "BurnPlan"          // Burning plan config(corresponding to CFG_BURNPLAN_INFO)
-#define CFG_CMD_SCADA_DEV           "SCADADev"          // Detect collection device config(CFG_SCADA_DEV_INFO)
-#define CFG_CMD_VSP_GAYS            "VSP_GAYS"          // Public security 1 platform input config(CFG_VSP_GAYS_INFO)
-#define CFG_CMD_AUDIODETECT         "AudioDetect"       // Audio detection alarm config(CFG_AUDIO_DETECT_INFO group)
 
  /************************************************************************
  ** Capacity set command  Corresponding of CLIENT_QueryNewSystemInfo
@@ -517,7 +499,6 @@ extern "C" {
 #define CFG_CAP_CMD_EXALARMBOX      "alarm.getExAlarmBoxCaps"                           // Get Extension Alarm Boxes Capability set, (CorrespondingStructure CFG_CAP_EXALARMBOX_INFO)
 #define CFG_CAP_CMD_RECORDFINDER    "RecordFinder.getCaps"                              // Get Query Records Capability set (CorrespondingStructure CFG_CAP_RECORDFINDER_INFO)
 #define CFG_CAP_CMD_ANALOGALARM	    "AnalogAlarm.getCaps"                               // Analog Alarm Input Channel Capacity(CorrespondingStructure CFG_CAP_ANALOGALARM)
-#define CFG_CAP_CMD_LOWRATEWPAN		"LowRateWPAN.getCaps"			// Get LowRateWPAN capacity(corresponding structure CFG_CAP_LOWRATEWPAN)
 
 // Log Capability
 typedef struct tagCFG_CAP_LOG
@@ -619,12 +600,6 @@ typedef struct tagCFG_CAP_ANALOGALARM
     int                         nAnalogAlarmChannelNum;                     // Analog Alarm Channel number, Zero said each channel support for all types of sensors
     CFG_EXALARM_SENSE_METHOD    stuAnalogAlarmChannel[MAX_EXALARM_CHANNEL_NUM];	// Alarm Channel Set
 }CFG_CAP_ANALOGALARM;
-
-// Get LowRateWPAN capacity structure
-typedef struct tagCFG_CAP_LOWRATEWPAN
-{
-	int			nMaxPageSize;			// Max page search code items
-}CFG_CAP_LOWRATEWPAN;
 
 
 /************************************************************************
@@ -1618,22 +1593,11 @@ typedef struct tagCFG_CUSTOMCASE
 	BOOL                bCaseNoOsdEn;                        // case's number enable
 }CFG_CUSTOMCASE;
 
-// Time
-typedef struct tagCFG_NET_TIME
-{
-    int                 nStructSize;
-    DWORD				dwYear;					// Year
-    DWORD				dwMonth;				// Month
-    DWORD				dwDay;					// Day
-    DWORD				dwHour;					// Hour
-    DWORD				dwMinute;				// Minute
-    DWORD				dwSecond;				// Second
-} CFG_NET_TIME;
-
 // judicature configuration
 typedef struct tagCFG_JUDICATURE_INFO
 {
 	char                szDiskPassword[MAX_PASSWORD_LEN];	// disk password,input the correct password is needed to play
+
 	char                szCaseNo[MAX_OSD_SUMMARY_LEN];     // case num
 	BOOL                bCaseNoOsdEn;                      // case num enable
 	char                szCaseTitle[MAX_OSD_SUMMARY_LEN];  // case title
@@ -1655,8 +1619,6 @@ typedef struct tagCFG_JUDICATURE_INFO
 	BOOL                bAttachFileEn;                     // attach file enable
     char                szPassword[MAX_PASSWORD_LEN];      // password, when burning CD, config password
     int                 nPasswordLen;                      // password length
-    CFG_NET_TIME        stuStartTime;                      // Opening info overlay start time
-    int                 nPeriod;                           // Opening info overlay time length, unit:minute
 }CFG_JUDICATURE_INFO;
 
 // burn full configuration
@@ -1678,6 +1640,7 @@ typedef struct tagCFG_BURNFULL_INFO
 
 //-------------------------------Snapshot Configuration Competence ---------------------------------
 // Snapshot configuration competence 
+
 typedef struct tagCFG_SNAPCAPINFO_INFO  
 {
 	int					nChannelID;						// Snapshot channel number(Begin with 0)
@@ -3588,60 +3551,6 @@ typedef struct tagCFG_TRAFFIC_VEHICLEINBUSROUTE_INFO
 	CFG_TIME_SECTION	stuTimeSection[WEEK_DAY_NUM][MAX_REC_TSECT_EX];			// event response period
 }CFG_TRAFFIC_VEHICLEINBUSROUTE_INFO;
 
-typedef enum tagCFG_SAFEBELT_SEAT
-{
-    CSS_UNKNOW ,
-    CSS_MAIN_SEAT     ,         //Main driver seat
-    CSS_SLAVE_SEAT    ,         //Co-drvier seat
-}CFG_SAFEBELT_SEAT;
-
-// Event type EVENT_IVS_TRAFFIC_WITHOUT_SAFEBELT(traffic unfastened seat belt event)corresponding to rule config
-typedef struct tagCFG_TRAFFIC_WITHOUT_SAFEBELT
-{
-    char                szRuleName[MAX_NAME_LEN];                               // Rule name, different rules cannot have same name
-    bool                bRuleEnable;                                            // Rule enable
-    BYTE                bReserved[3];                                           // Reserved text
-    int                 nObjectTypeNum;                                         // Corresponding object type number
-    char                szObjectTypes[MAX_OBJECT_LIST_SIZE][MAX_NAME_LEN];      // Corresponding obnect type list
-    int                 nPtzPresetId;                                           // PTZ preset no. 0~65535
-    CFG_ALARM_MSG_HANDLE stuEventHandler;                                       // Alarm link
-    CFG_TIME_SECTION    stuTimeSection[WEEK_DAY_NUM][MAX_REC_TSECT_EX];         // Event response period
-
-    int                 nLane;                                                  // Lane no.
-    int                 nSeatNum;                                               // Get seat number
-    CFG_SAFEBELT_SEAT   emSnapSeat[MAX_SEAT_NUM];                               // Driver seat to be snapshoted
-}CFG_TRAFFIC_WITHOUT_SAFEBELT;
-
-// Event type EVENT_IVS_TRAFFIC_DRIVER_SMOKING(driver smoking event)corresponding to rule config
-typedef struct tagCFG_TRAFFIC_DRIVER_SMOKING
-{
-    char                szRuleName[MAX_NAME_LEN];                               // Rule name, different rule cannot have same name
-    bool                bRuleEnable;                                            // Rule enable
-    BYTE                bReserved[3];                                           // Reserved text
-    int                 nObjectTypeNum;                                         // Corresponding object type number
-    char                szObjectTypes[MAX_OBJECT_LIST_SIZE][MAX_NAME_LEN];      // Corresponding object type list
-    int                 nPtzPresetId;                                           // PTZ preset no. 0~65535
-    CFG_ALARM_MSG_HANDLE stuEventHandler;                                       // Alarm link
-    CFG_TIME_SECTION    stuTimeSection[WEEK_DAY_NUM][MAX_REC_TSECT_EX];         // Event response period
-    
-    int                 nLane;                                                  // Lane no.
-}CFG_TRAFFIC_DRIVER_SMOKING;
-
-// Event type EVNET_IVS_TRAFFIC_DRIVER_CALLING(driver call event)corresponding to rule config
-typedef struct tagCFG_TRAFFIC_DRIVER_CALLING
-{
-    char                szRuleName[MAX_NAME_LEN];                               // Rule name, different rules cannot have same name
-    bool                bRuleEnable;                                            // Rule enable
-    BYTE                bReserved[3];                                           // Reserve text
-    int                 nObjectTypeNum;                                         // Corresponding object type number
-    char                szObjectTypes[MAX_OBJECT_LIST_SIZE][MAX_NAME_LEN];      // Corresponding object tyoe list
-    int                 nPtzPresetId;                                           // PTZ preset no. 0~65535
-    CFG_ALARM_MSG_HANDLE stuEventHandler;                                       // Alarm link
-    CFG_TIME_SECTION    stuTimeSection[WEEK_DAY_NUM][MAX_REC_TSECT_EX];         // Event responsing period
-    
-    int                 nLane;                                                  // Lane no.
-}CFG_TRAFFIC_DRIVER_CALLING;
-
 typedef struct tagCFG_RULE_INFO
 {
 	DWORD				dwRuleType;							// event type,see "intelligent analyse event type" in dhnetsdk.h 
@@ -3741,11 +3650,20 @@ typedef struct tagBREAKINGSNAPTIMES_INFO
 	int               nParkingOnYellowBox;           	// Yellow Grid Parking	
 	int               nRestrictedPlate;					// Limited Plate	
 	int               nNoPassing;						// No Entry	
-    int               nWithoutSafeBelt;                 // Unfasten seat belt
-    int               nDriverSmoking;                   // Driver smoking
-    int               nDriverCalling;                   // Driver call
 }BREAKINGSNAPTIMES_INFO;
 
+
+// Time
+typedef struct tagCFG_NET_TIME
+{
+    int                 nStructSize;
+    DWORD				dwYear;					// Year
+    DWORD				dwMonth;				// Month
+    DWORD				dwDay;					// Day
+    DWORD				dwHour;					// Hour
+    DWORD				dwMinute;				// Minute
+    DWORD				dwSecond;				// Second
+} CFG_NET_TIME;
 
 //OSD Black Border
 typedef struct tagBLACK_REGION_INFO
@@ -4022,758 +3940,14 @@ typedef struct tagVIOLATIONCODE_INFO
 
 	char                szParkingSpaceNoParking[MAX_VIOLATIONCODE];              // parking space no parking
 	char                szParkingSpaceNoParkingDesc[MAX_VIOLATIONCODE_DESCRIPT]; 				//description information in violation
-
-    char                szWithoutSafeBelt[MAX_VIOLATIONCODE];                       // Unfasten seat belt
-    char                szWithoutSafeBeltShowName[MAX_VIOLATIONCODE_DESCRIPT];      //Unfasten seat belt display name
-    char                szWithoutSafeBeltDesc[MAX_VIOLATIONCODE_DESCRIPT]; 	         // Unfasten seat belt violation description
-
-    char                szDriverSmoking[MAX_VIOLATIONCODE];                          // Driver smaoking
-    char                szDriverSmokingShowName[MAX_VIOLATIONCODE_DESCRIPT];         //Driver smoking display name
-    char                szDriverSmokingDesc[MAX_VIOLATIONCODE_DESCRIPT]; 	         // Driver smoking with violation description
-
-    char                szDriverCalling[MAX_VIOLATIONCODE];                         // Driver  call
-    char                szDriverCallingShowName[MAX_VIOLATIONCODE_DESCRIPT];        //  Driver call display name
-    char                szDriverCallingDesc[MAX_VIOLATIONCODE_DESCRIPT]; 	        // Driver call violation description
-
-	BYTE		        bReserved[432];
+	BYTE		        bReserved[864];
 }VIOLATIONCODE_INFO;
-// Lane dection type
-typedef enum tagEmCheckType
-{
-    EM_CHECK_TYPE_UNKNOWN,             // Unrecognized detection type
-    EM_CHECK_TYPE_PHYSICAL,            // Physical detection 
-    EM_CHECK_TYPE_VIDEO,               // Video detection 
-}EM_CHECK_TYPE;
-
-typedef struct tagTrafficEventCheckInfo
-{
-    BOOL                abTrafficGate;                  // Carry ANPR info or not
-    EM_CHECK_TYPE       emTrafficGate;                  // ANPR detection type 
-
-    BOOL                abTrafficJunction;              // Carry intersection info 
-    EM_CHECK_TYPE       emTrafficJunction;              // Intersection detection type 
-
-    BOOL                abTrafficTollGate;              // Carry new ANPR info or not
-    EM_CHECK_TYPE       emTrafficTollGate;              // New ANPR detection type 
-
-    BOOL                abTrafficRunRedLight;           // Carry traffic run the red light info 
-    EM_CHECK_TYPE       emTrafficRunRedLight;           // Traffic run the red light detection type 
-    
-    BOOL                abTrafficRunYellowLight;        // Carry traffic run the yellow light info 
-    EM_CHECK_TYPE       emTrafficRunYellowLight;        // Traffic run the yellow light detection type 
-
-    BOOL                abTrafficOverLine;              // Carry traffic cross-line info 
-    EM_CHECK_TYPE       emTrafficOverLine;              // Traffic cross-line detection type 
-
-    BOOL                abTrafficOverYellowLine;        // Carry traffic cross yellow line info 
-    EM_CHECK_TYPE       emTrafficOverYellowLine;        // Traffic cross yellow line detection type 
-
-    BOOL                abTrafficRetrograde;            // Carry traffic retrogradation info 
-    EM_CHECK_TYPE       emTrafficRetrograde;            // Traffic retrograation detection type 
-
-    BOOL                abTrafficTurnLeft;              // Carry traffic violation left turn info 
-    EM_CHECK_TYPE       emTrafficTurnLeft;              // Traffic violation left turn detection type 
-
-    BOOL                abTrafficTurnRight;             // Carry traffic violation right turn info 
-    EM_CHECK_TYPE       emTrafficTurnRight;             // Traffic intersection violation right turn type 
-
-    BOOL                abTrafficU_Turn;                // Carry traffic violation u-turn info 
-    EM_CHECK_TYPE       emTrafficU_Turn;                // Traffic violation u-turn  detection type 
-
-    BOOL                abTrafficCrossLane;             // Carry traffic violation change lane info 
-    EM_CHECK_TYPE       emTrafficCrossLane;             // Traffic violation change lane detection type 
-
-    BOOL                abTrafficParking;               // Carry traffic violation parking info 
-    EM_CHECK_TYPE       emTrafficParking;               // Traffic violation parking detection type 
-
-    BOOL                abTrafficJam;                   // Carry traffic jam info 
-    EM_CHECK_TYPE       emTrafficJam;                   // Traffic jam detection type 
-
-    BOOL                abTrafficIdle;                  // Carry traffic  idle info 
-    EM_CHECK_TYPE       emTrafficIdle;                  // Traffic  idle detection type 
-
-    BOOL                abTrafficWaitingArea;           // Carry traffic violation waiting zone info 
-    EM_CHECK_TYPE       emTrafficWaitingArea;           // Traffic violation enter waiting detection type 
-
-    BOOL                abTrafficUnderSpeed;            // Carry traffic under speed info 
-    EM_CHECK_TYPE       emTrafficUnderSpeed;            // Traffic under speed detection type 
-
-    BOOL                abTrafficOverSpeed;             // Carry traffic over speed info 
-    EM_CHECK_TYPE       emTrafficOverSpeed;             // Traffic over speed  detection type 
-
-    BOOL                abTrafficWrongRoute;            // Carry traffic driving not by lane info 
-    EM_CHECK_TYPE       emTrafficWrongRoute;            // Traffic driving not by lane detection type 
-
-    BOOL                abTrafficYellowInRoute;         // Carry traffic yellow-plate in lane info 
-    EM_CHECK_TYPE       emTrafficYellowInRoute;         // Traffic yellow-plate in lane detection type 
-
-    BOOL                abTrafficVehicleInRoute;        // Carry traffic car in lane info 
-    EM_CHECK_TYPE       emTrafficVehicleInRoute;        // Traffic car in lane detection type 
-
-    BOOL                abTrafficControl;               // Carry traffic control info 
-    EM_CHECK_TYPE       emTrafficControl;               // Traffic control detection type 
-
-    BOOL                abTrafficObjectAlarm;           // Carry traffic specific type snapshot info 
-    EM_CHECK_TYPE       emTrafficObjectAlarm;           // Traffic specific type snapshot detection type 
-
-    BOOL                abTrafficAccident;              // Carry traffic accident info 
-    EM_CHECK_TYPE       emTrafficAccident;              // Traffic accident detection type 
-
-    BOOL                abTrafficStay;                  // Carry traffic stay/retention info 
-    EM_CHECK_TYPE       emTrafficStay;                  // Traffic stay/retention detection type 
-
-    BOOL                abTrafficPedestrainPriority;    // Carry traffic crosswalk pedestrian first info 
-    EM_CHECK_TYPE       emTrafficPedestrainPriority;    // Traffic crosswalk pedestrian first detection type 
-
-    BOOL                abTrafficPedestrain;            // Carry traffic pedestrian event info 
-    EM_CHECK_TYPE       emTrafficPedestrain;            // Traffic pedestrian event detection type 
-
-    BOOL                abTrafficThrow;                 // Carry traffic drop object event info 
-    EM_CHECK_TYPE       emTrafficThrow;                 // Traffic drop pbject event detection type 
-
-    BOOL                abTrafficVehicleInBusRoute;     // Carry traffic violation occupied lane info 
-    EM_CHECK_TYPE       emTrafficVehicleInBusRoute;     // Traffic violation occupied lane detection type 
-
-    BOOL                abTrafficBacking;               // Carry traffic violation back up info 
-    EM_CHECK_TYPE       emTrafficBacking;               // Traffic violation back up detection type 
-
-    BOOL                abTrafficOverStopLine;          // Carry traffic cross stop line info 
-    EM_CHECK_TYPE       emTrafficOverStopLine;          // Traffic cross stop line detection type 
-
-    BOOL                abTrafficParkingOnYellowBox;    // Carry traffic yellow grid snapshpt info 
-    EM_CHECK_TYPE       emTrafficParkingOnYellowBox;    // Traffic yellow grid snapshot detection type 
-
-    BOOL                abTrafficParkingSpaceParking;   // Carry traffic car in parking info 
-    EM_CHECK_TYPE       emTrafficParkingSpaceParking;   // Traffic car in parking detection type 
-
-    BOOL                abTrafficParkingSpaceNoParking; // Carry traffic no car parking info 
-    EM_CHECK_TYPE       emTrafficParkingSpaceNoParking; // Traffic no card parking detection type 
-
-    BOOL                abTrafficParkingSpaceOverLine;  // Carry traffic  car cross line info 
-    EM_CHECK_TYPE       emTrafficParkingSpaceOverLine;  // Traffic  car cross line detection type 
-
-    BOOL                abParkingSpaceDetection;        // Carry traffic multi-parking status detection info 
-    EM_CHECK_TYPE       emParkingSpaceDetection;        // Traffic multi-parking status detection type 
-
-    BOOL                abTrafficRestrictedPlate;       // Carry traffic limit plate info 
-    EM_CHECK_TYPE       emTrafficRestrictedPlate;       // Traffic limit plate detection type 
-
-    BOOL                abTrafficWithoutSafeBelt;       // Carry traffic unfasten seat belt info 
-    EM_CHECK_TYPE       emTrafficWithoutSafeBelt;       // Traffic unfasten seat belt detection type 
-
-    BOOL                abTrafficNoPassing;             // Carry traffic closed info 
-    EM_CHECK_TYPE       emTrafficNoPassing;             // Traffic closed detection type 
-
-    BOOL                abVehicleAnalyse;               // Carry traffic vehicle feature detection analysis info 
-    EM_CHECK_TYPE       emVehicleAnalyse;               // Traffic vehicle feature detection type 
-
-    BOOL                abCrossLineDetection;           // Carry traffic warning line info 
-    EM_CHECK_TYPE       emCrossLineDetection;           // Traffic warning line detection type 
-
-    BOOL                abCrossFenceDetection;          // Carry traffic perimeter protection info 
-    EM_CHECK_TYPE       emCrossFenceDetection;          // Traffic perimeter protection detection type 
-
-    BOOL                abCrossRegionDetection;         // Carry traffic warning zone info 
-    EM_CHECK_TYPE       emCrossRegionDetection;         // Traffic warning zone detection type 
-
-    BOOL                abPasteDetection;               // Carry traffic ATM stripe info 
-    EM_CHECK_TYPE       emPasteDetection;               // Traffic ATM stripe detection type 
-
-    BOOL                abLeftDetection;                // Carry traffic abandoned object info 
-    EM_CHECK_TYPE       emLeftDetection;                // Traffic abandoned object detection type 
-
-    BOOL                abPreservation;                 // Carry traffic object protection info 
-    EM_CHECK_TYPE       emPreservation;                 // Traffic object protection detection type 
-
-    BOOL                abTakenAwayDetection;           // Carry traffic missing object detection info 
-    EM_CHECK_TYPE       emTakenAwayDetection;           // Traffic missing object detection detection type 
-
-    BOOL                abStayDetection;                // Carry traffic stay/retention info 
-    EM_CHECK_TYPE       emStayDetection;                // Traffic stay/retention detection type 
-
-    BOOL                abParkingDetection;             // Carry traffic illegal parking info 
-    EM_CHECK_TYPE       emParkingDetection;             // Traffic illegal parking detection type 
-
-    BOOL                abWanderDetection;              // Carry traffic loitering info 
-    EM_CHECK_TYPE       emWanderDetection;              // Traffic loitering detection type 
-
-    BOOL                abMoveDetection;                // Carry traffic moving info 
-    EM_CHECK_TYPE       emMoveDetection;                // Traffic moving detection type 
-
-    BOOL                abTailDetection;                // Carry traffic trailing info 
-    EM_CHECK_TYPE       emTailDetection;                // Traffic trailing detection type 
-
-    BOOL                abRioterDetection;              // Carry traffic focus info 
-    EM_CHECK_TYPE       emRioterDetection;              // Traffic focus detection type 
-
-    BOOL                abFightDetection;               // Carry traffic fight info 
-    EM_CHECK_TYPE       emFightDetection;               // Traffic fight detection type 
-
-    BOOL                abRetrogradeDetection;          // Carry traffic retrogradation info 
-    EM_CHECK_TYPE       emRetrogradeDetection;          // Traffic retrogradation detection type 
-
-    BOOL                abFireDetection;                // Carry traffic fire info 
-    EM_CHECK_TYPE       emFireDetection;                // Traffic fire detection type 
-
-    BOOL                abSmokeDetection;               // Carry traffic smog info 
-    EM_CHECK_TYPE       emSmokeDetection;               // Traffic smog detection type 
-
-    BOOL                abNumberStat;                   // Carry traffic quantity statistics  info 
-    EM_CHECK_TYPE       emNumberStat;                   // Traffic quantity statistics detection type 
-
-    BOOL                abVideoAbnormalDetection;       // Carry traffic abnormal video info 
-    EM_CHECK_TYPE       emVideoAbnormalDetection;       // Traffic abnormal video detection type 
-
-    BOOL                abPrisonerRiseDetection;        // Carry prisoner rise detection info 
-    EM_CHECK_TYPE       emPrisonerRiseDetection;        // Prisoner rise detection detection type 
-
-    BOOL                abFaceDetection;                // Carry face detection info 
-    EM_CHECK_TYPE       emFaceDetection;                // Face detection type 
-
-    BOOL                abFaceRecognition;              // Carry face recognition info 
-    EM_CHECK_TYPE       emFaceRecognition;              // Face recognition detection type 
-
-    BOOL                abDensityDetection;             // Carry intensity detection info 
-    EM_CHECK_TYPE       emDensityDetection;             // Intensity detection detection type 
-
-    BOOL                abQueueDetection;               // Carry line detection info 
-    EM_CHECK_TYPE       emQueueDetection;               // line detection type 
-
-    BOOL                abClimbDetection;               // Carry climbing detection info 
-    EM_CHECK_TYPE       emClimbDetection;               // climbing detection type 
-
-    BOOL                abLeaveDetection;               // Carry off-duty detection info 
-    EM_CHECK_TYPE       emLeaveDetection;               // off-duty detection type 
-
-    BOOL                abVehicleOnPoliceCar;           // Carry mobile police info 
-    EM_CHECK_TYPE       emVehicleOnPoliceCar;           // Mobile police detection type 
-
-    BOOL                abVehicleOnBus;                 // Carry mobile bus info 
-    EM_CHECK_TYPE       emVehicleOnBus;                 // Mobile bus detection type 
-
-    BOOL                abVehicleOnSchoolBus;           // Carry Mobile school bus info 
-    EM_CHECK_TYPE       emVehicleOnSchoolBus;           // Mobile school bus detection type   
-
-}TRAFFIC_EVENT_CHECK_INFO;  
-
-typedef struct tagTrafficEventCheckMask
-{
-    BOOL                abTrafficGate;                  // Carry traffic ANPR info 
-    int                 nTrafficGate;                   // Traffic ANPR detection mode mask
-
-    BOOL                abTrafficJunction;              // Carry traffic intersection info 
-    int                 nTrafficJunction;               // Traffic intersection detection mode mask
-
-    BOOL                abTrafficTollGate;              // Carry new traffic ANPR info 
-    int                 nTrafficTollGate;               // New traffic ANPR detection mode mask
-
-    BOOL                abTrafficRunRedLight;           // Carry traffic run the red light info 
-    int                 nTrafficRunRedLight;            // Traffic run the red light detection mode mask
-    
-    BOOL                abTrafficRunYellowLight;        // Carry traffic run the yellow light  info 
-    int                 nTrafficRunYellowLight;         // Traffic  run the yellow light  detection mode mask
-
-    BOOL                abTrafficOverLine;              // Carry traffic cross line info 
-    int                 nTrafficOverLine;               // Traffic cross line detection mode mask
-
-    BOOL                abTrafficOverYellowLine;        // Carry traffic cross yellow line info 
-    int                 nTrafficOverYellowLine;         // Traffic cross yellow line detection mode mask
-
-    BOOL                abTrafficRetrograde;            // Carry traffic retrogradation info 
-    int                 nTrafficRetrograde;             // Traffic retrogradation detection mode mask
-
-    BOOL                abTrafficTurnLeft;              // Carry traffic violation left turn info 
-    int                 nTrafficTurnLeft;               // Traffic violation left turn detection mode mask
-
-    BOOL                abTrafficTurnRight;             // Carry traffic violation right turn info 
-    int                 nTrafficTurnRight;              // Traffic intersection violation right turn type 
-
-    BOOL                abTrafficU_Turn;                // Carry traffic violation u-turn info 
-    int                 nTrafficU_Turn;                 // Traffic violation u-turn detection mode mask
-
-    BOOL                abTrafficCrossLane;             // Carry traffic violation change lane info 
-    int                 nTrafficCrossLane;              // Traffic violation change lane detection mode mask
-
-    BOOL                abTrafficParking;               // Carry traffic violation parking info 
-    int                 nTrafficParking;                // Traffic violation parking detection mode mask
-
-    BOOL                abTrafficJam;                   // Carry traffic jam info 
-    int                 nTrafficJam;                    // Traffic jam detection mode mask
-
-    BOOL                abTrafficIdle;                  // Carry traffic idle info 
-    int                 nTrafficIdle;                   // Traffic idle detection mode mask
-
-    BOOL                abTrafficWaitingArea;           // Carry traffic violation enter waiting zone info 
-    int                 nTrafficWaitingArea;            // Traffic violation enter waiting zone detection mode mask
-
-    BOOL                abTrafficUnderSpeed;            // Carry traffic below speed info 
-    int                 nTrafficUnderSpeed;             // Traffic below speed detection mode mask
-
-    BOOL                abTrafficOverSpeed;             // Carry traffic over speed info 
-    int                 nTrafficOverSpeed;              // Traffic over speed detection mode mask
-
-    BOOL                abTrafficWrongRoute;            // Carry traffic driving not by lane  info 
-    int                 nTrafficWrongRoute;             // Traffic driving not by lane  detection mode mask
-
-    BOOL                abTrafficYellowInRoute;         // Carry traffic yellow-plate in lane  info 
-    int                 nTrafficYellowInRoute;          // Traffic yellow-plate in lane  detection mode mask
-
-    BOOL                abTrafficVehicleInRoute;        // Carry traffic car in lane info 
-    int                 nTrafficVehicleInRoute;         // Traffic car in lane detection mode mask
-
-    BOOL                abTrafficControl;               // Carry traffic control info 
-    int                 nTrafficControl;                // Traffic control detection mode mask
-
-    BOOL                abTrafficObjectAlarm;           // Carry traffic specific type snapshot info 
-    int                 nTrafficObjectAlarm;            // Traffic specific type snapshot detection mode mask
-
-    BOOL                abTrafficAccident;              // Carry traffic accident info 
-    int                 nTrafficAccident;               // Traffic accident detection mode mask
-
-    BOOL                abTrafficStay;                  // Carry traffic stay/retention info 
-    int                 nTrafficStay;                   // Traffic stay/retention detection mode mask
-
-    BOOL                abTrafficPedestrainPriority;    // Carry traffic crosswalk pedestrian first info 
-    int                 nTrafficPedestrainPriority;     // Traffic crosswalk pedestrian first detection mode mask
-
-    BOOL                abTrafficPedestrain;            // Carry traffic pedestrian event info 
-    int                 nTrafficPedestrain;             // Traffic pedestrian event detection mode mask
-
-    BOOL                abTrafficThrow;                 // Carry traffic drop object event info 
-    int                 nTrafficThrow;                  // Traffic  drop object event detection mode mask
-
-    BOOL                abTrafficVehicleInBusRoute;     // Carry traffic violation in lane info 
-    int                 nTrafficVehicleInBusRoute;      // Traffic violation in lane detection mode mask
-
-    BOOL                abTrafficBacking;               // Carry traffic violation back up info 
-    int                 nTrafficBacking;                // Traffic violation back up detection mode mask
-
-    BOOL                abTrafficOverStopLine;          // Carry traffic cross stop line info 
-    int                 nTrafficOverStopLine;           // Traffic cross stop line detection mode mask
-
-    BOOL                abTrafficParkingOnYellowBox;    // Carry traffic yellow grid snapshot info 
-    int                 nTrafficParkingOnYellowBox;     // Traffic yellow grid snapshot detection mode mask
-
-    BOOL                abTrafficParkingSpaceParking;   // Carry traffic car in parking info 
-    int                 nTrafficParkingSpaceParking;    // Traffic car in parking detection mode mask
-
-    BOOL                abTrafficParkingSpaceNoParking; // Carry traffic no card in parking info 
-    int                 nTrafficParkingSpaceNoParking;  // Traffic no card in parking detection mode mask
-
-    BOOL                abTrafficParkingSpaceOverLine;  // Carry traffic  car cross line info 
-    int                 nTrafficParkingSpaceOverLine;   // Traffic  car cross line detection mode mask
-
-    BOOL                abParkingSpaceDetection;        // Carry traffic multi-parking status detection info 
-    int                 nParkingSpaceDetection;         // Traffic multi-parking status detection  mode mask
-
-    BOOL                abTrafficRestrictedPlate;       // Carry traffic limit plate info 
-    int                 nTrafficRestrictedPlate;        // Traffic limit plate detection mode mask
-
-    BOOL                abTrafficWithoutSafeBelt;       // Carry traffic unfasten seat belt info 
-    int                 nTrafficWithoutSafeBelt;        // Traffic unfasten seat belt detection mode mask
-
-    BOOL                abTrafficNoPassing;             // Carry traffic closed info 
-    int                 nTrafficNoPassing;              // Traffic closed detection mode mask
-
-    BOOL                abVehicleAnalyse;               // Carry traffic vehicle feature detection analysis info 
-    int                 nVehicleAnalyse;                // Traffic vehicle feature detection mode mask
-
-    BOOL                abCrossLineDetection;           // Carry traffic warning line info 
-    int                 nCrossLineDetection;            // Traffic warning line detection mode mask
-
-    BOOL                abCrossFenceDetection;          // Carry traffic perimeter protection info 
-    int                 nCrossFenceDetection;           // Traffic perimeter protection detection mode mask
-
-    BOOL                abCrossRegionDetection;         // Carry traffic warning zone info 
-    int                 nCrossRegionDetection;          // Traffic warning zone detection mode mask
-
-    BOOL                abPasteDetection;               // Carry traffic ATM stripe info 
-    int                 nPasteDetection;                // Traffic ATM stripe detection mode mask
-
-    BOOL                abLeftDetection;                // Carry traffic abandoned object info 
-    int                 nLeftDetection;                 // Traffic abandoned object detection mode mask
-
-    BOOL                abPreservation;                 // Carry traffic object protection info 
-    int                 nPreservation;                  // Traffic object protection detection mode mask
-
-    BOOL                abTakenAwayDetection;           // Carry traffic missing object detection info 
-    int                 nTakenAwayDetection;            // Traffic missing object detection detection mode mask
-
-    BOOL                abStayDetection;                // Carry traffic stay/retention info 
-    int                 nStayDetection;                 // Traffic stay/retention detection mode mask
-
-    BOOL                abParkingDetection;             // Carry traffic illegal parking info 
-    int                 nParkingDetection;              // Traffic illegal parking detection mode mask
-
-    BOOL                abWanderDetection;              // Carry traffic loitering info 
-    int                 nWanderDetection;               // Traffic loitering detection mode mask
-
-    BOOL                abMoveDetection;                // Carry traffic moving info 
-    int                 nMoveDetection;                 // Traffic moving detection mode mask
-
-    BOOL                abTailDetection;                // Carry traffic trailing info 
-    int                 nTailDetection;                 // Traffic trailing detection mode mask
-
-    BOOL                abRioterDetection;              // Carry traffic focus info 
-    int                 nRioterDetection;               // Traffic focus detection mode mask
-
-    BOOL                abFightDetection;               // Carry traffic fight info 
-    int                 nFightDetection;                // Traffic fight detection mode mask
-
-    BOOL                abRetrogradeDetection;          // Carry traffic retrogradation info 
-    int                 nRetrogradeDetection;           // Traffic retrogradation detection mode mask
-
-    BOOL                abFireDetection;                // Carry traffic fire info 
-    int                 nFireDetection;                 // Traffic fire detection mode mask
-
-    BOOL                abSmokeDetection;               // Carry traffic smog info 
-    int                 nSmokeDetection;                // Traffic smog detection mode mask
-
-    BOOL                abNumberStat;                   // Carry traffic quantity statistics  info 
-    int                 nNumberStat;                    // Traffic quantity statistics  detection mode mask
-
-    BOOL                abVideoAbnormalDetection;       // Carry traffic abnormal video info 
-    int                 nVideoAbnormalDetection;        // Traffic abnormal video detection mode mask
-
-    BOOL                abPrisonerRiseDetection;        // Carry  prisoner rise detection  info 
-    int                 nPrisonerRiseDetection;         //  prisoner rise detection  detection mode mask
-
-    BOOL                abFaceDetection;                // Carry face detection  info 
-    int                 nFaceDetection;                 // face detection  detection mode mask
-
-    BOOL                abFaceRecognition;              // Carry face recognition info 
-    int                 nFaceRecognition;               // face recognition detection mode mask
-
-    BOOL                abDensityDetection;             // Carry  intensity  detection  info 
-    int                 nDensityDetection;              //  intensity  detection  detection mode mask
-
-    BOOL                abQueueDetection;               // Carry line detection info 
-    int                 nQueueDetection;                // line detection  mode mask
-
-    BOOL                abClimbDetection;               // Carry climbing detection  info 
-    int                 nClimbDetection;                // climbing detection mode mask
-
-    BOOL                abLeaveDetection;               // Carry off-duty detection  info 
-    int                 nLeaveDetection;                // off-duty detection mode mask
-
-    BOOL                abVehicleOnPoliceCar;           // Carry mobile police car info 
-    int                 nVehicleOnPoliceCar;            // mobile police car detection mode mask
-
-    BOOL                abVehicleOnBus;                 // Carry Mobile bus info 
-    int                 nVehicleOnBus;                  // Mobile bus detection mode mask
-
-    BOOL                abVehicleOnSchoolBus;           // Carry Mobile school bus info 
-    int                 nVehicleOnSchoolBus;            // Mobile school bus detection mode mask  
-
-}TRAFFIC_EVENT_CHECK_MASK;  
-
-// violation snapshot time config chart
-typedef struct tagTimeScheduleInfo
-{
-    BOOL                bEnable;                                              // Enable time chart or not
-    CFG_TIME_SECTION    stuTimeSchedule[WEEK_DAY_NUM][MAX_REC_TSECT];         // Time chart
-}TIME_SCHEDULE_INFO;
-
-// violation snapshot custom time config
-typedef struct tagViolationTimeSchedule
-{
-    BOOL                abTrafficGate;                  // Carry traffic ANPR info 
-    TIME_SCHEDULE_INFO  stTrafficGate;                  // Traffic ANPR time config 
-
-    BOOL                abTrafficJunction;              // Carry traffic intersection info 
-    TIME_SCHEDULE_INFO  stTrafficJunction;              // Traffic intersection time config 
-
-    BOOL                abTrafficTollGate;              // Carry new traffic ANPR info 
-    TIME_SCHEDULE_INFO  stTrafficTollGate;              // new traffic ANPR time config 
-
-    BOOL                abTrafficRunRedLight;           // Carry traffic run the red light info 
-    TIME_SCHEDULE_INFO  stTrafficRunRedLight;           // Traffic run the red light time config 
-    
-    BOOL                abTrafficRunYellowLight;        // Carry traffic  run the yellow light  info 
-    TIME_SCHEDULE_INFO  stTrafficRunYellowLight;        // Traffic  run the yellow light  time config 
-
-    BOOL                abTrafficOverLine;              // Carry traffic cross line info 
-    TIME_SCHEDULE_INFO  stTrafficOverLine;              // Traffic cross line time config 
-
-    BOOL                abTrafficOverYellowLine;        // Carry traffic cross yellow line info 
-    TIME_SCHEDULE_INFO  stTrafficOverYellowLine;        // Traffic cross yellow line time config 
-
-    BOOL                abTrafficRetrograde;            // Carry traffic retrogradation info 
-    TIME_SCHEDULE_INFO  stTrafficRetrograde;            // Traffic retrogradation time config 
-
-    BOOL                abTrafficTurnLeft;              // Carry traffic violation left turn info 
-    TIME_SCHEDULE_INFO  stTrafficTurnLeft;              // Traffic violation left turn time config 
-
-    BOOL                abTrafficTurnRight;             // Carry traffic violation right turn info 
-    TIME_SCHEDULE_INFO  stTrafficTurnRight;             // Traffic intersectionviolation right turntype 
-
-    BOOL                abTrafficU_Turn;                // Carry traffic violation u-turn info 
-    TIME_SCHEDULE_INFO  stTrafficU_Turn;                // Traffic violation u-turn time config 
-
-    BOOL                abTrafficCrossLane;             // Carry traffic violation change lane info 
-    TIME_SCHEDULE_INFO  stTrafficCrossLane;             // Traffic violation change lane time config 
-
-    BOOL                abTrafficParking;               // Carry traffic violation parking info 
-    TIME_SCHEDULE_INFO  stTrafficParking;               // Traffic violation parking time config 
-
-    BOOL                abTrafficJam;                   // Carry traffic jam info 
-    TIME_SCHEDULE_INFO  stTrafficJam;                   // Traffic jam time config 
-
-    BOOL                abTrafficIdle;                  // Carry traffic  idle info 
-    TIME_SCHEDULE_INFO  stTrafficIdle;                  // Traffic  idle time config 
-
-    BOOL                abTrafficWaitingArea;           // Carry traffic violation enter waiting zone info 
-    TIME_SCHEDULE_INFO  stTrafficWaitingArea;           // Traffic violation enter waiting zone time config 
-
-    BOOL                abTrafficUnderSpeed;            // Carry traffic below speed info 
-    TIME_SCHEDULE_INFO  stTrafficUnderSpeed;            // Traffic below speed time config 
-
-    BOOL                abTrafficOverSpeed;             // Carry traffic over speed info 
-    TIME_SCHEDULE_INFO  stTrafficOverSpeed;             // Traffic over speed time config 
-
-    BOOL                abTrafficWrongRoute;            // Carry traffic driving not by lane  info 
-    TIME_SCHEDULE_INFO  stTrafficWrongRoute;            // Traffic driving not by lane  time config 
-
-    BOOL                abTrafficYellowInRoute;         // Carry traffic yellow-plate in lane  info 
-    TIME_SCHEDULE_INFO  stTrafficYellowInRoute;         // Traffic yellow-plate in lane  time config 
-
-    BOOL                abTrafficVehicleInRoute;        // Carry traffic car in lane info 
-    TIME_SCHEDULE_INFO  stTrafficVehicleInRoute;        // Traffic car in lane time config 
-
-    BOOL                abTrafficControl;               // Carry traffic  control info 
-    TIME_SCHEDULE_INFO  stTrafficControl;               // Traffic  control time config 
-
-    BOOL                abTrafficObjectAlarm;           // Carry traffic specific type snapshot info 
-    TIME_SCHEDULE_INFO  stTrafficObjectAlarm;           // Traffic specific type snapshot time config 
-
-    BOOL                abTrafficAccident;              // Carry traffic  accident info 
-    TIME_SCHEDULE_INFO  stTrafficAccident;              // Traffic  accident time config 
-
-    BOOL                abTrafficStay;                  // Carry traffic  stay/retention info 
-    TIME_SCHEDULE_INFO  stTrafficStay;                  // Traffic  stay/retention time config 
-
-    BOOL                abTrafficPedestrainPriority;    // Carry traffic crosswalk pedestrian first info 
-    TIME_SCHEDULE_INFO  stTrafficPedestrainPriority;    // Traffic crosswalk pedestrian first time config 
-
-    BOOL                abTrafficPedestrain;            // Carry traffic  pedestrian event info 
-    TIME_SCHEDULE_INFO  stTrafficPedestrain;            // Traffic  pedestrian event time config 
-
-    BOOL                abTrafficThrow;                 // Carry traffic  drop object event info 
-    TIME_SCHEDULE_INFO  stTrafficThrow;                 // Traffic  drop object event time config 
-
-    BOOL                abTrafficVehicleInBusRoute;     // Carry traffic violation in lane info 
-    TIME_SCHEDULE_INFO  stTrafficVehicleInBusRoute;     // Traffic violation in lane time config 
-
-    BOOL                abTrafficBacking;               // Carry traffic violation back up info 
-    TIME_SCHEDULE_INFO  stTrafficBacking;               // Traffic violation back up time config 
-
-    BOOL                abTrafficOverStopLine;          // Carry traffic cross stop line info 
-    TIME_SCHEDULE_INFO  stTrafficOverStopLine;          // Traffic cross stop line time config 
-
-    BOOL                abTrafficParkingOnYellowBox;    // Carry traffic yellow grid snapshot info 
-    TIME_SCHEDULE_INFO  stTrafficParkingOnYellowBox;    // Traffic yellow grid snapshot time config 
-
-    BOOL                abTrafficParkingSpaceParking;   // Carry traffic car in parking info 
-    TIME_SCHEDULE_INFO  stTrafficParkingSpaceParking;   // Traffic car in parking time config 
-
-    BOOL                abTrafficParkingSpaceNoParking; // Carry traffic no card in parking info 
-    TIME_SCHEDULE_INFO  stTrafficParkingSpaceNoParking; // Traffic no card in parking time config 
-
-    BOOL                abTrafficParkingSpaceOverLine;  // Carry traffic  car cross line info 
-    TIME_SCHEDULE_INFO  stTrafficParkingSpaceOverLine;  // Traffic car in parkingcross line time config 
-
-    BOOL                abParkingSpaceDetection;        // Carry traffic multi-parking status detection  info 
-    TIME_SCHEDULE_INFO  stParkingSpaceDetection;        // Traffic multi-parking status detection  time config 
-
-    BOOL                abTrafficRestrictedPlate;       // Carry traffic limit plate info 
-    TIME_SCHEDULE_INFO  stTrafficRestrictedPlate;       // Traffic limit plate time config 
-
-    BOOL                abTrafficWithoutSafeBelt;       // Carry traffic unfasten seat belt info 
-    TIME_SCHEDULE_INFO  stTrafficWithoutSafeBelt;       // Traffic unfasten seat belt time config 
-
-    BOOL                abTrafficNoPassing;             // Carry traffic closed info 
-    TIME_SCHEDULE_INFO  stTrafficNoPassing;             // Traffic closed time config 
-
-    BOOL                abVehicleAnalyse;               // Carry traffic vehicle feature detection analysis info 
-    TIME_SCHEDULE_INFO  stVehicleAnalyse;               // Traffic vehicle feature time config 
-
-    BOOL                abCrossLineDetection;           // Carry traffic warning line info 
-    TIME_SCHEDULE_INFO  stCrossLineDetection;           // Traffic warning line time config 
-
-    BOOL                abCrossFenceDetection;          // Carry traffic perimeter protection info 
-    TIME_SCHEDULE_INFO  stCrossFenceDetection;          // Traffic perimeter protection time config 
-
-    BOOL                abCrossRegionDetection;         // Carry traffic warning zone info 
-    TIME_SCHEDULE_INFO  stCrossRegionDetection;         // Traffic warning zone time config 
-
-    BOOL                abPasteDetection;               // Carry traffic ATM stripe info 
-    TIME_SCHEDULE_INFO  stPasteDetection;               // Traffic ATM stripe time config 
-
-    BOOL                abLeftDetection;                // Carry traffic abandoned object info 
-    TIME_SCHEDULE_INFO  stLeftDetection;                // Traffic abandoned object time config 
-
-    BOOL                abPreservation;                 // Carry traffic object protection info 
-    TIME_SCHEDULE_INFO  stPreservation;                 // Traffic object protection time config 
-
-    BOOL                abTakenAwayDetection;           // Carry traffic missing object detection info 
-    TIME_SCHEDULE_INFO  stTakenAwayDetection;           // Traffic missing object detection time config 
-
-    BOOL                abStayDetection;                // Carry traffic stay/retention info 
-    TIME_SCHEDULE_INFO  stStayDetection;                // Traffic stay/retention time config 
-
-    BOOL                abParkingDetection;             // Carry traffic illegal parking info 
-    TIME_SCHEDULE_INFO  stParkingDetection;             // Traffic illegal parking time config 
-
-    BOOL                abWanderDetection;              // Carry traffic loitering info 
-    TIME_SCHEDULE_INFO  stWanderDetection;              // Traffic loitering time config 
-
-    BOOL                abMoveDetection;                // Carry traffic moving info 
-    TIME_SCHEDULE_INFO  stMoveDetection;                // Traffic moving time config 
-
-    BOOL                abTailDetection;                // Carry traffic trailing info 
-    TIME_SCHEDULE_INFO  stTailDetection;                // Traffic trailing time config 
-
-    BOOL                abRioterDetection;              // Carry traffic focus info 
-    TIME_SCHEDULE_INFO  stRioterDetection;              // Traffic focus time config 
-
-    BOOL                abFightDetection;               // Carry traffic fight info 
-    TIME_SCHEDULE_INFO  stFightDetection;               // Traffic fight time config 
-
-    BOOL                abRetrogradeDetection;          // Carry traffic retrogradation info 
-    TIME_SCHEDULE_INFO  stRetrogradeDetection;          // Traffic retrogradation time config 
-
-    BOOL                abFireDetection;                // Carry traffic fire info 
-    TIME_SCHEDULE_INFO  stFireDetection;                // Traffic fire time config 
-
-    BOOL                abSmokeDetection;               // Carry traffic smog info 
-    TIME_SCHEDULE_INFO  stSmokeDetection;               // Traffic smog time config 
-
-    BOOL                abNumberStat;                   // Carry traffic quantity statistics  info 
-    TIME_SCHEDULE_INFO  stNumberStat;                   // Traffic quantity statistics  time config 
-
-    BOOL                abVideoAbnormalDetection;       // Carry traffic abnormal video info 
-    TIME_SCHEDULE_INFO  stVideoAbnormalDetection;       // Traffic abnormal video time config 
-
-    BOOL                abPrisonerRiseDetection;        // Carry  prisoner rise detection  info 
-    TIME_SCHEDULE_INFO  stPrisonerRiseDetection;        //  prisoner rise detection  time config 
-
-    BOOL                abFaceDetection;                // Carry face detection  info 
-    TIME_SCHEDULE_INFO  stFaceDetection;                // face detection  time config 
-
-    BOOL                abFaceRecognition;              // Carry face recognition info 
-    TIME_SCHEDULE_INFO  stFaceRecognition;              // face recognition time config 
-
-    BOOL                abDensityDetection;             // Carry  intensity  detection  info 
-    TIME_SCHEDULE_INFO  stDensityDetection;             //  intensity  detection  time config 
-
-    BOOL                abQueueDetection;               // Carry line detection  info 
-    TIME_SCHEDULE_INFO  stQueueDetection;               // line detection  time config 
-
-    BOOL                abClimbDetection;               // Carry climbing detection  info 
-    TIME_SCHEDULE_INFO  stClimbDetection;               // climbing time config 
-
-    BOOL                abLeaveDetection;               // Carry off-duty detection  info 
-    TIME_SCHEDULE_INFO  stLeaveDetection;               // off-duty time config 
-
-    BOOL                abVehicleOnPoliceCar;           // Carry mobile police car info 
-    TIME_SCHEDULE_INFO  stVehicleOnPoliceCar;           // mobile police car time config 
-
-    BOOL                abVehicleOnBus;                 // Carry Mobile bus info 
-    TIME_SCHEDULE_INFO  stVehicleOnBus;                 // Mobile bus time config 
-
-    BOOL                abVehicleOnSchoolBus;           // Carry Mobile school bus info 
-    TIME_SCHEDULE_INFO  stVehicleOnSchoolBus;           // Mobile school bus time config   
-}VIOLATION_TIME_SCHEDULE;
-
-// MixModeConfig about lane config info 
-typedef struct tagMixModeLaneInfo
-{
-    unsigned int                nLaneNum;                           // Lane config number
-    TRAFFIC_EVENT_CHECK_INFO    stCheckInfo[MAX_LANE_CONFIG_NUMBER];     // Lane config corresponding to event detection  info 
-}MIX_MODE_LANE_INFO;
-
-// MixModeConfig mic mode violation config
-typedef struct tagMIX_MODE_CONFIG
-{
-	BOOL                        bLaneDiffEnable;                    // Distinguish by lane or not
-	MIX_MODE_LANE_INFO          stLaneInfo;
-    TRAFFIC_EVENT_CHECK_INFO    stCheckInfo;
-}MIX_MODE_CONFIG;
-
-typedef struct tagPeriodOfValidity
-{
-    CFG_NET_TIME            stBeginTime;                    // Mark start time 
-    CFG_NET_TIME            stEndTime;                      // Mark end time
-}PERIOD_OF_VALIDITY;
-
-// Traffic global config corresponding to mark related config
-typedef struct tagTrafficCalibrationInfo
-{
-    char                    szUnit[CFG_COMMON_STRING_256];              // Mark unit
-    char                    szCertificate[CFG_COMMON_STRING_256];       // Mark certificate
-    PERIOD_OF_VALIDITY      stPeriodOfValidity;                         // Mark validity
-}TRAFFIC_CALIBRATION_INFO;
-
-// Traffic config corresponding to transmission strategy
-typedef enum tagEmTransferPolicy
-{
-    EM_TRAFFIC_TRANSFER_UNKNOWN,            // Unknown strategy
-    EM_TRAFFIC_TRANSFER_REALTIME,           // "RealtimePriority" real time first
-    EM_TRAFFIC_TRANSFER_SEQUENCE,           // "SequencePriority" sequence first
-
-}EM_TRANSFER_POLICY;
-
-// Traffic global config corresponding to picture naming format parameter config
-typedef struct tagTrafficNamingFormat
-{
-    char                    szFormat[CFG_COMMON_STRING_256];            // Picture firmat
-}TRAFFIC_NAMING_FORMAT;
-
-// Traffic global config corresponding to light group status config
-typedef struct tagEnableLightStateInfo
-{
-    BOOL                    bEnable;      // Enable application layer received light group status to bottom or not
-}ENABLE_LIGHT_STATE_INFO;
-
 // traffic globle configuration
 typedef struct tagCFG_TRAFFICGLOBAL_INFO
 {
 	VIOLATIONCODE_INFO   stViolationCode;       // violation code configuration
 	BOOL                 bEnableRedList;       // Red List Enable Detection Is Enabled, Vehicle Violation in The List Does Not Be Reported 
-
-    BOOL                    abViolationTimeSchedule;                    // Carry violation snapshot custom time config 
-    VIOLATION_TIME_SCHEDULE stViolationTimeSchedule;                    // Violation snapshot custom time config 
-    
-    BOOL                    abEnableBlackList;                          // Carry enable black list detection  info 
-    BOOL                    bEnableBlackList;                           // Enable black list detection 
-
-    BOOL                    abPriority;                                 // Carry violation priority parameter
-    unsigned int            nPriority;                                  // violation priority level number
-    char                    szPriority[MAX_PRIORITY_NUMBER][CFG_COMMON_STRING_256]; // violation priority level, 0 as highest priority    
-
-    BOOL                    abNamingFormat;                             // Carry picture naming format parameter
-    TRAFFIC_NAMING_FORMAT   stNamingFormat;                             // Picture naming format parameter config
-
-    BOOL                    abVideoNamingFormat;                        // Carry Record naming format parameter
-    TRAFFIC_NAMING_FORMAT   stVideoNamingFormat;                        // Record naming format parameter config
-
-    BOOL                    abCalibration;                              // Carry mark info 
-    TRAFFIC_CALIBRATION_INFO stCalibration;                             // Mark  info 
-    
-    BOOL                    abAddress;                                  // Carry search address parameter
-    char                    szAddress[CFG_COMMON_STRING_256];           // Search address£¬UTF-8 code
-
-    BOOL                    abTransferPolicy;                           // Carry transmission strategy parameter
-    EM_TRANSFER_POLICY      emTransferPolicy;                           // Transmission strategy
-
-    BOOL                    abSupportModeMaskConfig;                    // Carry violation mask 
-    TRAFFIC_EVENT_CHECK_MASK stSupportModeMaskConfig;                   // violation type supported detection mode mask config
-
-    BOOL                    abIsEnableLightState;                       // Carry light group status
-    ENABLE_LIGHT_STATE_INFO stIsEnableLightState;                       // Traffic global config corresponding to picture naming format parameter config
-    
-    BOOL                    abMixModeInfo;                              // Include mix mode config or not
-    MIX_MODE_CONFIG         stMixModeInfo;                              // Mix mode config
+	BYTE		         bReserved[1020];
 }CFG_TRAFFICGLOBAL_INFO;
 // add by lihu 2011/8/26 end
 
@@ -5536,8 +4710,7 @@ typedef struct tagCFG_VIDEO_IN_NIGHT_OPTIONS
 	BYTE                byGlareInhibition;		// glare inhibition,0-close,[1-100]
 	CFG_RECT			stuBacklightRegion;     // backlight region
 	BYTE                byFocusMode;            // 0-close£¬1-aux focus£¬2-auto focus
-	bool				bFlip;					// flip
-	BYTE				reserved[74];			// Reserved
+	BYTE				reserved[75];			// Reserved
 } CFG_VIDEO_IN_NIGHT_OPTIONS;
 
 typedef struct tagCFG_VIDEO_IN_NORMAL_OPTIONS
@@ -5565,8 +4738,7 @@ typedef struct tagCFG_VIDEO_IN_NORMAL_OPTIONS
 	BYTE                byGlareInhibition;		// glare inhibition,0-close,[1-100]
 	CFG_RECT			stuBacklightRegion;     // backlight region
 	BYTE                byFocusMode;            // 0-off£¬1-easy focus£¬2-auto focus
-	bool				bFlip;					// flip
-	BYTE				reserved[74];			// Reserved
+	BYTE				reserved[75];			// Reserved
 }CFG_VIDEO_IN_NORMAL_OPTIONS;
 
 
@@ -5878,42 +5050,6 @@ typedef struct tagCFG_FISHEYE_DETAIL_INFO
     int                nModeNum;                         // module number
     CFG_FISHEYE_MODE_INFO stuModes[CFG_MAX_FISHEYE_MODE_NUM]; // detailed module info  
 }CFG_FISHEYE_DETAIL_INFO;
-
-// Platform issue call no-response transfer config list
-#define   CFG_MAX_NOANSWER_FORWARD_GROUP_NUM                    32         // Max no-response front list number
-#define   CFG_MAX_FORWARD_NUMBERS_NUM                           32         // Max no-response transfer number
-
-// No-response transfer config
-typedef struct tagCFG_VT_NOANSWER_FORWARD_GROUP
-{
-    char                    szRoomNumber[CFG_COMMON_STRING_32];          // Called number
-    int                     nForwardNumbersNum;                          // No-response transfer number
-    char                    szForwardNumbers[CFG_MAX_FORWARD_NUMBERS_NUM][CFG_COMMON_STRING_64]; // No-response transfer number list  
-}CFG_VT_NOANSWER_FORWARD_GROUP;
-
-// Platform issue call no-response transfer config list info 
-typedef struct tagCFG_VT_NOANSWER_FORWARD_INFO
-{
-    BOOL                            bEnable;                                        // No-response transfer enable
-    int                             nGroupNum;                                      // No-response transfer config list valid number£¬range£º0 ~ CFG_MAX_NOANSWER_FORWARD_GROUP_NUM
-    CFG_VT_NOANSWER_FORWARD_GROUP   stuGroups[CFG_MAX_NOANSWER_FORWARD_GROUP_NUM];  // No-response transfer config list  
-}CFG_VT_NOANSWER_FORWARD_INFO;
-
-// VTO call config
-typedef struct tagCFG_VTO_CALL_INFO
-{
-    BOOL                            bAreaEnable;                                        // Cross-zone network enable
-    char                            szAreaNumber[CFG_COMMON_STRING_32];                  // Zone encode
-    BOOL                            bMiddleNumberCallEnable;                            // Middle no. call switch
-    char                            szVTHMiddleNumberPrefix[CFG_COMMON_STRING_16];       // VTH middle no. prefix£¬fixed length 4 bits
-    char                            szVTHLongNumberPrefix[CFG_COMMON_STRING_32];         // VTH long no. prefix£¬fixed length 8 bits
-    char                            szVTOShortNumber[CFG_COMMON_STRING_16];              // VTO short no.£¬fixed length 4 bits
-    char                            szVTOMiddleNumberPrefix[CFG_COMMON_STRING_16];       // VTO middle no. prefix£¬fixed length 4 bits
-    char                            szVTOLongNumbrPrefix[CFG_COMMON_STRING_32];          // VTO long no. prefix£¬fixed length 12 bits    
-	char                            szVTSLongNumber[CFG_COMMON_STRING_32];               // VTS long no.£¬fixed length 18 bits
-    char                            szVillaCallVTHNum[CFG_COMMON_STRING_32];             // Villa station call no.
-}CFG_VTO_CALL_INFO;
-
 
 /************************Work state**********************************/
 
@@ -6287,21 +5423,6 @@ struct AV_CFG_VideoWidgetCover
 	AV_BOOL				bPreviewBlend;					// Overlay to preview mode
 };
 
-// Channel title alignment info 
-typedef enum tagEM_TITLE_TEXT_ALIGN
-{
-    EM_TEXT_ALIGN_INVALID,                              // Invalid alignment mathod
-    EM_TEXT_ALIGN_LEFT,                                 // Left alignment 
-    EM_TEXT_ALIGN_XCENTER,                              // X coordinate alignment 
-    EM_TEXT_ALIGN_YCENTER,                              // Y coordinate alignment 
-    EM_TEXT_ALIGN_CENTER,                               // Center
-    EM_TEXT_ALIGN_RIGHT,                                // Right alignment 
-    EM_TEXT_ALIGN_TOP,                                  // By top alignment 
-    EM_TEXT_ALIGN_BOTTOM,                               // By bottom alignment 
-    EM_TEXT_ALIGN_LEFTTOP,                              // By upper left alignment 
-    EM_TEXT_ALIGN_CHANGELINE,                           // Next row alignment 
-}EM_TITLE_TEXT_ALIGN;
-
 // Encode widget-channel title 
 struct AV_CFG_VideoWidgetChannelTitle
 {
@@ -6348,7 +5469,6 @@ struct AV_CFG_VideoWidgetCustomTitle
 	char				szText[AV_CFG_Custom_Title_Len];// Title contents
 	AV_BOOL				bPreviewBlend;					// Overlay to preview mode
     char                szType[AV_CFG_Custom_TitleType_Len];// Title type "Rtinfo" real-time recorder information, "Custom" custom overlay, temperature and humidity overlay, "Title": credit information "Check" check code
-    EM_TITLE_TEXT_ALIGN emTextAlign;                    // Title alignment method
 };
 
 //  Encoding object - overlay sensor information - superimposed Description
@@ -6516,8 +5636,7 @@ struct AV_CFG_MonitorWall
 	AV_int32			nColumn;							// Network column amount 
 	AV_int32			nBlockCount;						// Zone amount
 	AV_CFG_MonitorWallBlock stuBlocks[AV_CFG_Max_Block_In_Wall];// Zone array 
-    BOOL                bDisable;                           // Disable or not, 0-this TV wall is valid, 1-The TV wall is invalid
-    char                szDesc[CFG_COMMON_STRING_256];      // TV wall description info 
+
 };
 
 // Splicing screen 
@@ -6809,15 +5928,6 @@ typedef struct tagCFG_NETWORK_INFO
 	CFG_NETWORK_INTERFACE	stuInterfaces[MAX_NETWORK_INTERFACE_NUM];	// Network card list 
 } CFG_NETWORK_INFO;
 
-// Cloud storage protocol type 
-typedef enum tagEM_CFG_NAS_CLOUDPROTOCOL_TYPE
-{
-    EM_CFG_NAS_CLOUDPROTOCOL_TYPE_UNKNOWN,              // Unknown
-    EM_CFG_NAS_CLOUDPROTOCOL_TYPE_BAIDU_CLOUD,          // "BaiduCloud"
-    EM_CFG_NAS_CLOUDPROTOCOL_TYPE_GOOGLE_DRIVE,         // "GoogleDrive"
-    EM_CFG_NAS_CLOUDPROTOCOL_TYPE_DROPBOX,              // "Dropbox"
-}EM_CFG_NAS_CLOUDPROTOCOL_TYPE;
-
 // Network storage config 
 typedef struct tagCFG_NAS_INFO_NEW
 {
@@ -6833,8 +5943,6 @@ typedef struct tagCFG_NAS_INFO_NEW
 	int					nTimeOut;						// Timeout, the unit milliseconds 
 	unsigned int		nStreamID;						// The data stream ID 
 	CFG_NET_TIME_EX		stuUpdateTime;					// Update time, after the field values change, need to re-initialize the iSCSI function 
-    EM_CFG_NAS_CLOUDPROTOCOL_TYPE   emCloudProtocol;    // Cloud storage protocol type 
-    char                            szSubDirectory[CFG_COMMON_STRING_256];               // Client device on server storage sub directory£¬may be IP address£¬device SN£¬device machine no£¬as null used device machine no.
 } CFG_NAS_INFO_NEW;
 
 // NVS config. It includes several servers. 
@@ -6871,7 +5979,6 @@ typedef struct tagCFG_VIDEO_IN_INFO
 	BOOL				bSecrecy;						// secrecy, FALSE is not classified, TRUE is classified
 	char				szUpperDevID[MAX_NAME_LEN];		// superior connection device ID
 	int					nUpperDevOutChn;				// superior connection device output channel num 
-    char				szRemoteName[MAX_NAME_LEN];		// Remote channel name
 } CFG_VIDEO_IN_INFO;
 
 // burn CD coding plan (corresponding command is CFG_CMD_ENCODEPLAN),each channel a configuration(include picinpic channel)
@@ -7054,19 +6161,12 @@ typedef struct tagCFG_PARKINGSPACE_STATUS_INFO
 	int                  nLaneType;                      // 0:common spaces,1: dedicated parking spaces
 } CFG_PARKINGSPACE_STATUS_INFO;
 
-#define CFG_MAX_BINARY_NUM      128						// Max valid count of custom data
-
 // information platform for the custom
 typedef struct tagCFG_CLIENT_CUSTOM_INFO
 {
 	char                 szDescription[MAX_PATH];        // describing information,different custom description information platform,currently supported "LiFang"
-	char*                pData;                          // custom data bbuffer, the data cann't exist between binary 0,is the '\0'
+	char*                pData;                          // sustom data bbuffer, the data cann't exist between binary 0,is the '\0'
 	int                  nDataLen;                       // data length,diffent platfrms themselves
-    bool                abBinary;                       // false: pData and nDataLen are enabled, while nBinaryNum and dwBinary are disabled
-                                                        // true: pData and nDataLen are disabled, while nBinaryNum and dwBinary are enabled
-    BYTE                byReserved[3];
-    int                 nBinaryNum;                     // valid count of dwBinary array
-    DWORD               dwBinary[CFG_MAX_BINARY_NUM];   // custom data array
 } CFG_CLIENT_CUSTOM_INFO;
 
 // burn record format configuration,compatibility considerations,without this configuration DHAV format by default
@@ -7335,14 +6435,6 @@ typedef struct tagCFG_CAP_VIDEOINPUT_INFO_EX
 	BOOL			bSupportKillShutLine;					// Whether to support the elimination of shutter function
 	int             nMinKillShutLine;						// The minimum value can match 
 	int			    nMaxKillShutLine;						// The maximum Can match 
-
-    BOOL            bSupportVideoInColor;	                //Support image setup capacity or not		 
-    BOOL            bSupportBrightness;                 	//Support brightness or not	
-    BOOL            bSupportContrast;                       //Support contrast ot not       	
-    BOOL            bSupportSaturation;                     //Support saturation or not	
-    BOOL            bSupportHue;                            //Support HUE or not	
-    BYTE            bReserved[3];                           //Field alignment 
-
 }CFG_CAP_VIDEOINPUT_INFO_EX;
 
 // CAN filter configuration 
@@ -7628,16 +6720,12 @@ typedef struct tagCFG_VIDEOIN_EXPOSURE_INFO
 typedef enum tagCFG_DOOR_OPEN_METHOD
 {
 	CFG_DOOR_OPEN_METHOD_UNKNOWN = 0,
-	CFG_DOOR_OPEN_METHOD_PWD_ONLY,                  // Allowing only password lock
-	CFG_DOOR_OPEN_METHOD_CARD,                      // Only allow swipe to unlock
-	CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,               // Password or swipe to unlock 
-	CFG_DOOR_OPEN_METHOD_CARD_FIRST,                // Firstly swipe then password to unlock
-    CFG_DOOR_OPEN_METHOD_PWD_FIRST,	                // Firstly passwords,then swipe to unlock
-	CFG_DOOR_OPEN_METHOD_SECTION,                   // Period of time to open the door 
-    CFG_DOOR_OPEN_METHOD_FINGERPRINTONLY = 7,       // Only allow finger print to unlock
-    CFG_DOOR_OPEN_METHOD_PWD_OR_CARD_OR_FINGERPRINT = 8,// Allow passwords or card or finger print to unlock
-    CFG_DOOR_OPEN_METHOD_CARD_AND_FINGERPRINT = 11, // Allow card and finger print to unlock
-    CFG_DOOR_OPEN_METHOD_MULTI_PERSON = 12,         // Only allow multi persons together to unlock
+	CFG_DOOR_OPEN_METHOD_PWD_ONLY,		// Allowing only password lock
+	CFG_DOOR_OPEN_METHOD_CARD,			// Only allow swipe to unlock
+	CFG_DOOR_OPEN_METHOD_PWD_OR_CARD,	// Password or swipe to unlock 
+	CFG_DOOR_OPEN_METHOD_CARD_FIRST,	// Firstly swipe then password to unlock
+	CFG_DOOR_OPEN_METHOD_PWD_FIRST,		// Firstly passwords,then swipe to unlock
+	CFG_DOOR_OPEN_METHOD_SECTION,		// Period of time to open the door 
 }CFG_DOOR_OPEN_METHOD;
 
 
@@ -7649,24 +6737,6 @@ typedef enum tagCFG_ACCESS_PROPERTY_TYPE
     CFG_ACCESS_PROPERTY_UNIDIRECT,      // one way access control
 }CFG_ACCESS_PROPERTY_TYPE;
 
-#define CFG_MAX_ABLOCK_DOORS_NUM        4                       // Max access control door lock channel number
-
-// Access control AB lock group
-typedef struct tagCFG_ABLOCK_DOOR_INFO 
-{
-    int                 nDoor;                                  // Valid lock number
-    int                 anDoor[CFG_MAX_ABLOCK_DOORS_NUM];       // Lock door channel no.
-}CFG_ABLOCK_DOOR_INFO;
-
-#define CFG_MAX_ABLOCK_GROUP_NUM        8                       // Max lock group
-
-// Access control AB lock function, multi-door channel£¬only other B channel close£¬only A channel can open
-typedef struct tagCFG_ABLOCK_INFO 
-{
-    BOOL                bEnable;                                // Enable
-    int                 nDoors;                                 // Valid lock group
-    CFG_ABLOCK_DOOR_INFO stuDoors[CFG_MAX_ABLOCK_GROUP_NUM];    // Lock group info 
-}CFG_ABLOCK_INFO;
 
 // Access Basic Configuration
 typedef struct tagCFG_ACCESS_GENERAL_INFO
@@ -7683,12 +6753,10 @@ typedef struct tagCFG_ACCESS_GENERAL_INFO
 	// Capacity.
 	bool                abProjectPassword;
     bool                abAccessProperty;
-    bool                abABLockInfo;
-	BYTE				byReserved;
+	BYTE				byReserved[2];
 
 	char				szProjectPassword[MAX_PASSWORD_LEN];	// Project Password
     CFG_ACCESS_PROPERTY_TYPE emAccessProperty;                  // access control channel one/two way config
-    CFG_ABLOCK_INFO     stuABLockInfo;                          // AB lock info 
 }CFG_ACCESS_GENERAL_INFO;
 
 // Access status
@@ -7717,29 +6785,6 @@ typedef struct tagCFG_DOOROPEN_TIMESECTION_INFO
 
 #define MAX_DOOR_TIME_SECTION		4				// Access the maximum number of daily time-period
 
-// First card right verification passed access control status
-typedef enum CFG_ACCESS_FIRSTENTER_STATUS
-{
-	ACCESS_FIRSTENTER_STATUS_UNKNOWN,	// Unknown status
-	ACCESS_FIRSTENTER_STATUS_KEEPOPEN,	// KeepOpen-first card right verification passed, door remains NO
-	ACCESS_FIRSTENTER_STATUS_NORMAL		// Normal-first card right verification passed, other user can swipe card (fingerprint and so on) to pass verification
-}CFG_ACCESS_FIRSTENTER_STATUS;
-
-// First card unlock info 
-typedef struct tagCFG_ACCESS_FIRSTENTER_INFO
-{
-	BOOL							bEnable;
-	CFG_ACCESS_FIRSTENTER_STATUS	emStatus;	// First card right verification passed accesscontrol status
-	int								nTimeIndex;	// Need first card verification period, value as channel no.
-}CFG_ACCESS_FIRSTENTER_INFO;
-
-// Remote check detail
-typedef struct tagCFG_REMOTE_DETAIL_INFO 
-{
-    int                 nTimeOut;                       // over time, 0:unlimited wait, unit: sec
-    BOOL                bTimeOutDoorStatus;             // door status after over time, TRUE:open, FALSE:close
-}CFG_REMOTE_DETAIL_INFO;
-
 // Access Event Configuration
 typedef struct tagCFG_ACCESS_EVENT_INFO
 {
@@ -7761,10 +6806,7 @@ typedef struct tagCFG_ACCESS_EVENT_INFO
 	bool				abDuressAlarmEnable;
 	bool                abDoorTimeSection;
 	bool				abSensorEnable;
-	bool				abFirstEnterEnable;
-    bool                abRemoteCheck;
-    bool                abRemoteDetail;
-    BYTE                byReserve[2];
+	BYTE				byReserved;
 
 	CFG_DOOR_OPEN_METHOD	emDoorOpenMethod;			// Open the door way 
 	int					nUnlockHoldInterval;			// Lock hold time (automatic closing time), in milliseconds, [250, 20000]
@@ -7777,9 +6819,6 @@ typedef struct tagCFG_ACCESS_EVENT_INFO
 	BOOL				bDuressAlarmEnable;				// Duress alarm enable
 	CFG_DOOROPEN_TIMESECTION_INFO	stuDoorTimeSection[WEEK_DAY_NUM][MAX_DOOR_TIME_SECTION];// The information period of time to open the door 
 	BOOL				bSensorEnable;					//Magnetic enable
-	CFG_ACCESS_FIRSTENTER_INFO stuFirstEnterInfo;		// First card unlock info 
-    BOOL                bRemoteCheck;                   // Need platform verification, TRUE means when right verification is passed, you must pass platform verification before you can unlock, FALSE means when right verification is passed, you can unlock
-    CFG_REMOTE_DETAIL_INFO  stuRemoteDetail;            // work with "bRemoteCheck", door will open or close after over time if remove check on platform side is not responsed
 }CFG_ACCESS_EVENT_INFO;
 
 
@@ -7937,11 +6976,6 @@ typedef struct tagCFG_ALARMOUT_INFO		// =>CFG_CMD_ALARMOUT
 	char				szChnName[MAX_CHANNELNAME_LEN];				// Alarm channel name
 	char				szOutputType[MAX_NAME_LEN];					// Output types, user-defined
 	int					nOutputMode;								// Output mode, 0 - automatic alarm 1 - Forced Alarm 2 - Turn off the alarm
-    int                 nPulseDelay;                                // Pulse mode output time, unit is second(0-255s)
-    int                 nSlot;                                      // Root address, 0 means local channel, 1 means connection expansion channel on first serial, 2¡¢3...and so on, -1 means invalid
-    int                 nLevel1;                                    // First level cascading address, means connected at no. nSlot serial no. nLevel1 sensor or meter, start from 0, -1 means invalid
-    bool                abLevel2;                                   // means nLevel2 field exists or not
-    int                 nLevel2;                                    // Second level cascading address, means connected at no. nLevel1 meter sensor no., start from 0
 }CFG_ALARMOUT_INFO;
 
 
@@ -7997,7 +7031,7 @@ typedef struct tagCFG_NTP_INFO
 //Alarm configuration
 typedef struct tagCFG_ALARMBELL_INFO
 {
-    int                 nPersistentTime;                            // Duty cycle
+	int					nDutyRation;								// Duty Cycle
 }CFG_ALARMBELL_INFO;
 
 #define MAX_MSG_NUMBER_LEN	32				// The maximum length of the message numbers
@@ -8210,7 +7244,7 @@ typedef struct  tagCFG_SENSORSAMPLING_INFO
 	int			nStorageItem;				// Storage information, unit: article number, local to write the file, can export (0 ~ 5000) 
 }CFG_SENSORSAMPLING_INFO;
 
-// Loop net ==>CFG_CMD_STP
+// »·Íø ==>CFG_CMD_STP
 typedef struct tagCFG_STP_INFO 
 {
 	BOOL			bEnable;                // Enable
@@ -8406,51 +7440,6 @@ typedef struct tagCFG_COMPRESS_PLAY_INFO
 	unsigned int        nBitRate;               // Video fixed stream value(kbps), range£º192~1024
 }CFG_COMPRESS_PLAY_INFO;
 
-// System type 
-typedef enum tagEM_CFG_BUILDING_SYSTEM_TYPE
-{
-    EM_CFG_BUILDING_SYSTEM_TYPE_UNKNOWN = 0,        // Unknown
-    EM_CFG_BUILDING_SYSTEM_TYPE_DIGITAL,            // Digital system
-    EM_CFG_BUILDING_SYSTEM_TYPE_ANALOG,             // Analog system
-}EM_CFG_BUILDING_SYSTEM_TYPE;
-
-// VTO floor config(corresponding to  CFG_CMD_BUILDING command)
-typedef struct tagCFG_BUILDING_INFO
-{
-    char                            szIssueNumber[CFG_COMMON_STRING_16];                // Issue no.£¬range: 0 ~ 99
-    char                            szSectionNumber[CFG_COMMON_STRING_16];              // Section no.£¬range: 0 ~ 99
-    char                            szBuildingNumber[CFG_COMMON_STRING_16];             // Building no.£¬range: 0 ~ 999
-    char                            szBuildingUnitNumber[CFG_COMMON_STRING_16];         // Building unit no.£¬range: 0 ~ 9
-    char                            szSectionUnitNumber[CFG_COMMON_STRING_16];          // Residence unit no.£¬range: 0 ~ 999
-    int                             nUnitFloorNumber;                                   // Unit floor no.£¬range: 0 ~ 99
-    int                             nFloorPerRoomNumber;                                // Room on one floor£¬range: 0 ~ 99
-    BOOL                            bCreateRoomEnable;                                  // Create room no. enable
-    EM_CFG_BUILDING_SYSTEM_TYPE     emSystemType;                                       // System type 
-}CFG_BUILDING_INFO;
-
-//VTO floor expansion config(corresponding to  CFG_CMD_BUILDING_EXTERNAL  command)
-typedef struct tagCFG_BUILDING_EXTERNAL_INFO
-{
-    int                                     nFloorCount;                                            // Unit total floor
-    int                                     nRoomCount;                                             // Room on one floor
-    int                                     nBeginNumberCount;                                      // Get/setup£¬corresponding room no. valid number
-    // When get, gotten start room no. exceeds MAX_FLOOR_NUM£¬first MAX_FLOOR_NUM is valid
-    // When set, set start room no. exceeds MAX_FLOOR_NUM£¬first MAX_FLOOR_NUM is valid
-    char                                    szBeginNumber[MAX_FLOOR_NUM][CFG_COMMON_STRING_16];     // Start room no.£¬nBeginNumber[0] as first floor start room no.£¬nBeginNumber[1] as second start room no.£¬
-    int                                     nTotalBuildingNumber;                                   // Residence total building no.£¬range: 0 ~ 99
-    int                                     nBuildingPerUintNumber;                                 // Unit in each building£¬range: 0 ~ 9
-}CFG_BUILDING_EXTERNAL_INFO;
-
-//Dial rule(corresponding to  CFG_CMD_DIALRULE  command)
-typedef struct tagCFG_DIALRULE_INFO
-{
-    BOOL                            bBuildingModeEnable;            //Building mode enable
-    BOOL                            bUnitModeEnable;                //Unit modeenable
-    BOOL                            bExtentionModeEnable;           //Extension mode enable
-    char                            cSeperator;                     //Dial saparator, as "#", "-"
-    BYTE				            byReserved[3];				    //Field alignment 
-}CFG_DIALRULE_INFO;
-
 // vehicle tank config
 typedef struct tagCFG_OIL_MASS_INFO
 {
@@ -8602,259 +7591,6 @@ typedef struct tagCFG_ENCLOSURE_TIME_SCHEDULE_INFO
     ENCLOSURE_TIME_SCHEDULE_INFO       stuEnclosureInfo[MAX_ENCLOSURE_NUM];     // fence info
     char                               szVersion[CFG_COMMON_STRING_64];         // fence period config version no.
 } CFG_ENCLOSURE_TIME_SCHEDULE_INFO;
-
-// Parking lot entrance/exit controller working mode
-typedef enum tagEM_ECK_WORK_MODE_TYPE
-{
-    EM_ECK_WORK_MODE_UNKNOWN = 0,
-    EM_ECK_WORK_MODE_IMPORT,                                    // Entrance controller
-    EM_ECK_WORK_MODE_EXPORT,                                    // Exit controller
-}EM_ECK_WORK_MODE_TYPE;
-
-// Parking extrance/exit controller open mode
-typedef enum tagEM_ECK_STROBE_MODE_TYPE
-{
-    EM_ECK_STROBE_MODE_UNKNOWN = 0,
-    EM_ECK_STROBE_MODE_ON,                                      // Always open
-    EM_ECK_STROBE_MODE_OFF,                                     // Always close
-    EM_ECK_STROBE_MODE_AUTO,                                    // Auto open
-}EM_ECK_STROBE_MODE_TYPE;
-
-// Parking entrance/exit controller roll screen initial rolling speed
-typedef enum tagEM_ECK_LED_SPEED_TYPE
-{
-    EM_ECK_LED_SPEED_UNKNOWN = 0,
-    EM_ECK_LED_SPEED_LOW,                                       // Slow
-    EM_ECK_LED_SPEED_NORMAL,                                    // Normal
-    EM_ECK_LED_SPEED_HIGH,                                      // Fadt
-}EM_ECK_LED_SPEED_TYPE;
-
-// Parking entrance/exit controller LED roll screen config
-typedef struct tagCFG_ECK_LED_INFO 
-{
-    EM_ECK_LED_SPEED_TYPE   emLEDSpeed;                         // LED roll screen initial rolling speed
-    char                    szCustomData[CFG_COMMON_STRING_512];// LED roll screen initial custom character, valid length 0-256 bytes
-}CFG_ECK_LED_INFO;
-
-// Parking entrance/exit controller config 
-typedef struct tagCFG_ECKCONFIG_INFO 
-{
-    EM_ECK_WORK_MODE_TYPE   emWorkMode;                         // Working mode
-    EM_ECK_STROBE_MODE_TYPE emStrobeMode;                       // Open mode
-    BOOL                    bForceOffline;                      // Forced offline button, TRUE: forced offline work,  FALSE: accept platform control work
-    BOOL                    bLoopSence;                         // Sensor function switch, TRUE: enable senser function, FALSE: disable sensor function
-    CFG_ECK_LED_INFO        stuLED;                             // Roll screen config
-}CFG_ECKCONFIG_INFO;
-
-//  Parking entrance/exit swiping card alarm event config(correspoinding CFG_CMD_PARKING_CARD command)
-typedef struct tagCFG_PARKING_CARD_INFO
-{
-    BOOL                            bEnable;                // Enable or not
-    CFG_ALARM_MSG_HANDLE            stuEventHandler;        // Alarm link
-} CFG_PARKING_CARD_INFO;
-
-// Alarm method, as alarm sent out via which method
-typedef enum tagEM_CFG_RCEMERGENCY_MODE_TYPE
-{
-    EM_CFG_RCEMERGENCY_MODE_UNKNOWN = 0,
-    EM_CFG_RCEMERGENCY_MODE_KEYBOARD,                       // Keyboard
-    EM_CFG_RCEMERGENCY_MODE_WIRELESS_CONTROL,               // Remote control
-}EM_CFG_RCEMERGENCY_MODE_TYPE;
-
-// Emergency alarm type 
-typedef enum tagEM_CFG_RCEMERGENCY_CALL_TYPE
-{
-    EM_CFG_RCEMERGENCY_CALL_UNKNOWN = 0,
-    EM_CFG_RCEMERGENCY_CALL_FIRE,                           // Fire
-    EM_CFG_RCEMERGENCY_CALL_DURESS,                         // Forced
-    EM_CFG_RCEMERGENCY_CALL_ROBBER,                         // Police
-    EM_CFG_RCEMERGENCY_CALL_MEDICAL,                        // Medical
-}EM_CFG_RCEMERGENCY_CALL_TYPE;
-
-// Emergence call alarm event config(corresponding to  CFG_CMD_RCEMERGENCYCALL  command)
-typedef struct tagCFG_RCEMERGENCY_CALL_INFO 
-{
-    BOOL                            bEnable;                // Enable or not
-    EM_CFG_RCEMERGENCY_MODE_TYPE    emMode;                 // Alarm method
-    EM_CFG_RCEMERGENCY_CALL_TYPE    emAlarmType;            // Alarm type 
-    CFG_ALARM_MSG_HANDLE            stuEventHandler;        // Alarm link
-}CFG_RCEMERGENCY_CALL_INFO;
-
-// Lane info report config(corresponding to  CFG_CMD_LANES_STATE_REPORT  command)
-typedef struct tagCFG_LANES_STATE_REPORT
-{
-    BOOL                bEnable;        //Report eanble	true: report enable ,false: report disable
-    int                 nPeriod;        //Report period	unit£ºs
-}CFG_LANES_STATE_REPORT;
-
-#define CFG_MAX_USER_ID_LEN                     32              // Access controlcard user ID max length
-
-// Multi-people group unlock method
-typedef enum tagEM_CFG_OPEN_DOOR_GROUP_METHOD
-{
-    EM_CFG_OPEN_DOOR_GROUP_METHOD_UNKNOWN = 0,
-    EM_CFG_OPEN_DOOR_GROUP_METHOD_CARD,                         // Swipe card
-    EM_CFG_OPEN_DOOR_GROUP_METHOD_PWD,                          // Password
-    EM_CFG_OPEN_DOOR_GROUP_METHOD_FINGERPRINT,                  // Fingerprint
-}EM_CFG_OPEN_DOOR_GROUP_METHOD;
-
-// Multi-group unlock detail info 
-typedef struct tagCFG_OPEN_DOOR_GROUP_DETAIL 
-{
-    char                            szUserID[CFG_MAX_USER_ID_LEN];  // UserID
-    EM_CFG_OPEN_DOOR_GROUP_METHOD   emMethod;                       // Unlock method
-}CFG_OPEN_DOOR_GROUP_DETAIL;
-
-#define CFG_MAX_OPEN_DOOR_GROUP_DETAIL_NUM      64               // Each group multi-people unlock group max number
-
-// Multi-people group unlock group info 
-typedef struct tagCFG_OPEN_DOOR_GROUP 
-{
-    int                         nUserCount;                     // User quantity£¬means people needed to unlock
-    int                         nGroupNum;                      // Valid group number
-    CFG_OPEN_DOOR_GROUP_DETAIL  stuGroupDetail[CFG_MAX_OPEN_DOOR_GROUP_DETAIL_NUM];// Multi-people group unlock group detail info 
-}CFG_OPEN_DOOR_GROUP;
-
-#define CFG_MAX_OPEN_DOOR_GROUP_NUM             4               // Multi-people unlock group max group number
-
-// Multi-people unlock method group(corresponding to  CFG_CMD_OPEN_DOOR_GROUP  command), means each channel group info £¬
-// Each channel group unlock priority is the highest, decending one by one
-typedef struct tagCFG_OPEN_DOOR_GROUP_INFO 
-{
-    int                         nGroup;                         // Valid group number
-    CFG_OPEN_DOOR_GROUP         stuGroupInfo[CFG_MAX_OPEN_DOOR_GROUP_NUM];// Multi-people unlock group info 
-}CFG_OPEN_DOOR_GROUP_INFO;
-
-#define MAX_READER_ID_LEN                       32              // Card reader ID max length
-
-// Unlock path each node info 
-typedef struct tagCFG_DOOR_ROUTE_NODE_INFO
-{
-    char                        szReaderID[MAX_READER_ID_LEN];  // card reader ID£¬ as access control connected card reader ID
-}CFG_DOOR_ROUTE_NODE_INFO;
-
-// Each unlock path max node(card reader quantity)
-#define MAX_DOOR_ROUTE_NODE_NUM     4
-
-// Foor group set info £¬by group subscript ascending, means unlock path
-typedef struct tagCFG_DOOR_ROUTE_INFO
-{
-    int                         nDoors;                             // Unlock pathvalid node number
-    CFG_DOOR_ROUTE_NODE_INFO    stuDoors[MAX_DOOR_ROUTE_NODE_NUM];  // Unlock path node info 
-}CFG_DOOR_ROUTE_INFO;
-
-#define MAX_OPEN_DOOR_ROUTE_NUM                 16                  // Max unlock path quantity
-
-// Unlock path set£¬or anti-passby path config(corresponding to  CFG_CMD_OPEN_DOOR_ROUTE  command)
-typedef struct tagCFG_OPEN_DOOR_ROUTE_INFO
-{
-    int                         nDoorList;
-    CFG_DOOR_ROUTE_INFO         stuDoorList[MAX_OPEN_DOOR_ROUTE_NUM];
-}CFG_OPEN_DOOR_ROUTE_INFO;
-
-#define MAX_BURNPLAN_DEVICES_NUM                     32
-#define MAX_BURNPLAN_CHANNELS_NUM                     32
-
-// Burning stream format
-typedef enum tagEM_CFG_BURNPLAN_RECORDPACK_TYPE
-{
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE_UNKNOWN,        // Unknown
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE_DHAV,           // "DHAV"
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE_PS,             // "PS"
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE_ASF,            // "ASF"
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE_MP4,            // "MP4"
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE_TS,             // "TS"
-}EM_CFG_BURNPLAN_RECORDPACK_TYPE;
-
-// Burning mode
-typedef enum tagEM_CFG_BURNPLAN_MODE
-{
-    EM_CFG_BURNPLAN_MODE_UNKNOWN,           // Unknown
-    EM_CFG_BURNPLAN_MODE_SYNC,              // Sync£º "Sync"
-    EM_CFG_BURNPLAN_MODE_TURN,              // Turn:  "Turn"
-    EM_CFG_BURNPLAN_MODE_CYCLE,             // cycle:  "Cycle"
-}EM_CFG_BURNPLAN_MODE;
-
-// Burning plan info 
-typedef struct tagCFG_BURNPLAN_DETAIL
-{
-    int                                 nSessionId;                             // Interrogation room
-    int                                 nDevicesNum;                            // Joined session device list valid number
-    int                                 nDevices[MAX_BURNPLAN_DEVICES_NUM];     // Joined session device list
-    int                                 nChannelsNum;                           // Burning video channel valid number
-    int                                 nChannels[MAX_BURNPLAN_CHANNELS_NUM];   // Burned video channel
-    EM_CFG_BURNPLAN_RECORDPACK_TYPE     emRecordpack;                           // Burning stream format
-    EM_CFG_BURNPLAN_MODE                emMode;                                 // Burning mode
-    CFG_NET_TIME                        stuStarttime;                           // Burning start time
-}CFG_BURNPLAN_DETAIL;
-
-#define MAX_BURNPLAN_DETAIL_NUM          32
-
-// Burning plan config(corresponding to CFG_BURNPLAN_INFO)
-typedef struct tagCFG_BURNPLAN_INFO
-{
-    int                         nBurnPlanDetailNum;                                 // Burning plan info list valid number
-    CFG_BURNPLAN_DETAIL         stuBurnPlanDetail[MAX_BURNPLAN_DETAIL_NUM];         // Burning plan info list
-}CFG_BURNPLAN_INFO;
-
-typedef struct tagCFG_SCADA_DEV_INFO 
-{
-    BOOL                            bEnable;                // Enable or not
-    char                            szDevType[CFG_COMMON_STRING_64];// Device type 
-    char                            szDevName[CFG_COMMON_STRING_64];// Devicename, SN
-    int                             nSlot;                  // Virtual slot no., , see AlarmSlotBond config
-    int                             nLevel;                 // If Slot binding is NetCollectiontype, this field is-1
-    CFG_ALARM_MSG_HANDLE            stuEventHandler;        // Alarm link
-}CFG_SCADA_DEV_INFO;
-
-// Channel related info 
-typedef struct tagCFG_VSP_GAYS_CHANNEL_INFO
-{
-    char                            szId[CFG_COMMON_STRING_64];             // Channel no.	string£¨24 bit£©
-    int                             nAlarmLevel;                            // Alarm level [1,6]	whole
-}CFG_VSP_GAYS_CHANNEL_INFO;
-
-// Alarm related info 
-typedef struct tagCFG_VSP_GAYS_ALARM_INFO
-{
-    char                            szId[CFG_COMMON_STRING_64];             // Channel no.	string£¨24 bit£©
-    int                             nAlarmLevel;                            // Alarm level[1,6]	whold
-}CFG_VSP_GAYS_ALARM_INFO;
-
-// Public security 1 platform input config(CFG_VSP_GAYS_INFO)
-typedef struct tagCFG_VSP_GAYS_INFO
-{
-    BOOL                            bEnable;                                // Enable or not, TRUE enable£¬FALSE disable
-    char                            szSipSvrId[CFG_COMMON_STRING_64];       // SIP server no.	string£¨24 bits£©
-    char                            szDomain[CFG_COMMON_STRING_256];        // SIP domain	 string£¨128 bits£©
-    char                            szSipSvrIp[CFG_COMMON_STRING_32];       // SIP server IP	 string£¨16 bits£©
-    char                            szDeviceId[CFG_COMMON_STRING_64];       // Device no.£¬as registered username	 string£¨24 bits£©
-    char                            szPassword[CFG_COMMON_STRING_64];       // Registration password , ciphertext string£¨24 bits£©
-    unsigned short                  nLocalSipPort;                          // Local SIP server port	no symbol short whole 
-    unsigned short                  nSipSvrPort;                            // SIP server port	no symbol short whole 
-    int                             nSipRegExpires;                         // Registration validity	 whole 
-    int                             nKeepAliveCircle;                       // Beat period	 whole 
-    int                             nMaxTimeoutTimes;                       // Max beat overtime times	 whole 
-    char                            szCivilCode[CFG_COMMON_STRING_64];      // District code 	 string£¨24 bits£©
-    char                            szIntervideoID[CFG_COMMON_STRING_64];   // Input module recognition code 	 string£¨24 bits£©
-    unsigned short                  nChannelSum;                            // Channel no.	no symbol short whole 
-    unsigned short                  nAlarmInSum;                            // External alarm input number	no symbol short whole 
-    CFG_VSP_GAYS_CHANNEL_INFO       stuChannelInfo[MAX_VIDEO_CHANNEL_NUM];  // Chanel related info 	group£¬valid number same as channelSum
-    CFG_VSP_GAYS_ALARM_INFO         stuAlarmInfo[MAX_ALARM_CHANNEL_NUM];    // Alarm related info 	group£¬valid number same as alarmInSum
-}CFG_VSP_GAYS_INFO;
-
-// Audio detection alarm config(CFG_CMD_AUDIODETECT)
-typedef struct tagCFG_AUDIO_DETECT_INFO
-{
-    BOOL                            bEnable;                                // Enable or not£¬TRUE enable£¬FALSE disable
-    int                             nMinVolume;                             // Min Volume
-    int                             nMaxVolume;                             // Max Volume
-    BOOL                            bAnomalyDetect;                         // Sound abnormal detection enable
-    int                             nAnomalySensitive;                      // Sound abnormal detection sensitivity value	range 1~100
-    BOOL                            bMutationDetect;                        // Sound intensity detection enable
-    int                             nMutationThreold;                       // Sound intensity detection threshold value	range 1~100
-    CFG_ALARM_MSG_HANDLE            stuEventHandler;						// Link config
-}CFG_AUDIO_DETECT_INFO;
 
 /************************************************************************
  ** Interface Definition 
