@@ -10,11 +10,6 @@
 					<ResourceDictionary.MergedDictionaries>
 						<ResourceDictionary Source="ProcedureResources.xaml" />
 					</ResourceDictionary.MergedDictionaries>
-					<Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
-						<Setter Property="Width" Value="118" />
-						<Setter Property="Margin" Value="2" />
-						<Setter Property="Foreground" Value="White" />
-					</Style>
 				</ResourceDictionary>
 			</StackPanel.Resources>
 			<StackPanel Orientation="Horizontal">
@@ -43,7 +38,7 @@
 				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="С подтверждением" />
+				<Label Content="Подтверждение" />
 				<CheckBox IsChecked="{Binding WithConfirmation}" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding WithConfirmation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
