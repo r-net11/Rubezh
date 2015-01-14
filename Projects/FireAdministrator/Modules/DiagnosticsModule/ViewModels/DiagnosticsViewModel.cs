@@ -1,16 +1,9 @@
 ﻿using System;
-using System.IO;
 using DiagnosticsModule.Models;
-using FiresecAPI;
 using FiresecAPI.Journal;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
 using FiresecClient;
-using GKModule.ViewModels;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Ionic.Zip;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -21,6 +14,7 @@ namespace DiagnosticsModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			AddJournalCommand = new RelayCommand(OnAddJournal);
+			AddManyJournalCommand = new RelayCommand(OnAddManyJournal);
 			SaveCommand = new RelayCommand(OnSave);
 			LoadCommand = new RelayCommand(OnLoad);
 
@@ -33,6 +27,28 @@ namespace DiagnosticsModule.ViewModels
 			journalItem.DeviceDateTime = DateTime.Now;
 			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
 			FiresecManager.FiresecService.AddJournalItem(journalItem);
+		}
+
+		public RelayCommand AddManyJournalCommand { get; private set; }
+		void OnAddManyJournal()
+		{
+			
+			var subsystemTypes = Enum.GetValues(typeof(JournalSubsystemType));
+			var nameTypes = Enum.GetValues(typeof(JournalEventNameType));
+			var descriptionTypes = Enum.GetValues(typeof(JournalEventDescriptionType));
+			var objectTypes = Enum.GetValues(typeof(JournalObjectType));
+			var rnd = new Random();
+			for (int i = 0; i < 10000; i++)
+			{
+				var journalItem = new JournalItem();
+				journalItem.DeviceDateTime = DateTime.Now;
+				journalItem.JournalSubsystemType = (JournalSubsystemType)subsystemTypes.GetValue(rnd.Next(subsystemTypes.Length));
+				journalItem.JournalEventNameType = (JournalEventNameType)nameTypes.GetValue(rnd.Next(nameTypes.Length));
+				journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)descriptionTypes.GetValue(rnd.Next(descriptionTypes.Length));
+				journalItem.JournalObjectType = (JournalObjectType)objectTypes.GetValue(rnd.Next(objectTypes.Length));
+				FiresecManager.FiresecService.AddJournalItem(journalItem);
+			}
+			
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

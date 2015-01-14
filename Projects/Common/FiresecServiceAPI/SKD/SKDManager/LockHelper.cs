@@ -18,6 +18,8 @@ namespace FiresecAPI.SKD
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Failure);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
+			driver.AvailableStateClasses.Add(XStateClass.On);
+			driver.AvailableStateClasses.Add(XStateClass.Off);
 
 			return driver;
 		}

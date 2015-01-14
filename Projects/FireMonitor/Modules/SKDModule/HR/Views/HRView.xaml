@@ -92,9 +92,7 @@
 					  IsChecked="{Binding IsWithDeleted}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ToolBarButton ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" 
 						   Command="{Binding EditFilterCommand}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-            <ToolBarButton ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" 
-						   Command="{Binding ShowCardReportFilterDetailsCommand}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ComboBox Width="100" ItemsSource="{Binding PersonTypes}" SelectedItem="{Binding SelectedPersonType}">
 						<ComboBox.ItemTemplate>
