@@ -28,6 +28,7 @@ namespace ReportsModule.ViewModels
 		public SKDReportPresenterViewModel()
 		{
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
+			RefreshReportCommand = new RelayCommand(OnRefreshReport, CanRefreshReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
 		}
 
@@ -163,6 +164,16 @@ namespace ReportsModule.ViewModels
 			return _reportProvider != null && _reportProvider is IFilteredSKDReportProvider;
 		}
 
+		public RelayCommand RefreshReportCommand { get; private set; }
+		private void OnRefreshReport()
+		{
+			BuildReport();
+		}
+		private bool CanRefreshReport()
+		{
+			return SelectedReport != null && SelectedReport is SKDReportViewModel && ((SKDReportViewModel)SelectedReport).ReportProvider != null;
+		}
+
 		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
 		private void OnFitPageSize(ZoomFitMode fitMode)
 		{
@@ -170,7 +181,7 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CanFitPageSize(ZoomFitMode fitMode)
 		{
-			return Model != null && !Model.IsEmptyDocument;
+			return Model.PrintCommand.CanExecute(null);
 		}
 	}
 }

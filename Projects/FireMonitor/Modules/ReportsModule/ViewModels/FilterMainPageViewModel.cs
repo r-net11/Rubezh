@@ -14,10 +14,12 @@ namespace ReportsModule.ViewModels
 		private Action<SKDReportFilter> _loadFilterAction;
 		private Type _filterType;
 		private bool _isLoaded;
+		private SKDReportFilter _filter;
 		public FilterMainPageViewModel(FilterModel model, SKDReportFilter filter, Action<SKDReportFilter> loadFilterAction, Action<SKDReportFilter> updateFilterAction)
 		{
 			_isLoaded = false;
 			Title = "Настройки";
+			_filter = filter;
 			_loadFilterAction = loadFilterAction;
 			_updateFilterAction = updateFilterAction;
 			MainViewModel = model.MainViewModel;
@@ -51,6 +53,7 @@ namespace ReportsModule.ViewModels
 				if (SelectedFilter != null)
 				{
 					FilterName = SelectedFilter.Name;
+					_filter.Name = FilterName;
 					if (_isLoaded)
 						_loadFilterAction(SelectedFilter);
 				}

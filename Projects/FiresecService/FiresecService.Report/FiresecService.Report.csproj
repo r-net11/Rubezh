@@ -205,6 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Templates\BaseReport.resx">
+      <DependentUpon>BaseReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\EmptyReport.resx">
       <DependentUpon>EmptyReport.cs</DependentUpon>
     </EmbeddedResource>

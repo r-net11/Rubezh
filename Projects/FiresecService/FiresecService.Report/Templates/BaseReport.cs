@@ -12,6 +12,7 @@ namespace FiresecService.Report.Templates
 			InitializeComponent();
 			_topMargin = TopMargin.HeightF;
 			_bottomMargin = BottomMargin.HeightF;
+			Name = ReportTitle;
 		}
 
 		private void BaseReport_DataSourceDemanded(object sender, EventArgs e)

@@ -39,8 +39,7 @@ namespace ReportsModule.ViewModels
 				OnPropertyChanged(() => Pages);
 			}
 		}
-
-
+		
 		protected override bool Save()
 		{
 			UpdateFilter(Filter);
