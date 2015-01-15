@@ -50,7 +50,7 @@ namespace SKDModule.Views
 			if (employeesViewModel.AdditionalColumnNames == null)
 				return;
 
-			var columnCount = employeesViewModel.IsWithDeleted ? 4 : 3;
+			var columnCount = 2;
 			for (int i = gridView.Columns.Count - 1; i >= columnCount; i--)
 			{
 				gridView.Columns.RemoveAt(i);

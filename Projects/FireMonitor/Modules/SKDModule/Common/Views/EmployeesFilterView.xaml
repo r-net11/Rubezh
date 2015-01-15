@@ -33,7 +33,7 @@
 		</tree:TreeList>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" IsEnabled="{Binding IsSelection}" >
 			<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-			<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+            <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
 		</StackPanel>
 		<CheckBox Grid.Row="2" Margin="5" Content="Поиск" Foreground="White" IsChecked="{Binding IsSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		<Grid Grid.Row="3" IsEnabled="{Binding IsSearch}" >

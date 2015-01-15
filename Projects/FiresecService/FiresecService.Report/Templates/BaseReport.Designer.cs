@@ -170,6 +170,8 @@
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.TopMargin,
             this.BottomMargin});
+			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
+			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
 			this.Margins = new System.Drawing.Printing.Margins(100, 100, 152, 120);
 			this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
             this.ReportName,

@@ -18,7 +18,7 @@
 		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedDocumentType}" Source="{Binding Organisations}" Margin="2">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" Width="200">
+					<GridViewColumn Header="Название">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

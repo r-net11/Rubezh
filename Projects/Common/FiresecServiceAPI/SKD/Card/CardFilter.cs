@@ -12,7 +12,6 @@ namespace FiresecAPI.SKD
 		{
 			DeactivationType = LogicalDeletationType.All;
 			CardTypes = new List<CardType>();
-			HolderUIDs = new List<Guid>();
 			EndDate = DateTime.Now.Date;
 		}
 
@@ -29,7 +28,7 @@ namespace FiresecAPI.SKD
 		public List<CardType> CardTypes { get; set; }
 
 		[DataMember]
-		public List<Guid> HolderUIDs { get; set; }
+		public EmployeeFilter EmployeeFilter { get; set; }
 	}
 
 	public class CardReportItem

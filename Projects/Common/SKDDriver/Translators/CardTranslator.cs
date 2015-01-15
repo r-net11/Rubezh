@@ -117,14 +117,14 @@ namespace SKDDriver
 					break;
 			}
 
-			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
+			if (filter.EmployeeFilter != null)
 			{
-				result = result.And(e => (e.Employee != null && filter.OrganisationUIDs.Contains(e.Employee.OrganisationUID.Value)) || e.IsInStopList);
-			}
-
-			if (filter.HolderUIDs.IsNotNullOrEmpty())
-			{
-				result = result.And(e => (e.EmployeeUID != null && filter.HolderUIDs.Contains(e.EmployeeUID.Value)));
+				var employees = DatabaseService.EmployeeTranslator.GetList(filter.EmployeeFilter);
+				if (employees != null && !employees.HasError)
+				{
+					var employeeUIDs = employees.Result.Select(x => x.UID).ToList();
+					result = result.And(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+				}
 			}
 
 			if (filter.IsWithEndDate)
@@ -149,7 +149,7 @@ namespace SKDDriver
 					return new OperationResult<List<CardReportItem>>(employeesResult.Error);
 				var employees = employeesResult.Result;
 				var cardFilter = cardReportFilter.CardFilter;
-				cardFilter.HolderUIDs = employees.Select(x => x.UID).ToList();
+				//cardFilter.HolderUIDs = employees.Select(x => x.UID).ToList();
 				var cardsResult = Get(cardReportFilter.CardFilter);
 				if (cardsResult.HasError)
 					return new OperationResult<List<CardReportItem>>(cardsResult.Error);

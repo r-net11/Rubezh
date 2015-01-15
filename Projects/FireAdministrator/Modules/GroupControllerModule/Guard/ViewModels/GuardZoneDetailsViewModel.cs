@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 					No = 1
 				};
 				if (GKManager.DeviceConfiguration.GuardZones.Count != 0)
-					Zone.No = (ushort)(GKManager.DeviceConfiguration.GuardZones.Select(x => x.No).Max() + 1);
+					Zone.No = (GKManager.DeviceConfiguration.GuardZones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{

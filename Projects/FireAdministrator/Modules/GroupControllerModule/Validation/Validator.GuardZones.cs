@@ -12,6 +12,7 @@ namespace GKModule.Validation
 		void ValidateGuardZones()
 		{
 			ValidateGuardZoneNoEquality();
+			ValidateGuardZoneSameDevices();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
@@ -30,6 +31,22 @@ namespace GKModule.Validation
 			{
 				if (!zoneNos.Add(guardZone.No))
 					Errors.Add(new GuardZoneValidationError(guardZone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateGuardZoneSameDevices()
+		{
+			var deviceUIDs = new HashSet<Guid>();
+			foreach (var guardZone in GKManager.GuardZones)
+			{
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+				{
+					if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+					{
+						if (!deviceUIDs.Add(guardZoneDevice.Device.UID))
+							Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже участвует в другой охранной зоне", ValidationErrorLevel.CannotWrite));
+					}
+				}
 			}
 		}
 

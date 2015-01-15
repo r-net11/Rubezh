@@ -7,15 +7,15 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Индексатор" Width="150" />
+			<Label Content="Индексатор" />
 			<Views:ArgumentView DataContext="{Binding IndexerArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Начальное значение" Width="150" />
+			<Label Content="Начальное" />
 			<Views:ArgumentView DataContext="{Binding InitialValueArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Условие" Width="150" />
+			<Label Content="Условие" />
 			<ComboBox ItemsSource="{Binding ConditionTypes}" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -25,11 +25,11 @@
 			</ComboBox>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Значение" Width="150" />
+			<Label Content="Текущее" />
 			<Views:ArgumentView DataContext="{Binding ValueArgument}" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Label Content="Итератор" Width="150" />
+			<Label Content="Итератор" />
 			<Views:ArgumentView DataContext="{Binding IteratorArgument}" />
 		</StackPanel>
 	</StackPanel>

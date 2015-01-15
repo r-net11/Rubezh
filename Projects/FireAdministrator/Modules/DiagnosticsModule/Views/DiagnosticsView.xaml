@@ -18,6 +18,7 @@
 				<Grid>
 					<StackPanel>
 						<Button Width="100" Margin="2" Command="{Binding AddJournalCommand}" Content="AddJournal" />
+                        <Button Width="100" Margin="2" Command="{Binding AddManyJournalCommand}" Content="AddManyJournal" />
 						<Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Save" />
 						<Button Width="100" Margin="2" Command="{Binding LoadCommand}" Content="Load" />
 					</StackPanel>

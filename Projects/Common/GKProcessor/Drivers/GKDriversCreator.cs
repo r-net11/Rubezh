@@ -50,7 +50,7 @@ namespace GKProcessor
 			AddDriverToKau(AM_4_Helper.Create());
 			AddDriverToKau(AMP_4_Helper.Create());
 
-			GKManager.DriversConfiguration.Drivers.Add(RSR2_RM_1_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_RM_1_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_AM_1_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_HandDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_SmokeDetector_Helper.Create());

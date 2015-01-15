@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -36,6 +38,16 @@ namespace SKDModule.ViewModels
 		protected override string ItemRemovingName
 		{
 			get { return "дополнительную колонку"; }
+		}
+
+		protected override void AfterRemove()
+		{
+			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
+		}
+
+		protected override void AfterRestore()
+		{
+			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
 		}
 	}
 }

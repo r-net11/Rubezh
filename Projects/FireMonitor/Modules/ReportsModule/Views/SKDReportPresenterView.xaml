@@ -16,7 +16,7 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<ToolBarButton Command="{Binding ChangeFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
-				<ToolBarButton ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить отчет" />
+				<ToolBarButton Command="{Binding RefreshReportCommand}"  ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить отчет" />
 				<ToolBarButton Command="{Binding Model.FirstPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Начальная страница" />
 				<ToolBarButton Command="{Binding Model.PreviousPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Предыдущая страница" />
 				<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding Model.CurrentPageNumber, ElementName=viewer, UpdateSourceTrigger=Explicit}" IsEnabled="{Binding Model.PageCount, ElementName=viewer, FallbackValue={StaticResource False}}" />
@@ -35,102 +35,59 @@
 			</DockPanel>
 			<StackPanel Grid.Column="2" Orientation="Horizontal">
 				<ToolBarButton Command="{Binding Model.PrintCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Pdf" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в PDF" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Htm" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в HTM" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Mht" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в MHT" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Rtf" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в RTF" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xls" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XLS" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XLSX" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в CSV" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в TXT" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
-				<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XPS" />
-				<Menu>
-					<IconedMenuItem ImageSource="/Controls;component/Images/Pdf.png">
-						<IconedMenuItem ImageSource="/Controls;component/Images/Pdf.png" />
-						<IconedMenuItem ImageSource="/Controls;component/Images/Pdf.png" />
-						<IconedMenuItem ImageSource="/Controls;component/Images/Pdf.png" />
-						<IconedMenuItem ImageSource="/Controls;component/Images/Pdf.png" />
-						<IconedMenuItem ImageSource="/Controls;component/Images/Pdf.png" />
-					</IconedMenuItem>
-				</Menu>
-				<ComboBox ToolTip="Экспорт документа">
-					<ComboBox.Style>
-						<Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
-							<Setter Property="MinWidth" Value="40" />
-							<Setter Property="MinHeight" Value="40" />
-							<Setter Property="Width" Value="40" />
-							<Setter Property="Height" Value="40" />
-							<Setter Property="Background" Value="Transparent" />
-							<Setter Property="Template">
-								<Setter.Value>
-									<ControlTemplate TargetType="ComboBox">
-										<Grid>
-											<ToggleButton Name="ToggleButton" Height="NaN" ClickMode="Press" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-												<ToggleButton.Template>
-													<ControlTemplate TargetType="{x:Type ToggleButton}">
-														<Border Name="border" Margin="2" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" CornerRadius="2" Padding="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
-															<Image Margin="3" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Controls;component/Images/Pdf.png" />
-														</Border>
-														<ControlTemplate.Triggers>
-															<Trigger Property="UIElement.IsMouseOver" Value="True">
-																<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
-																<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
-															</Trigger>
-															<Trigger Property="ToggleButton.IsPressed" Value="True">
-																<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
-															</Trigger>
-															<Trigger Property="ToggleButton.IsChecked" Value="True">
-																<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
-															</Trigger>
-															<Trigger Property="ToggleButton.IsEnabled" Value="False">
-																<Setter TargetName="border" Property="Opacity" Value="0.5" />
-															</Trigger>
-														</ControlTemplate.Triggers>
-													</ControlTemplate>
-												</ToggleButton.Template>
-											</ToggleButton>
-											<Popup Name="Popup" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" PopupAnimation="Slide">
-												<Grid Name="DropDown" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" SnapsToDevicePixels="True">
-													<Border x:Name="DropDownBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="Black" BorderThickness="1" />
-													<ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
-														<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-													</ScrollViewer>
-												</Grid>
-											</Popup>
-										</Grid>
-										<ControlTemplate.Triggers>
-											<Trigger Property="IsEnabled" Value="false">
-												<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
-											</Trigger>
-											<Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
-												<Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
-												<Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
-											</Trigger>
-										</ControlTemplate.Triggers>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-							<Style.Triggers />
-						</Style>
-					</ComboBox.Style>
-					<ComboBoxItem>
-						<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
-					</ComboBoxItem>
-					<ComboBoxItem>
-						<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
-					</ComboBoxItem>
-					<ComboBoxItem>
-						<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
-					</ComboBoxItem>
-					<ComboBoxItem>
-						<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
-					</ComboBoxItem>
-					<ComboBoxItem>
-						<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
-					</ComboBoxItem>
-				</ComboBox>
-				<ToolBarButton Command="{Binding Model.ZoomOutCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
+				<ToggleButton x:Name="button" Width="40" Height="40">
+					<ToggleButton.Template>
+						<ControlTemplate>
+							<Border Name="border" Margin="2" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="Экспорт документа" ToolTipService.ShowOnDisabled="True">
+								<Image Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Controls;component/Images/Pdf.png" />
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="UIElement.IsMouseOver" Value="True">
+									<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+									<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
+								</Trigger>
+								<Trigger Property="Button.IsPressed" Value="True">
+									<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+								</Trigger>
+								<Trigger Property="ToggleButton.IsChecked" Value="True">
+									<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
+								</Trigger>
+								<Trigger Property="Button.IsEnabled" Value="False">
+									<Setter TargetName="border" Property="Opacity" Value="0.5" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</ToggleButton.Template>
+				</ToggleButton>
+				<Popup IsOpen="{Binding IsChecked, ElementName=button, Mode=TwoWay}" Placement="Bottom" PlacementTarget="{Binding ElementName=button}" StaysOpen="False" AllowsTransparency="True">
+					<Border CornerRadius="5" BorderThickness="1" BorderBrush="{DynamicResource WindowBorderBrush}" Background="{DynamicResource BackgroundBrush}">
+						<ItemsControl>
+							<ItemsControl.Triggers>
+								<EventTrigger RoutedEvent="Button.Click">
+									<BeginStoryboard>
+										<Storyboard>
+											<BooleanAnimationUsingKeyFrames Storyboard.TargetName="button" Storyboard.TargetProperty="IsChecked">
+												<DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="False" />
+											</BooleanAnimationUsingKeyFrames>
+										</Storyboard>
+									</BeginStoryboard>
+								</EventTrigger>
+							</ItemsControl.Triggers>
+							<ItemsControl.Items>
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Pdf" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в PDF" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Htm" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в HTM" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Mht" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в MHT" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Rtf" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в RTF" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xls" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XLS" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XLSX" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в CSV" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в TXT" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в Image" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Экспорт в XPS" />
+							</ItemsControl.Items>
+						</ItemsControl>
+					</Border>
+				</Popup>
 			</StackPanel>
 		</Grid>
 
