@@ -73,17 +73,6 @@ namespace SKDModule.ViewModels
 			InitializeFilters();
 		}
 
-		public bool IsDebug
-		{
-			get
-			{
-#if DEBUG
-				return true;
-#endif
-				return false;
-			}
-		}
-
 		bool _isEmployeesSelected;
 		public bool IsEmployeesSelected
 		{
@@ -211,7 +200,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
-			var filterViewModel = new HRFilterViewModel(Filter, IsEmployeesSelected);
+			var filterViewModel = new HRFilterViewModel(Filter, IsEmployeesSelected || IsCardsSelected);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				Filter = filterViewModel.Filter;
@@ -222,10 +211,10 @@ namespace SKDModule.ViewModels
 
 		void InitializeFilters()
 		{
-			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType, EmployeeUIDs = Filter.EmplooyeeUIDs };
-			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType, EmployeeUIDs = Filter.EmplooyeeUIDs };
+			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
+			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
-			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			CardFilter = new CardFilter() { OrganisationUIDs = Filter.OrganisationUIDs, EmployeeFilter = Filter.EmployeeFilter };
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 			PassCardTemplateFilter = new PassCardTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };
 

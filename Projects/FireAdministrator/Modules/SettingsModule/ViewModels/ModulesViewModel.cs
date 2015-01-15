@@ -24,7 +24,7 @@ namespace SettingsModule.ViewModels
 			Modules.Add(new ModuleViewModel("JournalModule.dll", "Журнал событий"));
 			Modules.Add(new ModuleViewModel("SoundsModule.dll", "Звуки"));
 			Modules.Add(new ModuleViewModel("SettingsModule.dll", "Настройки", false));
-			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll", "Диагостика"));
+			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll", "Диагностика"));
 
 			//Modules.Add(new ModuleViewModel("DevicesModule.dll", "Устройства FS1"));
 			//Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));			

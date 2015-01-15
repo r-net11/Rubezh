@@ -7,7 +7,7 @@
 		<TabItem Header="Основные">
 			<Grid>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="200" />
+					<ColumnDefinition />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>

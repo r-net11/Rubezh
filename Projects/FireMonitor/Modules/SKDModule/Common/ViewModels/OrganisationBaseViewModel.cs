@@ -317,11 +317,13 @@ namespace SKDModule.ViewModels
 				else
 					SelectedItem = OrganisationViewModel;
 			}
+			AfterRemove();
 		}
 		bool CanRemove()
 		{
 			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation;
 		}
+		protected virtual void AfterRemove() { }
 		protected virtual string ItemRemovingName
 		{
 			get { return "запись"; }
@@ -344,12 +346,14 @@ namespace SKDModule.ViewModels
 				return;
 			SelectedItem.IsDeleted = false;
 			SelectedItem.RemovalDate = "";
+			AfterRestore();
 		}
 		bool CanRestore()
 		{
 			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && ParentOrganisation != null && !ParentOrganisation.IsDeleted;
 		}
-		
+		protected virtual void AfterRestore() { }
+
 		public RelayCommand EditCommand { get; private set; }
 		protected virtual void OnEdit()
 		{

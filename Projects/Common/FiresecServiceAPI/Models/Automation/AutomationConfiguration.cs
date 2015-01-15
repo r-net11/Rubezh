@@ -298,10 +298,11 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.SendEmail:
 					{
 						var sendEmailArguments = step.SendEmailArguments;
-						InvalidateArgument(procedure, sendEmailArguments.EMailAddressArgument);
+						InvalidateArgument(procedure, sendEmailArguments.EMailAddressFromArgument);
+						InvalidateArgument(procedure, sendEmailArguments.EMailAddressToArgument);
 						InvalidateArgument(procedure, sendEmailArguments.EMailContentArgument);
 						InvalidateArgument(procedure, sendEmailArguments.EMailTitleArgument);
-						InvalidateArgument(procedure, sendEmailArguments.HostArgument);
+						InvalidateArgument(procedure, sendEmailArguments.SmtpArgument);
 						InvalidateArgument(procedure, sendEmailArguments.LoginArgument);
 						InvalidateArgument(procedure, sendEmailArguments.PasswordArgument);
 						InvalidateArgument(procedure, sendEmailArguments.PortArgument);

@@ -13,7 +13,8 @@ namespace Controls
 		private static readonly int HoursMin = 0;
 		private static readonly int MinutesMin = 0;
 
-		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
+		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), 
+			new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
 
 		private static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
@@ -209,6 +210,7 @@ namespace Controls
 					break;
 				case (Key.Back):
 					SetValueAtIndex(0, caretIndex);
+					e.Handled = true;
 					break;
 				default:
 					e.Handled = true;

@@ -44,7 +44,7 @@
 					</ListBox>
 					<StackPanel Grid.Row="1" Orientation="Horizontal">
 						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+                        <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
 					</StackPanel>
 				</Grid>
 			</TabItem>
@@ -71,7 +71,7 @@
 					</ListBox>
 					<StackPanel Grid.Row="1" Orientation="Horizontal">
 						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+                        <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
 					</StackPanel>
 				</Grid>
 			</TabItem>

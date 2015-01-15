@@ -36,6 +36,14 @@ namespace SKDModule.ViewModels
 				{
 					return "Базовый рисунок";
 				}
+				if (State.StateClass == XStateClass.On)
+				{
+					return "Открыто";
+				}
+				if (State.StateClass == XStateClass.Off)
+				{
+					return "Закрыто";
+				}
 				return State.StateClass.ToDescription();
 			}
 		}

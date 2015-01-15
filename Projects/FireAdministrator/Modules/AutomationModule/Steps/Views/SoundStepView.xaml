@@ -5,9 +5,16 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<StackPanel Orientation="Vertical">
-			<StackPanel Grid.Column="0" Margin="2" Orientation="Horizontal">
-				<Label VerticalAlignment="Top" Content="Звук: " />
-				<ComboBox VerticalAlignment="Top" ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}">
+			<StackPanel.Resources>
+				<ResourceDictionary>
+					<ResourceDictionary.MergedDictionaries>
+						<ResourceDictionary Source="ProcedureResources.xaml" />
+					</ResourceDictionary.MergedDictionaries>
+				</ResourceDictionary>
+			</StackPanel.Resources>
+			<StackPanel Margin="2" Orientation="Horizontal">
+				<Label Content="Звук" />
+				<ComboBox ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}" />
@@ -16,8 +23,8 @@
 				</ComboBox>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Margin="2, 2, 0, 2" Content="Всем клиентам" />
-				<CheckBox VerticalAlignment="Center" IsChecked="{Binding ForAllClients}" />
+				<Label Content="Всем клиентам" />
+				<CheckBox IsChecked="{Binding ForAllClients}" />
 			</StackPanel>
 		</StackPanel>
 		<Grid Grid.Column="1" Margin="2" DataContext="{Binding ProcedureLayoutCollectionViewModel}">
