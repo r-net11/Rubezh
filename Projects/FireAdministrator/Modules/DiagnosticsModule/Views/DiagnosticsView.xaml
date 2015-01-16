@@ -11,6 +11,15 @@
                 </DrawingGroup>
             </DrawingBrush.Drawing>
         </DrawingBrush>
+        <DrawingBrush x:Key="UnnamedObject1" Stretch="Uniform">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 168.167,-112.722L 152.208,-112.722L 152.208,-128.681L 141.459,-128.681L 141.459,-112.722L 125.5,-112.722L 125.5,-101.971L 141.459,-101.971L 141.459,-86.0126L 152.208,-86.0126L 152.208,-101.971L 168.167,-101.971L 168.167,-112.722 Z "/>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
     </UserControl.Resources>
         <TabControl>
 		<TabItem Header="Отладка">
@@ -74,6 +83,9 @@
         </TabItem>
         <TabItem Header="Brush">
             <Grid Background="{DynamicResource Add}" Width="31" Height="32" />
+        </TabItem>
+        <TabItem Header="Brush2">
+            <Grid Background="{StaticResource UnnamedObject1}" Width="310" Height="320" />
         </TabItem>
     </TabControl>
 </UserControl>

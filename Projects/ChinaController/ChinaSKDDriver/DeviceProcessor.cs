@@ -60,7 +60,7 @@ namespace ChinaSKDDriver
 					case JournalEventNameType.Проход_разрешен:
 					case JournalEventNameType.Проход_запрещен:
 						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-						var readerDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == skdJournalItem.DoorNo);
+						var readerDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
 						if (readerDevice != null)
 						{
 							journalItem.ObjectUID = readerDevice.UID;

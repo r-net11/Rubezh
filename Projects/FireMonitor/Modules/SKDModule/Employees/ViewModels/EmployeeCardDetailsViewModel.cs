@@ -297,7 +297,14 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
 				{
-					Number = journalItem.CardNo;
+					var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
+					if (journalDetalisationItem != null)
+					{
+						var cardNoString = journalDetalisationItem.Value;
+						int cardNo;
+						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
+						Number = cardNo;
+					}
 				}
 			}
 		}
