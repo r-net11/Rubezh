@@ -1,11 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System;
 
 namespace SKDModule.ViewModels
 {
@@ -21,6 +22,9 @@ namespace SKDModule.ViewModels
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			AddCustomPartCommand = new RelayCommand(OnAddCustomPart);
+			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
+			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
 			DayTimeTrack = dayTimeTrack;
 			ShortEmployee = shortEmployee;
 
@@ -39,7 +43,31 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+
+		bool _IsChanged;
+		public bool IsChanged
+		{
+			get { return _IsChanged; }
+			set
+			{
+				_IsChanged = value;
+				OnPropertyChanged(() => IsChanged);					
+			}
+		}
+		
+			
 		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
+
+		DayTimeTrackPartViewModel _selectedDayTimeTrackPart;
+		public DayTimeTrackPartViewModel SelectedDayTimeTrackPart
+		{
+			get { return _selectedDayTimeTrackPart; }
+			set
+			{
+				_selectedDayTimeTrackPart = value;
+				OnPropertyChanged(() => SelectedDayTimeTrackPart);
+			}
+		}
 
 		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
 
@@ -53,6 +81,46 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedDocument);
 			}
 		}
+
+
+		public RelayCommand AddCustomPartCommand { get; private set; }
+		void OnAddCustomPart()
+		{
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee);
+			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
+			{
+				DayTimeTrackParts.Add(new DayTimeTrackPartViewModel(timeTrackPartDetailsViewModel.UID, timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone));
+				IsChanged = true;
+			}
+		}
+
+		public RelayCommand RemovePartCommand { get; private set; }
+		void OnRemovePart()
+		{
+			var result = PassJournalHelper.DeletePassJournal(SelectedDayTimeTrackPart.UID);
+			if (result)
+			{
+				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
+				SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
+				IsChanged = true;
+			}
+		}
+		bool CanEditRemovePart()
+		{
+			return SelectedDayTimeTrackPart != null;
+		}
+
+		public RelayCommand EditPartCommand { get; private set; }
+		void OnEditPart()
+		{
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan, SelectedDayTimeTrackPart.ExitTimeSpan);
+			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
+			{
+				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone);
+				IsChanged = true;
+			}
+		}
+
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
@@ -102,28 +170,6 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			return base.Save();
-		}
-	}
-
-	public class DayTimeTrackPartViewModel : BaseViewModel
-	{
-		public string ZoneName { get; private set; }
-		public string EnterTime { get; private set; }
-		public string ExitTime { get; private set; }
-
-		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
-		{
-			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-			if (zone != null)
-			{
-				ZoneName = zone.Name;
-			}
-			else
-			{
-				ZoneName = "<Нет в конфигурации>";
-			}
-			EnterTime = timeTrackPart.StartTime.Hours.ToString("00") + ":" + timeTrackPart.StartTime.Minutes.ToString("00") + ":" + timeTrackPart.StartTime.Seconds.ToString("00");
-			ExitTime = timeTrackPart.EndTime.Hours.ToString("00") + ":" + timeTrackPart.EndTime.Minutes.ToString("00") + ":" + timeTrackPart.EndTime.Seconds.ToString("00");
 		}
 	}
 }

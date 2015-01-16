@@ -83,5 +83,13 @@ namespace FiresecAPI
 		OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
 		[OperationContract]
 		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID);
+
+		[OperationContract]
+		OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime);
+		[OperationContract]
+		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime);
+		[OperationContract]
+		OperationResult DeletePassJournal(Guid uid);
+
 	}
 }

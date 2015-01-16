@@ -133,6 +133,7 @@
     <Compile Include="FiresecManager\SKDHelpers\Common.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PassCardTemplateHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\NightSettingsHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\PassJournalHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleZoneHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleDayIntervalHelper.cs" />

@@ -279,6 +279,7 @@
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTimeTrackPartViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
@@ -291,6 +292,7 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
@@ -455,6 +457,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml.cs">
+      <DependentUpon>TimeTrackPartDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
     <Compile Include="Verification\Views\VerificationlView.xaml.cs">
@@ -873,6 +878,10 @@
     <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Verification\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

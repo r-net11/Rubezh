@@ -464,7 +464,8 @@ namespace FiresecAPI.SKD
 						ZoneUID = timeTrackPart.ZoneUID,
 						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
 						EndsInNextDay = timeTrackPart.EndsInNextDay,
-						DayName = timeTrackPart.DayName
+						DayName = timeTrackPart.DayName,
+						PassJournalUID = timeTrackPart.PassJournalUID
 					};
 					result.Add(newTimeTrackPart);
 				}

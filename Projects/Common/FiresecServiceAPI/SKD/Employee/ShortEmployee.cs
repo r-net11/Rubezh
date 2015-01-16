@@ -67,6 +67,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public DateTime LastEmployeeDayUpdate { get; set; }
 
+		[DataMember]
+		public Guid ScheduleUID { get; set; }
+
 		public string Name 
 		{ 
 			get { return FIO; } 
