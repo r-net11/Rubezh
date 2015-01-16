@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => CanSelectEndDate);
 				OnPropertyChanged(() => CanSetUserTime);
 
-				if (value != CardType.Temporary)
+				if (!CanSelectEndDate)
 				{
 					EndDate = StartDate;
 				}
