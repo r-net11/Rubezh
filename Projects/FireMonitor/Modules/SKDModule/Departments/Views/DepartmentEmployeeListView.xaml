@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.DepartmentEmployeeListView"
+<UserControl x:Class="SKDModule.Views.DepartmentEmployeeListView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 >
@@ -56,12 +56,12 @@
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<StackPanel Orientation="Horizontal">
-				<ToolBarButton ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
-				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
-				<ToolBarButton ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-				<ToolBarButton ImageSource="/Controls;component/Images/ChiefW.png" ToolTip="Назначить руководителя" 
+				<ToolBarButton Background="{DynamicResource Add}"  ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
+				<ToolBarButton Background="{DynamicResource Delete}"  ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
+				<ToolBarButton Background="{DynamicResource Edit}"  ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
+				<ToolBarButton Background="{DynamicResource ChiefW}"  ToolTip="Назначить руководителя" 
 							   Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-				<ToolBarButton ImageSource="/Controls;component/Images/Delete.png" ToolTip="Снять руководителя" 
+				<ToolBarButton Background="{DynamicResource Delete}"  ToolTip="Снять руководителя" 
 							   Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>

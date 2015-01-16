@@ -1,4 +1,4 @@
-﻿<Window x:Class="MultiClientAdministrator.ShellView"
+<Window x:Class="MultiClientAdministrator.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -11,9 +11,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-            <Controls:ToolBarButton Command="{Binding SaveCommand}" ToolTip="Сохранить" ImageSource="/Controls;component/Images/Save.png" />
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+            <Controls:ToolBarButton Command="{Binding SaveCommand}" ToolTip="Сохранить" Background="{DynamicResource Save}"  />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

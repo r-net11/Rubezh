@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.TimeTrackDetailsView"
+<UserControl x:Class="SKDModule.Views.TimeTrackDetailsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:SKDModule.Converters"
@@ -65,8 +65,8 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="/Controls;component/Images/Add.png" />
-						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="/Controls;component/Images/Edit.png" />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" Background="{DynamicResource Add}"  />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" Background="{DynamicResource Edit}"  />
 					</StackPanel>
 					<DataGrid Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>

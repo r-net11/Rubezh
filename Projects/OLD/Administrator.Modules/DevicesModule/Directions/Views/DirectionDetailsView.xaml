@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.DirectionDetailsView"
+<UserControl x:Class="DevicesModule.Views.DirectionDetailsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -53,7 +53,7 @@
 					</TextBlock>
 
 					<StackPanel Grid.Column="1" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding ResetRmCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" HorizontalAlignment="Right" />
+						<ToolBarButton Command="{Binding ResetRmCommand}" ToolTip="Удалить" Background="{DynamicResource deleteCross}"  Height="32" Width="32" HorizontalAlignment="Right" />
 					</StackPanel>
 				</Grid>
 
@@ -83,7 +83,7 @@
 					</TextBlock>
 
 					<StackPanel Grid.Column="1" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding ResetButtonCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" HorizontalAlignment="Right" />
+						<Controls:ToolBarButton Command="{Binding ResetButtonCommand}" ToolTip="Удалить" Background="{DynamicResource deleteCross}"  Height="32" Width="32" HorizontalAlignment="Right" />
 					</StackPanel>
 				</Grid>
 

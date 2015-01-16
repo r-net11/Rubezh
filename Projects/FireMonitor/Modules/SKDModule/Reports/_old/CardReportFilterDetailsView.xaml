@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.CardReportFilterDetailsView"
+<UserControl x:Class="SKDModule.Views.CardReportFilterDetailsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -46,8 +46,8 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                            <Controls:ToolBarButton Command="{Binding SaveFilterCommand}" ToolTip="Сохранить" ImageSource="/Controls;component/Images/Save.png" />
-                            <Controls:ToolBarButton Command="{Binding RemoveFilterCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" />
+                            <Controls:ToolBarButton Command="{Binding SaveFilterCommand}" ToolTip="Сохранить" Background="{DynamicResource Save}"  />
+                            <Controls:ToolBarButton Command="{Binding RemoveFilterCommand}" ToolTip="Удалить" Background="{DynamicResource Close}"  />
                         </StackPanel>
                         
                         
@@ -130,8 +130,8 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-                            <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
+                            <Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" Background="{DynamicResource SelectAll}"  />
+                            <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" Background="{DynamicResource SelectNone}"  />
                         </StackPanel>
                     </Grid>
                 </Grid>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.DelayDetailsView"
+<UserControl x:Class="GKModule.Views.DelayDetailsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
@@ -47,9 +47,9 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" ImageSource="/Controls;component/Images/Readconfig.png" ToolTip="Считать параметры направления" />
-					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" ImageSource="/Controls;component/Images/Writeconfig.png" ToolTip="Записать параметры направления" />
-					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />
+					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding ReadPropertiesCommand}" Background="{DynamicResource read}"  ToolTip="Считать параметры направления" />
+					<ToolBarButton Width="36" Height="36" Margin="0 0 0 -8" Command="{Binding WritePropertiesCommand}" Background="{DynamicResource write}"  ToolTip="Записать параметры направления" />
+					<ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" Background="{DynamicResource defconfig}"  ToolTip="Параметры по умолчанию" />
 				</StackPanel>
 			</Grid>
 		</TabItem>

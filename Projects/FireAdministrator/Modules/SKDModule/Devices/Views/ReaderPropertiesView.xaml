@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.ReaderPropertiesView"
+<UserControl x:Class="SKDModule.Views.ReaderPropertiesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -27,7 +27,7 @@
 				</TextBlock>
 				<Controls:ToolBarButton HorizontalAlignment="Right" Margin="5 2" ToolTip="Удалить"
 					Command="{Binding RemoveCameraCommand}"
-					ImageSource="/Controls;component/Images/DeleteCross.png" Height="32" Width="32" />
+					Background="{DynamicResource Delete}"  Height="32" Width="32" />
 			</StackPanel>
 		</TabItem>
 	</TabControl>

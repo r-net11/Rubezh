@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SoundsModule.Views.SoundList"
+<UserControl x:Class="SoundsModule.Views.SoundList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
         <StackPanel Orientation="Horizontal">
             <Button Height="31" Name="button1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="36">
                 <Button.Background>
-                    <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
+                    <ImageBrush Background="{DynamicResource sound}" />
                 </Button.Background>
             </Button>
             <ComboBox ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding Sound}" Margin="2" Width="172" />

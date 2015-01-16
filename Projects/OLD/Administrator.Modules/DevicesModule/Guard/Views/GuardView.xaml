@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.GuardView"
+<UserControl x:Class="DevicesModule.Views.GuardView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
@@ -51,11 +51,11 @@
 				</DataGrid.Columns>
 			</DataGrid>
 			<StackPanel Grid.Row="1" Orientation="Horizontal">
-				<ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/ArrowUp.png" />
-				<Controls:ToolBarButton Command="{Binding RemoveUserCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/ArrowDown.png" />
-				<Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand}" ToolTip="Создать пользователя" ImageSource="/Controls;component/Images/Add.png" Margin="20,0,0,0"/>
-				<Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
-				<Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
+				<ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" Background="{DynamicResource arrowUp}"  />
+				<Controls:ToolBarButton Command="{Binding RemoveUserCommand}" ToolTip="Удалить пользователя" Background="{DynamicResource arrowDown}"  />
+				<Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand}" ToolTip="Создать пользователя" Background="{DynamicResource Add}"  Margin="20,0,0,0"/>
+				<Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" Background="{DynamicResource Edit}"  />
+				<Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" Background="{DynamicResource Delete}"  />
 			</StackPanel>
 			<DataGrid Grid.Row="2" Name="UsersDataGrid" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" CanUserSortColumns="True">
 				<DataGrid.Resources>
@@ -104,8 +104,8 @@
 				</DataGrid.Columns>
 			</DataGrid>
 			<StackPanel Grid.Row="1" Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить зону" ImageSource="/Controls;component/Images/ArrowUp.png" />
-				<Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить зону" ImageSource="/Controls;component/Images/ArrowDown.png" />
+				<Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить зону" Background="{DynamicResource arrowUp}"  />
+				<Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить зону" Background="{DynamicResource arrowDown}"  />
 			</StackPanel>
 			<DataGrid Name="dataGrid2" Grid.Row="2" ItemsSource="{Binding DeviceZones}" SelectedItem="{Binding SelectedDeviceZone}" CanUserSortColumns="True">
 				<DataGrid.Resources>
