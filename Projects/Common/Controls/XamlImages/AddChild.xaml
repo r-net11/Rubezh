@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="AddChild" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 34.6672,26.6664L 29.3339,26.6664L 29.3339,21.3331L 26.7085,21.3331L 26.7085,26.6664L 21.3752,26.6664L 21.3752,29.2917L 26.7085,29.2917L 26.7085,34.6251L 29.3339,34.6251L 29.3339,29.2917L 34.6672,29.2917L 34.6672,26.6664 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColor}" Geometry="F1 M 28.0213,37.0974C 22.9853,37.0974 18.9027,33.0146 18.9027,27.9786C 18.9027,22.9427 22.9853,18.86 28.0213,18.86C 33.0573,18.86 37.14,22.9427 37.14,27.9786C 37.14,33.0146 33.0573,37.0974 28.0213,37.0974 Z M 8,29.336L 8,18.664L 13.376,18.664L 13.376,24L 16.7093,24C 16.412,24.844 16.1987,25.7267 16.0973,26.6453L 13.376,26.6453L 13.376,29.336M 28.0213,15.976C 26.624,15.976 25.2893,16.2267 24.0427,16.6653L 24.0427,13.292L 13.376,13.292L 13.376,16L 8,16L 8,10.5826L 10.6667,10.5826L 10.6667,0L 0,0L 0,10.5826L 5.33333,10.5826L 5.33333,32L 7.584,32L 8,32L 13.376,32L 13.376,37.3533L 20.5387,37.3533C 22.5907,38.9946 25.1893,39.9813 28.0213,39.9813C 34.6507,39.9813 40.024,34.608 40.024,27.9786C 40.024,21.3493 34.6507,15.976 28.0213,15.976 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

@@ -73,7 +73,7 @@
             </Canvas>
         </TabItem>
         <TabItem Header="Brush">
-            <Grid Background="{StaticResource UnnamedObject0}" Width="31" Height="32" />
+            <Grid Background="{DynamicResource Add}" Width="31" Height="32" />
         </TabItem>
     </TabControl>
 </UserControl>
