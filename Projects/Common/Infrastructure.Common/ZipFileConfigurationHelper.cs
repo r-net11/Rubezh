@@ -33,7 +33,7 @@ namespace Infrastructure.Common
 		{
 			var zipFile = ZipFile.Read(memoryStream);
 			var dataMemory = new MemoryStream();
-			var firstOrDefault = zipFile.FirstOrDefault();
+			var firstOrDefault = zipFile.FirstOrDefault(x => x.FileName == "GKDeviceConfiguration.xml");
 			if (firstOrDefault != null) firstOrDefault.Extract(dataMemory);
 			dataMemory.Position = 0;
 			try

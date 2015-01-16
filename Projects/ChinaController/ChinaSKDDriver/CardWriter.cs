@@ -13,6 +13,11 @@ namespace ChinaSKDDriver
 	{
 		public List<ControllerCardItem> ControllerCardItems { get; private set; }
 
+		public CardWriter()
+		{
+			ControllerCardItems = new List<ControllerCardItem>();
+		}
+
 		public void AddCard(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			ControllerCardItems = Create_ControllerCardItems_ToAdd(skdCard, accessTemplate);

@@ -58,9 +58,17 @@ namespace GKProcessor
 				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
-				var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
-				if (result.HasError)
-				{ Error = "В заданное времени не пришел ответ от устройства"; return; }
+				for (int j = 0; j < 10; j++)
+				{
+					var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
+					if (!result.HasError)
+						break;
+					if (j == 9)
+					{
+						Error = "В заданное времени не пришел ответ от устройства";
+						return;
+					}
+				}
 			}
 			if (!DeviceBytesHelper.GoToWorkingRegime(device, ProgressCallback))
 			{

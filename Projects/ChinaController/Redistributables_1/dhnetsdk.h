@@ -178,10 +178,9 @@ extern "C" {
 
 #define DH_MAX_ACCESS_NAME_LEN		64			// Length of access name
 #define DH_MAX_EXALARMCHANNEL_NAME_LEN	 128	// length of extension module alarm channel name
-#define DH_MAX_ALARM_SUBSYSTEM_NUM  8           // Max Alarm Sub System Number
-#define DH_MAX_BELL_NUM             4           // Max Bell Number
-#define DH_MAX_KEYBOARD_NUM         256         // Max Keyboard Number
-#define MAX_GOURP_NUM               128         //Face library max number
+#define DH_MAX_ALARM_SUBSYSTEM_NUM        8                // Max Alarm Sub System Number
+#define DH_MAX_BELL_NUM                   4                // Max Bell Number
+#define DH_MAX_KEYBOARD_NUM               256              // Max Keyboard Number
 
 // Remote configuration structure corresponding constant 
 #define DH_MAX_MAIL_ADDR_LEN		128			// Mail address max length
@@ -354,274 +353,120 @@ extern "C" {
 #define DH_MAX_AUDIO_PATH			 260		// max path of audio file
 #define DH_MAX_DOORNAME_LEN			 128		// max length of door access name
 #define DH_MAX_CARDPWD_LEN			 64			// max length of door access name
-#define NET_MAX_FISHEYE_MOUNTMODE_NUM   4       // Max fish eye installation mode number
-#define NET_MAX_FISHEYE_CALIBRATEMODE_NUM 16    // Max fish eye correction mode numer
-#define NET_MAX_FISHEYE_EPTZCMD_NUM    64       // Max fish eye electronic PTZ operation number  
-#define POINT_NUM_IN_PAIR              2        // Point Number in Pair
-#define MAX_POINT_PAIR_NUM            128       // Point Max Quantity
-#define CHANNEL_NUM_IN_POINT_GROUP    2         // Point Video Channel Number
-#define MAX_POINT_GROUP_NUM           32        // Point Group Max Quantity. Each two channel splicing requires one group of point. 
-#define MAX_LANE_INFO_NUM             32        // Max lane info number
-#define MAX_LANE_DIRECTION_NUM        8         // Lane direction total
-#define DH_MAX_MONITORWALL_NUM        32        // TV wall max quantity
-#define DH_MAX_OPTIONAL_URL_NUM       8         // Alternate url maxquantity
+#define POINT_NUM_IN_PAIR                 2                // Point Number in Pair
+#define MAX_POINT_PAIR_NUM                128              // Point Max Quantity
+#define CHANNEL_NUM_IN_POINT_GROUP        2                // Point Video Channel Number
+#define MAX_POINT_GROUP_NUM               32               // Point Group Max Quantity. Each two channel splicing requires one group of point. 
 
 // Search type, corresponding to CLIENT_QueryDevState
-#define DH_DEVSTATE_COMM_ALARM            0x0001           // Search general alarm status(including external alarm,video loss, motion detection)
-#define DH_DEVSTATE_SHELTER_ALARM         0x0002           // Search camera masking alarm status
-#define DH_DEVSTATE_RECORDING             0x0003           // Search record status 
-#define DH_DEVSTATE_DISK                  0x0004           // Search HDD information 
-#define DH_DEVSTATE_RESOURCE              0x0005           // Search system resources status 
-#define DH_DEVSTATE_BITRATE	              0x0006           // Search channel bit stream 
-#define DH_DEVSTATE_CONN                  0x0007           // Search device connection status 
-#define DH_DEVSTATE_PROTOCAL_VER          0x0008           // Search network protocol version number , pBuf = int*
-#define DH_DEVSTATE_TALK_ECTYPE	          0x0009           // Search the audio talk format the device supported. Please refer to structure DHDEV_TALKFORMAT_LIST
-#define DH_DEVSTATE_SD_CARD	              0x000A           // Search SD card information(FOR IPC series)
-#define DH_DEVSTATE_BURNING_DEV           0x000B           // Search burner information
-#define DH_DEVSTATE_BURNING_PROGRESS      0x000C           // Search burning information
-#define DH_DEVSTATE_PLATFORM              0x000D           // Search the embedded platform the device supported
-#define DH_DEVSTATE_CAMERA                0x000E           // Search camera property information ( for IPC series),pBuf = DHDEV_CAMERA_INFO *,there can be several structure.
-#define DH_DEVSTATE_SOFTWARE              0x000F           // Search device software version information
-#define DH_DEVSTATE_LANGUAGE              0x0010           // Search the audio type the device supported 
-#define DH_DEVSTATE_DSP                   0x0011           // Search DSP capacity description 
-#define	DH_DEVSTATE_OEM	                  0x0012           // Search OEM information 
-#define	DH_DEVSTATE_NET	                  0x0013           // Search network running status information 
-#define DH_DEVSTATE_TYPE                  0x0014           // Search function attributes(for IPC serirs)
-#define DH_DEVSTATE_SNAP                  0x0015           // Search snapshot function attribute(For IPC series)
-#define DH_DEVSTATE_RECORD_TIME	          0x0016           // Query the first time and the recent video time
-#define DH_DEVSTATE_NET_RSSI              0x0017           // Query the wireless network signal strength,Please refer to structure DHDEV_WIRELESS_RSS_INFO
-#define DH_DEVSTATE_BURNING_ATTACH        0x0018           // Burning options inquiry
-#define DH_DEVSTATE_BACKUP_DEV            0x0019           // Query the list of backup device
-#define DH_DEVSTATE_BACKUP_DEV_INFO	      0x001a           // Query the backup device information
-#define DH_DEVSTATE_BACKUP_FEEDBACK	      0x001b           // backup rate of progress
-#define DH_DEVSTATE_ATM_QUERY_TRADE       0x001c           // Query ATM trade type
-#define DH_DEVSTATE_SIP                   0x001d           // Query sip state
-#define DH_DEVSTATE_VICHILE_STATE         0x001e           // Query wifi state of mobile DVR
-#define DH_DEVSTATE_TEST_EMAIL            0x001f           // Query Email Function
-#define DH_DEVSTATE_SMART_HARD_DISK       0x0020           // Query Hard Disk Information
-#define DH_DEVSTATE_TEST_SNAPPICTURE      0x0021           // Query Snap Picture Function
-#define DH_DEVSTATE_STATIC_ALARM          0x0022           // Query static alarm state
-#define DH_DEVSTATE_SUBMODULE_INFO        0x0023           // Query submodule information
-#define DH_DEVSTATE_DISKDAMAGE            0x0024           // Query harddisk damage ability     
-#define DH_DEVSTATE_IPC                   0x0025           // Query device supported IPC ability,see struct DH_DEV_IPC_INFO 
-#define DH_DEVSTATE_ALARM_ARM_DISARM      0x0026           // Query alarm arm disarm state
-#define DH_DEVSTATE_ACC_POWEROFF_ALARM    0x0027           // Query ACC power off state(return a DWORD type value, 1 means power off,0 means power on)
-#define DH_DEVSTATE_TEST_FTP_SERVER       0x0028           // FTP server connect test
-#define DH_DEVSTATE_3GFLOW_EXCEED         0x0029           // Query 3G Flow exceed state info(see struct DHDEV_3GFLOW_EXCEED_STATE_INFO)
-#define DH_DEVSTATE_3GFLOW_INFO           0x002a           // Query 3G Flow info(see struct DH_DEV_3GFLOW_INFO)
-#define DH_DEVSTATE_VIHICLE_INFO_UPLOAD   0x002b           // Vihicle information uploading
-#define DH_DEVSTATE_SPEED_LIMIT           0x002c           // Speed limit alarm
-#define DH_DEVSTATE_DSP_EX                0x002d           // Query DSP expended cap(struct DHDEV_DSP_ENCODECAP_EX)
-#define DH_DEVSTATE_3GMODULE_INFO         0x002e           // Query 3G module info(struct DH_DEV_3GMODLE_INFO)
-#define DH_DEVSTATE_MULTI_DDNS            0x002f           // Query multi DDNS status(struct DH_DEV_MULTI_DDNS_INFO)
-#define DH_DEVSTATE_CONFIG_URL            0x0030           // Query Device URL info(struct DH_DEV_URL_INFO)
-#define DH_DEVSTATE_HARDKEY               0x0031           // Query Hard key state(struct DHDEV_HARDKEY_STATE)
-#define DH_DEVSTATE_ISCSI_PATH            0x0032           // Query ISCSI path(struct DHDEV_ISCSI_PATHLIST)
-#define DH_DEVSTATE_DLPREVIEW_SLIPT_CAP   0x0033           // Query local preview split capability(struct DEVICE_LOCALPREVIEW_SLIPT_CAP)
-#define DH_DEVSTATE_WIFI_ROUTE_CAP        0x0034           // Query wifi capablity(struct DHDEV_WIFI_ROUTE_CAP)
-#define DH_DEVSTATE_ONLINE                0x0035           // Query device online state(return a DWORD value, 1-online, 0-offline)
-#define DH_DEVSTATE_PTZ_LOCATION          0x0036           // Query ptz state(struct DH_PTZ_LOCATION_INFO)
-#define DH_DEVSTATE_MONITOR_INFO          0x0037           // Query monitor state(state DHDEV_MONITOR_INFO)
-#define DH_DEVSTATE_SUBDEVICE             0x0300           // Query subdevcie(fan,cpu...) state(struct CFG_DEVICESTATUS_INFO)
-#define DH_DEVSTATE_RAID_INFO             0x0038           // Query RAID state(struct ALARM_RAID_INFO)  
-#define DH_DEVSTATE_TEST_DDNSDOMAIN       0x0039           // test DDNS domain enable
-#define DH_DEVSTATE_VIRTUALCAMERA         0x003a           // query virtual camera state(struct DHDEV_VIRTUALCAMERA_STATE_INFO)
-#define DH_DEVSTATE_TRAFFICWORKSTATE      0x003b           // get device's state of video/coil module(struct DHDEV_TRAFFICWORKSTATE_INFO)
-#define DH_DEVSTATE_ALARM_CAMERA_MOVE     0x003c           // get camera move alarm state(struct ALARM_CAMERA_MOVE_INFO)
-#define DH_DEVSTATE_ALARM                 0x003e           // get external alarm(struct NET_CLIENT_ALARM_STATE) 
-#define DH_DEVSTATE_VIDEOLOST             0x003f           // get video loss alarm(struct NET_CLIENT_VIDEOLOST_STATE) 
-#define DH_DEVSTATE_MOTIONDETECT          0x0040           // get motion alarm(struct NET_CLIENT_MOTIONDETECT_STATE)
-#define DH_DEVSTATE_DETAILEDMOTION        0x0041           // get detailed motion alarm(struct NET_CLIENT_DETAILEDMOTION_STATE)
-#define DH_DEVSTATE_VEHICLE_INFO          0x0042           // get vehicle device state(struct DHDEV_VEHICLE_INFO)
-#define DH_DEVSTATE_VIDEOBLIND            0x0043           // get blind alarm(struct NET_CLIENT_VIDEOBLIND_STATE)
-#define DH_DEVSTATE_3GSTATE_INFO          0x0044           // Query 3G state(struct DHDEV_VEHICLE_3GMODULE)
-#define DH_DEVSTATE_NETINTERFACE          0x0045           // Query net interface(struct DHDEV_NETINTERFACE_INFO)
-#define DH_DEVSTATE_PICINPIC_CHN          0x0046           // Query picinpic channel(struct DWORD)
-#define DH_DEVSTATE_COMPOSITE_CHN         0x0047           // Query splice screen(struct DH_COMPOSITE_CHANNEL)
-#define DH_DEVSTATE_WHOLE_RECORDING	      0x0048           // Query whole recording status(struct BOOL),as long as ther is a channel running,it indicates that the overall state
-#define DH_DEVSTATE_WHOLE_ENCODING        0x0049           // Query whole encoding(struct BOOL),as long as ther is a channel running,it indicates that the overall state
-#define DH_DEVSTATE_DISK_RECORDE_TIME     0x004a           // Query disk record time(pBuf = DEV_DISK_RECORD_TIME*)
-#define DH_DEVSTATE_BURNER_DOOR           0x004b           // whether have pop-up optical dirve(struct NET_DEVSTATE_BURNERDOOR)
-#define DH_DEVSTATE_GET_DATA_CHECK        0x004c           // get data validation process(struct NET_DEVSTATE_DATA_CHECK)
-#define DH_DEVSTATE_ALARM_IN_CHANNEL      0x004f           // Query alarm input channel information(struct NET_ALARM_IN_CHANNEL)
-#define DH_DEVSTATE_ALARM_CHN_COUNT	      0x0050           // Query alarm channel number(struct NET_ALARM_CHANNEL_COUNT)
-#define DH_DEVSTATE_PTZ_VIEW_RANGE        0x0051           // Query PTZ view range status(struct DH_OUT_PTZ_VIEW_RANGE_STATUS)
-#define DH_DEVSTATE_DEV_CHN_COUNT         0x0052           // Query device channel information(struct NET_DEV_CHN_COUNT_INFO)
-#define DH_DEVSTATE_RTSP_URL              0x0053           // Query RTSP URL list supported by device, struct DEV_RTSPURL_LIST
-#define DH_DEVSTATE_LIMIT_LOGIN_TIME      0x0054           // Query online overtime of device logging in and return a BTY（UNIT：MIN） ,0 means no limite and The non-zero positive integer means restrictions on the number of minutes
-#define DH_DEVSTATE_GET_COMM_COUNT        0x0055           // get com count (struct NET_GET_COMM_COUNT)
-#define DH_DEVSTATE_RECORDING_DETAIL      0x0056           // Query recording status detail information(pBuf = NET_RECORD_STATE_DETAIL*)
-#define DH_DEVSTATE_PTZ_PRESET_LIST       0x0057           // get state PTZ preset list (struct NET_PTZ_PRESET_LIST)
-#define DH_DEVSTATE_EXTERNAL_DEVICE	      0x0058           // exteral device information (pBuf = NET_EXTERNAL_DEVICE*)
-#define DH_DEVSTATE_GET_UPGRADE_STATE     0x0059           // get device upgrade state(struct DHDEV_UPGRADE_STATE_INFO)
-#define DH_DEVSTATE_MULTIPLAYBACK_SPLIT_CAP 0x005a         // get mulipalyback split (struct NET_MULTIPLAYBACK_SPLIT_CAP )
-#define DH_DEVSTATE_BURN_SESSION_NUM      0x005b           // get burn session number(pBuf = int*)
+#define DH_DEVSTATE_COMM_ALARM		0x0001		// Search general alarm status(including external alarm,video loss, motion detection)
+#define DH_DEVSTATE_SHELTER_ALARM	0x0002		// Search camera masking alarm status
+#define DH_DEVSTATE_RECORDING		0x0003		// Search record status 
+#define DH_DEVSTATE_DISK			0x0004		// Search HDD information 
+#define DH_DEVSTATE_RESOURCE		0x0005		// Search system resources status 
+#define DH_DEVSTATE_BITRATE			0x0006		// Search channel bit stream 
+#define DH_DEVSTATE_CONN			0x0007		// Search device connection status 
+#define DH_DEVSTATE_PROTOCAL_VER	0x0008		// Search network protocol version number , pBuf = int*
+#define DH_DEVSTATE_TALK_ECTYPE		0x0009		// Search the audio talk format the device supported. Please refer to structure DHDEV_TALKFORMAT_LIST
+#define DH_DEVSTATE_SD_CARD			0x000A		// Search SD card information(FOR IPC series)
+#define DH_DEVSTATE_BURNING_DEV		0x000B		// Search burner information
+#define DH_DEVSTATE_BURNING_PROGRESS 0x000C		// Search burning information
+#define DH_DEVSTATE_PLATFORM		0x000D		// Search the embedded platform the device supported
+#define DH_DEVSTATE_CAMERA			0x000E		// Search camera property information ( for IPC series),pBuf = DHDEV_CAMERA_INFO *,there can be several structure.
+#define DH_DEVSTATE_SOFTWARE		0x000F		// Search device software version information
+#define DH_DEVSTATE_LANGUAGE        0x0010		// Search the audio type the device supported 
+#define DH_DEVSTATE_DSP				0x0011		// Search DSP capacity description 
+#define	DH_DEVSTATE_OEM				0x0012		// Search OEM information 
+#define	DH_DEVSTATE_NET				0x0013		// Search network running status information 
+#define DH_DEVSTATE_TYPE			0x0014		// Search function attributes(for IPC serirs)
+#define DH_DEVSTATE_SNAP			0x0015		// Search snapshot function attribute(For IPC series)
+#define DH_DEVSTATE_RECORD_TIME		0x0016		// Query the first time and the recent video time
+#define DH_DEVSTATE_NET_RSSI        0x0017      // Query the wireless network signal strength,Please refer to structure DHDEV_WIRELESS_RSS_INFO
+#define DH_DEVSTATE_BURNING_ATTACH	0x0018		// Burning options inquiry
+#define DH_DEVSTATE_BACKUP_DEV		0x0019		// Query the list of backup device
+#define DH_DEVSTATE_BACKUP_DEV_INFO	0x001a		// Query the backup device information
+#define DH_DEVSTATE_BACKUP_FEEDBACK	0x001b		// backup rate of progress
+#define DH_DEVSTATE_ATM_QUERY_TRADE 0x001c		// Query ATM trade type
+#define DH_DEVSTATE_SIP				0x001d		// Query sip state
+#define DH_DEVSTATE_VICHILE_STATE	0x001e		// Query wifi state of mobile DVR
+#define DH_DEVSTATE_TEST_EMAIL      0x001f      // Query Email Function
+#define DH_DEVSTATE_SMART_HARD_DISK 0x0020      // Query Hard Disk Information
+#define DH_DEVSTATE_TEST_SNAPPICTURE 0x0021     // Query Snap Picture Function
+#define DH_DEVSTATE_STATIC_ALARM    0x0022      // Query static alarm state
+#define DH_DEVSTATE_SUBMODULE_INFO  0x0023      // Query submodule information
+#define DH_DEVSTATE_DISKDAMAGE      0x0024      // Query harddisk damage ability     
+#define DH_DEVSTATE_IPC             0x0025      // Query device supported IPC ability,see struct DH_DEV_IPC_INFO 
+#define DH_DEVSTATE_ALARM_ARM_DISARM 0x0026     // Query alarm arm disarm state
+#define DH_DEVSTATE_ACC_POWEROFF_ALARM 0x0027   // Query ACC power off state(return a DWORD type value, 1 means power off,0 means power on)
+#define DH_DEVSTATE_TEST_FTP_SERVER 0x0028      // FTP server connect test
+#define DH_DEVSTATE_3GFLOW_EXCEED   0x0029      // Query 3G Flow exceed state info(see struct DHDEV_3GFLOW_EXCEED_STATE_INFO)
+#define DH_DEVSTATE_3GFLOW_INFO     0x002a      // Query 3G Flow info(see struct DH_DEV_3GFLOW_INFO)
+#define DH_DEVSTATE_VIHICLE_INFO_UPLOAD  0x002b // Vihicle information uploading
+#define DH_DEVSTATE_SPEED_LIMIT     0x002c      // Speed limit alarm
+#define DH_DEVSTATE_DSP_EX          0x002d      // Query DSP expended cap(struct DHDEV_DSP_ENCODECAP_EX)
+#define DH_DEVSTATE_3GMODULE_INFO    0x002e     // Query 3G module info(struct DH_DEV_3GMODLE_INFO)
+#define DH_DEVSTATE_MULTI_DDNS      0x002f      // Query multi DDNS status(struct DH_DEV_MULTI_DDNS_INFO)
+#define DH_DEVSTATE_CONFIG_URL      0x0030      // Query Device URL info(struct DH_DEV_URL_INFO)
+#define DH_DEVSTATE_HARDKEY        0x0031       // Query Hard key state(struct DHDEV_HARDKEY_STATE)
+#define DH_DEVSTATE_ISCSI_PATH		0x0032		// Query ISCSI path(struct DHDEV_ISCSI_PATHLIST)
+#define DH_DEVSTATE_DLPREVIEW_SLIPT_CAP   0x0033      // Query local preview split capability(struct DEVICE_LOCALPREVIEW_SLIPT_CAP)
+#define DH_DEVSTATE_WIFI_ROUTE_CAP	0x0034		// Query wifi capablity(struct DHDEV_WIFI_ROUTE_CAP)
+#define DH_DEVSTATE_ONLINE          0x0035      // Query device online state(return a DWORD value, 1-online, 0-offline)
+#define DH_DEVSTATE_PTZ_LOCATION    0x0036      // Query ptz state(struct DH_PTZ_LOCATION_INFO)
+#define DH_DEVSTATE_MONITOR_INFO    0x0037      // Query monitor state(state DHDEV_MONITOR_INFO)
+#define DH_DEVSTATE_SUBDEVICE		0x0300		// Query subdevcie(fan,cpu...) state(struct CFG_DEVICESTATUS_INFO)
+#define DH_DEVSTATE_RAID_INFO       0x0038      // Query RAID state(struct ALARM_RAID_INFO)  
+#define DH_DEVSTATE_TEST_DDNSDOMAIN 0x0039      // test DDNS domain enable
+#define DH_DEVSTATE_VIRTUALCAMERA   0x003a      // query virtual camera state(struct DHDEV_VIRTUALCAMERA_STATE_INFO)
+#define DH_DEVSTATE_TRAFFICWORKSTATE 0x003b     // get device's state of video/coil module(struct DHDEV_TRAFFICWORKSTATE_INFO)
+#define DH_DEVSTATE_ALARM_CAMERA_MOVE 0x003c    // get camera move alarm state(struct ALARM_CAMERA_MOVE_INFO)
+#define DH_DEVSTATE_ALARM           0x003e      // get external alarm(struct NET_CLIENT_ALARM_STATE) 
+#define DH_DEVSTATE_VIDEOLOST       0x003f      // get video loss alarm(struct NET_CLIENT_VIDEOLOST_STATE) 
+#define DH_DEVSTATE_MOTIONDETECT    0x0040      // get motion alarm(struct NET_CLIENT_MOTIONDETECT_STATE)
+#define DH_DEVSTATE_DETAILEDMOTION  0x0041      // get detailed motion alarm(struct NET_CLIENT_DETAILEDMOTION_STATE)
+#define DH_DEVSTATE_VEHICLE_INFO   0x0042		// get vehicle device state(struct DHDEV_VEHICLE_INFO)
+#define DH_DEVSTATE_VIDEOBLIND      0x0043       // get blind alarm(struct NET_CLIENT_VIDEOBLIND_STATE)
+#define DH_DEVSTATE_3GSTATE_INFO   0x0044       // Query 3G state(struct DHDEV_VEHICLE_3GMODULE)
+#define DH_DEVSTATE_NETINTERFACE   0x0045       // Query net interface(struct DHDEV_NETINTERFACE_INFO)
+#define DH_DEVSTATE_PICINPIC_CHN	0x0046		// Query picinpic channel(struct DWORD)
+#define DH_DEVSTATE_COMPOSITE_CHN	0x0047		// Query splice screen(struct DH_COMPOSITE_CHANNEL)
+#define DH_DEVSTATE_WHOLE_RECORDING	0x0048		// Query whole recording status(struct BOOL),as long as ther is a channel running,it indicates that the overall state
+#define DH_DEVSTATE_WHOLE_ENCODING	0x0049		// Query whole encoding(struct BOOL),as long as ther is a channel running,it indicates that the overall state
+#define DH_DEVSTATE_DISK_RECORDE_TIME 0x004a    // Query disk record time(pBuf = DEV_DISK_RECORD_TIME*)
+#define DH_DEVSTATE_BURNER_DOOR     0x004b      // whether have pop-up optical dirve(struct NET_DEVSTATE_BURNERDOOR)
+#define DH_DEVSTATE_GET_DATA_CHECK  0x004c      // get data validation process(struct NET_DEVSTATE_DATA_CHECK)
+#define DH_DEVSTATE_ALARM_IN_CHANNEL 0x004f		// Query alarm input channel information(struct NET_ALARM_IN_CHANNEL)
+#define DH_DEVSTATE_ALARM_CHN_COUNT	0x0050		// Query alarm channel number(struct NET_ALARM_CHANNEL_COUNT)
+#define DH_DEVSTATE_PTZ_VIEW_RANGE	0x0051		// Query PTZ view range status(struct DH_OUT_PTZ_VIEW_RANGE_STATUS)
+#define DH_DEVSTATE_DEV_CHN_COUNT	0x0052		// Query device channel information(struct NET_DEV_CHN_COUNT_INFO)
+#define DH_DEVSTATE_RTSP_URL		0x0053		// Query RTSP URL list supported by device, struct DEV_RTSPURL_LIST
+#define DH_DEVSTATE_LIMIT_LOGIN_TIME	0x0054	// Query online overtime of device logging in and return a BTY（UNIT：MIN） ,0 means no limite and The non-zero positive integer means restrictions on the number of minutes
+#define DH_DEVSTATE_GET_COMM_COUNT	0x0055		// get com count (struct NET_GET_COMM_COUNT)
+#define DH_DEVSTATE_RECORDING_DETAIL	0x0056	// Query recording status detail information(pBuf = NET_RECORD_STATE_DETAIL*)
+#define DH_DEVSTATE_PTZ_PRESET_LIST     0x0057  // get state PTZ preset list (struct NET_PTZ_PRESET_LIST)
+#define DH_DEVSTATE_EXTERNAL_DEVICE	0x0058		// exteral device information (pBuf = NET_EXTERNAL_DEVICE*)
+#define DH_DEVSTATE_GET_UPGRADE_STATE   0x0059  // get device upgrade state(struct DHDEV_UPGRADE_STATE_INFO)
+#define DH_DEVSTATE_MULTIPLAYBACK_SPLIT_CAP 0x005a // get mulipalyback split (struct NET_MULTIPLAYBACK_SPLIT_CAP )
+#define DH_DEVSTATE_BURN_SESSION_NUM	0x005b  // get burn session number(pBuf = int*)
 #define DH_DEVSTATE_PROTECTIVE_CAPSULE    0X005c           // Search protective capsule status(corresponding structure ALARM_PROTECTIVE_CAPSULE_INFO)
 
-#define DH_DEVSTATE_POWER_STATE	          0x0152           // Query power state(struct DH_POWER_STATUS)
-#define DH_DEVSTATE_ALL_ALARM_CHANNELS_STATE  0x153	       // Query alarm channel state(struct NET_CLIENT_ALARM_CHANNELS_STATE)
-#define DH_DEVSTATE_ALARMKEYBOARD_COUNT	  0x0154           // Query alarm keyboard count connected on com(struct NET_ALARMKEYBOARD_COUNT)
-#define DH_DEVSTATE_EXALARMCHANNELS       0x0155           // Query mapping relationship of extension alarm module channel (struct NET_EXALARMCHANNELS)
-#define DH_DEVSTATE_GET_BYPASS            0x0156           // Query channel bypass state(struct NET_DEVSTATE_GET_BYPASS)
-#define DH_DEVSTATE_ACTIVATEDDEFENCEAREA  0x0157           // get active sector information(struct NET_ACTIVATEDDEFENCEAREA)
-#define DH_DEVSTATE_DEV_RECORDSET         0x0158           // Query device recording information(struct NET_CTRL_RECORDSET_PARAM)
-#define DH_DEVSTATE_DOOR_STATE            0x0159           // Query door access state(struct NET_DOOR_STATUS_INFO)
-#define DH_DEVSTATE_ANALOGALARM_CHANNELS  0x1560           // analog alarm input channel mapping (struct NET_ANALOGALARM_CHANNELS)
-#define DH_DEVSTATE_GET_SENSORLIST        0x1561           // Get device supported sensor list(corresponding NET_SENSOR_LIST)
-#define DH_DEVSTATE_ALARM_CHANNELS        0x1562           // Search switch alarm template channel mapping relation(corresponding structure  NET_ALARM_CHANNELS)
-                                                           // If device su not support search extension alarm module channel, may use this function to search extension channel logic channel no. and use as local alarm channel use
+#define DH_DEVSTATE_POWER_STATE		0x0152		// Query power state(struct DH_POWER_STATUS)
+#define DH_DEVSTATE_ALL_ALARM_CHANNELS_STATE	0x153	// Query alarm channel state(struct NET_CLIENT_ALARM_CHANNELS_STATE)
+#define DH_DEVSTATE_ALARMKEYBOARD_COUNT	0x0154	// Query alarm keyboard count connected on com(struct NET_ALARMKEYBOARD_COUNT)
+#define DH_DEVSTATE_EXALARMCHANNELS	0x0155		// Query mapping relationship of extension alarm module channel (struct NET_EXALARMCHANNELS)
+#define DH_DEVSTATE_GET_BYPASS		0x0156		// Query channel bypass state(struct NET_DEVSTATE_GET_BYPASS)
+#define DH_DEVSTATE_ACTIVATEDDEFENCEAREA	0x0157	// get active sector information(struct NET_ACTIVATEDDEFENCEAREA)
+#define DH_DEVSTATE_DEV_RECORDSET	0x0158		// Query device recording information(struct NET_CTRL_RECORDSET_PARAM)
+#define DH_DEVSTATE_DOOR_STATE		0x0159		// Query door access state(struct NET_DOOR_STATUS_INFO)
+#define DH_DEVSTATE_ANALOGALARM_CHANNELS	0x1560	// analog alarm input channel mapping (struct NET_ANALOGALARM_CHANNELS)
+#define DH_DEVSTATE_GET_SENSORLIST        0x1561 // Get device supported sensor list(corresponding NET_SENSOR_LIST)
+#define DH_DEVSTATE_ALARM_CHANNELS	0x1562		// Search switch alarm template channel mapping relation(corresponding structure  NET_ALARM_CHANNELS)
+												// If device su not support search extension alarm module channel, may use this function to search extension channel logic channel no. and use as local alarm channel use
 #define DH_DEVSTATE_GET_ALARM_SUBSYSTEM_ACTIVATESTATUS	0x1563	// Get current system enabling status( corresponding NET_GET_ALARM_SUBSYSTEM_ACTIVATE_STATUES)
-#define DH_DEVSTATE_AIRCONDITION_STATE    0x1564           // Get air conditioning status(corresponding to NET_GET_AIRCONDITION_STATE)
+#define DH_DEVSTATE_AIRCONDITION_STATE    0x1564          // Get air conditioning status(corresponding to NET_GET_AIRCONDITION_STATE)
 #define DH_DEVSTATE_ALARMSUBSYSTEM_STATE  0x1565           // Get sub system status(corresponding to NET_ALARM_SUBSYSTEM_STATE)
 #define DH_DEVSTATE_ALARM_FAULT_STATE     0x1566           // Get failure status(corresponding to NET_ALARM_FAULT_STATE_INFO)
 #define DH_DEVSTATE_DEFENCE_STATE         0x1567           // Get zone status(corresponding to NET_DEFENCE_STATE_INFO, and bypass status change event, local alarm event, alarm signal event status description is different, cannot mix, for specific device use only)
-#define DH_DEVSTATE_CLUSTER_STATE         0x1568           // Get collection status(corresponding to NET_CLUSTER_STATE_INFO)
-#define DH_DEVSTATE_SCADA_POINT_LIST      0x1569           // Get spot chart path info(corresponding to NET_SCADA_POINT_LIST_INFO)
-#define DH_DEVSTATE_SCADA_INFO            0x156a           // Get monitor spot info(corresponding to NET_SCADA_INFO)
-#define DH_DEVSTATE_SCADA_CAPS            0X156b           // Get SCADA capacityset(corresponding to NET_SCADA_CAPS)
-#define DH_DEVSTATE_GET_CODEID_COUNT      0x156c           // Get successful code item number(corresponding  NET_GET_CODEID_COUNT)
-#define DH_DEVSTATE_GET_CODEID_LIST       0x156d           // Search code info(corresponding  NET_GET_CODEID_LIST)
-#define DH_DEVSTATE_ANALOGALARM_DATA      0x156e           // Search analog channel data(corresponding  NET_GET_ANALOGALARM_DATA)
-
-//////////////////////////////////////////////////////////////////////////
-
-// Monitor control and data collection device type
-typedef enum tagEM_NET_SCADA_DEV_TYPE
-{
-  EM_NET_SCADA_DEV_TYPE_UNKNOWN = 0,             // Unknown
-  EM_NET_SCADA_DEV_TYPE_ALL,                 // All-type device
-  EM_NET_SCADA_DEV_TYPE_UPS,                 // UPS
-} EM_NET_SCADA_DEV_TYPE;
-
-// Monitor control and data collection device spot path info input parameter, search criteria
-typedef struct tagNET_IN_SCADA_POINT_LIST_INFO 
-{
-  DWORD              dwSize;
-  char              szDevType[DH_COMMON_STRING_64]; // Device type
-}NET_IN_SCADA_POINT_LIST_INFO;
-
-#define MAX_SCADA_POINT_LIST_INDEX     8        // Max SCADADev config subscript number , as max channel
-
-// Spot chart path info
-typedef struct tagNET_SCADA_POINT_LIST
-{
-  DWORD              dwSize;
-  int               nIndexValidNum;     // Valid config subscript number 
-  int               nIndex[MAX_SCADA_POINT_LIST_INDEX];// SCADADev config config subscript value , start from 0
-  char              szPath[DH_COMMON_STRING_256];// chart complete path
-}NET_SCADA_POINT_LIST;
-
-#define MAX_SCADA_POINT_LIST_INFO_NUM    256        // max spot path number 
-
-// Monitor control and data collection device spot chart path info output parameter, search result
-typedef struct tagNET_OUT_SCADA_POINT_LIST_INFO 
-{
-  DWORD              dwSize;
-  int               nList;         // Valid spot chart path info number 
-  NET_SCADA_POINT_LIST      stuList[MAX_SCADA_POINT_LIST_INFO_NUM];// spot chart path info
-}NET_OUT_SCADA_POINT_LIST_INFO;
-
-// Monitor control and data collection device spot chart path info, (corresponding to DH_DEVSTATE_SCADA_POINT_LIST command )
-typedef struct tagNET_SCADA_POINT_LIST_INFO 
-{
-  DWORD              dwSize;
-  NET_IN_SCADA_POINT_LIST_INFO  stuIn;         // search criteria 
-  NET_OUT_SCADA_POINT_LIST_INFO  stuOut;         // search result 
-}NET_SCADA_POINT_LIST_INFO;
-
-//////////////////////////////////////////////////////////////////////////
-
-// spot type 
-typedef enum tagEM_NET_SCADA_POINT_TYPE
-{
-  EM_NET_SCADA_POINT_TYPE_UNKNOWN = 0,            //unknown 
-  EM_NET_SCADA_POINT_TYPE_ALL,                // all type 
-  EM_NET_SCADA_POINT_TYPE_YC,                // remote test
-  EM_NET_SCADA_POINT_TYPE_YX,                // remote signal
-} EM_NET_SCADA_POINT_TYPE;
-
-// SCADA monitor spot search criteria 
-typedef struct tagNET_IN_SCADA_INFO 
-{
-  DWORD          dwSize;
-  EM_NET_SCADA_POINT_TYPE emPointType;          // spot type to search
-}NET_IN_SCADA_INFO;
-
-#define MAX_SCADA_YX_NUM        128         // max remote signal number 
-#define MAX_SCADA_YC_NUM        128         // max remote test number 
-#define MAX_SCADA_POINT_INFO_NUM    8          // max spot chart number 
-
-// spot chart info 
-typedef struct tagNET_SCADA_POINT_INFO 
-{
-  DWORD          dwSize;
-  char          szDevName[DH_COMMON_STRING_64];// device name 
-  int           nYX;              // valid remote signal number 
-  unsigned int      anYX[MAX_SCADA_YX_NUM];     // remote signal info 
-  int           nYC;              // valid remote test number 
-  float          afYC[MAX_SCADA_YC_NUM];     // remote test info 
-}NET_SCADA_POINT_INFO;
-
-// SCADA monitor spot search result 
-typedef struct tagNET_OUT_SCADA_INFO 
-{
-  DWORD          dwSize;
-  int           nPointInfoNum;         // valid spot chart number 
-  NET_SCADA_POINT_INFO  stuPointInfo[MAX_SCADA_POINT_INFO_NUM];// spot chart info 
-}NET_OUT_SCADA_INFO;
-
-// Monitor control and data collection device spot chart path monitor spot info (corresponding to DH_DEVSTATE_SCADA_INFO command )
-typedef struct tagNET_SCADA_INFO
-{
-  DWORD          dwSize;
-  NET_IN_SCADA_INFO    stuIn;             // search criteria 
-  NET_OUT_SCADA_INFO   stuOut;             // search result 
-}NET_SCADA_INFO;
-
-// SCADA capacity name 
-typedef enum tagEM_NET_SCADA_CAPS_TYPE
-{
-  EM_NET_SCADA_CAPS_TYPE_UNKNOWN,
-  EM_NET_SCADA_CAPS_TYPE_ALL,                // all type 
-  EM_NET_SCADA_CAPS_TYPE_DEV,                // DevInfo
-} EM_NET_SCADA_CAPS_TYPE;
-
-// Monitor control and data collection device spot chart path capacity info search criteria 
-typedef struct tagNET_IN_SCADA_CAPS
-{
-  DWORD          dwSize;
-  EM_NET_SCADA_CAPS_TYPE emType;             // search type 
-} NET_IN_SCADA_CAPS;
-
-#define MAX_NET_SCADA_CAPS_TYPE (16)
-#define MAX_NET_SCADA_CAPS_NAME (16)
-
-// Monitor control and data collection device spot chart path type capacity info 
-typedef struct tagNET_OUT_SCADA_CAPS_ITEM
-{
-  DWORD          dwSize;
-  char          szDevType[DH_COMMON_STRING_32];  // device type 
-  int           nValidName;             // valid device name number 
-  char          szDevName[MAX_NET_SCADA_CAPS_NAME][DH_COMMON_STRING_32];// device name , SN device 
-} NET_OUT_SCADA_CAPS_ITEM;
-
-// Monitor control and data collection device spot chart path capacity info search result 
-typedef struct tagNET_OUT_SCADA_CAPS
-{
-  DWORD          dwSize;
-  int           nValidType;             // valid device type number 
-  NET_OUT_SCADA_CAPS_ITEM stuItems[MAX_NET_SCADA_CAPS_TYPE]; // Max 16 types 
-} NET_OUT_SCADA_CAPS;
-
-// Monitor control and data collection device spot chart path capacity info (corresponding to DH_DEVSTATE_SCADA_CAPS command )
-typedef struct tagNET_SCADA_CAPS
-{
-  DWORD          dwSize;
-  NET_IN_SCADA_CAPS    stuIn;             // search criteria 
-  NET_OUT_SCADA_CAPS   stuOut;             // search result 
-} NET_SCADA_CAPS;
-
-//////////////////////////////////////////////////////////////////////////
 
 // Air Conditioning Work Mode
 typedef enum __EM_AIRCONDITION_MODE
@@ -1020,43 +865,36 @@ typedef struct tagNET_DEFENCE_STATE_INFO
 #define DH_ALARM_ACCESS_CTL_DURESS			0x3180		// Stress CARDS event(struct ALARM_ACCESS_CTL_DURESS_INFO)
 #define DH_ALARM_ACCESS_CTL_EVENT			0x3181		// Access event(struct ALARM_ACCESS_CTL_EVENT_INFO)
 
-#define DH_URGENCY_ALARM_EX2              0x3182           // Emergency ALARM EX2(upgrade DH_URGENCY_ALARM_EX,struct ALARM_URGENCY_ALARM_EX2, Artificially triggered emergency, general processing is linked external communication function requests for help
-#define DH_ALARM_INPUT_SOURCE_SIGNAL      0x3183           // Alarm input source signal events (as long as there is input will generate the event, whether to play the current mode, unable to block, struct ALARM_INPUT_SOURCE_SIGNAL_INFO)
-#define DH_ALARM_ANALOGALARM_EVENT        0x3184           //  analog alarm(struct ALARM_ANALOGALARM_EVENT_INFO)
-#define DH_ALARM_ACCESS_CTL_STATUS        0x3185           // Access control status event(corresponding structure ALARM_ACCESS_CTL_STATUS_INFO)
-#define DH_ALARM_ACCESS_SNAP              0x3186           // Access control snapshot event(corresponding to ALARM_ACCESS_SNAP_INFO)
-#define DH_ALARM_ALARMCLEAR               0x3187           // Cancel alarm(corresponding to structure ALARM_ALARMCLEAR_INFO)
-#define DH_ALARM_CIDEVENT                 0x3188           // CID event(corresponding to structure ALARM_CIDEVENT_INFO)
-#define DH_ALARM_TALKING_HANGUP           0x3189           // Device hand up evnt(corresponding to structure ALARM_TALKING_HANGUP_INFO)
-#define DH_ALARM_BANKCARDINSERT           0x318a           // Bank card evnt(corresponding to structure ALARM_BANKCARDINSERT_INFO)
-#define DH_ALARM_RCEMERGENCY_CALL         0x318b           // Emergency call alarm event(corresponding to structure ALARM_RCEMERGENCY_CALL_INFO)
-#define DH_ALARM_OPENDOORGROUP            0x318c           // Multi-people group unlock event(corresponding to  structure ALARM_OPEN_DOOR_GROUP_INFO)
-#define DH_ALARM_FINGER_PRINT             0x318d           // get fingerprint event(corresponding to  structure ALARM_CAPTURE_FINGER_PRINT_INFO)
-#define DH_ALARM_CARD_RECORD              0x318e           // card no. record event(corresponding to  structure  ALARM_CARD_RECORD_INFO)
-#define DH_ALARM_SUBSYSTEM_STATE_CHANGE   0x318f           // sub system status change event(corresponding to  structure ALARM_SUBSYSTEM_STATE_CHANGE_INFO)
-#define DH_ALARM_BATTERYPOWER_EVENT       0x3190           // battery scheduled warning event(corresponding to  structure ALARM_BATTERYPOWER_INFO)
-#define DH_ALARM_BELLSTATUS_EVENT         0x3191           // bell status event(corresponding to  structure ALARM_BELLSTATUS_INFO)
-#define DH_ALARM_DEFENCE_STATE_CHANGE_EVENT 0x3192         // zone status change event(corresponding to  structure ALARM_DEFENCE_STATUS_CHANGE_INFO), 
-                                                           // customized need，and arm/disarm change event, bypass event status have different definitions,
-                                                           // The status via CLIENT_QueryDevState() port DH_DEVSTATE_DEFENCE_STATE command get
-#define DH_ALARM_TICKET_STATISTIC         0x3193           // ticket statistics info event(corresponding to  structure  ALARM_TICKET_STATISTIC)
-#define DH_ALARM_LOGIN_FAILIUR            0x3194           // login failed event(corresponding to  structure ALARM_LOGIN_FAILIUR_INFO)
-#define DH_ALARM_MODULE_LOST              0x3195           // expansion module offline event(corresponding to  structure  ALARM_MODULE_LOST_INFO)
-#define DH_ALARM_PSTN_BREAK_LINE          0x3196           // PSTN offline event(corresponding to  structure ALARM_PSTN_BREAK_LINE_INFO)
-#define DH_ALARM_ANALOG_PULSE             0x3197           // analog alarm evnet(instant event), specific sensor  trigger(corresponding to  structure ALARM_ANALOGPULSE_INFO)
-#define DH_ALARM_MISSION_CONFIRM          0x3198           // task confirmation event(corresponding to  structure  ALARM_MISSION_CONFIRM_INFO)
-#define DH_ALARM_DEVICE_MSG_NOTIFY        0x3199           // device to platform notice event件(corresponding to  structure  ALARM_DEVICE_MSG_NOTIFY_INFO)
-#define DH_ALARM_VEHICLE_STANDING_OVER_TIME 0x319A         // parking timeout event(corresponding to  structure  ALARM_VEHICLE_STANDING_OVER_TIME_INFO)
-#define DH_ALARM_ENCLOSURE_ALARM          0x319B           // e-fence event(corresponding to  structure  ALARM_ENCLOSURE_ALARM_INFO)
-#define DH_ALARM_GUARD_DETECT			  0x319C	       // station detection event, one in station first report the start event，and last on in station report stop event before leave (corresponding to  structure ALARM_GUARD_DETECT_INFO)
-#define DH_ALARM_GUARD_INFO_UPDATE		  0x319D	       // station info update event，report if people in station(corresponding to  structure ALARM_GUARD_UPDATE_INFO)  
-#define DH_ALARM_NODE_ACTIVE              0x319E           // Node activation event (corresponding to structure ALARM_NODE_ACTIVE_INFO)
-#define DH_ALARM_VIDEO_STATIC             0x319F           // Video static detection event (corresponding to structure ALARM_VIDEO_STATIC_INFO)
-#define DH_ALARM_REGISTER_REONLINE        0x31a0           // Active registration device re-login event (corresponding to structure ALARM_REGISTER_REONLINE_INFO)
-#define DH_ALARM_ISCSI_STATUS             0x31a1           // ISCSI alarm event (corresponding to structure ALARM_ISCSI_STATUS_INFO)
-#define DH_ALARM_SCADA_DEV_ALARM          0x31a2           // detection collection device alarm event (corresponding to structure ALARM_SCADA_DEV_INFO)
-#define DH_ALARM_AUXILIARY_DEV_STATE      0x31a3           // Sub device status(corresponding structure ALARM_AUXILIARY_DEV_STATE)
-#define DH_ALARM_PARKING_CARD             0x31a4           // Parking swipe card event(corresponding structure ALARM_PARKING_CARD)
+#define DH_URGENCY_ALARM_EX2		0x3182		// Emergency ALARM EX2(upgrade DH_URGENCY_ALARM_EX,struct ALARM_URGENCY_ALARM_EX2, Artificially triggered emergency, general processing is linked external communication function requests for help
+#define DH_ALARM_INPUT_SOURCE_SIGNAL		0x3183		// Alarm input source signal events (as long as there is input will generate the event, whether to play the current mode, unable to block, struct ALARM_INPUT_SOURCE_SIGNAL_INFO)
+#define DH_ALARM_ANALOGALARM_EVENT	0x3184		//  analog alarm(struct ALARM_ANALOGALARM_EVENT_INFO)
+#define DH_ALARM_ACCESS_CTL_STATUS	0x3185		// Access control status event(corresponding structure ALARM_ACCESS_CTL_STATUS_INFO)
+#define DH_ALARM_ACCESS_SNAP        0x3186           // Access control snapshot event(corresponding to ALARM_ACCESS_SNAP_INFO)
+#define DH_ALARM_ALARMCLEAR         0x3187           // Cancel alarm(corresponding to structure ALARM_ALARMCLEAR_INFO)
+#define DH_ALARM_CIDEVENT           0x3188           // CID event(corresponding to structure ALARM_CIDEVENT_INFO)
+#define DH_ALARM_TALKING_HANGUP     0x3189           // Device hand up evnt(corresponding to structure ALARM_TALKING_HANGUP_INFO)
+#define DH_ALARM_BANKCARDINSERT     0x318a           // Bank card evnt(corresponding to structure ALARM_BANKCARDINSERT_INFO)
+#define DH_ALARM_RCEMERGENCY_CALL   0x318b           // Emergency call alarm event(corresponding to structure ALARM_RCEMERGENCY_CALL_INFO)
+#define DH_ALARM_OPENDOORGROUP            0x318c     // Multi-people group unlock event(corresponding to  structure ALARM_OPEN_DOOR_GROUP_INFO)
+#define DH_ALARM_FINGER_PRINT             0x318d     // get fingerprint event(corresponding to  structure ALARM_CAPTURE_FINGER_PRINT_INFO)
+#define DH_ALARM_CARD_RECORD              0x318e     // card no. record event(corresponding to  structure  ALARM_CARD_RECORD_INFO)
+#define DH_ALARM_SUBSYSTEM_STATE_CHANGE   0x318f     // sub system status change event(corresponding to  structure ALARM_SUBSYSTEM_STATE_CHANGE_INFO)
+#define DH_ALARM_BATTERYPOWER_EVENT       0x3190     // battery scheduled warning event(corresponding to  structure ALARM_BATTERYPOWER_INFO)
+#define DH_ALARM_BELLSTATUS_EVENT         0x3191     // bell status event(corresponding to  structure ALARM_BELLSTATUS_INFO)
+#define DH_ALARM_DEFENCE_STATE_CHANGE_EVENT 0x3192   // zone status change event(corresponding to  structure ALARM_DEFENCE_STATUS_CHANGE_INFO), 
+                                                     // customized need，and arm/disarm change event, bypass event status have different definitions,
+                                                     // The status via CLIENT_QueryDevState() port DH_DEVSTATE_DEFENCE_STATE command get
+#define DH_ALARM_TICKET_STATISTIC         0x3193     // ticket statistics info event(corresponding to  structure  ALARM_TICKET_STATISTIC)
+#define DH_ALARM_LOGIN_FAILIUR            0x3194     // login failed event(corresponding to  structure ALARM_LOGIN_FAILIUR_INFO)
+#define DH_ALARM_MODULE_LOST              0x3195     // expansion module offline event(corresponding to  structure  ALARM_MODULE_LOST_INFO)
+#define DH_ALARM_PSTN_BREAK_LINE          0x3196     // PSTN offline event(corresponding to  structure ALARM_PSTN_BREAK_LINE_INFO)
+#define DH_ALARM_ANALOG_PULSE             0x3197     // analog alarm evnet(instant event), specific sensor  trigger(corresponding to  structure ALARM_ANALOGPULSE_INFO)
+#define DH_ALARM_MISSION_CONFIRM          0x3198     // task confirmation event(corresponding to  structure  ALARM_MISSION_CONFIRM_INFO)
+#define DH_ALARM_DEVICE_MSG_NOTIFY        0x3199     // device to platform notice event件(corresponding to  structure  ALARM_DEVICE_MSG_NOTIFY_INFO)
+#define DH_ALARM_VEHICLE_STANDING_OVER_TIME 0x319A   // parking timeout event(corresponding to  structure  ALARM_VEHICLE_STANDING_OVER_TIME_INFO)
+#define DH_ALARM_ENCLOSURE_ALARM          0x319B     // e-fence event(corresponding to  structure  ALARM_ENCLOSURE_ALARM_INFO)
+#define DH_ALARM_GUARD_DETECT			  0x319C	 // station detection event, one in station first report the start event，and last on in station report stop event before leave (corresponding to  structure ALARM_GUARD_DETECT_INFO)
+#define DH_ALARM_GUARD_INFO_UPDATE		  0x319D	 // station info update event，report if people in station(corresponding to  structure ALARM_GUARD_UPDATE_INFO)  
 
 // Event type
 #define DH_CONFIG_RESULT_EVENT_EX	0x3000		// Modify the return code of the setup. Please refer to DEV_SET_RESULT for returned structure.
@@ -1091,8 +929,6 @@ typedef struct tagNET_DEFENCE_STATE_INFO
 #define DH_ALARM_BUS_DRIVER_CHECK         0X0001           // driver sign up event(corresponding to  structure  ALARM_BUS_DRIVER_CHECK_INFO)
 #define DH_ALARM_BUS_IMPORT_SITE          0x0002           // in station(corresponding to  structure  ALARM_BUS_IMPORT_SITE_INFO)
 #define DH_ALARM_BUS_EXPORT_SITE          0x0003           // out event (corresponding to  structure  ALARM_BUS_EXPORT_SITE_INFO)
-#define DH_ALARM_BUS_ABNORMAL             0x0004           // Abnormal vehicle event (corresponding to structure ALARM_BUS_ABNORMAL_INFO)
-#define DH_ALARM_BUS_DOOR_OPEN            0x0005           // Unlock car door event (corresponding to structure ALARM_VEHICLE_DOOR_OPEN_INFO)
 
 // Asynchronous interface callback type
 #define RESPONSE_DECODER_CTRL_TV	0x00000001		// refer to CLIENT_CtrlDecTVScreen interface
@@ -1308,34 +1144,26 @@ typedef struct tagNET_DEFENCE_STATE_INFO
 #define EVENT_IVS_TRAFFIC_RUNYELLOWLIGHT    0x00000127      // run yellow light
 #define EVENT_IVS_CLIMBDETECTION            0x00000128      // climb detection 
 #define EVENT_IVS_LEAVEDETECTION            0x00000129      // leave detection
-#define EVENT_IVS_TRAFFIC_PARKINGONYELLOWBOX    0x0000012A        // parking on yellow box
-#define EVENT_IVS_TRAFFIC_PARKINGSPACEPARKING   0x0000012B        // parking space parking
-#define EVENT_IVS_TRAFFIC_PARKINGSPACENOPARKING 0x0000012C        // parking space no parking
-#define EVENT_IVS_TRAFFIC_PEDESTRAIN            0x0000012D        // passerby
-#define EVENT_IVS_TRAFFIC_THROW                 0x0000012E        // throw
-#define EVENT_IVS_TRAFFIC_IDLE                  0x0000012F        // idle
-#define EVENT_ALARM_VEHICLEACC                  0x00000130        // Vehicle ACC power outage alarm events
-#define EVENT_ALARM_VEHICLE_TURNOVER            0x00000131        // Vehicle rollover alarm events
-#define EVENT_ALARM_VEHICLE_COLLISION           0x00000132        // Vehicle crash alarm events
-#define EVENT_ALARM_VEHICLE_LARGE_ANGLE         0x00000133        // On-board camera large Angle turn events
-#define EVENT_IVS_TRAFFIC_PARKINGSPACEOVERLINE  0x00000134        // Parking line pressing events
-#define EVENT_IVS_MULTISCENESWITCH              0x00000135        // Many scenes switching events
-#define EVENT_IVS_TRAFFIC_RESTRICTED_PLATE      0X00000136        // Limited license plate event
-#define EVENT_IVS_TRAFFIC_OVERSTOPLINE          0X00000137        // Cross stop line event
-#define EVENT_IVS_TRAFFIC_WITHOUT_SAFEBELT      0x00000138        // Traffic unfasten seat belt event 
-#define EVENT_IVS_TRAFFIC_DRIVER_SMOKING        0x00000139        // Driver smoking event 
-#define EVENT_IVS_TRAFFIC_DRIVER_CALLING        0x0000013A        // Driver call event 
-#define EVENT_IVS_OBJECT_DETECTION              0x00000141        // Object feature detection event 
-#define EVENT_ALARM_ANALOGALARM                 0x00000150        // Analog alarm channel’s alarm event(correspondingDEV_EVENT_ALARM_ANALOGALRM_INFO)
-#define EVENT_IVS_CROSSLINEDETECTION_EX	        0x00000151        // Warning lineexpansion event 
-#define EVENT_ALARM_COMMON                      0x00000152        // Normal Record
-#define EVENT_ALARM_VIDEOBLIND                  0x00000153        // Video tampering event
-#define EVENT_ALARM_VIDEOLOSS                   0x00000154        // Video loss event
+#define EVENT_IVS_TRAFFIC_PARKINGONYELLOWBOX 0x0000012A	    // parking on yellow box
+#define EVENT_IVS_TRAFFIC_PARKINGSPACEPARKING 0x0000012B	// parking space parking
+#define EVENT_IVS_TRAFFIC_PARKINGSPACENOPARKING 0x0000012C	// parking space no parking
+#define EVENT_IVS_TRAFFIC_PEDESTRAIN        0x0000012D      // passerby
+#define EVENT_IVS_TRAFFIC_THROW             0x0000012E      // throw
+#define EVENT_IVS_TRAFFIC_IDLE              0x0000012F      // idle
+#define EVENT_ALARM_VEHICLEACC              0x00000130      // Vehicle ACC power outage alarm events
+#define EVENT_ALARM_VEHICLE_TURNOVER		0x00000131		// Vehicle rollover alarm events
+#define EVENT_ALARM_VEHICLE_COLLISION		0x00000132		// Vehicle crash alarm events
+#define EVENT_ALARM_VEHICLE_LARGE_ANGLE		0x00000133		// On-board camera large Angle turn events
+#define EVENT_IVS_TRAFFIC_PARKINGSPACEOVERLINE 0x00000134   // Parking line pressing events
+#define EVENT_IVS_MULTISCENESWITCH			0x00000135		// Many scenes switching events
+#define EVENT_IVS_TRAFFIC_RESTRICTED_PLATE  0X00000136      // Limited license plate event
+#define EVENT_IVS_TRAFFIC_OVERSTOPLINE      0X00000137      // Cross stop line event
+#define EVENT_ALARM_ANALOGALARM             0x00000150      // Analog alarm channel’s alarm event(correspondingDEV_EVENT_ALARM_ANALOGALRM_INFO)
 
 // 
-#define EVENT_IVS_TRAFFIC_ALL                   0x000001FF        // All event start with [TRAFFIC]
-                                                                  // EVENT_IVS_TRAFFICCONTROL -> EVENT_TRAFFICSNAPSHOT
-                                                                  // EVENT_IVS_TRAFFIC_RUNREDLIGHT -> EVENT_IVS_TRAFFIC_UNDERSPEED
+#define EVENT_IVS_TRAFFIC_ALL				0x000001FF		// All event start with [TRAFFIC]
+															// EVENT_IVS_TRAFFICCONTROL -> EVENT_TRAFFICSNAPSHOT
+															// EVENT_IVS_TRAFFIC_RUNREDLIGHT -> EVENT_IVS_TRAFFIC_UNDERSPEED
 #define EVENT_IVS_VIDEOANALYSE                  0x00000200        // All IVS events 
 
 //Traffic statistics event using macros
@@ -1590,33 +1418,30 @@ typedef struct tagNET_DEFENCE_STATE_INFO
 #define NET_ERROR_LIMITED_INPUT_SOURCE		_EC(421)	//Input source beyond maximum route restrictions
 #define NET_ERROR_SET_LOG_PRINT_INFO        _EC(422)    // Failed to set log print
 #define NET_ERROR_PARAM_DWSIZE_ERROR        _EC(423)    // "dwSize" is not initialized in input param
-#define NET_ERROR_LIMITED_MONITORWALL_COUNT _EC(424)    // TV wall exceed limit
-
 #define NET_ERROR_VISITE_FILE				_EC(510)	// Access to the file failed
 #define NET_ERROR_DEVICE_STATUS_BUSY		_EC(511)	// Device busy
 
 /************************************************************************
  ** Enumeration Definition
  ***********************************************************************/
-//Card information types CLIENT_QueryNetStat interface using
-typedef enum tagEM_NET_QUERY_TYPE
-{
+//Card information types CLIENT_QueryNetStat  interface using
+enum EM_NET_QUERY_TYPE {
 	NET_APP_DATA_STAT , // Statistics for protocol stack,(input struct NET_IN_NETAPP_NET_DATA_STAT,output struct NET_OUT_NETAPP_NET_DATA_STAT)
 	NET_APP_LINK_STAT , // Access to physical link state,(input structNET_IN_NETAPP_LINK_STATUS,output struct NET_OUT_NETAPP_LINK_STATUS)
-}EM_NET_QUERY_TYPE;
+};
 
 // Catch a figure type CLIENT_CapturePictureEx interface using
-typedef enum tagNET_CAPTURE_FORMATS
+enum NET_CAPTURE_FORMATS
 {
 	NET_CAPTURE_BMP,
 	NET_CAPTURE_JPEG, // 100% quality JPEG
 	NET_CAPTURE_JPEG_70, // 70% quality JPEG
 	NET_CAPTURE_JPEG_50,
 	NET_CAPTURE_JPEG_30,
-}NET_CAPTURE_FORMATS;
+};
 
 // Device type
-typedef enum tagNET_DEVICE_TYPE 
+enum NET_DEVICE_TYPE 
 {
 	NET_PRODUCT_NONE = 0,
 	NET_DVR_NONREALTIME_MACE,					// Non real-time MACE
@@ -1675,10 +1500,8 @@ typedef enum tagNET_DEVICE_TYPE
 	NET_AH2008,									//Network alarm host
 	NET_A_SERIAL,								// Alarm host series
 	NET_BSC_SERIAL,								// Access control series of products
-    NET_NVS_SERIAL,                             // NVS series product
-    NET_VTO_SERIAL,                             // VTO series product
-    NET_VTNC_SERIAL,                            // VTNC series product
-}NET_DEVICE_TYPE ;
+    NET_NVS_SERIAL,               // NVS series product
+};
 
 // Language type
 typedef enum __LANGUAGE_TYPE
@@ -1857,7 +1680,6 @@ typedef enum __EM_IPC_TYPE
 	DH_IPC_CPUNP,									// CPPLUS PTZ
 	DH_IPC_HX = 65,									// HX
 	DH_IPC_TJGS,                                    // TJGS
-    DH_IPC_MULTICAST,                               // Multicast
 }EM_IPC_TYPE;
 
 // H264 profile rank
@@ -1905,7 +1727,6 @@ typedef enum __EM_3GMOBILE_STATE
 typedef enum tagEM_LOGIN_SPAC_CAP_TYPE
 {
     EM_LOGIN_SPEC_CAP_TCP               = 0,    // TCP login, default
-    EM_LOGIN_SPEC_CAP_ANY               = 1,    // No criteria login
     EM_LOGIN_SPEC_CAP_SERVER_CONN       = 2,    // auto sign up login
     EM_LOGIN_SPEC_CAP_MULTICAST         = 3,    // multicast login, default
     EM_LOGIN_SPEC_CAP_UDP               = 4,    // UDP method login
@@ -2021,7 +1842,6 @@ typedef enum _EXTPTZ_ControlType
 	DH_EXTPTZ_HORSECTORSCAN = 0x4B,             // Level fan sweep(param4 corresponding PTZ_CONTROL_SECTORSCAN,param1、param2、param3 is invalid)
 	DH_EXTPTZ_VERSECTORSCAN = 0x4C,             // Vertical sweep fan(param4correspondingPTZ_CONTROL_SECTORSCAN,param1、param2、param3 is invalid)
 	DH_EXTPTZ_SET_ABS_ZOOMFOCUS = 0x4D,         // Set absolute focus, focus on value, param1 for focal length, range: [0255], param2 as the focus, scope: [0255], param3, param4 is invalid
-    DH_EXTPTZ_SET_FISHEYE_EPTZ = 0x4E,          // Control fish eye PTZ，param4corresponding to structure PTZ_CONTROL_SET_FISHEYE_EPTZ 
 
 	DH_EXTPTZ_UP_TELE = 0x70,					// Up + TELE param1=speed (1-8) 
 	DH_EXTPTZ_DOWN_TELE,						// Down + TELE
@@ -2042,55 +1862,6 @@ typedef enum _EXTPTZ_ControlType
 	DH_EXTPTZ_TOTAL,							// max command value
 } DH_EXTPTZ_ControlType;
 
-// Fish eye electronic PTZ control command 
-typedef enum tagNET_FISHEYE_EPTZ_CMD
-{
-  NET_FISHEYE_EPTZ_CMD_UNKOWN,          // unknown type 
-  NET_FISHEYE_EPTZ_CMD_ZOOMIN,          // Zoom in ，dwParam1 means step length, range 1～8
-  NET_FISHEYE_EPTZ_CMD_ZOOMOUT,          // Zoom out，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_UP,            // Move up，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_DOWN,           // Move down，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_LEFT,           // Move left，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_RIGHT,           // Move right，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_ROTATECLOCK,        // Auto clockwise rotation ，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_ROTATEANTICLOCK,      // Auto counterclockwise rotation，dwParam1 means step length ， range 1～8
-  NET_FISHEYE_EPTZ_CMD_STOP,           // End auto rotation
-  NET_FISHEYE_EPTZ_CMD_TAPVIEW,          // Display specific location, instant view，dwParam1 means eptz（E-PTZ ） focus coordinate，as The focus, the rectified image was in the abscissa, take the value does not exceed the rectified output image width  // dwParam2 means eptz（E-PTZ ）The focus of the cordinate, the rectified image was focus on the ordinate, take the value does not exceed the rectified output image 
-  NET_FISHEYE_EPTZ_CMD_SHOEREGION,        // Panel Zoom in ，wParam1 means selected rectangle center horizontal corrdinate，
-  // dwParam2 means selected rectangle center horizontal coordinate，dwParam3 means selected rectangle width
-  // dwParam4 means selected rectangle height
-}NET_FISHEYE_EPTZ_CMD;
-
-// Fish eye correction mode
-typedef enum tagNET_CALIBRATE_MODE
-{
-  NET_FISHEYE_CALIBRATE_MODE_UNKOWN,           // unknown mode 
-  NET_FISHEYE_CALIBRATE_MODE_ORIGIAL,           // Original image mode 
-  NET_FISHEYE_CALIBRATE_MODE_CONFIG,           // config mode
-  NET_FISHEYE_CALIBRATE_MODE_PANORAMA,          // global mode 
-  NET_FISHEYE_CALIBRATE_MODE_DOUBLEPANORAMA,       // dual global mode 
-  NET_FISHEYE_CALIBRATE_MODE_ORIGIALPLUSTHREEEPTZREGION, // 1+3 mode （one original Fish eye plus 3 EPtz images）
-  NET_FISHEYE_CALIBRATE_MODE_SINGLE,           // Single image EPtz mode （only one EPtz video）
-  NET_FISHEYE_CALIBRATE_MODE_FOUREPTZREGION,       // 4 image mode （4个EPtz control image）
-  NET_FISHEYE_CALIBRATE_MODE_NORMAL,           // normal mode 
-}NET_FISHEYE_CALIBRATE_MODE;
-
-typedef enum tagNET_FISHEYE_TYPE
-{
-  NET_FISHEYE_UNKOWN =0  ,        // unknown 
-  NET_FISHEYE_CHIP    ,        //only support device port Fish eye correction
-  NET_FISHEYE_PLUGIN   ,        //only support control Fish eye correction
-  NET_FISHEYE_CHIP_PLUGIN ,        //support both
-}NET_FISHEYE_TYPE;
-
-// Fish eye installation mode 
-typedef enum tagNET_FISHEYE_MOUNT_MODE
-{
-  NET_FISHEYE_MOUNT_MODE_UNKOWN,             // unknown mode          
-  NET_FISHEYE_MOUNT_MODE_CEIL,              // ceiling mode 
-  NET_FISHEYE_MOUNT_MODE_WALL,              // wall mount mode  
-  NET_FISHEYE_MOUNT_MODE_FLOOR,              // ground mode  
-}NET_FISHEYE_MOUNT_MODE;
 /////////////////////////////////About Log /////////////////////////////////
 
 // Log search type 
@@ -2394,7 +2165,6 @@ typedef enum __EM_USEDEV_MODE
 	DH_TALK_SPEAK_PARAM,                        // set speaking parameter,corresponding to NET_SPEAK_PARAM
 	DH_RECORD_TYPE,                             // Set by time video playback and download the video file TYPE (see.net RECORD TYPE)
 	DH_TALK_MODE3,								// Set voice intercom parameters of three generations of equipment and the corresponding structure NET TALK the EX
-    DH_PLAYBACK_REALTIME_MODE ,                 // set real time playback function(0-off，1-on)
 } EM_USEDEV_MODE;
 
 
@@ -2496,8 +2266,6 @@ typedef enum _CtrlType
     DH_KEYBOARD_10PLUS,
     DH_KEYBOARD_SHIFT,
     DH_KEYBOARD_BACK,
-    DH_KEYBOARD_LOGIN ,                         // new network keyboard function
-    DH_KEYBOARD_CHNNEL ,                        // switch video channel
 	DH_TRIGGER_ALARM_IN = 100,					// Activate alarm input
 	DH_TRIGGER_ALARM_OUT,						// Activate alarm output 
 	DH_CTRL_MATRIX,								// Matrix control 
@@ -2576,7 +2344,6 @@ typedef enum _CtrlType
     DH_CTRL_FORBID_OPEN_STROBE,                 // Disable device open gateway(corresponding to structure  NET_CTRL_FORBID_OPEN_STROBE)
     DH_CTRL_OPEN_STROBE,                        // Enable gateway(corresponding to structure  NET_CTRL_OPEN_STROBE)
     DH_CTRL_TALKING_REFUSE,                     // Talk no response(corresponding to structure  NET_CTRL_TALKING_REFUSE)
-    DH_CTRL_ARMED_EX,                           // arm-disarm operation(corresponding to structure CTRL_ARM_DISARM_PARAM_EX), CTRL_ARM_DISARM_PARAM upgrade，recommended
     DH_CTRL_NET_KEYBOARD = 400,                 // Net keyboard control(corresponding to structure  DHCTRL_NET_KEYBOARD)
     DH_CTRL_AIRCONDITION_OPEN,                  // Open air conditioner(corresponding to structure  NET_CTRL_OPEN_AIRCONDITION)
     DH_CTRL_AIRCONDITION_CLOSE,                 // Close air-conditioner(corresponding to structure  NET_CTRL_CLOSE_AIRCONDITION)
@@ -2593,14 +2360,6 @@ typedef enum _CtrlType
     DH_CTRL_STOP_PLAYAUDIOEX,                   // device stop sound report
     DH_CTRL_CLOSE_STROBE,                       // close gateway(corresponding to  structure  NET_CTRL_CLOSE_STROBE)
 	DH_CTRL_SET_ORDER_STATE,                    // set parking reservation status (corresponding to  structure  NET_CTRL_SET_ORDER_STATE)
-	DH_CTRL_RECORDSET_INSERTEX,                 // add record，get record collection no.(corresponding to NET_CTRL_RECORDSET_INSERT_PARAM)
-    DH_CTRL_RECORDSET_UPDATEEX,                 // update record set no.’s record(corresponding to NET_CTRL_RECORDSET_PARAM)
-    DH_CTRL_CAPTURE_FINGER_PRINT,               // fingerprint collection (corresponding to structure NET_CTRL_CAPTURE_FINGER_PRINT)
-	DH_CTRL_ECK_LED_SET,                           // Parking lot entrance/exit controller LED setup(corresponding structure  NET_CTRL_ECK_LED_SET_PARAM)
-    DH_CTRL_ECK_IC_CARD_IMPORT,                    // Intelligent parking system in/out device IC card info import (corresponding structure  NET_CTRL_ECK_IC_CARD_IMPORT_PARAM)
-    DH_CTRL_ECK_SYNC_IC_CARD,                      // Intelligent parking system in/out device IC card info sync command, receive this command, device will delete original IC card info(corresponding structure  NET_CTRL_ECK_SYNC_IC_CARD_PARAM)
-    DH_CTRL_LOWRATEWPAN_REMOVE,                    // Delete specific wireless device(corresponding structure  NET_CTRL_LOWRATEWPAN_REMOVE)
-    DH_CTRL_LOWRATEWPAN_MODIFY,                    // Modify wireless device info(corresponding structure  NET_CTRL_LOWRATEWPAN_MODIFY)
 } CtrlType;
 
 // Restore default config new protocol input parameter
@@ -2924,41 +2683,15 @@ typedef enum _EM_NET_AUTHORITY_TYPE
 
 typedef enum _EM_NET_RECORD_TYPE
 {
-  NET_RECORD_UNKNOWN,
-
-  NET_RECORD_TRAFFICREDLIST,              // Traffic white list account record
-                                          // search criteria corresponding to FIND_RECORD_TRAFFICREDLIST_CONDITION structure 
-                                          // record info corresponding to NET_TRAFFIC_LIST_RECORD structure 
-  NET_RECORD_TRAFFICBLACKLIST,            // Traffic black list account record
-                                          // search criteria corresponding to FIND_RECORD_TRAFFICREDLIST_CONDITION structure 
-                                          // record info corresponding to NET_TRAFFIC_LIST_RECORD structure 
-  NET_RECORD_BURN_CASE,                   // burning case record
-                                          // search criteria corresponding to FIND_RECORD_BURN_CASE_CONDITION structure 
-                                          // record info corresponding to NET_BURN_CASE_INFO structure 
-  NET_RECORD_ACCESSCTLCARD,               // access control card
-                                          // search criteria corresponding to FIND_RECORD_ACCESSCTLCARD_CONDITION structure 
-                                          // record info corresponding to NET_RECORDSET_ACCESS_CTL_CARD structure 
-  NET_RECORD_ACCESSCTLPWD,                // access control password
-                                          // search criteria corresponding to FIND_RECORD_ACCESSCTLPWD_CONDITION structure 
-                                          // record info corresponding to NET_RECORDSET_ACCESS_CTL_PWD
-  NET_RECORD_ACCESSCTLCARDREC,            // access control in/out record
-                                          // search criteria corresponding to FIND_RECORD_ACCESSCTLCARDREC_CONDITION structure 
-                                          // record info corresponding to 
-  NET_RECORD_ACCESSCTLHOLIDAY,            // holiday record set
-                                          // search criteria corresponding to FIND_RECORD_ACCESSCTLHOLIDAY_CONDITION structure 
-                                          // record info corresponding to 
-  NET_RECORD_TRAFFICFLOW_STATE,           // search Traffic flow record 
-                                          // search criteria corresponding to FIND_RECORD_TRAFFICFLOW_CONDITION structure 
-                                          // record info corresponding to NET_RECORD_TRAFFIC_FLOW_STATE structure 
-  NET_RECORD_VIDEOTALKLOG,                // call record 
-                                          // search criteria corresponding to FIND_RECORD_VIDEO_TALK_LOG_CONDITION structure 
-                                          // record info corresponding to NET_RECORD_VIDEO_TALK_LOG structure 
-  NET_RECORD_REGISTERUSERSTATE,           // status record 
-                                          // search criteria corresponding to FIND_RECORD_REGISTER_USER_STATE_CONDITION structure 
-                                          // record info corresponding to NET_RECORD_REGISTER_USER_STATE structure 
-  NET_RECORD_VIDEOTALKCONTACT,            //contact record 
-                                          // search criteria corresponding to FIND_RECORD_VIDEO_TALK_CONTACT_CONDITION structure 
-                                          // record info corresponding to NET_RECORD_VIDEO_TALK_CONTACT structure 
+	NET_RECORD_UNKNOWN,
+	NET_RECORD_TRAFFICREDLIST,								// Traffic white list account records
+	NET_RECORD_TRAFFICBLACKLIST,							// Traffic black list account records
+	NET_RECORD_BURN_CASE,									// Imprinted case
+	NET_RECORD_ACCESSCTLCARD,							    // Entrance CARD, corresponding.net you ACCESS CTL CARD
+	NET_RECORD_ACCESSCTLPWD,								// Corresponding NET ACCESS password, you ACCESS CTL PWD
+	NET_RECORD_ACCESSCTLCARDREC,							// Entrance guard ACCESS records, corresponding.net you ACCESS CTL CARDREC
+	NET_RECORD_ACCESSCTLHOLIDAY,							// HOLIDAY RECORDSET, corresponding.net you HOLIDAY
+    NET_RECORD_TRAFFICFLOW_STATE,                           // Search traffic flow mode，corresponding FIND_RECORD_TRAFFICFLOW_CONDITION
 }EM_NET_RECORD_TYPE;
 
 // time type
@@ -4410,16 +4143,7 @@ typedef enum tagEM_RCEMERGENCY_CALL_TYPE
     EM_RCEMERGENCY_CALL_DURESS,                         // Forced
     EM_RCEMERGENCY_CALL_ROBBER,                         // Robber
     EM_RCEMERGENCY_CALL_MEDICAL,                        // Medical
-    EM_RCEMERGENCY_CALL_EMERGENCY,                      // Emergency
 }EM_RCEMERGENCY_CALL_TYPE;
-
-// alarm method
-typedef enum tagEM_RCEMERGENCY_MODE_TYPE
-{
-    EM_RCEMERGENCY_MODE_UNKNOWN = 0,
-    EM_RCEMERGENCY_MODE_KEYBOARD,                       //  keyboard
-    EM_RCEMERGENCY_MODE_WIRELESS_CONTROL,               // remote control
-}EM_RCEMERGENCY_MODE_TYPE;
 
 // Emergency Help Event Details
 typedef struct tagALARM_RCEMERGENCY_CALL_INFO 
@@ -4428,8 +4152,6 @@ typedef struct tagALARM_RCEMERGENCY_CALL_INFO
     int                     nAction;                    // 0:start 1:stop
     EM_RCEMERGENCY_CALL_TYPE  emType;                   // emergency type
     NET_TIME                stuTime;                    // event time
-    EM_RCEMERGENCY_MODE_TYPE  emMode;                   // alarm method
-    DWORD                   dwID;                       // for different emergency events (only emMode is remote control type, it is valid , means remote control no. , 0 means invalid ID)
 }ALARM_RCEMERGENCY_CALL_INFO;
 
 // multi-people unlock event(corresponding to DH_ALARM_OPENDOORGROUP type)
@@ -4523,7 +4245,7 @@ typedef struct tagALARM_TICKET_STATISTIC
     int                     nSubsidyPrice;                  // young and old ticket price
 }ALARM_TICKET_STATISTIC;
 
-#define MAX_ALARMEXT_MODULE_NUM     256                     // max expansionmodule quantity
+#define MAX_ALARMEXT_MODULE_NUM          8                  // max expansionmodule quantity
 
 // BUS type
 typedef enum tagNET_BUS_TYPE
@@ -4568,105 +4290,15 @@ typedef struct tagALARM_ANALOGPULSE_INFO
     NET_GPS_STATUS_INFO     stuGPSStatusInfo;               // GPS info
 }ALARM_ANALOGPULSE_INFO;
 
-//dispatch info confirmation type 
-typedef enum tagNET_MISSION_CONFIRM_TYPE
-{
-    NET_MISSION_CONFIRM_UNKNOWN = 0 ,                        // unknown 
-    NET_MISSION_CONFIRM_YES ,                                // agree and execute
-	NET_MISSION_CONFIRM_NO ,                                 // refuse
-}NET_MISSION_CONFIRM_TYPE;
-
 // task confirmation event(corresponding to command DH_ALARM_MISSION_CONFIRM)
 typedef struct tagALARM_MISSION_CONFIRM_INFO 
 {
     DWORD                   dwSize;
-    char                    szTitle[DH_COMMON_STRING_256];    // task name
+    char                    szTitle[DH_COMMON_STRING_256];  // task name
     char                    szMissionID[DH_COMMON_STRING_256];// task ID
-    char                    szComment[DH_COMMON_STRING_256];  // replay content
-    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                 // GPS info
-    NET_MISSION_CONFIRM_TYPE emConfirmType;                   //dispatch info confirmation type 
+    char                    szComment[DH_COMMON_STRING_256];// replay content
+    NET_GPS_STATUS_INFO     stuGPSStatusInfo;               // GPS info
 }ALARM_MISSION_CONFIRM_INFO;
-
-// collect Node group  type 
-typedef enum tagNET_CLUSTER_GROUP_TYPE
-{
-  NET_CLUSTER_GROUP_UNKNOWN,             // unknown 
-  NET_CLUSTER_GROUP_IDLE,               // stand alone
-  NET_CLUSTER_GROUP_MASTER,              // host
-  NET_CLUSTER_GROUP_SLAVE,              // spare
-}NET_CLUSTER_GROUP_TYPE;
-
-// Node activate event , corresponding to event type DH_ALARM_NODE_ACTIVE
-typedef struct tagALARM_NODE_ACTIVE_INFO 
-{
-  DWORD          dwSize;
-  int           nChannelID;         // collect node no.
-  NET_TIME        stuTime;          // event occurred event 
-  NET_CLUSTER_GROUP_TYPE emGroup;          //  current Node group
-}ALARM_NODE_ACTIVE_INFO;
-
-// collect Node status 
-typedef struct tagNET_CLUSTER_STATE_INFO 
-{
-  DWORD          dwSize;
-  NET_CLUSTER_GROUP_TYPE emGroup;          //  current Node group
-}NET_CLUSTER_STATE_INFO;
-
-// device alarm mode 
-typedef enum tagEM_ALARM_VIDEO_STATIC_MODE
-{
-  EM_ALARM_VIDEO_STATIC_MODE_UNKNOWN,         // unknown 
-  EM_ALARM_VIDEO_STATIC_MODE_INDOOR,         // indoor mode "Indoor"
-  EM_ALARM_VIDEO_STATIC_MODE_OUTDOOR,         // outdoor mode "Outdoor"
-}EM_ALARM_VIDEO_STATIC_MODE;
-
-// video statis detection event , corresponding to event type DH_ALARM_VIDEO_STATIC
-typedef struct tagALARM_VIDEO_STATIC_INFO 
-{
-  DWORD            dwSize;
-  DWORD            dwAction;            // event action, 0:Start, 1:Stop
-  EM_ALARM_VIDEO_STATIC_MODE emMode;             // device alarm mode 
-  int             nChannelID;           // video statis detection alarm channel no.
-}ALARM_VIDEO_STATIC_INFO;
-
-// active registration device re-login event , corresponding to event type DH_ALARM_REGISTER_REONLINE
-typedef struct tagALARM_REGISTER_REONLINE_INFO
-{
-  DWORD      dwSize;
-}ALARM_REGISTER_REONLINE_INFO;
-
-// connection status 
-typedef enum tagEM_ALARM_ISCSI_STATUS
-{
-  EM_ALARM_ISCSI_STATUS_UNKNOWN,         // unknown 
-  EM_ALARM_ISCSI_STATUS_CONNECTED,        // connected
-  EM_ALARM_ISCSI_STATUS_NOT_CONNECTED,      // unconnected
-  EM_ALARM_ISCSI_STATUS_CONNECT_FAILED,      // connection failed
-  EM_ALARM_ISCSI_STATUS_AUTHENTICATION_FAILED,  // authentication failed
-  EM_ALARM_ISCSI_STATUS_CONNECT_TIMEOUT,     // connection timed out
-  EM_ALARM_ISCSI_STATUS_NOT_EXIST,        // device does not exist
-}EM_ALARM_ISCSI_STATUS;
-
-// ISCSI alarm event , corresponding to event type DH_ALARM_ISCSI_STATUS
-typedef struct tagALARM_ISCSI_STATUS_INFO
-{
-  DWORD          dwSize;
-  int           nIndex;               // means ISCSIdevice index no.
-  char          szAddress[DH_COMMON_STRING_32];   // server address
-  char          szName[DH_COMMON_STRING_64];    // Target name 
-  char          szUserName[DH_COMMON_STRING_64];  // username
-  EM_ALARM_ISCSI_STATUS  emStatus;              // connection status 
-}ALARM_ISCSI_STATUS_INFO;
-
-// detection collection device alarm event , corresponding to event type DH_ALARM_SCADA_DEV_ALARM
-typedef struct tagALARM_SCADA_DEV_INFO 
-{
-  DWORD          dwSize;
-  int           nChannel;              // channel no.
-  NET_TIME        stuTime;              // event occur time
-  char          szDevName[DH_COMMON_STRING_64];   // failure device name 
-  char          szDesc[DH_COMMON_STRING_256];    // alarm description
-}ALARM_SCADA_DEV_INFO;
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -4729,20 +4361,10 @@ typedef enum tagNET_ACCESSCTLCARD_TYPE
 
 #define DH_MAX_DOOR_NUM               32                // Max Door Number 
 #define DH_MAX_TIMESECTION_NUM        32                // Max Time Section Number
-#define DH_MAX_CARDNAME_LEN           64                // access control naming max length
 #define DH_MAX_CARDNO_LEN             32                // Max Card-Number Len
 #define DH_MAX_USERID_LEN             32                // Max User ID Len
 
-//fingerprint data
-typedef struct tagNET_ACCESSCTLCARD_FINGERPRINT_PACKET
-{
-    DWORD   dwSize;	
-	int		nLength;		// single number pack length，unit byte
-	int		nCount;			// pack number 
-	char*	pPacketData;	// all fingerprint pack lengths（total length as nLength*nCount）
-}NET_ACCESSCTLCARD_FINGERPRINT_PACKET;
-
-//Entrance Guard Record Information
+//Entrance Guard Record  Information
 typedef struct tagNET_RECORDSET_ACCESS_CTL_CARD
 {
     DWORD           dwSize;
@@ -4761,10 +4383,6 @@ typedef struct tagNET_RECORDSET_ACCESS_CTL_CARD
     NET_TIME        stuValidStartTime;                      // Valid Start Time 
     NET_TIME        stuValidEndTime;                        // Valid End Time
     BOOL            bIsValid;                               // Wether Valid,True =Valid,False=Invalid
-    NET_ACCESSCTLCARD_FINGERPRINT_PACKET stuFingerPrintInfo;// fingerprint data info 
-    BOOL            bFirstEnter;                            // has first card or not
-    char            szCardName[DH_MAX_CARDNAME_LEN];        // card naming
-    char            szVTOPosition[DH_COMMON_STRING_64];     // VTO link position
 }NET_RECORDSET_ACCESS_CTL_CARD;
 
 // Entrance Guard Record  Information
@@ -4778,7 +4396,6 @@ typedef struct tagNET_RECORDSET_ACCESS_CTL_PWD
     char            szAlarmPwd[DH_MAX_CARDPWD_LEN];         // Alarm Password
     int             nDoorNum;                               // Valid Door Number
     int             sznDoors[DH_MAX_DOOR_NUM];              // Privileged Door Number,That is CFG_CMD_ACCESS_EVENT Configure Array Subscript
-    char            szVTOPosition[DH_COMMON_STRING_64];     // VTO link position
 }NET_RECORDSET_ACCESS_CTL_PWD;
 
 
@@ -4804,11 +4421,6 @@ typedef enum tagNET_ACCESS_DOOROPEN_METHOD
     NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,                   // First Password Then Card 
     NET_ACCESS_DOOROPEN_METHOD_REMOTE,                      // Long-Range Open,Such as Through theIndoor Unit or Unlock the Door Machine Platform
     NET_ACCESS_DOOROPEN_METHOD_BUTTON,                      // Open Door Button
-    NET_ACCESS_DOOROPEN_METHOD_FINGERPRINT,                 // fingerprint lock
-    NET_ACCESS_DOOROPEN_METHOD_PWD_CARD_FINGERPRINT,        // password+swipe card+fingerprint combination unlock
-    NET_ACCESS_DOOROPEN_METHOD_PWD_FINGERPRINT = 10,        // password+fingerprint combination unlock
-    NET_ACCESS_DOOROPEN_METHOD_CARD_FINGERPRINT = 11,       // swipe card+fingerprint combination unlock
-    NET_ACCESS_DOOROPEN_METHOD_PERSONS = 12,                // multi-people unlock
 }NET_ACCESS_DOOROPEN_METHOD;
 
 // Access Control card Record Information
@@ -4822,8 +4434,6 @@ typedef struct tagNET_RECORDSET_ACCESS_CTL_CARDREC
     BOOL            bStatus;                                // Swing Card Result,True is Succes,False is Fail
     NET_ACCESS_DOOROPEN_METHOD    emMethod;                 // Open Door Method
     int             nDoor;                                  // Door Number,That is CFG_CMD_ACCESS_EVENT Configure Array Subscript 
-    char            szUserID[DH_MAX_USERID_LEN];            // user ID
-    int             nReaderID;                              // card reader ID
 }NET_RECORDSET_ACCESS_CTL_CARDREC;
 
 // Holiday Record Iinformation
@@ -4838,130 +4448,6 @@ typedef struct tagNET_RECORDSET_HOLIDAY
     BOOL            bEnable;                                // Holiday Ennable
 	char            szHolidayNo[DH_COMMON_STRING_32];       // Holiday No
 }NET_RECORDSET_HOLIDAY;
-
-// call type 
-typedef enum tagEM_VIDEO_TALK_LOG_CALLTYPE
-{
-  EM_VIDEO_TALK_LOG_CALLTYPE_UNKNOWN = 0,     // unknown 
-  EM_VIDEO_TALK_LOG_CALLTYPE_INCOMING,      // call in
-  EM_VIDEO_TALK_LOG_CALLTYPE_OUTGOING,      // call out
-  EM_VIDEO_TALK_LOG_CALLTYPE_MAX,         //
-}EM_VIDEO_TALK_LOG_CALLTYPE;
-
-// terminal status 
-typedef enum tagEM_VIDEO_TALK_LOG_ENDSTATE
-{
-  EM_VIDEO_TALK_LOG_ENDSTATE_UNKNOWN = 0,     // unknown 
-  EM_VIDEO_TALK_LOG_ENDSTATE_MISSED,       // missed
-  EM_VIDEO_TALK_LOG_ENDSTATE_RECEIVED,      // answered
-  EM_VIDEO_TALK_LOG_ENDSTATE_MAX,         //
-}EM_VIDEO_TALK_LOG_ENDSTATE;
-
-// opposite type 
-typedef enum tagEM_VIDEO_TALK_LOG_PEERTYPE
-{
-  EM_VIDEO_TALK_LOG_PEERTYPE_UNKNOWN = 0,     // unknown 
-  EM_VIDEO_TALK_LOG_PEERTYPE_VTO,         // VTO
-  EM_VIDEO_TALK_LOG_PEERTYPE_VTH,         // VTH
-  EM_VIDEO_TALK_LOG_PEERTYPE_VTS,         // management center
-}EM_VIDEO_TALK_LOG_PEERTYPE;
-
-// call record record set info 
-typedef struct tagNET_RECORD_VIDEO_TALK_LOG
-{
-  DWORD              dwSize;
-  int               nRecNo;               // record set no.，read-only
-  NET_TIME            stuCreateTime;           // start time
-  EM_VIDEO_TALK_LOG_CALLTYPE   emCallType;             // call type 
-  EM_VIDEO_TALK_LOG_ENDSTATE   emEndState;             // terminal status 
-  char              szPeerNumber[DH_COMMON_STRING_64]; // opposite number	may be short no. or middle no., long no.
-  EM_VIDEO_TALK_LOG_PEERTYPE   emPeerType;             // opposite type 
-  char              szLocalNumber[DH_COMMON_STRING_64]; // local no.	may be short no. or middle no., long no.
-  int               nTalkTime;             // talk time	unit second
-  int               nMessageTime;            // message time	unit second
-  char              szPicturePath[DH_COMMON_STRING_128];// 
-}NET_RECORD_VIDEO_TALK_LOG;
-
-
-// audio talk status 
-typedef enum tagEM_REGISTER_USER_STATE
-{
-  EM_REGISTER_USER_STATE_UNKNOWN = 0,         // unknown 
-  EM_REGISTER_USER_STATE_IDLE,                // initial status 
-  EM_REGISTER_USER_STATE_CALLING,             // call status （no response）
-  EM_REGISTER_USER_STATE_RINGING,             // ring status （opposite response，but no response）
-  EM_REGISTER_USER_STATE_PREVIEWING,          // previewing
-  EM_REGISTER_USER_STATE_LEAVINGMESSAGE,      // messaging
-  EM_REGISTER_USER_STATE_TALKING,             // talking
-  EM_REGISTER_USER_STATE_MAX,                 //
-}EM_REGISTER_USER_STATE;
-
-// status  record set info 
-typedef struct tagNET_RECORD_REGISTER_USER_STATE
-{
-  DWORD              dwSize;
-  int               nRecNo;               // record set no.，read-only
-  NET_TIME            stuCreateTime;           // create time
-  char              szUserID[DH_MAX_USERID_LEN];   // user ID
-  BOOL              bOnline;              // online or not
-  char              szAddress[DH_MAX_IPADDR_OR_DOMAIN_LEN];   // network address
-  int               nPort;               // port no.  
-  EM_REGISTER_USER_STATE     emVideoTalkState;          // audio talk status 
-  NET_TIME            stuOnlineTime;           // online time
-  NET_TIME            stuOfflineTime;           // offline time
-}NET_RECORD_REGISTER_USER_STATE;
-
-// visual talk analog VTH input mode 
-typedef enum tagEM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE
-{
-  EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE_UNKNOWN,       // unknown 
-  EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE_SLAVEADDRESS,     // via SlaveAddress
-  EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE_SLAVEID_SLAVEPORT,  // via SlaveID+SlavePort
-}EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE;
-
-// user type 
-typedef enum tagEM_VIDEO_TALK_CONTACT_TYPE
-{
-  EM_VIDEO_TALK_CONTACT_TYPE_UNKNOWN,       // unknown 
-  EM_VIDEO_TALK_CONTACT_TYPE_VTH,         // "VTH" VTH
-  EM_VIDEO_TALK_CONTACT_TYPE_VTO,         // "VTO" VTO
-}EM_VIDEO_TALK_CONTACT_TYPE;
-
-// registration method
-typedef enum tagEM_VIDEO_TALK_CONTACT_REGISTER_TYPE
-{
-  EM_VIDEO_TALK_CONTACT_REGISTER_TYPE_UNKNOWN,        // unknown 
-  EM_VIDEO_TALK_CONTACT_REGISTER_TYPE_PUBLIC,         // "public"
-  EM_VIDEO_TALK_CONTACT_REGISTER_TYPE_LOCAL,         // "local"
-}EM_VIDEO_TALK_CONTACT_REGISTER_TYPE;
-
-// contact record set info 
-typedef struct tagNET_RECORD_VIDEO_TALK_CONTACT
-{
-  DWORD                  dwSize;
-  int                   nRecNo;                 // record  set no.，read-only
-  NET_TIME                stuCreateTime;             // create time
-  char                  szFirstName[DH_COMMON_STRING_32];    // name
-  char                  szFamilyName[DH_COMMON_STRING_32];   // last name
-  char                  szVTShortNumber[DH_COMMON_STRING_16];  // visual talk short no.
-  char                  szVTMiddleNumber[DH_COMMON_STRING_32]; // visual talk middle no.
-  char                  szVTLongNumber[DH_COMMON_STRING_64];  // visual talk long no.，or VTH analog VTH SN
-  char                  szVTNetAddress[DH_MAX_IPADDR_LEN_EX];  // visual talk network address
-  char                  szVTOPosition[DH_COMMON_STRING_64];   // VTH link to VTO position
-  EM_VIDEO_TALK_CONTACT_VTSLAVEBINDMODE  emVTSlaveBindMode;           // visual talk analog VTH input mode 
-  char                  szVTSlaveId[DH_COMMON_STRING_32];    // visual talk analog  VTH input distributor address
-  char                  szVTSlavePort[DH_COMMON_STRING_32];   // visual talk analog  VTH input distributor port
-  char                  szVTSlaveAddress[DH_COMMON_STRING_64]; // visual talk analog VTH address
-  char                  szNickname[DH_COMMON_STRING_64];    // nickname
-  char                  szNotes[DH_COMMON_STRING_64];      // note
-  EM_VIDEO_TALK_CONTACT_TYPE       emType;                 // user type 
-  EM_VIDEO_TALK_CONTACT_REGISTER_TYPE   emRegisterType;             // registration method
-  char                  szVTHPassword[DH_COMMON_STRING_64];   // registration password
-  char                  szVTOBuilding[DH_COMMON_STRING_64];   // building no.
-  char                  szVTOUnit[DH_COMMON_STRING_64];     // unit no.
-  char                  szGroupNumber[DH_COMMON_STRING_64];   // group
-}NET_RECORD_VIDEO_TALK_CONTACT;
-
 
 // entrance guard don't close event details information
 typedef struct tagALARM_ACCESS_CTL_NOT_CLOSE_INFO 
@@ -5027,33 +4513,6 @@ typedef struct tagALARM_ACCESS_CTL_EVENT_INFO
     char                        szCardNo[DH_MAX_CARDNO_LEN];        // Card Number
     char                        szPwd[DH_MAX_CARDPWD_LEN];          // Password
     char                        szReaderID[DH_COMMON_STRING_32];    // Reader ID
-    char                        szUserID[DH_COMMON_STRING_64];      // unlock user
-    char                        szSnapURL[DH_COMMON_STRING_256];    // snapshot picture storage address
-    int                         nErrorCode;                         // Reason of unlock failure, only because it is valid when bStatus is FALSE
-                                                                    // 0x00 no error
-                                                                    // 0x10 unauthorized
-                                                                    // 0x11 card lost or cancelled
-                                                                    // 0x12 no door right
-                                                                    // 0x13 unlock mode error
-                                                                    // 0x14 valid period error
-                                                                    // 0x15 anti-passby mode
-                                                                    // 0x16 forced alarm not unlocked
-                                                                    // 0x17 door NC status
-                                                                    // 0x18 AB lock status
-                                                                    // 0x19 patrol card
-                                                                    // 0x1A device is under intrusion alarm status
-                                                                    // 0x20 period error
-                                                                    // 0x21 unlock period error in holiday period
-                                                                    // 0x30 first card right check required
-                                                                    // 0x40 cardcorrect, input password error
-                                                                    // 0x41 card correct, input password timed out
-                                                                    // 0x42 cardcorrect,  input fingerprint error
-                                                                    // 0x43 cardcorrect, input fingerprint timed out
-                                                                    // 0x44 fingerprint correct, input password error
-                                                                    // 0x45 fingerprint correct, input password timed out
-                                                                    // 0x50 group unlock sequence error
-                                                                    // 0x51 test required for group unlock
-                                                                    // 0x60 test passed, control unauthorized
 }ALARM_ACCESS_CTL_EVENT_INFO;
 
 ///////////////////////// Alarm of intelligent trasportation[CLIENT_StartListenEx] /////////////////////////////////////
@@ -5128,7 +4587,6 @@ typedef struct tagALARM_VEHICEL_LARGE_ANGLE
     NET_GPS_STATUS_INFO stGPSStatusInfo;                // GPS Information
     BYTE                bEventAction;                   // Event Action,0=Impluse Event,1=Continued Event Start,2=Continued Event End;
     BYTE                byRserved[3];                   // Aline
-    unsigned int        nSequence;                      // no.
 }ALARM_VEHICEL_LARGE_ANGLE;
 
 // Alarm Event Type,DH_ALARM_AUDIO_ANOMALY's Data Describe Information
@@ -5626,15 +5084,6 @@ typedef struct __DEV_DISK_RECORD_TIME
 
 }DEV_DISK_RECORD_TIME;
 ///////////////////////////////Control Related Definition///////////////////////////////
-//new network keyboard control
-typedef struct _NKB_PARAM
-{
-    BYTE                bAddressCode;           // for DVR and etc. device physical address no.,0xFF as broadcast address
-    BYTE                bKeyStatus;             // status code 0/1 0 means press by key 1 means release key
-    BYTE                bExtern1;               // expansion field 1
-    BYTE                bExtern2;               // expansion field 2
-    BYTE                bReserved[60];
-}NKB_PARAM;
 
 // HDD operation
 typedef struct _DISKCTRL_PARAM
@@ -5773,35 +5222,6 @@ typedef struct __CTRL_ARM_DISARM_PARAM
     char                reserve1[16];
 } CTRL_ARM_DISARM_PARAM;
 
-// alarm arm/disarm control expansion input parameter
-typedef struct tagCTRL_ARM_DISARM_PARAM_EX_IN
-{
-    DWORD               dwSize;
-    NET_ALARM_MODE      emState;                // arm/disarm status 
-    const char*         szDevPwd;               // user password
-    NET_SCENE_MODE      emSceneMode;            // scene mode 
-    const char*         szDevID;                // transfer target device ID, as NULL means not transfer
-} CTRL_ARM_DISARM_PARAM_EX_IN;
-
-#define ARM_DISARM_ZONE_MAX (256)               // zone max number 
-
-// alarm arm/disarm control expansion output parameter
-typedef struct tagCTRL_ARM_DISARM_PARAM_EX_OUT
-{
-    DWORD               dwSize;
-    DWORD               dwSourceNum;                    //  alarm source input arming failed zone number 
-    int                 nSource[ARM_DISARM_ZONE_MAX];   //  alarm source input failed zone no.,zone no. start from 0
-    DWORD               dwLinkNum;                      // link alarm arming failed zone number 
-    int                 nLink[ARM_DISARM_ZONE_MAX];     // link alarm failed zone no., zone no. start from 0
-} CTRL_ARM_DISARM_PARAM_EX_OUT;
-
-// alarm arm/diarm control expansion(corresponding to DH_CTRL_ARMED_EX)
-typedef struct tagCTRL_ARM_DISARM_PARAM_EX
-{
-    DWORD               dwSize;
-    CTRL_ARM_DISARM_PARAM_EX_IN stuIn;                  // alarm arm/disarm control input
-    CTRL_ARM_DISARM_PARAM_EX_OUT stuOut;                // alarm arm/diarm control input
-} CTRL_ARM_DISARM_PARAM_EX;
 
 typedef struct tagDHCTRL_CONNECT_WIFI_BYWPS_IN
 {
@@ -5899,13 +5319,12 @@ typedef struct tagNET_CTRL_ACCESS_CLOSE
     int                 nChannelID;             // Channel ID (start from 0) 
 }NET_CTRL_ACCESS_CLOSE;
 
-typedef enum tagNET_ALARM_TYPE
+typedef enum
 {
-    NET_ALARM_LOCAL = 0,                        // SwitchingValue Defence Area's Alarm Information
+    NET_ALARM_LOCAL,                            // SwitchingValue Defence Area's Alarm Information
     NET_ALARM_ALARMEXTENDED,                    // Expand Module Alarm Event)
     NET_ALARM_TEMP,                             // Temperature Alarm Event)
     NET_ALARM_URGENCY,                          // Emergency Alarm Event)
-    NET_ALARM_RCEMERGENCYCALL,                  //Emergency call alarm event (corresponding to DH_ALARM_RCEMERGENCY_CALL event )
 }NET_ALARM_TYPE;
 
 // CLIENT_ControlDevice's param: DH_CTRL_CLEAR_ALARM
@@ -5915,9 +5334,6 @@ typedef struct tagNET_CTRL_CLEAR_ALARM
     int                 nChannelID;             // Defence Area's ID
     NET_ALARM_TYPE      emAlarmType;            // Event Type
     const char*         szDevPwd;               // Landing Equipment Such As Password, Do not Use Encryption Disappear the Police, Direct Assignment of NULL
-    BOOL                bEventType;             // Means if enable nEventType field, TRUE:nEventType replaces emAlarmType field, FALSE: use emAlarmType field , ignore nEventType field 
-    int                 nEventType;             // Event type, corresponding fMessCallBack called lCommand field , as CLIENT_StartListenEx port got event type
-                                                // Such as DH_ALARM_ALARM_EX2 means local alarm event
 }NET_CTRL_CLEAR_ALARM;
 
 // TV Wall Display Information Control Parameters
@@ -6338,19 +5754,11 @@ typedef struct
 // Zone;Each margin is total lenght :8192
 typedef struct 
 {
-    long					left;
-    long					top;
-    long					right;
-    long					bottom;
+   long					left;
+   long					top;
+   long					right;
+   long					bottom;
 } DH_RECT, *LPDH_RECT;
-
-typedef struct tagNET_RECT
-{
-    int             nLeft;
-    int             nTop;
-    int             nRight;
-    int             nBottom;
-} NET_RECT;
 
 // 2 dimension point
 typedef struct 
@@ -6799,9 +6207,7 @@ typedef struct
 	DWORD				dwAlivePeriod;							// DDNS alive period
 	BYTE				ByMode;									// domain mode:0-manual,szDomainName enable; 1-default szDefaultDomainName enable
 	char				szDefaultDomainName[DH_MAX_DEFAULT_DOMAIN_LEN];// default domain, real only
-    BYTE                bReserved[3];                           // Text align
-    char                szEmailUserName[DH_MAX_MAIL_NAME_LEN];	// Mail username
-    char                reserved[128];
+	char				reserved[195];
 } DH_DDNS_SERVER_CFG;
 
 typedef struct
@@ -8476,11 +7882,11 @@ typedef struct __DHDEV_DECODER_URL_CFG
 	char			szExtraStreamUrl[MAX_PATH];			// extra stream url
 } DHDEV_DECODER_URL_CFG;
 
-typedef enum tagDH_SPLIT_DISPLAY_TYPE
+enum DH_SPLIT_DISPLAY_TYPE
 {
     DH_SPLIT_DISPLAY_TYPE_GENERAL=1,          // Common display types
     DH_SPLIT_DISPLAY_TYPE_PIP=2,              // PIP Display Type
-} DH_SPLIT_DISPLAY_TYPE;
+};
 
 // CLIENT_CtrlDecTVScreen Interface parameters
 typedef struct tagDH_CTRL_DECTV_SCREEN
@@ -8648,17 +8054,12 @@ typedef struct
 	DWORD                dwFileLenth;                    // current picture file's size, byte
 	WORD                 wWidth;                         // picture width, pixel
 	WORD                 wHeight;                        // picture high, pixel
-    char*                pszFilePath;                    // File path
-                                                         // User use this field need to apply for space for copy and storage
-	BYTE                 bReserved[12];                 
+	BYTE                 bReserved[16];                 
 }DH_PIC_INFO;
 
-#if (defined(LINUX64) || defined(WIN64))
-#else
 // Extension fields added int64, forced 4 byte alignment
 #pragma pack(push)
 #pragma pack(4)
-#endif
 // Struct of object info for video analysis 
 typedef struct 
 {
@@ -8672,123 +8073,33 @@ typedef struct
 	DH_POINT			Contour[DH_MAX_POLYGON_NUM];	// a polygon that have a exactitude figure
 	DWORD				rgbaMainColor;					// The main color of the object;the first byte indicate red value, as byte order as green, blue, transparence, for example:RGB(0,255,0),transparence = 0, rgbaMainColor = 0x00ff0000.
     char				szText[128];					// the interrelated text of object,such as number plate,container number
-                                                        // "ObjectType"为"Vehicle" or "Logo"（try to use Logo.Vehicle is used to be compatible with old product）means logo，support：
-                                                        // "Unknown" Unknown 
-                                                        // "Audi" Audi
-                                                        // "Honda" Honda
-                                                        // "Buick" Buick
-                                                        // "Volkswagen" Volkswagen
-                                                        // "Toyota" Toyota
-                                                        // "BMW" BMW
-                                                        // "Peugeot" Peugeot
-                                                        // "Ford" Ford
-                                                        // "Mazda" Mazda
-                                                        // "Nissan" Nissan
-                                                        // "Hyundai" Hyundai
-                                                        // "Suzuki" Suzuki
-                                                        // "Citroen" Citroen
-                                                        // "Benz" Benz
-                                                        // "BYD" BYD
-                                                        // "Geely" Geely
-                                                        // "Lexus" Lexus
-                                                        // "Chevrolet" Chevrolet
-                                                        // "Chery" Chery
-                                                        // "Kia" Kia
-                                                        // "Charade" Charade
-                                                        // "DF" DF
-                                                        // "Naveco" Naveco
-                                                        // "SGMW" SGMW
-                                                        // "Jinbei" Jinbei
-
-                                                        // "JAC" JAC
-                                                        // "Emgrand" Emgrand
-                                                        // "ChangAn" ChangAn
-                                                        // "Great Wall" Great Wall
-                                                        // "Skoda" Skoda
-                                                        // "BaoJun" BaoJun
-                                                        // "Subaru" Subaru
-                                                        // "LandWind" LandWind
-                                                        // "Luxgen" Luxgen
-                                                        // "Renault" Renault
-                                                        // "Mitsubishi" Mitsubishi
-                                                        // "Roewe" Roewe
-                                                        // "Cadillac" Cadillac
-                                                        // "MG" MG
-                                                        // "Zotye" Zotye
-                                                        // "ZhongHua" ZhongHua
-                                                        // "Foton" Foton
-                                                        // "SongHuaJiang" SongHuaJiang
-                                                        // "Opel" Opel
-                                                        // "HongQi" HongQi
-                                                        // "Fiat" Fiat
-                                                        // "Jaguar" Jaguar
-                                                        // "Volvo" Volvo
-                                                        // "Acura" Acura
-                                                        // "Porsche" Porsche
-
-                                                        // "Jeep" Jeep
-                                                        // "Bentley" Bentley
-                                                        // "Bugatti" Bugatti
-                                                        // "ChuanQi" ChuanQi
-                                                        // "Daewoo" Daewoo
-                                                        // "DongNan" DongNan
-                                                        // "Ferrari" Ferrari
-                                                        // "Fudi" Fudi
-                                                        // "Huapu" Huapu
-                                                        // "HawTai" HawTai
-                                                        // "JMC" JMC
-                                                        // "JingLong" JingLong
-                                                        // "JoyLong" JoyLong
-                                                        // "Karry" Karry"
-                                                        // "Chrysler" Chrysler
-                                                        // "Lamborghini" Lamborghini
-                                                        // "RollsRoyce" RollsRoyce
-                                                        // "Linian" Linian
-                                                        // "LiFan" LiFan
-                                                        // "LieBao" LieBao
-                                                        // "Lincoln" Lincoln
-                                                        // "LandRover" LandRover
-                                                        // "Lotus" Lotus
-                                                        // "Maserati" Maserati
-                                                        // "Maybach" Maybach
-
-                                                        // "Mclaren" Mclaren
-                                                        // "Youngman" Youngman
-                                                        // "Tesla" Tesla
-                                                        // "Rely" Rely
-                                                        // "Lsuzu" Lsuzu
-                                                        // "Yiqi" Yiqi
-                                                        // "Infiniti" Infiniti
-                                                        // "YuTong" YuTong
-                                                        // "AnKai" AnKai
-                                                        // "Canghe" Canghe
-                                                        // "HaiMa" HaiMa
-                                                        // "Crown" Crown
-                                                        // "HuangHai" HuangHai
-                                                        // "JinLv" JinLv
-                                                        // "JinNing" JinNing
-                                                        // "KuBo" KuBo
-                                                        // "Europestar" Europestar
-                                                        // "MINI" MINI
-                                                        // "Gleagle" Gleagle
-                                                        // "ShiDai" ShiDai
-                                                        // "ShuangHuan" ShuangHuan
-                                                        // "TianYe" TianYe
-                                                        // "WeiZi" WeiZi
-                                                        // "Englon" Englon
-                                                        // "ZhongTong" ZhongTong
-
-                                                        // "Changan" Changan
-                                                        // "Yuejin" Yuejin
-                                                        // "Taurus" Taurus
-                                                        // "Alto" Alto
-                                                        // "Weiwang" Weiwang
-                                                        // "Chenglong" Chenglong
-                                                        // "Haige" Haige
-                                                        // "Shaolin" Shaolin
-                                                        // "Beifang" Beifang
-                                                        // "Beijing" Beijing
-                                                        // "Hafu" Hafu
+                                                            // "ObjectType"为"Vehicle" or "Logo"（try to use Logo.Vehicle is used to be compatible with old product）means logo，support：
+                                                            // "Unknown" Unknown 
+                                                            // "Audi" Audi
+                                                            // "Honda" Honda
+                                                            // "Buick" Buick
+                                                            // "Volkswagen" Volkswagen
+                                                            // "Toyota" Toyota
+                                                            // "BMW" BMW
+                                                            // "Peugeot" Peugeot
+                                                            // "Ford" Ford
+                                                            // "Mazda" Mazda
+                                                            // "Nissan" Nissan
+                                                            // "Hyundai" Hyundai
+                                                            // "Suzuki" Suzuki
+                                                            // "Citroen" Citroen
+                                                            // "Benz" Benz
+                                                            // "BYD" BYD
+                                                            // "Geely" Geely
+                                                            // "Lexus" Lexus
+                                                            // "Chevrolet" Chevrolet
+                                                            // "Chery" Chery
+                                                            // "Kia" Kia
+                                                            // "Charade" Charade
+                                                            // "DF" DF
+                                                            // "Naveco" Naveco
+                                                            // "SGMW" SGMW
+                                                            // "Jinbei" Jinbei
 
 	char                szObjectSubType[64];            // object sub type,different object type has different sub type:
 														// Vehicle Category:"Unknown","Motor","Non-Motor","Bus","Bicycle","Motorcycle"
@@ -8817,65 +8128,9 @@ typedef struct
  	BYTE                byUpperBodyColorSimilar[NET_COLOR_TYPE_MAX]; // When upper body color similarity (valid object type man ）
  	BYTE                byLowerBodyColorSimilar[NET_COLOR_TYPE_MAX]; // Lower body color similarity when objects (object type human valid ）
     int                 nRelativeID;                        // ID of relative object
-	char				szSubText[20];						// "ObjectType"is "Vehicle" or "Logo"， means a certain brand under LOGO，such as Audi A6L，since there are so many brands，SDK sends this field in real-time ,device filled as real.
-    BYTE                byReserved[2];
+	BYTE				byReserved[24];
 } DH_MSG_OBJECT;
-
-// intrusion direction
-typedef enum tagEM_MSG_OBJ_PERSON_DIRECTION
-{
-    EM_MSG_OBJ_PERSON_DIRECTION_UNKOWN,         // unknown direction
-    EM_MSG_OBJ_PERSON_DIRECTION_LEFT_TO_RIGHT,  // from left to right
-    EM_MSG_OBJ_PERSON_DIRECTION_RIGHT_TO_LEFT   // from right ro left
-}EM_MSG_OBJ_PERSON_DIRECTION;
-
-// Video analysis object info expansion structure 
-typedef struct tagDH_MSG_OBJECT_EX
-{
-    DWORD               dwSize;
-    int                 nObjectID;                  // object ID, each ID means a exclusive object
-    char                szObjectType[128];          // object  type 
-    int                 nConfidence;                //  confidence coefficient (0~255)， value the bigger means  confidence coefficient the higher
-    int                 nAction;                    // object  motion :1:Appear 2:Move 3:Stay 4:Remove 5:Disappear 6:Split 7:Merge 8:Rename
-    DH_RECT             BoundingBox;                // box
-    DH_POINT            Center;                     // object model center
-    int                 nPolygonNum;                // polygon vertex number 
-    DH_POINT            Contour[DH_MAX_POLYGON_NUM];// relatively accurate outline the polygon  
-    DWORD               rgbaMainColor;              // means plate, vehicle body and etc. object major color；by byte means ，are red, green, blue and transparency , such as:RGB value is (0,255,0), transparency is 0, its value is 0x00ff0000.
-    char                szText[128];                // same as DH_MSG_OBJECT corresponding field
-    char                szObjectSubType[64];        // object sub type ，according to different object  types ，may use the following sub type ：
-                                                    // same as DH_MSG_OBJECT field
-    BYTE                byReserved1[3];
-    bool                bPicEnble;                  // object corresponding to picture file info or not
-    DH_PIC_INFO         stPicInfo;                  // object corresponding to picture info 
-    bool                bShotFrame;                 // snapshot recognition result or not 
-    bool                bColor;                     // object  color (rgbaMainColor) usable or not
-    BYTE                bLowerBodyColor;            // lower color (rgbaLowerBodyColor) usable or not
-    BYTE                byTimeType;                 // time means type ， see EM_TIME_TYPE note 
-    NET_TIME_EX         stuCurrentTime;             // for video compression， current time stamp（object snapshot or recognition， attach this recognition frame in one vire frame or jpegpicture，this frame’s appearance time in original video）
-    NET_TIME_EX         stuStartTime;               // start time stamp（object start appearance）
-    NET_TIME_EX         stuEndTime;                 // end time stamp（object last aapearance）
-    DH_RECT             stuOriginalBoundingBox;     // box(absolute coordinate)
-    DH_RECT             stuSignBoundingBox;         // LGO coordinate box
-    DWORD               dwCurrentSequence;          //  current frame no.（snapshot this object frame）
-    DWORD               dwBeginSequence;            // start frame no.（object start appearance frame no.）
-    DWORD               dwEndSequence;              // end frame no.（object disappearance frame no.）
-    INT64               nBeginFileOffset;           // start file shift, unit: byte（object start appearance，video in original video file moves toward file origin）
-    INT64               nEndFileOffset;             // End file shift, unit: byte（object disappearance，video in original video file moves toward file origin）
-    BYTE                byColorSimilar[NET_COLOR_TYPE_MAX]; // object  color similarity，take  value range ：0-100，group subscript value represents certain color ， see EM_COLOR_TYPE
-    BYTE                byUpperBodyColorSimilar[NET_COLOR_TYPE_MAX]; // upper object  color  similarity (object  type as human is valid )
-    BYTE                byLowerBodyColorSimilar[NET_COLOR_TYPE_MAX]; // lower object  color  similarity (object  type as human is valid )
-    int                 nRelativeID;                // related object ID
-	char				szSubText[20];              // "ObjectType"is "Vehicle"or "Logo"， means LOGO lower brand，such as Audi A6L，since there are many brands，SDK shows this field in real-time,device filled as real.
-
-	int					nPersonStature;	            // Intrusion staff height，unit cm
-	EM_MSG_OBJ_PERSON_DIRECTION	emPersonDirection;  // Staff intrusion direction
-    DWORD               rgbaLowerBodyColor;         // Use direction same as rgbaMainColor,object  type as human is valid 	
-} DH_MSG_OBJECT_EX;
-#if (defined(LINUX64) || defined(WIN64))
-#else
 #pragma pack(pop)
-#endif
 
 // snapshot info
 typedef struct
@@ -8928,15 +8183,6 @@ typedef struct
 	unsigned short   snWidth;    // width
  	unsigned short   snHight;    // hight
 }DH_RESOLUTION_INFO;
-
-//  color RGBA
-typedef struct tagDH_COLOR_RGBA
-{
-    int	        nRed;           // red
-    int         nGreen;         // green
-    int         nBlue;          // blue
-    int         nAlpha;         // transparent
-} DH_COLOR_RGBA;
 
 // person info
 typedef struct tagFACERECOGNITION_PERSON_INFO
@@ -9011,13 +8257,10 @@ typedef struct tagDEV_EVENT_TRAFFIC_TRAFFICCAR_INFO
 	BYTE               byActualGain;                    // Current picture gain, ranging from 0 to 100
 	BYTE			   byDirection;						// 0 - south to north 1- Southwest to northeast 2 - West to east, 3 - Northwest to southeast 4 - north to south 5 - northeast to southwest 6 - East to West 7 - Southeast to northwest 8 - Unknown
 	BYTE			   byReserved[2];
-	char*			   szDetailedAddress;                   // Address, as szDeviceAddress supplement）
+	char*			   szDetailedAddress;				// Address, as szDeviceAddress supplement）
     char               szDefendCode[DH_COMMON_STRING_64];   // waterproof  
     int                nTrafficBlackListID;                 // Link black list data recorddefualt main keyID, 0，invalid；> 0，black list data record
-    DH_COLOR_RGBA      stuRGBA;                             // bofy color RGBA
-    NET_TIME           stSnapTime;                          // snap time
-    int                nRecNo;                              // Rec No
-    BYTE               bReserved[736];                      // reserved
+    BYTE               bReserved[780];                  // reserved
 }DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO;
 
 // the describe of EVENT_IVS_CROSSLINEDETECTION's data
@@ -9042,37 +8285,9 @@ typedef struct tagDEV_EVENT_CROSSLINE_INFO
 	DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-    unsigned int        nOccurrenceCount;               // event trigger accumulated times
-    BYTE                bReserved[608];	                // reserved
-} DEV_EVENT_CROSSLINE_INFO;
+	BYTE				bReserved[612];					// reserved
 
-// event type EVENT_IVS_CROSSLINEDETECTION_EX(warning line event )corresponding to  datadescriptioninfo 
-typedef struct tagDEV_EVENT_CROSSLINE_INFO_EX 
-{
-    DWORD               dwSize;
-    int                 nChannelID;                     // channel no.
-    char                szName[128];                    // event name 
-    char                bReserved1[4];                  // field align
-    float				PTS;                            // time stamp(unit is ms)
-    NET_TIME_EX         UTC;                            // event occurance time
-    int                 nEventID;                       // event ID
-    DH_MSG_OBJECT_EX    stuObject;                      // detection object 
-    DH_EVENT_FILE_INFO  stuFileInfo;                    // event corresponding to file info 
-    DH_POINT            DetectLine[DH_MAX_DETECT_LINE_NUM]; // rule detection line
-    int                 nDetectLineNum;                 // rule detection line top number
-    DH_POINT            TrackLine[DH_MAX_TRACK_LINE_NUM];// object motion track
-    int                 nTrackLineNum;                  // object motion track top number
-    BYTE                bEventAction;                   // event  motion ，0 means pulse event ,1 means continuity event  start ,2 means  continuity  event end;
-    BYTE                bDirection;                     // means  intrusion direction, 0- leto to right, 1- right to left
-    BYTE                byReserved[1];
-    BYTE                byImageIndex;                   // picture no., same one time(accurate to second)may have multiple pictures , start from 0  
-    DWORD               dwSnapFlagMask;                 // snapshot mark(by bit)，see NET_RESERVED_COMMON
-    int                 nSourceIndex;                   // event source device index,-1 means invalid data,-1 means invalid data
-    char                szSourceDevice[MAX_PATH];       // event source device SN, field do not existor is null means local device 
-    unsigned int        nOccurrenceCount;               // event trigger accumulated times
-	int					nMsgObjArrayCount;              // detection object info number 
-	DH_MSG_OBJECT_EX*	pMsgObjArray;                   // detection object info group indicator
-} DEV_EVENT_CROSSLINE_INFO_EX;
+} DEV_EVENT_CROSSLINE_INFO;
 
 // the describe of EVENT_IVS_CROSSREGIONDETECTION's data
 typedef struct tagDEV_EVENT_CROSSREGION_INFO 
@@ -9085,19 +8300,18 @@ typedef struct tagDEV_EVENT_CROSSREGION_INFO
 	int					nEventID;						// event ID
 	DH_MSG_OBJECT		stuObject;						// have being detected object
 	DH_EVENT_FILE_INFO  stuFileInfo;                    // event file info
-	DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];    // rule detect region
+		DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];    // rule detect region
 	int                 nDetectRegionNum;                          // rule detect region's point number
 	DH_POINT            TrackLine[DH_MAX_TRACK_LINE_NUM];          // object moving track
 	int                 nTrackLineNum;                             // object moving track's point number
-	BYTE                bEventAction;                   // Event action,0 means pulse event,1 means continuous event's begin,2means continuous event's end;
+		BYTE                bEventAction;                   // Event action,0 means pulse event,1 means continuous event's begin,2means continuous event's end;
 	BYTE                bDirection;                     // direction, 0-in, 1-out,2-apaer,3-leave
 	BYTE                bActionType;                    // action type,0-appear 1-disappear 2-in area 3-cross area
 	BYTE				byImageIndex;					// Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-    unsigned int        nOccurrenceCount;               // event trigger times
-	BYTE				bReserved[536];					// reserved
+	BYTE				bReserved[540];					// reserved
 	int                 nObjectNum;                     // Detect object amount
 	DH_MSG_OBJECT		stuObjectIDs[DH_MAX_OBJECT_LIST];// Detected object
 	int                 nTrackNum;                      // Locus amount(Corresponding to the detected object amount.)
@@ -9121,8 +8335,7 @@ typedef struct tagDEV_EVENT_PASTE_INFO
 	BYTE                byReserved[2];
 	BYTE				byImageIndex;					// Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
-    unsigned int        nOccurrenceCount;               // event trigger accumilated times 
-	BYTE				bReserved[884];			  	    // Reserved
+	BYTE				bReserved[888];			    	// Reserved
 
 } DEV_EVENT_PASTE_INFO;
 
@@ -9145,8 +8358,7 @@ typedef struct tagDEV_EVENT_LEFT_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[620];			  	// Reserved
+	BYTE				bReserved[624];			    	// Reserved
 
 } DEV_EVENT_LEFT_INFO;
 
@@ -9169,8 +8381,7 @@ typedef struct tagDEV_EVENT_PRESERVATION_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[620];			  	// Reserved
+	BYTE				bReserved[624];			    	// Reserved
 
 } DEV_EVENT_PRESERVATION_INFO;
 
@@ -9193,8 +8404,7 @@ typedef struct tagDEV_EVENT_STAY_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[620];			  	// Reserved
+	BYTE				bReserved[624];			    	// Reserved
 
 } DEV_EVENT_STAY_INFO;
 
@@ -9220,8 +8430,7 @@ typedef struct tagDEV_EVENT_WANDER_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[756];					// reserved
+	BYTE				bReserved[760];					// reserved
 
 } DEV_EVENT_WANDER_INFO;
 
@@ -9246,8 +8455,7 @@ typedef struct tagDEV_EVENT_MOVE_INFO
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
 	int                 nTrackLineNum;                  // Object trajectories vertices              
 	DH_POINT            stuTrackLine[DH_MAX_TRACK_LINE_NUM]; // Object trajectories			
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[536];					 // Reserved bytes, leave extended
+	BYTE				bReserved[540];					 // Reserved bytes, leave extended
 
 } DEV_EVENT_MOVE_INFO;
 
@@ -9270,8 +8478,7 @@ typedef struct tagDEV_EVENT_TAIL_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[620];					
+	BYTE				bReserved[624];					
 
 } DEV_EVENT_TAIL_INFO;
 
@@ -9296,8 +8503,7 @@ typedef struct tagDEV_EVENT_RIOTER_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[624];					
+	BYTE				bReserved[628];					
 
 } DEV_EVENT_RIOTERL_INFO;
 
@@ -9322,8 +8528,7 @@ typedef struct tagDEV_EVENT_FIGHT_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[624];					
+	BYTE				bReserved[628];					
 } DEV_EVENT_FIGHT_INFO;
 
 // the describe of EVENT_IVS_FIREDETECTION's data
@@ -9346,8 +8551,7 @@ typedef struct tagDEV_EVENT_FIRE_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[620];					// Reserved
+	BYTE				bReserved[624];					// Reserved
 
 } DEV_EVENT_FIRE_INFO;
 
@@ -9387,8 +8591,7 @@ typedef struct tagDEV_EVENT_SMOKE_INFO
     BYTE                byReserved[2];
     BYTE                byImageIndex;                   // Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[968];					
+	BYTE				bReserved[972];					
 
 } DEV_EVENT_SMOKE_INFO;
 
@@ -9409,8 +8612,7 @@ typedef struct tagDEV_EVENT_FLOWSTAT_INFO
     BYTE                byReserved[2];
     BYTE                byImageIndex;                   // Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[972];					
+	BYTE				bReserved[976];					
 
 } DEV_EVENT_FLOWSTAT_INFO;
 
@@ -9432,8 +8634,7 @@ typedef struct tagDEV_EVENT_NUMBERSTAT_INFO
 	int                 nEnteredNumber;                 // entered object number
 	int                 nExitedNumber;                  // exited object number
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
-  unsigned int    nOccurrenceCount;          // event trigger accumilated times 
-	BYTE				bReserved[960];					// Reserved
+	BYTE				bReserved[964];					// Reserved
 
 } DEV_EVENT_NUMBERSTAT_INFO;
 
@@ -9461,8 +8662,8 @@ typedef struct tagDEV_EVENT_CROSSFENCEDETECTION_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;              // event trigger accumilated times 
-	BYTE				bReserved[748];				// Reserved
+	BYTE				bReserved[752];				// Reserved
+	
 } DEV_EVENT_CROSSFENCEDETECTION_INFO;
 
 // the describe of EVENT_IVS_INREGIONDETECTION's data
@@ -9508,8 +8709,7 @@ typedef struct tagDEV_EVENT_TAKENAWAYDETECTION_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;              // event trigger accumilated times 
-	BYTE				bReserved[748];				  // Reserved
+	BYTE				bReserved[752];				    // Reserved
 	
 } DEV_EVENT_TAKENAWAYDETECTION_INFO;
 
@@ -9530,8 +8730,7 @@ typedef struct tagDEV_EVENT_VIDEOABNORMALDETECTION_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;              // event trigger accumilated times 
-	BYTE				bReserved[752];					// Reserved
+	BYTE				bReserved[756];					// Reserved
 	
 } DEV_EVENT_VIDEOABNORMALDETECTION_INFO;
 
@@ -9554,8 +8753,7 @@ typedef struct tagDEV_EVENT_PARKINGDETECTION_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;              // event trigger accumilated times 
-	BYTE				bReserved[748];				  // Reserved 
+	BYTE				bReserved[752];				    // Reserved 
 	
 } DEV_EVENT_PARKINGDETECTION_INFO;
 
@@ -9583,8 +8781,7 @@ typedef struct tagDEV_EVENT_ABNORMALRUNDETECTION
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;              // event trigger accumilated times 
-	BYTE				bReserved[748];				  // Reserved 
+	BYTE				bReserved[752];				    // Reserved 
 	
 } DEV_EVENT_ABNORMALRUNDETECTION_INFO;
 
@@ -9611,8 +8808,7 @@ typedef struct tagDEV_EVENT_RETROGRADEDETECTION_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-  unsigned int    nOccurrenceCount;              // event trigger accumilated times 
-	BYTE				bReserved[748];				  // Reserved 
+	BYTE				bReserved[752];				   // Reserved  
 	
 } DEV_EVENT_RETROGRADEDETECTION_INFO;
 
@@ -9632,8 +8828,7 @@ typedef struct tagDEV_EVENT_FACERECOGNITION_INFO
 	BOOL                bGlobalScenePic;                // The existence panorama
 	DH_PIC_INFO         stuGlobalScenePicInfo;          // Panoramic Photos
     char                szSnapDevAddress[MAX_PATH];     // Snapshot current face aadevice address  
-    unsigned int        nOccurrenceCount;               // event trigger accumilated times 
-    BYTE                bReserved[724];                 // reserved
+    BYTE                bReserved[728];                 // reserved
 }DEV_EVENT_FACERECOGNITION_INFO;
 
 // Event type EVENT_IVS_DENSITYDETECTION(Population amount detect) corresponding data block description info
@@ -9657,8 +8852,7 @@ typedef struct tagDEV_EVENT_DENSITYDETECTTION_INFO
     DWORD               dwSnapFlagMask;	                // Snap flag(by bit).please refer to NET_RESERVED_COMMON
 	int                 nSourceIndex;                   // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];       // the source device's sign(exclusive),field said local device does not exist or is empty
-    unsigned int        nOccurrenceCount;               // event trigger accumilated times 
-    BYTE                bReserved[752];                 // Reserved field. For extension use.
+	BYTE				bReserved[756];				    // Reserved field. For extension use.
 }DEV_EVENT_DENSITYDETECTION_INFO;
 
 // Event type  EVENT_IVS_QUEUEDETECTION(queue detection)corresponding data block description info
@@ -9675,8 +8869,7 @@ typedef struct tagDEV_EVENT_QUEUEDETECTION_INFO
 	BYTE				bReserved1[2];				    // reserved
     BYTE                byImageIndex;                   // Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
 	DH_POINT            stuDetectLine[2];               // detect line
-    unsigned int        nOccurrenceCount;               // event trigger accumilated times 
-    BYTE                bReserved[1012];                // reserved
+	BYTE				bReserved[1016];				// reserved
 }DEV_EVENT_QUEUEDETECTION_INFO;
 
 // Event type EVENT_IVS_TRAFFICCONTROL(traffic control)corresponding data block description info
@@ -9743,23 +8936,6 @@ typedef enum tagEM_VEHICLE_DIRECTION
     NET_VEHICLE_DIRECTION_TAIL,                     // rear  
 }EM_VEHICLE_DIRECTION;
 
-//NTP校时status 
-typedef enum tagEM_NTP_STATUS
-{
-    NET_NTP_STATUS_UNKNOWN = 0 ,
-    NET_NTP_STATUS_DISABLE     , 
-    NET_NTP_STATUS_SUCCESSFUL  , 
-    NET_NTP_STATUS_FAILED      , 
-}EM_NTP_STATUS;
-
-typedef struct tagEVENT_COMM_INFO
-{
-    EM_NTP_STATUS    emNTPStatus;   //NTP time sync status 
-    int              nDriversNum;   //driver info number
-    DH_MSG_OBJECT_EX  *pstDriversInfo; //driver info data 
-    BYTE             bReserved[2036];
-}EVENT_COMM_INFO;
-
 //（Event Type EVENT_IVS_TRAFFICJUNCTION (transportation card traffic junctions old rule event / video port on the old electric alarm event rules) corresponding to the description of the data block）
 //（Due to historical reasons, if you want to deal with bayonet event, DEV_EVENT_TRAFFICJUNCTION_INFO and EVENT_IVS_TRAFFICGATE be processed together to prevent police and video electrical coil electric alarm occurred while the case access platform）
 // （Also EVENT_IVS_TRAFFIC_TOLLGATE only support the new bayonet events）
@@ -9798,7 +8974,6 @@ typedef struct tagDEV_EVENT_TRAFFICJUNCTION_INFO
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
 	DWORD               dwRetCardNumber;                // Card Number
     EVENT_CARD_INFO     stuCardInfo[DH_EVENT_MAX_CARD_NUM];  // Card information
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 } DEV_EVENT_TRAFFICJUNCTION_INFO;
 
 
@@ -9864,8 +9039,7 @@ typedef struct tagDEV_EVENT_TRAFFICGATE_INFO
     EVENT_CARD_INFO     stuCardInfo[DH_EVENT_MAX_CARD_NUM];// Card information
     char               szDefendCode[DH_COMMON_STRING_64];// Waterproof
     int                nTrafficBlackListID;             // Link to balcklist main keyID, 0，invalid；> 0，blacklist data record
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
-    BYTE                bReserved[452];	                // Reserved bytes, leave extended
+	BYTE				bReserved[2500];				// Reserved bytes, leave extended
 } DEV_EVENT_TRAFFICGATE_INFO;
 
 //the describe of EVENT_TRAFFICSNAPSHOT's data
@@ -9886,7 +9060,6 @@ typedef struct tagDEV_EVENT_TRAFFICSNAPSHOT_INFO
     BYTE                byImageIndex;                   // Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	BYTE				bReserved[344];		    		// Reserved 
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 } DEV_EVENT_TRAFFICSNAPSHOT_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_RUNREDLIGHT's data
@@ -9914,7 +9087,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_RUNREDLIGHT_INFO
 	BYTE                byRedLightMargin;               // red light margin, s
 	BYTE				bReserved[975];	                  // Reserved
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 } DEV_EVENT_TRAFFIC_RUNREDLIGHT_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_OVERLINE's data
@@ -9939,7 +9111,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERLINE_INFO
 	DH_RESOLUTION_INFO  stuResolution;      // picture resolution	
 	BYTE				bReserved[1008];	// Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 } DEV_EVENT_TRAFFIC_OVERLINE_INFO;
 
 
@@ -9970,7 +9141,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_RETROGRADE_INFO
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;    // Traffic vehicle info
 	int                 nDetectNum;				  // Acme amount of the rule detect zone
 	DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];    // Rule detect zone 
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 } DEV_EVENT_TRAFFIC_RETROGRADE_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_TURNLEFT's data
@@ -9996,7 +9166,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_TURNLEFT_INFO
 
 	BYTE				bReserved[1008];	// Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 } DEV_EVENT_TRAFFIC_TURNLEFT_INFO;
 
 
@@ -10023,7 +9192,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_TURNRIGHT_INFO
 
 	BYTE				bReserved[1008];	// Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 } DEV_EVENT_TRAFFIC_TURNRIGHT_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_UTURN's data
@@ -10049,7 +9217,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_UTURN_INFO
 	
 	BYTE                bReserved[1008];				  // Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 }DEV_EVENT_TRAFFIC_UTURN_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_OVERSPEED's data
@@ -10077,7 +9244,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERSPEED_INFO
     char                szFilePath[MAX_PATH];             // Faile path
 	BYTE                bReserved[748];				      // Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 }DEV_EVENT_TRAFFIC_OVERSPEED_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_UNDERSPEED's data
@@ -10106,7 +9272,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_UNDERSPEED_INFO
 	
 	BYTE                bReserved[1004];				  // Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // Traffic vehicle info
-  EVENT_COMM_INFO   stCommInfo;                 // public info 
 }DEV_EVENT_TRAFFIC_UNDERSPEED_INFO;
 
 //the describe of EVENT_IVS_FACEDETECT's data
@@ -10127,8 +9292,7 @@ typedef struct tagDEV_EVENT_FACEDETECT_INFO
 	DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];    // detect region
     DWORD               dwSnapFlagMask;	                  // flag(by bit),see NET_RESERVED_COMMON
     char                szSnapDevAddress[MAX_PATH];       // snapshot current face device address
-    unsigned int        nOccurrenceCount;                 // event trigger accumilated times 
-    BYTE                bReserved[672];                   // Reserved 
+	BYTE				bReserved[676];					  // Reserved 
 } DEV_EVENT_FACEDETECT_INFO;
 
 // the describe of EVENT_IVS_TRAFFICJAM's data
@@ -10151,10 +9315,8 @@ typedef struct tagDEV_EVENT_TRAFFICJAM_INFO
 	int                 nAlarmIntervalTime;             // interval time of alarm(s).(this is a continuous event,if the interval time of recieving next event go beyond this parm, we can judge that this event is over with exception)
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
-    int                 nJamRealLength;                 // means actual jam length, unit is meter
-	BYTE				bReserved[1008];				// Reserved 
+	BYTE				bReserved[1012];				// Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info	
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 } DEV_EVENT_TRAFFICJAM_INFO;
 
 // the describe of EVENT_IVS_TRAFFIC_PARKING's data
@@ -10187,7 +9349,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKING_INFO
     char                szFTPPath[DH_COMMON_STRING_256];// FTP path 
 	BYTE				bReserved[404];				    // Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 } DEV_EVENT_TRAFFIC_PARKING_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_WRONGROUTE's data
@@ -10211,7 +9372,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_WRONGROUTE_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE				bReserved[1012];				// Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
+	
 } DEV_EVENT_TRAFFIC_WRONGROUTE_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_CROSSLANE's data
@@ -10235,7 +9396,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_CROSSLANE_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE				bReserved[1008];				// Reserved 
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;    // traffic vehicle info
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
+	
 } DEV_EVENT_TRAFFIC_CROSSLANE_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_OVERYELLOWLINE's data
@@ -10265,7 +9426,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERYELLOWLINE_INFO
 	
 	int                 nDetectNum;				                   // Acme amount of the rule detect zone 
 	DH_POINT            DetectRegion[DH_MAX_DETECT_REGION_NUM];    // Rule detect zone 	
-    EVENT_COMM_INFO     stCommInfo;                                // public info 
 } DEV_EVENT_TRAFFIC_OVERYELLOWLINE_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_DRIVINGONSHOULDER's data
@@ -10288,7 +9448,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_DRIVINGONSHOULDER_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE				bReserved[1008];				//  
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 	
 } DEV_EVENT_TRAFFIC_DRIVINGONSHOULDER_INFO;
 
@@ -10313,7 +9472,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_YELLOWPLATEINLANE_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE				bReserved[1016];				// Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 	
 } DEV_EVENT_TRAFFIC_YELLOWPLATEINLANE_INFO;
 
@@ -10343,7 +9501,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_NOPASSING_INFO
     int                 nFrameSequence;                 // Video analysis frame number
     int                 nSource;                        // Data source address of the video analysis
     BYTE				byReserved[1024];	            // Reserved bytes
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_NOPASSING_INFO;
 typedef struct tagDH_TRAFFICFLOWSTAT
 {
@@ -10402,7 +9559,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_MANUALSNAP_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE				bReserved[1016];				// 
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_MANUALSNAP_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_STAY's data
@@ -10426,7 +9582,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_STAY_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE                byReserved[1012];           
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_STAY_INFO;
 
 //the describe of EVENT_IVS_TRAFFIC_VEHICLEINROUTE's data
@@ -10451,7 +9606,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_VEHICLEINROUTE_INFO
     DWORD               dwSnapFlagMask;	                // flag(by bit),see NET_RESERVED_COMMON
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	BYTE                byReserved[1016];           
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_VEHICLEINROUTE_INFO;
 
 // the describe of EVENT_ALARM_LOCALALARM and EVENT_ALARM_MOTIONALARM's data
@@ -10543,8 +9697,7 @@ typedef struct tagDEV_EVENT_PRISONERRISEDETECTION_INFO
     DWORD               dwSnapFlagMask;	                  // flag(by bit),see NET_RESERVED_COMMON
 	int                 nSourceIndex;                     // the source device's index,-1 means data in invalid
 	char                szSourceDevice[MAX_PATH];         // the source device's sign(exclusive),field said local device does not exist or is empty
-    unsigned int        nOccurrenceCount;                 // event trigger accumilated times 
-	BYTE				bReserved[748];	                  // Reserved 
+	BYTE				bReserved[752];				  	  // Reserved 
 }DEV_EVENT_PRISONERRISEDETECTION_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_PEDESTRAINPRIORITY(Pedestal has higher priority at the  crosswalk) corresponding data block description info
@@ -10568,7 +9721,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_PEDESTRAINPRIORITY_INFO
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO   stTrafficCar;     // The record of the database of the traffic vehicle 
 	DH_RESOLUTION_INFO  stuResolution;                    // picture resolution
 	BYTE                bReserved[1024];                  // Reserved field for future extension.
-    EVENT_COMM_INFO     stCommInfo;                       // public info 
 }DEV_EVENT_TRAFFIC_PEDESTRAINPRIORITY_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_VEHICLEINBUSROUTE(vehicle in bus route)corresponding data block description info
@@ -10593,7 +9745,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_VEHICLEINBUSROUTE_INFO
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // The record of the database of the traffic vehicle 
 	DH_RESOLUTION_INFO  stuResolution;                    // picture resolution
 	BYTE                bReserved[1020];                  // reserved
-    EVENT_COMM_INFO     stCommInfo;                       // public info 
 }DEV_EVENT_TRAFFIC_VEHICLEINBUSROUTE_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_BACKING(traffic backing)corresponding data block description info
@@ -10618,7 +9769,6 @@ typedef struct tagDEV_EVENT_IVS_TRAFFIC_BACKING_INFO
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // The record of the database of the traffic vehicle 
 	DH_RESOLUTION_INFO  stuResolution;                    // picture resolution
 	BYTE                bReserved[1020];                  // reserved
-    EVENT_COMM_INFO     stCommInfo;                       // public info 
 }DEV_EVENT_IVS_TRAFFIC_BACKING_INFO;
 
 //Event type EVENT_IVS_AUDIO_ABNORMALDETECTION(audio abnormal detection)corresponding data block description info
@@ -10668,7 +9818,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_RUNYELLOWLIGHT_INFO
 	char                szSourceDevice[MAX_PATH];         // the source device's sign(exclusive),field said local device does not exist or is empty
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;       // Traffic vehicle info
 	BYTE				bReserved[1024];	              // reserved
-    EVENT_COMM_INFO     stCommInfo;                       // public info 
 } DEV_EVENT_TRAFFIC_RUNYELLOWLIGHT_INFO;
 
 //Event type  EVENT_IVS_LEAVEDETECTION(leave check)corresponding data block description info
@@ -10706,8 +9855,7 @@ typedef struct tagDEV_EVENT_IVS_CLIMB_INFO
 	DH_POINT            DetectLine[DH_MAX_DETECT_LINE_NUM];    // Rule detect zone 
 	BYTE                bEventAction;                   // Event operation.0=pulse event,1=begin of the durative event,2=end of the durative event;
 	BYTE				byImageIndex;					// Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
-    unsigned int        nOccurrenceCount;               // event trigger accumilated times 
-	BYTE				bReserved[1022];	            // reserved
+	BYTE				bReserved[1026];	            // reserved
 }DEV_EVENT_IVS_CLIMB_INFO;
 
 //EVENT_IVS_MULTISCENESWITCH Event Type EVENT_IVS_MULTISCENESWITCH (multi-scene change event) corresponding to the description of the data block
@@ -10748,7 +9896,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGONYELLOWBOX_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
 	BYTE				bReserved[1024];	            // reserved
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
+
 }DEV_EVENT_TRAFFIC_PARKINGONYELLOWBOX_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_PARKINGSPACEPARKING(parking space parking)corresponding data block description info
@@ -10773,7 +9921,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGSPACEPARKING_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
 	BYTE				bReserved[1024];	            // reserved
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
+	
 }DEV_EVENT_TRAFFIC_PARKINGSPACEPARKING_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_PARKINGSPACENOPARKING(parking space no parking)corresponding data block description info
@@ -10798,7 +9946,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGSPACENOPARKING_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // picture resolution
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
 	BYTE				bReserved[1024];	            // reserved
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
+	
 }DEV_EVENT_TRAFFIC_PARKINGSPACENOPARKING_INFO;
 
 // EVENT_IVS_TRAFFIC_PARKINGSPACEOVERLINE Corresponding data block description
@@ -10822,7 +9970,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKINGSPACEOVERLINE_INFO
 	DH_RESOLUTION_INFO  stuResolution;                  // (the resolution of relative picture)
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;    // (Transportation Vehicle Information)
 	BYTE				byReserved[1024];	            // (Reserved bytes)
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_PARKINGSPACEOVERLINE_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_PEDESTRAIN(pedestrain)corresponding data block description info
@@ -10843,7 +9990,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_PEDESTRAIN_INFO
     int                 nLane;                          // Corresponding lane No.
     DH_MSG_OBJECT       stuObject;                      // Detected object
     BYTE                bReserved[1024];                // reserved
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_PEDESTRAIN_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_THROW(throw)corresponding data block description info
@@ -10864,7 +10010,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_THROW_INFO
     int                 nLane;                          // Corresponding lane No.
     DH_MSG_OBJECT       stuObject;                      // Detected object
     BYTE                bReserved[1024];                // reserved
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_THROW_INFO;
 
 //Event type  EVENT_IVS_TRAFFIC_IDLE(idle)corresponding data block description info
@@ -10884,7 +10029,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_IDLE_INFO
 	BYTE				byImageIndex;					// Serial number of the picture, in the same time (accurate to seconds) may have multiple images, starting from 0
     int                 nLane;                          // Corresponding lane No.
     BYTE                bReserved[1024];                // reserved
-    EVENT_COMM_INFO     stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_IDLE_INFO;
 
 #define MAX_DRIVING_DIR_NUM          16                             //  lane direction max quantity
@@ -10917,14 +10061,6 @@ typedef struct tagNET_TRAFFIC_FLOWSTAT_INFO_DIR
 	BYTE						reserved[32];							//(Reserved bytes)
 	
 }NET_TRAFFIC_FLOWSTAT_INFO_DIR;
-
-//road jam status
-typedef enum tagNET_TRAFFIC_JAM_STATUS
-{
-    JAM_STATUS_UNKNOW  =0 ,  // unknown 
-    JAM_STATUS_CLEAR      ,  //clear
-    JAM_STATUS_JAMMED     ,  //jammed
-}NET_TRAFFIC_JAM_STATUS;
 
 typedef struct tagNET_TRAFFIC_FLOW_STATE 
 {
@@ -10960,9 +10096,7 @@ typedef struct tagNET_TRAFFIC_FLOW_STATE
 	int                             nDelay;             // (Delay unit: seconds, extra travel time for the driver, passenger or pedestrian spend)
     BYTE                            byDirection[MAX_DRIVING_DIR_NUM]; // lane direction，see NET_ROAD_DIRECTION
     BYTE                            byDirectionNum;                 // lane direction quantity
-    BYTE                            reserved1[3];       // text align
-    NET_TRAFFIC_JAM_STATUS          emJamState;         // road jam status
-	BYTE							reserved[852];		// (Reserved bytes)
+	BYTE							reserved[859];		// (Reserved bytes)
 }NET_TRAFFIC_FLOW_STATE;
  
 // EVENT_IVS_TRAFFIC_FLOWSTATE (Corresponding data block description)
@@ -11159,8 +10293,7 @@ typedef struct
 	BYTE                byCountInGroup;         // total count of the event group
 	BYTE                byIndexInGroup;         // the index of this event
 	BYTE                byLane;                 // lane number
-	BYTE                bReserved1[21];			// reserved
-    NET_TIME            stSnapTime;             // snap time
+	BYTE                bReserved1[45];			// reserved
 	int					nDirection;				// direction,MEDIA_QUERY_TRAFFICCAR_PARAM
 	char                szMachineAddress[MAX_PATH]; // machine address
 } MEDIAFILE_TRAFFICCAR_INFO, *LPMEDIAFILE_TRAFFICCAR_INFO;
@@ -11209,8 +10342,6 @@ typedef struct __MEDIAFILE_FACERECOGNITION_PARAM
     BOOL                abPersonInfo;                   // staff info is valid or not
     FACERECOGNITION_PERSON_INFO stPersonInfo;           // staff info
     int                 nChannelId;                     // channel no.  
-    int                 nGroupIdNum;                    // staff group  
-    char                szGroupId[MAX_GOURP_NUM][DH_COMMON_STRING_64]; // staff group ID 
 }MEDIAFILE_FACERECOGNITION_PARAM;
 
 typedef struct  tagDH_PIC_INFO_EX
@@ -11664,15 +10795,15 @@ typedef struct __NET_OUT_ATTACH_VIDEOANALYSE_STATE
 #define NET_DIAGNOSIS_BLUR                      "VideoBlurDetection"                         // Video blur detect Corresponding structure body(NET_VIDEO_BLUR_DETECTIONRESULT)
 #define NET_DIAGNOSIS_SCENECHANGE               "VideoSceneChangeDetection"                  // Video scene change detect Corresponding structure body(NET_VIDEO_SCENECHANGE_DETECTIONRESULT)
 
-typedef enum tagNET_STATE_TYPE
+enum NET_STATE_TYPE
 {
 	NET_EM_STATE_ERR,        // Others
 	NET_EM_STATE_NORMAL,     // "Normal"  
 	NET_EM_STATE_WARNING,    // "Warning" 
 	NET_EM_STATE_ABNORMAL,   // "Abnormal" 
-}NET_STATE_TYPE;
+};
 // video stream type
-typedef enum tagNET_STREAM_TYPE
+enum NET_STREAM_TYPE
 {
 	NET_EM_STREAM_ERR,                   // Others
 	NET_EM_STREAM_MAIN,					// "Main"-Main stream
@@ -11684,16 +10815,16 @@ typedef enum tagNET_STREAM_TYPE
 	NET_EM_STREAM_AUTO,                 // "Auto"
 	NET_EM_STREAM_PREVIEW,              // "Preview"
 	NET_EM_STREAM_NONE,					// No video stream (audio only)
-}NET_STREAM_TYPE;
+};
 // Video diagnosis type
-typedef enum tagNET_VIDEODIAGNOSIS_RESULT_TYPE
+enum NET_VIDEODIAGNOSIS_RESULT_TYPE
 {
 	NET_EM_ROTATION   ,					// "Rotation"	-Video analysis of polling
 	NET_EM_REAL		  ,					// "Real" -Real-time video analysis
 	NET_EM_NR_UNKNOW  ,					// Undefined
-}NET_VIDEODIAGNOSIS_RESULT_TYPE;
+};
 //Video causes of diagnostic error
-typedef enum tagNET_VIDEODIAGNOSIS_FAIL_TYPE
+enum NET_VIDEODIAGNOSIS_FAIL_TYPE
 {
 	NET_EM_NO_ERROR				 ,			// Diagnostic success
 	NET_EM_DISCONNECT			 ,			// "Disconnect"				- End devices can be connected
@@ -11705,7 +10836,7 @@ typedef enum tagNET_VIDEODIAGNOSIS_FAIL_TYPE
 	NET_EM_PLATFROM_DISCONNECT 	 ,			// "PlatformDisconnect"		- Disconnect platform
 	NET_EM_GET_STREAM_OVER_TIME  ,			// "GetStreamOverTime"		- Get stream timeout
 	NET_EM_NF_UNKNOW			 ,			// Other reasons, as detailed in the structure described in the reason for the failure 
-}NET_VIDEODIAGNOSIS_FAIL_TYPE;
+};
 
 // General long character ended with '\0'
 typedef struct tagNET_ARRAY
@@ -11732,7 +10863,7 @@ typedef struct tagNET_VIDEODIAGNOSIS_COMMON_INFO
 	BOOL							bCollectivityState;             // Diagnostic results
 	NET_VIDEODIAGNOSIS_FAIL_TYPE	emFailedCause;					// Reasons for failure
 	char                            szFailedCode[DH_COMMON_STRING_64]; // Describe the reason for the failure
-    char                            szResultAddress[DH_COMMON_STRING_128];  // Diagnosis result storage address
+    char                            szResultAddress[DH_COMMON_STRING_128];  // 诊断结果存放地址
 }NET_VIDEODIAGNOSIS_COMMON_INFO;
 
 // The result of detect type (NET_DIAGNOSIS_DITHER)  Video vibration detect -- Video change,wind or vibration,rotation including the PTZ movement.
@@ -12197,11 +11328,11 @@ typedef struct __COMMDEV_OUT_GET_EXTERNDATA
 #define     NET_SET_PTZ_PRESET_STATUS                   "devVideoAnalyse.setPtzPresetStatus"                    // get preset info
 
 // Line type
-typedef enum tagNET_EM_LINETYPE
+enum NET_EM_LINETYPE
 {
 	NET_EM_HORIZONTAL,
 	NET_EM_VERTICAL,
-}NET_EM_LINETYPE;
+};
 
 //PTZ positioning information alarm
 typedef struct
@@ -12318,11 +11449,11 @@ typedef struct __NET_OUT_RESETINTERNAL_OPTION
 }NET_OUT_RESETINTERNAL_OPTION;
 
 // NET_SET_MODULESTATE
-typedef enum tagNET_EM_MODULESTATE
+enum NET_EM_MODULESTATE
 {
 	NET_EM_MODULESTATE_OK,
 	NET_EM_MODULESTATE_PAUSE,
-}NET_EM_MODULESTATE;
+};
 typedef struct __NET_IN_SETMODULESTATE
 {
 	DWORD				dwSize;					// Current structure body size 
@@ -12340,7 +11471,7 @@ typedef struct __NET_OUT_SETMODULESTATE
  * CLIENT_DeleteDevConfig Input and output parameter
  */
 
-typedef enum tagNET_EM_CONFIGOPTION
+enum NET_EM_CONFIGOPTION
 {
 	NET_EM_CONFIGOPTION_OK,
 	NET_EM_CONFIGOPTION_NEEDRESTART,
@@ -12348,7 +11479,7 @@ typedef enum tagNET_EM_CONFIGOPTION
 	NET_EM_CONFIGOPTION_WRITEFILEERROR=4,
 	NET_EM_CONFIGOPTION_CAPSNOTSUPPORT=8,
 	NET_EM_CONFIGOPTION_VALIDATEFAILED=16,
-}NET_EM_CONFIGOPTION;
+};
 
 typedef struct tagNET_IN_DELETECFG
 {
@@ -12386,32 +11517,32 @@ typedef struct tagNET_OUT_MEMBERNAME
 
 ////////////////////////////////////video compression//////////////////////////////////////
 // staff type
-typedef enum tagNET_EM_STAFF_TYPE
+enum NET_EM_STAFF_TYPE
 {
 	NET_EM_STAFF_TYPE_ERR,
 	NET_EM_STAFF_TYPE_HORIZONTAL,                       // "Horizontal" 
 	NET_EM_STAFF_TYPE_VERTICAL,                         // "Vertical" 
 	NET_EM_STAFF_TYPE_ANY,                              // "Any" 
 	NET_EM_STAFF_TYPE_CROSS,                            // "Cross" 
-}NET_EM_STAFF_TYPE;
+};
 
 // region type
-typedef enum tagNET_EM_CALIBRATEAREA_TYPE
+enum NET_EM_CALIBRATEAREA_TYPE
 {
 	NET_EM_CALIBRATEAREA_TYPE_ERR,
 	NET_EM_CALIBRATEAREA_TYPE_GROUD,		            // "Groud" 
 	NET_EM_CALIBRATEAREA_TYPE_HORIZONTAL,	            // "Horizontal" 		
 	NET_EM_CALIBRATEAREA_TYPE_VERTICAL,		            // "Vertical" 
 	NET_EM_CALIBRATEAREA_TYPE_ANY,			            // "Any"
-}NET_EM_CALIBRATEAREA_TYPE;
+};
 
 // The concentrated output data subtype
-typedef enum tagNET_EM_OUTPUT_SUB_TYPE
+enum NET_EM_OUTPUT_SUB_TYPE
 {
 	NET_EM_OUTPUT_SUB_TYPE_ERR,
 	NET_EM_OUTPUT_SUB_TYPE_NORMAL,                      // Normal playback speed (the parent type is concentrated Video valid)
 	NET_EM_OUTPUT_SUB_TYPE_SYNOPSIS,                    //Concentrated by the playback speed (parent type is effective when concentrated video), quick release in the absence of an object, the object appears when playing at normal speed
-}NET_EM_OUTPUT_SUB_TYPE;
+};
 
 // staff info
 typedef struct tagNET_STAFF_INFO
@@ -12840,11 +11971,11 @@ typedef struct tagNET_OUT_QUERY_VIDEOSYNOPSIS
 
 // CLIENT_FindSynopsisFile's interface define 
 // query type of file
-typedef enum tagNET_EM_QUERY_SYNOPSIS_FILE
+enum NET_EM_QUERY_SYNOPSIS_FILE
 {
 	DH_FILE_QUERY_VIDEO,                                // normal record file info,corresponding to:NET_SYNOPSIS_QUERY_VIDEO_PARAM, return result:NET_SYNOPSISFILE_VIDEO_INFO
 	DH_FILE_QUERY_SYNOPSISVIDEO,                        // synopsis video file,corresponding to:NET_QUERY_SYNOPSISVIDEO_PARAM,return result:NET_QUERY_SYNOPSISVIDEO_INFO
-}NET_EM_QUERY_SYNOPSIS_FILE;
+};
 
 typedef struct __NET_SYNOPSIS_QUERY_VIDEO_PARAM
 {
@@ -13035,8 +12166,6 @@ typedef struct __NET_FACE_FILTER_CONDTION
 	int                 nRangeNum;                     // The actual number of database
 	BYTE                szRange[MAX_FACE_DB_NUM];      // To query the database type, see EM_FACE_DB_TYPE
 	EM_FACERECOGNITION_FACE_TYPE emFaceType;           // Face to query types, see EM_FACERECOGNITION
-    int                 nGroupIdNum;                   // staff group  
-    char                szGroupId[MAX_GOURP_NUM][DH_COMMON_STRING_64]; // staff group ID 
 }NET_FACE_FILTER_CONDTION;
 // CLIENT_StartFindFaceRecognitionInterface input parameters
 typedef struct __NET_IN_STARTFIND_FACERECONGNITION
@@ -13108,93 +12237,6 @@ typedef struct __NET_OUT_DETECT_FACE
 	char                *pBuffer;                      // Buffer address, the user application space to store the detected face image data
 	int                 nBufferLen;                    // Buffer data length
 }NET_OUT_DETECT_FACE;
-
-// staff group operation enumeration
-typedef enum tagEM_OPERATE_FACERECONGNITION_GROUP_TYPE
-{
-  NET_FACERECONGNITION_GROUP_UNKOWN,
-  NET_FACERECONGNITION_GROUP_ADD,           // add staff group info 
-  NET_FACERECONGNITION_GROUP_MODIFY,         // modify staff group info  
-  NET_FACERECONGNITION_GROUP_DELETE,         // delete staff group info 
-}EM_OPERATE_FACERECONGNITION_GROUP_TYPE;
-
-// staff group info 
-typedef struct tagNET_FACERECONGNITION_GROUP_INFO
-{
-  DWORD        dwSize;
-  EM_FACE_DB_TYPE   emFaceDBType;         // staff group type ， see  EM_FACE_DB_TYPE
-  char        szGroupId[DH_COMMON_STRING_64];// staff group ID，SN(cannot modify, invalid when adding operation)
-  char        szGroupName[DH_COMMON_STRING_128]; // staff operation name 
-  char        szGroupRemarks[DH_COMMON_STRING_256]; // staff group note info 
-  int         nGroupSize;          //  current group staff number
-}NET_FACERECONGNITION_GROUP_INFO;
-
-// add staff group info 
-typedef struct tagNET_ADD_FACERECONGNITION_GROUP_INFO
-{
-  DWORD        dwSize;
-  NET_FACERECONGNITION_GROUP_INFO stuGroupInfo;   // staff group info 
-}NET_ADD_FACERECONGNITION_GROUP_INFO;
-
-// delete staff group info 
-typedef struct tagNET_DELETE_FACERECONGNITION_GROUP_INFO
-{
-  DWORD        dwSize;
-  char        szGroupId[DH_COMMON_STRING_64];// staff group ID，SN staff
-}NET_DELETE_FACERECONGNITION_GROUP_INFO;
-
-// modify staff group info 
-typedef struct tagNET_MODIFY_FACERECONGNITION_GROUP_INFO
-{
-  DWORD        dwSize;
-  NET_FACERECONGNITION_GROUP_INFO stuGroupInfo;   // staff group info 
-}NET_MODIFY_FACERECONGNITION_GROUP_INFO;
-
-// CLIENT_OperateFaceRecognitionGroup port input parameter
-typedef struct tagNET_IN_OPERATE_FACERECONGNITION_GROUP
-{
-  DWORD        dwSize;
-  EM_OPERATE_FACERECONGNITION_GROUP_TYPE emOperateType; // operation type 
-  void        *pOPerateInfo;         // operation info 
-}NET_IN_OPERATE_FACERECONGNITION_GROUP;  
-
-// CLIENT_OperateFaceRecognitionGroup port output parameter
-typedef struct tagNET_OUT_OPERATE_FACERECONGNITION_GROUP
-{
-  DWORD        dwSize;
-  char        szGroupId[DH_COMMON_STRING_64]; // new record staff group ID，SN staff
-}NET_OUT_OPERATE_FACERECONGNITION_GROUP;  
-
-// CLIENT_FindGroupInfo port input parameter
-typedef struct tagNET_IN_FIND_GROUP_INFO  
-{
-  DWORD        dwSize;
-  char        szGroupId[DH_COMMON_STRING_64];// staff ID，SN staff, as null means search all staff group info 
-}NET_IN_FIND_GROUP_INFO;
-
-// CLIENT_FindGroupInfo port output parameter
-typedef struct tagNET_OUT_FIND_GROUP_INFO  
-{
-  DWORD        dwSize;
-  NET_FACERECONGNITION_GROUP_INFO *pGroupInfos;   // staff group info ，apply space by user
-  int         nMaxGroupNum;         //  current applied group size
-  int         nRetGroupNum;         // device returned staff group number 
-}NET_OUT_FIND_GROUP_INFO;
-
-
-// CLIENT_SetGroupInfoForChannel port input parameter
-typedef struct tagNET_IN_SET_GROUPINFO_FOR_CHANNEL
-{
-  DWORD        dwSize;
-  int         nChannelID;          // channel no.
-  int         nGroupIdNum;          // staff group  
-  char        szGroupId[MAX_GOURP_NUM][DH_COMMON_STRING_64]; // staff group ID 
-}NET_IN_SET_GROUPINFO_FOR_CHANNEL;
-// CLIENT_SetGroupInfoForChannel port output parameter
-typedef struct tagNET_OUT_SET_GROUPINFO_FOR_CHANNEL
-{
-  DWORD        dwSize;
-}NET_OUT_SET_GROUPINFO_FOR_CHANNEL;
 
 //////////////////////////////// burn the upload////////////////////////////////
 
@@ -14456,14 +13498,6 @@ typedef struct tagDH_SPLIT_SOURCE
 	char				szExtraStreamUrl[MAX_PATH];			// extra stream url, effective when byManuFactory =D H_IPC_OTHER
 	int					nUniqueChannel;						// unique channel ID, read only
 	DH_CASCADE_AUTHENTICATOR stuCascadeAuth;				// ssascade authemyication, effective when device ID = "Local/Cascade/SerialNo",  SerialNo is device seral no.
-    int                 nHint;                              // 0-normal video source, 1- alarm video source
-    int                 nOptionalMainUrlCount;              // back main stream address quantity
-    char                szOptionalMainUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH]; // backup main stream address list
-    int                 nOptionalExtraUrlCount;             // backup sub stream address quantity
-    char                szOptionalExtraUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH]; // backup sub stream address list
-    //--------------------------------------------------------------------------------------
-    //protocol follow-up add field
-    int                 nInterval;                          // tour time intertval	unit：second
 	} DH_SPLIT_SOURCE;
 
 // Video output capability set
@@ -14476,8 +13510,16 @@ typedef struct tagDH_VIDEO_OUT_CAPS
 	BOOL				bPowerMode;						// Support power control or not.
 	int					bSplitMode;						// The video split mode supported. 0-1-window. 1-'#' mode(inclduing 1-window).2-Any mode
     unsigned int        nBackground;                    // support background mode, by bit, 0-color, 1-picture
-    BOOL                bBindOutput;                    // If support output screen resoluton binding setup
 } DH_VIDEO_OUT_CAPS;
+
+// Color RGBA
+typedef struct tagDH_COLOR_RGBA
+{
+	int					nRed;							// Red
+	int					nGreen;							// Green
+	int					nBlue;							// Blue
+	int					nAlpha;							// Transparent
+} DH_COLOR_RGBA;
 
 // Color BCSH
 typedef struct tagDH_COLOR_BCSH 
@@ -14587,13 +13629,6 @@ typedef struct tagDH_PRODUCTION_DEFNITION
 	int					nLowerMatrixOutputChannels[DH_MAX_LOWER_MITRIX_NUM];	// inferior video matrix output channel, the subscript corresponding matrix number 
     BOOL                bSupportVideoAnalyse;           // support intelligent analuysis or not
     BOOL                bSupportIntelliTracker;         // support intelligen tracking or not
-    DWORD               nSupportBreaking;               //device supported violation type mask(by bit Get )
-                                                        //0-run the red light 1-cross line  2-retrogradation  3-under speed 4-over speed 5-car in lane 6-yellow plate in lane 7-violation driving（left, right, u-turn）
-                                                        //8-violation enter waiting zone 9-illegal parking 10-Traffic jam 11-driving not by lane 12-illegal lane change 13-cross yellow line 14-should driving
-                                                        //15-manual snapshot 16-illegal retention 17-crosswalk pedestration first 18-over flow 19-under flow 20-illegal in lane 21-illegal back car
-                                                        //22-cross stop line 23-run yellow light 24-yellow grid line parking 25-car in parking 26-car not in parking 27-car in parking cross line  28-limited plate
-                                                        //29-no pass 30-unfasten seat belt 31-drvier smoking
-    DWORD               nSupportBreaking1;              //0-driver call
 } DH_PRODUCTION_DEFNITION;
 
 // Manual lighting control mode 
@@ -14869,8 +13904,6 @@ typedef struct tagNET_SPLIT_OSD
     BYTE                byType;                     // OSD type, 0 - text, 1 - icon 
     BYTE                Reserved[3];                // retain byte
     char                szContent[MAX_PATH];        // OSD content, if the type is icon, the content is the name of the icon 
-    float               fPitch;                     // field interval, 0.0 ~ 5.0
-    char                szFontType[DH_COMMON_STRING_64]; // font type 
 } NET_SPLIT_OSD;
 
 // CLIENT_GetSplitOSD's interface input param(get split window input OSD info)
@@ -15010,122 +14043,6 @@ typedef struct tagNET_OUT_GET_RECENCY_JUNCTION_CAR_INFO
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;        // traffic vehicle info
 }NET_OUT_GET_RECENCY_JUNCTION_CAR_INFO;
 
-// 
-#define NET_MAX_FISHEYE_WINDOW_NUM        8     // Max fish eye window number
-
-// window position info 
-typedef struct tagNET_FISHEYE_WINDOW_INFO
-{
-  DWORD       dwSize;
-  DWORD       dwWindowID;            // window ID
-  int        nFocusX;              // EPtz（E-PTZ ）focus horizontal coordinate
-  int        nFocusY;              // EPtz (E-PTZ ）focus vertical coordinate  
-  int        nHorizontalAngle;         // EPtz horizontal degree
-  int        nVerticalAngle;          // EPtz vertical degree
-}NET_FISHEYE_WINDOW_INFO;
-
-// corresponding to CLIENT_QueryDevInfo port，NET_QUERY_DEV_FISHEYE_WININFO search Fish eye window info input parameter
-typedef struct tagNET_IN_FISHEYE_WININFO
-{
-  DWORD        dwSize;
-  int         nChannelId;           // channel no.
-  int         nWindowNum;           // search window number
-  int         nWindows[NET_MAX_FISHEYE_WINDOW_NUM]; // window id，cannot repeat
-}NET_IN_FISHEYE_WININFO;
-
-// corresponding to CLIENT_QueryDevInfo port，NET_QUERY_DEV_FISHEYE_WININFO search Fish eye window info output parameter
-typedef struct tagNET_OUT_FISHEYE_WININFO
-{
-  DWORD        dwSize;
-  int         nWindowNum;           //window number
-  NET_FISHEYE_WINDOW_INFO stuWindows[NET_MAX_FISHEYE_WINDOW_NUM]; // windowdetail info 
-}NET_OUT_FISHEYE_WININFO;
-
-//CLIENT_QueryDevInfo , NET_QUERY_LANES_STATE port input parameter
-typedef struct tagNET_IN_GET_LANES_STATE
-{
-  DWORD          dwSize;
-  int           nLaneNumber; //-1 represents search all lane,>=0 means search specify lane
-}NET_IN_GET_LANES_STATE;
-
-//signal light indicator status 
-typedef enum tagNET_TRAFFIC_LIGHT_STATUS
-{
-  LIGHT_STATUS_UNKNOWN = 0  ,  // unknown 
-  LIGHT_STATUS_RED      ,  //red
-  LIGHT_STATUS_GREEN     ,  //green
-  LIGHT_STATUS_YELLOW     ,  //yellow
-}NET_TRAFFIC_LIGHT_STATUS;
-
-//signal light indicator info 
-typedef struct tatNET_TRAFFIC_LIGHT_INFO
-{
-  DWORD            dwSize;
-  NET_TRAFFIC_LIGHT_STATUS  emStraightLightInfo;  //straight light status 
-  NET_TRAFFIC_LIGHT_STATUS  emLeftLightInfo;    //left light status 
-  NET_TRAFFIC_LIGHT_STATUS  emRightLightInfo;    //right light status 
-  NET_TRAFFIC_LIGHT_STATUS  emUTurnLightInfo;    //u-turn light status 
-}NET_TRAFFIC_LIGHT_INFO;
-
-//lane direction
-typedef enum tagNET_TRAFFIC_DIRECTION
-{
-  DIRECTION_UNKNOW  = 0 ,  // unknown 
-  DIRECTION_STRAIGHT   ,  //straight
-  DIRECTION_LEFT     ,  //left
-  DIRECTION_RIGHT     ,  //right
-  DIRECTION_UTURN     ,  //u-turn
-}NET_TRAFFIC_DIRECTION;
-
-//lane info 
-typedef struct tagNET_TRAFFIC_LANE_INFO
-{
-  DWORD          dwSize;
-  UINT          nLaneNumber;                  //lane no.,0 start 
-  UINT          nSupportDirectionNum;              //lane can drive direction number
-  NET_TRAFFIC_DIRECTION  emTrafficDirections[MAX_LANE_DIRECTION_NUM];  //lane direction, means this lane can drive in all directions
-  NET_TRAFFIC_JAM_STATUS emJamState;                   //road jam status
-  //flow info 
-  UINT          nLargeVehicleNum;                //large car quantity
-  UINT          nMediumVehicleNum;               //medium car quantity
-  UINT          nSmallVehicleNum;                //small car quantity
-  UINT          nMotoNum;                    //motor quantity
-}NET_TRAFFIC_LANE_INFO;
-
-//CLIENT_QueryDevInfo , NET_QUERY_LANES_STATE port output parameter
-typedef struct tagNET_OUT_GET_LANES_STATE
-{
-  DWORD          dwSize;
-  int           nGetLaneInfoNum;          // Get lane info quantity
-  NET_TRAFFIC_LANE_INFO  stLaneInfos[MAX_LANE_INFO_NUM];   // Get lane info 
-  NET_TRAFFIC_LIGHT_INFO stLightInfo;            //signal light indicator status 
-}NET_OUT_GET_LANES_STATE;
-
-
-// port  CLIENT_AttachLanesState input parameter
-typedef NET_OUT_GET_LANES_STATE NET_CB_LANES_STATE;
-
-// port  CLIENT_AttachLanesState call function
-typedef void (CALLBACK *fNotifyLanesState)(LLONG lLanesStateHandle, NET_CB_LANES_STATE* pLanesStateInfo, LDWORD dwUser, void *reserved);
-
-// port  CLIENT_AttachLanesState input parameter
-typedef struct tagNET_IN_ATTACH_LANES_STATE
-{
-  DWORD        dwSize;             // this structure size
-  int         nChannelID;           // channel no.
-  int         nLaneNumber;          // -1order all lanes，>=0 means order specific lane
-  
-  fNotifyLanesState  cbNotifyLanesState;       // call function
-  LDWORD        dwUser;             // user custom parameter
-} NET_IN_ATTACH_LANES_STATE;
-
-// port  CLIENT_AttachLanesState output parameter
-typedef struct tagNET_OUT_ATTACH_LANES_STATE
-{
-  DWORD        dwSize;             // this structure size
-} NET_OUT_ATTACH_LANES_STATE;
-
-
 // CLIENT_MatrixSwitch The input parameters 
 typedef struct tagNET_IN_MATRIX_SWITCH
 {
@@ -15170,17 +14087,8 @@ typedef enum tagNET_SPLIT_OPERATE_TYPE
 {
     NET_SPLIT_OPERATE_SET_BACKGROUND,            // Set background, corresponding NET_IN_SPLIT_SET_BACKGROUND  and NET_OUT_SPLIT_SET_BACKBROUND
     NET_SPLIT_OPERATE_GET_BACKGROUND,            // get background, corresponding NET_IN_SPLIT_GET_BACKGROUND  and NET_OUT_SPLIT_GET_BACKGROUND
-    NET_SPLIT_OPERATE_SET_PREPULLSRC,            // set pre stream srouce, corresponding to NET_IN_SPLIT_SET_PREPULLSRC and NET_OUT_SPLIT_SET_PREPULLSRC
-    NET_SPLIT_OPERATE_SET_HIGHLIGHT,             // set source frame brightness switch, corresponding to NET_IN_SPLIT_SET_HIGHLIGHT and NET_OUT_SPLIT_SET_HIGHLIGHT
-    NET_SPLIT_OPERATE_SET_ZORDER,                // adjust window Z order, corresponding to NET_IN_SPLIT_SET_ZORDER  and  NET_OUT_SPLIT_SET_ZORDER
-    NET_SPLIT_OPERATE_SET_TOUR,                  // window tour control, corresponding to NET_IN_SPLIT_SET_TOUR  and  NET_OUT_SPLIT_SET_TOUR
-    NET_SPLIT_OPERATE_GET_TOUR_STATUS,           // Get window tour status , corresponding to NET_IN_SPLIT_GET_TOUR_STATUS  and  NET_OUT_SPLIT_GET_TOUR_STATUS
-    NET_SPLIT_OPERATE_GET_SCENE,                 // Get screen window info , corresponding to NET_IN_SPLIT_GET_SCENE  and  NET_OUT_SPLIT_GET_SCENE
-    NET_SPLIT_OPERATE_OPEN_WINDOWS,              // batch window, corresponding to NET_IN_SPLIT_OPEN_WINDOWS  and  NET_OUT_SPLIT_OPEN_WINDOWS
-    NET_SPLIT_OPERATE_SET_WORK_MODE,             // set work mode , corresponding to NET_IN_SPLIT_SET_WORK_MODE  and  NET_OUT_SPLIT_SET_WORK_MODE
-    NET_SPLIT_OPERATE_GET_PLAYER,                // Get player example，corresponding to NET_IN_SPLIT_GET_PLAYER  and  NET_OUT_SPLIT_GET_PLAYER
-    NET_WM_OPERATE_SET_WORK_MODE,               // Set window working mode，corresponding  NET_IN_WM_SET_WORK_MODE and NET_OUT_WM_SET_WORK_MODE
-    NET_WM_OPERATE_GET_WORK_MODE,               // Get window working mode，corresponding  NET_IN_WM_GET_WORK_MODE and NET_OUT_WM_GET_WORK_MODE
+    NET_SPLIT_OPERATE_SET_PREPULLSRC,            // set pre stream srouce, corresponding to NET_IN_SPLIT_SET_PREPULLSRC 和 NET_OUT_SPLIT_SET_PREPULLSRC
+    NET_SPLIT_OPERATE_SET_HIGHLIGHT,             // set source frame brightness switch, corresponding to NET_IN_SPLIT_SET_HIGHLIGHT 和 NET_OUT_SPLIT_SET_HIGHLIGHT
 } NET_SPLIT_OPERATE_TYPE;
 
 // Set source frame brightness switch input parameter
@@ -15254,217 +14162,6 @@ typedef struct tagNET_OUT_SPLIT_GET_BACKGROUND
     BOOL            bEnable;                            // enable
     char            szFileName[DH_COMMON_STRING_256];   // background name
 } NET_OUT_SPLIT_GET_BACKGROUND;
-
-// window Z sequence
-typedef enum tagNET_WINDOW_ZORDER
-{
-  NET_WINDOW_ZORDER_TOP,               // top
-  NET_WINDOW_ZORDER_BOTTOM,              // bottom
-  NET_WINDOW_ZORDER_UP,                // up
-  NET_WINDOW_ZORDER_DOWN,               // down
-} NET_WINDOW_ZORDER;
-
-// window layer order
-typedef struct tagDH_WND_ZORDER
-{
-  DWORD        dwSize;
-  unsigned int    nWindowID;           // window no.
-  unsigned int    nZOrder;            // Z order
-} DH_WND_ZORDER;
-
-// set window Z order input parameter
-typedef struct tagNET_IN_SPLIT_SET_ZORDER 
-{
-  DWORD        dwSize;
-  int         nChannel;            // output channel no. or cubeless video wall virtual channel no., pszCompositeID is NULL is valid 
-  const char*     pszCompositeID;         // cubeless video wall ID
-  int         nWindow;            // window no.
-  NET_WINDOW_ZORDER  emZOrder;            // adjust Z order
-} NET_IN_SPLIT_SET_ZORDER;
-
-// set window Z order output parameter, adjust one window Z order will affect all windows,  return adjusted all windows’ Z order
-typedef struct tagNET_OUT_SPLIT_SET_ZORDER
-{
-  DWORD        dwSize;
-  DH_WND_ZORDER*   pZOders;            // window order group, user allocate memory
-  int         nMaxWndCount;          // window order group size
-  int         nWndCount;           // return window quantity
-} NET_OUT_SPLIT_SET_ZORDER;
-
-// window tour motion 
-typedef enum tagEM_NET_WINDOW_TOUR_ACTION 
-{
-  EM_NET_WND_TOUR_ACTION_START,            //  start 
-  EM_NET_WND_TOUR_ACTION_STOP,            // stop
-} EM_NET_WINDOW_TOUR_ACTION;
-
-// window tour control input parameter, corresponding to NET_SPLIT_OPERATE_SET_TOUR
-typedef struct tagNET_IN_SPLIT_SET_TOUR 
-{
-  DWORD        dwSize;
-  int         nChannel;            // output channel no. or cubeless video wall virtual channel no., pszCompositeID is NULL is valid 
-  const char*     pszCompositeID;         // cubeless video wall ID
-  int         nWindow;            // window no.
-  EM_NET_WINDOW_TOUR_ACTION emAction;         // tour motion 
-} NET_IN_SPLIT_SET_TOUR;
-
-// window tour control output parameter, corresponding to NET_SPLIT_OPERATE_SET_TOUR
-typedef struct tagNET_OUT_SPLIT_SET_TOUR 
-{
-  DWORD        dwSize;
-} NET_OUT_SPLIT_SET_TOUR;
-
-// Get window tour status input parameter, corresponding to NET_SPLIT_OPERATE_GET_TOUR_STATUS
-typedef struct tagNET_IN_SPLIT_GET_TOUR_STATUS
-{
-  DWORD        dwSize;
-  int         nChannel;            // output channel no. or cubeless video wall virtual channel no., pszCompositeID is NULL is valid 
-  const char*     pszCompositeID;         //  cubeless video wall ID
-  int         nWindow;            // window no., -1 means all window
-} NET_IN_SPLIT_GET_TOUR_STATUS;
-
-// tour status 
-typedef enum tagNET_TOUR_STATUS
-{
-  NET_TOUR_UNKNOWN,                // unknown 
-  NET_TOUR_START,                 // touring
-  NET_TOUR_STOP,                 // tour stop
-}NET_TOUR_STATUS;
-
-// window tour status info 
-typedef struct tagNET_WINDOW_TOUR_STATUS_INFO 
-{
-  DWORD        dwSize;
-  int         nWindow;            // window no.
-  NET_TOUR_STATUS   emStatus;            // status 
-} NET_WINDOW_TOUR_STATUS_INFO;
-
-// Get window tour status output parameter, corresponding to NET_SPLIT_OPERATE_GET_TOUR_STATUS
-typedef struct tagNET_OUT_SPLIT_GET_TOUR_STATUS
-{
-  DWORD        dwSize;
-  NET_WINDOW_TOUR_STATUS_INFO* pstuStatus;      // status info indicator, user allocation memory. search window no. is -1 means multi-window info group.
-  int         nMaxStatusCount;        // status info max quantity, user input
-  int         nRetStatusCount;        // status info actual quantity, search to get
-} NET_OUT_SPLIT_GET_TOUR_STATUS;
-
-// batch window input parameter, corresponding to NET_SPLIT_OPERATE_OPEN_WINDOWS
-typedef struct tagNET_IN_SPLIT_OPEN_WINDOWS 
-{
-  DWORD        dwSize;
-  int         nChannel;            // output channel no. or cubeless video wall virtual channel no., pszCompositeID is NULL is valid 
-  const char*     pszCompositeID;         //  cubeless video wall id
-  int         nWindowNum;           // window quantity
-  NET_RECT*      pstuWindowRects;        // window zone group
-  BOOL        bDirectable;          // meet direct criteria 
-} NET_IN_SPLIT_OPEN_WINDOWS;
-
-// window info 
-typedef struct tagNET_SPLIT_WINDOW_INFO
-{
-  DWORD        dwSize;
-  int         nWindowID;           // window no.
-  int         nZOrder;            // Z order
-  char        szControlID[DH_DEV_ID_LEN];   // control no.
-} NET_SPLIT_WINDOW_INFO;
-
-// batch window output parameter, corresponding to NET_SPLIT_OPERATE_OPEN_WINDOWS
-typedef struct tagNET_OUT_SPLIT_OPEN_WINDOWS 
-{
-  DWORD        dwSize;
-  NET_SPLIT_WINDOW_INFO* pstuWindows;        // window info , user allocation memory
-  int         nMaxWindowCount;        // window info max quantity, user input
-  int         nRetWindowCount;        // window quantity
-} NET_OUT_SPLIT_OPEN_WINDOWS;
-
-// video split work mode 
-typedef enum tagNET_SPLIT_WORK_MODE
-{
-  NET_SPLIT_WORK_MODE_UNKNOWN,            // unknown 
-  NET_SPLIT_WORK_MODE_LOCAL,             // local normal mode 
-  NET_SPLIT_WORK_MODE_REPLAY,             // playback mode 
-}NET_SPLIT_WORK_MODE;
-
-// setup work mode input parameter, corresponding to NET_SPLIT_OPERATE_SET_WORK_MODE
-typedef struct tagNET_IN_SPLIT_SET_WORK_MODE 
-{
-  DWORD        dwSize;
-  int         nChannel;            // output channel no. or cubeless video wall virtual channel no., pszCompositeID is NULL is valid 
-  const char*     pszCompositeID;         //  cubeless video wall ID
-  NET_SPLIT_WORK_MODE emMode;             // work mode 
-}NET_IN_SPLIT_SET_WORK_MODE;
-
-// setup work mode output parameter, corresponding to NET_SPLIT_OPERATE_SET_WORK_MODE
-typedef struct tagNET_OUT_SPLIT_SET_WORK_MODE 
-{
-  DWORD        dwSize;
-}NET_OUT_SPLIT_SET_WORK_MODE;
-
-// player type 
-typedef enum tagNET_SPLIT_PLAYER_TYPE
-{
-  NET_SPLIT_PLAYER_TYPE_UNKNOWN,            // unknown 
-  NET_SPLIT_PLAYER_TYPE_FILE_LIST,           // file list player
-  NET_SPLIT_PLAYER_TYPE_FILE,             // file player
-}NET_SPLIT_PLAYER_TYPE;
-
-// Get player actual input parameter, corresponding to NET_SPLIT_OPERATE_GET_PLAYER
-typedef struct tagNET_IN_SPLIT_GET_PLAYER
-{
-  DWORD         dwSize;
-  int          nChannel;            // output channel no. or cubeless video wall virtual channel no., pszCompositeID is NULL is valid 
-  const char*      pszCompositeID;         //  cubeless video wall ID
-  NET_SPLIT_PLAYER_TYPE emType;             // player type 
-  int          nWindow;            // player window no.
-}NET_IN_SPLIT_GET_PLAYER;
-
-// Get player actual output parameter, corresponding to NET_SPLIT_OPERATE_GET_PLAYER
-typedef struct tagNET_OUT_SPLIT_GET_PLAYER
-{
-  DWORD         dwSize;
-  LLONG         lPlayerID;           // player actual ID
-}NET_OUT_SPLIT_GET_PLAYER;
-
-// Window Working Mode
-typedef enum tagNET_WM_WORK_MODE
-{
-    NET_WM_WORK_MODE_UNKNOWN,                             // Unknown
-    NET_WM_WORK_MODE_DISPLAY,                             // Preview mode
-    NET_WM_WORK_MODE_REPLAY,                              // Playback mode  
-}NET_WM_WORK_MODE;
-
-// Set window working mode input parameter, corresponding  NET_WM_OPERATE_SET_WORK_MODE
-typedef struct tagNET_IN_WM_SET_WORK_MODE
-{
-    DWORD                 dwSize;
-    int                   nChannel;                       // Output channel no. or cubeless video wall virtual channel no., when pszCompositeID is NULL. valid
-    const char*           pszCompositeID;                 // Cubeless video wall ID
-    int                   nWindow;                        // Window no.
-    NET_WM_WORK_MODE      emMode;                         // Window working mode
-}NET_IN_WM_SET_WORK_MODE;
-
-//Set window working mode output parameter, corresponding  NET_WM_OPERATE_SET_WORK_MODE
-typedef struct tagNET_OUT_WM_SET_WORK_MODE
-{
-    DWORD                 dwSize;
-}NET_OUT_WM_SET_WORK_MODE;
-
-// Get window woking mode input parameter, corresponding  NET_WM_OPERATE_GET_WORK_MODE
-typedef struct tagNET_IN_WM_GET_WORK_MODE
-{
-    DWORD                 dwSize;
-    int                   nChannel;                       // Output channel no. or cubeless virtual channel no., when pszCompositeID is NULL, valid
-    const char*           pszCompositeID;                 // Cubeless video wall ID
-    int                   nWindow;                        // Window no.
-}NET_IN_WM_GET_WORK_MODE;
-
-//Get window working mode output parameter, corresponding  NET_WM_OPERATE_GET_WORK_MODE
-typedef struct tagNET_OUT_WM_GET_WORK_MODE
-{
-    DWORD                 dwSize;
-    NET_WM_WORK_MODE      emMode;                         // Window working mode
-}NET_OUT_WM_GET_WORK_MODE;
-
 ////////////////////////////////// System status////////////////////////////////////////
 
 // CPU info
@@ -15601,7 +14298,7 @@ typedef struct tagDH_SYSTEM_STATUS
 
 // Corresponding CLIENT_QueryDevState() Interface's DH_DEVSTATE_ALL_ALARM_CHANNELS_STATE Command Parameter 
 // For Alarm Channel Status 
-typedef enum tagNET_ALARM_CHANNEL_TYPE
+enum NET_ALARM_CHANNEL_TYPE
 {
     NET_ALARM_CHANNEL_TYPE_ALL,                             // All channels (including all of the following)
     NET_ALARM_CHANNEL_TYPE_ALARMIN,                         // Alarm input channel 
@@ -15609,7 +14306,7 @@ typedef enum tagNET_ALARM_CHANNEL_TYPE
     NET_ALARM_CHANNEL_TYPE_ALARMBELL,                       // Signal channel 
     NET_ALARM_CHANNEL_TYPE_EXALARMIN,                       // Extension module alarm input channel 
     NET_ALARM_CHANNEL_TYPE_EXALARMOUT,                      // Extension module and alarm output channel
-}NET_ALARM_CHANNEL_TYPE;
+};
 
 typedef struct tagNET_CLIENT_ALARM_CHANNELS_STATE
 {
@@ -15704,6 +14401,14 @@ typedef struct tagDH_OUT_SPLIT_GET_RECT
 	DWORD				dwSize;	
 	DH_RECT				stuRect;					// window position, 0~8192
 } DH_OUT_SPLIT_GET_RECT;
+
+// cascading order window
+typedef struct tagDH_WND_ZORDER
+{
+	DWORD				dwSize;
+	unsigned int		nWindowID;					// window ID
+	unsigned int		nZOrder;					// Z order
+} DH_WND_ZORDER;
 
 // CLIENT_SetSplitWindowLevels's interface input param(setting window order)
 typedef struct tagDH_IN_SPLIT_SET_TOP_WINDOW
@@ -15851,48 +14556,7 @@ typedef struct tagDH_BLOCK_COLLECTION
 	int					nWndsCount;					// count of window
 	char				szName[DH_DEVICE_NAME_LEN];	// favorites name
     int                  nScreen;                       // The output channel number, including the splicing screen 
-    char                szCompositeID[DH_DEV_ID_LEN_EX]; //  splicing video wall ID
 } DH_BLOCK_COLLECTION;
-
-// TV wall display unit
-typedef struct tagDH_MONITORWALL_OUTPUT 
-{
-    DWORD       dwSize;
-    char        szDeviceID[DH_DEV_ID_LEN];     // device ID, local time is""
-    int         nChannel;              // channel no.
-    char        szName[DH_DEV_NAME_LEN];      // screen name 
-} DH_MONITORWALL_OUTPUT;
-
-// TV wall display block
-typedef struct tagDH_MONITORWALL_BLOCK
-{
-  DWORD          dwSize;
-  char          szName[DH_DEV_NAME_LEN];    // block name 
-  char          szCompositeID[DH_DEV_ID_LEN];  //  splicing video wall ID
-  char          szControlID[DH_DEV_ID_LEN];   // control ID
-  int           nSingleOutputWidth;       // single display unit occupied grid column number
-  int           nSingleOutputHeight;      // single display unit occupied grid row number
-  DH_RECT         stuRect;            // zone coordinate
-  DH_TSECT        stuPowerSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM]; // switch on time chart, first-dimension each element means sunday~saturday and holiday
-  DH_MONITORWALL_OUTPUT* pstuOutputs;          // display unit data,  user allocation memory
-  int           nMaxOutputCount;        // display unit group size,user fill in
-  int           nRetOutputCount;        // return display unit quantity
-} DH_MONITORWALL_BLOCK;
-
-// tv wall config 
-typedef struct tagDH_MONITORWALL 
-{
-  DWORD          dwSize;
-  char          szName[DH_DEV_NAME_LEN];    // name 
-  int           nGridLine;           // grid row
-  int           nGridColume;          // grid column
-  DH_MONITORWALL_BLOCK*  pstuBlocks;           // display block group, user allocation nmemory
-  int           nMaxBlockCount;         // display zone group size, user fill in
-  int           nRetBlockCount;         // return display block quantity
-  BOOL          bDisable;            // disable or not, 0-tv wall is valid , 1-tv wall is invalid
-  char          szDesc[DH_COMMON_STRING_256];  // tv wall description info 
-} DH_MONITORWALL;
-
 
 // plan of monitor wall
 typedef struct tagDH_MONITORWALL_COLLECTION 
@@ -15902,7 +14566,6 @@ typedef struct tagDH_MONITORWALL_COLLECTION
 	DH_BLOCK_COLLECTION	stuBlocks[DH_MAX_BLOCK_NUM];// area array
 	int					nBlocksCount;				// area count
 	char				szControlID[DH_DEV_ID_LEN_EX];	// control ID
-    DH_MONITORWALL      stuMonitorWall;             // tv wall config 
 } DH_MONITORWALL_COLLECTION;
 
 // CLIENT_GetMonitorWallCollections's interface input param(get plan infomation of monitor wall)
@@ -16237,10 +14900,6 @@ typedef struct tagDH_VIDEO_INPUTS
 	char				szControlID[DH_DEV_ID_LEN_EX];		// control ID
 	char				szMainStreamUrl[MAX_PATH];			// main stream url 
 	char				szExtraStreamUrl[MAX_PATH];			// extra stream url
-    int                 nOptionalMainUrlCount;              // spare main stream address quantity
-    char                szOptionalMainUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH]; // spare main stream address list
-    int                 nOptionalExtraUrlCount;             // spare sub stream address quantity
-    char                szOptionalExtraUrls[DH_MAX_OPTIONAL_URL_NUM][MAX_PATH]; // spare substream address list
 } DH_VIDEO_INPUTS;
 
 typedef struct tagDH_REMOTE_DEVICE 
@@ -16274,7 +14933,6 @@ typedef enum tagNET_LOGIC_CHANNEL_TYPE
     LOGIC_CHN_REMOTE,               // Remote access channel 
     LOGIC_CHN_COMPOSE,              // Synthesis of channel, for the judicial equipment contains picture in picture channel and mixing channel
     LOGIC_CHN_MATRIX,               // matrix channel，including analog matrix and digital matrix
-    LOGIC_CHN_CASCADE,              // cascading channel
 } NET_LOGIC_CHN_TYPE;
 
 // available according to the source of information
@@ -16320,6 +14978,43 @@ typedef struct tagDH_OUT_MATRIX_SET_CAMERAS
 {
 	DWORD				dwSize;
 } DH_OUT_MATRIX_SET_CAMERAS;
+
+// monitor wall output
+typedef struct tagDH_MONITORWALL_OUTPUT 
+{
+	DWORD				dwSize;
+	char				szDeviceID[DH_DEV_ID_LEN];		// device ID, when itself the value = ""
+	int					nChannel;						// channel
+	char				szName[DH_DEV_NAME_LEN];		// name
+} DH_MONITORWALL_OUTPUT;
+
+// monitor wall block
+typedef struct tagDH_MONITORWALL_BLOCK
+{
+	DWORD				dwSize;
+	char				szName[DH_DEV_NAME_LEN];		// block name
+	char				szCompositeID[DH_DEV_ID_LEN];	// composite ID
+	char				szControlID[DH_DEV_ID_LEN];		// control ID
+	int					nSingleOutputWidth;				// single output width
+	int					nSingleOutputHeight;			// single output height
+	DH_RECT				stuRect;						// rect coordinates
+	DH_TSECT			stuPowerSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM];	// on  schedule,the first said the weekend or holidays
+	DH_MONITORWALL_OUTPUT* pstuOutputs;					// array
+	int					nMaxOutputCount;				// size of array
+	int					nRetOutputCount;				// return count
+} DH_MONITORWALL_BLOCK;
+
+// monitor wall configuration
+typedef struct tagDH_MONITORWALL 
+{
+	DWORD				dwSize;
+	char				szName[DH_DEV_NAME_LEN];		// name
+	int					nGridLine;						// grid line
+	int					nGridColume;					// grid colume
+	DH_MONITORWALL_BLOCK* pstuBlocks;					// block array
+	int					nMaxBlockCount;					// size of block array
+	int					nRetBlockCount;					// return count
+} DH_MONITORWALL;
 
 // source of window display info 
 typedef struct tagDH_SPLIT_WND_SOURCE 
@@ -16479,9 +15174,7 @@ typedef struct tagDH_VIDEO_IN_CAPS
 	BOOL					bAutoFocusPeak;				// support auto focus peak or not
 	BOOL					bElectricFocus;				// support electric focus or not
 	BOOL					bSyncFocus;					// support sync focus
-    BOOL                    bSetColor;                  // if support video color setup
-    BOOL                    bGain;                      // support gain control or not
-    BOOL                    bPhase;                     // support phase control or not
+    BOOL             bSetColor;                     // if support video color setup
 } DH_VIDEO_IN_CAPS;
 
 // CLIENT_GetVideoInCaps's interface input param
@@ -16794,15 +15487,11 @@ typedef struct tagNET_OUT_MW_SET_BACKGROUD_COLOR
 // tv wall operation type
 typedef enum tagNET_MONITORWALL_OPERATE_TYPE
 {
-    NET_MONITORWALL_OPERATE_ADD,            // add tv wall, corresponding to  NET_IN_MONITORWALL_ADD and NET_OUT_MONITORWALL_ADD
-    NET_MONITORWALL_OPERATE_CTRL_TOUR,      // scheme tour control, corresponding to  NET_IN_CTRL_COLLECTIONTOUR and NET_OUT_CTRL_COLLECTIONTOUR
+    NET_MONITORWALL_OPERATE_ADD,            // add tv wall, corresponding to  NET_IN_MONITORWALL_ADD 和 NET_OUT_MONITORWALL_ADD
+    NET_MONITORWALL_OPERATE_CTRL_TOUR,      // scheme tour control, corresponding to  NET_IN_CTRL_COLLECTIONTOUR 和 NET_OUT_CTRL_COLLECTIONTOUR
     NET_MONITORWALL_OPERATE_GET_STATUS,     // get matrix current status, corresponding to  NET_IN_MONITORWALL_GET_STATUS NET_OUT_MONITORWALL_GET_STATUS
     NET_MONITORWALL_OPERATE_SET_COLL_SCHD,  // set scheme time schedule, corresponding to  NET_IN_MONITORWALL_SET_COLL_SCHD NET_OUT_MONITORWALL_SET_COLL_SCHD
-    NET_MONITORWALL_OPERATE_GET_COLL_SCHD,  // get scheme schedule, corresponding to  NET_IN_MONITORWALL_GET_COLL_SCHD and NET_OUT_MONITORWALL_GET_COLL_SCHD
-    NET_MONITORWALL_OPERATE_REMOVE,         // delete tv wall, corresponding to NET_IN_MONITORWALL_REMOVE  and  NET_OUT_MONITORWALL_REMOVE
-    NET_MONITORWALL_OPERATE_SET_ENABLE,     // setup enable, corresponding to NET_IN_MONITORWALL_SET_ENABLE  and  NET_OUT_MONITORWALL_SET_ENABLE
-    NET_MONITORWALL_OPERATE_GET_ENABLE,     // Get  enable, corresponding to NET_IN_MONITORWALL_GET_ENABLE  and  NET_OUT_MONITORWALL_GET_ENABLE
-    NET_MONITORWALL_OPERATE_NAME_EXIST,     // tv wall exists or not, corresponding to NET_IN_MONITORWALL_NAME_EXIST  and  NET_OUT_MONITORWALL_NAME_EXIST
+    NET_MONITORWALL_OPERATE_GET_COLL_SCHD,  // get scheme schedule, corresponding to  NET_IN_MONITORWALL_GET_COLL_SCHD 和 NET_OUT_MONITORWALL_GET_COLL_SCHD
 } NET_MONITORWALL_OPERATE_TYPE;
 
 // add tv wall input parameter
@@ -16881,7 +15570,6 @@ typedef struct tagNET_IN_MONITORWALL_SET_COLL_SCHD
     DWORD               dwSize;
     int                 nCollectionNum;                 // scheme number
     MONITORWALL_COLLECTION_SCHEDULE stuCollShedule[DH_MAX_COLLECTION_NUM];  // scheme schedule
-    int                 nMonitorWallID;                 // tv wall ID
 } NET_IN_MONITORWALL_SET_COLL_SCHD;
 
 // CLIENT_OperateMonitorWallport output parameter=>NET_MONITORWALL_OPERATE_SET_COLL_SCHD
@@ -16897,7 +15585,6 @@ typedef struct tagNET_IN_MONITORWALL_GET_COLL_SCHD
     BOOL                bAllCollections;                // TRUE-search all scheme, no need to appoint scheme name. FALSE-search name corresponding scheme
     int                 nCollectionNum;                 // scheme, bAllCollections is FALSE valid
     char                szCollections[DH_MAX_COLLECTION_NUM][DH_DEVICE_NAME_LEN];   // scheme name
-    int                 nMonitorWallID;                 // tv wall ID
 } NET_IN_MONITORWALL_GET_COLL_SCHD;
 
 // CLIENT_OperateMonitorWallport input parameter=>NET_MONITORWALL_OPERATE_GET_COLL_SCHD
@@ -16907,73 +15594,6 @@ typedef struct tagNET_OUT_MONITORWALL_GET_COLL_SCHD
     int                 nCollectionNum;                 // scheme number
     MONITORWALL_COLLECTION_SCHEDULE stuCollShedule[DH_MAX_COLLECTION_NUM];  // scheme schedule
 } NET_OUT_MONITORWALL_GET_COLL_SCHD;
-
-// CLIENT_OperateMonitorWallport input parameter =>NET_MONITORWALL_OPERATE_REMOVE
-typedef struct tagNET_IN_MONITORWALL_REMOVE 
-{
-    DWORD       dwSize;
-    int         nMonitorWallNum;        // tv wall quantity to delete
-    char        szNames[DH_MAX_MONITORWALL_NUM][DH_COMMON_STRING_128]; // tv wall  name 
-} NET_IN_MONITORWALL_REMOVE;
-
-// CLIENT_OperateMonitorWallport  output parameter =>NET_MONITORWALL_OPERATE_REMOVE
-typedef struct tagNET_OUT_MONITORWALL_REMOVE 
-{
-    DWORD       dwSize;
-} NET_OUT_MONITORWALL_REMOVE;
-
-// tv wall enable info 
-typedef struct tagNET_MONITORWALL_ENABLE_INFO
-{
-    DWORD       dwSize;
-    BOOL        bEanble;            // enable 
-    char        szName[DH_COMMON_STRING_128];  // tv wall  name 
-} NET_MONITORWALL_ENABLE_INFO;
-
-// CLIENT_OperateMonitorWallport input parameter =>NET_MONITORWALL_OPERATE_SET_ENABLE
-typedef struct tagNET_IN_MONITORWALL_SET_ENABLE
-{
-    DWORD       dwSize;
-    int         nMonitorWallNum;        // tv wall quantity to set
-    NET_MONITORWALL_ENABLE_INFO stuEnable[DH_MAX_MONITORWALL_NUM]; // tv wall enable 
-} NET_IN_MONITORWALL_SET_ENABLE;
-
-// CLIENT_OperateMonitorWallport  output parameter =>NET_MONITORWALL_OPERATE_SET_ENABLE
-typedef struct tagNET_OUT_MONITORWALL_SET_ENABLE
-{
-    DWORD        dwSize;
-} NET_OUT_MONITORWALL_SET_ENABLE;
-
-// CLIENT_OperateMonitorWallport input parameter =>NET_MONITORWALL_OPERATE_GET_ENABLE
-typedef struct tagNET_IN_MONITORWALL_GET_ENABLE
-{
-    DWORD       dwSize;
-    int         nMonitorWallNum;        //tv wall quantity to search, -1 means search alltv wall 
-    char        szNames[DH_MAX_MONITORWALL_NUM][DH_COMMON_STRING_128]; // tv wall  name , nMonitorWallNum>0 is valid 
-} NET_IN_MONITORWALL_GET_ENABLE;
-
-// CLIENT_OperateMonitorWallport  output parameter =>NET_MONITORWALL_OPERATE_SET_ENABLE
-typedef struct tagNET_OUT_MONITORWALL_GET_ENABLE
-{
-    DWORD       dwSize;
-    int         nMonitorWallNum;        // tv wall quantity
-    NET_MONITORWALL_ENABLE_INFO stuEnable[DH_MAX_MONITORWALL_NUM]; // tv wall enable 
-} NET_OUT_MONITORWALL_GET_ENABLE;
-
-// CLIENT_OperateMonitorWallport input parameter =>NET_MONITORWALL_OPERATE_NAME_EXIST
-typedef struct tagNET_IN_MONITORWALL_NAME_EXIST 
-{
-    DWORD           dwSize;
-    const char*     pszName;            // tv wall  name 
-} NET_IN_MONITORWALL_NAME_EXIST;
-
-// CLIENT_OperateMonitorWallport  output parameter =>NET_MONITORWALL_OPERATE_NAME_EXIST
-typedef struct tagNET_OUT_MONITORWALL_NAME_EXIST 
-{
-    DWORD       dwSize;
-    BOOL        bExist;            // tv wall exists or not
-} NET_OUT_MONITORWALL_NAME_EXIST;
-
 
 /************************************************************************/
 /*  U disk caught
@@ -17415,41 +16035,6 @@ typedef struct tagFIND_RECORD_TRAFFICFLOW_CONDITION
     NET_TIME                  stEndTime;                        // end time 
 }FIND_RECORD_TRAFFICFLOW_CONDITION;
 
-#define DH_MAX_CALLTYPE_LIST_NUM        16              // call  type search criteria listmax number 
-#define DH_MAX_ENDSTATE_LIST_NUM        16              // final status  search criteria listmax number 
-
-// call record search criteria 
-typedef struct tagFIND_RECORD_VIDEO_TALK_LOG_CONDITION
-{
-    DWORD               dwSize;
-    BOOL                bCallTypeEnable;                // call  type search criteria valid or not
-    int                 nCallTypeListNum;               // corresponding to emCallTypeList valid enumeration number 
-    EM_VIDEO_TALK_LOG_CALLTYPE   emCallTypeList[DH_MAX_CALLTYPE_LIST_NUM];  // call  type enable list
-    BOOL                bEndStateEnable;                // final status  search criteria isvalid or not
-    int                 nEndStateListNum;               // corresponding to emEndStateList valid enumeration number 
-    EM_VIDEO_TALK_LOG_ENDSTATE   emEndStateList[DH_MAX_ENDSTATE_LIST_NUM];  // final status enable list
-}FIND_RECORD_VIDEO_TALK_LOG_CONDITION;
-
-// status  record search criteria 
-typedef struct tagFIND_RECORD_REGISTER_USER_STATE_CONDITION
-{
-    DWORD               dwSize;
-    BOOL                bUserIDEnable;                  // userID search criteria is valid or not
-    char                szUserID[DH_MAX_USERID_LEN];    // user ID
-    BOOL                bOnlineEnable;                  // online search criteria is valid or not
-    BOOL                bOnline;                        // online or not
-    BOOL                bVideoTalkingEnable;            // audio talk status  search criteria  is valid or not 
-    EM_REGISTER_USER_STATE     emVideoTalking;          // audio talk status 
-}FIND_RECORD_REGISTER_USER_STATE_CONDITION;
-
-// contact record search criteria 
-typedef struct tagFIND_RECORD_VIDEO_TALK_CONTACT_CONDITION
-{
-    DWORD               dwSize;
-    BOOL                bVTShortNumberEnable;                   // visual talk short no. search criteria  is valid or not 
-    char                szVTShortNumber[DH_COMMON_STRING_32];   // visual talk short no.
-}FIND_RECORD_VIDEO_TALK_CONTACT_CONDITION;
-
 // traffic flow record
 typedef struct tagNET_RECORD_TRAFFIC_FLOW_STATE 
 {
@@ -17614,61 +16199,6 @@ typedef struct tagNET_OUT_SET_TOUR_SOURCE
     DWORD                   dwSize;
 } NET_OUT_SET_TOUR_SOURCE;
 
-// CLIENT_GetTourSource port input parameter 
-typedef struct tagNET_IN_GET_TOUR_SOURCE 
-{
-    DWORD           dwSize;
-    int             nChannel;           // output channel no., pszCompsiteIDis NULL, it is valid 
-    const char*     pszCompositeID;     //  splicing video wall ID
-    int             nWindow;            // window no., -1 means all window
-} NET_IN_GET_TOUR_SOURCE;
-
-// window tour display source info 
-typedef struct tagNET_SPLIT_TOUR_SOURCE 
-{
-    DWORD           dwSize;
-    DH_SPLIT_SOURCE*    pstuSrcs;       // display source group, user allocation memory
-    int             nMaxSrcCount;       // display source max quantity
-    int             nRetSrcCount;       // return display source quantity
-} NET_SPLIT_TOUR_SOURCE;
-
-// CLIENT_GetTourSource port  output parameter 
-typedef struct tagNET_OUT_GET_TOUR_SOURCE
-{
-    DWORD          dwSize;  
-    NET_SPLIT_TOUR_SOURCE* pstuWndSrcs; // window tour info group, user allocation memory
-    int            nMaxWndCount;        // window max group, user fill in
-    int            nRetWndCount;        // return window  quantity
-} NET_OUT_GET_TOUR_SOURCE;
-
-// split tour status info 
-typedef struct tagNET_SPLIT_TOUR_STATUS_INFO
-{
-    DWORD          dwSize;
-    int            nWindow;             // window no.
-    NET_TOUR_STATUS   emStatus;         // status 
-    DH_SPLIT_WND_SOURCE stuSource;      //  current display source info 
-}NET_SPLIT_TOUR_STATUS_INFO;
-
-// tour status call function origin, lAttachHandle is CLIENT_AttachSplitTour return value 
-typedef void (CALLBACK *fTourStatusCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_SPLIT_TOUR_STATUS_INFO* pstStatus, void* reserved, LDWORD dwUser);
-
-// CLIENT_AttachSplitTourport input parameter 
-typedef struct tagNET_IN_ATTACH_SPLIT_TOUR
-{
-    DWORD           dwSize;
-    int             nChannel;           // output channel no., pszCompsiteIDis NULL, it is valid 
-    const char*     pszCompositeID;     //  splicing video wall ID
-    fTourStatusCallBack cbStatus;       // tour status call function
-    LDWORD          dwUser;             // tour status call function
-}NET_IN_ATTACH_SPLIT_TOUR;
-
-// CLIENT_AttachSplitTourport  output parameter 
-typedef struct tagNET_OUT_ATTACH_SPLIT_TOUR 
-{
-    DWORD           dwSize;
-}NET_OUT_ATTACH_SPLIT_TOUR;
-
 // fAttachRecordInfoCB parameter, information of reported video file 
 typedef struct tagNET_CB_RECORD_INFO
 {
@@ -17728,7 +16258,6 @@ typedef struct tagDH_OUT_PTZ_VIEW_RANGE_STATUS
     double     dbDistance;                         // Visual range, the unit: m 
     int        nAngelH;                            // Horizontal viewing angles, 0~1800, unit: degrees 
     int        nAzimuthH;                          // Horizontal azimuth Angle, 0 ~ 3600, unit: degrees 
-    int        nInclinationH;                      // Horizontal inclination angle, -900~900, unit: degree
 }DH_OUT_PTZ_VIEW_RANGE_STATUS;
 
 //Subscribe to yuntai horizon callback function prototype 
@@ -17869,18 +16398,6 @@ typedef struct tagPTZ_Control_SectorScan
     char            szReserve[64];                  // Reserved 64 bytes 
 }PTZ_CONTROL_SECTORSCAN;
 
-// control Fish eye E-PTZ info 
-typedef struct tagPTZ_CONTROL_SET_FISHEYE_EPTZ
-{
-    DWORD       dwSize;	                // structure size
-    DWORD       dwWindowID;             // EPtz control window no.
-    DWORD       dwCommand;              // E-PTZ command 
-    DWORD       dwParam1;               // command corresponding to parameter 1
-    DWORD       dwParam2;               // command corresponding to  parameter 2
-    DWORD       dwParam3;               // command corresponding to  parameter 3
-    DWORD       dwParam4;               // command corresponding to  parameter 4
-}PTZ_CONTROL_SET_FISHEYE_EPTZ;
-
 // CLIENT_TransmitInfoForWeb   Interface Extension Parameters 
 typedef struct tagNET_TRANSMIT_EXT_INFO
 {
@@ -17915,21 +16432,6 @@ typedef struct tagNET_OUT_ATTACH_CAN
 {
     DWORD          dwSize;
 }NET_OUT_ATTACH_CAN;
-
-// CLIENT_SendCAN() input parameter
-typedef struct tagNET_IN_SEND_CAN
-{
-    DWORD          dwSize;
-    int            nChannel;                       // CAN channel no.
-	int            nSendDataLength;                // Send data length
-    unsigned char* pSendData;                      // Send data content
-}NET_IN_SEND_CAN;
-
-// CLIENT_SendCAN() output parameter
-typedef struct tagNET_OUT_SEND_CAN
-{
-    DWORD          dwSize;
-}NET_OUT_SEND_CAN;
 
 // parameter of fAttachDevCommCB
 typedef struct tagNET_CB_DEVCOMMDATA
@@ -18022,7 +16524,6 @@ typedef struct tagDEV_EVENT_TRAFFIC_RESTRICTED_PLATE
     DH_RESOLUTION_INFO      stuResolution;                  // corresponding picture resolution
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // traffic vehicle info
     BYTE                    byReserved[1024];               // reserve text
-    EVENT_COMM_INFO         stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_RESTRICTED_PLATE;
 
 // event type EVENT_IVS_TRAFFIC_OVERSTOPLINE (cross line event)corresponding to data module info
@@ -18050,124 +16551,7 @@ typedef struct tagDEV_EVENT_TRAFFIC_OVERSTOPLINE
     DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;        // traffic vehicle info
     int                     nSpeed;                         // vehicle speed,Km/h
     BYTE                    byReserved[1024];               // reserved text
-    EVENT_COMM_INFO         stCommInfo;                     // public info 
 }DEV_EVENT_TRAFFIC_OVERSTOPLINE;
-
-
-typedef enum tagNET_SAFEBELT_STATE
-{
-    SS_NUKNOW  = 0 ,            // unknown 
-    SS_WITH_SAFE_BELT ,         //fastened seat belt 
-    SS_WITHOUT_SAFE_BELT ,      // unfasten seat belt 
-}NET_SAFEBELT_STATE;
-
-// event type EVENT_IVS_TRAFFIC_WITHOUT_SAFEBELT(Traffic unfasten seat belt event event )corresponding to data block description info 
-typedef struct tagDEV_EVENT_TRAFFIC_WITHOUT_SAFEBELT
-{
-    int           nChannelID;					// channel no.
-    char          szName[DH_EVENT_NAME_LEN];    // event name 
-    int           nTriggerType;                 // TriggerType:trigger type ，0 vehicle detector，1 radar，2 video
-    DWORD         PTS;                          // time stamp(unit is ms)
-    NET_TIME_EX   UTC;                          // event occurred time
-    int           nEventID;                     // event ID
-    int           nSequence;                    // means snaoshot no.，as 3,2,1,1 means snapshotend ,0 means abnormal end
-    BYTE          byEventAction;                // event  motion ，0 means pulse event ,1 means  continuity  event  start ,2 means  continuity  event end;  BYTE          byReserved1[2];
-    BYTE          byImageIndex;                 // picture no., same time(accurate to second)may have multiple pictures , start from 0 
-    BYTE          byReserved1[2];
-    DH_EVENT_FILE_INFO   stuFileInfo;           // event corresponding to file info 
-    int           nLane;                        // corresponding to lane no.
-    int           nMark;                        // bottom generated trigger snapshot frame mark
-    int           nFrameSequence;               // video analysis frame no.
-    int           nSource;                      // video analysis data source address
-    DH_MSG_OBJECT      stuObject;               // detection object 
-    DH_MSG_OBJECT      stuVehicle;              // body info 
-    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;    // Traffic vehicle info 
-    int           nSpeed;                       // vehicle actual speed,Km/h
-    NET_SAFEBELT_STATE   emMainSeat;            // main driver seat belt status 
-    NET_SAFEBELT_STATE   emSlaveSeat;           // co-drvier seat belt status 
-    DWORD         dwSnapFlagMask;               // snapshot mark(by bit)，see NET_RESERVED_COMMON  
-    DH_RESOLUTION_INFO   stuResolution;         // corresponding to picture resolution
-    BYTE          byReserved[1024];             // reserved text
-    EVENT_COMM_INFO     stCommInfo;             // public info 
-}DEV_EVENT_TRAFFIC_WITHOUT_SAFEBELT;
-
-// event type EVENT_IVS_TRAFFIC_DRIVER_SMOKING (driver smoke event )corresponding to data block description info 
-typedef struct tagDEV_EVENT_TRAFFIC_DRIVER_SMOKING
-{
-    int           nChannelID;                   // channel no.
-    char          szName[DH_EVENT_NAME_LEN];    // event name 
-    int           nTriggerType;                 // TriggerType: trigger type ，0 vehicle detector，1 radar，2 video
-    DWORD         PTS;                          // time stamp(unit is ms)
-    NET_TIME_EX   UTC;                          // event occurred time
-    int           nEventID;                     // event ID
-    int           nSequence;                    // means snapshot no.， as 3,2,1,1 means snapshot end,0 means abnormal end
-    BYTE          byEventAction;                // event  motion ，0 means pulse  event ,1 means  continuity  event  start ,2 means  continuity  event end;  BYTE          byReserved1[2];
-    BYTE          byImageIndex;                 // picture no., same time(accurate to second) may be multiple pictures , start from 0  
-    BYTE          byReserved1[2];
-    DH_EVENT_FILE_INFO   stuFileInfo;           // event corresponding to file info 
-    int           nLane;                        // corresponding to lane no.
-    int           nMark;                        // bottom occurred trigger snapshot mark
-    int           nFrameSequence;               // video analysis frame no.
-    int           nSource;                      // video analysis data source address
-    DH_MSG_OBJECT      stuObject;               // detection received object 
-    DH_MSG_OBJECT      stuVehicle;              // body info 
-    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;    // Traffic vehicle info 
-    int           nSpeed;                       // car actual speed,Km/h
-    DWORD         dwSnapFlagMask;               // snapshot mark(by bit)，see NET_RESERVED_COMMON  
-    DH_RESOLUTION_INFO   stuResolution;         // corresponding to picture resolution
-    EVENT_COMM_INFO     stCommInfo;             // public info 
-    BYTE          byReserved[1024];             // reserve text
-}DEV_EVENT_TRAFFIC_DRIVER_SMOKING;
-
-// event type EVENT_IVS_TRAFFIC_DRIVER_CALLING(driver call event )corresponding to data block description info 
-typedef struct tagDEV_EVENT_TRAFFIC_DRIVER_CALLING
-{
-    int           nChannelID;                   // channel no.
-    char          szName[DH_EVENT_NAME_LEN];    // event name 
-    int           nTriggerType;                 // TriggerType: trigger type ，0 vehicle detector，1 radar，2 video
-    DWORD         PTS;                          // time stamp(unit is ms)
-    NET_TIME_EX   UTC;                          // event occurred time
-    int           nEventID;                     // event ID
-    int           nSequence;                    // means snapshot no.，as 3,2,1,1 means snapshot end,0 means abnormal end
-    BYTE          byEventAction;                // event  motion ，0 means pulse  event ,1 means  continuity  event  start ,2 means  continuity  event end;  BYTE          byReserved1[2];
-    BYTE          byImageIndex;                 // picture no., same time (accurate to second) maybe multiple picture , start from 0  
-    BYTE          byReserved1[2];
-    DH_EVENT_FILE_INFO   stuFileInfo;           // event corresponding to file info 
-    int           nLane;                        // corresponding to lane no.
-    int           nMark;                        // bottom trigger snapshot frame mark
-    int           nFrameSequence;               // video analysis frame no.
-    int           nSource;                      // video analysis data source address
-    DH_MSG_OBJECT      stuObject;               // detection received object 
-    DH_MSG_OBJECT      stuVehicle;              // body info 
-    DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stuTrafficCar;    // Traffic vehicle info 
-    int           nSpeed;                       // vehicle actual speed,Km/h
-    DWORD         dwSnapFlagMask;               // snapshot mark(by bit)，see NET_RESERVED_COMMON  
-    DH_RESOLUTION_INFO   stuResolution;         // corresponding to picture resolution
-    EVENT_COMM_INFO     stCommInfo;             // public info 
-    BYTE          byReserved[1024];             // reserve text
-}DEV_EVENT_TRAFFIC_DRIVER_CALLING;
-
-// event type EVENT_IVS_OBJECT_DETECTION(object feature detection event )corresponding to data description info 
-typedef struct tagDEV_EVENT_TRAFFIC_OBJECT_DETECTION
-{
-    int	        nChannelID;                     // channel no.
-    char        szName[128];                    // event name 
-    char        bReserved1[4];                  // field align
-    double      PTS;                            // time stamp(unit is ms)
-    NET_TIME_EX     UTC;                        // event occurred time
-    int         nEventID;                       // event ID
-    DH_EVENT_FILE_INFO stuFileInfo;             // event corresponding to file info 
-    BYTE        bEventAction;                   // event  motion ，0 means pulse event ,1 means  continuity  event  start ,2 means  continuity  event end;
-    BYTE        byReserved[2];                  // reserved text
-    BYTE        byImageIndex;                   // picture no., same time(accurate to second)may be multiple picture , start from 0 
-    DWORD       dwSnapFlagMask;                 // snapshot mark(by bit)，see NET_RESERVED_COMMON  
-    int         nSourceIndex;                   // event source device index,-1 means data invalid
-    char        szSourceDevice[MAX_PATH];       // event source device SN, field does not exist or null means local device 
-    unsigned int    nOccurrenceCount;           // event trigger accumilated times 
-    int         nObjectNum;                     //object info number
-    DH_MSG_OBJECT_EX  *pstObjectInfo;           //object info data 
-    BYTE        byReserved2[1024];              //reserved text
-}DEV_EVENT_TRAFFIC_OBJECT_DETECTION;
 
 // redundant power abnormal alarm
 typedef struct tagALARM_POWER_ABNORMAL_INFO
@@ -18531,7 +16915,7 @@ typedef enum tagNET_RAID_OPERATE_TYPE
     NET_RAID_OPERATE_REMOVE,                 // delete RAID, corresponding structure  NET_IN_RAID_REMOVE  and NET_OUT_RAID_REMOVE
     NET_RAID_OPERATE_GET_SUBDEVICE,          // get RAID sub device info, corresponding structure  NET_IN_RAID_GET_SUBDEVICE  and NET_OUT_RAID_GET_SUBDEVICE
     NET_RAID_OPERATE_GET_SUBSMART,           // get RAID sub device SMART info, corresponding structure  NET_IN_RAID_GET_SUBSMART  and NET_OUT_RAID_GET_SUBSMART
-    NET_RAID_OPERATE_MODIFY,                 // modify RAID, corresponding to  structure  NET_IN_RAID_MODIFY and NET_OUT_RAID_MODIFY
+    NET_RAID_OPERATE_MODIFY,                 // modify RAID, corresponding to  structure  NET_IN_RAID_MODIFY 和 NET_OUT_RAID_MODIFY
 } NET_RAID_OPERATE_TYPE;
 
 // RAID info
@@ -18728,26 +17112,6 @@ typedef struct tagALARM_PROTECTIVE_CAPSULE_INFO
     DWORD               nInfrared;      //0:idle (no one),1:trigger(someone); only emCapsuleState is CAPSULE_STATE_NORMAL valid
 }ALARM_PROTECTIVE_CAPSULE_INFO;
 
-// Get Fish eye capacity input parameter 
-typedef struct tagNET_IN_VIDEOIN_FISHEYE_CAPS
-{
-    DWORD       dwSize; 
-    int         nChannel; //channel no.
-}NET_IN_VIDEOIN_FISHEYE_CAPS;
-
-// Get Fish eye capacity  output parameter 
-typedef struct tagNET_OUT_VIDEOIN_FISHEYE_CAPS
-{
-    DWORD                   dwSize; 
-    int                     nMountModeNum;              // supported installation mode number     
-    NET_FISHEYE_MOUNT_MODE  emMountModes[NET_MAX_FISHEYE_MOUNTMODE_NUM]; // supported installation mode list
-    int                     nCalibrateModeNum;          // supported Fish eye correction mode number  
-    NET_FISHEYE_CALIBRATE_MODE emCalibrateModes[NET_MAX_FISHEYE_CALIBRATEMODE_NUM]; // supported Fish eye correction mode list
-    int                     nEPtzCmdNum;                // supported Fish eye E-PTZ operation number 
-    NET_FISHEYE_EPTZ_CMD    emEPtzCmds[NET_MAX_FISHEYE_EPTZCMD_NUM]; // supported Fish eye E-PTZ operationlist
-    NET_FISHEYE_TYPE        emType;                     //Fish eye type 
-}NET_OUT_VIDEOIN_FISHEYE_CAPS;
-
 // get power sequence input parameter
 typedef struct tagNET_IN_CAP_SEQPOWER 
 {
@@ -18804,7 +17168,7 @@ typedef struct tagNET_OUT_ENCODE_CFG_CAPS
 // fall event type
 typedef struct tagALARM_FALLING_INFO
 {
-    DWORD               dwStructSize;                               //  structure size
+    DWORD               dwStructSize;                               //  structure 大小
     BYTE                bEventAction;                               // event action，0 means impulse event,1 means continuous event start,2 means continuous event end;
     BYTE                byRserved[3];                               // align                                                                                                                                                                                                                                                                        
 }ALARM_FALLING_INFO;
@@ -18885,14 +17249,6 @@ typedef enum tagNET_PORT_TYPE
     NET_PORT_TYPE_GPS,                                              // GPS stopannouncement
 } NET_PORT_TYPE;
 
-// mobile unlock event data type 
-typedef enum tagEM_VEHICLE_DATA_TYPE
-{
-    EM_VEHICLE_DOOR_OPEN_DATA_UNKNOWN = 0,
-    EM_VEHICLE_DOOR_OPEN_DATA_REALTIME,               // real-time data
-    EM_VEHICLE_DOOR_OPEN_DATA_HISTORY,                // re-send data
-}EM_VEHICLE_DATA_TYPE;
-
 // alarm event type DH_ALARM_BUS_IMPORT_SITE(in station event)corresponding to data description info
 typedef struct tagALARM_BUS_IMPORT_SITE_INFO
 {
@@ -18902,15 +17258,9 @@ typedef struct tagALARM_BUS_IMPORT_SITE_INFO
     NET_LINE_DIRECTION      emDirection;                            // direction
     char                    szLineID[DH_COMMON_STRING_64];          // maek
     NET_TIME_EX             stuTime;                                // in/out station time
-    int                     nTime;                                  // used to confirm event time, UTC, unit is second
     NET_BUS_STATE           emState;                                // if in/out station on time
     NET_PORT_TYPE           emType;                                 // stop announcement method
     NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS info
-    DWORD                   dwSiteCount;                            // total stop point
-    char                    szSiteName[DH_COMMON_STRING_64];        // stop name 
-    char                    szDesignation[DH_COMMON_STRING_64];     // path no.
-    EM_VEHICLE_DATA_TYPE    emDataType;                             // event data type 
-    BOOL                    bNeedConfirm;                           // confirm or not, via callCLIENT_BusConfirmEventport to confirm
 } ALARM_BUS_IMPORT_SITE_INFO;
 
 //alarm event type DH_ALARM_BUS_EXPORT_SITE(out station event)corresponding to data description info
@@ -18922,48 +17272,10 @@ typedef struct tagALARM_BUS_EXPORT_SITE_INFO
     NET_LINE_DIRECTION      emDirection;                            // direction
     char                    szLineID[DH_COMMON_STRING_64];          // mark
     NET_TIME_EX             stuTime;                                // in/out station time
-    int                     nTime;                                  // used to confirm  event time, UTC, unit is second
     NET_BUS_STATE           emState;                                // if out station on time
     NET_PORT_TYPE           emType;                                 // stop announcement method
     NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS info
-    DWORD                   dwSiteCount;                            // total stop point
-    char                    szSiteName[DH_COMMON_STRING_64];        // stop name 
-    char                    szDesignation[DH_COMMON_STRING_64];     // path no.
-    EM_VEHICLE_DATA_TYPE    emDataType;                             // event data type 
-    BOOL                    bNeedConfirm;                           // confirm or not, via call CLIENT_BusConfirmEventport to confirm
 } ALARM_BUS_EXPORT_SITE_INFO;
-
-// abnormal event type 
-typedef enum tagEM_ALARM_BUS_ABNORMAL_EVENT_TYPE
-{
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_UNKNOWN,      // unknown 
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_RUNNING,      // recover operation，"Running"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_MEAL,         // eat，"Meal"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_BLOCK,        // jam，"Block"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_CALL,         // call，"Call"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_BREAKDOWN,    // breakdown，"Breakdown"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_DISCONTINUED, // stop operation，"Discontinued"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_ROBING,       // robing，"Robing"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_OVERLOAD,     // overload，"Overload"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_DISPUTE,      // dispute，"Dispute"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_ACCIDENT,     // event，"Accident"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_OVERSPEED,    // over speed，"OverSpeed"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_RENTAL,       // rental，"Rental"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_MAINTENANCE,  // maintenance，"Maintenance"
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE_CLOSURE,      // closure，"Closure"
-}EM_ALARM_BUS_ABNORMAL_EVENT_TYPE;
-
-// alarm event type DH_ALARM_BUS_ABNORMAL(vehicle abnormal event )corresponding to data description info 
-typedef struct tagALARM_BUS_ABNORMAL_INFO
-{
-    DWORD                   dwSize;
-    EM_ALARM_BUS_ABNORMAL_EVENT_TYPE    emEventType;            // abnormal event type 
-    char                    szCarNo[DH_MAX_PLATE_NUMBER_LEN];   // plate
-    char                    szLineID[DH_COMMON_STRING_64];      // path mark
-    NET_LINE_DIRECTION      emLineDirection;                    // path direction
-    NET_TIME_EX             stuTime;                            // occur time
-    NET_GPS_STATUS_INFO     stuGPSStatusInfo;                   // GPSinfo 
-} ALARM_BUS_ABNORMAL_INFO;
 
 // alarm event type DH_ALARM_ENCLOSURE_ALARM(e-fence event)corresponding to data description info
 typedef struct tagALARM_ENCLOSURE_ALARM_INFO
@@ -18981,22 +17293,6 @@ typedef struct tagALARM_ENCLOSURE_ALARM_INFO
     NET_TIME_EX             stuTime;                                // current time
     NET_GPS_STATUS_INFO     stuGPSStatusInfo;                       // GPS info
 } ALARM_ENCLOSURE_ALARM_INFO;
-
-// mobile door status 
-typedef NET_ACCESS_CTL_STATUS_TYPE NET_VEHICLE_DOOR_STATUS;
-
-// mobile unlock event , corresponding to event type DH_VEHICLE_DOOR_OPEN
-typedef struct tagALARM_VEHICLE_DOOR_OPEN_INFO 
-{
-    DWORD                   dwSize;
-    NET_VEHICLE_DOOR_STATUS emStatus;           // door status 
-    int                     nDoor;              // door no., 1:front door,2:middle door,3:rear door
-    NET_TIME                stuTime;            // event time, UTC
-    int                     nTime;              // used to confirm  event used time, UTC, unit is second
-    NET_GPS_STATUS_INFO     stuGPSStatusInfo;   // GPSinfo 
-    EM_VEHICLE_DATA_TYPE    emDataType;         // event  data  type 
-    BOOL                    bNeedConfirm;       // confirm or not, via call CLIENT_BusConfirmEventport to confirm
-}ALARM_VEHICLE_DOOR_OPEN_INFO;
 
 // order Bus status input structure
 typedef struct tagNET_IN_BUS_ATTACH
@@ -19135,40 +17431,6 @@ typedef struct tagNET_OUT_ANALOGALARM_DATA
     DWORD    dwSize;
 }NET_OUT_ANALOGALARM_DATA;
 
-// order  record change port definition
-#define DH_MAX_RECORD_INSERT_NUM              128
-#define DH_MAX_RECORD_DELETE_NUM              128
-#define DH_MAX_RECORD_UPDATE_NUM              128
-
-typedef struct tagNET_RECORDUPDATER_INFO
-{
-    DWORD           dwSize;
-    int             nInsertNum;                   // record info ，inserted  record number 
-    int             nInsertNumberList[DH_MAX_RECORD_INSERT_NUM];  // means new record  index       
-    int             nDeleteNum;                   // record info ，deleted record number 
-    int             nDeleteNumberList[DH_MAX_RECORD_DELETE_NUM];  // means deleted record  index ，-1 means delete all record     
-    int             nUpdateNum;                   // record info ，updated record number 
-    int             nUpdateNumberList[DH_MAX_RECORD_UPDATE_NUM];  // means updated record  index      
-}NET_RECORDUPDATER_INFO;
-
-//order record change port 
-typedef void (CALLBACK *fRecordUpdaterCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_RECORDUPDATER_INFO* pInfo, int nBufLen, LDWORD dwUser);
-
-// CLIENT_AttachRecordUpdater()port input parameter 
-typedef struct tagNET_IN_RECORDUPDATER_DATA
-{
-    DWORD               dwSize;
-    EM_NET_RECORD_TYPE  emType;           // record  set info type 
-    fRecordUpdaterCallBack   cbRecordUpdater;         // record update call function
-    LDWORD              dwUser;           // user defnition parameter 
-}NET_IN_RECORDUPDATER_DATA;
-
-// CLIENT_AttachRecordUpdater()port  output parameter 
-typedef struct tagNET_OUT_RECORDUPDATER_DATA
-{
-    DWORD               dwSize;
-}NET_OUT_RECORDUPDATER_DATA;
-
 
 // search device supported sensor type 
 // CLIENT_QueryDevState port DH_DEVSTATE_GET_SENSORLIST  command parameter
@@ -19210,106 +17472,6 @@ typedef struct tagLogSetPrintInfo
     unsigned int    nPrintStrategy;                         // log out strategy, 0: output to file(defualt); 1:output to window
 }LOG_SET_PRINT_INFO;
 
-//////////////////////////////////////////////////////////////////////////
-//       Low Rate Wireless Personal Area Network low speed wireless private network begin
-//////////////////////////////////////////////////////////////////////////
-
-// Wireless Device Type
-typedef enum tagNET_WIRELESS_DEVICE_TYPE
-{
-	NET_WIRELESS_DEVICE_TYPE_UNKNOWN = 0,				
-	NET_WIRELESS_DEVICE_TYPE_KEYBOARD,			// Wireless keyboard
-	NET_WIRELESS_DEVICE_TYPE_DEFENCE,			// Wireless zone 
-	NET_WIRELESS_DEVICE_TYPE_REMOTECONTROL,		// Wireless remote control 
-	NET_WIRELESS_DEVICE_TYPE_MAGNETOMER,		// Wireless door sensor 
-} NET_WIRELESS_DEVICE_TYPE;
-
-// Code info
-typedef struct tagNET_CODEID_INFO
-{
-	DWORD						dwSize;
-	unsigned int				nWirelessId;					// Wireless ID no.
-	NET_WIRELESS_DEVICE_TYPE	emType;							// Wireless device type
-	char						szName[DH_USER_NAME_LENGTH];	// Username
-	BOOL						bEnable;						// Enable this device
-}NET_CODEID_INFO;
-
-// Code error type
-typedef enum tagNET_CODEID_ERROR_TYPE
-{	
-	NET_CODEID_ERROR_TYPE_RIGHT = 0,			// Code correct
-	NET_CODEID_ERROR_TYPE_ALREADYEXIST,			// Exists
-	NET_CODEID_ERROR_TYPE_OTHER,				// Other error
-} NET_CODEID_ERROR_TYPE;
-
-// Order wireless code info call function origin，lAttachHandle is CLIENT_AttachLowRateWPAN return valud
-typedef void (CALLBACK *fAttachLowRateWPANCB) (LLONG lLoginID, LLONG lAttachHandle, NET_CODEID_INFO* stuBuf, NET_CODEID_ERROR_TYPE emError, LDWORD dwUser);
-
-// CLIENT_AttachLowRateWPAN() input parameter
-typedef struct tagNET_IN_ATTACH_LOWRATEWPAN
-{
-	DWORD					dwSize;
-	fAttachLowRateWPANCB	cbAttachLowRateWPANCB;         // Code data call
-	LDWORD					dwUser;                        // User Data
-}NET_IN_ATTACH_LOWRATEWPAN;
-
-// CLIENT_AttachLowRateWPAN() output parameter
-typedef struct tagNET_OUT_ATTACH_LOWRATEWPAN
-{
-	DWORD		        dwSize;
-}NET_OUT_ATTACH_LOWRATEWPAN;
-
-// Delete specific wireless device
-// CLIENT_ControlDevice port DH_CTRL_LOWRATEWPAN_REMOVE command parameter
-typedef struct tagNET_CTRL_LOWRATEWPAN_REMOVE
-{
-	DWORD					dwSize;
-	unsigned int			nWirelessId;				// Wireless device ID	
-}NET_CTRL_LOWRATEWPAN_REMOVE;
-
-// Delete all wireless device
-// CLIENT_ControlDevice port DH_CTRL_LOWRATEWPAN_REMOVEALL command parameter
-typedef struct tagNET_CTRL_LOWRATEWPAN_REMOVEALL
-{
-	DWORD					dwSize;
-}NET_CTRL_LOWRATEWPAN_REMOVEALL;
-
-// Modify wireless device info
-// CLIENT_ControlDevice port DH_CTRL_LOWRATEWPAN_MODIFY command parameter
-typedef struct tagNET_CTRL_LOWRATEWPAN_MODIFY
-{
-	DWORD					dwSize;
-	NET_CODEID_INFO			stuCodeIDInfo;			// According to CodeIDInfo CodeID，modify its UserandEnable indo，cannot modify others
-}NET_CTRL_LOWRATEWPAN_MODIFY;
-
-// Get code successful total items
-typedef struct tagNET_GET_CODEID_COUNT
-{
-	DWORD				dwSize;
-	int					nCodeIDCount;		// Code successful total items
-}NET_GET_CODEID_COUNT;
-
-// Get code info
-typedef struct tagNET_GET_CODEID_LIST
-{
-	DWORD				dwSize;
-	int					nStartIndex;			// Start index symbol, start first search may set to 0
-	int					nQueryNum;				// The gotten code items, this value issmaller than or equal to capacity set nMaxPageSize field valud
-	int					nRetCodeIDNum;			// Actual returned code items
-	NET_CODEID_INFO*	pstuCodeIDInfo;			// Get code content, memory is allocated by user, cannot be lower than nQueryNum*sizeof(NET_CODEID_INFO)
-}NET_GET_CODEID_LIST;
-
-// Analog channel data search(corresponding  DH_DEVSTATE_ANALOGALARM_DATA command)
-typedef struct tagNET_GET_ANALOGALARM_DATA 
-{
-    DWORD                       dwSize;
-    int                         nChannelID;     // Analog channel no. to search(start from 0)
-    NET_ANALOGALARM_SENSE_INFO  stuInfo;        // Get analog channel data
-}NET_GET_ANALOGALARM_DATA;
-
-//////////////////////////////////////////////////////////////////////////
-//       Low Rate Wireless Personal Area Network low speed wireless private network end
-//////////////////////////////////////////////////////////////////////////
 
 // get current sub system enable status(correspondingDH_DEVSTATE_GET_ALARM_SUBSYSTEM_ACTIVATESTATUS命令)
 typedef struct tagNET_GET_ALARM_SUBSYSTEM_ACTIVATE_STATUES
@@ -19381,73 +17543,6 @@ typedef struct tagNET_CTRL_SET_ORDER_STATE
     NET_ORDER_STATE_INFO*   pOrderStateInfo;              // parking reservation infouser allocation space
     unsigned int            nStateCount;                  // valid reservation number
 }NET_CTRL_SET_ORDER_STATE;
-
-// Parking lot entrance/exit controller LED roll screen subtitle speed
-typedef enum tagNET_ECK_LED_SPEED_TYPE 
-{
-    NET_ECK_LED_SPEED_UNKNOWN = 0,
-    NET_ECK_LED_SPEED_LOW,                              // Slow
-    NET_ECK_LED_SPEED_NORMAL,                           // Normal
-    NET_ECK_LED_SPEED_HIGH,                             // Fast
-}NET_ECK_LED_SPEED_TYPE;
-
-// Parking lot entrance/exit controller LED setup parameter DH_CTRL_ECK_LED_SET
-typedef struct tagNET_CTRL_ECK_LED_SET_PARAM 
-{
-    DWORD                   dwSize;
-    NET_ECK_LED_SPEED_TYPE  emLEDSpeed;                 // Subtitle rolling speed
-    int                     nCount;                     // Valid display times, range 0-255, 0 means permanent
-    char                    szCustomData[DH_COMMON_STRING_512];// LED rolling screen initial characters, 0-256 bytes
-}NET_CTRL_ECK_LED_SET_PARAM;
-
-
-// Intelligent parking system entrance/exit device IC card user type
-typedef enum tagNET_ECK_IC_CARD_USER_TYPE
-{
-    NET_ECK_IC_CARD_USER_TEMP = 0,                      // Temporary user
-    NET_ECK_IC_CARD_USER_LONG,                          // Long-term user
-}NET_ECK_IC_CARD_USER_TYPE;
-
-//Intelligent parking lot system entrance/exit device abnormal pass car record type
-typedef enum tagNET_ECK_CAR_PASS_FLAG
-{
-    NET_ECK_CAR_PASS_FLAG_NORMAL = 0,                   // Normal
-    NET_ECK_CAR_PASS_FLAG_ABNORMAL = 1,                 // Abnormal
-    NET_ECK_CAR_PASS_FLAG_ALL,                          // All
-} NET_ECK_CAR_PASS_FLAG;
-
-// Intelligent parking system entrance/exit device IC card info
-typedef struct tagNET_ECK_IC_CARD 
-{
-    DWORD                   dwSize;
-    DWORD                   dwCard;                     // card no.
-    NET_ECK_IC_CARD_USER_TYPE emUserType;               // User type
-}NET_ECK_IC_CARD;
-
-#define NET_MAX_ECK_IC_CARD_IMPORT_NUM      50          // Intelligent parking system entrance/exit device max inport IC card quantity
-
-// Intelligent parking system entrance/exit deviceIC card info import parameter DH_CTRL_ECK_IC_CARD_IMPORT
-typedef struct tagNET_CTRL_ECK_IC_CARD_IMPORT_PARAM
-{
-    DWORD               dwSize;
-    int                 nCardNum;                       // IC card quantity
-    NET_ECK_IC_CARD     stuCardInfo[NET_MAX_ECK_IC_CARD_IMPORT_NUM];// IC card info
-}NET_CTRL_ECK_IC_CARD_IMPORT_PARAM;
-
-// Intelligent parking system entrance/exit deviceIC card info sync info parameter DH_CTRL_ECK_SYNC_IC_CARD
-typedef struct tagNET_CTRL_ECK_SYNC_IC_CARD_PARAM
-{
-    DWORD               dwSize;
-    int                 nCount;                         // Client IC card info quantity
-}NET_CTRL_ECK_SYNC_IC_CARD_PARAM;
-
-// fingerprint collection (corresponding to DH_CTRL_CAPTURE_FINGER_PRINT command )
-typedef struct tagNET_CTRL_CAPTURE_FINGER_PRINT 
-{
-    DWORD      dwSize;
-    int        nChannelID;                      // access control no.(start from 0)
-    char       szReaderID[DH_COMMON_STRING_32]; // card reader ID
-}NET_CTRL_CAPTURE_FINGER_PRINT;
 
 ////////////////////////////////system task subscription//////////////////////////////////////////
 // zone status
@@ -19535,31 +17630,6 @@ typedef struct NET_OUT_ATTACH_MISSION_PARAM
     LLONG             lAttachHandle;           // subscribe handle
 }NET_OUT_ATTACH_MISSION_PARAM;
 
-#define MAX_EVENT_TO_CONFIRM_NUM    8    // max to confirm event number 
-
-//to confirm event info 
-typedef struct tagNET_EVENT_INFO_TO_CONFIRM 
-{
-    DWORD           dwSize;
-    DWORD           dwEventType;        // event type , corresponding to CLIENT_AttachBusStateport event type 
-    NET_TIME        stuTime;            // event time, UTC
-    LONG            lTime;              // event time, UTC, unit is second
-}NET_EVENT_INFO_TO_CONFIRM;
-
-// vehicle emergency alarm confirm input parameter 
-typedef struct tagNET_IN_BUS_CONFIRM_EVENT 
-{
-    DWORD           dwSize;
-    int             nEvent;             // to confirm event valid quantity
-    NET_EVENT_INFO_TO_CONFIRM  stuEventInfo[MAX_EVENT_TO_CONFIRM_NUM];// to confirm event info 
-}NET_IN_BUS_CONFIRM_EVENT;
-
-// vehicle emergency alarm confirm  output parameter 
-typedef struct tagNET_OUT_BUS_CONFIRM_EVENT 
-{
-    DWORD           dwSize;
-}NET_OUT_BUS_CONFIRM_EVENT;
-
 // CLIENT_StartQueryLog input parameter
 typedef struct tagNET_IN_START_QUERYLOG
 {
@@ -19629,9 +17699,9 @@ typedef struct tagNET_OUT_STARTLOGINEX
 // video splicing operation type
 typedef enum tagNET_VIDEOJOIN_OPERATE_TYPE
 {
-    NET_VIDEOJOIN_GET_STATUS,               // get splicing status, corresponding to  NET_IN_VIDEOJOIN_GET_STATUS and NET_OUT_VIDEOJOIN_GET_STATUS
-    NET_VIDEOJOIN_GET_CALIBRATE_POINTS,     // get calibrate point , corresponding to  tagNET_IN_VIDEOJOIN_GET_CALIBRATE_POINTS and  tagNET_OUT_VIDEOJOIN_GET_CALIBRATE_POINTS
-    NET_VIDEOJOIN_CALIBRATE,                // mark ,  corresponding to  NET_IN_VIDEOJOIN_CALIBRATE and NET_OUT_VIDEOJOIN_CALIBRATE
+    NET_VIDEOJOIN_GET_STATUS,                   // get splicing status, corresponding to  NET_IN_VIDEOJOIN_GET_STATUS 和 NET_OUT_VIDEOJOIN_GET_STATUS
+        NET_VIDEOJOIN_GET_CALIBRATE_POINTS,     // get calibrate point , corresponding to  tagNET_IN_VIDEOJOIN_GET_CALIBRATE_POINTS and  tagNET_OUT_VIDEOJOIN_GET_CALIBRATE_POINTS
+        NET_VIDEOJOIN_CALIBRATE,                // mark ,  corresponding to  NET_IN_VIDEOJOIN_CALIBRATE 和 NET_OUT_VIDEOJOIN_CALIBRATE
 }NET_VIDEOJOIN_OPERATE_TYPE;
 
 // video splicing status
@@ -19708,69 +17778,6 @@ typedef struct tagNET_OUT_VIDEOJOIN_CALIBRATE
 {
     DWORD           dwSize;
 }NET_OUT_VIDEOJOIN_CALIBRATE;
-
-// Get screen window info input parameter , corresponding to NET_SPLIT_OPERATE_GET_SCENE
-typedef struct tagNET_IN_SPLIT_GET_SCENE 
-{
-    DWORD           dwSize;
-    int             nChannel;               // output channel no. or cubeless video wall virtual channel no., pszCompositeIDis NULL, it is valid 
-    const char*     pszCompositeID;         //  cubeless video wall ID
-}NET_IN_SPLIT_GET_SCENE;
-
-// Get  screen window info  output parameter , corresponding to NET_SPLIT_OPERATE_GET_SCENE
-typedef struct tagNET_OUT_SPLIT_GET_SCENE 
-{
-    DWORD           dwSize;
-    DH_SPLIT_SCENE  stuScene;               // window info 
-}NET_OUT_SPLIT_GET_SCENE;
-
-// tv wall tour status 
-typedef enum tagEM_NET_WM_TOUR_STATUS
-{
-    EM_NET_WM_TOUR_STATUS_UNKNOWN,          // unknown 
-    EM_NET_WM_TOUR_STATUS_START,            // touring
-    EM_NET_WM_TOUR_STATUS_STOP,             // tour stop
-} EM_NET_WM_TOUR_STATUS;
-
-// tv wall scheme tour status info 
-typedef struct tagNET_WM_TOUR_STATUS_INFO 
-{
-    DWORD          dwSize;
-    EM_NET_WM_TOUR_STATUS  emStatus;        // tour status 
-    DH_MONITORWALL_SCENE  stuScene;         // scheme info 
-} NET_WM_TOUR_STATUS_INFO;
-
-// tv wall scheme tour status call function origin, lAttachHandle is CLIENT_MonitorWallAttachTour return value 
-typedef void (CALLBACK *fMonitorWallTourStatusCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_WM_TOUR_STATUS_INFO* pstStatus, void* reserved, LDWORD dwUser);
-
-// CLIENT_MonitorWallAttachTour port input parameter 
-typedef struct tagNET_IN_WM_ATTACH_TOUR 
-{
-    DWORD       dwSize;
-    int       	nMonitorWallID;             // tv wall ID
-    fMonitorWallTourStatusCallBack cbStatus;// tour status  call function 
-    LDWORD     	dwUser;                     // tour status call parameter 
-} NET_IN_WM_ATTACH_TOUR;
-
-// CLIENT_MonitorWallAttachTour port  output parameter 
-typedef struct tagNET_OUT_WM_ATTACH_TOUR 
-{
-    DWORD      dwSize;
-} NET_OUT_WM_ATTACH_TOUR;
-
-// CLIENT_SnapManagerConfirmUpload port input parameter
-typedef struct tagNET_IN_SNAP_MANAGER_CONFIRM_UPLOAD
-{
-    DWORD           dwSize;
-    char            szFilePath[DH_COMMON_STRING_256];       // File path，used for SN of picture
-    BOOL            bResult;                                // If picture upload is complete
-}NET_IN_SNAP_MANAGER_CONFIRM_UPLOAD;
-
-// CLIENT_SnapManagerConfirmUpload port output parameter
-typedef struct tagNET_OUT_SNAP_MANAGER_CONFIRM_UPLOAD
-{
-    DWORD           dwSize;
-}NET_OUT_SNAP_MANAGER_CONFIRM_UPLOAD;
 
 /***********************************************************************
  ** Callback Function Definition 
@@ -19990,9 +17997,6 @@ CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControl(LLONG lLoginID, int nChannelID, 
 
 //  private PTZ control extensive port. support 3D intelligent position
 CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControlEx(LLONG lLoginID, int nChannelID, DWORD dwPTZCommand, LONG lParam1, LONG lParam2, LONG lParam3, BOOL dwStop);
-
-// private PTZ control expansion port ，support 3D quick positioning, Fish eye 
-CLIENT_API BOOL CALL_METHOD CLIENT_DHPTZControlEx2(LLONG lLoginID, int nChannelID, DWORD dwPTZCommand, LONG lParam1, LONG lParam2, LONG lParam3, BOOL dwStop , void* param4 = NULL);
 
 //------------------------------------------------------------------------
 // query record state everyday in the month
@@ -20257,7 +18261,6 @@ CLIENT_API BOOL  CALL_METHOD CLIENT_GetPtzOptAttr(LLONG lLoginID,DWORD dwProtoco
 // device capacity type, corresponding to CLIENT_GetDevCaps port
 #define NET_DEV_CAP_SEQPOWER            0x01                // power timing capacity, pInBuf=NET_IN_CAP_SEQPOWER*, pOutBuf=NET_OUT_CAP_SEQPOWER*
 #define NET_ENCODE_CFG_CAPS             0x02                // device encode config corresponding to capacity, pInBuf=NET_IN_ENCODE_CFG_CAPS*, pOutBuf= NET_OUT_ENCODE_CFG_CAPS*
-#define NET_VIDEOIN_FISHEYE_CAPS        0x03                // Fish eye capacity , pInBuf=NET_IN_VIDEOIN_FISHEYE_CAPS*, pOutBuf=NET_OUT_VIDEOIN_FISHEYE_CAPS*
 
 // get device capacity
 CLIENT_API BOOL  CALL_METHOD CLIENT_GetDevCaps(LLONG lLoginID, int nType, void* pInBuf, void* pOutBuf, int nWaitTime);
@@ -20266,9 +18269,6 @@ CLIENT_API BOOL  CALL_METHOD CLIENT_GetDevCaps(LLONG lLoginID, int nType, void* 
 #define NET_QUERY_DEV_STORAGE_NAMES            0x01                // search device storage module name list , pInBuf=NET_IN_STORAGE_DEV_NAMES *, pOutBuf=NET_OUT_STORAGE_DEV_NAMES *
 #define NET_QUERY_DEV_STORAGE_INFOS            0x02                // search device storage info list, pInBuf=NET_IN_STORAGE_DEV_INFOS*, pOutBuf= NET_OUT_STORAGE_DEV_INFOS *
 #define NET_QUERY_RECENCY_JNNCTION_CAR_INFO    0x03                // search recent ANPR vehicle info port, pInBuf=NET_IN_GET_RECENCY_JUNCTION_CAR_INFO*, pOutBuf=NET_OUT_GET_RECENCY_JUNCTION_CAR_INFO*
-#define NET_QUERY_LANES_STATE                  0x04                // search lane info ,pInBuf = NET_IN_GET_LANES_STATE , pOutBuf = NET_OUT_GET_LANES_STATE
-#define NET_QUERY_DEV_FISHEYE_WININFO          0x05                // search Fish eye window info , pInBuf= NET_IN_FISHEYE_WININFO*, pOutBuf=NET_OUT_FISHEYE_WININFO *
-
 // search device info
 CLIENT_API BOOL  CALL_METHOD CLIENT_QueryDevInfo(LLONG lLoginID, int nQueryType, void* pInBuf, void* pOutBuf, void *pReserved = NULL , int nWaitTime = 1000);
 //------------------------------------------------------------------------
@@ -20472,8 +18472,6 @@ CLIENT_API BOOL CALL_METHOD CLIENT_AttachMission(LLONG lLoginID, NET_IN_ATTACH_M
 // cancen subscription
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachMission(LLONG lAttachHandle);
 
-// vehicle emergency alarm confirm
-CLIENT_API BOOL CALL_METHOD CLIENT_BusConfirmEvent(LLONG lLoginID, const NET_IN_BUS_CONFIRM_EVENT* pInParam, NET_OUT_BUS_CONFIRM_EVENT* pOutParam, int nWaitTime = 3000);
 
 //////////////////////////////NVD interface//////////////////////////////
 
@@ -20557,10 +18555,6 @@ CLIENT_API LLONG CALL_METHOD CLIENT_RealLoadPictureEx(LLONG lLoginID, int nChann
 
 // stop load picture of intelligent analysis
 CLIENT_API BOOL CALL_METHOD CLIENT_StopLoadPic(LLONG lAnalyzerHandle);
-
-// Confirm if picture upload is complete－picture
-// This port better not be in the same thread with  CLIENT_RealLoadPictureEx/CLIENT_RealLoadPicture ‘s call function，otherwise will cause jam，and must call in another thread
-CLIENT_API BOOL CALL_METHOD CLIENT_SnapManagerConfirmUpload(LLONG lLoginID, const NET_IN_SNAP_MANAGER_CONFIRM_UPLOAD* pstInParam, NET_OUT_SNAP_MANAGER_CONFIRM_UPLOAD* pstOutParam, int waittime=1000);
 
 // Search according to the criteria
 CLIENT_API LLONG	CALL_METHOD CLIENT_FindFileEx(LLONG lLoginID, EM_FILE_QUERY_TYPE emType, void* pQueryCondition, void *reserved, int waittime=1000);	
@@ -20673,12 +18667,6 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachParkingSpaceData(LLONG lLoginID, NET_I
 // detach parking space data
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachParkingSpaceData(NET_IN_DETACH_PARKINGSPACE* pstInParam, NET_OUT_DETACH_PARKINGSPACE* pstOutParam);
 
-// order specific lane info 
-CLIENT_API LLONG CALL_METHOD CLIENT_AttachLanesState(LLONG lLoginID, NET_IN_ATTACH_LANES_STATE* pstInParam, NET_OUT_ATTACH_LANES_STATE* pstOutParam, int nWaitTime);
-
-// cancel order of specific lane info lLanesStateHandle is CLIENT_AttachLanesStatereturn handle
-CLIENT_API BOOL CALL_METHOD CLIENT_DetachLanesState(LLONG lLanesStateHandle);
-
 // get car port light status
 CLIENT_API BOOL CALL_METHOD CLIENT_GetCarPortLightStatus(LLONG lLoginID, NET_IN_GET_CARPORTLIGHT_STATUS* pstInParam, NET_OUT_GET_CARPORTLIGHT_STATUS* pstOutParam, int waittime=1000);
 
@@ -20756,15 +18744,6 @@ CLIENT_API BOOL CALL_METHOD CLIENT_StopFindFaceRecognition(LLONG lFindHandle);
 
 // face recognition(input one big graph，input big graph detected face picture)
 CLIENT_API BOOL CALL_METHOD CLIENT_DetectFace(LLONG lLoginID, const NET_IN_DETECT_FACE* pstInParam, NET_OUT_DETECT_FACE *pstOutParam, int nWaitTime = 1000);
-
-// face recognition staff group operation（including add, modify and delete）
-CLIENT_API BOOL CALL_METHOD CLIENT_OperateFaceRecognitionGroup(LLONG lLoginID, const NET_IN_OPERATE_FACERECONGNITION_GROUP* pstInParam, NET_OUT_OPERATE_FACERECONGNITION_GROUP *pstOutParam, int nWaitTime = 1000);
-
-// search face recognition staff group info 
-CLIENT_API BOOL CALL_METHOD CLIENT_FindGroupInfo(LLONG lLoginID, const NET_IN_FIND_GROUP_INFO* pstInParam, NET_OUT_FIND_GROUP_INFO *pstOutParam, int nWaitTime = 1000);
-
-// arm channel staff group info 
-CLIENT_API BOOL CALL_METHOD CLIENT_SetGroupInfoForChannel(LLONG lLoginID, const NET_IN_SET_GROUPINFO_FOR_CHANNEL* pstInParam, NET_OUT_SET_GROUPINFO_FOR_CHANNEL *pstOutParam, int nWaitTime = 1000);
 
 //////////////////////////////// burn the upload interface /////////////////////////////////
 
@@ -20918,11 +18897,6 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SetSplitOSD(LLONG lLoginID, const DH_IN_SPLIT
 
 // set window tour display source
 CLIENT_API BOOL CALL_METHOD CLIENT_SetTourSource(LLONG lLoginID, const NET_IN_SET_TOUR_SOURCE* pInParam, NET_OUT_SET_TOUR_SOURCE* pOutParam, int nWaitTime = 1000);
-CLIENT_API BOOL CALL_METHOD CLIENT_GetTourSource(LLONG lLoginID, const NET_IN_GET_TOUR_SOURCE* pInParam, NET_OUT_GET_TOUR_SOURCE* pOutParam, int nWaitTime);
-
-// order tour status 
-CLIENT_API LLONG CALL_METHOD CLIENT_AttachSplitTour(LLONG lLoginID, const NET_IN_ATTACH_SPLIT_TOUR* pInParam, NET_OUT_ATTACH_SPLIT_TOUR* pOutParam, int nWaitTime);
-CLIENT_API BOOL CALL_METHOD CLIENT_DetachSplitTour(LLONG lAttachHandle);
 
 // low matrix switch
 CLIENT_API BOOL CALL_METHOD CLIENT_MatrixSwitch(LLONG lLoginID, const NET_IN_MATRIX_SWITCH* pInParam, NET_OUT_MATRIX_SWITCH* pOutParam, int nWaitTime);
@@ -20933,292 +18907,7 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SplitSetMultiSource(LLONG lLoginID, const NET
 // video split operation
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateSplit(LLONG lLoginID, NET_SPLIT_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
 
-// split window play operaton type 
-typedef enum tagNET_PLAYER_OPERATE_TYPE
-{
-    NET_PLAYER_OPERATE_OPEN,                // open playuer
-    NET_PLAYER_OPERATE_CLOSE,               // close player
-    NET_PLAYER_OPERATE_START,               //  start play
-    NET_PLAYER_OPERATE_STOP,                // stop play
-    NET_PLAYER_OPERATE_PAUSE,               // pause/restore play
-    NET_PLAYER_OPERATE_SEEK_TIME,           // go to specific time play
-    NET_PLAYER_OPERATE_STEP_FRAME,          // single frame playback, need to be used after pause
-    NET_PLAYER_OPERATE_GET_STATE,           // take current playback status 
-    NET_PLAYER_OPERATE_GET_TIME,            // Get  current playback time
-    NET_PLAYER_OPERATE_GET_SPEED,           // Get play speed
-    NET_PLAYER_OPERATE_SET_SPEED,           // Set play speed
-    NET_PLAYER_OPERATE_GET_VOLUME,          // Get volume
-    NET_PLAYER_OPERATE_SET_VOLUME,          // Set volume
-    NET_PLAYER_OPERATE_GET_PLAYLIST,        // Get file list
-    NET_PLAYER_OPERATE_GET_PLAYLIST_TS,     // Get current file list all period info
-}NET_PLAYER_OPERATE_TYPE;
 
-// play criteria 
-typedef struct tagNET_PLAYER_OPEN_CONDITION 
-{
-    DWORD               dwSize;
-    char                szDevice[DH_DEV_ID_LEN];        // point remote device 
-    int                 nChannel;                       // channel no.
-    NET_TIME            stuStartTime;                   // start time
-    NET_TIME            stuEndTime;                     // end time
-    NET_STREAM_TYPE     emStreamType;                   // stream type 
-    int                 nEventNum;                      // Event type number
-    int                 nEvent[MAX_IVS_EVENT_NUM];      // Event type
-}NET_PLAYER_OPEN_CONDITION;
-
-//open player input parameter , corresponding to NET_PLAYER_OPERATE_OPEN
-typedef struct tagNET_IN_PLAYER_OPEN 
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           // play example ID
-  const char*     pszDevice;           // take record from local or remote end, as null represents to take record from local，
-                            // if from remote device，need to maintain with NET_PLAYER_OPEN_CONDITION szDevice identical
-  NET_PLAYER_OPEN_CONDITION stuCondition;       // search criteria 
-}NET_IN_PLAYER_OPEN;
-
-// open player  output parameter , corresponding to NET_PLAYER_OPERATE_OPEN
-typedef struct tagNET_OUT_PLAYER_OPEN 
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_OPEN;
-
-// close player input parameter , corresponding to NET_PLAYER_OPERATE_CLOSE
-typedef struct tagNET_IN_PLAYER_CLOSE
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           // play example ID
-}NET_IN_PLAYER_CLOSE;
-
-// close player output parameter , corresponding to NET_PLAYER_OPERATE_CLOSE
-typedef struct tagNET_OUT_PLAYER_CLOSE
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_CLOSE;
-
-//  start  play input parameter , corresponding to NET_PLAYER_OPERATE_START
-typedef struct tagNET_IN_PLAYER_START
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-}NET_IN_PLAYER_START;
-
-//  start  play  output parameter , corresponding to NET_PLAYER_OPERATE_START
-typedef struct tagNET_OUT_PLAYER_START
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_START;
-
-// stop play input parameter , corresponding to NET_PLAYER_OPERATE_STOP
-typedef struct tagNET_IN_PLAYER_STOP
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-}NET_IN_PLAYER_STOP;
-
-// stop play  output parameter , corresponding to NET_PLAYER_OPERATE_STOP
-typedef struct tagNET_OUT_PLAYER_STOP
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_STOP;
-
-//  pause /recover  play input parameter , corresponding to NET_PLAYER_OPERATE_PAUSE
-typedef struct tagNET_IN_PLAYER_PAUSE
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-  BOOL        bPause;             // pause or not, TRUE- pause  play , FALSE-recover  play 
-}NET_IN_PLAYER_PAUSE;
-
-//  pause /recover  play  output parameter , corresponding to NET_PLAYER_OPERATE_PAUSE
-typedef struct tagNET_OUT_PLAYER_PAUSE
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_PAUSE;
-
-// go to specific time play input parameter , corresponding to NET_PLAYER_OPERATE_SEEK_TIME
-typedef struct tagNET_IN_PLAYER_SEEK_TIME
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-  NET_TIME      stuTime;            // go to time
-}NET_IN_PLAYER_SEEK_TIME;
-
-// go to specific time play  output parameter , corresponding to NET_PLAYER_OPERATE_SEEK_TIME
-typedef struct tagNET_OUT_PLAYER_SEEK_TIME
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_SEEK_TIME;
-
-// single frame play input parameter , corresponding to NET_PLAYER_OPERATE_STEP_FRAME
-typedef struct tagNET_IN_PLAYER_STEP_FRAME
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-  BOOL        bForward;            //  positive direction, TRUE-positive direction, FALSE-negative direction
-}NET_IN_PLAYER_STEP_FRAME;
-
-// single frame play  output parameter , corresponding to NET_PLAYER_OPERATE_STEP_FRAME
-typedef struct tagNET_OUT_PLAYER_STEP_FRAME
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_STEP_FRAME;
-
-//  play status 
-typedef enum tagNET_PLAYER_STATE 
-{
-  NET_PLAYER_STATE_UNKNOWN,        // unknown 
-  NET_PLAYER_STATE_ERROR,         // error occur
-  NET_PLAYER_STATE_READING,        // ready, may start palyabck
-  NET_PLAYER_STATE_STANDBY,        //  current file playback stop, only can start playback from beginningart
-  NET_PLAYER_STATE_RUNNING,        // running
-  NET_PLAYER_STATE_PAUSED,        //  paused , may continue from pause point
-  NET_PLAYER_STATE_CLOSED,        // closed, cannot play, must open and enter Reading status again
-}NET_PLAYER_STATE;
-
-// search  play status input parameter , corresponding to NET_PLAYER_OPERATE_GET_STATE
-typedef struct tagNET_IN_PLAYER_GET_STATE
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-}NET_IN_PLAYER_GET_STATE;
-
-// search  play status  output parameter , corresponding to NET_PLAYER_OPERATE_GET_STATE
-typedef struct tagNET_OUT_PLAYER_GET_STATE
-{
-  DWORD        dwSize;
-  NET_PLAYER_STATE  emState;            // status 
-}NET_OUT_PLAYER_GET_STATE;
-
-// Get  current  playback timeinput parameter , corresponding to NET_PLAYER_OPERATE_GET_TIME
-typedef struct tagNET_IN_PLAYER_GET_TIME
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-}NET_IN_PLAYER_GET_TIME;
-
-// Get  current  playback time output parameter , corresponding to NET_PLAYER_OPERATE_GET_TIME
-typedef struct tagNET_OUT_PLAYER_GET_TIME
-{
-  DWORD        dwSize;
-  NET_TIME      stuTime;            //  current  play time
-}NET_OUT_PLAYER_GET_TIME;
-
-// Get  play speed input parameter , corresponding to NET_PLAYER_OPERATE_GET_SPEED
-typedef struct tagNET_IN_PLAYER_GET_SPEED
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-}NET_IN_PLAYER_GET_SPEED;
-
-// Get  play speed output parameter , corresponding to NET_PLAYER_OPERATE_GET_SPEED
-typedef struct tagNET_OUT_PLAYER_GET_SPEED
-{
-  DWORD        dwSize;
-  float        fSpeed;             //  play speed, >0 positive direction  play , <0 direction  play 
-                            // absolute value means speed, =1 nornal speed, >1 quick, <1 slow
-}NET_OUT_PLAYER_GET_SPEED;
-
-// set play speedinput parameter , corresponding to NET_PLAYER_OPERATE_SET_SPEED
-typedef struct tagNET_IN_PLAYER_SET_SPEED
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-  float        fSpeed;             //  play speed, >0 positive direction  play , <0 direction  play 
-                            // absolute value means speed, =1 normal speed, >1 quick, <1 slow
-}NET_IN_PLAYER_SET_SPEED;
-
-// set play speed output parameter , corresponding to NET_PLAYER_OPERATE_SET_SPEED
-typedef struct tagNET_OUT_PLAYER_SET_SPPED
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_SET_SPEED;
-
-// Get  play  volume input parameter , corresponding to NET_PLAYER_OPERATE_GET_VOLUME
-typedef struct tagNET_IN_PLAYER_GET_VOLUME
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-}NET_IN_PLAYER_GET_VOLUME;
-
-// Get  play  volume  output parameter , corresponding to NET_PLAYER_OPERATE_GET_VOLUME
-typedef struct tagNET_OUT_PLAYER_GET_VOLUME
-{
-  DWORD        dwSize;
-  int         nVolume;            //  play  volume , 0~100
-}NET_OUT_PLAYER_GET_VOLUME;
-
-// set play  volume input parameter , corresponding to NET_PLAYER_OPERATE_SET_VOLUME
-typedef struct tagNET_IN_PLAYER_SET_VOLUME
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-  int         nVolume;            //  play  volume , 0~100
-}NET_IN_PLAYER_SET_VOLUME;
-
-// set play  volume  output parameter , corresponding to NET_PLAYER_OPERATE_SET_VOLUME
-typedef struct tagNET_OUT_PLAYER_SET_VOLUME
-{
-  DWORD        dwSize;
-}NET_OUT_PLAYER_SET_VOLUME;
-
-//  play listinfo 
-typedef struct tagNET_PLAYER_PLAYLIST
-{
-  DWORD        dwSize;
-  char        szFilePath[MAX_PATH];      // file path, select either Url
-  char        szUrl[MAX_PATH];        // URL, and FilePath wither one
-  DH_DEVICE_PROTOCOL emUrlProtocol;         // URL protocol type 
-  NET_TIME      stuStartTime;          // start time
-  NET_TIME      stuEndTime;           // end time
-}NET_PLAYER_PLAYLIST;
-
-// Get  current  play listinput parameter , corresponding to NET_PLAYER_OPERATE_GET_PLAYLIST
-typedef struct tagNET_IN_PLAYER_GET_PLAYLIST
-{
-  DWORD        dwSize;
-  LLONG        lPlayerID;           //  play example ID
-  NET_TIME      stuStartTime;          // start time
-  NET_TIME      stuEndTime;           // end time
-  int         nLimit;             // search file quantity limit, 0 means no limit
-}NET_IN_PLAYER_GET_PLAYLIST;
-
-// Get  current  play list output parameter , corresponding to NET_PLAYER_OPERATE_GET_PLAYLIST
-typedef struct tagNET_OUT_PLAYER_GET_PLAYLIST
-{
-  DWORD        dwSize;
-  NET_PLAYER_PLAYLIST* pstuPlayLists;         //  play list, user allocate memory
-  int         nMaxPlayListCount;       // max play list quantity, user fill in
-  int         nRetPlayListCount;       // return play list quantity
-}NET_OUT_PLAYER_GET_PLAYLIST;
-
-// Get current file list all time period info input parameter, corresponding  NET_PLAYER_OPERATE_GET_PLAYLIST_TS
-typedef struct tagNET_IN_PLAYER_GET_PLAYLIST_TS
-{
-    DWORD               dwSize;
-    LLONG               lPlayerID;                      // Play actual ID
-}NET_IN_PLAYER_GET_PLAYLIST_TS;
-
-typedef struct tagNET_PLAYLIST_TIMESECTION
-{
-    DWORD               dwSize;
-    int                 nEvent;                         // Record event type,  currently have
-                                                        // EVENT_ALARM_COMMON, EVENT_ALARM_VIDEOBLIND, EVENT_ALARM_VIDEOLOSS, 
-                                                        // EVENT_ALARM_MOTIONDETECT, EVENT_ALARM_LOCALALARM
-    LPDH_TSECT          pstuTSs;                        // Time period info
-    DWORD               unMaxTS;                        // Time period max number
-    DWORD               unRetTS;                        // Actual returned time period number
-}NET_PLAYLIST_TIMESECTION;
-
-// Get current file list all time period info output parameters, corresponding  NET_PLAYER_OPERATE_GET_PLAYLIST_TS
-typedef struct tagNET_OUT_PLAYER_GET_PLAYLIST_TS
-{
-    DWORD                    dwSize;
-    DWORD                    dwEventNum;                // Record type quantity
-    NET_PLAYLIST_TIMESECTION stuTS[MAX_IVS_EVENT_NUM];  // Current playback list time period info
-}NET_OUT_PLAYER_GET_PLAYLIST_TS;
-
-// split window  play operation
-CLIENT_API BOOL CALL_METHOD CLIENT_OperateSplitPlayer(LLONG lLoginID, NET_PLAYER_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
 //////////////////////////////////// monitor wall control //////////////////////////////////////
 
 // power control 
@@ -21266,10 +18955,6 @@ CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallSetScrnCtrlParam(LLONG lLoginID, c
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallGetBackgroudColor(LLONG lLoginID, const NET_IN_MW_GET_BACKGROUDND_COLOR* pInParam, NET_OUT_MW_GET_BACKGROUDND_COLOR* pOutParam, int nWaitTime);
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallSetBackgroudColor(LLONG lLoginID, const NET_IN_MW_SET_BACKGROUD_COLOR* pInParam, NET_OUT_MW_SET_BACKGROUD_COLOR* pOutParam, int nWaitTime);
 
-// order scheme tour status 
-CLIENT_API LLONG CALL_METHOD CLIENT_MonitorWallAttachTour(LLONG lLoginID, const NET_IN_WM_ATTACH_TOUR* pInParam, NET_OUT_WM_ATTACH_TOUR* pOutParam, int nWaitTime);
-CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallDetachTour(LLONG lAttachHandle);
-
 // operate Monitor Wall
 CLIENT_API BOOL CALL_METHOD CLIENT_OperateMonitorWall(LLONG lLoginID, NET_MONITORWALL_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
 
@@ -21298,11 +18983,6 @@ CLIENT_API BOOL CALL_METHOD CLIENT_StopSniffer(LLONG lLoginID, LLONG lSnifferID)
 
 // get caught state
 CLIENT_API BOOL CALL_METHOD CLIENT_GetSnifferInfo(LLONG lLoginID, const DH_IN_GET_SNIFFER_INFO* pInParam, DH_OUT_GET_SNIFFER_INFO* pOutParam, int nWaitTime = 1000);
-
-//////////////////////////////// Play Library Related Port /////////////////////////////////
-
-//Snapshot JPEG
-CLIENT_API BOOL CALL_METHOD  CLIENT_GetPicJPEG(LLONG lPlayHandle, PBYTE pJpegBuf, DWORD dwBufSize,DWORD *pJpegSize,int quality);
 
 
 //////////////////////////////// manage remote file /////////////////////////////////
@@ -21448,16 +19128,6 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachAnalogAlarmData(LLONG lLoginID, const 
 // stop subscribe analog alarm channel data
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachAnalogAlarmData(LLONG lAttachHandle);
 
-/************************************************************************/
-/*               record  change port order              */
-/************************************************************************/
-
-// order record  change port 
-CLIENT_API LLONG CALL_METHOD CLIENT_AttachRecordUpdater(LLONG lLoginID, const NET_IN_RECORDUPDATER_DATA* pInParam, NET_OUT_RECORDUPDATER_DATA* pOutParam, int nWaitTime);
-
-// stoporder record  change port 
-CLIENT_API BOOL CALL_METHOD CLIENT_DetachRecordUpdater(LLONG lAttachHandle);
-
 ////////////////////////////Special Version Interface///////////////////////////////
 // open log function
 CLIENT_API BOOL CALL_METHOD CLIENT_LogOpen(LOG_SET_PRINT_INFO *pstLogPrintInfo);
@@ -21583,9 +19253,6 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachCAN(LLONG lLoginID, const NET_IN_ATTAC
 // cancel listen CAN bus data，lAttachHandle is CLIENT_AttachCAN return value
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachCAN(LLONG lAttachHandle);
 
-// Send CAN BUS data
-CLIENT_API BOOL CALL_METHOD CLIENT_SendCAN(LLONG lLoginID, const NET_IN_SEND_CAN* pstInParam, NET_OUT_SEND_CAN* pstOutParam, int nWaitTime = 3000);
-
 // listen transparent serial data
 CLIENT_API LLONG CALL_METHOD CLIENT_AttachDevComm(LLONG lLoginID, const NET_IN_ATTACH_DEVCOMM* pstInParam, NET_OUT_ATTACH_DEVCOMM* pstOutParam, int nWaitTime = 3000);
 
@@ -21659,9 +19326,6 @@ typedef struct tagNET_BUS_SITE_INFO
     int             nDriveTime;                             // time from last stop tocurrent stop, unit :minute
     int             nTicketPrice;                           // ticket price
     DH_TSECT        stuPowerSchedule[DH_TSCHE_DAY_NUM][DH_TSCHE_SEC_NUM]; // boot up schedule, each element means Sunday, Saturday and holidays. 
-    char            szDesignation[DH_COMMON_STRING_64];     // path no.
-    char            szDirectionName[DH_COMMON_STRING_64];   // path direction  name 
-    char            szVersion[DH_COMMON_STRING_32];
 }NET_BUS_SITE_INFO;
 
 #define MAX_BUS_STOP_NUM                            32      // one bus route max stop number
@@ -21686,44 +19350,12 @@ CLIENT_API BOOL CALL_METHOD CLIENT_DispatchBusLineInfo(LLONG lLoginID, const NET
 
 //////////////////////////////////////////////////////////////////////////
 
-// vehicle operation dispatch CLIENT_BusSchedule()port input parameter 
-typedef struct tagNET_IN_BUS_SCHEDULE_INFO 
-{
-  DWORD        dwSize;
-  char        szLineID[DH_COMMON_STRING_64];   // operation path mark
-  NET_LINE_DIRECTION emDirection;            // operation path direction 
-  NET_TIME_EX     stuStartTime;            // start time
-}NET_IN_BUS_SCHEDULE_INFO;
-
-// vehicle operation dispatch CLIENT_BusSchedule()port  output parameter 
-typedef struct tagNET_OUT_BUS_SCHEDULE_INFO 
-{
-  DWORD      dwSize;
-}NET_OUT_BUS_SCHEDULE_INFO;
-
-// vehicle operation dispatch 
-CLIENT_API BOOL CALL_METHOD CLIENT_BusSchedule(LLONG lLoginID, const NET_IN_BUS_SCHEDULE_INFO* pstInParam, NET_OUT_BUS_SCHEDULE_INFO* pstOutParam, int nWaitTime = 5000);
-
-//////////////////////////////////////////////////////////////////////////
-
 // add feedback type after task
 typedef enum tagNET_MISSION_FEEDBACK_TYPE
 {
     NET_MISSION_FEEDBACK_NO = 0,                        // no feedback needed
     NET_MISSION_FEEDBACK_YES,                           // need feedback, shall replay DH_ALARM_MISSION_CONFIRM task confirmed event
 }NET_MISSION_FEEDBACK_TYPE;
-
-// message type (mobile)
-typedef enum tagNET_MISSION_MESSAGE_TYPE
-{
-    NET_MISSION_MESSAGE_TEXT = 0 ,      //text info 
-    NET_MISSION_MESSAGE_AD ,            //ad info 
-    NET_MISSION_MESSAGE_BROAD ,         //broadcast info
-    NET_MISSION_MESSAGE_DRIVER ,        //driver info
-    NET_MISSION_MESSAGE_DISPATCH ,      //dispatch command
-    NET_MISSION_MESSAGE_TRANSPARENT ,   //transparent data   
-    NET_MISSION_MESSAGE_MAX ,
-}NET_MISSION_MESSAGE_TYPE;
 
 // CLIENT_AddMission()port input parameter
 typedef struct tagNET_IN_ADD_MISSION 
@@ -21733,7 +19365,6 @@ typedef struct tagNET_IN_ADD_MISSION
     char            szMissionID[DH_COMMON_STRING_256];  // task ID
     char            szComment[DH_COMMON_STRING_256];    // replay content
     NET_MISSION_FEEDBACK_TYPE   emFeedBack;             // feedback type after adding
-    NET_MISSION_MESSAGE_TYPE    emMessageType;          // message type 
 }NET_IN_ADD_MISSION;
 
 // CLIENT_AddMission() port output parameter
@@ -21743,197 +19374,6 @@ typedef struct tagNET_OUT_ADD_MISSION
 }NET_OUT_ADD_MISSION;
 
 CLIENT_API BOOL CALL_METHOD CLIENT_AddMission(LLONG lLoginID, const NET_IN_ADD_MISSION* pstInParam, NET_OUT_ADD_MISSION* pstOutParam, int nWaitTime = 3000);
-
-// CLIENT_ParkingControlStartFind port input parameter
-typedef struct tagNET_IN_PARKING_CONTROL_START_FIND_PARAM
-{
-    DWORD                     dwSize;          // structure size
-    BOOL                      bSearchCount;    // Search if record call is valid
-    DWORD                     dwSearchCount;   // Search record item, value range is 1~100
-    BOOL                      bBegin;          // Search if start time is valid
-    NET_TIME                  stuBegin;        // Search start time
-    BOOL                      bEnd;            // Search if end time is valid
-    NET_TIME                  stuEnd;          // Search end time
-    BOOL                      bCardType;       // If card type is valid
-    NET_ECK_IC_CARD_USER_TYPE emCardType;      // Card type
-    BOOL                      bFlag;           // If car pass mark is valid
-    NET_ECK_CAR_PASS_FLAG     emFlag;          // Car pass mark
-} NET_IN_PARKING_CONTROL_START_FIND_PARAM;
-
-// CLIENT_ParkingControlStartFind port output parameter
-typedef struct tagNET_OUT_PARKING_CONTROL_START_FIND_PARAM
-{
-    DWORD                     dwSize;          // structure size
-    DWORD                     dwTotalCount;    // Result number match the search criteria
-} NET_OUT_PARKING_CONTROL_START_FIND_PARAM;
-
-// CLIENT_ParkingControlDoFind port input parameter
-typedef struct tagNET_IN_PARKING_CONTROL_DO_FIND_PARAM
-{
-    DWORD                     dwSize;          // structure size
-    DWORD                     dwFileCount;     // Currently record item number to search
-} NET_IN_PARKING_CONTROL_DO_FIND_PARAM;
-
-// Car pass record info
-typedef struct tagNET_CAR_PASS_ITEM
-{
-    DWORD                      dwSize; 
-    NET_TIME                   stuTime;          // Car pass time
-    DWORD                      dwCardNo;         // Card no.
-    NET_ECK_IC_CARD_USER_TYPE  emCardType;       // Card type
-    NET_ECK_CAR_PASS_FLAG      emFlag;           // Car pass record type
-} NET_CAR_PASS_ITEM;
-
-// CLIENT_ParkingControlDoFind port output parameter
-typedef struct tagNET_OUT_PARKING_CONTROL_DO_FIND_PARAM
-{
-    DWORD                     dwSize;          // structure size
-    NET_CAR_PASS_ITEM        *pstuRecordList;  // Record list, user allocate memory
-    int                       nMaxRecordNum;   // List record number
-    int                       nRetRecordNum;   // Searched record items, current searched item number is lower than designated item number, search end
-} NET_OUT_PARKING_CONTROL_DO_FIND_PARAM;
-
-// Start car pass record search
-CLIENT_API LLONG CALL_METHOD CLIENT_ParkingControlStartFind(LLONG lLoginID, NET_IN_PARKING_CONTROL_START_FIND_PARAM* pInParam, NET_OUT_PARKING_CONTROL_START_FIND_PARAM* pOutParam, int waittime);
-
-// Get car pass record
-CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlDoFind(LLONG lFindeHandle, NET_IN_PARKING_CONTROL_DO_FIND_PARAM* pInParam, NET_OUT_PARKING_CONTROL_DO_FIND_PARAM* pOutParam, int waittime);
-
-// End car pass record search
-CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlStopFind(LLONG lFindHandle);
-
-// Order car pass record data call function origin
-typedef void (CALLBACK *fParkingControlRecordCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_CAR_PASS_ITEM *pInfo, int nBufLen, LDWORD dwUser);
-
-// CLIENT_ParkingControlAttachRecord() port input parameter
-typedef struct tagNET_IN_PARKING_CONTROL_PARAM
-{
-    DWORD                           dwSize;
-    fParkingControlRecordCallBack   cbCallBack;                 // Data call function
-    LDWORD                          dwUser;                     // User custom parameter
-} NET_IN_PARKING_CONTROL_PARAM;
-
-// CLIENT_ParkingControlDetachRecord() port output parameter
-typedef struct tagNET_OUT_PARKING_CONTROL_PARAM
-{
-    DWORD    dwSize;
-} NET_OUT_PARKING_CONTROL_PARAM;
-
-// Car pass record order
-CLIENT_API LLONG CALL_METHOD CLIENT_ParkingControlAttachRecord(LLONG lLoginID, const NET_IN_PARKING_CONTROL_PARAM* pInParam, NET_OUT_PARKING_CONTROL_PARAM* pOutParam, int nWaitTime);
-
-// Cancel car pass record order
-CLIENT_API BOOL CALL_METHOD CLIENT_ParkingControlDetachRecord(LLONG lAttachHandle);
-
-// Vehicle detector status
-typedef enum tagNET_CAR_DETECTOR_STATE
-{
-    NET_CAR_DETECTOR_STATE_UNKNOWN = -1,
-    NET_CAR_DETECTOR_STATE_OFFLINE = 0,                   // Offline
-    NET_CAR_DETECTOR_STATE_ONLINE,                        // Online
-    NET_CAR_DETECTOR_STATE_LOOPOFFLINE,                   // Senser coil offline
-} NET_CAR_DETECTOR_STATE;
-
-// Sub device general status
-typedef enum tagNET_AUXILIARY_DEV_STATE
-{
-    NET_AUXILIARY_DEV_STATE_UNKNOWN = -1,
-    NET_AUXILIARY_DEV_STATE_OFFLINE = 0,                   // offline
-    NET_AUXILIARY_DEV_STATE_ONLINE,                        // online
-} NET_AUXILIARY_DEV_STATE;
-
-// Device IC card quantity condition
-typedef enum tagNET_IC_CARD_STATUS
-{
-    NET_IC_CARD_STATUS_UNKNOWN = -1,
-    NET_IC_CARD_STATUS_NORMAL = 0,                         // Normal
-    NET_IC_CARD_STATUS_NOCARD,                             // No card
-    NET_IC_CARD_STATUS_LOWCARD,                            // Few
-    NET_IC_CARD_STATUS_FULLCARDS,                          // Full
-} NET_IC_CARD_STATUS;
-
-// Alarm event type DH_ALARM_AUXILIARY_DEV_STATE(sub device status event)corresponding data description info
-typedef struct tagALARM_AUXILIARY_DEV_STATE
-{
-    DWORD                   dwSize;
-    NET_CAR_DETECTOR_STATE  emDetector;                   // Vehicle detector status
-    NET_AUXILIARY_DEV_STATE emLed;                        // LED status lattice screen status
-    NET_AUXILIARY_DEV_STATE emICDetectBoard;              // Panel swiping card board
-    NET_AUXILIARY_DEV_STATE emICSenderBoard;              // Issuing card swiping cardboard
-    NET_IC_CARD_STATUS      emICCardStatus;               // Device IC card quantity condition
-} ALARM_AUXILIARY_DEV_STATE;
-
-// Parking issuing card swiping card type
-typedef enum tagNET_PARKING_CARD_TYPE
-{
-    NET_PARKING_CARD_TYPE_UNKNOWN,
-    NET_PARKING_CARD_TYPE_SEND,                             // Issue card
-    NET_PARKING_CARD_TYPE_DETECT,                           // Swipe card
-} NET_PARKING_CARD_TYPE;
-
-// Alarm event type DH_ALARM_PARKING_CARD(parking swipe card event)corresponding data description info
-typedef struct tagALARM_PARKING_CARD
-{
-    DWORD                   dwSize;
-    NET_PARKING_CARD_TYPE   emType;                       // Type
-    DWORD                   dwCardNo;                     // Card no.
-    char                    szPlate[DH_COMMON_STRING_16]; // Plate
-} ALARM_PARKING_CARD;
-
-// monitor spot info 
-typedef struct tagNET_SCADA_NOTIFY_POINT_INFO
-{
-  DWORD           dwSize; 
-  char            szDevName[DH_COMMON_STRING_64];  // device name ，and getInfo Get name identical
-  EM_NET_SCADA_POINT_TYPE  emPointType;            // spot type 
-  char            szPointName[DH_COMMON_STRING_64]; // spot name，and spot chart take value identical
-  float           fValue;              // Type is YC, it is FV
-  int            nValue;              // Typeis YX, it is whole number
-} NET_SCADA_NOTIFY_POINT_INFO;
-
-// monitor spot info list
-typedef struct tagNET_SCADA_NOTIFY_POINT_INFO_LIST
-{
-  DWORD              dwSize;
-  int               nList;            // monitor spot info number 
-  NET_SCADA_NOTIFY_POINT_INFO   stuList[MAX_SCADA_POINT_LIST_INFO_NUM]; // monitor spot info 
-} NET_SCADA_NOTIFY_POINT_INFO_LIST;
-
-// order monitor spot info  call function origin
-typedef void (CALLBACK *fSCADAAttachInfoCallBack)(LLONG lLoginID, LLONG lAttachHandle, NET_SCADA_NOTIFY_POINT_INFO_LIST *pInfo, int nBufLen, LDWORD dwUser);
-
-// CLIENT_SCADAAttachInfo()port input parameter 
-typedef struct tagNET_IN_SCADA_ATTACH_INFO
-{
-  DWORD              dwSize;
-  fSCADAAttachInfoCallBack    cbCallBack;         // data call function 
-  EM_NET_SCADA_POINT_TYPE     emPointType;        // spot type 
-  LDWORD             dwUser;           // user definition parameter 
-} NET_IN_SCADA_ATTACH_INFO;
-
-// CLIENT_SCADAAttachInfo()port  output parameter 
-typedef struct tagNET_OUT_SCADA_ATTACH_INFO
-{
-  DWORD  dwSize;
-} NET_OUT_SCADA_ATTACH_INFO;
-
-// order monitor spot info 
-CLIENT_API LLONG CALL_METHOD CLIENT_SCADAAttachInfo(LLONG lLoginID, const NET_IN_SCADA_ATTACH_INFO* pInParam, NET_OUT_SCADA_ATTACH_INFO* pOutParam, int nWaitTime);
-
-// cancel monitor spot info order
-CLIENT_API BOOL CALL_METHOD CLIENT_SCADADetachInfo(LLONG lAttachHandle);
-
-// Order wireless code info port
-CLIENT_API LLONG CALL_METHOD CLIENT_AttachLowRateWPAN(LLONG lLoginID, const NET_IN_ATTACH_LOWRATEWPAN* pstInParam, NET_OUT_ATTACH_LOWRATEWPAN* pstOutParam, int nWaitTime = 3000);
-
-// Cancel order wireless info port，lAttachHandle is CLIENT_AttachLowRateWPAN return value
-CLIENT_API BOOL CALL_METHOD CLIENT_DetachLowRateWPAN(LLONG lAttachHandle);
-
-//Get play library port used to decode and display in preview, close resource type of gotten port,it will affect normal operaton
-CLIENT_API LONG CALL_METHOD CLIENT_GetRealPlayPort(LLONG lRealPlayHandle);
-
-// Get play library port used to decode and display in preview, close resource type of gotten port,it will affect normal operaton
-CLIENT_API LONG CALL_METHOD  CLIENT_GetPlayBackPort(LLONG lPlayBackHandle);
 
 /////////////////////////////////Cancelled Interface/////////////////////////////////
 
