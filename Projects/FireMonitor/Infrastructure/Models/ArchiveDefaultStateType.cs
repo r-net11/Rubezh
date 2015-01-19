@@ -13,7 +13,7 @@ namespace Infrastructure.Models
 		[DescriptionAttribute("начиная с указанной даты")]
 		FromDate,
 
-		[DescriptionAttribute("согласно указанному дипазону дат")]
+		[DescriptionAttribute("согласно указанному диапазону дат")]
 		RangeDate
 	}
 }

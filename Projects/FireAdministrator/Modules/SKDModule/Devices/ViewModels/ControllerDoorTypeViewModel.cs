@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 
 			if (HasChanged)
 			{
-				if (!MessageBoxService.ShowConfirmation("Настройки не записаны в прибор. вы уверены, что хотите закрыть окно без записи в контроллер?"))
+				if (!MessageBoxService.ShowConfirmation("Настройки не записаны в прибор. Вы уверены, что хотите закрыть окно без записи в контроллер?"))
 					return false;
 			}
 			return base.Save();

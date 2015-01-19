@@ -157,6 +157,20 @@ namespace ChinaSKDDriver
 							journalItem.ObjectName = "Не найдено в конфигурации";
 						}
 						break;
+
+					case JournalEventNameType.Вскрытие_контроллера:
+						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+						readerDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && (x.IntAddress + 1).ToString() == skdJournalItem.szReaderID);
+						if (readerDevice != null)
+						{
+							journalItem.ObjectUID = readerDevice.UID;
+							journalItem.ObjectName = readerDevice.Name;
+						}
+						else
+						{
+							journalItem.ObjectName = "Не найдено в конфигурации";
+						}
+						break;
 				}
 
 				if (NewJournalItem != null)

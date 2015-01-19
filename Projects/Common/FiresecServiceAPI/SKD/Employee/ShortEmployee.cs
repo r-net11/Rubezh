@@ -70,9 +70,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid ScheduleUID { get; set; }
 
-		public string Name 
-		{ 
-			get { return FIO; } 
+		public string Name
+		{
+			get { return FIO; }
 			set { return; }
 		}
 
@@ -81,6 +81,16 @@ namespace FiresecAPI.SKD
 			get
 			{
 				return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : "");
+			}
+		}
+
+		public string LastNameAndInitialis
+		{
+			get
+			{
+				if (!string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(SecondName))
+					return LastName + " " + FirstName[0] + "." + SecondName[0] + ".";
+				return FIO;
 			}
 		}
 	}

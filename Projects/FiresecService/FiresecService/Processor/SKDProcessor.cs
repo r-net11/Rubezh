@@ -171,7 +171,12 @@ namespace FiresecService
 			var stateClasses = new List<XStateClass>();
 			foreach (var readerDevice in zone.Devices)
 			{
-				var lockDevice = readerDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == readerDevice.IntAddress / 2);
+				var lockAddress = readerDevice.IntAddress;
+				if (readerDevice.Parent != null && readerDevice.Parent.DoorType == DoorType.TwoWay)
+				{
+					lockAddress = readerDevice.IntAddress / 2;
+				}
+				var lockDevice = readerDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 				if (lockDevice != null)
 				{
 					if (!stateClasses.Contains(lockDevice.State.StateClass))
@@ -180,7 +185,7 @@ namespace FiresecService
 			}
 			stateClasses.Sort();
 			if (stateClasses.Count == 0)
-				stateClasses.Add(XStateClass.Norm);
+				stateClasses.Add(XStateClass.Unknown);
 			return stateClasses;
 		}
 
@@ -190,7 +195,12 @@ namespace FiresecService
 
 			if (door.InDevice != null)
 			{
-				var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+				var lockAddress = door.InDevice.IntAddress;
+				if (door.DoorType == DoorType.TwoWay)
+				{
+					lockAddress = door.InDevice.IntAddress / 2;
+				}
+				var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 				if (lockDevice != null)
 				{
 					if (!stateClasses.Contains(lockDevice.State.StateClass))
@@ -200,7 +210,7 @@ namespace FiresecService
 
 			stateClasses.Sort();
 			if (stateClasses.Count == 0)
-				stateClasses.Add(XStateClass.Norm);
+				stateClasses.Add(XStateClass.Unknown);
 			return stateClasses;
 		}
 

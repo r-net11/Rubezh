@@ -28,7 +28,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="*" Binding="{Binding Door.Name}" Header="Наименование" />
-				<DataGridTemplateColumn Width="*" CanUserResize="False" Header="Устройство входа">
+				<DataGridTemplateColumn Width="*" Header="Устройство входа">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -54,7 +54,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" CanUserResize="False" Header="Устройство выхода">
+				<DataGridTemplateColumn Width="*" Header="Устройство выхода">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

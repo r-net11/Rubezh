@@ -98,12 +98,12 @@ namespace SKDModule.ViewModels
 		void OnDelete()
 		{
 			var index = Zones.IndexOf(SelectedZone);
-			SKDManager.RemoceZone(SelectedZone.Zone);
+			SKDManager.RemoveZone(SelectedZone.Zone);
 			Zones.Remove(SelectedZone);
 			index = Math.Min(index, Zones.Count - 1);
 			if (index > -1)
 				SelectedZone = Zones[index];
-			ServiceFactory.SaveService.GKChanged = true;
+			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

@@ -61,7 +61,7 @@ namespace FiresecAPI.SKD
 			zone.OnChanged();
 		}
 
-		public static void RemoceZone(SKDZone zone)
+		public static void RemoveZone(SKDZone zone)
 		{
 			foreach (var device in zone.Devices)
 			{

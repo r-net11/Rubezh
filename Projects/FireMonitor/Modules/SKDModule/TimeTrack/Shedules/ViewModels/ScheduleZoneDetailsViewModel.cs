@@ -32,9 +32,9 @@ namespace SKDModule.ViewModels
 			Zones = new ObservableCollection<SelectationScheduleZoneViewModel>(); 
 			foreach (var door in doors)
 			{
-				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null)
+				if (door != null && door.OutDevice != null && door.OutDevice.Zone != null && !Zones.Any(x => x.Zone.UID == door.OutDevice.Zone.UID))
 					Zones.Add(new SelectationScheduleZoneViewModel(door.OutDevice.Zone, door.UID));
-				if (door != null && door.InDevice != null && door.InDevice.Zone != null)
+				if (door != null && door.InDevice != null && door.InDevice.Zone != null && !Zones.Any(x => x.Zone.UID == door.InDevice.Zone.UID))
 					Zones.Add(new SelectationScheduleZoneViewModel(door.InDevice.Zone, door.UID));
 			}
 			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
