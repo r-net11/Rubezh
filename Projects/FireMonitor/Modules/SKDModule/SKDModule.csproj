@@ -218,10 +218,8 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionEmployeeListViewModel.cs" />
-    <Compile Include="Reports\CardReportProvider.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DeviceListReportPdf.cs" />
-    <Compile Include="Reports\EndDateType.cs" />
     <Compile Include="Reports\Providers\ReportProvider418.cs" />
     <Compile Include="Reports\Providers\ReportProvider402.cs" />
     <Compile Include="Reports\Providers\ReportProvider401.cs" />
@@ -238,7 +236,12 @@
     <Compile Include="Reports\Providers\ReportProvider412.cs" />
     <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
+    <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PassCardTypePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\EmployeePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PassCardMainPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\PositionPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DepartmentPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\OrganizationPageViewModel.cs" />
@@ -248,15 +251,17 @@
     <Compile Include="Reports\Views\OrganizationPageView.xaml.cs">
       <DependentUpon>OrganizationPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\_old\CardReportFilterDetailsViewModel.cs" />
-    <Compile Include="Reports\_old\CardTypesViewModel.cs" />
-    <Compile Include="Reports\_old\CardTypeViewModel.cs" />
-    <Compile Include="Reports\_old\ReportNameViewModel.cs" />
-    <Compile Include="Reports\_old\CardReportFilterDetailsView.xaml.cs">
-      <DependentUpon>CardReportFilterDetailsView.xaml</DependentUpon>
+    <Compile Include="Reports\Views\PassCardMainPageView.xaml.cs">
+      <DependentUpon>PassCardMainPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\_old\ReportNameView.xaml.cs">
-      <DependentUpon>ReportNameView.xaml</DependentUpon>
+    <Compile Include="Reports\Views\PassCardTypePageView.xaml.cs">
+      <DependentUpon>PassCardTypePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\SchedulePageView.xaml.cs">
+      <DependentUpon>SchedulePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\ZonePageView.xaml.cs">
+      <DependentUpon>ZonePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
@@ -279,6 +284,7 @@
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTimeTrackPartViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
@@ -291,6 +297,7 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackPartDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
@@ -455,6 +462,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml.cs">
+      <DependentUpon>TimeTrackPartDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
     <Compile Include="Verification\Views\VerificationlView.xaml.cs">
@@ -750,11 +760,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\_old\CardReportFilterDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Reports\Views\PassCardMainPageView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\_old\ReportNameView.xaml">
+    <Page Include="Reports\Views\PassCardTypePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\SchedulePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\ZonePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -873,6 +891,10 @@
     <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackPartDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Verification\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

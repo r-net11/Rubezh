@@ -14,6 +14,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Events;
@@ -21,9 +22,8 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.Reports;
-using SKDModule.ViewModels;
-using Infrastructure.Common.SKDReports;
 using SKDModule.Reports.Providers;
+using SKDModule.ViewModels;
 
 namespace SKDModule
 {
@@ -47,17 +47,17 @@ namespace SKDModule
 
 		public override void CreateViewModels()
 		{
-			//DevicesViewModel = new DevicesViewModel();
-			//ZonesViewModel = new ZonesViewModel();
-			//DoorsViewModel = new DoorsViewModel();
-			//HRViewModel = new HRViewModel();
-			//DayIntervalsViewModel = new DayIntervalsViewModel();
-			//ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
-			//HolidaysViewModel = new HolidaysViewModel();
-			//SchedulesViewModel = new SchedulesViewModel();
-			//TimeTrackingViewModel = new TimeTrackingViewModel();
+			DevicesViewModel = new DevicesViewModel();
+			ZonesViewModel = new ZonesViewModel();
+			DoorsViewModel = new DoorsViewModel();
+			HRViewModel = new HRViewModel();
+			DayIntervalsViewModel = new DayIntervalsViewModel();
+			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
+			HolidaysViewModel = new HolidaysViewModel();
+			SchedulesViewModel = new SchedulesViewModel();
+			TimeTrackingViewModel = new TimeTrackingViewModel();
 
-			//SubscribeShowDelailsEvent();
+			SubscribeShowDelailsEvent();
 		}
 
 		#region ShowDelailsEvent
@@ -125,11 +125,11 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
-			//PlanPresenter.Initialize();
-			//ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
-			//DevicesViewModel.Initialize();
-			//ZonesViewModel.Initialize();
-			//DoorsViewModel.Initialize();
+			PlanPresenter.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
+			DevicesViewModel.Initialize();
+			ZonesViewModel.Initialize();
+			DoorsViewModel.Initialize();
 		}
 
 		public override ModuleType ModuleType

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ReportsModule.Views.ReportsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" xmlns:views="clr-namespace:ReportsModule.Views" xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" views:ReportsView.DocumentPaginator="{Binding DocumentPaginator}">
+<UserControl x:Class="ReportsModule.Views.ReportsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" xmlns:views="clr-namespace:ReportsModule.Views" xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" views:ReportsView.DocumentPaginator="{Binding DocumentPaginator}">
 	<Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
 		<Grid>
 			<Grid.RowDefinitions>
@@ -19,25 +19,25 @@
 					</ComboBox.ItemContainerStyle>
 				</ComboBox>
 				<StackPanel Grid.Column="1" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}" Orientation="Horizontal">
-					<Controls:ToolBarButton Command="{Binding RefreshCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить отчет" />
-					<Controls:ToolBarButton Command="{Binding FilterCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
-					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Начальная страница" />
-					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Предыдущая страница" />
+					<Controls:ToolBarButton Command="{Binding RefreshCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" Background="{DynamicResource Refresh}"  ToolTip="Обновить отчет" />
+					<Controls:ToolBarButton Command="{Binding FilterCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" Background="{DynamicResource filter}"  ToolTip="Задать фильтр" />
+					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" Background="{DynamicResource leftLeft}"  ToolTip="Начальная страница" />
+					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" Background="{DynamicResource left}"  ToolTip="Предыдущая страница" />
 					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
 					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
-					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="/Controls;component/Images/Right.png" ToolTip="Следующая страница" />
-					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="/Controls;component/Images/RightRight.png" ToolTip="Последняя страница" />
-					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
-					<Controls:ToolBarButton Command="{Binding PdfPrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Сохранить отчет в PDF" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}"/>
-					<Controls:ToolBarButton Command="{Binding FitToWidthCommand}" ImageSource="/Controls;component/Images/WidthToPage.png" ToolTip="По ширине страницы" />
-					<Controls:ToolBarButton Command="{Binding FitlToHeightCommand}" ImageSource="/Controls;component/Images/HeightToPage.png" ToolTip="По высоте страницы" />
-					<Controls:ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="Исходный размер" />
+					<Controls:ToolBarButton Command="{Binding NextPageCommand}" Background="{DynamicResource right}"  ToolTip="Следующая страница" />
+					<Controls:ToolBarButton Command="{Binding LastPageCommand}" Background="{DynamicResource rightRight}"  ToolTip="Последняя страница" />
+					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" Background="{DynamicResource Print}"  ToolTip="Печать отчета" />
+					<Controls:ToolBarButton Command="{Binding PdfPrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" Background="{DynamicResource Pdf}"  ToolTip="Сохранить отчет в PDF" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<Controls:ToolBarButton Command="{Binding FitToWidthCommand}" Background="{DynamicResource WidthToPage}"  ToolTip="По ширине страницы" />
+					<Controls:ToolBarButton Command="{Binding FitlToHeightCommand}" Background="{DynamicResource HeightToPage}"  ToolTip="По высоте страницы" />
+					<Controls:ToolBarButton Command="{Binding FitToPageCommand}" Background="{DynamicResource FidthToPage}"  ToolTip="Исходный размер" />
 				</StackPanel>
 
 				<DockPanel Grid.Column="2" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}">
-					<Controls:ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб" />
-					<Controls:ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб" />
+					<Controls:ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" Background="{DynamicResource ZoomOut}"  ToolTip="Уменьшить масштаб" />
+					<Controls:ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" Background="{DynamicResource ZoomIn}"  ToolTip="Увеличить масштаб" />
 					<Slider x:Name="slider" Minimum="0.1" Maximum="5" Value="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="Изменить масштаб" />
 				</DockPanel>
 			</Grid>

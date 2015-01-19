@@ -133,12 +133,12 @@ namespace GKProcessor
 		}
 		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)
 		{
-			ZipFileConfigurationHelper.SaveToZipFile("configFileToGK", deviceConfiguration);
-			var fileStream = File.OpenRead("configFileToGK");
+			//ZipFileConfigurationHelper.SaveToZipFile("configFileToGK", deviceConfiguration);
+			var fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
 			FileSize = fileStream.Length;
 			FileBytes = File.ReadAllBytes(fileStream.Name).ToList();
 			fileStream.Close();
-			File.Delete("configFileToGK");
+			//File.Delete("configFileToGK");
 		}
 		void InitializeInfoBlock()
 		{

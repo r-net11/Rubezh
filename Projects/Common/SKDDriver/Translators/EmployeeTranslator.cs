@@ -95,6 +95,8 @@ namespace SKDDriver
 			var organisation = Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
 			if (organisation != null)
 				result.OrganisationName = organisation.Name;
+			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID);
+			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
 			return result;
 		}
 

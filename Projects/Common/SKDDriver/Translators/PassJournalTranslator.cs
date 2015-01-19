@@ -48,6 +48,64 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult AddCustomPassJournal(Guid uid, Guid employeeUID, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		{
+			try
+			{
+				var passJournalItem = new DataAccess.PassJournal();
+				passJournalItem.UID = uid;
+				passJournalItem.EmployeeUID = employeeUID;
+				passJournalItem.ZoneUID = zoneUID;
+				passJournalItem.EnterTime = enterTime;
+				passJournalItem.ExitTime = exitTime;
+				Context.PassJournals.InsertOnSubmit(passJournalItem);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime)
+		{
+			try
+			{
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
+				if (passJournalItem != null)
+				{
+					passJournalItem.ZoneUID = zoneUID;
+					passJournalItem.EnterTime = enterTime;
+					passJournalItem.ExitTime = exitTime;
+				}
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult DeletePassJournal(Guid uid)
+		{
+			try
+			{
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
+				if (passJournalItem != null)
+				{
+					Context.PassJournals.DeleteOnSubmit(passJournalItem);
+				}
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public void InvalidatePassJournal()
 		{
 			try
@@ -140,7 +198,8 @@ namespace SKDDriver.Translators
 							{
 								StartTime = passJournal.EnterTime.TimeOfDay,
 								EndTime = passJournal.ExitTime.Value.TimeOfDay,
-								ZoneUID = passJournal.ZoneUID
+								ZoneUID = passJournal.ZoneUID, 
+								PassJournalUID = passJournal.UID
 							};
 							dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 						}

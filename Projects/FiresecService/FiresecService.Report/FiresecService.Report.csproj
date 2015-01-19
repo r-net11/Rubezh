@@ -135,6 +135,21 @@
     <Compile Include="DataHelper.cs" />
     <Compile Include="DataSetHelper.cs" />
     <Compile Include="DataSourceService.cs" />
+    <Compile Include="DataSources\DataSet411.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet411.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSources\DataSet412.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet412.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSources\DataSet413.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet413.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSources\DataSet415.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -172,6 +187,24 @@
     <Compile Include="ReportResolver.cs" />
     <Compile Include="ReportServiceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\Report411.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\Report411.Designer.cs">
+      <DependentUpon>Report411.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Report412.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\Report412.Designer.cs">
+      <DependentUpon>Report412.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Report413.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\Report413.Designer.cs">
+      <DependentUpon>Report413.cs</DependentUpon>
+    </Compile>
     <Compile Include="Templates\Report415.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -210,6 +243,15 @@
     <EmbeddedResource Include="Templates\EmptyReport.resx">
       <DependentUpon>EmptyReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Report411.resx">
+      <DependentUpon>Report411.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Report412.resx">
+      <DependentUpon>Report412.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Report413.resx">
+      <DependentUpon>Report413.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\Report415.resx">
       <DependentUpon>Report415.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -220,6 +262,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DataSources\DataSet411.xsc">
+      <DependentUpon>DataSet411.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DataSet411.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet411.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\DataSet411.xss">
+      <DependentUpon>DataSet411.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DataSet412.xsc">
+      <DependentUpon>DataSet412.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DataSet412.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet412.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\DataSet412.xss">
+      <DependentUpon>DataSet412.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DataSet413.xsc">
+      <DependentUpon>DataSet413.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DataSet413.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet413.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\DataSet413.xss">
+      <DependentUpon>DataSet413.xsd</DependentUpon>
+    </None>
     <None Include="DataSources\DataSet415.xsc">
       <DependentUpon>DataSet415.xsd</DependentUpon>
     </None>

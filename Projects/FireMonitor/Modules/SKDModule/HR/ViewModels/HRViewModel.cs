@@ -25,8 +25,6 @@ namespace SKDModule.ViewModels
 		AccessTemplateFilter AccessTemplateFilter;
 		PassCardTemplateFilter PassCardTemplateFilter;
 
-		List<CardReportFilter> CardReportFilters; 
-
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
 		public PositionsViewModel PositionsViewModel { get; private set; }
@@ -39,7 +37,6 @@ namespace SKDModule.ViewModels
 		public HRViewModel()
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
-			ShowCardReportFilterDetailsCommand = new RelayCommand(OnShowCardReportFilterDetails);
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -53,11 +50,6 @@ namespace SKDModule.ViewModels
 			PositionFilter = new PositionFilter();
 			CardFilter = new CardFilter();
 			IsEmployeesSelected = true;
-
-			CardReportFilters = new List<CardReportFilter>();
-			CardReportFilters.Add(new CardReportFilter { Name = "По умолчанию" });
-			CardReportFilters.Add(new CardReportFilter { Name = "Фильтр 1" });
-			CardReportFilters.Add(new CardReportFilter { Name = "Фильтр 2" });
 
 			PersonTypes = new ObservableCollection<PersonType>();
 			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees))
@@ -239,23 +231,6 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
 			EmployeesViewModel.Initialize(EmployeeFilter);
-		}
-
-		public RelayCommand ShowCardReportFilterDetailsCommand { get; private set; }
-		void OnShowCardReportFilterDetails()
-		{
-			var cardReportFilterDetailsViewModel = new CardReportFilterDetailsViewModel(CardReportFilters);
-			if (DialogService.ShowModalWindow(cardReportFilterDetailsViewModel))
-			{
-				var cardReportItemsResult = FiresecManager.FiresecService.GetCardReport(cardReportFilterDetailsViewModel.SelectedCardReportFilter);
-				if (cardReportItemsResult.HasError)
-					return;
-				var cardReportItems = cardReportItemsResult.Result;
-				foreach (var item in cardReportItems)
-				{
-					Trace.WriteLine(item.CardType + " " + item.Number + " " + item.Organisation + " " + item.Department + " " + item.Position + " " + item.Employee + " " + item.EndDate);
-				}
-			}
 		}
 	}
 }

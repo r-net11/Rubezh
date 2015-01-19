@@ -16,7 +16,7 @@ namespace SKDModule.Reports.ViewModels
 			Filter = new DepartmentsFilterViewModel();
 		}
 
-		public DepartmentsFilterViewModel Filter { get; set; }
+		public DepartmentsFilterViewModel Filter { get; private set; }
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{

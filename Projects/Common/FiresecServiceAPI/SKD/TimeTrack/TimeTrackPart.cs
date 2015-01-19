@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {
@@ -10,7 +10,11 @@ namespace FiresecAPI.SKD
 		public TimeTrackPart()
 		{
 			TimeTrackDocumentTypes = new List<TimeTrackDocumentType>();
+			PassJournalUID = Guid.Empty;
 		}
+
+		[DataMember]
+		public Guid PassJournalUID { get; set; }
 
 		[DataMember]
 		public TimeSpan StartTime { get; set; }

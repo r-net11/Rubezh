@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DevicesModule.Views.DeviceParametersView"
+<UserControl x:Class="DevicesModule.Views.DeviceParametersView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -182,12 +182,12 @@
 							<ColumnDefinition SharedSizeGroup="group3" Width="*" />
 						</Grid.ColumnDefinitions>
 						<StackPanel Orientation="Horizontal" Grid.Column="1">
-							<ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" Margin="5 0" />
-							<Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" Margin="5 0" />
+							<ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" Background="{DynamicResource leftLeft}"  Margin="5 0" />
+							<Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" Background="{DynamicResource left}"  Margin="5 0" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Grid.Column="2">
-							<Controls:ToolBarButton Command="{Binding SyncFromSystemToDeviceCommand}" ToolTip="Заменить значения параметров в устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/Right.png" />
-							<Controls:ToolBarButton Command="{Binding SyncFromAllSystemToDeviceCommand}" ToolTip="Заменить все значения параметров в устройстве на значения параметров в системы" ImageSource="/Controls;component/Images/RightRight.png" />
+							<Controls:ToolBarButton Command="{Binding SyncFromSystemToDeviceCommand}" ToolTip="Заменить значения параметров в устройстве на значения параметров в системы" Background="{DynamicResource right}"  />
+							<Controls:ToolBarButton Command="{Binding SyncFromAllSystemToDeviceCommand}" ToolTip="Заменить все значения параметров в устройстве на значения параметров в системы" Background="{DynamicResource right}"  />
 						</StackPanel>
 					</Grid>
 				</Grid>

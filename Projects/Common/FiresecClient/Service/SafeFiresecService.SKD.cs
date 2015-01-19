@@ -138,10 +138,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.SaveCardTemplate(item));
 		}
-		public OperationResult<List<CardReportItem>> GetCardReport(CardReportFilter cardReportFilter)
-		{
-			return SafeContext.Execute(() => FiresecService.GetCardReport(cardReportFilter));
-		}
 		#endregion
 
 		#region AccessTemplate

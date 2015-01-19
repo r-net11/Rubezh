@@ -40,9 +40,9 @@ namespace SKDModule.ViewModels
 				employee.IsChecked = true;
 		}
 
-		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active)
+		public void Initialize(List<Guid> uids, LogicalDeletationType logicalDeletationType = LogicalDeletationType.Active, PersonType personType = PersonType.Employee)
 		{
-			var filter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids };
+			var filter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, UIDs = uids, PersonType = personType };
 			Initialize(filter);
 		}
 

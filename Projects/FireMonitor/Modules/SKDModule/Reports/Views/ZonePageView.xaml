@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="SKDModule.Reports.Views.ZonePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<ListView Grid.Row="0" Focusable="True" ItemsSource="{Binding Zones, Mode=OneWay}" SortBehavior.CanUserSortColumns="True">
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Название">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+									<TextBlock Text="{Binding Item.Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn DisplayMemberBinding="{Binding Item.Description}" Header="Примечание" />
+				</GridView>
+			</ListView.View>
+		</ListView>
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="/Controls;component/Images/SelectAll.png" ToolTip="Выделить всё" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="/Controls;component/Images/SelectNone.png" ToolTip="Снять все выделения" />
+		</StackPanel>
+		<StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding WithDirection, Converter={StaticResource BoolToVisibilityConverter}}">
+			<CheckBox Margin="3" VerticalAlignment="Center" Content="Из зоны" Foreground="White" IsChecked="{Binding ZoneOut}" />
+			<CheckBox Margin="3" VerticalAlignment="Center" Content="В зону" Foreground="White" IsChecked="{Binding ZoneIn}" />
+		</StackPanel>
+	</Grid>
+</UserControl>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="FireAdministrator.Views.ValidationErrorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:FireAdministrator.Converters">
+<UserControl x:Class="FireAdministrator.Views.ValidationErrorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:FireAdministrator.Converters">
 
 	<UserControl.Resources>
 		<Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
@@ -63,8 +63,8 @@
 			</DataGrid.InputBindings>
 		</DataGrid>
 		<StackPanel Grid.Column="1">
-			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" ImageSource="/Controls;component/Images/deleteCross.png" IsEnabled="True" ToolTip="Закрыть панель валидации" />
-			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding EditValidationCommand}" ImageSource="/Controls;component/Images/settings.png" ToolTip="Настройка фильтра ошибок" />
+			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" Background="{DynamicResource Delete}"  IsEnabled="True" ToolTip="Закрыть панель валидации" />
+			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding EditValidationCommand}" Background="{DynamicResource settings}"  ToolTip="Настройка фильтра ошибок" />
 		</StackPanel>
 	</Grid>
 </UserControl>

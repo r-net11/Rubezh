@@ -124,15 +124,9 @@ namespace FiresecService
 				{
 					var journalDBNo = skdDatabaseService.MetadataTranslator.GetJournalNo();
 					if (journalDBNo == 0)
-					{
 						journalDBNo = 1;
-						Patch_Journal(journalDBNo);
-						skdDatabaseService.MetadataTranslator.AddJournalMetadata(journalDBNo, DateTime.Now, DateTime.Now);
-					}
-					else
-					{
-						var fileSizeString = "SELECT DB_NAME(database_id) AS DatabaseName, Name AS Logical_Name, Physical_Name, (size*8)/1024 SizeMB FROM sys.master_files WHERE DB_NAME(database_id) = 'Journal_" + journalDBNo.ToString() + "'";
-					}
+					Patch_Journal(journalDBNo);
+					skdDatabaseService.MetadataTranslator.AddJournalMetadata(journalDBNo, DateTime.Now, DateTime.Now);
 					JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 				}
 

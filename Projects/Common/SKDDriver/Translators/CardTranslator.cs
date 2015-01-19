@@ -140,45 +140,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public OperationResult<List<CardReportItem>> GetCardReport(CardReportFilter cardReportFilter)
-		{
-			try
-			{
-				var employeesResult = DatabaseService.EmployeeTranslator.GetList(cardReportFilter.EmployeeFilter);
-				if (employeesResult.HasError)
-					return new OperationResult<List<CardReportItem>>(employeesResult.Error);
-				var employees = employeesResult.Result;
-				var cardFilter = cardReportFilter.CardFilter;
-				//cardFilter.HolderUIDs = employees.Select(x => x.UID).ToList();
-				var cardsResult = Get(cardReportFilter.CardFilter);
-				if (cardsResult.HasError)
-					return new OperationResult<List<CardReportItem>>(cardsResult.Error);
-				var cards = cardsResult.Result;
-				var reportItems = new List<CardReportItem>();
-				foreach (var card in cards)
-				{
-					var reportItem = new CardReportItem();
-					reportItem.CardType = card.CardType.ToDescription();
-					reportItem.Number = card.Number;
-					reportItem.EndDate = card.EndDate.ToShortDateString();
-					var employee = employees.FirstOrDefault(x => x.UID == card.HolderUID);
-					if (employee != null)
-					{
-						reportItem.Organisation = employee.OrganisationName;
-						reportItem.Department = employee.DepartmentName;
-						reportItem.Position = employee.PositionName;
-						reportItem.Employee = employee.Name;
-					}
-					reportItems.Add(reportItem);
-				}
-				return new OperationResult<List<CardReportItem>> { Result = reportItems };
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<List<CardReportItem>>(e.Message);
-			}
-		}
-
 		public OperationResult<List<SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
 		{
 			try

@@ -68,11 +68,19 @@ namespace FiresecService
 
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
-			if (journalItem.CardNo > 0)
+			var cardNo = 0;
+			var journalDetalisationItem = journalItem.JournalDetalisationItems.FirstOrDefault(x => x.Name == "Номер карты");
+			if (journalDetalisationItem != null)
+			{
+				var cardNoString = journalDetalisationItem.Value;
+				Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
+			}
+
+			if (cardNo > 0)
 			{
 				using (var databaseService = new SKDDatabaseService())
 				{
-					var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(journalItem.CardNo);
+					var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
 					if (!operationResult.HasError)
 					{
 						var employeeUID = operationResult.Result;

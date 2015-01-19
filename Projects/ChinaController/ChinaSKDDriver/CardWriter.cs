@@ -13,6 +13,11 @@ namespace ChinaSKDDriver
 	{
 		public List<ControllerCardItem> ControllerCardItems { get; private set; }
 
+		public CardWriter()
+		{
+			ControllerCardItems = new List<ControllerCardItem>();
+		}
+
 		public void AddCard(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			ControllerCardItems = Create_ControllerCardItems_ToAdd(skdCard, accessTemplate);
@@ -202,7 +207,7 @@ namespace ChinaSKDDriver
 								card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 							}
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
-							card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddDays(1);
+							card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddDays(1).AddSeconds(-1);
 							break;
 
 						case FiresecAPI.SKD.CardType.Duress:

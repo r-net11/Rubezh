@@ -6,6 +6,7 @@ using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
+using System.Reflection;
 
 namespace FiresecServiceRunner
 {
@@ -23,6 +24,8 @@ namespace FiresecServiceRunner
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{
+				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+				AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(CurrentDomain_AssemblyLoad);
 				try
 				{
 					Bootstrapper.Run();
@@ -33,9 +36,9 @@ namespace FiresecServiceRunner
 					BalloonHelper.ShowFromServer("Ошибка во время загрузки");
 					return;
 				}
-				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			}
 		}
+
 
 		protected override void OnExit(ExitEventArgs e)
 		{
@@ -55,6 +58,9 @@ namespace FiresecServiceRunner
 			Bootstrapper.Close();
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
+		}
+		private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+		{
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MonitorClientFS2.Views.DevicesView"
+<UserControl x:Class="MonitorClientFS2.Views.DevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
@@ -75,7 +75,7 @@
                                     <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="0, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
-                                    <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
+                                    <Controls:ToolBarButton ToolTip="Сбросить" Background="{DynamicResource Close}" 
                                         Width="32" Height="32" VerticalAlignment="Center"
                                         Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
