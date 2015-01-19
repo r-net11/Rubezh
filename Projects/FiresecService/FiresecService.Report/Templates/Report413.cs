@@ -17,11 +17,17 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "413. Отчет по правам доступа"; }
+            get { return "Права доступа сотрудников/посетителей"; }
 		}
 		protected override DataSet CreateDataSet()
 		{
 			return new DataSet413();
 		}
+
+        protected override void UpdateDataSource()
+        {
+            base.UpdateDataSource();
+            FillTestData();
+        }
 	}
 }

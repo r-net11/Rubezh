@@ -1,34 +1,34 @@
 ﻿namespace FiresecService.Report.Templates
 {
-	partial class Report412
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class Report417
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Designer generated code
+        #region Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Report412));
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Report417));
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
             this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -101,50 +101,49 @@
             // xrTableCell10
             // 
             this.xrTableCell10.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Type")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EnterDateTime", "{0:dd.MM.yyyy HH:mm:ss}")});
             this.xrTableCell10.Name = "xrTableCell10";
             this.xrTableCell10.Weight = 0.15384615384615386D;
             // 
             // xrTableCell11
             // 
             this.xrTableCell11.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Number")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ExitDateTime", "{0:dd.MM.yyyy HH:mm:ss}")});
             this.xrTableCell11.Name = "xrTableCell11";
-            this.xrTableCell11.Text = "xrTableCell11";
             this.xrTableCell11.Weight = 0.15384615384615386D;
             // 
             // xrTableCell12
             // 
             this.xrTableCell12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:d \'сут.\' H \'ч\' m \'мин\' s \'сек\'}")});
             this.xrTableCell12.Name = "xrTableCell12";
             this.xrTableCell12.Weight = 0.15384615384615386D;
             // 
             // xrTableCell13
             // 
             this.xrTableCell13.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Organisation")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
             this.xrTableCell13.Name = "xrTableCell13";
             this.xrTableCell13.Weight = 0.15384615384615386D;
             // 
             // xrTableCell14
             // 
             this.xrTableCell14.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Orgnisation")});
             this.xrTableCell14.Name = "xrTableCell14";
             this.xrTableCell14.Weight = 0.15384615384615386D;
             // 
             // xrTableCell15
             // 
             this.xrTableCell15.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
             this.xrTableCell15.Name = "xrTableCell15";
             this.xrTableCell15.Weight = 0.15384615384615386D;
             // 
             // xrTableCell16
             // 
             this.xrTableCell16.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Template")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
             this.xrTableCell16.Name = "xrTableCell16";
             this.xrTableCell16.Weight = 0.15384615384615386D;
             // 
@@ -199,43 +198,43 @@
             // xrTableCell2
             // 
             this.xrTableCell2.Name = "xrTableCell2";
-            this.xrTableCell2.Text = "Тип пропуска";
+            this.xrTableCell2.Text = "Дата и время входа";
             this.xrTableCell2.Weight = 0.15384615384615386D;
             // 
             // xrTableCell3
             // 
             this.xrTableCell3.Name = "xrTableCell3";
-            this.xrTableCell3.Text = "Номер пропуска";
+            this.xrTableCell3.Text = "Дата и время выхода";
             this.xrTableCell3.Weight = 0.15384615384615386D;
             // 
             // xrTableCell4
             // 
             this.xrTableCell4.Name = "xrTableCell4";
-            this.xrTableCell4.Text = "Сотрудник";
+            this.xrTableCell4.Text = "Длительность прибывания";
             this.xrTableCell4.Weight = 0.15384615384615386D;
             // 
             // xrTableCell5
             // 
             this.xrTableCell5.Name = "xrTableCell5";
-            this.xrTableCell5.Text = "Организация";
+            this.xrTableCell5.Text = "Сотрудник";
             this.xrTableCell5.Weight = 0.15384615384615386D;
             // 
             // xrTableCell6
             // 
             this.xrTableCell6.Name = "xrTableCell6";
-            this.xrTableCell6.Text = "Подразделение";
+            this.xrTableCell6.Text = "Организация";
             this.xrTableCell6.Weight = 0.15384615384615386D;
             // 
             // xrTableCell7
             // 
             this.xrTableCell7.Name = "xrTableCell7";
-            this.xrTableCell7.Text = "Должность";
+            this.xrTableCell7.Text = "Отдел";
             this.xrTableCell7.Weight = 0.15384615384615386D;
             // 
             // xrTableCell8
             // 
             this.xrTableCell8.Name = "xrTableCell8";
-            this.xrTableCell8.Text = "Шаблон доступа";
+            this.xrTableCell8.Text = "Должность";
             this.xrTableCell8.Weight = 0.15384615384615386D;
             // 
             // xrControlStyle1
@@ -244,7 +243,7 @@
             this.xrControlStyle1.Name = "xrControlStyle1";
             this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
             // 
-            // Report412
+            // Report417
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail,
@@ -262,12 +261,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private DevExpress.XtraReports.UI.DetailBand Detail;
-		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
+        private DevExpress.XtraReports.UI.DetailBand Detail;
+        private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
         private DevExpress.XtraReports.UI.XRTable xrTable2;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell9;
@@ -289,5 +288,5 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell7;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell8;
         private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
-	}
+    }
 }

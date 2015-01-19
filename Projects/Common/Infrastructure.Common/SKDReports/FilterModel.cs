@@ -11,10 +11,8 @@ namespace Infrastructure.Common.SKDReports
 		public FilterModel()
 		{
 			AllowSort = true;
-			HasPeriod = false;
 		}
 
-		public bool HasPeriod { get; set; }
 		public bool AllowSort { get; set; }
 		public Dictionary<string, string> Columns { get; set; }
 		public FilterContainerViewModel CommandsViewModel { get; set; }

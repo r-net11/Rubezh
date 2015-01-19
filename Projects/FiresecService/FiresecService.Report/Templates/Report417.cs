@@ -8,20 +8,20 @@ using System.Data;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report411 : BaseSKDReport
+    public partial class Report417 : BaseSKDReport
 	{
-		public Report411()
+        public Report417()
 		{
 			InitializeComponent();
 		}
 
 		public override string ReportTitle
 		{
-            get { return "Сведения о пропусках"; }
+            get { return "Местонахождение сотрудников/посетителей"; }
 		}
 		protected override DataSet CreateDataSet()
 		{
-			return new DataSet411();
+			return new DataSet417();
 		}
 
         protected override void UpdateDataSource()
@@ -29,5 +29,5 @@ namespace FiresecService.Report.Templates
             base.UpdateDataSource();
             FillTestData();
         }
-	}
+    }
 }

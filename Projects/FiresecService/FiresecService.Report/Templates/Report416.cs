@@ -21,7 +21,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "416. Отчет \"Список должностей организации\""; }
+            get { return "Список должностей организации"; }
 		}
 		protected override DataSet CreateDataSet()
 		{

@@ -22,7 +22,10 @@
 	<DataTemplate DataType="{x:Type ViewModels:ZonePageViewModel}">
 		<Views:ZonePageView />
 	</DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:SchedulePageViewModel}">
-		<Views:SchedulePageView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:SchedulePageViewModel}">
+        <Views:SchedulePageView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:PlacementMainPageViewModel}">
+        <Views:PlacementMainPageView />
+    </DataTemplate>
 </ResourceDictionary>

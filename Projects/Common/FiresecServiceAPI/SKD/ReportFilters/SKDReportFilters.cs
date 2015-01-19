@@ -13,6 +13,7 @@ namespace FiresecAPI.SKD.ReportFilters
 	[XmlInclude(typeof(ReportFilter413))]
 	[XmlInclude(typeof(ReportFilter415))]
     [XmlInclude(typeof(ReportFilter416))]
+    [XmlInclude(typeof(ReportFilter417))]
 	[XmlInclude(typeof(ReportFilter418))]
 	[XmlInclude(typeof(ReportFilter424))]
 	public class SKDReportFilters

@@ -7,7 +7,7 @@ namespace SKDModule.Reports.Providers
     public class ReportProvider402 : FilteredSKDReportProvider<SKDReportFilter>
 	{
 		public ReportProvider402()
-			: base("Report402", "402. Отчет о маршруте сотрудника/посетителя", 402, SKDReportGroup.Events)
+            : base("Report402", "402. Маршрут сотрудника/посетителя", 402, SKDReportGroup.Events)
 		{
 		}
 
@@ -15,7 +15,6 @@ namespace SKDModule.Reports.Providers
 		{
 			return new FilterModel()
 			{
-				HasPeriod = true,
 				Columns = new Dictionary<string, string> 
 				{ 
 					{ "c01", "Сотруднки (Посетитель)" },

@@ -224,7 +224,6 @@
     <Compile Include="Reports\Providers\ReportProvider402.cs" />
     <Compile Include="Reports\Providers\ReportProvider401.cs" />
     <Compile Include="Reports\Providers\ReportProvider424.cs" />
-    <Compile Include="Reports\Providers\ReportProvider432.cs" />
     <Compile Include="Reports\Providers\ReportProvider431.cs" />
     <Compile Include="Reports\Providers\ReportProvider423.cs" />
     <Compile Include="Reports\Providers\ReportProvider422.cs" />
@@ -237,6 +236,7 @@
     <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PlacementMainPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\PassCardTypePageViewModel.cs" />
@@ -256,6 +256,9 @@
     </Compile>
     <Compile Include="Reports\Views\PassCardTypePageView.xaml.cs">
       <DependentUpon>PassCardTypePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\PlacementMainPageView.xaml.cs">
+      <DependentUpon>PlacementMainPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\SchedulePageView.xaml.cs">
       <DependentUpon>SchedulePageView.xaml</DependentUpon>
@@ -765,6 +768,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\PassCardTypePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\PlacementMainPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
