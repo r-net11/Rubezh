@@ -114,22 +114,25 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес сервера" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервера" />
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
-				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
-				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Запретить администратору автоконнект" />
-				<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Перезапускать ОЗ в случае аварийного завершения" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервиса отчетов" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
+				<TextBlock Grid.Row="6" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Запретить администратору автоконнект" />
+				<TextBlock Grid.Row="7" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Перезапускать ОЗ в случае аварийного завершения" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
-				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="4" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AutoConnect}" />
-				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding DoNotAutoconnectAdm}" />
-				<CheckBox Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding RunRevisor}" />
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AutoConnect}" />
+				<CheckBox Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding DoNotAutoconnectAdm}" />
+				<CheckBox Grid.Row="7" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding RunRevisor}" />
 			</Grid>
 		</TabItem>
 		<TabItem DataContext="{Binding ModulesViewModel}" Header="Модули">

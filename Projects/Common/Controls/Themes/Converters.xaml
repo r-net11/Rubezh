@@ -56,6 +56,7 @@
 	<Converters:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
 	<Converters:EnumToItemsSourceConverter x:Key="EnumToItemsSourceConverter" />
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
+	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />

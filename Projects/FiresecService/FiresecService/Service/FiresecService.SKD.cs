@@ -917,7 +917,12 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					var lockAddress = device.IntAddress;
+					if (device.Parent != null && device.Parent.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = device.IntAddress / 2;
+					}
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						var result = ChinaSKDDriver.Processor.OpenDoor(lockDevice);
@@ -951,7 +956,12 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					var lockAddress = device.IntAddress;
+					if (device.Parent != null && device.Parent.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = device.IntAddress / 2;
+					}
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						var result = ChinaSKDDriver.Processor.CloseDoor(lockDevice);
@@ -986,7 +996,12 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					var lockAddress = device.IntAddress;
+					if (device.Parent != null && device.Parent.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = device.IntAddress / 2;
+					}
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
@@ -1021,7 +1036,12 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					var lockAddress = device.IntAddress;
+					if (device.Parent != null && device.Parent.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = device.IntAddress / 2;
+					}
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
@@ -1056,7 +1076,12 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_открытие_точки_доступа, door);
 				if (door.InDevice != null)
 				{
-					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						return ChinaSKDDriver.Processor.OpenDoor(lockDevice);
@@ -1084,7 +1109,12 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_открытие_точки_доступа, door);
 				if (door.InDevice != null)
 				{
-					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						return ChinaSKDDriver.Processor.CloseDoor(lockDevice);
@@ -1113,7 +1143,12 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, door);
 				if (door.InDevice != null)
 				{
-					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
@@ -1142,7 +1177,12 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, door);
 				if (door.InDevice != null)
 				{
-					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					var lockAddress = door.InDevice.IntAddress;
+					if (door.DoorType == DoorType.TwoWay)
+					{
+						lockAddress = door.InDevice.IntAddress / 2;
+					}
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == lockAddress);
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;

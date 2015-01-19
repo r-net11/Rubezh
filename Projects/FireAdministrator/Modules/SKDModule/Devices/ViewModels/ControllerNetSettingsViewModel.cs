@@ -134,7 +134,7 @@ namespace SKDModule.ViewModels
 		{
 			if (HasChanged)
 			{
-				if (MessageBoxService.ShowQuestion("Пароль в контроллере был изменен. Изменить пароль в конфигурации?"))
+				if (MessageBoxService.ShowQuestion("Сетевые настройки в контроллере были изменены. Изменить сетевые настройки в конфигурации?"))
 				{
 					var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
 					if (addressProperty == null)

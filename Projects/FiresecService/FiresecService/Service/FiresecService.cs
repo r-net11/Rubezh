@@ -76,10 +76,10 @@ namespace FiresecService.Service
 				return operationResult;
 
 			MainViewModel.Current.EditClient(uid, login);
-			GKProcessorManager.AddGKMessage(JournalEventNameType.Дежурство_сдал, JournalEventDescriptionType.NULL, "", null, oldUserName);
+			AddJournalMessage(JournalEventNameType.Дежурство_сдал, null, JournalEventDescriptionType.NULL, oldUserName);
 			clientCredentials.UserName = login;
 			SetUserFullName(clientCredentials);
-			GKProcessorManager.AddGKMessage(JournalEventNameType.Дежурство_принял, JournalEventDescriptionType.NULL, "", null, clientCredentials.FriendlyUserName);
+			AddJournalMessage(JournalEventNameType.Дежурство_принял, null, JournalEventDescriptionType.NULL, clientCredentials.FriendlyUserName);
 
 			CurrentClientCredentials = clientCredentials;
 			operationResult.Result = true;

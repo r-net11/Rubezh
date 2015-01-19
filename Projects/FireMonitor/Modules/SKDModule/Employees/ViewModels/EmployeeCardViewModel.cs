@@ -64,6 +64,7 @@ namespace SKDModule.ViewModels
 		{
 			var cardDoors = GetCardDoors();
 			CardDoorsViewModel = new CardDoorsViewModel(cardDoors);
+			OnPropertyChanged(() => CardDoorsViewModel);
 		}
 
 		public void UpdateCardDoors()

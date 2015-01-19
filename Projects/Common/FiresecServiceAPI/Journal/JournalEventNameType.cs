@@ -25,7 +25,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Дежурство принял", XStateClass.Info)]
 		Дежурство_принял,
 
-		[EventName(JournalSubsystemType.System, "Зависание процесса отпроса", XStateClass.Unknown)]
+		[EventName(JournalSubsystemType.GK, "Зависание процесса опроса", XStateClass.Unknown)]
 		Зависание_процесса_отпроса,
 
 		[EventName(JournalSubsystemType.System, "Отсутствует лицензия", XStateClass.HasNoLicense)]
@@ -34,7 +34,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Лицензия обнаружена", XStateClass.HasNoLicense)]
 		Лицензия_обнаружена,
 
-		[EventName(JournalSubsystemType.System, "Ошибка инициализации мониторинга", XStateClass.Unknown)]
+		[EventName(JournalSubsystemType.GK, "Ошибка инициализации мониторинга", XStateClass.Unknown)]
 		Ошибка_инициализации_мониторинга,
 
 		[EventName(JournalSubsystemType.System, "Отмена операции", XStateClass.TechnologicalRegime)]
@@ -94,7 +94,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Потеря связи с прибором", XStateClass.ConnectionLost)]
 		Потеря_связи_с_прибором,
 
-		[EventName(JournalSubsystemType.System, "База данных прибора не соответствует базе данных ПК", XStateClass.Unknown)]
+		[EventName(JournalSubsystemType.GK, "База данных прибора не соответствует базе данных ПК", XStateClass.Unknown)]
 		База_данных_прибора_не_соответствует_базе_данных_ПК,
 
 		[EventName(JournalSubsystemType.GK, "База данных прибора соответствует базе данных ПК", XStateClass.Unknown)]

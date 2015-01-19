@@ -42,4 +42,3 @@
 		<TextBox Grid.Row="5" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
 	</Grid>
 </UserControl>
-
