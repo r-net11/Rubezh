@@ -14,6 +14,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Events;
@@ -21,9 +22,8 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.Reports;
-using SKDModule.ViewModels;
-using Infrastructure.Common.SKDReports;
 using SKDModule.Reports.Providers;
+using SKDModule.ViewModels;
 
 namespace SKDModule
 {

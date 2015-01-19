@@ -1,4 +1,4 @@
-﻿<Window x:Class="HexManager.Views.MainView"
+<Window x:Class="HexManager.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Converters="clr-namespace:HexManager.Converters"
@@ -16,11 +16,11 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding CreateNewCommand}" ToolTip="Создать новый файл прошивки" ImageSource="/Controls;component/Images/New.png" />
-                <Controls:ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить HEX файл" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить HEX файл" ImageSource="/Controls;component/Images/Delete.png" />
-                <Controls:ToolBarButton Command="{Binding SaveFileCommand}" ToolTip="Сохранить файл" ImageSource="/Controls;component/Images/Save.png" />
-                <Controls:ToolBarButton Command="{Binding LoadFileCommand}" ToolTip="Загрузить файл" ImageSource="/Controls;component/Images/Load.png" />
+                <Controls:ToolBarButton Command="{Binding CreateNewCommand}" ToolTip="Создать новый файл прошивки" Background="{DynamicResource New}"  />
+                <Controls:ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить HEX файл" Background="{DynamicResource Add}"  />
+                <Controls:ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить HEX файл" Background="{DynamicResource Delete}"  />
+                <Controls:ToolBarButton Command="{Binding SaveFileCommand}" ToolTip="Сохранить файл" Background="{DynamicResource Save}"  />
+                <Controls:ToolBarButton Command="{Binding LoadFileCommand}" ToolTip="Загрузить файл" Background="{DynamicResource load}"  />
             </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>

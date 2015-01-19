@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.CodesSelectationView"
+<UserControl x:Class="GKModule.Views.CodesSelectationView"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -43,10 +43,10 @@
 				</DataGrid.Columns>
 			</DataGrid>
 			<StackPanel Grid.Column="1" Margin="2">
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные коды" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные коды" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-                <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все коды" ImageSource="/Controls;component/Images/LeftLeft.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все коды" ImageSource="/Controls;component/Images/RightRight.png" />
+                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные коды" Background="{DynamicResource left}"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные коды" Background="{DynamicResource right}"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+                <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все коды" Background="{DynamicResource leftLeft}"  />
+                <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все коды" Background="{DynamicResource right}"  />
 			</StackPanel>
 			<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceCodes}" SelectedItem="{Binding SelectedSourceCode}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">

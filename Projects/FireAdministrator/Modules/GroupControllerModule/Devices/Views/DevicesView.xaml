@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
+<UserControl x:Class="GKModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
 
 	<UserControl.Resources>
 		<Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
@@ -274,15 +274,15 @@
 				</ScrollViewer>
 				<Grid Grid.Row="1">
 					<StackPanel IsEnabled="{Binding IsParamtersEnabled}" HorizontalAlignment="Right" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
-						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
-						<Controls:ToolBarButton Command="{Binding ReadCommand}" ImageSource="/Controls;component/Images/ParametersRead.png" ToolTip="Считать параметры" />
-						<Controls:ToolBarButton Command="{Binding WriteCommand}" ImageSource="/Controls;component/Images/ParametersWrite.png" ToolTip="Записать параметры" />
-						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" ImageSource="/Controls;component/Images/ParametersReadAll.png" ToolTip="Считать параметры дочерних устройств" />
-						<ToolBarButton Command="{Binding WriteAllCommand}" ImageSource="/Controls;component/Images/ParametersWriteAll.png" ToolTip="Записать параметры дочерних устройств" />
-						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать параметры" />
-						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить параметры" />
-						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" ImageSource="/Controls;component/Images/PasteAll.png" ToolTip="Вставить параметры во все дочерние устройства" />
+						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" Background="{DynamicResource leftLeft}"  ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
+						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" Background="{DynamicResource left}"  ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
+						<Controls:ToolBarButton Command="{Binding ReadCommand}" Background="{DynamicResource ParametersRead}"  ToolTip="Считать параметры" />
+						<Controls:ToolBarButton Command="{Binding WriteCommand}" Background="{DynamicResource ParametersWrite}"  ToolTip="Записать параметры" />
+						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" Background="{DynamicResource ParametersReadAll}"  ToolTip="Считать параметры дочерних устройств" />
+						<ToolBarButton Command="{Binding WriteAllCommand}" Background="{DynamicResource ParametersWriteAll}"  ToolTip="Записать параметры дочерних устройств" />
+						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" Background="{DynamicResource Copy}"  ToolTip="Копировать параметры" />
+						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" Background="{DynamicResource Paste}"  ToolTip="Вставить параметры" />
+						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" Background="{DynamicResource Paste}"  ToolTip="Вставить параметры во все дочерние устройства" />
 					</StackPanel>
 				</Grid>
 			</Grid>

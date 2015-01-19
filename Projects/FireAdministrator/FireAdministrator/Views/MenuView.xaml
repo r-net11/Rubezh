@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="FireAdministrator.Views.MenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+<UserControl x:Class="FireAdministrator.Views.MenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel Height="40" Margin="5,0,0,0" Orientation="Horizontal">
 
@@ -15,11 +15,11 @@
 			</MenuItem>
 		</Menu>
 		<StackPanel Orientation="Horizontal" Visibility="{Binding IsMainMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-			<ToolBarButton Command="{Binding CreateNewCommand}" ImageSource="/Controls;component/Images/new.png" ToolTip="Создать новую конфигурацию" />
-			<Controls:ToolBarButton Command="{Binding LoadFromFileCommand}" ImageSource="/Controls;component/Images/load.png" ToolTip="Открыть конфигурацию из файла" />
-			<Controls:ToolBarButton Command="{Binding SaveAsCommand}" ImageSource="/Controls;component/Images/save.png" ToolTip="Сохранить конфигурацию в файл" />
-			<Controls:ToolBarButton Command="{Binding ValidateCommand}" ImageSource="/Controls;component/Images/check.png" ToolTip="Проверить конфигурацию" />
-			<Controls:ToolBarButton Command="{Binding SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" ToolTip="Применить конфигурацию" />
+			<ToolBarButton Command="{Binding CreateNewCommand}" Background="{DynamicResource New}"  ToolTip="Создать новую конфигурацию" />
+			<Controls:ToolBarButton Command="{Binding LoadFromFileCommand}" Background="{DynamicResource load}"  ToolTip="Открыть конфигурацию из файла" />
+			<Controls:ToolBarButton Command="{Binding SaveAsCommand}" Background="{DynamicResource Save}"  ToolTip="Сохранить конфигурацию в файл" />
+			<Controls:ToolBarButton Command="{Binding ValidateCommand}" Background="{DynamicResource check}"  ToolTip="Проверить конфигурацию" />
+			<Controls:ToolBarButton Command="{Binding SetNewConfigCommand}" Background="{DynamicResource download}"  ToolTip="Применить конфигурацию" />
 		</StackPanel>
 		<Grid Visibility="{Binding IsMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 			<ContentPresenter MinWidth="400" Content="{Binding ExtendedMenu}" />

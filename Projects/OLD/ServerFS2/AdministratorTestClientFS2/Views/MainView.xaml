@@ -1,4 +1,4 @@
-﻿<Window x:Class="AdministratorTestClientFS2.Views.MainView"
+<Window x:Class="AdministratorTestClientFS2.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
@@ -50,8 +50,8 @@
             </Grid.ColumnDefinitions>
             <Views:ParametersView Grid.Column="0" DataContext="{Binding PropertiesViewModel}" />
             <StackPanel Grid.Column="1" Visibility="{Binding Device.Driver.HasConfigurationProperties, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Controls:ToolBarButton Command="{Binding GetParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" Width="36" Height="36" Margin="0,0,0,-8" />
-                <Controls:ToolBarButton Command="{Binding SetParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры на устройство" Width="36" Height="36" Margin="0,0,0,-8" />
+                <Controls:ToolBarButton Command="{Binding GetParametersCommand}" Background="{DynamicResource read}"  ToolTip="Считать параметры устройства" Width="36" Height="36" Margin="0,0,0,-8" />
+                <Controls:ToolBarButton Command="{Binding SetParametersCommand}" Background="{DynamicResource write}"  ToolTip="Записать параметры на устройство" Width="36" Height="36" Margin="0,0,0,-8" />
             </StackPanel>
         </Grid>
 

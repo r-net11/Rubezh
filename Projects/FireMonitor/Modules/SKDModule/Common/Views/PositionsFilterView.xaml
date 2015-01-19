@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.PositionsFilterView"
+<UserControl x:Class="SKDModule.Views.PositionsFilterView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Views="clr-namespace:SKDModule.Views"
@@ -41,8 +41,8 @@
 			</tree:TreeList.View>
 		</tree:TreeList>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" >
-			<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
-            <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
+			<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" Background="{DynamicResource SelectAll}"  />
+            <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" Background="{DynamicResource SelectNone}"  />
 		</StackPanel>
 	</Grid>
 </UserControl>

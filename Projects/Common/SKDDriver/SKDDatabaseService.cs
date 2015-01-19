@@ -47,6 +47,8 @@ namespace SKDDriver
 			MetadataTranslator = new MetadataTranslator(this);
 			GKMetadataTranslator = new GKMetadataTranslator(this);
 			GKCardTranslator = new GKCardTranslator(this);
+			if(PassJournalTranslator.ConnectionString != null)
+				PassJournalTranslator = new PassJournalTranslator();
 		}
 
 		public NightSettingsTranslator NightSettingsTranslator { get; private set; }

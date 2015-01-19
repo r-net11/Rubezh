@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
+<UserControl x:Class="GKModule.Views.DoorsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
 
 	<Grid ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 		<DataGrid CanUserSortColumns="True" Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
@@ -24,7 +24,7 @@
 									</Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-											<Controls:IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" />
+											<Controls:IconedMenuItem Command="{Binding ShowOnPlanCommand}" Background="{DynamicResource map}"  Text="Показать на плане" />
 											<Controls:IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" />
 											<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
 										</ContextMenu>

@@ -15,6 +15,7 @@ namespace Infrastructure.Common.Navigation
 		{
 			InitializeComponent();
 			//DataContext = this;
+			var x = DataContext;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

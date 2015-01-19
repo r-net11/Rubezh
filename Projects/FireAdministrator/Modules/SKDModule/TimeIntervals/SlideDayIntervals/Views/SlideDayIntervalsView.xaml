@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.SlideDayIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+<UserControl x:Class="SKDModule.Views.SlideDayIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
 	<UserControl.Resources>
 		<Style x:Key="ActiveStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
 			<Style.Triggers>
@@ -47,8 +47,8 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<StackPanel Grid.Row="0" Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
-				<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+				<Controls:ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить" />
+				<Controls:ToolBarButton Command="{Binding RemoveCommand}" Background="{DynamicResource Delete}"  ToolTip="Удалить" />
 			</StackPanel>
 			<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
