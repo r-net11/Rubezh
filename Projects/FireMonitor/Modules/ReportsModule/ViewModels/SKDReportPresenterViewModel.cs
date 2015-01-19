@@ -19,17 +19,23 @@ using System.Windows.Input;
 using DialogService = Infrastructure.Common.Windows.DialogService;
 using FiresecClient;
 using FiresecAPI.SKD.ReportFilters;
+using System.Windows.Threading;
 
 namespace ReportsModule.ViewModels
 {
 	public class SKDReportPresenterViewModel : BaseViewModel
 	{
 		private ISKDReportProvider _reportProvider;
+		private DispatcherTimer _timer;
 		public SKDReportPresenterViewModel()
 		{
 			ChangeFilterCommand = new RelayCommand(OnChangeFilter, CanChangeFilter);
 			RefreshReportCommand = new RelayCommand(OnRefreshReport, CanRefreshReport);
 			FitPageSizeCommand = new RelayCommand<ZoomFitMode>(OnFitPageSize, CanFitPageSize);
+
+			_timer = new DispatcherTimer();
+			_timer.Tick += (s, e) => ElapsedTime++;
+			_timer.Interval = TimeSpan.FromSeconds(1);
 		}
 
 		public void CreateClient()
@@ -44,7 +50,12 @@ namespace ReportsModule.ViewModels
 				AutoShowParametersPanel = false,
 				IsDocumentMapVisible = false,
 			};
-			Model.PropertyChanged += (s, e) => CommandManager.InvalidateRequerySuggested();
+			Model.PropertyChanged += (s, e) =>
+			{
+				CommandManager.InvalidateRequerySuggested();
+				if (e.PropertyName == "ProgressVisibility")
+					OnProgressChanged();
+			};
 			Model.CreateDocumentError += Model_CreateDocumentError;
 			Model.Clear();
 		}
@@ -182,6 +193,27 @@ namespace ReportsModule.ViewModels
 		private bool CanFitPageSize(ZoomFitMode fitMode)
 		{
 			return Model.PrintCommand.CanExecute(null);
+		}
+
+		private int _elapsedTime;
+		public int ElapsedTime
+		{
+			get { return _elapsedTime; }
+			set
+			{
+				_elapsedTime = value;
+				OnPropertyChanged(() => ElapsedTime);
+			}
+		}
+		private void OnProgressChanged()
+		{
+			if (Model.ProgressVisibility)
+			{
+				ElapsedTime = 0;
+				_timer.Start();
+			}
+			else
+				_timer.Stop();
 		}
 	}
 }

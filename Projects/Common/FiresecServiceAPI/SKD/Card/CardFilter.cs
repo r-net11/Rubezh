@@ -30,21 +30,4 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public EmployeeFilter EmployeeFilter { get; set; }
 	}
-
-	public class CardReportItem
-	{
-		public CardReportItem()
-		{
-			UID = Guid.NewGuid();
-		}
-
-		public Guid UID { get; set; }
-		public string CardType { get; set; }
-		public int Number { get; set; }
-		public string Organisation { get; set; }
-		public string Department { get; set; }
-		public string Position { get; set; }
-		public string Employee { get; set; }
-		public string EndDate { get; set; }
-	}
 }

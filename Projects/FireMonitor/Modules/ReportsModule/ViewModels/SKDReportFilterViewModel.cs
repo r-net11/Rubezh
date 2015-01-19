@@ -7,6 +7,7 @@ using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using Common;
 using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace ReportsModule.ViewModels
 {
@@ -47,11 +48,14 @@ namespace ReportsModule.ViewModels
 		}
 		private void LoadFilter(SKDReportFilter filter)
 		{
-			if (_model.MainViewModel != null)
-				_model.MainViewModel.LoadFilter(filter);
-			if (_model.CommandsViewModel != null)
-				_model.CommandsViewModel.LoadFilter(filter);
-			Pages.ForEach(page => page.LoadFilter(filter));
+			using (new WaitWrapper())
+			{
+				if (_model.MainViewModel != null)
+					_model.MainViewModel.LoadFilter(filter);
+				if (_model.CommandsViewModel != null)
+					_model.CommandsViewModel.LoadFilter(filter);
+				Pages.ForEach(page => page.LoadFilter(filter));
+			}
 		}
 		private void UpdateFilter(SKDReportFilter filter)
 		{

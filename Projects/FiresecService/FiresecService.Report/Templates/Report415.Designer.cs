@@ -32,7 +32,6 @@
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
 			this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
-			this.organisation = new DevExpress.XtraReports.Parameters.Parameter();
 			this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -68,27 +67,6 @@
 			this.Detail.Name = "Detail";
 			this.Detail.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
 			this.Detail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-			// 
-			// xrLabel1
-			// 
-			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 32.25001F);
-			this.xrLabel1.Name = "xrLabel1";
-			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-			this.xrLabel1.SizeF = new System.Drawing.SizeF(630F, 23F);
-			this.xrLabel1.Text = "Список отделов организации";
-			// 
-			// xrLabel2
-			// 
-			this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 38.49999F);
-			this.xrLabel2.Name = "xrLabel2";
-			this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-			this.xrLabel2.SizeF = new System.Drawing.SizeF(184.375F, 23F);
-			this.xrLabel2.Text = "[Parameters.organisation]";
-			// 
-			// organisation
-			// 
-			this.organisation.Name = "organisation";
-			this.organisation.Visible = false;
 			// 
 			// xrTable1
 			// 
@@ -309,8 +287,6 @@
             this.Detail1});
 			this.DataMember = "Data";
 			this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
-			this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
-            this.organisation});
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
             this.xrControlStyle1});
 			this.Version = "14.1";
@@ -328,7 +304,6 @@
 		private DevExpress.XtraReports.UI.DetailBand Detail;
 		private DevExpress.XtraReports.UI.XRLabel xrLabel1;
 		private DevExpress.XtraReports.UI.XRLabel xrLabel2;
-		private DevExpress.XtraReports.Parameters.Parameter organisation;
 		private DevExpress.XtraReports.UI.XRTable xrTable1;
 		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;

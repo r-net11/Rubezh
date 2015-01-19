@@ -18,12 +18,13 @@ namespace FiresecService.Report.Templates
 		{
 			DataSet = CreateDataSet();
 			var query = BuildQuery();
-			using (var connection = new SqlConnection(SKDDatabaseService.ConnectionString))
-			{
-				var adapter = new SqlDataAdapter(query.ToString(), connection);
-				AddTableMapping(adapter, DataSet);
-				adapter.Fill(DataSet);
-			}
+			if (query.Length > 0)
+				using (var connection = new SqlConnection(SKDDatabaseService.ConnectionString))
+				{
+					var adapter = new SqlDataAdapter(query.ToString(), connection);
+					AddTableMapping(adapter, DataSet);
+					adapter.Fill(DataSet);
+				}
 			UpdateDataSource();
 			DataSource = DataSet;
 		}
@@ -42,6 +43,8 @@ namespace FiresecService.Report.Templates
 		{
 			var sb = new StringBuilder();
 			sb.Append(BuildSelectRoutine());
+			if (sb.Length == 0)
+				return sb;
 			var sql = BuildWhereRouting();
 			if (sql.Length > 0)
 				sb.AppendFormat("{0}{1}", SqlBuilder.WHERE, sql);

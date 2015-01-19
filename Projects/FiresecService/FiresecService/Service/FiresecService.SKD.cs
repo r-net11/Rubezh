@@ -395,13 +395,6 @@ namespace FiresecService.Service
 			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
 		}
 
-		public OperationResult<List<CardReportItem>> GetCardReport(CardReportFilter cardReportFilter)
-		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.CardTranslator. GetCardReport(cardReportFilter);
-			}
-		}
 		#endregion
 
 		#region AccessTemplate

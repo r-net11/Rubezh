@@ -47,6 +47,7 @@
 				<File Id="Monitor.itextsharp.xtra.dll" Name="itextsharp.xtra.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.itextsharp.pdfa.dll" Name="itextsharp.pdfa.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Mvvm.v14.1.dll" Name="DevExpress.Mvvm.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
@@ -56,10 +57,6 @@
 				<File Id="Monitor.DevExpress.Xpf.Layout.v14.1.Core.dll" Name="DevExpress.Xpf.Layout.v14.1.Core.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.dll" Name="DevExpress.Xpf.Printing.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.DevExpress.Xpf.Ribbon.v14.1.dll" Name="DevExpress.Xpf.Ribbon.v14.1.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Core.v14.1.resources.dll" Name="DevExpress.Xpf.Core.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.resources.dll" Name="DevExpress.Xpf.Printing.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.DevExpress.Xpf.Docking.v14.1.resources.dll" Name="DevExpress.Xpf.Docking.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
 			<Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB">
@@ -158,7 +155,17 @@
 				<File Id="Monitor.Dll.Sunell.SensorUI.dll" Name="SensorUI.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
 			</Component>
 		</DirectoryRef>
-
+		
+		<DirectoryRef Id="Monitor.ru">
+			<Component Id="Monitor.Files.ru" Guid="BCE65B5E-547A-4288-A6E6-88EAC6955F35">
+				<File Id="Monitor.DevExpress.Data.v14.1.resources.dll" Name="DevExpress.Data.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" KeyPath="yes"/>
+				<File Id="Monitor.DevExpress.Printing.v14.1.Core.resources.dll" Name="DevExpress.Printing.v14.1.Core.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Xpf.Core.v14.1.resources.dll" Name="DevExpress.Xpf.Core.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Xpf.Printing.v14.1.resources.dll" Name="DevExpress.Xpf.Printing.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+				<File Id="Monitor.DevExpress.Xpf.Docking.v14.1.resources.dll" Name="DevExpress.Xpf.Docking.v14.1.resources.dll" Source="$(var.Monitor.TargetDir)ru\" />
+			</Component>
+		</DirectoryRef>
+		
 		<DirectoryRef Id="Monitor.ShellFolder">
 			<Component Id="Monitor.Integrate" Guid="F4BAD8FB-EEC4-44C4-9C80-849C9F3A9F29">
 				<File Id="Monitor.Integrate.cmd" Name="Integrate.cmd" Source="Data\Shell\" KeyPath="yes" />

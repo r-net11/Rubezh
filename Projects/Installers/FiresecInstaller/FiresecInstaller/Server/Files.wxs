@@ -29,6 +29,10 @@
 				<File Id="Server.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
 				<File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Common.TargetDir)" />
+				<File Id="Server.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Server.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Server.TargetDir)" />
 
 				<File Id="Server.DevExpress.Data.v14.1.dll" Name="DevExpress.Data.v14.1.dll" Source="$(var.Server.TargetDir)" />
@@ -36,6 +40,7 @@
 				<File Id="Server.DevExpress.Xpf.Printing.v14.1.Service.dll" Name="DevExpress.Xpf.Printing.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.XtraReports.v14.1.dll" Name="DevExpress.XtraReports.v14.1.dll" Source="$(var.Server.TargetDir)" />
 				<File Id="Server.DevExpress.XtraReports.v14.1.Service.dll" Name="DevExpress.XtraReports.v14.1.Service.dll" Source="$(var.Server.TargetDir)" />
+				<File Id="Server.DevExpress.Xpo.v14.1.dll" Name="DevExpress.Xpo.v14.1.dll" Source="$(var.Server.TargetDir)" />
 			</Component>
 
 			<Component Id="Server.DB.Common" Guid="B596A2AE-21D9-48AA-8F7F-C0062E152994">

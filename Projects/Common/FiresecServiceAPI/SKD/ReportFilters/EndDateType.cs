@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SKDModule
+namespace FiresecAPI.SKD.ReportFilters
 {
 	public enum EndDateType
 	{

@@ -230,17 +230,23 @@ namespace ReportsModule.ViewModels
 			var periodFilter = filter as IReportFilterPeriod;
 			if (periodFilter != null)
 			{
-				_isLoaded = false;
-				SelectedReportPeriod = periodFilter.PeriodType;
-				DateTimeFrom = periodFilter.DateTimeFrom;
-				DateTimeTo = periodFilter.DateTimeTo;
-				_isLoaded = true;
+				var periodSet = periodFilter.DateTimeFrom != DateTime.MinValue && periodFilter.DateTimeTo != DateTime.MinValue;
+				if (periodSet)
+				{
+					_isLoaded = false;
+					SelectedReportPeriod = periodFilter.PeriodType;
+					DateTimeFrom = periodFilter.DateTimeFrom;
+					DateTimeTo = periodFilter.DateTimeTo;
+					_isLoaded = true;
+				}
+				else
+					SelectedReportPeriod = periodFilter.PeriodType;
 			}
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-            filter.PrintFilterName = PrintFilterName;
-            filter.PrintFilterNameInHeader = PrintFilterNameInHeader;
+			filter.PrintFilterName = PrintFilterName;
+			filter.PrintFilterNameInHeader = PrintFilterNameInHeader;
 			filter.PrintPeriod = PrintPeriod;
 			filter.PrintDate = PrintDate;
 			filter.PrintUser = PrintUser;
