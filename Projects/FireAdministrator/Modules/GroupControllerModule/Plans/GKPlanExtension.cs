@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -99,7 +99,7 @@ namespace GKModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ImageSource="ZoneRectangle",
 							ToolTip="Зона",
 							Adorner = new XZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 200,
@@ -108,7 +108,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ImageSource="ZonePolygon",
 							ToolTip="Зона",
 							Adorner = new XZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 201,
@@ -117,7 +117,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/DirectionRectangle.png",
+							ImageSource="DirectionRectangle",
 							ToolTip="Направление",
 							Adorner = new XDirectionRectangleAdorner(DesignerCanvas, _directionsViewModel),
 							Index = 202,
@@ -126,7 +126,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/DirectionPolygon.png",
+							ImageSource="DirectionPolygon",
 							ToolTip="Направление",
 							Adorner = new XDirectionPolygonAdorner(DesignerCanvas, _directionsViewModel),
 							Index = 203,
@@ -135,7 +135,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ImageSource="ZoneRectangle",
 							ToolTip="Охранная зона",
 							Adorner = new XGuardZoneRectangleAdorner(DesignerCanvas, _guardZonesViewModel),
 							Index = 204,
@@ -144,7 +144,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ImageSource="ZonePolygon",
 							ToolTip="Охранная зона",
 							Adorner = new XGuardZonePolygonAdorner(DesignerCanvas,  _guardZonesViewModel),
 							Index = 205,
@@ -264,18 +264,18 @@ namespace GKModule.Plans
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementRectangleGKZone || designerItem.Element is ElementPolygonGKZone)
-				RegisterDesignerItem<GKZone>(designerItem, "GKZone", "/Controls;component/Images/Zone.png");
+				RegisterDesignerItem<GKZone>(designerItem, "GKZone", "Zone");
 			else if (designerItem.Element is ElementRectangleGKGuardZone || designerItem.Element is ElementPolygonGKGuardZone)
-				RegisterDesignerItem<GKGuardZone>(designerItem, "GKGuardZone", "/Controls;component/Images/GuardZone.png");
+				RegisterDesignerItem<GKGuardZone>(designerItem, "GKGuardZone", "GuardZone");
 			else if (designerItem.Element is ElementGKDoor)
-				RegisterDesignerItem<GKDoor>(designerItem, "GKDoors", "/Controls;component/Images/Door.png");
+				RegisterDesignerItem<GKDoor>(designerItem, "GKDoors", "Door");
 			else if (designerItem.Element is ElementGKDevice)
 			{
 				RegisterDesignerItem<GKDevice>(designerItem, "GK");
 				_designerItems.Add(designerItem);
 			}
 			else if (designerItem.Element is IElementDirection)
-				RegisterDesignerItem<GKDirection>(designerItem, "GKDirection", "/Controls;component/Images/Blue_Direction.png");
+				RegisterDesignerItem<GKDirection>(designerItem, "GKDirection", "Blue_Direction");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -333,13 +333,13 @@ namespace GKModule.Plans
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(FindUnbindedErrors<ElementGKDevice, ShowGKDeviceEvent, Guid>(plan.ElementGKDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKGuardZones, plan.UID, "Несвязанная охранная зона", "/Controls;component/Images/GuardZone.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleGKDirection, ShowGKDirectionEvent, Guid>(plan.ElementRectangleGKDirections, plan.UID, "Несвязанное направление", "/Controls;component/Images/Blue_Direction.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonGKDirection, ShowGKDirectionEvent, Guid>(plan.ElementPolygonGKDirections, plan.UID, "Несвязанное направление", "/Controls;component/Images/Blue_Direction.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementGKDoor, ShowGKDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementGKDoors, plan.UID, "Несвязанное точка доступа", "/Controls;component/Images/Door.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKZones, plan.UID, "Несвязанная зона", "Zone", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonGKZone, ShowGKZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKZones, plan.UID, "Несвязанная зона", "Zone", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleGKGuardZones, plan.UID, "Несвязанная охранная зона", "GuardZone", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonGKGuardZone, ShowGKGuardZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonGKGuardZones, plan.UID, "Несвязанная охранная зона", "GuardZone", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleGKDirection, ShowGKDirectionEvent, Guid>(plan.ElementRectangleGKDirections, plan.UID, "Несвязанное направление", "Blue_Direction", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonGKDirection, ShowGKDirectionEvent, Guid>(plan.ElementPolygonGKDirections, plan.UID, "Несвязанное направление", "Blue_Direction", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementGKDoor, ShowGKDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementGKDoors, plan.UID, "Несвязанное точка доступа", "Door", Guid.Empty));
 				});
 			return errors;
 		}

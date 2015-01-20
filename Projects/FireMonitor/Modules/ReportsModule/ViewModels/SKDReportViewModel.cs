@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +9,7 @@ namespace ReportsModule.ViewModels
 {
 	public class SKDReportViewModel : SKDReportBaseViewModel
 	{
-		private const string DefaultIconSource = "/Controls;component/Images/Week.png";
+		private const string DefaultIconSource = "Week";
 
 		public SKDReportViewModel(ISKDReportProvider reportProvider)
 		{

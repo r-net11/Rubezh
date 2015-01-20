@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Data;
 using FiresecAPI.GK;
 
@@ -20,22 +20,22 @@ namespace Controls.Converters
 
 						case ClauseOperationType.AllZones:
 						case ClauseOperationType.AnyZone:
-							return "/Controls;component/Images/Zone.png";
+							return "Zone";
 
 						case ClauseOperationType.AllDirections:
 						case ClauseOperationType.AnyDirection:
-							return "/Controls;component/Images/Blue_Direction.png";
+							return "Blue_Direction";
 
 						case ClauseOperationType.AllMPTs:
 						case ClauseOperationType.AnyMPT:
-							return "/Controls;component/Images/BMPT.png";
+							return "BMPT";
 
 						case ClauseOperationType.AllDelays:
 						case ClauseOperationType.AnyDelay:
-							return "/Controls;component/Images/Delay.png";
+							return "Delay";
 
 						default:
-							return "/Controls;component/Images/Zone.png";
+							return "Zone";
 					}
 				}
 			}

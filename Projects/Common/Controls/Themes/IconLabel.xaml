@@ -4,6 +4,7 @@
 					xmlns:Converters="clr-namespace:Controls.Converters">
 
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
+	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
 
 	<Style TargetType="{x:Type local:IconLabel}">
 		<Setter Property="Template">
@@ -14,7 +15,7 @@
 							<ColumnDefinition Width="20" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
+						<Grid Grid.Column="0" Width="16" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
 						<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" />
 					</Grid>
 				</ControlTemplate>

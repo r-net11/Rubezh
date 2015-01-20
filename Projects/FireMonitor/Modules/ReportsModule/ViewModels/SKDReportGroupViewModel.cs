@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +19,7 @@ namespace ReportsModule.ViewModels
 		public SKDReportGroup SKDReportGroup { get; private set; }
 		public override string IconSource
 		{
-			get { return "/Controls;component/Images/CFolder.png"; }
+			get { return "CFolder"; }
 		}
 		private string _title;
 		public override string Title

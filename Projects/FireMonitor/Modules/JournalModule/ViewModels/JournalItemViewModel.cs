@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -68,7 +68,7 @@ namespace JournalModule.ViewModels
 			}
 
 			IsExistsInConfig = true;
-			ObjectImageSource = "/Controls;component/Images/Blank.png";
+			ObjectImageSource = "Blank";
 			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 
 			switch (JournalItem.JournalObjectType)
@@ -92,7 +92,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					ObjectImageSource = "Zone";
 					break;
 
 				case JournalObjectType.GKDirection:
@@ -103,7 +103,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDirectionDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Blue_Direction.png";
+					ObjectImageSource = "Blue_Direction";
 					break;
 
 				case JournalObjectType.GKPumpStation:
@@ -114,7 +114,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
+					ObjectImageSource = "BPumpStation";
 					break;
 
 				case JournalObjectType.GKMPT:
@@ -125,7 +125,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/BMPT.png";
+					ObjectImageSource = "BMPT";
 					break;
 
 				case JournalObjectType.GKDelay:
@@ -135,7 +135,7 @@ namespace JournalModule.ViewModels
 						ObjectName = Delay.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDelayEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDelayDetailsEvent>();
-						ObjectImageSource = "/Controls;component/Images/Delay.png";
+						ObjectImageSource = "Delay";
 					}
 					else
 					{
@@ -153,7 +153,7 @@ namespace JournalModule.ViewModels
 									ObjectName += " (" + PumpStation.PresentationName + ")";
 									ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
 									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
-									ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
+									ObjectImageSource = "BPumpStation";
 									break;
 								}
 							}
@@ -168,7 +168,7 @@ namespace JournalModule.ViewModels
 						ObjectName = Pim.PresentationName;
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPimEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPIMDetailsEvent>();
-						ObjectImageSource = "/Controls;component/Images/Pim.png";
+						ObjectImageSource = "Pim";
 						if (Pim.PumpStationUID != Guid.Empty)
 						{
 							PumpStation = GKManager.PumpStations.FirstOrDefault(x => x.UID == Pim.PumpStationUID);
@@ -177,7 +177,7 @@ namespace JournalModule.ViewModels
 								ObjectName += " (" + PumpStation.PresentationName + ")";
 								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationEvent>();
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKPumpStationDetailsEvent>();
-								ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
+								ObjectImageSource = "BPumpStation";
 								break;
 							}
 						}
@@ -189,7 +189,7 @@ namespace JournalModule.ViewModels
 								ObjectName += " (" + MPT.PresentationName + ")";
 								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
-								ObjectImageSource = "/Controls;component/Images/BMPT.png";
+								ObjectImageSource = "BMPT";
 								break;
 							}
 						}
@@ -204,7 +204,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKGuardZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					ObjectImageSource = "Zone";
 					break;
 
 				case JournalObjectType.GKDoor:
@@ -215,7 +215,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKDoorEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKDoorDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Door.png";
+					ObjectImageSource = "Door";
 					break;
 
 				case JournalObjectType.SKDDevice:
@@ -237,7 +237,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					ObjectImageSource = "Zone";
 					break;
 
 				case JournalObjectType.SKDDoor:
@@ -248,7 +248,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Door.png";
+					ObjectImageSource = "Door";
 					break;
 
 				case JournalObjectType.VideoDevice:
@@ -259,7 +259,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/Camera.png";
+					ObjectImageSource = "Camera";
 					break;
 
 				case JournalObjectType.None:

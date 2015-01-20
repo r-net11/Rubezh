@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Common;
 using FiresecAPI.GK;
@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 
 		void InitializeTypeAddressImageSource(JournalItem journalItem)
 		{
-			ImageSource = "/Controls;component/Images/Blank.png";
+			ImageSource = "Blank";
 
 			int descriptorType = 0;
 			int descriptorAddress;
@@ -111,27 +111,27 @@ namespace GKModule.ViewModels
 				{
 					case 0x100:
 						TypeName = "Зона";
-						ImageSource = "/Controls;component/Images/Zone.png";
+						ImageSource = "Zone";
 						break;
 
 					case 0x101:
 						TypeName = "Задержка";
-						ImageSource = "/Controls;component/Images/Delay.png";
+						ImageSource = "Delay";
 						break;
 
 					case 0x106:
 						TypeName = "Направление";
-						ImageSource = "/Controls;component/Images/Blue_Direction.png";
+						ImageSource = "Blue_Direction";
 						break;
 
 					case 0x107:
 						TypeName = "ПИМ";
-						ImageSource = "/Controls;component/Images/Pim.png";
+						ImageSource = "Pim";
 						break;
 
 					case 0x108:
 						TypeName = "Охранная зона";
-						ImageSource = "/Controls;component/Images/GuardZone.png";
+						ImageSource = "GuardZone";
 						break;
 				}
 			}
@@ -180,7 +180,7 @@ namespace GKModule.ViewModels
 						if (pumpStation != null)
 						{
 							PresentationName = pumpStation.PresentationName;
-							ImageSource = "/Controls;component/Images/BPumpStation.png";
+							ImageSource = "BPumpStation";
 						}
 						break;
 

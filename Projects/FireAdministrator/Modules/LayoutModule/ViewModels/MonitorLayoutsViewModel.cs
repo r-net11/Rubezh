@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -208,13 +208,13 @@ namespace LayoutModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить макет", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "/Controls;component/Images/BDelete.png"),
-					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "/Controls;component/Images/BCopy.png") {IsNewGroup=true},
-					new RibbonMenuItemViewModel("Вырезать", LayoutCutCommand, "/Controls;component/Images/BCut.png"),
-					new RibbonMenuItemViewModel("Вставить", LayoutPasteCommand, true, "/Controls;component/Images/BPaste.png"),
-				}, "/Controls;component/Images/BLayouts.png") { Order = 2 }
+					new RibbonMenuItemViewModel("Добавить макет", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "BCopy") {IsNewGroup=true},
+					new RibbonMenuItemViewModel("Вырезать", LayoutCutCommand, "BCut"),
+					new RibbonMenuItemViewModel("Вставить", LayoutPasteCommand, true, "BPaste"),
+				}, "BLayouts") { Order = 2 }
 			};
 		}
 

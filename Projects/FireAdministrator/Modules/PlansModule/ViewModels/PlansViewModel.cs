@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -47,7 +47,7 @@ namespace PlansModule.ViewModels
 				if (e.Element is ElementSubPlan)
 				{
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
-					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";
+					e.DesignerItem.IconSource = "CMap";
 				}
 			});
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FiresecAPI.Models;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
@@ -31,7 +31,7 @@ namespace DevicesModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Blue_Direction.png"; }
+			get { return "Blue_Direction"; }
 		}
 	}
 }

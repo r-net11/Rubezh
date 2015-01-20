@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Data;
 using FiresecAPI.Journal;
 
@@ -12,15 +12,15 @@ namespace Controls.Converters
 			switch(subsystemType)
 			{
 				case JournalSubsystemType.System:
-					return "/Controls;component/Images/PC.png";
+					return "PC";
 				case JournalSubsystemType.GK:
-					return "/Controls;component/Images/Chip.png";
+					return "Chip";
 				case JournalSubsystemType.SKD:
 					return "/Controls;component/SKDIcons/Controller.png";
 				case JournalSubsystemType.Video:
-					return "/Controls;component/Images/Camera.png";
+					return "Camera";
 			}
-			return "/Controls;component/Images/Blank.png";
+			return "Blank";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

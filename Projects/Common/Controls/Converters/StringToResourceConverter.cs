@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
@@ -6,8 +7,10 @@ namespace Controls.Converters
 {
 	public class StringToResourceConverter : IValueConverter
 	{
-		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			if (value == null)
+				return DependencyProperty.UnsetValue;
 			if (value is string)
 				try
 				{
@@ -15,11 +18,12 @@ namespace Controls.Converters
 				}
 				catch
 				{
+					return DependencyProperty.UnsetValue;
 				}
-			return null;
+			return DependencyProperty.UnsetValue;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotImplementedException();
 		}

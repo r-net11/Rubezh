@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
@@ -17,7 +17,7 @@ namespace SKDModule.Plans.Designer
 		{
 			_elementDoor = elementDoor;
 			_toolTip = new ImageTextTooltipViewModel();
-			_toolTip.ImageSource = "/Controls;component/Images/Door.png";
+			_toolTip.ImageSource = "Door";
 		}
 
 		protected override Brush GetBrush()

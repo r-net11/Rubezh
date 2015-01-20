@@ -214,5 +214,7 @@
 		<ResourceDictionary Source="../XamlImages/zones.xaml" />
 		<ResourceDictionary Source="../XamlImages/ZoomIn.xaml" />
 		<ResourceDictionary Source="../XamlImages/ZoomOut.xaml" />
+
+		<ResourceDictionary Source="../XamlImages/BAdd.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

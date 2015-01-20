@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Data;
 using FiresecAPI.GK;
 
@@ -38,7 +38,7 @@ namespace Controls.Converters
 					return "/Controls;component/StateClassIcons/AutoOff.png";
 
 				default:
-					return "/Controls;component/Images/blank.png";
+					return "blank";
 			}
 		}
 

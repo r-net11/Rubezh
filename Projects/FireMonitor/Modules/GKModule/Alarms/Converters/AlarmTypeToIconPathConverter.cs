@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Data;
 using FiresecAPI.GK;
 
@@ -11,34 +11,34 @@ namespace GKModule.Converters
 			switch ((GKAlarmType) value)
 			{
 				case GKAlarmType.NPTOn:
-					return "/Controls;component/Images/Alarm_MPT.png";
+					return "Alarm_MPT";
 
 				case GKAlarmType.Fire1:
-					return "/Controls;component/Images/Alarm_Main_0_Fire1.png";
+					return "Alarm_Main_0_Fire1";
 
 				case GKAlarmType.Fire2:
-					return "/Controls;component/Images/Alarm_Main_1_Fire2.png";
+					return "Alarm_Main_1_Fire2";
 
 				case GKAlarmType.Attention:
-					return "/Controls;component/Images/Alarm_main_2_Attention.png";
+					return "Alarm_main_2_Attention";
 
 				case GKAlarmType.Failure:
-					return "/Controls;component/Images/Alarm_main_3_Failure.png";
+					return "Alarm_main_3_Failure";
 
 				case GKAlarmType.Ignore:
-					return "/Controls;component/Images/Alarm_main_4_Off.png";
+					return "Alarm_main_4_Off";
 
 				case GKAlarmType.Turning:
-					return "/Controls;component/Images/Alarm_main_5_Info.png";
+					return "Alarm_main_5_Info";
 
 				case GKAlarmType.Service:
-					return "/Controls;component/Images/Alarm_main_6_Service.png";
+					return "Alarm_main_6_Service";
 
 				case GKAlarmType.AutoOff:
-					return "/Controls;component/Images/Alarm_main_7_Auto.png";
+					return "Alarm_main_7_Auto";
 
 				default:
-					return "/Controls;component/Images/Alarm_main_3_Failure.png";
+					return "Alarm_main_3_Failure";
 			}
 		}
 

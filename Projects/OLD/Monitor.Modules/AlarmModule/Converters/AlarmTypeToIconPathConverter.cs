@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
 
@@ -11,31 +11,31 @@ namespace AlarmModule.Converters
 			switch ((AlarmType) value)
 			{
 				case AlarmType.Guard:
-					return "/Controls;component/Images/Alarm_shield_2.png";
+					return "Alarm_shield_2";
 
 				case AlarmType.Fire:
-					return "/Controls;component/Images/Alarm_Main_0_Fire1.png";
+					return "Alarm_Main_0_Fire1";
 
 				case AlarmType.Attention:
-					return "/Controls;component/Images/Alarm_main_2_Attention.png";
+					return "Alarm_main_2_Attention";
 
 				case AlarmType.Failure:
-					return "/Controls;component/Images/Alarm_main_3_Failure.png";
+					return "Alarm_main_3_Failure";
 
 				case AlarmType.Off:
-					return "/Controls;component/Images/Alarm_main_4_Off.png";
+					return "Alarm_main_4_Off";
 
 				case AlarmType.Info:
-					return "/Controls;component/Images/Alarm_main_5_Info_2.png";
+					return "Alarm_main_5_Info_2";
 
 				case AlarmType.Service:
-					return "/Controls;component/Images/Alarm_main_6_Service.png";
+					return "Alarm_main_6_Service";
 
 				case AlarmType.Auto:
-					return "/Controls;component/Images/Alarm_main_7_Auto.png";
+					return "Alarm_main_7_Auto";
 
 				default:
-					return "/Controls;component/Images/Alarm_main_3_Failure.png";
+					return "Alarm_main_3_Failure";
 			}
 		}
 

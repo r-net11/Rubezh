@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GKProcessor;
 using Infrastructure.Common;
@@ -29,39 +29,39 @@ namespace GKModule.ViewModels
 					break;
 
 				case DescriptorType.Zone:
-					ImageSource = "/Controls;component/Images/Zone.png";
+					ImageSource = "Zone";
 					break;
 
 				case DescriptorType.Direction:
-					ImageSource = "/Controls;component/Images/Blue_Direction.png";
+					ImageSource = "Blue_Direction";
 					break;
 
 				case DescriptorType.PumpStation:
-					ImageSource = "/Controls;component/Images/BPumpStation.png";
+					ImageSource = "BPumpStation";
 					break;
 
 				case DescriptorType.MPT:
-					ImageSource = "/Controls;component/Images/BMPT.png";
+					ImageSource = "BMPT";
 					break;
 
 				case DescriptorType.Delay:
-					ImageSource = "/Controls;component/Images/Delay.png";
+					ImageSource = "Delay";
 					break;
 
 				case DescriptorType.Pim:
-					ImageSource = "/Controls;component/Images/Pim.png";
+					ImageSource = "Pim";
 					break;
 
 				case DescriptorType.GuardZone:
-					ImageSource = "/Controls;component/Images/GuardZone.png";
+					ImageSource = "GuardZone";
 					break;
 
 				case DescriptorType.Code:
-					ImageSource = "/Controls;component/Images/Code.png";
+					ImageSource = "Code";
 					break;
 
 				case DescriptorType.Door:
-					ImageSource = "/Controls;component/Images/Door.png";
+					ImageSource = "Door";
 					break;
 			}
 

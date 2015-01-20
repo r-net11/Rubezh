@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Journal;
@@ -72,12 +72,12 @@ namespace JournalModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "/Controls;component/Images/Book.png");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "Book");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
+				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "Archive")
 			};
 		}
 		public override ModuleType ModuleType

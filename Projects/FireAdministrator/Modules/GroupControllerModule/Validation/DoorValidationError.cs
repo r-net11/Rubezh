@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FiresecAPI.GK;
 using GKModule.Events;
 using Infrastructure.Common;
@@ -31,7 +31,7 @@ namespace GKModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Door.png"; }
+			get { return "Door"; }
 		}
 	}
 }

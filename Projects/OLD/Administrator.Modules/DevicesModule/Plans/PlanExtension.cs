@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -81,7 +81,7 @@ namespace DevicesModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ImageSource="ZoneRectangle",
 							ToolTip="AC Зона",
 							Adorner = new ZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
 							Index = 100,
@@ -90,7 +90,7 @@ namespace DevicesModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ImageSource="ZonePolygon",
 							ToolTip="AC Зона",
 							Adorner = new ZonePolygonAdorner(_designerCanvas, _zonesViewModel),
 							Index = 101,
@@ -200,8 +200,8 @@ namespace DevicesModule.Plans
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementDevice, ShowDeviceEvent, Guid>(plan.ElementDevices, plan.UID, "Несвязанное устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
-					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementRectangleZone, ShowZoneEvent, Guid>(plan.ElementRectangleZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
-					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementPolygonZone, ShowZoneEvent, Guid>(plan.ElementPolygonZones, plan.UID, "Несвязанная зона", "/Controls;component/Images/Zone.png", Guid.Empty));
+					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementRectangleZone, ShowZoneEvent, Guid>(plan.ElementRectangleZones, plan.UID, "Несвязанная зона", "Zone", Guid.Empty));
+					errors.AddRange(BasePlanExtension.FindUnbindedErrors<ElementPolygonZone, ShowZoneEvent, Guid>(plan.ElementPolygonZones, plan.UID, "Несвязанная зона", "Zone", Guid.Empty));
 				});
 			return errors;
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
@@ -205,23 +205,23 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowGKZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
-			_guardZonesNavigationItem = new NavigationItem<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
-			_directionsNavigationItem = new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
-			_delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
-			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Pim_White.png", null, null, Guid.Empty);
-			_pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
-			_mptsNavigationItem = new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty);
-			_doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty);
+			_zonesNavigationItem = new NavigationItem<ShowGKZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty);
+			_guardZonesNavigationItem = new NavigationItem<ShowGKGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "Zones", null, null, Guid.Empty);
+			_directionsNavigationItem = new NavigationItem<ShowGKDirectionEvent, Guid>(DirectionsViewModel, "Направления", "Direction", null, null, Guid.Empty);
+			_delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty);
+			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "Pim_White", null, null, Guid.Empty);
+			_pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty);
+			_mptsNavigationItem = new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty);
+			_doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty);
 
 			return new List<NavigationItem>
 				{
-				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
+				new NavigationItem(ModuleType.ToDescription(), "tree",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
-						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowGKAlarmsEvent, GKAlarmType?>(AlarmsViewModel, "Состояния", "Alarm") { SupportMultipleSelect = true},
+						new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
+						new NavigationItem<ShowGKDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Параметры", "Tree", null, null, Guid.Empty),
 						_zonesNavigationItem,
 						_guardZonesNavigationItem,
 						_directionsNavigationItem,

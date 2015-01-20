@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
@@ -132,8 +132,8 @@ namespace SoundsModule.ViewModels
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Проверить звук", PlaySoundCommand, "/Controls;component/Images/BPlay.png") { Order = 2 },
-				new RibbonMenuItemViewModel("Остановить", PlaySoundCommand, "/Controls;component/Images/BStop.png") { Order = 3 }
+				new RibbonMenuItemViewModel("Проверить звук", PlaySoundCommand, "BPlay") { Order = 2 },
+				new RibbonMenuItemViewModel("Остановить", PlaySoundCommand, "BStop") { Order = 3 }
 			};
 		}
 	}

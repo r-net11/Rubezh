@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -442,43 +442,43 @@ namespace GKModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
+					new RibbonMenuItemViewModel("Добавить", "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", "BDelete"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel("Вырезать", CutCommand, "BCut"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
+				}, "BEdit") { Order = 1 } ,
 				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Считать конфигурацию", DeviceCommandsViewModel.ReadConfigFileCommand, "/Controls;component/Images/BParametersReadFromFile.png"),
-					new RibbonMenuItemViewModel("Считать конфигурацию дескрипторов", DeviceCommandsViewModel.ReadConfigurationCommand, "/Controls;component/Images/BParametersRead.png"),
-					new RibbonMenuItemViewModel("Записать конфигурацию", DeviceCommandsViewModel.WriteConfigCommand, "/Controls;component/Images/BParametersWrite.png"),
-					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ShowInfoCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },
-					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "/Controls;component/Images/BWatch.png"),
-					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "/Controls;component/Images/BJournal.png"),
-					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "/Controls;component/Images/BParametersSync.png"),
-					new RibbonMenuItemViewModel("Автопоиск устройств", DeviceCommandsViewModel.AutoSearchCommand, "/Controls;component/Images/BSearch.png"),
-					new RibbonMenuItemViewModel("Актуализация пользователей прибора", DeviceCommandsViewModel.ActualizeUsersCommand, "/Controls;component/Images/BSettings.png"),
+					new RibbonMenuItemViewModel("Считать конфигурацию", DeviceCommandsViewModel.ReadConfigFileCommand, "BParametersReadFromFile"),
+					new RibbonMenuItemViewModel("Считать конфигурацию дескрипторов", DeviceCommandsViewModel.ReadConfigurationCommand, "BParametersRead"),
+					new RibbonMenuItemViewModel("Записать конфигурацию", DeviceCommandsViewModel.WriteConfigCommand, "BParametersWrite"),
+					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ShowInfoCommand, "BInformation") { IsNewGroup = true },
+					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "BWatch"),
+					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "BJournal"),
+					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "BParametersSync"),
+					new RibbonMenuItemViewModel("Автопоиск устройств", DeviceCommandsViewModel.AutoSearchCommand, "BSearch"),
+					new RibbonMenuItemViewModel("Актуализация пользователей прибора", DeviceCommandsViewModel.ActualizeUsersCommand, "BSettings"),
 					new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>
 					{
-						new RibbonMenuItemViewModel("Считать параметры", "/Controls;component/Images/BParametersRead.png"),
-						new RibbonMenuItemViewModel("Записать параметры", "/Controls;component/Images/BParametersWrite.png"),
-						new RibbonMenuItemViewModel("Считать параметры дочерних устройств", "/Controls;component/Images/BParametersReadAll.png"),
-						new RibbonMenuItemViewModel("Записать параметры дочерних устройств", "/Controls;component/Images/BParametersWriteAll.png"),
+						new RibbonMenuItemViewModel("Считать параметры", "BParametersRead"),
+						new RibbonMenuItemViewModel("Записать параметры", "BParametersWrite"),
+						new RibbonMenuItemViewModel("Считать параметры дочерних устройств", "BParametersReadAll"),
+						new RibbonMenuItemViewModel("Записать параметры дочерних устройств", "BParametersWriteAll"),
 
-						new RibbonMenuItemViewModel("Копировать параметры из устройства в систему", "/Controls;component/Images/BLeft.png"),
-						new RibbonMenuItemViewModel("Копировать параметры из всех дочерних устройств в систему", "/Controls;component/Images/BLeftLeft.png"),
+						new RibbonMenuItemViewModel("Копировать параметры из устройства в систему", "BLeft"),
+						new RibbonMenuItemViewModel("Копировать параметры из всех дочерних устройств в систему", "BLeftLeft"),
 						
-						new RibbonMenuItemViewModel("Копировать параметры", "/Controls;component/Images/BCopy.png"),
-						new RibbonMenuItemViewModel("Вставить параметры", "/Controls;component/Images/BPaste.png"),
-						new RibbonMenuItemViewModel("Вставить параметры во все дочерние устройства", "/Controls;component/Images/BPasteAll.png"),
+						new RibbonMenuItemViewModel("Копировать параметры", "BCopy"),
+						new RibbonMenuItemViewModel("Вставить параметры", "BPaste"),
+						new RibbonMenuItemViewModel("Вставить параметры во все дочерние устройства", "BPasteAll"),
 						
-						new RibbonMenuItemViewModel("Применить шаблон", "/Controls;component/Images/BBriefcase.png"),
-						new RibbonMenuItemViewModel("Применить шаблон ко всем дочерним устройствам", "/Controls;component/Images/BBriefcaseAll.png"),
-					}, "/Controls;component/Images/BParametersReadWrite.png"),
-					new RibbonMenuItemViewModel("Считать журнал событий из файла", ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
-				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
+						new RibbonMenuItemViewModel("Применить шаблон", "BBriefcase"),
+						new RibbonMenuItemViewModel("Применить шаблон ко всем дочерним устройствам", "BBriefcaseAll"),
+					}, "BParametersReadWrite"),
+					new RibbonMenuItemViewModel("Считать журнал событий из файла", ReadJournalFromFileCommand, "BJournal"),
+				}, "BDevice") { Order = 2 }
 			};
 		}
 	}

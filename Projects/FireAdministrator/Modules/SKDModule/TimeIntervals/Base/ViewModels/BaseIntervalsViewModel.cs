@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -139,10 +139,10 @@ namespace SKDModule.Intervals.Base.ViewModels
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					new RibbonMenuItemViewModel("", ActivateCommand),
-					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 1 }
+					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
+				}, "BEdit") { Order = 1 }
 			};
 		}
 

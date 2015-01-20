@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
@@ -89,7 +89,7 @@ namespace VideoModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, ModuleType.ToDescription(), "Video1");
 			return new List<NavigationItem>()
 			{
 				_videoNavigationItem

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -305,11 +305,11 @@ namespace DevicesModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "/Controls;component/Images/BDeleteEmpty.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "BDeleteEmpty"),
+				}, "BEdit") { Order = 2 }
 			};
 		}
 	}

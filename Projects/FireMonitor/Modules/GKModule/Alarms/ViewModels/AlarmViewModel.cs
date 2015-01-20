@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
@@ -53,9 +53,9 @@ namespace GKModule.ViewModels
 				if (Alarm.Device != null)
 					return Alarm.Device.Driver.ImageSource;
 				if (Alarm.Zone != null)
-					return "/Controls;component/Images/Zone.png";
+					return "Zone";
 				if (Alarm.Direction != null)
-					return "/Controls;component/Images/Blue_Direction.png";
+					return "Blue_Direction";
 				return null;
 			}
 		}

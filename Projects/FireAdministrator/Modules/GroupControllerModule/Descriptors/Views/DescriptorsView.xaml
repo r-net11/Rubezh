@@ -7,6 +7,7 @@
 		<Converters:BytesToStringConverter x:Key="BytesToStringConverter" />
 		<Converters:DescriptorNoToStringConverter x:Key="DescriptorNoToStringConverter" />
 		<Converters:NullImageConverter x:Key="NullImageConverter" />
+		<StringToResourceConverter x:Key="StringToResourceConverter" />
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
@@ -34,7 +35,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5 0" />
+									<Grid Background="{Binding Path=ImageSource, Converter={StaticResource StringToResourceConverter}}" Width="16" Height="16" Margin="5 0" />
 									<TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Stretch" Margin="5 0" />
 								</StackPanel>
 							</DataTemplate>
@@ -87,7 +88,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Height="16" Source="{Binding RootDevice.Driver.ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+									<Grid Width="16" Height="16" Background="{Binding RootDevice.Driver.ImageSource, Converter={StaticResource StringToResourceConverter}}" HorizontalAlignment="Left" Margin="5 0" />
 									<TextBlock Text="{Binding RootDevice.Driver.ShortName}" />
 									<TextBlock Text="{Binding RootDevice.Address}" Margin="5, 0" />
 								</StackPanel>

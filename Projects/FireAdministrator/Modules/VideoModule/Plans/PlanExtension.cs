@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common;
@@ -79,7 +79,7 @@ namespace VideoModule.Plans
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementCamera)
-				RegisterDesignerItem<Camera>(designerItem, "CameraVideo", "/Controls;component/Images/BVideo.png");
+				RegisterDesignerItem<Camera>(designerItem, "CameraVideo", "BVideo");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -106,7 +106,7 @@ namespace VideoModule.Plans
 		{
 			List<ElementError> errors = new List<ElementError>();
 			FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, "Несвязанная камера", "/Controls;component/Images/Camera.png", Guid.Empty)));
+				errors.AddRange(FindUnbindedErrors<ElementCamera, ShowVideoEvent, Guid>(plan.ElementExtensions.OfType<ElementCamera>(), plan.UID, "Несвязанная камера", "Camera", Guid.Empty)));
 			return errors;
 		}
 
