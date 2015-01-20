@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
@@ -51,7 +51,7 @@ namespace PlansModule
 			return new List<NavigationItem>()
 			{
 #if PLAN_TAB
-				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","/Controls;component/Images/map.png"),
+				new NavigationItem<ShowPlansEvent>(PlansViewModel, "Планы","map"),
 #endif
 			};
 		}

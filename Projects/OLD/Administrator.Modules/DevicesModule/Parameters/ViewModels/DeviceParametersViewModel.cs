@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -594,20 +594,20 @@ namespace DevicesModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Считать параметры", ReadCommand, "/Controls;component/Images/BParametersRead.png"),
-					new RibbonMenuItemViewModel("Записать параметры", WriteCommand, "/Controls;component/Images/BParametersWrite.png"),
-					new RibbonMenuItemViewModel("Считать параметры дочерних устройств", ReadAllCommand, "/Controls;component/Images/BParametersReadAll.png"),
-					new RibbonMenuItemViewModel("Записать параметры дочерних устройств", WriteAllCommand, "/Controls;component/Images/BParametersWriteAll.png"),
-					new RibbonMenuItemViewModel("Копировать параметры", CopyCommand, "/Controls;component/Images/BCopy.png"),
-					new RibbonMenuItemViewModel("Вставить параметры", PasteCommand, "/Controls;component/Images/BPaste.png"),
+					new RibbonMenuItemViewModel("Считать параметры", ReadCommand, "BParametersRead"),
+					new RibbonMenuItemViewModel("Записать параметры", WriteCommand, "BParametersWrite"),
+					new RibbonMenuItemViewModel("Считать параметры дочерних устройств", ReadAllCommand, "BParametersReadAll"),
+					new RibbonMenuItemViewModel("Записать параметры дочерних устройств", WriteAllCommand, "BParametersWriteAll"),
+					new RibbonMenuItemViewModel("Копировать параметры", CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel("Вставить параметры", PasteCommand, "BPaste"),
 					new RibbonMenuItemViewModel("Синхронизация", new ObservableCollection<RibbonMenuItemViewModel>()
 					{
-						new RibbonMenuItemViewModel("Из системы в устройство", SyncFromSystemToDeviceCommand, "/Controls;component/Images/Right.png"),
-						new RibbonMenuItemViewModel("Из всех дочерних устройств системы в устройства", SyncFromAllSystemToDeviceCommand, "/Controls;component/Images/RightRight.png"),
-						new RibbonMenuItemViewModel("Из устройства в систему", SyncFromDeviceToSystemCommand, "/Controls;component/Images/Left.png") { IsNewGroup = true },
-						new RibbonMenuItemViewModel("Из всех дочерних устройств прибора в систему", SyncFromAllDeviceToSystemCommand, "/Controls;component/Images/LeftLeft.png"),
-					}, "/Controls;component/Images/BParametersSync.png"),
-				}, "/Controls;component/Images/BAllParameters.png") { Order = 2 }
+						new RibbonMenuItemViewModel("Из системы в устройство", SyncFromSystemToDeviceCommand, "Right"),
+						new RibbonMenuItemViewModel("Из всех дочерних устройств системы в устройства", SyncFromAllSystemToDeviceCommand, "RightRight"),
+						new RibbonMenuItemViewModel("Из устройства в систему", SyncFromDeviceToSystemCommand, "Left") { IsNewGroup = true },
+						new RibbonMenuItemViewModel("Из всех дочерних устройств прибора в систему", SyncFromAllDeviceToSystemCommand, "LeftLeft"),
+					}, "BParametersSync"),
+				}, "BAllParameters") { Order = 2 }
 			};
 		}
 	}

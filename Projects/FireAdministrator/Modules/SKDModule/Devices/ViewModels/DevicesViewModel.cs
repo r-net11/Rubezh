@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -253,15 +253,15 @@ namespace SKDModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
+					new RibbonMenuItemViewModel("Добавить", "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", "BDelete"),
+				}, "BEdit") { Order = 1 } ,
 				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Параметры контроллера", DeviceCommandsViewModel.ShowControllerConfigurationCommand, "/Controls;component/Images/BParametersWrite.png"),
-					new RibbonMenuItemViewModel("Параметры двери", DeviceCommandsViewModel.ShowLockConfigurationCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },
-				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
+					new RibbonMenuItemViewModel("Параметры контроллера", DeviceCommandsViewModel.ShowControllerConfigurationCommand, "BParametersWrite"),
+					new RibbonMenuItemViewModel("Параметры двери", DeviceCommandsViewModel.ShowLockConfigurationCommand, "BInformation") { IsNewGroup = true },
+				}, "BDevice") { Order = 2 }
 			};
 		}
 	}

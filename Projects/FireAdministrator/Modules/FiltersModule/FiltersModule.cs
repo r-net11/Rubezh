@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FilterModule.Validation;
 using FiltersModule.Events;
@@ -31,7 +31,7 @@ namespace FiltersModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Filter.png"),
+				new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, ModuleType.ToDescription(), "Filter"),
 			};
 		}
 		public override ModuleType ModuleType

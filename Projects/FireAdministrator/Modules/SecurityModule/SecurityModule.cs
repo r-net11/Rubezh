@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -33,9 +33,9 @@ namespace SecurityModule
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/users.png", new List<NavigationItem>(){
-					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
-					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Шаблоны прав", "/Controls;component/Images/users.png"),
+				new NavigationItem(ModuleType.ToDescription(), "users", new List<NavigationItem>(){
+					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "user"),
+					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Шаблоны прав", "users"),
 				}),
 			};
 		}

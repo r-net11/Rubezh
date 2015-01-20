@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -53,7 +53,7 @@ namespace VideoModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,ModuleType.ToDescription(), "/Controls;component/Images/Video1.png"),
+				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,ModuleType.ToDescription(), "Video1"),
 			};
 		}
 		public override ModuleType ModuleType

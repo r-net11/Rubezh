@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using FiresecClient;
@@ -82,25 +82,25 @@ namespace FireAdministrator.ViewModels
 
 		private void AddRibbonItem()
 		{
-			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "/Controls;component/Images/BToolbar.png");
-			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "/Controls;component/Images/BMenu.png");
+			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "BToolbar");
+			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "BMenu");
 			UpdateToolbarTitle();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Проект", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Новый", _menu.CreateNewCommand, "/Controls;component/Images/BNew.png", "Создать новую конфигурацию"),
-				new RibbonMenuItemViewModel("Открыть", _menu.LoadFromFileCommand, "/Controls;component/Images/BLoad.png", "Открыть конфигурацию из файла"),
-				new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "/Controls;component/Images/BCheck.png", "Проверить конфигурацию"),
-				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "/Controls;component/Images/BDownload.png", "Применить конфигурацию"),
-				new RibbonMenuItemViewModel("Сохранить", _menu.SaveCommand, "/Controls;component/Images/BSave.png", "Сохранить конфигурацию в файл"),
-				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "/Controls;component/Images/BSaveAs.png", "Сохранить как"),
-				new RibbonMenuItemViewModel("Слияние конфигураций", _menu.MergeConfigurationCommand, "/Controls;component/Images/BAllParameters.png", "Слияние конфигураций"),
+				new RibbonMenuItemViewModel("Новый", _menu.CreateNewCommand, "BNew", "Создать новую конфигурацию"),
+				new RibbonMenuItemViewModel("Открыть", _menu.LoadFromFileCommand, "BLoad", "Открыть конфигурацию из файла"),
+				new RibbonMenuItemViewModel("Проверить", _menu.ValidateCommand, "BCheck", "Проверить конфигурацию"),
+				new RibbonMenuItemViewModel("Применить", _menu.SetNewConfigCommand, "BDownload", "Применить конфигурацию"),
+				new RibbonMenuItemViewModel("Сохранить", _menu.SaveCommand, "BSave", "Сохранить конфигурацию в файл"),
+				new RibbonMenuItemViewModel("Сохранить как", _menu.SaveAsCommand, "BSaveAs", "Сохранить как"),
+				new RibbonMenuItemViewModel("Слияние конфигураций", _menu.MergeConfigurationCommand, "BAllParameters", "Слияние конфигураций"),
 				new RibbonMenuItemViewModel("Вид", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					_showMenu,
 					_showToolbar,
-				}, "/Controls;component/Images/BView.png") { Order = 1000 }, 
-			}, "/Controls;component/Images/BConfig.png", "Операции с конфигурацией") { Order = int.MinValue });
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
+				}, "BView") { Order = 1000 }, 
+			}, "BConfig", "Операции с конфигурацией") { Order = int.MinValue });
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
 		}
 
 		public RelayCommand ShowToolbarCommand { get; private set; }

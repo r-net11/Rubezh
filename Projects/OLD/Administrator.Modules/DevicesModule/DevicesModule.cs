@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Common;
 using DevicesModule.Plans;
@@ -85,16 +85,16 @@ namespace DevicesModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_guardNavigationItem = new NavigationItem<ShowGuardEvent>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png") { IsVisible = false };
+			_guardNavigationItem = new NavigationItem<ShowGuardEvent>(GuardViewModel, "Охрана", "user") { IsVisible = false };
 			ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Subscribe(x => { _guardNavigationItem.IsVisible = x; });
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
-				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
-				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty) { IsVisible = false },
-				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/Bug.png", null, null, Guid.Empty) { IsVisible = false },
+				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства","tree", null, null, Guid.Empty),
+				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","briefcase", null, null, Guid.Empty),
+				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","zones", null, null, Guid.Empty),
+				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","direction", null, null, Guid.Empty) { IsVisible = false },
+				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","Bug", null, null, Guid.Empty) { IsVisible = false },
 				_guardNavigationItem
 			};
 		}

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using Infrastructure;
@@ -34,12 +34,12 @@ namespace SettingsModule
 			base.AfterInitialize();
 			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel(ModuleType.ToDescription(), new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Параметры", SettingsViewModel.ShowSettingsCommand, "/Controls;component/Images/BSettings.png"),
-				new RibbonMenuItemViewModel("Сообщения об ошибках", SettingsViewModel.ShowErrorsFilterCommand, "/Controls;component/Images/BJournal.png"),
+				new RibbonMenuItemViewModel("Параметры", SettingsViewModel.ShowSettingsCommand, "BSettings"),
+				new RibbonMenuItemViewModel("Сообщения об ошибках", SettingsViewModel.ShowErrorsFilterCommand, "BJournal"),
 				new RibbonMenuItemViewModel("Выбор темы", 
-					new ObservableCollection<RibbonMenuItemViewModel>(Enum.GetValues(typeof(Theme)).Cast<Theme>().Select(t=>new RibbonMenuItemViewModel(t.ToDescription(), ChangeThemeCommand, t, "/Controls;component/Images/BLayouts.png"))),
-					"/Controls;component/Images/BLayouts.png"),
-			}, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
+					new ObservableCollection<RibbonMenuItemViewModel>(Enum.GetValues(typeof(Theme)).Cast<Theme>().Select(t=>new RibbonMenuItemViewModel(t.ToDescription(), ChangeThemeCommand, t, "BLayouts"))),
+					"BLayouts"),
+			}, "BSettings", "Настройка приложения") { Order = int.MaxValue - 1 });
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

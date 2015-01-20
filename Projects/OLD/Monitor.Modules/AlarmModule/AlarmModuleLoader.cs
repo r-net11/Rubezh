@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using AlarmModule.ViewModels;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -35,7 +35,7 @@ namespace AlarmModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowAlarmsEvent, AlarmType?>(AlarmsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
+				new NavigationItem<ShowAlarmsEvent, AlarmType?>(AlarmsViewModel, ModuleType.ToDescription(), "Alarm") { SupportMultipleSelect = true}
 			};
 		}
 

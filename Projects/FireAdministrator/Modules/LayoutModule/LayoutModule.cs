@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models.Layouts;
@@ -37,7 +37,7 @@ namespace LayoutModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
+				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, ModuleType.ToDescription(), "Layouts", null, null, Guid.Empty),
 			};
 		}
 		public override ModuleType ModuleType

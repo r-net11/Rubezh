@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using DiagnosticsModule.ViewModels;
 using FiresecAPI;
@@ -26,7 +26,7 @@ namespace DiagnosticsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Star.png"),
+				new NavigationItem<ShowDiagnosticsEvent>(DiagnosticsViewModel, ModuleType.ToDescription(), "Star"),
 			};
 		}
 

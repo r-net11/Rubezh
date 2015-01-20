@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
@@ -34,10 +34,10 @@ namespace OPCModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/Tree.png", new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), "Tree", new List<NavigationItem>()
 				{
-					new NavigationItem<ShowOPCDeviceEvent, Guid>(OPCDevicesViewModel, "Устройства","/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowOPCZoneEvent, Guid>(OPCZonesViewModel, "Зоны","/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+					new NavigationItem<ShowOPCDeviceEvent, Guid>(OPCDevicesViewModel, "Устройства","Tree", null, null, Guid.Empty),
+					new NavigationItem<ShowOPCZoneEvent, Guid>(OPCZonesViewModel, "Зоны","Zones", null, null, Guid.Empty),
 				}),
 			};
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -68,19 +68,19 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		private void UpdateRibbonItems()
 		{
-			RibbonContent.Items[2][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "/Controls;component/Images/BWindowNormal.png" : "/Controls;component/Images/windowCross.png";
+			RibbonContent.Items[2][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "BWindowNormal.png" : "/Controls;component/Images/windowCross";
 			RibbonContent.Items[2][0].ToolTip = _autoActivationViewModel.IsAutoActivation ? "Автоматическая активация ВКЛючена" : "Автоматическая активация ВЫКЛючена";
 			RibbonContent.Items[2][0].Text = _autoActivationViewModel.IsAutoActivation ? "Выключить автоактивицию" : "Включить автоактивацию";
-			RibbonContent.Items[2][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "/Controls;component/Images/BMapOn.png" : "/Controls;component/Images/BMapOff.png";
+			RibbonContent.Items[2][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "BMapOn.png" : "/Controls;component/Images/BMapOff";
 			RibbonContent.Items[2][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
 			RibbonContent.Items[2][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
-			RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "/Controls;component/Images/BSound.png" : "/Controls;component/Images/BMute.png";
+			RibbonContent.Items[2][2].ImageSource = _soundViewModel.IsSoundOn ? "BSound.png" : "/Controls;component/Images/BMute";
 			RibbonContent.Items[2][2].ToolTip = _soundViewModel.IsSoundOn ? "Звук включен" : "Звук выключен";
 			RibbonContent.Items[2][2].Text = _soundViewModel.IsSoundOn ? "Выключить звук" : "Включить звук";
 		}
 		private void AddRibbonItem()
 		{
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "/Controls;component/Images/BUser.png"));
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "BUser"));
 
 			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
 			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).OrderBy(item => item.Caption);
@@ -93,9 +93,9 @@ namespace FireMonitor.Layout.ViewModels
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangePlansAutoActivationCommand),
 				new RibbonMenuItemViewModel(string.Empty, _soundViewModel.PlaySoundCommand) { IsNewGroup = true },
-			}, "/Controls;component/Images/BConfig.png"));
+			}, "BConfig"));
 			if (AllowClose)
-				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
+				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "BExit") { Order = int.MaxValue });
 		}
 
 		public RelayCommand ChangeUserCommand { get; private set; }

@@ -12,7 +12,7 @@ using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
-    public partial class Report416 : BaseSKDReport
+	public partial class Report416 : BaseSKDReport
 	{
 		public Report416()
 		{
@@ -21,7 +21,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-            get { return "Список должностей организации"; }
+			get { return "Список должностей организации"; }
 		}
 		protected override DataSet CreateDataSet()
 		{

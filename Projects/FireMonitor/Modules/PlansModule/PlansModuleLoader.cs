@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -70,7 +70,7 @@ namespace PlansModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, ModuleType.ToDescription(), "/Controls;component/Images/Map.png");
+			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, ModuleType.ToDescription(), "Map");
 			return new List<NavigationItem>() { _planNavigationItem };
 		}
 
