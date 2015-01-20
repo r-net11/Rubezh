@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
+    [XmlInclude(typeof(ReportFilter401))]
+    [XmlInclude(typeof(ReportFilter402))]
 	[XmlInclude(typeof(ReportFilter411))]
 	[XmlInclude(typeof(ReportFilter412))]
 	[XmlInclude(typeof(ReportFilter413))]
@@ -19,6 +21,7 @@ namespace FiresecAPI.SKD.ReportFilters
 	[XmlInclude(typeof(ReportFilter422))]
 	[XmlInclude(typeof(ReportFilter423))]
 	[XmlInclude(typeof(ReportFilter424))]
+    [XmlInclude(typeof(ReportFilter431))]
 	public class SKDReportFilters
 	{
 		public SKDReportFilters()
