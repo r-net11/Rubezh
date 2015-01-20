@@ -236,6 +236,8 @@
     <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DocumentFilterPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\PlacementMainPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
@@ -245,6 +247,12 @@
     <Compile Include="Reports\ViewModels\PositionPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DepartmentPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\OrganizationPageViewModel.cs" />
+    <Compile Include="Reports\Views\DisciplinaryFilterPageView.xaml.cs">
+      <DependentUpon>DisciplinaryFilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DocumentFilterPageView.xaml.cs">
+      <DependentUpon>DocumentFilterPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\Views\FilterPageView.xaml.cs">
       <DependentUpon>FilterPageView.xaml</DependentUpon>
     </Compile>
@@ -754,6 +762,14 @@
     <Page Include="Reports\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\DisciplinaryFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DocumentFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\FilterPageView.xaml">
       <SubType>Designer</SubType>

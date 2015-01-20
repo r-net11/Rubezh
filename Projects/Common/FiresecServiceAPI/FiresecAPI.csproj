@@ -232,6 +232,9 @@
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
     <Compile Include="AutomationCallback\MessageCallbackData.cs" />
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
+    <Compile Include="SKD\ReportFilters\ReportFilter421.cs" />
+    <Compile Include="SKD\ReportFilters\ReportFilter422.cs" />
+    <Compile Include="SKD\ReportFilters\ReportFilter423.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter417.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterArchive.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterScheduleWithDirection.cs" />
