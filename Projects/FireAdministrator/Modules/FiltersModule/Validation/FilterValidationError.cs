@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FiltersModule.Events;
 using FiresecAPI.Journal;
 using Infrastructure.Common;
@@ -31,7 +31,7 @@ namespace FilterModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "BlueFilter"; }
+			get { return "/Controls;component/Images/BlueFilter.png"; }
 		}
 	}
 }

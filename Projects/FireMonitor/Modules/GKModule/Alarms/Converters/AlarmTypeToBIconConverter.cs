@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Data;
 using XFiresecAPI;
 
@@ -11,34 +11,34 @@ namespace GKModule.Converters
 			switch ((XAlarmType)value)
 			{
 				case XAlarmType.NPTOn:
-					return "BAlarm_shield";
+					return "/Controls;component/Images/BAlarm_shield.png";
 
 				case XAlarmType.Fire1:
-					return "BAlarm_Main_0_Fire1";
+					return "/Controls;component/Images/BAlarm_Main_0_Fire1.png";
 
 				case XAlarmType.Fire2:
-					return "BAlarm_Main_1_Fire2";
+					return "/Controls;component/Images/BAlarm_Main_1_Fire2.png";
 
 				case XAlarmType.Attention:
-					return "BAlarm_main_2_Attention";
+					return "/Controls;component/Images/BAlarm_main_2_Attention.png";
 
 				case XAlarmType.Failure:
-					return "BAlarm_main_3_Failure";
+					return "/Controls;component/Images/BAlarm_main_3_Failure.png";
 
 				case XAlarmType.Ignore:
-					return "BAlarm_main_4_Off";
+					return "/Controls;component/Images/BAlarm_main_4_Off.png";
 
 				case XAlarmType.Turning:
-					return "BAlarm_main_5_Info";
+					return "/Controls;component/Images/BAlarm_main_5_Info.png";
 
 				case XAlarmType.Service:
-					return "BAlarm_main_6_Service";
+					return "/Controls;component/Images/BAlarm_main_6_Service.png";
 
 				case XAlarmType.AutoOff:
-					return "BAlarm_main_7_Auto";
+					return "/Controls;component/Images/BAlarm_main_7_Auto.png";
 
 				default:
-					return "BAlarm_main_3_Failure";
+					return "/Controls;component/Images/BAlarm_main_3_Failure.png";
 			}
 		}
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 		{
 			Zone = zone;
 			Name = zone.PresentationName;
-			ImageSource = "Zone";
+			ImageSource = "/Controls;component/Images/Zone.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Zone;
@@ -71,7 +71,7 @@ namespace GKModule.ViewModels
 		{
 			Direction = direction;
 			Name = direction.PresentationName;
-			ImageSource = "Blue_Direction";
+			ImageSource = "/Controls;component/Images/Blue_Direction.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Direction;
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 		{
 			PumpStation = pumpStation;
 			Name = pumpStation.PresentationName;
-			ImageSource = "BPumpStation";
+			ImageSource = "/Controls;component/Images/BPumpStation.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.PumpStation;
@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 		{
 			MPT = mpt;
 			Name = mpt.PresentationName;
-			ImageSource = "BMPT";
+			ImageSource = "/Controls;component/Images/BMPT.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.MPT;
@@ -101,7 +101,7 @@ namespace GKModule.ViewModels
 		{
 			Delay = delay;
 			Name = delay.PresentationName;
-			ImageSource = "Delay";
+			ImageSource = "/Controls;component/Images/Delay.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Delay;
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 		{
 			GuardZone = guardZone;
 			Name = guardZone.PresentationName;
-			ImageSource = "GuardZone";
+			ImageSource = "/Controls;component/Images/GuardZone.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.GuardZone;
@@ -121,7 +121,7 @@ namespace GKModule.ViewModels
 		{
 			Code = code;
 			Name = code.PresentationName;
-			ImageSource = "Code";
+			ImageSource = "/Controls;component/Images/Code.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Code;
@@ -131,7 +131,7 @@ namespace GKModule.ViewModels
 		{
 			Door = door;
 			Name = door.PresentationName;
-			ImageSource = "Door";
+			ImageSource = "/Controls;component/Images/Door.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Door;

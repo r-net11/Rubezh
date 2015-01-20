@@ -1,4 +1,4 @@
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
@@ -17,7 +17,7 @@ namespace GKModule.Plans.Designer
 		{
 			_elementGKDoor = elementGKDoor;
 			_toolTip = new ImageTextTooltipViewModel();
-			_toolTip.ImageSource = "Door";
+			_toolTip.ImageSource = "/Controls;component/Images/Door.png";
 		}
 
 		protected override Brush GetBrush()

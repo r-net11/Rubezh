@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using FiresecAPI;
 using FiresecAPI.GK;
@@ -53,7 +53,7 @@ namespace FiltersModule.ViewModels
 		{
 			JournalEventDescriptionType = journalEventDescriptionType;
 			Name = name;
-			ImageSource = "Blank";
+			ImageSource = "/Controls;component/Images/Blank.png";
 		}
 
 		bool _isChecked;

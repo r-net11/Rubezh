@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Data;
 using Infrastructure.Models;
 
@@ -12,13 +12,13 @@ namespace JournalModule.Converters
 			switch (journalColumnType)
 			{
 				case JournalColumnType.SubsystemType:
-					return "PC";
+					return "/Controls;component/Images/PC.png";
 
 				case JournalColumnType.UserName:
-					return "PCUser";
+					return "/Controls;component/Images/PCUser.png";
 				
 				default:
-					return "blank";
+					return "/Controls;component/Images/blank.png";
 			}
 		}
 

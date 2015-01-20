@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
@@ -35,7 +35,7 @@ namespace FiresecAPI.Models
 		[XmlIgnore]
 		public string ImageSource
 		{
-			get { return this.CameraType.ToString(); }
+			get { return "/Controls;component/Images/" + this.CameraType.ToString() + ".png"; }
 		}
 
 		[DataMember]

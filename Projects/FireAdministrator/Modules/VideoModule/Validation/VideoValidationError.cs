@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
@@ -31,7 +31,7 @@ namespace VideoModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "Video1"; }
+			get { return "/Controls;component/Images/Video1.png"; }
 		}
 	}
 }

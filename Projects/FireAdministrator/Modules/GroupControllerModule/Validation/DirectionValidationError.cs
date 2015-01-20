@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FiresecAPI.GK;
 using GKModule.Events;
 using Infrastructure.Common.Validation;
@@ -34,7 +34,7 @@ namespace GKModule.Validation
 
 		public override string ImageSource
 		{
-			get { return "Blue_Direction"; }
+			get { return "/Controls;component/Images/Blue_Direction.png"; }
 		}
 	}
 }

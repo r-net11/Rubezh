@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 using Common;
 using DeviceControls;
@@ -77,7 +77,7 @@ namespace SKDModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="ZoneRectangle",
+							ImageSource="/Controls;component/Images/ZoneRectangle.png",
 							ToolTip="СКД Зона",
 							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 300,
@@ -86,7 +86,7 @@ namespace SKDModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="ZonePolygon",
+							ImageSource="/Controls;component/Images/ZonePolygon.png",
 							ToolTip="СКД Зона",
 							Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 301,
@@ -162,9 +162,9 @@ namespace SKDModule.Plans
 			if (designerItem.Element is ElementSKDDevice)
 				RegisterDesignerItem<SKDDevice>(designerItem, "SKD");
 			else if (designerItem.Element is ElementRectangleSKDZone || designerItem.Element is ElementPolygonSKDZone)
-				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "Zone");
+				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/Zone.png");
 			else if (designerItem.Element is ElementDoor)
-				RegisterDesignerItem<SKDDoor>(designerItem, "Doors", "Door");
+				RegisterDesignerItem<SKDDoor>(designerItem, "Doors", "/Controls;component/Images/Door.png");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -203,9 +203,9 @@ namespace SKDModule.Plans
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
 				{
 					errors.AddRange(FindUnbindedErrors<ElementSKDDevice, ShowSKDDeviceEvent, Guid>(plan.ElementSKDDevices, plan.UID, "Несвязанное СКД устройство", "/Controls;component/GKIcons/RM_1.png", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, "Несвязанная СКД зона", "Zone", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, "Несвязанная СКД зона", "Zone", Guid.Empty));
-					errors.AddRange(FindUnbindedErrors<ElementDoor, ShowSKDDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementDoors, plan.UID, "Несвязанное точка доступа", "Door", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementRectangleSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementRectangleSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/Zone.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementPolygonSKDZone, ShowSKDZoneEvent, ShowOnPlanArgs<Guid>>(plan.ElementPolygonSKDZones, plan.UID, "Несвязанная СКД зона", "/Controls;component/Images/Zone.png", Guid.Empty));
+					errors.AddRange(FindUnbindedErrors<ElementDoor, ShowSKDDoorEvent, ShowOnPlanArgs<Guid>>(plan.ElementDoors, plan.UID, "Несвязанное точка доступа", "/Controls;component/Images/Door.png", Guid.Empty));
 				});
 			return errors;
 		}

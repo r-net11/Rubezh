@@ -1,4 +1,4 @@
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
@@ -17,7 +17,7 @@ namespace VideoModule.Plans.Designer
 		{
 			_elementCamera = elementCamera;
 			_toolTip = new ImageTextTooltipViewModel();
-			_toolTip.ImageSource = "BVideo";
+			_toolTip.ImageSource = "/Controls;component/Images/BVideo.png";
 		}
 
 		protected override Brush GetBrush()

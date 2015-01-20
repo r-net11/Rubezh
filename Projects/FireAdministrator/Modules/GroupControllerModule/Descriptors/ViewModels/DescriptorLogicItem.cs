@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Controls.Converters;
 using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.GETBIT:
 					case FormulaOperationType.GETBYTE:
 					case FormulaOperationType.GETWORD:
-						return "BArrowUp";
+						return "/Controls;component/Images/BArrowUp.png";
 
 					case FormulaOperationType.ADD:
 					case FormulaOperationType.AND:
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.PUTWORD:
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
-						return "BArrowDown";
+						return "/Controls;component/Images/BArrowDown.png";
 
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:

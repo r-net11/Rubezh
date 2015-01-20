@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Automation;
@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 		{
 			Name = folderName;
 			IsFolder = true;
-			ImageSource = "CFolder";
+			ImageSource = "/Controls;component/Images/CFolder.png";
 
 			if (children != null)
 				foreach (var child in children)

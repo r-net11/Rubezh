@@ -42,7 +42,7 @@
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
+										<Grid Background="{Binding Device.Driver.ImageSource, Converter={StaticResource StringToResourceConverter}}" Width="16" Margin="2 0 0 0" />
 										<TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 									</StackPanel>
 								</DataTemplate>

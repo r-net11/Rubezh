@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AutomationModule.Events;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Validation;
@@ -31,7 +31,7 @@ namespace AutomationModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "Shedule"; }
+			get { return "/Controls;component/Images/Shedule.png"; }
 		}
 	}
 }

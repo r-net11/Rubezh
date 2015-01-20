@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Controls.Converters;
@@ -64,7 +64,7 @@ namespace PlansModule.ViewModels
 							Error = "Несвязанная ссылка на план",
 							Element = element,
 							IsCritical = false,
-							ImageSource = "CMap",
+							ImageSource = "/Controls;component/Images/CMap.png",
 						});
 			foreach (var planExtension in _planExtensions)
 				foreach (var error in planExtension.Validate())

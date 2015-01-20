@@ -29,7 +29,7 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-										<Image Width="16" Height="16" Margin="1" Source="{Binding ImageSource}" />
+										<Grid Width="16" Height="16" Margin="1" Background="{Binding Path=ImageSource, Converter={StaticResource StringToResourceConverter}}" />
 										<TextBlock Margin="1" Text="{Binding ShortName}" />
 									</StackPanel>
 								</DataTemplate>

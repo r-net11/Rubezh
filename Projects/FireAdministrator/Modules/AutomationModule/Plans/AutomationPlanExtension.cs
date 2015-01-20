@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +63,7 @@ namespace AutomationModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="Procedure",
+							ImageSource="/Controls;component/Images/Procedure.png",
 							ToolTip="Процедура",
 							Adorner = new ProcedureRectangleAdorner(DesignerCanvas, _proceduresViewModel),
 							Index = 400,
@@ -100,7 +100,7 @@ namespace AutomationModule.Plans
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementProcedure)
-				RegisterDesignerItem<Procedure>(designerItem, "Procedure", "ProcedureYellow");
+				RegisterDesignerItem<Procedure>(designerItem, "Procedure", "/Controls;component/Images/ProcedureYellow.png");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -128,7 +128,7 @@ namespace AutomationModule.Plans
 			List<ElementError> errors = new List<ElementError>();
 			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors.HasFlag(ValidationErrorType.NotBoundedElements))
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan =>
-					errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "ProcedureYellow", Guid.Empty)));
+					errors.AddRange(FindUnbindedErrors<ElementProcedure, ShowProceduresEvent, Guid>(plan.ElementExtensions.OfType<ElementProcedure>(), plan.UID, "Несвязанная процедура", "/Controls;component/Images/ProcedureYellow.png", Guid.Empty)));
 			return errors;
 		}
 		#endregion

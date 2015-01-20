@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using FiresecAPI;
@@ -43,27 +43,27 @@ namespace FiltersModule.ViewModels
 					break;
 
 				case JournalObjectType.GKZone:
-					ImageSource = "Zone";
+					ImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
 				case JournalObjectType.GKDirection:
-					ImageSource = "BDirection";
+					ImageSource = "/Controls;component/Images/BDirection.png";
 					break;
 
 				case JournalObjectType.GKMPT:
-					ImageSource = "BMPT";
+					ImageSource = "/Controls;component/Images/BMPT.png";
 					break;
 
 				case JournalObjectType.GKPumpStation:
-					ImageSource = "BPumpStation";
+					ImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
 
 				case JournalObjectType.GKDelay:
-					ImageSource = "Delay";
+					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
 
 				case JournalObjectType.GKGuardZone:
-					ImageSource = "GuardZone";
+					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
 				case JournalObjectType.GKDoor:
@@ -74,15 +74,15 @@ namespace FiltersModule.ViewModels
 					break;
 
 				case JournalObjectType.SKDZone:
-					ImageSource = "Zone";
+					ImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
 				case JournalObjectType.SKDDoor:
-					ImageSource = "Door";
+					ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.VideoDevice:
-					ImageSource = "Camera";
+					ImageSource = "/Controls;component/Images/Camera.png";
 					break;
 			}
 		}
@@ -98,49 +98,49 @@ namespace FiltersModule.ViewModels
 		{
 			Name = zone.PresentationName;
 			UID = zone.UID;
-			ImageSource = "Zone";
+			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
 		public ObjectViewModel(GKDirection direction)
 		{
 			Name = direction.PresentationName;
 			UID = direction.UID;
-			ImageSource = "BDirection";
+			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 
 		public ObjectViewModel(GKMPT mpt)
 		{
 			Name = mpt.PresentationName;
 			UID = mpt.UID;
-			ImageSource = "BMPT";
+			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
 		public ObjectViewModel(GKPumpStation pumpStation)
 		{
 			Name = pumpStation.PresentationName;
 			UID = pumpStation.UID;
-			ImageSource = "BPumpStation";
+			ImageSource = "/Controls;component/Images/BPumpStation.png";
 		}
 
 		public ObjectViewModel(GKDelay delay)
 		{
 			Name = delay.PresentationName;
 			UID = delay.UID;
-			ImageSource = "Delay";
+			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 
 		public ObjectViewModel(GKGuardZone guardZone)
 		{
 			Name = guardZone.PresentationName;
 			UID = guardZone.UID;
-			ImageSource = "GuardZone";
+			ImageSource = "/Controls;component/Images/GuardZone.png";
 		}
 
 		public ObjectViewModel(GKDoor door)
 		{
 			Name = door.PresentationName;
 			UID = door.UID;
-			ImageSource = "Door";
+			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
 		public ObjectViewModel(SKDDevice device)
@@ -154,21 +154,21 @@ namespace FiltersModule.ViewModels
 		{
 			Name = zone.Name;
 			UID = zone.UID;
-			ImageSource = "Zone";
+			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
 		public ObjectViewModel(SKDDoor door)
 		{
 			Name = door.Name;
 			UID = door.UID;
-			ImageSource = "Door";
+			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
 		public ObjectViewModel(FiresecAPI.Models.Camera camera)
 		{
 			Name = camera.Name;
 			UID = camera.UID;
-			ImageSource = "Camera";
+			ImageSource = "/Controls;component/Images/Camera.png";
 		}
 
 		bool _isChecked;

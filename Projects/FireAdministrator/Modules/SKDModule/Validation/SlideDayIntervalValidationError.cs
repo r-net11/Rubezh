@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using SKDModule.Events;
@@ -31,7 +31,7 @@ namespace SKDModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "Shedule"; }
+			get { return "/Controls;component/Images/Shedule.png"; }
 		}
 	}
 }

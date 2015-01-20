@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +34,7 @@ namespace LayoutModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "BLayouts"; }
+			get { return "/Controls;component/Images/BLayouts.png"; }
 		}
 	}
 }
