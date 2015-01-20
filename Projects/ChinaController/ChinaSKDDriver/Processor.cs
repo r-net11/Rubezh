@@ -65,11 +65,11 @@ namespace ChinaSKDDriver
 		}
 
 		#region Callback
-		public static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+		public static List<GKProgressCallback> ProgressCallbacks = new List<GKProgressCallback>();
 
-		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
+		public static void CancelProgress(Guid progressCallbackUID, string userName)
 		{
-			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
+			var progressCallback = ProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
 			if (progressCallback != null)
 			{
 				progressCallback.IsCanceled = true;
@@ -95,7 +95,7 @@ namespace ChinaSKDDriver
 				CanCancel = canCancel,
 				GKProgressClientType = progressClientType
 			};
-			GKProgressCallbacks.Add(gkProgressCallback);
+			ProgressCallbacks.Add(gkProgressCallback);
 			OnGKCallbackResult(gkProgressCallback);
 			return gkProgressCallback;
 		}
@@ -124,13 +124,13 @@ namespace ChinaSKDDriver
 				LastActiveDateTime = DateTime.Now,
 				GKProgressCallbackType = GKProgressCallbackType.Stop,
 			};
-			GKProgressCallbacks.Remove(gkProgressCallback);
+			ProgressCallbacks.Remove(gkProgressCallback);
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
 		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
 		{
-			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
+			ProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
 			{
 				if (GKProgressCallbackEvent != null)

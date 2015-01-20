@@ -112,7 +112,6 @@ namespace FireAdministrator
 							if (LoadingService.IsCanceled)
 							{
 								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
-								FiresecManager.FiresecService.CancelSKDProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
 							}
 						}
 						return;

@@ -47,8 +47,10 @@ namespace SKDDriver
 			result.UserTime = tableItem.UserTime;
 			result.GKLevel = tableItem.GKLevel;
 			result.GKLevelSchedule = tableItem.GKLevelSchedule;
-
-			
+			if (tableItem.EmployeeUID.HasValue)
+			{
+				result.EmployeeUID = tableItem.EmployeeUID.Value;
+			}
 
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)

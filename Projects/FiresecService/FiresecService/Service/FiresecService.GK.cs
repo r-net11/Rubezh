@@ -21,14 +21,12 @@ namespace FiresecService.Service
 				if (CurrentClientCredentials != null)
 					return CurrentClientCredentials.FriendlyUserName;
 				return "<Нет>";
-				//return CurrentClientCredentials != null ? CurrentClientCredentials.FriendlyUserName : "<Нет>";
 			}
 		}
 
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
-			ChinaSKDDriver.Processor.CancelGKProgress(progressCallbackUID, userName);
+			ChinaSKDDriver.Processor.CancelProgress(progressCallbackUID, userName);
 		}
 
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
