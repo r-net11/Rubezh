@@ -33,7 +33,7 @@
 					<Border Name="OuterBorder" BorderBrush="{TemplateBinding OuterBorderBrush}" BorderThickness="{TemplateBinding OuterBorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
 
 						<Grid>
-							<Grid Width="41" RenderOptions.BitmapScalingMode="NearestNeighbor" Background="{Binding Path=PathToIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
+							<Image Width="41" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding Path=PathToIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
 							<Border Name="padding" Margin="{TemplateBinding Padding}">
 								<Grid>
 									<TextBlock Name="alarmcount" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11">

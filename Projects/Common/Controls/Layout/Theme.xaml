@@ -9,13 +9,12 @@
 	<avalonDockConverters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter" />
 	<avalonDockConverters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter" />
 	<converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
-	<converters:StringToResourceConverter x:Key="StringToResourceConverter" />
 	<SolidColorBrush x:Key="PanelBackground" Color="#FFF9F9F9" />
 
 	<ToolTip x:Key="DocumentToolTip">
 		<StackPanel Orientation="Vertical">
 			<StackPanel Orientation="Horizontal">
-				<Grid Background="{Binding IconSource, Converter={StaticResource StringToResourceConverter}}" />
+				<Image Width="16" Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform" />
 				<TextBlock Margin="4,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
 			</StackPanel>
 			<TextBlock VerticalAlignment="Center" Text="{Binding Description}" TextTrimming="CharacterEllipsis" Visibility="{Binding Description, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -311,7 +310,7 @@
 
 	<DataTemplate x:Key="DocumentHeaderTemplate">
 		<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-			<Grid Width="16" Background="{Binding IconSource, Converter={StaticResource StringToResourceConverter}}" />
+			<Image Width="16" Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform" />
 			<TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
 		</StackPanel>
 	</DataTemplate>
@@ -321,7 +320,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="IconContentTemplate">
-		<Grid Width="16" Background="{Binding IconSource, Converter={StaticResource StringToResourceConverter}}" />
+		<Image Width="16" Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform" />
 	</DataTemplate>
 
 	<Style x:Key="DocumentContextMenuStyle" TargetType="ContextMenu">
@@ -511,7 +510,7 @@
 							<Border Grid.Row="0" Background="{StaticResource PanelBackground}" CornerRadius="10,10,0,0" Padding="5">
 								<StackPanel Orientation="Vertical">
 									<StackPanel Orientation="Horizontal">
-										<Grid Width="16" Background="{Binding SelectedDocument.LayoutElement.IconSource, Converter={StaticResource StringToResourceConverter}}" />
+										<Image Width="16" Source="{Binding SelectedDocument.LayoutElement.IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform" />
 										<TextBlock Margin="4,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding SelectedDocument.LayoutElement.Title}" TextTrimming="CharacterEllipsis" />
 									</StackPanel>
 									<TextBlock VerticalAlignment="Center" Text="{Binding SelectedDocument.LayoutElement.Description}" TextTrimming="CharacterEllipsis" />
@@ -572,7 +571,7 @@
 														<ColumnDefinition Width="Auto" />
 														<ColumnDefinition />
 													</Grid.ColumnDefinitions>
-													<Grid Width="16" Background="{Binding LayoutElement.IconSource, Converter={StaticResource StringToResourceConverter}}" />
+													<Image Width="16" Source="{Binding LayoutElement.IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform" />
 													<TextBlock Grid.Column="1" Margin="8,2,4,2" Text="{Binding LayoutElement.Title}" TextTrimming="CharacterEllipsis" />
 												</Grid>
 											</DataTemplate>

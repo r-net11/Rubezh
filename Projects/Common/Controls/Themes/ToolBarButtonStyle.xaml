@@ -2,7 +2,6 @@
 
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
 
 	<Style x:Key="ToolBarButtonStyle" TargetType="{x:Type Button}">
 		<Setter Property="Background" Value="Transparent" />
@@ -39,7 +38,7 @@
 				<ControlTemplate>
 					<Border Name="border" Margin="2" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
 						<Grid>
-							<Grid Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="16" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
+							<Image Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
 							<ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
 						</Grid>
 					</Border>

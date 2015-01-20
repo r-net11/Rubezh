@@ -5,8 +5,7 @@
 
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
-	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
-	
+
 	<SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
 
 	<LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
@@ -230,7 +229,7 @@
 								<ColumnDefinition Width="20" />
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
-							<Grid Grid.Column="0" Width="16" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
+							<Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
 							<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
 						</Grid>
 					</Border>
