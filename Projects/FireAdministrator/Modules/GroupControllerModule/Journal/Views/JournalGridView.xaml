@@ -25,7 +25,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Grid Width="16" Background="{Binding Path=ImageSource, Converter={StaticResource StringToResourceConverter}}" VerticalAlignment="Center" />
+							<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
 							<TextBlock Text="{Binding PresentationName}" VerticalAlignment="Center" Margin="2" />
 						</StackPanel>
 					</DataTemplate>
