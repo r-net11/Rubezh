@@ -264,6 +264,10 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>SKDDriver</Name>

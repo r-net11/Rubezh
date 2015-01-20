@@ -238,5 +238,30 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 		}
+
+		public DataAccess.PassJournal GetEmployeeLastPassJournal(Guid employeeUID)
+		{
+			try
+			{
+				var lastPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
+				if (lastPassJournal != null)
+				{
+					return lastPassJournal;
+				}
+				else
+				{
+					lastPassJournal = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID).OrderByDescending(x => x.ExitTime).FirstOrDefault();
+					if (lastPassJournal != null)
+					{
+						return lastPassJournal;
+					}
+				}
+				return null;
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
 	}
 }

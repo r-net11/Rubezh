@@ -18,15 +18,19 @@ namespace SKDModule.Reports.ViewModels
 		public SchedulePageViewModel()
 		{
 			Title = "График";
-			var schedules = ScheduleHelper.Get(new ScheduleFilter());
-			Schedules = new ObservableCollection<CheckedItemViewModel<Schedule>>(schedules.Select(item => new CheckedItemViewModel<Schedule>(item)));
+			Schedules = new ObservableCollection<CheckedItemViewModel<SKDWeeklyInterval>>();
+			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
+			{
+				var viewModel = new CheckedItemViewModel<SKDWeeklyInterval>(weeklyInterval);
+				Schedules.Add(viewModel);
+			}
 			SelectAllCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = false));
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
 		public RelayCommand SelectNoneCommand { get; private set; }
-		public ObservableCollection<CheckedItemViewModel<Schedule>> Schedules { get; private set; }
+		public ObservableCollection<CheckedItemViewModel<SKDWeeklyInterval>> Schedules { get; private set; }
 
 		private bool _withDirection;
 		public bool WithDirection
@@ -65,8 +69,8 @@ namespace SKDModule.Reports.ViewModels
 			if (scheduleFilter == null)
 				return;
 			if (scheduleFilter.Schedules == null)
-				scheduleFilter.Schedules = new List<Guid>();
-			Schedules.ForEach(item => item.IsChecked = scheduleFilter.Schedules.Contains(item.Item.UID));
+				scheduleFilter.Schedules = new List<int>();
+			Schedules.ForEach(item => item.IsChecked = scheduleFilter.Schedules.Contains(item.Item.ID));
 			WithDirection = scheduleFilter is IReportFilterScheduleWithDirection;
 			if (WithDirection)
 			{
@@ -79,7 +83,7 @@ namespace SKDModule.Reports.ViewModels
 			var scheduleFilter = filter as IReportFilterSchedule;
 			if (scheduleFilter == null)
 				return;
-			scheduleFilter.Schedules = Schedules.Where(item => item.IsChecked).Select(item => item.Item.UID).ToList();
+			scheduleFilter.Schedules = Schedules.Where(item => item.IsChecked).Select(item => item.Item.ID).ToList();
 			var direction = scheduleFilter as IReportFilterScheduleWithDirection;
 			if (direction != null)
 			{

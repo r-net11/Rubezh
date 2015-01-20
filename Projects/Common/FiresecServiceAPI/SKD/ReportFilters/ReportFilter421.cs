@@ -54,7 +54,7 @@ namespace FiresecAPI.SKD.ReportFilters
 		#region IReportFilterSchedule Members
 
 		[DataMember]
-		public List<Guid> Schedules { get; set; }
+		public List<int> Schedules { get; set; }
 
 		#endregion
 
