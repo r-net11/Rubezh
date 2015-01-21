@@ -21,7 +21,7 @@ namespace PlansModule.ViewModels
 			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Subplan.png",
+					ImageSource="Subplan",
 					ToolTip="Ссылка на план",
 					Index = 1000,
 					Adorner = new SubPlanAdorner(DesignerCanvas),

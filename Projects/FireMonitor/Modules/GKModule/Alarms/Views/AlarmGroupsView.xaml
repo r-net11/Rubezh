@@ -21,12 +21,12 @@
 				MouseDown="Button_MouseDown">
 				<StackPanel>
 					<TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 3" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" />
-					<Image Source="/Controls;component/Images/ResetAlarm.png" Width="32" />
+					<Grid Background="{DynamicResource ResetAlarm}" Width="32" />
 				</StackPanel>
 			</Controls:AlarmButton>
 			<Grid.ToolTip>
 				<StackPanel Orientation="Horizontal">
-					<Image Source="/Controls;component/Images/Reset.png" Width="16" Margin="2" />
+					<Grid Background="{DynamicResource Reset}" Width="16" Margin="2" />
 					<TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center"/>
 				</StackPanel>
 			</Grid.ToolTip>
@@ -44,7 +44,7 @@
 						<Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
 							GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
 							IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
-							<Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+							<Grid  Width="32" Height="32" Background="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
 						</Controls:AlarmButton>
 						<Grid.ToolTip>
 							<StackPanel>
@@ -56,7 +56,7 @@
 									<ItemsControl.ItemTemplate>
 										<DataTemplate>
 											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="2 1" />
+												<Grid Width="16" Background="{Binding ImageSource, Converter={StaticResource StringToResourceConverter}}" VerticalAlignment="Center" Margin="2 1" />
 												<TextBlock Text="{Binding ObjectName}" Margin="2 1" />
 											</StackPanel>
 										</DataTemplate>

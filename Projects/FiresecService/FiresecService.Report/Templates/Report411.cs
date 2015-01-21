@@ -29,7 +29,6 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<ReportFilter411>();
 			var databaseService = new SKDDatabaseService();
-			
 
 			var employees = new List<Employee>();
 			var useEmployeesFilter = false;

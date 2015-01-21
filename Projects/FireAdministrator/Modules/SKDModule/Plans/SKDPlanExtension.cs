@@ -77,7 +77,7 @@ namespace SKDModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ImageSource="ZoneRectangle",
 							ToolTip="СКД Зона",
 							Adorner = new SKDZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 300,
@@ -86,7 +86,7 @@ namespace SKDModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ImageSource="ZonePolygon",
 							ToolTip="СКД Зона",
 							Adorner = new SKDZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 301,

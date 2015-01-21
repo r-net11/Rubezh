@@ -119,7 +119,7 @@ namespace Infrastructure.Designer.ViewModels
 			{
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Cursor.png",
+					ImageSource="Cursor",
 					ToolTip="Указатель",
 					Adorner = new RubberbandAdorner(DesignerCanvas),
 					Index = 0,
@@ -127,14 +127,14 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Pen.png",
+					ImageSource="Pen",
 					ToolTip="Редактирование фигур",
 					Index = 1,
 					Adorner = new PointsAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Line.png",
+					ImageSource="Line",
 					ToolTip="Линия",
 					Index = 1011,
 					Adorner = new PolylineAdorner(DesignerCanvas),
@@ -142,7 +142,7 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Rectangle.png",
+					ImageSource="Rectangle",
 					ToolTip="Прямоугольник",
 					Index = 1012,
 					Adorner = new RectangleAdorner(DesignerCanvas),
@@ -150,7 +150,7 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Ellipse.png",
+					ImageSource="Ellipse",
 					ToolTip="Эллипс",
 					Index = 1013,
 					Adorner = new ElipseAdorner(DesignerCanvas),
@@ -158,7 +158,7 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Polygon.png",
+					ImageSource="Polygon",
 					ToolTip="Многоугольник",
 					Index = 1014,
 					Adorner = new PolygonAdorner(DesignerCanvas),
@@ -166,14 +166,14 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Font.png",
+					ImageSource="Font",
 					ToolTip="Текст",
 					Index = 1005,
 					Adorner = new TextBoxAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/GridLineHorizontal.png",
+					ImageSource="GridLineHorizontal",
 					ToolTip="Добавить горизонтальную линию привязки",
 					Index = 1501,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
@@ -181,7 +181,7 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/GridLineVertical.png",
+					ImageSource="GridLineVertical",
 					ToolTip="Добавить вертикальную линию привязки",
 					Index = 1502,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
@@ -189,7 +189,7 @@ namespace Infrastructure.Designer.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/GridLineEdit.png",
+					ImageSource="GridLineEdit",
 					ToolTip="Удалить линии привязки",
 					Index = 1503,
 					Command = DesignerCanvas.RemoveGridLinesCommand,
