@@ -19,25 +19,25 @@
 			<Menu VerticalAlignment="Center" Background="Transparent" Focusable="False" Visibility="{Binding Content.AllowHelp, Converter={StaticResource BoolToVisibilityConverter}}">
 				<MenuItem Focusable="False">
 					<MenuItem.Header>
-						<Image Height="12" Margin="-2" Source="/Controls;component/Images/Help.png" />
+						<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Help}" />
 					</MenuItem.Header>
 					<MenuItem Command="{Binding Content.ApplicationHelpCommand}" Focusable="False" Header="Помощь" />
 					<MenuItem Command="{Binding Content.ApplicationAboutCommand}" Focusable="False" Header="О программе" />
 				</MenuItem>
 			</Menu>
 			<Button Command="{Binding Content.ApplicationMinimizeCommand}" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Minimize.png" />
+				<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Minimize}" />
 			</Button>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Button Command="{Binding Content.ApplicationMaximizeCommand}" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}}">
-					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
+					<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Maximize}" />
 				</Button>
 				<Button Command="{Binding Content.ApplicationNormalizeCommand}" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Нормальный размер" Visibility="{Binding Content.IsMaximized, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Normalize.png" />
+					<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Normalize}" />
 				</Button>
 			</StackPanel>
 			<Button Command="{Binding Content.ApplicationCloseCommand}" Focusable="False" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть" Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Close.png" />
+				<Grid Height="12" Width="12" Margin="-2" Background="{DynamicResource Close}" />
 			</Button>
 		</StackPanel>
 	</Grid>

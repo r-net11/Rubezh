@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Controls.Converters;
 using FiresecAPI.GK;
 
 namespace GKModule.Converters
@@ -8,38 +9,50 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
+			string alarmName;
 			switch ((GKAlarmType) value)
 			{
 				case GKAlarmType.NPTOn:
-					return "/Controls;component/Images/Alarm_MPT.png";
+					alarmName = "Alarm_MPT";
+					break;
 
 				case GKAlarmType.Fire1:
-					return "/Controls;component/Images/Alarm_Main_0_Fire1.png";
+					alarmName = "Alarm_Main_0_Fire1";
+					break;
 
 				case GKAlarmType.Fire2:
-					return "/Controls;component/Images/Alarm_Main_1_Fire2.png";
+					alarmName = "Alarm_Main_1_Fire2";
+					break;
 
 				case GKAlarmType.Attention:
-					return "/Controls;component/Images/Alarm_main_2_Attention.png";
+					alarmName = "Alarm_main_2_Attention";
+					break;
 
 				case GKAlarmType.Failure:
-					return "/Controls;component/Images/Alarm_main_3_Failure.png";
+					alarmName = "Alarm_main_3_Failure";
+					break;
 
 				case GKAlarmType.Ignore:
-					return "/Controls;component/Images/Alarm_main_4_Off.png";
+					alarmName = "Alarm_main_4_Off";
+					break;
 
 				case GKAlarmType.Turning:
-					return "/Controls;component/Images/Alarm_main_5_Info.png";
+					alarmName = "Alarm_main_5_Info";
+					break;
 
 				case GKAlarmType.Service:
-					return "/Controls;component/Images/Alarm_main_6_Service.png";
+					alarmName = "Alarm_main_6_Service";
+					break;
 
 				case GKAlarmType.AutoOff:
-					return "/Controls;component/Images/Alarm_main_7_Auto.png";
+					alarmName = "Alarm_main_7_Auto";
+					break;
 
 				default:
-					return "/Controls;component/Images/Alarm_main_3_Failure.png";
+					alarmName = "Alarm_main_3_Failure";
+					break;
 			}
+			return ConverterHelper.GetResource(alarmName);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
