@@ -130,14 +130,12 @@
             // 
             // xrTableCell13
             // 
-            this.xrTableCell13.CanGrow = false;
             this.xrTableCell13.Name = "xrTableCell13";
             this.xrTableCell13.Text = "Должность";
             this.xrTableCell13.Weight = 1.6666666666666667D;
             // 
             // xrTableCell15
             // 
-            this.xrTableCell15.CanGrow = false;
             this.xrTableCell15.Name = "xrTableCell15";
             this.xrTableCell15.StylePriority.UseBackColor = false;
             this.xrTableCell15.Text = "Примечание";

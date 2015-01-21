@@ -146,11 +146,5 @@ namespace FiresecService.Report.Templates
 			}
 			return dataSet;
 		}
-
-		//protected override void UpdateDataSource()
-		//{
-		//    base.UpdateDataSource();
-		//    FillTestData();
-		//}
 	}
 }

@@ -157,35 +157,30 @@
             // 
             // xrTableCell11
             // 
-            this.xrTableCell11.CanGrow = false;
             this.xrTableCell11.Name = "xrTableCell11";
             this.xrTableCell11.Text = "Отдел";
             this.xrTableCell11.Weight = 0.66666666666666663D;
             // 
             // xrTableCell12
             // 
-            this.xrTableCell12.CanGrow = false;
             this.xrTableCell12.Name = "xrTableCell12";
             this.xrTableCell12.Text = "Телефон";
             this.xrTableCell12.Weight = 0.66666666666666663D;
             // 
             // xrTableCell13
             // 
-            this.xrTableCell13.CanGrow = false;
             this.xrTableCell13.Name = "xrTableCell13";
             this.xrTableCell13.Text = "Руководитель";
             this.xrTableCell13.Weight = 0.66666666666666663D;
             // 
             // xrTableCell14
             // 
-            this.xrTableCell14.CanGrow = false;
             this.xrTableCell14.Name = "xrTableCell14";
             this.xrTableCell14.Text = "Подразделение";
             this.xrTableCell14.Weight = 0.66666666666666663D;
             // 
             // xrTableCell15
             // 
-            this.xrTableCell15.CanGrow = false;
             this.xrTableCell15.Name = "xrTableCell15";
             this.xrTableCell15.StylePriority.UseBackColor = false;
             this.xrTableCell15.Text = "Примечание";

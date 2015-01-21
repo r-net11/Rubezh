@@ -37,9 +37,12 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		#region IReportFilterPeriod Members
 
-		public ReportPeriodType PeriodType { get; set; }
-		public DateTime DateTimeFrom { get; set; }
-		public DateTime DateTimeTo { get; set; }
+        [DataMember]
+        public ReportPeriodType PeriodType { get; set; }
+        [DataMember]
+        public DateTime DateTimeFrom { get; set; }
+        [DataMember]
+        public DateTime DateTimeTo { get; set; }
 
 		#endregion
 	}

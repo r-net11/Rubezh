@@ -51,8 +51,8 @@ namespace ReportsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, "Отчеты 2", "levels"),
-				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "levels"),
+				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, ModuleType.ToDescription(), "levels"),
+				//new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "levels"),
 			};
 		}
 

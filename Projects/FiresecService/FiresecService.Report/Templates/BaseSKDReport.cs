@@ -102,7 +102,9 @@ namespace FiresecService.Report.Templates
                     else if (column.DataType == typeof(DateTime))
                         row[column] = DateTime.Today.AddDays(-i);
                     else if (column.DataType == typeof(TimeSpan))
-                        row[column] = new TimeSpan(i, i, i);
+                        row[column] = new TimeSpan(i, i + 1, i + 2);
+                    else if (column.DataType == typeof(bool))
+                        row[column] = i % 2 == 0;
                 }
                 dt.Rows.Add(row);
             }
@@ -113,6 +115,7 @@ namespace FiresecService.Report.Templates
             {
                 Borders = DevExpress.XtraPrinting.BorderSide.All,
                 BorderWidth = 3,
+                KeepTogether = true,
             };
             var label = new XRLabel()
             {
@@ -132,12 +135,12 @@ namespace FiresecService.Report.Templates
         {
             var sb = new StringBuilder();
             sb.AppendLine("ФИЛЬТР:");
-            foreach (var property in Filter.GetType().GetProperties())
+            foreach (var property in Filter.GetType().GetProperties().OrderBy(prop=>prop.Name))
             {
                 var propType = property.PropertyType;
                 var value = property.GetValue(Filter, new object[0]);
                 if (propType == typeof(List<Guid>))
-                    sb.AppendFormat("{0} = ({1})\r\n", property.Name, value == null ? "NULL" : string.Join(",", ((List<Guid>)value).ToArray()));
+                    sb.AppendFormat("{0} = {{{1}}}\r\n", property.Name, value == null ? "NULL" : string.Join(",", ((List<Guid>)value).ToArray()));
                 else
                     sb.AppendFormat("{0} = '{1}'\r\n", property.Name, value);
             }
