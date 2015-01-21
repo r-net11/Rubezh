@@ -142,10 +142,10 @@
 									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
 									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Включить автоматику" Command="{Binding TurnOnAutomaticCommand}" />
 									<Controls:IconedMenuItem Background="{DynamicResource map}"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTree.png" Text="Показать" Command="{Binding ShowObjectCommand}" />
+									<Controls:IconedMenuItem Background="{DynamicResource BTree}"  Text="Показать" Command="{Binding ShowObjectCommand}" />
 									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BInformation.png" Text="Инструкции" Command="{Binding ShowInstructionCommand}" />
+									<Controls:IconedMenuItem Background="{DynamicResource BSettings}"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									<Controls:IconedMenuItem Background="{DynamicResource BInformation}"  Text="Инструкции" Command="{Binding ShowInstructionCommand}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>

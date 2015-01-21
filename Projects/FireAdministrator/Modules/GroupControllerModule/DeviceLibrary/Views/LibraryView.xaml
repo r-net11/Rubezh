@@ -29,8 +29,8 @@
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>
-					<Controls:IconedMenuItem Command="{Binding AddDeviceCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить устройство" />
-					<Controls:IconedMenuItem Command="{Binding RemoveDeviceCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить устройство" />
+					<Controls:IconedMenuItem Command="{Binding AddDeviceCommand}" Background="{DynamicResource BAdd}"  Text="Добавить устройство" />
+					<Controls:IconedMenuItem Command="{Binding RemoveDeviceCommand}" Background="{DynamicResource BDelete}"  Text="Удалить устройство" />
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 		</DataGrid>
@@ -55,8 +55,8 @@
 				</DataGrid.Columns>
 				<DataGrid.ContextMenu>
 					<ContextMenu>
-						<Controls:IconedMenuItem Command="{Binding AddStateCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить состояние" />
-						<Controls:IconedMenuItem Command="{Binding RemoveStateCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить состояние" />
+						<Controls:IconedMenuItem Command="{Binding AddStateCommand}" Background="{DynamicResource BAdd}"  Text="Добавить состояние" />
+						<Controls:IconedMenuItem Command="{Binding RemoveStateCommand}" Background="{DynamicResource BDelete}"  Text="Удалить состояние" />
 					</ContextMenu>
 				</DataGrid.ContextMenu>
 			</DataGrid>
@@ -80,8 +80,8 @@
 								<TextBlock Text="{Binding Frame.Id}" />
 								<StackPanel.ContextMenu>
 									<ContextMenu ContextMenuOpening="OnContextMenuOpening">
-										<Controls:IconedMenuItem Command="{Binding AddFrameCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить кадр" />
-										<Controls:IconedMenuItem Command="{Binding RemoveFrameCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить кадр" />
+										<Controls:IconedMenuItem Command="{Binding AddFrameCommand}" Background="{DynamicResource BAdd}"  Text="Добавить кадр" />
+										<Controls:IconedMenuItem Command="{Binding RemoveFrameCommand}" Background="{DynamicResource BDelete}"  Text="Удалить кадр" />
 									</ContextMenu>
 								</StackPanel.ContextMenu>
 							</StackPanel>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VideoModule.Views.CamerasView"
+<UserControl x:Class="VideoModule.Views.CamerasView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
@@ -10,9 +10,9 @@
 			<SwitchCase Then="Камера уже размещена на плане" When="Single" />
 		</SwitchConverter>
 		<ContextMenu  x:Key="CameraContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding AddCommand}" Background="{DynamicResource BAdd}"  Text="Добавить (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" Background="{DynamicResource BDelete}"  Text="Удалить (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" Background="{DynamicResource BEdit}"  Text="Редактировать (Ctrl+E)" />
 			<Separator />
 			<IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" />
 			<IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />

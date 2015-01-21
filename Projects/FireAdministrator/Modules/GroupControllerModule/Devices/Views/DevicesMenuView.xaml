@@ -14,20 +14,20 @@
 				<MenuItem.Header>
 					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" ImageSource="/Controls;component/Images/BParametersReadFromFile.png" Text="Считать конфигурацию" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ReadConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersRead.png" Text="Считать конфигурацию дескрипторов" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteConfigCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" Background="{DynamicResource BParametersRead}"  Text="Считать конфигурацию" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ReadConfigurationCommand}" Background="{DynamicResource BParametersRead}"  Text="Считать конфигурацию дескрипторов" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding WriteConfigCommand}" Background="{DynamicResource BParametersWrite}"  Text="Записать конфигурацию" TotalHeight="32" />
 				<Separator />
-				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Информация об устройстве" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Синзронизация времени" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowInfoCommand}" Background="{DynamicResource BInformation}"  Text="Информация об устройстве" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" Background="{DynamicResource BWatch}"  Text="Синзронизация времени" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Журнал событий" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Обновление ПО" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding AutoSearchCommand}" ImageSource="/Controls;component/Images/BSearch.png" Text="Автопоиск устройств" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" Background="{DynamicResource BParametersSync}"  Text="Обновление ПО" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding AutoSearchCommand}" Background="{DynamicResource BSearch}"  Text="Автопоиск устройств" TotalHeight="32" />
                 <Separator />
-				<IconedMenuItem Command="{Binding ActualizeUsersCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Актуализация пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RemoveUsersCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Стереть пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RewriteUsersCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Перезаписать пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Перезаписать все графики" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ActualizeUsersCommand}" Background="{DynamicResource BSettings}"  Text="Актуализация пользователей прибора" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding RemoveUsersCommand}" Background="{DynamicResource BSettings}"  Text="Стереть пользователей прибора" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding RewriteUsersCommand}" Background="{DynamicResource BSettings}"  Text="Перезаписать пользователей прибора" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" Background="{DynamicResource BSettings}"  Text="Перезаписать все графики" TotalHeight="32" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

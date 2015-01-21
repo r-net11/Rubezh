@@ -11,14 +11,14 @@
 				<MenuItem.Header>
 					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-				<IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Управление контроллером" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerDoorTypeCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Тип контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Пароль контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerNetworkCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Сетевые настройки контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerTimeSettingsCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Временные настройки контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ во все контроллеры" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры замка" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" Background="{DynamicResource BParametersSync}"  Text="Управление контроллером" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerDoorTypeCommand}" Background="{DynamicResource BParametersSync}"  Text="Тип контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" Background="{DynamicResource BParametersSync}"  Text="Пароль контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerNetworkCommand}" Background="{DynamicResource BParametersSync}"  Text="Сетевые настройки контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerTimeSettingsCommand}" Background="{DynamicResource BParametersSync}"  Text="Временные настройки контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" Background="{DynamicResource BParametersSync}"  Text="Записать графики работ" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" Background="{DynamicResource BParametersSync}"  Text="Записать графики работ во все контроллеры" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" Background="{DynamicResource BParametersSync}"  Text="Параметры замка" TotalHeight="32" />
 			</MenuItem>
 			<Menu.Style>
 				<Style TargetType="{x:Type Menu}">

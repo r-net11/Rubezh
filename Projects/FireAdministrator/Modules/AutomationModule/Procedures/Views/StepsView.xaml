@@ -4,11 +4,11 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<UserControl.Resources>
 		<ContextMenu x:Key="StepContextMenu">
-			<IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
-			<IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
-			<IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" />
-			<IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" />
-			<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" />
+			<IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" Background="{DynamicResource BAdd}"  Text="Добавить функкцию" />
+			<IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" Background="{DynamicResource BDelete}"  Text="Удалить функцию" />
+			<IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" Background="{DynamicResource BCopy}"  Text="Копировать" />
+			<IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" Background="{DynamicResource BCut}"  Text="Вырезать" />
+			<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" Background="{DynamicResource BPaste}"  Text="Вставить" />
 		</ContextMenu>
 	</UserControl.Resources>
 

@@ -26,7 +26,7 @@
 										<ContextMenu>
 											<Controls:IconedMenuItem Command="{Binding ShowOnPlanCommand}" Background="{DynamicResource map}"  Text="Показать на плане" />
 											<Controls:IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" />
-											<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
+											<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" Background="{DynamicResource BSettings}"  Text="Свойства" />
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
