@@ -56,7 +56,7 @@ namespace PlansModule.Kursk
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/Tank.png",
+							ImageSource="Tank",
 							ToolTip="Бак",
 							Adorner = new TankRectangleAdorner(DesignerCanvas),
 							Index = 299,

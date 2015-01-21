@@ -3,31 +3,31 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
   <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<Controls:ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" Background="{DynamicResource Add}"  />
-		<Controls:ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" Background="{DynamicResource Edit}"  />
-		<Controls:ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" Background="{DynamicResource Delete}"  />
-		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" Background="{DynamicResource Copy}"  />
-		<Controls:ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать (Ctrl+Х)" Background="{DynamicResource Cut}"  />
-		<Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" Background="{DynamicResource Paste}"  />
+		<Controls:ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" Background="{DynamicResource Add}" />
+		<Controls:ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" Background="{DynamicResource Edit}" />
+		<Controls:ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" Background="{DynamicResource Delete}" />
+		<ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" Background="{DynamicResource Copy}" />
+		<Controls:ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать (Ctrl+Х)" Background="{DynamicResource Cut}" />
+		<Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" Background="{DynamicResource Paste}" />
 		<Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
 			<MenuItem>
 				<MenuItem.Header>
-					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
+					<Grid Background="{DynamicResource ArrowUpDown}" Height="24" Width="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" Background="{DynamicResource BParametersRead}"  Text="Считать конфигурацию" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ReadConfigurationCommand}" Background="{DynamicResource BParametersRead}"  Text="Считать конфигурацию дескрипторов" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteConfigCommand}" Background="{DynamicResource BParametersWrite}"  Text="Записать конфигурацию" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" ImageSource="BParametersRead" Text="Считать конфигурацию" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ReadConfigurationCommand}" ImageSource="BParametersRead" Text="Считать конфигурацию дескрипторов" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding WriteConfigCommand}" ImageSource="BParametersWrite" Text="Записать конфигурацию" TotalHeight="24" />
 				<Separator />
-				<IconedMenuItem Command="{Binding ShowInfoCommand}" Background="{DynamicResource BInformation}"  Text="Информация об устройстве" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" Background="{DynamicResource BWatch}"  Text="Синзронизация времени" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Журнал событий" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" Background="{DynamicResource BParametersSync}"  Text="Обновление ПО" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding AutoSearchCommand}" Background="{DynamicResource BSearch}"  Text="Автопоиск устройств" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="BInformation" Text="Информация об устройстве" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="BWatch" Text="Синзронизация времени" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="BJournal.png" Text="Журнал событий" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="BParametersSync" Text="Обновление ПО" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding AutoSearchCommand}" ImageSource="BSearch"  Text="Автопоиск устройств" TotalHeight="24" />
                 <Separator />
-				<IconedMenuItem Command="{Binding ActualizeUsersCommand}" Background="{DynamicResource BSettings}"  Text="Актуализация пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RemoveUsersCommand}" Background="{DynamicResource BSettings}"  Text="Стереть пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RewriteUsersCommand}" Background="{DynamicResource BSettings}"  Text="Перезаписать пользователей прибора" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" Background="{DynamicResource BSettings}"  Text="Перезаписать все графики" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ActualizeUsersCommand}" ImageSource="BSettings" Text="Актуализация пользователей прибора" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding RemoveUsersCommand}" ImageSource="BSettings" Text="Стереть пользователей прибора" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding RewriteUsersCommand}" ImageSource="BSettings" Text="Перезаписать пользователей прибора" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding RewriteAllSchedulesCommand}" ImageSource="BSettings" Text="Перезаписать все графики" TotalHeight="24" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

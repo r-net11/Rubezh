@@ -2,7 +2,8 @@
 
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
-
+	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
+	
 	<SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
 
 	<LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
@@ -37,7 +38,7 @@
 					<ColumnDefinition MaxWidth="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Image Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" Stretch="UniformToFill" />
+				<Grid Grid.Column="0 " Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
 				<TextBlock Grid.Column="1" Margin="2 0 0 0" VerticalAlignment="Center" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Popup Name="Popup" AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Bottom" PopupAnimation="Fade">
 					<Border Name="SubmenuBorder" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" SnapsToDevicePixels="True">
@@ -76,7 +77,7 @@
 					<ColumnDefinition MaxWidth="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Image Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" Stretch="UniformToFill" />
+				<Grid Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
 				<TextBlock Grid.Column="1" Margin="2 0 0 0" VerticalAlignment="Center" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" />
 			</Grid>
 		</Border>
@@ -100,7 +101,7 @@
 					<ColumnDefinition MaxWidth="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Image Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" Stretch="UniformToFill" />
+				<Grid Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
 				<TextBlock Grid.Column="1" Margin="2 0 0 0" VerticalAlignment="Center" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" />
 			</Grid>
 		</Border>
@@ -124,7 +125,7 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<Image Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" Stretch="UniformToFill" />
+				<Grid Grid.Column="0" Width="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Height="{Binding Path=TotalHeight, RelativeSource={RelativeSource TemplatedParent}}" Background="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToResourceConverter}}" />
 				<TextBlock Grid.Column="1" Margin="2 0" VerticalAlignment="Center" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" />
 				<Path Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
 				<Popup Name="Popup" AllowsTransparency="True" Focusable="False" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Right" PopupAnimation="Fade">

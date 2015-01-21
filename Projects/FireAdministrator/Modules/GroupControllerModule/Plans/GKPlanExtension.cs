@@ -99,7 +99,7 @@ namespace GKModule.Plans
 					{
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ImageSource="ZoneRectangle",
 							ToolTip="Зона",
 							Adorner = new XZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 200,
@@ -108,7 +108,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ImageSource="ZonePolygon",
 							ToolTip="Зона",
 							Adorner = new XZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
 							Index = 201,
@@ -117,7 +117,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/DirectionRectangle.png",
+							ImageSource="DirectionRectangle",
 							ToolTip="Направление",
 							Adorner = new XDirectionRectangleAdorner(DesignerCanvas, _directionsViewModel),
 							Index = 202,
@@ -126,7 +126,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/DirectionPolygon.png",
+							ImageSource="DirectionPolygon",
 							ToolTip="Направление",
 							Adorner = new XDirectionPolygonAdorner(DesignerCanvas, _directionsViewModel),
 							Index = 203,
@@ -135,7 +135,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ImageSource="ZoneRectangle",
 							ToolTip="Охранная зона",
 							Adorner = new XGuardZoneRectangleAdorner(DesignerCanvas, _guardZonesViewModel),
 							Index = 204,
@@ -144,7 +144,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ImageSource="ZonePolygon",
 							ToolTip="Охранная зона",
 							Adorner = new XGuardZonePolygonAdorner(DesignerCanvas,  _guardZonesViewModel),
 							Index = 205,
