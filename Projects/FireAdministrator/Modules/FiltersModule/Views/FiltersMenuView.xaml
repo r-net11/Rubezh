@@ -4,8 +4,8 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
-		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" Background="{DynamicResource Edit}"  />
-		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
+		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 	</StackPanel>
 </UserControl>

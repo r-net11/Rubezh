@@ -9,34 +9,34 @@
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
-			<Controls:IconedMenuItem Command="{Binding CopyCommand}" Background="{DynamicResource BCopy}" Text="Копировать (Ctrl+C)" />
-			<Controls:IconedMenuItem Command="{Binding CutCommand}" Background="{DynamicResource BCut}" Text="Вырезать (Ctrl+Х)" />
-			<Controls:IconedMenuItem Command="{Binding PasteCommand}" Background="{DynamicResource BPaste}" Text="Вставить (Ctrl+V)" />
+			<Controls:IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy" Text="Копировать (Ctrl+C)" />
+			<Controls:IconedMenuItem Command="{Binding CutCommand}" ImageSource="BCut" Text="Вырезать (Ctrl+Х)" />
+			<Controls:IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste" Text="Вставить (Ctrl+V)" />
 			<Separator />
-			<Controls:IconedMenuItem Command="{Binding AddCommand}" Background="{DynamicResource BAdd}" Text="Добавить дочернее устройство (Ctrl+N)" />
-			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" Background="{DynamicResource BAddChild}" Text="Добавить к родительскому устройству (Ctrl+M)" />
-			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" Background="{DynamicResource BDelete}" Text="Удалить (Ctrl+Del)" />
-			<Controls:IconedMenuItem Command="{Binding SelectCommand}" ImageSource="/Controls;component/Images/BSelect.png" Text="Выбрать" />
-			<Controls:IconedMenuItem Command="{Binding ShowLogicCommand}" Background="{DynamicResource BLogic}" Text="Настройка логики исполнительного устройства" />
-			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" Background="{DynamicResource BSettings}" Text="Вставить (Ctrl+V)" />
+			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd" Text="Добавить дочернее устройство (Ctrl+N)" />
+			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="BAddChild" Text="Добавить к родительскому устройству (Ctrl+M)" />
+			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete" Text="Удалить (Ctrl+Del)" />
+			<Controls:IconedMenuItem Command="{Binding SelectCommand}" ImageSource="BSelect" Text="Выбрать" />
+			<Controls:IconedMenuItem Command="{Binding ShowLogicCommand}" ImageSource="BLogic" Text="Настройка логики исполнительного устройства" />
+			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings" Text="Вставить (Ctrl+V)" />
 			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" />
-			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />
-			<Controls:IconedMenuItem Background="{DynamicResource BParametersReadWrite}" Text="Параметры">
-				<Controls:IconedMenuItem Command="{Binding ReadCommand}" Background="{DynamicResource BParametersRead}" Text="Считать параметры" />
-				<Controls:IconedMenuItem Command="{Binding ReadAllCommand}" Background="{DynamicResource BParametersReadAll}" Text="Считать параметры дочерних устройств" />
-				<Controls:IconedMenuItem Command="{Binding WriteCommand}" Background="{DynamicResource BParametersWrite}" Text="Записать параметры" />
-				<Controls:IconedMenuItem Command="{Binding WriteAllCommand}" Background="{DynamicResource BParametersWriteAll}" Text="Записать параметры дочерних устройств" />
+			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Разрешить множественную визуализацию" />
+			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Запретить множественную визуализацию" />
+			<Controls:IconedMenuItem ImageSource="BParametersReadWrite" Text="Параметры">
+				<Controls:IconedMenuItem Command="{Binding ReadCommand}" ImageSource="BParametersRead" Text="Считать параметры" />
+				<Controls:IconedMenuItem Command="{Binding ReadAllCommand}" ImageSource="BParametersReadAll" Text="Считать параметры дочерних устройств" />
+				<Controls:IconedMenuItem Command="{Binding WriteCommand}" ImageSource="BParametersWrite" Text="Записать параметры" />
+				<Controls:IconedMenuItem Command="{Binding WriteAllCommand}" ImageSource="BParametersWriteAll" Text="Записать параметры дочерних устройств" />
 				<Separator />
-				<Controls:IconedMenuItem Command="{Binding CopyParamCommand}" Background="{DynamicResource BCopy}" Text="Копировать параметры" />
-				<Controls:IconedMenuItem Command="{Binding PasteParamCommand}" Background="{DynamicResource BPaste}" Text="Вставить параметры" />
-				<Controls:IconedMenuItem Command="{Binding PasteAllParamCommand}" Background="{DynamicResource BPasteAll}" Text="Вставить параметры во все дочерние устройства" />
+				<Controls:IconedMenuItem Command="{Binding CopyParamCommand}" ImageSource="BCopy" Text="Копировать параметры" />
+				<Controls:IconedMenuItem Command="{Binding PasteParamCommand}" ImageSource="BPaste" Text="Вставить параметры" />
+				<Controls:IconedMenuItem Command="{Binding PasteAllParamCommand}" ImageSource="BPasteAll" Text="Вставить параметры во все дочерние устройства" />
 				<Separator />
 				<Controls:IconedMenuItem Command="{Binding PasteTemplateCommand}" ImageSource="/Controls;component/Images/BBriefcase.png" Text="Применить шаблон" />
 				<Controls:IconedMenuItem Command="{Binding PasteAllTemplateCommand}" ImageSource="/Controls;component/Images/BBriefcaseAll.png" Text="Применить шаблон ко всем дочерним устройствам" />
 				<Separator />
-				<Controls:IconedMenuItem Command="{Binding SyncFromDeviceToSystemCommand}" Background="{DynamicResource BLeft}" Text="Копировать параметры из устройства в систему" />
-				<Controls:IconedMenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" Background="{DynamicResource BLeftLeft}" Text="Копировать параметры из всех дочерних устройств в систему" />
+				<Controls:IconedMenuItem Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="BLeft" Text="Копировать параметры из устройства в систему" />
+				<Controls:IconedMenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="BLeftLeft" Text="Копировать параметры из всех дочерних устройств в систему" />
 			</Controls:IconedMenuItem>
 		</ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
@@ -274,15 +274,15 @@
 				</ScrollViewer>
 				<Grid Grid.Row="1">
 					<StackPanel IsEnabled="{Binding IsParamtersEnabled}" HorizontalAlignment="Right" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" Background="{DynamicResource leftLeft}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
-						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" Background="{DynamicResource left}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
-						<Controls:ToolBarButton Command="{Binding ReadCommand}" Background="{DynamicResource ParametersRead}" ToolTip="Считать параметры" />
-						<Controls:ToolBarButton Command="{Binding WriteCommand}" Background="{DynamicResource ParametersWrite}" ToolTip="Записать параметры" />
-						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" Background="{DynamicResource ParametersReadAll}" ToolTip="Считать параметры дочерних устройств" />
-						<ToolBarButton Command="{Binding WriteAllCommand}" Background="{DynamicResource ParametersWriteAll}" ToolTip="Записать параметры дочерних устройств" />
-						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" Background="{DynamicResource Copy}" ToolTip="Копировать параметры" />
-						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" Background="{DynamicResource Paste}" ToolTip="Вставить параметры" />
-						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" Background="{DynamicResource Paste}" ToolTip="Вставить параметры во все дочерние устройства" />
+						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="leftLeft" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
+						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="left" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
+						<Controls:ToolBarButton Command="{Binding ReadCommand}" ImageSource="ParametersRead" ToolTip="Считать параметры" />
+						<Controls:ToolBarButton Command="{Binding WriteCommand}" ImageSource="ParametersWrite" ToolTip="Записать параметры" />
+						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" ImageSource="ParametersReadAll" ToolTip="Считать параметры дочерних устройств" />
+						<ToolBarButton Command="{Binding WriteAllCommand}" ImageSource="ParametersWriteAll" ToolTip="Записать параметры дочерних устройств" />
+						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" ImageSource="Copy" ToolTip="Копировать параметры" />
+						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" ImageSource="Paste" ToolTip="Вставить параметры" />
+						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" ImageSource="Paste" ToolTip="Вставить параметры во все дочерние устройства" />
 					</StackPanel>
 				</Grid>
 			</Grid>

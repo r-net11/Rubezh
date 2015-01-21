@@ -63,8 +63,8 @@
 			</DataGrid.InputBindings>
 		</DataGrid>
 		<StackPanel Grid.Column="1">
-			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" Background="{DynamicResource Delete}"  IsEnabled="True" ToolTip="Закрыть панель валидации" />
-			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding EditValidationCommand}" Background="{DynamicResource settings}"  ToolTip="Настройка фильтра ошибок" />
+			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding CloseValidationCommand}" ImageSource="Delete"  IsEnabled="True" ToolTip="Закрыть панель валидации" />
+			<ToolBarButton Width="32" Height="32" Margin="2" VerticalAlignment="Top" Command="{Binding EditValidationCommand}" ImageSource="Settings"  ToolTip="Настройка фильтра ошибок" />
 		</StackPanel>
 	</Grid>
 </UserControl>
