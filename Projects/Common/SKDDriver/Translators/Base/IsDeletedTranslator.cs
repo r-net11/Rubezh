@@ -141,7 +141,7 @@ namespace SKDDriver
 		{
 			var result = TranslateBase<ApiType, TableType>(tableItem);
 			result.IsDeleted = tableItem.IsDeleted;
-			result.RemovalDate = CheckDate(tableItem.RemovalDate);
+			result.RemovalDate = TranslatiorHelper.CheckDate(tableItem.RemovalDate);
 			return result;
 		}
 
@@ -150,7 +150,7 @@ namespace SKDDriver
 			where TableType : DataAccess.IIsDeletedDatabaseElement
 		{
 			tableItem.IsDeleted = apiItem.IsDeleted;
-			tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+			tableItem.RemovalDate = TranslatiorHelper.CheckDate(apiItem.RemovalDate);
 		}
 	}
 }

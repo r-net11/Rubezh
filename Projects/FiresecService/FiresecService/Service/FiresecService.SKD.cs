@@ -1221,5 +1221,56 @@ namespace FiresecService.Service
 				return databaseService.EmployeeTranslator.GenerateEmployeeDays();
 			}
 		}
+
+		#region Export
+		public OperationResult ExportOrganisation(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Synchroniser.Export(uid);
+			}
+		}
+		public OperationResult ImportOrganisation(string fileName)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Synchroniser.Import(fileName);
+			}
+		}
+
+		public OperationResult ExportJournal()
+		{
+			return new OperationResult();
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    return databaseService.OrganisationTranslator.Synchroniser.Export(uid);
+			//}
+		}
+		public OperationResult ImportJournal(string fileName)
+		{
+			return new OperationResult();
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    return databaseService.OrganisationTranslator.Synchroniser.Import(fileName);
+			//}
+		}
+
+		public OperationResult ExportPassJournal()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassJournalTranslator.Synchroniser.Export();
+			}
+		}
+		public OperationResult ImportPassJournal(string fileName)
+		{
+			
+			return new OperationResult();
+			//using (var databaseService = new SKDDatabaseService())
+			//{
+			//    return databaseService.OrganisationTranslator.Synchroniser.Import(fileName);
+			//}
+		}
+		#endregion
 	}
 }

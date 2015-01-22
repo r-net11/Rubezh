@@ -19,7 +19,25 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.DeletePassJournal(uid);
 			return Common.ShowErrorIfExists(result);
 		}
-		
-		
+		public static bool ExportJournal()
+		{
+			var result = FiresecManager.FiresecService.ExportJournal();
+			return Common.ShowErrorIfExists(result);
+		}
+		public static bool ImportJournal(string fileName)
+		{
+			var result = FiresecManager.FiresecService.ImportJournal(fileName);
+			return Common.ShowErrorIfExists(result);
+		}
+		public static bool ExportPassJournal()
+		{
+			var result = FiresecManager.FiresecService.ExportPassJournal();
+			return Common.ShowErrorIfExists(result);
+		}
+		public static bool ImportPassJournal(string fileName)
+		{
+			var result = FiresecManager.FiresecService.ImportPassJournal(fileName);
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

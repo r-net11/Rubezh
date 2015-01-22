@@ -135,6 +135,7 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> IsAnyOrganisationItems(Guid uid);
+
 		#endregion
 
 		#region AdditionalColumnType
@@ -279,5 +280,25 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult GenerateEmployeeDays();
+
+		#region Export
+		[OperationContract]
+		OperationResult ExportOrganisation(Guid uid);
+
+		[OperationContract]
+		OperationResult ImportOrganisation(string fileName);
+
+		[OperationContract]
+		OperationResult ExportJournal();
+
+		[OperationContract]
+		OperationResult ImportJournal(string fileName);
+
+		[OperationContract]
+		OperationResult ExportPassJournal();
+
+		[OperationContract]
+		OperationResult ImportPassJournal(string fileName);
+		#endregion
 	}
 }

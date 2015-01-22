@@ -11,6 +11,7 @@ namespace SKDDriver
 		public DepartmentTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
+			Synchroniser = new DepartmentSynchroniser(Table, DatabaseService);
 		}
 
 		protected override OperationResult CanSave(Department item)
@@ -212,5 +213,7 @@ namespace SKDDriver
 		{
 			return employee.DepartmentUID;
 		}
+
+		public DepartmentSynchroniser Synchroniser;
 	}
 }

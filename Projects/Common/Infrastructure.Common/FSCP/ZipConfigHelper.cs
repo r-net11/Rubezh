@@ -41,4 +41,33 @@ namespace Infrastructure.Common
 			}
 		}
 	}
+
+	public static class ZipHelper
+	{
+		public static void IntoZip(string fileName, string zipName)
+		{
+			var zip = new ZipFile(zipName);
+			if (zip.Entries.FirstOrDefault(x => x.FileName == fileName) != null)
+				zip.RemoveEntry(fileName);
+			using (var fileStream = File.Open(fileName, FileMode.Open))
+			{
+				zip.AddEntry(fileName, fileStream);
+				zip.Save(zipName);
+			}
+		}
+
+		public static MemoryStream FromZip(string fileName, string zipName)
+		{
+			var stream = new MemoryStream();
+			using (var unzip = ZipFile.Read(zipName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") }))
+			{
+				var entry = unzip[fileName];
+				if (entry == null)
+					return null;
+				entry.Extract(stream);
+				stream.Position = 0;
+				return stream;
+			}
+		}
+	}
 }

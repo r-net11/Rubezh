@@ -38,6 +38,7 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		TimeTrackingViewModel TimeTrackingViewModel;
+		ExportViewModel ExportViewModel;
 		PlanPresenter PlanPresenter;
 
 		public SKDModuleLoader()
@@ -56,6 +57,7 @@ namespace SKDModule
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			TimeTrackingViewModel = new TimeTrackingViewModel();
+			ExportViewModel = new ExportViewModel();
 
 			SubscribeShowDelailsEvent();
 		}
@@ -119,8 +121,9 @@ namespace SKDModule
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", null, null),
 						}),
+						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "/Controls;component/Images/Kartoteka2W.png"),
 					})
-				};
+				};	
 		}
 
 		public override void Initialize()
@@ -157,6 +160,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Export/DataTemplates/Dictionary.xaml"));
 			DesignerLoader.RegisterResource();
 		}
 

@@ -58,7 +58,7 @@ namespace SKDDriver.Translators
 			tableItem.Date = apiItem.Date;
 			tableItem.Name = apiItem.Name;
 			tableItem.Reduction = (int)apiItem.Reduction.TotalSeconds;
-			tableItem.TransferDate = apiItem.TransferDate < MinYear ? MinYear : apiItem.TransferDate;
+			tableItem.TransferDate = apiItem.TransferDate < TranslatiorHelper.MinYear ? TranslatiorHelper.MinYear : apiItem.TransferDate;
 			tableItem.Type = (int)apiItem.Type;
 		}
 	}

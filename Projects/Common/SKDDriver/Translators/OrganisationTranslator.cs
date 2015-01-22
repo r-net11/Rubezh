@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
 
+
 namespace SKDDriver
 {
 	public class OrganisationTranslator : IsDeletedTranslator<DataAccess.Organisation, Organisation, OrganisationFilter>
@@ -13,7 +14,7 @@ namespace SKDDriver
 		public OrganisationTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
-
+			Synchroniser = new OrganisationSynchroniser(Table, databaseService);
 		}
 
 		protected OperationResult CanSave(OrganisationDetails item)
@@ -324,7 +325,7 @@ namespace SKDDriver
 					if (apiItem.Photo != null)
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
-					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+					tableItem.RemovalDate = TranslatiorHelper.CheckDate(apiItem.RemovalDate);
 					tableItem.ChiefUID = apiItem.ChiefUID;
 					tableItem.HRChiefUID = apiItem.HRChiefUID;
 					tableItem.Phone = apiItem.Phone;
@@ -337,7 +338,7 @@ namespace SKDDriver
 					if (apiItem.Photo != null)
 						tableItem.PhotoUID = apiItem.Photo.UID;
 					tableItem.IsDeleted = apiItem.IsDeleted;
-					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+					tableItem.RemovalDate = TranslatiorHelper.CheckDate(apiItem.RemovalDate);
 					tableItem.ChiefUID = apiItem.ChiefUID;
 					tableItem.HRChiefUID = apiItem.HRChiefUID;
 					tableItem.Phone = apiItem.Phone;
@@ -358,5 +359,7 @@ namespace SKDDriver
 				result = result.And(e => e.OrganisationUsers.Any(x => x.UserUID == filter.UserUID));
 			return result;
 		}
+
+		public OrganisationSynchroniser Synchroniser;
 	}
 }

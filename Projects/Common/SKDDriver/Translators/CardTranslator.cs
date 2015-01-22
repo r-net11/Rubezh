@@ -65,8 +65,8 @@ namespace SKDDriver
 			tableItem.Number = apiItem.Number;
 			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.CardType = (int)apiItem.CardType;
-			tableItem.StartDate = CheckDate(apiItem.StartDate);
-			tableItem.EndDate = CheckDate(apiItem.EndDate);
+			tableItem.StartDate = TranslatiorHelper.CheckDate(apiItem.StartDate);
+			tableItem.EndDate = TranslatiorHelper.CheckDate(apiItem.EndDate);
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;

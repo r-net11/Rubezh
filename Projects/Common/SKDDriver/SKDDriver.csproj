@@ -65,10 +65,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Synchronisers\CardSynchroniser.cs" />
+    <Compile Include="Synchronisers\DepartmentSynchroniser.cs" />
+    <Compile Include="Synchronisers\EmployeeSynchroniser.cs" />
+    <Compile Include="Synchronisers\JounalSynchroniser.cs" />
+    <Compile Include="Synchronisers\OrganisationSynchroniser.cs" />
+    <Compile Include="Synchronisers\PositionSynchroniser.cs" />
     <Compile Include="Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="Translators\AdditionalColumnTypeTranslator.cs" />
     <Compile Include="Translators\Base\EmployeeTranslatorBase.cs" />
     <Compile Include="Translators\Base\IsDeletedTranslator.cs" />
+    <Compile Include="Synchronisers\Synchroniser.cs" />
     <Compile Include="Translators\Base\WithFilterTranslator.cs" />
     <Compile Include="Translators\Base\WithShortTranslator.cs" />
     <Compile Include="Translators\CardTranslator.cs" />

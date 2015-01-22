@@ -432,5 +432,32 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
 		}
 
+		#region Export
+		public OperationResult ExportOrganisation(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.ExportOrganisation(uid));
+		}
+		public OperationResult ImportOrganisation(string fileName)
+		{
+			return SafeContext.Execute(() => FiresecService.ImportOrganisation(fileName));
+		}
+		public OperationResult ExportJournal()
+		{
+			return SafeContext.Execute(() => FiresecService.ExportJournal());
+		}
+		public OperationResult ImportJournal(string fileName)
+		{
+			return SafeContext.Execute(() => FiresecService.ImportPassJournal(fileName));
+		}
+		public OperationResult ExportPassJournal()
+		{
+			return SafeContext.Execute(() => FiresecService.ExportPassJournal());
+		}
+		public OperationResult ImportPassJournal(string fileName)
+		{
+			return SafeContext.Execute(() => FiresecService.ImportPassJournal(fileName));
+		}
+		#endregion
+
 	}
 }

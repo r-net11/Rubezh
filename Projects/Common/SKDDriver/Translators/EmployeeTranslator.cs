@@ -14,6 +14,7 @@ namespace SKDDriver
 		public EmployeeTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
+			Synchroniser = new EmployeeSynchroniser(Table, databaseService);
 		}
 
 		protected override OperationResult CanSave(Employee employee)
@@ -110,24 +111,24 @@ namespace SKDDriver
 			tableItem.PositionUID = apiItem.Position != null ? apiItem.Position.UID : Guid.Empty;
 			tableItem.DepartmentUID = apiItem.Department != null ? apiItem.Department.UID : Guid.Empty;
 			tableItem.ScheduleUID = apiItem.Schedule != null ? apiItem.Schedule.UID : Guid.Empty;
-			tableItem.ScheduleStartDate = CheckDate(apiItem.ScheduleStartDate);
+			tableItem.ScheduleStartDate = TranslatiorHelper.CheckDate(apiItem.ScheduleStartDate);
 			tableItem.PhotoUID = apiItem.Photo != null ? apiItem.Photo.UID : Guid.Empty;
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.TabelNo = apiItem.TabelNo;
-			tableItem.CredentialsStartDate = CheckDate(apiItem.CredentialsStartDate);
+			tableItem.CredentialsStartDate = TranslatiorHelper.CheckDate(apiItem.CredentialsStartDate);
 			tableItem.EscortUID = apiItem.EscortUID;
 			tableItem.DocumentNumber = apiItem.DocumentNumber;
-			tableItem.BirthDate = CheckDate(apiItem.BirthDate);
+			tableItem.BirthDate = TranslatiorHelper.CheckDate(apiItem.BirthDate);
 			tableItem.BirthPlace = apiItem.BirthPlace;
 			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
-			tableItem.DocumentGivenDate = CheckDate(apiItem.DocumentGivenDate);
-			tableItem.DocumentValidTo = CheckDate(apiItem.DocumentValidTo);
+			tableItem.DocumentGivenDate = TranslatiorHelper.CheckDate(apiItem.DocumentGivenDate);
+			tableItem.DocumentValidTo = TranslatiorHelper.CheckDate(apiItem.DocumentValidTo);
 			tableItem.Gender = (int)apiItem.Gender;
 			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
 			tableItem.Citizenship = apiItem.Citizenship;
 			tableItem.DocumentType = (int)apiItem.DocumentType;
 			tableItem.Phone = apiItem.Phone;
-			tableItem.LastEmployeeDayUpdate = CheckDate(apiItem.LastEmployeeDayUpdate);
+			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(apiItem.LastEmployeeDayUpdate);
 		}
 
 		public override OperationResult Save(Employee apiItem)
@@ -274,5 +275,7 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 		}
+
+		public EmployeeSynchroniser Synchroniser;
 	}
 }

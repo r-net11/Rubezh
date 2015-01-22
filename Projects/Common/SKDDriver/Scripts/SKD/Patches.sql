@@ -1329,3 +1329,13 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('Card_Number_Int')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ExternalKeys')
+BEGIN
+	ALTER TABLE Employee ADD ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+	ALTER TABLE Position ADD ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+	ALTER TABLE Department ADD ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+	ALTER TABLE Card ADD ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+	ALTER TABLE Organisation ADD ExternalKey nvarchar(40) NOT NULL DEFAULT '-1'
+
+	INSERT INTO Patches (Id) VALUES ('ExternalKeys')
+END

@@ -10,6 +10,7 @@ namespace SKDDriver
 		public PositionTranslator(SKDDatabaseService databaseService)
 			: base(databaseService)
 		{
+			Synchroniser = new PositionSynchroniser(Table, DatabaseService);
 		}
 
 		protected override OperationResult CanSave(Position item)
@@ -67,5 +68,7 @@ namespace SKDDriver
 		{
 			return employee.PositionUID;
 		}
+
+		public PositionSynchroniser Synchroniser;
 	}
 }

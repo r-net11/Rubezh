@@ -123,7 +123,12 @@
     </Compile>
     <Compile Include="Events\EditEmployee2Event.cs" />
     <Compile Include="Events\NewOrganisationEvent.cs" />
+    <Compile Include="Events\ShowExportEvent.cs" />
     <Compile Include="Events\UpdateFilterEvent.cs" />
+    <Compile Include="Export\ViewModels\ExportViewModel.cs" />
+    <Compile Include="Export\Views\ExportView.xaml.cs">
+      <DependentUpon>ExportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HR\ViewModels\EmployeesFilterItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReadOnlyAccessDoorViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
@@ -718,6 +723,14 @@
       <SubType>Designer</SubType>
     </Resource>
     <Page Include="Common\Views\EmployeeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Export\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Export\Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

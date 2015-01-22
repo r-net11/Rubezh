@@ -14,6 +14,7 @@ namespace SKDDriver.Translators
 		public PassJournalTranslator()
 		{
 			Context = new DataAccess.PassJournalDataContext(ConnectionString);
+			Synchroniser = new PassJounalSynchroniser(Context.PassJournals);
 		}
 
 		public void Dispose()
@@ -238,5 +239,7 @@ namespace SKDDriver.Translators
 				return new OperationResult(e.Message);
 			}
 		}
+
+		public PassJounalSynchroniser Synchroniser;
 	}
 }

@@ -96,17 +96,7 @@ namespace SKDDriver
 			return 0;
 		}
 
-		protected static readonly DateTime MinYear = new DateTime(1900, 1, 1);
-		protected static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
-
-		protected static DateTime CheckDate(DateTime dateTime)
-		{
-			if (dateTime < MinYear)
-				return MinYear;
-			if (dateTime > MaxYear)
-				return MaxYear;
-			return dateTime;
-		}
+		
 
 		protected static ApiType TranslateBase<ApiType, TableType>(TableType tableItem)
 			where ApiType : SKDModelBase, new()
@@ -177,5 +167,20 @@ namespace SKDDriver
 			}
 			return new OperationResult();
 		}
-	}	
+	}
+	
+	public static class TranslatiorHelper
+	{
+		public static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		public static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
+
+		public static DateTime CheckDate(DateTime dateTime)
+		{
+			if (dateTime < MinYear)
+				return MinYear;
+			if (dateTime > MaxYear)
+				return MaxYear;
+			return dateTime;
+		}
+	}
 }

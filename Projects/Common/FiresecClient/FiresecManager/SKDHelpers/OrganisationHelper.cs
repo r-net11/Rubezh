@@ -101,5 +101,17 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.IsAnyOrganisationItems(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+		public static bool Export(Guid uid)
+		{
+			var operationResult = FiresecManager.FiresecService.ExportOrganisation(uid);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
+		public static bool Import(string fileName)
+		{
+			var operationResult = FiresecManager.FiresecService.ImportOrganisation(fileName);
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

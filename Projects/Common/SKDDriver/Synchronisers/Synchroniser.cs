@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Linq;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Xml.Serialization;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using LinqKit;
+
+namespace SKDDriver
+{
+	public abstract class Synchroniser<TExportItem, TTableItem>
+		where TTableItem : class, DataAccess.IExternalKey, new()
+		where TExportItem : IExportItem
+	{
+		protected Table<TTableItem> _Table;
+		protected SKDDatabaseService _DatabaseService;
+		protected abstract string Name { get; }
+		protected abstract string XmlHeaderName { get; }
+		public string NameXml { get { return Name +  ".xml"; } } 
+
+		public Synchroniser(Table<TTableItem> table, SKDDatabaseService databaseService)
+		{
+			_Table = table;
+			_DatabaseService = databaseService;
+		}
+
+		public OperationResult<List<TExportItem>> Get(Guid uid)
+		{
+			try
+			{
+				var result = new List<TExportItem>();
+				var tableItems = _Table.Where(IsInFilter(uid));
+				foreach (var item in tableItems)
+				{
+					var exportItem = Translate(item);
+					exportItem.UID = item.UID;
+					if (item.ExternalKey == "-1")
+						item.ExternalKey = item.UID.ToString("N");
+					exportItem.ExternalKey = item.ExternalKey;
+					exportItem.IsDeleted = item.IsDeleted;
+					exportItem.RemovalDate = item.RemovalDate;
+					result.Add(exportItem);
+					_Table.Context.SubmitChanges();
+				}
+				return new OperationResult<List<TExportItem>> { Result = result };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<List<TExportItem>>(e.Message);
+			}
+		}
+
+		public virtual OperationResult Export(Guid uid)
+		{
+			try
+			{
+				var getResult = Get(uid);
+				if (getResult.HasError)
+					return new OperationResult(getResult.Error);
+				var items = getResult.Result;
+				var serializer = new XmlSerializer(typeof(List<TExportItem>));
+				using (var fileStream = File.Open(NameXml, FileMode.Create))
+				{
+					serializer.Serialize(fileStream, items);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		void Save(List<TExportItem> exportItems)
+		{
+			foreach (var exportItem in exportItems)
+			{
+				var tableItem = _Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
+				if (tableItem != null)
+				{
+					TranslateBack(exportItem, tableItem);
+				}
+				else
+				{
+					var newTableItem = new TTableItem();
+					if (exportItem.UID != Guid.Empty)
+						newTableItem.UID = exportItem.UID;
+					else
+						newTableItem.UID = Guid.NewGuid();
+					newTableItem.ExternalKey = exportItem.ExternalKey;
+					newTableItem.RemovalDate = TranslatiorHelper.CheckDate(exportItem.RemovalDate);
+					newTableItem.IsDeleted = exportItem.IsDeleted;
+					TranslateBack(exportItem, newTableItem);
+					_Table.InsertOnSubmit(newTableItem);
+				}
+				_Table.Context.SubmitChanges();
+			}
+		}
+
+
+		public virtual OperationResult Import(Stream stream)
+		{
+			try
+			{
+				var serializer = new XmlSerializer(typeof(List<TExportItem>));
+				var importItems = (List<TExportItem>)serializer.Deserialize(stream);
+				if (importItems != null)
+				{
+					BeforeSave(importItems);
+					Save(importItems);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		protected virtual void BeforeSave(List<TExportItem> exportItems) { }
+		public abstract TExportItem Translate(TTableItem tableItem);
+		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
+		protected virtual Expression<Func<TTableItem, bool>> IsInFilter(Guid uid)
+		{
+			var result = PredicateBuilder.True<TTableItem>();
+			result = result.And(e => e != null);
+			return result;
+		}
+
+		protected Guid GetUID(Guid? uid)
+		{
+			return uid != null ? uid.Value : Guid.Empty;
+		}
+
+		protected string GetExternalKey(Guid? uid, DataAccess.IExternalKey exportItem)
+		{
+			if (exportItem == null)
+				return "-1";
+			if (exportItem.ExternalKey == "-1")
+				return exportItem.UID.ToString();
+			return exportItem.ExternalKey;
+		}
+
+		protected Guid GetUIDbyExternalKey<T>(string externalKey, Table<T> table)
+			where T : class, DataAccess.IExternalKey
+		{
+			var organisation = table.FirstOrDefault(x => x.ExternalKey.Equals(externalKey));
+			return organisation != null ? organisation.UID : Guid.Empty;
+		}
+	}
+}

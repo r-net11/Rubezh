@@ -45,11 +45,13 @@ namespace SKDModule.ViewModels
 				UID = uid.Value;
 				EnterTime = enterTime.Value;
 				ExitTime = exitTime.Value;
+				Title = "Редактировать проход";
 			}
 			else
 			{
 				UID = Guid.NewGuid();
 				_IsNew = true;
+				Title = "Добавить проход";
 			}
 
 			var schedule = ScheduleHelper.GetSingle(employee.ScheduleUID);
