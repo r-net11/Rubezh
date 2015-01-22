@@ -5,7 +5,7 @@
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
-		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
-		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 	</StackPanel>
 </UserControl>

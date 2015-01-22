@@ -30,10 +30,10 @@
 			</DataGrid>
 		</Grid>
 		<StackPanel Grid.Column="1" Margin="2">
-			<Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" Background="{DynamicResource left}"  />
-			<Controls:ToolBarButton Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Background="{DynamicResource right}"  />
-			<Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" Background="{DynamicResource leftLeft}"  />
-			<Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Background="{DynamicResource right}"  />
+			<ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" Background="{DynamicResource left}"  />
+			<ToolBarButton Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Background="{DynamicResource right}"  />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" Background="{DynamicResource leftLeft}"  />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Background="{DynamicResource right}"  />
 		</StackPanel>
 		<Grid Name="dataGrid2" Grid.Column="2">
 			<DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">

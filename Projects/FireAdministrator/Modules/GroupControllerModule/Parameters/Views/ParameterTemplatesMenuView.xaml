@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
-		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
 	</StackPanel>
 </UserControl>

@@ -274,15 +274,15 @@
 				</ScrollViewer>
 				<Grid Grid.Row="1">
 					<StackPanel IsEnabled="{Binding IsParamtersEnabled}" HorizontalAlignment="Right" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="leftLeft" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
-						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="left" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
-						<Controls:ToolBarButton Command="{Binding ReadCommand}" ImageSource="ParametersRead" ToolTip="Считать параметры" />
-						<Controls:ToolBarButton Command="{Binding WriteCommand}" ImageSource="ParametersWrite" ToolTip="Записать параметры" />
-						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" ImageSource="ParametersReadAll" ToolTip="Считать параметры дочерних устройств" />
+						<ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="leftLeft" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
+						<ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="left" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
+						<ToolBarButton Command="{Binding ReadCommand}" ImageSource="ParametersRead" ToolTip="Считать параметры" />
+						<ToolBarButton Command="{Binding WriteCommand}" ImageSource="ParametersWrite" ToolTip="Записать параметры" />
+						<ToolBarButton Command="{Binding ReadAllCommand}" ImageSource="ParametersReadAll" ToolTip="Считать параметры дочерних устройств" />
 						<ToolBarButton Command="{Binding WriteAllCommand}" ImageSource="ParametersWriteAll" ToolTip="Записать параметры дочерних устройств" />
-						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" ImageSource="Copy" ToolTip="Копировать параметры" />
-						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" ImageSource="Paste" ToolTip="Вставить параметры" />
-						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" ImageSource="Paste" ToolTip="Вставить параметры во все дочерние устройства" />
+						<ToolBarButton Command="{Binding CopyParamCommand}" ImageSource="Copy" ToolTip="Копировать параметры" />
+						<ToolBarButton Command="{Binding PasteParamCommand}" ImageSource="Paste" ToolTip="Вставить параметры" />
+						<ToolBarButton Command="{Binding PasteAllParamCommand}" ImageSource="Paste" ToolTip="Вставить параметры во все дочерние устройства" />
 					</StackPanel>
 				</Grid>
 			</Grid>

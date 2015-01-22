@@ -9,10 +9,10 @@
 		</Grid.RowDefinitions>
 		<Image Grid.Row="0" Name="PhotoImage" Stretch="Uniform" />
 		<StackPanel Grid.Row="1" Name="_stackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
-			<local:ToolBarButton Background="{DynamicResource Webcam}"  ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" Visibility="Collapsed" />
-			<local:ToolBarButton Background="{DynamicResource Scanner}"  ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" Visibility="Collapsed" />
-			<local:ToolBarButton Background="{DynamicResource Paste}"  ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
-			<local:ToolBarButton Background="{DynamicResource load}"  ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Webcam"  ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" Visibility="Collapsed" />
+			<local:ToolBarButton ImageSource="Scanner"  ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" Visibility="Collapsed" />
+			<local:ToolBarButton ImageSource="Paste"  ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="Load"  ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
 		</StackPanel>
 	</Grid>
 </UserControl>

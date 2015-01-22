@@ -38,10 +38,10 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
-			<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" Background="{DynamicResource left}"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-			<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" Background="{DynamicResource right}"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-			<Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" Background="{DynamicResource leftLeft}"  />
-			<Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" Background="{DynamicResource right}"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" Background="{DynamicResource left}"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" Background="{DynamicResource right}"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" Background="{DynamicResource leftLeft}"  />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" Background="{DynamicResource right}"  />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">

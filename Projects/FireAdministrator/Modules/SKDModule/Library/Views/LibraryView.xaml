@@ -94,8 +94,8 @@
 									<StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}" Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Label VerticalAlignment="Center" Content=" Длительность, мс: " />
 									<ExtToolkit:IntegerUpDown Width="75" Height="20" Increment="100" IsEditable="False" Maximum="10000" Minimum="100" Text="{Binding Duration, Mode=TwoWay}" />
-									<!--  <Controls:ToolBarButton Command="{Binding ImportSvgCommand}" Background="{DynamicResource Arrow-up-left}"  ToolTip="Импорт из .svg" />
-									<Controls:ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" Background="{DynamicResource Arrow-down-right}"  />  -->
+									<!--  <ToolBarButton Command="{Binding ImportSvgCommand}" Background="{DynamicResource Arrow-up-left}"  ToolTip="Импорт из .svg" />
+									<ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" Background="{DynamicResource Arrow-down-right}"  />  -->
 								</StackPanel>
 								<ContentControl Width="500" Height="500" Margin="0, 0, 150, 0" HorizontalAlignment="Center" Content="{Binding XamlOfImage}">
 									<ContentControl.LayoutTransform>
