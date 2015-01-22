@@ -71,32 +71,32 @@ namespace FiresecService.Report.Templates
 
 							if (dayTimeTrack.RealTimeTrackParts.Count > 0)
 							{
-								dataRow.Period = dayTimeTrack.RealTimeTrackParts.Min(x => x.StartTime);
-								dataRow.Leave = dayTimeTrack.RealTimeTrackParts.Max(x => x.EndTime);
+								dataRow.FirstEnter = dayTimeTrack.RealTimeTrackParts.Min(x => x.StartTime);
+								dataRow.LastExit = dayTimeTrack.RealTimeTrackParts.Max(x => x.EndTime);
 							}
 
 							var absence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Absence);
 							if (absence != null)
 							{
-								//dataRow.Absence = absence.TimeSpan;
+								dataRow.Absence = absence.TimeSpan;
 							}
 
 							var late = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Late);
 							if (late != null)
 							{
-								//dataRow.LeaveBefore = late.TimeSpan;
+								dataRow.Late = late.TimeSpan;
 							}
 
 							var earlyLeave = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.EarlyLeave);
 							if (earlyLeave != null)
 							{
-								//dataRow.LeaveBefore = earlyLeave.TimeSpan;
+								dataRow.EarlyLeave = earlyLeave.TimeSpan;
 							}
 
 							var overtime = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Overtime);
 							if (overtime != null)
 							{
-								//dataRow.Overtime = overtime.TimeSpan;
+								dataRow.Overtime = overtime.TimeSpan;
 							}
 
 							var isHoliday = dayTimeTrack.IsHoliday;

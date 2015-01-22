@@ -122,16 +122,16 @@ namespace FiresecService.Report.Templates
 								totalDocumentAbsence += documentAbsence.TimeSpan;
 							}
 						}
-						dataRow.WorkScheduleTime = totalScheduleDay.TotalHours;
-						dataRow.WorkScheduleTimeNight = totalScheduleNight.TotalHours;
-						dataRow.WorkTime = totalPresence.TotalHours;
-						dataRow.WorkOvertime = totalOvertime.TotalHours;
-						dataRow.WorkTimeNight = totalNight.TotalHours;
-						dataRow.WorkTotal = totalPresence.TotalHours + totalOvertime.TotalHours + totalNight.TotalHours;
-						dataRow.Overtime = totalDocumentOvertime.TotalHours;
-						dataRow.Dismiss = totalDocumentAbsence.TotalHours;
-						dataRow.Balance = -(dataRow.WorkScheduleTime + dataRow.WorkScheduleTimeNight) + dataRow.WorkTotal;
-						dataRow.Total = dataRow.Balance + dataRow.Overtime - dataRow.Dismiss;
+						dataRow.ScheduleDay = totalScheduleDay.TotalHours;
+						dataRow.ScheduleNight = totalScheduleNight.TotalHours;
+						dataRow.Presence = totalPresence.TotalHours;
+						dataRow.Overtime = totalOvertime.TotalHours;
+						dataRow.Night = totalNight.TotalHours;
+						dataRow.TotalPresence = totalPresence.TotalHours + totalOvertime.TotalHours + totalNight.TotalHours;
+						dataRow.DocumentOvertime = totalDocumentOvertime.TotalHours;
+						dataRow.DocumentAbsence = totalDocumentAbsence.TotalHours;
+						dataRow.Balance = -(dataRow.ScheduleDay + dataRow.ScheduleNight) + dataRow.TotalPresence;
+						dataRow.TotalBalance = dataRow.Balance + dataRow.DocumentOvertime - dataRow.DocumentAbsence;
 					}
 
 					dataSet.Data.Rows.Add(dataRow);

@@ -107,10 +107,5 @@ namespace FiresecService.Report.Templates
 
 			return dataSet;
 		}
-		//protected override void DataSourceRequered()
-		//{
-		//    base.DataSourceRequered();
-		//    FillTestData();
-		//}
 	}
 }
