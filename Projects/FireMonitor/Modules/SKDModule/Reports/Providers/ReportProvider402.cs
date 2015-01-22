@@ -1,13 +1,14 @@
 ﻿using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.Generic;
+using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers
 {
-    public class ReportProvider402 : FilteredSKDReportProvider<SKDReportFilter>
+    public class ReportProvider402 : FilteredSKDReportProvider<ReportFilter402>
 	{
 		public ReportProvider402()
-			: base("Report402", "402. Отчет о маршруте сотрудника/посетителя", 402, SKDReportGroup.Events)
+            : base("Report402", "402. Маршрут сотрудника/посетителя", 402, SKDReportGroup.Events)
 		{
 		}
 
@@ -15,7 +16,6 @@ namespace SKDModule.Reports.Providers
 		{
 			return new FilterModel()
 			{
-				HasPeriod = true,
 				Columns = new Dictionary<string, string> 
 				{ 
 					{ "c01", "Сотруднки (Посетитель)" },
@@ -23,7 +23,16 @@ namespace SKDModule.Reports.Providers
 					{ "c03", "Отдел" },
 					{ "c04", "Должность (Сопровождающий)" },
 				},
-			};
+                Pages = new List<FilterContainerViewModel>()
+				{
+					new ZonePageViewModel(),
+                    new DoorPageViewModel(),
+					new OrganizationPageViewModel(true),
+					new DepartmentPageViewModel(),
+					new PositionPageViewModel(),
+					new EmployeePageViewModel(),
+				},
+            };
 		}
 	}
 }

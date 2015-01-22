@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -179,12 +179,12 @@ namespace GKModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "BEdit"),
+					new RibbonMenuItemViewModel("Копировать", CopyCommand, "BCopy"),
+					new RibbonMenuItemViewModel("Вставить", PasteCommand, "BPaste"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+				}, "BEdit") { Order = 2 }
 			};
 		}
 	}

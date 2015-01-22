@@ -104,7 +104,6 @@ namespace SKDModule.Reports.ViewModels
 			}
 		}
 
-
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			var passCardTypeFilter = filter as IReportFilterPassCardType;

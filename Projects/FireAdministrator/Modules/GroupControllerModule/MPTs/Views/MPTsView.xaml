@@ -48,9 +48,9 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
-						<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" Background="{DynamicResource Edit}"  />
-						<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
+						<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 					</StackPanel>
 					<DataGrid Grid.Row="1" Name="dataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
 						<DataGrid.Resources>
@@ -101,7 +101,7 @@
 							</Grid>
 							<Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
 						</StackPanel>
-						<Controls:ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" Background="{DynamicResource settings}"  VerticalAlignment="Top" />
+						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="settings"  VerticalAlignment="Top" />
 					</Grid>
 				</Grid>
 			</Grid>

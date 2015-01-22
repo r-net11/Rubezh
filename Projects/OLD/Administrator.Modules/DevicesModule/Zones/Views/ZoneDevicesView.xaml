@@ -47,8 +47,8 @@
 			</tree:TreeList>
 
 			<StackPanel Grid.Row="1" Orientation="Horizontal">
-				<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource arrowUp}"  ToolTip="Добавить в зону" />
-				<ToolBarButton Command="{Binding RemoveCommand}" Background="{DynamicResource arrowDown}"  ToolTip="Удалить из зоны" />
+				<ToolBarButton Command="{Binding AddCommand}" ImageSource="arrowUp"  ToolTip="Добавить в зону" />
+				<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="arrowDown"  ToolTip="Удалить из зоны" />
 				<Controls:ToolBarButton Command="{Binding ShowZoneLogicCommand}" Background="{DynamicResource logic}"  ToolTip="Логика" />
 			</StackPanel>
 		</Grid>

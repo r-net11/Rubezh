@@ -33,8 +33,8 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<StackPanel Grid.Row="0" Orientation="Horizontal">
-				<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить" />
-				<ToolBarButton Command="{Binding DeleteCommand}" Background="{DynamicResource Delete}"  ToolTip="Удалить" />
+				<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+				<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete"  ToolTip="Удалить" />
 			</StackPanel>
 			<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>

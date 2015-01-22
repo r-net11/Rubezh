@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Client;
@@ -51,8 +51,8 @@ namespace ReportsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, "Отчеты 2", "/Controls;component/Images/levels.png"),
-				new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "/Controls;component/Images/levels.png"),
+				new NavigationItem<ShowSKDReportsEvent>(_skdReportViewModel, ModuleType.ToDescription(), "levels"),
+				//new NavigationItem<ShowReportsEvent>(_reportViewModel, ModuleType.ToDescription(), "levels"),
 			};
 		}
 

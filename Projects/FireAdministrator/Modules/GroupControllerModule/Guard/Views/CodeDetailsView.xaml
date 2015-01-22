@@ -33,8 +33,8 @@
 						</Grid>
 					</StackPanel>
 					<StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-						<ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadPropertiesCommand}" Background="{DynamicResource read}"  ToolTip="Считать параметры" />
-						<ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding WritePropertiesCommand}" Background="{DynamicResource write}"  ToolTip="Записать параметры" />
+						<ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadPropertiesCommand}" ImageSource="read"  ToolTip="Считать параметры" />
+						<ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding WritePropertiesCommand}" ImageSource="write"  ToolTip="Записать параметры" />
 					</StackPanel>
 				</Grid>
 			</Border>

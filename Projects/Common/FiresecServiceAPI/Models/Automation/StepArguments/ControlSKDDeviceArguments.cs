@@ -30,7 +30,7 @@ namespace FiresecAPI.Automation
 		[Description("Установить режим ОТКРЫТО")]
 		OpenForever,
 
-		[Description("Установить режим ЗАКРЫТО")]
+		[Description("Установить режим НОРМА")]
 		CloseForever
 	}
 }

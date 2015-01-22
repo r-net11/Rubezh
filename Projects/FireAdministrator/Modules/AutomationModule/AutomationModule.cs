@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using AutomationModule.Events;
 using AutomationModule.Layout.ViewModels;
@@ -54,13 +54,13 @@ namespace AutomationModule
 		{
 			return new List<NavigationItem>
 				{
-					new NavigationItem(ModuleType.ToDescription(), "/Controls;component/Images/tree.png",
+					new NavigationItem(ModuleType.ToDescription(), "tree",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "/Controls;component/Images/Procedure.png"),
-							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "/Controls;component/Images/Shedules.png"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "/Controls;component/Images/GlobalVariables.png"),
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "/Controls;component/Images/Music.png")
+							new NavigationItem<ShowProceduresEvent, Guid>(_proceduresViewModel, "Процедуры", "Procedure"),
+							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(_schedulesViewModel, "Расписания", "Shedules"),
+							new NavigationItem<ShowGlobalVariablesEvent, Guid>(_globalVariablesViewModel, "Глобальные переменные", "GlobalVariables"),
+							new NavigationItem<ShowAutomationSoundsEvent, Guid>(_soundsViewModel, "Звуки", "Music")
 						}) {IsExpanded = true},
 				};
 		}

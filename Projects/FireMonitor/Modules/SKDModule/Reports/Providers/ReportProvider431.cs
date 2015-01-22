@@ -1,10 +1,11 @@
 ﻿using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.Generic;
+using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers
 {
-    public class ReportProvider431 : FilteredSKDReportProvider<SKDReportFilter>
+    public class ReportProvider431 : FilteredSKDReportProvider<ReportFilter431>
 	{
 		public ReportProvider431()
 			: base("Report431", "431. Список точек доступа", 431, SKDReportGroup.Configuration)
@@ -28,7 +29,13 @@ namespace SKDModule.Reports.Providers
 					{ "c09", "Зона 2" },
 					{ "c10", "Примечание" },
 				},
-			};
+                Pages = new List<FilterContainerViewModel>()
+				{
+                    new DoorPageViewModel(),
+					new ZonePageViewModel(),
+					new OrganizationPageViewModel(true),
+				},
+            };
 		}
 	}
 }

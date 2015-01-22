@@ -35,8 +35,8 @@
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
-				<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить все" Background="{DynamicResource SelectAll}"  />
-				<ToolBarButton Command="{Binding DeSelectAllCommand}" ToolTip="Снять все выделения" Background="{DynamicResource SelectNone}"  />
+				<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить все" ImageSource="SelectAll"  />
+				<ToolBarButton Command="{Binding DeSelectAllCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
 			</StackPanel>
 			<Button  Grid.Column="1" Content="Оk" Command ="{Binding UpdateCommand}" ToolTip="{Binding UpdateButtonToolTip}" ToolTipService.ShowOnDisabled ="True" Width="100" FontSize="30" Margin="5" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
 		</Grid>

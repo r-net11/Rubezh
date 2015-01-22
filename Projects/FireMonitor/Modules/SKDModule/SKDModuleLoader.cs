@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
@@ -48,18 +48,18 @@ namespace SKDModule
 
 		public override void CreateViewModels()
 		{
-			DevicesViewModel = new DevicesViewModel();
-			ZonesViewModel = new ZonesViewModel();
-			DoorsViewModel = new DoorsViewModel();
-			HRViewModel = new HRViewModel();
-			DayIntervalsViewModel = new DayIntervalsViewModel();
-			ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
-			HolidaysViewModel = new HolidaysViewModel();
-			SchedulesViewModel = new SchedulesViewModel();
-			TimeTrackingViewModel = new TimeTrackingViewModel();
+            //DevicesViewModel = new DevicesViewModel();
+            //ZonesViewModel = new ZonesViewModel();
+            //DoorsViewModel = new DoorsViewModel();
+            //HRViewModel = new HRViewModel();
+            //DayIntervalsViewModel = new DayIntervalsViewModel();
+            //ScheduleSchemesViewModel = new ScheduleSchemesViewModel();
+            //HolidaysViewModel = new HolidaysViewModel();
+            //SchedulesViewModel = new SchedulesViewModel();
+            //TimeTrackingViewModel = new TimeTrackingViewModel();
 			ExportViewModel = new ExportViewModel();
 
-			SubscribeShowDelailsEvent();
+            //SubscribeShowDelailsEvent();
 		}
 
 		#region ShowDelailsEvent
@@ -106,33 +106,33 @@ namespace SKDModule
 		{
 			return new List<NavigationItem>
 				{
-				new NavigationItem("СКД", "/Controls;component/Images/SKDW.png",
+				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
-						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
-						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
-						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
-						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
+						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
+						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
+						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
+						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W"),
+						new NavigationItem("Учет рабочего времени", "TimeTrackingW", new List<NavigationItem>()
 						{
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
-							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, Guid.Empty),
-							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/HolidaysW.png", null, null, Guid.Empty),
-							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", null, null),
+							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
+							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, null, Guid.Empty),
+							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, null, Guid.Empty),
+							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, null, Guid.Empty),
+							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, null),
 						}),
-						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "/Controls;component/Images/Kartoteka2W.png"),
+						new NavigationItem<ShowExportEvent>(ExportViewModel, "�������", "/Controls;component/Images/Kartoteka2W.png"),
 					})
 				};	
 		}
 
 		public override void Initialize()
 		{
-			PlanPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
-			DevicesViewModel.Initialize();
-			ZonesViewModel.Initialize();
-			DoorsViewModel.Initialize();
+            //PlanPresenter.Initialize();
+            //ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
+            //DevicesViewModel.Initialize();
+            //ZonesViewModel.Initialize();
+            //DoorsViewModel.Initialize();
 		}
 
 		public override ModuleType ModuleType
@@ -274,7 +274,6 @@ namespace SKDModule
 			yield return new ReportProvider423();
             yield return new ReportProvider424();
 			yield return new ReportProvider431();
-            yield return new ReportProvider432();
 		}
 
 		#endregion

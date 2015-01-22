@@ -65,8 +65,8 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" Background="{DynamicResource Add}"  />
-						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" Background="{DynamicResource Edit}"  />
+						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="Add"  />
+						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit"  />
 					</StackPanel>
 					<DataGrid Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>

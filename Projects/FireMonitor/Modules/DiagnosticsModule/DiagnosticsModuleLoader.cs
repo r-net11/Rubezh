@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using DiagnosticsModule.ViewModels;
 using FiresecAPI;
 using Infrastructure.Client;
@@ -32,13 +32,13 @@ namespace DiagnosticsModule
 		{
 			return new List<NavigationItem>
 				{
-				new NavigationItem("Диагностика", "/Controls;component/Images/Bug.png",
+				new NavigationItem("Диагностика", "Bug",
 					new List<NavigationItem>()
 					{
 #if DEBUG
-						new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+						new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "Bug"),
 #endif
-						new NavigationItem<ShowServerEvent, object>(ServerViewModel, "Очередь операций", "/Controls;component/Images/Bug.png")
+						new NavigationItem<ShowServerEvent, object>(ServerViewModel, "Очередь операций", "Bug")
 					})
 				};
 		}

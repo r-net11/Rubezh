@@ -229,7 +229,6 @@
     <Compile Include="Reports\Providers\ReportProvider402.cs" />
     <Compile Include="Reports\Providers\ReportProvider401.cs" />
     <Compile Include="Reports\Providers\ReportProvider424.cs" />
-    <Compile Include="Reports\Providers\ReportProvider432.cs" />
     <Compile Include="Reports\Providers\ReportProvider431.cs" />
     <Compile Include="Reports\Providers\ReportProvider423.cs" />
     <Compile Include="Reports\Providers\ReportProvider422.cs" />
@@ -242,7 +241,15 @@
     <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DoorPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\DocumentFilterPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\EventTypePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\EventTypeViewModel.cs" />
+    <Compile Include="Reports\ViewModels\SKDObjectViewModel.cs" />
+    <Compile Include="Reports\ViewModels\PlacementMainPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\SKDObjectPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\PassCardTypePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\EmployeePageViewModel.cs" />
@@ -250,6 +257,18 @@
     <Compile Include="Reports\ViewModels\PositionPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DepartmentPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\OrganizationPageViewModel.cs" />
+    <Compile Include="Reports\Views\DisciplinaryFilterPageView.xaml.cs">
+      <DependentUpon>DisciplinaryFilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DocumentFilterPageView.xaml.cs">
+      <DependentUpon>DocumentFilterPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\DoorPageView.xaml.cs">
+      <DependentUpon>DoorPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\SKDFilterPageView.xaml.cs">
+      <DependentUpon>SKDFilterPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\Views\FilterPageView.xaml.cs">
       <DependentUpon>FilterPageView.xaml</DependentUpon>
     </Compile>
@@ -261,6 +280,9 @@
     </Compile>
     <Compile Include="Reports\Views\PassCardTypePageView.xaml.cs">
       <DependentUpon>PassCardTypePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\PlacementMainPageView.xaml.cs">
+      <DependentUpon>PlacementMainPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\SchedulePageView.xaml.cs">
       <DependentUpon>SchedulePageView.xaml</DependentUpon>
@@ -765,6 +787,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Reports\Views\DisciplinaryFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DocumentFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\DoorPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\SKDFilterPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Reports\Views\FilterPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -778,6 +816,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\PassCardTypePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\PlacementMainPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

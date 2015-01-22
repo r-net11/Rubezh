@@ -30,9 +30,9 @@
 						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
 				</Button>
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить условие" Height="32" Width="32" />
-					<ToolBarButton Command="{Binding AddGroupCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить группу условий" Height="32" Width="32" />
-					<ToolBarButton Command="{Binding RemoveGroupCommand2}" Background="{DynamicResource Delete}"  ToolTip="Удалить группу условий" Height="32" Width="32" />
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />
+					<ToolBarButton Command="{Binding AddGroupCommand}" ImageSource="Add"  ToolTip="Добавить группу условий" Height="32" Width="32" />
+					<ToolBarButton Command="{Binding RemoveGroupCommand2}" ImageSource="Delete"  ToolTip="Удалить группу условий" Height="32" Width="32" />
 				</StackPanel>
 			</Grid>
 		</Border>

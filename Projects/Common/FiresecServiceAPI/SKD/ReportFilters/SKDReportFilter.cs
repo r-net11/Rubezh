@@ -20,6 +20,14 @@ namespace FiresecAPI.SKD.ReportFilters
 			PrintUser = true;
 
 			SortAscending = true;
+
+            if (this is IReportFilterPeriod)
+            {
+                var periodFilter = (IReportFilterPeriod)this;
+                periodFilter.DateTimeFrom = DateTime.Today;
+                periodFilter.DateTimeTo = DateTime.Today.AddDays(1).AddSeconds(-1);
+                periodFilter.PeriodType = ReportPeriodType.Day;
+            }
 		}
 
 		[DataMember]

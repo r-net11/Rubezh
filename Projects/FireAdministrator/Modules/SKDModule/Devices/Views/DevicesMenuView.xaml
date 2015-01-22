@@ -3,22 +3,22 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" Background="{DynamicResource Add}"  />
-		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Свойства (Ctrl+E)" Background="{DynamicResource Edit}"  />
-		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" Background="{DynamicResource Delete}"  />
+		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
+		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Свойства (Ctrl+E)" ImageSource="Edit"  />
+		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
 		<Menu VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
 			<MenuItem>
 				<MenuItem.Header>
 					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-				<IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Управление контроллером" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerDoorTypeCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Тип контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Пароль контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerNetworkCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Сетевые настройки контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowControllerTimeSettingsCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Временные настройки контроллера" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ во все контроллеры" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры замка" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" ImageSource="BParametersSync"  Text="Управление контроллером" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerDoorTypeCommand}" ImageSource="BParametersSync"  Text="Тип контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" ImageSource="BParametersSync"  Text="Пароль контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerNetworkCommand}" ImageSource="BParametersSync"  Text="Сетевые настройки контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowControllerTimeSettingsCommand}" ImageSource="BParametersSync"  Text="Временные настройки контроллера" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="BParametersSync"  Text="Записать графики работ" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" ImageSource="BParametersSync"  Text="Записать графики работ во все контроллеры" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="BParametersSync"  Text="Параметры замка" TotalHeight="32" />
 			</MenuItem>
 			<Menu.Style>
 				<Style TargetType="{x:Type Menu}">

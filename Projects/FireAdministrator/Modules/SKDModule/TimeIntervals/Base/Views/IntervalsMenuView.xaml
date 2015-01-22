@@ -1,12 +1,12 @@
 <UserControl x:Class="SKDModule.Intervals.Base.Views.IntervalsMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
 		<ToolBarButton Command="{Binding ActivateCommand}" ImageSource="{Binding SelectedInterval.ActivateActionImage}">
-			<Controls:ToolBarButton.ToolTip>
+			<ToolBarButton.ToolTip>
 				<ToolTip Content="{Binding SelectedInterval.ActivateActionTitle}" ContentStringFormat="{}{0} (Ctrl+A)" />
-			</Controls:ToolBarButton.ToolTip>
+			</ToolBarButton.ToolTip>
 		</ToolBarButton>
-		<ToolBarButton Command="{Binding EditCommand}" Background="{DynamicResource Edit}"  ToolTip="Редактировать (Ctrl+E)" />
-		<ToolBarButton Command="{Binding CopyCommand}" Background="{DynamicResource Copy}"  ToolTip="Копировать (Ctrl+C)" />
-		<ToolBarButton Command="{Binding PasteCommand}" Background="{DynamicResource Paste}"  ToolTip="Вставить (Ctrl+V)" />
+		<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать (Ctrl+E)" />
+		<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать (Ctrl+C)" />
+		<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить (Ctrl+V)" />
 	</StackPanel>
 </UserControl>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -559,9 +559,9 @@ namespace DevicesModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Охрана", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Считать охранную конфигурацию", ReadGuardUserCommand, "/Controls;component/Images/BRead.png", "Считать охранную конфигурацию из устройства"),
-					new RibbonMenuItemViewModel("Записать охранную конфигурацию", WriteGuardUserCommand, "/Controls;component/Images/BWrite.png", "Записать охранную конфигурацию в устройство"),
-				}, "/Controls;component/Images/BUser.png") { Order = 1 } ,
+					new RibbonMenuItemViewModel("Считать охранную конфигурацию", ReadGuardUserCommand, "BRead", "Считать охранную конфигурацию из устройства"),
+					new RibbonMenuItemViewModel("Записать охранную конфигурацию", WriteGuardUserCommand, "BWrite", "Записать охранную конфигурацию в устройство"),
+				}, "BUser") { Order = 1 } ,
 			};
 		}
 	}

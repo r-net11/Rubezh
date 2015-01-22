@@ -8,7 +8,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider413 : FilteredSKDReportProvider<ReportFilter413>
 	{
 		public ReportProvider413()
-			: base("Report413", "413. Отчет по правам доступа", 413, SKDReportGroup.HR)
+            : base("Report413", "413. Права доступа сотрудников/посетителей", 413, SKDReportGroup.HR)
 		{
 		}
 

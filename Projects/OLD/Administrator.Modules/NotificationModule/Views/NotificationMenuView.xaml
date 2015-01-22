@@ -6,7 +6,7 @@
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
 		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" Background="{DynamicResource Edit}"  />
-		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 		<Controls:ToolBarButton Command="{Binding TestCommand}" ToolTip="Тест" Background="{DynamicResource Alarm}"  />
 		<Controls:ToolBarButton Command="{Binding EditSenderCommand}" ToolTip="Конфигурация сервера отправки" Background="{DynamicResource Alarm}"  />
 	</StackPanel>

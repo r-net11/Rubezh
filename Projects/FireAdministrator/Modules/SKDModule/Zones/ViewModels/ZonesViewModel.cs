@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -98,12 +98,12 @@ namespace SKDModule.ViewModels
 		void OnDelete()
 		{
 			var index = Zones.IndexOf(SelectedZone);
-			SKDManager.RemoceZone(SelectedZone.Zone);
+			SKDManager.RemoveZone(SelectedZone.Zone);
 			Zones.Remove(SelectedZone);
 			index = Math.Min(index, Zones.Count - 1);
 			if (index > -1)
 				SelectedZone = Zones[index];
-			ServiceFactory.SaveService.GKChanged = true;
+			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -223,10 +223,10 @@ namespace SKDModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 1 }
+					new RibbonMenuItemViewModel("Добавить", "BAdd"),
+					new RibbonMenuItemViewModel("Редактировать", "BEdit"),
+					new RibbonMenuItemViewModel("Удалить", "BDelete"),
+				}, "BEdit") { Order = 1 }
 			};
 		}
 

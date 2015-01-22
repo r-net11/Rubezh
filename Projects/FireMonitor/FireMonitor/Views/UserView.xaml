@@ -12,6 +12,6 @@
 				</StackPanel>
 			</StackPanel>
 		</Button.ToolTip>
-		<Image Source="/Controls;component/Images/user.png" Height="24" Opacity="0.5" />
+		<Grid Background="{DynamicResource User}" Height="24" Width="24" Opacity="0.5" />
 	</Button>
 </UserControl>

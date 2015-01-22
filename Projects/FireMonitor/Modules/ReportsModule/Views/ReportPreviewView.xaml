@@ -11,22 +11,22 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding PrintCommand}" Background="{DynamicResource Print}"  ToolTip="Печать отчета" />
-					<ToolBarButton Command="{Binding PdfPrintCommand}" Background="{DynamicResource Pdf}"  ToolTip="Сохранить отчет в PDF" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}" />
-					<ToolBarButton Command="{Binding FirstPageCommand}" Background="{DynamicResource leftLeft}"  ToolTip="Начальная страница" />
-					<ToolBarButton x:Name="_previousButton" Command="{Binding PreviousPageCommand}" Background="{DynamicResource left}"  ToolTip="Предыдущая страница" />
+					<ToolBarButton Command="{Binding PrintCommand}" ImageSource="Print"  ToolTip="Печать отчета" />
+					<ToolBarButton Command="{Binding PdfPrintCommand}" ImageSource="Pdf"  ToolTip="Сохранить отчет в PDF" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}" />
+					<ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="leftLeft"  ToolTip="Начальная страница" />
+					<ToolBarButton x:Name="_previousButton" Command="{Binding PreviousPageCommand}" ImageSource="left"  ToolTip="Предыдущая страница" />
 					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
 					<TextBlock Text="/" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="2"/>
 					<TextBlock Text="{Binding TotalPageNumber}" VerticalAlignment="Center" FontSize="20" Foreground="White" Margin="2"/>
-					<ToolBarButton x:Name="_nextButton"  Command="{Binding NextPageCommand}" Background="{DynamicResource right}"  ToolTip="Следующая страница" />
-					<ToolBarButton Command="{Binding LastPageCommand}" Background="{DynamicResource rightRight}"  ToolTip="Последняя страница" />
-					<ToolBarButton Command="{Binding FitToWidthCommand}" CommandParameter="{Binding ViewportWidth, ElementName=_scrollViewer}" Background="{DynamicResource WidthToPage}"  ToolTip="По ширине страницы" />
-					<ToolBarButton Command="{Binding FitlToHeightCommand}" CommandParameter="{Binding ViewportHeight, ElementName=_scrollViewer}"  Background="{DynamicResource HeightToPage}"  ToolTip="По высоте страницы" />
-					<ToolBarButton Command="{Binding FitToPageCommand}" Background="{DynamicResource FidthToPage}"  ToolTip="Исходный размер" />
+					<ToolBarButton x:Name="_nextButton"  Command="{Binding NextPageCommand}" ImageSource="right"  ToolTip="Следующая страница" />
+					<ToolBarButton Command="{Binding LastPageCommand}" ImageSource="rightRight"  ToolTip="Последняя страница" />
+					<ToolBarButton Command="{Binding FitToWidthCommand}" CommandParameter="{Binding ViewportWidth, ElementName=_scrollViewer}" ImageSource="WidthToPage"  ToolTip="По ширине страницы" />
+					<ToolBarButton Command="{Binding FitlToHeightCommand}" CommandParameter="{Binding ViewportHeight, ElementName=_scrollViewer}"  ImageSource="HeightToPage"  ToolTip="По высоте страницы" />
+					<ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="FidthToPage"  ToolTip="Исходный размер" />
 				</StackPanel>
 				<DockPanel Grid.Column="1" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}">
-					<ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" Background="{DynamicResource ZoomOut}"  ToolTip="Уменьшить масштаб" />
-					<ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" Background="{DynamicResource ZoomIn}"  ToolTip="Увеличить масштаб" />
+					<ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" ImageSource="ZoomOut"  ToolTip="Уменьшить масштаб" />
+					<ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" ImageSource="ZoomIn"  ToolTip="Увеличить масштаб" />
 					<Slider x:Name="slider" VerticalAlignment="Center" Maximum="{Binding MaxScale}" Minimum="{Binding MinScale}" Orientation="Horizontal" ToolTip="Изменить масштаб" Value="{Binding Scale}" />
 				</DockPanel>
 			</Grid>

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -161,9 +161,9 @@ namespace DevicesModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "BAdd"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "BDelete"),
+				}, "BEdit") { Order = 2 }
 			};
 		}
 	}

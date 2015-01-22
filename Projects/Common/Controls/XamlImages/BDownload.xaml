@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="BDownload" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 268.493,-77.9584L 268.493,-72.6251L 241.827,-72.6251L 241.827,-77.9584L 236.452,-77.9584L 236.452,-67.3757L 273.868,-67.3757L 273.868,-77.9584L 268.493,-77.9584 Z "/>
+					<GeometryDrawing Brush="{DynamicResource ButtonBackgroundColorDark}" Geometry="F1 M 260.493,-93.9584L 260.493,-104.709L 249.827,-104.709L 249.827,-93.9584L 239.155,-93.9584L 255.16,-75.5464L 271.165,-93.9584L 260.493,-93.9584 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

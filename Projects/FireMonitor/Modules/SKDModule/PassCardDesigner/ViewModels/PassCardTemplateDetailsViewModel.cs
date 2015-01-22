@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Common;
@@ -45,28 +45,28 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			{
 				Items = new ObservableCollection<BaseViewModel>()
 				{
-					new MenuButtonViewModel(EditCommand, "/Controls;component/Images/Edit.png" , "Редактировать"),
+					new MenuButtonViewModel(EditCommand, "Edit" , "Редактировать"),
 					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "/Controls;component/Images/Copy.png" , "Копировать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "/Controls;component/Images/Cut.png" , "Вырезать"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "/Controls;component/Images/Paste.png" , "Вставить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "/Controls;component/Images/Undo.png" , "Отменить"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "/Controls;component/Images/Redo.png" , "Применить"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.CopyCommand, "Copy" , "Копировать"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.CutCommand, "Cut" , "Вырезать"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.PasteCommand, "Paste" , "Вставить"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.UndoCommand, "Undo" , "Отменить"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.RedoCommand, "Redo" , "Применить"),
 					//new MenuSeparatorViewModel(),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "/Controls;component/Images/MoveForward.png" , "Вверх"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "/Controls;component/Images/MoveBackward.png" , "Вниз"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "/Controls;component/Images/MoveFront.png" , "Выше"),
-					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "/Controls;component/Images/MoveBack.png" , "Ниже"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.MoveToFrontCommand, "MoveForward" , "Вверх"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.SendToBackCommand, "MoveBackward" , "Вниз"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.MoveForwardCommand, "MoveFront" , "Выше"),
+					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "MoveBack" , "Ниже"),
 				}
 			};
 			if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
 			{
-				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "/Controls;component/Images/shapes-align-hori-left.png", "Выровнять по левому краю"));
-				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "/Controls;component/Images/shapes-align-hori-center.png", "Выровнять по вертикали"));
-				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "/Controls;component/Images/shapes-align-hori-right.png", "Выровнять по правому краю"));
-				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "/Controls;component/Images/shapes-align-verti-top.png", "Выровнять по верхнему краю"));
-				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "/Controls;component/Images/shapes-align-verti-middle.png", "Выровнять по горизонтали"));
-				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "/Controls;component/Images/shapes-align-verti-bottom.png", "Выровнять по нижнему краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"));
+				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю"));
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			yield return new InstrumentViewModel()
 			{
-				ImageSource = "/Controls;component/Images/Text.png",
+				ImageSource = "Text",
 				ToolTip = "Текстовое свойство",
 				Adorner = new PassCardTextPropertyAdorner(DesignerCanvas, _organisationUID),
 				Index = 300,
@@ -126,7 +126,7 @@ namespace SKDModule.PassCardDesigner.ViewModels
 			};
 			yield return new InstrumentViewModel()
 			{
-				ImageSource = "/Controls;component/Images/Photo.png",
+				ImageSource = "Photo",
 				ToolTip = "Графическое свойство",
 				Adorner = new PassCardImagePropertyAdorner(DesignerCanvas, _organisationUID),
 				Index = 301,

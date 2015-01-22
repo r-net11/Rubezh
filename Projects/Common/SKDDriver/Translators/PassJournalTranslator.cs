@@ -241,5 +241,47 @@ namespace SKDDriver.Translators
 		}
 
 		public PassJounalSynchroniser Synchroniser;
+
+		public DataAccess.PassJournal GetEmployeeLastPassJournal(Guid employeeUID)
+		{
+			try
+			{
+				var lastPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
+				if (lastPassJournal != null)
+				{
+					return lastPassJournal;
+				}
+				else
+				{
+					lastPassJournal = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID).OrderByDescending(x => x.ExitTime).FirstOrDefault();
+					if (lastPassJournal != null)
+					{
+						return lastPassJournal;
+					}
+				}
+				return null;
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
+
+		public IEnumerable<DataAccess.PassJournal> GetEmployeeRoot(Guid employeeUID, List<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
+		{
+			try
+			{
+				var lastPassJournal = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && zoneUIDs.Contains(x.ZoneUID) && x.EnterTime >= startDateTime && x.ExitTime <= endDateTime);
+				if (lastPassJournal != null)
+				{
+					return lastPassJournal;
+				}
+				return null;
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
 	}
 }

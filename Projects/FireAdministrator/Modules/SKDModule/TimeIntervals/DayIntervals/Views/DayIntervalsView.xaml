@@ -46,9 +46,9 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<StackPanel Grid.Row="0" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить (Ctrl+N)" />
-					<ToolBarButton Command="{Binding EditCommand}" Background="{DynamicResource Edit}"  ToolTip="Редактировать (Ctrl+E)" />
-					<ToolBarButton Command="{Binding RemoveCommand}" Background="{DynamicResource Delete}"  ToolTip="Удалить (Ctrl+Del)" />
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить (Ctrl+N)" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать (Ctrl+E)" />
+					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить (Ctrl+Del)" />
 				</StackPanel>
 				<DataGrid Grid.Row="1" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 					<DataGrid.Columns>

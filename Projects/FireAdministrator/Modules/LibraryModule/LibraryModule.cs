@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -25,7 +25,7 @@ namespace LibraryModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowLibraryEvent>(LibraryViewModel, ModuleType.ToDescription(), "/Controls;component/Images/book.png"),
+				new NavigationItem<ShowLibraryEvent>(LibraryViewModel, ModuleType.ToDescription(), "book"),
 			};
 		}
 		public override ModuleType ModuleType

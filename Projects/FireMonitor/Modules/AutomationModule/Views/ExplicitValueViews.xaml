@@ -75,7 +75,9 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить объект" Height="32" Width="32" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" Background="DarkGray" ToolTip="Добавить объект" Height="32" Width="32">
+				<Grid Background="{DynamicResource Add}" />
+			</ToolBarButton>
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<ItemsControl ItemsSource="{Binding ExplicitValues}">
 					<ItemsControl.ItemTemplate>
@@ -85,7 +87,7 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<ToolBarButton Grid.Column="0" ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" Background="{DynamicResource deleteCross}"  Height="28" Width="28" />
+								<ToolBarButton Grid.Column="0" ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="deleteCross"  Height="28" Width="28" />
 								<TextBlock Grid.Column="1" Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top"
 									Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Object}}">
 									<Hyperlink  Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ChangeCommand}" CommandParameter="{Binding}" Style="{StaticResource HyperlinkStyle}">

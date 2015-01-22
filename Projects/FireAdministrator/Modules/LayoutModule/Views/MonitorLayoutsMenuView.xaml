@@ -1,11 +1,11 @@
 <UserControl x:Class="LayoutModule.Views.MonitorLayoutsMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
-		<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить макет" />
-		<ToolBarButton Command="{Binding EditCommand}" Background="{DynamicResource Edit}"  ToolTip="Редактировать макет" />
-		<ToolBarButton Command="{Binding RemoveCommand}" Background="{DynamicResource Delete}"  ToolTip="Удалить макет" />
+		<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить макет" />
+		<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать макет" />
+		<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить макет" />
 
-		<ToolBarButton Command="{Binding LayoutCopyCommand}" Background="{DynamicResource Copy}"  ToolTip="Копировать" />
-		<ToolBarButton Command="{Binding LayoutCutCommand}" Background="{DynamicResource Cut}"  ToolTip="Вырезать" />
-		<ToolBarButton Command="{Binding LayoutPasteCommand}" Background="{DynamicResource Paste}"  ToolTip="Вставить" />
+		<ToolBarButton Command="{Binding LayoutCopyCommand}" ImageSource="Copy}"  ToolTip="Копировать" />
+		<ToolBarButton Command="{Binding LayoutCutCommand}" ImageSource="Cut"  ToolTip="Вырезать" />
+		<ToolBarButton Command="{Binding LayoutPasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
 	</StackPanel>
 </UserControl>

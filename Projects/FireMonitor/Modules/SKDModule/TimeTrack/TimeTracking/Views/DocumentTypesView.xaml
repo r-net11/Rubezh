@@ -10,9 +10,9 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
-			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" Background="{DynamicResource Edit}"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
 		</StackPanel>
 
 		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedDocumentType}" Source="{Binding Organisations}" Margin="2">

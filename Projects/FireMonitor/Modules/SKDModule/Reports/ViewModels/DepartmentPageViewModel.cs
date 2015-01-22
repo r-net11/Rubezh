@@ -12,7 +12,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public DepartmentPageViewModel()
 		{
-			Title = "Отдел";
+			Title = "Подразделения";
 			Filter = new DepartmentsFilterViewModel();
 		}
 

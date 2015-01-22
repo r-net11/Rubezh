@@ -194,7 +194,7 @@
 						<Paragraph>Номер по порядку</Paragraph>
 					</TableCell>
 					<TableCell Padding="0,9,0,0" RowSpan="7">
-						<Paragraph>Фамилия, илиниалы, должность (специальность, профессия)</Paragraph>
+						<Paragraph>Фамилия, инициалы, должность (специальность, профессия)</Paragraph>
 					</TableCell>
 					<TableCell Padding="0,9,0,0" RowSpan="7">
 						<Paragraph>Табельный номер</Paragraph>

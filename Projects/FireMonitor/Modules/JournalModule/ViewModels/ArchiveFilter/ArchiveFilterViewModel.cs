@@ -3,6 +3,7 @@ using FiresecAPI.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Models;
 
 namespace JournalModule.ViewModels
 {
@@ -56,10 +57,13 @@ namespace JournalModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
+			if (ArchiveDateTimeViewModel.SelectedArchiveDefaultStateType == ArchiveDefaultStateType.RangeDate)
 			{
-				MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
-				return;
+				if (ArchiveDateTimeViewModel.StartDateTime.DateTime > ArchiveDateTimeViewModel.EndDateTime.DateTime)
+				{
+					MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
+					return;
+				}
 			}
 			ArchiveDateTimeViewModel.Save();
 			Close(true);

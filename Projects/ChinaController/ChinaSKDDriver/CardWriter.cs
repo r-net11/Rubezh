@@ -46,10 +46,10 @@ namespace ChinaSKDDriver
 				if (door != null)
 				{
 					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterScheduleNo);
-					if (door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
-					{
-						Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitScheduleNo);
-					}
+					//if (door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
+					//{
+					//    Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitScheduleNo);
+					//}
 				}
 			}
 			return controllerCardItems;
@@ -160,9 +160,9 @@ namespace ChinaSKDDriver
 					ControllerCardItems.Add(controllerCardItem);
 				}
 
-					if (progressCallback.IsCanceled)
-						return false;
-					Processor.DoProgress("Запись карты " + card.Number + " в контроллер " + device.Name, progressCallback);
+				if (progressCallback.IsCanceled)
+					return false;
+				Processor.DoProgress("Запись карты " + card.Number + " в контроллер " + device.Name, progressCallback);
 				ProcessControllerCardItems(ControllerCardItems, true);
 			}
 
@@ -224,9 +224,16 @@ namespace ChinaSKDDriver
 					foreach (var readerIntervalItem in controllerCardItem.ReaderIntervalItems)
 					{
 						var readerDevice = SKDManager.SKDConfiguration.Devices.FirstOrDefault(x => x.UID == readerIntervalItem.ReaderUID);
-						if (readerDevice != null)
+						if (readerDevice != null || readerDevice.Parent != null)
 						{
-							card.Doors.Add(readerDevice.IntAddress);
+							if (readerDevice.Parent.DoorType == DoorType.OneWay)
+							{
+								card.Doors.Add(readerDevice.IntAddress);
+							}
+							else
+							{
+								card.Doors.Add(readerDevice.IntAddress / 2);
+							}
 							card.TimeSections.Add(readerIntervalItem.WeeklyIntervalID);
 						}
 					}
@@ -300,7 +307,7 @@ namespace ChinaSKDDriver
 			public SKDDevice ControllerDevice { get; set; }
 			public List<ReaderIntervalItem> ReaderIntervalItems { get; set; }
 			public ActionTypeEnum ActionType { get; set; }
-			
+
 			public string Error { get; set; }
 			public bool HasError
 			{

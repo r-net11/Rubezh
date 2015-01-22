@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FiresecAPI;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -26,7 +26,7 @@ namespace NotificationModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowNotificationEvent>(NotificationViewModel, ModuleType.ToDescription(), "/Controls;component/Images/music.png"),
+				new NavigationItem<ShowNotificationEvent>(NotificationViewModel, ModuleType.ToDescription(), "music"),
 			};
 		}
 
