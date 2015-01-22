@@ -56,12 +56,12 @@
 		</DataGrid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
 			<StackPanel Orientation="Horizontal">
-				<ToolBarButton Background="{DynamicResource Add}"  ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
-				<ToolBarButton Background="{DynamicResource Delete}"  ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
-				<ToolBarButton Background="{DynamicResource Edit}"  ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
-				<ToolBarButton Background="{DynamicResource ChiefW}"  ToolTip="Назначить руководителя" 
+				<ToolBarButton ImageSource="Add"  ToolTip="Добавить сотрудника" Command="{Binding AddCommand}" />
+				<ToolBarButton ImageSource="Delete"  ToolTip="Удалить сотрудника" Command="{Binding RemoveCommand}" />
+				<ToolBarButton ImageSource="Edit"  ToolTip="Редактировать сотрудника" Command="{Binding EditCommand}" />
+				<ToolBarButton ImageSource="ChiefW"  ToolTip="Назначить руководителя" 
 							   Command="{Binding SetChiefCommand}" Visibility="{Binding CanSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
-				<ToolBarButton Background="{DynamicResource Delete}"  ToolTip="Снять руководителя" 
+				<ToolBarButton ImageSource="Delete"  ToolTip="Снять руководителя" 
 							   Command="{Binding UnSetChiefCommand}" Visibility="{Binding CanUnSetChief, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>

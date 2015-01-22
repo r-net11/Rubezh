@@ -214,9 +214,9 @@
 		<Setter Property="ContextMenu">
 			<Setter.Value>
 				<ContextMenu OverridesDefaultStyle="True">
-					<local:IconedMenuItem Command="{Binding AddCommand}" Background="{DynamicResource BAdd}"  Text="Добавить (Ctrl+N)" />
-					<local:IconedMenuItem Command="{Binding DeleteCommand}" Background="{DynamicResource BDelete}"  Text="Удалить (Ctrl+Del)" />
-					<local:IconedMenuItem Command="{Binding EditCommand}" Background="{DynamicResource BEdit}"  Text="Редактировать (Ctrl+E)" />
+					<local:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить (Ctrl+N)" />
+					<local:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
+					<local:IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать (Ctrl+E)" />
 				</ContextMenu>
 			</Setter.Value>
 		</Setter>

@@ -3,11 +3,11 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
 		<ContextMenu x:Key="DirectionContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" Background="{DynamicResource BAdd}"  Text="Добавить направление (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" Background="{DynamicResource BDelete}"  Text="Удалить направление (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" Background="{DynamicResource BEdit}"  Text="Редактировать направление (Ctrl+E)" />
-			<IconedMenuItem Command="{Binding CopyCommand}" Background="{DynamicResource BCopy}"  Text="Копировать направление (Ctrl+C)" />
-			<IconedMenuItem Command="{Binding PasteCommand}" Background="{DynamicResource BPaste}"  Text="Вставить направление (Ctrl+V)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить направление (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить направление (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать направление (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy"  Text="Копировать направление (Ctrl+C)" />
+			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste"  Text="Вставить направление (Ctrl+V)" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>

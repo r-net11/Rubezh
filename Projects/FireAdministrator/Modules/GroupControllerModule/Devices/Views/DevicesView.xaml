@@ -32,8 +32,8 @@
 				<Controls:IconedMenuItem Command="{Binding PasteParamCommand}" ImageSource="BPaste" Text="Вставить параметры" />
 				<Controls:IconedMenuItem Command="{Binding PasteAllParamCommand}" ImageSource="BPasteAll" Text="Вставить параметры во все дочерние устройства" />
 				<Separator />
-				<Controls:IconedMenuItem Command="{Binding PasteTemplateCommand}" ImageSource="/Controls;component/Images/BBriefcase.png" Text="Применить шаблон" />
-				<Controls:IconedMenuItem Command="{Binding PasteAllTemplateCommand}" ImageSource="/Controls;component/Images/BBriefcaseAll.png" Text="Применить шаблон ко всем дочерним устройствам" />
+				<Controls:IconedMenuItem Command="{Binding PasteTemplateCommand}" ImageSource="BBriefcase" Text="Применить шаблон" />
+				<Controls:IconedMenuItem Command="{Binding PasteAllTemplateCommand}" ImageSource="BBriefcaseAll" Text="Применить шаблон ко всем дочерним устройствам" />
 				<Separator />
 				<Controls:IconedMenuItem Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="BLeft" Text="Копировать параметры из устройства в систему" />
 				<Controls:IconedMenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="BLeftLeft" Text="Копировать параметры из всех дочерних устройств в систему" />

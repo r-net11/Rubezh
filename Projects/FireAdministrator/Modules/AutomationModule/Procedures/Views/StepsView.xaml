@@ -4,11 +4,11 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 	<UserControl.Resources>
 		<ContextMenu x:Key="StepContextMenu">
-			<IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" Background="{DynamicResource BAdd}"  Text="Добавить функкцию" />
-			<IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" Background="{DynamicResource BDelete}"  Text="Удалить функцию" />
-			<IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" Background="{DynamicResource BCopy}"  Text="Копировать" />
-			<IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" Background="{DynamicResource BCut}"  Text="Вырезать" />
-			<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" Background="{DynamicResource BPaste}"  Text="Вставить" />
+			<IconedMenuItem Command="{Binding StepsViewModel.AddStepCommand}" ImageSource="BAdd"  Text="Добавить функкцию" />
+			<IconedMenuItem Command="{Binding StepsViewModel.DeleteCommand}" ImageSource="BDelete"  Text="Удалить функцию" />
+			<IconedMenuItem Command="{Binding StepsViewModel.CopyCommand}" ImageSource="BCopy"  Text="Копировать" />
+			<IconedMenuItem Command="{Binding StepsViewModel.CutCommand}" ImageSource="BCut"  Text="Вырезать" />
+			<IconedMenuItem Command="{Binding StepsViewModel.PasteCommand}" ImageSource="BPaste"  Text="Вставить" />
 		</ContextMenu>
 	</UserControl.Resources>
 
@@ -20,13 +20,13 @@
 			<RowDefinition Height="200" MinHeight="150"/>
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" Background="{DynamicResource Add}"  />
-			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" Background="{DynamicResource Delete}"  />
-			<ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" Background="{DynamicResource AddCondition}"  />
-			<ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" Background="{DynamicResource Add}"  />
-			<ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" Background="{DynamicResource arrowUp}"  />
-			<ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" Background="{DynamicResource arrowDown}"  />
-			<ToolBarButton Command="{Binding DownIntoCommand}" ToolTip="Войти" Background="{DynamicResource arrowInto}"  />
+			<ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="Delete"  />
+			<ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="AddCondition"  />
+			<ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="arrowUp"  />
+			<ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="arrowDown"  />
+			<ToolBarButton Command="{Binding DownIntoCommand}" ToolTip="Войти" ImageSource="arrowInto"  />
 
 		</StackPanel>
 		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">

@@ -61,7 +61,7 @@
 							</TextBlock>
 
 								<StackPanel Grid.Column="1" Orientation="Horizontal">
-									<ToolBarButton Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" Background="{DynamicResource deleteCross}"  HorizontalAlignment="Right" />
+									<ToolBarButton Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" ImageSource="deleteCross"  HorizontalAlignment="Right" />
 								</StackPanel>
 							</Grid>
 						</StackPanel>

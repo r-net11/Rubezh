@@ -138,14 +138,14 @@
 						<Setter Property="ContextMenu">
 							<Setter.Value>
 								<ContextMenu>
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetCommand}" />
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Включить автоматику" Command="{Binding TurnOnAutomaticCommand}" />
-									<Controls:IconedMenuItem Background="{DynamicResource map}"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-									<Controls:IconedMenuItem Background="{DynamicResource BTree}"  Text="Показать" Command="{Binding ShowObjectCommand}" />
-									<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-									<Controls:IconedMenuItem Background="{DynamicResource BSettings}"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-									<Controls:IconedMenuItem Background="{DynamicResource BInformation}"  Text="Инструкции" Command="{Binding ShowInstructionCommand}" />
+									<IconedMenuItem ImageSource="BReset" Text="Сбросить" Command="{Binding ResetCommand}" />
+									<IconedMenuItem ImageSource="BResetIgnore" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
+									<IconedMenuItem ImageSource="BResetIgnore" Text="Включить автоматику" Command="{Binding TurnOnAutomaticCommand}" />
+									<IconedMenuItem ImageSource="Map"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+									<IconedMenuItem ImageSource="BTree"  Text="Показать" Command="{Binding ShowObjectCommand}" />
+									<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+									<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									<IconedMenuItem ImageSource="BInformation"  Text="Инструкции" Command="{Binding ShowInstructionCommand}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>

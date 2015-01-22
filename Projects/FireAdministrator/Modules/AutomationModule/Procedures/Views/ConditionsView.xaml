@@ -7,8 +7,8 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
-			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" IsReadOnly="False">
 			<DataGrid.Columns>

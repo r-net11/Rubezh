@@ -4,7 +4,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать параметры" Background="{DynamicResource ParametersRead}"  />
+		<ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать параметры" ImageSource="ParametersRead"  />
 		<Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" Background="{DynamicResource ParametersWrite}"  />
 		<Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" Background="{DynamicResource ParametersReadAll}"  />
 		<Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" Background="{DynamicResource ParametersWriteAll}"  />

@@ -111,7 +111,7 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition />
 			</Grid.RowDefinitions>
-			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить объект" Height="32" Width="32" />
+			<ToolBarButton Grid.Row="0" HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить объект" Height="32" Width="32" />
 			<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 				<ItemsControl ItemsSource="{Binding ExplicitValues}">
 					<ItemsControl.ItemTemplate>

@@ -8,7 +8,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
-			<ToolBarButton Command="{Binding RefreshCommand}" ToolTip="Обновить" Background="{DynamicResource Refresh}"  HorizontalAlignment="Right" Margin="2" />
+			<ToolBarButton Command="{Binding RefreshCommand}" ToolTip="Обновить" ImageSource="Refresh"  HorizontalAlignment="Right" Margin="2" />
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}">
 			<DataGrid.Columns>

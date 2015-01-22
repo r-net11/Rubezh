@@ -10,12 +10,12 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить" />
-			<ToolBarButton Command="{Binding EditCommand}" Background="{DynamicResource Edit}"  ToolTip="Редактировать" />
-			<ToolBarButton Command="{Binding RemoveCommand}" Background="{DynamicResource Delete}"  ToolTip="Удалить" />
-			<ToolBarButton Command="{Binding CopyCommand}" Background="{DynamicResource Copy}"  ToolTip="Копировать" />
-			<ToolBarButton Command="{Binding PasteCommand}" Background="{DynamicResource Paste}"  ToolTip="Вставить" />
-			<ToolBarButton Command="{Binding RestoreCommand}" Background="{DynamicResource Redo}"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+			<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+			<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
+			<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
+			<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 		</StackPanel>
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
@@ -56,9 +56,9 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				<StackPanel Grid.Row="0" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" Background="{DynamicResource Add}"  ToolTip="Добавить (Ctrl+N)" />
-					<ToolBarButton Command="{Binding EditCommand}" Background="{DynamicResource Edit}"  ToolTip="Редактировать (Ctrl+E)" />
-					<ToolBarButton Command="{Binding DeleteCommand}" Background="{DynamicResource Delete}"  ToolTip="Удалить (Ctrl+Del)" />
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить (Ctrl+N)" />
+					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать (Ctrl+E)" />
+					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="Delete"  ToolTip="Удалить (Ctrl+Del)" />
 				</StackPanel>
 				<XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding DayIntervalParts}" SelectedItem="{Binding SelectedDayIntervalPart}">
 					<DataGrid.Columns>

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Controls.Converters;
 using GKModule.ViewModels;
 
 namespace GKModule.Views
@@ -54,12 +55,12 @@ namespace GKModule.Views
 			if (mediaElement.IsMuted == true)
 			{
 				mediaElement.IsMuted = false;
-				((Image)MuteButton.Content).Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,,/Controls;component/Images/mute.png");
+				((Grid)MuteButton.Content).Background = (Brush)ConverterHelper.GetResource("Mute");
 			}
 			else
 			{
 				mediaElement.IsMuted = true;
-				((Image)MuteButton.Content).Source = (ImageSource)new ImageSourceConverter().ConvertFromString("pack://application:,,,/Controls;component/Images/sound.png");
+				((Grid)MuteButton.Content).Background = (Brush)ConverterHelper.GetResource("Sound");
 			}
 
 		}

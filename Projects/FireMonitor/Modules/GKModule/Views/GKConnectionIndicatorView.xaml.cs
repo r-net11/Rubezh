@@ -14,7 +14,7 @@ using Infrastructure.Events;
 
 namespace GKModule.Views
 {
-	public partial class GKConnectionIndicatorView : UserControl, INotifyPropertyChanged
+	public partial class GKConnectionIndicatorView : INotifyPropertyChanged
 	{
 		public GKConnectionIndicatorView()
 		{
@@ -27,8 +27,8 @@ namespace GKModule.Views
 			OnGKObjectsStateChangedEvent(true);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChangedEvent);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChangedEvent);
-			SafeFiresecService.ConnectionLost += new Action(OnService_ConnectionLost);
-			SafeFiresecService.ConnectionAppeared += new Action(OnService_ConnectionAppeared);
+			SafeFiresecService.ConnectionLost += OnService_ConnectionLost;
+			SafeFiresecService.ConnectionAppeared += OnService_ConnectionAppeared;
 		}
 
 		void OnService_ConnectionLost()
@@ -102,7 +102,7 @@ namespace GKModule.Views
 					_image.Opacity = 1;
 					BalloonHelper.ShowFromMonitor(text);
 				}
-				_image.BeginAnimation(Image.VisibilityProperty, GetAnimation(value));
+				_image.BeginAnimation(VisibilityProperty, GetAnimation(value));
 			}
 		}
 
@@ -113,15 +113,15 @@ namespace GKModule.Views
 			{
 				animation.Duration = TimeSpan.FromSeconds(1.5);
 				animation.RepeatBehavior = RepeatBehavior.Forever;
-				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.0))));
-				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5))));
-				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.0))));
-				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.5))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.0))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.0))));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.5))));
 			}
 			else
 			{
 				animation.Duration = TimeSpan.FromSeconds(0.5);
-				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible));
+				animation.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible));
 			}
 			return animation;
 		}

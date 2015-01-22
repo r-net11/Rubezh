@@ -8,9 +8,9 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" Background="{DynamicResource Add}"  />
-			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" Background="{DynamicResource Edit}"  />
-			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" Background="{DynamicResource Delete}"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
+			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
 		</StackPanel>
 		<XDataGrid Grid.Row="1" CanUserSortColumns="True" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
 			<DataGrid.Columns>

@@ -26,8 +26,8 @@
             <TextBlock Grid.Column="0" Style="{StaticResource label}" Text="Фильтр" />
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <ComboBox Width="240" Margin="2" DisplayMemberPath="Name" IsEditable="True" ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" Text="{Binding FilterName}" />
-                <ToolBarButton Background="{DynamicResource Save}" Command="{Binding SaveFilterCommand}" ToolTip="Сохранить" />
-                <ToolBarButton Background="{DynamicResource Close}" Command="{Binding RemoveFilterCommand}" ToolTip="Удалить" />
+                <ToolBarButton ImageSource="Save" Command="{Binding SaveFilterCommand}" ToolTip="Сохранить" />
+                <ToolBarButton ImageSource="Close" Command="{Binding RemoveFilterCommand}" ToolTip="Удалить" />
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Visibility="{Binding HasPeriod, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">

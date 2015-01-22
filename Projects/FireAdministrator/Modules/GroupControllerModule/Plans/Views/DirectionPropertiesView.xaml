@@ -32,7 +32,7 @@
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>
-					<Controls:IconedMenuItem Background="{DynamicResource BEdit}"  Text="Редактировать" Command="{Binding EditCommand}" />
+					<Controls:IconedMenuItem ImageSource="BEdit"  Text="Редактировать" Command="{Binding EditCommand}" />
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 		</DataGrid>

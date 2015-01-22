@@ -322,7 +322,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Templates\BaseReport.resx">
       <DependentUpon>BaseReport.cs</DependentUpon>
     </EmbeddedResource>

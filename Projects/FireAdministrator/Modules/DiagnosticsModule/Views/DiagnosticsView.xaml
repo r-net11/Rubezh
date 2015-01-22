@@ -38,6 +38,10 @@
             <Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
                 <StackPanel>
                     <Button Width="100" Margin="2" Command="{Binding SessionInitialiazationCommand}" Content="SessionInitialiazation" />
+					<Border BorderThickness="5" BorderBrush="Black">
+					<MediaElement Name="MediaElement" Height="200" Width="200" />
+					</Border>
+					<Button Click="ButtonBase_OnClick"></Button>
                 </StackPanel>
             </Border>
         </TabItem>

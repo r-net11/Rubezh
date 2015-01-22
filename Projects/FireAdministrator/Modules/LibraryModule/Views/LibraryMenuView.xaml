@@ -4,6 +4,6 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding AddDeviceCommand}" ToolTip="Добавить устройство" Background="{DynamicResource Add}"  />
+		<ToolBarButton Command="{Binding AddDeviceCommand}" ToolTip="Добавить устройство" ImageSource="Add"  />
 	</StackPanel>
 </UserControl>

@@ -46,8 +46,8 @@
 									<TextBlock Width="200" Text="{Binding PumpStation.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 										<TextBlock.ContextMenu>
 											<ContextMenu>
-												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-												<Controls:IconedMenuItem Background="{DynamicResource BSettings}"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 											</ContextMenu>
 										</TextBlock.ContextMenu>
 									</TextBlock>

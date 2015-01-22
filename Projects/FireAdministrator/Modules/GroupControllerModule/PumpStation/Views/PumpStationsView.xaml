@@ -84,8 +84,8 @@
 				</DataGrid>
 				<Grid.ContextMenu>
 					<ContextMenu>
-						<Controls:IconedMenuItem Background="{DynamicResource BDelete}"  Text="Удалить" Command="{Binding DeletePumpDeviceCommand}" />
-						<Controls:IconedMenuItem Background="{DynamicResource BEdit}"  Text="Изменить" Command="{Binding ChangePumpDevicesCommand}" />
+						<Controls:IconedMenuItem ImageSource="BDelete"  Text="Удалить" Command="{Binding DeletePumpDeviceCommand}" />
+						<Controls:IconedMenuItem ImageSource="BEdit"  Text="Изменить" Command="{Binding ChangePumpDevicesCommand}" />
 					</ContextMenu>
 				</Grid.ContextMenu>
 			</Grid>

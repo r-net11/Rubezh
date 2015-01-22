@@ -29,8 +29,8 @@
 			</DataGrid.Columns>
 			<DataGrid.ContextMenu>
 				<ContextMenu>
-					<Controls:IconedMenuItem Command="{Binding AddDeviceCommand}" Background="{DynamicResource BAdd}"  Text="Добавить устройство" />
-					<Controls:IconedMenuItem Command="{Binding RemoveDeviceCommand}" Background="{DynamicResource BDelete}"  Text="Удалить устройство" />
+					<Controls:IconedMenuItem Command="{Binding AddDeviceCommand}" ImageSource="BAdd"  Text="Добавить устройство" />
+					<Controls:IconedMenuItem Command="{Binding RemoveDeviceCommand}" ImageSource="BDelete"  Text="Удалить устройство" />
 				</ContextMenu>
 			</DataGrid.ContextMenu>
 		</DataGrid>
@@ -55,8 +55,8 @@
 				</DataGrid.Columns>
 				<DataGrid.ContextMenu>
 					<ContextMenu>
-						<Controls:IconedMenuItem Command="{Binding AddStateCommand}" Background="{DynamicResource BAdd}"  Text="Добавить состояние" />
-						<Controls:IconedMenuItem Command="{Binding RemoveStateCommand}" Background="{DynamicResource BDelete}"  Text="Удалить состояние" />
+						<Controls:IconedMenuItem Command="{Binding AddStateCommand}" ImageSource="BAdd"  Text="Добавить состояние" />
+						<Controls:IconedMenuItem Command="{Binding RemoveStateCommand}" ImageSource="BDelete"  Text="Удалить состояние" />
 					</ContextMenu>
 				</DataGrid.ContextMenu>
 			</DataGrid>
@@ -80,8 +80,8 @@
 								<TextBlock Text="{Binding Frame.Id}" />
 								<StackPanel.ContextMenu>
 									<ContextMenu ContextMenuOpening="OnContextMenuOpening">
-										<Controls:IconedMenuItem Command="{Binding AddFrameCommand}" Background="{DynamicResource BAdd}"  Text="Добавить кадр" />
-										<Controls:IconedMenuItem Command="{Binding RemoveFrameCommand}" Background="{DynamicResource BDelete}"  Text="Удалить кадр" />
+										<Controls:IconedMenuItem Command="{Binding AddFrameCommand}" ImageSource="BAdd"  Text="Добавить кадр" />
+										<Controls:IconedMenuItem Command="{Binding RemoveFrameCommand}" ImageSource="BDelete"  Text="Удалить кадр" />
 									</ContextMenu>
 								</StackPanel.ContextMenu>
 							</StackPanel>
@@ -94,8 +94,8 @@
 									<StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}" Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									<Label VerticalAlignment="Center" Content=" Длительность, мс: " />
 									<ExtToolkit:IntegerUpDown Width="75" Height="20" Increment="100" IsEditable="False" Maximum="10000" Minimum="100" Text="{Binding Duration, Mode=TwoWay}" />
-									<!--  <ToolBarButton Command="{Binding ImportSvgCommand}" Background="{DynamicResource Arrow-up-left}"  ToolTip="Импорт из .svg" />
-									<ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" Background="{DynamicResource Arrow-down-right}"  />  -->
+									<!--  <ToolBarButton Command="{Binding ImportSvgCommand}" ImageSource="Arrow-up-left"  ToolTip="Импорт из .svg" />
+									<ToolBarButton Command="{Binding ExportSvgCommand}" ToolTip="Экспорт в .svg" ImageSource="Arrow-down-right"  />  -->
 								</StackPanel>
 								<ContentControl Width="500" Height="500" Margin="0, 0, 150, 0" HorizontalAlignment="Center" Content="{Binding XamlOfImage}">
 									<ContentControl.LayoutTransform>

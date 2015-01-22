@@ -38,7 +38,7 @@
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-								<Controls:IconedMenuItem Background="{DynamicResource map}"  Text="Показать" Command="{Binding ShowObjectCommand}" />
+								<Controls:IconedMenuItem ImageSource="map"  Text="Показать" Command="{Binding ShowObjectCommand}" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>

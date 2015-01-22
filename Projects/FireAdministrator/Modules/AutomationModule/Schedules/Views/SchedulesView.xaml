@@ -172,8 +172,8 @@
 				<RowDefinition/>
 			</Grid.RowDefinitions>
 			<StackPanel Grid.Row="0" Orientation="Horizontal">
-				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить процедуру" Background="{DynamicResource Add}"  />
-				<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить процедуру" Background="{DynamicResource Delete}"  />
+				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить процедуру" ImageSource="Add"  />
+				<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить процедуру" ImageSource="Delete"  />
 			</StackPanel>
 			<Grid Grid.Row="1">
 				<Grid.RowDefinitions>

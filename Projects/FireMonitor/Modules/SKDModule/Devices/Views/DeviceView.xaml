@@ -9,13 +9,13 @@
 			</Hyperlink>
 			<TextBlock.ContextMenu>
 				<ContextMenu>
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть" Command="{Binding OpenCommand}" />
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть" Command="{Binding CloseCommand}" />
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" />
-					<Controls:IconedMenuItem Background="{DynamicResource map}"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-					<Controls:IconedMenuItem Background="{DynamicResource BSettings}"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+					<IconedMenuItem ImageSource="BTurnOn" Text="Открыть" Command="{Binding OpenCommand}" />
+					<IconedMenuItem ImageSource="BTurnOff" Text="Закрыть" Command="{Binding CloseCommand}" />
+					<IconedMenuItem ImageSource="BTurnOn" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
+					<IconedMenuItem ImageSource="BTurnOff" Text="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" />
+					<IconedMenuItem ImageSource="map"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+					<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+					<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 				</ContextMenu>
 			</TextBlock.ContextMenu>
 			<TextBlock.ToolTip>

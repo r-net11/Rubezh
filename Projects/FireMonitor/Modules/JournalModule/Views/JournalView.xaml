@@ -77,9 +77,9 @@
 						<Setter Property="ContextMenu">
 							<Setter.Value>
 								<ContextMenu>
-									<Controls:IconedMenuItem Background="{DynamicResource map}"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-									<Controls:IconedMenuItem Background="{DynamicResource BTree}"  Text="Показать" Command="{Binding ShowObjectCommand}" />
-									<Controls:IconedMenuItem Background="{DynamicResource BSettings}"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									<IconedMenuItem ImageSource="map"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+									<IconedMenuItem ImageSource="BTree"  Text="Показать" Command="{Binding ShowObjectCommand}" />
+									<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>

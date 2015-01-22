@@ -76,7 +76,7 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-						<ToolBarButton Margin="2" ToolTip="Удалить" Command="{Binding RemoveMediaCommand}" Background="{DynamicResource Close}"  Height="32" Width="32" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}}"/>
+						<ToolBarButton Margin="2" ToolTip="Удалить" Command="{Binding RemoveMediaCommand}" ImageSource="Close"  Height="32" Width="32" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					</StackPanel>-->
 				</Grid>
 			</Grid>

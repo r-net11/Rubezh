@@ -8,12 +8,12 @@
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
-			<Controls:IconedMenuItem Command="{Binding AddCommand}" Background="{DynamicResource BAdd}"  Text="Добавить устройство (Ctrl+N)" />
-			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" Background="{DynamicResource BDelete}"  Text="Удалить (Ctrl+Del)" />
-			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" Background="{DynamicResource BSettings}"  Text="Свойства (Ctrl+E)" />
+			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить устройство (Ctrl+N)" />
+			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="BDelete"  Text="Удалить (Ctrl+Del)" />
+			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings"  Text="Свойства (Ctrl+E)" />
 			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" />
-			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />
+			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="Eye2" Text="Разрешить множественную визуализацию" />
+			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="Eye3" Text="Запретить множественную визуализацию" />
 		</ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />

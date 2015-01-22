@@ -6,8 +6,8 @@
 		<ContextMenu  x:Key="CameraContextMenu">
 			<IconedMenuItem Command="{Binding ConnectCommand}" Text="Подключить" Visibility="{Binding SelectedCamera.IsChannel, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<IconedMenuItem Command="{Binding DisconnectCommand}" Text="Отключить" Visibility="{Binding SelectedCamera.IsChannel, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-			<IconedMenuItem Command="{Binding ShowOnPlanCommand}" Background="{DynamicResource map}"  Text="Показать на плане" />
-			<IconedMenuItem Command="{Binding ShowPropertiesCommand}" Background="{DynamicResource BSettings}"  Text="Свойства" />
+			<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="map"  Text="Показать на плане" />
+			<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="BSettings"  Text="Свойства" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<TreeList ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedTreeNode="{Binding SelectedCamera, Mode=TwoWay, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" Source="{Binding Cameras}">

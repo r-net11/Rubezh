@@ -1,11 +1,11 @@
 <UserControl x:Class="GKModule.Views.DelaysView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
 		<ContextMenu x:Key="DelayContextMenu">
-			<IconedMenuItem Command="{Binding AddCommand}" Background="{DynamicResource BAdd}"  Text="Добавить задержку (Ctrl+N)" />
-			<IconedMenuItem Command="{Binding DeleteCommand}" Background="{DynamicResource BDelete}"  Text="Удалить задержку (Ctrl+Del)" />
-			<IconedMenuItem Command="{Binding EditCommand}" Background="{DynamicResource BEdit}"  Text="Редактировать задержку (Ctrl+E)" />
-			<IconedMenuItem Command="{Binding CopyCommand}" Background="{DynamicResource BCopy}"  Text="Копировать задержку (Ctrl+C)" />
-			<IconedMenuItem Command="{Binding PasteCommand}" Background="{DynamicResource BPaste}"  Text="Вставить задержку (Ctrl+V)" />
+			<IconedMenuItem Command="{Binding AddCommand}" ImageSource="BAdd"  Text="Добавить задержку (Ctrl+N)" />
+			<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="BDelete"  Text="Удалить задержку (Ctrl+Del)" />
+			<IconedMenuItem Command="{Binding EditCommand}" ImageSource="BEdit"  Text="Редактировать задержку (Ctrl+E)" />
+			<IconedMenuItem Command="{Binding CopyCommand}" ImageSource="BCopy"  Text="Копировать задержку (Ctrl+C)" />
+			<IconedMenuItem Command="{Binding PasteCommand}" ImageSource="BPaste"  Text="Вставить задержку (Ctrl+V)" />
 		</ContextMenu>
 	</UserControl.Resources>
 	<Grid>
