@@ -289,6 +289,9 @@
     <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationService.XmlSchemas.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationService.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\RVIServiceReference\service.wsdl" />
     <None Include="Service References\RVIServiceReference\service.xsd">
       <SubType>Designer</SubType>

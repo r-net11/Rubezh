@@ -120,8 +120,11 @@ namespace DiagnosticsModule.ViewModels
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			binding.Security.Mode = SecurityMode.None;
+			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
 
-			var endpointAddress = new EndpointAddress(new Uri("net.tcp://172.16.5.7/Integration"));
+			var endpointAddress = new EndpointAddress(new Uri("net.tcp://172.16.5.7:8000/Integration"));
 
 			using (IntegrationClient client = new IntegrationClient(binding, endpointAddress))
 			//using (IntegrationClient client = new IntegrationClient())
@@ -145,6 +148,7 @@ namespace DiagnosticsModule.ViewModels
 					Session = sessionUID
 				};
 				var perimeterOut = client.GetPerimeter(perimeterIn);
+				var devices = perimeterOut.Devices;
 
 				var sessionKeepAliveIn = new SessionKeepAliveIn();
 				sessionKeepAliveIn.Header = new HeaderRequest()
@@ -153,14 +157,6 @@ namespace DiagnosticsModule.ViewModels
 					Session = sessionUID
 				};
 				var sessionKeepAliveOut = client.SessionKeepAlive(sessionKeepAliveIn);
-
-				var sessionCloseIn = new SessionCloseIn();
-				sessionKeepAliveIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 
 				var videoRecordStartIn = new VideoRecordStartIn();
 				videoRecordStartIn.Header = new HeaderRequest()
@@ -185,6 +181,14 @@ namespace DiagnosticsModule.ViewModels
 				videoRecordStopIn.ChannelNumber = 0;
 				videoRecordStopIn.EventGuid = Guid.Empty;
 				var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
+
+				var sessionCloseIn = new SessionCloseIn();
+				sessionKeepAliveIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 			}
 		}
 
