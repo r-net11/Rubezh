@@ -52,6 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\IDatabaseElement.cs" />
+    <Compile Include="DataAccess\Journal.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Journal.dbml</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\PassJournal.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -66,10 +71,12 @@
       <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
     <Compile Include="Synchronisers\CardSynchroniser.cs" />
+    <Compile Include="Synchronisers\ConfigurationSynchroniser.cs" />
     <Compile Include="Synchronisers\DepartmentSynchroniser.cs" />
     <Compile Include="Synchronisers\EmployeeSynchroniser.cs" />
     <Compile Include="Synchronisers\JounalSynchroniser.cs" />
     <Compile Include="Synchronisers\OrganisationSynchroniser.cs" />
+    <Compile Include="Synchronisers\PassJounalSynchroniser.cs" />
     <Compile Include="Synchronisers\PositionSynchroniser.cs" />
     <Compile Include="Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="Translators\AdditionalColumnTypeTranslator.cs" />
@@ -132,6 +139,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DataAccess\Journal.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Journal.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DataAccess\PassJournal.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>PassJournal.designer.cs</LastGenOutput>
@@ -191,6 +203,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Scripts\SKD\DropIfExists.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataAccess\Journal.dbml.layout">
+      <DependentUpon>Journal.dbml</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,8 +6,6 @@
         <Button Content="Выгрузить данные" Command="{Binding ExportOrganisationCommand}" Width="200" Height="100" />
         <Button Content="Загрузить данные" Command="{Binding ImportOrganisationCommand}" Width="200" Height="100" />
         <Button Content="Выгрузить данные журнала проходов" Command="{Binding ExportPassJournalCommand}" Width="200" Height="100" />
-        <Button Content="Загрузить данные журнала проходов" Command="{Binding ImportPassJournalCommand}" Width="200" Height="100" />
         <Button Content="Выгрузить данные журнала" Command="{Binding ExportJournalCommand}" Width="200" Height="100" />
-        <Button Content="Загрузить данные журнала" Command="{Binding ImportJournalCommand}" Width="200" Height="100" />
     </StackPanel>
 </UserControl>

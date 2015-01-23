@@ -104,6 +104,12 @@ namespace FiresecAPI.SKD
 		public string EmployeeExternalKey { get; set; }
 	}
 
+	public class ExportFilter
+	{
+		public Guid OrganisationUID { get; set; }
+		public bool IsWithDeleted { get; set; }
+	}
+
 	public interface IExportItem
 	{
 		Guid UID { get; set; }

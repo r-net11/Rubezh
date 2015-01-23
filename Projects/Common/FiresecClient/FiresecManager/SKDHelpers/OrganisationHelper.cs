@@ -102,9 +102,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Export(Guid uid)
+		public static bool Export(ExportFilter filter)
 		{
-			var operationResult = FiresecManager.FiresecService.ExportOrganisation(uid);
+			var operationResult = FiresecManager.FiresecService.ExportOrganisation(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

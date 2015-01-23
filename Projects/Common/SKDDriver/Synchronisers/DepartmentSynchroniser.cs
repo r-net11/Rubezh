@@ -33,9 +33,9 @@ namespace SKDDriver
 			};
 		}
 
-		protected override Expression<Func<DataAccess.Department, bool>> IsInFilter(Guid uid)
+		protected override Expression<Func<DataAccess.Department, bool>> IsInFilter(ExportFilter filter)
 		{
-			return base.IsInFilter(uid).And(x => x.OrganisationUID == uid);
+			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
 		public override void TranslateBack(ExportDepartment exportItem, DataAccess.Department tableItem)

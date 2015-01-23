@@ -1263,11 +1263,11 @@ namespace FiresecService.Service
 		}
 
 		#region Export
-		public OperationResult ExportOrganisation(Guid uid)
+		public OperationResult ExportOrganisation(ExportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.Export(uid);
+				return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
 		public OperationResult ImportOrganisation(string fileName)
@@ -1278,38 +1278,20 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult ExportJournal()
+		public OperationResult ExportJournal(DateTime minDate, DateTime maxDate)
 		{
-			return new OperationResult();
-			//using (var databaseService = new SKDDatabaseService())
-			//{
-			//    return databaseService.OrganisationTranslator.Synchroniser.Export(uid);
-			//}
-		}
-		public OperationResult ImportJournal(string fileName)
-		{
-			return new OperationResult();
-			//using (var databaseService = new SKDDatabaseService())
-			//{
-			//    return databaseService.OrganisationTranslator.Synchroniser.Import(fileName);
-			//}
+			using (var journalSynchroniser = new JounalSynchroniser())
+			{
+				return journalSynchroniser.Export(minDate, maxDate);
+			}
 		}
 
-		public OperationResult ExportPassJournal()
+		public OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.PassJournalTranslator.Synchroniser.Export();
+				return databaseService.PassJournalTranslator.Synchroniser.Export(minDate, maxDate);
 			}
-		}
-		public OperationResult ImportPassJournal(string fileName)
-		{
-			
-			return new OperationResult();
-			//using (var databaseService = new SKDDatabaseService())
-			//{
-			//    return databaseService.OrganisationTranslator.Synchroniser.Import(fileName);
-			//}
 		}
 		#endregion
 	}
