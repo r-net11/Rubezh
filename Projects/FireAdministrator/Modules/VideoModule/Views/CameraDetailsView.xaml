@@ -28,9 +28,6 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<Label Grid.Row="0" Grid.Column="0" Content="Тип видеоустройства" HorizontalAlignment="Right" Visibility="{Binding IsEditMode, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
@@ -60,23 +57,14 @@
 						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
 
-				<Label Grid.Row="3" Grid.Column="0" Content="Порт" HorizontalAlignment="Right"
-					   Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
-					ConverterParameter={x:Static local:CameraType.Channel}}" />
 				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
 
-				<Label Grid.Row="4" Grid.Column="0" Content="Имя пользователя" HorizontalAlignment="Right"
-					   Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
-					ConverterParameter={x:Static local:CameraType.Channel}}" />
 				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
 				
-				<Label Grid.Row="5" Grid.Column="0" Content="Пароль" HorizontalAlignment="Right"
-						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
-					ConverterParameter={x:Static local:CameraType.Channel}}" />
 				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />

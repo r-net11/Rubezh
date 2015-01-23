@@ -46,30 +46,6 @@
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 
-						<GridViewColumn Width="100" Header="Порт">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Camera.Port}" Visibility="{Binding IsDvr, Converter={StaticResource BoolToVisibilityConverter}}" />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-
-						<GridViewColumn Width="150" Header="Имя пользователя">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Camera.Login}" Visibility="{Binding IsDvr, Converter={StaticResource BoolToVisibilityConverter}}" />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-
-						<GridViewColumn Width="100" Header="Пароль">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Camera.Password}" Visibility="{Binding IsDvr, Converter={StaticResource BoolToVisibilityConverter}}" />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-
 						<GridViewColumn Width="100" Header="Состояние">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>

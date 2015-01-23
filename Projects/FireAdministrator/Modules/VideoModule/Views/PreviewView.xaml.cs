@@ -20,7 +20,6 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var previewViewModel = DataContext as PreviewViewModel;
-			_grid.Child = previewViewModel.CellPlayerWrap;
 		}
 	}
 }

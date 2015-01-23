@@ -10,6 +10,7 @@ using System.ServiceModel;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
+using Infrastructure.Common.Windows;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -108,88 +109,8 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand SessionInitialiazationCommand { get; private set; }
 		void OnSessionInitialiazation()
 		{
-			var binding = new NetTcpBinding(SecurityMode.None);
-			binding.OpenTimeout = TimeSpan.FromMinutes(10);
-			binding.SendTimeout = TimeSpan.FromMinutes(10);
-			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
-			binding.MaxReceivedMessageSize = Int32.MaxValue;
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
-			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
-			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-			binding.Security.Mode = SecurityMode.None;
-			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
-			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
-			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
-
-			var endpointAddress = new EndpointAddress(new Uri("net.tcp://172.16.5.7:8000/Integration"));
-
-			using (IntegrationClient client = new IntegrationClient(binding, endpointAddress))
-			//using (IntegrationClient client = new IntegrationClient())
-			{
-				var sessionUID = Guid.NewGuid();
-
-				var sessionInitialiazationIn = new SessionInitialiazationIn();
-				sessionInitialiazationIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				sessionInitialiazationIn.Login = "itest";
-				sessionInitialiazationIn.Password = "itest";
-				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
-
-				var perimeterIn = new PerimeterIn();
-				perimeterIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var perimeterOut = client.GetPerimeter(perimeterIn);
-				var devices = perimeterOut.Devices;
-
-				var sessionKeepAliveIn = new SessionKeepAliveIn();
-				sessionKeepAliveIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionKeepAliveOut = client.SessionKeepAlive(sessionKeepAliveIn);
-
-				var videoRecordStartIn = new VideoRecordStartIn();
-				videoRecordStartIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				videoRecordStartIn.DeviceGuid = Guid.Empty;
-				videoRecordStartIn.ChannelNumber = 0;
-				videoRecordStartIn.EventGuid = Guid.Empty;
-				videoRecordStartIn.TimeOut = 60;
-				var videoRecordStartOut = client.VideoRecordStart(videoRecordStartIn);
-				var startTime = videoRecordStartOut.StarTime;
-
-				var videoRecordStopIn = new VideoRecordStopIn();
-				videoRecordStopIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				videoRecordStopIn.DeviceGuid = Guid.Empty;
-				videoRecordStopIn.ChannelNumber = 0;
-				videoRecordStopIn.EventGuid = Guid.Empty;
-				var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
-
-				var sessionCloseIn = new SessionCloseIn();
-				sessionKeepAliveIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
-			}
+			var devicesViewModel = new DevicesViewModel();
+			DialogService.ShowModalWindow(devicesViewModel);
 		}
 
 		public void StopThreads()

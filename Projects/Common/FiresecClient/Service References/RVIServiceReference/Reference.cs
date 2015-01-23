@@ -15,8 +15,8 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DocumentInBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Com" +
-        "mon")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DocumentInBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.C" +
+        "ommon")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.SessionKeepAliveIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.SessionCloseIn))]
@@ -78,8 +78,8 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="HeaderRequest", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Com" +
-        "mon")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="HeaderRequest", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.C" +
+        "ommon")]
     [System.SerializableAttribute()]
     public partial class HeaderRequest : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -138,42 +138,42 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SessionKeepAliveIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SessionKeepAliveIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionKeepAliveIn : FiresecClient.RVIServiceReference.DocumentInBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SessionCloseIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SessionCloseIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionCloseIn : FiresecClient.RVIServiceReference.DocumentInBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PerimeterIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PerimeterIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PerimeterIn : FiresecClient.RVIServiceReference.DocumentInBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SubscribePerimeterChangedIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SubscribePerimeterChangedIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SubscribePerimeterChangedIn : FiresecClient.RVIServiceReference.DocumentInBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UnsubscribePerimeterChangedIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UnsubscribePerimeterChangedIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class UnsubscribePerimeterChangedIn : FiresecClient.RVIServiceReference.DocumentInBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordBaseIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordBaseIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.VideoRecordStartIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.VideoRecordStopIn))]
@@ -230,7 +230,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStartIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStartIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class VideoRecordStartIn : FiresecClient.RVIServiceReference.VideoRecordBaseIn {
         
@@ -253,14 +253,14 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStopIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStopIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class VideoRecordStopIn : FiresecClient.RVIServiceReference.VideoRecordBaseIn {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzBaseIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzBaseIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.PtzPresetIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.PtzTemplateBypassBase))]
@@ -303,7 +303,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzPresetIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzPresetIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PtzPresetIn : FiresecClient.RVIServiceReference.PtzBaseIn {
         
@@ -326,7 +326,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.PtzTemplateBypassStartIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.PtzTemplateBypassStopIn))]
@@ -351,7 +351,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStartIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStartIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PtzTemplateBypassStartIn : FiresecClient.RVIServiceReference.PtzTemplateBypassBase {
         
@@ -374,14 +374,14 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStopIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStopIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PtzTemplateBypassStopIn : FiresecClient.RVIServiceReference.PtzTemplateBypassBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.SnapshotDoIn))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.SnapshotImageIn))]
@@ -438,21 +438,21 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotDoIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotDoIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SnapshotDoIn : FiresecClient.RVIServiceReference.SnapshotBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotImageIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotImageIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SnapshotImageIn : FiresecClient.RVIServiceReference.SnapshotBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationIn", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionInitialiazationIn : FiresecClient.RVIServiceReference.DocumentInBase {
         
@@ -489,8 +489,8 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DocumentOutBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Com" +
-        "mon")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DocumentOutBase", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.C" +
+        "ommon")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.SessionKeepAliveOut))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(FiresecClient.RVIServiceReference.SessionCloseOut))]
@@ -548,8 +548,8 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="HeaderResponse", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Com" +
-        "mon")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="HeaderResponse", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.C" +
+        "ommon")]
     [System.SerializableAttribute()]
     public partial class HeaderResponse : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -624,21 +624,21 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SessionKeepAliveOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SessionKeepAliveOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionKeepAliveOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SessionCloseOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SessionCloseOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionCloseOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PerimeterOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PerimeterOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PerimeterOut : FiresecClient.RVIServiceReference.DocumentOutBase {
         
@@ -661,21 +661,21 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SubscribePerimeterChangedOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SubscribePerimeterChangedOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SubscribePerimeterChangedOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UnsubscribePerimeterChangedOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UnsubscribePerimeterChangedOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class UnsubscribePerimeterChangedOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStartOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStartOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class VideoRecordStartOut : FiresecClient.RVIServiceReference.DocumentOutBase {
         
@@ -698,42 +698,42 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStopOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="VideoRecordStopOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class VideoRecordStopOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzPresetOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzPresetOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PtzPresetOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStartOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStartOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PtzTemplateBypassStartOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStopOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PtzTemplateBypassStopOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PtzTemplateBypassStopOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotDoOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotDoOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SnapshotDoOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotImageOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SnapshotImageOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SnapshotImageOut : FiresecClient.RVIServiceReference.DocumentOutBase {
         
@@ -820,15 +820,15 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SessionInitialiazationOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class SessionInitialiazationOut : FiresecClient.RVIServiceReference.DocumentOutBase {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="HeaderResponseMessage", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Com" +
-        "mon")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="HeaderResponseMessage", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.C" +
+        "ommon")]
     [System.SerializableAttribute()]
     public partial class HeaderResponseMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -889,7 +889,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Device", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Device", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class Device : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1014,7 +1014,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Channel", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Channel", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface")]
     [System.SerializableAttribute()]
     public partial class Channel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -1170,7 +1170,7 @@ namespace FiresecClient.RVIServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DeviceStatus", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DeviceStatus", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     public enum DeviceStatus : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -1185,7 +1185,7 @@ namespace FiresecClient.RVIServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Stream", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Stream", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class Stream : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         

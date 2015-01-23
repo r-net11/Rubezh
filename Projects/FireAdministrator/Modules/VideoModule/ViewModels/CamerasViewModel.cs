@@ -84,9 +84,6 @@ namespace VideoModule.ViewModels
 					if (SelectedCamera.IsDvr)
 					{
 						cameraViewModel.Camera.Ip = SelectedCamera.Camera.Ip;
-						cameraViewModel.Camera.Port = SelectedCamera.Camera.Port;
-						cameraViewModel.Camera.Login = SelectedCamera.Camera.Login;
-						cameraViewModel.Camera.Password = SelectedCamera.Camera.Password;
 						SelectedCamera.AddChild(cameraViewModel);
 						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Camera.UID);
 						if (rootDevice != null)
@@ -95,9 +92,6 @@ namespace VideoModule.ViewModels
 					else
 					{
 						cameraViewModel.Camera.Ip = SelectedCamera.Parent.Camera.Ip;
-						cameraViewModel.Camera.Port = SelectedCamera.Parent.Camera.Port;
-						cameraViewModel.Camera.Login = SelectedCamera.Parent.Camera.Login;
-						cameraViewModel.Camera.Password = SelectedCamera.Parent.Camera.Password;
 						SelectedCamera.Parent.AddChild(cameraViewModel);
 						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Parent.Camera.UID);
 						if (rootDevice != null)
