@@ -39,7 +39,7 @@
 					<ToggleButton.Template>
 						<ControlTemplate>
 							<Border Name="border" Margin="2" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="Экспорт документа" ToolTipService.ShowOnDisabled="True">
-								<Image Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Controls;component/Images/Pdf.png" />
+								<Grid Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource Pdf}" />
 							</Border>
 							<ControlTemplate.Triggers>
 								<Trigger Property="UIElement.IsMouseOver" Value="True">

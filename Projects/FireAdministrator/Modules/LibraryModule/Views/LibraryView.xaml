@@ -16,7 +16,7 @@
 							<MenuItem Command="{Binding AddDeviceCommand}" >
 								<MenuItem.Header>
 									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+										<Grid Background="{DynamicResource BAdd}" Width="16" VerticalAlignment="Center"/>
 										<TextBlock Margin="2" Text="Добавить устройство" VerticalAlignment="Center"/>
 									</StackPanel>
 								</MenuItem.Header>
@@ -24,7 +24,7 @@
 							<MenuItem Command="{Binding RemoveDeviceCommand}">
 								<MenuItem.Header>
 									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+										<Grid Background="{DynamicResource BDelete}" Width="16" VerticalAlignment="Center"/>
 										<TextBlock Margin="2" Text="Удалить устройство" VerticalAlignment="Center"/>
 									</StackPanel>
 								</MenuItem.Header>
@@ -32,7 +32,7 @@
 							<MenuItem Command="{Binding AddDevicePresenterCommand}" >
 								<MenuItem.Header>
 									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+										<Grid Background="{DynamicResource BAdd}" Width="16" VerticalAlignment="Center"/>
 										<TextBlock Margin="2" Text="Добавить представление устройства" VerticalAlignment="Center"/>
 									</StackPanel>
 								</MenuItem.Header>
@@ -89,7 +89,7 @@
 						<MenuItem Command="{Binding AddStateCommand}" >
 							<MenuItem.Header>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+									<Grid Background="{DynamicResource BAdd}" Width="16" VerticalAlignment="Center"/>
 									<TextBlock Margin="2" Text="Добавить состояние" VerticalAlignment="Center"/>
 								</StackPanel>
 							</MenuItem.Header>
@@ -97,7 +97,7 @@
 						<MenuItem Command="{Binding RemoveStateCommand}">
 							<MenuItem.Header>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+									<Grid Background="{DynamicResource BDelete}" Width="16" VerticalAlignment="Center"/>
 									<TextBlock Margin="2" Text="Удалить состояние" VerticalAlignment="Center"/>
 								</StackPanel>
 							</MenuItem.Header>
@@ -129,7 +129,7 @@
 										<MenuItem Command="{Binding AddFrameCommand}" >
 											<MenuItem.Header>
 												<StackPanel Orientation="Horizontal">
-													<Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+													<Grid Background="{DynamicResource BAdd}" Width="16" VerticalAlignment="Center"/>
 													<TextBlock Margin="2" Text="Добавить кадр" VerticalAlignment="Center"/>
 												</StackPanel>
 											</MenuItem.Header>
@@ -137,7 +137,7 @@
 										<MenuItem Command="{Binding RemoveFrameCommand}">
 											<MenuItem.Header>
 												<StackPanel Orientation="Horizontal">
-													<Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+													<Grid Background="{DynamicResource BDelete}" Width="16" VerticalAlignment="Center"/>
 													<TextBlock Margin="2" Text="Удалить кадр" VerticalAlignment="Center"/>
 												</StackPanel>
 											</MenuItem.Header>

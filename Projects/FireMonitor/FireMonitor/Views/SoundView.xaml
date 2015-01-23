@@ -10,7 +10,7 @@
 						<DataTrigger.Setters>
 							<Setter Property="ContentControl.Content">
 								<Setter.Value>
-									<Grid Width="16" Height="16" Background="{DynamicResource Sound}" Opacity="0.5" />
+									<Grid Width="24" Height="24" Background="{DynamicResource Sound}" Opacity="0.5" />
 								</Setter.Value>
 							</Setter>
 						</DataTrigger.Setters>
@@ -19,7 +19,7 @@
 						<DataTrigger.Setters>
 							<Setter Property="ContentControl.Content">
 								<Setter.Value>
-									<Grid Width="16" Height="16" Background="{DynamicResource Mute}" Opacity="0.5" />
+									<Grid Width="24" Height="24" Background="{DynamicResource Mute}" Opacity="0.5" />
 								</Setter.Value>
 							</Setter>
 						</DataTrigger.Setters>

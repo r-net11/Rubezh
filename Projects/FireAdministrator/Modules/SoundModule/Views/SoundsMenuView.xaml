@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SoundsModule.Views.SoundsMenuView"
+<UserControl x:Class="SoundsModule.Views.SoundsMenuView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
@@ -13,7 +13,7 @@
 								<DataTrigger.Setters>
 									<Setter Property="ContentControl.Content">
 										<Setter.Value>
-											<Image Source="/Controls;component/Images/Stop.png" Height="24" Width="32" ToolTip="Остановить" />
+											<Grid Background="{DynamicResource Stop}" Height="24" Width="32" ToolTip="Остановить" />
 										</Setter.Value>
 									</Setter>
 								</DataTrigger.Setters>
@@ -22,7 +22,7 @@
 								<DataTrigger.Setters>
 									<Setter Property="ContentControl.Content">
 										<Setter.Value>
-											<Image Source="/Controls;component/Images/Play.png" Height="32" ToolTip="Проверить звук" />
+											<Grid Background="{DynamicResource Play}" Height="32" ToolTip="Проверить звук" />
 										</Setter.Value>
 									</Setter>
 								</DataTrigger.Setters>

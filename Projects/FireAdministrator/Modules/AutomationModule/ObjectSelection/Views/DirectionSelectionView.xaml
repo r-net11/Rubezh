@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AutomationModule.Views.DirectionSelectionView"
+<UserControl x:Class="AutomationModule.Views.DirectionSelectionView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -20,7 +20,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Blue_Direction.png" />
+							<Grid Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Background="{DynamicResource Blue_Direction}" />
 							<TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Direction.No}" />
 						</StackPanel>
 					</DataTemplate>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LayoutModule.Views.MonitorLayoutsTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:viewModel="clr-namespace:LayoutModule.ViewModels">
+<UserControl x:Class="LayoutModule.Views.MonitorLayoutsTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:viewModel="clr-namespace:LayoutModule.ViewModels">
 	<ListView ItemsSource="{Binding Layouts.Layouts}" SelectedItem="{Binding Layouts.SelectedLayout}">
 		<ListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -7,14 +7,14 @@
 			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.Layouts, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
 				<MenuItem Command="{Binding EditCommand}" Header="Редактировать">
 					<MenuItem.Icon>
-						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BEdit.png" />
+						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BEdit}" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<!--
 					<MenuItem Command="{Binding AddCommand}">
 					<MenuItem.Header>
 					<StackPanel Orientation="Horizontal">
-					<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+					<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BAdd}" />
 					<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить макет" />
 					</StackPanel>
 					</MenuItem.Header>
@@ -22,25 +22,25 @@
 				-->
 				<MenuItem Command="{Binding RemoveCommand}" Header="Удалить">
 					<MenuItem.Icon>
-						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BDelete.png" />
+						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BDelete}" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<Separator />
 				<MenuItem Command="{Binding LayoutCopyCommand}" Header="Копировать">
 					<MenuItem.Icon>
-						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCopy.png" />
+						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BCopy}" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem Command="{Binding LayoutCutCommand}" Header="Вырезать">
 					<MenuItem.Icon>
-						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCut.png" />
+						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BCut}" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<!--
 					<MenuItem Command="{Binding LayoutPasteCommand}">
 					<MenuItem.Header>
 					<StackPanel Orientation="Horizontal">
-					<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+					<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BPaste}" />
 					<TextBlock Margin="2" VerticalAlignment="Center" Text="Вставить" />
 					</StackPanel>
 					</MenuItem.Header>
@@ -59,12 +59,12 @@
 			<ContextMenu>
 				<MenuItem Command="{Binding Layouts.AddCommand}" Header="Добавить макет">
 					<MenuItem.Icon>
-						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BAdd}" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить">
 					<MenuItem.Icon>
-						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+						<Grid Width="16" VerticalAlignment="Center" Background="{DynamicResource BPaste}" />
 					</MenuItem.Icon>
 				</MenuItem>
 			</ContextMenu>
@@ -76,7 +76,7 @@
 						<DataTemplate>
 							<Border Background="Transparent">
 								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/BLayouts.png" />
+									<Grid Background="{DynamicResource BLayouts}" />
 									<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" Margin="2 0 0 0" />
 								</StackPanel>
 							</Border>
