@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using Controls.Converters;
 
 namespace Infrastructure.Designer
 {
@@ -11,20 +10,13 @@ namespace Infrastructure.Designer
 		public static MenuItem BuildMenuItem(string header, string imageSourceUri, ICommand command)
 		{
 			var menuItem = new MenuItem();
-
-			Image image = new Image();
-			image.Width = 16;
-			image.VerticalAlignment = VerticalAlignment.Center;
-			BitmapImage sourceImage = new BitmapImage();
-			sourceImage.BeginInit();
-			sourceImage.UriSource = new Uri(imageSourceUri);
-			sourceImage.EndInit();
-			image.Source = sourceImage;
-
-			menuItem.Icon = image;
+			var grid = new Grid();
+			grid.Width = 16;
+			grid.Height = 16;
+			grid.Background = ConverterHelper.GetResource(imageSourceUri) as Brush;
+			menuItem.Icon = grid;
 			menuItem.Header = header;
 			menuItem.Command = command;
-
 			return menuItem;
 		}
 	}
