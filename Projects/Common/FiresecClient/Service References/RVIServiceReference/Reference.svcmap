@@ -26,6 +26,7 @@
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="3afac356-fb81-4b6c-ba12-d06be2b0a603" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
     <MetadataFile FileName="RVI_VSS.IntegrationService.XmlSchemas.xsd" MetadataType="Schema" ID="d4916f45-6666-46bb-9074-42e519c7ff85" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
     <MetadataFile FileName="RVI_VSS.IntegrationService.XmlSchemas.Common.xsd" MetadataType="Schema" ID="d021f460-e241-4fb7-84e9-f16ab7558676" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationService.xsd" MetadataType="Schema" ID="af68b2f7-e9fc-4f2b-a9ad-0bf773680c14" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

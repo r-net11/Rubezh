@@ -641,6 +641,22 @@ namespace FiresecClient.RVIServiceReference {
     [System.Runtime.Serialization.DataContractAttribute(Name="PerimeterOut", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
     [System.SerializableAttribute()]
     public partial class PerimeterOut : FiresecClient.RVIServiceReference.DocumentOutBase {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FiresecClient.RVIServiceReference.Device[] DevicesField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FiresecClient.RVIServiceReference.Device[] Devices {
+            get {
+                return this.DevicesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DevicesField, value) != true)) {
+                    this.DevicesField = value;
+                    this.RaisePropertyChanged("Devices");
+                }
+            }
+        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -857,6 +873,363 @@ namespace FiresecClient.RVIServiceReference {
                 if ((object.ReferenceEquals(this.InformationField, value) != true)) {
                     this.InformationField = value;
                     this.RaisePropertyChanged("Information");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Device", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.SerializableAttribute()]
+    public partial class Device : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FiresecClient.RVIServiceReference.Channel[] ChannelsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Guid GuidField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IpField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsDeletedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FiresecClient.RVIServiceReference.DeviceStatus StatusField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FiresecClient.RVIServiceReference.Channel[] Channels {
+            get {
+                return this.ChannelsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ChannelsField, value) != true)) {
+                    this.ChannelsField = value;
+                    this.RaisePropertyChanged("Channels");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Guid Guid {
+            get {
+                return this.GuidField;
+            }
+            set {
+                if ((this.GuidField.Equals(value) != true)) {
+                    this.GuidField = value;
+                    this.RaisePropertyChanged("Guid");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Ip {
+            get {
+                return this.IpField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IpField, value) != true)) {
+                    this.IpField = value;
+                    this.RaisePropertyChanged("Ip");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsDeleted {
+            get {
+                return this.IsDeletedField;
+            }
+            set {
+                if ((this.IsDeletedField.Equals(value) != true)) {
+                    this.IsDeletedField = value;
+                    this.RaisePropertyChanged("IsDeleted");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FiresecClient.RVIServiceReference.DeviceStatus Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((this.StatusField.Equals(value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Channel", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService")]
+    [System.SerializableAttribute()]
+    public partial class Channel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountPresetsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountTemplateBypassField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int CountTemplatesAutoscanField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsPtzField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FiresecClient.RVIServiceReference.DeviceStatus StatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FiresecClient.RVIServiceReference.Stream[] StreamsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountPresets {
+            get {
+                return this.CountPresetsField;
+            }
+            set {
+                if ((this.CountPresetsField.Equals(value) != true)) {
+                    this.CountPresetsField = value;
+                    this.RaisePropertyChanged("CountPresets");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountTemplateBypass {
+            get {
+                return this.CountTemplateBypassField;
+            }
+            set {
+                if ((this.CountTemplateBypassField.Equals(value) != true)) {
+                    this.CountTemplateBypassField = value;
+                    this.RaisePropertyChanged("CountTemplateBypass");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int CountTemplatesAutoscan {
+            get {
+                return this.CountTemplatesAutoscanField;
+            }
+            set {
+                if ((this.CountTemplatesAutoscanField.Equals(value) != true)) {
+                    this.CountTemplatesAutoscanField = value;
+                    this.RaisePropertyChanged("CountTemplatesAutoscan");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsPtz {
+            get {
+                return this.IsPtzField;
+            }
+            set {
+                if ((this.IsPtzField.Equals(value) != true)) {
+                    this.IsPtzField = value;
+                    this.RaisePropertyChanged("IsPtz");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FiresecClient.RVIServiceReference.DeviceStatus Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((this.StatusField.Equals(value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FiresecClient.RVIServiceReference.Stream[] Streams {
+            get {
+                return this.StreamsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StreamsField, value) != true)) {
+                    this.StreamsField = value;
+                    this.RaisePropertyChanged("Streams");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DeviceStatus", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    public enum DeviceStatus : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Connecting = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Connected = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Error = 3,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Stream", Namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas")]
+    [System.SerializableAttribute()]
+    public partial class Stream : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RtspField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Rtsp {
+            get {
+                return this.RtspField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RtspField, value) != true)) {
+                    this.RtspField = value;
+                    this.RaisePropertyChanged("Rtsp");
                 }
             }
         }

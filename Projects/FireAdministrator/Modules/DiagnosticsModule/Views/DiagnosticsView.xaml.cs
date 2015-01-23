@@ -1,24 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using FiresecClient;
+using Vlc.DotNet.Core;
+using Vlc.DotNet.Core.Medias;
 
 namespace DiagnosticsModule.Views
 {
-	public partial class DiagnosticsView : UserControl
+	public partial class DiagnosticsView
 	{
 		public DiagnosticsView()
 		{
+			//Important!!!
+			//Set libvlc.dll and libvlccore.dll directory path
+			VlcContext.LibVlcDllsPath = "C:\\Program Files (x86)\\VideoLAN\\VLC\\";
+			//Set the vlc plugins directory path
+			VlcContext.LibVlcPluginsPath = "C:\\Program Files (x86)\\VideoLAN\\VLC\\plugins\\";
+
+			//Set the startup options
+			VlcContext.StartupOptions.IgnoreConfig = true;
+			VlcContext.StartupOptions.LogOptions.LogInFile = false;
+			VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+			VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+
+			//Initialize the VlcContext
+			VlcContext.Initialize();
 			InitializeComponent();
+			myVlcControl.VideoProperties.Scale = 2.0f;
 		}
 
-		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		private void MainWindowOnClosing(object sender, CancelEventArgs e)
 		{
-			MediaElement.Source = new Uri("rtsp://admin:admin@172.16.2.23:554/cam/realmonitor?channel=1&subtype=0");
-			MediaElement.LoadedBehavior = MediaState.Manual;
-			MediaElement.UnloadedBehavior = MediaState.Manual;
-			MediaElement.Play();
+			// Close the context. 
+			VlcContext.CloseAll();
+		}
+
+		private void buttonRtsp_Click(object sender, RoutedEventArgs e)
+		{
+			myVlcControl.Stop();
+			myVlcControl.Media = new LocationMedia("rtsp://admin:admin@172.16.2.23:554/cam/realmonitor?channel=1&subtype=0");
+			myVlcControl.Play();
 		}
 	}
 }

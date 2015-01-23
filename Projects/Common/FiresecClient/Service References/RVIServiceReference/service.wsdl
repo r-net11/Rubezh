@@ -16,6 +16,7 @@
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Common" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IIntegration_SessionInitialiazation_InputMessage">

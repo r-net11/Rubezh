@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 using DiagnosticsModule.Models;
 using FiresecAPI.Journal;
 using FiresecClient;
@@ -6,6 +7,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient.RVIServiceReference;
 using System.ServiceModel;
+using Vlc.DotNet.Core;
+using Vlc.DotNet.Core.Medias;
+using Vlc.DotNet.Wpf;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -20,6 +24,43 @@ namespace DiagnosticsModule.ViewModels
 			SaveCommand = new RelayCommand(OnSave);
 			LoadCommand = new RelayCommand(OnLoad);
 			SessionInitialiazationCommand = new RelayCommand(OnSessionInitialiazation);
+			StartVlc = new RelayCommand(OnStartVlc);
+		}
+
+		private VlcControl _vlcControl;
+		public ImageSource Image
+		{
+			get
+			{
+				return _vlcControl.VideoSource;
+			}
+		}
+
+		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
+		{
+			OnPropertyChanged("Image");
+		}
+
+		public RelayCommand StartVlc { get; private set; }
+		void OnStartVlc()
+		{
+			//Set libvlc.dll and libvlccore.dll directory path
+			VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_AMD64;
+			//Set the vlc plugins directory path
+			VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_AMD64;
+
+			//Set the startup options
+			VlcContext.StartupOptions.IgnoreConfig = true;
+			VlcContext.StartupOptions.LogOptions.LogInFile = false;
+			VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+			VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+
+			//Initialize the VlcContext
+			VlcContext.Initialize();
+
+			_vlcControl = new VlcControl { Media = new LocationMedia("rtsp://admin:admin@172.16.2.23:554/cam/realmonitor?channel=1&subtype=0") };
+			_vlcControl.PositionChanged += VlcControlOnPositionChanged;
+			_vlcControl.Play();
 		}
 
 		public RelayCommand AddJournalCommand { get; private set; }
@@ -79,8 +120,11 @@ namespace DiagnosticsModule.ViewModels
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 			binding.Security.Mode = SecurityMode.None;
+			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
 
-			var endpointAddress = new EndpointAddress(new Uri("net.tcp://172.16.5.7/Integration"));
+			var endpointAddress = new EndpointAddress(new Uri("net.tcp://172.16.5.7:8000/Integration"));
 
 			using (IntegrationClient client = new IntegrationClient(binding, endpointAddress))
 			//using (IntegrationClient client = new IntegrationClient())
@@ -104,6 +148,7 @@ namespace DiagnosticsModule.ViewModels
 					Session = sessionUID
 				};
 				var perimeterOut = client.GetPerimeter(perimeterIn);
+				var devices = perimeterOut.Devices;
 
 				var sessionKeepAliveIn = new SessionKeepAliveIn();
 				sessionKeepAliveIn.Header = new HeaderRequest()
@@ -112,14 +157,6 @@ namespace DiagnosticsModule.ViewModels
 					Session = sessionUID
 				};
 				var sessionKeepAliveOut = client.SessionKeepAlive(sessionKeepAliveIn);
-
-				var sessionCloseIn = new SessionCloseIn();
-				sessionKeepAliveIn.Header = new HeaderRequest()
-				{
-					Request = Guid.NewGuid(),
-					Session = sessionUID
-				};
-				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 
 				var videoRecordStartIn = new VideoRecordStartIn();
 				videoRecordStartIn.Header = new HeaderRequest()
@@ -144,6 +181,14 @@ namespace DiagnosticsModule.ViewModels
 				videoRecordStopIn.ChannelNumber = 0;
 				videoRecordStopIn.EventGuid = Guid.Empty;
 				var videoRecordStopOut = client.VideoRecordStop(videoRecordStopIn);
+
+				var sessionCloseIn = new SessionCloseIn();
+				sessionKeepAliveIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 			}
 		}
 
