@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -16,6 +18,7 @@ using Infrastructure.Common.SKDReports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.Reports;

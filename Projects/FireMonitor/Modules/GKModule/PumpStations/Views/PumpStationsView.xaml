@@ -32,7 +32,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" />
+									<Grid Margin="1 0 0 0" Width="16" Background="{DynamicResource BPumpStation}" VerticalAlignment="Center" />
 									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PumpStation.No}" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>

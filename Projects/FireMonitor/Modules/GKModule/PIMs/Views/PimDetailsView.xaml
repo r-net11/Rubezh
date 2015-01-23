@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.PimDetailsView"
+<UserControl x:Class="GKModule.Views.PimDetailsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
@@ -78,7 +78,7 @@
 									<TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+												<Grid Width="16" Background="{DynamicResource BJournal}" />
 												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 											</StackPanel>
 										</Hyperlink>

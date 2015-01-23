@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.MPTToolTipView"
+<UserControl x:Class="GKModule.Views.MPTToolTipView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
@@ -11,7 +11,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Margin="2 0" Width="16" Height="16" Source="/Controls;component/Images/BMPT.png" />
+			<Grid Margin="2 0" Width="16" Height="16" Background="{DynamicResource BMPT}" />
 			<TextBlock Text="{Binding MPT.PresentationName}" FontWeight="Bold" Margin="2 0" />
 		</StackPanel>
 		<TextBlock Text="{Binding MPT.Description}" Visibility="{Binding MPT.Description, Converter={StaticResource StringToVisibilityConverter}}" />

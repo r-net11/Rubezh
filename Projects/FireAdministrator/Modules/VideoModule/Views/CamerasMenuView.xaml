@@ -5,6 +5,6 @@
 		<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="Add"  />
 		<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="Edit"  />
 		<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="Delete"  />
-		<ToolBarButton Command="{Binding SearchCommand}" ToolTip="Автопоиск" ImageSource="Search"  />
+		<ToolBarButton Command="{Binding SettingsCommand}" ToolTip="Настройки" ImageSource="BSettings"  />
 	</StackPanel>
 </UserControl>

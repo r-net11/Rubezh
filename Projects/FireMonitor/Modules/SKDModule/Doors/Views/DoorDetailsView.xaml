@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.DoorDetailsView"
+<UserControl x:Class="SKDModule.Views.DoorDetailsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Views="clr-namespace:SKDModule.Views"
@@ -36,7 +36,7 @@
 								<TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+												<Grid Width="16" Background="{DynamicResource BJournal}" />
 												<TextBlock Margin="2" VerticalAlignment="Center" FontWeight="Bold" Text="Показать связанные события" TextWrapping="Wrap" />
 											</StackPanel>
 										</Hyperlink>

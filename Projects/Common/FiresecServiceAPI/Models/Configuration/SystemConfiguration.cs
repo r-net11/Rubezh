@@ -16,6 +16,7 @@ namespace FiresecAPI.Models
 			Cameras = new List<Camera>();
 			EmailData = new EmailData();
 			AutomationConfiguration = new AutomationConfiguration();
+			RviSettings = new RviSettings();
 		}
 
 		[DataMember]
@@ -23,6 +24,9 @@ namespace FiresecAPI.Models
 	
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }
+
+		[DataMember]
+		public RviSettings RviSettings { get; set; }
 
 		[DataMember]
 		public List<Camera> Cameras { get; set; }

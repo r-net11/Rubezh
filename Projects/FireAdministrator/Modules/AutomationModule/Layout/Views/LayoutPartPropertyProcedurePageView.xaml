@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AutomationModule.Layout.Views.LayoutPartPropertyProcedurePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common">
+<UserControl x:Class="AutomationModule.Layout.Views.LayoutPartPropertyProcedurePageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:inf="clr-namespace:Infrastructure.Common.Windows.Views;assembly=Infrastructure.Common">
 	<ListView ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}">
 		<ListView.Resources>
 			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -16,7 +16,7 @@
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image VerticalAlignment="Center" Source="/Controls;component/Images/Procedure.png" Margin="2 0 0 0" />
+								<Grid VerticalAlignment="Center" Background="{DynamicResource Procedure}" Margin="2 0 0 0" />
 								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
 						</DataTemplate>

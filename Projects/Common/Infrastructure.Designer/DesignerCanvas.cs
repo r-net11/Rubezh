@@ -43,7 +43,7 @@ namespace Infrastructure.Designer
 
 			var menuItem = DesignerCanvasHelper.BuildMenuItem(
 				"Вставить (Ctrl+V)",
-				"pack://application:,,,/Controls;component/Images/BPaste.png",
+				"BPaste",
 				PlanDesignerViewModel.PasteCommand
 			);
 			menuItem.CommandParameter = this;
