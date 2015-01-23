@@ -13,7 +13,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using VideoModule.Plans.Designer;
 using KeyboardKey = System.Windows.Input.Key;
 using VideoModule.Plans;
 
@@ -29,7 +28,7 @@ namespace VideoModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			SearchCommand = new RelayCommand(OnSearch);
+			SettingsCommand = new RelayCommand(OnSettings);
 			RegisterShortcuts();
 			SubscribeEvents();
 			IsRightPanelEnabled = true;
@@ -153,37 +152,15 @@ namespace VideoModule.ViewModels
 			return SelectedCamera != null;
 		}
 
-		public RelayCommand SearchCommand { get; private set; }
-		void OnSearch()
+		public RelayCommand SettingsCommand { get; private set; }
+		void OnSettings()
 		{
-			var autoSearchCameraViewModel = new AutoSearchCamerasViewModel(new List<CameraViewModel>(Cameras));
-			if (DialogService.ShowModalWindow(autoSearchCameraViewModel))
-				foreach (var autoSearchCamera in autoSearchCameraViewModel.AutoSearchCameras)
-				{
-					if (autoSearchCamera.IsChecked)
-					{
-						var camera = new Camera();
-						camera.Ip = autoSearchCamera.DeviceSearchInfo.IpAddress;
-						camera.Port = autoSearchCamera.DeviceSearchInfo.Port;
-						var cameraViewModel = new CameraViewModel(this, camera);
-						if (autoSearchCamera.DeviceSearchInfo.DeviceType.Contains("DVR"))
-						{
-							cameraViewModel.Camera.CameraType = CameraType.Dvr;
-							cameraViewModel.Camera.Children.Add(new Camera
-							{
-								ChannelNumber = 1,
-								Parent = cameraViewModel.Camera,
-								CameraType = CameraType.Channel,
-								Name = "Канал",
-								Ip = cameraViewModel.Camera.Ip,
-								Port = cameraViewModel.Camera.Port,
-								Login = cameraViewModel.Camera.Login,
-								Password = cameraViewModel.Camera.Password
-							});
-						}
-						Cameras.Add(cameraViewModel);
-					}
-				}
+			var settingsSelectionViewModel = new SettingsSelectionViewModel(FiresecManager.SystemConfiguration.RviSettings);
+			if (DialogService.ShowModalWindow(settingsSelectionViewModel))
+			{
+				FiresecManager.SystemConfiguration.RviSettings = settingsSelectionViewModel.RviSettings;
+				ServiceFactory.SaveService.CamerasChanged = true;
+			}
 		}
 
 		private void SubscribeEvents()
