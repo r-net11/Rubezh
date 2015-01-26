@@ -7,7 +7,6 @@ using System.Windows.Threading;
 using Common;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
 using VideoModule.ViewModels;
@@ -64,22 +63,22 @@ namespace VideoModule.Views
 
 		void InitializeUIElement(UIElement uiElement)
 		{
-			var controls = new List<CellPlayerWrap>();
-			GetLogicalChildCollection(uiElement, controls);
-			foreach (var control in controls)
-			{
-				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
-				if (cameraUid != Guid.Empty)
-				{
-					var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
-					if (camera != null)
-					{
-						var rootCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == camera.Ip);
-						var cameraViewModel = new CameraViewModel(camera, control);
-						Cameras.Add(cameraViewModel);
-					}
-				}
-			}
+			//var controls = new List<CellPlayerWrap>();
+			//GetLogicalChildCollection(uiElement, controls);
+			//foreach (var control in controls)
+			//{
+			//    var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
+			//    if (cameraUid != Guid.Empty)
+			//    {
+			//        var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
+			//        if (camera != null)
+			//        {
+			//            var rootCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == camera.Ip);
+			//            var cameraViewModel = new CameraViewModel(camera, control);
+			//            Cameras.Add(cameraViewModel);
+			//        }
+			//    }
+			//}
 		}
 
 
@@ -120,20 +119,20 @@ namespace VideoModule.Views
 			{
 				foreach (var propertyViewModel in layoutPartPropertyCameraPageViewModel.PropertyViewModels)
 				{
-					var cameraViewModel = Cameras.FirstOrDefault(x => x.ViewName == propertyViewModel.CellName);
-					cameraViewModel.Camera = propertyViewModel.SelectedCamera;
+					//var cameraViewModel = Cameras.FirstOrDefault(x => x.ViewName == propertyViewModel.CellName);
+					//cameraViewModel.Camera = propertyViewModel.SelectedCamera;
 					var cameraUid = propertyViewModel.SelectedCamera == null ? Guid.Empty : propertyViewModel.SelectedCamera.UID;
 					if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == propertyViewModel.CellName).Value == cameraUid)
 						continue;
 					try
 					{
-						cameraViewModel.Stop();
+						//cameraViewModel.Stop();
 						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Ip != null))
 						{
 							Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
 							{
-									cameraViewModel.Connect();
-									cameraViewModel.Start();
+									//cameraViewModel.Connect();
+									//cameraViewModel.Start();
 							}));
 						}
 						ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;
@@ -150,26 +149,26 @@ namespace VideoModule.Views
 		{
 			var archiveViewModel = new ArchiveViewModel();
 			DialogService.ShowModalWindow(archiveViewModel);
-			if (archiveViewModel.StartedRecord != null)
-				archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
+			//if (archiveViewModel.StartedRecord != null)
+			//    archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
 		}
 
-		public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
-		{
-			var children = LogicalTreeHelper.GetChildren(parent);
-			foreach (var child in children)
-			{
-				if (child is DependencyObject)
-				{
-					var depChild = child as DependencyObject;
-					if (child is CellPlayerWrap)
-					{
-						logicalCollection.Add(child as CellPlayerWrap);
-					}
-					GetLogicalChildCollection(depChild, logicalCollection);
-				}
-			}
-		}
+		//public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
+		//{
+		//    var children = LogicalTreeHelper.GetChildren(parent);
+		//    foreach (var child in children)
+		//    {
+		//        if (child is DependencyObject)
+		//        {
+		//            var depChild = child as DependencyObject;
+		//            if (child is CellPlayerWrap)
+		//            {
+		//                logicalCollection.Add(child as CellPlayerWrap);
+		//            }
+		//            GetLogicalChildCollection(depChild, logicalCollection);
+		//        }
+		//    }
+		//}
 
 		public UIElement EnumToType(MultiGridType multiGridType)
 		{

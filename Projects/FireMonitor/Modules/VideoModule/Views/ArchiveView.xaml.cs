@@ -20,7 +20,7 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var archiveViewModel = DataContext as ArchiveViewModel;
-			_grid.Child = archiveViewModel.CellPlayerWrap;
+			//_grid.Child = archiveViewModel.CellPlayerWrap;
 		}
 	}
 }
