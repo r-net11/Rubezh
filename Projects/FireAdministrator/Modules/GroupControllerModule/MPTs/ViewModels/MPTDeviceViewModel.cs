@@ -27,7 +27,6 @@ namespace GKModule.ViewModels
 				_device = value;
 				OnPropertyChanged(() => Device);
 				OnPropertyChanged(() => Description);
-				OnPropertyChanged("SelectedCurcuitControlParameter");
 			}
 		}
 

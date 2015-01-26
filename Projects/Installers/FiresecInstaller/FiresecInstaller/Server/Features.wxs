@@ -17,9 +17,6 @@
       <ComponentRef Id="AppData.FiresecLocation.Permissions" />
 
       <ComponentRef Id="Server.VIDEO_MODULE_DLL" />
-      <ComponentRef Id="Server.VIDEO_MODULE_DLL.Dahua" />
-      <ComponentRef Id="Server.VIDEO_MODULE_DLL.Hik" />
-      <ComponentRef Id="Server.VIDEO_MODULE_DLL.Sunell" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->

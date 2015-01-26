@@ -48,11 +48,6 @@
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLLOCATION" Name="Rubezh">
 					<Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
-						<Directory Id="Server.Dll" Name="Dll">
-							<Directory Id="Server.Dll.Dahua" Name="Dahua" />
-							<Directory Id="Server.Dll.Hik" Name="Hik" />
-							<Directory Id="Server.Dll.Sunell" Name="Sunell" />
-						</Directory>
 					</Directory>
 					<Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
 						<Directory Id="Administrator.ConfigFolder" Name="$(var.ConfigurationFolder)">
@@ -75,7 +70,7 @@
 							<Directory Id="Monitor.Dll.Hik" Name="Hik" />
 							<Directory Id="Monitor.Dll.Sunell" Name="Sunell" />
 						</Directory>
-						<Directory Id="Monitor.ru" Name="ru"/>
+						<Directory Id="Monitor.ru" Name="ru" />
 					</Directory>
 					<Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />

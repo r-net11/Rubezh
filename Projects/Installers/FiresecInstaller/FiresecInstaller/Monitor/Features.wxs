@@ -16,9 +16,6 @@
 			<ComponentRef Id="Monitor.Revisor" />
 
 			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
-			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Dahua" />
-			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Hik" />
-			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Sunell" />
 		</Feature>
 	</Fragment>
 </Wix>
