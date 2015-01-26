@@ -40,6 +40,7 @@ namespace GKProcessor
 				JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", GKJournalRecordNo.ToString()));
 
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
+			InitializeFromObjectUID();
 			var UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
 			InitializeDateTime(bytes);
@@ -212,7 +213,7 @@ namespace GKProcessor
 							}
 							if (JournalItem.JournalObjectType == JournalObjectType.GKGuardZone)
 							{
-								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_Охранной_Зоны;
+								JournalItem.JournalEventNameType = JournalEventNameType.Тревога;
 							}
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
@@ -358,7 +359,6 @@ namespace GKProcessor
 					break;
 			}
 
-			InitializeFromObjectUID();
 			InitializeMAMessage();
 		}
 

@@ -40,6 +40,8 @@ namespace GKModule.ViewModels
 					return Alarm.Device.PresentationName;
 				if (Alarm.Zone != null)
 					return Alarm.Zone.PresentationName;
+				if (Alarm.GuardZone != null)
+					return Alarm.GuardZone.PresentationName;
 				if (Alarm.Direction != null)
 					return Alarm.Direction.PresentationName;
 				return null;
@@ -54,6 +56,8 @@ namespace GKModule.ViewModels
 					return Alarm.Device.Driver.ImageSource;
 				if (Alarm.Zone != null)
 					return "/Controls;component/Images/Zone.png";
+				if (Alarm.GuardZone != null)
+					return "/Controls;component/Images/GuardZone.png";
 				if (Alarm.Direction != null)
 					return "/Controls;component/Images/Blue_Direction.png";
 				return null;
@@ -68,6 +72,8 @@ namespace GKModule.ViewModels
 					return Alarm.Device.State.StateClass;
 				if (Alarm.Zone != null)
 					return Alarm.Zone.State.StateClass;
+				if (Alarm.GuardZone != null)
+					return Alarm.GuardZone.State.StateClass;
 				if (Alarm.Direction != null)
 					return Alarm.Direction.State.StateClass;
 				return XStateClass.Norm;
@@ -109,6 +115,25 @@ namespace GKModule.ViewModels
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
 						alarmPlanViewModel.Zone = Alarm.Zone;
+						Plans.Add(alarmPlanViewModel);
+					}
+				}
+				if (Alarm.GuardZone != null)
+				{
+					elementBase = plan.ElementRectangleGKGuardZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.GuardZone = Alarm.GuardZone;
+						Plans.Add(alarmPlanViewModel);
+						continue;
+					}
+
+					elementBase = plan.ElementPolygonGKGuardZones.FirstOrDefault(x => x.ZoneUID == Alarm.GuardZone.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.GuardZone = Alarm.GuardZone;
 						Plans.Add(alarmPlanViewModel);
 					}
 				}
@@ -154,6 +179,10 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(Alarm.Zone.UID);
 			}
+			if (Alarm.GuardZone != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowGKGuardZoneEvent>().Publish(Alarm.GuardZone.UID);
+			}
 			if (Alarm.Direction != null)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.Direction.UID);
@@ -171,6 +200,10 @@ namespace GKModule.ViewModels
 			{
 				ShowOnPlanHelper.ShowZone(Alarm.Zone);
 			}
+			if (Alarm.GuardZone != null)
+			{
+				ShowOnPlanHelper.ShowGuardZone(Alarm.GuardZone);
+			}
 			if (Alarm.Direction != null)
 			{
 				ShowOnPlanHelper.ShowDirection(Alarm.Direction);
@@ -185,6 +218,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Zone != null)
 			{
 				return ShowOnPlanHelper.CanShowZone(Alarm.Zone);
+			}
+			if (Alarm.GuardZone != null)
+			{
+				return ShowOnPlanHelper.CanShowGuardZone(Alarm.GuardZone);
 			}
 			if (Alarm.Direction != null)
 			{
@@ -211,6 +248,15 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
+				if (Alarm.GuardZone != null)
+				{
+					switch (Alarm.AlarmType)
+					{
+						case GKAlarmType.GuardAlarm:
+							FiresecManager.FiresecService.GKReset(Alarm.GuardZone);
+							break;
+					}
+				}
 				if (Alarm.Device != null)
 				{
 					FiresecManager.FiresecService.GKReset(Alarm.Device);
@@ -222,6 +268,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Zone != null)
 			{
 				return (Alarm.AlarmType == GKAlarmType.Fire1 || Alarm.AlarmType == GKAlarmType.Fire2);
+			}
+			if (Alarm.GuardZone != null)
+			{
+				return (Alarm.AlarmType == GKAlarmType.GuardAlarm);
 			}
 			if (Alarm.Device != null)
 			{
@@ -258,6 +308,14 @@ namespace GKModule.ViewModels
 					}
 				}
 
+				if (Alarm.GuardZone != null)
+				{
+					if (Alarm.GuardZone.State.StateClasses.Contains(XStateClass.Ignore))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.GuardZone);
+					}
+				}
+
 				if (Alarm.Direction != null)
 				{
 					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
@@ -284,6 +342,12 @@ namespace GKModule.ViewModels
 			if (Alarm.Zone != null)
 			{
 				if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+
+			if (Alarm.GuardZone != null)
+			{
+				if (Alarm.GuardZone.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
@@ -347,6 +411,7 @@ namespace GKModule.ViewModels
 			{
 				GKDevice = Alarm.Device,
 				GKZone = Alarm.Zone,
+				GKGuardZone = Alarm.GuardZone,
 				GKDirection = Alarm.Direction
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
@@ -363,6 +428,10 @@ namespace GKModule.ViewModels
 			{
 				DialogService.ShowWindow(new ZoneDetailsViewModel(Alarm.Zone));
 			}
+			if (Alarm.GuardZone != null)
+			{
+				DialogService.ShowWindow(new GuardZoneDetailsViewModel(Alarm.GuardZone));
+			}
 			if (Alarm.Direction != null)
 			{
 				DialogService.ShowWindow(new DirectionDetailsViewModel(Alarm.Direction));
@@ -370,7 +439,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowProperties()
 		{
-			return Alarm.Device != null || Alarm.Direction != null || Alarm.Zone != null;
+			return Alarm.Device != null || Alarm.Direction != null || Alarm.Zone != null || Alarm.GuardZone != null;
 		}
 		public bool CanShowPropertiesCommand
 		{
@@ -380,12 +449,12 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowInstructionCommand { get; private set; }
 		void OnShowInstruction()
 		{
-			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.GuardZone, Alarm.Direction, Alarm.AlarmType);
 			DialogService.ShowModalWindow(instructionViewModel);
 		}
 		bool CanShowInstruction()
 		{
-			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.GuardZone, Alarm.Direction, Alarm.AlarmType);
 			return instructionViewModel.HasContent;
 		}
 		public bool CanShowInstructionCommand
@@ -396,7 +465,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.GuardZone, Alarm.Direction, Alarm.AlarmType);
 				return instructionViewModel.Instruction;
 			}
 		}

@@ -57,7 +57,6 @@ namespace GKModule.ViewModels
 			foreach (var device in GKManager.Devices)
 			{
 				if (!device.IsRealDevice)
-					//|| device.DriverType == GKDriverType.GK || device.DriverType == GKDriverType.KAU || device.DriverType == GKDriverType.RSR2_KAU)
 					continue;
 
 				foreach (var stateClass in device.State.StateClasses)
@@ -82,24 +81,13 @@ namespace GKModule.ViewModels
 								}
 							}
 							break;
-
-						//case XStateClass.Fire1:
-						//	alarms.Add(new Alarm(GKAlarmType.Turning, device));
-						//	break;
-
-						//case XStateClass.Fire2:
-						//	if (device.DriverType != GKDriverType.AM1_T)
-						//	{
-						//		alarms.Add(new Alarm(GKAlarmType.Turning, device));
-						//	}
-						//	break;
 					}
 				}
 				if (device.State.StateClasses.Contains(XStateClass.AutoOff) && device.Driver.IsControlDevice)
 				{
 					alarms.Add(new Alarm(GKAlarmType.AutoOff, device));
 				}
-				if (device.State.StateClasses.Contains(XStateClass.Service)) // || device.DeviceState.IsRealMissmatch)
+				if (device.State.StateClasses.Contains(XStateClass.Service))
 				{
 					alarms.Add(new Alarm(GKAlarmType.Service, device));
 				}
@@ -128,11 +116,19 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
+			}
 
-				//if (zone.ZoneState.IsRealMissmatch)
-				//{
-				//	alarms.Add(new Alarm(GKAlarmType.Service, zone));
-				//}
+			foreach (var gGuardZone in GKManager.GuardZones)
+			{
+				foreach (var stateClass in gGuardZone.State.StateClasses)
+				{
+					switch (stateClass)
+					{
+						case XStateClass.Fire1:
+							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, gGuardZone));
+							break;
+					}
+				}
 			}
 
 			foreach (var direction in GKManager.Directions)
@@ -155,11 +151,6 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(GKAlarmType.AutoOff, direction));
 				}
-
-				//if (direction.DirectionState.IsRealMissmatch)
-				//{
-				//	alarms.Add(new Alarm(GKAlarmType.Service, direction));
-				//}
 			}
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
 
@@ -284,6 +275,13 @@ namespace GKModule.ViewModels
 							FiresecManager.FiresecService.GKResetFire2(zone);
 						}
 					}
+					foreach (var guardZone in GKManager.GuardZones)
+					{
+						if (guardZone.State.StateClasses.Contains(XStateClass.Fire1))
+						{
+							FiresecManager.FiresecService.GKReset(guardZone);
+						}
+					}
 					foreach (var device in GKManager.Devices)
 					{
 						if (device.DriverType == GKDriverType.AMP_1)
@@ -311,6 +309,11 @@ namespace GKModule.ViewModels
 				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 					result++;
 				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
+					result++;
+			}
+			foreach (var zone in GKManager.GuardZones)
+			{
+				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 					result++;
 			}
 			foreach (var device in GKManager.Devices)

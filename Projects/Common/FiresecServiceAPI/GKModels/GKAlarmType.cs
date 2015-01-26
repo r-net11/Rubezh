@@ -10,28 +10,31 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Пожаротушение")]
 		NPTOn = 0,
 
+		[DescriptionAttribute("Тревога")]
+		GuardAlarm = 1,
+
 		[DescriptionAttribute("Пожар 2")]
-		Fire2 = 1,
+		Fire2 = 2,
 
 		[DescriptionAttribute("Пожар 1")]
-		Fire1 = 2,
+		Fire1 = 3,
 
 		[DescriptionAttribute("Внимание")]
-		Attention = 3,
+		Attention = 4,
 
 		[DescriptionAttribute("Неисправность")]
-		Failure = 4,
+		Failure = 5,
 
 		[DescriptionAttribute("Отключенное оборудование")]
-		Ignore = 5,
+		Ignore = 6,
 
 		[DescriptionAttribute("Автоматика отключена")]
-		AutoOff = 6,
+		AutoOff = 7,
 
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 7,
+		Service = 8,
 
 		[DescriptionAttribute("Включается/Включено")]
-		Turning = 8
+		Turning = 9
 	}
 }
