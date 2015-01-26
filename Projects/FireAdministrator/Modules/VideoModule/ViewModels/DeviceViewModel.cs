@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient.RVIServiceReference;
 
-namespace DiagnosticsModule.ViewModels
+namespace VideoModule.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{

@@ -58,6 +58,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -115,6 +117,8 @@
     <Compile Include="ViewModels\CamerasViewModel.cs" />
     <Compile Include="ViewModels\ChannelViewModel.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />

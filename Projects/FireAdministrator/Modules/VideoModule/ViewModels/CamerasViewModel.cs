@@ -18,7 +18,7 @@ using VideoModule.Plans;
 
 namespace VideoModule.ViewModels
 {
-	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel//, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
 		public static CamerasViewModel Current { get; private set; }
@@ -37,23 +37,26 @@ namespace VideoModule.ViewModels
 
 		public void Initialize()
 		{
-			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				var cameraViewModel = new CameraViewModel(this, camera);
-				Cameras.Add(cameraViewModel);
-			}
-			SelectedCamera = Cameras.FirstOrDefault();
+			//Devices = new ObservableCollection<DeviceViewModel>();
+			//foreach (var device in FiresecManager.SystemConfiguration.Cameras)
+			//{
+			//    var deviceViewModel = new DeviceViewModel(device, device.ChannelNum);
+			//    Devices.Add(deviceViewModel);
+			//}
+			//SelectedDevice = Cameras.FirstOrDefault();
 		}
 
-		ObservableCollection<CameraViewModel> _cameras;
-		public ObservableCollection<CameraViewModel> Cameras
+		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
 		{
-			get { return _cameras; }
+			get { return _selectedDevice; }
 			set
 			{
-				_cameras = value;
-				OnPropertyChanged(() => Cameras);
+				_selectedDevice = value;
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -65,45 +68,16 @@ namespace VideoModule.ViewModels
 			{
 				_selectedCamera = value;
 				OnPropertyChanged(() => SelectedCamera);
-				if (!_lockSelection && SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(SelectedCamera.Camera.PlanElementUIDs);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel();
-			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
+			var devicesViewModel = new DeviceSelectionViewModel();
+			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
-				if (cameraDetailsViewModel.Camera.CameraType != CameraType.Channel)
-					FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
-				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
-				if (cameraViewModel.IsChannel)
-				{
-					if (SelectedCamera.IsDvr)
-					{
-						cameraViewModel.Camera.Ip = SelectedCamera.Camera.Ip;
-						SelectedCamera.AddChild(cameraViewModel);
-						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Camera.UID);
-						if (rootDevice != null)
-							rootDevice.Children.Add(cameraViewModel.Camera);
-					}
-					else
-					{
-						cameraViewModel.Camera.Ip = SelectedCamera.Parent.Camera.Ip;
-						SelectedCamera.Parent.AddChild(cameraViewModel);
-						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Parent.Camera.UID);
-						if (rootDevice != null)
-							rootDevice.Children.Add(cameraViewModel.Camera);
-					}
-				}
-				else
-					Cameras.Add(cameraViewModel);
-				if (SelectedCamera == null)
-					SelectedCamera = cameraViewModel;
-				ServiceFactory.SaveService.CamerasChanged = true;
-				PlanExtension.Instance.Cache.BuildSafe<Camera>();
+				
 			}
 		}
 
@@ -162,12 +136,12 @@ namespace VideoModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+			//ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+			//ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
 		private void OnCameraChanged(Guid cameraUID)
@@ -207,26 +181,26 @@ namespace VideoModule.ViewModels
 			});
 			_lockSelection = false;
 		}
-		private void OnElementSelected(ElementBase element)
-		{
-			var elementCamera = element as ElementCamera;
-			if (elementCamera != null)
-			{
-				_lockSelection = true;
-				Select(elementCamera.CameraUID);
-				_lockSelection = false;
-			}
-		}
+		//private void OnElementSelected(ElementBase element)
+		//{
+		//    var elementCamera = element as ElementCamera;
+		//    if (elementCamera != null)
+		//    {
+		//        _lockSelection = true;
+		//        Select(elementCamera.CameraUID);
+		//        _lockSelection = false;
+		//    }
+		//}
 
-		public void Select(Guid cameraUID)
-		{
-			if (cameraUID != Guid.Empty)
-			{
-				SelectedCamera = AllCameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
-				if (SelectedCamera != null)
-					SelectedCamera.ExpandToThis();
-			}
-		}
+		//public void Select(Guid cameraUID)
+		//{
+		//    if (cameraUID != Guid.Empty)
+		//    {
+		//        SelectedCamera = AllCameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
+		//        if (SelectedCamera != null)
+		//            SelectedCamera.ExpandToThis();
+		//    }
+		//}
 
 		private void RegisterShortcuts()
 		{
