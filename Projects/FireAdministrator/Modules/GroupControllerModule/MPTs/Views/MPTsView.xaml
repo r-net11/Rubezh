@@ -101,7 +101,7 @@
 							</Grid>
 							<Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
 						</StackPanel>
-						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="settings"  VerticalAlignment="Top" />
+						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="BSettings"  VerticalAlignment="Top" />
 					</Grid>
 				</Grid>
 			</Grid>
