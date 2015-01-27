@@ -55,12 +55,12 @@ namespace GKModule.Views
 			if (mediaElement.IsMuted == true)
 			{
 				mediaElement.IsMuted = false;
-				((Grid)MuteButton.Content).Background = (Brush)ConverterHelper.GetResource("Mute");
+				((Grid)MuteButton.Content).Background = ConverterHelper.GetResource("Mute") as Brush;
 			}
 			else
 			{
 				mediaElement.IsMuted = true;
-				((Grid)MuteButton.Content).Background = (Brush)ConverterHelper.GetResource("Sound");
+				((Grid)MuteButton.Content).Background = ConverterHelper.GetResource("Sound") as Brush;
 			}
 
 		}

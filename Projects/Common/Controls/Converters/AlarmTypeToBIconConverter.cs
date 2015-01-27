@@ -13,6 +13,9 @@ namespace Controls.Converters
 				case GKAlarmType.NPTOn:
 					return "/Controls;component/StateClassIcons/NPTOn.png";
 
+				case GKAlarmType.GuardAlarm:
+					return "/Controls;component/StateClassIcons/Fire1.png";
+
 				case GKAlarmType.Fire1:
 					return "/Controls;component/StateClassIcons/Fire1.png";
 

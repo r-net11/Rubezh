@@ -20,7 +20,7 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			_grid.Child = layoutPartCameraViewModel.CellPlayerWrap;
+			//_grid.Child = layoutPartCameraViewModel.CellPlayerWrap;
 		}
 
 		private void UIElement_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

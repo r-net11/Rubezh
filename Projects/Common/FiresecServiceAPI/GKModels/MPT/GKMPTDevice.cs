@@ -48,6 +48,8 @@ namespace FiresecAPI.GK
 				case GKMPTDeviceType.Speaker:
 					result.Add(GKDriverType.RSR2_OPZ);
 					result.Add(GKDriverType.RSR2_OPK);
+					result.Add(GKDriverType.RSR2_RM_1);
+					result.Add(GKDriverType.RSR2_MVK8);
 					break;
 
 				case GKMPTDeviceType.HandStart:

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Entities.DeviceOriented;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using System.Xml.Serialization;
@@ -16,6 +17,7 @@ namespace FiresecAPI.Models
 			Cameras = new List<Camera>();
 			EmailData = new EmailData();
 			AutomationConfiguration = new AutomationConfiguration();
+			RviSettings = new RviSettings();
 		}
 
 		[DataMember]
@@ -25,7 +27,13 @@ namespace FiresecAPI.Models
 		public List<JournalFilter> JournalFilters { get; set; }
 
 		[DataMember]
+		public RviSettings RviSettings { get; set; }
+
+		[DataMember]
 		public List<Camera> Cameras { get; set; }
+
+		[DataMember]
+		public List<Device> Devices { get; set; }
 
 		[DataMember]
 		public EmailData EmailData { get; set; }

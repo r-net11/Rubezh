@@ -21,7 +21,7 @@ namespace Controls.Converters
 					return "Ставится на охрану";
 
 				case XStateClass.Fire1:
-					return "Сработка";
+					return "Тревога";
 			}
 			return ((XStateClass)value).ToDescription();
 		}

@@ -27,12 +27,12 @@ namespace SKDDriver
 			_DatabaseService = databaseService;
 		}
 
-		public OperationResult<List<TExportItem>> Get(Guid uid)
+		public OperationResult<List<TExportItem>> Get(ExportFilter filter)
 		{
 			try
 			{
 				var result = new List<TExportItem>();
-				var tableItems = _Table.Where(IsInFilter(uid));
+				var tableItems = _Table.Where(IsInFilter(filter));
 				foreach (var item in tableItems)
 				{
 					var exportItem = Translate(item);
@@ -53,11 +53,11 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult Export(Guid uid)
+		public virtual OperationResult Export(ExportFilter filter)
 		{
 			try
 			{
-				var getResult = Get(uid);
+				var getResult = Get(filter);
 				if (getResult.HasError)
 					return new OperationResult(getResult.Error);
 				var items = getResult.Result;
@@ -123,10 +123,12 @@ namespace SKDDriver
 		protected virtual void BeforeSave(List<TExportItem> exportItems) { }
 		public abstract TExportItem Translate(TTableItem tableItem);
 		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
-		protected virtual Expression<Func<TTableItem, bool>> IsInFilter(Guid uid)
+		protected virtual Expression<Func<TTableItem, bool>> IsInFilter(ExportFilter filter)
 		{
 			var result = PredicateBuilder.True<TTableItem>();
 			result = result.And(e => e != null);
+			if(!filter.IsWithDeleted)
+				result = result.And(e => !e.IsDeleted);
 			return result;
 		}
 

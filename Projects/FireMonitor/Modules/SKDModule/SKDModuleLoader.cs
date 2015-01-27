@@ -106,30 +106,30 @@ namespace SKDModule
 		{
 			return new List<NavigationItem>
 				{
-				new NavigationItem("РЎРљР”", "SKDW",
+				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "РЈСЃС‚СЂРѕР№СЃС‚РІР°", "Tree", null, null, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
-						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Р—РѕРЅС‹", "Zones", null, null, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
-						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "РўРѕС‡РєРё РґРѕСЃС‚СѓРїР°", "DoorW", null, null, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
-						new NavigationItem<ShowHREvent>(HRViewModel, "РљР°СЂС‚РѕС‚РµРєР°", "Kartoteka2W"),
-						new NavigationItem("РЈС‡РµС‚ СЂР°Р±РѕС‡РµРіРѕ РІСЂРµРјРµРЅРё", "TimeTrackingW", new List<NavigationItem>()
+						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
+						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
+						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
+						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W"),
+						new NavigationItem("Учет рабочего времени", "TimeTrackingW", new List<NavigationItem>()
 						{
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Р”РЅРµРІРЅС‹Рµ РіСЂР°С„РёРєРё", "ShedulesDaylyW", null, null, Guid.Empty),
-							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Р“СЂР°С„РёРєРё", "SheduleWeeklyW", null, null, Guid.Empty),
-							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "РџСЂР°Р·РґРЅРёС‡РЅС‹Рµ РґРЅРё", "HolidaysW", null, null, Guid.Empty),
-							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Р“СЂР°С„РёРєРё СЂР°Р±РѕС‚", "ShedulesW", null, null, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "РЈС‡РµС‚ СЂР°Р±РѕС‡РµРіРѕ РІСЂРµРјРµРЅРё", "TimeTrackingW", null, null),
+							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
+							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, null, Guid.Empty),
+							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, null, Guid.Empty),
+							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, null, Guid.Empty),
+							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, null),
 						}),
 						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "/Controls;component/Images/Kartoteka2W.png"),
 					})
-				};	
+				};
 		}
 
 		public override void Initialize()
 		{
 			PlanPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
+			//ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(PlanPresenter);
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
@@ -260,19 +260,19 @@ namespace SKDModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-            yield return new ReportProvider401();
-            yield return new ReportProvider402();
-            yield return new ReportProvider411();
+			yield return new ReportProvider401();
+			yield return new ReportProvider402();
+			yield return new ReportProvider411();
 			yield return new ReportProvider412();
 			yield return new ReportProvider413();
 			yield return new ReportProvider415();
 			yield return new ReportProvider416();
 			yield return new ReportProvider417();
-            yield return new ReportProvider418();
+			yield return new ReportProvider418();
 			yield return new ReportProvider421();
 			yield return new ReportProvider422();
 			yield return new ReportProvider423();
-            yield return new ReportProvider424();
+			yield return new ReportProvider424();
 			yield return new ReportProvider431();
 		}
 

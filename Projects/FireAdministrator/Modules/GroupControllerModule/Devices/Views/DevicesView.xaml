@@ -260,7 +260,7 @@
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowMPTCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/BMPT.png" />
+										<Grid Width="16" Margin="2 2 5 2" Background="{DynamicResource BMPT}" />
 										<TextBlock Text="{Binding MPTName}" Margin="2" />
 									</StackPanel>
 								</Hyperlink>

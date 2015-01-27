@@ -22,9 +22,9 @@ namespace SKDDriver
 			};
 		}
 
-		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(Guid uid)
+		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(ExportFilter filter)
 		{
-			return base.IsInFilter(uid).And(x => x.OrganisationUID == uid);
+			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
 		protected override string Name
@@ -43,6 +43,7 @@ namespace SKDDriver
 			tableItem.Description = exportItem.Description;
 
 			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-		}
+		}
+
 	}
 }

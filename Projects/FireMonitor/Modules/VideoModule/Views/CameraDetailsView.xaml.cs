@@ -18,7 +18,7 @@ namespace VideoModule.Views
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			CellPlayerWrap.Stop();
+			//CellPlayerWrap.Stop();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -33,7 +33,7 @@ namespace VideoModule.Views
 		{
 			try
 			{
-				CellPlayerWrap.Connect(Camera);
+				//CellPlayerWrap.Connect(Camera);
 				return true;
 			}
 			catch (Exception)
@@ -46,7 +46,7 @@ namespace VideoModule.Views
 		{
 			try
 			{
-				CellPlayerWrap.Start(Camera, Camera.ChannelNumber);
+				//CellPlayerWrap.Start(Camera, Camera.ChannelNumber);
 				return true;
 			}
 			catch (Exception)

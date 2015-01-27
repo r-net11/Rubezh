@@ -40,10 +40,10 @@ namespace SKDDriver
 				EscortExternalKey = GetExternalKey(item.EscortUID, item.Employee1)
 			};
 		}
-
-		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(Guid uid)
+		
+		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(ExportFilter filter)
 		{
-			return base.IsInFilter(uid).And(x => x.OrganisationUID == uid);
+			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
 		public override void TranslateBack(ExportEmployee exportItem, DataAccess.Employee tableItem)

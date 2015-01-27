@@ -143,7 +143,7 @@ namespace GKProcessor
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == GKDriverType.GK);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 20; i++)
 			{
 				if (progressCallback.IsCanceled)
 					return true;

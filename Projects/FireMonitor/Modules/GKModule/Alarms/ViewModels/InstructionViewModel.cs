@@ -11,16 +11,16 @@ namespace GKModule.ViewModels
 		public GKStateBit StateType { get; private set; }
 		public GKInstruction Instruction { get; private set; }
 
-		public InstructionViewModel(GKDevice device, GKZone zone, GKDirection direction, GKAlarmType alarmType)
+		public InstructionViewModel(GKDevice device, GKZone zone, GKGuardZone guardZone, GKDirection direction, GKAlarmType alarmType)
 		{
 			AlarmType = alarmType;
-			Instruction = FindInstruction(device, zone, direction);
+			Instruction = FindInstruction(device, zone, guardZone, direction);
 			Title = Instruction != null ? Instruction.Name : "";
 			HasContent = Instruction != null;
 			
 		}
 
-		GKInstruction FindInstruction(GKDevice device, GKZone zone, GKDirection direction)
+		GKInstruction FindInstruction(GKDevice device, GKZone zone, GKGuardZone guardZone, GKDirection direction)
 		{
 			var availableStateTypeInstructions = GKManager.DeviceConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
 
@@ -40,6 +40,17 @@ namespace GKModule.ViewModels
 				foreach (var instruction in availableStateTypeInstructions)
 				{
 					if (instruction.ZoneUIDs.Contains(zone.UID))
+					{
+						return instruction;
+					}
+				}
+			}
+
+			if (guardZone != null)
+			{
+				foreach (var instruction in availableStateTypeInstructions)
+				{
+					if (instruction.ZoneUIDs.Contains(guardZone.UID))
 					{
 						return instruction;
 					}

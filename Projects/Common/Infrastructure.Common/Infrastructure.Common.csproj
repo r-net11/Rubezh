@@ -200,17 +200,6 @@
     <Compile Include="SKDReports\SKDReportGroup.cs" />
     <Compile Include="SKDReports\SKDReportProvider.cs" />
     <Compile Include="Validation\PlanObjectValidationError.cs" />
-    <Compile Include="Video\MjpegCamera.cs" />
-    <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">
-      <DependentUpon>CellPlayerWrap.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Video\RVI_VSS\RviVssHelper.cs" />
-    <Compile Include="Video\RVI_VSS\WinFormsPlayer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Video\RVI_VSS\WinFormsPlayer.Designer.cs">
-      <DependentUpon>WinFormsPlayer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Windows\MonitorHelper.cs" />
     <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="Windows\ViewModels\DateSelectionViewModel.cs" />
@@ -412,10 +401,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Video\RVI_VSS\CellPlayerWrap.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -481,10 +466,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Video\RVI_VSS\WinFormsPlayer.resx">
-      <DependentUpon>WinFormsPlayer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

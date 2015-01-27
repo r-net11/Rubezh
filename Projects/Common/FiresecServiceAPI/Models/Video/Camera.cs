@@ -24,9 +24,6 @@ namespace FiresecAPI.Models
 			Status = DeviceStatuses.Disconnected;
 
 			Name = "Новая камера";
-			Port = 37777;
-			Login = "admin";
-			Password = "admin";
 		}
 
 		[XmlIgnore]
@@ -51,16 +48,7 @@ namespace FiresecAPI.Models
 		public DeviceStatuses Status { get; set; }
 
 		[DataMember]
-		public int Port { get; set; }
-
-		[DataMember]
 		public int ChannelNumber { get; set; }
-
-		[DataMember]
-		public string Login { get; set; }
-
-		[DataMember]
-		public string Password { get; set; }
 
 		[DataMember]
 		public List<Camera> Children { get; set; }
@@ -100,6 +88,15 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
+
+		[DataMember]
+		public Guid RviDeviceUID { get; set; }
+
+		[DataMember]
+		public int RviChannelNo { get; set; }
+
+		[DataMember]
+		public string RviRTSP { get; set; }
 
 		public void OnChanged()
 		{

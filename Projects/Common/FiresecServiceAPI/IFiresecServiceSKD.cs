@@ -283,22 +283,16 @@ namespace FiresecAPI
 
 		#region Export
 		[OperationContract]
-		OperationResult ExportOrganisation(Guid uid);
+		OperationResult ExportOrganisation(ExportFilter filter);
 
 		[OperationContract]
 		OperationResult ImportOrganisation(string fileName);
 
 		[OperationContract]
-		OperationResult ExportJournal();
+		OperationResult ExportJournal(DateTime minDate, DateTime maxDate);
 
 		[OperationContract]
-		OperationResult ImportJournal(string fileName);
-
-		[OperationContract]
-		OperationResult ExportPassJournal();
-
-		[OperationContract]
-		OperationResult ImportPassJournal(string fileName);
+		OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate);
 		#endregion
 	}
 }

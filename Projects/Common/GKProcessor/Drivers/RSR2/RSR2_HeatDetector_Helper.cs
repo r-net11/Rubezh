@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xDE,
 				DriverType = GKDriverType.RSR2_HeatDetector,
 				UID = new Guid("C0A93D79-9A7F-46AF-A190-855F32759A05"),
-				Name = "Извещатель пожарный дымовой оптико-электронный адресно-аналоговый",
+				Name = "Извещатель пожарный тепловой",
 				ShortName = "ИП 101-52-PR",
 				HasZone = true,
 				IsPlaceable = true

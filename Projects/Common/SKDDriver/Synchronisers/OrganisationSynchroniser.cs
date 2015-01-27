@@ -28,29 +28,29 @@ namespace SKDDriver
 			};
 		}
 
-		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(Guid uid)
+		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(ExportFilter filter)
 		{
-			return base.IsInFilter(uid).And(x => x.UID == uid);
+			return base.IsInFilter(filter).And(x => x.UID == filter.OrganisationUID);
 		}
 
 		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
 		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
 		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
-		
-		public override OperationResult Export(Guid uid)
+
+		public override OperationResult Export(ExportFilter filter)
 		{
 			try
 			{
-				var organisationResult = base.Export(uid);
+				var organisationResult = base.Export(filter);
 				if (organisationResult.HasError)
 					return organisationResult;
-				var employeeResult = _DatabaseService.EmployeeTranslator.Synchroniser.Export(uid);
+				var employeeResult = _DatabaseService.EmployeeTranslator.Synchroniser.Export(filter);
 				if (employeeResult.HasError)
 					return employeeResult;
-				var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(uid);
+				var PositionResult = _DatabaseService.PositionTranslator.Synchroniser.Export(filter);
 				if (PositionResult.HasError)
 					return PositionResult;
-				var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(uid);
+				var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
 				if (DepartmentResult.HasError)
 					return DepartmentResult;
 				var zipName = "Export.zip";

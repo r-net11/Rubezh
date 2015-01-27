@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -14,9 +15,7 @@ namespace SKDModule.ViewModels
 			ExportOrganisationCommand = new RelayCommand(OnExportOrganisation);
 			ImportOrganisationCommand = new RelayCommand(OnImportOrganisation);
 			ExportJournalCommand = new RelayCommand(OnExportJournal);
-			ImportJournalCommand = new RelayCommand(OnImportJournal);
 			ExportPassJournalCommand = new RelayCommand(OnExportPassJournal);
-			ImportPassJournalCommand = new RelayCommand(OnImportPassJournal);
 		}
 
 		public RelayCommand ExportOrganisationCommand { get; private set; }
@@ -25,7 +24,8 @@ namespace SKDModule.ViewModels
 			var organisations = OrganisationHelper.Get(new OrganisationFilter());
 			if (organisations == null)
 				return;
-			OrganisationHelper.Export(organisations.FirstOrDefault().UID);
+			var filter = new ExportFilter { OrganisationUID = organisations.FirstOrDefault().UID };
+			OrganisationHelper.Export(filter);
 		}
 
 
@@ -40,29 +40,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand ExportJournalCommand { get; private set; }
 		void OnExportJournal()
 		{
-			PassJournalHelper.ExportJournal();
-		}
-
-		public RelayCommand ImportJournalCommand { get; private set; }
-		void OnImportJournal()
-		{
-			var openFileDialog = new OpenFileDialog() { Filter = "Xml files|*.xml" };
-			if (openFileDialog.ShowDialog() == true)
-				PassJournalHelper.ImportJournal(openFileDialog.FileName);
+			var maxDate = DateTime.Now;
+			var minDate = maxDate.AddDays(-1);
+			PassJournalHelper.ExportJournal(minDate, maxDate);
 		}
 
 		public RelayCommand ExportPassJournalCommand { get; private set; }
 		void OnExportPassJournal()
 		{
-			PassJournalHelper.ExportPassJournal();
-		}
-
-		public RelayCommand ImportPassJournalCommand { get; private set; }
-		void OnImportPassJournal()
-		{
-			var openFileDialog = new OpenFileDialog() { Filter = "Xml files|*.xml" };
-			if (openFileDialog.ShowDialog() == true)
-				PassJournalHelper.ImportPassJournal(openFileDialog.FileName);
+			var maxDate = DateTime.Now;
+			var minDate = maxDate.AddDays(-1);
+			PassJournalHelper.ExportPassJournal(minDate, maxDate);
 		}
 	}
 }

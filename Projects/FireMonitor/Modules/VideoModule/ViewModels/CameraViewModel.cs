@@ -15,7 +15,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Video.RVI_VSS;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Common.Windows;
 
@@ -24,20 +23,20 @@ namespace VideoModule.ViewModels
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
-		readonly CellPlayerWrap _cellPlayerWrap;
+		//readonly CellPlayerWrap _cellPlayerWrap;
 
-		public CameraViewModel(Camera camera, CellPlayerWrap cellPlayerWrap)
-		{
-			_cellPlayerWrap = cellPlayerWrap;
-			VisualCameraViewModels = new List<CameraViewModel>();
-			if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
-				_cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;
-			_cellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
-			Camera = camera;
-			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
-			CreateDragVisual = OnCreateDragVisual;
-			UpdateChildren();
-		}
+		//public CameraViewModel(Camera camera, CellPlayerWrap cellPlayerWrap)
+		//{
+		//    _cellPlayerWrap = cellPlayerWrap;
+		//    VisualCameraViewModels = new List<CameraViewModel>();
+		//    if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
+		//        _cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;
+		//    _cellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
+		//    Camera = camera;
+		//    CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
+		//    CreateDragVisual = OnCreateDragVisual;
+		//    UpdateChildren();
+		//}
 
 		public List<CameraViewModel> VisualCameraViewModels;
 
@@ -63,10 +62,10 @@ namespace VideoModule.ViewModels
 			get { return Camera.Status; }
 		}
 
-		public string ViewName
-		{
-			get { return _cellPlayerWrap.Name; }
-		}
+		//public string ViewName
+		//{
+		//    get { return _cellPlayerWrap.Name; }
+		//}
 
 		public bool IsDvr
 		{
@@ -97,8 +96,8 @@ namespace VideoModule.ViewModels
 			if ((Camera != null) && (Camera.CameraType == CameraType.Dvr))
 				foreach (var child in Camera.Children)
 				{
-					var cameraViewModel = new CameraViewModel(child, new CellPlayerWrap());
-					AddChild(cameraViewModel);
+					//var cameraViewModel = new CameraViewModel(child, new CellPlayerWrap());
+					//AddChild(cameraViewModel);
 				}
 		}
 
@@ -173,8 +172,8 @@ namespace VideoModule.ViewModels
 
 		public void Connect()
 		{
-			if ((RootCamera == null) || (RviVssHelper.Devices.Any(x => x.IP == Camera.Ip)))
-				return;
+			//if ((RootCamera == null) || (RviVssHelper.Devices.Any(x => x.IP == Camera.Ip)))
+			//    return;
 			RootCamera.ConnectRoot();
 		}
 
@@ -183,7 +182,7 @@ namespace VideoModule.ViewModels
 			try
 			{
 				Camera.Status = DeviceStatuses.Connecting;
-				_cellPlayerWrap.Connect(Camera);
+				//_cellPlayerWrap.Connect(Camera);
 				Camera.Status = DeviceStatuses.Connected;
 			}
 			catch (Exception)
@@ -197,7 +196,7 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
-				_cellPlayerWrap.Disconnect(Camera);
+				//_cellPlayerWrap.Disconnect(Camera);
 				Camera.Status = DeviceStatuses.Disconnected;
 			}
 			catch
@@ -225,14 +224,14 @@ namespace VideoModule.ViewModels
 
 		public void Start(bool addToRootCamera = true)
 		{
-			_cellPlayerWrap.Start(Camera, Camera.ChannelNumber);
+			//_cellPlayerWrap.Start(Camera, Camera.ChannelNumber);
 			if ((addToRootCamera)&&(RootCamera != null))
 				RootCamera.VisualCameraViewModels.Add(this);
 		}
 
 		public void Stop(bool addToRootCamera = true)
 		{
-			_cellPlayerWrap.Stop();
+			//_cellPlayerWrap.Stop();
 			if ((addToRootCamera) && (RootCamera != null))
 				RootCamera.VisualCameraViewModels.Remove(this);
 		}
@@ -267,11 +266,11 @@ namespace VideoModule.ViewModels
 
 		private void CellPlayerWrapOnDropHandler(Camera camera)
 		{
-			if (String.IsNullOrEmpty(_cellPlayerWrap.Name)) // Запрет менять для однооконного режима(?)
-				return;
+			//if (String.IsNullOrEmpty(_cellPlayerWrap.Name)) // Запрет менять для однооконного режима(?)
+			//    return;
 			Camera = camera;
-			if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == _cellPlayerWrap.Name).Value == Camera.UID)
-				return;
+			//if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == _cellPlayerWrap.Name).Value == Camera.UID)
+			//    return;
 			try
 			{
 				ApplicationService.BeginInvoke(() =>
@@ -280,7 +279,7 @@ namespace VideoModule.ViewModels
 					Connect();
 					Start();
 				});
-				ClientSettings.RviMultiLayoutCameraSettings.Dictionary[_cellPlayerWrap.Name] = Camera.UID;
+				//ClientSettings.RviMultiLayoutCameraSettings.Dictionary[_cellPlayerWrap.Name] = Camera.UID;
 			}
 			catch (Exception ex)
 			{

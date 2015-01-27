@@ -58,6 +58,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -114,22 +116,20 @@
     <Compile Include="ViewModels\CamerasMenuViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
     <Compile Include="ViewModels\ChannelViewModel.cs" />
-    <Compile Include="ViewModels\AutoSearchCamerasViewModel.cs" />
-    <Compile Include="ViewModels\AutoSearchCameraViewModel.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\PreviewViewModel.cs" />
+    <Compile Include="ViewModels\SettingsSelectionViewModel.cs" />
     <Compile Include="ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Views\CamerasMenuView.xaml.cs">
       <DependentUpon>CamerasMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CamerasView.xaml.cs">
       <DependentUpon>CamerasView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AutoSearchCamerasView.xaml.cs">
-      <DependentUpon>AutoSearchCamerasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
@@ -142,6 +142,9 @@
     </Compile>
     <Compile Include="Views\PreviewView.xaml.cs">
       <DependentUpon>PreviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsSelectionView.xaml.cs">
+      <DependentUpon>SettingsSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesSelectationView.xaml.cs">
       <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
@@ -173,10 +176,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AutoSearchCamerasView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\CameraDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,6 +189,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

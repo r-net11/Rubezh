@@ -6,7 +6,6 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -16,7 +15,6 @@ namespace VideoModule.ViewModels
 	{
 		public Camera Camera { get; private set; }
 		public bool IsEditMode { get; private set; }
-		readonly CellPlayerWrap _cellPlayerWrap;
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
@@ -34,15 +32,11 @@ namespace VideoModule.ViewModels
 				Camera = new Camera();
 				Name = "Видеоустройство";
 				Address = "172.16.5.201";
-				Port = 37777;
-				Login = "admin";
-				Password = "admin";
 				ChannelsCount = 1;
 				ChannelNumber = 1;
 				SelectedCameraType = CameraType.Dvr;
 				IsEditMode = false;
 			}
-			_cellPlayerWrap = new CellPlayerWrap();
 			ShowZonesCommand = new RelayCommand(OnShowZones);
 			ShowCommand = new RelayCommand(OnShow);
 			Initialize();
@@ -135,9 +129,6 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Ip;
-			Port = Camera.Port;
-			Login = Camera.Login;
-			Password = Camera.Password;
 			SelectedCameraType = Camera.CameraType;
 			SelectedStateClass = Camera.StateClass;
 			ChannelNumber = Camera.ChannelNumber + 1;
@@ -166,39 +157,6 @@ namespace VideoModule.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged(() => Address);
-			}
-		}
-
-		int _port;
-		public int Port
-		{
-			get { return _port; }
-			set
-			{
-				_port = value;
-				OnPropertyChanged(() => Port);
-			}
-		}
-
-		string _login;
-		public string Login
-		{
-			get { return _login; }
-			set
-			{
-				_login = value;
-				OnPropertyChanged(() => Login);
-			}
-		}
-
-		string _password;
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged(() => Password);
 			}
 		}
 
@@ -265,12 +223,9 @@ namespace VideoModule.ViewModels
 			try
 			{
 				var title = Name + " " + ChannelNumber;
-				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
-				var camera = new Camera {Ip = Address, Port = Port, Login = Login, Password = Password};
-				_cellPlayerWrap.Connect(camera);
-				_cellPlayerWrap.Start(camera, ChannelNumber - 1);
+				var previewViewModel = new PreviewViewModel(title);
+				var camera = new Camera { Ip = Address };
 				DialogService.ShowModalWindow(previewViewModel);
-				_cellPlayerWrap.Stop();
 			}
 			catch (Exception e)
 			{
@@ -287,9 +242,6 @@ namespace VideoModule.ViewModels
 			}
 			Camera.Name = Name;
 			Camera.Ip = Address;
-			Camera.Port = Port;
-			Camera.Login = Login;
-			Camera.Password = Password;
 			Camera.CameraType = SelectedCameraType;
 			Camera.StateClass = SelectedStateClass;
 			Camera.Left = Left;
@@ -306,18 +258,12 @@ namespace VideoModule.ViewModels
 					CameraType = CameraType.Channel,
 					Name = "Канал",
 					Ip = Address,
-					Port = Port,
-					Login = Login,
-					Password = Password
 				});
 			}
 			if ((Camera.Children != null)&&(Camera.Children.Count > 0))
 				foreach (var child in Camera.Children)
 				{
 					child.Ip = Address;
-					child.Port = Port;
-					child.Login = Login;
-					child.Password = Password;
 				}
 			return base.Save();
 		}

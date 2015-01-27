@@ -380,29 +380,21 @@ namespace FiresecService.Service
 
 
 		#region Export
-		public OperationResult ExportOrganisation(Guid uid)
+		public OperationResult ExportOrganisation(ExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportOrganisation(uid));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportOrganisation(filter));
 		}
 		public OperationResult ImportOrganisation(string fileName)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.ImportOrganisation(fileName));
 		}
-		public OperationResult ExportJournal()
+		public OperationResult ExportJournal(DateTime minDate, DateTime maxDate)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportJournal());
+			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportJournal(minDate, maxDate));
 		}
-		public OperationResult ImportJournal(string fileName)
+		public OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ImportJournal(fileName));
-		}
-		public OperationResult ExportPassJournal()
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportPassJournal());
-		}
-		public OperationResult ImportPassJournal(string fileName)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ImportPassJournal(fileName));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportPassJournal(minDate, maxDate));
 		}
 		#endregion
 	}
