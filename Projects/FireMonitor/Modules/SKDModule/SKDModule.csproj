@@ -241,6 +241,7 @@
     <Compile Include="Reports\Providers\ReportProvider411.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ScheduleSchemePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DoorPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DocumentFilterPageViewModel.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Reports\ViewModels\PlacementMainPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\SKDObjectPageViewModel.cs" />
+    <Compile Include="Reports\ViewModels\TreeNodeItemViewModel.cs" />
     <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\PassCardTypePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\EmployeePageViewModel.cs" />
@@ -265,6 +267,9 @@
     </Compile>
     <Compile Include="Reports\Views\DoorPageView.xaml.cs">
       <DependentUpon>DoorPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\ScheduleSchemePageView.xaml.cs">
+      <DependentUpon>ScheduleSchemePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\SKDFilterPageView.xaml.cs">
       <DependentUpon>SKDFilterPageView.xaml</DependentUpon>
@@ -796,6 +801,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\DoorPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\ScheduleSchemePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

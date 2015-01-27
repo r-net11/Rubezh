@@ -55,15 +55,14 @@ namespace FiresecService.Report.Templates
 
 			foreach (var employee in employees)
 			{
-				if (filter.Schedules != null && filter.Schedules.Count > 0)
+				if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
 				{
 					if (employee.Schedule != null)
 					{
-						//if (!filter.Schedules.Contains(employee.Schedule.UID))
-						//    continue;
+						if (!filter.ScheduleSchemas.Contains(employee.Schedule.UID))
+							continue;
 					}
 				}
-				//result.Add(employee);
 
 				var dataRow = dataSet.Data.NewDataRow();
 

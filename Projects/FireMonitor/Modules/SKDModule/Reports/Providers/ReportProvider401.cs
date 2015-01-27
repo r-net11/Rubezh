@@ -18,12 +18,12 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Дата и время в системе" },
-					{ "c02", "Дата и время на устройстве" },
-					{ "c03", "Название" },
-					{ "c04", "Объект" },
-					{ "c05", "Пользователь" },
-					{ "c06", "Подсистема" },
+					{ "SystemDateTime", "Дата и время в системе" },
+					{ "DeviceDateTime", "Дата и время на устройстве" },
+					{ "Name", "Название" },
+					{ "Object", "Объект" },
+					{ "User", "Пользователь" },
+					{ "System", "Подсистема" },
 				},
                 Pages = new List<FilterContainerViewModel>()
 				{

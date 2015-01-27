@@ -242,7 +242,7 @@
     <Compile Include="SKD\ReportFilters\ReportFilter423.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter417.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterArchive.cs" />
-    <Compile Include="SKD\ReportFilters\IReportFilterScheduleWithDirection.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterScheduleScheme.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterZoneWithDirection.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterPassCardTypeFull.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter418.cs" />

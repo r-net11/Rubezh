@@ -49,6 +49,14 @@ namespace FiresecService.Report.Templates
 			{
 				foreach (var employee in employeesResult.Result)
 				{
+					if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
+					{
+						if (employee.Schedule != null)
+						{
+							if (!filter.ScheduleSchemas.Contains(employee.Schedule.UID))
+								continue;
+						}
+					}
 					var timeTrackEmployeeResult = timeTrackResult.Result.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 					if (timeTrackEmployeeResult != null)
 					{

@@ -18,12 +18,7 @@ namespace SKDModule.Reports.ViewModels
 		public SchedulePageViewModel()
 		{
 			Title = "График";
-			Schedules = new ObservableCollection<CheckedItemViewModel<SKDWeeklyInterval>>();
-			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
-			{
-				var viewModel = new CheckedItemViewModel<SKDWeeklyInterval>(weeklyInterval);
-				Schedules.Add(viewModel);
-			}
+			Schedules = new ObservableCollection<CheckedItemViewModel<SKDWeeklyInterval>>(SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Select(item => new CheckedItemViewModel<SKDWeeklyInterval>(item)));
 			SelectAllCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Schedules.ForEach(item => item.IsChecked = false));
 		}
@@ -32,16 +27,6 @@ namespace SKDModule.Reports.ViewModels
 		public RelayCommand SelectNoneCommand { get; private set; }
 		public ObservableCollection<CheckedItemViewModel<SKDWeeklyInterval>> Schedules { get; private set; }
 
-		private bool _withDirection;
-		public bool WithDirection
-		{
-			get { return _withDirection; }
-			set
-			{
-				_withDirection = value;
-				OnPropertyChanged(() => WithDirection);
-			}
-		}
 		private bool _scheduleEnter;
 		public bool ScheduleEnter
 		{
@@ -71,12 +56,8 @@ namespace SKDModule.Reports.ViewModels
 			if (scheduleFilter.Schedules == null)
 				scheduleFilter.Schedules = new List<int>();
 			Schedules.ForEach(item => item.IsChecked = scheduleFilter.Schedules.Contains(item.Item.ID));
-			WithDirection = scheduleFilter is IReportFilterScheduleWithDirection;
-			if (WithDirection)
-			{
-				ScheduleEnter = ((IReportFilterScheduleWithDirection)scheduleFilter).ScheduleEnter;
-				ScheduleExit = ((IReportFilterScheduleWithDirection)scheduleFilter).ScheduleExit;
-			}
+			ScheduleEnter = scheduleFilter.ScheduleEnter;
+			ScheduleExit = scheduleFilter.ScheduleExit;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
@@ -84,12 +65,8 @@ namespace SKDModule.Reports.ViewModels
 			if (scheduleFilter == null)
 				return;
 			scheduleFilter.Schedules = Schedules.Where(item => item.IsChecked).Select(item => item.Item.ID).ToList();
-			var direction = scheduleFilter as IReportFilterScheduleWithDirection;
-			if (direction != null)
-			{
-				direction.ScheduleEnter = ScheduleEnter;
-				direction.ScheduleExit = ScheduleExit;
-			}
+			scheduleFilter.ScheduleEnter = ScheduleEnter;
+			scheduleFilter.ScheduleExit = ScheduleExit;
 		}
 	}
 }

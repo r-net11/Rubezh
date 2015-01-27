@@ -18,11 +18,11 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Сотрудник" },
-					{ "c02", "Организация" },
-					{ "c03", "Отдел" },
-					{ "c04", "Должность" },
-					{ "c05", "График" },
+					{ "Employee", "Сотрудник" },
+					{ "Organisation", "Организация" },
+					{ "Department", "Подразделение" },
+					{ "Position", "Должность" },
+					{ "Schedule", "График" },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
@@ -30,7 +30,7 @@ namespace SKDModule.Reports.Providers
 					new DepartmentPageViewModel(),
 					new PositionPageViewModel(),
 					new EmployeePageViewModel(),
-					new SchedulePageViewModel(),
+					new ScheduleSchemePageViewModel(),
 				},
 			};
 		}

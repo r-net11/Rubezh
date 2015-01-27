@@ -88,27 +88,33 @@ namespace FiresecService.Report.Templates
             if (!DataSet.Tables.Contains(DataMember))
                 throw new ApplicationException();
             var dt = DataSet.Tables[DataMember];
-            for (int i = 0; i < count; i++)
-            {
-                var row = dt.NewRow();
-                foreach (DataColumn column in dt.Columns)
-                {
-                    if (column.DataType == typeof(string))
-                        row[column] = string.Format("{0} {1}", column.ColumnName, i);
-                    else if (column.DataType == typeof(int) || column.DataType == typeof(long))
-                        row[column] = i;
-                    else if (column.DataType == typeof(double) || column.DataType == typeof(decimal))
-                        row[column] = i;
-                    else if (column.DataType == typeof(DateTime))
-                        row[column] = DateTime.Today.AddDays(-i);
-                    else if (column.DataType == typeof(TimeSpan))
-                        row[column] = new TimeSpan(i, i + 1, i + 2);
-                    else if (column.DataType == typeof(bool))
-                        row[column] = i % 2 == 0;
-                }
-                dt.Rows.Add(row);
-            }
+			FillTestData(dt, count);
         }
+		protected void FillTestData(DataTable table, int count)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				var row = table.NewRow();
+				foreach (DataColumn column in table.Columns)
+				{
+					if (column.DataType == typeof(string))
+						row[column] = string.Format("{0} {1}", column.ColumnName, i);
+					else if (column.DataType == typeof(int) || column.DataType == typeof(long))
+						row[column] = i;
+					else if (column.DataType == typeof(double) || column.DataType == typeof(decimal))
+						row[column] = i;
+					else if (column.DataType == typeof(DateTime))
+						row[column] = DateTime.Today.AddDays(-i);
+					else if (column.DataType == typeof(TimeSpan))
+						row[column] = new TimeSpan(i, i + 1, i + 2);
+					else if (column.DataType == typeof(bool))
+						row[column] = i % 2 == 0;
+					else if (column.DataType == typeof(Guid))
+						row[column] = Guid.NewGuid();
+				}
+				table.Rows.Add(row);
+			}
+		}
         protected void PrintFilter()
         {
             var footer = new ReportFooterBand()

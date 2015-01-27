@@ -14,7 +14,7 @@
 								<StackPanel Orientation="Horizontal">
 									<CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 									<Image Width="16" Margin="1 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-									<TextBlock Text="{Binding Item.Name}" />
+									<TextBlock Text="{Binding Item.Name}" VerticalAlignment="Center"/>
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -24,8 +24,8 @@
 			</ListView.View>
 		</ListView>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="/Controls;component/Images/SelectAll.png" ToolTip="Выделить всё" />
-			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="/Controls;component/Images/SelectNone.png" ToolTip="Снять все выделения" />
+			<ToolBarButton Command="{Binding SelectAllCommand}" Background="{DynamicResource SelectAll}" ToolTip="Выделить всё" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" Background="{DynamicResource SelectNone}" ToolTip="Снять все выделения" />
 		</StackPanel>
 		<StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding WithDirection, Converter={StaticResource BoolToVisibilityConverter}}">
 			<CheckBox Margin="3" VerticalAlignment="Center" Content="Из зоны" Foreground="White" IsChecked="{Binding ZoneOut}" />

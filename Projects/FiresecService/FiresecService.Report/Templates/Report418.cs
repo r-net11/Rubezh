@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using System.Data;
-using System.Linq;
-using FiresecService.Report.DataSources;
-using FiresecAPI.SKD.ReportFilters;
-using SKDDriver;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using System.Data;
 using FiresecAPI;
+using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Report.DataSources;
+using SKDDriver;
 
 namespace FiresecService.Report.Templates
 {
@@ -56,6 +51,8 @@ namespace FiresecService.Report.Templates
 					dataRow.FirstName = employee.FirstName;
 					dataRow.SecondName = employee.SecondName;
 					dataRow.Sex = employee.Gender.ToDescription();
+					if (employee.Photo != null)
+						dataRow.Photo = employee.Photo.Data;
 
 					var organisationResult = databaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
 					if (organisationResult.Result != null)

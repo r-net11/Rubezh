@@ -18,13 +18,13 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Статус" },
-					{ "c02", "Номер" },
-					{ "c03", "Организация" },
-					{ "c04", "Отдел" },
-					{ "c05", "Должность" },
-					{ "c06", "Сотрудник" },
-					{ "c07", "Срок действия" },
+					{ "Type", "Статус" },
+					{ "Number", "Номер" },
+					{ "Organisation", "Организация" },
+					{ "Department", "Подразделение" },
+					{ "Position", "Должность" },
+					{ "Employee", "Сотрудник" },
+					{ "Period", "Срок действия" },
 				},
 				MainViewModel = new PassCardMainPageViewModel(),
 				Pages = new List<FilterContainerViewModel>()

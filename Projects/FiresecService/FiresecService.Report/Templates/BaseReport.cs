@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.SKD.ReportFilters;
+using DevExpress.XtraReports.UI;
 
 namespace FiresecService.Report.Templates
 {
@@ -58,8 +60,23 @@ namespace FiresecService.Report.Templates
 			if (!lUserName.Visible && lTimestamp.Visible)
 				BottomMargin.HeightF -= lUserName.HeightF;
 			ReportPrintOptions.DetailCountOnEmptyDataSource = 0;
+			ApplySort();
 		}
 
 		#endregion
+
+		protected virtual void ApplySort()
+		{
+			if (string.IsNullOrEmpty(Filter.SortColumn))
+				return;
+			var details = GetDetailBand();
+			if (details == null)
+				return;
+			details.SortFields.Add(new GroupField(Filter.SortColumn, Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
+		}
+		protected DetailBand GetDetailBand()
+		{
+			return Bands.OfType<DetailBand>().FirstOrDefault();
+		}
 	}
 }
