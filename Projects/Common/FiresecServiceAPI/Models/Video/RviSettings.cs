@@ -7,10 +7,12 @@ namespace FiresecAPI.Models
 	{
 		public RviSettings()
 		{
-			Ip = "192.168.0.1";
-			Port = 37777;
-			Login = "admin";
-			Password = "admin";
+			Ip = "172.16.5.7";
+			Port = 8000;
+			Login = "strazh";
+			Password = "strazh12345";
+			DllsPath = @"C:\Program Files (x86)\VideoLAN\VLC\";
+			PluginsPath = @"C:\Program Files (x86)\VideoLAN\VLC\plugins\";
 		}
 
 		[DataMember]
@@ -24,5 +26,11 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Password { get; set; }
+
+		[DataMember]
+		public string DllsPath { get; set; }
+
+		[DataMember]
+		public string PluginsPath { get; set; }
 	}
 }

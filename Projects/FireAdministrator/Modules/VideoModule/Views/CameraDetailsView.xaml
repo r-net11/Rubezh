@@ -4,6 +4,7 @@
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:local="clr-namespace:FiresecAPI;assembly=FiresecAPI"
 			 xmlns:converters="clr-namespace:VideoModule.Converters"
+			 xmlns:wpf="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
 			 MinWidth="400" MinHeight="400">
 	<UserControl.Resources>
 		<converters:CameraTypeToVisibilityConverter x:Key="CameraTypeToVisibilityConverter" />
@@ -56,18 +57,6 @@
 				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
-
-				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2"
-						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
-					ConverterParameter={x:Static local:CameraType.Channel}}" />
-
-				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2"
-						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
-					ConverterParameter={x:Static local:CameraType.Channel}}" />
-				
-				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2"
-						 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
-					ConverterParameter={x:Static local:CameraType.Channel}}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Дополнительные"
@@ -103,6 +92,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
 				<Label Grid.Row="0" Grid.Column="0" Content="Состояние" HorizontalAlignment="Right" />
@@ -146,6 +136,21 @@
 				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Height}" Minimum="100" Maximum="1000" Margin="2" />
 
 				<Button Grid.Row="6" Grid.Column="1" Content="Предпросмотр" Margin="2" Command="{Binding ShowCommand}" />
+
+				<Border Grid.Row="7" Grid.Column="1" BorderThickness="2" BorderBrush="Black">
+					<Grid>
+						<wpf:VlcControl x:Name="myVlcControl" />
+						<Grid>
+							<Grid.Background>
+								<VisualBrush Stretch="Uniform">
+									<VisualBrush.Visual>
+										<Image Source="{Binding Image}" />
+									</VisualBrush.Visual>
+								</VisualBrush >
+							</Grid.Background>
+						</Grid>
+					</Grid>
+				</Border>
 			</Grid>
 		</TabItem>
 	</TabControl>

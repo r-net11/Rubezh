@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Common;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
@@ -37,28 +36,28 @@ namespace VideoModule.Views
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
 			InitializeUIElement(_6X6GridView);
-			foreach (var camera in Cameras)
-			{
-				var rootCamera = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == camera.Camera.Ip);
-				if (rootCamera != null)
-					rootCamera.VisualCameraViewModels.Add(camera);
-			}
+			//foreach (var camera in Cameras)
+			//{
+			//    var rootCamera = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == camera.Camera.Ip);
+			//    if (rootCamera != null)
+			//        rootCamera.VisualCameraViewModels.Add(camera);
+			//}
 
-			Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
-			{
-				foreach (var rootCamera in CamerasViewModel.Current.Cameras)
-				{
-					try
-					{
-						rootCamera.Connect();
-						rootCamera.StartAll();
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show(e.Message);
-					}
-				}
-			}));
+			//Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
+			//{
+			//    foreach (var rootCamera in CamerasViewModel.Current.Cameras)
+			//    {
+			//        try
+			//        {
+			//            rootCamera.Connect();
+			//            rootCamera.StartAll();
+			//        }
+			//        catch (Exception e)
+			//        {
+			//            MessageBox.Show(e.Message);
+			//        }
+			//    }
+			//}));
 		}
 
 		void InitializeUIElement(UIElement uiElement)
@@ -131,8 +130,8 @@ namespace VideoModule.Views
 						{
 							Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
 							{
-									//cameraViewModel.Connect();
-									//cameraViewModel.Start();
+								//cameraViewModel.Connect();
+								//cameraViewModel.Start();
 							}));
 						}
 						ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;

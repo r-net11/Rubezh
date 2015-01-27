@@ -38,7 +38,7 @@
 		<TabItem Header="Сервис RVI-VSS">
 			<Border Margin="2" Background="White" BorderThickness="0" CornerRadius="10">
 				<StackPanel>
-                    <Button Width="100" Margin="2" Command="{Binding SessionInitialiazationCommand}" Content="Test" />
+					<Button Width="100" Margin="2" Command="{Binding SessionInitialiazationCommand}" Content="Test" />
 					<Border BorderThickness="5" Height="400" Width="400" BorderBrush="Black">
 						<Grid>
 							<wpf:VlcControl x:Name="myVlcControl" />

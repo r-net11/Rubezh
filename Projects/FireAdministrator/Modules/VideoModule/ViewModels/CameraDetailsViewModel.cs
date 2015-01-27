@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
@@ -8,6 +10,9 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Vlc.DotNet.Core;
+using Vlc.DotNet.Core.Medias;
+using Vlc.DotNet.Wpf;
 
 namespace VideoModule.ViewModels
 {
@@ -21,7 +26,7 @@ namespace VideoModule.ViewModels
 			if (camera != null)
 			{
 				Camera = camera;
-				Title = (Camera.CameraType == CameraType.Dvr ? "Свойства видеорегистратора" : 
+				Title = (Camera.CameraType == CameraType.Dvr ? "Свойства видеорегистратора" :
 					Camera.CameraType == CameraType.Camera ? "Свойства камеры" : "Свойства канала");
 				IsEditMode = true;
 				CopyProperties();
@@ -53,7 +58,7 @@ namespace VideoModule.ViewModels
 			CameraTypes = new List<CameraType>();
 			CameraTypes.Add(CameraType.Dvr);
 			CameraTypes.Add(CameraType.Camera);
-			if ((CamerasViewModel.Current.SelectedCamera != null) && 
+			if ((CamerasViewModel.Current.SelectedCamera != null) &&
 				((CamerasViewModel.Current.SelectedCamera.Parent != null) ||
 				(CamerasViewModel.Current.SelectedCamera.Camera.CameraType == CameraType.Dvr)))
 				CameraTypes.Add(CameraType.Channel);
@@ -121,7 +126,7 @@ namespace VideoModule.ViewModels
 					if (value == CameraType.Channel)
 						Name = "Канал";
 				}
-				OnPropertyChanged(()=>SelectedCameraType);
+				OnPropertyChanged(() => SelectedCameraType);
 			}
 		}
 
@@ -217,20 +222,61 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		private VlcControl _vlcControl;
+		public ImageSource Image
+		{
+			get
+			{
+				if (_vlcControl == null)
+					return new BitmapImage();
+				return _vlcControl.VideoSource;
+			}
+		}
+
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
 			try
 			{
-				var title = Name + " " + ChannelNumber;
-				var previewViewModel = new PreviewViewModel(title);
-				var camera = new Camera { Ip = Address };
-				DialogService.ShowModalWindow(previewViewModel);
+				if (!VlcContext.IsInitialized)
+				{
+					//Set libvlc.dll and libvlccore.dll directory path
+					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
+					//Set the vlc plugins directory path
+					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
+
+					//Set the startup options
+					VlcContext.StartupOptions.IgnoreConfig = true;
+					VlcContext.StartupOptions.LogOptions.LogInFile = false;
+					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+
+					//Initialize the VlcContext
+					VlcContext.Initialize();
+				}
+				_vlcControl = new VlcControl { Media = new LocationMedia(Camera.RviRTSP) };
+				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
+				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
+				if (_vlcControl.IsPlaying)
+					_vlcControl.Stop();
+				_vlcControl.Play();
 			}
 			catch (Exception e)
 			{
 				MessageBoxService.ShowWarning(e.Message);
 			}
+		}
+
+		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
+		{
+			OnPropertyChanged(() => Image);
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			if (_vlcControl.IsPlaying)
+				_vlcControl.Stop();
+			return base.OnClosing(isCanceled);
 		}
 
 		protected override bool Save()
@@ -251,8 +297,8 @@ namespace VideoModule.ViewModels
 			Camera.ChannelNumber = ChannelNumber - 1;
 			for (int i = 0; i < ChannelsCount; i++)
 			{
-				Camera.Children.Add(new Camera 
-				{ 
+				Camera.Children.Add(new Camera
+				{
 					ChannelNumber = i,
 					Parent = Camera,
 					CameraType = CameraType.Channel,
@@ -260,7 +306,7 @@ namespace VideoModule.ViewModels
 					Ip = Address,
 				});
 			}
-			if ((Camera.Children != null)&&(Camera.Children.Count > 0))
+			if ((Camera.Children != null) && (Camera.Children.Count > 0))
 				foreach (var child in Camera.Children)
 				{
 					child.Ip = Address;
@@ -274,7 +320,7 @@ namespace VideoModule.ViewModels
 			{
 				if (CamerasViewModel.Current.SelectedCamera.IsDvr)
 				{
-					if (CamerasViewModel.Current.SelectedCamera.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1))&&
+					if (CamerasViewModel.Current.SelectedCamera.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1)) &&
 						x.Camera != Camera))
 					{
 						MessageBoxService.ShowError("Канал с таким номером уже существует", "Сообщение");
@@ -284,7 +330,7 @@ namespace VideoModule.ViewModels
 				else
 				{
 					var children = CamerasViewModel.Current.SelectedCamera.Parent.Children;
-					if (CamerasViewModel.Current.SelectedCamera.Parent.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1))&&
+					if (CamerasViewModel.Current.SelectedCamera.Parent.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1)) &&
 						x.Camera != Camera))
 					{
 						MessageBoxService.ShowError("Канал с таким номером уже существует", "Сообщение");

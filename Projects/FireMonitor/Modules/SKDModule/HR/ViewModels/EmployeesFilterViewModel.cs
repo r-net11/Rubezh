@@ -9,7 +9,8 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeesFilterViewModel : OrganisationBaseViewModel<ShortEmployee, EmployeeFilter, EmployeesFilterItemViewModel, EmployeeDetailsViewModel>
 	{
-		public EmployeesFilterViewModel():base()
+		public EmployeesFilterViewModel()
+			: base()
 		{
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			SelectNoneCommand = new RelayCommand(OnSelectNone);
@@ -25,7 +26,7 @@ namespace SKDModule.ViewModels
 		public void Initialize(EmployeeFilter filter, LogicalDeletationType logicalDeletationType, PersonType personType)
 		{
 			_Filter = filter;
-			var emptyFilter = new EmployeeFilter{ LogicalDeletationType = logicalDeletationType, PersonType = personType };
+			var emptyFilter = new EmployeeFilter { LogicalDeletationType = logicalDeletationType, PersonType = personType };
 			base.Initialize(emptyFilter);
 			FirstName = filter.FirstName;
 			LastName = filter.LastName;
@@ -66,7 +67,7 @@ namespace SKDModule.ViewModels
 			foreach (var employee in employees)
 				employee.IsChecked = false;
 		}
-		
+
 		protected override IEnumerable<ShortEmployee> GetModels(EmployeeFilter filter)
 		{
 			return EmployeeHelper.Get(filter);
