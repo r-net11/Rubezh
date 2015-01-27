@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report422 : BaseSKDReport
+    public partial class Report422 : BaseReport
 	{
 		public Report422()
 		{
@@ -25,12 +25,10 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Отчет по графикам работы"; }
 		}
-		protected override DataSet CreateDataSet()
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter422>();
 			var dataSet = new DataSet422();
-
-			var databaseService = new SKDDatabaseService();
 
 			var employees = new List<Employee>();
 			if (filter.Employees == null)
@@ -47,7 +45,7 @@ namespace FiresecService.Report.Templates
 			employeeFilter.DepartmentUIDs = filter.Departments;
 			employeeFilter.PositionUIDs = filter.Positions;
 			employeeFilter.UIDs = filter.Employees;
-			var employeesResult = databaseService.EmployeeTranslator.Get(employeeFilter);
+            var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult.Result != null)
 			{
 				employees = employeesResult.Result.ToList();
@@ -67,7 +65,7 @@ namespace FiresecService.Report.Templates
 				var dataRow = dataSet.Data.NewDataRow();
 
 				dataRow.Employee = employee.Name;
-				var organisationResult = databaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
+                var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
 				if (organisationResult.Result != null)
 				{
 					dataRow.Organisation = organisationResult.Result.Name;
@@ -84,7 +82,7 @@ namespace FiresecService.Report.Templates
 				if (employee.Schedule != null)
 				{
 					dataRow.Schedule = employee.Schedule.Name;
-					var scheduleResult = databaseService.ScheduleTranslator.GetSingle(employee.Schedule.UID);
+                    var scheduleResult = dataProvider.DatabaseService.ScheduleTranslator.GetSingle(employee.Schedule.UID);
 					if (scheduleResult.Result != null)
 					{
 						dataRow.UseHoliday = !scheduleResult.Result.IsIgnoreHoliday;
@@ -92,7 +90,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Delay = scheduleResult.Result.AllowedLate;
 						dataRow.LeaveBefore = scheduleResult.Result.AllowedLate;
 
-						var scheduleSchemeResult = databaseService.ScheduleSchemeTranslator.GetSingle(scheduleResult.Result.ScheduleSchemeUID);
+                        var scheduleSchemeResult = dataProvider.DatabaseService.ScheduleSchemeTranslator.GetSingle(scheduleResult.Result.ScheduleSchemeUID);
 						if (scheduleSchemeResult.Result != null)
 						{
 							dataRow.BaseSchedule = scheduleSchemeResult.Result.Name;

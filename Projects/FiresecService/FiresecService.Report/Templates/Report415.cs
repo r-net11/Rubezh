@@ -8,10 +8,11 @@ using System.Data;
 using System.Text;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report415 : BaseSKDReport
+    public partial class Report415 : BaseReport
 	{
 		public Report415()
 		{
@@ -22,34 +23,33 @@ namespace FiresecService.Report.Templates
 		{
             get { return "Список подразделений организации"; }
 		}
-		protected override DataSet CreateDataSet()
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
-			return new DataSet415();
-		}
-		protected override string BuildSelectRoutine()
-		{
-			return
-				@"select 
-							Department.Name as Department, 
-							Department.Phone as Phone,  
-							Employee.LastName as Chief,  
-							ParentDepartment.Name as ParentDepartment,
-							Department.Description as Description
-						from dbo.Department Department
-						left outer join dbo.Employee Employee on Employee.UID = Department.ChiefUID
-						left outer join dbo.Department ParentDepartment on ParentDepartment.UID = Department.ParentDepartmentUID";
-		}
-		protected override string BuildWhereRouting()
-		{
-			var filter = GetFilter<ReportFilter415>();
-			if (filter.Organisations.IsEmpty())
-				filter.Organisations = new List<Guid>() { DataHelper.GetDefaultOrganisation() };
-			var sb = new StringBuilder();
-			SqlBuilder.BuildConditionOR(sb, "Department.OrganisationUID", filter.Organisations);
-			if (!filter.Organisations.IsEmpty() && !filter.Departments.IsEmpty())
-				sb.Append(SqlBuilder.AND);
-			SqlBuilder.BuildConditionOR(sb, "Department.UID", filter.Departments);
-			return sb.ToString();
+            var filter = GetFilter<ReportFilter415>();
+            var databaseService = new SKDDatabaseService();
+            dataProvider.LoadCache();
+            if (filter.Organisations.IsEmpty())
+                filter.Organisations = new List<Guid>() { dataProvider.Organisations.First(org => !org.Value.IsDeleted).Value.UID };
+
+            var departmentFilter = new DepartmentFilter()
+            {
+                OrganisationUIDs = filter.Organisations ?? new List<Guid>(),
+                UIDs = filter.Departments ?? new List<Guid>()
+            };
+            var departments = dataProvider.DatabaseService.DepartmentTranslator.Get(departmentFilter);
+            var ds = new DataSet415();
+            if (departments.Result != null)
+                departments.Result.ForEach(department =>
+                {
+                    var row = ds.Data.NewDataRow();
+                    row.Department = department.Name;
+                    row.Phone = department.Phone;
+                    //row.Chief = department.ChiefUID;
+                    row.ParentDepartment = department.ParentDepartmentUID.HasValue ? dataProvider.Departments[department.ParentDepartmentUID.Value].Name : string.Empty;
+                    row.Description = department.Description;
+                    ds.Data.AddDataRow(row);
+                });
+			return ds;
 		}
 	}
 }

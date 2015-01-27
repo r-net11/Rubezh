@@ -19,7 +19,7 @@ using FiresecClient;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report401 : BaseSKDReport
+    public partial class Report401 : BaseReport
 	{
         public Report401()
 		{
@@ -30,7 +30,7 @@ namespace FiresecService.Report.Templates
 		{
             get { return "Отчет по событиям системы контроля доступа"; }
 		}
-		protected override DataSet CreateDataSet()
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter401>();
 			var dataSet = new DataSet401();
@@ -411,11 +411,5 @@ namespace FiresecService.Report.Templates
 			}
 			return journalItem;
 		}
-
-		//protected override void DataSourceRequered()
-		//{
-		//    base.DataSourceRequered();
-		//    FillTestData();
-		//}
 	}
 }

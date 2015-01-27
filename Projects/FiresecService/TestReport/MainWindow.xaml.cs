@@ -35,8 +35,8 @@ namespace TestReport
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			var report = new Report418();
-			report.ApplyFilter(new ReportFilter418());
+			var report = new Report415();
+            report.ApplyFilter(new ReportFilter415());
 			var model = new XtraReportPreviewModel(report)
 			{
 				IsParametersPanelVisible = false,
@@ -53,8 +53,8 @@ namespace TestReport
 			ReportServiceManager.Run();
 			var model = CreateServiceModel();
 			documentViewer1.Model = model;
-			model.ReportName = "Report418";
-			var args = new ReportFilter418();
+            model.ReportName = "Report415";
+            var args = new ReportFilter415();
 			var method = typeof(ReportServicePreviewModel).GetMethod("CreateDocument", BindingFlags.Instance | BindingFlags.NonPublic, null, new Type[] { typeof(object) }, null);
 			method.Invoke(model, new object[] { args });
 		}

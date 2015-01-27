@@ -121,6 +121,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -205,10 +206,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet431.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DataProvider.cs" />
+    <Compile Include="Model\DeletableObjectInfo.cs" />
+    <Compile Include="Model\EmployeeInfo.cs" />
+    <Compile Include="Model\ObjectInfo.cs" />
+    <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="SqlBuilder.cs" />
-    <Compile Include="Templates\BaseSKDReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Templates\Report402.cs">
       <SubType>Component</SubType>
     </Compile>
