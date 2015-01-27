@@ -45,20 +45,22 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand StartVlc { get; private set; }
 		void OnStartVlc()
 		{
-			//Set libvlc.dll and libvlccore.dll directory path
-			VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_AMD64;
-			//Set the vlc plugins directory path
-			VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_AMD64;
+			if (!VlcContext.IsInitialized)
+			{
+				//Set libvlc.dll and libvlccore.dll directory path
+				VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_AMD64;
+				//Set the vlc plugins directory path
+				VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_AMD64;
 
-			//Set the startup options
-			VlcContext.StartupOptions.IgnoreConfig = true;
-			VlcContext.StartupOptions.LogOptions.LogInFile = false;
-			VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
-			VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+				//Set the startup options
+				VlcContext.StartupOptions.IgnoreConfig = true;
+				VlcContext.StartupOptions.LogOptions.LogInFile = false;
+				VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+				VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
 
-			//Initialize the VlcContext
-			VlcContext.Initialize();
-
+				//Initialize the VlcContext
+				VlcContext.Initialize();
+			}
 			_vlcControl = new VlcControl { Media = new LocationMedia("rtsp://admin:admin@172.16.2.23:554/cam/realmonitor?channel=1&subtype=0") };
 			_vlcControl.PositionChanged += VlcControlOnPositionChanged;
 			_vlcControl.Play();

@@ -66,8 +66,8 @@ namespace VideoModule.ViewModels
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
-				//var cameraViewModel = new CameraViewModel(camera, new CellPlayerWrap());
-				//Cameras.Add(cameraViewModel);
+				var cameraViewModel = new CameraViewModel(camera);
+				Cameras.Add(cameraViewModel);
 			}
 
 			AllCameras = new List<CameraViewModel>();

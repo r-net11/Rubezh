@@ -54,7 +54,9 @@ namespace VideoModule.ViewModels
 						camera.RviChannelNo = device.Channel.Number;
 						camera.RviRTSP = stream.Rtsp;
 					}
-					FiresecManager.SystemConfiguration.Cameras.Add(camera);
+
+					if (!cameras.Contains(camera))
+						cameras.Add(camera);
 				}
 			}
 			FiresecManager.SystemConfiguration.Cameras = cameras;
@@ -65,7 +67,6 @@ namespace VideoModule.ViewModels
 		List<Device> GetDevices()
 		{
 			var devices = new List<Device>();
-
 			var binding = new NetTcpBinding(SecurityMode.None);
 			binding.OpenTimeout = TimeSpan.FromMinutes(10);
 			binding.SendTimeout = TimeSpan.FromMinutes(10);
@@ -81,7 +82,11 @@ namespace VideoModule.ViewModels
 			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
 			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
-			var endpointAddress = new EndpointAddress(new Uri("net.tcp://172.16.5.7:8000/Integration"));
+			var ip = FiresecManager.SystemConfiguration.RviSettings.Ip;
+			var port = FiresecManager.SystemConfiguration.RviSettings.Port;
+			var login = FiresecManager.SystemConfiguration.RviSettings.Login;
+			var password = FiresecManager.SystemConfiguration.RviSettings.Password;
+			var endpointAddress = new EndpointAddress(new Uri("net.tcp://" + ip + ":" + port + "/Integration"));
 
 			using (IntegrationClient client = new IntegrationClient(binding, endpointAddress))
 			{
@@ -93,8 +98,8 @@ namespace VideoModule.ViewModels
 					Request = Guid.NewGuid(),
 					Session = sessionUID
 				};
-				sessionInitialiazationIn.Login = "strazh";
-				sessionInitialiazationIn.Password = "strazh12345";
+				sessionInitialiazationIn.Login = login;
+				sessionInitialiazationIn.Password = password;
 				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
 				//var errorMessage = sessionInitialiazationOut.Header.HeaderResponseMessage.Information;
 

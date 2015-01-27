@@ -25,7 +25,7 @@
 				<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
 				<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
 				<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
-				<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="settings"  ToolTip="Настройки" />
+				<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="BSettings"  ToolTip="Настройки" />
 				<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</StackPanel>
 		</StackPanel>

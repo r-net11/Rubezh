@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
 using Common;
 using DeviceControls;
 using Entities.DeviceOriented;
@@ -12,7 +10,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans.Painters;
@@ -25,18 +22,18 @@ namespace VideoModule.ViewModels
 		public Camera Camera { get; set; }
 		//readonly CellPlayerWrap _cellPlayerWrap;
 
-		//public CameraViewModel(Camera camera, CellPlayerWrap cellPlayerWrap)
-		//{
-		//    _cellPlayerWrap = cellPlayerWrap;
-		//    VisualCameraViewModels = new List<CameraViewModel>();
-		//    if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
-		//        _cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;
-		//    _cellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
-		//    Camera = camera;
-		//    CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
-		//    CreateDragVisual = OnCreateDragVisual;
-		//    UpdateChildren();
-		//}
+		public CameraViewModel(Camera camera)
+		{
+			//_cellPlayerWrap = cellPlayerWrap;
+			VisualCameraViewModels = new List<CameraViewModel>();
+			//if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
+			//	_cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;
+			//_cellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
+			Camera = camera;
+			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
+			CreateDragVisual = OnCreateDragVisual;
+			UpdateChildren();
+		}
 
 		public List<CameraViewModel> VisualCameraViewModels;
 
