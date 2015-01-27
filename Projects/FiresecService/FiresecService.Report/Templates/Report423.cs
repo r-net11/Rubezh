@@ -57,21 +57,33 @@ namespace FiresecService.Report.Templates
 				{
 					foreach (var document in documentsResult.Result)
 					{
-						if (filter.Abcense && document.TimeTrackDocumentType.DocumentType == DocumentType.Absence ||
-						   filter.Presence && document.TimeTrackDocumentType.DocumentType == DocumentType.Presence ||
-							filter.Overtime && document.TimeTrackDocumentType.DocumentType == DocumentType.Overtime)
+						var documentTypesResult = databaseService.TimeTrackDocumentTypeTranslator.Get(employee.OrganisationUID);
+						if (documentTypesResult.Result != null)
 						{
-							var row = ds.Data.NewDataRow();
-							row.Employee = employee.Name;
-							if (employee.Department != null)
-								row.Department = employee.Department.Name;
-							row.StartDateTime = document.StartDateTime;
-							row.EndDateTime = document.EndDateTime;
-							row.DocumentCode = document.TimeTrackDocumentType.Code;
-							row.DocumentName = document.TimeTrackDocumentType.Name;
-							row.DocumentShortName = document.TimeTrackDocumentType.ShortName;
-							row.DocumentType = document.TimeTrackDocumentType.DocumentType.ToDescription();
-							ds.Data.AddDataRow(row);
+							var documentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
+							if (documentType == null)
+							{
+								documentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
+							}
+							if (documentType != null)
+							{
+								if (filter.Abcense && documentType.DocumentType == DocumentType.Absence ||
+								   filter.Presence && documentType.DocumentType == DocumentType.Presence ||
+									filter.Overtime && documentType.DocumentType == DocumentType.Overtime)
+								{
+									var row = ds.Data.NewDataRow();
+									row.Employee = employee.Name;
+									if (employee.Department != null)
+										row.Department = employee.Department.Name;
+									row.StartDateTime = document.StartDateTime;
+									row.EndDateTime = document.EndDateTime;
+									row.DocumentCode = documentType.Code;
+									row.DocumentName = documentType.Name;
+									row.DocumentShortName = documentType.ShortName;
+									row.DocumentType = documentType.DocumentType.ToDescription();
+									ds.Data.AddDataRow(row);
+								}
+							}
 						}
 					}
 				}
