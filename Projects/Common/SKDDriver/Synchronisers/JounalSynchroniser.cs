@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 
 
 namespace SKDDriver
@@ -24,17 +25,19 @@ namespace SKDDriver
 			_Table = Context.Journals;
 		}
 
-		public OperationResult Export(DateTime minDate, DateTime maxDate)
+		public OperationResult Export(JournalExportFilter filter)
 		{
 			try
 			{
-				var tableItems = _Table.Where(x => x.SystemDate >= minDate & x.SystemDate <= maxDate);
-				var items = tableItems.Select(x => Translate(x));
+				var tableItems = _Table.Where(x => x.SystemDate >= filter.MinDate & x.SystemDate <= filter.MaxDate);
+				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
 					serializer.Serialize(fileStream, items);
 				}
+				var newPath = Path.Combine(filter.Path, NameXml);
+				File.Move(NameXml, newPath);
 				return new OperationResult();
 			}
 			catch (Exception e)

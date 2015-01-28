@@ -39,6 +39,8 @@ namespace FiresecAPI.SKD
 		public int Type { get; set; }
 		public bool IsDeleted { get; set; }
 		public DateTime RemovalDate { get; set; }
+		public DateTime LastEmployeeDayUpdate { get; set; }
+		public DateTime ScheduleStartDate { get; set; }
 		
 		public Guid OrganisationUID { get; set; }
 		public string OrganisationExternalKey { get; set; }
@@ -107,7 +109,30 @@ namespace FiresecAPI.SKD
 	public class ExportFilter
 	{
 		public Guid OrganisationUID { get; set; }
+		public string OrganisationName { get; set; }
 		public bool IsWithDeleted { get; set; }
+		public bool IsWithDepartments { get; set; }
+		public bool IsWithPositions { get; set; }
+		public bool IsWithEmployees { get; set; }
+		public bool IsWithGuests { get; set; }
+		public string Path { get; set; }
+	}
+
+	public class JournalExportFilter
+	{
+		public DateTime MinDate { get; set; }
+		public DateTime MaxDate { get; set; }
+		public string Path { get; set; }
+		public bool IsExportJournal { get; set; }
+		public bool IsExportPassJournal { get; set; }
+	}
+
+	public class ConfigurationExportFilter
+	{
+		public string Path { get; set; }
+		public bool IsExportDevices { get; set; }
+		public bool IsExportZones { get; set; }
+		public bool IsExportDoors { get; set; }
 	}
 
 	public interface IExportItem
@@ -116,5 +141,10 @@ namespace FiresecAPI.SKD
 		string ExternalKey { get; set; }
 		bool IsDeleted { get; set; }
 		DateTime RemovalDate { get; set; }
+	}
+
+	public interface IExportFilter
+	{
+		string Name { get; set; }
 	}
 }

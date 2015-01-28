@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCustomPartCommand { get; private set; }
 		void OnAddCustomPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee);
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this);
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				DayTimeTrackParts.Add(new DayTimeTrackPartViewModel(timeTrackPartDetailsViewModel.UID, timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone));
@@ -113,7 +113,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditPartCommand { get; private set; }
 		void OnEditPart()
 		{
-			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan, SelectedDayTimeTrackPart.ExitTimeSpan);
+			var timeTrackPartDetailsViewModel = new TimeTrackPartDetailsViewModel(DayTimeTrack, ShortEmployee, this, SelectedDayTimeTrackPart.UID, SelectedDayTimeTrackPart.EnterTimeSpan, SelectedDayTimeTrackPart.ExitTimeSpan);
 			if (DialogService.ShowModalWindow(timeTrackPartDetailsViewModel))
 			{
 				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone);
@@ -166,6 +166,12 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date;
 		}
+
+		public bool IsIntersection(TimeSpan timeSpan)
+		{
+			return DayTimeTrackParts.Any(x => x.EnterTimeSpan < timeSpan && x.ExitTimeSpan > timeSpan);
+		}
+
 
 		protected override bool Save()
 		{

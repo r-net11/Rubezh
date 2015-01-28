@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using Infrastructure.Common.TreeList;
@@ -22,7 +21,7 @@ namespace AutomationModule.ViewModels
 				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (procedureStepType == ProcedureStepType.ControlDelay))
+				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.ExportJournal))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + procedureStepType + ".png";

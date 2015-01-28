@@ -38,14 +38,20 @@ namespace SKDDriver
 			return base.IsInFilter(filter).And(x => x.OrganisationUID == filter.OrganisationUID);
 		}
 
+		protected override void UpdateForignKeys(ExportDepartment exportItem, DataAccess.Department tableItem)
+		{
+			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
+			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, _DatabaseService.Context.Departments);
+			tableItem.ContactEmployeeUID = GetUIDbyExternalKey(exportItem.ContactEmployeeExternalKey, _DatabaseService.Context.Employees);
+			tableItem.AttendantUID = GetUIDbyExternalKey(exportItem.AttendantExternalKey, _DatabaseService.Context.Employees);
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
+		}
+
 		public override void TranslateBack(ExportDepartment exportItem, DataAccess.Department tableItem)
 		{
 			tableItem.Name = exportItem.Name;
 			tableItem.Description = exportItem.Description; 
 			tableItem.Phone = exportItem.Phone;
-
-			tableItem.OrganisationUID = GetUIDbyExternalKey(exportItem.OrganisationExternalKey, _DatabaseService.Context.Organisations);
-			tableItem.ParentDepartmentUID = GetUIDbyExternalKey(exportItem.ParentDepartmentExternalKey, _DatabaseService.Context.Departments);
 		}
 
 		protected override void BeforeSave(List<ExportDepartment> exportItems)

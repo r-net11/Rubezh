@@ -135,5 +135,23 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("")]
 		DoAction,
+
+		//[DescriptionAttribute("Экспорт организации")]
+		//ExportOrganisation,
+
+		//[DescriptionAttribute("Экспорт списка организаций")]
+		//ExportOrganisationList,
+
+		//[DescriptionAttribute("Экспорт конфигурации")]
+		//ExportConfiguration,
+
+		[DescriptionAttribute("Экспорт журнала")]
+		ExportJournal,
+
+		//[DescriptionAttribute("Импорт организации")]
+		//ImportOrganisation,
+
+		//[DescriptionAttribute("Импорт списка организаций")]
+		//ImportOrganisationList,
 	}
 }

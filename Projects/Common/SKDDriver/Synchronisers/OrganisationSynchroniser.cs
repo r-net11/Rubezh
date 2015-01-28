@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Data.Linq;
-using System.IO;
 using System.Linq.Expressions;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using Infrastructure.Common;
 using LinqKit;
 
 namespace SKDDriver
@@ -53,15 +51,6 @@ namespace SKDDriver
 				var DepartmentResult = _DatabaseService.DepartmentTranslator.Synchroniser.Export(filter);
 				if (DepartmentResult.HasError)
 					return DepartmentResult;
-				var zipName = "Export.zip";
-				ZipHelper.IntoZip(NameXml, zipName);
-				ZipHelper.IntoZip(EmployeeSynchroniser.NameXml, zipName);
-				ZipHelper.IntoZip(PositionSynchroniser.NameXml, zipName);
-				ZipHelper.IntoZip(DepartmentSynchroniser.NameXml, zipName);
-				File.Delete(NameXml);
-				File.Delete(EmployeeSynchroniser.NameXml);
-				File.Delete(PositionSynchroniser.NameXml);
-				File.Delete(DepartmentSynchroniser.NameXml);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -71,20 +60,29 @@ namespace SKDDriver
 
 		}
 
-		public OperationResult Import(string zipName)
+		public override OperationResult Import(string path)
 		{
 			try
 			{
-				Import(ZipHelper.FromZip(NameXml, zipName));
-				PositionSynchroniser.Import(ZipHelper.FromZip(PositionSynchroniser.NameXml, zipName));
-				DepartmentSynchroniser.Import(ZipHelper.FromZip(DepartmentSynchroniser.NameXml, zipName));
-				EmployeeSynchroniser.Import(ZipHelper.FromZip(EmployeeSynchroniser.NameXml, zipName));
+				base.Import(path);
+				PositionSynchroniser.Import(path);
+				DepartmentSynchroniser.Import(path);
+				EmployeeSynchroniser.Import(path);
+				ImportForignKeys();
+				DepartmentSynchroniser.ImportForignKeys();
+				EmployeeSynchroniser.ImportForignKeys();
 				return new OperationResult();
 			}
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		protected override void UpdateForignKeys(ExportOrganisation exportItem, DataAccess.Organisation tableItem)
+		{
+			tableItem.ChiefUID = GetUIDbyExternalKey(exportItem.ChiefExternalKey, _DatabaseService.Context.Employees);
+			tableItem.HRChiefUID = GetUIDbyExternalKey(exportItem.HRChiefExternalKey, _DatabaseService.Context.Employees);
 		}
 
 		public override void TranslateBack(ExportOrganisation exportItem, DataAccess.Organisation tableItem)

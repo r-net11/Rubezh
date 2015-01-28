@@ -441,13 +441,13 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.ImportOrganisation(fileName));
 		}
-		public OperationResult ExportJournal(DateTime minDate, DateTime maxDate)
+		public OperationResult ExportJournal(JournalExportFilter filter)
 		{
-			return SafeContext.Execute(() => FiresecService.ExportJournal(minDate, maxDate));
+			return SafeContext.Execute(() => FiresecService.ExportJournal(filter));
 		}
-		public OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate)
+		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
 		{
-			return SafeContext.Execute(() => FiresecService.ExportPassJournal(minDate, maxDate));
+			return SafeContext.Execute(() => FiresecService.ExportConfiguration(filter));
 		}
 		#endregion
 

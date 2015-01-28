@@ -912,6 +912,11 @@ namespace FiresecService
 					targetVariable.ExplicitValue);
 		}
 
+		void ExportJournal(ProcedureStep procedureStep)
+		{
+			FiresecServiceManager.SafeFiresecService.ExportJournal(new JournalExportFilter { IsExportJournal = true, IsExportPassJournal = true });
+		}
+
 		void SetValue(Argument argument, object propertyValue)
 		{
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);

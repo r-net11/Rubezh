@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using SKDModule.ViewModels;
-using System.Reflection;
 using System.Windows.Media;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Views
 {

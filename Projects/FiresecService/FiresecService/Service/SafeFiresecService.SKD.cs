@@ -388,13 +388,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.ImportOrganisation(fileName));
 		}
-		public OperationResult ExportJournal(DateTime minDate, DateTime maxDate)
+		public OperationResult ExportJournal(JournalExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportJournal(minDate, maxDate));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportJournal(filter));
 		}
-		public OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate)
+		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportPassJournal(minDate, maxDate));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.ExportConfiguration(filter));
 		}
 		#endregion
 	}

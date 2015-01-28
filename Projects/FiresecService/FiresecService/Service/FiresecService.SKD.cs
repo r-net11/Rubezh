@@ -1278,20 +1278,30 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult ExportJournal(DateTime minDate, DateTime maxDate)
+		public OperationResult ExportJournal(JournalExportFilter filter)
 		{
-			using (var journalSynchroniser = new JounalSynchroniser())
+			var journalResult = new OperationResult();
+			var passJournalResult = new OperationResult();
+			if (filter.IsExportJournal)
 			{
-				return journalSynchroniser.Export(minDate, maxDate);
+				using (var journalSynchroniser = new JounalSynchroniser())
+				{
+					journalResult = journalSynchroniser.Export(filter);
+				}
 			}
+			if (filter.IsExportPassJournal)
+			{
+				using (var databaseService = new SKDDatabaseService())
+				{
+					passJournalResult = databaseService.PassJournalTranslator.Synchroniser.Export(filter);
+				}
+			}
+			return TranslatiorHelper.ConcatOperationResults(journalResult, passJournalResult);
 		}
 
-		public OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate)
+		public OperationResult ExportConfiguration(ConfigurationExportFilter filter)
 		{
-			using (var databaseService = new SKDDatabaseService())
-			{
-				return databaseService.PassJournalTranslator.Synchroniser.Export(minDate, maxDate);
-			}
+			return ConfigurationSynchroniser.Export(filter);
 		}
 		#endregion
 	}

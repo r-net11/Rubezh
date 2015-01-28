@@ -331,6 +331,10 @@ namespace FiresecService
 
 				case ProcedureStepType.Continue:
 					return Result.Continue;
+
+				case ProcedureStepType.ExportJournal:
+					ExportJournal(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

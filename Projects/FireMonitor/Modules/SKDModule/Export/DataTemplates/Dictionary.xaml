@@ -2,7 +2,16 @@
 					xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client"
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels"
 					xmlns:Views="clr-namespace:SKDModule.Views">
-    <DataTemplate DataType="{x:Type ViewModels:ExportViewModel}">
-        <Views:ExportView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ExportViewModel}">
+		<Views:ExportView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ConfigurationExportDetailsViewModel}">
+		<Views:ConfigurationExportDetailsView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:JournalExportDetailsViewModel}">
+		<Views:JournalExportDetailsView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OrganisationExportDetailsViewModel}">
+		<Views:OrganisationExportDetailsView />
+	</DataTemplate>
 </ResourceDictionary>

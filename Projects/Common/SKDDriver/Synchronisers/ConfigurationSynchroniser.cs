@@ -1,11 +1,53 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
+using FiresecAPI;
 using FiresecAPI.SKD;
+
 namespace SKDDriver
 {
-	public class ConfigurationSynchroniser
+	public static class ConfigurationSynchroniser
 	{
-	
+		public static OperationResult Export(ConfigurationExportFilter filter)
+		{
+			var devicesResult = new OperationResult();
+			var doorsResult = new OperationResult();
+			var zonesResult = new OperationResult();
+			if (filter.IsExportDevices)
+				devicesResult = Export<ExportDevice, SKDDevice>(SKDManager.Devices, "Devices.xml", filter.Path);
+			if(filter.IsExportDoors)
+				doorsResult = Export<ExportDoor, SKDDoor>(SKDManager.Doors, "Doors.xml", filter.Path);
+			if (filter.IsExportZones)
+				zonesResult = Export<ExportZone, SKDZone>(SKDManager.Zones, "Zones.xml", filter.Path);
+			return TranslatiorHelper.ConcatOperationResults(devicesResult, doorsResult, zonesResult);					
+		}
+
+		static OperationResult Export<TExportItem, TConfigItem>(List<TConfigItem> configItems, string fileName, string path)
+			where TExportItem : IConfigExportItem<TConfigItem>, new()
+		{
+			try
+			{
+				var exportItems = new List<TExportItem>();
+				foreach (var item in configItems)
+				{
+					var exportItem = new TExportItem();
+					exportItem.Initialize(item);
+					exportItems.Add(exportItem);
+				}
+				var serializer = new XmlSerializer(typeof(List<TExportItem>));
+				using (var fileStream = File.Open(fileName, FileMode.Create))
+				{
+					serializer.Serialize(fileStream, exportItems);
+				}
+				File.Move(fileName, Path.Combine(path, fileName));
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
 	}
 
 	public class ExportZone : IConfigExportItem<SKDZone>
@@ -37,7 +79,7 @@ namespace SKDDriver
 			UID = configItem.UID;
 			Name = configItem.Name;
 			Address = configItem.Address;
-			ParentUID = configItem.Parent.UID;
+			ParentUID = configItem.Parent != null ? configItem.Parent.UID : Guid.Empty;
 		}
 	}
 

@@ -473,7 +473,7 @@ namespace FiresecAPI.SKD
 
 			for (int i = result.Count - 1; i > 0; i--)
 			{
-				if (result[i].StartTime == result[i - 1].EndTime)
+				if (result[i].StartTime == result[i - 1].EndTime && result[i].ZoneUID == result[i-1].ZoneUID)
 				{
 					result[i].StartTime = result[i - 1].StartTime;
 					result.RemoveAt(i - 1);

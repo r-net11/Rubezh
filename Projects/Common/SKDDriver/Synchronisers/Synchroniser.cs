@@ -66,6 +66,8 @@ namespace SKDDriver
 				{
 					serializer.Serialize(fileStream, items);
 				}
+				var newPath = Path.Combine(filter.Path, NameXml);
+				File.Move(NameXml, newPath);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -101,16 +103,55 @@ namespace SKDDriver
 		}
 
 
-		public virtual OperationResult Import(Stream stream)
+		void SaveForignKeys(List<TExportItem> exportItems)
+		{
+			foreach (var exportItem in exportItems)
+			{
+				var tableItem = _Table.FirstOrDefault(x => x.ExternalKey.Equals(exportItem.ExternalKey));
+				if (tableItem != null)
+				{
+					UpdateForignKeys(exportItem, tableItem);
+				}
+				_Table.Context.SubmitChanges();
+			}
+		}
+
+		public virtual OperationResult Import(string path)
 		{
 			try
 			{
-				var serializer = new XmlSerializer(typeof(List<TExportItem>));
-				var importItems = (List<TExportItem>)serializer.Deserialize(stream);
-				if (importItems != null)
+				var fileName = Path.Combine(path, NameXml);
+				File.Move(fileName, NameXml);
+				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
-					BeforeSave(importItems);
-					Save(importItems);
+					var serializer = new XmlSerializer(typeof(List<TExportItem>));
+					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
+					if (importItems != null)
+					{
+						BeforeSave(importItems);
+						Save(importItems);
+					}
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public virtual OperationResult ImportForignKeys()
+		{
+			try
+			{
+				using (var stream = new FileStream(NameXml, FileMode.Open))
+				{
+					var serializer = new XmlSerializer(typeof(List<TExportItem>));
+					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
+					if (importItems != null)
+					{
+						SaveForignKeys(importItems);
+					}
 				}
 				return new OperationResult();
 			}
@@ -121,6 +162,7 @@ namespace SKDDriver
 		}
 
 		protected virtual void BeforeSave(List<TExportItem> exportItems) { }
+		protected virtual void UpdateForignKeys(TExportItem exportItem, TTableItem tableItem) { }
 		public abstract TExportItem Translate(TTableItem tableItem);
 		public abstract void TranslateBack(TExportItem exportItem, TTableItem tableItem);
 		protected virtual Expression<Func<TTableItem, bool>> IsInFilter(ExportFilter filter)

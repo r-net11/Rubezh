@@ -102,16 +102,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool Export(ExportFilter filter)
-		{
-			var operationResult = FiresecManager.FiresecService.ExportOrganisation(filter);
-			return Common.ShowErrorIfExists(operationResult);
-		}
-
-		public static bool Import(string fileName)
-		{
-			var operationResult = FiresecManager.FiresecService.ImportOrganisation(fileName);
-			return Common.ShowErrorIfExists(operationResult);
-		}
+		
 	}
 }

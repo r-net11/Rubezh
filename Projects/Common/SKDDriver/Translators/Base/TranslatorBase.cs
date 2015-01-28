@@ -182,5 +182,19 @@ namespace SKDDriver
 				return MaxYear;
 			return dateTime;
 		}
+
+		public static OperationResult ConcatOperationResults(params OperationResult[] results)
+		{
+			var result = new OperationResult();
+			foreach (var item in results)
+			{
+				if (item.HasError)
+				{
+					result.HasError = true;
+					result.Error = string.Format("{0} {1}", result.Error, item.Error);
+				}
+			}
+			return result;
+		}
 	}
 }

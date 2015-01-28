@@ -289,10 +289,10 @@ namespace FiresecAPI
 		OperationResult ImportOrganisation(string fileName);
 
 		[OperationContract]
-		OperationResult ExportJournal(DateTime minDate, DateTime maxDate);
+		OperationResult ExportJournal(JournalExportFilter filter);
 
 		[OperationContract]
-		OperationResult ExportPassJournal(DateTime minDate, DateTime maxDate);
+		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
 		#endregion
 	}
 }
