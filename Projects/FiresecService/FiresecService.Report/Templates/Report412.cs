@@ -15,7 +15,7 @@ using Common;
 
 namespace FiresecService.Report.Templates
 {
-    public partial class Report412 : BaseReport
+	public partial class Report412 : BaseReport
 	{
 		public Report412()
 		{
@@ -26,28 +26,28 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Доступ в зоны сотрудников/посетителей"; }
 		}
-        protected override DataSet CreateDataSet(DataProvider dataProvider)
+		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter412>();
 
-            var useEmployeesFilter = false;
-            var employees = new List<Guid>();
-            if (!filter.Employees.IsEmpty() || !filter.Departments.IsEmpty() || !filter.Positions.IsEmpty() || !filter.Organisations.IsEmpty())
-            {
-                useEmployeesFilter = true;
-                employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
-            }
+			var useEmployeesFilter = false;
+			var employees = new List<Guid>();
+			if (!filter.Employees.IsEmpty() || !filter.Departments.IsEmpty() || !filter.Positions.IsEmpty() || !filter.Organisations.IsEmpty())
+			{
+				useEmployeesFilter = true;
+				employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
+			}
 
 			var cardFilter = new CardFilter();
-            var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
+			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new DataSet412();
 			if (!cardsResult.HasError)
 			{
 				foreach (var card in cardsResult.Result)
 				{
-                    if (useEmployeesFilter && !employees.Contains(card.EmployeeUID))
-                        continue;
+					if (useEmployeesFilter && !employees.Contains(card.EmployeeUID))
+						continue;
 
 					if (filter.PassCardPermanent || filter.PassCardTemprorary || filter.PassCardOnceOnly || filter.PassCardForcing || filter.PassCardLocked)
 					{
@@ -66,8 +66,8 @@ namespace FiresecService.Report.Templates
 					if (filter.PassCardActive && card.IsDeleted)
 						continue;
 
-                    var employeeResult = dataProvider.DatabaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
-                    var accessTemplateResult = dataProvider.DatabaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+					var employeeResult = dataProvider.DatabaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
+					var accessTemplateResult = dataProvider.DatabaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 
 					var cardDoors = new List<CardDoor>();
 					if (accessTemplateResult.Result != null)
@@ -105,7 +105,7 @@ namespace FiresecService.Report.Templates
 						if (employeeResult.Result != null)
 						{
 							dataRow.Employee = employeeResult.Result.Name;
-                            var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
+							var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
 							if (organisationResult.Result != null)
 							{
 								dataRow.Organisation = organisationResult.Result.Name;
