@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using System.Data;
-using System.Linq;
-using FiresecService.Report.DataSources;
-using FiresecAPI.SKD.ReportFilters;
-using SKDDriver;
 using System.Collections.Generic;
-using FiresecAPI.SKD;
+using System.Data;
 using FiresecAPI;
+using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Report.DataSources;
+using SKDDriver;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report418 : BaseSKDReport
+	public partial class Report418 : BaseReport
 	{
 		public Report418()
 		{
@@ -25,11 +20,10 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Справка о сотруднике/посетителе"; }
 		}
-		protected override DataSet CreateDataSet()
+		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter418>();
-			var databaseService = new SKDDatabaseService();
-
+			dataProvider.LoadCache();
 			if (filter.Employees == null)
 				filter.Employees = new List<Guid>();
 			if (filter.Departments == null)
@@ -43,8 +37,7 @@ namespace FiresecService.Report.Templates
 			employeeFilter.DepartmentUIDs = filter.Departments;
 			employeeFilter.PositionUIDs = filter.Positions;
 			employeeFilter.UIDs = filter.Employees;
-			var employeesResult = databaseService.EmployeeTranslator.Get(employeeFilter);
-
+			var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			var dataSet = new DataSet418();
 			if (employeesResult.Result != null)
 			{
@@ -56,21 +49,13 @@ namespace FiresecService.Report.Templates
 					dataRow.FirstName = employee.FirstName;
 					dataRow.SecondName = employee.SecondName;
 					dataRow.Sex = employee.Gender.ToDescription();
-
-					var organisationResult = databaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
-					if (organisationResult.Result != null)
-					{
-						dataRow.Organisation = organisationResult.Result.Name;
-					}
+					if (employee.Photo != null)
+						dataRow.Photo = employee.Photo.Data;
+					dataRow.Organisation = dataProvider.Organisations[employee.OrganisationUID].Name;
 					if (employee.Department != null)
-					{
 						dataRow.Department = employee.Department.Name;
-					}
 					if (employee.Position != null)
-					{
 						dataRow.Position = employee.Position.Name;
-					}
-
 					dataSet.Data.Rows.Add(dataRow);
 				}
 			}

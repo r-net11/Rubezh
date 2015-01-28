@@ -73,7 +73,7 @@ namespace VideoModule.Plans.ViewModels
 
 			if (cameraUID != _elementCamera.CameraUID)
 				Update(cameraUID);
-			_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
+			//_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
 			return base.Save();
 		}
 

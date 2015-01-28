@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -11,10 +12,11 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using System.Collections.Generic;
+using FiresecService.Report.Model;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report411 : BaseSKDReport
+	public partial class Report411 : BaseReport
 	{
 		public Report411()
 		{
@@ -25,44 +27,28 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Сведения о пропусках"; }
 		}
-		protected override DataSet CreateDataSet()
+		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter411>();
-			var databaseService = new SKDDatabaseService();
 
-			var employees = new List<Employee>();
 			var useEmployeesFilter = false;
-			if (filter.Employees == null)
-				filter.Employees = new List<Guid>();
-			if (filter.Departments == null)
-				filter.Departments = new List<Guid>();
-			if (filter.Positions == null)
-				filter.Positions = new List<Guid>();
-			if (filter.Organisations == null)
-				filter.Organisations = new List<Guid>();
-			if (filter.Employees.Count > 0 || filter.Departments.Count > 0 || filter.Positions.Count > 0 || filter.Organisations.Count > 0)
+			var employees = new List<Guid>();
+			if (!filter.Employees.IsEmpty() || !filter.Departments.IsEmpty() || !filter.Positions.IsEmpty() || !filter.Organisations.IsEmpty())
 			{
 				useEmployeesFilter = true;
-				var employeeFilter = new EmployeeFilter();
-				employeeFilter.OrganisationUIDs = filter.Organisations;
-				employeeFilter.DepartmentUIDs = filter.Departments;
-				employeeFilter.PositionUIDs = filter.Positions;
-				employeeFilter.UIDs = filter.Employees;
-				var employeesResult = databaseService.EmployeeTranslator.Get(employeeFilter);
-				employees = employeesResult.Result.ToList();
+				employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
 			}
 
 			var cardFilter = new CardFilter();
-			var cardsResult = databaseService.CardTranslator.Get(cardFilter);
+			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new DataSet411();
 			if (!cardsResult.HasError)
 			{
 				foreach (var card in cardsResult.Result)
 				{
-					if (useEmployeesFilter)
-						if(!employees.Any(x=>x.UID == card.EmployeeUID))
-							continue;
+					if (useEmployeesFilter && !employees.Contains(card.EmployeeUID))
+						continue;
 
 					if (filter.PassCardPermanent || filter.PassCardTemprorary || filter.PassCardOnceOnly || filter.PassCardForcing || filter.PassCardLocked)
 					{
@@ -99,7 +85,7 @@ namespace FiresecService.Report.Templates
 							continue;
 					}
 
-					var employeeResult = databaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
+					var employeeResult = dataProvider.DatabaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
 
 					var dataRow = dataSet.Data.NewDataRow();
 					dataRow.Type = card.CardType.ToDescription();
@@ -107,7 +93,7 @@ namespace FiresecService.Report.Templates
 					if (employeeResult.Result != null)
 					{
 						dataRow.Employee = employeeResult.Result.Name;
-						var organisationResult = databaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
+						var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
 						if (organisationResult.Result != null)
 						{
 							dataRow.Organisation = organisationResult.Result.Name;

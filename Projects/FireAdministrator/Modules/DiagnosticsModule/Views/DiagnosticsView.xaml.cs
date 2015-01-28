@@ -10,11 +10,14 @@ namespace DiagnosticsModule.Views
 	{
 		public DiagnosticsView()
 		{
+			InitializeComponent();
+			return;
+
 			//Important!!!
 			//Set libvlc.dll and libvlccore.dll directory path
-			VlcContext.LibVlcDllsPath = "C:\\Program Files (x86)\\VideoLAN\\VLC\\";
+			VlcContext.LibVlcDllsPath = "C:\\Program Files\\VideoLAN\\VLC\\";
 			//Set the vlc plugins directory path
-			VlcContext.LibVlcPluginsPath = "C:\\Program Files (x86)\\VideoLAN\\VLC\\plugins\\";
+			VlcContext.LibVlcPluginsPath = "C:\\Program Files\\VideoLAN\\VLC\\plugins\\";
 
 			//Set the startup options
 			VlcContext.StartupOptions.IgnoreConfig = true;
@@ -24,7 +27,6 @@ namespace DiagnosticsModule.Views
 
 			//Initialize the VlcContext
 			VlcContext.Initialize();
-			InitializeComponent();
 			myVlcControl.VideoProperties.Scale = 2.0f;
 		}
 

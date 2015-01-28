@@ -1,16 +1,12 @@
-﻿using Infrastructure.Common.Video.RVI_VSS;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
 {
 	public class PreviewViewModel : SaveCancelDialogViewModel
 	{
-		public CellPlayerWrap CellPlayerWrap { get; private set; }
-
-		public PreviewViewModel(string title, CellPlayerWrap cellPlayerWrap)
+		public PreviewViewModel(string title)
 		{
 			Title = title;
-			CellPlayerWrap = cellPlayerWrap;
 		}
 	}
 }

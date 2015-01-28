@@ -284,13 +284,13 @@
     <None Include="Service References\RVIServiceReference\FiresecClient.RVIServiceReference.VideoRecordStopOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationService.XmlSchemas.Common.xsd">
+    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationService.XmlSchemas.xsd">
+    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationService.xsd">
+    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RVIServiceReference\service.wsdl" />

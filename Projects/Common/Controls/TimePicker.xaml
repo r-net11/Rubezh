@@ -5,10 +5,10 @@
 				 SelectionChanged="TextBox_SelectionChanged" TextChanged="TextBox_TextChanged" />
 		<StackPanel>
 			<Button Name="Inc" Width="20" Height="16" Click="Inc_Click">
-				<Grid Background="{DynamicResource AddTime}" />
+				<Grid Background="{DynamicResource AddTime}" Width="16" Height="16" />
 			</Button>
 			<Button Name="Dec" Width="20" Height="16" Click="Dec_Click">
-				<Grid Background="{DynamicResource DeleteTime}" />
+				<Grid Background="{DynamicResource DeleteTime}" Width="16" Height="16" />
 			</Button>
 		</StackPanel>
 	</WrapPanel>

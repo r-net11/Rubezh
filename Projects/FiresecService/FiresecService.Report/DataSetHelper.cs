@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Data;
 
 namespace FiresecService.Report
@@ -33,7 +30,7 @@ namespace FiresecService.Report
 				return dataTable;
 			}
 		}
-			
+
 		public static DataSet EnumerableToDataSet<T>(IEnumerable<T> list)
 		{
 			using (var dataSet = new DataSet())

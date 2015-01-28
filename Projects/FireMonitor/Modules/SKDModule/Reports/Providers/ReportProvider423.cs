@@ -18,15 +18,15 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Сотрудник" },
-					{ "c02", "Дата начала" },
-					{ "c03", "Дата окончания" },
-					{ "c04", "Время начала" },
-					{ "c05", "Время окончания" },
-					{ "c06", "Тип" },
-					{ "c07", "Документ" },
-					{ "c08", "Буквенный код" },
-					{ "c09", "Числовой код" },
+					{ "Employee", "Сотрудник" },
+					{ "StartDateTime", "Дата начала" },
+					{ "EndDateTime", "Дата окончания" },
+					//{ "StartDateTime2", "Время начала" },
+					//{ "EndDateTime2", "Время окончания" },
+					{ "DocumentType", "Тип" },
+					{ "DocumentName", "Документ" },
+					{ "DocumentShortName", "Буквенный код" },
+					{ "DocumentCode", "Числовой код" },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

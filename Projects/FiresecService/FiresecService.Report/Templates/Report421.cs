@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report421 : BaseSKDReport
+    public partial class Report421 : BaseReport
 	{
 		public Report421()
 		{
@@ -25,10 +25,9 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Дисциплинарный отчет"; }
 		}
-		protected override DataSet CreateDataSet()
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter421>();
-			var databaseService = new SKDDatabaseService();
 
 			if (filter.Employees == null)
 				filter.Employees = new List<Guid>();
@@ -40,15 +39,23 @@ namespace FiresecService.Report.Templates
 			employeeFilter.OrganisationUIDs = filter.Organisations;
 			employeeFilter.DepartmentUIDs = filter.Departments;
 			employeeFilter.UIDs = filter.Employees;
-			var employeesResult = databaseService.EmployeeTranslator.Get(employeeFilter);
+            var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
 
-			var timeTrackResult = databaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
+            var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new DataSet421();
 			if (employeesResult.Result != null)
 			{
 				foreach (var employee in employeesResult.Result)
 				{
+					if (filter.ScheduleSchemas != null && filter.ScheduleSchemas.Count > 0)
+					{
+						if (employee.Schedule != null)
+						{
+							if (!filter.ScheduleSchemas.Contains(employee.Schedule.UID))
+								continue;
+						}
+					}
 					var timeTrackEmployeeResult = timeTrackResult.Result.TimeTrackEmployeeResults.FirstOrDefault(x => x.ShortEmployee.UID == employee.UID);
 					if (timeTrackEmployeeResult != null)
 					{
@@ -57,7 +64,7 @@ namespace FiresecService.Report.Templates
 							var dataRow = dataSet.Data.NewDataRow();
 
 							dataRow.Employee = employee.Name;
-							var organisationResult = databaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
+                            var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
 							if (organisationResult.Result != null)
 							{
 								dataRow.Organisation = organisationResult.Result.Name;

@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Infrastructure;
-using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
+using VideoModule.Views;
 
 namespace VideoModule.ViewModels
 {
@@ -15,10 +15,10 @@ namespace VideoModule.ViewModels
 		{
 			Title = "Список камер";
 			PropertyViewModels = new ObservableCollection<PropertyViewModel>();
-			var cellPlayerWraps = new List<CellPlayerWrap>();
-			Views.LayoutMultiCameraView.GetLogicalChildCollection(uiElement, cellPlayerWraps);
+			var vlcControlViews = new List<VlcControlView>();
+			LayoutMultiCameraView.GetLogicalChildCollection(uiElement, vlcControlViews);
 			int i = 0;
-			foreach (var control in cellPlayerWraps)
+			foreach (var control in vlcControlViews)
 			{
 				var presentationCellName = "Окно " + ++i;
 				var item = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name);

@@ -260,19 +260,19 @@ namespace SKDModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-            yield return new ReportProvider401();
-            yield return new ReportProvider402();
-            yield return new ReportProvider411();
+			yield return new ReportProvider401();
+			yield return new ReportProvider402();
+			yield return new ReportProvider411();
 			yield return new ReportProvider412();
 			yield return new ReportProvider413();
 			yield return new ReportProvider415();
 			yield return new ReportProvider416();
 			yield return new ReportProvider417();
-            yield return new ReportProvider418();
+			yield return new ReportProvider418();
 			yield return new ReportProvider421();
 			yield return new ReportProvider422();
 			yield return new ReportProvider423();
-            yield return new ReportProvider424();
+			yield return new ReportProvider424();
 			yield return new ReportProvider431();
 		}
 

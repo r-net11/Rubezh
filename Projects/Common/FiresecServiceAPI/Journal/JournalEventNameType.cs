@@ -169,8 +169,8 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.GK, "Сработка-1", XStateClass.Fire1)]
 		Сработка_1,
 
-		[EventName(JournalSubsystemType.GK, "Сработка охранной зоны", XStateClass.Fire1)]
-		Сработка_Охранной_Зоны,
+		[EventName(JournalSubsystemType.GK, "Тревога", XStateClass.Fire1)]
+		Тревога,
 
 		[EventName(JournalSubsystemType.GK, "Пожар-2", XStateClass.Fire2)]
 		Пожар_2,

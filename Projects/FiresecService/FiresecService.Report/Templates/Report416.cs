@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Common;
 using System.Drawing;
 using System.Collections;
@@ -9,10 +10,12 @@ using FiresecAPI.SKD.ReportFilters;
 using System.Text;
 using System.Collections.Generic;
 using FiresecService.Report.DataSources;
+using SKDDriver;
+using FiresecAPI.SKD;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report416 : BaseSKDReport
+    public partial class Report416 : BaseReport
 	{
 		public Report416()
 		{
@@ -23,25 +26,30 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Список должностей организации"; }
 		}
-		protected override DataSet CreateDataSet()
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
-			return new DataSet416();
-		}
-		protected override string BuildSelectRoutine()
-		{
-			return @"select Position.Name as Position, Position.Description as Description from dbo.Position Position";
-		}
-		protected override string BuildWhereRouting()
-		{
-			var filter = GetFilter<ReportFilter416>();
-			if (filter.Organisations.IsEmpty())
-				filter.Organisations = new List<Guid>() { DataHelper.GetDefaultOrganisation() };
-			var sb = new StringBuilder();
-			SqlBuilder.BuildConditionOR(sb, "Position.OrganisationUID", filter.Organisations);
-			if (!filter.Organisations.IsEmpty() && !filter.Positions.IsEmpty())
-				sb.Append(SqlBuilder.AND);
-			SqlBuilder.BuildConditionOR(sb, "Position.UID", filter.Positions);
-			return sb.ToString();
+            var filter = GetFilter<ReportFilter416>();
+            var databaseService = new SKDDatabaseService();
+            dataProvider.LoadCache();
+            if (filter.Organisations.IsEmpty())
+                filter.Organisations = new List<Guid>() { dataProvider.Organisations.First(org => !org.Value.IsDeleted).Value.UID };
+
+            var positionFilter = new PositionFilter()
+            {
+                OrganisationUIDs = filter.Organisations ?? new List<Guid>(),
+                UIDs = filter.Positions ?? new List<Guid>()
+            };
+            var positions = dataProvider.DatabaseService.PositionTranslator.Get(positionFilter);
+            var ds = new DataSet416();
+            if (positions.Result != null)
+                positions.Result.ForEach(position =>
+                {
+                    var row = ds.Data.NewDataRow();
+                    row.Position = position.Name;
+                    row.Description = position.Description;
+                    ds.Data.AddDataRow(row);
+                });
+            return ds;
 		}
 	}
 }

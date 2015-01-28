@@ -10,14 +10,14 @@ namespace VideoModule.ViewModels
 {
 	public class PropertyViewModel : BaseViewModel
 	{
-		public string CellName { get; set; }
+		public string CellName { get; private set; }
 		public string PresentationCellName { get; set; }
 
 		public PropertyViewModel(string cellName, string presentationCellName, Guid cameraUid)
 		{
 			CellName = cellName;
 			PresentationCellName = presentationCellName;
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.AllCameras.FindAll(x => x.CameraType != CameraType.Dvr));
+			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.AllCameras);
 			Cameras.Insert(0, new Camera{UID = new Guid()});
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}

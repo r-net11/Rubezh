@@ -16,6 +16,7 @@ namespace FiresecAPI.GK
 		{
 			UID = Guid.NewGuid();
 			ZoneUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 			Devices = new List<Guid>();
 			Directions = new List<Guid>();
 			Name = "";
@@ -47,10 +48,16 @@ namespace FiresecAPI.GK
 		public GKInstructionType InstructionType { get; set; }
 
 		/// <summary>
-		/// Идентификаторы зон
+		/// Идентификаторы пожарных зон
 		/// </summary>
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		/// <summary>
+		/// Идентификаторы охранных зон
+		/// </summary>
+		[DataMember]
+		public List<Guid> GuardZoneUIDs { get; set; }
 
 		/// <summary>
 		/// Идентификаторы зон

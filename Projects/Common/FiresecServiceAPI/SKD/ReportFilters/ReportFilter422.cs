@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
-	public class ReportFilter422 : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee, IReportFilterSchedule
+	public class ReportFilter422 : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee, IReportFilterScheduleScheme
 	{
 		#region IReportFilterOrganisation Members
 
@@ -35,10 +35,10 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		#endregion
 
-		#region IReportFilterSchedule Members
+		#region IReportFilterScheduleScheme Members
 
 		[DataMember]
-		public List<int> Schedules { get; set; }
+		public List<Guid> ScheduleSchemas { get; set; }
 
 		#endregion
 	}

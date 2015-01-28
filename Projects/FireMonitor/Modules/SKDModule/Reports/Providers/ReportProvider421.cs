@@ -18,24 +18,24 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Дата" },
-					{ "c02", "Приход" },
-					{ "c03", "Уход" },
-					{ "c04", "Сотрудник" },
-					{ "c05", "Организация" },
-					{ "c06", "Отдел" },
-					{ "c07", "Р/В" },
-					{ "c08", "Опоздание" },
-					{ "c09", "Уход раньше" },
-					{ "c10", "Отсутствие" },
-					{ "c11", "Переработка" },
+					{ "Date", "Дата" },
+					{ "FirstEnter", "Приход" },
+					{ "LastExit", "Уход" },
+					{ "Employee", "Сотрудник" },
+					{ "Organisation", "Организация" },
+					{ "Department", "Подразделение" },
+					{ "IsHoliday", "Р/В" },
+					{ "Late", "Опоздание" },
+					{ "EarlyLeave", "Уход раньше" },
+					{ "Absence", "Отсутствие" },
+					{ "Overtime", "Переработка" },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
 					new OrganizationPageViewModel(true),
 					new DepartmentPageViewModel(),
 					new EmployeePageViewModel(),
-					new SchedulePageViewModel(),
+					new ScheduleSchemePageViewModel(),
 					new DisciplinaryFilterPageViewModel(),
 				},
 			};

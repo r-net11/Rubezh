@@ -6,7 +6,6 @@ using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism;
@@ -18,10 +17,10 @@ namespace VideoModule.ViewModels
 		public ArchiveViewModel()
 		{
 			Title = "Архив видеозаписей на сервере";
-			CellPlayerWrap = new CellPlayerWrap();
+			//CellPlayerWrap = new CellPlayerWrap();
 			StartTime = DateTime.Now - TimeSpan.FromHours(1);
 			EndTime = DateTime.Now;
-			ArchivePlayer = new CellPlayerWrap();
+			//ArchivePlayer = new CellPlayerWrap();
 			SearchCommand = new RelayCommand(OnSearch, CanSearch);
 			StartCommand = new RelayCommand(OnStart);
 			PauseCommand = new RelayCommand(OnPause);
@@ -31,7 +30,7 @@ namespace VideoModule.ViewModels
 			InitializeCameras();
 		}
 
-		public CellPlayerWrap CellPlayerWrap { get; private set; }
+		//public CellPlayerWrap CellPlayerWrap { get; private set; }
 
 		private bool _isStarted;
 		public bool IsStarted
@@ -65,9 +64,9 @@ namespace VideoModule.ViewModels
 			}
 			try
 			{
-				if (StartedRecord != null)
-					CellPlayerWrap.Stop(StartedRecord);
-				CellPlayerWrap.Start(SelectedRecord);
+				//if (StartedRecord != null)
+				//    CellPlayerWrap.Stop(StartedRecord);
+				//CellPlayerWrap.Start(SelectedRecord);
 				StartedRecord = SelectedRecord;
 				IsStarted = true;
 				IsPaused = false;
@@ -82,8 +81,8 @@ namespace VideoModule.ViewModels
 			{
 				try
 				{
-					if (CellPlayerWrap.Pause(StartedRecord, !IsPaused))
-						IsPaused = !IsPaused;
+					//if (CellPlayerWrap.Pause(StartedRecord, !IsPaused))
+					//    IsPaused = !IsPaused;
 				}
 				catch { }
 			}
@@ -96,7 +95,7 @@ namespace VideoModule.ViewModels
 			{
 				try
 				{
-					CellPlayerWrap.Stop(StartedRecord);
+					//CellPlayerWrap.Stop(StartedRecord);
 					IsStarted = false;
 					IsPaused = false;
 				}
@@ -111,7 +110,7 @@ namespace VideoModule.ViewModels
 			{
 				try
 				{
-					CellPlayerWrap.Fast(StartedRecord);
+					//CellPlayerWrap.Fast(StartedRecord);
 				}
 				catch { }
 			}
@@ -124,7 +123,7 @@ namespace VideoModule.ViewModels
 			{
 				try
 				{
-					CellPlayerWrap.Slow(StartedRecord);
+					//CellPlayerWrap.Slow(StartedRecord);
 				}
 				catch { }
 			}
@@ -135,23 +134,23 @@ namespace VideoModule.ViewModels
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
-				var cameraViewModel = new CameraViewModel(camera, CellPlayerWrap);
-				cameraViewModel.Connect();
-				Cameras.Add(cameraViewModel);
+				//var cameraViewModel = new CameraViewModel(camera, CellPlayerWrap);
+				//cameraViewModel.Connect();
+				//Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
-		private CellPlayerWrap _archivePlayer { get; set; }
-		public CellPlayerWrap ArchivePlayer
-		{
-			get { return _archivePlayer; }
-			set
-			{
-				_archivePlayer = value;
-				OnPropertyChanged(() => _archivePlayer);
-			}
-		}
+		//private CellPlayerWrap _archivePlayer { get; set; }
+		//public CellPlayerWrap ArchivePlayer
+		//{
+		//    get { return _archivePlayer; }
+		//    set
+		//    {
+		//        _archivePlayer = value;
+		//        OnPropertyChanged(() => _archivePlayer);
+		//    }
+		//}
 
 		private DateTime _startTime;
 		public DateTime StartTime
@@ -235,34 +234,34 @@ namespace VideoModule.ViewModels
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
-			var camera = new Camera();
-			if (SelectedCamera.IsDvr)
-			{
-				if (SelectedChannel != null)
-					camera = SelectedChannel.Camera;
-			}
-			else
-				camera = SelectedCamera.Camera;
-			var cellPlayerWrap = new CellPlayerWrap();
-			var channel = cellPlayerWrap.Connect(camera).FirstOrDefault
-				(x => x.ChannelNumber == camera.ChannelNumber);
-			if (channel == null)
-				return;
-			Records = new ObservableCollection<PlayBackDeviceRecord>();
-			for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
-			{
-				var dayStart = new DateTime(time.Year, time.Month, time.Day);
-				var dayEnd = new DateTime(time.Year, time.Month, time.Day, 23, 59, 59);
-				var startTime = dayStart;
-				if (startTime < StartTime)
-					startTime = StartTime;
-				var endTime = dayEnd;
-				if (endTime > EndTime)
-					endTime = EndTime;
-				var records = channel.QueryRecordFiles(startTime, endTime);
-				Trace.WriteLine(startTime + "  -  " + endTime);
-				Records.AddRange(records);
-			}
+			//var camera = new Camera();
+			//if (SelectedCamera.IsDvr)
+			//{
+			//    if (SelectedChannel != null)
+			//        camera = SelectedChannel.Camera;
+			//}
+			//else
+			//    camera = SelectedCamera.Camera;
+			//var cellPlayerWrap = new CellPlayerWrap();
+			//var channel = cellPlayerWrap.Connect(camera).FirstOrDefault
+			//    (x => x.ChannelNumber == camera.ChannelNumber);
+			//if (channel == null)
+			//    return;
+			//Records = new ObservableCollection<PlayBackDeviceRecord>();
+			//for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
+			//{
+			//    var dayStart = new DateTime(time.Year, time.Month, time.Day);
+			//    var dayEnd = new DateTime(time.Year, time.Month, time.Day, 23, 59, 59);
+			//    var startTime = dayStart;
+			//    if (startTime < StartTime)
+			//        startTime = StartTime;
+			//    var endTime = dayEnd;
+			//    if (endTime > EndTime)
+			//        endTime = EndTime;
+			//    var records = channel.QueryRecordFiles(startTime, endTime);
+			//    Trace.WriteLine(startTime + "  -  " + endTime);
+			//    Records.AddRange(records);
+			//}
 		}
 
 		bool CanSearch()

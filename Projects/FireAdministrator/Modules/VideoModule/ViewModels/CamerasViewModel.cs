@@ -46,14 +46,16 @@ namespace VideoModule.ViewModels
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
-		ObservableCollection<CameraViewModel> _cameras;
-		public ObservableCollection<CameraViewModel> Cameras
+		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
+
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
 		{
-			get { return _cameras; }
+			get { return _selectedDevice; }
 			set
 			{
-				_cameras = value;
-				OnPropertyChanged(() => Cameras);
+				_selectedDevice = value;
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -65,51 +67,21 @@ namespace VideoModule.ViewModels
 			{
 				_selectedCamera = value;
 				OnPropertyChanged(() => SelectedCamera);
-				if (!_lockSelection && SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(SelectedCamera.Camera.PlanElementUIDs);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel();
-			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
+			var devicesViewModel = new DeviceSelectionViewModel();
+			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
-				if (cameraDetailsViewModel.Camera.CameraType != CameraType.Channel)
-					FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
-				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
-				if (cameraViewModel.IsChannel)
+				Cameras = new ObservableCollection<CameraViewModel>();
+				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 				{
-					if (SelectedCamera.IsDvr)
-					{
-						cameraViewModel.Camera.Ip = SelectedCamera.Camera.Ip;
-						cameraViewModel.Camera.Port = SelectedCamera.Camera.Port;
-						cameraViewModel.Camera.Login = SelectedCamera.Camera.Login;
-						cameraViewModel.Camera.Password = SelectedCamera.Camera.Password;
-						SelectedCamera.AddChild(cameraViewModel);
-						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Camera.UID);
-						if (rootDevice != null)
-							rootDevice.Children.Add(cameraViewModel.Camera);
-					}
-					else
-					{
-						cameraViewModel.Camera.Ip = SelectedCamera.Parent.Camera.Ip;
-						cameraViewModel.Camera.Port = SelectedCamera.Parent.Camera.Port;
-						cameraViewModel.Camera.Login = SelectedCamera.Parent.Camera.Login;
-						cameraViewModel.Camera.Password = SelectedCamera.Parent.Camera.Password;
-						SelectedCamera.Parent.AddChild(cameraViewModel);
-						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Parent.Camera.UID);
-						if (rootDevice != null)
-							rootDevice.Children.Add(cameraViewModel.Camera);
-					}
+					Cameras.Add(new CameraViewModel(this, camera));
+					OnPropertyChanged(() => Cameras);
 				}
-				else
-					Cameras.Add(cameraViewModel);
-				if (SelectedCamera == null)
-					SelectedCamera = cameraViewModel;
-				ServiceFactory.SaveService.CamerasChanged = true;
-				PlanExtension.Instance.Cache.BuildSafe<Camera>();
 			}
 		}
 

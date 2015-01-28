@@ -22,6 +22,14 @@ namespace GKProcessor
 			result.RootDevice.Children.RemoveAll(x => x.Driver.IsKauOrRSR2Kau);
 
 			var progressCallback = GKProcessorManager.StartProgress("Автопоиск устройств на " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			var pingResult = DeviceBytesHelper.Ping(gkControllerDevice);
+			if (!pingResult)
+			{
+				if (progressCallback != null)
+					GKProcessorManager.StopProgress(progressCallback);
+				return result;
+			}
+
 			try
 			{
 				var kauDevices = new List<GKDevice>();
@@ -31,6 +39,8 @@ namespace GKProcessor
 				{
 					if (progressCallback.IsCanceled)
 					{ Error = "Операция отменена"; return null; }
+
+					GKProcessorManager.DoProgress("Поиск КАУ с адресом " + i, progressCallback);
 
 					var kauDevice = new GKDevice();
 					kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
@@ -56,8 +66,10 @@ namespace GKProcessor
 						kauDevices.Add(kauDevice);
 						result.RootDevice.Children.Add(kauDevice);
 					}
-
-					GKProcessorManager.DoProgress("Поиск КАУ с адресом " + i, progressCallback);
+					else
+					{
+						break;
+					}
 				}
 
 				foreach (var kauDevice in kauDevices)

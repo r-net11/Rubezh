@@ -7,10 +7,10 @@ using System.Windows.Threading;
 using Common;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
 using VideoModule.ViewModels;
+using Vlc.DotNet.Core.Medias;
 
 namespace VideoModule.Views
 {
@@ -25,12 +25,12 @@ namespace VideoModule.Views
 		public LayoutMultiCameraView()
 		{
 			InitializeComponent();
-			Cameras = new List<CameraViewModel>();
+			VlcControls = new List<VlcControlViewModel>();
 			InitializeCameras();
 			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
 		}
 
-		List<CameraViewModel> Cameras;
+		public List<VlcControlViewModel> VlcControls { get; private set; }
 		private void InitializeCameras()
 		{
 			InitializeUIElement(_1X7GridView);
@@ -38,21 +38,27 @@ namespace VideoModule.Views
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
 			InitializeUIElement(_6X6GridView);
-			foreach (var camera in Cameras)
-			{
-				var rootCamera = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == camera.Camera.Ip);
-				if (rootCamera != null)
-					rootCamera.VisualCameraViewModels.Add(camera);
-			}
 
 			Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
 			{
-				foreach (var rootCamera in CamerasViewModel.Current.Cameras)
+				foreach (var vlcControl in VlcControls)
 				{
 					try
 					{
-						rootCamera.Connect();
-						rootCamera.StartAll();
+						var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == vlcControl.ViewName).Value;
+						if (cameraUid != Guid.Empty)
+						{
+							var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
+							if (camera != null)
+							{
+								//vlcControl.VlcControlView.myVlcControl.Stop();
+								//vlcControl.VlcControlView.myVlcControl.Media = new LocationMedia("rtsp://admin:admin@172.16.2.23:554/cam/realmonitor?channel=1&subtype=0");
+								//vlcControl.VlcControlView.myVlcControl.Play();
+								vlcControl.RviRTSP = camera.RviRTSP;
+								vlcControl.Start();
+								return;
+							}
+						}
 					}
 					catch (Exception e)
 					{
@@ -64,20 +70,16 @@ namespace VideoModule.Views
 
 		void InitializeUIElement(UIElement uiElement)
 		{
-			var controls = new List<CellPlayerWrap>();
+			var controls = new List<VlcControlView>();
 			GetLogicalChildCollection(uiElement, controls);
 			foreach (var control in controls)
 			{
-				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
-				if (cameraUid != Guid.Empty)
+				var vlcControlViewModel = new VlcControlViewModel();
+				control.DataContext = vlcControlViewModel;
 				{
-					var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
-					if (camera != null)
-					{
-						var rootCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == camera.Ip);
-						var cameraViewModel = new CameraViewModel(camera, control);
-						Cameras.Add(cameraViewModel);
-					}
+					vlcControlViewModel.ViewName = control.Name;
+					vlcControlViewModel.VlcControlView = control;
+					VlcControls.Add(control.DataContext as VlcControlViewModel);
 				}
 			}
 		}
@@ -120,21 +122,17 @@ namespace VideoModule.Views
 			{
 				foreach (var propertyViewModel in layoutPartPropertyCameraPageViewModel.PropertyViewModels)
 				{
-					var cameraViewModel = Cameras.FirstOrDefault(x => x.ViewName == propertyViewModel.CellName);
-					cameraViewModel.Camera = propertyViewModel.SelectedCamera;
+					var vlcControl = VlcControls.FirstOrDefault(x => x.ViewName == propertyViewModel.CellName);
+					if (vlcControl != null && propertyViewModel.SelectedCamera != null && propertyViewModel.SelectedCamera.RviRTSP != null)
+						vlcControl.RviRTSP = propertyViewModel.SelectedCamera.RviRTSP;
 					var cameraUid = propertyViewModel.SelectedCamera == null ? Guid.Empty : propertyViewModel.SelectedCamera.UID;
 					if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == propertyViewModel.CellName).Value == cameraUid)
 						continue;
 					try
 					{
-						cameraViewModel.Stop();
-						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Ip != null))
+						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Ip != null) && vlcControl != null)
 						{
-							Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
-							{
-									cameraViewModel.Connect();
-									cameraViewModel.Start();
-							}));
+							Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(vlcControl.Start));
 						}
 						ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;
 					}
@@ -150,11 +148,11 @@ namespace VideoModule.Views
 		{
 			var archiveViewModel = new ArchiveViewModel();
 			DialogService.ShowModalWindow(archiveViewModel);
-			if (archiveViewModel.StartedRecord != null)
-				archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
+			//if (archiveViewModel.StartedRecord != null)
+			//    archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
 		}
 
-		public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
+		public static void GetLogicalChildCollection(DependencyObject parent, List<VlcControlView> logicalCollection)
 		{
 			var children = LogicalTreeHelper.GetChildren(parent);
 			foreach (var child in children)
@@ -162,9 +160,9 @@ namespace VideoModule.Views
 				if (child is DependencyObject)
 				{
 					var depChild = child as DependencyObject;
-					if (child is CellPlayerWrap)
+					if (child is VlcControlView)
 					{
-						logicalCollection.Add(child as CellPlayerWrap);
+						logicalCollection.Add(child as VlcControlView);
 					}
 					GetLogicalChildCollection(depChild, logicalCollection);
 				}

@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report431 : BaseSKDReport
+    public partial class Report431 : BaseReport
 	{
 		public Report431()
 		{
@@ -25,7 +25,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Список точек доступа"; }
 		}
-		protected override DataSet CreateDataSet()
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter431>();
 			var dataSet = new DataSet431();
@@ -49,14 +49,12 @@ namespace FiresecService.Report.Templates
 						continue;
 				}
 
-				var databaseService = new SKDDatabaseService();
-
 				if (filter.Organisations != null && filter.Organisations.Count > 0)
 				{
 					var doorUIDs = new List<Guid>();
 					foreach (var organisationUID in filter.Organisations)
 					{
-						var organisationResult = databaseService.OrganisationTranslator.GetSingle(organisationUID);
+                        var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(organisationUID);
 						if (organisationResult.Result != null)
 						{
 							doorUIDs.AddRange(organisationResult.Result.DoorUIDs);
@@ -66,7 +64,7 @@ namespace FiresecService.Report.Templates
 						continue;
 				}
 
-				var organisationsResult = databaseService.OrganisationTranslator.Get(new OrganisationFilter());
+                var organisationsResult = dataProvider.DatabaseService.OrganisationTranslator.Get(new OrganisationFilter());
 				if (organisationsResult.Result != null)
 				{
 					foreach (var organisation in organisationsResult.Result)

@@ -19,7 +19,7 @@
 				<Separator />
 				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="BInformation" Text="Информация об устройстве" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="BWatch" Text="Синзронизация времени" TotalHeight="24" />
-				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="BJournal.png" Text="Журнал событий" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="BJournal" Text="Журнал событий" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="BParametersSync" Text="Обновление ПО" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding AutoSearchCommand}" ImageSource="BSearch"  Text="Автопоиск устройств" TotalHeight="24" />
                 <Separator />

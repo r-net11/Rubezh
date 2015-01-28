@@ -14,9 +14,9 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService.XmlSchemas.Common" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationService" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface.XmlSchemas.Common" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RVI_VSS.IntegrationInterface" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IIntegration_SessionInitialiazation_InputMessage">
