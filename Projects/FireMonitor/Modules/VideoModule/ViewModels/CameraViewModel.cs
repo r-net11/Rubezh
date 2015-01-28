@@ -14,7 +14,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Common.Windows;
-using VideoModule.Views;
 
 namespace VideoModule.ViewModels
 {

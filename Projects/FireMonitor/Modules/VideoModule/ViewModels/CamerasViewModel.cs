@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
-using System.Windows.Threading;
 using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure.Common;
@@ -36,6 +34,7 @@ namespace VideoModule.ViewModels
 				SelectedCamera.StartAll();
 			});
 		}
+
 		bool CanConnect()
 		{
 			return ((SelectedCamera != null) && (SelectedCamera.Status != DeviceStatuses.Connected));
@@ -50,6 +49,7 @@ namespace VideoModule.ViewModels
 				SelectedCamera.StopAll();
 			});
 		}
+
 		bool CanDisconnect()
 		{
 			return ((SelectedCamera != null) && (SelectedCamera.Status != DeviceStatuses.Disconnected));
@@ -64,25 +64,13 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				var cameraViewModel = new CameraViewModel(camera);
-				Cameras.Add(cameraViewModel);
-			}
+			//foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			//{
+			//    var cameraViewModel = new CameraViewModel(camera);
+			//    Cameras.Add(cameraViewModel);
+			//}
 
-			AllCameras = new List<CameraViewModel>();
-			foreach (var camera in Cameras)
-			{
-				AllCameras.Add(camera);
-				AllCameras.AddRange(camera.Children);
-			}
-
-			foreach (var camera in AllCameras)
-			{
-				if (camera.IsDvr)
-					camera.ExpandToThis();
-			}
-			SelectedCamera = Cameras.FirstOrDefault();
+			//SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		ObservableCollection<CameraViewModel> _cameras;

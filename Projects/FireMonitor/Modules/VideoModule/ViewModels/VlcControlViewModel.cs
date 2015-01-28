@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using VideoModule.Views;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
@@ -11,31 +15,29 @@ namespace VideoModule.ViewModels
 {
 	public class VlcControlViewModel : BaseViewModel
 	{
-		public VlcControlViewModel(string rviRTSP)
+		public string ViewName { get; set; }
+		public VlcControlView VlcControlView { get; set; }
+
+		public VlcControlViewModel()
 		{
-			_vlcControl = new VlcControl { Media = new LocationMedia(rviRTSP) };
-			_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
-			_vlcControl.PositionChanged += VlcControlOnPositionChanged;
+		}
+
+		string _rviRTSP;
+		public string RviRTSP
+		{
+			get { return _rviRTSP; }
+			set
+			{
+				_rviRTSP = value;
+				_vlcControl = new VlcControl { Media = new LocationMedia(_rviRTSP) };
+				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
+				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
+			}
 		}
 
 		static VlcControlViewModel()
 		{
-			if (!VlcContext.IsInitialized)
-			{
-				//Set libvlc.dll and libvlccore.dll directory path
-				VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
-				//Set the vlc plugins directory path
-				VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
 
-				//Set the startup options
-				VlcContext.StartupOptions.IgnoreConfig = true;
-				VlcContext.StartupOptions.LogOptions.LogInFile = false;
-				VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
-				VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-
-				//Initialize the VlcContext
-				VlcContext.Initialize();
-			}
 		}
 
 		private VlcControl _vlcControl;
@@ -43,6 +45,8 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
+				if (_vlcControl == null)
+					return new BitmapImage();
 				return _vlcControl.VideoSource;
 			}
 		}
@@ -51,7 +55,22 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
+				if (!VlcContext.IsInitialized)
+				{
+					//Set libvlc.dll and libvlccore.dll directory path
+					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
+					//Set the vlc plugins directory path
+					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
 
+					//Set the startup options
+					VlcContext.StartupOptions.IgnoreConfig = true;
+					VlcContext.StartupOptions.LogOptions.LogInFile = false;
+					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
+					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+
+					//Initialize the VlcContext
+					VlcContext.Initialize();
+				}
 				if (_vlcControl.IsPlaying)
 					_vlcControl.Stop();
 				_vlcControl.Play();

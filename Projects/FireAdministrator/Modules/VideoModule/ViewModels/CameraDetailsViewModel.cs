@@ -274,7 +274,7 @@ namespace VideoModule.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (_vlcControl.IsPlaying)
+			if (_vlcControl != null && _vlcControl.IsPlaying)
 				_vlcControl.Stop();
 			return base.OnClosing(isCanceled);
 		}
