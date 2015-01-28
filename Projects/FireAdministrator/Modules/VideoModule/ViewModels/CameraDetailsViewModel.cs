@@ -248,7 +248,7 @@ namespace VideoModule.ViewModels
 					//Set the startup options
 					VlcContext.StartupOptions.IgnoreConfig = true;
 					VlcContext.StartupOptions.LogOptions.LogInFile = false;
-					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
 					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
 
 					//Initialize the VlcContext

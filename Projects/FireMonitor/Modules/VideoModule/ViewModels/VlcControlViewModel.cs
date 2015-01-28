@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using VideoModule.Views;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
@@ -15,9 +13,6 @@ namespace VideoModule.ViewModels
 {
 	public class VlcControlViewModel : BaseViewModel
 	{
-		public string ViewName { get; set; }
-		public VlcControlView VlcControlView { get; set; }
-
 		public VlcControlViewModel()
 		{
 		}
@@ -73,7 +68,7 @@ namespace VideoModule.ViewModels
 				}
 				if (_vlcControl.IsPlaying)
 					_vlcControl.Stop();
-				_vlcControl.Play();
+				Dispatcher.CurrentDispatcher.BeginInvoke((Action)_vlcControl.Play);
 			}
 			catch (Exception e)
 			{

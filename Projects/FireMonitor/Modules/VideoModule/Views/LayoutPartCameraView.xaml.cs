@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using VideoModule.ViewModels;
+using System.Linq;
 
 namespace VideoModule.Views
 {
@@ -14,13 +15,21 @@ namespace VideoModule.Views
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			_grid.Child = new UIElement();
+			VlcControl = new VlcControlView();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			//_grid.Child = layoutPartCameraViewModel.CellPlayerWrap;
+			if (layoutPartCameraViewModel != null)
+			{
+				var vlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == layoutPartCameraViewModel.Camera.RviRTSP);
+				if (vlcControlViewModel != null)
+				{
+					VlcControl.DataContext = vlcControlViewModel;
+					vlcControlViewModel.Start();
+				}
+			}
 		}
 
 		private void UIElement_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

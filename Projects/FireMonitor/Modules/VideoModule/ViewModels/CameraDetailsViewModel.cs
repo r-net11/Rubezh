@@ -19,6 +19,7 @@ namespace VideoModule.ViewModels
 	public class CameraDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Camera Camera { get; private set; }
+		public VlcControlViewModel VlcControlViewModel { get; private set; }
 
 		public CameraDetailsViewModel(Camera camera)
 		{
@@ -26,11 +27,9 @@ namespace VideoModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			Camera = camera;
 			Title = Camera.PresentationName;
-		}
-
-		public Brush CameraPicture
-		{
-			get { return PictureCacheSource.CameraPicture.GetDefaultBrush(); }
+			VlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == Camera.RviRTSP);
+			if (VlcControlViewModel != null)
+				VlcControlViewModel.Start();
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -79,6 +78,13 @@ namespace VideoModule.ViewModels
 		public string Guid
 		{
 			get { return Camera.UID.ToString(); }
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			if (VlcControlViewModel != null)
+				VlcControlViewModel.Stop();
+			return base.OnClosing(isCanceled);
 		}
 
 

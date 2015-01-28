@@ -103,6 +103,7 @@
     <Compile Include="ViewModels\PropertyViewModel.cs" />
     <Compile Include="ViewModels\LayoutMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
+    <Compile Include="ViewModels\VlcControlHelper.cs" />
     <Compile Include="ViewModels\VlcControlViewModel.cs" />
     <Compile Include="Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
