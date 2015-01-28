@@ -70,7 +70,7 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-					<Label Grid.Row="0" Grid.Column="0" Content="Добавить каналов" HorizontalAlignment="Right"
+				<Label Grid.Row="0" Grid.Column="0" Content="Добавить каналов" HorizontalAlignment="Right"
 					   Visibility="{Binding IsEditMode, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding ChannelsCount}" Minimum="1" Maximum="32" Margin="2"
 						Visibility="{Binding IsEditMode, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
@@ -79,7 +79,7 @@
 		<TabItem Header="Дополнительные"
 				 Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 			ConverterParameter={x:Static local:CameraType.Dvr}}" >
-		<Grid>
+			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="*"/>
@@ -138,18 +138,13 @@
 				<Button Grid.Row="6" Grid.Column="1" Content="Предпросмотр" Margin="2" Command="{Binding ShowCommand}" />
 
 				<Border Grid.Row="7" Grid.Column="1" BorderThickness="2" BorderBrush="Black">
-					<Grid>
-						<wpf:VlcControl x:Name="myVlcControl" />
-						<Grid>
-							<Grid.Background>
-								<VisualBrush Stretch="Uniform">
-									<VisualBrush.Visual>
-										<Image Source="{Binding Image}" />
-									</VisualBrush.Visual>
-								</VisualBrush >
-							</Grid.Background>
-						</Grid>
-					</Grid>
+					<Border.Background>
+						<VisualBrush Stretch="Uniform">
+							<VisualBrush.Visual>
+								<Image Source="{Binding Image}" />
+							</VisualBrush.Visual>
+						</VisualBrush >
+					</Border.Background>
 				</Border>
 			</Grid>
 		</TabItem>

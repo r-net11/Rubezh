@@ -14,17 +14,18 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans.Painters;
 using Infrastructure.Common.Windows;
+using VideoModule.Views;
 
 namespace VideoModule.ViewModels
 {
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
-		//readonly CellPlayerWrap _cellPlayerWrap;
+		VlcControlViewModel VlcControlViewModel { get; set; }
 
-		public CameraViewModel(Camera camera)
+		public CameraViewModel(Camera camera, VlcControlViewModel vlcControlViewModel)
 		{
-			//_cellPlayerWrap = cellPlayerWrap;
+			VlcControlViewModel = vlcControlViewModel;
 			VisualCameraViewModels = new List<CameraViewModel>();
 			//if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
 			//	_cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;

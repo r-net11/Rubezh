@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Common;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
@@ -23,12 +24,12 @@ namespace VideoModule.Views
 		public LayoutMultiCameraView()
 		{
 			InitializeComponent();
-			Cameras = new List<CameraViewModel>();
+			VlcControls = new List<VlcControlViewModel>();
 			InitializeCameras();
 			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
 		}
 
-		List<CameraViewModel> Cameras;
+		List<VlcControlViewModel> VlcControls;
 		private void InitializeCameras()
 		{
 			InitializeUIElement(_1X7GridView);
@@ -36,48 +37,39 @@ namespace VideoModule.Views
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
 			InitializeUIElement(_6X6GridView);
-			//foreach (var camera in Cameras)
-			//{
-			//    var rootCamera = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == camera.Camera.Ip);
-			//    if (rootCamera != null)
-			//        rootCamera.VisualCameraViewModels.Add(camera);
-			//}
 
-			//Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
-			//{
-			//    foreach (var rootCamera in CamerasViewModel.Current.Cameras)
-			//    {
-			//        try
-			//        {
-			//            rootCamera.Connect();
-			//            rootCamera.StartAll();
-			//        }
-			//        catch (Exception e)
-			//        {
-			//            MessageBox.Show(e.Message);
-			//        }
-			//    }
-			//}));
+			Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
+			{
+				foreach (var vlcControl in VlcControls)
+				{
+					try
+					{
+						vlcControl.Start();
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(e.Message);
+					}
+				}
+			}));
 		}
 
 		void InitializeUIElement(UIElement uiElement)
 		{
-			//var controls = new List<CellPlayerWrap>();
-			//GetLogicalChildCollection(uiElement, controls);
-			//foreach (var control in controls)
-			//{
-			//    var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
-			//    if (cameraUid != Guid.Empty)
-			//    {
-			//        var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
-			//        if (camera != null)
-			//        {
-			//            var rootCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == camera.Ip);
-			//            var cameraViewModel = new CameraViewModel(camera, control);
-			//            Cameras.Add(cameraViewModel);
-			//        }
-			//    }
-			//}
+			var controls = new List<VlcControlView>();
+			GetLogicalChildCollection(uiElement, controls);
+			foreach (var control in controls)
+			{
+				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
+				if (cameraUid != Guid.Empty)
+				{
+					var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
+					if (camera != null)
+					{
+						VlcControls.Add(control.DataContext as VlcControlViewModel);
+					}
+				}
+			}
 		}
 
 
@@ -152,22 +144,22 @@ namespace VideoModule.Views
 			//    archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
 		}
 
-		//public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
-		//{
-		//    var children = LogicalTreeHelper.GetChildren(parent);
-		//    foreach (var child in children)
-		//    {
-		//        if (child is DependencyObject)
-		//        {
-		//            var depChild = child as DependencyObject;
-		//            if (child is CellPlayerWrap)
-		//            {
-		//                logicalCollection.Add(child as CellPlayerWrap);
-		//            }
-		//            GetLogicalChildCollection(depChild, logicalCollection);
-		//        }
-		//    }
-		//}
+		public static void GetLogicalChildCollection(DependencyObject parent, List<VlcControlView> logicalCollection)
+		{
+			var children = LogicalTreeHelper.GetChildren(parent);
+			foreach (var child in children)
+			{
+				if (child is DependencyObject)
+				{
+					var depChild = child as DependencyObject;
+					if (child is VlcControlView)
+					{
+						logicalCollection.Add(child as VlcControlView);
+					}
+					GetLogicalChildCollection(depChild, logicalCollection);
+				}
+			}
+		}
 
 		public UIElement EnumToType(MultiGridType multiGridType)
 		{

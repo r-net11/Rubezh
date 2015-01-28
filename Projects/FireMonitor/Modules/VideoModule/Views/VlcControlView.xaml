@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="VideoModule.Views.VlcControlView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<VisualBrush Stretch="Uniform">
+		<VisualBrush.Visual>
+			<Image Source="{Binding Image}" />
+		</VisualBrush.Visual>
+	</VisualBrush >
+</UserControl>
