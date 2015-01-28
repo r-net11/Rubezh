@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.RVIServiceReference;
+using RviClient.RVIServiceReference;
 
 namespace VideoModule.ViewModels
 {

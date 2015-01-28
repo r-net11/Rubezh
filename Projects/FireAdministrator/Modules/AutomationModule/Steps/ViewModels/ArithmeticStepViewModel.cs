@@ -11,7 +11,8 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel Argument2 { get; set; }
 		public ArgumentViewModel ResultArgument { get; set; }
 
-		public ArithmeticStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public ArithmeticStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			ArithmeticArguments = stepViewModel.Step.ArithmeticArguments;
 			ResultArgument = new ArgumentViewModel(ArithmeticArguments.ResultArgument, stepViewModel.Update, UpdateContent, false);
@@ -24,7 +25,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			Argument1.Update(Procedure, SelectedExplicitType, isList:false);
+			Argument1.Update(Procedure, SelectedExplicitType, isList: false);
 			Argument2.Update(Procedure, (SelectedExplicitType == ExplicitType.DateTime) ? ExplicitType.Integer : SelectedExplicitType, isList: false);
 			ResultArgument.Update(Procedure, SelectedExplicitType, isList: false);
 			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
@@ -98,7 +99,7 @@ namespace AutomationModule.ViewModels
 				if (value == ExplicitType.String)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add };
 				if (value == ExplicitType.Integer)
-					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div};
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div };
 				OnPropertyChanged(() => ArithmeticOperationTypes);
 				OnPropertyChanged(() => SelectedExplicitType);
 				UpdateContent();
