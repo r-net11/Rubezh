@@ -178,6 +178,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ShowProperty:
 					Content = new ShowPropertyStepViewModel(this);
 					break;
+
+				case ProcedureStepType.ExportJournal:
+					Content = new ExportJournalStepViewModel(this);
+					break;
 			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Windows.Media;
+using FiresecAPI.Automation;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
+using FiresecAPI.SKD;
+using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using FiresecAPI.SKD;
-using FiresecAPI.Models;
-using FiresecAPI.Automation;
-using FiresecClient;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,6 +26,7 @@ namespace AutomationModule.ViewModels
 		public Camera Camera { get; private set; }
 		public SKDDoor SKDDoor { get; private set; }
 		public GKDirection Direction { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		public Action UpdateObjectHandler { get; set; }
@@ -65,6 +67,7 @@ namespace AutomationModule.ViewModels
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
+			Organisation = OrganisationHelper.GetSingle(uidValue);
 			base.OnPropertyChanged(() => PresentationName);
 		}
 
@@ -90,6 +93,8 @@ namespace AutomationModule.ViewModels
 					return Direction.PresentationName;
 				if (Delay != null)
 					return Delay.PresentationName;
+				if (Organisation != null)
+					return Organisation.Name;
 				return "Null";
 			}
 		}
@@ -250,12 +255,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (Delay == null));
+				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (Delay == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; Delay = null;
+					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; Delay = null; Organisation = null;
 			}
 		}
 
