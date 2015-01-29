@@ -94,8 +94,14 @@ namespace FiresecService.Report.Templates
 
         protected virtual void ApplySort()
         {
-            if (string.IsNullOrEmpty(Filter.SortColumn))
-                return;
+            if (string.IsNullOrEmpty(Filter.SortColumn) && DataSet.Tables.Contains(DataMember))
+            {
+                var table = DataSet.Tables[DataMember];
+                if (table.Columns.Count == 0)
+                    return;
+                Filter.SortColumn = table.Columns[0].ColumnName;
+                Filter.SortAscending = true;
+            }
             var details = GetDetailBand();
             if (details == null)
                 return;

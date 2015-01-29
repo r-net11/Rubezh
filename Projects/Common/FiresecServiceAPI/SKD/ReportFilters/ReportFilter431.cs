@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
     [DataContract]
-    public class ReportFilter431 : SKDReportFilter, IReportFilterOrganisation, IReportFilterZone, IReportFilterDoor
+    public class ReportFilter431 : SKDReportFilter, IReportFilterOrganisation, IReportFilterZoneWithDirection, IReportFilterDoor
     {
 
         #region IReportFilterOrganisation Members
@@ -26,6 +26,15 @@ namespace FiresecAPI.SKD.ReportFilters
 
         [DataMember]
         public List<Guid> Doors { get; set; }
+
+        #endregion
+
+        #region IReportFilterZoneWithDirection Members
+
+        [DataMember]
+        public bool ZoneIn { get; set; }
+        [DataMember]
+        public bool ZoneOut { get; set; }
 
         #endregion
     }
