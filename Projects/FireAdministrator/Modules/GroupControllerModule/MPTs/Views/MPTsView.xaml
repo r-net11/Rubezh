@@ -101,7 +101,7 @@
 							</Grid>
 							<Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
 						</StackPanel>
-						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="BSettings"  VerticalAlignment="Top" />
+						<ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="Settings2"  VerticalAlignment="Top" />
 					</Grid>
 				</Grid>
 			</Grid>
@@ -130,9 +130,9 @@
 						</TextBlock>
 					</StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для выключения" FontWeight="Bold" Width="200" Margin="2" />
-                        <TextBlock VerticalAlignment="Center" Margin="2">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для выключения" FontWeight="Bold" Width="200" Margin="2" />
+						<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -148,9 +148,9 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                    </StackPanel>
+					</StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка" Width="200" Margin="2" />
 						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
 					</StackPanel>

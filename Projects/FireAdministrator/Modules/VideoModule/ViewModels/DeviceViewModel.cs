@@ -5,17 +5,19 @@ namespace VideoModule.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public DeviceViewModel(Device device, Channel channel)
+		public DeviceViewModel(Device device, Channel channel, int streamNo)
 		{
 			Device = device;
 			Channel = channel;
+			StreamNo = streamNo;
 
-			DeviceName = device.Name;
+			DeviceName = device.Name + " (" + "поток " + StreamNo + ")";
 			DeviceIP = device.Ip;
 			ChannalNumber = channel.Number;
 			ChannalName = channel.Name;
 		}
 
+		public int StreamNo { get; private set; }
 		public Device Device { get; private set; }
 		public Channel Channel { get; private set; }
 

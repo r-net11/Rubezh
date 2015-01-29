@@ -24,8 +24,8 @@
 			</ListView.View>
 		</ListView>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding SelectAllCommand}" Background="{DynamicResource SelectAll}" ToolTip="Выделить всё" />
-			<ToolBarButton Command="{Binding SelectNoneCommand}" Background="{DynamicResource SelectNone}" ToolTip="Снять все выделения" />
+			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выделить всё" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Снять все выделения" />
 		</StackPanel>
 		<StackPanel Grid.Row="2" Orientation="Vertical" Visibility="{Binding WithDirection, Converter={StaticResource BoolToVisibilityConverter}}">
 			<CheckBox Margin="3" VerticalAlignment="Center" Content="Из зоны" Foreground="White" IsChecked="{Binding ZoneOut}" />

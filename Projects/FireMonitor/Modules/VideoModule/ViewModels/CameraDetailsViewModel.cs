@@ -80,14 +80,6 @@ namespace VideoModule.ViewModels
 			get { return Camera.UID.ToString(); }
 		}
 
-		public override bool OnClosing(bool isCanceled)
-		{
-			if (VlcControlViewModel != null)
-				VlcControlViewModel.Stop();
-			return base.OnClosing(isCanceled);
-		}
-
-
 		public class PlanViewModel : BaseViewModel
 		{
 			private Plan Plan;

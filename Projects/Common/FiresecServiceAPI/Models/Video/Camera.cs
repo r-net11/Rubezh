@@ -44,6 +44,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string Ip { get; set; }
 
+		[DataMember]
+		public int StreamNo { get; set; }
+
 		[XmlIgnore]
 		public DeviceStatuses Status { get; set; }
 

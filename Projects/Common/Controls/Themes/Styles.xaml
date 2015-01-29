@@ -170,6 +170,7 @@
 		<ResourceDictionary Source="../XamlImages/SelectAll.xaml" />
 		<ResourceDictionary Source="../XamlImages/SelectNone.xaml" />
 		<ResourceDictionary Source="../XamlImages/settings.xaml" />
+		<ResourceDictionary Source="../XamlImages/Settings2.xaml" />
 		<ResourceDictionary Source="../XamlImages/shapes-align-hori-center.xaml" />
 		<ResourceDictionary Source="../XamlImages/shapes-align-hori-left.xaml" />
 		<ResourceDictionary Source="../XamlImages/shapes-align-hori-right.xaml" />
