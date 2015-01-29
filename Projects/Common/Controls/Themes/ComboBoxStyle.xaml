@@ -28,7 +28,7 @@
 	</ControlTemplate>
 
 	<ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
-		<Border x:Name="PART_ContentHost" Background="{TemplateBinding Background}" Focusable="False" />
+		<ScrollViewer x:Name="PART_ContentHost" Background="{TemplateBinding Background}" Focusable="False" />
 	</ControlTemplate>
 
 	<Style x:Key="{x:Type ComboBox}" TargetType="ComboBox">

@@ -115,7 +115,7 @@
             // xrTableCell12
             // 
             this.xrTableCell12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:d \'сут.\' H \'ч\' m \'мин\' s \'сек\'}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:%d\' сут. \'%h\' ч \'%m\' мин \'%s\' сек\'}")});
             this.xrTableCell12.Name = "xrTableCell12";
             this.xrTableCell12.Weight = 0.15384615384615386D;
             // 
