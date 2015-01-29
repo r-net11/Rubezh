@@ -10,18 +10,18 @@ namespace FiresecAPI.Automation
 		public ControlCameraArguments()
 		{
 			CameraArgument = new Argument();
-			UIDArgument = new Argument();
-			DurationArgument = new Argument();
+			EventUIDArgument = new Argument();
+			TimeoutArgument = new Argument();
 		}
 
 		[DataMember]
 		public Argument CameraArgument { get; set; }
 
 		[DataMember]
-		public Argument UIDArgument { get; set; }
+		public Argument EventUIDArgument { get; set; }
 
 		[DataMember]
-		public Argument DurationArgument { get; set; }
+		public Argument TimeoutArgument { get; set; }
 
 		[DataMember]
 		public CameraCommandType CameraCommandType { get; set; }

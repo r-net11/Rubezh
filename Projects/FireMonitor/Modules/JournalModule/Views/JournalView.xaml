@@ -130,6 +130,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<TextBlock Grid.Row="0" Grid.Column="0" Text="Дата в системе" Margin="2" />
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
@@ -154,6 +155,7 @@
 						<Image Width="16" Source="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource JournalSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
 						<TextBlock Text="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
 					</StackPanel>
+                    <Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowVideoCommand}" Content="Показать видео" Width="100" Margin="2" />
 				</Grid>
 				<ItemsControl Grid.Column="1" ItemsSource="{Binding JournalItem.JournalDetalisationItems}">
 					<ItemsControl.ItemTemplate>

@@ -12,11 +12,11 @@
 		</StackPanel>
         <StackPanel Orientation="Horizontal">
             <Label Content="Идентификатор" />
-            <Views:ArgumentView DataContext="{Binding UIDArgument}" />
+            <Views:ArgumentView DataContext="{Binding EventUIDArgument}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Label Content="Длительность" />
-            <Views:ArgumentView DataContext="{Binding DurationArgument}" />
+            <Views:ArgumentView DataContext="{Binding TimeoutArgument}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />

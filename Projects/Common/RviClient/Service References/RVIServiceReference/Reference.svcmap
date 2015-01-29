@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1d2a2d32-a968-49e7-aece-a74b50a80d40" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6ed03d11-43ed-42d0-a40b-0b96bc3c538c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -21,12 +21,12 @@
     <MetadataSource Address="net.tcp://172.16.5.7/Integration/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="cdfa410a-6395-4979-a485-2b812f514d62" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="2935d013-32bb-47b4-9b50-493763e102e7" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6a425368-3d3d-4d8c-99c5-83222fdb3473" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.xsd" MetadataType="Schema" ID="a1a08eac-d007-44d4-9862-99e762e57455" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="49e6e962-348e-4a85-807e-9631a7e842c7" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-    <MetadataFile FileName="RVI_VSS.IntegrationInterface.xsd" MetadataType="Schema" ID="c5b21d69-4d2e-4fee-aa2d-a55cbcdec7de" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="c946d889-cda8-4b02-8fd3-65fadb6eca55" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bb30b58b-8144-455f-85e2-ca144e1eaa88" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f3916c5c-a441-41c5-b647-ea67f059d68e" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.xsd" MetadataType="Schema" ID="08698102-9c47-4e43-bfaa-7ad0dd6b319a" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="38733c35-5c82-4ff0-b78f-4b856de21241" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.xsd" MetadataType="Schema" ID="89248335-7012-475f-ad14-c21cdbd78307" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
