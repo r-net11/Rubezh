@@ -29,15 +29,18 @@ namespace SKDDriver
 		{
 			try
 			{
-				var tableItems = _Table.Where(x => x.SystemDate >= filter.MinDate & x.SystemDate <= filter.MaxDate);
+				var tableItems = _Table.Where(x => x.SystemDate >= TranslatiorHelper.CheckDate(filter.MinDate) & x.SystemDate <= TranslatiorHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
 					serializer.Serialize(fileStream, items);
 				}
-				var newPath = Path.Combine(filter.Path, NameXml);
-				File.Move(NameXml, newPath);
+				if (filter.Path != null)
+				{
+					var newPath = Path.Combine(filter.Path, NameXml);
+					File.Move(NameXml, newPath);
+				}
 				return new OperationResult();
 			}
 			catch (Exception e)

@@ -129,6 +129,7 @@ namespace FiresecService
 					skdDatabaseService.MetadataTranslator.AddJournalMetadata(journalDBNo, DateTime.Now, DateTime.Now);
 					JournalConnectionString = DBHelper.ConnectionString = @"Data Source=.\" + GlobalSettingsHelper.GlobalSettings.DBServerName + ";Initial Catalog=Journal_" + journalDBNo.ToString() + ";Integrated Security=True;Language='English'";
 					JounalSynchroniser.ConnectionString = JournalConnectionString;
+					JounalTranslator.ConnectionString = JournalConnectionString;
 				}
 
 				using (var skdDatabaseService = new SKDDatabaseService())

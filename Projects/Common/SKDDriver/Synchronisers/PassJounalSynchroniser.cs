@@ -24,15 +24,18 @@ namespace SKDDriver
 		{
 			try
 			{
-				var tableItems = _Table.Where(x => x.EnterTime >= filter.MinDate & x.EnterTime <= filter.MaxDate);
+				var tableItems = _Table.Where(x => x.EnterTime >= TranslatiorHelper.CheckDate(filter.MinDate) & x.EnterTime <= TranslatiorHelper.CheckDate(filter.MaxDate));
 				var items = tableItems.Select(x => Translate(x)).ToList();
 				var serializer = new XmlSerializer(typeof(List<ExportPassJournalItem>));
 				using (var fileStream = File.Open(NameXml, FileMode.Create))
 				{
 					serializer.Serialize(fileStream, items);
 				}
-				var newPath = Path.Combine(filter.Path, NameXml);
-				File.Move(NameXml, newPath);
+				if (filter.Path != null)
+				{
+					var newPath = Path.Combine(filter.Path, NameXml);
+					File.Move(NameXml, newPath);
+				}
 				return new OperationResult();
 			}
 			catch (Exception e)

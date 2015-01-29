@@ -16,6 +16,7 @@
       <Column Name="Detalisation" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="VideoUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

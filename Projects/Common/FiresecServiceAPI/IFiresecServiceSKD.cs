@@ -281,6 +281,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult GenerateEmployeeDays();
 
+		[OperationContract]
+		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID);
+
 		#region Export
 		[OperationContract]
 		OperationResult ExportOrganisation(ExportFilter filter);

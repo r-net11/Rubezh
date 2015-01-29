@@ -9,6 +9,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
 using SKDDriver;
+using SKDDriver.Translators;
 
 namespace FiresecService.Service
 {
@@ -1259,6 +1260,14 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.EmployeeTranslator.GenerateEmployeeDays();
+			}
+		}
+
+		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID)
+		{
+			using (var journalTranslator = new JounalTranslator())
+			{
+				return journalTranslator.SaveVideoUID(journalItemUID, videoUID);
 			}
 		}
 
