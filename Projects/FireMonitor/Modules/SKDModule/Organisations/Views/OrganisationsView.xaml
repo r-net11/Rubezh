@@ -1,8 +1,6 @@
  <UserControl x:Class="SKDModule.Views.OrganisationsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition MinWidth="150" Width="Auto" />
@@ -43,8 +41,8 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 					<StackPanel Grid.Row="1" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" Background="{DynamicResource SelectAll}"  />
-                        <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" Background="{DynamicResource SelectNone}"  />
+						<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="SelectAll"  />
+						<ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
 					</StackPanel>
 				</Grid>
 			</TabItem>
@@ -70,8 +68,8 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 					<StackPanel Grid.Row="1" Orientation="Horizontal">
-						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" Background="{DynamicResource SelectAll}"  />
-                        <Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" Background="{DynamicResource SelectNone}"  />
+						<ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="SelectAll"  />
+						<ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Снять все выделения" ImageSource="SelectNone"  />
 					</StackPanel>
 				</Grid>
 			</TabItem>

@@ -21,7 +21,7 @@ namespace VideoModule.Views
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			if (layoutPartCameraViewModel != null)
+			if (layoutPartCameraViewModel != null && layoutPartCameraViewModel.Camera != null)
 			{
 				var vlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == layoutPartCameraViewModel.Camera.RviRTSP);
 				if (vlcControlViewModel != null)

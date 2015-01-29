@@ -40,6 +40,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ShowDialogTemplate { get; set; }
 		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
+		public DataTemplate ExportJournalTemplate { get; set;}
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -113,6 +114,8 @@ namespace AutomationModule.ViewModels
 				return ShowDialogTemplate;
 			if (item is ShowPropertyStepViewModel)
 				return ShowPropertyTemplate;
+			if (item is ExportJournalStepViewModel)
+				return ExportJournalTemplate;
 			return null;
 		}
 	}

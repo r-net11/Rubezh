@@ -92,8 +92,13 @@
     </Compile>
     <Compile Include="ObjectSelection\ViewModels\DelaySelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DelayViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\OrganisationSelectionViewModel.cs" />
+    <Compile Include="ObjectSelection\ViewModels\OrganisationViewModel.cs" />
     <Compile Include="ObjectSelection\Views\DelaySelectionView.xaml.cs">
       <DependentUpon>DelaySelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectSelection\Views\OrganisatonSelectionView.xaml.cs">
+      <DependentUpon>OrganisatonSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\AutomationPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\ProcedureRectangleAdorner.cs" />
@@ -123,6 +128,7 @@
     </Compile>
     <Compile Include="Steps\ViewModels\ChangeListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\CheckPermissionStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportJournalStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
@@ -264,6 +270,9 @@
     </Compile>
     <Compile Include="Steps\Views\ControlVisualStepView.xaml.cs">
       <DependentUpon>ControlVisualStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ExportJournalStepView.xaml.cs">
+      <DependentUpon>ExportJournalStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
       <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
@@ -482,6 +491,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ObjectSelection\Views\OrganisatonSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -519,6 +532,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Steps\Views\ControlVisualStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ExportJournalStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,7 +26,7 @@
 				<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit"  />
 				<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="Delete"  />
 			</StackPanel>
-			<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="BSettings"  />
+			<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Settings2"  />
 		</StackPanel>
         <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="3" RowHeight="{Binding RowHeight}" Margin="0 4">
 			<DataGrid.Columns>

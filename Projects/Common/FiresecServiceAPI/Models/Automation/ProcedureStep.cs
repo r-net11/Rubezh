@@ -47,6 +47,7 @@ namespace FiresecAPI.Automation
 			ShowDialogArguments = new ShowDialogArguments();
 			ControlDelayArguments = new ControlDelayArguments();
 			ShowPropertyArguments = new ShowPropertyArguments();
+			ExportJournalArguments = new ExportJournalArguments();
 		}
 
 		[XmlIgnore]
@@ -171,5 +172,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ShowPropertyArguments ShowPropertyArguments { get; set; }
+
+		[DataMember]
+		public ExportJournalArguments ExportJournalArguments { get; set; } 
 	}
 }

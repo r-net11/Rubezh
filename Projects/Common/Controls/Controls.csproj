@@ -1465,6 +1465,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\Settings2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlImages\shapes-align-hori-center.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

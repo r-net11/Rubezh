@@ -45,11 +45,15 @@ namespace VideoModule.ViewModels
 				return _vlcControl.VideoSource;
 			}
 		}
-		
+
 		public void Start()
 		{
 			try
 			{
+				if (_vlcControl == null)
+					return;
+				if (_vlcControl.IsPlaying)
+					return;
 				if (!VlcContext.IsInitialized)
 				{
 					//Set libvlc.dll and libvlccore.dll directory path
@@ -66,9 +70,8 @@ namespace VideoModule.ViewModels
 					//Initialize the VlcContext
 					VlcContext.Initialize();
 				}
-				if (_vlcControl.IsPlaying)
-					_vlcControl.Stop();
-				Dispatcher.CurrentDispatcher.BeginInvoke((Action)_vlcControl.Play);
+				_vlcControl.Play();
+				//Dispatcher.CurrentDispatcher.BeginInvoke((Action)_vlcControl.Play);
 			}
 			catch (Exception e)
 			{
@@ -79,7 +82,9 @@ namespace VideoModule.ViewModels
 		public void Stop()
 		{
 			if (_vlcControl.IsPlaying)
+			{
 				_vlcControl.Stop();
+			}
 		}
 
 		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)

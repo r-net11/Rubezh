@@ -201,6 +201,16 @@ namespace AutomationModule
 					return true;
 				}
 			}
+
+			if (objectType == ObjectType.Organisation)
+			{
+				var organisationSelectionViewModel = new OrganisationSelectionViewModel(currentExplicitValue.Organisation);
+				if (DialogService.ShowModalWindow(organisationSelectionViewModel))
+				{
+					currentExplicitValue.UidValue = organisationSelectionViewModel.SelectedOrganisation != null ? organisationSelectionViewModel.SelectedOrganisation.Organisation.UID : Guid.Empty;
+					return true;
+				}
+			}
 			return false;
 		}
 

@@ -164,6 +164,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetJournalItemArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetListCountArguments.cs" />

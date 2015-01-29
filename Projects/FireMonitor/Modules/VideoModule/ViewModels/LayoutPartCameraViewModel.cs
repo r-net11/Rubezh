@@ -13,10 +13,8 @@ namespace VideoModule.ViewModels
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
 		public Camera Camera { get; private set; }
-		//public CellPlayerWrap CellPlayerWrap { get; private set; }
 		public LayoutPartCameraViewModel(LayoutPartReferenceProperties properties)
 		{
-			//CellPlayerWrap = new CellPlayerWrap();
 			if (properties != null)
 			{
 				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);

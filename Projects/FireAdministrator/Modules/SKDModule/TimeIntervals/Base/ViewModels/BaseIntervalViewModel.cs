@@ -89,10 +89,10 @@ namespace SKDModule.Intervals.Base.ViewModels
 
 		public string GetActiveImage(bool isActive, bool isBlack)
 		{
-			var map = isActive ? "MapOn" : "MapOff";
+			var map = isActive ? "Map" : "MapOff";
 			if (isBlack)
 				map = "B" + map;
-			return map.ToImagePath();
+			return map;
 		}
 
 		public virtual void Update()

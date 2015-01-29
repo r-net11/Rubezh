@@ -22,13 +22,16 @@ namespace VideoModule.ViewModels
 			{
 				foreach (var channel in device.Channels)
 				{
-					var deviceViewModel = new DeviceViewModel(device, channel);
-					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number);
-					if (camera != null)
+					foreach (var stream in channel.Streams)
 					{
-						deviceViewModel.IsChecked = true;
+						var deviceViewModel = new DeviceViewModel(device, channel, stream.Number);
+						var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
+						if (camera != null)
+						{
+							deviceViewModel.IsChecked = true;
+						}
+						Devices.Add(deviceViewModel);
 					}
-					Devices.Add(deviceViewModel);
 				}
 			}
 		}
@@ -42,14 +45,17 @@ namespace VideoModule.ViewModels
 			{
 				if (device.IsChecked)
 				{
-					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Device.Guid && x.RviChannelNo == device.Channel.Number);
+					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Device.Guid && x.RviChannelNo == device.Channel.Number && x.StreamNo == device.StreamNo);
 					if (camera == null)
 						camera = new FiresecAPI.Models.Camera();
-					var stream = device.Channel.Streams.FirstOrDefault();
+					if (device.Channel.Streams.Count() < device.StreamNo)
+						return true;
+					var stream = device.Channel.Streams[device.StreamNo - 1];
 					if (stream != null)
 					{
+						camera.Name = device.DeviceName;
+						camera.StreamNo = device.StreamNo;
 						camera.Ip = device.Device.Ip;
-
 						camera.RviDeviceUID = device.Device.Guid;
 						camera.RviChannelNo = device.Channel.Number;
 						camera.RviRTSP = stream.Rtsp;

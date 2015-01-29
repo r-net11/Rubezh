@@ -931,7 +931,21 @@ namespace FiresecService
 
 		void ExportJournal(ProcedureStep procedureStep)
 		{
-			FiresecServiceManager.SafeFiresecService.ExportJournal(new JournalExportFilter { IsExportJournal = true, IsExportPassJournal = true });
+			var arguments = procedureStep.ExportJournalArguments;
+			var isExportJournal = GetValue<bool>(arguments.IsExportJournalArgument);
+			var isExportPassJournal = GetValue<bool>(arguments.IsExportPassJournalArgument);
+			var minDate = GetValue<DateTime>(arguments.MinDateArgument);
+			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportJournal(
+				new JournalExportFilter 
+				{ 
+					IsExportJournal = isExportJournal, 
+					IsExportPassJournal = isExportPassJournal, 
+					MaxDate = maxDate, 
+					MinDate = minDate, 
+					Path = path 
+				});
 		}
 
 		void SetValue(Argument argument, object propertyValue)

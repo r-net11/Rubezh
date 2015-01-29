@@ -62,8 +62,8 @@ namespace SKDModule.ViewModels
 			{
 				var zones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
 				Zones = new ObservableCollection<SKDZone>(zones);
+				SelectedZone = Zones.FirstOrDefault();
 			}
-			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		public ObservableCollection<SKDZone> Zones { get; private set; }
