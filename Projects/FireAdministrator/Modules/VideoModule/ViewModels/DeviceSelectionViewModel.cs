@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using FiresecClient;
-using FiresecClient.RVIServiceReference;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using RviClient.RVIServiceReference;
 
 namespace VideoModule.ViewModels
 {

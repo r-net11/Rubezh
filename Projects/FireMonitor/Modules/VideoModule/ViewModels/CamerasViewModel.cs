@@ -64,13 +64,19 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-			//foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			//{
-			//    var cameraViewModel = new CameraViewModel(camera);
-			//    Cameras.Add(cameraViewModel);
-			//}
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			{
+				var cameraViewModel = new CameraViewModel(camera);
+				Cameras.Add(cameraViewModel);
+			}
+			AllCameras = new List<CameraViewModel>();
+			foreach (var camera in Cameras)
+			{
+				AllCameras.Add(camera);
+				AllCameras.AddRange(camera.Children);
+			}
 
-			//SelectedCamera = Cameras.FirstOrDefault();
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		ObservableCollection<CameraViewModel> _cameras;

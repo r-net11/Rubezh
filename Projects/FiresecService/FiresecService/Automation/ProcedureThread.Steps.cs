@@ -622,8 +622,25 @@ namespace FiresecService
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
-		void ControlCamera(ProcedureStep procedureStep) // TODO: Waiting WCF from RVI_VSS
-		{ }
+		void ControlCamera(ProcedureStep procedureStep)
+		{
+			var cameraArguments = procedureStep.ControlCameraArguments;
+			var cameraUid = GetValue<Guid>(cameraArguments.CameraArgument);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			if (camera == null)
+				return;
+
+			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
+			{
+				var beforeUid = GetValue<Guid>(cameraArguments.UIDArgument);
+				SetValue(cameraArguments.UIDArgument, Guid.NewGuid());
+				var afterUid = GetValue<Guid>(cameraArguments.UIDArgument);
+			}
+			else
+			{
+
+			}
+		}
 
 		void ControlFireZone(ProcedureStep procedureStep)
 		{

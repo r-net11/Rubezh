@@ -12,7 +12,7 @@ namespace VideoModule.ViewModels
 {
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
-		Camera Camera { get; set; }
+		public Camera Camera { get; private set; }
 		//public CellPlayerWrap CellPlayerWrap { get; private set; }
 		public LayoutPartCameraViewModel(LayoutPartReferenceProperties properties)
 		{
@@ -23,22 +23,6 @@ namespace VideoModule.ViewModels
 				if (Camera == null)
 					return;
 				Camera.Status = DeviceStatuses.Connected;
-				//CameraViewModel = new CameraViewModel(Camera, CellPlayerWrap);
-				new Thread(delegate()
-				{
-					try
-					{
-						if ((CameraViewModel.Camera != null) && (CameraViewModel.Camera.Ip != null))
-						{
-							CameraViewModel.Connect();
-							CameraViewModel.Start();
-						}
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e);
-					}
-				}).Start();
 			}
 		}
 

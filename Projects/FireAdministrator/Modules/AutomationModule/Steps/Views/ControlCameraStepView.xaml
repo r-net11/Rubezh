@@ -10,7 +10,15 @@
 			<Label Content="Камера" />
 			<Views:ArgumentView DataContext="{Binding CameraArgument}" />
 		</StackPanel>
-		<StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Идентификатор" />
+            <Views:ArgumentView DataContext="{Binding UIDArgument}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Длительность" />
+            <Views:ArgumentView DataContext="{Binding DurationArgument}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
 			<Label Content="Команда" />
 			<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
@@ -22,4 +30,3 @@
 		</StackPanel>
 	</StackPanel>
 </UserControl>
-

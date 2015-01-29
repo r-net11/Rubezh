@@ -20,11 +20,9 @@ namespace VideoModule.ViewModels
 	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		public Camera Camera { get; set; }
-		VlcControlViewModel VlcControlViewModel { get; set; }
 
-		public CameraViewModel(Camera camera, VlcControlViewModel vlcControlViewModel)
+		public CameraViewModel(Camera camera)
 		{
-			VlcControlViewModel = vlcControlViewModel;
 			VisualCameraViewModels = new List<CameraViewModel>();
 			//if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
 			//	_cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;

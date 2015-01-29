@@ -16,6 +16,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Строка")]
 		String,
 
+		[DescriptionAttribute("Идентификатор")]
+		Guid,
+
 		[DescriptionAttribute("Объектная ссылка")]
 		Object,
 

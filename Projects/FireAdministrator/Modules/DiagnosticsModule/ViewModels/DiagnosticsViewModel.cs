@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Media;
 using DiagnosticsModule.Models;
 using FiresecAPI.Journal;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.RVIServiceReference;
 using System.ServiceModel;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
 using Infrastructure.Common.Windows;
+using RviClient.RVIServiceReference;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -24,7 +25,7 @@ namespace DiagnosticsModule.ViewModels
 			AddManyJournalCommand = new RelayCommand(OnAddManyJournal);
 			SaveCommand = new RelayCommand(OnSave);
 			LoadCommand = new RelayCommand(OnLoad);
-			SessionInitialiazationCommand = new RelayCommand(OnSessionInitialiazation);
+			RviTestCommand = new RelayCommand(OnRviTest);
 			StartVlc = new RelayCommand(OnStartVlc);
 		}
 
@@ -108,11 +109,91 @@ namespace DiagnosticsModule.ViewModels
 			SerializerHelper.Load();
 		}
 
-		public RelayCommand SessionInitialiazationCommand { get; private set; }
-		void OnSessionInitialiazation()
+		public RelayCommand RviTestCommand { get; private set; }
+		void OnRviTest()
 		{
-			var devicesViewModel = new DevicesViewModel();
-			DialogService.ShowModalWindow(devicesViewModel);
+			var binding = new NetTcpBinding(SecurityMode.None);
+			binding.OpenTimeout = TimeSpan.FromMinutes(10);
+			binding.SendTimeout = TimeSpan.FromMinutes(10);
+			binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
+			binding.MaxReceivedMessageSize = Int32.MaxValue;
+			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
+			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
+			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
+			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
+			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			binding.Security.Mode = SecurityMode.None;
+			binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
+			binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
+			binding.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
+			var ip = FiresecManager.SystemConfiguration.RviSettings.Ip;
+			var port = FiresecManager.SystemConfiguration.RviSettings.Port;
+			var login = FiresecManager.SystemConfiguration.RviSettings.Login;
+			var password = FiresecManager.SystemConfiguration.RviSettings.Password;
+			var endpointAddress = new EndpointAddress(new Uri("net.tcp://" + ip + ":" + port + "/Integration"));
+
+			using (IntegrationClient client = new IntegrationClient(binding, endpointAddress))
+			{
+				var sessionUID = Guid.NewGuid();
+
+				var sessionInitialiazationIn = new SessionInitialiazationIn();
+				sessionInitialiazationIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				sessionInitialiazationIn.Login = login;
+				sessionInitialiazationIn.Password = password;
+				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+				var snapshotDoIn = new SnapshotDoIn();
+				snapshotDoIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+
+				var snapshotUID = new Guid();
+				var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault();
+				snapshotDoIn.DeviceGuid = camera.RviDeviceUID;
+				snapshotDoIn.ChannelNumber = camera.RviChannelNo;
+				snapshotDoIn.EventGuid = snapshotUID;
+				var snapshotDoOut = client.SnapshotDo(new SnapshotDoIn());
+
+				var snapshotImageIn = new SnapshotImageIn();
+				snapshotImageIn.DeviceGuid = camera.RviDeviceUID;
+				snapshotImageIn.ChannelNumber = camera.RviChannelNo;
+				snapshotImageIn.EventGuid = snapshotUID;
+				snapshotImageIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var snapshotImageOut = client.GetSnapshotImage(snapshotImageIn);
+				//snapshotImageOut.
+
+
+				var eventUID = new Guid();
+				var videoRecordStartIn = new VideoRecordStartIn();
+				videoRecordStartIn.DeviceGuid = camera.RviDeviceUID;
+				videoRecordStartIn.ChannelNumber = camera.RviChannelNo;
+				videoRecordStartIn.EventGuid = eventUID;
+				videoRecordStartIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				client.VideoRecordStart(videoRecordStartIn);
+
+				var sessionCloseIn = new SessionCloseIn();
+				sessionCloseIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+			}
 		}
 
 		public void StopThreads()
