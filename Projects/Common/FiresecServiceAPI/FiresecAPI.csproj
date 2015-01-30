@@ -235,6 +235,7 @@
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter401.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter402.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter431.cs" />

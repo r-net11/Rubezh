@@ -5,12 +5,13 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
     [DataContract]
-    public class ReportFilter417 : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee, IReportFilterZone
+    public class ReportFilter417 : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone
     {
         public ReportFilter417()
         {
             ReportDateTime = DateTime.Now;
             UseCurrentDate = true;
+            IsEmployee = true;
         }
 
         #region IReportFilterOrganisation Members
@@ -38,6 +39,13 @@ namespace FiresecAPI.SKD.ReportFilters
 
         [DataMember]
         public List<Guid> Employees { get; set; }
+
+        #endregion
+
+        #region IReportFilterEmployeeAndVisitor Members
+
+        [DataMember]
+        public bool IsEmployee { get; set; }
 
         #endregion
 

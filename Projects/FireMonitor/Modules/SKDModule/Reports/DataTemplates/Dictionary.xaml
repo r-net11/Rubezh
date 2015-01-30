@@ -2,7 +2,6 @@
 	<DataTemplate DataType="{x:Type ViewModels:OrganizationPageViewModel}">
 		<Views:OrganizationPageView />
 	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:DepartmentPageViewModel}">
 		<Views:FilterPageView />
 	</DataTemplate>
@@ -10,9 +9,8 @@
 		<Views:FilterPageView />
 	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:EmployeePageViewModel}">
-		<Views:FilterPageView />
+        <Views:EmployeePageView />
 	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:PassCardMainPageViewModel}">
 		<Views:PassCardMainPageView />
 	</DataTemplate>

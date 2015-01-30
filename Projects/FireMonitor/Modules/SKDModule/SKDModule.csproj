@@ -284,6 +284,9 @@
     <Compile Include="Reports\Views\DoorPageView.xaml.cs">
       <DependentUpon>DoorPageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reports\Views\EmployeePageView.xaml.cs">
+      <DependentUpon>EmployeePageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\Views\ScheduleSchemePageView.xaml.cs">
       <DependentUpon>ScheduleSchemePageView.xaml</DependentUpon>
     </Compile>
@@ -833,6 +836,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\DoorPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\EmployeePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

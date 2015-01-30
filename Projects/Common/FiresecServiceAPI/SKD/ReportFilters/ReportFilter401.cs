@@ -6,7 +6,7 @@ using FiresecAPI.Journal;
 namespace FiresecAPI.SKD.ReportFilters
 {
     [DataContract]
-    public class ReportFilter401 : SKDReportFilter, IReportFilterPeriod, IReportFilterEmployee
+    public class ReportFilter401 : SKDReportFilter, IReportFilterPeriod, IReportFilterEmployeeAndVisitor
     {
         public ReportFilter401()
         {
@@ -15,6 +15,7 @@ namespace FiresecAPI.SKD.ReportFilters
             JournalEventNameTypes = new List<JournalEventNameType>();
             JournalObjectTypes = new List<JournalObjectType>();
             ObjectUIDs = new List<Guid>();
+            IsEmployee = true;
         }
 
         #region IReportFilterPeriod Members
@@ -34,6 +35,13 @@ namespace FiresecAPI.SKD.ReportFilters
 
         [DataMember]
         public List<Guid> Employees { get; set; }
+
+        #endregion
+
+        #region IReportFilterEmployeeAndVisitor Members
+
+        [DataMember]
+        public bool IsEmployee { get; set; }
 
         #endregion
 

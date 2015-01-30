@@ -23,11 +23,14 @@ namespace FiresecService.Report
 		public Dictionary<Guid, DeletableObjectInfo> Organisations { get; private set; }
 		public Dictionary<Guid, OrganisationBaseObjectInfo> Departments { get; private set; }
 		public Dictionary<Guid, OrganisationBaseObjectInfo> Positions { get; private set; }
+        private Dictionary<Guid, EmployeeInfo> _employees;
 
 		public void LoadCache()
 		{
 			if (IsCacheLoaded)
 				return;
+
+            _employees = new Dictionary<Guid, EmployeeInfo>();
 
 			var organisationResult = DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { LogicalDeletationType = LogicalDeletationType.All });
 			Organisations = CreateDictionary(organisationResult, orgnisation => new DeletableObjectInfo()
@@ -57,6 +60,15 @@ namespace FiresecService.Report
 				UID = position.UID,
 			});
 		}
+        public EmployeeInfo GetEmployee(Guid uid)
+        {
+            if (!_employees.ContainsKey(uid))
+            {
+                var result = DatabaseService.EmployeeTranslator.GetSingle(uid);
+                _employees.Add(uid, result == null ? null : ConvertEmployee(result.Result));
+            }
+            return _employees[uid];
+        }
 		public List<EmployeeInfo> GetEmployees(SKDReportFilter filter)
 		{
 			LoadCache();
@@ -77,18 +89,15 @@ namespace FiresecService.Report
 			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
-			return employeesResult.Result.Select(employee => new EmployeeInfo()
-			{
-				Department = employee.Department == null ? null : employee.Department.Name,
-				DepartmentUID = employee.Department == null ? (Guid?)null : employee.Department.UID,
-				IsDeleted = employee.IsDeleted,
-				Name = employee.Name,
-				Organisation = Organisations[employee.OrganisationUID].Name,
-				OrganisationUID = employee.OrganisationUID,
-				Position = employee.Position == null ? null : employee.Position.Name,
-				PositionUID = employee.Position == null ? (Guid?)null : employee.Position.UID,
-				UID = employee.UID,
-			}).ToList();
+            var employees = employeesResult.Result.Select(ConvertEmployee).ToList();
+            employees.ForEach(employee =>
+            {
+                if (_employees.ContainsKey(employee.UID))
+                    _employees[employee.UID] = employee;
+                else
+                    _employees.Add(employee.UID, employee);
+            });
+            return employees;
 		}
 
 		#region IDisposable Members
@@ -100,6 +109,23 @@ namespace FiresecService.Report
 
 		#endregion
 
+        private EmployeeInfo ConvertEmployee(Employee employee)
+        {
+            if (employee == null)
+                return null;
+            return new EmployeeInfo()
+                 {
+                     Department = employee.Department == null ? null : employee.Department.Name,
+                     DepartmentUID = employee.Department == null ? (Guid?)null : employee.Department.UID,
+                     IsDeleted = employee.IsDeleted,
+                     Name = employee.Name,
+                     Organisation = Organisations[employee.OrganisationUID].Name,
+                     OrganisationUID = employee.OrganisationUID,
+                     Position = employee.Position == null ? null : employee.Position.Name,
+                     PositionUID = employee.Position == null ? (Guid?)null : employee.Position.UID,
+                     UID = employee.UID,
+                 };
+        }
 		private Dictionary<Guid, T> CreateDictionary<ApiT, T>(OperationResult<IEnumerable<ApiT>> result, Converter<ApiT, T> converter)
 			where T : ObjectInfo
 			where ApiT : SKDModelBase
