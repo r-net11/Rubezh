@@ -180,6 +180,18 @@
         <Views:ExportJournalStepView />
     </DataTemplate>
 
+    <DataTemplate x:Key="exportOrganisationTemplate">
+        <Views:ExportOrganisationStepView />
+    </DataTemplate>
+
+    <DataTemplate x:Key="exportConfigurationTemplate">
+        <Views:ExportConfigurationStepView />
+    </DataTemplate>
+
+    <DataTemplate x:Key="importOrganisationTemplate">
+        <Views:ImportOrganisationStepView />
+    </DataTemplate>
+
     <DataTemplate x:Key="RunProgramTemplate">
 		<Views:RunProgramStepView />
 	</DataTemplate>
@@ -260,6 +272,9 @@
 										 SoundsTemplate="{StaticResource soundsTemplate}"
 										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"
 										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" 
-                                         ExportJournalTemplate="{StaticResource exportJournalTemplate}"/>
+                                         ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
+                                         ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
+                                         ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
+                                         ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" />
 
 </ResourceDictionary>

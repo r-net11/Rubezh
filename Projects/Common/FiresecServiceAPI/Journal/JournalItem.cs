@@ -41,9 +41,6 @@ namespace FiresecAPI.Journal
 		public Guid ObjectUID { get; set; }
 
 		[DataMember]
-		public Guid VideoUID { get; set; }
-
-		[DataMember]
 		public string ObjectName { get; set; }
 
 		[DataMember]

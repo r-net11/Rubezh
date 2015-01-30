@@ -41,6 +41,9 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
 		public DataTemplate ExportJournalTemplate { get; set;}
+		public DataTemplate ExportOrganisationTemplate { get; set; }
+		public DataTemplate ExportConfigurationTemplate { get; set; }
+		public DataTemplate ImportOrganisationTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -116,6 +119,12 @@ namespace AutomationModule.ViewModels
 				return ShowPropertyTemplate;
 			if (item is ExportJournalStepViewModel)
 				return ExportJournalTemplate;
+			if (item is ExportOrganisationStepViewModel)
+				return ExportOrganisationTemplate;
+			if (item is ExportConfigurationStepViewModel)
+				return ExportConfigurationTemplate;
+			if (item is ImportOrganisationStepViewModel)
+				return ImportOrganisationTemplate;
 			return null;
 		}
 	}
