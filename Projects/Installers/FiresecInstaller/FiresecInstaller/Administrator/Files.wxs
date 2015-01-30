@@ -84,6 +84,7 @@
         <File Id="Administrator.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Vlc.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Vlc.DotNet.Wpf.dll" Name="Vlc.DotNet.Wpf.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
     </DirectoryRef>
