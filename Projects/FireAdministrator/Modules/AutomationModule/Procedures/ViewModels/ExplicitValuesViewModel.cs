@@ -59,8 +59,12 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				if(_explicitType != value)
+				{
 					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
+					ExplicitValue = new ExplicitValueViewModel();
+				}
 				_explicitType = value;
+				OnPropertyChanged(() => ExplicitValue);
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => ExplicitType);
 			}
@@ -73,8 +77,12 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				if (_enumType != value)
+				{
 					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
+					ExplicitValue = new ExplicitValueViewModel();
+				}
 				_enumType = value;
+				OnPropertyChanged(() => ExplicitValue);
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => EnumType);
 			}
@@ -87,8 +95,12 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				if (_objectType != value)
+				{
 					ExplicitValues = new ObservableCollection<ExplicitValueViewModel>();
+					ExplicitValue = new ExplicitValueViewModel();
+				}
 				_objectType = value;
+				OnPropertyChanged(() => ExplicitValue);
 				OnPropertyChanged(() => ExplicitValues);
 				OnPropertyChanged(() => ObjectType);
 			}

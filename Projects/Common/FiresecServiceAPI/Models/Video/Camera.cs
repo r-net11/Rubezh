@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
-using Entities.DeviceOriented;
 using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
@@ -10,29 +9,16 @@ using System.Xml.Serialization;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Camera : IStateProvider, IDeviceState<XStateClass>, IIdentity, IPlanPresentable
+	public class Camera : IStateProvider, IDeviceState<XStateClass>, IPlanPresentable
 	{
 		public Camera()
 		{
 			UID = Guid.NewGuid();
-			Children = new List<Camera>();
 			ZoneUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
 			Width = 300;
 			Height = 300;
 			AllowMultipleVizualization = false;
-			Status = DeviceStatuses.Disconnected;
-
-			Name = "Новая камера";
-		}
-
-		[XmlIgnore]
-		public Camera Parent { get; set; }
-
-		[XmlIgnore]
-		public string ImageSource
-		{
-			get { return "/Controls;component/Images/" + this.CameraType.ToString() + ".png"; }
 		}
 
 		[DataMember]
@@ -47,14 +33,8 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int StreamNo { get; set; }
 
-		[XmlIgnore]
-		public DeviceStatuses Status { get; set; }
-
 		[DataMember]
 		public int ChannelNumber { get; set; }
-
-		[DataMember]
-		public List<Camera> Children { get; set; }
 
 		[DataMember]
 		public int Left { get; set; }
@@ -73,15 +53,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public XStateClass StateClass { get; set; }
-
-		[DataMember]
-		public CameraType CameraType { get; set; }
-
-		[XmlIgnore]
-		public XStateClass CameraStateStateClass
-		{
-			get { return XStateClass.Norm; }
-		}
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }

@@ -91,7 +91,7 @@ namespace FiresecClient
 					Plan.ElementDoors = elementDoors;
 
 					keys = GKManager.Devices.Select(item => item.UID).ToList();
-					var cameraKeys = SystemConfiguration.AllCameras.Select(item => item.UID).ToList();
+					var cameraKeys = SystemConfiguration.Cameras.Select(item => item.UID).ToList();
 					var procedureKeys = SystemConfiguration.AutomationConfiguration.Procedures.Select(item => item.Uid).ToList();
 					var elementExtensions = new List<ElementBase>();
 					foreach (var elementExtension in Plan.ElementExtensions)

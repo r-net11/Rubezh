@@ -11,13 +11,13 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 
 namespace VideoModule.ViewModels
 {
-	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
+	public class CameraViewModel : BaseViewModel
 	{
 		CamerasViewModel _camerasViewModel;
 		public Camera Camera { get; set; }
@@ -30,50 +30,13 @@ namespace VideoModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
-			UpdateChildren();
-		}
-
-		public bool IsDvr
-		{
-			get
-			{
-				return Camera.CameraType == CameraType.Dvr;
-			}
-		}
-
-		public bool IsChannel
-		{
-			get
-			{
-				return Camera.CameraType == CameraType.Channel;
-			}
-		}
-
-		public bool IsCamera
-		{
-			get
-			{
-				return Camera.CameraType == CameraType.Camera;
-			}
-		}
-
-		public void UpdateChildren()
-		{
-			if ((Camera != null) && (Camera.CameraType == CameraType.Dvr))
-				foreach (var child in Camera.Children)
-				{
-					var cameraViewModel = new CameraViewModel(_camerasViewModel, child);
-					AddChild(cameraViewModel);
-				}
 		}
 
 		public string PresentationAddress
 		{
 			get
 			{
-				if (Camera.CameraType != CameraType.Channel)
-					return Camera.Ip;
-				return (Camera.ChannelNumber + 1).ToString();
+				return Camera.Ip;
 			}
 		}
 		public string PresentationZones
@@ -119,12 +82,9 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				if (Camera.CameraType == CameraType.Dvr)
-					return VisualizationState.Prohibit;
-				else if (IsOnPlan)
+				if (IsOnPlan)
 					return Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single;
-				else
-					return VisualizationState.NotPresent;
+				return VisualizationState.NotPresent;
 			}
 		}
 
@@ -142,8 +102,6 @@ namespace VideoModule.ViewModels
 
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
-			if (Camera.CameraType == CameraType.Dvr)
-				return false;
 			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 

@@ -9,6 +9,7 @@ namespace VideoModule.ViewModels
 
 		public SettingsSelectionViewModel(RviSettings rviSettings)
 		{
+			Title = "Настройки";
 			RviSettings = rviSettings;
 			Ip = rviSettings.Ip;
 			Port = rviSettings.Port;
