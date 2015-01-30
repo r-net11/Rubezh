@@ -63,7 +63,7 @@ namespace VideoModule
 
 		void UpdateVideoAlarms()
 		{
-			foreach (var camera in FiresecManager.SystemConfiguration.AllCameras)
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				foreach (var zoneUID in camera.ZoneUIDs)
 				{
@@ -81,7 +81,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.AllCameras.Count > 0;
+			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
 			CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);

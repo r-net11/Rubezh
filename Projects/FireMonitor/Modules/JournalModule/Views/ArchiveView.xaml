@@ -18,25 +18,25 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<Controls:ToolBarButton Grid.Column="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" Background="{DynamicResource filter}"  />
+				<Controls:ToolBarButton Grid.Column="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="Filter"  />
 				<StackPanel Grid.Column="1" Orientation="Horizontal">
 					<CheckBox Margin="5" VerticalAlignment="Center" Content="Включить фильтр" Foreground="White" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" />
 				</StackPanel>
 				<StackPanel Grid.Column="2" IsEnabled="{Binding HasPages, Converter={StaticResource NullToBoolConverter}}"
 							HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" Background="{DynamicResource leftLeft}"  ToolTip="Начальная страница" />
-					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" Background="{DynamicResource left}"  ToolTip="Предыдущая страница" />
+					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="LeftLeft"  ToolTip="Начальная страница" />
+					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="Left"  ToolTip="Предыдущая страница" />
 					<TextBox Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
 					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
-					<Controls:ToolBarButton Command="{Binding NextPageCommand}" Background="{DynamicResource right}"  ToolTip="Следующая страница" />
-					<Controls:ToolBarButton Command="{Binding LastPageCommand}" Background="{DynamicResource rightRight}"  ToolTip="Последняя страница" />
+					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="Right"  ToolTip="Следующая страница" />
+					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="RightRight"  ToolTip="Последняя страница" />
 				</StackPanel>
 				<StackPanel Grid.Column="3" HorizontalAlignment="Center"  Orientation="Horizontal">
 					<Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<TextBlock Text="{Binding Status}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
 				</StackPanel>
-				<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Background="{DynamicResource settings}"  />
+				<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings"  />
 			</Grid>
 		</Border>
 		<Views:JournalView Grid.Row="1" Margin="0, 5, 0, 0" />

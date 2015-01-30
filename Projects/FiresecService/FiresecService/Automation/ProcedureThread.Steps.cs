@@ -634,9 +634,9 @@ namespace FiresecService
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
 				//var beforeUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
-				var eventUID = new Guid();
+				var eventUID = Guid.NewGuid();
 				SetValue(cameraArguments.EventUIDArgument, eventUID);
-				var afterUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
+				var afterUid = GetValue<String>(cameraArguments.EventUIDArgument);
 
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
@@ -649,7 +649,7 @@ namespace FiresecService
 					}
 				}
 			}
-			else
+			if (cameraArguments.CameraCommandType == CameraCommandType.StopRecord)
 			{
 				var eventUID = GetValue<Guid>(cameraArguments.EventUIDArgument);
 				RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);

@@ -17,7 +17,7 @@ namespace VideoModule.ViewModels
 		{
 			CellName = cellName;
 			PresentationCellName = presentationCellName;
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.AllCameras);
+			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
 			Cameras.Insert(0, new Camera{UID = new Guid()});
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}

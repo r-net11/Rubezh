@@ -160,7 +160,7 @@ namespace AutomationModule
 							break;
 
 						case ObjectType.VideoDevice:
-							var videoDevice = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
+							var videoDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == propertyArguments.ObjectUid);
 							if (videoDevice != null)
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 							break;
