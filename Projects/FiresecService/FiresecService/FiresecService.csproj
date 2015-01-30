@@ -229,6 +229,10 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\RviClient\RviClient.csproj">
+      <Project>{112658EB-3244-4922-AEF7-6376E688B7A7}</Project>
+      <Name>RviClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>SKDDriver</Name>

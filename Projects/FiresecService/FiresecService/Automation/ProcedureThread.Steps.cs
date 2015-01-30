@@ -16,6 +16,7 @@ using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
 using Property = FiresecAPI.Automation.Property;
+using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -632,13 +633,26 @@ namespace FiresecService
 
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
-				var beforeUid = GetValue<Guid>(cameraArguments.UIDArgument);
-				SetValue(cameraArguments.UIDArgument, Guid.NewGuid());
-				var afterUid = GetValue<Guid>(cameraArguments.UIDArgument);
+				//var beforeUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
+				var eventUID = new Guid();
+				SetValue(cameraArguments.EventUIDArgument, eventUID);
+				var afterUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
+
+				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
+				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
+
+				if (JournalItem != null)
+				{
+					using (var journalTranslator = new JounalTranslator())
+					{
+						journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
+					}
+				}
 			}
 			else
 			{
-
+				var eventUID = GetValue<Guid>(cameraArguments.EventUIDArgument);
+				RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);
 			}
 		}
 

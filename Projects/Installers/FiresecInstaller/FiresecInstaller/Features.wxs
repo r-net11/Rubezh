@@ -27,7 +27,7 @@
         <ComponentRef Id="Administrator.SKD_MODULE" />
       </Feature>
       <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео">
-        <Condition Level="0">INSTALL_VIDEO</Condition>
+        <Condition Level="1">INSTALL_VIDEO</Condition>
         <ComponentRef Id="Administrator.VIDEO_MODULE" />
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
       </Feature>

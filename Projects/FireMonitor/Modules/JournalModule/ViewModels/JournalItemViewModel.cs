@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 
 namespace JournalModule.ViewModels
 {
@@ -48,6 +49,7 @@ namespace JournalModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
+			ShowVideoCommand = new RelayCommand(OnShowVideo, CanShowVideo);
 
 			JournalItem = journalItem;
 
@@ -423,6 +425,17 @@ namespace JournalModule.ViewModels
 					break;
 			}
 			return false;
+		}
+
+		public RelayCommand ShowVideoCommand { get; private set; }
+		void OnShowVideo()
+		{
+			var videoViewModel = new VideoViewModel(JournalItem.VideoUID);
+			DialogService.ShowModalWindow(videoViewModel);
+		}
+		bool CanShowVideo()
+		{
+			return JournalItem.VideoUID != Guid.Empty;
 		}
 	}
 }

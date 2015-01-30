@@ -57,5 +57,8 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
+
+		[DataMember]
+		public Guid VideoUID { get; set; }
 	}
 }
