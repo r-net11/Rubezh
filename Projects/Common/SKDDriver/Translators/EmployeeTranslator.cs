@@ -129,6 +129,8 @@ namespace SKDDriver
 			tableItem.DocumentType = (int)apiItem.DocumentType;
 			tableItem.Phone = apiItem.Phone;
 			tableItem.LastEmployeeDayUpdate = TranslatiorHelper.CheckDate(apiItem.LastEmployeeDayUpdate);
+			if (tableItem.ExternalKey == null)
+				tableItem.ExternalKey = "-1";
 		}
 
 		public override OperationResult Save(Employee apiItem)

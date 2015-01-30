@@ -150,6 +150,8 @@ namespace SKDDriver
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.Phone = apiItem.Phone;
+			if (tableItem.ExternalKey == null)
+				tableItem.ExternalKey = "-1";
 		}
 
 		protected override ShortDepartment TranslateToShort(DataAccess.Department tableItem)

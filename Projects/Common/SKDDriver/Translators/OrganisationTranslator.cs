@@ -47,6 +47,8 @@ namespace SKDDriver
 			tableItem.ChiefUID = apiItem.ChiefUID;
 			tableItem.HRChiefUID = apiItem.HRChiefUID;
 			tableItem.Phone = apiItem.Phone;
+			if (tableItem.ExternalKey == null)
+				tableItem.ExternalKey = "-1";
 		}
 
 		protected override OperationResult BeforeDelete(Guid uid, DateTime removalDate)
@@ -329,6 +331,8 @@ namespace SKDDriver
 					tableItem.ChiefUID = apiItem.ChiefUID;
 					tableItem.HRChiefUID = apiItem.HRChiefUID;
 					tableItem.Phone = apiItem.Phone;
+					if (tableItem.ExternalKey == null)
+						tableItem.ExternalKey = "-1";
 					Table.InsertOnSubmit(tableItem);
 				}
 				else
@@ -342,6 +346,8 @@ namespace SKDDriver
 					tableItem.ChiefUID = apiItem.ChiefUID;
 					tableItem.HRChiefUID = apiItem.HRChiefUID;
 					tableItem.Phone = apiItem.Phone;
+					if (tableItem.ExternalKey == null)
+						tableItem.ExternalKey = "-1";
 				}
 				Context.SubmitChanges();
 				return new OperationResult();

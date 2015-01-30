@@ -41,6 +41,8 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
+			if (tableItem.ExternalKey == null)
+				tableItem.ExternalKey = "-1";
 			if(apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 		}

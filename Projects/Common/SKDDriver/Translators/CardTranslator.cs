@@ -78,6 +78,8 @@ namespace SKDDriver
 			tableItem.UserTime = apiItem.UserTime;
 			tableItem.GKLevel = (byte)apiItem.GKLevel;
 			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
+			if (tableItem.ExternalKey == null)
+				tableItem.ExternalKey = "-1";
 		}
 
 		public override OperationResult Save(SKDCard card)
