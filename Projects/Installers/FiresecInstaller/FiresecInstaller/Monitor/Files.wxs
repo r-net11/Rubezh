@@ -16,6 +16,7 @@
 				<File Id="Monitor.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.RviClient.dll" Name="RviClient.dll" Source="$(var.Monitor.TargetDir)" />
 
 				<File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
@@ -23,9 +24,6 @@
 
 				<File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Common.TargetDir)" />
 
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
