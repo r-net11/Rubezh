@@ -36,7 +36,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			CameraArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType.VideoDevice, isList: false);
-			EventUIDArgument.Update(Procedure, ExplicitType.Guid);
+			EventUIDArgument.Update(Procedure, ExplicitType.String);
 			TimeoutArgument.Update(Procedure, ExplicitType.Integer);
 		}
 

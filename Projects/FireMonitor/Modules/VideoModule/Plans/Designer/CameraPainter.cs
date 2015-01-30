@@ -48,7 +48,7 @@ namespace VideoModule.Plans.Designer
 
 		private Color GetStateColor()
 		{
-			switch (Item.CameraStateStateClass)
+			switch (Item.StateClass)
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:

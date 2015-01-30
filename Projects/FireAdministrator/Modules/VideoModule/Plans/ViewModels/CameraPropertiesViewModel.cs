@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using VideoModule.Plans.Designer;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Plans.ViewModels
@@ -21,9 +18,7 @@ namespace VideoModule.Plans.ViewModels
 			_elementCamera = elementCamera;
 			_camerasViewModel = camerasViewModel;
 			Initialize();
-			SelectedCamera = AllCameras.FirstOrDefault(item => item.Camera.UID == elementCamera.CameraUID);
-			if (SelectedCamera != null)
-				SelectedCamera.ExpandToThis();
+			SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == elementCamera.CameraUID);
 		}
 
 		public void Initialize()
@@ -38,22 +33,6 @@ namespace VideoModule.Plans.ViewModels
 		}
 
 		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
-		public List<CameraViewModel> AllCameras
-		{
-			get
-			{
-				var cameras = new List<CameraViewModel>();
-				foreach (var camera in Cameras)
-				{
-					cameras.Add(camera);
-					foreach (var child in camera.Children)
-					{
-						cameras.Add(child);
-					}
-				}
-				return cameras;
-			}
-		}
 
 		private CameraViewModel _selectedCamera;
 		public CameraViewModel SelectedCamera
@@ -68,30 +47,17 @@ namespace VideoModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
-			Guid cameraUID = _elementCamera.CameraUID;
-			PlanExtension.Instance.SetItem<Camera>(_elementCamera, SelectedCamera.Camera);
-
-			if (cameraUID != _elementCamera.CameraUID)
-				Update(cameraUID);
-			//_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
+			PlanExtension.Instance.SetItem(_elementCamera, SelectedCamera.Camera);
 			return base.Save();
 		}
 
 		protected override bool CanSave()
 		{
-			if (SelectedCamera == null || SelectedCamera.IsDvr)
+			if (SelectedCamera == null)
 				return false;
 			if (SelectedCamera.IsOnPlan && !SelectedCamera.Camera.AllowMultipleVizualization && SelectedCamera.Camera.UID != _elementCamera.CameraUID)
 				return false;
 			return true;
-		}
-
-		private CameraViewModel Update(Guid cameraUID)
-		{
-			var cameraViewModel = _camerasViewModel.AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
-			if (cameraViewModel != null)
-				cameraViewModel.Update();
-			return cameraViewModel;
 		}
 	}
 }

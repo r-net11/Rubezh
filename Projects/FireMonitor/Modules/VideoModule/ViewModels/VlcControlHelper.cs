@@ -9,7 +9,7 @@ namespace VideoModule.ViewModels
 		static VlcControlHelper ()
 		{
 			VlcControlViewModels = new List<VlcControlViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.AllCameras)
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var vlcControlViewModel = new VlcControlViewModel();
 				vlcControlViewModel.RviRTSP = camera.RviRTSP;

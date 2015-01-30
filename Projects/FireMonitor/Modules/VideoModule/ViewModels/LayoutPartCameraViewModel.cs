@@ -17,10 +17,7 @@ namespace VideoModule.ViewModels
 		{
 			if (properties != null)
 			{
-				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);
-				if (Camera == null)
-					return;
-				Camera.Status = DeviceStatuses.Connected;
+				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 			}
 		}
 

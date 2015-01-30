@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -20,39 +18,7 @@ namespace VideoModule.ViewModels
 			Current = this;
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, () => SelectedCamera != null);
-			ConnectCommand = new RelayCommand(OnConnect, CanConnect);
-			DisconnectCommand = new RelayCommand(OnDisconnect, CanDisconnect);
 			Initialize();
-		}
-
-		public RelayCommand ConnectCommand { get; private set; }
-		void OnConnect()
-		{
-			ApplicationService.BeginInvoke(() =>
-			{
-				SelectedCamera.Connect();
-				SelectedCamera.StartAll();
-			});
-		}
-
-		bool CanConnect()
-		{
-			return ((SelectedCamera != null) && (SelectedCamera.Status != DeviceStatuses.Connected));
-		}
-
-		public RelayCommand DisconnectCommand { get; private set; }
-		void OnDisconnect()
-		{
-			ApplicationService.BeginInvoke(() =>
-			{
-				SelectedCamera.Disconnect();
-				SelectedCamera.StopAll();
-			});
-		}
-
-		bool CanDisconnect()
-		{
-			return ((SelectedCamera != null) && (SelectedCamera.Status != DeviceStatuses.Disconnected));
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -69,26 +35,10 @@ namespace VideoModule.ViewModels
 				var cameraViewModel = new CameraViewModel(camera);
 				Cameras.Add(cameraViewModel);
 			}
-			AllCameras = new List<CameraViewModel>();
-			foreach (var camera in Cameras)
-			{
-				AllCameras.Add(camera);
-				AllCameras.AddRange(camera.Children);
-			}
-
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
-		ObservableCollection<CameraViewModel> _cameras;
-		public ObservableCollection<CameraViewModel> Cameras
-		{
-			get { return _cameras; }
-			set
-			{
-				_cameras = value;
-				OnPropertyChanged(() => Cameras);
-			}
-		}
+		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
 
 		CameraViewModel _selectedCamera;
 		public CameraViewModel SelectedCamera
@@ -112,9 +62,7 @@ namespace VideoModule.ViewModels
 		public void Select(Guid cameraUID)
 		{
 			if (cameraUID != Guid.Empty)
-				SelectedCamera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+				SelectedCamera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
 		}
-
-		public List<CameraViewModel> AllCameras;
 	}
 }

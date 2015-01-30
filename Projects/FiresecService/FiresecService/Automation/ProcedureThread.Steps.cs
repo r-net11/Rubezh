@@ -499,7 +499,7 @@ namespace FiresecService
 			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
-			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == itemUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
@@ -634,9 +634,9 @@ namespace FiresecService
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
 				//var beforeUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
-				var eventUID = new Guid();
+				var eventUID = Guid.NewGuid();
 				SetValue(cameraArguments.EventUIDArgument, eventUID);
-				var afterUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
+				var afterUid = GetValue<String>(cameraArguments.EventUIDArgument);
 
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
@@ -649,7 +649,7 @@ namespace FiresecService
 					}
 				}
 			}
-			else
+			if (cameraArguments.CameraCommandType == CameraCommandType.StopRecord)
 			{
 				var eventUID = GetValue<Guid>(cameraArguments.EventUIDArgument);
 				RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);

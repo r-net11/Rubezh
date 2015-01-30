@@ -23,7 +23,7 @@ namespace VideoModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.Add(() => FiresecManager.SystemConfiguration.AllCameras);
+			Cache.Add(() => FiresecManager.SystemConfiguration.Cameras);
 			Cache.BuildAll();
 			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Subscribe(OnShowCameraOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);

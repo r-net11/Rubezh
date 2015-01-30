@@ -116,7 +116,7 @@ namespace FiresecClient
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
-				SystemConfiguration.AllCameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
+				SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 
 				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
@@ -170,7 +170,7 @@ namespace FiresecClient
 				}
 
 				var cameraMap = new Dictionary<Guid, Camera>();
-				foreach (var camera in SystemConfiguration.AllCameras)
+				foreach (var camera in SystemConfiguration.Cameras)
 				{
 					if (!cameraMap.ContainsKey(camera.UID))
 						cameraMap.Add(camera.UID, camera);

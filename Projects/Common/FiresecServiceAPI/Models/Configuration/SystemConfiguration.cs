@@ -48,24 +48,7 @@ namespace FiresecAPI.Models
 
 		public override bool ValidateVersion()
 		{
-			var result = true;
-			return result;
-		}
-
-		[XmlIgnore]
-		public List<Camera> AllCameras
-		{
-			get
-			{
-				var AllCameras = new List<Camera>();
-				foreach (var camera in Cameras)
-				{
-					AllCameras.Add(camera);
-					if (camera.CameraType == CameraType.Dvr)
-						AllCameras.AddRange(camera.Children);
-				}
-				return AllCameras;
-			}
+			return true;
 		}
 	}
 }
