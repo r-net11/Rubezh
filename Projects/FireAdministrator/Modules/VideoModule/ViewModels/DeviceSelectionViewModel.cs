@@ -60,6 +60,9 @@ namespace VideoModule.ViewModels
 						camera.RviDeviceUID = device.Device.Guid;
 						camera.RviChannelNo = device.Channel.Number;
 						camera.RviRTSP = stream.Rtsp;
+						camera.CountPresets = device.Channel.CountPresets;
+						camera.CountTemplateBypass = device.Channel.CountTemplateBypass;
+						camera.CountTemplatesAutoscan = device.Channel.CountTemplatesAutoscan;
 					}
 
 					if (!cameras.Contains(camera))
