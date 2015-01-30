@@ -289,7 +289,7 @@ namespace FiresecAPI
 		OperationResult ExportOrganisation(ExportFilter filter);
 
 		[OperationContract]
-		OperationResult ImportOrganisation(string fileName);
+		OperationResult ImportOrganisation(ImportFilter filter);
 
 		[OperationContract]
 		OperationResult ExportJournal(JournalExportFilter filter);

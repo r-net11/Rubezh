@@ -1279,11 +1279,11 @@ namespace FiresecService.Service
 				return databaseService.OrganisationTranslator.Synchroniser.Export(filter);
 			}
 		}
-		public OperationResult ImportOrganisation(string fileName)
+		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.Synchroniser.Import(fileName);
+				return databaseService.OrganisationTranslator.Synchroniser.Import(filter);
 			}
 		}
 

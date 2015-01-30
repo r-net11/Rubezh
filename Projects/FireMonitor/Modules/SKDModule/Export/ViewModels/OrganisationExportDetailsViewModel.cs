@@ -11,10 +11,6 @@ namespace SKDModule.ViewModels
 			OrganisationUID = filter.OrganisationUID;
 			OrganisationName = filter.OrganisationName;
 			IsWithDeleted = filter.IsWithDeleted;
-			IsWithDepartments = filter.IsWithDepartments;
-			IsWithEmployees = filter.IsWithEmployees;
-			IsWithGuests = filter.IsWithGuests;
-			IsWithPositions = filter.IsWithPositions;
 			Path = filter.Path;
 		}
 
@@ -95,10 +91,6 @@ namespace SKDModule.ViewModels
 				{
 					OrganisationUID = OrganisationUID,
 					IsWithDeleted = IsWithDeleted,
-					IsWithDepartments = IsWithDepartments,
-					IsWithEmployees = IsWithEmployees,
-					IsWithGuests = IsWithGuests,
-					IsWithPositions = IsWithPositions,
 					OrganisationName = OrganisationName,
 					Path = Path
 				};

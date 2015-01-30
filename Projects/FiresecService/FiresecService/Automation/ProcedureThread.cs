@@ -335,6 +335,18 @@ namespace FiresecService
 				case ProcedureStepType.ExportJournal:
 					ExportJournal(procedureStep);
 					break;
+
+				case ProcedureStepType.ExportOrganisation:
+					ExportOrganisation(procedureStep);
+					break;
+
+				case ProcedureStepType.ImportOrganisation:
+					ImportOrganisation(procedureStep);
+					break;
+
+				case ProcedureStepType.ExportConfiguration:
+					ExportConfiguration(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

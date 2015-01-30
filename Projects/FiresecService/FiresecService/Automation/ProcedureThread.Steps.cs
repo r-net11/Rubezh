@@ -948,6 +948,51 @@ namespace FiresecService
 				});
 		}
 
+		void ExportOrganisation(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ExportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var organisationUID = GetValue<Guid>(arguments.Organisation);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportOrganisation(
+				new ExportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					OrganisationUID = organisationUID,
+					Path = path
+				});
+		}
+
+		void ExportConfiguration(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ExportConfigurationArguments;
+			var isExportDevices = GetValue<bool>(arguments.IsExportDevices);
+			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
+			var isExportZones = GetValue<bool>(arguments.IsExportZones);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportConfiguration(
+				new ConfigurationExportFilter
+				{
+					IsExportDevices = isExportDevices,
+					IsExportDoors = isExportDoors,
+					IsExportZones = isExportZones,
+					Path = path
+				});
+		}
+
+		void ImportOrganisation(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ImportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+				new ImportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					Path = path
+				});
+		}
+
 		void SetValue(Argument argument, object propertyValue)
 		{
 			var variable = AllVariables.FirstOrDefault(x => x.Uid == argument.VariableUid);

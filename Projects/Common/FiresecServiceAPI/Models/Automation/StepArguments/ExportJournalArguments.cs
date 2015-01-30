@@ -29,4 +29,64 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public Argument PathArgument { get; set; }
 	}
+
+	[DataContract]
+	public class ExportOrganisationArguments
+	{
+		public ExportOrganisationArguments()
+		{
+			Organisation = new Argument();
+			IsWithDeleted = new Argument();
+			PathArgument = new Argument();
+		}
+
+		[DataMember]
+		public Argument Organisation { get; set; }
+
+		[DataMember]
+		public Argument IsWithDeleted { get; set; }
+
+		[DataMember]
+		public Argument PathArgument { get; set; }
+	}
+
+	[DataContract]
+	public class ExportConfigurationArguments
+	{
+		public ExportConfigurationArguments()
+		{
+			IsExportDevices = new Argument();
+			IsExportDoors = new Argument();
+			IsExportZones = new Argument();
+			PathArgument = new Argument();
+		}
+
+		[DataMember]
+		public Argument IsExportDevices { get; set; }
+
+		[DataMember]
+		public Argument IsExportDoors { get; set; }
+
+		[DataMember]
+		public Argument IsExportZones { get; set; }
+
+		[DataMember]
+		public Argument PathArgument { get; set; }
+	}
+
+	[DataContract]
+	public class ImportOrganisationArguments
+	{
+		public ImportOrganisationArguments()
+		{
+			IsWithDeleted = new Argument();
+			PathArgument = new Argument();
+		}
+
+		[DataMember]
+		public Argument IsWithDeleted { get; set; }
+
+		[DataMember]
+		public Argument PathArgument { get; set; }
+	}
 }

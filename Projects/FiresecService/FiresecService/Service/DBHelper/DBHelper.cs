@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using SKDDriver;
 
 namespace FiresecService
 {
@@ -358,6 +355,9 @@ namespace FiresecService
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
 				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("VideoUID")))
+				journalItem.VideoUID = reader.GetGuid(reader.GetOrdinal("VideoUID"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
 			{
