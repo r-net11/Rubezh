@@ -111,10 +111,6 @@ namespace FiresecAPI.SKD
 		public Guid OrganisationUID { get; set; }
 		public string OrganisationName { get; set; }
 		public bool IsWithDeleted { get; set; }
-		public bool IsWithDepartments { get; set; }
-		public bool IsWithPositions { get; set; }
-		public bool IsWithEmployees { get; set; }
-		public bool IsWithGuests { get; set; }
 		public string Path { get; set; }
 	}
 
@@ -133,6 +129,12 @@ namespace FiresecAPI.SKD
 		public bool IsExportDevices { get; set; }
 		public bool IsExportZones { get; set; }
 		public bool IsExportDoors { get; set; }
+	}
+
+	public class ImportFilter
+	{
+		public bool IsWithDeleted { get; set; }
+		public string Path { get; set; }
 	}
 
 	public interface IExportItem

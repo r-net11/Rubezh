@@ -48,6 +48,9 @@ namespace FiresecAPI.Automation
 			ControlDelayArguments = new ControlDelayArguments();
 			ShowPropertyArguments = new ShowPropertyArguments();
 			ExportJournalArguments = new ExportJournalArguments();
+			ExportOrganisationArguments = new ExportOrganisationArguments();
+			ExportConfigurationArguments = new ExportConfigurationArguments();
+			ImportOrganisationArguments = new ImportOrganisationArguments();
 		}
 
 		[XmlIgnore]
@@ -175,5 +178,14 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExportJournalArguments ExportJournalArguments { get; set; } 
+
+		[DataMember]
+		public ExportOrganisationArguments ExportOrganisationArguments { get; set; }
+
+		[DataMember]
+		public ExportConfigurationArguments ExportConfigurationArguments { get; set; }
+
+		[DataMember]
+		public ImportOrganisationArguments ImportOrganisationArguments { get; set; } 
 	}
 }

@@ -60,14 +60,14 @@ namespace SKDDriver
 
 		}
 
-		public override OperationResult Import(string path)
+		public override OperationResult Import(ImportFilter filter)
 		{
 			try
 			{
-				base.Import(path);
-				PositionSynchroniser.Import(path);
-				DepartmentSynchroniser.Import(path);
-				EmployeeSynchroniser.Import(path);
+				base.Import(filter);
+				PositionSynchroniser.Import(filter);
+				DepartmentSynchroniser.Import(filter);
+				EmployeeSynchroniser.Import(filter);
 				ImportForignKeys();
 				DepartmentSynchroniser.ImportForignKeys();
 				EmployeeSynchroniser.ImportForignKeys();

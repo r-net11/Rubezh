@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.GK;
-using FiresecClient;
 using FiresecAPI.Journal;
+using FiresecClient;
 using SKDDriver;
 
 namespace GKProcessor
@@ -30,7 +30,7 @@ namespace GKProcessor
 		{
 			JournalItem = new JournalItem();
 			JournalItem.JournalObjectType = JournalObjectType.GKDevice;
-
+			
 			var gkIpAddress = GKManager.GetIpAddress(gkControllerDevice);
 			if (!string.IsNullOrEmpty(gkIpAddress))
 				JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));

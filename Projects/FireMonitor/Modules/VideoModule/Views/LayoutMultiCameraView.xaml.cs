@@ -79,7 +79,7 @@ namespace VideoModule.Views
 			foreach (var vlcControlView in VlcControlViews)
 			{
 				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == vlcControlView.Name).Value;
-				var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
+				var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 				if (camera != null)
 				{
 					var vlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == camera.RviRTSP);

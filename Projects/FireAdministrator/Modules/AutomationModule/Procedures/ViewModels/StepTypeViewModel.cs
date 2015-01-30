@@ -21,7 +21,9 @@ namespace AutomationModule.ViewModels
 				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.ExportJournal))
+				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.ExportJournal) 
+				|| (procedureStepType == ProcedureStepType.ExportOrganisation) || (procedureStepType == ProcedureStepType.ExportConfiguration) 
+				|| (procedureStepType == ProcedureStepType.ImportOrganisation))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + procedureStepType + ".png";

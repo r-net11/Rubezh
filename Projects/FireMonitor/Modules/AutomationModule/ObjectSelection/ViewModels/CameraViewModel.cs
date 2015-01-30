@@ -1,10 +1,9 @@
-﻿using FiresecAPI;
-using FiresecAPI.Models;
-using Infrastructure.Common.TreeList;
+﻿using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
+	public class CameraViewModel : BaseViewModel
 	{
 		public Camera Camera { get; set; }
 
@@ -17,9 +16,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (Camera.CameraType != CameraType.Channel)
-					return Camera.Ip;
-				return (Camera.ChannelNumber + 1).ToString();
+				return Camera.Ip;
 			}
 		}
 
@@ -27,17 +24,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (Camera.CameraType == CameraType.Channel)
-					return Camera.Name + " " + (Camera.ChannelNumber + 1) + " (" + Camera.Ip + ")";
 				return Camera.PresentationName;
-			}
-		}
-
-		public bool IsDvr
-		{
-			get
-			{
-				return Camera.CameraType == CameraType.Dvr;
 			}
 		}
 	}

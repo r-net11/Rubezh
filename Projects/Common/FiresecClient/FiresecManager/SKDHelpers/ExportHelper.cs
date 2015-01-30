@@ -10,9 +10,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool ImportOrganisation(string fileName)
+		public static bool ImportOrganisation(ImportFilter filter)
 		{
-			var operationResult = FiresecManager.FiresecService.ImportOrganisation(fileName);
+			var operationResult = FiresecManager.FiresecService.ImportOrganisation(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

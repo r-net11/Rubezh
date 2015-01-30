@@ -31,7 +31,7 @@ namespace VideoModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_camerasViewModel = camerasViewModel;
-			Cache.Add<Camera>(() => FiresecManager.SystemConfiguration.AllCameras);
+			Cache.Add<Camera>(() => FiresecManager.SystemConfiguration.Cameras);
 		}
 
 		#region IPlanExtension Members

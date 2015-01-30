@@ -538,7 +538,6 @@
     <Compile Include="GKModels\GKBase.cs" />
     <Compile Include="GKModels\States\GKStatesHelper.cs" />
     <Compile Include="GKModels\GKBaseObjectType.cs" />
-    <Compile Include="GKModels\CameraType.cs" />
     <Compile Include="GKModels\GKDeviceMeasureParameters.cs" />
     <Compile Include="GKModels\GKMeasureParameterValue.cs" />
     <Compile Include="GKModels\GKState.cs" />

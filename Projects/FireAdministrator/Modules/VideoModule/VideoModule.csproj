@@ -85,10 +85,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="ByteArrayUtils.cs" />
-    <Compile Include="Converters\CameraTypeToStringConverter.cs" />
-    <Compile Include="Converters\CameraTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\ChannelToStringConverter.cs" />
-    <Compile Include="Converters\InversedCameraTypeToVisibilityConverter.cs.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Plans\ViewModels\CameraPropertiesViewModel.cs" />

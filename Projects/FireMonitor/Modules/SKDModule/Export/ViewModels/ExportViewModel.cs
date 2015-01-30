@@ -70,7 +70,7 @@ namespace SKDModule.ViewModels
 			{
 				var folderBrowserDialog = new FolderBrowserDialog();
 				folderBrowserDialog.ShowDialog();
-				ExportHelper.ImportOrganisation(folderBrowserDialog.SelectedPath);
+				ExportHelper.ImportOrganisation(new ImportFilter { Path = folderBrowserDialog.SelectedPath });
 			}
 			catch (Exception e)
 			{

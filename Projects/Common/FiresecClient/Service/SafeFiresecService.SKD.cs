@@ -442,9 +442,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.ExportOrganisation(filter));
 		}
-		public OperationResult ImportOrganisation(string fileName)
+		public OperationResult ImportOrganisation(ImportFilter filter)
 		{
-			return SafeContext.Execute(() => FiresecService.ImportOrganisation(fileName));
+			return SafeContext.Execute(() => FiresecService.ImportOrganisation(filter));
 		}
 		public OperationResult ExportJournal(JournalExportFilter filter)
 		{

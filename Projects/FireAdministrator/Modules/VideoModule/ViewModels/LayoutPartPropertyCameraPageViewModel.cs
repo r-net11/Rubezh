@@ -62,7 +62,7 @@ namespace VideoModule.ViewModels
 		}
 		public override bool CanSave()
 		{
-			return ((SelectedCamera.Camera != null) && (!SelectedCamera.IsDvr));
+			return (SelectedCamera.Camera != null);
 		}
 		public override bool Save()
 		{

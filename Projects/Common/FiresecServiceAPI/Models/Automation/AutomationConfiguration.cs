@@ -277,6 +277,8 @@ namespace FiresecAPI.Automation
 					{
 						var controlCameraArguments = step.ControlCameraArguments;
 						InvalidateArgument(procedure, controlCameraArguments.CameraArgument);
+						InvalidateArgument(procedure, controlCameraArguments.EventUIDArgument);
+						InvalidateArgument(procedure, controlCameraArguments.TimeoutArgument);
 					}
 					break;
 

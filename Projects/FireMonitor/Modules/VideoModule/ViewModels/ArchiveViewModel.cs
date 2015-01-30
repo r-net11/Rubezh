@@ -266,11 +266,6 @@ namespace VideoModule.ViewModels
 
 		bool CanSearch()
 		{
-			if (SelectedCamera == null)
-				return false;
-			if (SelectedCamera.IsDvr)
-				if (SelectedChannel == null)
-					return false;
 			return true;
 		}
 	}

@@ -87,18 +87,8 @@ namespace VideoModule.ViewModels
 		void OnDelete()
 		{
 			var camera = SelectedCamera.Camera;
-			if (SelectedCamera.IsChannel)
-			{
-				var parent = SelectedCamera.Parent;
-				parent.RemoveChild(SelectedCamera);
-				parent.Camera.Children.Remove(camera);
-			}
-			else
-			{
-				Cameras.Remove(SelectedCamera);
-				FiresecManager.SystemConfiguration.Cameras.Remove(camera);
-				camera.Children.ForEach(item => item.OnChanged());
-			}
+			Cameras.Remove(SelectedCamera);
+			FiresecManager.SystemConfiguration.Cameras.Remove(camera);
 			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -148,27 +138,13 @@ namespace VideoModule.ViewModels
 
 		private void OnCameraChanged(Guid cameraUID)
 		{
-			var camera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+			var camera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
 			if (camera != null)
 			{
 				camera.Update();
 				// TODO: FIX IT
 				if (!_lockSelection)
 					SelectedCamera = camera;
-			}
-		}
-
-		public List<CameraViewModel> AllCameras
-		{
-			get
-			{
-				var cameras = new List<CameraViewModel>();
-				foreach (var camera in Cameras)
-				{
-					cameras.Add(camera);
-					cameras.AddRange(camera.Children);
-				}
-				return cameras;
 			}
 		}
 
@@ -198,9 +174,7 @@ namespace VideoModule.ViewModels
 		{
 			if (cameraUID != Guid.Empty)
 			{
-				SelectedCamera = AllCameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
-				if (SelectedCamera != null)
-					SelectedCamera.ExpandToThis();
+				SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
 			}
 		}
 

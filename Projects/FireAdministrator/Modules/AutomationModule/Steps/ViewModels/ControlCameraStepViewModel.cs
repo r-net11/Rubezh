@@ -8,15 +8,15 @@ namespace AutomationModule.ViewModels
 	{
 		ControlCameraArguments ControlCameraArguments { get; set; }
 		public ArgumentViewModel CameraArgument { get; private set; }
-		public ArgumentViewModel UIDArgument { get; set; }
-		public ArgumentViewModel DurationArgument { get; set; }
+		public ArgumentViewModel EventUIDArgument { get; set; }
+		public ArgumentViewModel TimeoutArgument { get; set; }
 
 		public ControlCameraStepViewModel(StepViewModel stepViewModel)
 			: base(stepViewModel)
 		{
 			ControlCameraArguments = stepViewModel.Step.ControlCameraArguments;
-			UIDArgument = new ArgumentViewModel(ControlCameraArguments.UIDArgument, stepViewModel.Update, UpdateContent);
-			DurationArgument = new ArgumentViewModel(ControlCameraArguments.DurationArgument, stepViewModel.Update, UpdateContent);
+			EventUIDArgument = new ArgumentViewModel(ControlCameraArguments.EventUIDArgument, stepViewModel.Update, UpdateContent);
+			TimeoutArgument = new ArgumentViewModel(ControlCameraArguments.TimeoutArgument, stepViewModel.Update, UpdateContent);
 			Commands = ProcedureHelper.GetEnumObs<CameraCommandType>();
 			CameraArgument = new ArgumentViewModel(ControlCameraArguments.CameraArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlCameraArguments.CameraCommandType;
@@ -36,8 +36,8 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			CameraArgument.Update(Procedure, ExplicitType.Object, objectType: ObjectType.VideoDevice, isList: false);
-			UIDArgument.Update(Procedure, ExplicitType.Guid);
-			DurationArgument.Update(Procedure, ExplicitType.Integer);
+			EventUIDArgument.Update(Procedure, ExplicitType.String);
+			TimeoutArgument.Update(Procedure, ExplicitType.Integer);
 		}
 
 		public override string Description

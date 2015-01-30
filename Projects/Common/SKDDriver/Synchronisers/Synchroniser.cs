@@ -116,16 +116,18 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult Import(string path)
+		public virtual OperationResult Import(ImportFilter filter)
 		{
 			try
 			{
-				var fileName = Path.Combine(path, NameXml);
+				var fileName = Path.Combine(filter.Path, NameXml);
 				File.Move(fileName, NameXml);
 				using (var stream = new FileStream(NameXml, FileMode.Open))
 				{
 					var serializer = new XmlSerializer(typeof(List<TExportItem>));
 					var importItems = (List<TExportItem>)serializer.Deserialize(stream);
+					if (!filter.IsWithDeleted)
+						importItems = importItems.Where(x => !x.IsDeleted).ToList();
 					if (importItems != null)
 					{
 						BeforeSave(importItems);

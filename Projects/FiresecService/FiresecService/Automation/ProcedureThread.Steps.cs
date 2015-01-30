@@ -16,6 +16,7 @@ using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
 using Property = FiresecAPI.Automation.Property;
+using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -498,7 +499,7 @@ namespace FiresecService
 			var guardZone = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == itemUid);
 			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == itemUid);
-			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == itemUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == itemUid);
 			var sKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == itemUid);
 			var direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == itemUid);
 			var delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == itemUid);
@@ -632,13 +633,26 @@ namespace FiresecService
 
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
-				var beforeUid = GetValue<Guid>(cameraArguments.UIDArgument);
-				SetValue(cameraArguments.UIDArgument, Guid.NewGuid());
-				var afterUid = GetValue<Guid>(cameraArguments.UIDArgument);
-			}
-			else
-			{
+				//var beforeUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
+				var eventUID = Guid.NewGuid();
+				SetValue(cameraArguments.EventUIDArgument, eventUID);
+				var afterUid = GetValue<String>(cameraArguments.EventUIDArgument);
 
+				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
+				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
+
+				if (JournalItem != null)
+				{
+					using (var journalTranslator = new JounalTranslator())
+					{
+						journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
+					}
+				}
+			}
+			if (cameraArguments.CameraCommandType == CameraCommandType.StopRecord)
+			{
+				var eventUID = GetValue<Guid>(cameraArguments.EventUIDArgument);
+				RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);
 			}
 		}
 
@@ -945,6 +959,51 @@ namespace FiresecService
 					MaxDate = maxDate, 
 					MinDate = minDate, 
 					Path = path 
+				});
+		}
+
+		void ExportOrganisation(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ExportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var organisationUID = GetValue<Guid>(arguments.Organisation);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportOrganisation(
+				new ExportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					OrganisationUID = organisationUID,
+					Path = path
+				});
+		}
+
+		void ExportConfiguration(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ExportConfigurationArguments;
+			var isExportDevices = GetValue<bool>(arguments.IsExportDevices);
+			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
+			var isExportZones = GetValue<bool>(arguments.IsExportZones);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportConfiguration(
+				new ConfigurationExportFilter
+				{
+					IsExportDevices = isExportDevices,
+					IsExportDoors = isExportDoors,
+					IsExportZones = isExportZones,
+					Path = path
+				});
+		}
+
+		void ImportOrganisation(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ImportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+				new ImportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					Path = path
 				});
 		}
 
