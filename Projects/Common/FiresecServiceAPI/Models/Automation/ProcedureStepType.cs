@@ -139,8 +139,8 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Экспорт организации")]
 		ExportOrganisation,
 
-		//[DescriptionAttribute("Экспорт списка организаций")]
-		//ExportOrganisationList,
+		[DescriptionAttribute("Экспорт списка организаций")]
+		ExportOrganisationList,
 
 		[DescriptionAttribute("Экспорт конфигурации")]
 		ExportConfiguration,
@@ -151,7 +151,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Импорт организации")]
 		ImportOrganisation,
 
-		//[DescriptionAttribute("Импорт списка организаций")]
-		//ImportOrganisationList,
+		[DescriptionAttribute("Импорт списка организаций")]
+		ImportOrganisationList,
 	}
 }

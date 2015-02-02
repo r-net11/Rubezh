@@ -9,7 +9,12 @@ namespace SKDDriver
 {
 	public class OrganisationSynchroniser : Synchroniser<ExportOrganisation, DataAccess.Organisation>
 	{
-		public OrganisationSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+		public OrganisationSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) {}
+		
+		public void Initialize()
+		{
+			ListSynchroniser = new OrgansiationListSynchroniser(_Table, _DatabaseService);
+		}
 
 		public override ExportOrganisation Translate(DataAccess.Organisation item)
 		{
@@ -34,6 +39,7 @@ namespace SKDDriver
 		EmployeeSynchroniser EmployeeSynchroniser { get { return _DatabaseService.EmployeeTranslator.Synchroniser; } }
 		PositionSynchroniser PositionSynchroniser { get { return _DatabaseService.PositionTranslator.Synchroniser; } }
 		DepartmentSynchroniser DepartmentSynchroniser { get { return _DatabaseService.DepartmentTranslator.Synchroniser; } }
+		public OrgansiationListSynchroniser ListSynchroniser;
 
 		public override OperationResult Export(ExportFilter filter)
 		{
@@ -57,7 +63,6 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
-
 		}
 
 		public override OperationResult Import(ImportFilter filter)
@@ -100,6 +105,49 @@ namespace SKDDriver
 		protected override string Name
 		{
 			get { return "Organisations"; }
+		}
+
+		#region ExportList
+
+		protected virtual Expression<Func<DataAccess.Organisation, bool>> IsInFilterList(ExportFilter filter)
+		{
+			return base.IsInFilter(filter);
+		}
+
+		protected virtual OperationResult ExportList(ExportFilter filter)
+		{
+			return base.Export(filter);
+		}
+
+		protected virtual OperationResult ImportList(ImportFilter filter)
+		{
+			return base.Import(filter);
+		}
+		#endregion
+	}
+
+	public class OrgansiationListSynchroniser : OrganisationSynchroniser
+	{
+		public OrgansiationListSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) {}
+		
+		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(ExportFilter filter)
+		{
+			return base.IsInFilterList(filter);
+		}
+
+		public override OperationResult Export(ExportFilter filter)
+		{
+			return base.ExportList(filter);
+		}
+
+		public override OperationResult Import(ImportFilter filter)
+		{
+			return base.ImportList(filter);
+		}
+
+		protected override string Name
+		{
+			get { return "OrgansiationList"; }
 		}
 	}
 }

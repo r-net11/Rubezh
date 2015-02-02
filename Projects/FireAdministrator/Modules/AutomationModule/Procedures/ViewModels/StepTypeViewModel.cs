@@ -23,7 +23,8 @@ namespace AutomationModule.ViewModels
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.ExportJournal) 
 				|| (procedureStepType == ProcedureStepType.ExportOrganisation) || (procedureStepType == ProcedureStepType.ExportConfiguration) 
-				|| (procedureStepType == ProcedureStepType.ImportOrganisation))
+				|| (procedureStepType == ProcedureStepType.ImportOrganisation)
+				|| (procedureStepType == ProcedureStepType.ExportOrganisationList) || (procedureStepType == ProcedureStepType.ImportOrganisationList))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + procedureStepType + ".png";

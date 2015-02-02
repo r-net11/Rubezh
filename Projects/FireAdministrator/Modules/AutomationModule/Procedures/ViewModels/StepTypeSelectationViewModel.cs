@@ -141,6 +141,8 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 									new StepTypeViewModel(ProcedureStepType.ExportOrganisation),
 									new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
+									new StepTypeViewModel(ProcedureStepType.ExportOrganisationList),
+									new StepTypeViewModel(ProcedureStepType.ImportOrganisationList),
 								}),
 							new StepTypeViewModel("Управление Видео",
 								new List<StepTypeViewModel>

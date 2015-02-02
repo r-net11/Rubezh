@@ -15,8 +15,8 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
-using Property = FiresecAPI.Automation.Property;
 using SKDDriver.Translators;
+using Property = FiresecAPI.Automation.Property;
 
 namespace FiresecService
 {
@@ -977,6 +977,19 @@ namespace FiresecService
 				});
 		}
 
+		void ExportOrganisationList(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ImportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
+				new ExportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					Path = path
+				});
+		}
+
 		void ExportConfiguration(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportConfigurationArguments;
@@ -1000,6 +1013,19 @@ namespace FiresecService
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
 			FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+				new ImportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					Path = path
+				});
+		}
+
+		void ImportOrganisationList(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ImportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,

@@ -344,6 +344,14 @@ namespace FiresecService
 					ImportOrganisation(procedureStep);
 					break;
 
+				case ProcedureStepType.ExportOrganisationList:
+					ExportOrganisationList(procedureStep);
+					break;
+
+				case ProcedureStepType.ImportOrganisationList:
+					ImportOrganisationList(procedureStep);
+					break;
+
 				case ProcedureStepType.ExportConfiguration:
 					ExportConfiguration(procedureStep);
 					break;

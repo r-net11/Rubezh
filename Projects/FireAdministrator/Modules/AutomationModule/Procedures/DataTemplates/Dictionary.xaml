@@ -192,6 +192,14 @@
         <Views:ImportOrganisationStepView />
     </DataTemplate>
 
+    <DataTemplate x:Key="exportOrganisationListTemplate">
+        <Views:ExportOrganisationListStepView />
+    </DataTemplate>
+
+    <DataTemplate x:Key="importOrganisationListTemplate">
+        <Views:ImportOrganisationListStepView />
+    </DataTemplate>
+
     <DataTemplate x:Key="RunProgramTemplate">
 		<Views:RunProgramStepView />
 	</DataTemplate>
@@ -275,6 +283,8 @@
                                          ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
                                          ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
                                          ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
-                                         ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" />
+                                         ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
+                                         ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
+                                         ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}" />
 
 </ResourceDictionary>

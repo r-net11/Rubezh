@@ -1287,6 +1287,21 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult ExportOrganisationList(ExportFilter filter)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Export(filter);
+			}
+		}
+		public OperationResult ImportOrganisationList(ImportFilter filter)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Synchroniser.ListSynchroniser.Import(filter);
+			}
+		}
+
 		public OperationResult ExportJournal(JournalExportFilter filter)
 		{
 			var journalResult = new OperationResult();

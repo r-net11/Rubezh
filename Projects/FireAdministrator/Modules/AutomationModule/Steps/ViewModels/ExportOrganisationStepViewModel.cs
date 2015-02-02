@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 		public override void UpdateContent()
 		{
 			IsWithDeleted.Update(Procedure, ExplicitType.Boolean, isList: false);
-			Organisation.Update(Procedure, ExplicitType.Object, isList: false);
+			Organisation.Update(Procedure, ExplicitType.Object, objectType: ObjectType.Organisation, isList: false);
 			PathArgument.Update(Procedure, ExplicitType.String, isList: false);
 		}
 
@@ -38,4 +38,5 @@ namespace AutomationModule.ViewModels
 			}
 		}
 	}
+
 }

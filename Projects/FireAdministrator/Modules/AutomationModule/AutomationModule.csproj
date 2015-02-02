@@ -280,8 +280,14 @@
     <Compile Include="Steps\Views\ExportJournalStepView.xaml.cs">
       <DependentUpon>ExportJournalStepView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\Views\ExportOrganisationListStepView.xaml.cs">
+      <DependentUpon>ExportOrganisationListStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\Views\ExportOrganisationStepView.xaml.cs">
       <DependentUpon>ExportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\ImportOrganisationListStepView.xaml.cs">
+      <DependentUpon>ImportOrganisationListStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationStepView.xaml.cs">
       <DependentUpon>ImportOrganisationStepView.xaml</DependentUpon>
@@ -555,7 +561,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Steps\Views\ExportOrganisationListStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Steps\Views\ExportOrganisationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\ImportOrganisationListStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

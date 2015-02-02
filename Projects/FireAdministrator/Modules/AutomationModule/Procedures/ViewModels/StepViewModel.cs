@@ -194,6 +194,14 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ImportOrganisation:
 					Content = new ImportOrganisationStepViewModel(this);
 					break;
+
+				case ProcedureStepType.ExportOrganisationList:
+					Content = new ExportOrganisationListStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ImportOrganisationList:
+					Content = new ImportOrganisationListStepViewModel(this);
+					break;
 			}
 			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
