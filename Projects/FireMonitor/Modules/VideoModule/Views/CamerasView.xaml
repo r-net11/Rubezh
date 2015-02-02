@@ -15,7 +15,6 @@
 					<GridViewColumn Width="250" Header="Камера">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-                                <StackPanel Orientation="Horizontal">
 								<StackPanel Orientation="Horizontal">
 									<dragDrop:DragDropDecorator DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
 										<Image Margin="2,0,0,0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
