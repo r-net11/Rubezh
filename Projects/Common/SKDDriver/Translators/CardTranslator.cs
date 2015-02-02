@@ -133,7 +133,7 @@ namespace SKDDriver
 
 			if (filter.IsWithEndDate)
 			{
-				result = result.And(e => e.EndDate >= filter.EndDate);
+				result = result.And(e => e.EndDate <= filter.EndDate);
 			}
 
 			if (filter.CardTypes.IsNotNullOrEmpty())

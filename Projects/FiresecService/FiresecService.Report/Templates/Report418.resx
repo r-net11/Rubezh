@@ -126,6 +126,7 @@
         &lt;xs:element name="Data"&gt;
           &lt;xs:complexType&gt;
             &lt;xs:sequence&gt;
+              &lt;xs:element name="LastName" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="FirstName" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="SecondName" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="Organisation" type="xs:string" minOccurs="0" /&gt;
@@ -133,14 +134,48 @@
               &lt;xs:element name="Position" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="Document" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="DocumentNumber" type="xs:string" minOccurs="0" /&gt;
-              &lt;xs:element name="Sex" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="Photo" type="xs:base64Binary" minOccurs="0" /&gt;
+              &lt;xs:element name="UID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Nationality" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Sex" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="BirthDay" type="xs:dateTime" minOccurs="0" /&gt;
+              &lt;xs:element name="BirthPlace" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="DocumentIssuer" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="DocumentValidFrom" type="xs:dateTime" minOccurs="0" /&gt;
+              &lt;xs:element name="DocumentValidTo" type="xs:dateTime" minOccurs="0" /&gt;
+              &lt;xs:element name="Number" type="xs:int" minOccurs="0" /&gt;
+              &lt;xs:element name="Phone" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Schedule" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="IsEmployee" type="xs:boolean" minOccurs="0" /&gt;
+            &lt;/xs:sequence&gt;
+          &lt;/xs:complexType&gt;
+        &lt;/xs:element&gt;
+        &lt;xs:element name="PassCards"&gt;
+          &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+              &lt;xs:element name="EmployeeUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Number" type="xs:int" minOccurs="0" /&gt;
+            &lt;/xs:sequence&gt;
+          &lt;/xs:complexType&gt;
+        &lt;/xs:element&gt;
+        &lt;xs:element name="AdditionalColumns"&gt;
+          &lt;xs:complexType&gt;
+            &lt;xs:sequence&gt;
+              &lt;xs:element name="EmployeeUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Name" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Value" type="xs:string" minOccurs="0" /&gt;
             &lt;/xs:sequence&gt;
           &lt;/xs:complexType&gt;
         &lt;/xs:element&gt;
       &lt;/xs:choice&gt;
     &lt;/xs:complexType&gt;
   &lt;/xs:element&gt;
+  &lt;xs:annotation&gt;
+    &lt;xs:appinfo&gt;
+      &lt;msdata:Relationship name="Data_PassCards" msdata:parent="Data" msdata:child="PassCards" msdata:parentkey="UID" msdata:childkey="EmployeeUID" /&gt;
+      &lt;msdata:Relationship name="Data_AdditionalColumns" msdata:parent="Data" msdata:child="AdditionalColumns" msdata:parentkey="UID" msdata:childkey="EmployeeUID" /&gt;
+    &lt;/xs:appinfo&gt;
+  &lt;/xs:annotation&gt;
 &lt;/xs:schema&gt;</value>
   </data>
 </root>

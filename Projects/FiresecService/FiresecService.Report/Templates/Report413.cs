@@ -30,13 +30,10 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<ReportFilter413>();
 
-            var useEmployeesFilter = false;
+			var useEmployeesFilter = dataProvider.IsEmployeeFilter(filter);
             var employees = new List<Guid>();
-            if (!filter.Employees.IsEmpty() || !filter.Departments.IsEmpty() || !filter.Positions.IsEmpty() || !filter.Organisations.IsEmpty())
-            {
-                useEmployeesFilter = true;
-                employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
-            }
+			if (useEmployeesFilter)
+				employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
 
 			var cardFilter = new CardFilter();
             var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
@@ -89,7 +86,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Number = card.Number.ToString();
 						if (employeeResult.Result != null)
 						{
-							dataRow.Employee = employeeResult.Result.Name;
+							dataRow.Employee = employeeResult.Result.FIO;
                             var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
 							if (organisationResult.Result != null)
 							{

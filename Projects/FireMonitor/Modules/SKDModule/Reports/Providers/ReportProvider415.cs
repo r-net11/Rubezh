@@ -17,14 +17,7 @@ namespace SKDModule.Reports.Providers
 		{
 			return new FilterModel()
 			{
-				Columns = new Dictionary<string, string> 
-				{ 
-					{ "Department", "Подразделение" },
-					{ "Phone", "Телефон" },
-					{ "Chief", "Руководитель" },
-					{ "ParentDepartment", "Подразделение" },
-					{ "Description", "Примечание" },
-				},
+				Columns = new Dictionary<string, string>(),
 				Pages = new List<FilterContainerViewModel>()
 				{
 					new OrganizationPageViewModel(false),

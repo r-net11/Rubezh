@@ -12,9 +12,10 @@
   <xs:element name="DataSet418" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet418" msprop:Generator_UserDSName="DataSet418">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_RowClassName="DataRow" msprop:Generator_UserTableName="Data" msprop:Generator_RowEvArgName="DataRowChangeEvent">
+        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_UserTableName="Data" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_RowEvArgName="DataRowChangeEvent" msprop:Generator_RowClassName="DataRow">
           <xs:complexType>
             <xs:sequence>
+              <xs:element name="LastName" msprop:Generator_ColumnVarNameInTable="columnLastName" msprop:Generator_ColumnPropNameInRow="LastName" msprop:Generator_ColumnPropNameInTable="LastNameColumn" msprop:Generator_UserColumnName="LastName" type="xs:string" minOccurs="0" />
               <xs:element name="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_UserColumnName="FirstName" type="xs:string" minOccurs="0" />
               <xs:element name="SecondName" msprop:Generator_ColumnVarNameInTable="columnSecondName" msprop:Generator_ColumnPropNameInRow="SecondName" msprop:Generator_ColumnPropNameInTable="SecondNameColumn" msprop:Generator_UserColumnName="SecondName" type="xs:string" minOccurs="0" />
               <xs:element name="Organisation" msprop:Generator_ColumnVarNameInTable="columnOrganisation" msprop:Generator_ColumnPropNameInRow="Organisation" msprop:Generator_ColumnPropNameInTable="OrganisationColumn" msprop:Generator_UserColumnName="Organisation" type="xs:string" minOccurs="0" />
@@ -22,12 +23,46 @@
               <xs:element name="Position" msprop:Generator_ColumnVarNameInTable="columnPosition" msprop:Generator_ColumnPropNameInRow="Position" msprop:Generator_ColumnPropNameInTable="PositionColumn" msprop:Generator_UserColumnName="Position" type="xs:string" minOccurs="0" />
               <xs:element name="Document" msprop:Generator_ColumnVarNameInTable="columnDocument" msprop:Generator_ColumnPropNameInRow="Document" msprop:Generator_ColumnPropNameInTable="DocumentColumn" msprop:Generator_UserColumnName="Document" type="xs:string" minOccurs="0" />
               <xs:element name="DocumentNumber" msprop:Generator_ColumnVarNameInTable="columnDocumentNumber" msprop:Generator_ColumnPropNameInRow="DocumentNumber" msprop:Generator_ColumnPropNameInTable="DocumentNumberColumn" msprop:Generator_UserColumnName="DocumentNumber" type="xs:string" minOccurs="0" />
-              <xs:element name="Sex" msprop:Generator_ColumnVarNameInTable="columnSex" msprop:Generator_ColumnPropNameInRow="Sex" msprop:Generator_ColumnPropNameInTable="SexColumn" msprop:Generator_UserColumnName="Sex" type="xs:string" minOccurs="0" />
               <xs:element name="Photo" msprop:Generator_ColumnVarNameInTable="columnPhoto" msprop:Generator_ColumnPropNameInRow="Photo" msprop:Generator_ColumnPropNameInTable="PhotoColumn" msprop:Generator_UserColumnName="Photo" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="UID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnUID" msprop:Generator_ColumnPropNameInRow="UID" msprop:Generator_ColumnPropNameInTable="UIDColumn" msprop:Generator_UserColumnName="UID" type="xs:string" minOccurs="0" />
+              <xs:element name="Nationality" msprop:Generator_ColumnVarNameInTable="columnNationality" msprop:Generator_ColumnPropNameInRow="Nationality" msprop:Generator_ColumnPropNameInTable="NationalityColumn" msprop:Generator_UserColumnName="Nationality" type="xs:string" minOccurs="0" />
+              <xs:element name="Sex" msprop:Generator_ColumnVarNameInTable="columnSex" msprop:Generator_ColumnPropNameInRow="Sex" msprop:Generator_ColumnPropNameInTable="SexColumn" msprop:Generator_UserColumnName="Sex" type="xs:string" minOccurs="0" />
+              <xs:element name="BirthDay" msprop:Generator_ColumnVarNameInTable="columnBirthDay" msprop:Generator_ColumnPropNameInRow="BirthDay" msprop:Generator_ColumnPropNameInTable="BirthDayColumn" msprop:Generator_UserColumnName="BirthDay" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="BirthPlace" msprop:Generator_ColumnVarNameInTable="columnBirthPlace" msprop:Generator_ColumnPropNameInRow="BirthPlace" msprop:Generator_ColumnPropNameInTable="BirthPlaceColumn" msprop:Generator_UserColumnName="BirthPlace" type="xs:string" minOccurs="0" />
+              <xs:element name="DocumentIssuer" msprop:Generator_ColumnVarNameInTable="columnDocumentIssuer" msprop:Generator_ColumnPropNameInRow="DocumentIssuer" msprop:Generator_ColumnPropNameInTable="DocumentIssuerColumn" msprop:Generator_UserColumnName="DocumentIssuer" type="xs:string" minOccurs="0" />
+              <xs:element name="DocumentValidFrom" msprop:Generator_ColumnVarNameInTable="columnDocumentValidFrom" msprop:Generator_ColumnPropNameInRow="DocumentValidFrom" msprop:Generator_ColumnPropNameInTable="DocumentValidFromColumn" msprop:Generator_UserColumnName="DocumentValidFrom" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="DocumentValidTo" msprop:Generator_ColumnVarNameInTable="columnDocumentValidTo" msprop:Generator_ColumnPropNameInRow="DocumentValidTo" msprop:Generator_ColumnPropNameInTable="DocumentValidToColumn" msprop:Generator_UserColumnName="DocumentValidTo" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Number" msprop:Generator_ColumnVarNameInTable="columnNumber" msprop:Generator_ColumnPropNameInRow="Number" msprop:Generator_ColumnPropNameInTable="NumberColumn" msprop:Generator_UserColumnName="Number" type="xs:int" minOccurs="0" />
+              <xs:element name="Phone" msprop:Generator_ColumnVarNameInTable="columnPhone" msprop:Generator_ColumnPropNameInRow="Phone" msprop:Generator_ColumnPropNameInTable="PhoneColumn" msprop:Generator_UserColumnName="Phone" type="xs:string" minOccurs="0" />
+              <xs:element name="Schedule" msprop:Generator_ColumnVarNameInTable="columnSchedule" msprop:Generator_ColumnPropNameInRow="Schedule" msprop:Generator_ColumnPropNameInTable="ScheduleColumn" msprop:Generator_UserColumnName="Schedule" type="xs:string" minOccurs="0" />
+              <xs:element name="IsEmployee" msprop:Generator_ColumnVarNameInTable="columnIsEmployee" msprop:Generator_ColumnPropNameInRow="IsEmployee" msprop:Generator_ColumnPropNameInTable="IsEmployeeColumn" msprop:Generator_UserColumnName="IsEmployee" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PassCards" msprop:Generator_TableClassName="PassCardsDataTable" msprop:Generator_TableVarName="tablePassCards" msprop:Generator_TablePropName="PassCards" msprop:Generator_RowDeletingName="PassCardsRowDeleting" msprop:Generator_RowChangingName="PassCardsRowChanging" msprop:Generator_RowEvHandlerName="PassCardsRowChangeEventHandler" msprop:Generator_RowDeletedName="PassCardsRowDeleted" msprop:Generator_UserTableName="PassCards" msprop:Generator_RowChangedName="PassCardsRowChanged" msprop:Generator_RowEvArgName="PassCardsRowChangeEvent" msprop:Generator_RowClassName="PassCardsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnEmployeeUID" msprop:Generator_ColumnPropNameInRow="EmployeeUID" msprop:Generator_ColumnPropNameInTable="EmployeeUIDColumn" msprop:Generator_UserColumnName="EmployeeUID" type="xs:string" minOccurs="0" />
+              <xs:element name="Number" msprop:Generator_ColumnVarNameInTable="columnNumber" msprop:Generator_ColumnPropNameInRow="Number" msprop:Generator_ColumnPropNameInTable="NumberColumn" msprop:Generator_UserColumnName="Number" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="AdditionalColumns" msprop:Generator_TableClassName="AdditionalColumnsDataTable" msprop:Generator_TableVarName="tableAdditionalColumns" msprop:Generator_TablePropName="AdditionalColumns" msprop:Generator_RowDeletingName="AdditionalColumnsRowDeleting" msprop:Generator_RowChangingName="AdditionalColumnsRowChanging" msprop:Generator_RowEvHandlerName="AdditionalColumnsRowChangeEventHandler" msprop:Generator_RowDeletedName="AdditionalColumnsRowDeleted" msprop:Generator_UserTableName="AdditionalColumns" msprop:Generator_RowChangedName="AdditionalColumnsRowChanged" msprop:Generator_RowEvArgName="AdditionalColumnsRowChangeEvent" msprop:Generator_RowClassName="AdditionalColumnsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EmployeeUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnEmployeeUID" msprop:Generator_ColumnPropNameInRow="EmployeeUID" msprop:Generator_ColumnPropNameInTable="EmployeeUIDColumn" msprop:Generator_UserColumnName="EmployeeUID" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnPropNameInTable="ValueColumn" msprop:Generator_UserColumnName="Value" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="Data_PassCards" msdata:parent="Data" msdata:child="PassCards" msdata:parentkey="UID" msdata:childkey="EmployeeUID" msprop:Generator_UserChildTable="PassCards" msprop:Generator_ChildPropName="GetPassCardsRows" msprop:Generator_UserRelationName="Data_PassCards" msprop:Generator_ParentPropName="DataRow" msprop:Generator_RelationVarName="relationData_PassCards" msprop:Generator_UserParentTable="Data" />
+      <msdata:Relationship name="Data_AdditionalColumns" msdata:parent="Data" msdata:child="AdditionalColumns" msdata:parentkey="UID" msdata:childkey="EmployeeUID" msprop:Generator_UserChildTable="AdditionalColumns" msprop:Generator_ChildPropName="GetAdditionalColumnsRows" msprop:Generator_UserRelationName="Data_AdditionalColumns" msprop:Generator_ParentPropName="DataRow" msprop:Generator_RelationVarName="relationData_AdditionalColumns" msprop:Generator_UserParentTable="Data" />
+    </xs:appinfo>
+  </xs:annotation>
 </xs:schema>

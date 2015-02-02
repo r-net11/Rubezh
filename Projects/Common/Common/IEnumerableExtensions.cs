@@ -20,5 +20,9 @@ namespace Common
 		{
 			return source == null || source.Count == 0;
 		}
+		public static bool IsEmpty(this string source)
+		{
+			return string.IsNullOrWhiteSpace(source);
+		}
 	}
 }

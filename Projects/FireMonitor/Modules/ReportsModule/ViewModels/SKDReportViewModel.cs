@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.SKDReports;
 using DevExpress.Xpf.Printing;
+using FiresecAPI.SKD.ReportFilters;
 
 namespace ReportsModule.ViewModels
 {
@@ -31,6 +32,17 @@ namespace ReportsModule.ViewModels
 		public override int SortIndex
 		{
 			get { return ReportProvider.Index; }
+		}
+
+		public override void Reset()
+		{
+			base.Reset();
+			var filteredSKDReportProvider = ReportProvider as IFilteredSKDReportProvider;
+			if (filteredSKDReportProvider != null)
+			{
+				var filter = (SKDReportFilter)Activator.CreateInstance(filteredSKDReportProvider.FilterType);
+				filteredSKDReportProvider.UpdateFilter(filter);
+			}
 		}
 	}
 }

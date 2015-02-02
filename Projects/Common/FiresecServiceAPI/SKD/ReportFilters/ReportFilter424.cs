@@ -32,17 +32,25 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+		[DataMember]
+		public bool IsSearch { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
+		[DataMember]
+		public string FirstName { get; set; }
+		[DataMember]
+		public string SecondName { get; set; }
 
 		#endregion
 
 		#region IReportFilterPeriod Members
 
-        [DataMember]
-        public ReportPeriodType PeriodType { get; set; }
-        [DataMember]
-        public DateTime DateTimeFrom { get; set; }
-        [DataMember]
-        public DateTime DateTimeTo { get; set; }
+		[DataMember]
+		public ReportPeriodType PeriodType { get; set; }
+		[DataMember]
+		public DateTime DateTimeFrom { get; set; }
+		[DataMember]
+		public DateTime DateTimeTo { get; set; }
 
 		#endregion
 	}

@@ -211,6 +211,7 @@
     <Compile Include="Model\EmployeeInfo.cs" />
     <Compile Include="Model\ObjectInfo.cs" />
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
+    <Compile Include="Model\TreeItemObject.cs" />
     <Compile Include="SqlBuilder.cs" />
     <Compile Include="Templates\Report402.cs">
       <SubType>Component</SubType>

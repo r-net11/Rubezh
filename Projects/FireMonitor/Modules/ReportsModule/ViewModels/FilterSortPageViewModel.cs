@@ -13,7 +13,8 @@ namespace ReportsModule.ViewModels
 		{
 			Title = "Сортировка";
 			Columns = columns;
-			SortColumn = Columns.First().Key;
+			if (Columns.Count > 0)
+				SortColumn = Columns.First().Key;
 		}
 
 		public Dictionary<string, string> Columns { get; private set; }
@@ -40,7 +41,8 @@ namespace ReportsModule.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			SortColumn = !string.IsNullOrEmpty(filter.SortColumn) && Columns.ContainsKey(filter.SortColumn) ? filter.SortColumn : Columns.First().Key;
+			if (Columns.Count > 0)
+				SortColumn = !string.IsNullOrEmpty(filter.SortColumn) && Columns.ContainsKey(filter.SortColumn) ? filter.SortColumn : Columns.First().Key;
 			SortAscending = filter.SortAscending;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)

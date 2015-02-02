@@ -63,7 +63,7 @@ namespace FiresecService.Report.Templates
 						{
 							var dataRow = dataSet.Data.NewDataRow();
 
-							dataRow.Employee = employee.Name;
+							dataRow.Employee = employee.FIO;
                             var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
 							if (organisationResult.Result != null)
 							{

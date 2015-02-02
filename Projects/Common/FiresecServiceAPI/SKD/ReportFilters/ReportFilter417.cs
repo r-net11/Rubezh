@@ -4,61 +4,69 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
-    [DataContract]
-    public class ReportFilter417 : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone
-    {
-        public ReportFilter417()
-        {
-            ReportDateTime = DateTime.Now;
-            UseCurrentDate = true;
-            IsEmployee = true;
-        }
+	[DataContract]
+	public class ReportFilter417 : SKDReportFilter, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone
+	{
+		public ReportFilter417()
+		{
+			ReportDateTime = DateTime.Now;
+			UseCurrentDate = true;
+			IsEmployee = true;
+		}
 
-        #region IReportFilterOrganisation Members
+		#region IReportFilterOrganisation Members
 
-        [DataMember]
-        public List<Guid> Organisations { get; set; }
+		[DataMember]
+		public List<Guid> Organisations { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterDepartment Members
+		#region IReportFilterDepartment Members
 
-        [DataMember]
-        public List<Guid> Departments { get; set; }
+		[DataMember]
+		public List<Guid> Departments { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterPosition Members
+		#region IReportFilterPosition Members
 
-        [DataMember]
-        public List<Guid> Positions { get; set; }
+		[DataMember]
+		public List<Guid> Positions { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterEmployee Members
+		#region IReportFilterEmployee Members
 
-        [DataMember]
-        public List<Guid> Employees { get; set; }
+		[DataMember]
+		public List<Guid> Employees { get; set; }
+		[DataMember]
+		public bool IsSearch { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
+		[DataMember]
+		public string FirstName { get; set; }
+		[DataMember]
+		public string SecondName { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterEmployeeAndVisitor Members
+		#region IReportFilterEmployeeAndVisitor Members
 
-        [DataMember]
-        public bool IsEmployee { get; set; }
+		[DataMember]
+		public bool IsEmployee { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterZone Members
+		#region IReportFilterZone Members
 
-        [DataMember]
-        public List<Guid> Zones { get; set; }
+		[DataMember]
+		public List<Guid> Zones { get; set; }
 
-        #endregion
+		#endregion
 
-        [DataMember]
-        public bool UseCurrentDate { get; set; }
-        [DataMember]
-        public DateTime ReportDateTime { get; set; }
-    }
+		[DataMember]
+		public bool UseCurrentDate { get; set; }
+		[DataMember]
+		public DateTime ReportDateTime { get; set; }
+	}
 }

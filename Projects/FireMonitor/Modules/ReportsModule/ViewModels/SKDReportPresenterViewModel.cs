@@ -74,6 +74,8 @@ namespace ReportsModule.ViewModels
 				{
 					_selectedReport = value;
 					OnPropertyChanged(() => SelectedReport);
+					if (SelectedReport != null)
+						SelectedReport.Reset();
 					BuildReport();
 				}
 				CommandManager.InvalidateRequerySuggested();

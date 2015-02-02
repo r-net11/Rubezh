@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
-using System.Data;
 using System.Linq;
-using SKDDriver;
-using FiresecAPI;
+using System.Collections.Generic;
+using System.Data;
+using Common;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
-    public partial class Report431 : BaseReport
+	public partial class Report431 : BaseReport
 	{
 		public Report431()
 		{
@@ -25,82 +20,54 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Список точек доступа"; }
 		}
-        protected override DataSet CreateDataSet(DataProvider dataProvider)
+		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter431>();
-			var dataSet = new DataSet431();
-
-			foreach (var door in SKDManager.Doors)
+			if (!filter.ZoneIn && !filter.ZoneOut)
 			{
-				if (filter.Doors != null && filter.Doors.Count > 0)
-				{
-					if (!filter.Doors.Contains(door.UID))
-						continue;
-				}
-
-				if (filter.Zones != null && filter.Zones.Count > 0)
-				{
-					var hasZone = false;
-					if (door.InDevice != null && filter.Zones.Contains(door.InDevice.ZoneUID))
-						hasZone = true;
-					if (door.OutDevice != null && filter.Zones.Contains(door.OutDevice.ZoneUID))
-						hasZone = true;
-					if (!hasZone)
-						continue;
-				}
-
-				if (filter.Organisations != null && filter.Organisations.Count > 0)
-				{
-					var doorUIDs = new List<Guid>();
-					foreach (var organisationUID in filter.Organisations)
-					{
-                        var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(organisationUID);
-						if (organisationResult.Result != null)
-						{
-							doorUIDs.AddRange(organisationResult.Result.DoorUIDs);
-						}
-					}
-					if (!doorUIDs.Contains(door.UID))
-						continue;
-				}
-
-                var organisationsResult = dataProvider.DatabaseService.OrganisationTranslator.Get(new OrganisationFilter());
-				if (organisationsResult.Result != null)
-				{
-					foreach (var organisation in organisationsResult.Result)
-					{
-						if (organisation.DoorUIDs.Contains(door.UID))
-						{
-							var dataRow = dataSet.Data.NewDataRow();
-							dataRow.Number = door.No;
-							dataRow.Door = door.Name;
-							dataRow.Comment = door.Description;
-							if (door.InDevice != null)
-							{
-								dataRow.EnterReader = door.InDevice.Name;
-								if (door.InDevice.Zone != null)
-									dataRow.ExitZone = door.InDevice.Zone.Name;
-								if (door.InDevice.Parent != null)
-								{
-									dataRow.Controller = door.InDevice.Parent.Name;
-									dataRow.IP = door.InDevice.Parent.Address;
-								}
-							}
-							if (door.OutDevice != null)
-							{
-								dataRow.ExitReader = door.OutDevice.Name;
-								if (door.OutDevice.Zone != null)
-									dataRow.EnterZone = door.OutDevice.Zone.Name;
-							}
-
-							dataRow.Organisation = organisation.Name;
-
-							dataSet.Data.Rows.Add(dataRow);
-						}
-					}
-				}
+				filter.ZoneIn = true;
+				filter.ZoneOut = true;
 			}
 
+			var dataSet = new DataSet431();
+
+			IEnumerable<SKDDoor> doors = SKDManager.Doors;
+			if (!filter.Doors.IsEmpty())
+				doors = doors.Where(item => filter.Doors.Contains(item.UID));
+			if (!filter.Zones.IsEmpty())
+				doors = doors.Where(item =>
+					(filter.ZoneIn && item.InDevice != null && filter.Zones.Contains(item.InDevice.ZoneUID)) ||
+					(filter.ZoneOut && item.OutDevice != null && filter.Zones.Contains(item.OutDevice.ZoneUID)));
+
+			var organisationsResult = dataProvider.DatabaseService.OrganisationTranslator.Get(new OrganisationFilter() { UIDs = filter.Organisations ?? new List<Guid>() });
+			if (organisationsResult.Result != null)
+				organisationsResult.Result.ForEach(organisation =>
+					doors.Where(item => organisation.DoorUIDs.Contains(item.UID)).ForEach(door =>
+					{
+						var dataRow = dataSet.Data.NewDataRow();
+						dataRow.Number = door.No;
+						dataRow.Door = door.Name;
+						dataRow.Comment = door.Description;
+						if (door.InDevice != null)
+						{
+							dataRow.EnterReader = door.InDevice.Name;
+							if (door.InDevice.Zone != null)
+								dataRow.EnterZone = door.InDevice.Zone.Name;
+							if (door.InDevice.Parent != null)
+							{
+								dataRow.Controller = door.InDevice.Parent.Name;
+								dataRow.IP = door.InDevice.Parent.Address;
+							}
+						}
+						if (door.OutDevice != null)
+						{
+							dataRow.ExitReader = door.OutDevice.Name;
+							if (door.OutDevice.Zone != null)
+								dataRow.ExitZone = door.OutDevice.Zone.Name;
+						}
+						dataRow.Organisation = organisation.Name;
+						dataSet.Data.Rows.Add(dataRow);
+					}));
 			return dataSet;
 		}
 	}

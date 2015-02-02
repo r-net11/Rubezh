@@ -8,7 +8,8 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class Employee : OrganisationElementBase
 	{
-		public Employee() : base()
+		public Employee()
+			: base()
 		{
 			Cards = new List<SKDCard>();
 			AdditionalColumns = new List<AdditionalColumn>();
@@ -99,6 +100,7 @@ namespace FiresecAPI.SKD
 		public string Phone { get; set; }
 
 		public string Name { get { return FirstName + " " + SecondName + " " + LastName; } }
+		public string FIO { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
 	}
 
 	public enum Gender

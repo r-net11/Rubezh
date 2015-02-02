@@ -419,7 +419,7 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(string Type, string Number, string Employee, string Organisation, string Department, string Position, string Period) {
+            public DataRow AddDataRow(string Type, string Number, string Employee, string Organisation, string Department, string Position, System.DateTime Period) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Type,
@@ -475,7 +475,7 @@ namespace FiresecService.Report.DataSources {
                 base.Columns.Add(this.columnDepartment);
                 this.columnPosition = new global::System.Data.DataColumn("Position", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPosition);
-                this.columnPeriod = new global::System.Data.DataColumn("Period", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnPeriod = new global::System.Data.DataColumn("Period", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPeriod);
             }
             
@@ -715,10 +715,10 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Period {
+            public System.DateTime Period {
                 get {
                     try {
-                        return ((string)(this[this.tableData.PeriodColumn]));
+                        return ((global::System.DateTime)(this[this.tableData.PeriodColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Period\' in table \'Data\' is DBNull.", e);

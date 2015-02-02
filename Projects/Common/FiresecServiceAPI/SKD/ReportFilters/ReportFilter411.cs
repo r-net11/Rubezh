@@ -5,45 +5,45 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
-    public class ReportFilter411 : SKDReportFilter, IReportFilterPassCardTypeFull, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor
+	public class ReportFilter411 : SKDReportFilter, IReportFilterPassCardTypeFull, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor
 	{
 		public ReportFilter411()
 		{
 			ExpirationDate = DateTime.Today;
 			ExpirationType = EndDateType.Day;
-            PassCardActive = true;
-            PassCardForcing = true;
-            PassCardInactive = true;
-            PassCardLocked = true;
-            PassCardOnceOnly = true;
-            PassCardPermanent = true;
-            PassCardTemprorary = true;
-            IsEmployee = true;
+			PassCardActive = true;
+			PassCardForcing = true;
+			PassCardInactive = true;
+			PassCardLocked = true;
+			PassCardOnceOnly = true;
+			PassCardPermanent = true;
+			PassCardTemprorary = true;
+			IsEmployee = true;
 		}
 
-        #region IReportFilterPassCardTypeFull Members
+		#region IReportFilterPassCardTypeFull Members
 
-        [DataMember]
-        public bool PassCardInactive { get; set; }
+		[DataMember]
+		public bool PassCardInactive { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterPassCardType Members
+		#region IReportFilterPassCardType Members
 
-        [DataMember]
-        public bool PassCardActive { get; set; }
-        [DataMember]
-        public bool PassCardPermanent { get; set; }
-        [DataMember]
-        public bool PassCardTemprorary { get; set; }
-        [DataMember]
-        public bool PassCardOnceOnly { get; set; }
-        [DataMember]
-        public bool PassCardForcing { get; set; }
-        [DataMember]
-        public bool PassCardLocked { get; set; }
+		[DataMember]
+		public bool PassCardActive { get; set; }
+		[DataMember]
+		public bool PassCardPermanent { get; set; }
+		[DataMember]
+		public bool PassCardTemprorary { get; set; }
+		[DataMember]
+		public bool PassCardOnceOnly { get; set; }
+		[DataMember]
+		public bool PassCardForcing { get; set; }
+		[DataMember]
+		public bool PassCardLocked { get; set; }
 
-        #endregion
+		#endregion
 
 		#region IReportFilterOrganisation Members
 
@@ -70,21 +70,29 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+		[DataMember]
+		public bool IsSearch { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
+		[DataMember]
+		public string FirstName { get; set; }
+		[DataMember]
+		public string SecondName { get; set; }
 
 		#endregion
 
-        #region IReportFilterEmployeeAndVisitor Members
+		#region IReportFilterEmployeeAndVisitor Members
 
-        [DataMember]
-        public bool IsEmployee { get; set; }
+		[DataMember]
+		public bool IsEmployee { get; set; }
 
-        #endregion
-        
+		#endregion
+
 		[DataMember]
 		public bool UseExpirationDate { get; set; }
 		[DataMember]
 		public DateTime ExpirationDate { get; set; }
 		[DataMember]
 		public EndDateType ExpirationType { get; set; }
-    }
+	}
 }
