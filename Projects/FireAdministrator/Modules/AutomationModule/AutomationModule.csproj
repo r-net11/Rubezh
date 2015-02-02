@@ -132,6 +132,7 @@
     <Compile Include="Steps\ViewModels\ExportJournalStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\GenerateGuidStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
@@ -282,6 +283,9 @@
     </Compile>
     <Compile Include="Steps\Views\ExportOrganisationStepView.xaml.cs">
       <DependentUpon>ExportOrganisationStepView.xaml</DependentUpon>
+    <Compile Include="Steps\Views\GenerateGuidStepView.xaml.cs">
+      <DependentUpon>GenerateGuidStepView.xaml</DependentUpon>
+    </Compile>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationStepView.xaml.cs">
       <DependentUpon>ImportOrganisationStepView.xaml</DependentUpon>

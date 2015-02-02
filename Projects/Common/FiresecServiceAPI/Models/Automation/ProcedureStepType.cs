@@ -133,6 +133,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Показать свойство объекта")]
 		ShowProperty,
 
+		[DescriptionAttribute("Генерировать идентификатор")]
+		GenerateGuid,
+
 		[DescriptionAttribute("")]
 		DoAction,
 
