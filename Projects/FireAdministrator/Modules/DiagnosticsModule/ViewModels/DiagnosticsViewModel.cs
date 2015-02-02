@@ -19,54 +19,38 @@ namespace DiagnosticsModule.ViewModels
 {
 	public class DiagnosticsViewModel : ViewPartViewModel
 	{
-		int Count = 0;
-
 		public DiagnosticsViewModel()
 		{
 			AddJournalCommand = new RelayCommand(OnAddJournal);
 			AddManyJournalCommand = new RelayCommand(OnAddManyJournal);
 			SaveCommand = new RelayCommand(OnSave);
 			LoadCommand = new RelayCommand(OnLoad);
-			RviTestCommand = new RelayCommand(OnRviTest);
-			StartVlc = new RelayCommand(OnStartVlc);
+			StartVideoCommand = new RelayCommand(OnStartVideo);
+			GetVideoCommand = new RelayCommand(OnGetVideo);
 		}
 
-		private VlcControl _vlcControl;
-		public ImageSource Image
+		Guid EventUID;
+
+		public RelayCommand StartVideoCommand { get; private set; }
+		void OnStartVideo()
 		{
-			get
-			{
-				return _vlcControl.VideoSource;
-			}
+			EventUID = Guid.NewGuid();
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault();
+			RviClientHelper.VideoRecordStart(FiresecManager.SystemConfiguration, camera, EventUID, 5);
 		}
 
-		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
+		public RelayCommand GetVideoCommand { get; private set; }
+		void OnGetVideo()
 		{
-			OnPropertyChanged("Image");
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault();
+			var fileName = RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, camera, EventUID);
+			var videoViewModel = new VideoViewModel(fileName);
+			DialogService.ShowModalWindow(videoViewModel);
 		}
 
-		public RelayCommand StartVlc { get; private set; }
-		void OnStartVlc()
+		public string SavedVideoSource
 		{
-			if (!VlcContext.IsInitialized)
-			{
-				//Set libvlc.dll and libvlccore.dll directory path
-				VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_AMD64;
-				//Set the vlc plugins directory path
-				VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_AMD64;
-
-				//Set the startup options
-				VlcContext.StartupOptions.IgnoreConfig = true;
-				VlcContext.StartupOptions.LogOptions.LogInFile = false;
-				VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
-				VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-
-				//Initialize the VlcContext
-				VlcContext.Initialize();
-			}
-			_vlcControl = new VlcControl { Media = new LocationMedia("rtsp://admin:admin@172.16.2.23:554/cam/realmonitor?channel=1&subtype=0") };
-			_vlcControl.PositionChanged += VlcControlOnPositionChanged;
-			_vlcControl.Play();
+			get { return "D:/Video.avi"; }
 		}
 
 		public RelayCommand AddJournalCommand { get; private set; }
@@ -110,17 +94,6 @@ namespace DiagnosticsModule.ViewModels
 			SerializerHelper.Load();
 		}
 
-		public RelayCommand RviTestCommand { get; private set; }
-		void OnRviTest()
-		{
-		}
-
-		public void StopThreads()
-		{
-			IsThreadStoping = true;
-		}
-		bool IsThreadStoping = false;
-
 		string _text;
 		public string Text
 		{
@@ -130,6 +103,11 @@ namespace DiagnosticsModule.ViewModels
 				_text = value;
 				OnPropertyChanged(() => Text);
 			}
+		}
+
+		public void StopThreads()
+		{
+
 		}
 	}
 }

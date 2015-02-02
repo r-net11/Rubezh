@@ -154,10 +154,12 @@ namespace ChinaSKDDriver
 
 				ControllerCardItems = new List<ControllerCardItem>();
 				var controllerCardItems = Create_ControllerCardItems_ToAdd(card, accessTemplate);
-				var controllerCardItem = controllerCardItems.FirstOrDefault(x => x.ControllerDevice.UID == device.UID);
-				if (controllerCardItem != null)
+				foreach (var controllerCardItem in controllerCardItems)
 				{
-					ControllerCardItems.Add(controllerCardItem);
+					if (controllerCardItem.ControllerDevice.UID == device.UID)
+					{
+						ControllerCardItems.Add(controllerCardItem);
+					}
 				}
 
 				if (progressCallback.IsCanceled)

@@ -57,6 +57,10 @@ namespace FiresecService.Report.Templates
 			{
 				archiveFilter.ObjectUIDs = filter.ObjectUIDs;
 			}
+			if (filter.Employees != null && filter.Employees.Count > 0)
+			{
+				archiveFilter.EmployeeUIDs = filter.Employees;
+			}
 			var journalItemsResult = GetFilteredJournalItems(archiveFilter);
 			if (journalItemsResult.Result != null)
 			{
@@ -343,6 +347,20 @@ namespace FiresecService.Report.Templates
 						query += "\n OR ";
 					index++;
 					query += "ObjectUID = '" + objectUID + "'";
+				}
+				query += ")";
+			}
+
+			if (archiveFilter.EmployeeUIDs.Count > 0)
+			{
+				query += "\n AND (";
+				int index = 0;
+				foreach (var employeeUID in archiveFilter.EmployeeUIDs)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "EmployeeUID = '" + employeeUID + "'";
 				}
 				query += ")";
 			}

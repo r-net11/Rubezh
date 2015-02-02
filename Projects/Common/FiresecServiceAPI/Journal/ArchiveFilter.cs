@@ -17,6 +17,7 @@ namespace FiresecAPI.Journal
 			JournalEventDescriptionTypes = new List<JournalEventDescriptionType>();
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
+			EmployeeUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -42,6 +43,9 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public List<Guid> ObjectUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> EmployeeUIDs { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }

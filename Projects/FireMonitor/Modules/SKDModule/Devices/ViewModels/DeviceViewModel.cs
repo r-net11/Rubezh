@@ -45,6 +45,8 @@ namespace SKDModule.ViewModels
 			{
 				Zone = new ZoneViewModel(Device.Zone);
 			}
+
+			IsEnabled = Device.IsEnabled;
 		}
 
 		void OnStateChanged()
@@ -57,6 +59,8 @@ namespace SKDModule.ViewModels
 		{
 			get { return Device.Address; }
 		}
+
+		public bool IsEnabled { get; private set; }
 
 		#region Zone
 

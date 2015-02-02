@@ -40,10 +40,9 @@ namespace FiresecAPI.SKD
 				switch(DriverType)
 				{
 					case SKDDriverType.Controller:
-					case SKDDriverType.ChinaController_1_2:
-					case SKDDriverType.ChinaController_2_2:
-					case SKDDriverType.ChinaController_2_4:
-					case SKDDriverType.ChinaController_4_4:
+					case SKDDriverType.ChinaController_1:
+					case SKDDriverType.ChinaController_2:
+					case SKDDriverType.ChinaController_4:
 						return true;
 				}
 				return false;

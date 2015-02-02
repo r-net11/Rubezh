@@ -66,6 +66,8 @@ namespace FiresecService.Report.Templates
                     var totalDocumentAbsence = new TimeSpan();
                     foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
                     {
+						dayTimeTrack.Calculate();
+
                         foreach (var plannedTimeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
                         {
                             if (plannedTimeTrackPart.EndTime < new TimeSpan(20, 0, 0))

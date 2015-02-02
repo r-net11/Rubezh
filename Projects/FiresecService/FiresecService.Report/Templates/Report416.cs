@@ -39,16 +39,30 @@ namespace FiresecService.Report.Templates
                 OrganisationUIDs = filter.Organisations ?? new List<Guid>(),
                 UIDs = filter.Positions ?? new List<Guid>()
             };
+			if(filter.UseArchive)
+			{
+				positionFilter.LogicalDeletationType = LogicalDeletationType.All;
+			}
+			else
+			{
+				positionFilter.LogicalDeletationType = LogicalDeletationType.Active;
+			}
+
             var positions = dataProvider.DatabaseService.PositionTranslator.Get(positionFilter);
             var ds = new DataSet416();
-            if (positions.Result != null)
-                positions.Result.ForEach(position =>
-                {
-                    var row = ds.Data.NewDataRow();
-                    row.Position = position.Name;
-                    row.Description = position.Description;
-                    ds.Data.AddDataRow(row);
-                });
+			if (positions.Result != null)
+			{
+				foreach (var position in positions.Result)
+				{
+					if (!filter.UseArchive && position.IsDeleted)
+						continue;
+
+					var row = ds.Data.NewDataRow();
+					row.Position = position.Name;
+					row.Description = position.Description;
+					ds.Data.AddDataRow(row);
+				}
+			}
             return ds;
 		}
 	}

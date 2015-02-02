@@ -76,13 +76,11 @@ namespace FiresecAPI.SKD
 				{
 					case SKDDriverType.System:
 					case SKDDriverType.Controller:
-						case SKDDriverType.Gate:
 						return "";
 
-					case SKDDriverType.ChinaController_1_2:
-					case SKDDriverType.ChinaController_2_2:
-					case SKDDriverType.ChinaController_2_4:
-					case SKDDriverType.ChinaController_4_4:
+					case SKDDriverType.ChinaController_1:
+					case SKDDriverType.ChinaController_2:
+					case SKDDriverType.ChinaController_4:
 						var property = Properties.FirstOrDefault(x => x.Name == "Address");
 						if (property != null)
 						{
@@ -138,6 +136,41 @@ namespace FiresecAPI.SKD
 					result += " (" + Parent.Name + ")";
 				}
 				return result;
+			}
+		}
+
+		[XmlIgnore]
+		public bool IsEnabled
+		{
+			get
+			{
+				var isEnabled = true;
+				if (Parent != null)
+				{
+					if (Parent.DoorType == DoorType.OneWay)
+					{
+						if (DriverType == SKDDriverType.Button)
+						{
+							isEnabled = false;
+						}
+					}
+					else
+					{
+						if (Parent.DriverType == SKDDriverType.ChinaController_2)
+						{
+							if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)
+								if (IntAddress > 0)
+									isEnabled = false;
+						}
+						if (Parent.DriverType == SKDDriverType.ChinaController_4)
+						{
+							if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)
+								if (IntAddress > 1)
+									isEnabled = false;
+						}
+					}
+				}
+				return isEnabled;
 			}
 		}
 
