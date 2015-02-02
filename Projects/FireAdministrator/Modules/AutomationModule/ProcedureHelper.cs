@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
 using System.Collections.ObjectModel;
+using Infrastructure;
 using Infrastructure.Common.Windows;
 using AutomationModule.ViewModels;
 using FiresecAPI;
@@ -251,7 +252,9 @@ namespace AutomationModule
 					break;
 				case ExplicitType.Object:
 					{
+						var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 						result = new ExplicitValueViewModel(explicitValue).PresentationName;
+						ServiceFactory.SaveService.AutomationChanged = automationChanged;
 					}
 					break;
 			}

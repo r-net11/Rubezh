@@ -396,6 +396,9 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.GenerateGuid:
 					InvalidateArgument(procedure, step.GenerateGuidArguments.ResultArgument);
 					break;
+				case ProcedureStepType.SetJournalItemGuid:
+					InvalidateArgument(procedure, step.SetJournalItemGuidArguments.ValueArgument);
+					break;
 			}
 		}
 
