@@ -91,7 +91,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.On && Zone.State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && Zone.State.StateClass != XStateClass.On && Zone.State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -108,7 +108,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.Off && Zone.State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && Zone.State.StateClass != XStateClass.Off && Zone.State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand OpenForeverCommand { get; private set; }
@@ -125,7 +125,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpenForever()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseForeverCommand { get; private set; }
@@ -142,7 +142,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCloseForever()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand DetectEmployeesCommand { get; private set; }
@@ -172,7 +172,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Zones_Control); }
 		}
 
 		#region IWindowIdentity Members

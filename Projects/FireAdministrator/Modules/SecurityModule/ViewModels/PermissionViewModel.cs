@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.TreeList;
@@ -8,11 +9,13 @@ namespace SecurityModule.ViewModels
 	public class PermissionViewModel : TreeNodeViewModel<PermissionViewModel>
 	{
 		public PermissionType PermissionType { get; private set; }
+		public string Name { get; private set; }
+		public bool IsPermission { get; private set; }
 
-		public PermissionViewModel(PermissionType permissionType, List<PermissionViewModel> children = null)
+		public PermissionViewModel(string name, List<PermissionViewModel> children = null)
 		{
-			PermissionType = permissionType;
-			Name = permissionType.ToDescription();
+			Name = name;
+			IsPermission = false;
 
 			if (children != null)
 			{
@@ -23,7 +26,12 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		public string Name { get; private set; }
+		public PermissionViewModel(PermissionType permissionType)
+		{
+			PermissionType = permissionType;
+			Name = permissionType.ToDescription();
+			IsPermission = true;
+		}
 
 		public bool _isChecked;
 		public bool IsChecked
@@ -37,23 +45,23 @@ namespace SecurityModule.ViewModels
 				{
 					child.IsChecked = value;
 				}
-				if (!value)
+				//if (!value)
 				{
 					if (Parent != null)
 					{
-						Parent.UnsetParent();
+						Parent.UpdateParent();
 					}
 				}
 			}
 		}
 
-		public void UnsetParent()
+		public void UpdateParent()
 		{
-			_isChecked = false;
+			_isChecked = Children.All(x => x.IsChecked);
 			OnPropertyChanged(() => IsChecked);
 			if (Parent != null)
 			{
-				Parent.UnsetParent();
+				Parent.UpdateParent();
 			}
 		}
 	}

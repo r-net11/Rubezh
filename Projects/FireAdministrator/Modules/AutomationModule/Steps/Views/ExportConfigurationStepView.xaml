@@ -9,15 +9,15 @@
         <Grid>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Экспортировать точки доступа" />
+                    <Label Content="Точки доступа" />
                     <Views:ArgumentView DataContext="{Binding IsExportDoors}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Экспортировать устройства" />
+                    <Label Content="Устройства" />
                     <Views:ArgumentView DataContext="{Binding IsExportDevices}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Экспортировать зоны" />
+                    <Label Content="Зоны" />
                     <Views:ArgumentView DataContext="{Binding IsExportZones}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

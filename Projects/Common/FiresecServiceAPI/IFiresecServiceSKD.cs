@@ -292,10 +292,18 @@ namespace FiresecAPI
 		OperationResult ImportOrganisation(ImportFilter filter);
 
 		[OperationContract]
+		OperationResult ExportOrganisationList(ExportFilter filter);
+
+		[OperationContract]
+		OperationResult ImportOrganisationList(ImportFilter filter);
+
+		[OperationContract]
 		OperationResult ExportJournal(JournalExportFilter filter);
 
 		[OperationContract]
 		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
+
+
 		#endregion
 	}
 }

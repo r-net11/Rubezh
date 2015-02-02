@@ -19,7 +19,7 @@
                 </Style.Setters>
             </Style>
         </Grid.Resources>
-        <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Название" />
         <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Примечание" />

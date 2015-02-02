@@ -374,7 +374,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedItem.Name.Length > 46)
 			{
-				MessageBoxService.Show("Наименование копируемой записи должно быть короче 47 символов");
+				MessageBoxService.Show("Название копируемой записи должно быть короче 47 символов");
 			}
 			else
 			{

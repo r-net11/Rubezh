@@ -36,7 +36,7 @@
 					<Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<TextBlock Text="{Binding Status}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
 				</StackPanel>
-				<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings"  />
+				<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="Settings2"  />
 			</Grid>
 		</Border>
 		<Views:JournalView Grid.Row="1" Margin="0, 5, 0, 0" />

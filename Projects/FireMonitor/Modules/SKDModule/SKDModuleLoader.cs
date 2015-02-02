@@ -21,6 +21,7 @@ using SKDModule.Plans;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
 using SKDModule.ViewModels;
+using FiresecAPI.Models;
 
 namespace SKDModule
 {
@@ -106,16 +107,16 @@ namespace SKDModule
 				new NavigationItem("СКД", "SKDW",
 					new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
-						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
-						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
+						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, PermissionType.Oper_Strazh_Devices_View, Guid.Empty) {IsVisible = SKDManager.Devices.Count > 1},
+						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "Zones", null, PermissionType.Oper_Strazh_Zones_View, Guid.Empty) {IsVisible = SKDManager.Zones.Count > 0},
+						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, PermissionType.Oper_Strazh_Doors_View, Guid.Empty) {IsVisible = SKDManager.Doors.Count > 0},
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "Kartoteka2W"),
 						new NavigationItem("Учет рабочего времени", "TimeTrackingW", new List<NavigationItem>()
 						{
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
-							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, null, Guid.Empty),
-							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, null, Guid.Empty),
-							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, null, Guid.Empty),
+							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "ShedulesDaylyW", null, PermissionType.Oper_SKD_TimeTrack_DaySchedules_View, Guid.Empty),
+							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
+							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
+							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
 							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, null),
 						}),
 						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "/Controls;component/Images/Kartoteka2W.png"),

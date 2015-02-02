@@ -9,11 +9,11 @@
         <Grid>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Экспортировать журнал событий" />
+                    <Label Content="Журнал событий" />
                     <Views:ArgumentView DataContext="{Binding IsExportJournalArgument}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Экспортировать журнал проходов" />
+                    <Label Content="Журнал проходов" />
                     <Views:ArgumentView DataContext="{Binding IsExportPassJournalArgument}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

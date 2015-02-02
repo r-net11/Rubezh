@@ -78,7 +78,9 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
-							new StepTypeViewModel(ProcedureStepType.Random)
+							new StepTypeViewModel(ProcedureStepType.Random),
+							new StepTypeViewModel(ProcedureStepType.GenerateGuid),
+							new StepTypeViewModel(ProcedureStepType.SetJournalItemGuid)
 						}),
 						new StepTypeViewModel("Функции управления списками",
 							new List<StepTypeViewModel>
@@ -141,6 +143,8 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 									new StepTypeViewModel(ProcedureStepType.ExportOrganisation),
 									new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
+									new StepTypeViewModel(ProcedureStepType.ExportOrganisationList),
+									new StepTypeViewModel(ProcedureStepType.ImportOrganisationList),
 								}),
 							new StepTypeViewModel("Управление Видео",
 								new List<StepTypeViewModel>

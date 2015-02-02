@@ -159,6 +159,43 @@ namespace RviClient
 			}
 		}
 
+		public static void SetPtzPreset(SystemConfiguration systemConfiguration, Camera camera, int number)
+		{
+			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			{
+				var sessionUID = Guid.NewGuid();
+
+				var sessionInitialiazationIn = new SessionInitialiazationIn();
+				sessionInitialiazationIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+				var ptzPresetIn = new PtzPresetIn();
+				ptzPresetIn.DeviceGuid = camera.RviDeviceUID;
+				ptzPresetIn.ChannelNumber = camera.RviChannelNo;
+				ptzPresetIn.Number = number;
+				ptzPresetIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var ptzPresetOut = client.SetPtzPreset(ptzPresetIn);
+
+				var sessionCloseIn = new SessionCloseIn();
+				sessionCloseIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+			}
+		}
+
 		public static void VideoRecordStart(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID, int timeout)
 		{
 			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))

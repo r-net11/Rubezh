@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Automation;
@@ -15,8 +15,8 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Automation;
 using FiresecService.Service;
-using Property = FiresecAPI.Automation.Property;
 using SKDDriver.Translators;
+using Property = FiresecAPI.Automation.Property;
 
 namespace FiresecService
 {
@@ -633,21 +633,18 @@ namespace FiresecService
 
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
-				//var beforeUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
-				var eventUID = Guid.NewGuid();
-				SetValue(cameraArguments.EventUIDArgument, eventUID);
-				var afterUid = GetValue<String>(cameraArguments.EventUIDArgument);
-
+				var eventUIDString = GetValue<String>(cameraArguments.EventUIDArgument);
+				Guid eventUID;
+				if (CheckGuid(eventUIDString))
+				{
+					eventUID = new Guid(eventUIDString);
+				}
+				else
+				{
+					return;
+				}
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
-
-				if (JournalItem != null)
-				{
-					using (var journalTranslator = new JounalTranslator())
-					{
-						journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
-					}
-				}
 			}
 			if (cameraArguments.CameraCommandType == CameraCommandType.StopRecord)
 			{
@@ -977,6 +974,19 @@ namespace FiresecService
 				});
 		}
 
+		void ExportOrganisationList(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ImportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
+				new ExportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					Path = path
+				});
+		}
+
 		void ExportConfiguration(ProcedureStep procedureStep)
 		{
 			var arguments = procedureStep.ExportConfigurationArguments;
@@ -1000,6 +1010,19 @@ namespace FiresecService
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
 			FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+				new ImportFilter
+				{
+					IsWithDeleted = isWithDeleted,
+					Path = path
+				});
+		}
+
+		void ImportOrganisationList(ProcedureStep procedureStep)
+		{
+			var arguments = procedureStep.ImportOrganisationArguments;
+			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
+			var path = GetValue<string>(arguments.PathArgument);
+			FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
@@ -1059,6 +1082,15 @@ namespace FiresecService
 				}
 			}
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
+		}
+
+		bool CheckGuid(string guidString)
+		{
+			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
+			if (!String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString))
+				return true;
+			return false;
 		}
 
 		T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)

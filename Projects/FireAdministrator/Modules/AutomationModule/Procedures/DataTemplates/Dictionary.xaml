@@ -192,6 +192,14 @@
         <Views:ImportOrganisationStepView />
     </DataTemplate>
 
+    <DataTemplate x:Key="exportOrganisationListTemplate">
+        <Views:ExportOrganisationListStepView />
+    </DataTemplate>
+
+    <DataTemplate x:Key="importOrganisationListTemplate">
+        <Views:ImportOrganisationListStepView />
+    </DataTemplate>
+
     <DataTemplate x:Key="RunProgramTemplate">
 		<Views:RunProgramStepView />
 	</DataTemplate>
@@ -236,6 +244,14 @@
 		<Views:ShowPropertyStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="generateGuidTemplate">
+		<Views:GenerateGuidStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="setJournalItemTemplate">
+		<Views:SetJournalItemGuidStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
@@ -274,7 +290,10 @@
 										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" 
                                          ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
                                          ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
+										 GenerateGuidTemplate="{StaticResource generateGuidTemplate}"
                                          ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
-                                         ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" />
-
+                                         ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
+                                         ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
+                                         SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
+                                         ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}" />
 </ResourceDictionary>

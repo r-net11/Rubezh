@@ -72,6 +72,15 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string RviRTSP { get; set; }
 
+		[DataMember]
+		public int CountPresets { get; set; }
+
+		[DataMember]
+		public int CountTemplateBypass { get; set; }
+
+		[DataMember]
+		public int CountTemplatesAutoscan { get; set; }
+
 		public void OnChanged()
 		{
 			if (Changed != null)

@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using FiresecAPI.Models;
+using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -134,6 +135,32 @@ namespace FiresecService
 								break;
 							if (result == Result.Exit)
 								return Result.Exit;
+						}
+					}
+					break;
+
+				case ProcedureStepType.GenerateGuid:
+					var generateGuidArguments = procedureStep.GenerateGuidArguments;
+					SetValue(generateGuidArguments.ResultArgument, Guid.NewGuid());
+					break;
+
+				case ProcedureStepType.SetJournalItemGuid:
+					var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
+					if (JournalItem != null)
+					{
+						using (var journalTranslator = new JounalTranslator())
+						{
+							var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
+							Guid eventUID;
+							if (CheckGuid(eventUIDString))
+							{
+								eventUID = new Guid(eventUIDString);
+							}
+							else
+							{
+								break;
+							}
+							journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
 						}
 					}
 					break;
@@ -342,6 +369,14 @@ namespace FiresecService
 
 				case ProcedureStepType.ImportOrganisation:
 					ImportOrganisation(procedureStep);
+					break;
+
+				case ProcedureStepType.ExportOrganisationList:
+					ExportOrganisationList(procedureStep);
+					break;
+
+				case ProcedureStepType.ImportOrganisationList:
+					ImportOrganisationList(procedureStep);
 					break;
 
 				case ProcedureStepType.ExportConfiguration:

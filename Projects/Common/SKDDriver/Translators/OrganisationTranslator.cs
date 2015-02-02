@@ -15,6 +15,7 @@ namespace SKDDriver
 			: base(databaseService)
 		{
 			Synchroniser = new OrganisationSynchroniser(Table, databaseService);
+			Synchroniser.Initialize();
 		}
 
 		protected OperationResult CanSave(OrganisationDetails item)

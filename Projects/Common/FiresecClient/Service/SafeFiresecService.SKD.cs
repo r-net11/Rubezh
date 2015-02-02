@@ -446,6 +446,14 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.ImportOrganisation(filter));
 		}
+		public OperationResult ExportOrganisationList(ExportFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.ExportOrganisationList(filter));
+		}
+		public OperationResult ImportOrganisationList(ImportFilter filter)
+		{
+			return SafeContext.Execute(() => FiresecService.ImportOrganisationList(filter));
+		}
 		public OperationResult ExportJournal(JournalExportFilter filter)
 		{
 			return SafeContext.Execute(() => FiresecService.ExportJournal(filter));

@@ -179,6 +179,14 @@ namespace AutomationModule.ViewModels
 					Content = new ShowPropertyStepViewModel(this);
 					break;
 
+				case ProcedureStepType.GenerateGuid:
+					Content = new GenerateGuidStepViewModel(this);
+					break;
+
+				case ProcedureStepType.SetJournalItemGuid:
+					Content = new SetJournalItemGuidStepViewModel(this);
+					break;
+
 				case ProcedureStepType.ExportJournal:
 					Content = new ExportJournalStepViewModel(this);
 					break;
@@ -193,6 +201,14 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ImportOrganisation:
 					Content = new ImportOrganisationStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ExportOrganisationList:
+					Content = new ExportOrganisationListStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ImportOrganisationList:
+					Content = new ImportOrganisationListStepViewModel(this);
 					break;
 			}
 			UpdateContent();

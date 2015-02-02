@@ -16,6 +16,18 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static bool ExportOrganisationList(ExportFilter filter)
+		{
+			var operationResult = FiresecManager.FiresecService.ExportOrganisationList(filter);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
+		public static bool ImportOrganisationList(ImportFilter filter)
+		{
+			var operationResult = FiresecManager.FiresecService.ImportOrganisationList(filter);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
 		public static bool ExportJournal(JournalExportFilter filter)
 		{
 			var result = FiresecManager.FiresecService.ExportJournal(filter);

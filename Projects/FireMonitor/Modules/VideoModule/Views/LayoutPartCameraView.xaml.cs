@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using VideoModule.ViewModels;
-using System.Linq;
+using Vlc.DotNet.Core.Medias;
 
 namespace VideoModule.Views
 {
@@ -15,32 +15,19 @@ namespace VideoModule.Views
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			VlcControl = new VlcControlView();
+			if (myVlcControl.IsPlaying)
+				myVlcControl.Stop();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			if (layoutPartCameraViewModel != null && layoutPartCameraViewModel.Camera != null)
+			if (layoutPartCameraViewModel != null)
 			{
-				var vlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == layoutPartCameraViewModel.Camera.RviRTSP);
-				if (vlcControlViewModel != null)
-				{
-					VlcControl.DataContext = vlcControlViewModel;
-					vlcControlViewModel.Start();
-				}
+				myVlcControl.Media = new LocationMedia(layoutPartCameraViewModel.RviRTSP);
+				if (!myVlcControl.IsPlaying)
+					myVlcControl.Play();
 			}
-		}
-
-		private void UIElement_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-			var curentCameraViewModel = DataContext as LayoutPartCameraViewModel;
-			if ((curentCameraViewModel == null) || (curentCameraViewModel.CameraViewModel == null))
-				return;
-			//if (((bool)e.NewValue) && (!curentCameraViewModel.CameraViewModel.IsNowPlaying))
-			//	curentCameraViewModel.CameraViewModel.StartVideo();
-			//if (((bool)e.OldValue) && (curentCameraViewModel.CameraViewModel.IsNowPlaying))
-			//	curentCameraViewModel.CameraViewModel.StopVideo();
 		}
 	}
 }

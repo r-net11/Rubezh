@@ -166,6 +166,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ExportJournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ForArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GenerateGuidArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetJournalItemArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetListCountArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetListItemArguments.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\SetJournalItemGuidArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowDialogArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ShowMessageArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SetValueArguments.cs" />

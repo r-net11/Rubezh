@@ -133,14 +133,20 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Показать свойство объекта")]
 		ShowProperty,
 
+		[DescriptionAttribute("Генерировать идентификатор")]
+		GenerateGuid,
+
+		[DescriptionAttribute("Назначить идентификатор события")]
+		SetJournalItemGuid,
+
 		[DescriptionAttribute("")]
 		DoAction,
 
 		[DescriptionAttribute("Экспорт организации")]
 		ExportOrganisation,
 
-		//[DescriptionAttribute("Экспорт списка организаций")]
-		//ExportOrganisationList,
+		[DescriptionAttribute("Экспорт списка организаций")]
+		ExportOrganisationList,
 
 		[DescriptionAttribute("Экспорт конфигурации")]
 		ExportConfiguration,
@@ -151,7 +157,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Импорт организации")]
 		ImportOrganisation,
 
-		//[DescriptionAttribute("Импорт списка организаций")]
-		//ImportOrganisationList,
+		[DescriptionAttribute("Импорт списка организаций")]
+		ImportOrganisationList,
 	}
 }

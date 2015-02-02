@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using FiresecAPI.Models;
 using VideoModule.ViewModels;
+using Vlc.DotNet.Core.Medias;
 
 namespace VideoModule.Views
 {
-	public partial class CameraDetailsView : UserControl
+	public partial class CameraDetailsView
 	{
 		Camera Camera { get; set; }
 		public CameraDetailsView()
@@ -18,41 +17,18 @@ namespace VideoModule.Views
 
 		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			//CellPlayerWrap.Stop();
+			if (myVlcControl.IsPlaying)
+				myVlcControl.Stop();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
 			var cameraDetailsViewModel = DataContext as CameraDetailsViewModel;
-			Camera = cameraDetailsViewModel.Camera;
-			Connect();
-			Start();
-		}
-
-		public bool Connect()
-		{
-			try
+			if (cameraDetailsViewModel != null)
 			{
-				//CellPlayerWrap.Connect(Camera);
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
-
-		public bool Start()
-		{
-			try
-			{
-				//CellPlayerWrap.Start(Camera, Camera.ChannelNumber);
-				return true;
-			}
-			catch (Exception)
-			{
-
-				return false;
+				myVlcControl.Media = new LocationMedia(cameraDetailsViewModel.RviRTSP);
+				if (!myVlcControl.IsPlaying)
+					myVlcControl.Play();
 			}
 		}
 	}

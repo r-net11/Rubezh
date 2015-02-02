@@ -51,6 +51,8 @@ namespace FiresecAPI.Automation
 			ExportOrganisationArguments = new ExportOrganisationArguments();
 			ExportConfigurationArguments = new ExportConfigurationArguments();
 			ImportOrganisationArguments = new ImportOrganisationArguments();
+			GenerateGuidArguments = new GenerateGuidArguments();
+			SetJournalItemGuidArguments = new SetJournalItemGuidArguments();
 		}
 
 		[XmlIgnore]
@@ -187,5 +189,11 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ImportOrganisationArguments ImportOrganisationArguments { get; set; } 
+
+		[DataMember]
+		public GenerateGuidArguments GenerateGuidArguments { get; set; }
+
+		[DataMember]
+		public SetJournalItemGuidArguments SetJournalItemGuidArguments { get; set; }
 	}
 }
