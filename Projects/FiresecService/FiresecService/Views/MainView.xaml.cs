@@ -63,5 +63,13 @@ namespace FiresecService.Views
 					break;
 			}
 		}
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (FiresecService.Report.ReportServiceManager.IsRunning)
+                FiresecService.Report.ReportServiceManager.Stop();
+            else
+                FiresecService.Report.ReportServiceManager.Run();
+        }
 	}
 }

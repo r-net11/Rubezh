@@ -7,6 +7,7 @@ using DevExpress.Xpf.Printing;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report;
 using FiresecService.Report.Templates;
+using System.Collections.Generic;
 
 namespace TestReport
 {
@@ -25,7 +26,14 @@ namespace TestReport
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			var report = new Report418();
-			report.ApplyFilter(new ReportFilter418());
+			var filter = new ReportFilter418()
+			{
+				//PassCardForcing = false,
+				//PassCardLocked = false,
+				//UseArchive = true,
+				//Organisations = new List<Guid>() { new Guid("F6E5DA71-C4D7-4421-94A9-F5F7ED7DDF7E") },
+			};
+			report.ApplyFilter(filter);
 			var model = new XtraReportPreviewModel(report)
 			{
 				IsParametersPanelVisible = false,

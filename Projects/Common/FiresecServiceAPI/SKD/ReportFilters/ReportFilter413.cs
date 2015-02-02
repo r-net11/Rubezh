@@ -5,8 +5,19 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
-	public class ReportFilter413 : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee, IReportFilterZoneWithDirection, IReportFilterSchedule
+	public class ReportFilter413 : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZoneWithDirection, IReportFilterSchedule
 	{
+		public ReportFilter413()
+		{
+			PassCardActive = true;
+			PassCardForcing = true;
+			PassCardLocked = true;
+			PassCardOnceOnly = true;
+			PassCardPermanent = true;
+			PassCardTemprorary = true;
+			IsEmployee = true;
+		}
+
 		#region IReportFilterPassCardType Members
 
 		[DataMember]
@@ -49,6 +60,21 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+		[DataMember]
+		public bool IsSearch { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
+		[DataMember]
+		public string FirstName { get; set; }
+		[DataMember]
+		public string SecondName { get; set; }
+
+		#endregion
+
+		#region IReportFilterEmployeeAndVisitor Members
+
+		[DataMember]
+		public bool IsEmployee { get; set; }
 
 		#endregion
 

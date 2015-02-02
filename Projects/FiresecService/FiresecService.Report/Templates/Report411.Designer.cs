@@ -63,8 +63,8 @@
 			// 
 			// xrTable1
 			// 
-			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right)
-			| DevExpress.XtraPrinting.BorderSide.Bottom)));
+			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable1.Name = "xrTable1";
 			this.xrTable1.OddStyleName = "xrControlStyle1";
@@ -135,7 +135,7 @@
 			// xrTableCell7
 			// 
 			this.xrTableCell7.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Period", "{0:dd.MM.yyyy}")});
 			this.xrTableCell7.Name = "xrTableCell7";
 			this.xrTableCell7.Weight = 0.15384615384615386D;
 			// 
@@ -154,9 +154,9 @@
 			// xrTable2
 			// 
 			this.xrTable2.AnchorVertical = ((DevExpress.XtraReports.UI.VerticalAnchorStyles)((DevExpress.XtraReports.UI.VerticalAnchorStyles.Top | DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom)));
-			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top)
-			| DevExpress.XtraPrinting.BorderSide.Right)
-			| DevExpress.XtraPrinting.BorderSide.Bottom)));
+			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            | DevExpress.XtraPrinting.BorderSide.Right) 
+            | DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable2.KeepTogether = true;
 			this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable2.Name = "xrTable2";

@@ -14,6 +14,7 @@ namespace ReportsModule.ViewModels
 		{
 			SKDReportGroup = group;
 			_title = group.ToDescription();
+            IsExpanded = true;
 		}
 
 		public SKDReportGroup SKDReportGroup { get; private set; }

@@ -5,13 +5,45 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
-	public class ReportFilter411 : SKDReportFilter, IReportFilterPassCardTypeFull, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee
+	public class ReportFilter411 : SKDReportFilter, IReportFilterPassCardTypeFull, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor
 	{
 		public ReportFilter411()
 		{
 			ExpirationDate = DateTime.Today;
 			ExpirationType = EndDateType.Day;
+			PassCardActive = true;
+			PassCardForcing = true;
+			PassCardInactive = true;
+			PassCardLocked = true;
+			PassCardOnceOnly = true;
+			PassCardPermanent = true;
+			PassCardTemprorary = true;
+			IsEmployee = true;
 		}
+
+		#region IReportFilterPassCardTypeFull Members
+
+		[DataMember]
+		public bool PassCardInactive { get; set; }
+
+		#endregion
+
+		#region IReportFilterPassCardType Members
+
+		[DataMember]
+		public bool PassCardActive { get; set; }
+		[DataMember]
+		public bool PassCardPermanent { get; set; }
+		[DataMember]
+		public bool PassCardTemprorary { get; set; }
+		[DataMember]
+		public bool PassCardOnceOnly { get; set; }
+		[DataMember]
+		public bool PassCardForcing { get; set; }
+		[DataMember]
+		public bool PassCardLocked { get; set; }
+
+		#endregion
 
 		#region IReportFilterOrganisation Members
 
@@ -38,25 +70,21 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		[DataMember]
 		public List<Guid> Employees { get; set; }
+		[DataMember]
+		public bool IsSearch { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
+		[DataMember]
+		public string FirstName { get; set; }
+		[DataMember]
+		public string SecondName { get; set; }
 
 		#endregion
 
-		#region IReportFilterPassCardType Members
+		#region IReportFilterEmployeeAndVisitor Members
 
 		[DataMember]
-		public bool PassCardActive { get; set; }
-		[DataMember]
-		public bool PassCardInactive { get; set; }
-		[DataMember]
-		public bool PassCardPermanent { get; set; }
-		[DataMember]
-		public bool PassCardTemprorary { get; set; }
-		[DataMember]
-		public bool PassCardOnceOnly { get; set; }
-		[DataMember]
-		public bool PassCardForcing { get; set; }
-		[DataMember]
-		public bool PassCardLocked { get; set; }
+		public bool IsEmployee { get; set; }
 
 		#endregion
 

@@ -138,6 +138,11 @@ namespace FiresecService
 					}
 					break;
 
+				case ProcedureStepType.GenerateGuid:
+					var generateGuidArguments = procedureStep.GenerateGuidArguments;
+					SetValue(generateGuidArguments.ResultArgument, Guid.NewGuid());
+					break;
+
 				case ProcedureStepType.Foreach:
 					var foreachArguments = procedureStep.ForeachArguments;
 					var listVariable = AllVariables.FirstOrDefault(x => x.Uid == foreachArguments.ListArgument.VariableUid);

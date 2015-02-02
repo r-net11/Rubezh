@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using FiresecAPI;
@@ -6,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using SKDDriver;
+using DevExpress.XtraReports.UI;
 
 namespace FiresecService.Report.Templates
 {
@@ -24,42 +26,63 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<ReportFilter418>();
 			dataProvider.LoadCache();
-			if (filter.Employees == null)
-				filter.Employees = new List<Guid>();
-			if (filter.Departments == null)
-				filter.Departments = new List<Guid>();
-			if (filter.Positions == null)
-				filter.Positions = new List<Guid>();
-			if (filter.Organisations == null)
-				filter.Organisations = new List<Guid>();
-			var employeeFilter = new EmployeeFilter();
-			employeeFilter.OrganisationUIDs = filter.Organisations;
-			employeeFilter.DepartmentUIDs = filter.Departments;
-			employeeFilter.PositionUIDs = filter.Positions;
-			employeeFilter.UIDs = filter.Employees;
-			var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
+			var employees = dataProvider.GetEmployees(filter);
 			var dataSet = new DataSet418();
-			if (employeesResult.Result != null)
+			foreach (var employee in employees)
 			{
-				foreach (var employee in employeesResult.Result)
+				var dataRow = dataSet.Data.NewDataRow();
+				dataRow.IsEmployee = filter.IsEmployee;
+				dataRow.BirthDay = employee.Item.BirthDate;
+				dataRow.BirthPlace = employee.Item.BirthPlace;
+				dataRow.Department = employee.Department;
+				dataRow.Document = employee.Item.DocumentType.ToDescription();
+				dataRow.DocumentIssuer = employee.Item.DocumentGivenBy;
+				dataRow.DocumentNumber = employee.Item.DocumentNumber;
+				dataRow.DocumentValidFrom = employee.Item.DocumentGivenDate;
+				dataRow.DocumentValidTo = employee.Item.DocumentValidTo;
+				dataRow.FirstName = employee.Item.FirstName;
+				dataRow.LastName = employee.Item.LastName;
+				dataRow.Nationality = employee.Item.Citizenship;
+				dataRow.Number = employee.Item.TabelNo;
+				dataRow.Organisation = employee.Organisation;
+				dataRow.Phone = employee.Item.Phone;
+				if (employee.Item.Photo != null)
+					dataRow.Photo = employee.Item.Photo.Data;
+				dataRow.Position = employee.Position;
+				dataRow.Schedule = employee.Item.ScheduleName;
+				dataRow.SecondName = employee.Item.SecondName;
+				dataRow.Sex = employee.Item.Gender.ToDescription();
+				dataRow.UID = employee.UID;
+				dataSet.Data.Rows.Add(dataRow);
+				foreach (var card in employee.Item.Cards)
 				{
-					var dataRow = dataSet.Data.NewDataRow();
-					dataRow.Document = employee.DocumentType.ToDescription();
-					dataRow.DocumentNumber = employee.DocumentNumber;
-					dataRow.FirstName = employee.FirstName;
-					dataRow.SecondName = employee.SecondName;
-					dataRow.Sex = employee.Gender.ToDescription();
-					if (employee.Photo != null)
-						dataRow.Photo = employee.Photo.Data;
-					dataRow.Organisation = dataProvider.Organisations[employee.OrganisationUID].Name;
-					if (employee.Department != null)
-						dataRow.Department = employee.Department.Name;
-					if (employee.Position != null)
-						dataRow.Position = employee.Position.Name;
-					dataSet.Data.Rows.Add(dataRow);
+					var cardRow = dataSet.PassCards.NewPassCardsRow();
+					cardRow.DataRow = dataRow;
+					cardRow.Number = card.Number;
+					dataSet.PassCards.AddPassCardsRow(cardRow);
+				}
+				foreach (var column in employee.Item.AdditionalColumns.Where(item => item.AdditionalColumnType.DataType == AdditionalColumnDataType.Text))
+				{
+					var columnRow = dataSet.AdditionalColumns.NewAdditionalColumnsRow();
+					columnRow.DataRow = dataRow;
+					columnRow.Value = column.TextData;
+					columnRow.Name = column.AdditionalColumnType.Name;
+					dataSet.AdditionalColumns.AddAdditionalColumnsRow(columnRow);
 				}
 			}
 			return dataSet;
+		}
+
+		protected override void ApplySort()
+		{
+			if (string.IsNullOrEmpty(Filter.SortColumn) || Filter.SortColumn == "Employee")
+			{
+				Detail.SortFields.Add(new GroupField("LastName", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
+				Detail.SortFields.Add(new GroupField("FirstName", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
+				Detail.SortFields.Add(new GroupField("SecondName", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
+			}
+			else
+				base.ApplySort();
 		}
 	}
 }

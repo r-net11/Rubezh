@@ -1,18 +1,11 @@
 ﻿using System;
-using Common;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using SKDDriver;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
-using FiresecService.Report.Model;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
@@ -30,84 +23,69 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter411>();
-
-			var useEmployeesFilter = false;
-			var employees = new List<Guid>();
-			if (!filter.Employees.IsEmpty() || !filter.Departments.IsEmpty() || !filter.Positions.IsEmpty() || !filter.Organisations.IsEmpty())
+			if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardInactive && !filter.PassCardLocked && !filter.PassCardOnceOnly && !filter.PassCardPermanent && !filter.PassCardTemprorary)
 			{
-				useEmployeesFilter = true;
-				employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
+				filter.PassCardActive = true;
+				filter.PassCardForcing = true;
+				filter.PassCardInactive = true;
+				filter.PassCardLocked = true;
+				filter.PassCardOnceOnly = true;
+				filter.PassCardPermanent = true;
+				filter.PassCardTemprorary = true;
 			}
 
 			var cardFilter = new CardFilter();
+			if (dataProvider.IsEmployeeFilter(filter))
+				cardFilter.EmployeeFilter = dataProvider.GetEmployeeFilter(filter);
+			if (filter.PassCardForcing)
+				cardFilter.CardTypes.Add(CardType.Duress);
+			if (filter.PassCardLocked)
+				cardFilter.CardTypes.Add(CardType.Blocked);
+			if (filter.PassCardOnceOnly)
+				cardFilter.CardTypes.Add(CardType.OneTime);
+			if (filter.PassCardPermanent)
+				cardFilter.CardTypes.Add(CardType.Constant);
+			if (filter.PassCardTemprorary)
+				cardFilter.CardTypes.Add(CardType.Temporary);
+			cardFilter.DeactivationType = filter.PassCardInactive ? (cardFilter.CardTypes.Count > 0 ? LogicalDeletationType.All : LogicalDeletationType.Deleted) : LogicalDeletationType.Active;
+			cardFilter.IsWithEndDate = filter.UseExpirationDate;
+			if (filter.UseExpirationDate)
+				switch (filter.ExpirationType)
+				{
+					case EndDateType.Day:
+						cardFilter.EndDate = DateTime.Today.AddDays(1);
+						break;
+					case EndDateType.Week:
+						cardFilter.EndDate = DateTime.Today.AddDays(7);
+						break;
+					case EndDateType.Month:
+						cardFilter.EndDate = DateTime.Today.AddDays(31);
+						break;
+					case EndDateType.Arbitrary:
+						cardFilter.EndDate = filter.ExpirationDate;
+						break;
+				}
 			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
 
 			var dataSet = new DataSet411();
 			if (!cardsResult.HasError)
 			{
+				dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID));
 				foreach (var card in cardsResult.Result)
 				{
-					if (useEmployeesFilter && !employees.Contains(card.EmployeeUID))
-						continue;
-
-					if (filter.PassCardPermanent || filter.PassCardTemprorary || filter.PassCardOnceOnly || filter.PassCardForcing || filter.PassCardLocked)
-					{
-						if (filter.PassCardPermanent && card.CardType != CardType.Constant)
-							continue;
-						if (filter.PassCardTemprorary && card.CardType != CardType.Temporary)
-							continue;
-						if (filter.PassCardOnceOnly && card.CardType != CardType.OneTime)
-							continue;
-						if (filter.PassCardForcing && card.CardType != CardType.Duress)
-							continue;
-						if (filter.PassCardLocked && card.CardType != CardType.Blocked)
-							continue;
-					}
-
-					if (filter.PassCardActive && !filter.PassCardInactive && card.IsDeleted)
-						continue;
-					if (!filter.PassCardActive && filter.PassCardInactive && !card.IsDeleted)
-						continue;
-
-					if (filter.UseExpirationDate)
-					{
-						var endDate = DateTime.Now;
-						if (filter.ExpirationType == EndDateType.Day)
-							endDate = DateTime.Now.AddDays(1);
-						if (filter.ExpirationType == EndDateType.Week)
-							endDate = DateTime.Now.AddDays(7);
-						if (filter.ExpirationType == EndDateType.Month)
-							endDate = DateTime.Now.AddDays(31);
-						if (filter.ExpirationType == EndDateType.Arbitrary)
-							endDate = filter.ExpirationDate;
-
-						if (card.EndDate > endDate)
-							continue;
-					}
-
-					var employeeResult = dataProvider.DatabaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
-
 					var dataRow = dataSet.Data.NewDataRow();
-					dataRow.Type = card.CardType.ToDescription();
+					dataRow.Type = card.IsInStopList ? "Деактивированный" : card.CardType.ToDescription();
 					dataRow.Number = card.Number.ToString();
-					if (employeeResult.Result != null)
+					var employee = dataProvider.GetEmployee(card.EmployeeUID);
+					if (employee != null)
 					{
-						dataRow.Employee = employeeResult.Result.Name;
-						var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
-						if (organisationResult.Result != null)
-						{
-							dataRow.Organisation = organisationResult.Result.Name;
-						}
-						if (employeeResult.Result.Department != null)
-						{
-							dataRow.Department = employeeResult.Result.Department.Name;
-						}
-						if (employeeResult.Result.Position != null)
-						{
-							dataRow.Position = employeeResult.Result.Position.Name;
-						}
+						dataRow.Employee = employee.Name;
+						dataRow.Organisation = employee.Organisation;
+						dataRow.Department = employee.Department;
+						dataRow.Position = employee.Position;
 					}
-					dataRow.Period = card.EndDate.ToString();
+					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary))
+						dataRow.Period = card.EndDate;
 					dataSet.Data.Rows.Add(dataRow);
 				}
 			}

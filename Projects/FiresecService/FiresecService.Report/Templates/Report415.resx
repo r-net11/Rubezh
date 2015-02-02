@@ -131,6 +131,9 @@
               &lt;xs:element name="Chief" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="ParentDepartment" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="Description" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="IsArchive" type="xs:boolean" minOccurs="0" /&gt;
+              &lt;xs:element name="Level" type="xs:int" minOccurs="0" /&gt;
+              &lt;xs:element name="Index" type="xs:int" minOccurs="0" /&gt;
             &lt;/xs:sequence&gt;
           &lt;/xs:complexType&gt;
         &lt;/xs:element&gt;

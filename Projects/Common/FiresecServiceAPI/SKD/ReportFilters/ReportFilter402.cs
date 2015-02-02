@@ -4,62 +4,82 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
-    [DataContract]
-    public class ReportFilter402 : SKDReportFilter, IReportFilterPeriod, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployee, IReportFilterZone, IReportFilterDoor
-    {
-        #region IReportFilterOrganisation Members
+	[DataContract]
+	public class ReportFilter402 : SKDReportFilter, IReportFilterPeriod, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZone, IReportFilterDoor
+	{
+		public ReportFilter402()
+		{
+			IsEmployee = true;
+		}
 
-        [DataMember]
-        public List<Guid> Organisations { get; set; }
+		#region IReportFilterOrganisation Members
 
-        #endregion
+		[DataMember]
+		public List<Guid> Organisations { get; set; }
 
-        #region IReportFilterDepartment Members
+		#endregion
 
-        [DataMember]
-        public List<Guid> Departments { get; set; }
+		#region IReportFilterDepartment Members
 
-        #endregion
+		[DataMember]
+		public List<Guid> Departments { get; set; }
 
-        #region IReportFilterPosition Members
+		#endregion
 
-        [DataMember]
-        public List<Guid> Positions { get; set; }
+		#region IReportFilterPosition Members
 
-        #endregion
+		[DataMember]
+		public List<Guid> Positions { get; set; }
 
-        #region IReportFilterEmployee Members
+		#endregion
 
-        [DataMember]
-        public List<Guid> Employees { get; set; }
+		#region IReportFilterEmployee Members
 
-        #endregion
+		[DataMember]
+		public List<Guid> Employees { get; set; }
+		[DataMember]
+		public bool IsSearch { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
+		[DataMember]
+		public string FirstName { get; set; }
+		[DataMember]
+		public string SecondName { get; set; }
 
-        #region IReportFilterZone Members
+		#endregion
 
-        [DataMember]
-        public List<Guid> Zones { get; set; }
+		#region IReportFilterEmployeeAndVisitor Members
 
-        #endregion
+		[DataMember]
+		public bool IsEmployee { get; set; }
 
-        #region IReportFilterDoor Members
+		#endregion
 
-        [DataMember]
-        public List<Guid> Doors{get;set;}
+		#region IReportFilterZone Members
 
-        #endregion
+		[DataMember]
+		public List<Guid> Zones { get; set; }
 
-        #region IReportFilterPeriod Members
+		#endregion
 
-        [DataMember]
-        public ReportPeriodType PeriodType { get; set; }
+		#region IReportFilterDoor Members
 
-        [DataMember]
-        public DateTime DateTimeFrom { get; set; }
+		[DataMember]
+		public List<Guid> Doors { get; set; }
 
-        [DataMember]
-        public DateTime DateTimeTo { get; set; }
+		#endregion
 
-        #endregion
-    }
+		#region IReportFilterPeriod Members
+
+		[DataMember]
+		public ReportPeriodType PeriodType { get; set; }
+
+		[DataMember]
+		public DateTime DateTimeFrom { get; set; }
+
+		[DataMember]
+		public DateTime DateTimeTo { get; set; }
+
+		#endregion
+	}
 }

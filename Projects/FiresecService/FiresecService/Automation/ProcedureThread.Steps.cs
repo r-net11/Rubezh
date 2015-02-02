@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Automation;
@@ -633,11 +633,19 @@ namespace FiresecService
 
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
-				//var beforeUid = GetValue<Guid>(cameraArguments.EventUIDArgument);
-				var eventUID = Guid.NewGuid();
-				SetValue(cameraArguments.EventUIDArgument, eventUID);
-				var afterUid = GetValue<String>(cameraArguments.EventUIDArgument);
-
+				Regex guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" +
+						  "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+						  "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
+				var eventUIDString = GetValue<String>(cameraArguments.EventUIDArgument);
+				var eventUID = new Guid();
+				if (!String.IsNullOrEmpty(eventUIDString) && guidRegEx.IsMatch(eventUIDString))
+				{
+					eventUID = new Guid(eventUIDString);
+				}
+				else
+				{
+					return;
+				}
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
 

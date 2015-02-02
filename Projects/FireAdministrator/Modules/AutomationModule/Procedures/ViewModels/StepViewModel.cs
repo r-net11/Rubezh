@@ -179,6 +179,10 @@ namespace AutomationModule.ViewModels
 					Content = new ShowPropertyStepViewModel(this);
 					break;
 
+				case ProcedureStepType.GenerateGuid:
+					Content = new GenerateGuidStepViewModel(this);
+					break;
+
 				case ProcedureStepType.ExportJournal:
 					Content = new ExportJournalStepViewModel(this);
 					break;

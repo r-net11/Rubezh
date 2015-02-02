@@ -123,6 +123,8 @@ namespace AutomationModule.ViewModels
 				return ExportJournalTemplate;
 			if (item is ExportOrganisationStepViewModel)
 				return ExportOrganisationTemplate;
+			if (item is GenerateGuidStepViewModel)
+				return GenerateGuidTemplate;
 			if (item is ExportConfigurationStepViewModel)
 				return ExportConfigurationTemplate;
 			if (item is ImportOrganisationStepViewModel)

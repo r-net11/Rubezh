@@ -242,11 +242,12 @@
             // 
             // xrLabel1
             // 
-            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 10.00001F);
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
             this.xrLabel1.Name = "xrLabel1";
             this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel1.SizeF = new System.Drawing.SizeF(100F, 23F);
-            xrSummary1.FormatString = "Всего событий {0}";
+            this.xrLabel1.SizeF = new System.Drawing.SizeF(639.9999F, 23F);
+            this.xrLabel1.StylePriority.UseFont = false;
+            xrSummary1.FormatString = "Всего событий: {0}";
             xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
             xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
             this.xrLabel1.Summary = xrSummary1;

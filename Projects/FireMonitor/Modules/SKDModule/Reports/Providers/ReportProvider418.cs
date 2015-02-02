@@ -18,11 +18,11 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "c01", "Сотруднки (Посетитель)" },
-					{ "c02", "Табельный номер (Примечание)" },
-					{ "c03", "Организация" },
-                    { "c04", "Подразделение" },
-					{ "c05", "Должность (Сопровождающий)" },
+					{ "Employee", "Сотруднки (Посетитель)" },
+					{ "Number", "Табельный номер (Примечание)" },
+					{ "Organisation", "Организация" },
+                    { "Department", "Подразделение" },
+					{ "Position", "Должность (Сопровождающий)" },
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{

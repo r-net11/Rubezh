@@ -57,7 +57,11 @@ namespace ReportsModule.ViewModels
 					OnProgressChanged();
 			};
 			Model.CreateDocumentError += Model_CreateDocumentError;
-			Model.Clear();
+            Model.ExportError += Model_CreateDocumentError;
+            Model.PrintError += Model_CreateDocumentError;
+            Model.GetPageError += Model_GetPageError;
+            Model.UnhandledError += Model_GetPageError;
+            Model.Clear();
 		}
 
 		private SKDReportBaseViewModel _selectedReport;
@@ -70,6 +74,8 @@ namespace ReportsModule.ViewModels
 				{
 					_selectedReport = value;
 					OnPropertyChanged(() => SelectedReport);
+					if (SelectedReport != null)
+						SelectedReport.Reset();
 					BuildReport();
 				}
 				CommandManager.InvalidateRequerySuggested();
@@ -157,6 +163,11 @@ namespace ReportsModule.ViewModels
 			CommandManager.InvalidateRequerySuggested();
 			MessageBoxService.ShowException(e.Fault);
 		}
+        private void Model_GetPageError(object sender, SimpleFaultEventArgs e)
+        {
+            CommandManager.InvalidateRequerySuggested();
+            MessageBoxService.ShowException(e.Fault);
+        }
 
 		public RelayCommand ChangeFilterCommand { get; private set; }
 		private void OnChangeFilter()

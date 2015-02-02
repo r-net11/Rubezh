@@ -18,6 +18,10 @@ namespace ReportsModule.ViewModels
 		public abstract string Title { get; }
 		public abstract string IconSource { get; }
 		public abstract int SortIndex { get; }
+
+		public virtual void Reset()
+		{
+		}
 	}
 	public class SKDReportViewModelComparer : TreeNodeComparer<SKDReportBaseViewModel>
 	{

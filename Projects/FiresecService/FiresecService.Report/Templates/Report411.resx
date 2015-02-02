@@ -132,7 +132,7 @@
               &lt;xs:element name="Organisation" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="Department" type="xs:string" minOccurs="0" /&gt;
               &lt;xs:element name="Position" type="xs:string" minOccurs="0" /&gt;
-              &lt;xs:element name="Period" type="xs:string" minOccurs="0" /&gt;
+              &lt;xs:element name="Period" type="xs:dateTime" minOccurs="0" /&gt;
             &lt;/xs:sequence&gt;
           &lt;/xs:complexType&gt;
         &lt;/xs:element&gt;

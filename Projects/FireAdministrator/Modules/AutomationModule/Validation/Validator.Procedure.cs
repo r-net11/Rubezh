@@ -348,6 +348,12 @@ namespace AutomationModule.Validation
 					break;
 				case ProcedureStepType.ShowDialog:
 					break;
+				case ProcedureStepType.GenerateGuid:
+					{
+						var randomArguments = step.GenerateGuidArguments;
+						ValidateArgument(step, randomArguments.ResultArgument);
+					}
+					break;
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

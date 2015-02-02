@@ -244,6 +244,10 @@
 		<Views:ShowPropertyStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="generateGuidTemplate">
+		<Views:GenerateGuidStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
@@ -282,6 +286,7 @@
 										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" 
                                          ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
                                          ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
+										 GenerateGuidTemplate="{StaticResource generateGuidTemplate}"
                                          ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
                                          ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
                                          ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
