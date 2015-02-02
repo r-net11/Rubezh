@@ -2,21 +2,17 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Wpf;
+using System.Threading;
 
 namespace VideoModule.ViewModels
 {
 	public class VlcControlViewModel : BaseViewModel
 	{
-		public VlcControlViewModel()
-		{
-		}
-
 		string _rviRTSP;
 		public string RviRTSP
 		{
@@ -28,11 +24,6 @@ namespace VideoModule.ViewModels
 				_vlcControl.PositionChanged -= VlcControlOnPositionChanged;
 				_vlcControl.PositionChanged += VlcControlOnPositionChanged;
 			}
-		}
-
-		static VlcControlViewModel()
-		{
-
 		}
 
 		private VlcControl _vlcControl;
@@ -50,28 +41,10 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
-				if (_vlcControl == null)
+				if (_vlcControl == null ||_vlcControl.IsPlaying)
 					return;
-				if (_vlcControl.IsPlaying)
-					return;
-				if (!VlcContext.IsInitialized)
-				{
-					//Set libvlc.dll and libvlccore.dll directory path
-					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
-					//Set the vlc plugins directory path
-					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
-
-					//Set the startup options
-					VlcContext.StartupOptions.IgnoreConfig = true;
-					VlcContext.StartupOptions.LogOptions.LogInFile = false;
-					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
-					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-
-					//Initialize the VlcContext
-					VlcContext.Initialize();
-				}
-				_vlcControl.Play();
-				//Dispatcher.CurrentDispatcher.BeginInvoke((Action)_vlcControl.Play);
+				Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, (Action)_vlcControl.Play);
+				//_vlcControl.Play();
 			}
 			catch (Exception e)
 			{
@@ -89,7 +62,8 @@ namespace VideoModule.ViewModels
 
 		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
 		{
-			OnPropertyChanged(() => Image);
+			if (_vlcControl != null)
+				OnPropertyChanged(() => Image);
 		}
 	}
 }

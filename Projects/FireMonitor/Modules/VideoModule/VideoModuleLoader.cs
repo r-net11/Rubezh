@@ -17,6 +17,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
+using Vlc.DotNet.Core;
 
 namespace VideoModule
 {
@@ -30,13 +31,46 @@ namespace VideoModule
 		{
 			_planPresenter = new PlanPresenter();
 			CamerasViewModel = new CamerasViewModel();
+
 			foreach (var zone in GKManager.Zones)
 			{
 				zone.State.StateChanged -= new Action(OnZoneStateChanged);
 				zone.State.StateChanged += new Action(OnZoneStateChanged);
 			}
-
+			VlcInitialize();
 			SubscribeShowDelailsEvent();
+		}
+
+		public void VlcInitialize()
+		{
+			try
+			{
+				//if (!VlcContext.IsInitialized)
+				{
+					//Set libvlc.dll and libvlccore.dll directory path
+					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
+					//Set the vlc plugins directory path
+					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
+
+					//Set the startup options
+					VlcContext.StartupOptions.IgnoreConfig = false;
+					VlcContext.StartupOptions.LogOptions.LogInFile = false;
+					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
+					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+
+					VlcContext.StartupOptions.AddOption("--network-caching=500");
+					VlcContext.StartupOptions.AddOption("--no-skip-frames");
+					VlcContext.StartupOptions.AddOption("--no-video-title");
+					VlcContext.StartupOptions.AddOption("--live-caching=20000");
+
+					//Initialize the VlcContext
+					VlcContext.Initialize();
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowWarning(e.Message);
+			}
 		}
 
 		#region ShowDelailsEvent

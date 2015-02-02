@@ -19,7 +19,7 @@ namespace VideoModule.ViewModels
 	public class CameraDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Camera Camera { get; private set; }
-		public VlcControlViewModel VlcControlViewModel { get; private set; }
+		public string RviRTSP { get; private set; }
 
 		public CameraDetailsViewModel(Camera camera)
 		{
@@ -36,9 +36,8 @@ namespace VideoModule.ViewModels
 			}
 			SelectedPreset = Presets.FirstOrDefault();
 
-			VlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == Camera.RviRTSP);
-			if (VlcControlViewModel != null)
-				VlcControlViewModel.Start();
+			if (Camera != null)
+				RviRTSP = Camera.RviRTSP;
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
