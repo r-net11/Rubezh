@@ -283,9 +283,9 @@
     </Compile>
     <Compile Include="Steps\Views\ExportOrganisationStepView.xaml.cs">
       <DependentUpon>ExportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Steps\Views\GenerateGuidStepView.xaml.cs">
       <DependentUpon>GenerateGuidStepView.xaml</DependentUpon>
-    </Compile>
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationStepView.xaml.cs">
       <DependentUpon>ImportOrganisationStepView.xaml</DependentUpon>
