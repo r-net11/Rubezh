@@ -12,121 +12,128 @@ using FiresecAPI.SKD.ReportFilters;
 using SKDDriver;
 using System.Collections.Generic;
 using Common;
+using FiresecService.Report.Model;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class Report412 : BaseReport
-	{
-		public Report412()
-		{
-			InitializeComponent();
-		}
+    public partial class Report412 : BaseReport
+    {
+        public Report412()
+        {
+            InitializeComponent();
+        }
 
-		public override string ReportTitle
-		{
-			get { return "Доступ в зоны сотрудников/посетителей"; }
-		}
-		protected override DataSet CreateDataSet(DataProvider dataProvider)
-		{
-			var filter = GetFilter<ReportFilter412>();
+        public override string ReportTitle
+        {
+            get { return "Доступ в зоны сотрудников/посетителей"; }
+        }
+        protected override DataSet CreateDataSet(DataProvider dataProvider)
+        {
+            var filter = GetFilter<ReportFilter412>();
+            if (!filter.PassCardActive && !filter.PassCardForcing && !filter.PassCardLocked && !filter.PassCardOnceOnly && !filter.PassCardPermanent && !filter.PassCardTemprorary)
+            {
+                filter.PassCardActive = true;
+                filter.PassCardForcing = true;
+                filter.PassCardLocked = true;
+                filter.PassCardOnceOnly = true;
+                filter.PassCardPermanent = true;
+                filter.PassCardTemprorary = true;
+            }
 
-			var useEmployeesFilter = dataProvider.IsEmployeeFilter(filter);
-			var employees = new List<Guid>();
-			if (useEmployeesFilter)
-				employees = dataProvider.GetEmployees(filter).Select(item => item.UID).ToList();
+            var cardFilter = new CardFilter();
+            if (dataProvider.IsEmployeeFilter(filter))
+                cardFilter.EmployeeFilter = dataProvider.GetEmployeeFilter(filter);
+            if (filter.PassCardForcing)
+                cardFilter.CardTypes.Add(CardType.Duress);
+            if (filter.PassCardLocked)
+                cardFilter.CardTypes.Add(CardType.Blocked);
+            if (filter.PassCardOnceOnly)
+                cardFilter.CardTypes.Add(CardType.OneTime);
+            if (filter.PassCardPermanent)
+                cardFilter.CardTypes.Add(CardType.Constant);
+            if (filter.PassCardTemprorary)
+                cardFilter.CardTypes.Add(CardType.Temporary);
+            cardFilter.DeactivationType = LogicalDeletationType.Active;
+            cardFilter.LogicalDeletationType = LogicalDeletationType.Active;
+            var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
 
-			var cardFilter = new CardFilter();
-			var cardsResult = dataProvider.DatabaseService.CardTranslator.Get(cardFilter);
+            var dataSet = new DataSet412();
+            if (!cardsResult.HasError)
+            {
+                dataProvider.GetEmployees(cardsResult.Result.Select(item => item.EmployeeUID));
+                var accessTemplateFilter = new AccessTemplateFilter()
+                {
+                    UIDs = cardsResult.Result.Where(item => item.AccessTemplateUID.HasValue && item.AccessTemplateUID != Guid.Empty).Select(item => item.AccessTemplateUID.Value).ToList()
+                };
+                var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
+                var zoneMap = new Dictionary<Guid, Tuple<SKDZone, SKDZone>>();
+                SKDManager.Doors.ForEach(door =>
+                {
+                    if (door != null && !zoneMap.ContainsKey(door.UID))
+                    {
+                        var zone1 = door.InDevice != null && door.InDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.InDevice.Zone.UID)) ? door.InDevice.Zone : null;
+                        var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID)) ? door.OutDevice.Zone : null;
+                        if (zone1 != null || zone2 != null)
+                        {
+                            if (zone1 == zone2)
+                                zone2 = null;
+                            var value = new Tuple<SKDZone, SKDZone>(zone1, zone2);
+                            zoneMap.Add(door.UID, value);
+                        }
+                    }
+                });
 
-			var dataSet = new DataSet412();
-			if (!cardsResult.HasError)
-			{
-				foreach (var card in cardsResult.Result)
-				{
-					if (useEmployeesFilter && !employees.Contains(card.EmployeeUID))
-						continue;
-
-					if (filter.PassCardPermanent || filter.PassCardTemprorary || filter.PassCardOnceOnly || filter.PassCardForcing || filter.PassCardLocked)
-					{
-						if (filter.PassCardPermanent && card.CardType != CardType.Constant)
-							continue;
-						if (filter.PassCardTemprorary && card.CardType != CardType.Temporary)
-							continue;
-						if (filter.PassCardOnceOnly && card.CardType != CardType.OneTime)
-							continue;
-						if (filter.PassCardForcing && card.CardType != CardType.Duress)
-							continue;
-						if (filter.PassCardLocked && card.CardType != CardType.Blocked)
-							continue;
-					}
-
-					if (filter.PassCardActive && card.IsDeleted)
-						continue;
-
-					var employeeResult = dataProvider.DatabaseService.EmployeeTranslator.GetSingle(card.EmployeeUID);
-					var accessTemplateResult = dataProvider.DatabaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-
-					var cardDoors = new List<CardDoor>();
-					if (accessTemplateResult.Result != null)
-					{
-						cardDoors = accessTemplateResult.Result.CardDoors.ToList();
-					}
-					cardDoors.AddRange(card.CardDoors.ToList());
-
-					var zones = new HashSet<SKDZone>();
-					foreach (var cardDoor in cardDoors)
-					{
-						var door = SKDManager.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
-						if (door != null)
-						{
-							if (door.InDevice != null && door.InDevice.Zone != null)
-								zones.Add(door.InDevice.Zone);
-							if (door.OutDevice != null && door.OutDevice.Zone != null)
-								zones.Add(door.OutDevice.Zone);
-						}
-					}
-
-					foreach (var zone in zones)
-					{
-						if (filter.Zones != null && filter.Zones.Count > 0)
-						{
-							if (!filter.Zones.Contains(zone.UID))
-							{
-								continue;
-							}
-						}
-
-						var dataRow = dataSet.Data.NewDataRow();
-						dataRow.Type = card.CardType.ToDescription();
-						dataRow.Number = card.Number.ToString();
-						if (employeeResult.Result != null)
-						{
-							dataRow.Employee = employeeResult.Result.FIO;
-							var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employeeResult.Result.OrganisationUID);
-							if (organisationResult.Result != null)
-							{
-								dataRow.Organisation = organisationResult.Result.Name;
-							}
-							if (employeeResult.Result.Department != null)
-							{
-								dataRow.Department = employeeResult.Result.Department.Name;
-							}
-							if (employeeResult.Result.Position != null)
-							{
-								dataRow.Position = employeeResult.Result.Position.Name;
-							}
-						}
-						if (accessTemplateResult.Result != null)
-						{
-							dataRow.Template = accessTemplateResult.Result.Name;
-						}
-						dataRow.Zone = zone.PresentationName;
-
-						dataSet.Data.Rows.Add(dataRow);
-					}
-				}
-			}
-			return dataSet;
-		}
-	}
+                foreach (var card in cardsResult.Result)
+                {
+                    var employee = dataProvider.GetEmployee(card.EmployeeUID);
+                    var addedZones = new List<Guid>();
+                   foreach (var door in card.CardDoors)
+                        AddRow(dataSet, employee, card, door, null, zoneMap, addedZones);
+                   if (!accessTemplates.HasError && card.AccessTemplateUID.HasValue)
+                   {
+                       var cardDoorUIDs = card.CardDoors.Select(item => item.DoorUID);
+                       var accessTemplate = accessTemplates.Result.FirstOrDefault(item => item.UID == card.AccessTemplateUID.Value);
+                       if (accessTemplates != null)
+                           foreach (var door in accessTemplate.CardDoors.Where(item => !cardDoorUIDs.Contains(item.DoorUID)))
+                               AddRow(dataSet, employee, card, door, accessTemplate, zoneMap, addedZones);
+                   }
+                }
+            }
+            return dataSet;
+        }
+        private void AddRow(DataSet412 ds, EmployeeInfo employee, SKDCard card, CardDoor door, AccessTemplate template, Dictionary<Guid, Tuple<SKDZone, SKDZone>> zoneMap, List<Guid> addedZones)
+        {
+            if (!zoneMap.ContainsKey(door.DoorUID))
+                return;
+            var zones = zoneMap[door.DoorUID];
+            var dataRow = ds.Data.NewDataRow();
+            dataRow.Type = card.CardType.ToDescription();
+            dataRow.Number = card.Number.ToString();
+            if (employee != null)
+            {
+                dataRow.Employee = employee.Name;
+                dataRow.Organisation = employee.Organisation;
+                dataRow.Department = employee.Department;
+                dataRow.Position = employee.Position;
+            }
+            if (template != null)
+                dataRow.Template = template.Name;
+            if (zones.Item1 != null && !addedZones.Contains(zones.Item1.UID))
+            {
+                var row1 = ds.Data.NewDataRow();
+                row1.ItemArray = dataRow.ItemArray;
+                row1.Zone = zones.Item1.Name;
+                ds.Data.AddDataRow(row1);
+                addedZones.Add(zones.Item1.UID);
+            }
+            if (zones.Item2 != null && !addedZones.Contains(zones.Item1.UID))
+            {
+                var row2 = ds.Data.NewDataRow();
+                row2.ItemArray = dataRow.ItemArray;
+                row2.Zone = zones.Item2.Name;
+                ds.Data.AddDataRow(row2);
+                addedZones.Add(zones.Item2.UID);
+            }
+        }
+    }
 }

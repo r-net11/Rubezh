@@ -31,31 +31,30 @@ namespace FiresecService.Report.Templates
 
 			var employees = dataProvider.GetEmployees(filter);
 			var dataSet = new DataSet417();
+            var journal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastPassJournal(employees.Select(item => item.UID).ToList(), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime).ToDictionary(item => item.EmployeeUID);
+            var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
 			foreach (var employee in employees)
 			{
 				var dataRow = dataSet.Data.NewDataRow();
-
 				dataRow.Employee = employee.Name;
 				dataRow.Orgnisation = employee.Organisation;
 				dataRow.Department = employee.Department;
 				dataRow.Position = employee.Position;
-
-				var passJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeeLastPassJournal(employee.UID);
-				if (passJournal != null)
-				{
-					dataRow.EnterDateTime = passJournal.EnterTime;
-					if (passJournal.ExitTime.HasValue)
-					{
-						dataRow.ExitDateTime = passJournal.ExitTime.Value;
-						dataRow.Period = passJournal.ExitTime.Value - passJournal.EnterTime;
-					}
-					var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == passJournal.ZoneUID);
-					if (zone != null)
-					{
-						dataRow.Zone = zone.PresentationName;
-					}
-				}
-
+                if (journal.ContainsKey(employee.UID))
+                {
+                    var record = journal[employee.UID];
+                    dataRow.EnterDateTime = record.EnterTime;
+                    if (zoneMap.ContainsKey(record.ZoneUID))
+                        dataRow.Zone = zoneMap[record.ZoneUID].PresentationName;
+                    if (filter.UseCurrentDate)
+                        dataRow.Period = DateTime.Now - dataRow.EnterDateTime;
+                    else
+                    {
+                        dataRow.Period = (record.ExitTime.HasValue ? record.ExitTime.Value : filter.ReportDateTime) - record.EnterTime;
+                        if (record.ExitTime.HasValue)
+                            dataRow.ExitDateTime = record.ExitTime.Value;
+                    }
+                }
 				dataSet.Data.Rows.Add(dataRow);
 			}
 			return dataSet;

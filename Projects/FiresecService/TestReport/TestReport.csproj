@@ -151,9 +151,17 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
+      <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
+      <Name>SKDDriver</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FiresecService.Report\FiresecService.Report.csproj">
       <Project>{5D7E0293-7CA6-4123-85B6-5EB38CC4CE8C}</Project>
       <Name>FiresecService.Report</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecService\FiresecService.csproj">
+      <Project>{903CA80D-886E-43AF-A631-BEB260F8F93D}</Project>
+      <Name>FiresecService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

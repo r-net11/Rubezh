@@ -112,6 +112,15 @@ namespace FiresecService.Report.Templates
             return Bands.OfType<DetailBand>().FirstOrDefault();
         }
 
+        protected virtual T GetCurrentRow<T>()
+            where T : class
+        {
+            var rowView = GetCurrentRow() as DataRowView;
+            if (rowView == null)
+                return default(T);
+            return rowView.Row as T;
+        }
+
         protected void FillTestData(int count = 20)
         {
             if (!DataSet.Tables.Contains(DataMember))
