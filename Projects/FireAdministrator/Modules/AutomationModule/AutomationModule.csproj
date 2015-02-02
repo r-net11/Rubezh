@@ -130,12 +130,14 @@
     <Compile Include="Steps\ViewModels\CheckPermissionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportConfigurationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportJournalStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ExportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ExportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ForStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GenerateGuidStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetJournalItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListCountStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
@@ -572,6 +574,10 @@
     <Page Include="Steps\Views\ExportOrganisationStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\GenerateGuidStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Steps\Views\ImportOrganisationListStepView.xaml">
       <SubType>Designer</SubType>

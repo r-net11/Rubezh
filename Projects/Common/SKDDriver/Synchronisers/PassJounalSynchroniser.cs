@@ -34,6 +34,8 @@ namespace SKDDriver
 				if (filter.Path != null)
 				{
 					var newPath = Path.Combine(filter.Path, NameXml);
+					if (File.Exists(newPath))
+						File.Delete(newPath);
 					File.Move(NameXml, newPath);
 				}
 				return new OperationResult();

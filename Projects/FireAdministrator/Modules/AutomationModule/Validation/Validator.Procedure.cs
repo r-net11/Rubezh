@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common.Validation;
-using FiresecAPI.Automation;
-using System.Linq;
-using System;
 
 namespace AutomationModule.Validation
 {
@@ -354,6 +354,54 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, randomArguments.ResultArgument);
 					}
 					break;
+				case ProcedureStepType.ExportJournal:
+					{
+						var arguments = step.ExportJournalArguments;
+						ValidateArgument(step, arguments.IsExportJournalArgument);
+						ValidateArgument(step, arguments.IsExportPassJournalArgument);
+						ValidateArgument(step, arguments.MaxDateArgument);
+						ValidateArgument(step, arguments.MinDateArgument);
+						ValidateArgument(step, arguments.PathArgument);
+						break;
+					}
+				case ProcedureStepType.ExportConfiguration:
+					{
+						var arguments = step.ExportConfigurationArguments;
+						ValidateArgument(step, arguments.IsExportDevices);
+						ValidateArgument(step, arguments.IsExportDoors);
+						ValidateArgument(step, arguments.IsExportZones);
+						ValidateArgument(step, arguments.PathArgument);
+						break;
+					}
+				case ProcedureStepType.ExportOrganisation:
+					{
+						var arguments = step.ExportOrganisationArguments;
+						ValidateArgument(step, arguments.IsWithDeleted);
+						ValidateArgument(step, arguments.Organisation);
+						ValidateArgument(step, arguments.PathArgument);
+						break;
+					}
+				case ProcedureStepType.ExportOrganisationList:
+					{
+						var arguments = step.ImportOrganisationArguments;
+						ValidateArgument(step, arguments.IsWithDeleted);
+						ValidateArgument(step, arguments.PathArgument);
+						break;
+					}
+				case ProcedureStepType.ImportOrganisationList:
+					{
+						var arguments = step.ImportOrganisationArguments;
+						ValidateArgument(step, arguments.IsWithDeleted);
+						ValidateArgument(step, arguments.PathArgument);
+						break;
+					}
+				case ProcedureStepType.ImportOrganisation:
+					{
+						var arguments = step.ImportOrganisationArguments;
+						ValidateArgument(step, arguments.IsWithDeleted);
+						ValidateArgument(step, arguments.PathArgument);
+						break;
+					}
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

@@ -41,6 +41,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlDelayTemplate { get; set; }
 		public DataTemplate ShowPropertyTemplate { get; set; }
 		public DataTemplate ExportJournalTemplate { get; set;}
+		public DataTemplate GenerateGuidTemplate { get; set; }
 		public DataTemplate ExportOrganisationTemplate { get; set; }
 		public DataTemplate ExportConfigurationTemplate { get; set; }
 		public DataTemplate ImportOrganisationTemplate { get; set; }
