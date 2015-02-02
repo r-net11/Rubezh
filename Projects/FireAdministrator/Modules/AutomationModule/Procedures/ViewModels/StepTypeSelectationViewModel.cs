@@ -79,7 +79,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.GetObjectProperty),
 							new StepTypeViewModel(ProcedureStepType.Random),
-							new StepTypeViewModel(ProcedureStepType.GenerateGuid)
+							new StepTypeViewModel(ProcedureStepType.GenerateGuid),
+							new StepTypeViewModel(ProcedureStepType.SetJournalItemGuid)
 						}),
 						new StepTypeViewModel("Функции управления списками",
 							new List<StepTypeViewModel>

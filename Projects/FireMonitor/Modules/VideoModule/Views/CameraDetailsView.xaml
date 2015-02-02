@@ -15,8 +15,8 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
-					<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.CameraStateStateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-					<TextBlock Text="{Binding Camera.CameraStateStateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                    <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                    <TextBlock Text="{Binding Camera.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>
@@ -81,7 +81,17 @@
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
-						</ItemsControl.Items>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Button Content="Начать обход" Command="{Binding SetPtzPresetCommand}" Width="100" Margin="2" />
+                                <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding .}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </ItemsControl.Items>
 					</ItemsControl>
 				</ScrollViewer>
 			</TabItem>

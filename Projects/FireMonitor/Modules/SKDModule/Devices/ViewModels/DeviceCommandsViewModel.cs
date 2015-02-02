@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control); }
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
@@ -49,7 +49,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost && DeviceState.OpenAlwaysTimeIndex != 1;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost && DeviceState.OpenAlwaysTimeIndex != 1;
 		}
 
 		public RelayCommand OpenForeverCommand { get; private set; }
@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpenForever()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseForeverCommand { get; private set; }
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCloseForever()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
 		}
 
 		void OnStateChanged()

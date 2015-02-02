@@ -248,6 +248,10 @@
 		<Views:GenerateGuidStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="setJournalItemTemplate">
+		<Views:SetJournalItemGuidStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
@@ -290,6 +294,6 @@
                                          ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
                                          ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
                                          ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
+                                         SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
                                          ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}" />
-
 </ResourceDictionary>

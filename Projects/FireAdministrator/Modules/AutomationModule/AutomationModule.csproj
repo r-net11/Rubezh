@@ -175,6 +175,7 @@
     <Compile Include="Steps\ViewModels\ProcedureSelectionStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RunProgramStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SendEmailStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\SetJournalItemGuidStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowDialogStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ShowMessageStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\SetValueStepViewModel.cs" />
@@ -297,6 +298,9 @@
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationStepView.xaml.cs">
       <DependentUpon>ImportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\SetJournalItemGuidStepView.xaml.cs">
+      <DependentUpon>SetJournalItemGuidStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ShowDialogStepView.xaml.cs">
       <DependentUpon>ShowDialogStepView.xaml</DependentUpon>
@@ -583,7 +587,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Steps\Views\GenerateGuidStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Steps\Views\ImportOrganisationStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\SetJournalItemGuidStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -840,6 +852,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

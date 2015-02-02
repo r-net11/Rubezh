@@ -350,8 +350,14 @@ namespace AutomationModule.Validation
 					break;
 				case ProcedureStepType.GenerateGuid:
 					{
-						var randomArguments = step.GenerateGuidArguments;
-						ValidateArgument(step, randomArguments.ResultArgument);
+						var generateGuidArguments = step.GenerateGuidArguments;
+						ValidateArgument(step, generateGuidArguments.ResultArgument);
+					}
+					break;
+				case ProcedureStepType.SetJournalItemGuid:
+					{
+						var setJournalItemGuidArguments = step.SetJournalItemGuidArguments;
+						ValidateArgument(step, setJournalItemGuidArguments.ValueArgument);
 					}
 					break;
 				case ProcedureStepType.ExportJournal:

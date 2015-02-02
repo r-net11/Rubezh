@@ -25,8 +25,6 @@ namespace VideoModule.ViewModels
 		{
 			VisualCameraViewModels = new List<CameraViewModel>();
 			Camera = camera;
-			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
-			CreateDragVisual = OnCreateDragVisual;
 		}
 
 		public List<CameraViewModel> VisualCameraViewModels;
@@ -95,22 +93,11 @@ namespace VideoModule.ViewModels
 			OnPropertyChanged(() => PresentationAddress);
 			OnPropertyChanged(() => PresentationState);
 			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
 		}
 
 		public bool IsOnPlan
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
-		}
-
-		public VisualizationState VisualizationState
-		{
-			get
-			{
-				return IsOnPlan
-					? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single)
-					: VisualizationState.NotPresent;
-			}
 		}
 
 		public void StartAll()
@@ -149,48 +136,6 @@ namespace VideoModule.ViewModels
 			{
 				return CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip);
 			}
-		}
-
-		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
-
-		private void OnCreateDragObjectCommand(DataObject dataObject)
-		{
-			var camera = Camera;
-			dataObject.SetData("DESIGNER_ITEM", camera);
-		}
-		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
-
-		private UIElement OnCreateDragVisual(IDataObject dataObject)
-		{
-			var brush = PictureCacheSource.CameraPicture.GetDefaultBrush();
-			return new System.Windows.Shapes.Rectangle
-			{
-				Fill = brush,
-				Height = PainterCache.DefaultPointSize,
-				Width = PainterCache.DefaultPointSize,
-			};
-		}
-
-		private void CellPlayerWrapOnDropHandler(Camera camera)
-		{
-			Camera = camera;
-			try
-			{
-				ApplicationService.BeginInvoke(() =>
-				{
-					Stop();
-					Start();
-				});
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
-			}
-		}
-
-		private bool CanCreateDragObjectCommand(DataObject dataObject)
-		{
-			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 	}
 }

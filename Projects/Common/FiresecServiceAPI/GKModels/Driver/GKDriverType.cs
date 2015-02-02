@@ -132,6 +132,6 @@ namespace FiresecAPI.GK
 		[Description("Буз R2")]
 		RSR2_Buz,
 		[Description("ИО-ПЗ R2")]
-		RSR2_IOPZ,
+		RSR2_GuardDetectorSound,
 	}
 }

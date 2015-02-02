@@ -136,6 +136,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Генерировать идентификатор")]
 		GenerateGuid,
 
+		[DescriptionAttribute("Назначить идентификатор события")]
+		SetJournalItemGuid,
+
 		[DescriptionAttribute("")]
 		DoAction,
 

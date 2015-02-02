@@ -47,6 +47,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ImportOrganisationTemplate { get; set; }
 		public DataTemplate ExportOrganisationListTemplate { get; set; }
 		public DataTemplate ImportOrganisationListTemplate { get; set; }
+		public DataTemplate SetJournalItemTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -126,6 +127,8 @@ namespace AutomationModule.ViewModels
 				return ExportOrganisationTemplate;
 			if (item is GenerateGuidStepViewModel)
 				return GenerateGuidTemplate;
+			if (item is SetJournalItemGuidStepViewModel)
+				return SetJournalItemTemplate;
 			if (item is ExportConfigurationStepViewModel)
 				return ExportConfigurationTemplate;
 			if (item is ImportOrganisationStepViewModel)

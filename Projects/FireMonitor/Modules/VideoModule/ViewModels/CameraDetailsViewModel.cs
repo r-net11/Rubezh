@@ -25,8 +25,17 @@ namespace VideoModule.ViewModels
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
+			SetPtzPresetCommand = new RelayCommand(OnSetPtzPreset, CanSetPtzPreset);
 			Camera = camera;
 			Title = Camera.PresentationName;
+
+			Presets = new ObservableCollection<int>();
+			for (int i = 0; i < camera.CountPresets; i++)
+			{
+				Presets.Add(i + 1);
+			}
+			SelectedPreset = Presets.FirstOrDefault();
+
 			VlcControlViewModel = VlcControlHelper.VlcControlViewModels.FirstOrDefault(x => x.RviRTSP == Camera.RviRTSP);
 			if (VlcControlViewModel != null)
 				VlcControlViewModel.Start();
@@ -78,6 +87,35 @@ namespace VideoModule.ViewModels
 		public string Guid
 		{
 			get { return Camera.UID.ToString(); }
+		}
+
+		public ObservableCollection<int> Presets { get; private set; }
+
+		int _selectedPreset;
+		public int SelectedPreset
+		{
+			get { return _selectedPreset; }
+			set
+			{
+				_selectedPreset = value;
+				OnPropertyChanged(() => SelectedPreset);
+			}
+		}
+
+		public RelayCommand SetPtzPresetCommand { get; private set; }
+		void OnSetPtzPreset()
+		{
+			RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
+		}
+
+		bool CanSetPtzPreset()
+		{
+			return Presets.Count > 0;
+		}
+
+		public bool IsSetPtzPreset
+		{
+			get { return CanSetPtzPreset(); }
 		}
 
 		public class PlanViewModel : BaseViewModel

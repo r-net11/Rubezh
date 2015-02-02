@@ -633,12 +633,9 @@ namespace FiresecService
 
 			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
-				Regex guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" +
-						  "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
-						  "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
 				var eventUIDString = GetValue<String>(cameraArguments.EventUIDArgument);
-				var eventUID = new Guid();
-				if (!String.IsNullOrEmpty(eventUIDString) && guidRegEx.IsMatch(eventUIDString))
+				Guid eventUID;
+				if (CheckGuid(eventUIDString))
 				{
 					eventUID = new Guid(eventUIDString);
 				}
@@ -648,14 +645,6 @@ namespace FiresecService
 				}
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
-
-				if (JournalItem != null)
-				{
-					using (var journalTranslator = new JounalTranslator())
-					{
-						journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
-					}
-				}
 			}
 			if (cameraArguments.CameraCommandType == CameraCommandType.StopRecord)
 			{
@@ -1093,6 +1082,15 @@ namespace FiresecService
 				}
 			}
 			return (T)GetValue<object>(explicitValue, explicitType, enumType);
+		}
+
+		bool CheckGuid(string guidString)
+		{
+			var guidRegEx = new Regex("^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+				"^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$", RegexOptions.Compiled);
+			if (!String.IsNullOrEmpty(guidString) && guidRegEx.IsMatch(guidString))
+				return true;
+			return false;
 		}
 
 		T GetValue<T>(ExplicitValue explicitValue, ExplicitType explicitType, EnumType enumType)

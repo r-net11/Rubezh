@@ -126,7 +126,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			return Device.DriverType == SKDDriverType.Lock && Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return Device.DriverType == SKDDriverType.Lock && Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -143,7 +143,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand OpenForeverCommand { get; private set; }
@@ -160,7 +160,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpenForever()
 		{
-			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseForeverCommand { get; private set; }
@@ -177,7 +177,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCloseForever()
 		{
-			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_Strazh_Devices_Control) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		#region Door
