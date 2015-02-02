@@ -9,7 +9,7 @@
         <Grid>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Экспортировать архивированные элементы" />
+                    <Label Content="С удалёнными" />
                     <Views:ArgumentView DataContext="{Binding IsWithDeleted}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

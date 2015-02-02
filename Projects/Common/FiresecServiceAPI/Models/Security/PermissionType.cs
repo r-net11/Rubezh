@@ -270,6 +270,9 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("ОЗ: Просмотр журнала учета рабочего времени")]
 		Oper_SKD_TimeTrack_Report_View,
 
+		[DescriptionAttribute("ОЗ: Ручное редактирование графика проходов")]
+		Oper_SKD_TimeTrack_Parts_Edit,
+
 		[DescriptionAttribute("ОЗ: Создание, редактирование, удаление, оправдательных документов")]
 		Oper_SKD_TimeTrack_Documents_Edit,
 

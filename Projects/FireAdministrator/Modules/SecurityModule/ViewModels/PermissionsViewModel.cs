@@ -242,6 +242,7 @@ namespace SecurityModule.ViewModels
 											new PermissionViewModel("Учет рабочего времени ", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Report_View),
+												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Parts_Edit),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Documents_Edit),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit),
 											}),

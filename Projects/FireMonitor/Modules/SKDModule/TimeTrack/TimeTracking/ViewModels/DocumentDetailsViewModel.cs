@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
+using System.Linq;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -41,9 +39,9 @@ namespace SKDModule.ViewModels
 			}
 
 			StartDateTime = timeTrackDocument.StartDateTime.Date;
-			StartTime = timeTrackDocument.StartDateTime;
+			StartTime = timeTrackDocument.StartDateTime.TimeOfDay;
 			EndDateTime = timeTrackDocument.EndDateTime.Date;
-			EndTime = timeTrackDocument.EndDateTime;
+			EndTime = timeTrackDocument.EndDateTime.TimeOfDay;
 			Comment = timeTrackDocument.Comment;
 			DocumentNumber = timeTrackDocument.DocumentNumber;
 			DocumentDateTime = timeTrackDocument.DocumentDateTime;
@@ -63,8 +61,8 @@ namespace SKDModule.ViewModels
 
 		public bool CanEditStartDateTime { get; private set; }
 
-		DateTime _startTime;
-		public DateTime StartTime
+		TimeSpan _startTime;
+		public TimeSpan StartTime
 		{
 			get { return _startTime; }
 			set
@@ -85,8 +83,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _endTime;
-		public DateTime EndTime
+		TimeSpan _endTime;
+		public TimeSpan EndTime
 		{
 			get { return _endTime; }
 			set
@@ -150,8 +148,8 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			var startDateTime = StartDateTime + StartTime.TimeOfDay;
-			var endDateTime = EndDateTime + EndTime.TimeOfDay;
+			var startDateTime = StartDateTime + StartTime;
+			var endDateTime = EndDateTime + EndTime;
 
 			if (startDateTime >= endDateTime)
 			{

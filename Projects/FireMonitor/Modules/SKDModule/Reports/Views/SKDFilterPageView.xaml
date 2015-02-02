@@ -2,7 +2,7 @@
     <TreeList Margin="-5" Focusable="True" SortBehavior.CanUserSortColumns="False" Source="{Binding RootFilters}">
         <TreeList.View>
             <GridView>
-                <GridViewColumn Header="Наименование">
+                <GridViewColumn Header="Название">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
