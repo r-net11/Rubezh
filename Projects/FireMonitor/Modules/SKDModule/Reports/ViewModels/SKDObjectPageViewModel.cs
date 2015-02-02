@@ -9,6 +9,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.GK;
 using Common;
+using Infrastructure.Common;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -18,56 +19,16 @@ namespace SKDModule.Reports.ViewModels
         {
             Title = "Объекты СКД";
             BuildTree();
-        }
+			SelectAllCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = false; item.IsChecked = true; }));
+			SelectNoneCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = true; item.IsChecked = false; }));
+		}
 
-        public ObservableCollection<SKDObjectViewModel> RootFilters { get; private set; }
+		public RelayCommand SelectAllCommand { get; private set; }
+		public RelayCommand SelectNoneCommand { get; private set; }
+		public ObservableCollection<SKDObjectViewModel> RootFilters { get; private set; }
         private void BuildTree()
         {
             RootFilters = new ObservableCollection<SKDObjectViewModel>();
-
-            var gkViewModel = new SKDObjectViewModel(JournalSubsystemType.GK);
-            gkViewModel.IsExpanded = true;
-            RootFilters.Add(gkViewModel);
-
-            var gkDevicesViewModel = new SKDObjectViewModel(JournalObjectType.GKDevice);
-            gkViewModel.AddChild(gkDevicesViewModel);
-            foreach (var childDevice in FiresecClient.GKManager.DeviceConfiguration.RootDevice.Children)
-                AddGKDeviceInternal(childDevice, gkDevicesViewModel);
-
-            var gkZonesViewModel = new SKDObjectViewModel(JournalObjectType.GKZone);
-            gkViewModel.AddChild(gkZonesViewModel);
-            foreach (var zone in FiresecClient.GKManager.Zones)
-                gkZonesViewModel.AddChild(new SKDObjectViewModel(zone));
-
-            var gkDirectionsViewModel = new SKDObjectViewModel(JournalObjectType.GKDirection);
-            gkViewModel.AddChild(gkDirectionsViewModel);
-            foreach (var direction in FiresecClient.GKManager.Directions)
-                gkDirectionsViewModel.AddChild(new SKDObjectViewModel(direction));
-
-            var gkMPTsViewModel = new SKDObjectViewModel(JournalObjectType.GKMPT);
-            gkViewModel.AddChild(gkMPTsViewModel);
-            foreach (var mpt in FiresecClient.GKManager.MPTs)
-                gkMPTsViewModel.AddChild(new SKDObjectViewModel(mpt));
-
-            var gkPumpStationsViewModel = new SKDObjectViewModel(JournalObjectType.GKPumpStation);
-            gkViewModel.AddChild(gkPumpStationsViewModel);
-            foreach (var pumpStation in FiresecClient.GKManager.PumpStations)
-                gkPumpStationsViewModel.AddChild(new SKDObjectViewModel(pumpStation));
-
-            var gkDelaysViewModel = new SKDObjectViewModel(JournalObjectType.GKDelay);
-            gkViewModel.AddChild(gkDelaysViewModel);
-            foreach (var delay in FiresecClient.GKManager.Delays)
-                gkDelaysViewModel.AddChild(new SKDObjectViewModel(delay));
-
-            var gkGuardZonesViewModel = new SKDObjectViewModel(JournalObjectType.GKGuardZone);
-            gkViewModel.AddChild(gkGuardZonesViewModel);
-            foreach (var guardZone in FiresecClient.GKManager.GuardZones)
-                gkGuardZonesViewModel.AddChild(new SKDObjectViewModel(guardZone));
-
-            var gkDoorsViewModel = new SKDObjectViewModel(JournalObjectType.GKDoor);
-            gkViewModel.AddChild(gkDoorsViewModel);
-            foreach (var door in FiresecClient.GKManager.Doors)
-                gkDoorsViewModel.AddChild(new SKDObjectViewModel(door));
 
             var skdViewModel = new SKDObjectViewModel(JournalSubsystemType.SKD);
             skdViewModel.IsExpanded = true;
@@ -87,15 +48,6 @@ namespace SKDModule.Reports.ViewModels
             skdViewModel.AddChild(skdDoorsViewModel);
             foreach (var door in SKDManager.Doors)
                 skdDoorsViewModel.AddChild(new SKDObjectViewModel(door));
-
-            var videoViewModel = new SKDObjectViewModel(JournalSubsystemType.Video);
-            videoViewModel.IsExpanded = true;
-            RootFilters.Add(videoViewModel);
-
-            var videoDevicesViewModel = new SKDObjectViewModel(JournalObjectType.VideoDevice);
-            videoViewModel.AddChild(videoDevicesViewModel);
-            foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras)
-                videoDevicesViewModel.AddChild(new SKDObjectViewModel(camera));
         }
         private SKDObjectViewModel AddGKDeviceInternal(GKDevice device, SKDObjectViewModel parentDeviceViewModel)
         {

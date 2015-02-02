@@ -131,6 +131,8 @@
             this.xrTable1});
 			this.Detail1.HeightF = 25F;
 			this.Detail1.Name = "Detail1";
+			this.Detail1.SortFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
+            new DevExpress.XtraReports.UI.GroupField("DateTime", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
 			// 
 			// xrTable1
 			// 

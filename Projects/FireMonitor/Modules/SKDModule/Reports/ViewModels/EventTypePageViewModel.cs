@@ -7,6 +7,7 @@ using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.SKDReports;
 using System.Collections.ObjectModel;
 using FiresecAPI.Journal;
+using Infrastructure.Common;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -16,14 +17,17 @@ namespace SKDModule.Reports.ViewModels
         {
             Title = "Типы событий";
             BuildTree();
-        }
+			SelectAllCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = false; item.IsChecked = true; }));
+			SelectNoneCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = true; item.IsChecked = false; }));
+		}
 
-        public ObservableCollection<EventTypeViewModel> RootFilters { get; private set; }
+		public RelayCommand SelectAllCommand { get; private set; }
+		public RelayCommand SelectNoneCommand { get; private set; }
+		public ObservableCollection<EventTypeViewModel> RootFilters { get; private set; }
         private void BuildTree()
         {
             RootFilters = new ObservableCollection<EventTypeViewModel>();
             RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.System));
-            RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.GK));
             RootFilters.Add(new EventTypeViewModel(JournalSubsystemType.SKD));
             foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
                 if (enumValue != JournalEventNameType.NULL)
@@ -34,11 +38,8 @@ namespace SKDModule.Reports.ViewModels
                         case JournalSubsystemType.System:
                             RootFilters[0].AddChild(eventTypeViewModel);
                             break;
-                        case JournalSubsystemType.GK:
-                            RootFilters[1].AddChild(eventTypeViewModel);
-                            break;
                         case JournalSubsystemType.SKD:
-                            RootFilters[2].AddChild(eventTypeViewModel);
+                            RootFilters[1].AddChild(eventTypeViewModel);
                             break;
                     }
                 }

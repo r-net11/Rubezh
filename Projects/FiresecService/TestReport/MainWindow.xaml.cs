@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
 using System.Windows;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using FiresecService;
 using SKDDriver.Translators;
+using FiresecAPI.SKD;
 
 namespace TestReport
 {

@@ -3,8 +3,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TreeList Name="_treeList" Grid.Row="0" Focusable="True" SortBehavior.CanUserSortColumns="True" Source="{Binding Schedules, Mode=OneWay}">
 			<TreeList.View>

@@ -45,8 +45,8 @@
             <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource label}" Text="Дата и время окончания" />
 
             <ComboBox Grid.Row="0" Grid.Column="1" Width="240" Margin="2" HorizontalAlignment="Left" ItemsSource="{Binding Source={x:Type API:ReportPeriodType}, Converter={StaticResource EnumToItemsSourceConverter}}" ItemTemplate="{StaticResource EnumDescriptionTemplate}" SelectedItem="{Binding SelectedReportPeriod}" />
-            <loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding DateTimeFrom}" />
-            <loya:Dameer Grid.Row="2" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding DateTimeTo}" />
+			<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy HH:mm:ss" Format="Custom" ShowCheckBox="False" Value="{Binding DateTimeFrom}" />
+			<loya:Dameer Grid.Row="2" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy HH:mm:ss" Format="Custom" ShowCheckBox="False" Value="{Binding DateTimeTo}" />
         </Grid>
         <CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
         <ContentPresenter Grid.Row="3" Content="{Binding MainViewModel, Mode=OneTime}" />

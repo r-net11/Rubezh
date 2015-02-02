@@ -29,35 +29,52 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<ReportFilter417>();
 
-			var employees = dataProvider.GetEmployees(filter);
 			var dataSet = new DataSet417();
-            var journal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastPassJournal(employees.Select(item => item.UID).ToList(), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime).ToDictionary(item => item.EmployeeUID);
-            var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
-			foreach (var employee in employees)
+			if (dataProvider.DatabaseService.PassJournalTranslator != null)
 			{
-				var dataRow = dataSet.Data.NewDataRow();
-				dataRow.Employee = employee.Name;
-				dataRow.Orgnisation = employee.Organisation;
-				dataRow.Department = employee.Department;
-				dataRow.Position = employee.Position;
-                if (journal.ContainsKey(employee.UID))
-                {
-                    var record = journal[employee.UID];
-                    dataRow.EnterDateTime = record.EnterTime;
-                    if (zoneMap.ContainsKey(record.ZoneUID))
-                        dataRow.Zone = zoneMap[record.ZoneUID].PresentationName;
-                    if (filter.UseCurrentDate)
-                        dataRow.Period = DateTime.Now - dataRow.EnterDateTime;
-                    else
-                    {
-                        dataRow.Period = (record.ExitTime.HasValue ? record.ExitTime.Value : filter.ReportDateTime) - record.EnterTime;
-                        if (record.ExitTime.HasValue)
-                            dataRow.ExitDateTime = record.ExitTime.Value;
-                    }
-                }
-				dataSet.Data.Rows.Add(dataRow);
+				var employees = dataProvider.GetEmployees(filter);
+				var journal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastPassJournal(employees.Select(item => item.UID).ToList(), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime).ToDictionary(item => item.EmployeeUID);
+				var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
+				foreach (var employee in employees)
+				{
+					var dataRow = dataSet.Data.NewDataRow();
+					dataRow.Employee = employee.Name;
+					dataRow.Orgnisation = employee.Organisation;
+					dataRow.Department = employee.Department;
+					dataRow.Position = employee.Position;
+					if (journal.ContainsKey(employee.UID))
+					{
+						var record = journal[employee.UID];
+						dataRow.EnterDateTime = record.EnterTime;
+						if (zoneMap.ContainsKey(record.ZoneUID))
+							dataRow.Zone = zoneMap[record.ZoneUID].PresentationName;
+						if (filter.UseCurrentDate)
+							dataRow.Period = DateTime.Now - dataRow.EnterDateTime;
+						else
+						{
+							dataRow.Period = (record.ExitTime.HasValue ? record.ExitTime.Value : filter.ReportDateTime) - record.EnterTime;
+							if (record.ExitTime.HasValue)
+								dataRow.ExitDateTime = record.ExitTime.Value;
+						}
+					}
+					dataSet.Data.Rows.Add(dataRow);
+				}
 			}
 			return dataSet;
+		}
+
+		private void Report417_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+		{
+			var filter = GetFilter<ReportFilter417>();
+			if (filter.UseCurrentDate)
+			{
+				xrTableHeader.BeginInit();
+				xrTableHeader.DeleteColumn(xrTableCellExitHeader);
+				xrTableHeader.EndInit();
+				xrTableContent.BeginInit();
+				xrTableContent.DeleteColumn(xrTableCellExit);
+				xrTableContent.EndInit();
+			}
 		}
 	}
 }
