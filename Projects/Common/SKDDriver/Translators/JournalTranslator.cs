@@ -19,7 +19,7 @@ namespace SKDDriver.Translators
 			_Table = Context.Journals;
 		}
 
-		public OperationResult SaveVideoUID(Guid itemUID, Guid videoUID)
+		public OperationResult SaveVideoUID(Guid itemUID, Guid videoUID, Guid cameraUID)
 		{
 			try
 			{

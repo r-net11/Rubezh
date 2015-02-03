@@ -11,9 +11,9 @@
 			</VisualBrush >
 		</Grid.Background>
 	</Grid>-->
-	<Grid>
+	<Grid Background="Black">
 		<wpf:VlcControl x:Name="myVlcControl" />
-		<Grid>
+		<!--<Grid>
 			<Grid.Background>
 				<VisualBrush Stretch="Uniform">
 					<VisualBrush.Visual>
@@ -21,6 +21,6 @@
 					</VisualBrush.Visual>
 				</VisualBrush >
 			</Grid.Background>
-		</Grid>
+		</Grid>-->
 	</Grid>
 </UserControl>

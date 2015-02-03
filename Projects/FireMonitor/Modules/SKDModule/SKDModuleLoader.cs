@@ -121,7 +121,7 @@ namespace SKDModule
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
 							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, null),
 						}),
-						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "/Controls;component/Images/Kartoteka2W.png"),
+						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "Kartoteka2W"),
 					})
 				};
 		}
