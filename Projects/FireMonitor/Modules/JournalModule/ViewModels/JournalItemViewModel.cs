@@ -430,7 +430,7 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowVideoCommand { get; private set; }
 		void OnShowVideo()
 		{
-			var videoViewModel = new VideoViewModel(JournalItem.VideoUID);
+			var videoViewModel = new VideoViewModel(JournalItem.VideoUID, JournalItem.CameraUID);
 			DialogService.ShowModalWindow(videoViewModel);
 		}
 		bool CanShowVideo()

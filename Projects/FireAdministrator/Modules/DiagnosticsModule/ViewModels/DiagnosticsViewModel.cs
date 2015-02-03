@@ -43,14 +43,16 @@ namespace DiagnosticsModule.ViewModels
 		void OnGetVideo()
 		{
 			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault();
-			var fileName = RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, camera, EventUID);
+			if (camera == null)
+				return;
+			var fileName = RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, camera.UID, EventUID);
 			var videoViewModel = new VideoViewModel(fileName);
 			DialogService.ShowModalWindow(videoViewModel);
 		}
 
 		public string SavedVideoSource
 		{
-			get { return "D:/Video.avi"; }
+			get { return "C:/Video.avi"; }
 		}
 
 		public RelayCommand AddJournalCommand { get; private set; }

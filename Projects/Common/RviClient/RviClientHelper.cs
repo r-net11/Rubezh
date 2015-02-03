@@ -271,9 +271,12 @@ namespace RviClient
 			}
 		}
 
-		public static string GetVideoFile(SystemConfiguration systemConfiguration, Camera camera, Guid eventUID)
+
+		public static void GetVideoFile(SystemConfiguration systemConfiguration, Guid eventUID, Guid cameraUid, string videoPath)
 		{
-			string fileName = @"D:/Video.avi";
+			var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			if (camera == null)
+				return;
 			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
 			{
 				var sessionUID = Guid.NewGuid();
@@ -294,8 +297,7 @@ namespace RviClient
 					System.IO.Stream stream = null;
 					var requestUID = new Guid();
 					var result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
-
-					var videoFileStream = File.Create(fileName);
+					var videoFileStream = File.Create(videoPath);
 					CopyStream(stream, videoFileStream);
 				}
 
@@ -307,7 +309,6 @@ namespace RviClient
 				};
 				var sessionCloseOut = client.SessionClose(sessionCloseIn);
 			}
-			return fileName;
 		}
 
 		public static void CopyStream(System.IO.Stream input, System.IO.Stream output)

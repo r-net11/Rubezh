@@ -27,6 +27,7 @@ namespace SKDDriver.Translators
 				if (tableItem != null)
 				{
 					tableItem.VideoUID = videoUID;
+					tableItem.CameraUID = cameraUID;
 					Context.SubmitChanges();
 				}
 				return new OperationResult();

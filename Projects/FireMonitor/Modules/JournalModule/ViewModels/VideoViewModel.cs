@@ -1,18 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
+using System.IO;
 
 namespace JournalModule.ViewModels
 {
 	public class VideoViewModel : DialogViewModel
 	{
-		public VideoViewModel(Guid eventUID)
+		readonly string DirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Firesec2", "Video");
+		string VideoPath { get; set; }
+		public VideoViewModel(Guid eventUID, Guid cameraUID)
 		{
+			if (!Directory.Exists(DirectoryPath))
+				Directory.CreateDirectory(DirectoryPath);
+			VideoPath = Path.Combine(DirectoryPath, Guid.NewGuid().ToString()) + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
-			var fileName = RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, null, eventUID);
+			RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			if (File.Exists(VideoPath))
+				File.Delete(VideoPath);
+			return base.OnClosing(isCanceled);
 		}
 	}
 }

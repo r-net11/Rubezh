@@ -643,6 +643,10 @@ namespace FiresecService
 				{
 					return;
 				}
+				using (var journalTranslator = new JounalTranslator())
+				{
+					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUid);
+				}
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
 			}
