@@ -36,7 +36,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Отдел" Width="*" Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
+				<DataGridTemplateColumn Header="Подразделение" Width="*" Visibility="{Binding DataContext.CanEditDepartment, Source={x:Reference dummyElement}, Converter={StaticResource BoolToVisibilityConverter}}" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Employee.DepartmentName}" Style="{StaticResource IsDepartmentDeletedStyle}"  />

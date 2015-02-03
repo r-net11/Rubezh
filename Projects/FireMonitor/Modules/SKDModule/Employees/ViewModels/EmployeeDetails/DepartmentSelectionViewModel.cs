@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		
 		public DepartmentSelectionViewModel(Employee employee, ShortDepartment shortDepartment)
 		{
-			Title = "Выбор отдела";
+			Title = "Выбор подразделения";
 			OrganisationUID = employee.OrganisationUID;
 			AddCommand = new RelayCommand(OnAdd);
 

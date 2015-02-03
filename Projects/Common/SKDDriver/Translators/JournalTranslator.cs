@@ -37,6 +37,25 @@ namespace SKDDriver.Translators
 			}
 		}
 
+
+		public OperationResult SaveCameraUID(Guid itemUID, Guid CameraUID)
+		{
+			try
+			{
+				var tableItem = _Table.FirstOrDefault(x => x.UID == itemUID);
+				if (tableItem != null)
+				{
+					tableItem.CameraUID = CameraUID;
+					Context.SubmitChanges();
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public void Dispose()
 		{
 			Context.Dispose();

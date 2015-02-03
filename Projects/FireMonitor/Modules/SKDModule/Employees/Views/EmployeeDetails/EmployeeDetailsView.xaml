@@ -55,7 +55,7 @@
 						</TextBlock>
 					</StackPanel>
 
-					<Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<Label Grid.Row="4" Grid.Column="0" Content="Подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
@@ -65,7 +65,7 @@
 										<Style>
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора отдела" />
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора подразделения" />
 												</DataTrigger>
 											</Style.Triggers>
 										</Style>

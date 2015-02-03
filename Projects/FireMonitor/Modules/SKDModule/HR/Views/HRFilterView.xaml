@@ -14,7 +14,7 @@
             <TabItem Header="Организации" >
                 <Views:OrganisationsFilterView />
             </TabItem>
-			<TabItem Header="Отделы">
+			<TabItem Header="Подразделения">
 				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>
 			<TabItem Header="Должности">

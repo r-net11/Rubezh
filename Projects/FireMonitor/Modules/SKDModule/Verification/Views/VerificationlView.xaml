@@ -37,7 +37,7 @@
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="100" Margin="2" Text="Отдел" />
+					<TextBlock Width="100" Margin="2" Text="Подразделение" />
 					<TextBlock Margin="2" Text="{Binding Employee.Department.Name}" />
 				</StackPanel>
 

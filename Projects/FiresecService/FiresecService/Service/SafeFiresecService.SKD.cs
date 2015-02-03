@@ -383,6 +383,11 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalVideoUID(journalItemUID, videoUID));
 		}
 
+		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalCameraUID(journalItemUID, CameraUID));
+		}
+
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)
 		{

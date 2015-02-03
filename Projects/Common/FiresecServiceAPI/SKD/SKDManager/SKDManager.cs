@@ -157,18 +157,21 @@ namespace FiresecAPI.SKD
 		{
 			foreach (var device in Devices)
 			{
-				if (device.Driver.HasZone)
+				if (device.Driver != null)
 				{
-					device.Zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
-					if (device.Zone != null)
+					if (device.Driver.HasZone)
 					{
-						device.Zone.Devices.Add(device);
+						device.Zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+						if (device.Zone != null)
+						{
+							device.Zone.Devices.Add(device);
+						}
+						else
+							device.ZoneUID = Guid.Empty;
 					}
 					else
 						device.ZoneUID = Guid.Empty;
 				}
-				else
-					device.ZoneUID = Guid.Empty;
 			}
 		}
 

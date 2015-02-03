@@ -454,8 +454,9 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование сотрудника", XStateClass.Info)]
 		Редактирование_сотрудника,
 
-		[EventName(JournalSubsystemType.SKD, "Редактирование отдела", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Редактирование подразделения", XStateClass.Info)]
 		Редактирование_отдела,
+		
 
 		[EventName(JournalSubsystemType.SKD, "Редактирование должности", XStateClass.Info)]
 		Редактирование_должности,
@@ -487,7 +488,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
 		Добавление_нового_сотрудника,
 
-		[EventName(JournalSubsystemType.SKD, "Добавление нового отдела", XStateClass.Info)]
+		[EventName(JournalSubsystemType.SKD, "Добавление нового подразделения", XStateClass.Info)]
 		Добавление_нового_отдела,
 
 		[EventName(JournalSubsystemType.SKD, "Добавление новой должности", XStateClass.Info)]

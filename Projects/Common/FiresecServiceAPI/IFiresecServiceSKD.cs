@@ -284,6 +284,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID);
 
+		[OperationContract]
+		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID);
+
 		#region Export
 		[OperationContract]
 		OperationResult ExportOrganisation(ExportFilter filter);

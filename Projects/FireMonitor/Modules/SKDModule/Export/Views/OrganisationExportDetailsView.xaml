@@ -25,7 +25,7 @@
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path}" />
         <ToolBarButton Grid.Row="2" Grid.Column="2" ImageSource="Add" ToolTip="Выбор папки" Command="{Binding SelectFolderCommand}" VerticalAlignment="Center" HorizontalAlignment="Left" />
         <Label Grid.Row="3" Grid.Column="0" Content="Выгружаемые сведения" />
-        <CheckBox Grid.Row="4" Grid.Column="0" IsChecked="{Binding IsWithDepartments}" Content="Справочник отделов" Foreground="White" />
+        <CheckBox Grid.Row="4" Grid.Column="0" IsChecked="{Binding IsWithDepartments}" Content="Справочник подразделений" Foreground="White" />
         <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding IsWithPositions}" Content="Справочник должностей" Foreground="White" />
         <CheckBox Grid.Row="6" Grid.Column="0" IsChecked="{Binding IsWithEmployees}" Content="Справочник сотрудников" Foreground="White" />
         <CheckBox Grid.Row="7" Grid.Column="0" IsChecked="{Binding IsWithDeleted}" Content="Выгружать архивные записи" Foreground="White" Margin="0 5" />

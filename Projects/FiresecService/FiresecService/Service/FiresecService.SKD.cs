@@ -1271,6 +1271,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)
+		{
+			using (var journalTranslator = new JounalTranslator())
+			{
+				return journalTranslator.SaveCameraUID(journalItemUID, CameraUID);
+			}
+		}
+
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)
 		{

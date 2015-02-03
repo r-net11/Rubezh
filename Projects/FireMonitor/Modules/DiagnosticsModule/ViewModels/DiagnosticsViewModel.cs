@@ -121,7 +121,7 @@ namespace DiagnosticsModule.ViewModels
 				}
 				for (int j = 0; j < 10; j++)
 				{
-					var dept = new Department { Name = "Отдел " + i + j + "0", OrganisationUID = org.UID };
+					var dept = new Department { Name = "Подразделение " + i + j + "0", OrganisationUID = org.UID };
 					DepartmentHelper.Save(dept, true);
 					for (int k = 0; k < 10; k++)
 					{
@@ -136,7 +136,7 @@ namespace DiagnosticsModule.ViewModels
 						};
 						EmployeeHelper.Save(empl, true);
 					}
-					var dept2 = new Department { Name = "Отдел " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
+					var dept2 = new Department { Name = "Подразделение " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
 					DepartmentHelper.Save(dept2, true);
 					for (int k = 0; k < 10; k++)
 					{

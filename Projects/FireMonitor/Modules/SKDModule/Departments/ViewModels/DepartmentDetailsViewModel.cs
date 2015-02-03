@@ -23,12 +23,12 @@ namespace SKDModule.ViewModels
 			OrganisationUID = organisation.UID;
 			if (shortDepartment == null)
 			{
-				Title = "Создание отдела";
+				Title = "Создание подразделения";
 				IsNew = true;
 				var parentModel = (parentViewModel as DepartmentsViewModel).SelectedItem.Model;
 				Department = new Department()
 				{
-					Name = "Новый отдел",
+					Name = "Новое подразделение",
 					ParentDepartmentUID = parentModel != null ? parentModel.UID : new Guid?(),
 					OrganisationUID = OrganisationUID
 				};
@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
-				Title = string.Format("Свойства отдела: {0}", Department.Name);
+				Title = string.Format("Свойства подразделения: {0}", Department.Name);
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
@@ -46,10 +46,10 @@ namespace SKDModule.ViewModels
 		public void Initialize(Guid organisationUID, Guid? parentDepartmentUID)
 		{
 			OrganisationUID = organisationUID;
-			Title = "Создание отдела";
+			Title = "Создание подразделения";
 			Department = new Department()
 			{
-				Name = "Новый отдел",
+				Name = "Новое подразделение",
 				ParentDepartmentUID = parentDepartmentUID,
 				OrganisationUID = OrganisationUID
 			};

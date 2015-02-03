@@ -110,6 +110,8 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _VideoUID;
 		
+		private System.Nullable<System.Guid> _CameraUID;
+		
     #region Определения метода расширяемости
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -144,6 +146,8 @@ namespace SKDDriver.DataAccess
     partial void OnEmployeeUIDChanged();
     partial void OnVideoUIDChanging(System.Nullable<System.Guid> value);
     partial void OnVideoUIDChanged();
+    partial void OnCameraUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnCameraUIDChanged();
     #endregion
 		
 		public Journal()
@@ -447,6 +451,26 @@ namespace SKDDriver.DataAccess
 					this._VideoUID = value;
 					this.SendPropertyChanged("VideoUID");
 					this.OnVideoUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CameraUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> CameraUID
+		{
+			get
+			{
+				return this._CameraUID;
+			}
+			set
+			{
+				if ((this._CameraUID != value))
+				{
+					this.OnCameraUIDChanging(value);
+					this.SendPropertyChanging();
+					this._CameraUID = value;
+					this.SendPropertyChanged("CameraUID");
+					this.OnCameraUIDChanged();
 				}
 			}
 		}

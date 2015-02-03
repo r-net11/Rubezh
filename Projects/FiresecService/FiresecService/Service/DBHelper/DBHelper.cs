@@ -359,6 +359,9 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("VideoUID")))
 				journalItem.VideoUID = reader.GetGuid(reader.GetOrdinal("VideoUID"));
 
+			if (!reader.IsDBNull(reader.GetOrdinal("CameraUID")))
+				journalItem.CameraUID = reader.GetGuid(reader.GetOrdinal("CameraUID"));
+
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("Subsystem"));

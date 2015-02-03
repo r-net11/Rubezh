@@ -109,7 +109,7 @@
 			<TabItem Header="{Binding EmployeesViewModel.TabItemHeader}" IsSelected="{Binding IsEmployeesSelected}">
 				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
 			</TabItem>
-			<TabItem Header="Отделы" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Подразделения" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
 			</TabItem>
 			<TabItem Header="Должности" IsSelected="{Binding IsPositionsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">

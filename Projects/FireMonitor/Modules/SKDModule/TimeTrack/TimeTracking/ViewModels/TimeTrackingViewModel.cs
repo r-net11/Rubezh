@@ -110,7 +110,7 @@ namespace SKDModule.ViewModels
 
 				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
 				{
-					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному отделу");
+					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному из подразделений");
 					return;
 				}
 				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 			}
 			if (departmentNames.Count > 1)
 			{
-				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного отдела");
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного подразделения");
 				return;
 			}
 

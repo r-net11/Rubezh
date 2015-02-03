@@ -39,7 +39,7 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn Header="Отдел" Width="150" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelDepartmentComparer}">
+						<GridViewColumn Header="Подразделение" Width="150" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelDepartmentComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding DepartmentName}" Style="{StaticResource IsDepartmentDeletedStyle}" />

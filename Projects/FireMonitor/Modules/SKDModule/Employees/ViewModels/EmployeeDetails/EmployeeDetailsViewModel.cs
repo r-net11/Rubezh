@@ -674,7 +674,7 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedDepartment == null)
 			{
-				MessageBoxService.Show("Выберите отдел");
+				MessageBoxService.Show("Выберите подразделение");
 				return;
 			}
 			var escortSelectionViewModel = new EscortSelectionViewModel(SelectedDepartment, SelectedEscort);
