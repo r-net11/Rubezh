@@ -1263,11 +1263,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID)
+		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
 			using (var journalTranslator = new JounalTranslator())
 			{
-				return journalTranslator.SaveVideoUID(journalItemUID, videoUID);
+				return journalTranslator.SaveVideoUID(journalItemUID, videoUID, cameraUID);
 			}
 		}
 

@@ -160,7 +160,7 @@ namespace FiresecService
 							{
 								break;
 							}
-							journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
+							journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
 						}
 					}
 					break;
