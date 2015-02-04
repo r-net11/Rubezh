@@ -15,6 +15,7 @@ using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
+using FiresecAPI.SKD;
 
 namespace SKDModule
 {

@@ -643,6 +643,10 @@ namespace FiresecService
 				{
 					return;
 				}
+				using (var journalTranslator = new JounalTranslator())
+				{
+					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUid);
+				}
 				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
 				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
 			}
@@ -651,6 +655,17 @@ namespace FiresecService
 				var eventUID = GetValue<Guid>(cameraArguments.EventUIDArgument);
 				RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);
 			}
+		}
+
+		public void Ptz(ProcedureStep procedureStep)
+		{
+			var ptzArguments = procedureStep.PtzArguments;
+			var cameraUid = GetValue<Guid>(ptzArguments.CameraArgument);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			if (camera == null)
+				return;
+			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
+			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
 		}
 
 		void ControlFireZone(ProcedureStep procedureStep)

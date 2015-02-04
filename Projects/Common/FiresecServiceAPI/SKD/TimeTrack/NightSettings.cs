@@ -10,12 +10,6 @@ namespace FiresecAPI.SKD
 		public Guid OrganisationUID { get; set; }
 
 		[DataMember]
-		public TimeSpan EveningStartTime { get; set; }
-
-		[DataMember]
-		public TimeSpan EveningEndTime { get; set; }
-
-		[DataMember]
 		public TimeSpan NightStartTime { get; set; }
 
 		[DataMember]

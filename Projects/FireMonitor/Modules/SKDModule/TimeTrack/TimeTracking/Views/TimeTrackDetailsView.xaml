@@ -12,51 +12,51 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TabControl Margin="2">
 			<TabItem Header="Отчет">
-                <Grid Margin="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+				<Grid Margin="2">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<StackPanel Grid.Row="0" Orientation="Horizontal">
                         <ToolBarButton Command="{Binding AddCustomPartCommand}" ToolTip="Добавить" ImageSource="Add" />
                         <ToolBarButton Command="{Binding RemovePartCommand}" ToolTip="Удалить" ImageSource="Delete" />
                         <ToolBarButton Command="{Binding EditPartCommand}" ToolTip="Редактировать" ImageSource="Edit" />
-                    </StackPanel>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding DayTimeTrackParts}" SelectedItem="{Binding SelectedDayTimeTrackPart}" Margin="2">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Зона" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                            <TextBlock Text="{Binding ZoneName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Вход" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding EnterTime}" Margin="4 2" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Выход" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ExitTime}" Margin="4 2" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-                
+					</StackPanel>
+					<DataGrid Grid.Row="1" ItemsSource="{Binding DayTimeTrackParts}" SelectedItem="{Binding SelectedDayTimeTrackPart}" Margin="2">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Зона" Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Grid Width="16" Height="16" Background="{DynamicResource Zone}" VerticalAlignment="Center" Margin="1 0 0 0" />
+											<TextBlock Text="{Binding ZoneName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTemplateColumn Header="Вход" Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding EnterTime}" Margin="4 2" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTemplateColumn Header="Выход" Width="*">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding ExitTime}" Margin="4 2" />
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+				
 			</TabItem>
 			<TabItem Header="Документы">
 				<Grid Margin="2">
@@ -74,7 +74,7 @@
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center"  Margin="2 0" />
+											<Grid Width="16" Height="16" Background="{DynamicResource Organisation}" VerticalAlignment="Center" Margin="2 0" />
 											<TextBlock Text="{Binding Name}" />
 										</StackPanel>
 									</DataTemplate>
@@ -106,7 +106,7 @@
 				</Grid>
 			</TabItem>
 		</TabControl>
-        <TextBlock Grid.Row="1" Text="Данные о проходах были изменены. Обновите вкладку УРВ" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<TextBlock Grid.Row="1" Text="Данные о проходах были изменены. Обновите вкладку УРВ" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<Border Grid.Row="2" CornerRadius="2" Background="White" Margin="2 5">
 			<StackPanel>
 				<Grid Margin="2">

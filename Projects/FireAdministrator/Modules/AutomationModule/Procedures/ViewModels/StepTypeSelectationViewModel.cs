@@ -144,7 +144,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel("Управление Видео",
 								new List<StepTypeViewModel>
 								{
-									new StepTypeViewModel(ProcedureStepType.ControlCamera)
+									new StepTypeViewModel(ProcedureStepType.ControlCamera),
+									new StepTypeViewModel(ProcedureStepType.Ptz)
 								}),
 						}),
 					new StepTypeViewModel("Обмен данными",

@@ -80,6 +80,11 @@ namespace SKDModule.ViewModels
 						}
 					}
 				}
+
+				foreach (var deviceViewModel in SelectedDevice.Children)
+				{
+					deviceViewModel.Update();
+				}
 			}
 		}
 		bool CanShowControllerDoorType()

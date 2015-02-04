@@ -30,6 +30,7 @@ namespace SKDModule.Reports.Providers
                     new EventTypePageViewModel(),
                     new SKDObjectPageViewModel(),
 					new EmployeePageViewModel(),
+					new UserPageViewModel(),
 				},
             };
 		}

@@ -40,6 +40,8 @@ namespace SKDModule.ViewModels
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			device.Changed += OnChanged;
+
+			Update();
 		}
 
 		void OnChanged()
@@ -62,6 +64,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
+			IsEnabled = Device.IsEnabled;
 		}
 
 		public string Address
@@ -94,6 +97,17 @@ namespace SKDModule.ViewModels
 		public SKDDriver Driver
 		{
 			get { return Device.Driver; }
+		}
+
+		bool _isEnabled;
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged(() => IsEnabled);
+			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }

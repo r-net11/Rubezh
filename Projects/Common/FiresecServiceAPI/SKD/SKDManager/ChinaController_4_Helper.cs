@@ -3,16 +3,16 @@ using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
-	public static class ChinaController_4_4Helper
+	public static class ChinaController_4_Helper
 	{
 		public static SKDDriver Create()
 		{
 			var driver = new SKDDriver()
 			{
 				UID = new Guid("48A0C16E-DEA6-40d2-98B9-A21076BF6F37"),
-				Name = "Контроллер на четыре двери и четыре считывателя",
+				Name = "Контроллер на четыре двери",
 				ShortName = "Контроллер",
-				DriverType = SKDDriverType.ChinaController_4_4,
+				DriverType = SKDDriverType.ChinaController_4,
 				DefaultDoorType = DoorType.OneWay,
 				CanChangeDoorType = true,
 				IsPlaceable = true,

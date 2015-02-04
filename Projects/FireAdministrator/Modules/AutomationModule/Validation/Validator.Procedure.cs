@@ -427,6 +427,14 @@ namespace AutomationModule.Validation
 							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
+
+				case ProcedureStepType.Ptz:
+					{
+						var arguments = step.PtzArguments;
+						ValidateArgument(step, arguments.CameraArgument);
+						ValidateArgument(step, arguments.PtzNumberArgument);
+						break;
+					}
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

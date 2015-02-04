@@ -43,7 +43,7 @@
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Время закрытия, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CloseTimeout}" Margin="2" />
 
-					<TextBlock Grid.Row="3" Grid.Column="0" Text="Тревого по взлому" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Тревога по взлому" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsBreakInAlarmEnable}" Margin="2" />
 
 					<TextBlock Grid.Row="4" Grid.Column="0" Text="Тревога по незакрытию двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
@@ -52,8 +52,8 @@
 					<TextBlock Grid.Row="5" Grid.Column="0" Text="Активен датчик контроля двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsSensorEnable}" Margin="2" />
 
-					<TextBlock Grid.Row="6" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
-					<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsRepeatEnterAlarmEnable}" Margin="2" />
+					<!--<TextBlock Grid.Row="6" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsRepeatEnterAlarmEnable}" Margin="2" />-->
 
 					<TextBlock Grid.Row="7" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />

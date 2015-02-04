@@ -19,7 +19,7 @@
 				<ToolBarButton Command="{Binding RefreshReportCommand}"  ImageSource="Refresh"  ToolTip="Обновить отчет" />
 				<ToolBarButton Command="{Binding Model.FirstPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="leftLeft"  ToolTip="Начальная страница" />
 				<ToolBarButton Command="{Binding Model.PreviousPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="left"  ToolTip="Предыдущая страница" />
-				<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding Model.CurrentPageNumber, ElementName=viewer, UpdateSourceTrigger=Explicit}" IsEnabled="{Binding Model.PageCount, ElementName=viewer, FallbackValue={StaticResource False}}" />
+				<TextBox x:Name="currentPage"  Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" MaxWidth="120" Text="{Binding Model.SelectedPage, ElementName=viewer, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Model.PageCount, ElementName=viewer, FallbackValue={StaticResource False}}" />
 				<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
 				<Label VerticalContentAlignment="Center" Content="{Binding Model.PageCount, ElementName=viewer, FallbackValue='0'}" FontSize="20" />
 				<ToolBarButton Command="{Binding Model.NextPageCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" ImageSource="right"  ToolTip="Следующая страница" />

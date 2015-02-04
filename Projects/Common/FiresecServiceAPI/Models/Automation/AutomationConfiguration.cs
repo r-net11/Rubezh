@@ -399,6 +399,14 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.SetJournalItemGuid:
 					InvalidateArgument(procedure, step.SetJournalItemGuidArguments.ValueArgument);
 					break;
+
+				case ProcedureStepType.Ptz:
+					{
+						var arguments = step.PtzArguments;
+						InvalidateArgument(procedure, arguments.CameraArgument);
+						InvalidateArgument(procedure, arguments.PtzNumberArgument);
+						break;
+					}
 			}
 		}
 

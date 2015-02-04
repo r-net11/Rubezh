@@ -432,9 +432,9 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.GenerateEmployeeDays());
 		}
 
-		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID)
+		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalVideoUID(journalItemUID, videoUID));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalVideoUID(journalItemUID, videoUID, cameraUID));
 		}
 
 		public OperationResult SaveJournalCameraUID(Guid journalItemUID, Guid CameraUID)

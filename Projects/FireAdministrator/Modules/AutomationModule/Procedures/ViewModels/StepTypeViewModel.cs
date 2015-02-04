@@ -22,6 +22,11 @@ namespace AutomationModule.ViewModels
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (procedureStepType == ProcedureStepType.ControlDelay))
+				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.ExportJournal) 
+				|| (procedureStepType == ProcedureStepType.ExportOrganisation) || (procedureStepType == ProcedureStepType.ExportConfiguration) 
+				|| (procedureStepType == ProcedureStepType.ImportOrganisation) || (procedureStepType == ProcedureStepType.ExportOrganisationList)
+				|| (procedureStepType == ProcedureStepType.ImportOrganisationList) || (procedureStepType == ProcedureStepType.ImportOrganisationList)
+				|| (procedureStepType == ProcedureStepType.Ptz))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation) 
 				|| (procedureStepType == ProcedureStepType.ExportConfiguration)	|| (procedureStepType == ProcedureStepType.ExportOrganisationList))

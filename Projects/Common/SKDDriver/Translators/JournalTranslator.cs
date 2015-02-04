@@ -19,7 +19,7 @@ namespace SKDDriver.Translators
 			_Table = Context.Journals;
 		}
 
-		public OperationResult SaveVideoUID(Guid itemUID, Guid videoUID)
+		public OperationResult SaveVideoUID(Guid itemUID, Guid videoUID, Guid cameraUID)
 		{
 			try
 			{
@@ -27,6 +27,7 @@ namespace SKDDriver.Translators
 				if (tableItem != null)
 				{
 					tableItem.VideoUID = videoUID;
+					tableItem.CameraUID = cameraUID;
 					Context.SubmitChanges();
 				}
 				return new OperationResult();

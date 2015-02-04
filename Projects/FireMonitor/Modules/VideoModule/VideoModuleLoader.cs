@@ -53,15 +53,19 @@ namespace VideoModule
 					VlcContext.LibVlcPluginsPath = FiresecManager.SystemConfiguration.RviSettings.PluginsPath;
 
 					//Set the startup options
-					VlcContext.StartupOptions.IgnoreConfig = false;
+					VlcContext.StartupOptions.IgnoreConfig = true;
 					VlcContext.StartupOptions.LogOptions.LogInFile = false;
 					VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
 					VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
 
-					VlcContext.StartupOptions.AddOption("--network-caching=500");
+					VlcContext.StartupOptions.AddOption("--network-caching=1000");
+					VlcContext.StartupOptions.AddOption("--ffmpeg-hw");
 					VlcContext.StartupOptions.AddOption("--no-skip-frames");
 					VlcContext.StartupOptions.AddOption("--no-video-title");
 					VlcContext.StartupOptions.AddOption("--live-caching=20000");
+					VlcContext.StartupOptions.AddOption("--file-caching=2000");
+					VlcContext.StartupOptions.AddOption("--http-caching=0" );
+					VlcContext.StartupOptions.AddOption("--rtsp-tcp");
 
 					//Initialize the VlcContext
 					VlcContext.Initialize();

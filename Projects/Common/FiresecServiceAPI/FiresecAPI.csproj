@@ -180,6 +180,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
+    <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
+    <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterEmployeeAndVisitor.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter401.cs" />
     <Compile Include="SKD\ReportFilters\ReportFilter402.cs" />
@@ -306,10 +308,9 @@
     <Compile Include="Models\Automation\Procedure.cs" />
     <Compile Include="Models\Automation\ProcedureStep.cs" />
     <Compile Include="Models\Automation\ProcedureStepType.cs" />
-    <Compile Include="SKD\SKDManager\ChinaController_1_2Helper.cs" />
-    <Compile Include="SKD\SKDManager\ChinaController_2_2Helper.cs" />
-    <Compile Include="SKD\SKDManager\ChinaController_2_4Helper.cs" />
-    <Compile Include="SKD\SKDManager\ChinaController_4_4Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_1_Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_2_Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_4_Helper.cs" />
     <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
     <Compile Include="SKD\SKDManager\ReaderHelper.cs" />
     <Compile Include="SKD\SKDManager\LockHelper.cs" />

@@ -21,6 +21,10 @@ namespace Infrastructure.Common.Theme
 				if (String.IsNullOrEmpty(CurrentTheme))
 					CurrentTheme = "BlueTheme";
 				var themePath = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + CurrentTheme + ".xaml";
+
+				if (CurrentTheme == "TestTheme")
+					themePath = "D:/TestTheme.xaml";
+
 				Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themePath) });
 			}
 			catch (Exception e)

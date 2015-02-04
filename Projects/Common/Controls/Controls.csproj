@@ -2245,16 +2245,10 @@
     <Resource Include="Images\Procedure.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SKDIcons\ChinaController_4_4.png" />
+    <Resource Include="SKDIcons\ChinaController_4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SKDIcons\ChinaController_1_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="SKDIcons\ChinaController_2_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="SKDIcons\ChinaController_2_4.png" />
+    <Resource Include="SKDIcons\ChinaController_2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SKDIcons\Lock.png" />
@@ -2326,7 +2320,7 @@
     <Resource Include="Images\arrowInto.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SKDIcons\ChinaController_1_1.png" />
+    <Resource Include="SKDIcons\ChinaController_1.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ProcedureYellow.png" />

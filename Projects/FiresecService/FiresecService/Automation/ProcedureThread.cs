@@ -160,7 +160,7 @@ namespace FiresecService
 							{
 								break;
 							}
-							journalTranslator.SaveVideoUID(JournalItem.UID, eventUID);
+							journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
 						}
 					}
 					break;
@@ -381,6 +381,10 @@ namespace FiresecService
 
 				case ProcedureStepType.ExportConfiguration:
 					ExportConfiguration(procedureStep);
+					break;
+
+				case ProcedureStepType.Ptz:
+					Ptz(procedureStep);
 					break;
 			}
 			return Result.Normal;
