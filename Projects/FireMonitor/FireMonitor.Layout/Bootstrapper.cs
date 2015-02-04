@@ -39,6 +39,7 @@ namespace FireMonitor.Layout
 		protected override ShellViewModel CreateShell()
 		{
 			_monitorLayoutShellViewModel = new MonitorLayoutShellViewModel(_layout);
+			_monitorLayoutShellViewModel.LogoSource = "Logo";
 			return _layout == null ? base.CreateShell() : _monitorLayoutShellViewModel;
 		}
 

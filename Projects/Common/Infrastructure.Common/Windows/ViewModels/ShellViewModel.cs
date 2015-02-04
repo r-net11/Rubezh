@@ -35,6 +35,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ToolbarVisible = true;
 		}
 
+		string logoSource;
+		public string LogoSource
+		{
+			get { return logoSource; }
+			set
+			{
+				logoSource = value;
+				OnPropertyChanged(() => LogoSource);
+			}
+		}
+
 		public RelayCommand<MinimizeTarget> MinimizeCommand { get; private set; }
 		void OnMinimize(MinimizeTarget target)
 		{

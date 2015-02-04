@@ -13,7 +13,7 @@
 				<DockPanel>
 					<Button Width="50" VerticalAlignment="Center" Command="{Binding MinimizeCommand}" CommandParameter="{x:Static loc:MinimizeTarget.LeftPanel}" Content="&lt;&lt;" DockPanel.Dock="Right" ToolTip="{Binding RightPanelVisible, Converter={StaticResource tooltipConverter}, ConverterParameter=True}" Visibility="{Binding IsRightPanelEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
 					<StackPanel Orientation="Horizontal">
-						<ribbon:RibbonButton Margin="10,0,0,0" Content="{Binding RibbonContent}" Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+						<ribbon:RibbonButton Margin="10,0,0,0" ImageSource="{Binding LogoSource}" Content="{Binding RibbonContent}" Visibility="{Binding RibbonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
 						<Border BorderThickness="0" Visibility="{Binding ToolbarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 							<ContentPresenter Content="{Binding Toolbar}" />
 						</Border>

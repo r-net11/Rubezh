@@ -32,6 +32,17 @@ namespace FireAdministrator.ViewModels
 			IsMenuVisible = RegistrySettingsHelper.GetBool("Administrato.Shell.IsMenuVisible", true);
 		}
 
+		string logoSource;
+		public string LogoSource
+		{
+			get { return logoSource; }
+			set
+			{
+				logoSource = value;
+				OnPropertyChanged(() => LogoSource);
+			}
+		}
+
 		void OnSetNewConfiguration(CancelEventArgs e)
 		{
 			if (!FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig))

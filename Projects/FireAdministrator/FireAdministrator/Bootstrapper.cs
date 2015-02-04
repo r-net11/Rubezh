@@ -56,6 +56,7 @@ namespace FireAdministrator
 					else if (Application.Current != null)
 					{
 						var shell = new AdministratorShellViewModel();
+						shell.LogoSource = "Logo";
 						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
 						RunShell(shell);
 					}

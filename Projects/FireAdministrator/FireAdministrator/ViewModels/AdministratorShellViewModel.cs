@@ -35,6 +35,7 @@ namespace FireAdministrator.ViewModels
 			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
 			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
+			_menu.LogoSource = "Logo";
 			Toolbar = _menu;
 			RibbonContent = new RibbonMenuViewModel();
 			AddRibbonItem();
