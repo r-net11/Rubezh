@@ -20,8 +20,8 @@
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать инструменты выравнивания в планах" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" />
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать бренд СТРАЖ" />
-                <CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseStrazhBrand}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать бренд СТРАЖ" />
+                <CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseStrazhBrand}" />
             </Grid>
 		</TabItem>
 		<TabItem DataContext="{Binding GlobalSettings}" Header="ОЗ">

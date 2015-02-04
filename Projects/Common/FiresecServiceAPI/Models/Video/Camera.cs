@@ -99,6 +99,7 @@ namespace FiresecAPI.Models
 
 		IDeviceState<XStateClass> IStateProvider.StateClass
 		{
+			//return XStateClass
 			get { return this; }
 		}
 
@@ -108,7 +109,8 @@ namespace FiresecAPI.Models
 
 		XStateClass IDeviceState<XStateClass>.StateType
 		{
-			get { return StateClass; }
+			//get { return StateClass; }
+			get { return XStateClass.Norm; }
 		}
 
 		event Action IDeviceState<XStateClass>.StateChanged

@@ -38,6 +38,8 @@ namespace VideoModule.ViewModels
 
 			if (Camera != null)
 				RviRTSP = Camera.RviRTSP;
+
+			var x = Camera.StateClass;
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
