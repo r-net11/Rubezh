@@ -154,8 +154,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ExportJournal),
 							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
 							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),
-							new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
 							new StepTypeViewModel(ProcedureStepType.ExportOrganisationList),
+							new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
 							new StepTypeViewModel(ProcedureStepType.ImportOrganisationList),
 						}),
 
