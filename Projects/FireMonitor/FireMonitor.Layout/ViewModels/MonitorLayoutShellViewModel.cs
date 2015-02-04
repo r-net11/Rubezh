@@ -54,6 +54,7 @@ namespace FireMonitor.Layout.ViewModels
 					Content = RibbonContent,
 				};
 				ribbonViewModel.PopupOpened += (s, e) => UpdateRibbonItems();
+				ribbonViewModel.LogoSource = "Logo";
 				HeaderMenu = ribbonViewModel;
 				AddRibbonItem();
 				AllowLogoIcon = false;

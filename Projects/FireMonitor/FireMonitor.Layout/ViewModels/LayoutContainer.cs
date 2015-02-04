@@ -62,7 +62,6 @@ namespace FireMonitor.Layout.ViewModels
 			{
 				if (shellViewModel != null)
 				{
-					shellViewModel.LogoSource = "Logo";
 					var monitorModule = module as MonitorLayoutModule;
 					if (monitorModule != null)
 						monitorModule.MonitorLayoutShellViewModel = shellViewModel;
