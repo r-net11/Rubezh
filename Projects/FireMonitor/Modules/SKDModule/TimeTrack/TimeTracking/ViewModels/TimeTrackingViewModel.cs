@@ -166,6 +166,8 @@ namespace SKDModule.ViewModels
 					RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
 				}
 				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID);
+				if (SelectedTimeTrack == null)
+					SelectedTimeTrack = TimeTracks.FirstOrDefault();
 			}
 		}
 

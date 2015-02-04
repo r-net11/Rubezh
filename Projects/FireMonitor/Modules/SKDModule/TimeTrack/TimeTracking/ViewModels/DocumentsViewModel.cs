@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using FiresecAPI.SKD;
 using FiresecClient;
-using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -20,7 +18,7 @@ namespace SKDModule.ViewModels
 		{
 			EmployeeUID = timeTrackEmployeeResult.ShortEmployee.UID;
 			OrganisationUID = timeTrackEmployeeResult.ShortEmployee.OrganisationUID;
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
@@ -34,6 +32,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 			SelectedDocument = Documents.FirstOrDefault();
+			IsChanged = false;
 		}
 
 		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
@@ -67,8 +66,13 @@ namespace SKDModule.ViewModels
 					var documentViewModel = new DocumentViewModel(document);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
+					IsChanged = true;
 				}
 			}
+		}
+		bool CanAdd()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -85,11 +89,12 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				SelectedDocument.Update();
+				IsChanged = true;
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedDocument != null;
+			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -105,12 +110,24 @@ namespace SKDModule.ViewModels
 				else
 				{
 					Documents.Remove(SelectedDocument);
+					IsChanged = true;
 				}
 			}
 		}
 		bool CanRemove()
 		{
-			return SelectedDocument != null;
+			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+		}
+
+		bool _IsChanged;
+		public bool IsChanged
+		{
+			get { return _IsChanged; }
+			set
+			{
+				_IsChanged = value;
+				OnPropertyChanged(() => IsChanged);
+			}
 		}
 	}
 }
