@@ -49,5 +49,10 @@ namespace SKDModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AdditionalColumns_Etit; }
+		}
 	}
 }

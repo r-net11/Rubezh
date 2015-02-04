@@ -92,7 +92,7 @@
 					  IsChecked="{Binding IsWithDeleted}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
 			<ToolBarButton ImageSource="filter"  ToolTip="Фильтр" 
 						   Command="{Binding EditFilterCommand}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-            <StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ComboBox Width="100" ItemsSource="{Binding PersonTypes}" SelectedItem="{Binding SelectedPersonType}">
 						<ComboBox.ItemTemplate>
@@ -106,25 +106,25 @@
 		</StackPanel>
 
 		<TabControl Grid.Row="1">
-			<TabItem Header="{Binding EmployeesViewModel.TabItemHeader}" IsSelected="{Binding IsEmployeesSelected}">
+			<TabItem Header="{Binding EmployeesViewModel.TabItemHeader}" IsSelected="{Binding IsEmployeesSelected}" Visibility="{Binding CanSelectEmployees, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
 			</TabItem>
-			<TabItem Header="Подразделения" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Подразделения" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectDepartments, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
 			</TabItem>
-			<TabItem Header="Должности" IsSelected="{Binding IsPositionsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Должности" IsSelected="{Binding IsPositionsSelected}" Visibility="{Binding CanSelectPositions, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:PositionsView DataContext="{Binding PositionsViewModel}" />
 			</TabItem>
-			<TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}" Visibility="{Binding CanSelectAdditionalColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
 			</TabItem>
-			<TabItem Header="Пропуска" IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Пропуска" IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectCards, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:CardsView DataContext="{Binding CardsViewModel}" />
 			</TabItem>
-			<TabItem Header="Шаблоны доступа" IsSelected="{Binding IsAccessTemplatesSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Шаблоны доступа" IsSelected="{Binding IsAccessTemplatesSelected}" Visibility="{Binding CanSelectAccessTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
 			</TabItem>
-			<TabItem Header="Шаблоны пропусков" IsSelected="{Binding IsPassCardTemplatesSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Шаблоны пропусков" IsSelected="{Binding IsPassCardTemplatesSelected}" Visibility="{Binding CanSelectPassCardTemplates, Converter={StaticResource BoolToVisibilityConverter}}">
 				<ContentPresenter Content="{Binding PassCardTemplatesViewModel}" />
 			</TabItem>
 			<TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}" Visibility="{Binding CanSelectOrganisations, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -70,6 +70,11 @@ namespace SKDModule.ViewModels
 			throw new NotImplementedException();
 		}
 
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
+		}
+
 		public List<Guid> UIDs { get { return Organisations.SelectMany(x => x.Children).Where(x => x.IsChecked).Select(x => x.Model.UID).ToList(); } }
 	}
 }

@@ -125,5 +125,10 @@ namespace SKDModule.ViewModels
 		{
 			get { return "дневной график"; }
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit; }
+		}
 	}
 }

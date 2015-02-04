@@ -134,6 +134,11 @@ namespace SKDModule.ViewModels
 			get { return "график работы"; }
 		}
 
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit; }
+		}
+
 		void OnUpdateFilter(HRFilter hrFilter)
 		{
 			var filter = new ScheduleFilter()

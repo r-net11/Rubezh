@@ -38,7 +38,6 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		TimeTrackingViewModel TimeTrackingViewModel;
-		ExportViewModel ExportViewModel;
 		PlanPresenter PlanPresenter;
 
 		public SKDModuleLoader()
@@ -57,8 +56,7 @@ namespace SKDModule
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			TimeTrackingViewModel = new TimeTrackingViewModel();
-			ExportViewModel = new ExportViewModel();
-
+			
 			SubscribeShowDelailsEvent();
 		}
 
@@ -119,9 +117,8 @@ namespace SKDModule
 							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesViewModel, "Графики", "SheduleWeeklyW", null, PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View, Guid.Empty),
 							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "HolidaysW", null, PermissionType.Oper_SKD_TimeTrack_Holidays_View, Guid.Empty),
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "ShedulesW", null, PermissionType.Oper_SKD_TimeTrack_Schedules_View, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, null),
+							new NavigationItem<ShowTimeTrackingEvent>(TimeTrackingViewModel, "Учет рабочего времени", "TimeTrackingW", null, PermissionType.Oper_SKD_TimeTrack_Report_View),
 						}),
-						new NavigationItem<ShowExportEvent>(ExportViewModel, "Экспорт", "/Controls;component/Images/Kartoteka2W.png"),
 					})
 				};
 		}
@@ -160,7 +157,6 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCardDesigner/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Export/DataTemplates/Dictionary.xaml"));
 			DesignerLoader.RegisterResource();
 		}
 

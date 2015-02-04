@@ -139,18 +139,23 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDoor),
-									new StepTypeViewModel(ProcedureStepType.ExportJournal),
-									new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
-									new StepTypeViewModel(ProcedureStepType.ExportOrganisation),
-									new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
-									new StepTypeViewModel(ProcedureStepType.ExportOrganisationList),
-									new StepTypeViewModel(ProcedureStepType.ImportOrganisationList),
+									
 								}),
 							new StepTypeViewModel("Управление Видео",
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlCamera)
 								}),
+						}),
+					new StepTypeViewModel("Обмен данными",
+						new List<StepTypeViewModel>
+						{
+							new StepTypeViewModel(ProcedureStepType.ExportJournal),
+							new StepTypeViewModel(ProcedureStepType.ExportConfiguration),
+							new StepTypeViewModel(ProcedureStepType.ExportOrganisation),
+							new StepTypeViewModel(ProcedureStepType.ImportOrganisation),
+							new StepTypeViewModel(ProcedureStepType.ExportOrganisationList),
+							new StepTypeViewModel(ProcedureStepType.ImportOrganisationList),
 						}),
 
 				});

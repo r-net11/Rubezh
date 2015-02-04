@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -52,9 +50,9 @@ namespace SKDModule.ViewModels
 			IsEmployeesSelected = true;
 
 			PersonTypes = new ObservableCollection<PersonType>();
-			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees))
+			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
 				PersonTypes.Add(PersonType.Employee);
-			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests))
+			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
 				PersonTypes.Add(PersonType.Guest);
 			_selectedPersonType = PersonTypes.FirstOrDefault();
 			CanSelectPersonType = PersonTypes.Count == 2;
@@ -153,13 +151,44 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool CanSelectHR
+		public bool CanSelectEmployees
 		{
-			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_HR); }
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View) || FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View); }
 		}
+
+		public bool CanSelectPositions
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Positions_View); }
+		}
+
+		public bool CanSelectDepartments
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Departments_View); }
+		}
+
+		public bool CanSelectAdditionalColumns
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_AdditionalColumns_View); }
+		}
+
+		public bool CanSelectCards
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Cards_View); }
+		}
+
+		public bool CanSelectAccessTemplates
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_AccessTemplates_View); }
+		}
+
+		public bool CanSelectPassCardTemplates
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_PassCards_View); }
+		}
+
 		public bool CanSelectOrganisations
 		{
-			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations); }
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations_View); }
 		}
 
 		public ObservableCollection<PersonType> PersonTypes { get; private set; }

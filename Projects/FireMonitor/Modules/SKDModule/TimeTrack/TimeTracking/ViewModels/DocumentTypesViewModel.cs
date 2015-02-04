@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using FiresecAPI.SKD;
-using SKDModule.Common;
-using Infrastructure.Common.Windows;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -98,7 +96,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return SelectedDocumentType != null;
+			return SelectedDocumentType != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -115,7 +113,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDocumentType != null && SelectedDocumentType.Parent != null && !SelectedDocumentType.IsOrganisation;
+			return SelectedDocumentType != null && SelectedDocumentType.Parent != null && !SelectedDocumentType.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -146,7 +144,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation;
+			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit);
 		}
 	}
 }

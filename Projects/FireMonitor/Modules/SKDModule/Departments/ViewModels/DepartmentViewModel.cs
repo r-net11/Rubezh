@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.SKD;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -27,6 +28,11 @@ namespace SKDModule.ViewModels
 		{
 			base.Update();
 			OnPropertyChanged(() => Phone);
+		}
+
+		public bool IsShowEmployeeList
+		{
+			get { return !IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 	}
 }

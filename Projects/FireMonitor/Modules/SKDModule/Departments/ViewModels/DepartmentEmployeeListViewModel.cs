@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -70,7 +71,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanSetChief
 		{
-			get { return SelectedEmployee != null && !SelectedEmployee.IsChief; }
+			get { return SelectedEmployee != null && !SelectedEmployee.IsChief && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit); }
 		}
 
 		public RelayCommand UnSetChiefCommand { get; private set; }
@@ -82,7 +83,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanUnSetChief
 		{
-			get { return SelectedEmployee != null && SelectedEmployee.IsChief; }
+			get { return SelectedEmployee != null && SelectedEmployee.IsChief && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit); }
 		}
 		
 		protected override void Update()

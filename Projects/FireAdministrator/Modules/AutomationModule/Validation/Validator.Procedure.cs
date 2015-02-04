@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
@@ -368,6 +369,9 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, arguments.MaxDateArgument);
 						ValidateArgument(step, arguments.MinDateArgument);
 						ValidateArgument(step, arguments.PathArgument);
+						var path = step.ExportJournalArguments.PathArgument.ExplicitValue.StringValue;
+						if (!Directory.Exists(path))
+							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
 				case ProcedureStepType.ExportConfiguration:
@@ -377,6 +381,9 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, arguments.IsExportDoors);
 						ValidateArgument(step, arguments.IsExportZones);
 						ValidateArgument(step, arguments.PathArgument);
+						var path = step.ExportConfigurationArguments.PathArgument.ExplicitValue.StringValue;
+						if (!Directory.Exists(path))
+							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
 				case ProcedureStepType.ExportOrganisation:
@@ -385,6 +392,9 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, arguments.IsWithDeleted);
 						ValidateArgument(step, arguments.Organisation);
 						ValidateArgument(step, arguments.PathArgument);
+						var path = step.ExportOrganisationArguments.PathArgument.ExplicitValue.StringValue;
+						if (!Directory.Exists(path))
+							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
 				case ProcedureStepType.ExportOrganisationList:
@@ -392,6 +402,9 @@ namespace AutomationModule.Validation
 						var arguments = step.ImportOrganisationArguments;
 						ValidateArgument(step, arguments.IsWithDeleted);
 						ValidateArgument(step, arguments.PathArgument);
+						var path = step.ImportOrganisationArguments.PathArgument.ExplicitValue.StringValue;
+						if (!Directory.Exists(path))
+							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
 				case ProcedureStepType.ImportOrganisationList:
@@ -399,6 +412,9 @@ namespace AutomationModule.Validation
 						var arguments = step.ImportOrganisationArguments;
 						ValidateArgument(step, arguments.IsWithDeleted);
 						ValidateArgument(step, arguments.PathArgument);
+						var path = step.ImportOrganisationArguments.PathArgument.ExplicitValue.StringValue;
+						if (!Directory.Exists(path))
+							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
 				case ProcedureStepType.ImportOrganisation:
@@ -406,6 +422,9 @@ namespace AutomationModule.Validation
 						var arguments = step.ImportOrganisationArguments;
 						ValidateArgument(step, arguments.IsWithDeleted);
 						ValidateArgument(step, arguments.PathArgument);
+						var path = step.ImportOrganisationArguments.PathArgument.ExplicitValue.StringValue;
+						if (!Directory.Exists(path))
+							Errors.Add(new ProcedureStepValidationError(step, "Папки не существует", ValidationErrorLevel.CannotSave));
 						break;
 					}
 			}

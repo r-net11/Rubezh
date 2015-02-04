@@ -5,6 +5,7 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -12,7 +13,7 @@ namespace SKDModule.ViewModels
 	{
 		ScheduleSchemeViewModel _scheduleScheme;
 		bool _initialized;
-		public bool CanSelect { get { return !_scheduleScheme.IsDeleted; } }
+		public bool CanSelect { get { return !_scheduleScheme.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit); } }
 
 		public SheduleDayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, ScheduleDayInterval dayInterval)
 			: base(dayInterval)

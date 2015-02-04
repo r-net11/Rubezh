@@ -23,9 +23,9 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <ToolBarButton Command="{Binding AddCustomPartCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                        <ToolBarButton Command="{Binding RemovePartCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                        <ToolBarButton Command="{Binding EditPartCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+                        <ToolBarButton Command="{Binding AddCustomPartCommand}" ToolTip="Добавить" ImageSource="Add" />
+                        <ToolBarButton Command="{Binding RemovePartCommand}" ToolTip="Удалить" ImageSource="Delete" />
+                        <ToolBarButton Command="{Binding EditPartCommand}" ToolTip="Редактировать" ImageSource="Edit" />
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding DayTimeTrackParts}" SelectedItem="{Binding SelectedDayTimeTrackPart}" Margin="2">
                         <DataGrid.Columns>

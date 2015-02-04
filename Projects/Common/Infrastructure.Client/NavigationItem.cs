@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
@@ -30,6 +31,9 @@ namespace Infrastructure.Client
 			Arg = arg;
 			if (subscribe)
 				Subscribe();
+
+			if(permission.HasValue)
+				IsVisible = FiresecManager.CheckPermission(permission.Value);
 			IsSelectionAllowed = true;
 		}
 		public override void Execute()

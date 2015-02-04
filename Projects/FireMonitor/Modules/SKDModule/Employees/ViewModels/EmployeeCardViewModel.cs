@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCard.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -20,8 +21,8 @@ namespace SKDModule.ViewModels
 
 		public EmployeeCardViewModel(Organisation organisation, EmployeeViewModel employeeViewModel, SKDCard card)
 		{
-			RemoveCommand = new RelayCommand(OnRemove);
-			EditCommand = new RelayCommand(OnEdit);
+			RemoveCommand = new RelayCommand(OnRemove, CanEditDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
 
@@ -101,6 +102,11 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Name);
 				SetCardDoors();
 			}
+		}
+
+		bool CanEditDelete()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 
 		public RelayCommand PrintCommand { get; private set; }

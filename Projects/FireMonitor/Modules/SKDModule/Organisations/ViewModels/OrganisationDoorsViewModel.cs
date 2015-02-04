@@ -18,5 +18,10 @@ namespace SKDModule.ViewModels
 				Items.Add(new OrganisationDoorViewModel(Organisation, door));
 			}
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Doors; }
+		}
 	}
 }

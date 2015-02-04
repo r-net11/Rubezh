@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -30,7 +31,7 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsOrganisation ? false : Model.IsPositionDeleted; }
 		}
-
+		
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeOrganisation(organisation, parentViewModel);
@@ -59,7 +60,7 @@ namespace SKDModule.ViewModels
 		public override void InitializeModel(Organisation organisation, ShortEmployee model, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeModel(organisation, model, parentViewModel);
-			AddCardCommand = new RelayCommand(OnAddCard);
+			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
 			InitializeCards();
 		}
@@ -148,6 +149,10 @@ namespace SKDModule.ViewModels
 				SelectedCard = cardViewModel;
 				SelectCard(cardViewModel);
 			}
+		}
+		bool CanAddCard()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 
 		bool _isEmployeeSelected = true;

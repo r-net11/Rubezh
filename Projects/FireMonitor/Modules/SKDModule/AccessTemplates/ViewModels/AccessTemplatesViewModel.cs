@@ -54,5 +54,10 @@ namespace SKDModule.ViewModels
 		{
 			get { return "шаблон доступа"; }
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AccessTemplates_Etit; }
+		}
 	}	
 }

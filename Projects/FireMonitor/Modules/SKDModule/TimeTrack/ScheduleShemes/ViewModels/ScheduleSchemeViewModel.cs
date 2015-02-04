@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -90,7 +91,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return IsSlide && !IsDeleted;
+			return IsSlide && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -110,7 +111,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted;
+			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit);
 		}
 
 		void Sort()

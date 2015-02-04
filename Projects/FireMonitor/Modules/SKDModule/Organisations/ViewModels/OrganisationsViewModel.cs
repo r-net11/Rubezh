@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		
 		public OrganisationsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
 			RestoreCommand = new RelayCommand(OnRestore, CanRestore);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
@@ -111,7 +111,7 @@ namespace SKDModule.ViewModels
 
 		bool CanEditRemove()
 		{
-			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted;
+			return SelectedOrganisation != null && !SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -131,6 +131,10 @@ namespace SKDModule.ViewModels
 				}
 				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}
+		}
+		bool CanAdd()
+		{
+			 return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -175,7 +179,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRestore()
 		{
-			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted;
+			return SelectedOrganisation != null && SelectedOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Organisations_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

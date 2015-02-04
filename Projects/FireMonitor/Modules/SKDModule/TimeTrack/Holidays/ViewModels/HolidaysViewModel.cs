@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowSettings()
 		{
-			return ParentOrganisation != null && !ParentOrganisation.IsDeleted;
+			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
 		}
 
 		protected override bool Add(Holiday item)
@@ -121,6 +121,12 @@ namespace SKDModule.ViewModels
 		protected override string ItemRemovingName
 		{
 			get { return "праздничный день"; }
+		}
+
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit; }
 		}
 	}
 }
