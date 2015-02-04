@@ -53,6 +53,7 @@ namespace FiresecAPI.Automation
 			ImportOrganisationArguments = new ImportOrganisationArguments();
 			GenerateGuidArguments = new GenerateGuidArguments();
 			SetJournalItemGuidArguments = new SetJournalItemGuidArguments();
+			PtzArguments = new PtzArguments();
 		}
 
 		[XmlIgnore]
@@ -195,5 +196,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public SetJournalItemGuidArguments SetJournalItemGuidArguments { get; set; }
+
+		[DataMember]
+		public PtzArguments PtzArguments { get; set; }
 	}
 }

@@ -657,6 +657,17 @@ namespace FiresecService
 			}
 		}
 
+		public void Ptz(ProcedureStep procedureStep)
+		{
+			var ptzArguments = procedureStep.PtzArguments;
+			var cameraUid = GetValue<Guid>(ptzArguments.CameraArgument);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			if (camera == null)
+				return;
+			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
+			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
+		}
+
 		void ControlFireZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);

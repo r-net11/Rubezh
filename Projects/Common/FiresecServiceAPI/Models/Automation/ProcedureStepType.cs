@@ -159,5 +159,8 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Импорт списка организаций")]
 		ImportOrganisationList,
+
+		[DescriptionAttribute("Ptz камеры")]
+		Ptz
 	}
 }

@@ -408,6 +408,14 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, arguments.PathArgument);
 						break;
 					}
+
+				case ProcedureStepType.Ptz:
+					{
+						var arguments = step.PtzArguments;
+						ValidateArgument(step, arguments.CameraArgument);
+						ValidateArgument(step, arguments.PtzNumberArgument);
+						break;
+					}
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

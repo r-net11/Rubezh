@@ -180,6 +180,7 @@
     <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureLayoutCollection.cs" />
+    <Compile Include="Models\Automation\StepArguments\PtzArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RandomArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\RunProgramArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SendEmailArguments.cs" />

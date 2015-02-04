@@ -45,8 +45,8 @@ namespace DiagnosticsModule.ViewModels
 			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault();
 			if (camera == null)
 				return;
-			var fileName = "C:/Video.avi";
-			RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, camera.UID, EventUID, fileName);
+			const string fileName = @"C:\Videio.avi";
+			RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, EventUID, camera.UID, fileName);
 			var videoViewModel = new VideoViewModel(fileName);
 			DialogService.ShowModalWindow(videoViewModel);
 		}

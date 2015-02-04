@@ -21,7 +21,7 @@ namespace AutomationModule.ViewModels
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay))
+				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay || (step.ProcedureStepType == ProcedureStepType.Ptz)))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
@@ -209,6 +209,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ImportOrganisationList:
 					Content = new ImportOrganisationListStepViewModel(this);
+					break;
+
+				case ProcedureStepType.Ptz:
+					Content = new PtzStepViewModel(this);
 					break;
 			}
 			UpdateContent();
