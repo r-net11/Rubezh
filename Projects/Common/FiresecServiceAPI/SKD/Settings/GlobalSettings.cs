@@ -17,6 +17,7 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
+			UseStrazhBrand = false;
 			UseHasp = false;
 			DBServerName = "SQLEXPRESS";
 			//DBServerName = "FIRESECINSTANCE";
@@ -55,6 +56,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool AutoConnect { get; set; }
+
+		[DataMember]
+		public bool UseStrazhBrand { get; set; }
 
 		[DataMember]
 		public bool UseHasp { get; set; }
