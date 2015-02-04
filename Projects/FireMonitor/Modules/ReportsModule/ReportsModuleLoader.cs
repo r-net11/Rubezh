@@ -65,7 +65,8 @@ namespace ReportsModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Reports, "Отчеты", "Levels.png", (p) => _reportViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Reports, "Отчеты", "Levels.png", (p) => _skdReportViewModel);
+			//yield return new LayoutPartPresenter(LayoutPartIdentities.Reports, "Отчеты", "Levels.png", (p) => _reportViewModel);
 		}
 
 		#endregion

@@ -26,7 +26,6 @@ namespace SKDModule.Reports.Providers
                 Pages = new List<FilterContainerViewModel>()
 				{
 					new ZonePageViewModel(),
-                    new DoorPageViewModel(),
 					new OrganizationPageViewModel(true),
 					new DepartmentPageViewModel(),
 					new PositionPageViewModel(),

@@ -43,5 +43,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type ViewModels:EventTypePageViewModel}">
         <Views:SKDFilterPageView />
-    </DataTemplate>
+	</DataTemplate> 
+	<DataTemplate DataType="{x:Type ViewModels:UserPageViewModel}">
+		<Views:UserPageView />
+	</DataTemplate>
 </ResourceDictionary>

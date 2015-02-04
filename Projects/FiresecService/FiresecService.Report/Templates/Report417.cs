@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using SKDDriver;
 using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecAPI;
+using SKDDriver.DataAccess;
 
 namespace FiresecService.Report.Templates
 {
@@ -28,39 +30,46 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter417>();
+			if (filter.UseCurrentDate)
+				filter.ReportDateTime = DateTime.Now;
 
 			var dataSet = new DataSet417();
 			if (dataProvider.DatabaseService.PassJournalTranslator != null)
 			{
 				var employees = dataProvider.GetEmployees(filter);
-				var journal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastPassJournal(employees.Select(item => item.UID).ToList(), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime).ToDictionary(item => item.EmployeeUID);
+				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(employees.Select(item => item.UID).ToList(), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime);
+				var exitJournal = filter.Zones.IsEmpty() ? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastExitPassJournal(employees.Select(item => item.UID).Except(enterJournal.Select(item => item.EmployeeUID)), filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime) : null;
 				var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
-				foreach (var employee in employees)
-				{
-					var dataRow = dataSet.Data.NewDataRow();
-					dataRow.Employee = employee.Name;
-					dataRow.Orgnisation = employee.Organisation;
-					dataRow.Department = employee.Department;
-					dataRow.Position = employee.Position;
-					if (journal.ContainsKey(employee.UID))
-					{
-						var record = journal[employee.UID];
-						dataRow.EnterDateTime = record.EnterTime;
-						if (zoneMap.ContainsKey(record.ZoneUID))
-							dataRow.Zone = zoneMap[record.ZoneUID].PresentationName;
-						if (filter.UseCurrentDate)
-							dataRow.Period = DateTime.Now - dataRow.EnterDateTime;
-						else
-						{
-							dataRow.Period = (record.ExitTime.HasValue ? record.ExitTime.Value : filter.ReportDateTime) - record.EnterTime;
-							if (record.ExitTime.HasValue)
-								dataRow.ExitDateTime = record.ExitTime.Value;
-						}
-					}
-					dataSet.Data.Rows.Add(dataRow);
-				}
+				foreach (var record in enterJournal)
+					AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
+				if (exitJournal != null)
+					foreach (var record in exitJournal)
+						AddRecord(dataProvider, dataSet, record, filter, false, zoneMap);
 			}
 			return dataSet;
+		}
+
+		private void AddRecord(DataProvider dataProvider, DataSet417 ds, PassJournal record, ReportFilter417 filter, bool isEnter, Dictionary<Guid, SKDZone> zoneMap)
+		{
+			var dataRow = ds.Data.NewDataRow();
+			var employee = dataProvider.GetEmployee(record.EmployeeUID);
+			dataRow.Employee = employee.Name;
+			dataRow.Orgnisation = employee.Organisation;
+			dataRow.Department = employee.Department;
+			dataRow.Position = employee.Position;
+
+			dataRow.EnterDateTime = isEnter ? record.EnterTime : record.ExitTime.Value;
+			if (isEnter && zoneMap.ContainsKey(record.ZoneUID))
+				dataRow.Zone = zoneMap[record.ZoneUID].PresentationName;
+			if (filter.UseCurrentDate)
+				dataRow.Period = filter.ReportDateTime - dataRow.EnterDateTime;
+			else
+			{
+				dataRow.Period = (!isEnter && record.ExitTime.HasValue ? record.ExitTime.Value : filter.ReportDateTime) - dataRow.EnterDateTime;
+				if (!isEnter && record.ExitTime.HasValue)
+					dataRow.ExitDateTime = record.ExitTime.Value;
+			}
+			ds.Data.Rows.Add(dataRow);
 		}
 
 		private void Report417_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)

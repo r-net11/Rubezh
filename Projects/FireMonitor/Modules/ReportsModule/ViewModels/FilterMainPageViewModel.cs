@@ -25,7 +25,7 @@ namespace ReportsModule.ViewModels
             MainViewModel = model.MainViewModel;
             IsAdditionalExpanded = false;
             ExpandAdditionalCommand = new RelayCommand(() => IsAdditionalExpanded = !IsAdditionalExpanded);
-            SaveFilterCommand = new RelayCommand(OnSaveFilter);
+            SaveFilterCommand = new RelayCommand(OnSaveFilter, CanSaveFilter);
             RemoveFilterCommand = new RelayCommand(OnRemoveFilter, CanRemoveFilter);
             _filterType = filter.GetType();
             Filters = new ObservableCollection<SKDReportFilter>(ClientSettings.ReportFilters.Filters.Where(f => f.GetType() == _filterType));
@@ -74,7 +74,7 @@ namespace ReportsModule.ViewModels
             _isLoaded = false;
             var filter = (SKDReportFilter)Activator.CreateInstance(_filterType);
             _updateFilterAction(filter);
-            filter.Name = FilterName;
+			filter.Name = FilterName.Trim();
             var existFilter = ClientSettings.ReportFilters.Filters.FirstOrDefault(f => f.GetType() == _filterType && f.Name == FilterName);
             if (existFilter != null)
             {
@@ -86,13 +86,17 @@ namespace ReportsModule.ViewModels
             SelectedFilter = filter;
             _isLoaded = true;
         }
+		private bool CanSaveFilter()
+		{
+			return !string.IsNullOrEmpty(FilterName.Trim()) && FilterName.Trim() != Filters[0].Name;
+		}
         public RelayCommand RemoveFilterCommand { get; private set; }
         private void OnRemoveFilter()
         {
             if (ClientSettings.ReportFilters.Filters.Contains(SelectedFilter))
                 ClientSettings.ReportFilters.Filters.Remove(SelectedFilter);
             Filters.Remove(SelectedFilter);
-            //SelectedFilter = Filters[0];
+            SelectedFilter = Filters[0];
         }
         private bool CanRemoveFilter()
         {

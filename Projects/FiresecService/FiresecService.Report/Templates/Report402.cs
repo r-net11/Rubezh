@@ -48,8 +48,6 @@ namespace FiresecService.Report.Templates
 						row.EmployeeRow = employeeRow;
 						if (zoneMap.ContainsKey(pass.ZoneUID))
 							row.Zone = zoneMap[pass.ZoneUID].PresentationName;
-						//row.PassCard;
-						//row.Door;
 						if (filter.DateTimeFrom <= pass.EnterTime && pass.EnterTime <= filter.DateTimeTo)
 						{
 							row.DateTime = pass.EnterTime;

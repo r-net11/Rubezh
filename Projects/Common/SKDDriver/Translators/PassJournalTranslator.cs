@@ -287,7 +287,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastPassJournal(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime? dateTime)
+		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastEnterPassJournal(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime? dateTime)
 		{
 			var filter = PredicateBuilder.True<DataAccess.PassJournal>();
 			if (!employeeUIDs.IsEmpty())
@@ -299,6 +299,16 @@ namespace SKDDriver.Translators
 			else
 				filter = filter.And(e => !e.ExitTime.HasValue);
 			return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
+		}
+		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastExitPassJournal(IEnumerable<Guid> employeeUIDs, DateTime? dateTime)
+		{
+			var filter = PredicateBuilder.True<DataAccess.PassJournal>();
+			if (!employeeUIDs.IsEmpty())
+				filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
+			filter = filter.And(e => e.ExitTime.HasValue);
+			if (dateTime.HasValue)
+				filter = filter.And(e => e.ExitTime < dateTime);
+			return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
 		}
 		public IEnumerable<DataAccess.PassJournal> GetEmployeesRoot(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
 		{

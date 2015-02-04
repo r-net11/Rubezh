@@ -12,7 +12,7 @@
   <xs:element name="DataSet402" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet402" msprop:Generator_UserDSName="DataSet402">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Employee" msprop:Generator_TableClassName="EmployeeDataTable" msprop:Generator_TableVarName="tableEmployee" msprop:Generator_TablePropName="Employee" msprop:Generator_RowDeletingName="EmployeeRowDeleting" msprop:Generator_RowChangingName="EmployeeRowChanging" msprop:Generator_RowEvHandlerName="EmployeeRowChangeEventHandler" msprop:Generator_RowDeletedName="EmployeeRowDeleted" msprop:Generator_UserTableName="Employee" msprop:Generator_RowChangedName="EmployeeRowChanged" msprop:Generator_RowEvArgName="EmployeeRowChangeEvent" msprop:Generator_RowClassName="EmployeeRow">
+        <xs:element name="Employee" msprop:Generator_TableClassName="EmployeeDataTable" msprop:Generator_TableVarName="tableEmployee" msprop:Generator_RowChangedName="EmployeeRowChanged" msprop:Generator_TablePropName="Employee" msprop:Generator_RowDeletingName="EmployeeRowDeleting" msprop:Generator_RowChangingName="EmployeeRowChanging" msprop:Generator_RowEvHandlerName="EmployeeRowChangeEventHandler" msprop:Generator_RowDeletedName="EmployeeRowDeleted" msprop:Generator_RowClassName="EmployeeRow" msprop:Generator_UserTableName="Employee" msprop:Generator_RowEvArgName="EmployeeRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
@@ -23,14 +23,12 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_UserTableName="Data" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_RowEvArgName="DataRowChangeEvent" msprop:Generator_RowClassName="DataRow">
+        <xs:element name="Data" msprop:Generator_TableClassName="DataDataTable" msprop:Generator_TableVarName="tableData" msprop:Generator_RowChangedName="DataRowChanged" msprop:Generator_TablePropName="Data" msprop:Generator_RowDeletingName="DataRowDeleting" msprop:Generator_RowChangingName="DataRowChanging" msprop:Generator_RowEvHandlerName="DataRowChangeEventHandler" msprop:Generator_RowDeletedName="DataRowDeleted" msprop:Generator_RowClassName="DataRow" msprop:Generator_UserTableName="Data" msprop:Generator_RowEvArgName="DataRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="EmployeeUID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnEmployeeUID" msprop:Generator_ColumnPropNameInRow="EmployeeUID" msprop:Generator_ColumnPropNameInTable="EmployeeUIDColumn" msprop:Generator_UserColumnName="EmployeeUID" type="xs:string" minOccurs="0" />
               <xs:element name="DateTime" msprop:Generator_ColumnVarNameInTable="columnDateTime" msprop:Generator_ColumnPropNameInRow="DateTime" msprop:Generator_ColumnPropNameInTable="DateTimeColumn" msprop:Generator_UserColumnName="DateTime" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="Door" msprop:Generator_ColumnVarNameInTable="columnDoor" msprop:Generator_ColumnPropNameInRow="Door" msprop:Generator_ColumnPropNameInTable="DoorColumn" msprop:Generator_UserColumnName="Door" type="xs:string" minOccurs="0" />
               <xs:element name="Zone" msprop:Generator_ColumnVarNameInTable="columnZone" msprop:Generator_ColumnPropNameInRow="Zone" msprop:Generator_ColumnPropNameInTable="ZoneColumn" msprop:Generator_UserColumnName="Zone" type="xs:string" minOccurs="0" />
-              <xs:element name="PassCard" msprop:Generator_ColumnVarNameInTable="columnPassCard" msprop:Generator_ColumnPropNameInRow="PassCard" msprop:Generator_ColumnPropNameInTable="PassCardColumn" msprop:Generator_UserColumnName="PassCard" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -39,7 +37,7 @@
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="Employee_Data" msdata:parent="Employee" msdata:child="Data" msdata:parentkey="UID" msdata:childkey="EmployeeUID" msprop:Generator_UserChildTable="Data" msprop:Generator_ChildPropName="GetDataRows" msprop:Generator_UserRelationName="Employee_Data" msprop:Generator_ParentPropName="EmployeeRow" msprop:Generator_RelationVarName="relationEmployee_Data" msprop:Generator_UserParentTable="Employee" />
+      <msdata:Relationship name="Employee_Data" msdata:parent="Employee" msdata:child="Data" msdata:parentkey="UID" msdata:childkey="EmployeeUID" msprop:Generator_UserChildTable="Data" msprop:Generator_ChildPropName="GetDataRows" msprop:Generator_UserRelationName="Employee_Data" msprop:Generator_RelationVarName="relationEmployee_Data" msprop:Generator_UserParentTable="Employee" msprop:Generator_ParentPropName="EmployeeRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

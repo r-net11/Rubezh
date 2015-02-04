@@ -268,6 +268,7 @@
     <Compile Include="Reports\ViewModels\SchedulePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\SKDObjectPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\TreeNodeItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\UserPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\ZonePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\PassCardTypePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\EmployeePageViewModel.cs" />
@@ -310,6 +311,9 @@
     </Compile>
     <Compile Include="Reports\Views\SchedulePageView.xaml.cs">
       <DependentUpon>SchedulePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\UserPageView.xaml.cs">
+      <DependentUpon>UserPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Views\ZonePageView.xaml.cs">
       <DependentUpon>ZonePageView.xaml</DependentUpon>
@@ -872,6 +876,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Reports\Views\SchedulePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\Views\UserPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

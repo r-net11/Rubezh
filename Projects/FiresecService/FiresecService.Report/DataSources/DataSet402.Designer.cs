@@ -628,11 +628,7 @@ namespace FiresecService.Report.DataSources {
             
             private global::System.Data.DataColumn columnDateTime;
             
-            private global::System.Data.DataColumn columnDoor;
-            
             private global::System.Data.DataColumn columnZone;
-            
-            private global::System.Data.DataColumn columnPassCard;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -685,25 +681,9 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DoorColumn {
-                get {
-                    return this.columnDoor;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn ZoneColumn {
                 get {
                     return this.columnZone;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PassCardColumn {
-                get {
-                    return this.columnPassCard;
                 }
             }
             
@@ -744,14 +724,12 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public DataRow AddDataRow(EmployeeRow parentEmployeeRowByEmployee_Data, System.DateTime DateTime, string Door, string Zone, string PassCard) {
+            public DataRow AddDataRow(EmployeeRow parentEmployeeRowByEmployee_Data, System.DateTime DateTime, string Zone) {
                 DataRow rowDataRow = ((DataRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         DateTime,
-                        Door,
-                        Zone,
-                        PassCard};
+                        Zone};
                 if ((parentEmployeeRowByEmployee_Data != null)) {
                     columnValuesArray[0] = parentEmployeeRowByEmployee_Data[4];
                 }
@@ -779,9 +757,7 @@ namespace FiresecService.Report.DataSources {
             internal void InitVars() {
                 this.columnEmployeeUID = base.Columns["EmployeeUID"];
                 this.columnDateTime = base.Columns["DateTime"];
-                this.columnDoor = base.Columns["Door"];
                 this.columnZone = base.Columns["Zone"];
-                this.columnPassCard = base.Columns["PassCard"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -791,12 +767,8 @@ namespace FiresecService.Report.DataSources {
                 base.Columns.Add(this.columnEmployeeUID);
                 this.columnDateTime = new global::System.Data.DataColumn("DateTime", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDateTime);
-                this.columnDoor = new global::System.Data.DataColumn("Door", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDoor);
                 this.columnZone = new global::System.Data.DataColumn("Zone", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnZone);
-                this.columnPassCard = new global::System.Data.DataColumn("PassCard", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPassCard);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1137,22 +1109,6 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Door {
-                get {
-                    try {
-                        return ((string)(this[this.tableData.DoorColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Door\' in table \'Data\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableData.DoorColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Zone {
                 get {
                     try {
@@ -1164,22 +1120,6 @@ namespace FiresecService.Report.DataSources {
                 }
                 set {
                     this[this.tableData.ZoneColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PassCard {
-                get {
-                    try {
-                        return ((string)(this[this.tableData.PassCardColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'PassCard\' in table \'Data\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableData.PassCardColumn] = value;
                 }
             }
             
@@ -1220,18 +1160,6 @@ namespace FiresecService.Report.DataSources {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDoorNull() {
-                return this.IsNull(this.tableData.DoorColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDoorNull() {
-                this[this.tableData.DoorColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsZoneNull() {
                 return this.IsNull(this.tableData.ZoneColumn);
             }
@@ -1240,18 +1168,6 @@ namespace FiresecService.Report.DataSources {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetZoneNull() {
                 this[this.tableData.ZoneColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsPassCardNull() {
-                return this.IsNull(this.tableData.PassCardColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetPassCardNull() {
-                this[this.tableData.PassCardColumn] = global::System.Convert.DBNull;
             }
         }
         
