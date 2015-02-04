@@ -18,26 +18,6 @@ namespace SKDModule.ViewModels
 				NightSettings = new NightSettings { OrganisationUID = organisationUID };
 		}
 
-		public TimeSpan EveningStartTime
-		{
-			get { return NightSettings.EveningStartTime; }
-			set
-			{
-				NightSettings.EveningStartTime = value;
-				OnPropertyChanged(() => EveningStartTime);
-			}
-		}
-
-		public TimeSpan EveningEndTime
-		{
-			get { return NightSettings.EveningEndTime; }
-			set
-			{
-				NightSettings.EveningEndTime = value;
-				OnPropertyChanged(() => EveningEndTime);
-			}
-		}
-
 		public TimeSpan NightStartTime
 		{
 			get { return NightSettings.NightStartTime; }
@@ -60,14 +40,9 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (EveningStartTime > EveningEndTime)
+			if (NightStartTime > NightEndTime)
 			{
-				MessageBoxService.ShowWarning("Начало вечернего времени должно быть раньше конца");
-				return false;
-			}
-			if (EveningEndTime > NightStartTime && NightEndTime > TimeSpan.Zero)
-			{
-				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца вечернего");
+				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца");
 				return false;
 			}
 			return NightSettingsHelper.Save(NightSettings);
