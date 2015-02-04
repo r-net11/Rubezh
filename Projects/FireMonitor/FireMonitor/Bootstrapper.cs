@@ -128,7 +128,7 @@ namespace FireMonitor
 		}
 		protected virtual ShellViewModel CreateShell()
 		{
-			return new MonitorShellViewModel();
+			return new MonitorShellViewModel() {LogoSource = "Logo"};
 		}
 
 		protected virtual void OnConfigurationChanged()

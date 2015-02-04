@@ -37,7 +37,6 @@ namespace FireMonitor.Layout.ViewModels
 			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 		}
 
-
 		public LayoutContainer LayoutContainer { get; private set; }
 		private void LayoutChanging(object sender, EventArgs e)
 		{
