@@ -13,7 +13,7 @@
 				<MenuItem.Header>
 					<Grid Background="{DynamicResource ArrowUpDown}" Height="24" Width="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" ImageSource="BParametersRead" Text="Считать конфигурацию" TotalHeight="24" />
+				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" ImageSource="BParametersReadFromFile" Text="Считать конфигурацию" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding ReadConfigurationCommand}" ImageSource="BParametersRead" Text="Считать конфигурацию дескрипторов" TotalHeight="24" />
 				<IconedMenuItem Command="{Binding WriteConfigCommand}" ImageSource="BParametersWrite" Text="Записать конфигурацию" TotalHeight="24" />
 				<Separator />

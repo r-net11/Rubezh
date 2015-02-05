@@ -23,7 +23,7 @@
 			<ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="Add"  />
 			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="Delete"  />
 			<ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="AddCondition"  />
-			<ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="Add"  />
+			<ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="AddCycle"  />
 			<ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="arrowUp"  />
 			<ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="arrowDown"  />
 			<ToolBarButton Command="{Binding DownIntoCommand}" ToolTip="Войти" ImageSource="arrowInto"  />

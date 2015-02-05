@@ -10,7 +10,7 @@
 							<DataTrigger.Setters>
 								<Setter Property="ContentControl.Content">
 									<Setter.Value>
-										<Grid Width="24" Height="24" Background="{DynamicResource WindowNormal}" Opacity="0.5" />
+										<Grid Width="20" Height="20" Background="{DynamicResource WindowNormal}" Opacity="0.5" />
 									</Setter.Value>
 								</Setter>
 								<Setter Property="Button.ToolTip" Value="Автоматическая активация ВКЛючена" />
@@ -20,7 +20,7 @@
 							<DataTrigger.Setters>
 								<Setter Property="ContentControl.Content">
 									<Setter.Value>
-										<Grid Width="24" Height="24" Background="{DynamicResource WindowCross}" Opacity="0.5" />
+										<Grid Width="20" Height="20" Background="{DynamicResource WindowCross}" Opacity="0.5" />
 									</Setter.Value>
 								</Setter>
 								<Setter Property="Button.ToolTip" Value="Автоматическая активация ВЫКЛючена" />
@@ -39,7 +39,7 @@
 							<DataTrigger.Setters>
 								<Setter Property="ContentControl.Content">
 									<Setter.Value>
-										<Grid Width="24" Height="24" Background="{DynamicResource Map}" Opacity="0.5" />
+										<Grid Width="20" Height="20" Background="{DynamicResource Map}" Opacity="0.5" />
 									</Setter.Value>
 								</Setter>
 								<Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВКЛючена" />
@@ -49,7 +49,7 @@
 							<DataTrigger.Setters>
 								<Setter Property="ContentControl.Content">
 									<Setter.Value>
-										<Grid Width="24" Height="24" Background="{DynamicResource MapOff}" Opacity="0.5" />
+										<Grid Width="20" Height="20" Background="{DynamicResource MapOff}" Opacity="0.5" />
 									</Setter.Value>
 								</Setter>
 								<Setter Property="Button.ToolTip" Value="Автоматическая активация планов ВЫКЛючена" />
