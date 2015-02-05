@@ -963,7 +963,7 @@ namespace FiresecService
 			var minDate = GetValue<DateTime>(arguments.MinDateArgument);
 			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
 			var path = GetValue<string>(arguments.PathArgument);
-			FiresecServiceManager.SafeFiresecService.ExportJournal(
+			var result = FiresecServiceManager.SafeFiresecService.ExportJournal(
 				new JournalExportFilter 
 				{ 
 					IsExportJournal = isExportJournal, 
@@ -972,6 +972,8 @@ namespace FiresecService
 					MinDate = minDate, 
 					Path = path 
 				});
+			//if (result.HasError)
+			//    BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);
 		}
 
 		void ExportOrganisation(ProcedureStep procedureStep)
@@ -980,13 +982,15 @@ namespace FiresecService
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var organisationUID = GetValue<Guid>(arguments.Organisation);
 			var path = GetValue<string>(arguments.PathArgument);
-			FiresecServiceManager.SafeFiresecService.ExportOrganisation(
+			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisation(
 				new ExportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					OrganisationUID = organisationUID,
 					Path = path
 				});
+			//if (result.HasError)
+			//    MessageBoxService.Show(result.Error);
 		}
 
 		void ExportOrganisationList(ProcedureStep procedureStep)
@@ -994,12 +998,14 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
+			var result = FiresecServiceManager.SafeFiresecService.ExportOrganisationList(
 				new ExportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
+			//if (result.HasError)
+			//    MessageBoxService.Show(result.Error);
 		}
 
 		void ExportConfiguration(ProcedureStep procedureStep)
@@ -1009,7 +1015,7 @@ namespace FiresecService
 			var isExportDoors = GetValue<bool>(arguments.IsExportDoors);
 			var isExportZones = GetValue<bool>(arguments.IsExportZones);
 			var path = GetValue<string>(arguments.PathArgument);
-			FiresecServiceManager.SafeFiresecService.ExportConfiguration(
+			var result = FiresecServiceManager.SafeFiresecService.ExportConfiguration(
 				new ConfigurationExportFilter
 				{
 					IsExportDevices = isExportDevices,
@@ -1017,6 +1023,8 @@ namespace FiresecService
 					IsExportZones = isExportZones,
 					Path = path
 				});
+			//if (result.HasError)
+			//    MessageBoxService.Show(result.Error);
 		}
 
 		void ImportOrganisation(ProcedureStep procedureStep)
@@ -1024,12 +1032,14 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			FiresecServiceManager.SafeFiresecService.ImportOrganisation(
+			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisation(
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
+			//if (result.HasError)
+			//    MessageBoxService.Show(result.Error);
 		}
 
 		void ImportOrganisationList(ProcedureStep procedureStep)
@@ -1037,12 +1047,14 @@ namespace FiresecService
 			var arguments = procedureStep.ImportOrganisationArguments;
 			var isWithDeleted = GetValue<bool>(arguments.IsWithDeleted);
 			var path = GetValue<string>(arguments.PathArgument);
-			FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
+			var result = FiresecServiceManager.SafeFiresecService.ImportOrganisationList(
 				new ImportFilter
 				{
 					IsWithDeleted = isWithDeleted,
 					Path = path
 				});
+			//if (result.HasError)
+			//    MessageBoxService.Show(result.Error);
 		}
 
 		void SetValue(Argument argument, object propertyValue)

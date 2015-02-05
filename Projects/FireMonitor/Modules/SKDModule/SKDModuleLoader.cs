@@ -256,20 +256,34 @@ namespace SKDModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			yield return new ReportProvider401();
-			yield return new ReportProvider402();
-			yield return new ReportProvider411();
-			yield return new ReportProvider412();
-			yield return new ReportProvider413();
-			yield return new ReportProvider415();
-			yield return new ReportProvider416();
-			yield return new ReportProvider417();
-			yield return new ReportProvider418();
-			yield return new ReportProvider421();
-			yield return new ReportProvider422();
-			yield return new ReportProvider423();
-			yield return new ReportProvider424();
-			yield return new ReportProvider431();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Events))
+				yield return new ReportProvider401();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_EmployeeRoot))
+				yield return new ReportProvider402();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Cards))
+				yield return new ReportProvider411();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Employees_Access))
+				yield return new ReportProvider412();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Employees_Rights))
+				yield return new ReportProvider413();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Departments))
+				yield return new ReportProvider415();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Positions))
+				yield return new ReportProvider416();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_EmployeeZone))
+				yield return new ReportProvider417();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Employee))
+				yield return new ReportProvider418();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Discipline))
+				yield return new ReportProvider421();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Schedules))
+				yield return new ReportProvider422();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Documents))
+				yield return new ReportProvider423();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_WorkTime))
+				yield return new ReportProvider424();
+			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Doors))
+				yield return new ReportProvider431();
 		}
 
 		#endregion
