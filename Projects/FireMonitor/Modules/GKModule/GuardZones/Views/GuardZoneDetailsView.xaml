@@ -64,12 +64,12 @@
 							<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
 						<StackPanel Grid.Column="1">
-                            <StackPanel IsEnabled="{Binding IsControlRegime}">
-                                <Button Content="Поставить на охрану" Command="{Binding TurnOnCommand}" Width="250" Height="50" Margin="2" />
-                                <Button Content="Поставить на охрану немедленно" Command="{Binding TurnOnNowCommand}" Width="250" Height="50" Margin="2" />
-                                <Button Content="Снять с охраны" Command="{Binding TurnOffCommand}" Width="250" Height="50" Margin="2" />
-                            </StackPanel>
-                            <Button Content="Сбросить" Command="{Binding ResetCommand}" Width="250" Height="50" Margin="2" />
+							<StackPanel IsEnabled="{Binding IsControlRegime}">
+								<Button Content="Поставить на охрану" Command="{Binding TurnOnCommand}" Width="250" Height="50" Margin="2" />
+								<Button Content="Поставить на охрану немедленно" Command="{Binding TurnOnNowCommand}" Width="250" Height="50" Margin="2" />
+								<Button Content="Снять с охраны" Command="{Binding TurnOffCommand}" Width="250" Height="50" Margin="2" />
+							</StackPanel>
+							<Button Content="Сбросить" Command="{Binding ResetCommand}" Width="250" Height="50" Margin="2" />
 						</StackPanel>
 					</Grid>
 				</Grid>

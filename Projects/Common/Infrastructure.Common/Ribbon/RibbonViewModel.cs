@@ -30,6 +30,16 @@ namespace Infrastructure.Common.Ribbon
 					PopupOpened(this, EventArgs.Empty);
 			}
 		}
-		
+
+		string logoSource;
+		public string LogoSource
+		{
+			get { return logoSource; }
+			set
+			{
+				logoSource = value;
+				OnPropertyChanged(() => LogoSource);
+			}
+		}
 	}
 }

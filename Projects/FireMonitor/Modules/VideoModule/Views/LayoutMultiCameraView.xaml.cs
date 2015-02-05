@@ -156,7 +156,7 @@ namespace VideoModule.Views
 			var archiveViewModel = new ArchiveViewModel();
 			DialogService.ShowModalWindow(archiveViewModel);
 			//if (archiveViewModel.StartedRecord != null)
-			//    archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
+			//	archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
 		}
 
 		public static void GetLogicalChildCollection(DependencyObject parent, List<VlcControlView> logicalCollection)

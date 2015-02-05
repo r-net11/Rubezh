@@ -331,7 +331,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Взлом", XStateClass.Attention)]
 		Взлом,
 
-		[EventName(JournalSubsystemType.SKD, "Повторный_проход", XStateClass.Attention)]
+		[EventName(JournalSubsystemType.SKD, "Повторный проход", XStateClass.Attention)]
 		Повторный_проход,
 
 		[EventName(JournalSubsystemType.SKD, "Принуждение", XStateClass.Fire1)]

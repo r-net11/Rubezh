@@ -85,7 +85,7 @@ namespace ReportsModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-            return Enumerable.Empty<ISKDReportProvider>();
+			return Enumerable.Empty<ISKDReportProvider>();
 		}
 
 		#endregion

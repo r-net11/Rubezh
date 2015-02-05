@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="GKModule.Views.MonthView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<StackPanel HorizontalAlignment="Center">
 		<Label Content="{Binding MonthType, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" Margin="8" FontSize="14" />
 	<Grid>

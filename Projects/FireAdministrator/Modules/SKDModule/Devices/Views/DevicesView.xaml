@@ -49,21 +49,21 @@
 									<Controls:EditorPresenter>
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
-                                                <StackPanel Orientation="Horizontal">
+												<StackPanel Orientation="Horizontal">
 													<Image Width="16" Height="16" Source="{Binding Driver.ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-                                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000">
-                                                         <TextBlock.Style>
-                                                            <Style TargetType="TextBlock">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                                                                        <Setter Property="TextBlock.Foreground" Value="Gray" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBlock.Style>
-                                                    </TextBlock>
-                                                </StackPanel>
-                                            </ControlTemplate>
+													<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000">
+														 <TextBlock.Style>
+															<Style TargetType="TextBlock">
+																<Style.Triggers>
+																	<DataTrigger Binding="{Binding IsEnabled}" Value="False">
+																		<Setter Property="TextBlock.Foreground" Value="Gray" />
+																	</DataTrigger>
+																</Style.Triggers>
+															</Style>
+														</TextBlock.Style>
+													</TextBlock>
+												</StackPanel>
+											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
 										<Controls:EditorPresenter.EditTemplate>
 											<ControlTemplate>

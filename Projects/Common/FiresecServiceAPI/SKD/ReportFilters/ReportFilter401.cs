@@ -5,31 +5,31 @@ using FiresecAPI.Journal;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
-    [DataContract]
-    public class ReportFilter401 : SKDReportFilter, IReportFilterPeriod, IReportFilterEmployeeAndVisitor, IReportFilterUser
-    {
-        public ReportFilter401()
-        {
-            JournalEventSubsystemTypes = new List<JournalSubsystemType>();
-            JournalOjbectSubsystemTypes = new List<JournalSubsystemType>();
-            JournalEventNameTypes = new List<JournalEventNameType>();
-            JournalObjectTypes = new List<JournalObjectType>();
-            ObjectUIDs = new List<Guid>();
-            IsEmployee = true;
-        }
+	[DataContract]
+	public class ReportFilter401 : SKDReportFilter, IReportFilterPeriod, IReportFilterEmployeeAndVisitor, IReportFilterUser
+	{
+		public ReportFilter401()
+		{
+			JournalEventSubsystemTypes = new List<JournalSubsystemType>();
+			JournalOjbectSubsystemTypes = new List<JournalSubsystemType>();
+			JournalEventNameTypes = new List<JournalEventNameType>();
+			JournalObjectTypes = new List<JournalObjectType>();
+			ObjectUIDs = new List<Guid>();
+			IsEmployee = true;
+		}
 
-        #region IReportFilterPeriod Members
+		#region IReportFilterPeriod Members
 
-        [DataMember]
-        public ReportPeriodType PeriodType { get; set; }
+		[DataMember]
+		public ReportPeriodType PeriodType { get; set; }
 
-        [DataMember]
-        public DateTime DateTimeFrom { get; set; }
+		[DataMember]
+		public DateTime DateTimeFrom { get; set; }
 
-        [DataMember]
-        public DateTime DateTimeTo { get; set; }
+		[DataMember]
+		public DateTime DateTimeTo { get; set; }
 
-        #endregion
+		#endregion
 
 		#region IReportFilterEmployee Members
 
@@ -48,10 +48,10 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		#region IReportFilterEmployeeAndVisitor Members
 
-        [DataMember]
-        public bool IsEmployee { get; set; }
+		[DataMember]
+		public bool IsEmployee { get; set; }
 
-        #endregion
+		#endregion
 
 		#region IReportFilterUser Members
 
@@ -60,15 +60,15 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		#endregion
 
-        [DataMember]
-        public List<JournalSubsystemType> JournalEventSubsystemTypes { get; set; }
-        [DataMember]
-        public List<JournalEventNameType> JournalEventNameTypes { get; set; }
-        [DataMember]
-        public List<JournalSubsystemType> JournalOjbectSubsystemTypes { get; set; }
-        [DataMember]
-        public List<JournalObjectType> JournalObjectTypes { get; set; }
-        [DataMember]
-        public List<Guid> ObjectUIDs { get; set; }
+		[DataMember]
+		public List<JournalSubsystemType> JournalEventSubsystemTypes { get; set; }
+		[DataMember]
+		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+		[DataMember]
+		public List<JournalSubsystemType> JournalOjbectSubsystemTypes { get; set; }
+		[DataMember]
+		public List<JournalObjectType> JournalObjectTypes { get; set; }
+		[DataMember]
+		public List<Guid> ObjectUIDs { get; set; }
 	}
 }

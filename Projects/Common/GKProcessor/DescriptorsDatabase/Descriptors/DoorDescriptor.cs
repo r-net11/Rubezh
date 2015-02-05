@@ -67,7 +67,7 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice, DatabaseType);
 				//if (Door.LockControlDevice.Properties.FirstOrDefault(x => x.Name == "Конфигурация").Value == 1)
 				//{
-				//    Formula.Add(FormulaOperationType.COM);
+				//	Formula.Add(FormulaOperationType.COM);
 				//}
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType);

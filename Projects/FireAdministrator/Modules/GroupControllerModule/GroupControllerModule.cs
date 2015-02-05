@@ -105,7 +105,7 @@ namespace GKModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem(ModuleType.ToDescription(), null, new List<NavigationItem>()
+				new NavigationItem(ModuleType.ToDescription(), "Tree", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowGKDeviceEvent, Guid>(DevicesViewModel, "Устройства", "Tree", null, null, Guid.Empty),
 					new NavigationItem<ShowGKParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","Briefcase", null, null, Guid.Empty),

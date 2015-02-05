@@ -19,10 +19,10 @@ namespace FiresecService.Report
 			base.FillDataSources(report, reportName, isDesignActive);
 		}
 
-        public override void StopBuild(DocumentId documentId)
-        {
-            base.StopBuild(documentId);
-        }
-        
+		public override void StopBuild(DocumentId documentId)
+		{
+			base.StopBuild(documentId);
+		}
+		
 	}
 }

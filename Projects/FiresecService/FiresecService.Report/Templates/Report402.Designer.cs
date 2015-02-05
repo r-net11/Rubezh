@@ -53,10 +53,10 @@
 			// Detail
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLabel4,
-            this.xrLabel3,
-            this.xrLabel2,
-            this.xrLabel1});
+			this.xrLabel4,
+			this.xrLabel3,
+			this.xrLabel2,
+			this.xrLabel1});
 			this.Detail.HeightF = 60F;
 			this.Detail.KeepTogether = true;
 			this.Detail.KeepTogetherWithDetailReports = true;
@@ -65,7 +65,7 @@
 			// xrLabel4
 			// 
 			this.xrLabel4.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Position", "Должность: {0}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Position", "Должность: {0}")});
 			this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(330F, 35F);
 			this.xrLabel4.Name = "xrLabel4";
 			this.xrLabel4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -77,7 +77,7 @@
 			// xrLabel3
 			// 
 			this.xrLabel3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Organisation", "Организация: {0}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Organisation", "Организация: {0}")});
 			this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 35F);
 			this.xrLabel3.Name = "xrLabel3";
 			this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -89,7 +89,7 @@
 			// xrLabel2
 			// 
 			this.xrLabel2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Name", "Сотрудник: {0}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Name", "Сотрудник: {0}")});
 			this.xrLabel2.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
 			this.xrLabel2.Name = "xrLabel2";
 			this.xrLabel2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -101,7 +101,7 @@
 			// xrLabel1
 			// 
 			this.xrLabel1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Department", "Подразделение: {0}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Department", "Подразделение: {0}")});
 			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(330F, 10.00001F);
 			this.xrLabel1.Name = "xrLabel1";
 			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
@@ -113,8 +113,8 @@
 			// DetailReport
 			// 
 			this.DetailReport.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.Detail1,
-            this.GroupHeader1});
+			this.Detail1,
+			this.GroupHeader1});
 			this.DetailReport.DataMember = "Employee.Employee_Data";
 			this.DetailReport.Level = 0;
 			this.DetailReport.Name = "DetailReport";
@@ -124,21 +124,21 @@
 			// Detail1
 			// 
 			this.Detail1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable1});
+			this.xrTable1});
 			this.Detail1.HeightF = 25F;
 			this.Detail1.Name = "Detail1";
 			this.Detail1.SortFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
-            new DevExpress.XtraReports.UI.GroupField("DateTime", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
+			new DevExpress.XtraReports.UI.GroupField("DateTime", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
 			// 
 			// xrTable1
 			// 
 			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
-            | DevExpress.XtraPrinting.BorderSide.Bottom)));
+			| DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable1.Name = "xrTable1";
 			this.xrTable1.OddStyleName = "xrControlStyle1";
 			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.xrTableRow1});
+			this.xrTableRow1});
 			this.xrTable1.SizeF = new System.Drawing.SizeF(650F, 25F);
 			this.xrTable1.StylePriority.UseBorders = false;
 			this.xrTable1.StylePriority.UseTextAlignment = false;
@@ -147,29 +147,29 @@
 			// xrTableRow1
 			// 
 			this.xrTableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell3,
-            this.xrTableCell5});
+			this.xrTableCell3,
+			this.xrTableCell5});
 			this.xrTableRow1.Name = "xrTableRow1";
 			this.xrTableRow1.Weight = 11.5D;
 			// 
 			// xrTableCell3
 			// 
 			this.xrTableCell3.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.DateTime", "{0:dd.MM.yyyy H:mm:ss}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.DateTime", "{0:dd.MM.yyyy H:mm:ss}")});
 			this.xrTableCell3.Name = "xrTableCell3";
 			this.xrTableCell3.Weight = 0.26508873572716346D;
 			// 
 			// xrTableCell5
 			// 
 			this.xrTableCell5.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.Zone")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Employee.Employee_Data.Zone")});
 			this.xrTableCell5.Name = "xrTableCell5";
 			this.xrTableCell5.Weight = 0.81183434119591347D;
 			// 
 			// GroupHeader1
 			// 
 			this.GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable2});
+			this.xrTable2});
 			this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
 			this.GroupHeader1.HeightF = 25F;
 			this.GroupHeader1.KeepTogether = true;
@@ -180,13 +180,13 @@
 			// 
 			this.xrTable2.BackColor = System.Drawing.Color.DarkGray;
 			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
-            | DevExpress.XtraPrinting.BorderSide.Right) 
-            | DevExpress.XtraPrinting.BorderSide.Bottom)));
+			| DevExpress.XtraPrinting.BorderSide.Right) 
+			| DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable2.KeepTogether = true;
 			this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable2.Name = "xrTable2";
 			this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.xrTableRow2});
+			this.xrTableRow2});
 			this.xrTable2.SizeF = new System.Drawing.SizeF(650F, 25F);
 			this.xrTable2.StylePriority.UseBackColor = false;
 			this.xrTable2.StylePriority.UseBorders = false;
@@ -197,8 +197,8 @@
 			// 
 			this.xrTableRow2.BackColor = System.Drawing.Color.DarkGray;
 			this.xrTableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell10,
-            this.xrTableCell12});
+			this.xrTableCell10,
+			this.xrTableCell12});
 			this.xrTableRow2.Name = "xrTableRow2";
 			this.xrTableRow2.Weight = 11.5D;
 			// 
@@ -223,14 +223,14 @@
 			// Report402
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.Detail,
-            this.DetailReport});
+			this.Detail,
+			this.DetailReport});
 			this.DataMember = "Employee";
 			this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
-            this.xrControlStyle1});
+			this.xrControlStyle1});
 			this.Version = "14.1";
 			this.Controls.SetChildIndex(this.DetailReport, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);

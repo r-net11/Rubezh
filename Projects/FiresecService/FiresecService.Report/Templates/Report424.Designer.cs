@@ -1,33 +1,33 @@
 ﻿namespace FiresecService.Report.Templates
 {
-    partial class Report424
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class Report424
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Designer generated code
+		#region Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Report424));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
@@ -81,19 +81,19 @@
 			// Detail
 			// 
 			this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable2});
+			this.xrTable2});
 			this.Detail.HeightF = 25F;
 			this.Detail.Name = "Detail";
 			// 
 			// xrTable2
 			// 
 			this.xrTable2.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Right) 
-            | DevExpress.XtraPrinting.BorderSide.Bottom)));
+			| DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable2.Name = "xrTable2";
 			this.xrTable2.OddStyleName = "xrControlStyle1";
 			this.xrTable2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.xrTableRow2});
+			this.xrTableRow2});
 			this.xrTable2.SizeF = new System.Drawing.SizeF(650F, 25F);
 			this.xrTable2.StylePriority.UseBorders = false;
 			this.xrTable2.StylePriority.UseTextAlignment = false;
@@ -102,47 +102,47 @@
 			// xrTableRow2
 			// 
 			this.xrTableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell9,
-            this.xrTableCell10,
-            this.xrTableCell11,
-            this.xrTableCell12,
-            this.xrTableCell13,
-            this.xrTableCell14,
-            this.xrTableCell15,
-            this.xrTableCell16,
-            this.xrTableCell31,
-            this.xrTableCell32,
-            this.xrTableCell33,
-            this.xrTableCell34,
-            this.xrTableCell35});
+			this.xrTableCell9,
+			this.xrTableCell10,
+			this.xrTableCell11,
+			this.xrTableCell12,
+			this.xrTableCell13,
+			this.xrTableCell14,
+			this.xrTableCell15,
+			this.xrTableCell16,
+			this.xrTableCell31,
+			this.xrTableCell32,
+			this.xrTableCell33,
+			this.xrTableCell34,
+			this.xrTableCell35});
 			this.xrTableRow2.Name = "xrTableRow2";
 			this.xrTableRow2.Weight = 11.5D;
 			// 
 			// xrTableCell9
 			// 
 			this.xrTableCell9.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Employee")});
 			this.xrTableCell9.Name = "xrTableCell9";
 			this.xrTableCell9.Weight = 0.10059170875323595D;
 			// 
 			// xrTableCell10
 			// 
 			this.xrTableCell10.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Department")});
 			this.xrTableCell10.Name = "xrTableCell10";
 			this.xrTableCell10.Weight = 0.13885602781758508D;
 			// 
 			// xrTableCell11
 			// 
 			this.xrTableCell11.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Position")});
 			this.xrTableCell11.Name = "xrTableCell11";
 			this.xrTableCell11.Weight = 0.099802751710429D;
 			// 
 			// xrTableCell12
 			// 
 			this.xrTableCell12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ScheduleDay", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ScheduleDay", "{0:n2}")});
 			this.xrTableCell12.Name = "xrTableCell12";
 			this.xrTableCell12.Weight = 0.07230744672244821D;
 			// 
@@ -158,42 +158,42 @@
 			// xrTableCell13
 			// 
 			this.xrTableCell13.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ScheduleNight", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.ScheduleNight", "{0:n2}")});
 			this.xrTableCell13.Name = "xrTableCell13";
 			this.xrTableCell13.Weight = 0.0937934830343935D;
 			// 
 			// xrTableCell14
 			// 
 			this.xrTableCell14.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.TotalPresence", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.TotalPresence", "{0:n2}")});
 			this.xrTableCell14.Name = "xrTableCell14";
 			this.xrTableCell14.Weight = 0.08064089080991127D;
 			// 
 			// xrTableCell15
 			// 
 			this.xrTableCell15.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Presence", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Presence", "{0:n2}")});
 			this.xrTableCell15.Name = "xrTableCell15";
 			this.xrTableCell15.Weight = 0.099937505778476321D;
 			// 
 			// xrTableCell16
 			// 
 			this.xrTableCell16.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Overtime", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Overtime", "{0:n2}")});
 			this.xrTableCell16.Name = "xrTableCell16";
 			this.xrTableCell16.Weight = 0.070351735854289971D;
 			// 
 			// xrTableCell31
 			// 
 			this.xrTableCell31.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Night", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Night", "{0:n2}")});
 			this.xrTableCell31.Name = "xrTableCell31";
 			this.xrTableCell31.Weight = 0.066834305080436363D;
 			// 
 			// xrTableCell32
 			// 
 			this.xrTableCell32.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Balance", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.Balance", "{0:n2}")});
 			this.xrTableCell32.FormattingRules.Add(this.BalanceRule);
 			this.xrTableCell32.Name = "xrTableCell32";
 			this.xrTableCell32.Weight = 0.099961060292622028D;
@@ -201,21 +201,21 @@
 			// xrTableCell33
 			// 
 			this.xrTableCell33.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentOvertime", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentOvertime", "{0:n2}")});
 			this.xrTableCell33.Name = "xrTableCell33";
 			this.xrTableCell33.Weight = 0.1058179902748243D;
 			// 
 			// xrTableCell34
 			// 
 			this.xrTableCell34.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentAbsence", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentAbsence", "{0:n2}")});
 			this.xrTableCell34.Name = "xrTableCell34";
 			this.xrTableCell34.Weight = 0.093468012160803415D;
 			// 
 			// xrTableCell35
 			// 
 			this.xrTableCell35.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.TotalBalance", "{0:n2}")});
+			new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.TotalBalance", "{0:n2}")});
 			this.xrTableCell35.FormattingRules.Add(this.TotalBalanceRule);
 			this.xrTableCell35.Name = "xrTableCell35";
 			this.xrTableCell35.Weight = 0.10840631247977531D;
@@ -224,7 +224,7 @@
 			// 
 			this.GroupHeader1.BackColor = System.Drawing.Color.LightGray;
 			this.GroupHeader1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrTable1});
+			this.xrTable1});
 			this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
 			this.GroupHeader1.HeightF = 53.125F;
 			this.GroupHeader1.KeepTogether = true;
@@ -236,13 +236,13 @@
 			// 
 			this.xrTable1.BackColor = System.Drawing.Color.DarkGray;
 			this.xrTable1.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
-            | DevExpress.XtraPrinting.BorderSide.Right) 
-            | DevExpress.XtraPrinting.BorderSide.Bottom)));
+			| DevExpress.XtraPrinting.BorderSide.Right) 
+			| DevExpress.XtraPrinting.BorderSide.Bottom)));
 			this.xrTable1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
 			this.xrTable1.Name = "xrTable1";
 			this.xrTable1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
-            this.xrTableRow1,
-            this.xrTableRow3});
+			this.xrTableRow1,
+			this.xrTableRow3});
 			this.xrTable1.SizeF = new System.Drawing.SizeF(650F, 53.125F);
 			this.xrTable1.StylePriority.UseBackColor = false;
 			this.xrTable1.StylePriority.UseBorders = false;
@@ -250,15 +250,15 @@
 			// xrTableRow1
 			// 
 			this.xrTableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell1,
-            this.xrTableCell2,
-            this.xrTableCell3,
-            this.xrTableCell5,
-            this.xrTableCell4,
-            this.xrTableCell25,
-            this.xrTableCell7,
-            this.xrTableCell27,
-            this.xrTableCell29});
+			this.xrTableCell1,
+			this.xrTableCell2,
+			this.xrTableCell3,
+			this.xrTableCell5,
+			this.xrTableCell4,
+			this.xrTableCell25,
+			this.xrTableCell7,
+			this.xrTableCell27,
+			this.xrTableCell29});
 			this.xrTableRow1.Name = "xrTableRow1";
 			this.xrTableRow1.Weight = 11.5D;
 			// 
@@ -344,19 +344,19 @@
 			// xrTableRow3
 			// 
 			this.xrTableRow3.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
-            this.xrTableCell8,
-            this.xrTableCell19,
-            this.xrTableCell17,
-            this.xrTableCell20,
-            this.xrTableCell21,
-            this.xrTableCell22,
-            this.xrTableCell23,
-            this.xrTableCell24,
-            this.xrTableCell6,
-            this.xrTableCell26,
-            this.xrTableCell18,
-            this.xrTableCell28,
-            this.xrTableCell30});
+			this.xrTableCell8,
+			this.xrTableCell19,
+			this.xrTableCell17,
+			this.xrTableCell20,
+			this.xrTableCell21,
+			this.xrTableCell22,
+			this.xrTableCell23,
+			this.xrTableCell24,
+			this.xrTableCell6,
+			this.xrTableCell26,
+			this.xrTableCell18,
+			this.xrTableCell28,
+			this.xrTableCell30});
 			this.xrTableRow3.Name = "xrTableRow3";
 			this.xrTableRow3.Weight = 11.5D;
 			// 
@@ -468,17 +468,17 @@
 			// Report424
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.Detail,
-            this.GroupHeader1});
+			this.Detail,
+			this.GroupHeader1});
 			this.DataMember = "Data";
 			this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
 			this.ExportOptions.PrintPreview.ShowOptionsBeforeExport = false;
 			this.FormattingRuleSheet.AddRange(new DevExpress.XtraReports.UI.FormattingRule[] {
-            this.BalanceRule,
-            this.TotalBalanceRule});
+			this.BalanceRule,
+			this.TotalBalanceRule});
 			this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
-            this.xrControlStyle1});
+			this.xrControlStyle1});
 			this.Version = "14.1";
 			this.Controls.SetChildIndex(this.GroupHeader1, 0);
 			this.Controls.SetChildIndex(this.Detail, 0);
@@ -486,54 +486,54 @@
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private DevExpress.XtraReports.UI.DetailBand Detail;
-        private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
-        private DevExpress.XtraReports.UI.XRTable xrTable2;
-        private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell9;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell10;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell11;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell12;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell13;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell14;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell15;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell16;
-        private DevExpress.XtraReports.UI.XRTable xrTable1;
-        private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
-        private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell31;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell32;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell33;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell34;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell35;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell4;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell25;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell7;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell27;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell29;
-        private DevExpress.XtraReports.UI.XRTableRow xrTableRow3;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell19;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell20;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell21;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell22;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell23;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell24;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell26;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell28;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell30;
+		private DevExpress.XtraReports.UI.DetailBand Detail;
+		private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
+		private DevExpress.XtraReports.UI.XRTable xrTable2;
+		private DevExpress.XtraReports.UI.XRTableRow xrTableRow2;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell9;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell10;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell11;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell12;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell13;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell14;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell15;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell16;
+		private DevExpress.XtraReports.UI.XRTable xrTable1;
+		private DevExpress.XtraReports.UI.XRTableRow xrTableRow1;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell3;
+		private DevExpress.XtraReports.UI.XRControlStyle xrControlStyle1;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell31;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell32;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell33;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell34;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell35;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell5;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell4;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell25;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell7;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell27;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell29;
+		private DevExpress.XtraReports.UI.XRTableRow xrTableRow3;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell19;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell20;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell21;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell22;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell23;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell24;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell6;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell26;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell28;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell30;
 		private DevExpress.XtraReports.UI.FormattingRule BalanceRule;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell8;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell17;
-        private DevExpress.XtraReports.UI.XRTableCell xrTableCell18;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell8;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell17;
+		private DevExpress.XtraReports.UI.XRTableCell xrTableCell18;
 		private DevExpress.XtraReports.UI.FormattingRule TotalBalanceRule;
-    }
+	}
 }

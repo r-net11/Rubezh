@@ -23,11 +23,11 @@ namespace FiresecAPI.SKD.ReportFilters
 
 		#endregion
 
-        #region IReportFilterArchive Members
+		#region IReportFilterArchive Members
 
-        [DataMember]
-        public bool UseArchive { get; set; }
+		[DataMember]
+		public bool UseArchive { get; set; }
 
-        #endregion
-    }
+		#endregion
+	}
 }

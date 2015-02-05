@@ -39,19 +39,7 @@ namespace VideoModule.ViewModels
 				ChannelNumber = 1;
 				IsEditMode = false;
 			}
-			ShowZonesCommand = new RelayCommand(OnShowZones);
 			ShowCommand = new RelayCommand(OnShow);
-			Initialize();
-		}
-
-		public List<XStateClass> StateClasses { get; private set; }
-		void Initialize()
-		{
-			StateClasses = new List<XStateClass>();
-			StateClasses.Add(XStateClass.Fire1);
-			StateClasses.Add(XStateClass.Fire2);
-			StateClasses.Add(XStateClass.Attention);
-			StateClasses.Add(XStateClass.Ignore);
 		}
 
 		int _left;
@@ -102,7 +90,6 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Ip;
-			SelectedStateClass = Camera.StateClass;
 			ChannelNumber = Camera.ChannelNumber + 1;
 			Left = Camera.Left;
 			Top = Camera.Top;
@@ -154,42 +141,7 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		XStateClass _selectedStateClass;
-		public XStateClass SelectedStateClass
-		{
-			get { return _selectedStateClass; }
-			set
-			{
-				_selectedStateClass = value;
-				OnPropertyChanged(() => SelectedStateClass);
-			}
-		}
-
-		public RelayCommand ShowZonesCommand { get; private set; }
-		void OnShowZones()
-		{
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Camera.ZoneUIDs);
-			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-			{
-				Camera.ZoneUIDs = zonesSelectationViewModel.Zones;
-				OnPropertyChanged(() => PresentationZones);
-			}
-		}
-
-		public string PresentationZones
-		{
-			get
-			{
-				var zones =
-					Camera.ZoneUIDs.Select(zoneUID => GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID))
-						.Where(zone => zone != null)
-						.ToList();
-				var presentationZones = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
-				return presentationZones;
-			}
-		}
-
-		private VlcControl _vlcControl;
+		VlcControl _vlcControl;
 		public ImageSource Image
 		{
 			get
@@ -244,7 +196,6 @@ namespace VideoModule.ViewModels
 		{
 			Camera.Name = Name;
 			Camera.Ip = Address;
-			Camera.StateClass = SelectedStateClass;
 			Camera.Left = Left;
 			Camera.Top = Top;
 			Camera.Width = Width;

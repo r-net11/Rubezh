@@ -60,7 +60,7 @@
 				</StackPanel>
 				<XDataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding ScheduleZones}" SelectedItem="{Binding SelectedScheduleZone}">
 					<DataGrid.Columns>
-                        <DataGridTemplateColumn Width="*" Header="Название">
+						<DataGridTemplateColumn Width="*" Header="Название">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">

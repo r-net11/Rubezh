@@ -130,6 +130,11 @@ namespace SKDModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
+
+			DayIntervalsViewModel.Initialize();
+			ScheduleSchemesViewModel.Initialize();
+			HolidaysViewModel.Initialize();
+			SchedulesViewModel.Initialize();
 		}
 
 		public override ModuleType ModuleType

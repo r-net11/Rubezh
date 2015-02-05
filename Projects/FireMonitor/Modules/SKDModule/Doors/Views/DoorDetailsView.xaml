@@ -74,7 +74,7 @@
 					<Button Content="Открыть дверь" Command="{Binding OpenCommand}" Width="200" Height="50" Margin="2" />
 					<Button Content="Закрыть дверь" Command="{Binding CloseCommand}" Width="200" Height="50" Margin="2" />
 					<Button Content="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" Width="200" Height="50" Margin="2" />
-                    <Button Content="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" Width="200" Height="50" Margin="2" />
 				</StackPanel>
 			</TabItem>
 		</TabControl>

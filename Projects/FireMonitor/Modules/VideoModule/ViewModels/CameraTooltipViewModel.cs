@@ -15,7 +15,7 @@ namespace VideoModule.ViewModels
 		public CameraTooltipViewModel(Camera camera)
 			: base(camera)
 		{
-			StateClass = camera.StateClass;
+			StateClass = camera.CameraState.StateClass;
 		}
 
 		public override void OnStateChanged()

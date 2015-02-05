@@ -30,7 +30,7 @@ namespace FiresecService.Report
 		{
 			var filteredReport = report as IFilteredReport;
 			if (filteredReport != null)
-                filteredReport.ApplyFilter(customArgs as SKDReportFilter);
+				filteredReport.ApplyFilter(customArgs as SKDReportFilter);
 		}
 
 		#endregion

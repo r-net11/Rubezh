@@ -144,9 +144,9 @@ namespace Infrastructure.Common.Windows.Views
 				MinWidth = AbsolutMinSize;
 
 			//if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
-			//    MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
+			//	MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 2 * SystemParameters.BorderWidth - 2 * SystemParameters.Border;
 			//if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
-			//    MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+			//	MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
 
 			var rect = MonitorHelper.WorkingArea(_monitorID);
 			if (Left < rect.Left)

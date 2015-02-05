@@ -8,6 +8,6 @@ namespace FiresecService.Report
 {
 	public interface IFilteredReport
 	{
-        void ApplyFilter(SKDReportFilter filter);
+		void ApplyFilter(SKDReportFilter filter);
 	}
 }

@@ -44,7 +44,7 @@
 				<DataGridTemplateColumn Width="*" Header="Устройство входа">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock VerticalAlignment="Center" Visibility="{Binding HasEnterDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center" Visibility="{Binding HasEnterDevice, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Hyperlink Command="{Binding ShowEnterDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding EnterDevice.Driver.ImageSource}" />
@@ -58,7 +58,7 @@
 				<DataGridTemplateColumn Width="*" Header="Устройство выхода">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock VerticalAlignment="Center" Visibility="{Binding HasExitDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock VerticalAlignment="Center" Visibility="{Binding HasExitDevice, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Hyperlink Command="{Binding ShowExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding ExitDevice.Driver.ImageSource}" />

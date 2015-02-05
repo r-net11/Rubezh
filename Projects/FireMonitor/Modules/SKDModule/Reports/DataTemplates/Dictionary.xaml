@@ -9,7 +9,7 @@
 		<Views:FilterPageView />
 	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:EmployeePageViewModel}">
-        <Views:EmployeePageView />
+		<Views:EmployeePageView />
 	</DataTemplate>
 	<DataTemplate DataType="{x:Type ViewModels:PassCardMainPageViewModel}">
 		<Views:PassCardMainPageView />
@@ -35,14 +35,14 @@
 	<DataTemplate DataType="{x:Type ViewModels:DocumentFilterPageViewModel}">
 		<Views:DocumentFilterPageView />
 	</DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:DoorPageViewModel}">
-        <Views:DoorPageView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:SKDObjectPageViewModel}">
-        <Views:SKDFilterPageView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:EventTypePageViewModel}">
-        <Views:SKDFilterPageView />
+	<DataTemplate DataType="{x:Type ViewModels:DoorPageViewModel}">
+		<Views:DoorPageView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SKDObjectPageViewModel}">
+		<Views:SKDFilterPageView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:EventTypePageViewModel}">
+		<Views:SKDFilterPageView />
 	</DataTemplate> 
 	<DataTemplate DataType="{x:Type ViewModels:UserPageViewModel}">
 		<Views:UserPageView />

@@ -23,8 +23,8 @@
 		<Views:ConfirmationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:VideoViewModel}">
-        <Views:VideoView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:VideoViewModel}">
+		<Views:VideoView />
+	</DataTemplate>
 
 </ResourceDictionary>

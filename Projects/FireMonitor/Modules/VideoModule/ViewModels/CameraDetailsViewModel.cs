@@ -24,7 +24,6 @@ namespace VideoModule.ViewModels
 		public CameraDetailsViewModel(Camera camera)
 		{
 			ShowCommand = new RelayCommand(OnShow);
-			ShowZoneCommand = new RelayCommand(OnShowZone);
 			SetPtzPresetCommand = new RelayCommand(OnSetPtzPreset, CanSetPtzPreset);
 			Camera = camera;
 			Title = Camera.PresentationName;
@@ -38,35 +37,14 @@ namespace VideoModule.ViewModels
 
 			if (Camera != null)
 				RviRTSP = Camera.RviRTSP;
+
+			var x = Camera.CameraState.StateClass;
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
 		private void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowCameraEvent>().Publish(Camera.UID);
-		}
-
-		public RelayCommand ShowZoneCommand { get; private set; }
-		void OnShowZone()
-		{
-			var zoneUid = Camera.ZoneUIDs.FirstOrDefault();
-			ServiceFactory.Events.GetEvent<ShowGKZoneEvent>().Publish(zoneUid);
-		}
-
-		public string PresentationZones
-		{
-			get
-			{
-				var zones = new List<GKZone>();
-				foreach (var zoneUID in Camera.ZoneUIDs.ToList())
-				{
-					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-						zones.Add(zone);
-				}
-				var presentationZones = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
-				return presentationZones;
-			}
 		}
 
 		public ObservableCollection<PlanViewModel> PlanNames
