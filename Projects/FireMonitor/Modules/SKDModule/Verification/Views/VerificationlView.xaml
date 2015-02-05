@@ -17,18 +17,20 @@
 					<TextBlock Width="100" Margin="2" Text="Событие" FontWeight="Bold" />
 					<TextBlock Margin="2" Text="{Binding EventName}" FontWeight="Bold" />
 				</StackPanel>
+
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Width="100" Margin="2" Text="Время" FontWeight="Bold" />
 					<TextBlock Margin="2" Text="{Binding DateTime}" FontWeight="Bold" />
 				</StackPanel>
-				<StackPanel Orientation="Horizontal">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Фамилия" />
+                    <TextBlock Margin="2" Text="{Binding Employee.LastName}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
 					<TextBlock Width="100" Margin="2" Text="Имя" />
 					<TextBlock Margin="2" Text="{Binding Employee.FirstName}" />
-				</StackPanel>
-
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="100" Margin="2" Text="Фамилия" />
-					<TextBlock Margin="2" Text="{Binding Employee.LastName}" />
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">

@@ -13,7 +13,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 			YesCommand = new RelayCommand(OnYes);
 			NoCommand = new RelayCommand(OnNo);
 			CopyCommand = new RelayCommand(OnCopy);
-			Title = title ?? "Firesec";
+
+			if(GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+			Title = title ?? "СТРАЖ";
+			else
+				Title = title ?? "Firesec";
+
 			if (title == null && isException)
 				Title = "Во время работы программы произошла ошибка";
 

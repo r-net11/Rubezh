@@ -288,8 +288,8 @@ namespace GKModule.ViewModels
 		{
 			var openDialog = new OpenFileDialog()
 			{
-				Filter = "Журнал событий Firesec|*.fscj",
-				DefaultExt = "Журнал событий Firesec|*.fscj"
+				Filter = "Журнал событий|*.fscj",
+				DefaultExt = "Журнал событий|*.fscj"
 			};
 			if (openDialog.ShowDialog().Value)
 			{

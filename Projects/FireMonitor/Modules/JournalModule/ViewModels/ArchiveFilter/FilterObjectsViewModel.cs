@@ -6,6 +6,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -106,7 +107,11 @@ namespace JournalModule.ViewModels
 
 			var gkViewModel = new FilterObjectViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
-			RootFilters.Add(gkViewModel);
+
+			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+			{
+				RootFilters.Add(gkViewModel);
+			}
 
 			var gkDevicesViewModel = new FilterObjectViewModel(JournalObjectType.GKDevice);
 			AddChild(gkViewModel, gkDevicesViewModel);

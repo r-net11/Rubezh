@@ -95,7 +95,6 @@
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
-    <Compile Include="ViewModels\ArchiveViewModel.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
@@ -105,9 +104,6 @@
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\VlcControlHelper.cs" />
     <Compile Include="ViewModels\VlcControlViewModel.cs" />
-    <Compile Include="Views\ArchiveView.xaml.cs">
-      <DependentUpon>ArchiveView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CamerasView.xaml.cs">
       <DependentUpon>CamerasView.xaml</DependentUpon>
     </Compile>
@@ -216,10 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ArchiveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

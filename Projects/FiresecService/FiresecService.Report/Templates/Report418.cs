@@ -62,13 +62,16 @@ namespace FiresecService.Report.Templates
 					cardRow.Number = card.Number;
 					dataSet.PassCards.AddPassCardsRow(cardRow);
 				}
-				foreach (var column in employee.Item.AdditionalColumns.Where(item => item.AdditionalColumnType.DataType == AdditionalColumnDataType.Text))
+				foreach (var column in employee.Item.AdditionalColumns)
 				{
-					var columnRow = dataSet.AdditionalColumns.NewAdditionalColumnsRow();
-					columnRow.DataRow = dataRow;
-					columnRow.Value = column.TextData;
-					columnRow.Name = column.AdditionalColumnType.Name;
-					dataSet.AdditionalColumns.AddAdditionalColumnsRow(columnRow);
+					if (column.AdditionalColumnType != null && column.AdditionalColumnType.DataType == AdditionalColumnDataType.Text)
+					{
+						var columnRow = dataSet.AdditionalColumns.NewAdditionalColumnsRow();
+						columnRow.DataRow = dataRow;
+						columnRow.Value = column.TextData;
+						columnRow.Name = column.AdditionalColumnType.Name;
+						dataSet.AdditionalColumns.AddAdditionalColumnsRow(columnRow);
+					}
 				}
 			}
 			return dataSet;

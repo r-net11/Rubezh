@@ -21,7 +21,7 @@ namespace FireMonitor.ViewModels
 		protected MonitorShellViewModel(ClientType clientType)
 			: base(clientType)
 		{
-			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Оперативная задача СТРАЖ" : "Оперативная задача ОПС FireSec";
+			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Оперативная задача" : "Оперативная задача ОПС FireSec";
 			Toolbar = new ToolbarViewModel();
 			Height = 700;
 			Width = 1100;
