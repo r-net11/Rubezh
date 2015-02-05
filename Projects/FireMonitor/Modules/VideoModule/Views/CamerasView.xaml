@@ -12,7 +12,7 @@
 		<TreeList.View>
 			<GridView>
 				<GridView.Columns>
-					<GridViewColumn Width="250" Header="Камера">
+                    <GridViewColumn ListViewLayoutManager.StarWidth="1" Header="Камера">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -24,27 +24,11 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					
-					<GridViewColumn Width="100" Header="Адрес">
+
+                    <GridViewColumn ListViewLayoutManager.StarWidth="1" Header="Адрес">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding PresentationAddress}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-
-					<GridViewColumn Width="100" Header="Состояние">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding PresentationState}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-
-					<GridViewColumn Width="200" Header="Зона">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding PresentationZones}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

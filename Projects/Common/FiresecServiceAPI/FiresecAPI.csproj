@@ -236,6 +236,7 @@
     <Compile Include="AutomationCallback\AutomationCallbackType.cs" />
     <Compile Include="AutomationCallback\MessageCallbackData.cs" />
     <Compile Include="AutomationCallback\SoundCallbackData.cs" />
+    <Compile Include="Models\Video\CameraState.cs" />
     <Compile Include="Models\Video\RviSettings.cs" />
     <Compile Include="SKD\Organisation\ExportOrganisation.cs" />
     <Compile Include="SKD\ReportFilters\IReportFilterUser.cs" />

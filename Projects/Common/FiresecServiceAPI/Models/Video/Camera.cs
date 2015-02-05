@@ -9,16 +9,16 @@ using System.Xml.Serialization;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Camera : IStateProvider, IDeviceState<XStateClass>, IPlanPresentable
+	public class Camera : IStateProvider, IPlanPresentable
 	{
 		public Camera()
 		{
 			UID = Guid.NewGuid();
-			ZoneUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
 			Width = 300;
 			Height = 300;
 			AllowMultipleVizualization = false;
+			CameraState = new CameraState(this);
 		}
 
 		[DataMember]
@@ -50,12 +50,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IgnoreMoveResize { get; set; }
-
-		[DataMember]
-		public XStateClass StateClass { get; set; }
-
-		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
@@ -95,30 +89,31 @@ namespace FiresecAPI.Models
 
 		public event Action Changed;
 
-		#region IStateProvider Members
+		[XmlIgnore]
+		public CameraState CameraState { get; private set; }
+
+		//#region IStateProvider Members
 
 		IDeviceState<XStateClass> IStateProvider.StateClass
 		{
-			//return XStateClass
-			get { return this; }
+			get { return CameraState; }
 		}
 
-		#endregion
+		//#endregion
 
-		#region IDeviceState<XStateClass> Members
+		//#region IDeviceState<XStateClass> Members
 
-		XStateClass IDeviceState<XStateClass>.StateType
-		{
-			//get { return StateClass; }
-			get { return XStateClass.Norm; }
-		}
+		//public XStateClass IDeviceState<XStateClass>.StateType
+		//{
+		//    get { return XStateClass.Norm; }
+		//}
 
-		event Action IDeviceState<XStateClass>.StateChanged
-		{
-			add { }
-			remove { }
-		}
+		//event Action IDeviceState<XStateClass>.StateChanged
+		//{
+		//    add { }
+		//    remove { }
+		//}
 
-		#endregion
+		//#endregion
 	}
 }
