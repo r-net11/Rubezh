@@ -105,13 +105,13 @@ namespace FiresecAPI.Models
 
 		//public XStateClass IDeviceState<XStateClass>.StateType
 		//{
-		//    get { return XStateClass.Norm; }
+		//	get { return XStateClass.Norm; }
 		//}
 
 		//event Action IDeviceState<XStateClass>.StateChanged
 		//{
-		//    add { }
-		//    remove { }
+		//	add { }
+		//	remove { }
 		//}
 
 		//#endregion

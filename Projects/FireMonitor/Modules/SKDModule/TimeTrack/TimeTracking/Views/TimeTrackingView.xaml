@@ -28,7 +28,7 @@
 			</StackPanel>
 			<ToolBarButton Command="{Binding ShowDocumentTypesCommand}" ToolTip="Типы документов" ImageSource="Settings2"  />
 		</StackPanel>
-        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="3" RowHeight="{Binding RowHeight}" Margin="0 4">
+		<DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="3" RowHeight="{Binding RowHeight}" Margin="0 4">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="ФИО">
 					<DataGridTemplateColumn.CellTemplate>
@@ -105,13 +105,13 @@
 			</DataGrid.ItemsPanel>
 		</DataGrid>
 		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-        <Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Данные о проходах были изменены. Обновите вкладку УРВ" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <DataGrid  Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
+		<Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<TextBlock Grid.Row="0" Text="Данные о проходах были изменены. Обновите вкладку УРВ" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<DataGrid  Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название документа" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

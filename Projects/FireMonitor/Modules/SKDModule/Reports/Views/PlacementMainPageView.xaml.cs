@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace SKDModule.Reports.Views
 {
-    /// <summary>
-    /// Interaction logic for PlacementMainPageView.xaml
-    /// </summary>
-    public partial class PlacementMainPageView : UserControl
-    {
-        public PlacementMainPageView()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for PlacementMainPageView.xaml
+	/// </summary>
+	public partial class PlacementMainPageView : UserControl
+	{
+		public PlacementMainPageView()
+		{
+			InitializeComponent();
+		}
+	}
 }

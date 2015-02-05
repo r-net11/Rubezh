@@ -24,12 +24,12 @@
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
 											<StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5 2">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-                                                        <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-                                                    </StackPanel>
-                                                </CheckBox>
+												<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5 2">
+													<StackPanel Orientation="Horizontal">
+														<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+														<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+													</StackPanel>
+												</CheckBox>
 											</StackPanel>
 										</ControlTemplate>
 									</Controls:EditorPresenter.ViewTemplate>

@@ -10,21 +10,21 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-        <TabControl Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TabItem Header="Организации" >
-                <Views:OrganisationsFilterView />
-            </TabItem>
+		<TabControl Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Организации" >
+				<Views:OrganisationsFilterView />
+			</TabItem>
 			<TabItem Header="Подразделения">
 				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>
 			<TabItem Header="Должности">
 				<Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
 			</TabItem>
-            <TabItem Header="Сотрудники">
+			<TabItem Header="Сотрудники">
 				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />
 			</TabItem>
-        </TabControl>
-        <Views:OrganisationsFilterView Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+		</TabControl>
+		<Views:OrganisationsFilterView Grid.Row="0" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 		<CheckBox Grid.Row="1" Margin="5" Content="Отображать архивные сведения" IsChecked="{Binding IsWithDeleted}" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
 	</Grid>
 </UserControl>

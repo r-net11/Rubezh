@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace SKDModule.Reports.Views
 {
-    /// <summary>
-    /// Interaction logic for DoorPageView.xaml
-    /// </summary>
-    public partial class DoorPageView : UserControl
-    {
-        public DoorPageView()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for DoorPageView.xaml
+	/// </summary>
+	public partial class DoorPageView : UserControl
+	{
+		public DoorPageView()
+		{
+			InitializeComponent();
+		}
+	}
 }

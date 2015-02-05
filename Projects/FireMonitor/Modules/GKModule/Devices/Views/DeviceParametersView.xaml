@@ -12,8 +12,8 @@
 				<DataGridTemplateColumn Header="Устройство" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <Views:DeviceView DataContext="{Binding DeviceViewModel}" />
-                        </DataTemplate>
+							<Views:DeviceView DataContext="{Binding DeviceViewModel}" />
+						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Адрес" Binding="{Binding Device.PresentationAddress}" Width="Auto" />

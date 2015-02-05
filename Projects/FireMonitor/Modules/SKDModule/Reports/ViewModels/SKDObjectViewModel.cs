@@ -11,7 +11,7 @@ using FiresecAPI.Models;
 
 namespace SKDModule.Reports.ViewModels
 {
-    public class SKDObjectViewModel : TreeNodeViewModel<SKDObjectViewModel>
+	public class SKDObjectViewModel : TreeNodeViewModel<SKDObjectViewModel>
 	{
 		public Guid UID { get; private set; }
 
@@ -145,7 +145,7 @@ namespace SKDModule.Reports.ViewModels
 			UID = door.UID;
 			ImageSource = "/Controls;component/Images/Door.png";
 		}
-        public SKDObjectViewModel(Camera camera)
+		public SKDObjectViewModel(Camera camera)
 		{
 			Name = camera.Name;
 			UID = camera.UID;

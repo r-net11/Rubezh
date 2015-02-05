@@ -20,7 +20,7 @@ namespace JournalModule.ViewModels
 		public VideoViewModel(Guid eventUID, Guid cameraUID)
 		{
 			//if (!Directory.Exists(DirectoryPath))
-			//    Directory.CreateDirectory(DirectoryPath);
+			//	Directory.CreateDirectory(DirectoryPath);
 			VideoPath = AppDataFolderHelper.GetTempFileName() + ".avi";
 			Title = "Видеофрагмент, связанный с событием";
 			RviClient.RviClientHelper.GetVideoFile(FiresecManager.SystemConfiguration, eventUID, cameraUID, VideoPath);

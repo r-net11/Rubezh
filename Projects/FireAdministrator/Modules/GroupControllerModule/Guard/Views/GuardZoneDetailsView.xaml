@@ -20,7 +20,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -69,8 +69,8 @@
 				<Label Grid.Row="9" Grid.Column="0" Content="Минимальный уровень на тревогу" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="9" Grid.Column="1" Value="{Binding SetAlarmLevel}" Minimum="0" Maximum="255" Margin="2" />
 
-                <CheckBox Grid.Row="10" Grid.Column="1" IsChecked="{Binding IsExtraProtected}" Content="Особо охраняемая" Foreground="White" Margin="2" />
-            </Grid>
+				<CheckBox Grid.Row="10" Grid.Column="1" IsChecked="{Binding IsExtraProtected}" Content="Особо охраняемая" Foreground="White" Margin="2" />
+			</Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

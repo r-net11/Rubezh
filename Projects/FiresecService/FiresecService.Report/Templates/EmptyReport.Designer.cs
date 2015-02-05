@@ -1,33 +1,33 @@
 ﻿namespace FiresecService.Report.Templates
 {
-    partial class EmptyReport
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class EmptyReport
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Designer generated code
+		#region Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
 			this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
@@ -44,7 +44,7 @@
 			// TopMargin
 			// 
 			this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.xrLabel1});
+			this.xrLabel1});
 			this.TopMargin.HeightF = 301.0417F;
 			this.TopMargin.Name = "TopMargin";
 			this.TopMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
@@ -74,20 +74,20 @@
 			// EmptyReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-            this.Detail,
-            this.TopMargin,
-            this.BottomMargin});
+			this.Detail,
+			this.TopMargin,
+			this.BottomMargin});
 			this.Margins = new System.Drawing.Printing.Margins(100, 100, 301, 100);
 			this.Version = "14.1";
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private DevExpress.XtraReports.UI.DetailBand Detail;
-        private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
-        private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
+		private DevExpress.XtraReports.UI.DetailBand Detail;
+		private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
+		private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
 		private DevExpress.XtraReports.UI.XRLabel xrLabel1;
-    }
+	}
 }

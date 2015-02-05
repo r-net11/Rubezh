@@ -5,7 +5,7 @@ using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers
 {
-    public class ReportProvider431 : FilteredSKDReportProvider<ReportFilter431>
+	public class ReportProvider431 : FilteredSKDReportProvider<ReportFilter431>
 	{
 		public ReportProvider431()
 			: base("Report431", "431. Список точек доступа", 431, SKDReportGroup.Configuration)
@@ -29,13 +29,13 @@ namespace SKDModule.Reports.Providers
 					{ "ExitZone", "Зона 2" },
 					{ "Comment", "Примечание" },
 				},
-                Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>()
 				{
-                    new DoorPageViewModel(),
+					new DoorPageViewModel(),
 					new ZonePageViewModel(),
 					new OrganizationPageViewModel(true),
 				},
-            };
+			};
 		}
 	}
 }

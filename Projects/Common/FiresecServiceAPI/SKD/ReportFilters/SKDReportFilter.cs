@@ -14,28 +14,28 @@ namespace FiresecAPI.SKD.ReportFilters
 			Name = "По умолчанию";
 
 			PrintFilterName = true;
-            PrintFilterNameInHeader = false;
+			PrintFilterNameInHeader = false;
 			PrintPeriod = true;
 			PrintDate = true;
 			PrintUser = true;
 
 			SortAscending = true;
 
-            if (this is IReportFilterPeriod)
-            {
-                var periodFilter = (IReportFilterPeriod)this;
-                periodFilter.DateTimeFrom = DateTime.Today;
-                periodFilter.DateTimeTo = DateTime.Today.AddDays(1).AddSeconds(-1);
-                periodFilter.PeriodType = ReportPeriodType.Day;
-            }
+			if (this is IReportFilterPeriod)
+			{
+				var periodFilter = (IReportFilterPeriod)this;
+				periodFilter.DateTimeFrom = DateTime.Today;
+				periodFilter.DateTimeTo = DateTime.Today.AddDays(1).AddSeconds(-1);
+				periodFilter.PeriodType = ReportPeriodType.Day;
+			}
 		}
 
 		[DataMember]
 		public string Name { get; set; }
-        [DataMember]
-        public string User { get; set; }
-        [DataMember]
-        public DateTime Timestamp { get; set; }
+		[DataMember]
+		public string User { get; set; }
+		[DataMember]
+		public DateTime Timestamp { get; set; }
 
 		[DataMember]
 		public string SortColumn { get; set; }

@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace SKDModule.Reports.Views
 {
-    /// <summary>
-    /// Interaction logic for EventTypePageView.xaml
-    /// </summary>
-    public partial class SKDFilterPageView : UserControl
-    {
-        public SKDFilterPageView()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for EventTypePageView.xaml
+	/// </summary>
+	public partial class SKDFilterPageView : UserControl
+	{
+		public SKDFilterPageView()
+		{
+			InitializeComponent();
+		}
+	}
 }

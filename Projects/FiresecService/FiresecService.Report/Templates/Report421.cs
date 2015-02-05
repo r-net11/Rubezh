@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace FiresecService.Report.Templates
 {
-    public partial class Report421 : BaseReport
+	public partial class Report421 : BaseReport
 	{
 		public Report421()
 		{
@@ -25,7 +25,7 @@ namespace FiresecService.Report.Templates
 		{
 			get { return "Дисциплинарный отчет"; }
 		}
-        protected override DataSet CreateDataSet(DataProvider dataProvider)
+		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter421>();
 
@@ -39,9 +39,9 @@ namespace FiresecService.Report.Templates
 			employeeFilter.OrganisationUIDs = filter.Organisations;
 			employeeFilter.DepartmentUIDs = filter.Departments;
 			employeeFilter.UIDs = filter.Employees;
-            var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
+			var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
 
-            var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
+			var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new DataSet421();
 			if (employeesResult.Result != null)
@@ -64,7 +64,7 @@ namespace FiresecService.Report.Templates
 							var dataRow = dataSet.Data.NewDataRow();
 
 							dataRow.Employee = employee.FIO;
-                            var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
+							var organisationResult = dataProvider.DatabaseService.OrganisationTranslator.GetSingle(employee.OrganisationUID);
 							if (organisationResult.Result != null)
 							{
 								dataRow.Organisation = organisationResult.Result.Name;

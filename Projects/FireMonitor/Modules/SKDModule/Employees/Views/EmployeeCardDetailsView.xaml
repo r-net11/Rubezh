@@ -118,7 +118,7 @@
 								<StackPanel Orientation="Horizontal">
 									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
 									<TextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Name}" />
-                                </StackPanel>
+								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

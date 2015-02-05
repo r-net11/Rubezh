@@ -65,7 +65,7 @@ namespace VideoModule.ViewModels
 			try
 			{
 				//if (StartedRecord != null)
-				//    CellPlayerWrap.Stop(StartedRecord);
+				//	CellPlayerWrap.Stop(StartedRecord);
 				//CellPlayerWrap.Start(SelectedRecord);
 				StartedRecord = SelectedRecord;
 				IsStarted = true;
@@ -82,7 +82,7 @@ namespace VideoModule.ViewModels
 				try
 				{
 					//if (CellPlayerWrap.Pause(StartedRecord, !IsPaused))
-					//    IsPaused = !IsPaused;
+					//	IsPaused = !IsPaused;
 				}
 				catch { }
 			}
@@ -144,12 +144,12 @@ namespace VideoModule.ViewModels
 		//private CellPlayerWrap _archivePlayer { get; set; }
 		//public CellPlayerWrap ArchivePlayer
 		//{
-		//    get { return _archivePlayer; }
-		//    set
-		//    {
-		//        _archivePlayer = value;
-		//        OnPropertyChanged(() => _archivePlayer);
-		//    }
+		//	get { return _archivePlayer; }
+		//	set
+		//	{
+		//		_archivePlayer = value;
+		//		OnPropertyChanged(() => _archivePlayer);
+		//	}
 		//}
 
 		private DateTime _startTime;
@@ -237,30 +237,30 @@ namespace VideoModule.ViewModels
 			//var camera = new Camera();
 			//if (SelectedCamera.IsDvr)
 			//{
-			//    if (SelectedChannel != null)
-			//        camera = SelectedChannel.Camera;
+			//	if (SelectedChannel != null)
+			//		camera = SelectedChannel.Camera;
 			//}
 			//else
-			//    camera = SelectedCamera.Camera;
+			//	camera = SelectedCamera.Camera;
 			//var cellPlayerWrap = new CellPlayerWrap();
 			//var channel = cellPlayerWrap.Connect(camera).FirstOrDefault
-			//    (x => x.ChannelNumber == camera.ChannelNumber);
+			//	(x => x.ChannelNumber == camera.ChannelNumber);
 			//if (channel == null)
-			//    return;
+			//	return;
 			//Records = new ObservableCollection<PlayBackDeviceRecord>();
 			//for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
 			//{
-			//    var dayStart = new DateTime(time.Year, time.Month, time.Day);
-			//    var dayEnd = new DateTime(time.Year, time.Month, time.Day, 23, 59, 59);
-			//    var startTime = dayStart;
-			//    if (startTime < StartTime)
-			//        startTime = StartTime;
-			//    var endTime = dayEnd;
-			//    if (endTime > EndTime)
-			//        endTime = EndTime;
-			//    var records = channel.QueryRecordFiles(startTime, endTime);
-			//    Trace.WriteLine(startTime + "  -  " + endTime);
-			//    Records.AddRange(records);
+			//	var dayStart = new DateTime(time.Year, time.Month, time.Day);
+			//	var dayEnd = new DateTime(time.Year, time.Month, time.Day, 23, 59, 59);
+			//	var startTime = dayStart;
+			//	if (startTime < StartTime)
+			//		startTime = StartTime;
+			//	var endTime = dayEnd;
+			//	if (endTime > EndTime)
+			//		endTime = EndTime;
+			//	var records = channel.QueryRecordFiles(startTime, endTime);
+			//	Trace.WriteLine(startTime + "  -  " + endTime);
+			//	Records.AddRange(records);
 			//}
 		}
 

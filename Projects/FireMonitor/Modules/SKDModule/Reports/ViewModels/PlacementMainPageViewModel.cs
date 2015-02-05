@@ -7,26 +7,26 @@ using FiresecAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
 {
-    public class PlacementMainPageViewModel : FilterContainerViewModel
+	public class PlacementMainPageViewModel : FilterContainerViewModel
 	{
-        private bool _useCurrentDate;
-        public bool UseCurrentDate
+		private bool _useCurrentDate;
+		public bool UseCurrentDate
 		{
-            get { return _useCurrentDate; }
+			get { return _useCurrentDate; }
 			set
 			{
-                _useCurrentDate = value;
-                OnPropertyChanged(() => UseCurrentDate);
+				_useCurrentDate = value;
+				OnPropertyChanged(() => UseCurrentDate);
 			}
 		}
-        private DateTime _reportDateTime;
-        public DateTime ReportDateTime
+		private DateTime _reportDateTime;
+		public DateTime ReportDateTime
 		{
-            get { return _reportDateTime; }
+			get { return _reportDateTime; }
 			set
 			{
-                _reportDateTime = value;
-                OnPropertyChanged(() => ReportDateTime);
+				_reportDateTime = value;
+				OnPropertyChanged(() => ReportDateTime);
 			}
 		}
 
@@ -35,16 +35,16 @@ namespace SKDModule.Reports.ViewModels
 			var placementFilter = filter as ReportFilter417;
 			if (placementFilter == null)
 				return;
-            UseCurrentDate = placementFilter.UseCurrentDate;
-            ReportDateTime = placementFilter.ReportDateTime;
+			UseCurrentDate = placementFilter.UseCurrentDate;
+			ReportDateTime = placementFilter.ReportDateTime;
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-            var placementFilter = filter as ReportFilter417;
+			var placementFilter = filter as ReportFilter417;
 			if (placementFilter == null)
 				return;
-            placementFilter.UseCurrentDate = UseCurrentDate;
-            placementFilter.ReportDateTime = ReportDateTime;
+			placementFilter.UseCurrentDate = UseCurrentDate;
+			placementFilter.ReportDateTime = ReportDateTime;
 		}
 	}
 }

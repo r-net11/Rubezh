@@ -48,7 +48,7 @@ namespace ChinaSKDDriver
 					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterScheduleNo);
 					//if (door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
 					//{
-					//    Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitScheduleNo);
+					//	Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitScheduleNo);
 					//}
 				}
 			}

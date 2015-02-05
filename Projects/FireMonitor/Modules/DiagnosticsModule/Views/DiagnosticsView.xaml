@@ -15,7 +15,7 @@
 					<Button Content="Сгенерировать графика  сотрудников" Command="{Binding TestCommand}" Width="200" Margin="2" />
 					<Button Content="Сгенерировать тестовые данные" Command="{Binding SKDDataCommand}" Width="200" Margin="2" />
 					<Button Content="GenerateEmployeeDays" Command="{Binding GenerateEmployeeDaysCommand}" Width="200" Margin="2" />
-                </WrapPanel>
+				</WrapPanel>
 			</TabItem>
 			<TabItem Header="Основные">
 				<WrapPanel>
