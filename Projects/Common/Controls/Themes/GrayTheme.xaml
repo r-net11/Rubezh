@@ -53,4 +53,7 @@
 		<GradientStop Color="#404040" Offset="1" />
 	</LinearGradientBrush>
 
+	<SolidColorBrush x:Key="ForegroundColorLight" Color="White" />
+	<SolidColorBrush x:Key="ForegroundColorDark" Color="Black" />
+
 </ResourceDictionary>
