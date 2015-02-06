@@ -46,6 +46,8 @@ namespace FiresecService.Report.Templates
                 {
                     foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
                     {
+						dayTimeTrack.Calculate();
+
                         var dataRow = dataSet.Data.NewDataRow();
                         dataRow.Employee = employee.Name;
                         dataRow.Organisation = employee.Organisation;
@@ -89,7 +91,10 @@ namespace FiresecService.Report.Templates
                         {
                         }
 
-                        dataSet.Data.Rows.Add(dataRow);
+						if (absence.TimeSpan.TotalSeconds > 0 || late.TimeSpan.TotalSeconds > 0 || earlyLeave.TimeSpan.TotalSeconds > 0 || overtime.TimeSpan.TotalSeconds > 0)
+						{
+							dataSet.Data.Rows.Add(dataRow);
+						}
                     }
                 }
             }
