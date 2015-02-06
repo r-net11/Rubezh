@@ -18,7 +18,8 @@ namespace FiresecAPI.Journal
 			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 			EmployeeUIDs = new List<Guid>();
-		}
+            Users = new List<string>();
+        }
 
 		[DataMember]
 		public DateTime StartDate { get; set; }
@@ -46,6 +47,9 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public List<Guid> EmployeeUIDs { get; set; }
+
+        [DataMember]
+        public List<string> Users { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }

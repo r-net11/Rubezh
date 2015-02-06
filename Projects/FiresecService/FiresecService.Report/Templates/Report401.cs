@@ -61,6 +61,8 @@ namespace FiresecService.Report.Templates
 			{
 				archiveFilter.EmployeeUIDs = filter.Employees;
 			}
+            if (!filter.Users.IsEmpty())
+                archiveFilter.Users = filter.Users;
 			var journalItemsResult = GetFilteredJournalItems(archiveFilter);
 			if (journalItemsResult.Result != null)
 			{
@@ -365,7 +367,19 @@ namespace FiresecService.Report.Templates
 				query += ")";
 			}
 
-			query += "\n ORDER BY " + dateTimeTypeString + " DESC";
+            if (archiveFilter.Users.Count > 0)
+            {
+                query += "\n AND (";
+                int index = 0;
+                foreach (var user in archiveFilter.Users)
+                {
+                    if (index > 0)
+                        query += "\n OR ";
+                    index++;
+                    query += "UserName = '" + user + "'";
+                }
+                query += ")";
+            }
 			return query;
 		}
 

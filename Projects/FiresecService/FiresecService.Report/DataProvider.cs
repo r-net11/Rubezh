@@ -101,6 +101,10 @@ namespace FiresecService.Report
 			LoadCache();
 			var list = new List<EmployeeInfo>();
 			var employeeFilter = GetEmployeeFilter(filter);
+            return GetEmployees(employeeFilter);
+        }
+        public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter)
+        {
 			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();

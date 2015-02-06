@@ -120,14 +120,14 @@
 			// xrTableCell6
 			// 
 			this.xrTableCell6.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.StartDateTime", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.StartDateTime", "{0:%H\\:mm}")});
 			this.xrTableCell6.Name = "xrTableCell6";
 			this.xrTableCell6.Weight = 0.082840248423920571D;
 			// 
 			// xrTableCell18
 			// 
 			this.xrTableCell18.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EndDateTime", "{0:%h\\:mm}")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.EndDateTime", "{0:%H\\:mm}")});
 			this.xrTableCell18.Name = "xrTableCell18";
 			this.xrTableCell18.Weight = 0.0828402348806167D;
 			// 

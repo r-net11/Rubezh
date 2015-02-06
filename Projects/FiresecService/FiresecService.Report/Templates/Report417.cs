@@ -37,7 +37,7 @@ namespace FiresecService.Report.Templates
 			if (dataProvider.DatabaseService.PassJournalTranslator != null)
 			{
 				var employees = dataProvider.GetEmployees(filter);
-				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(employees.Select(item => item.UID).ToList(), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime);
+				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(employees.Select(item => item.UID), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime);
 				var exitJournal = filter.Zones.IsEmpty() ? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastExitPassJournal(employees.Select(item => item.UID).Except(enterJournal.Select(item => item.EmployeeUID)), filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime) : null;
 				var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
 				foreach (var record in enterJournal)

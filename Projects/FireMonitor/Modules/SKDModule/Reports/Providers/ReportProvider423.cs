@@ -30,7 +30,7 @@ namespace SKDModule.Reports.Providers
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
-					new OrganizationPageViewModel(true),
+					new OrganizationPageViewModel(false),
 					new DepartmentPageViewModel(),
 					new EmployeePageViewModel(),
 					new DocumentFilterPageViewModel(),
