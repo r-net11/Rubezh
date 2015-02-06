@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -19,7 +20,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Выбор должности";
 			OrganisationUID = employee.OrganisationUID;
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 
 			Positions = new ObservableCollection<ShortPosition>();
 			var positions = PositionHelper.GetByOrganisation(OrganisationUID);
@@ -61,6 +62,10 @@ namespace SKDModule.ViewModels
 				SelectedPosition = Positions.LastOrDefault();
 				ServiceFactory.Events.GetEvent<NewPositionEvent>().Publish(position);
 			}
+		}
+		bool CanAdd()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit);
 		}
 	}
 }

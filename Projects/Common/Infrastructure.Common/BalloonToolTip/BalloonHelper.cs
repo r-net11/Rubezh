@@ -26,14 +26,9 @@ namespace Infrastructure.Common.BalloonTrayTip
 			Show("Оперативная задача", text);
 		}
 
-		public static void ShowFromAgent(string text)
-		{
-			Show("Драйвер приложений Firesec", text);
-		}
-
 		public static void ShowFromServer(string text)
 		{
-			Show("Сервер приложений Firesec", text);
+			Show("Сервер приложений", text);
 		}
 
 		static void Show(string title, string text)

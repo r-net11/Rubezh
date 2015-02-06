@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Journal;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -85,7 +86,10 @@ namespace JournalModule.ViewModels
 
 			var gkViewModel = new FilterNameViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
-			RootFilters.Add(gkViewModel);
+			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+			{
+				RootFilters.Add(gkViewModel);
+			}
 
 			var skdViewModel = new FilterNameViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;

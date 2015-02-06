@@ -5,24 +5,25 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common;
 
 namespace FiresecService.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
 		public static MainViewModel Current { get; private set; }
-		private Dispatcher _dispatcher;
+		Dispatcher _dispatcher;
 
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "Сервер приложений ОПС FireSec";
+			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Сервер приложений" : "Сервер приложений ОПС FireSec";
 			_dispatcher = Dispatcher.CurrentDispatcher;
 			Clients = new ObservableCollection<ClientViewModel>();
 			MessageBoxService.SetMessageBoxHandler(MessageBoxHandler);
 		}
 
-		private void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
+		void MessageBoxHandler(MessageBoxViewModel viewModel, bool isModal)
 		{
 			_dispatcher.Invoke((Action)(() =>
 			{
@@ -36,7 +37,7 @@ namespace FiresecService.ViewModels
 		}
 		
 		private string _status;
-		public string Status
+		string Status
 		{
 			get { return _status; }
 			set

@@ -11,5 +11,12 @@ namespace Infrastructure.Common.Ribbon
 			get { return (bool)GetValue(IsOpenedProperty); }
 			set { SetValue(IsOpenedProperty, value); }
 		}
+
+		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(RibbonButton));
+		public string ImageSource
+		{
+			get { return (string)GetValue(ImageSourceProperty); }
+			set { SetValue(ImageSourceProperty, value); }
+		}
 	}
 }

@@ -4,11 +4,12 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -111,7 +112,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsDeleted;
+			return !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -125,7 +126,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedScheduleZone != null && ScheduleZones.Count > 1 && !IsDeleted;
+			return SelectedScheduleZone != null && ScheduleZones.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -143,7 +144,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedScheduleZone != null && !IsDeleted;
+			return SelectedScheduleZone != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Schedules_Edit);
 		}
 
 		public void OnUpdateOrganisationDoors(Guid organisationUID)

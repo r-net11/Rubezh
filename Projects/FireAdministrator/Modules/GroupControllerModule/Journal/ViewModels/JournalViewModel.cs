@@ -164,8 +164,8 @@ namespace GKModule.ViewModels
 		{
 			var saveDialog = new SaveFileDialog()
 			{
-				Filter = "Журнал событий Firesec|*.fscj",
-				DefaultExt = "Журнал событий Firesec|*.fscj"
+				Filter = "Журнал событий|*.fscj",
+				DefaultExt = "Журнал событий|*.fscj"
 			};
 			if (saveDialog.ShowDialog().Value)
 			{

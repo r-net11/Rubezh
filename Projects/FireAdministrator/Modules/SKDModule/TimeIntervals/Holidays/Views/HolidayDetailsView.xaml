@@ -16,10 +16,10 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Наименование" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Text="Наименование" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Тип" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Text="Тип" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 				<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableTypeNos}" SelectedItem="{Binding TypeNo}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -31,7 +31,7 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Дата" Foreground="White" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Text="Дата" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 				<loya:Dameer Grid.Row="2" Grid.Column="1" ShowCheckBox="False"
 					Format="Custom"
 					CustomFormat="dd MMMM yyyy"

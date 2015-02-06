@@ -203,5 +203,11 @@ namespace SKDModule.ViewModels
 		{
 			get { return "подразделение"; }
 		}
+
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+		}
 	}
 }

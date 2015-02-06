@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="GKModule.Views.DoorToolTipView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKModule.Converters">
+			 xmlns:Converters="clr-namespace:GKModule.Converters">
 	<UserControl.Resources>
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center" />
@@ -9,9 +9,9 @@
 		<Style TargetType="Image">
 			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
-        <Converters:DeviceControlRegimeToStringConverter x:Key="DeviceControlRegimeToStringConverter" />
-        <Converters:DeviceControlRegimeToIconConverter x:Key="DeviceControlRegimeToIconConverter" />
-    </UserControl.Resources>
+		<Converters:DeviceControlRegimeToStringConverter x:Key="DeviceControlRegimeToStringConverter" />
+		<Converters:DeviceControlRegimeToIconConverter x:Key="DeviceControlRegimeToIconConverter" />
+	</UserControl.Resources>
 
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
@@ -20,7 +20,7 @@
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="0 0 2 0" Width="16" Height="16" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-            <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToSKDStringConverter}}" />
+			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToSKDStringConverter}}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

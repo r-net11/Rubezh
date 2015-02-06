@@ -5,10 +5,10 @@ using SKDModule.Reports.ViewModels;
 
 namespace SKDModule.Reports.Providers
 {
-    public class ReportProvider402 : FilteredSKDReportProvider<ReportFilter402>
+	public class ReportProvider402 : FilteredSKDReportProvider<ReportFilter402>
 	{
 		public ReportProvider402()
-            : base("Report402", "402. Маршрут сотрудника/посетителя", 402, SKDReportGroup.Events)
+			: base("Report402", "402. Маршрут сотрудника/посетителя", 402, SKDReportGroup.Events)
 		{
 		}
 
@@ -23,7 +23,7 @@ namespace SKDModule.Reports.Providers
 					{ "Department", "Подразделение" },
 					{ "Position", "Должность (Сопровождающий)" },
 				},
-                Pages = new List<FilterContainerViewModel>()
+				Pages = new List<FilterContainerViewModel>()
 				{
 					new ZonePageViewModel(),
 					new OrganizationPageViewModel(true),
@@ -31,7 +31,7 @@ namespace SKDModule.Reports.Providers
 					new PositionPageViewModel(),
 					new EmployeePageViewModel(),
 				},
-            };
+			};
 		}
 	}
 }

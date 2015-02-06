@@ -48,6 +48,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ExportOrganisationListTemplate { get; set; }
 		public DataTemplate ImportOrganisationListTemplate { get; set; }
 		public DataTemplate SetJournalItemTemplate { get; set; }
+		public DataTemplate PtzTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -137,6 +138,8 @@ namespace AutomationModule.ViewModels
 				return ExportOrganisationListTemplate;
 			if (item is ImportOrganisationListStepViewModel)
 				return ImportOrganisationListTemplate;
+			if (item is PtzStepViewModel)
+				return PtzTemplate;
 			return null;
 		}
 	}

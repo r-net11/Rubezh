@@ -139,6 +139,7 @@
     <Compile Include="Steps\ViewModels\GetListItemStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationListStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
@@ -298,6 +299,9 @@
     </Compile>
     <Compile Include="Steps\Views\ImportOrganisationStepView.xaml.cs">
       <DependentUpon>ImportOrganisationStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\PtzStepView.xaml.cs">
+      <DependentUpon>PtzStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\SetJournalItemGuidStepView.xaml.cs">
       <DependentUpon>SetJournalItemGuidStepView.xaml</DependentUpon>
@@ -591,6 +595,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Steps\Views\PtzStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Steps\Views\SetJournalItemGuidStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -848,9 +856,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,7 +12,7 @@
 		</Grid.RowDefinitions>
 		<StackPanel Orientation="Horizontal" Grid.Row="0">
 			<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить условие" Height="32" Width="32" />
-			<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}"
+			<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="{DynamicResource ForegroundColorLight}" Command="{Binding ChangeJoinOperatorCommand}"
 						   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
 				<ToolBarButton.ToolTip>
 					<StackPanel Orientation="Horizontal">
@@ -29,9 +29,7 @@
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
-							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" Height="28" Width="28" Background="DarkGray">
-								<Grid Background="{DynamicResource deleteCross}" />
-							</ToolBarButton>
+							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" Height="28" Width="28" Background="DarkGray" ImageSource="DeleteCross" />
 							<ComboBox ItemsSource="{Binding ExplicitTypes}" SelectedItem="{Binding SelectedExplicitType, UpdateSourceTrigger=PropertyChanged}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>

@@ -19,18 +19,18 @@ using FiresecClient;
 
 namespace FiresecService.Report.Templates
 {
-    public partial class Report401 : BaseReport
+	public partial class Report401 : BaseReport
 	{
-        public Report401()
+		public Report401()
 		{
 			InitializeComponent();
 		}
 
 		public override string ReportTitle
 		{
-            get { return "Отчет по событиям системы контроля доступа"; }
+			get { return "Отчет по событиям системы контроля доступа"; }
 		}
-        protected override DataSet CreateDataSet(DataProvider dataProvider)
+		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<ReportFilter401>();
 			var dataSet = new DataSet401();
@@ -228,7 +228,7 @@ namespace FiresecService.Report.Templates
 							//var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 							//if (camera != null)
 							//{
-							//    dataRow.Object = camera.Name;
+							//	dataRow.Object = camera.Name;
 							//}
 							break;
 
@@ -240,11 +240,11 @@ namespace FiresecService.Report.Templates
 
 					//if (dataRow.Object == null)
 					//{
-					//    dataRow.Object = journalItem.ObjectName;
+					//	dataRow.Object = journalItem.ObjectName;
 					//}
 
 					//if (dataRow.Object == null)
-					//    dataRow.Object = "<Нет в конфигурации>";
+					//	dataRow.Object = "<Нет в конфигурации>";
 
 					dataRow.System = journalItem.JournalSubsystemType.ToDescription();
 					dataRow.User = journalItem.UserName;

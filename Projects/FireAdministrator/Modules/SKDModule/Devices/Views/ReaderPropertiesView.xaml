@@ -7,7 +7,7 @@
 	<TabControl>
 		<TabItem Header="Камера">
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Камера" Foreground="White" VerticalAlignment="Center" Margin="5 2" />
+				<TextBlock Text="Камера" Foreground="{DynamicResource ForegroundColorLight}" VerticalAlignment="Center" Margin="5 2" />
 				<TextBlock VerticalAlignment="Center" Margin="5 2">
 					<Hyperlink Command="{Binding SelectCameraCommand}" Style="{StaticResource HyperlinkStyle}">
 						<TextBlock Margin="2">

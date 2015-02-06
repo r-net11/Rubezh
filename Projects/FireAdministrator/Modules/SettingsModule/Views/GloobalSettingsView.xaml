@@ -14,10 +14,14 @@
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Скрывать инструменты выравнивания в планах" />
 				<CheckBox Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" />
+
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Использовать бренд СТРАЖ" />
+				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding UseStrazhBrand}" />
 			</Grid>
 		</TabItem>
 		<TabItem DataContext="{Binding GlobalSettings}" Header="ОЗ">
@@ -84,9 +88,9 @@
 		</TabItem>
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
-				<TextBlock Margin="2" FontSize="12" Foreground="White" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
-                <CheckBox Content="Сервер приложений ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
-                <CheckBox Content="OPC Сервер ГК ОПС FireSec" FontSize="12" Foreground="White" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" />
+				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
+				<CheckBox Content="Сервер приложений ОПС FireSec" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
+				<CheckBox Content="OPC Сервер ГК ОПС FireSec" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" />
 			</StackPanel>
 		</TabItem>
 		<TabItem Header="Логи">
@@ -114,11 +118,11 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Адрес сервера" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервера" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервиса отчетов" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Порт сервиса отчетов" />
 				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Логин" />
 				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Пароль" />
 				<TextBlock Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Text="Автоконнект" />
@@ -127,7 +131,7 @@
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding ReportRemotePort, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="4" Grid.Column="1" Margin="2" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
 				<CheckBox Grid.Row="5" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsChecked="{Binding AutoConnect}" />

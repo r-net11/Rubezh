@@ -232,7 +232,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList;
+			return SelectedCard != null && SelectedCard.IsCard && SelectedCard.Card.IsInStopList && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
 		}
 	}
 }

@@ -91,7 +91,7 @@ namespace GKProcessor
 				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
 					//if ((outputGKBase is GKGuardZone) && (outputGKBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
-					//    return;
+					//	return;
 					if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
 						return;
 					var no = outputGKBase.KAUDescriptorNo;
@@ -160,42 +160,42 @@ namespace GKProcessor
 
 		//public GKBase GKBase
 		//{
-		//    get
-		//    {
-		//        switch (DescriptorType)
-		//        {
-		//            case DescriptorType.Device:
-		//                return Device;
+		//	get
+		//	{
+		//		switch (DescriptorType)
+		//		{
+		//			case DescriptorType.Device:
+		//				return Device;
 
-		//            case DescriptorType.Zone:
-		//                return Zone;
+		//			case DescriptorType.Zone:
+		//				return Zone;
 
-		//            case DescriptorType.Direction:
-		//                return Direction;
+		//			case DescriptorType.Direction:
+		//				return Direction;
 
-		//            case DescriptorType.PumpStation:
-		//                return PumpStation;
+		//			case DescriptorType.PumpStation:
+		//				return PumpStation;
 
-		//            case DescriptorType.MPT:
-		//                return MPT;
+		//			case DescriptorType.MPT:
+		//				return MPT;
 
-		//            case DescriptorType.Delay:
-		//                return Delay;
+		//			case DescriptorType.Delay:
+		//				return Delay;
 
-		//            case DescriptorType.Pim:
-		//                return Pim;
+		//			case DescriptorType.Pim:
+		//				return Pim;
 
-		//            case DescriptorType.GuardZone:
-		//                return GuardZone;
+		//			case DescriptorType.GuardZone:
+		//				return GuardZone;
 
-		//            case DescriptorType.Code:
-		//                return Code;
+		//			case DescriptorType.Code:
+		//				return Code;
 
-		//            case DescriptorType.Door:
-		//                return Door;
-		//        }
-		//        return null;
-		//    }
+		//			case DescriptorType.Door:
+		//				return Door;
+		//		}
+		//		return null;
+		//	}
 		//}
 
 		public ushort GetDescriptorNo()

@@ -281,11 +281,11 @@ namespace JournalModule.ViewModels
 
 			//if (JournalItem.EmployeeUID != Guid.Empty)
 			//{
-			//    var employee = EmployeeHelper.GetDetails(JournalItem.EmployeeUID);
-			//    if (employee != null)
-			//    {
+			//	var employee = EmployeeHelper.GetDetails(JournalItem.EmployeeUID);
+			//	if (employee != null)
+			//	{
 
-			//    }
+			//	}
 			//}
 		}
 

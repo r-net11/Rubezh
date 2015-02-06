@@ -57,6 +57,8 @@ namespace SKDDriver
 		{
 			try
 			{
+				if (!Directory.Exists(filter.Path))
+					return new OperationResult("Папка не существует");
 				var getResult = Get(filter);
 				if (getResult.HasError)
 					return new OperationResult(getResult.Error);
@@ -122,6 +124,8 @@ namespace SKDDriver
 		{
 			try
 			{
+				if (!Directory.Exists(filter.Path))
+					return new OperationResult("Папка не существует");
 				var fileName = Path.Combine(filter.Path, NameXml);
 				File.Move(fileName, NameXml);
 				using (var stream = new FileStream(NameXml, FileMode.Open))

@@ -39,36 +39,11 @@ namespace VideoModule.ViewModels
 				return Camera.Ip;
 			}
 		}
-		public string PresentationZones
-		{
-			get
-			{
-				var zones =
-					Camera.ZoneUIDs.Select(zoneUID => GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID))
-						.Where(zone => zone != null)
-						.ToList();
-				var presentationZones = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
-				return presentationZones;
-			}
-		}
-
-		public string PresentationState
-		{
-			get
-			{
-				if ((Camera.StateClass == XStateClass.Fire1) || (Camera.StateClass == XStateClass.Fire2) ||
-					(Camera.StateClass == XStateClass.Attention) || (Camera.StateClass == XStateClass.Ignore))
-					return Camera.StateClass.ToDescription();
-				return null;
-			}
-		}
 
 		public void Update()
 		{
 			OnPropertyChanged(() => Camera);
-			OnPropertyChanged(() => PresentationZones);
 			OnPropertyChanged(() => PresentationAddress);
-			OnPropertyChanged(() => PresentationState);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}

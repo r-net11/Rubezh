@@ -4,7 +4,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="..\..\Steps\Views\ProcedureResources.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-            <Style x:Key="VariableComboBox" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+			<Style x:Key="VariableComboBox" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
 				<Setter Property="IsSynchronizedWithCurrentItem" Value="False" />
 				<Setter Property="Template">
 					<Setter.Value>
@@ -49,7 +49,7 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-        </ResourceDictionary>
+		</ResourceDictionary>
 	</UserControl.Resources>
 
 	<StackPanel Orientation="Horizontal">
@@ -60,7 +60,7 @@
 		<ComboBox ItemsSource="{Binding VariableScopes}" SelectedItem="{Binding SelectedVariableScope, UpdateSourceTrigger=PropertyChanged}">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
-                    <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
@@ -75,7 +75,7 @@
 				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
 				<DockPanel Width="202" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}">
 					<TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" />
-					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="White">
+					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="{DynamicResource ForegroundColorLight}">
 						<Button.Style>
 							<Style TargetType="Button">
 								<Setter Property="Template">
@@ -102,42 +102,42 @@
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.StateTypeValues}" SelectedItem="{Binding ExplicitValue.StateTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.StateType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.DriverTypeValues}" SelectedItem="{Binding ExplicitValue.DriverTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.DriverType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.PermissionTypeValues}" SelectedItem="{Binding ExplicitValue.PermissionTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.PermissionType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.JournalEventNameTypeValues}" SelectedItem="{Binding ExplicitValue.JournalEventNameTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventNameType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.JournalEventDescriptionTypeValues}" SelectedItem="{Binding ExplicitValue.JournalEventDescriptionTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalEventDescriptionType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 					<ComboBox Width="200" ItemsSource="{Binding ExplicitValue.JournalObjectTypeValues}" SelectedItem="{Binding ExplicitValue.JournalObjectTypeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=EnumType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:EnumType.JournalObjectType}}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>

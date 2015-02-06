@@ -402,6 +402,7 @@
     <None Include="app.config" />
     <None Include="DataSources\DataSet401.xsc">
       <DependentUpon>DataSet401.xsd</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="DataSources\DataSet401.xsd">
       <SubType>Designer</SubType>

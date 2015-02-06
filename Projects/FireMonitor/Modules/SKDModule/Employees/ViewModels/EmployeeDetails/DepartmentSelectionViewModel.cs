@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -20,7 +21,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Выбор подразделения";
 			OrganisationUID = employee.OrganisationUID;
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 
 			AllDepartments = new List<DepartmentSelectionItemViewModel>();
 			var departments = DepartmentHelper.GetByOrganisation(OrganisationUID);
@@ -103,6 +104,10 @@ namespace SKDModule.ViewModels
 				SelectedDepartment = departmentViewModel;
 				ServiceFactory.Events.GetEvent<NewDepartmentEvent>().Publish(department);
 			}
+		}
+		bool CanAdd()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit);
 		}
 
 		protected override bool Save()

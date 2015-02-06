@@ -309,7 +309,7 @@ namespace GKModule.ViewModels
 								"\nдолжно быть целым числом в диапазоне от " + driverProperty.Min.ToString() +
 								" до " + driverProperty.Max.ToString();
 						}
-						MessageBoxService.Show(message, "Firesec");
+						MessageBoxService.Show(message);
 						return false;
 					}
 				}

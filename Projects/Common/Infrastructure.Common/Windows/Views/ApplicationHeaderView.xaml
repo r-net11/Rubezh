@@ -25,7 +25,7 @@
 		<ContentPresenter Grid.Row="0" Grid.ColumnSpan="4" Content="{Binding Content.HeaderTop}" />
 		<Grid Grid.Row="1" Grid.Column="0" Width="32" Height="26" Margin="10 5 0 5" HorizontalAlignment="Left" Opacity="0.5" RenderOptions.BitmapScalingMode="NearestNeighbor" Background="{DynamicResource logo}" Visibility="{Binding Content.AllowLogoIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ContentPresenter Grid.Row="1" Grid.Column="1" Content="{Binding Content.HeaderMenu}" />
-		<TextBlock Grid.Row="1" Grid.Column="2" Margin="0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="White" Opacity="0.5" Text="{Binding Content.Title}" />
+		<TextBlock Grid.Row="1" Grid.Column="2" Margin="0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="{DynamicResource ForegroundColorLight}" Opacity="0.5" Text="{Binding Content.Title}" />
 		<StackPanel Grid.Row="1" Grid.Column="3" Margin="0, 2, 2, 0" VerticalAlignment="Top" Orientation="Horizontal">
 			<Menu VerticalAlignment="Center" Background="Transparent" Focusable="False" Visibility="{Binding Content.AllowHelp, Converter={StaticResource BoolToVisibilityConverter}}">
 				<MenuItem Focusable="False">

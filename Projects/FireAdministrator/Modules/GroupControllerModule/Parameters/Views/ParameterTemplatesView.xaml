@@ -33,7 +33,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 						<DataGridTemplateColumn.CellEditingTemplate>
 							<DataTemplate>
-								<TextBox Text="{Binding Name}" IsEnabled="{Binding IsEnabled}" Foreground="Black" Margin="5 0 0 0" />
+								<TextBox Text="{Binding Name}" IsEnabled="{Binding IsEnabled}" Foreground="{DynamicResource ForegroundColorDark}" Margin="5 0 0 0" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellEditingTemplate>
 					</DataGridTemplateColumn>

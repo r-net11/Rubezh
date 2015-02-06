@@ -4,7 +4,7 @@
 		<Menu Name="mainMenu" Height="30" VerticalAlignment="Center" Background="Transparent" Visibility="{Binding CanShowMainMenu, Converter={StaticResource BoolToVisibilityConverter}}">
 			<MenuItem>
 				<MenuItem.Header>
-					<Image Height="24" Source="/Controls;component/Images/Logo.png" ToolTip="Меню" />
+					<Grid Height="24" Width="24" Background="{Binding LogoSource, Converter={StaticResource StringToResourceConverter}}" ToolTip="Меню" />
 				</MenuItem.Header>
 				<MenuItem Margin="1" Command="{Binding LoadFromFileCommand}" Header="Открыть конфигурацию из файла" />
 				<MenuItem Margin="1" Command="{Binding SaveAsCommand}" Header="Сохранить как" />

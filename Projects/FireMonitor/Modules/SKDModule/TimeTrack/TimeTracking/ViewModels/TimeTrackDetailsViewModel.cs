@@ -20,9 +20,10 @@ namespace SKDModule.ViewModels
 			dayTimeTrack.Calculate();
 
 			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			AddCustomPartCommand = new RelayCommand(OnAddCustomPart);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			AddCustomPartCommand = new RelayCommand(OnAddCustomPart, CanAddPart);
 			RemovePartCommand = new RelayCommand(OnRemovePart, CanEditRemovePart);
 			EditPartCommand = new RelayCommand(OnEditPart, CanEditRemovePart);
 			DayTimeTrack = dayTimeTrack;
@@ -93,6 +94,10 @@ namespace SKDModule.ViewModels
 				IsChanged = true;
 			}
 		}
+		bool CanAddPart()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
+		}
 
 		public RelayCommand RemovePartCommand { get; private set; }
 		void OnRemovePart()
@@ -107,7 +112,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEditRemovePart()
 		{
-			return SelectedDayTimeTrackPart != null;
+			return SelectedDayTimeTrackPart != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Parts_Edit);
 		}
 
 		public RelayCommand EditPartCommand { get; private set; }
@@ -143,8 +148,13 @@ namespace SKDModule.ViewModels
 					var documentViewModel = new DocumentViewModel(document);
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
+					IsChanged = true;
 				}
 			}
+		}
+		bool CanAdd()
+		{
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -160,11 +170,34 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
 				SelectedDocument.Update();
+				IsChanged = true;
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date;
+			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
+		}
+
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить документ?"))
+			{
+				var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
+				if (operationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				else
+				{
+					Documents.Remove(SelectedDocument);
+					IsChanged = true;
+				}
+			}
+		}
+		bool CanRemove()
+		{
+			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
 		public bool IsIntersection(TimeSpan timeSpan)

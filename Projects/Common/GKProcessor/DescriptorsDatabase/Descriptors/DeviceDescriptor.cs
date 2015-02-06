@@ -107,7 +107,7 @@ namespace GKProcessor
 					Formula.Add(FormulaOperationType.OR);
 					//if (Device.Door.LockControlDevice.Properties.FirstOrDefault(x => x.Name == "Конфигурация").Value == 1)
 					//{
-					//    Formula.Add(FormulaOperationType.COM);
+					//	Formula.Add(FormulaOperationType.COM);
 					//}
 				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);

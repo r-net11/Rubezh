@@ -3,12 +3,12 @@
 		<Grid.Resources>
 			<FrameworkElement x:Key="ProxyElement" DataContext="{Binding}" />
 		</Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 		<ContentControl Content="{StaticResource ProxyElement}" Visibility="Collapsed" Grid.Row="0"/>
-        <DataGrid x:Name="Grid" ItemsSource="{Binding Organisations}" Grid.Row="0">
+		<DataGrid x:Name="Grid" ItemsSource="{Binding Organisations}" Grid.Row="0">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>
@@ -43,9 +43,9 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}">
-            <ToolBarButton Command="{Binding SelectAllCommand}" Background="{DynamicResource SelectAll}" ToolTip="Выделить всё" />
-            <ToolBarButton Command="{Binding SelectNoneCommand}" Background="{DynamicResource SelectNone}" ToolTip="Снять все выделения" />
-        </StackPanel>
-    </Grid>
+		<StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}">
+			<ToolBarButton Command="{Binding SelectAllCommand}" Background="{DynamicResource SelectAll}" ToolTip="Выделить всё" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" Background="{DynamicResource SelectNone}" ToolTip="Снять все выделения" />
+		</StackPanel>
+	</Grid>
 </UserControl>

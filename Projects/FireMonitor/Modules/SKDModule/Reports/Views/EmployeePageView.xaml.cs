@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace SKDModule.Reports.Views
 {
-    /// <summary>
-    /// Interaction logic for EmployeePageView.xaml
-    /// </summary>
-    public partial class EmployeePageView : UserControl
-    {
-        public EmployeePageView()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for EmployeePageView.xaml
+	/// </summary>
+	public partial class EmployeePageView : UserControl
+	{
+		public EmployeePageView()
+		{
+			InitializeComponent();
+		}
+	}
 }

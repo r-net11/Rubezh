@@ -3,9 +3,9 @@
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:import namespace="http://schemas.microsoft.com/Message" />
   <xs:element name="VideoFileIn">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
+	<xs:complexType>
+	  <xs:sequence />
+	</xs:complexType>
   </xs:element>
   <xs:element name="ChannelNumber" type="xs:int" />
   <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/" name="DeviceGuid" type="q1:guid" />
@@ -13,11 +13,11 @@
   <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/" name="Request" type="q3:guid" />
   <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/" name="Session" type="q4:guid" />
   <xs:element name="VideoFileOut">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.microsoft.com/Message" name="FileContent" type="q5:StreamBody" />
-      </xs:sequence>
-    </xs:complexType>
+	<xs:complexType>
+	  <xs:sequence>
+		<xs:element xmlns:q5="http://schemas.microsoft.com/Message" name="FileContent" type="q5:StreamBody" />
+	  </xs:sequence>
+	</xs:complexType>
   </xs:element>
   <xs:element name="ErrorCode" type="xs:int" />
   <xs:element name="ErrorInformation" nillable="true" type="xs:string" />

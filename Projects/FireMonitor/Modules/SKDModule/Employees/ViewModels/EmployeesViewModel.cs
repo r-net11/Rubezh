@@ -178,5 +178,11 @@ namespace SKDModule.ViewModels
 		{
 			InitializeAdditionalColumns();
 		}
+
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit; }
+		}
 	}
 }

@@ -11,9 +11,9 @@ namespace VideoModule.ViewModels
 			VlcControlViewModels = new List<VlcControlViewModel>();
 			//foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			//{
-			//    var vlcControlViewModel = new VlcControlViewModel();
-			//    vlcControlViewModel.RviRTSP = camera.RviRTSP;
-			//    VlcControlViewModels.Add(vlcControlViewModel);
+			//	var vlcControlViewModel = new VlcControlViewModel();
+			//	vlcControlViewModel.RviRTSP = camera.RviRTSP;
+			//	VlcControlViewModels.Add(vlcControlViewModel);
 			//}
 		}
 	}

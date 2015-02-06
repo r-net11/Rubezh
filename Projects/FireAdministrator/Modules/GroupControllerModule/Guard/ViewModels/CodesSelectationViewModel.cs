@@ -150,16 +150,16 @@ namespace GKModule.ViewModels
 		//public RelayCommand CreateNewCommand { get; private set; }
 		//void OnCreateNew()
 		//{
-		//    var createCodeEventArg = new CreateGKCodeEventArg();
-		//    ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Publish(createCodeEventArg);
-		//    if (createCodeEventArg.Code != null)
-		//    {
-		//        TargetCodes.Add(createCodeEventArg.Code);
-		//        if (TargetCodes.Count == 1)
-		//        {
-		//            SaveCommand.Execute();
-		//        }
-		//    }
+		//	var createCodeEventArg = new CreateGKCodeEventArg();
+		//	ServiceFactory.Events.GetEvent<CreateGKCodeEvent>().Publish(createCodeEventArg);
+		//	if (createCodeEventArg.Code != null)
+		//	{
+		//		TargetCodes.Add(createCodeEventArg.Code);
+		//		if (TargetCodes.Count == 1)
+		//		{
+		//			SaveCommand.Execute();
+		//		}
+		//	}
 		//}
 
 		public bool CanAdd(object parameter)

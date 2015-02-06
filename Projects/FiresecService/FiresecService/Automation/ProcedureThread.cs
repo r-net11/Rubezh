@@ -382,6 +382,10 @@ namespace FiresecService
 				case ProcedureStepType.ExportConfiguration:
 					ExportConfiguration(procedureStep);
 					break;
+
+				case ProcedureStepType.Ptz:
+					Ptz(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

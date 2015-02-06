@@ -4,38 +4,38 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD.ReportFilters
 {
-    [DataContract]
-    public class ReportFilter431 : SKDReportFilter, IReportFilterOrganisation, IReportFilterZoneWithDirection, IReportFilterDoor
-    {
+	[DataContract]
+	public class ReportFilter431 : SKDReportFilter, IReportFilterOrganisation, IReportFilterZoneWithDirection, IReportFilterDoor
+	{
 
-        #region IReportFilterOrganisation Members
+		#region IReportFilterOrganisation Members
 
-        [DataMember]
-        public List<Guid> Organisations { get; set; }
+		[DataMember]
+		public List<Guid> Organisations { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterZone Members
+		#region IReportFilterZone Members
 
-        [DataMember]
-        public List<Guid> Zones { get; set; }
+		[DataMember]
+		public List<Guid> Zones { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterDoor Members
+		#region IReportFilterDoor Members
 
-        [DataMember]
-        public List<Guid> Doors { get; set; }
+		[DataMember]
+		public List<Guid> Doors { get; set; }
 
-        #endregion
+		#endregion
 
-        #region IReportFilterZoneWithDirection Members
+		#region IReportFilterZoneWithDirection Members
 
-        [DataMember]
-        public bool ZoneIn { get; set; }
-        [DataMember]
-        public bool ZoneOut { get; set; }
+		[DataMember]
+		public bool ZoneIn { get; set; }
+		[DataMember]
+		public bool ZoneOut { get; set; }
 
-        #endregion
-    }
+		#endregion
+	}
 }

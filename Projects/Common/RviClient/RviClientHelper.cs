@@ -299,7 +299,7 @@ namespace RviClient
 					var result = streaminClient.GetVideoFile(camera.RviChannelNo, camera.RviDeviceUID, eventUID, ref requestUID, ref sessionUID, out errorInformation, out stream);
 					var videoFileStream = File.Create(videoPath);
 					CopyStream(stream, videoFileStream);
-				}
+			}
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()

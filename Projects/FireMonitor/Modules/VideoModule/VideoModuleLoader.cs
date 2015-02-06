@@ -32,11 +32,6 @@ namespace VideoModule
 			_planPresenter = new PlanPresenter();
 			CamerasViewModel = new CamerasViewModel();
 
-			foreach (var zone in GKManager.Zones)
-			{
-				zone.State.StateChanged -= new Action(OnZoneStateChanged);
-				zone.State.StateChanged += new Action(OnZoneStateChanged);
-			}
 			VlcInitialize();
 			SubscribeShowDelailsEvent();
 		}
@@ -93,29 +88,6 @@ namespace VideoModule
 			}
 		}
 		#endregion
-
-		void OnZoneStateChanged()
-		{
-			UpdateVideoAlarms();
-		}
-
-		void UpdateVideoAlarms()
-		{
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				foreach (var zoneUID in camera.ZoneUIDs)
-				{
-					var zone = GKManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						if (zone.State.StateClass == camera.StateClass)
-						{
-							DialogService.ShowWindow(new CameraDetailsViewModel(camera));
-						}
-					}
-				}
-			}
-		}
 
 		public override void Initialize()
 		{

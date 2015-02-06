@@ -118,5 +118,10 @@ namespace SKDModule.ViewModels
 				SetSelected(department.Children, selected);
 			}
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
+		}
 	}
 }

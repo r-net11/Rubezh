@@ -38,5 +38,10 @@ namespace SKDModule.PassCardDesigner.ViewModels
 		{
 			get { return "шаблон пропуска"; }
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_PassCards_Etit; }
+		}
 	}
 }

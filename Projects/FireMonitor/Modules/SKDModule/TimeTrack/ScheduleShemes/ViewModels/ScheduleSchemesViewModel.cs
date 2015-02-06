@@ -150,5 +150,10 @@ namespace SKDModule.ViewModels
 				base.Remove();
 			}
 		}
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit; }
+		}
 	}
 }

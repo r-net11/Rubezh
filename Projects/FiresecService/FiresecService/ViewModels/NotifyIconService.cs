@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Infrastructure.Common;
 
 namespace FiresecService.Service
 {
@@ -28,7 +29,7 @@ namespace FiresecService.Service
 			menuItem2.Click += new EventHandler(onClose);
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
-			_notifyIcon.Text = "Сервер Firesec";
+			_notifyIcon.Text = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Сервер приложений" : "Сервер Firesec";
 		}
 		public static void Stop()
 		{

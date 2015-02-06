@@ -24,7 +24,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Button Grid.Row="0"
-					Width="100" Foreground="White" Style="{StaticResource ToolBarButtonStyle}"
+					Width="100" Foreground="{DynamicResource ForegroundColorLight}" Style="{StaticResource ToolBarButtonStyle}"
 					Command="{Binding ChangeJoinOperatorCommand}"
 					Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
 						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
@@ -46,9 +46,7 @@
 								RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
 								Path=DataContext.RemoveCommand}"
 								CommandParameter="{Binding}"
-								Height="32" Width="32" Margin="2" Background="DarkGray">
-								<Grid Background="{DynamicResource deleteCross}" />
-							</ToolBarButton>
+								Height="32" Width="32" Margin="2" Background="DarkGray" ImageSource="DeleteCross" />
 
 							<ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
 								<ComboBox.ItemTemplate>

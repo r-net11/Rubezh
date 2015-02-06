@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Common;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -68,7 +69,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAdd()
 		{
-			return !IsOrganisation && !IsDeleted;
+			return !IsOrganisation && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -82,7 +83,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1 && !IsDeleted;
+			return SelectedDayIntervalPart != null && DayIntervalParts.Count > 1 && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -100,7 +101,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDayIntervalPart != null && !IsDeleted;
+			return SelectedDayIntervalPart != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
 		}
 	}
 }

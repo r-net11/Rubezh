@@ -76,11 +76,11 @@
 		<Views:DoorSelectionView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:OrganisationSelectionViewModel}">
-        <Views:OrganisationSelectionView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OrganisationSelectionViewModel}">
+		<Views:OrganisationSelectionView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="soundsTemplate">
+	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
 
@@ -176,31 +176,31 @@
 		<Views:SendEmailStepView />
 	</DataTemplate>
 
-    <DataTemplate x:Key="exportJournalTemplate">
-        <Views:ExportJournalStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="exportJournalTemplate">
+		<Views:ExportJournalStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="exportOrganisationTemplate">
-        <Views:ExportOrganisationStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="exportOrganisationTemplate">
+		<Views:ExportOrganisationStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="exportConfigurationTemplate">
-        <Views:ExportConfigurationStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="exportConfigurationTemplate">
+		<Views:ExportConfigurationStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="importOrganisationTemplate">
-        <Views:ImportOrganisationStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="importOrganisationTemplate">
+		<Views:ImportOrganisationStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="exportOrganisationListTemplate">
-        <Views:ExportOrganisationListStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="exportOrganisationListTemplate">
+		<Views:ExportOrganisationListStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="importOrganisationListTemplate">
-        <Views:ImportOrganisationListStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="importOrganisationListTemplate">
+		<Views:ImportOrganisationListStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="RunProgramTemplate">
+	<DataTemplate x:Key="RunProgramTemplate">
 		<Views:RunProgramStepView />
 	</DataTemplate>
 
@@ -252,6 +252,10 @@
 		<Views:SetJournalItemGuidStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="ptzTemplate">
+		<Views:PtzStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
@@ -288,12 +292,13 @@
 										 SoundsTemplate="{StaticResource soundsTemplate}"
 										 ControlDelayTemplate="{StaticResource controlDelayTemplate}"
 										 ShowPropertyTemplate="{StaticResource showPropertyTemplate}" 
-                                         ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
-                                         ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
+										 ExportJournalTemplate="{StaticResource exportJournalTemplate}" 
+										 ExportOrganisationTemplate="{StaticResource exportOrganisationTemplate}" 
 										 GenerateGuidTemplate="{StaticResource generateGuidTemplate}"
-                                         ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
-                                         ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
-                                         ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
-                                         SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
-                                         ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}" />
+										 ExportConfigurationTemplate="{StaticResource exportConfigurationTemplate}" 
+										 ImportOrganisationTemplate="{StaticResource importOrganisationTemplate}" 
+										 ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
+										 SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
+										 ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}"
+										 PtzTemplate="{StaticResource ptzTemplate}" />
 </ResourceDictionary>

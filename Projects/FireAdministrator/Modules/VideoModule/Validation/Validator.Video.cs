@@ -12,7 +12,7 @@ namespace VideoModule.Validation
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				//if (addressList.Contains(camera.Ip))
-				//    Errors.Add(new VideoValidationError(camera, "Камера с таким адресом уже существует " + camera.Ip, ValidationErrorLevel.CannotSave));
+				//	Errors.Add(new VideoValidationError(camera, "Камера с таким адресом уже существует " + camera.Ip, ValidationErrorLevel.CannotSave));
 				//addressList.Add(camera.Ip);
 			}
 		}

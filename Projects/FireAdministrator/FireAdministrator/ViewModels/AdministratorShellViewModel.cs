@@ -27,7 +27,7 @@ namespace FireAdministrator.ViewModels
 		public AdministratorShellViewModel()
 			: base(ClientType.Administrator)
 		{
-			Title = "Администратор ОПС FireSec";
+			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Администратор" : "Администратор ОПС FireSec";
 			Height = 700;
 			Width = 1000;
 			MinWidth = 1000;
@@ -35,6 +35,7 @@ namespace FireAdministrator.ViewModels
 			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
 			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
+			_menu.LogoSource = "Logo";
 			Toolbar = _menu;
 			RibbonContent = new RibbonMenuViewModel();
 			AddRibbonItem();

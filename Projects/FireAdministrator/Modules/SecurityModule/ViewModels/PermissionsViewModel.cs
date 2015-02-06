@@ -90,17 +90,6 @@ namespace SecurityModule.ViewModels
 							new PermissionViewModel(PermissionType.Oper_ChangeView),
 							new PermissionViewModel(PermissionType.Oper_MayNotConfirmCommands),
 							new PermissionViewModel(PermissionType.Oper_ExtraGuardZone),
-							new PermissionViewModel("СКД",
-								new List<PermissionViewModel>()
-								{
-									new PermissionViewModel(PermissionType.Oper_SKD_Employees),
-									new PermissionViewModel(PermissionType.Oper_SKD_Guests),
-									new PermissionViewModel(PermissionType.Oper_SKD_HR),
-									new PermissionViewModel(PermissionType.Oper_SKD_Organisations),
-								}),
-
-
-
 							new PermissionViewModel("Журнал и архив событий", new List<PermissionViewModel>()
 								{
 									new PermissionViewModel(PermissionType.Oper_Journal_View),
@@ -160,36 +149,26 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Cards_View),
-												new PermissionViewModel(PermissionType.Oper_SKD_Employees_Cards_Edit),
 											}),
 											new PermissionViewModel("Посетители", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Guests_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Guests_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_Guests_Cards_View),
-												new PermissionViewModel(PermissionType.Oper_SKD_Guests_Cards_Edit),
 											}),
 											new PermissionViewModel("Подразделения", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Departments_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Departments_Etit),
-												new PermissionViewModel(PermissionType.Oper_SKD_Departments_Employees),
-												new PermissionViewModel(PermissionType.Oper_SKD_Departments_Employees_Edit),
 											}),
 											new PermissionViewModel("Должности", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_Positions_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_Positions_Etit),
-												new PermissionViewModel(PermissionType.Oper_SKD_Positions_Employees),
-												new PermissionViewModel(PermissionType.Oper_SKD_Positions_Employees_Edit),
 											}),
 											new PermissionViewModel("Дополнительные колонки", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_AdditionalColumns_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_AdditionalColumns_Etit),
-												new PermissionViewModel(PermissionType.Oper_SKD_AdditionalColumns_Employees),
-												new PermissionViewModel(PermissionType.Oper_SKD_AdditionalColumns_Employees_Edit),
 											}),
 											new PermissionViewModel("Пропуска", new List<PermissionViewModel>()
 											{
@@ -220,13 +199,11 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DaySchedules_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DaySchedules_IntervalsEdit),
 											}),
 											new PermissionViewModel("Графики", new List<PermissionViewModel>()
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_DayEdit),
 											}),
 											new PermissionViewModel("Праздничные дни", new List<PermissionViewModel>()
 											{
@@ -237,7 +214,6 @@ namespace SecurityModule.ViewModels
 											{
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Schedules_View),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Schedules_Edit),
-												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Schedules_ScheduleEdit),
 											}),
 											new PermissionViewModel("Учет рабочего времени ", new List<PermissionViewModel>()
 											{
@@ -246,17 +222,6 @@ namespace SecurityModule.ViewModels
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_Documents_Edit),
 												new PermissionViewModel(PermissionType.Oper_SKD_TimeTrack_DocumentTypes_Edit),
 											}),
-										}),
-										new PermissionViewModel("Интеграция", new List<PermissionViewModel>()
-										{
-											new PermissionViewModel(PermissionType.Oper_SKD_Integration_Settings),
-										}),
-										new PermissionViewModel("Обмен данными", new List<PermissionViewModel>()
-										{
-											new PermissionViewModel(PermissionType.Oper_SKD_Export_Journal),
-											new PermissionViewModel(PermissionType.Oper_SKD_Export_Config),
-											new PermissionViewModel(PermissionType.Oper_SKD_ExportImport_HR),
-											new PermissionViewModel(PermissionType.Oper_SKD_Export_Organisations),
 										}),
 								}),
 						}),

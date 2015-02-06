@@ -83,5 +83,11 @@ namespace SKDModule.ViewModels
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
 			}
 		}
+
+
+		protected override FiresecAPI.Models.PermissionType Permission
+		{
+			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
+		}
 	}
 }

@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 				return;
 			var checkedOrganisations = Organisations.Items.Where(x => uids.Any(y => y == x.Organisation.UID));
 			foreach (var organisation in checkedOrganisations)
-			    organisation.IsChecked = true;
+				organisation.IsChecked = true;
 		}
 	}
 }
