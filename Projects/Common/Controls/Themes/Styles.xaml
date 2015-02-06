@@ -332,5 +332,23 @@
 		<ResourceDictionary Source="../XamlImages/BWindowNormal.xaml" />
 		<ResourceDictionary Source="../XamlImages/BWrite.xaml" />
 		<ResourceDictionary Source="../XamlImages/BZones.xaml" />
+		<ResourceDictionary Source="../XamlImages/BLockParam.xaml" />
+		<ResourceDictionary Source="../XamlImages/BGraphController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BTypeController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BTimeController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BRuleController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BPassController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BNetController.xaml" />
+		<ResourceDictionary Source="../XamlImages/BGraphAllController.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportPDF.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportHTM.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportMHT.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportRTF.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportXLS.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportXLSX.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportCSV.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportTXT.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportImage.xaml" />
+		<ResourceDictionary Source="../XamlImages/ExportXPS.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

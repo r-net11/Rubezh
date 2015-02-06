@@ -213,7 +213,7 @@
 													<RowDefinition Height="Auto" />
 													<RowDefinition />
 												</Grid.RowDefinitions>
-												<TextBlock Margin="0,0,0,1" Foreground="White" Padding="2" Text="{TemplateBinding AvailableColorsHeader}" />
+												<TextBlock Margin="0,0,0,1" Foreground="{DynamicResource ForegroundColorLight}" Padding="2" Text="{TemplateBinding AvailableColorsHeader}" />
 												<ListBox x:Name="PART_AvailableColors" Grid.Row="1" ItemsSource="{Binding AvailableColors, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ColorListStyle}" />
 											</Grid>
 										</Grid>
@@ -225,7 +225,7 @@
 													<RowDefinition Height="Auto" />
 													<RowDefinition Height="Auto" />
 												</Grid.RowDefinitions>
-												<TextBlock Margin="0,1,0,1" Foreground="White" Padding="2" Text="{TemplateBinding StandardColorsHeader}" />
+												<TextBlock Margin="0,1,0,1" Foreground="{DynamicResource ForegroundColorLight}" Padding="2" Text="{TemplateBinding StandardColorsHeader}" />
 												<ListBox x:Name="PART_StandardColors" Grid.Row="1" ItemsSource="{Binding StandardColors, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ColorListStyle}" />
 											</Grid>
 										</Grid>
@@ -237,7 +237,7 @@
 													<RowDefinition Height="Auto" />
 													<RowDefinition Height="Auto" />
 												</Grid.RowDefinitions>
-												<TextBlock Margin="0,1,0,1" Foreground="White" Padding="2" Text="{TemplateBinding RecentColorsHeader}" />
+												<TextBlock Margin="0,1,0,1" Foreground="{DynamicResource ForegroundColorLight}" Padding="2" Text="{TemplateBinding RecentColorsHeader}" />
 												<ListBox x:Name="PART_RecentColors" Grid.Row="1" ItemsSource="{Binding RecentColors, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ColorListStyle}" />
 											</Grid>
 										</Grid>
@@ -245,7 +245,7 @@
 
 									<!--  ColorCanvas  -->
 									<Grid x:Name="_colorCanvasHost" Visibility="Collapsed">
-										<xc:ColorCanvas x:Name="PART_ColorCanvas" Background="Transparent" BorderThickness="0" Foreground="White" SelectedColor="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}}" UsingAlphaChannel="{Binding UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}}">
+										<xc:ColorCanvas x:Name="PART_ColorCanvas" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource ForegroundColorLight}" SelectedColor="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}}" UsingAlphaChannel="{Binding UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}}">
 											<!--
 												<xc:ColorCanvas.Resources>
 												<Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">

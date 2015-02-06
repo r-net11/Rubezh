@@ -16,7 +16,7 @@
 				<DataTemplate>
 					<RadioButton IsChecked="{Binding IsActive}"
 						Content="{Binding RemoteAccessType, Converter={StaticResource RemoteAccessTypeToStringConverter}}"
-						Margin="1.5" Foreground="White" />
+						Margin="1.5" Foreground="{DynamicResource ForegroundColorLight}" />
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

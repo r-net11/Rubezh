@@ -63,7 +63,7 @@
 										<DataTemplate>
 											<StackPanel Orientation="Horizontal" Background="Transparent">
 												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding DayInterval.Name}" />
+												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding DayInterval.Name}" />
 											</StackPanel>
 										</DataTemplate>
 									</ComboBox.ItemTemplate>

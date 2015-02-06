@@ -75,7 +75,7 @@
 				<CheckBox Width="200" IsChecked="{Binding ExplicitValue.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.Boolean}}" />
 				<DockPanel Width="202" Visibility="{Binding ExplicitType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static automation:ExplicitType.String}}">
 					<TextBox Width="182" Text="{Binding ExplicitValue.StringValue, UpdateSourceTrigger=PropertyChanged}" />
-					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="White">
+					<Button Width="20" Height="25" Margin="-5,0,0,0" Command="{Binding EditStringCommand}" Content="..." FontSize="20" Foreground="{DynamicResource ForegroundColorLight}">
 						<Button.Style>
 							<Style TargetType="Button">
 								<Setter Property="Template">

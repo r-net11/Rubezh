@@ -3,17 +3,17 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="500" MinHeight="500">
 	<TabControl>
-		<TabItem Header="Ошибки" Foreground="White">
+		<TabItem Header="Ошибки" Foreground="{DynamicResource ForegroundColorLight}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Text="Следующие ошибки будут игнорироваться при валидации конфигурации" Foreground="White" FontWeight="Bold" Margin="2" />
+				<TextBlock Grid.Row="0" Text="Следующие ошибки будут игнорироваться при валидации конфигурации" Foreground="{DynamicResource ForegroundColorLight}" FontWeight="Bold" Margin="2" />
 				<ItemsControl Grid.Row="1" ItemsSource="{Binding ErrorFilters}" Margin="2" Background="White">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding ErrorType,Converter={StaticResource EnumToDescriptionConverter}}" Foreground="Black" Margin="2" />
+							<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding ErrorType,Converter={StaticResource EnumToDescriptionConverter}}" Foreground="{DynamicResource ForegroundColorDark}" Margin="2" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>

@@ -55,7 +55,7 @@
 				<Label Grid.Row="6" Grid.Column="0" Content="Минимальный уровень на проход" HorizontalAlignment="Right" />
 				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding EnterLevel}" Minimum="0" Maximum="255" Margin="2" />
 
-				<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsGate}" Content="Режим турникета" Foreground="White" Margin="2" />
+				<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsGate}" Content="Режим турникета" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>

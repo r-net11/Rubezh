@@ -20,21 +20,21 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<StackPanel Grid.Column="0">
-					<TextBlock Text="Начальный номер записи" Foreground="White" Margin="2" />
+					<TextBlock Text="Начальный номер записи" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Text="{Binding StartIndex}" Margin="2" />
 				</StackPanel>
 				<StackPanel Grid.Column="1">
-					<TextBlock Text="Конечный номер записи" Foreground="White" Margin="2" />
+					<TextBlock Text="Конечный номер записи" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Text="{Binding EndIndex}" Margin="2" />
 				</StackPanel>
 				<StackPanel Grid.Column="2">
-					<TextBlock Text="Количество последних записей" Foreground="White" Margin="2" />
+					<TextBlock Text="Количество последних записей" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<TextBox Text="{Binding LastCount, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				</StackPanel>
 			</Grid>
 			<StackPanel Orientation="Horizontal" Margin="5">
-				<TextBlock Text="Всего записей: " Foreground="White" HorizontalAlignment="Right" Margin="2" />
-				<TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+				<TextBlock Text="Всего записей: " Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" HorizontalAlignment="Right" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
 				<Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />

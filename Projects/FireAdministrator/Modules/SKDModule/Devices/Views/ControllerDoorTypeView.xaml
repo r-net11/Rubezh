@@ -7,7 +7,7 @@
 		<TabItem Header="Основные">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Тип точки доступа" VerticalAlignment="Center" Width="150" Foreground="White" Margin="2" />
+					<TextBlock Text="Тип точки доступа" VerticalAlignment="Center" Width="150" Foreground="{DynamicResource ForegroundColorLight}" Margin="2" />
 					<ComboBox ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Width="150" Margin="2">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>

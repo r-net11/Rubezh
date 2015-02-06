@@ -55,7 +55,7 @@
 										<DataTemplate>
 											<DockPanel Background="Transparent">
 												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Shedule.png" />
-												<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="Black" Margin="2" />
+												<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Foreground="{DynamicResource ForegroundColorDark}" Margin="2" />
 											</DockPanel>
 										</DataTemplate>
 									</ComboBox.ItemTemplate>
