@@ -98,14 +98,14 @@ namespace FiresecService.Report
 		}
 		public List<EmployeeInfo> GetEmployees(SKDReportFilter filter)
 		{
-			LoadCache();
 			var list = new List<EmployeeInfo>();
 			var employeeFilter = GetEmployeeFilter(filter);
             return GetEmployees(employeeFilter);
         }
         public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter)
         {
-			var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
+            LoadCache();
+            var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
 			var employees = employeesResult.Result.Select(ConvertEmployee).ToList();

@@ -28,22 +28,9 @@ namespace FiresecService.Report.Templates
 		{
 			var filter = GetFilter<ReportFilter424>();
 
-			var employees = dataProvider.GetEmployees(filter);
-
-			if (filter.Employees == null)
-				filter.Employees = new List<Guid>();
-			if (filter.Departments == null)
-				filter.Departments = new List<Guid>();
-			if (filter.Positions == null)
-				filter.Positions = new List<Guid>();
-			if (filter.Organisations == null)
-				filter.Organisations = new List<Guid>();
-			var employeeFilter = new EmployeeFilter();
-			employeeFilter.OrganisationUIDs = filter.Organisations;
-			employeeFilter.DepartmentUIDs = filter.Departments;
-			employeeFilter.PositionUIDs = filter.Positions;
-			employeeFilter.UIDs = filter.Employees;
-			var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
+            var employeeFilter = dataProvider.GetEmployeeFilter(filter);
+            var employees = dataProvider.GetEmployees(employeeFilter);
+            var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new DataSet424();
 			foreach (var employee in employees)
