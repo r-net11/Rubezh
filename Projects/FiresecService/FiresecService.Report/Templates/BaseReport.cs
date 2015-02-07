@@ -77,7 +77,7 @@ namespace FiresecService.Report.Templates
 				UpdateDataSource(dataProvider);
 				DataSource = DataSet;
 #if DEBUG
-				PrintFilter();
+				//PrintFilter();
 #endif
 				ApplySort();
 			}

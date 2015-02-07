@@ -8,7 +8,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider418 : FilteredSKDReportProvider<ReportFilter418>
 	{
 		public ReportProvider418()
-			: base("Report418", "418. Справка о сотруднике/посетителе", 418, SKDReportGroup.HR)
+			: base("Report418", "Справка о сотруднике/посетителе", 418, SKDReportGroup.HR)
 		{
 		}
 

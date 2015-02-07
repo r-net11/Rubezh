@@ -8,7 +8,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider424 : FilteredSKDReportProvider<ReportFilter424>
 	{
 		public ReportProvider424()
-			: base("Report424", "424. Справка по отработанному времени", 424, SKDReportGroup.TimeTracking)
+			: base("Report424", "Справка по отработанному времени", 424, SKDReportGroup.TimeTracking)
 		{
 		}
 

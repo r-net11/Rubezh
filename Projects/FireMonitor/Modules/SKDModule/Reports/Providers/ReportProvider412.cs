@@ -8,7 +8,7 @@ namespace SKDModule.Reports.Providers
 	public class ReportProvider412 : FilteredSKDReportProvider<ReportFilter412>
 	{
 		public ReportProvider412()
-			: base("Report412", "412. Доступ в зоны сотрудников/посетителей", 412, SKDReportGroup.HR)
+			: base("Report412", "Доступ в зоны сотрудников/посетителей", 412, SKDReportGroup.HR)
 		{
 		}
 
