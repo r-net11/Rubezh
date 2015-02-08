@@ -47,7 +47,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var documentFilter = filter as ReportFilter423;
+			var documentFilter = filter as DocumentsReportFilter;
 			if (documentFilter == null)
 				return;
 			Overtime = documentFilter.Overtime;
@@ -56,7 +56,7 @@ namespace SKDModule.Reports.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			var documentFilter = filter as ReportFilter423;
+			var documentFilter = filter as DocumentsReportFilter;
 			if (documentFilter == null)
 				return;
 			documentFilter.Overtime = Overtime;

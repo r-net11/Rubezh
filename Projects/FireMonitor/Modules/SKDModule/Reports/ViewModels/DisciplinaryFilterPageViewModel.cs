@@ -107,7 +107,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var disciplinaryFilter = filter as ReportFilter421;
+			var disciplinaryFilter = filter as DisciplineReportFilter;
 			if (disciplinaryFilter == null)
 				return;
 			ShowAllViolation = disciplinaryFilter.ShowAllViolation;
@@ -122,7 +122,7 @@ namespace SKDModule.Reports.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			var disciplinaryFilter = filter as ReportFilter421;
+			var disciplinaryFilter = filter as DisciplineReportFilter;
 			if (disciplinaryFilter == null)
 				return;
 			disciplinaryFilter.ShowAllViolation = ShowAllViolation;
