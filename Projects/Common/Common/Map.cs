@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Markup;
 
 namespace Common
 {
@@ -40,6 +41,15 @@ namespace Common
 		{
 			if (items == null && Builder != null)
 				items = Builder();
+			var sdfsd = items;
+			foreach (var item in items)
+			{
+				int ss = sdfsd.ToList().FindAll(x => x.UID == item.UID).Count;
+				if (ss > 1)
+				{
+					var s = sdfsd.ToList().FindLastIndex(x => x.UID == new Guid("3ad99076-ed84-41b8-8b0b-3f170c55ce2c"));
+				}
+			}
 			_map = items == null ? new Dictionary<Guid, T>() : items.ToDictionary(KeySelecter);
 		}
 

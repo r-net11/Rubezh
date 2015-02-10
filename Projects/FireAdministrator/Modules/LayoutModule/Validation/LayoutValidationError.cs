@@ -34,7 +34,7 @@ namespace LayoutModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/BLayouts.png"; }
+			get { return "BLayouts"; }
 		}
 	}
 }

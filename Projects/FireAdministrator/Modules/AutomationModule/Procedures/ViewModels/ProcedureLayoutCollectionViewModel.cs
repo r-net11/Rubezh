@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
 using FiresecClient;
@@ -50,6 +51,7 @@ namespace AutomationModule.ViewModels
 					ProcedureLayoutCollection.LayoutsUIDs.Add(Layout.UID);
 				else if (!value)
 					ProcedureLayoutCollection.LayoutsUIDs.Remove(Layout.UID);
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsChecked);
 			}
 		}

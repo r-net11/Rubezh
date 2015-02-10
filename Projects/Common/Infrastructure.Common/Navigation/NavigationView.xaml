@@ -19,7 +19,7 @@
 								<Setter Property="FontSize" Value="11" />
 								<Setter Property="VerticalAlignment" Value="Center" />
 								<Setter Property="Margin" Value="10, 0, 0, 0" />
-								<Setter Property="Foreground" Value="{DynamicResource ForegroundColorLight}" />
+								<Setter Property="Foreground" Value="{DynamicResource NavigationForegroundColor}" />
 							</Style>
 							<Style TargetType="{x:Type Image}">
 								<Setter Property="Height" Value="24" />
