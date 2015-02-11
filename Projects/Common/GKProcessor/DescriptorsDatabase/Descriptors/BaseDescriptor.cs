@@ -88,12 +88,19 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Kau)
 			{
+				foreach (var inputGKBase in GKBase.InputGKBases)
+				{
+					if (inputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
+						continue;
+					var no = inputGKBase.GKDescriptorNo;
+					InputDependenses.AddRange(BitConverter.GetBytes(no));
+				}
 				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
 					//if ((outputGKBase is GKGuardZone) && (outputGKBase as GKGuardZone).GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
 					//	return;
 					if (outputGKBase.KauDatabaseParent != GKBase.KauDatabaseParent)
-						return;
+						continue;
 					var no = outputGKBase.KAUDescriptorNo;
 					OutputDependenses.AddRange(BitConverter.GetBytes(no));
 				}

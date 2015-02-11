@@ -27,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.Report", "Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RviClient", "..\Common\RviClient\RviClient.csproj", "{112658EB-3244-4922-AEF7-6376E688B7A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestReport", "TestReport\TestReport.csproj", "{632E316D-EFF3-4FFC-B464-48B0F1921E62}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -210,22 +208,6 @@ Global
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|Win32.ActiveCfg = Release|Any CPU
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|x64.ActiveCfg = Release|Any CPU
 		{112658EB-3244-4922-AEF7-6376E688B7A7}.Release|x86.ActiveCfg = Release|Any CPU
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|Mixed Platforms.ActiveCfg = Debug|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|Mixed Platforms.Build.0 = Debug|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|Win32.ActiveCfg = Debug|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|x64.ActiveCfg = Debug|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|x64.Build.0 = Debug|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Debug|x86.ActiveCfg = Debug|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|Mixed Platforms.ActiveCfg = Release|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|Mixed Platforms.Build.0 = Release|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|Win32.ActiveCfg = Release|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|x64.ActiveCfg = Release|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|x64.Build.0 = Release|X64
-		{632E316D-EFF3-4FFC-B464-48B0F1921E62}.Release|x86.ActiveCfg = Release|X64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

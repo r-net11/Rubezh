@@ -180,6 +180,8 @@ namespace FiresecAPI.GK
 
 		void AddInputOutputObject(List<GKBase> objects, GKBase newObject)
 		{
+			if(objects == null)
+				objects = new List<GKBase>();
 			if (objects.All(x => x.UID != newObject.UID))
 				objects.Add(newObject);
 		}
@@ -257,6 +259,7 @@ namespace FiresecAPI.GK
 			inputObjects.RemoveAll(x => x.UID == gkBase.UID);
 			foreach (var inputObject in new List<GKBase>(inputObjects))
 			{
+				inputObject.PrepareInputOutputDependences();
 				if (result.All(x => x.UID != inputObject.UID))
 					result.Add(inputObject);
 				else
