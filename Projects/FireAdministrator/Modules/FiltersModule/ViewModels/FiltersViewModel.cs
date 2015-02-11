@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
@@ -23,6 +24,8 @@ namespace FiltersModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			RegisterShortcuts();
 			SetRibbonItems();
+			ServiceFactory.Events.GetEvent<CreateFilterEvent>().Unsubscribe(OnAdd);
+			ServiceFactory.Events.GetEvent<CreateFilterEvent>().Subscribe(OnAdd);
 		}
 
 		public void Initialize()
@@ -70,6 +73,11 @@ namespace FiltersModule.ViewModels
 				Filters.Add(filterViewModel);
 				SelectedFilter = filterViewModel;
 			}
+		}
+
+		void OnAdd(object obj)
+		{
+			OnAdd();
 		}
 
 		bool CanAdd()
