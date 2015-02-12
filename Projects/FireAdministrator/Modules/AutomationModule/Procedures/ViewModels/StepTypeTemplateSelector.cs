@@ -23,7 +23,6 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlGKFireZoneTemplate { get; set; }
 		public DataTemplate ControlGKGuardZoneTemplate { get; set; }
 		public DataTemplate ControlSKDZoneTemplate { get; set; }
-		public DataTemplate ControlCameraTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
 		public DataTemplate ControlDoorTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
@@ -49,6 +48,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ImportOrganisationListTemplate { get; set; }
 		public DataTemplate SetJournalItemTemplate { get; set; }
 		public DataTemplate PtzTemplate { get; set; }
+		public DataTemplate StartRecordTemplate { get; set; }
+		public DataTemplate StopRecordTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -88,8 +89,6 @@ namespace AutomationModule.ViewModels
 				return ControlGKGuardZoneTemplate;
 			if (item is ControlSKDZoneStepViewModel)
 				return ControlSKDZoneTemplate;
-			if (item is ControlCameraStepViewModel)
-				return ControlCameraTemplate;
 			if (item is ControlDirectionStepViewModel)
 				return ControlDirectionTemplate;
 			if (item is ControlDoorStepViewModel)
@@ -140,6 +139,10 @@ namespace AutomationModule.ViewModels
 				return ImportOrganisationListTemplate;
 			if (item is PtzStepViewModel)
 				return PtzTemplate;
+			if (item is StartRecordStepViewModel)
+				return StartRecordTemplate;
+			if (item is StopRecordStepViewModel)
+				return StopRecordTemplate;
 			return null;
 		}
 	}

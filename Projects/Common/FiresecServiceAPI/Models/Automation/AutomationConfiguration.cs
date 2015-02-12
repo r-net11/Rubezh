@@ -273,15 +273,6 @@ namespace FiresecAPI.Automation
 					}
 					break;
 
-				case ProcedureStepType.ControlCamera:
-					{
-						var controlCameraArguments = step.ControlCameraArguments;
-						InvalidateArgument(procedure, controlCameraArguments.CameraArgument);
-						InvalidateArgument(procedure, controlCameraArguments.EventUIDArgument);
-						InvalidateArgument(procedure, controlCameraArguments.TimeoutArgument);
-					}
-					break;
-
 				case ProcedureStepType.ControlDelay:
 					{
 						var controlDelayArguments = step.ControlDelayArguments;
@@ -399,12 +390,26 @@ namespace FiresecAPI.Automation
 				case ProcedureStepType.SetJournalItemGuid:
 					InvalidateArgument(procedure, step.SetJournalItemGuidArguments.ValueArgument);
 					break;
-
 				case ProcedureStepType.Ptz:
 					{
 						var arguments = step.PtzArguments;
 						InvalidateArgument(procedure, arguments.CameraArgument);
 						InvalidateArgument(procedure, arguments.PtzNumberArgument);
+						break;
+					}
+				case ProcedureStepType.StartRecord:
+					{
+						var arguments = step.StartRecordArguments;
+						InvalidateArgument(procedure, arguments.CameraArgument);
+						InvalidateArgument(procedure, arguments.EventUIDArgument);
+						InvalidateArgument(procedure, arguments.TimeoutArgument);
+						break;
+					}
+				case ProcedureStepType.StopRecord:
+					{
+						var arguments = step.StopRecordArguments;
+						InvalidateArgument(procedure, arguments.CameraArgument);
+						InvalidateArgument(procedure, arguments.EventUIDArgument);
 						break;
 					}
 			}

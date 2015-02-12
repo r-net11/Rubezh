@@ -31,7 +31,6 @@ namespace FiresecAPI.Automation
 			ControlDirectionArguments = new ControlDirectionArguments();
 			ControlDoorArguments = new ControlDoorArguments();
 			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
-			ControlCameraArguments = new ControlCameraArguments();
 			JournalArguments = new JournalArguments();
 			GetObjectPropertyArguments = new GetObjectPropertyArguments();
 			SendEmailArguments = new SendEmailArguments();
@@ -54,6 +53,8 @@ namespace FiresecAPI.Automation
 			GenerateGuidArguments = new GenerateGuidArguments();
 			SetJournalItemGuidArguments = new SetJournalItemGuidArguments();
 			PtzArguments = new PtzArguments();
+			StartRecordArguments = new StartRecordArguments();
+			StopRecordArguments = new StopRecordArguments();
 		}
 
 		[XmlIgnore]
@@ -138,9 +139,6 @@ namespace FiresecAPI.Automation
 		public ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
 
 		[DataMember]
-		public ControlCameraArguments ControlCameraArguments { get; set; }
-
-		[DataMember]
 		public ControlDelayArguments ControlDelayArguments { get; set; }
 
 		[DataMember]
@@ -199,5 +197,11 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public PtzArguments PtzArguments { get; set; }
+
+		[DataMember]
+		public StartRecordArguments StartRecordArguments { get; set; }
+		
+		[DataMember]
+		public StopRecordArguments StopRecordArguments { get; set; }
 	}
 }

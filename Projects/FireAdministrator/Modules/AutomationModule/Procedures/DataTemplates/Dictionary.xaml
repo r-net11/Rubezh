@@ -152,10 +152,6 @@
 		<Views:ControlSKDZoneStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="controlCameraTemplate">
-		<Views:ControlCameraStepView />
-	</DataTemplate>
-
 	<DataTemplate x:Key="controlDirectionTemplate">
 		<Views:ControlDirectionStepView />
 	</DataTemplate>
@@ -256,12 +252,19 @@
 		<Views:PtzStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="startRecordTemplate">
+		<Views:StartRecordStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="stopRecordTemplate">
+		<Views:StopRecordStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
 										 CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
 										 ConditionTemplate="{StaticResource conditionTemplate}"
-										 ControlCameraTemplate="{StaticResource controlCameraTemplate}"
 										 ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
 										 ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 										 ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
@@ -300,5 +303,7 @@
 										 ExportOrganisationListTemplate="{StaticResource exportOrganisationListTemplate}" 
 										 SetJournalItemTemplate="{StaticResource setJournalItemTemplate}"
 										 ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}"
-										 PtzTemplate="{StaticResource ptzTemplate}" />
+										 PtzTemplate="{StaticResource ptzTemplate}"
+										 StartRecordTemplate="{StaticResource startRecordTemplate}"
+										 StopRecordTemplate="{StaticResource stopRecordTemplate}" />
 </ResourceDictionary>

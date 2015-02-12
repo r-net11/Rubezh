@@ -103,9 +103,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление зоной СКД")]
 		ControlSKDZone,
 
-		[DescriptionAttribute("Управление видеоустройством")]
-		ControlCamera,
-
 		[DescriptionAttribute("Управление направлением")]
 		ControlDirection,
 
@@ -161,6 +158,12 @@ namespace FiresecAPI.Automation
 		ImportOrganisationList,
 
 		[DescriptionAttribute("Ptz камеры")]
-		Ptz
+		Ptz,
+
+		[DescriptionAttribute("Начать запись")]
+		StartRecord,
+
+		[DescriptionAttribute("Остановить запись")]
+		StopRecord
 	}
 }

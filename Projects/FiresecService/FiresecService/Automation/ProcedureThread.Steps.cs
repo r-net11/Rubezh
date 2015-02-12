@@ -623,38 +623,40 @@ namespace FiresecService
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
-		void ControlCamera(ProcedureStep procedureStep)
+		void StartRecord(ProcedureStep procedureStep)
 		{
-			var cameraArguments = procedureStep.ControlCameraArguments;
-			var cameraUid = GetValue<Guid>(cameraArguments.CameraArgument);
+			var startRecordArguments = procedureStep.StartRecordArguments;
+			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
 			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 			if (camera == null)
 				return;
+			var eventUIDString = GetValue<String>(startRecordArguments.EventUIDArgument);
+			Guid eventUID;
+			if (CheckGuid(eventUIDString))
+			{
+				eventUID = new Guid(eventUIDString);
+			}
+			else
+			{
+				return;
+			}
+			using (var journalTranslator = new JounalTranslator())
+			{
+				journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUid);
+			}
+			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
+			RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
+		}
 
-			if (cameraArguments.CameraCommandType == CameraCommandType.StartRecord)
-			{
-				var eventUIDString = GetValue<String>(cameraArguments.EventUIDArgument);
-				Guid eventUID;
-				if (CheckGuid(eventUIDString))
-				{
-					eventUID = new Guid(eventUIDString);
-				}
-				else
-				{
-					return;
-				}
-				using (var journalTranslator = new JounalTranslator())
-				{
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUid);
-				}
-				var timeout = GetValue<int>(cameraArguments.TimeoutArgument);
-				RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);
-			}
-			if (cameraArguments.CameraCommandType == CameraCommandType.StopRecord)
-			{
-				var eventUID = GetValue<Guid>(cameraArguments.EventUIDArgument);
-				RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);
-			}
+		private void StopRecord(ProcedureStep procedureStep)
+		{
+			var stopRecordArguments = procedureStep.StopRecordArguments;
+			var cameraUid = GetValue<Guid>(stopRecordArguments.CameraArgument);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			if (camera == null)
+				return;
+			var eventUID = GetValue<Guid>(stopRecordArguments.EventUIDArgument);
+			RviClient.RviClientHelper.VideoRecordStop(ConfigurationCashHelper.SystemConfiguration, camera, eventUID);
 		}
 
 		public void Ptz(ProcedureStep procedureStep)
@@ -964,13 +966,13 @@ namespace FiresecService
 			var maxDate = GetValue<DateTime>(arguments.MaxDateArgument);
 			var path = GetValue<string>(arguments.PathArgument);
 			var result = FiresecServiceManager.SafeFiresecService.ExportJournal(
-				new JournalExportFilter 
-				{ 
-					IsExportJournal = isExportJournal, 
-					IsExportPassJournal = isExportPassJournal, 
-					MaxDate = maxDate, 
-					MinDate = minDate, 
-					Path = path 
+				new JournalExportFilter
+				{
+					IsExportJournal = isExportJournal,
+					IsExportPassJournal = isExportPassJournal,
+					MaxDate = maxDate,
+					MinDate = minDate,
+					Path = path
 				});
 			//if (result.HasError)
 			//    BalloonHelper.ShowFromServer("Экспорт журнала " + result.Error);

@@ -263,10 +263,6 @@ namespace FiresecService
 					ControlGKDevice(procedureStep);
 					break;
 
-				case ProcedureStepType.ControlCamera:
-					ControlCamera(procedureStep);
-					break;
-
 				case ProcedureStepType.ControlGKFireZone:
 					ControlFireZone(procedureStep);
 					break;
@@ -385,6 +381,14 @@ namespace FiresecService
 
 				case ProcedureStepType.Ptz:
 					Ptz(procedureStep);
+					break;
+
+				case ProcedureStepType.StartRecord:
+					StartRecord(procedureStep);
+					break;
+
+				case ProcedureStepType.StopRecord:
+					StopRecord(procedureStep);
 					break;
 			}
 			return Result.Normal;

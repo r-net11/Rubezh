@@ -228,13 +228,6 @@ namespace AutomationModule.Validation
 					}
 					break;
 
-				case ProcedureStepType.ControlCamera:
-					{
-						var controlCameraArguments = step.ControlCameraArguments;
-						ValidateArgument(step, controlCameraArguments.CameraArgument);
-					}
-					break;
-
 				case ProcedureStepType.GetObjectProperty:
 					{
 						var getObjectPropertyArguments = step.GetObjectPropertyArguments;
@@ -363,48 +356,60 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.ExportJournal:
 					{
 						var arguments = step.ExportJournalArguments;
-						ValidateArgument(step, arguments.IsExportJournalArgument);
-						ValidateArgument(step, arguments.IsExportPassJournalArgument);
-						ValidateArgument(step, arguments.MaxDateArgument);
-						ValidateArgument(step, arguments.MinDateArgument);
+						if (!ValidateArgument(step, arguments.IsExportJournalArgument))
+							break;
+						if (!ValidateArgument(step, arguments.IsExportPassJournalArgument))
+							break;
+						if (!ValidateArgument(step, arguments.MaxDateArgument))
+							break;
+						if (!ValidateArgument(step, arguments.MinDateArgument))
+							break;
 						ValidateArgument(step, arguments.PathArgument);
-						break;
+							break;
 					}
 				case ProcedureStepType.ExportConfiguration:
 					{
 						var arguments = step.ExportConfigurationArguments;
-						ValidateArgument(step, arguments.IsExportDevices);
-						ValidateArgument(step, arguments.IsExportDoors);
-						ValidateArgument(step, arguments.IsExportZones);
+						if (!ValidateArgument(step, arguments.IsExportDevices))
+							break;
+						if (!ValidateArgument(step, arguments.IsExportDoors))
+							break;
+						if (!ValidateArgument(step, arguments.IsExportZones))
+							break;
 						ValidateArgument(step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ExportOrganisation:
 					{
 						var arguments = step.ExportOrganisationArguments;
-						ValidateArgument(step, arguments.IsWithDeleted);
-						ValidateArgument(step, arguments.Organisation);
+						if (!ValidateArgument(step, arguments.IsWithDeleted))
+							break;
+						if (!ValidateArgument(step, arguments.Organisation))
+							break;
 						ValidateArgument(step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ExportOrganisationList:
 					{
 						var arguments = step.ImportOrganisationArguments;
-						ValidateArgument(step, arguments.IsWithDeleted);
+						if (!ValidateArgument(step, arguments.IsWithDeleted))
+							break;
 						ValidateArgument(step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ImportOrganisationList:
 					{
 						var arguments = step.ImportOrganisationArguments;
-						ValidateArgument(step, arguments.IsWithDeleted);
+						if (!ValidateArgument(step, arguments.IsWithDeleted))
+							break;
 						ValidateArgument(step, arguments.PathArgument);
 						break;
 					}
 				case ProcedureStepType.ImportOrganisation:
 					{
 						var arguments = step.ImportOrganisationArguments;
-						ValidateArgument(step, arguments.IsWithDeleted);
+						if (!ValidateArgument(step, arguments.IsWithDeleted))
+							break;
 						ValidateArgument(step, arguments.PathArgument);
 						break;
 					}
@@ -412,8 +417,27 @@ namespace AutomationModule.Validation
 				case ProcedureStepType.Ptz:
 					{
 						var arguments = step.PtzArguments;
-						ValidateArgument(step, arguments.CameraArgument);
+						if (!ValidateArgument(step, arguments.CameraArgument))
+							break;
 						ValidateArgument(step, arguments.PtzNumberArgument);
+						break;
+					}
+				case ProcedureStepType.StartRecord:
+					{
+						var arguments = step.StartRecordArguments;
+						if (!ValidateArgument(step, arguments.CameraArgument))
+							break;
+						if (!ValidateArgument(step, arguments.EventUIDArgument))
+							break;
+						ValidateArgument(step, arguments.TimeoutArgument);
+						break;
+					}
+				case ProcedureStepType.StopRecord:
+					{
+						var arguments = step.StopRecordArguments;
+						if (!ValidateArgument(step, arguments.CameraArgument))
+							break;
+						ValidateArgument(step, arguments.EventUIDArgument);
 						break;
 					}
 			}

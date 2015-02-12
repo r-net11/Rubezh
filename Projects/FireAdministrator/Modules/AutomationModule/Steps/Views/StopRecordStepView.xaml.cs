@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class ControlCameraStepView
+	public partial class StopRecordStepView
 	{
-		public ControlCameraStepView()
+		public StopRecordStepView()
 		{
 			InitializeComponent();
 		}
