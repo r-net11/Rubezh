@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using Infrastructure.Common.SKDReports;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -71,9 +69,12 @@ namespace SKDModule.Reports.ViewModels
 				return;
 			employeeFilter.Employees = Filter.UIDs;
 			employeeFilter.IsSearch = Filter.IsSearch;
-			employeeFilter.LastName = Filter.LastName;
-			employeeFilter.FirstName = Filter.FirstName;
-			employeeFilter.SecondName = Filter.SecondName;
+			if (Filter.IsSearch)
+			{
+				employeeFilter.LastName = Filter.LastName;
+				employeeFilter.FirstName = Filter.FirstName;
+				employeeFilter.SecondName = Filter.SecondName;
+			}
 			if (AllowVisitor)
 				((IReportFilterEmployeeAndVisitor)employeeFilter).IsEmployee = IsEmployee;
 		}

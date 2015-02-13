@@ -59,6 +59,8 @@ namespace SKDModule.ViewModels
 			var detailsViewModel = new TDetailsViewModel();
 			if (detailsViewModel.Initialize(organisation, model, this) && DialogService.ShowModalWindow(detailsViewModel))
 				result = detailsViewModel.Model;
+			else
+				return null;
 			return result;
 		}
 
@@ -268,16 +270,21 @@ namespace SKDModule.ViewModels
 			var model = ShowDetails(SelectedItem.Organisation);
 			if (model == null)
 				return;
-			var itemViewModel = new TViewModel();
-			itemViewModel.InitializeModel(SelectedItem.Organisation, model, this);
-			var parentViewModel = GetParentItem();
-			parentViewModel.AddChild(itemViewModel);
-			SelectedItem = itemViewModel;
+			if (IsAddViewModel(model))
+			{
+				var itemViewModel = new TViewModel();
+				itemViewModel.InitializeModel(SelectedItem.Organisation, model, this);
+				var parentViewModel = GetParentItem();
+				parentViewModel.AddChild(itemViewModel);
+				SelectedItem = itemViewModel;
+			}
 		}
 		bool CanAdd()
 		{
 			return SelectedItem != null && !SelectedItem.IsDeleted && IsEditAllowed;
 		}
+
+		protected virtual bool IsAddViewModel(TModel model) { return true; }
 
 		protected virtual TViewModel GetParentItem()
 		{
@@ -294,14 +301,6 @@ namespace SKDModule.ViewModels
 		}
 		protected virtual void Remove()
 		{
-			TViewModel OrganisationViewModel = SelectedItem;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedItem.Parent;
-
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
-
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedItem);
 			var model = SelectedItem.Model;
 			var removeResult = MarkDeleted(model);
 			if (!removeResult)
@@ -313,14 +312,26 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				OrganisationViewModel.RemoveChild(SelectedItem);
-				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-				if (index > -1)
-					SelectedItem = OrganisationViewModel.Children.ToList()[index];
-				else
-					SelectedItem = OrganisationViewModel;
+				RemoveSelectedViewModel();
 			}
 			AfterRemove();
+		}
+		void RemoveSelectedViewModel()
+		{
+			TViewModel OrganisationViewModel = SelectedItem;
+			if (!OrganisationViewModel.IsOrganisation)
+				OrganisationViewModel = SelectedItem.Parent;
+
+			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+				return;
+
+			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedItem);
+			OrganisationViewModel.RemoveChild(SelectedItem);
+			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+			if (index > -1)
+				SelectedItem = OrganisationViewModel.Children.ToList()[index];
+			else
+				SelectedItem = OrganisationViewModel;
 		}
 		bool CanRemove()
 		{
@@ -363,8 +374,15 @@ namespace SKDModule.ViewModels
 			var model = ShowDetails(SelectedItem.Organisation, SelectedItem.Model);
 			if (model != null)
 			{
-				SelectedItem.Update(model);
-				UpdateSelected();
+				if (IsAddViewModel(model))
+				{
+					SelectedItem.Update(model);
+					UpdateSelected();
+				}
+				else
+				{
+					RemoveSelectedViewModel();
+				}
 			}
 		}
 		bool CanEdit()

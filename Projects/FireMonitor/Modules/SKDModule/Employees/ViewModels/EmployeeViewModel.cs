@@ -113,6 +113,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool IsGuest { get { return !IsOrganisation && Model.Type == PersonType.Guest; } }
+
 		#region Cards
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 

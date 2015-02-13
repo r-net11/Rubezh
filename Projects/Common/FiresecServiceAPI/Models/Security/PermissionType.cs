@@ -205,10 +205,10 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Создание, редактирование, архивирование, восстановление графиков")]
 		Oper_SKD_TimeTrack_ScheduleSchemes_Edit,
 
-		[DescriptionAttribute("Просмотр праздничных дней")]
+		[DescriptionAttribute("Просмотр сокращённых дней")]
 		Oper_SKD_TimeTrack_Holidays_View,
 
-		[DescriptionAttribute("Добавление, редактирование, архивирование, восстановление праздничных дней")]
+		[DescriptionAttribute("Добавление, редактирование, архивирование, восстановление сокращённых дней")]
 		Oper_SKD_TimeTrack_Holidays_Edit,
 
 		[DescriptionAttribute("Просмотр графиков работ")]

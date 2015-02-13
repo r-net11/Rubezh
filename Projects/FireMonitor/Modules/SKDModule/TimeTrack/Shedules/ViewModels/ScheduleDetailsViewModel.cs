@@ -121,6 +121,8 @@ namespace SKDModule.ViewModels
 			Model.AllowedLate = AllowedLate;
 			Model.AllowedEarlyLeave = AllowedEarlyLeave;
 			Model.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			return ScheduleHelper.Save(Model, _isNew);
 		}
 

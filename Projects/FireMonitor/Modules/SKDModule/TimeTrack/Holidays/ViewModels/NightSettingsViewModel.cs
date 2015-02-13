@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 		
 		public NightSettingsViewModel(Guid organisationUID)
 		{
-			Title = "Настройки вечерних и ночных интервалов";
+			Title = "Настройки ночных интервалов";
 			NightSettings = NightSettingsHelper.GetByOrganisation(organisationUID);
 			if (NightSettings == null)
 				NightSettings = new NightSettings { OrganisationUID = organisationUID };

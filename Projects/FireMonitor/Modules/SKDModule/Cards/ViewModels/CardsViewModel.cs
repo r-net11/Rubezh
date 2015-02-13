@@ -68,6 +68,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 			rootItem.IsExpanded = true;
+			RootItems = new ObservableCollection<CardViewModel>(RootItems.OrderBy(x => x.IsDeactivatedRootItem));
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
 		}

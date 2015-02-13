@@ -237,6 +237,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
+			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, timeTrackDocument.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(timeTrackDocument);
@@ -244,6 +245,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
+			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, timeTrackDocument.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(timeTrackDocument);

@@ -35,6 +35,7 @@ namespace SKDModule.ViewModels
 		public HRViewModel()
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
+			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -221,7 +222,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
-			var filterViewModel = new HRFilterViewModel(Filter, IsEmployeesSelected || IsCardsSelected);
+			var filterViewModel = new HRFilterViewModel(Filter, IsEmployeesSelected || IsCardsSelected, SelectedPersonType == PersonType.Employee);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				Filter = filterViewModel.Filter;
@@ -229,6 +230,13 @@ namespace SKDModule.ViewModels
 				InitializeFilters();
 			}
 		}
+		public RelayCommand ChangeIsDeletedCommand { get; private set; }
+		void OnChangeIsDeleted()
+		{
+			IsWithDeleted = !IsWithDeleted;
+		}
+
+		
 
 		void InitializeFilters()
 		{

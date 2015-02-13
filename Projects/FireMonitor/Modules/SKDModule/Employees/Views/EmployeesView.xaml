@@ -142,7 +142,27 @@
 								<TextBlock Width="100" Margin="2" Text="Телефон" />
 								<TextBlock Margin="2" Text="{Binding Model.Phone}" />
 							</StackPanel>
-						</StackPanel>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource BoolToVisibilityConverter}}" >
+                                <TextBlock Width="100" Margin="2" Text="Примечание" />
+                                <TextBlock Margin="2" Text="{Binding Model.Description}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+                                <TextBlock Width="100" Margin="2" Text="Должность" />
+                                <TextBlock Margin="2" Text="{Binding Model.PositionName}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Width="100" Margin="2" Text="Подразделение" />
+                                <TextBlock Margin="2" Text="{Binding Model.DepartmentName}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Width="100" Margin="2" Text="Организация" />
+                                <TextBlock Margin="2" Text="{Binding Model.OrganisationName}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding Model.IsDeleted, Converter={StaticResource BoolToVisibilityConverter}}" >
+                                <TextBlock Width="100" Margin="2" Text="Дата удаления" />
+                                <TextBlock Margin="2" Text="{Binding Model.RemovalDate}" />
+                            </StackPanel>
+                        </StackPanel>
 						<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
 					</Grid>
 				</Border>

@@ -4,8 +4,6 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -14,7 +12,6 @@ namespace SKDModule.ViewModels
 	{
 		public HolidaysViewModel():base()
 		{
-			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
 			InitializeYears();
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 		}
@@ -82,17 +79,6 @@ namespace SKDModule.ViewModels
 			Initialize(filter);
 		}
 
-		public RelayCommand ShowSettingsCommand { get; private set; }
-		void OnShowSettings()
-		{
-			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
-			DialogService.ShowModalWindow(nightSettingsViewModel);
-		}
-		bool CanShowSettings()
-		{
-			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
-		}
-
 		protected override bool Add(Holiday item)
 		{
 			return HolidayHelper.Save(item, true);
@@ -120,13 +106,18 @@ namespace SKDModule.ViewModels
 
 		protected override string ItemRemovingName
 		{
-			get { return "праздничный день"; }
+			get { return "сокращённый день"; }
 		}
 
 
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit; }
+		}
+
+		protected override bool IsAddViewModel(Holiday model)
+		{
+			return model.Date.Year == SelectedYear && base.IsAddViewModel(model);
 		}
 	}
 }

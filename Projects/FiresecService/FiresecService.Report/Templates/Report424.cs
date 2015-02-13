@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
-using System.Data;
-using FiresecAPI.SKD.ReportFilters;
-using SKDDriver;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
@@ -43,6 +38,12 @@ namespace FiresecService.Report.Templates
 			employeeFilter.DepartmentUIDs = filter.Departments;
 			employeeFilter.PositionUIDs = filter.Positions;
 			employeeFilter.UIDs = filter.Employees;
+			if (filter.IsSearch)
+			{
+				employeeFilter.FirstName = filter.FirstName;
+				employeeFilter.SecondName = filter.SecondName;
+				employeeFilter.LastName = filter.LastName;
+			}
 			var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new DataSet424();

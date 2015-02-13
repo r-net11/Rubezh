@@ -116,6 +116,7 @@ namespace SKDModule.ViewModels
 					TransitionType = item.TransitionType
 				};
 				copy.DayIntervalParts.Add(dayIntervalPart);
+				copy.SlideTime = source.SlideTime;
 			}
 			return copy;
 		}
@@ -130,5 +131,7 @@ namespace SKDModule.ViewModels
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit; }
 		}
+
+
 	}
 }

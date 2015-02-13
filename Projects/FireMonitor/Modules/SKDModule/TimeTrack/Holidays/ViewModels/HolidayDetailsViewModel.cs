@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Organisation = FiresecAPI.SKD.Organisation;
 
@@ -24,22 +23,23 @@ namespace SKDModule.ViewModels
 			_isNew = holiday == null;
 			if (_isNew)
 			{
-				Title = "Новый праздничный день";
+				Title = "Новый сокращённый день";
 				holiday = new Holiday()
 				{
-					Name = "Название праздника",
+					Name = "Название сокращённого дня",
 					OrganisationUID = Organisation.UID,
 					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
 				};
 			}
 			else
 			{
-				Title = "Редактирование праздничного дня";
+				Title = "Редактирование сокращённого дня";
 			}
 			Model = holiday;
 			Name = holiday.Name;
 			Date = holiday.Date;
-			Reduction = holiday.Reduction;
+
+			IsOneHourReduction = holiday.Reduction.Hours == 1;
 			TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
 
 			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
@@ -84,17 +84,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		TimeSpan _reduction;
-		public TimeSpan Reduction
-		{
-			get { return _reduction; }
-			set
-			{
-				_reduction = value;
-				OnPropertyChanged(() => Reduction);
-			}
-		}
-
 		DateTime _transferDate;
 		public DateTime TransferDate
 		{
@@ -103,6 +92,17 @@ namespace SKDModule.ViewModels
 			{
 				_transferDate = value;
 				OnPropertyChanged(() => TransferDate);
+			}
+		}
+
+		bool _IsOneHourReduction;
+		public bool IsOneHourReduction
+		{
+			get { return _IsOneHourReduction; }
+			set
+			{
+				_IsOneHourReduction = value;
+				OnPropertyChanged(() => IsOneHourReduction);
 			}
 		}
 
@@ -117,15 +117,10 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Reduction.TotalHours > 2)
-			{
-				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
-				return false;
-			}
 			Model.Name = Name;
 			Model.Date = Date;
 			Model.Type = HolidayType;
-			Model.Reduction = Reduction;
+			Model.Reduction = IsOneHourReduction ? new TimeSpan(1, 0, 0) : new TimeSpan(2, 0, 0);
 			Model.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;

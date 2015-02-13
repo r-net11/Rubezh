@@ -81,16 +81,19 @@
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel DataContext="{Binding OrganisationsViewModel}" Orientation="Horizontal">
-					<ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
-					<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
-					<ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
-					<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
-				</StackPanel>
-			</Grid>
-			<CheckBox Content="Отображать архивные сведения" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White" 
-					  IsChecked="{Binding IsWithDeleted}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<ToolBarButton ImageSource="filter"  ToolTip="Фильтр" 
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel DataContext="{Binding OrganisationsViewModel}" Orientation="Horizontal">
+                        <ToolBarButton Command="{Binding AddCommand}" ImageSource="Add"  ToolTip="Добавить" />
+                        <ToolBarButton Command="{Binding RemoveCommand}" ImageSource="Delete"  ToolTip="Удалить" />
+                        <ToolBarButton Command="{Binding EditCommand}" ImageSource="Edit"  ToolTip="Редактировать" />
+                        <ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить"  Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </StackPanel>
+                    <ToolBarButton ImageSource="Add" ToolTip="Отображать архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <ToolBarButton ImageSource="Delete" ToolTip="Отображать архивные сведения" Command="{Binding ChangeIsDeletedCommand}" Visibility="{Binding IsWithDeleted, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
+			
+            <ToolBarButton ImageSource="filter" ToolTip="Фильтр" 
 						   Command="{Binding EditFilterCommand}" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">

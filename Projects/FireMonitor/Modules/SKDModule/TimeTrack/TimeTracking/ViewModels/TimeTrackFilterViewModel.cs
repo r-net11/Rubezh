@@ -113,6 +113,12 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
+			if (Period == TimeTrackingPeriod.Period && StartDate.Date > DateTime.Now.Date)
+			{
+				MessageBoxService.ShowWarning("Указан несуществующий период");
+				return false;
+			}
+
 			TimeTrackFilter.Period = Period;
 			switch (Period)
 			{
@@ -121,7 +127,7 @@ namespace SKDModule.ViewModels
 					TimeTrackFilter.EndDate = DateTime.Today;
 					break;
 				case TimeTrackingPeriod.CurrentWeek:
-					TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - ((int)DateTime.Today.DayOfWeek + 1) % 7);
+					TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - ((int)DateTime.Today.DayOfWeek) % 7);
 					TimeTrackFilter.EndDate = DateTime.Today;
 					break;
 				case TimeTrackingPeriod.PreviousMonth:
@@ -131,8 +137,8 @@ namespace SKDModule.ViewModels
 					break;
 				case TimeTrackingPeriod.PreviousWeek:
 					var firstWeekDay = DateTime.Today.AddDays(1 - ((int)DateTime.Today.DayOfWeek + 1) % 7);
-					TimeTrackFilter.StartDate = firstWeekDay.AddDays(-7);
-					TimeTrackFilter.EndDate = firstWeekDay.AddDays(-1);
+					TimeTrackFilter.StartDate = firstWeekDay.AddDays(-6);
+					TimeTrackFilter.EndDate = firstWeekDay;
 					break;
 				case TimeTrackingPeriod.Period:
 					TimeTrackFilter.StartDate = StartDate;

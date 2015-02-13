@@ -32,11 +32,12 @@ namespace AutomationModule.ViewModels
 				ImageSource = "/Controls;component/StepIcons/" + procedureStepType + ".png";
 		}
 
-		public StepTypeViewModel(string folderName, List<StepTypeViewModel> children = null)
+		public StepTypeViewModel(string folderName, string imageSource, List<StepTypeViewModel> children = null)
 		{
 			Name = folderName;
 			IsFolder = true;
-			ImageSource = "/Controls;component/Images/CFolder.png";
+			//ImageSource = "/Controls;component/Images/CFolder.png";
+			ImageSource = imageSource;
 
 			if (children != null)
 				foreach (var child in children)

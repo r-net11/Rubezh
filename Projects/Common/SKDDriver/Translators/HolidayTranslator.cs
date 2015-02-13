@@ -38,7 +38,10 @@ namespace SKDDriver.Translators
 			//if (item.Type == HolidayType.WorkingHoliday && item.Date.DayOfWeek != DayOfWeek.Saturday && item.Date.DayOfWeek != DayOfWeek.Sunday)
 			//	return new OperationResult("Дата переноса устанавливается только на субботу или воскресенье");
 			if (Table.Any(x => x.UID != item.UID && x.OrganisationUID == item.OrganisationUID && x.Date.Date == item.Date.Date && !x.IsDeleted))
-				return new OperationResult("Дата праздника совпадает с введенной ранее");
+				return new OperationResult("Дата сокращённого дня совпадает с введенной ранее");
+			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name && x.Date.Year == item.Date.Year);
+			if (hasSameName)
+				return new OperationResult("Сокращённый день с таким же названием уже содержится в базе данных");
 			return new OperationResult();
 		}
 		protected override Holiday Translate(DataAccess.Holiday tableItem)

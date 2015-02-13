@@ -5,6 +5,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -24,6 +25,7 @@ namespace SKDModule.ViewModels
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Unsubscribe(OnUpdateFilter);
 			ServiceFactory.Events.GetEvent<UpdateFilterEvent>().Subscribe(OnUpdateFilter);
+			ShowSettingsCommand = new RelayCommand(OnShowSettings, CanShowSettings);
 		}
 
 		public void Initialize()
@@ -97,8 +99,8 @@ namespace SKDModule.ViewModels
 
 		protected override void Remove()
 		{
-			var isAnyEmployees = EmployeeHelper.Get(new EmployeeFilter { ScheduleUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() == 0;
-			if (MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?"))
+			var isAnyEmployees = EmployeeHelper.Get(new EmployeeFilter { ScheduleUIDs = new List<Guid> { SelectedItem.Model.UID } }).Count() != 0;
+			if (!isAnyEmployees || (isAnyEmployees && MessageBoxService.ShowQuestion("Существуют привязанные к графику сотрудники. Продолжить?")))
 			{
 				base.Remove();
 			}
@@ -148,6 +150,17 @@ namespace SKDModule.ViewModels
 				EmployeeUIDs = hrFilter.EmplooyeeUIDs
 			};
 			Initialize(filter);
+		}
+
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		void OnShowSettings()
+		{
+			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
+			DialogService.ShowModalWindow(nightSettingsViewModel);
+		}
+		bool CanShowSettings()
+		{
+			return ParentOrganisation != null && !ParentOrganisation.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Holidays_Edit);
 		}
 	}
 }

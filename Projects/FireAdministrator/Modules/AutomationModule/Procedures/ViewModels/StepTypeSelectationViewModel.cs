@@ -67,10 +67,10 @@ namespace AutomationModule.ViewModels
 
 		void BuildStepTypeTree()
 		{
-			RootStepType = new StepTypeViewModel("Реестр функций",
+			RootStepType = new StepTypeViewModel("Реестр функций", "/Controls;component/Images/CFolder.png",
 				new List<StepTypeViewModel>
 				{
-					new StepTypeViewModel("Операции",
+					new StepTypeViewModel("Операции", "/Controls;component/StepIcons/Arithmetics.png",
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
@@ -82,14 +82,14 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.GenerateGuid),
 							new StepTypeViewModel(ProcedureStepType.SetJournalItemGuid)
 						}),
-						new StepTypeViewModel("Функции управления списками",
+						new StepTypeViewModel("Функции управления списками", "/Controls;component/StepIcons/ChangeList.png",
 							new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.ChangeList),
 							new StepTypeViewModel(ProcedureStepType.GetListCount),
 							new StepTypeViewModel(ProcedureStepType.GetListItem)
 						}),
-						new StepTypeViewModel("Интерактивная логика",
+						new StepTypeViewModel("Интерактивная логика", "/Controls;component/StepIcons/PlaySound.png",
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.PlaySound),
@@ -103,7 +103,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.ShowDialog),
 							new StepTypeViewModel(ProcedureStepType.ShowProperty)
 						}),
-					new StepTypeViewModel("Служебные функции",
+					new StepTypeViewModel("Служебные функции", "/Controls;component/StepIcons/Exit.png",
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.Exit),
@@ -113,7 +113,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.CheckPermission),
 							new StepTypeViewModel(ProcedureStepType.GetJournalItem)
 						}),
-					new StepTypeViewModel("Функции цикла",
+					new StepTypeViewModel("Функции цикла", "/Controls;component/StepIcons/For.png",
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.For),
@@ -121,10 +121,10 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Break),
 							new StepTypeViewModel(ProcedureStepType.Continue)
 						}),
-					new StepTypeViewModel("Управление аппаратурой",
+					new StepTypeViewModel("Управление аппаратурой", "/Controls;component/StepIcons/Control.png",
 						new List<StepTypeViewModel>
 						{
-							new StepTypeViewModel("Управление ГК",
+							new StepTypeViewModel("Управление ГК", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
@@ -133,7 +133,7 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlDirection),
 									new StepTypeViewModel(ProcedureStepType.ControlDelay)
 								}),
-							new StepTypeViewModel("Управление СКД",
+							new StepTypeViewModel("Управление СКД", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
@@ -141,14 +141,14 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlDoor),
 									
 								}),
-							new StepTypeViewModel("Управление Видео",
+							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlCamera),
 									new StepTypeViewModel(ProcedureStepType.Ptz)
 								}),
 						}),
-					new StepTypeViewModel("Обмен данными",
+					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",
 						new List<StepTypeViewModel>
 						{
 							new StepTypeViewModel(ProcedureStepType.ExportJournal),

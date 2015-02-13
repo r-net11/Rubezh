@@ -17,8 +17,8 @@
 			<TabItem Header="Подразделения">
 				<Views:DepartmentsFilterView DataContext="{Binding DepartmentsFilterViewModel}" />
 			</TabItem>
-			<TabItem Header="Должности">
-				<Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
+            <TabItem Header="Должности" Visibility="{Binding IsShowPositions, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:PositionsFilterView DataContext="{Binding PositionsFilterViewModel}" />
 			</TabItem>
 			<TabItem Header="Сотрудники">
 				<Views:EmployeesFilterView DataContext="{Binding EmployeesFilterViewModel}" />

@@ -28,6 +28,7 @@ namespace JournalModule.ViewModels
 		{
 			_container = new LayoutPartContainerCollection();
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			FirstPageCommand = new RelayCommand(OnFirstPage, CanFirstPage);
 			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
@@ -178,6 +179,12 @@ namespace JournalModule.ViewModels
 					IsFilterOn = true;
 				}
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Update();
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

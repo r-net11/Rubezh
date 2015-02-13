@@ -6,8 +6,10 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -21,6 +23,8 @@ namespace SKDModule.ViewModels
 		{
 			_isInitialized = false;
 			_changeIsDeletedSubscriber = new ChangeIsDeletedSubscriber(this);
+			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Unsubscribe(OnEditDayInterval);
+			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Subscribe(OnEditDayInterval);
 		}
 
 		public LogicalDeletationType LogicalDeletationType { get; set; }
@@ -154,6 +158,15 @@ namespace SKDModule.ViewModels
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_ScheduleSchemes_Edit; }
+		}
+
+		void OnEditDayInterval(Guid dayInternalUID)
+		{
+			if (!SelectedItem.IsOrganisation && SelectedItem.DayIntervals.Any(x => x.UID == dayInternalUID))
+			{
+				SelectedItem.Initialize();
+				SelectedItem.SheduleDayIntervals.ForEach(x => x.Update());
+			}
 		}
 	}
 }

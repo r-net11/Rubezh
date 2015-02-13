@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using SKDDriver;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
@@ -45,6 +40,12 @@ namespace FiresecService.Report.Templates
 			employeeFilter.DepartmentUIDs = filter.Departments;
 			employeeFilter.PositionUIDs = filter.Positions;
 			employeeFilter.UIDs = filter.Employees;
+			if (filter.IsSearch)
+			{
+				employeeFilter.FirstName = filter.FirstName;
+				employeeFilter.SecondName = filter.SecondName;
+				employeeFilter.LastName = filter.LastName;
+			}
 			var employeesResult = dataProvider.DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult.Result != null)
 			{

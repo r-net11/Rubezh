@@ -1339,3 +1339,10 @@ BEGIN
 
 	INSERT INTO Patches (Id) VALUES ('ExternalKeys')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropEveningSettings')
+BEGIN
+	ALTER TABLE NightSettings DROP COLUMN EveningStartTime
+	ALTER TABLE NightSettings DROP COLUMN EveningEndTime
+	INSERT INTO Patches (Id) VALUES ('DropEveningSettings')
+END

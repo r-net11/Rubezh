@@ -174,7 +174,7 @@ namespace SKDDriver
 			}
 
 			if (filter.ScheduleUIDs.IsNotNullOrEmpty())
-				result = result.And(e => e != null && filter.ScheduleUIDs.Contains(e.PositionUID.Value));
+				result = result.And(e => e != null && filter.ScheduleUIDs.Contains(e.ScheduleUID.Value));
 
 			if (!string.IsNullOrEmpty(filter.LastName))
 				result = result.And(e => e.LastName.Contains(filter.LastName));

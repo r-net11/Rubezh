@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Невозможно добавить нулевое пребывание в зоне");
 				return false;
 			}
-			if (_Parent.IsIntersection(EnterTime) || _Parent.IsIntersection(ExitTime))
+			if (_Parent.IsIntersection(this))
 			{
 				MessageBoxService.Show("Невозможно добавить пересекающийся интервал");
 				return false;

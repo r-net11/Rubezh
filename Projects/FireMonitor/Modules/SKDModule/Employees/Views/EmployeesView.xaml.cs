@@ -113,7 +113,7 @@ namespace SKDModule.Views
 					txtElement.SetBinding(IsDeletedTextBlock.TextProperty, binding);
 					SortBehavior.SetSortComparer(gridViewColumn, new EmployeeViewModelDescriptionComparer());
 					gridViewColumn.CellTemplate = dataTemplate;
-					gridView.Columns.Add(gridViewColumn);
+					gridView.Columns.Insert(2, gridViewColumn);
 				}
 			}
 			else
@@ -138,7 +138,7 @@ namespace SKDModule.Views
 					txtElement.SetBinding(IsPositionDeletedTextBlock.TextProperty, binding);
 					SortBehavior.SetSortComparer(gridViewColumn, new EmployeeViewModelPositionComparer());
 					gridViewColumn.CellTemplate = dataTemplate;
-					gridView.Columns.Add(gridViewColumn);
+					gridView.Columns.Insert(2, gridViewColumn);
 				}
 			}
 		}

@@ -200,11 +200,14 @@ namespace SKDModule.ViewModels
 			return SelectedDocument != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_Documents_Edit);
 		}
 
-		public bool IsIntersection(TimeSpan timeSpan)
+		public bool IsIntersection(TimeTrackPartDetailsViewModel timeTrackPartDetailsViewModel)
 		{
-			return DayTimeTrackParts.Any(x => x.EnterTimeSpan < timeSpan && x.ExitTimeSpan > timeSpan);
+			var enterTime = timeTrackPartDetailsViewModel.EnterTime;
+			var exitTime = timeTrackPartDetailsViewModel.ExitTime;
+			var uid = timeTrackPartDetailsViewModel.UID;
+			return DayTimeTrackParts.Any(x => x.UID != uid && 
+				(x.EnterTimeSpan < enterTime && x.ExitTimeSpan > enterTime || x.EnterTimeSpan < exitTime && x.ExitTimeSpan > exitTime));
 		}
-
 
 		protected override bool Save()
 		{

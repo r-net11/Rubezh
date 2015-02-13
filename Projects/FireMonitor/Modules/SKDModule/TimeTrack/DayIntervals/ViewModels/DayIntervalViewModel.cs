@@ -3,9 +3,11 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -102,6 +104,13 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedDayIntervalPart != null && !IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_TimeTrack_DaySchedules_Edit);
+		}
+
+		public override void Update()
+		{
+			base.Update();
+			if(!IsOrganisation)
+				ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(Model.UID);
 		}
 	}
 }
