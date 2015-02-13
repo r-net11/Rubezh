@@ -45,7 +45,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var passCardFilter = filter as ReportFilter411;
+			var passCardFilter = filter as CardsReportFilter;
 			if (passCardFilter == null)
 				return;
 			UseExpirationDate = passCardFilter.UseExpirationDate;
@@ -54,7 +54,7 @@ namespace SKDModule.Reports.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			var passCardFilter = filter as ReportFilter411;
+			var passCardFilter = filter as CardsReportFilter;
 			if (passCardFilter == null)
 				return;
 			passCardFilter.UseExpirationDate = UseExpirationDate;

@@ -6,6 +6,7 @@ using System.Text;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing.Printing;
 
 namespace FiresecService.Report.Templates
 {
@@ -37,19 +38,29 @@ namespace FiresecService.Report.Templates
 		public virtual void ApplyFilter(SKDReportFilter filter)
 		{
 			Filter = filter;
+		}
+
+		#endregion
+
+		protected override void OnBeforePrint(PrintEventArgs e)
+		{
+			base.OnBeforePrint(e);
 			TopMargin.HeightF = _topMargin;
 			BottomMargin.HeightF = _bottomMargin;
-			ReportName.Value = filter.PrintFilterNameInHeader ? string.Format("{0} ({1})", ReportTitle, filter.Name) : ReportTitle;
-			FilterName.Value = filter.Name;
-			Timestamp.Value = filter.Timestamp;
-			UserName.Value = filter.User;
-			var periodFilter = filter as IReportFilterPeriod;
+
+			ReportName.Value = Filter.PrintFilterNameInHeader ? string.Format("{0} ({1})", ReportTitle, Filter.Name) : ReportTitle;
+			FilterName.Value = Filter.Name;
+			Timestamp.Value = Filter.Timestamp;
+			UserName.Value = Filter.User;
+			var periodFilter = Filter as IReportFilterPeriod;
 			if (periodFilter != null)
 				Period.Value = string.Format("c {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", periodFilter.DateTimeFrom, periodFilter.DateTimeTo);
-			lTimestamp.Visible = filter.PrintDate;
-			lFilterName.Visible = filter.PrintFilterName;
-			lPeriod.Visible = filter.PrintPeriod && periodFilter != null;
-			lUserName.Visible = filter.PrintUser;
+
+			lTimestamp.Visible = Filter.PrintDate;
+			lFilterName.Visible = Filter.PrintFilterName;
+			lPeriod.Visible = Filter.PrintPeriod && periodFilter != null;
+			lUserName.Visible = Filter.PrintUser;
+
 			if (!lFilterName.Visible)
 				TopMargin.HeightF -= lFilterName.HeightF;
 			if (!lPeriod.Visible)
@@ -59,9 +70,13 @@ namespace FiresecService.Report.Templates
 			if (!lUserName.Visible && lTimestamp.Visible)
 				BottomMargin.HeightF -= lUserName.HeightF;
 			ReportPrintOptions.DetailCountOnEmptyDataSource = 0;
-		}
 
-		#endregion
+			var width = PageWidth - Margins.Left - Margins.Right;
+			lReportName.WidthF = width;
+			lFilterName.WidthF = width;
+			lPeriod.WidthF = width;
+			lPage.LocationF = new PointF(width - lPage.WidthF, lPage.LocationF.Y);
+		}
 
 		private void BaseReport_DataSourceDemanded(object sender, EventArgs e)
 		{
@@ -77,7 +92,7 @@ namespace FiresecService.Report.Templates
 				UpdateDataSource(dataProvider);
 				DataSource = DataSet;
 #if DEBUG
-				PrintFilter();
+				//PrintFilter();
 #endif
 				ApplySort();
 			}

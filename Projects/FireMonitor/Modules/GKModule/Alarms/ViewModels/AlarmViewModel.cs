@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 				}
 				if (Alarm.GuardZone != null)
 				{
-					elementBase = plan.ElementRectangleGKGuardZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
+					elementBase = plan.ElementRectangleGKGuardZones.FirstOrDefault(x => x.ZoneUID == Alarm.GuardZone.UID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);

@@ -17,11 +17,12 @@ namespace AutomationModule.ViewModels
 			StepsViewModel = stepsViewModel;
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if ((step.ProcedureStepType == ProcedureStepType.ControlCamera) || (step.ProcedureStepType == ProcedureStepType.ControlDirection)
+			if ((step.ProcedureStepType == ProcedureStepType.ControlDirection)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay || (step.ProcedureStepType == ProcedureStepType.Ptz)))
+				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
+				|| (step.ProcedureStepType == ProcedureStepType.StartRecord) || (step.ProcedureStepType == ProcedureStepType.StopRecord))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else
 				ImageSource = "/Controls;component/StepIcons/" + step.ProcedureStepType + ".png";
@@ -113,10 +114,6 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ControlSKDZone:
 					Content = new ControlSKDZoneStepViewModel(this);
-					break;
-
-				case ProcedureStepType.ControlCamera:
-					Content = new ControlCameraStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlDelay:
@@ -213,6 +210,14 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.Ptz:
 					Content = new PtzStepViewModel(this);
+					break;
+
+				case ProcedureStepType.StartRecord:
+					Content = new StartRecordStepViewModel(this);
+					break;
+
+				case ProcedureStepType.StopRecord:
+					Content = new StopRecordStepViewModel(this);
 					break;
 			}
 			UpdateContent();

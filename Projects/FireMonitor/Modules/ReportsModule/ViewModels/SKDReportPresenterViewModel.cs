@@ -132,7 +132,7 @@ namespace ReportsModule.ViewModels
 				{
 					using (new WaitWrapper())
 					{
-						Model.ReportName = _reportProvider.Name;
+						Model.ReportName = _reportProvider.GetType().Name;
 						var filter = _reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).GetFilter() : null;
 						FilterName = filter == null ? null : filter.Name;
 						var filterPeriod = filter as IReportFilterPeriod;

@@ -71,7 +71,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var objectFilter = filter as ReportFilter401;
+			var objectFilter = filter as EventsReportFilter;
 			if (objectFilter == null)
 				return;
 			var allFilters = RootFilters.SelectMany(item => item.GetAllChildren());
@@ -103,7 +103,7 @@ namespace SKDModule.Reports.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			var objectFilter = filter as ReportFilter401;
+			var objectFilter = filter as EventsReportFilter;
 			if (objectFilter == null)
 				return;
 			objectFilter.JournalOjbectSubsystemTypes = new List<JournalSubsystemType>();

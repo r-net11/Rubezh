@@ -24,7 +24,7 @@ namespace SKDModule.Reports.ViewModels
 			Schedules = new ObservableCollection<TreeNodeItemViewModel>(organisations.Select(item => new TreeNodeItemViewModel(item, false)));
 			var map = Schedules.ToDictionary(item => item.Item.UID);
 
-			var scheduleSchemas = ScheduleSchemeHelper.Get(new ScheduleSchemeFilter());
+			var scheduleSchemas = ScheduleHelper.Get(new ScheduleFilter());
 			scheduleSchemas.ForEach(item => map[item.OrganisationUID].AddChild(new TreeNodeItemViewModel(item, true)));
 
 			SelectAllCommand = new RelayCommand(() => Schedules.SelectMany(item => item.Children).ForEach(item => item.IsChecked = true));

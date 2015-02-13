@@ -74,16 +74,16 @@
 								</EventTrigger>
 							</ItemsControl.Triggers>
 							<ItemsControl.Items>
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Pdf" ImageSource="Pdf"  ToolTip="Экспорт в PDF" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Htm" ImageSource="Pdf"  ToolTip="Экспорт в HTM" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Mht" ImageSource="Pdf"  ToolTip="Экспорт в MHT" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Rtf" ImageSource="Pdf"  ToolTip="Экспорт в RTF" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xls" ImageSource="Pdf"  ToolTip="Экспорт в XLS" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="Pdf"  ToolTip="Экспорт в XLSX" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="Pdf"  ToolTip="Экспорт в CSV" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="Pdf"  ToolTip="Экспорт в TXT" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="Pdf"  ToolTip="Экспорт в Image" />
-								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="Pdf"  ToolTip="Экспорт в XPS" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Pdf" ImageSource="ExportPDF"  ToolTip="Экспорт в PDF" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Htm" ImageSource="ExportHTM"  ToolTip="Экспорт в HTM" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Mht" ImageSource="ExportMHT"  ToolTip="Экспорт в MHT" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Rtf" ImageSource="ExportRTF"  ToolTip="Экспорт в RTF" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xls" ImageSource="ExportXLS"  ToolTip="Экспорт в XLS" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xlsx" ImageSource="ExportXLSX"  ToolTip="Экспорт в XLSX" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Csv" ImageSource="ExportCSV"  ToolTip="Экспорт в CSV" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Txt" ImageSource="ExportTXT"  ToolTip="Экспорт в TXT" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Image" ImageSource="ExportImage"  ToolTip="Экспорт в Image" />
+								<ToolBarButton Command="{Binding Model.ExportCommand, ElementName=viewer, FallbackValue={StaticResource disabledCommand}}" CommandParameter="Xps" ImageSource="ExportXPS"  ToolTip="Экспорт в XPS" />
 							</ItemsControl.Items>
 						</ItemsControl>
 					</Border>

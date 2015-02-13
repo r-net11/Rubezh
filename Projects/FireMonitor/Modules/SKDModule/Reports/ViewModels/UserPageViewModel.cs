@@ -33,14 +33,14 @@ namespace SKDModule.Reports.ViewModels
 				return;
 			if (userFilter.Users == null)
 				userFilter.Users = new List<string>();
-			Users.ForEach(item => item.IsChecked = userFilter.Users.Contains(item.Item.Login));
+			Users.ForEach(item => item.IsChecked = userFilter.Users.Contains(item.Item.Name));
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
 			var userFilter = filter as IReportFilterUser;
 			if (userFilter == null)
 				return;
-			userFilter.Users = Users.Where(item => item.IsChecked).Select(item => item.Item.Login).ToList();
+            userFilter.Users = Users.Where(item => item.IsChecked).Select(item => item.Item.Name).ToList();
 		}
 	}
 }

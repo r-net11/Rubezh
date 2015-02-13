@@ -70,14 +70,14 @@
 		<Border Grid.Row="2" Margin="0 5 0 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5 0 0 5" DataContext="{Binding SelectedDoor}">
 			<StackPanel Margin="5">
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="150" Margin="2" Foreground="White" Text="Входное устройство" />
+					<TextBlock Width="150" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Входное устройство" />
 					<Image Width="16" Height="16" Margin="2" Source="{Binding InDevice.Driver.ImageSource}" />
-					<TextBlock Margin="2" Foreground="White" Text="{Binding InDevice.Name}" />
+					<TextBlock Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{Binding InDevice.Name}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="150" Margin="2" Foreground="White" Text="Выходное устройство" />
+					<TextBlock Width="150" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Выходное устройство" />
 					<Image Width="16" Height="16" Margin="2" Source="{Binding OutDevice.Driver.ImageSource}" />
-					<TextBlock Margin="2" Foreground="White" Text="{Binding OutDevice.Name}" />
+					<TextBlock Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="{Binding OutDevice.Name}" />
 				</StackPanel>
 			</StackPanel>
 		</Border>

@@ -56,7 +56,7 @@ namespace SKDModule
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			TimeTrackingViewModel = new TimeTrackingViewModel();
-			
+
 			SubscribeShowDelailsEvent();
 		}
 
@@ -261,34 +261,20 @@ namespace SKDModule
 
 		public IEnumerable<ISKDReportProvider> GetSKDReportProviders()
 		{
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Events))
-				yield return new ReportProvider401();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_EmployeeRoot))
-				yield return new ReportProvider402();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Cards))
-				yield return new ReportProvider411();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Employees_Access))
-				yield return new ReportProvider412();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Employees_Rights))
-				yield return new ReportProvider413();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Departments))
-				yield return new ReportProvider415();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Positions))
-				yield return new ReportProvider416();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_EmployeeZone))
-				yield return new ReportProvider417();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Employee))
-				yield return new ReportProvider418();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Discipline))
-				yield return new ReportProvider421();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Schedules))
-				yield return new ReportProvider422();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Documents))
-				yield return new ReportProvider423();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_WorkTime))
-				yield return new ReportProvider424();
-			if (FiresecManager.CheckPermission(PermissionType.Oper_Reports_Doors))
-				yield return new ReportProvider431();
+			yield return new EventsReportProvider();
+			yield return new EmployeeRootReportProvider();
+			yield return new CardsReportProvider();
+			yield return new EmployeeAccessReportProvider();
+			yield return new EmployeeDoorsReportProvider();
+			yield return new DepartmentsReportProvider();
+			yield return new PositionsReportProvider();
+			yield return new EmployeeZonesReportProvider();
+			yield return new EmployeeReportProvider();
+			yield return new DisciplineReportProvider();
+			yield return new SchedulesReportProvider();
+			yield return new DocumentsReportProvider();
+			yield return new WorkingTimeReportProvider();
+			yield return new DoorsReportProvider();
 		}
 
 		#endregion

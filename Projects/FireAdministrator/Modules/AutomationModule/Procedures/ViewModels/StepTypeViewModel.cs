@@ -17,11 +17,12 @@ namespace AutomationModule.ViewModels
 			ProcedureStepType = procedureStepType;
 			Name = procedureStepType.ToDescription();
 			IsFolder = false;
-			if ((procedureStepType == ProcedureStepType.ControlCamera) || (procedureStepType == ProcedureStepType.ControlDirection)
+			if ((procedureStepType == ProcedureStepType.ControlDirection)
 				|| (procedureStepType == ProcedureStepType.ControlDoor) || (procedureStepType == ProcedureStepType.ControlGKDevice)
 				|| (procedureStepType == ProcedureStepType.ControlGKFireZone) || (procedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (procedureStepType == ProcedureStepType.ControlSKDDevice) || (procedureStepType == ProcedureStepType.ControlSKDZone)
-				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz))
+				|| (procedureStepType == ProcedureStepType.ControlDelay) || (procedureStepType == ProcedureStepType.Ptz)
+				|| (procedureStepType == ProcedureStepType.StartRecord) || (procedureStepType == ProcedureStepType.StopRecord))
 				ImageSource = "/Controls;component/StepIcons/Control.png";
 			else if ((procedureStepType == ProcedureStepType.ExportJournal) || (procedureStepType == ProcedureStepType.ExportOrganisation) 
 				|| (procedureStepType == ProcedureStepType.ExportConfiguration)	|| (procedureStepType == ProcedureStepType.ExportOrganisationList))

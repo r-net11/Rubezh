@@ -136,75 +136,75 @@
     <Compile Include="DataHelper.cs" />
     <Compile Include="DataSetHelper.cs" />
     <Compile Include="DataSourceService.cs" />
-    <Compile Include="DataSources\DataSet401.Designer.cs">
+    <Compile Include="DataSources\EventsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet401.xsd</DependentUpon>
+      <DependentUpon>EventsDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet402.Designer.cs">
+    <Compile Include="DataSources\EmployeeRootDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet402.xsd</DependentUpon>
+      <DependentUpon>EmployeeRootDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet411.Designer.cs">
+    <Compile Include="DataSources\CardsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet411.xsd</DependentUpon>
+      <DependentUpon>CardsDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet412.Designer.cs">
+    <Compile Include="DataSources\EmployeeAccessDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet412.xsd</DependentUpon>
+      <DependentUpon>EmployeeAccessDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet413.Designer.cs">
+    <Compile Include="DataSources\EmployeeDoorsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet413.xsd</DependentUpon>
+      <DependentUpon>EmployeeDoorsDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet415.Designer.cs">
+    <Compile Include="DataSources\DepartmentsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet415.xsd</DependentUpon>
+      <DependentUpon>DepartmentsDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet416.Designer.cs">
+    <Compile Include="DataSources\PositionsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet416.xsd</DependentUpon>
+      <DependentUpon>PositionsDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet417.Designer.cs">
+    <Compile Include="DataSources\EmployeeZonesDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet417.xsd</DependentUpon>
+      <DependentUpon>EmployeeZonesDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet418.Designer.cs">
+    <Compile Include="DataSources\EmployeeDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet418.xsd</DependentUpon>
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet421.Designer.cs">
+    <Compile Include="DataSources\DisciplineDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet421.xsd</DependentUpon>
+      <DependentUpon>DisciplineDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet422.Designer.cs">
+    <Compile Include="DataSources\SchedulesDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet422.xsd</DependentUpon>
+      <DependentUpon>SchedulesDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet423.Designer.cs">
+    <Compile Include="DataSources\DataSetDocuments.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet423.xsd</DependentUpon>
+      <DependentUpon>DataSetDocuments.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet424.Designer.cs">
+    <Compile Include="DataSources\WorkingTimeDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet424.xsd</DependentUpon>
+      <DependentUpon>WorkingTimeDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSources\DataSet431.Designer.cs">
+    <Compile Include="DataSources\DoorsDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet431.xsd</DependentUpon>
+      <DependentUpon>DoorsDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="DataProvider.cs" />
     <Compile Include="Model\DeletableObjectInfo.cs" />
@@ -213,41 +213,41 @@
     <Compile Include="Model\OrganisationBaseObjectInfo.cs" />
     <Compile Include="Model\TreeItemObject.cs" />
     <Compile Include="SqlBuilder.cs" />
-    <Compile Include="Templates\Report402.cs">
+    <Compile Include="Templates\EmployeeRootReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report402.Designer.cs">
-      <DependentUpon>Report402.cs</DependentUpon>
+    <Compile Include="Templates\EmployeeRootReport.Designer.cs">
+      <DependentUpon>EmployeeRootReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report423.cs">
+    <Compile Include="Templates\DocumentsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report423.Designer.cs">
-      <DependentUpon>Report423.cs</DependentUpon>
+    <Compile Include="Templates\DocumentsReport.Designer.cs">
+      <DependentUpon>DocumentsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report431.cs">
+    <Compile Include="Templates\DoorsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report431.Designer.cs">
-      <DependentUpon>Report431.cs</DependentUpon>
+    <Compile Include="Templates\DoorsReport.Designer.cs">
+      <DependentUpon>DoorsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report422.cs">
+    <Compile Include="Templates\SchedulesReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report422.Designer.cs">
-      <DependentUpon>Report422.cs</DependentUpon>
+    <Compile Include="Templates\SchedulesReport.Designer.cs">
+      <DependentUpon>SchedulesReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report421.cs">
+    <Compile Include="Templates\DisciplineReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report421.Designer.cs">
-      <DependentUpon>Report421.cs</DependentUpon>
+    <Compile Include="Templates\DisciplineReport.Designer.cs">
+      <DependentUpon>DisciplineReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report401.cs">
+    <Compile Include="Templates\EventsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report401.Designer.cs">
-      <DependentUpon>Report401.cs</DependentUpon>
+    <Compile Include="Templates\EventsReport.Designer.cs">
+      <DependentUpon>EventsReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Templates\EmptyReport.cs">
       <SubType>Component</SubType>
@@ -272,53 +272,53 @@
     <Compile Include="ReportResolver.cs" />
     <Compile Include="ReportServiceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templates\Report411.cs">
+    <Compile Include="Templates\CardsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report411.Designer.cs">
-      <DependentUpon>Report411.cs</DependentUpon>
+    <Compile Include="Templates\CardsReport.Designer.cs">
+      <DependentUpon>CardsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report412.cs">
+    <Compile Include="Templates\EmployeeAccessReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report412.Designer.cs">
-      <DependentUpon>Report412.cs</DependentUpon>
+    <Compile Include="Templates\EmployeeAccessReport.Designer.cs">
+      <DependentUpon>EmployeeAccessReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report413.cs">
+    <Compile Include="Templates\EmployeeDoorsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report413.Designer.cs">
-      <DependentUpon>Report413.cs</DependentUpon>
+    <Compile Include="Templates\EmployeeDoorsReport.Designer.cs">
+      <DependentUpon>EmployeeDoorsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report415.cs">
+    <Compile Include="Templates\DepartmentsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report415.Designer.cs">
-      <DependentUpon>Report415.cs</DependentUpon>
+    <Compile Include="Templates\DepartmentsReport.Designer.cs">
+      <DependentUpon>DepartmentsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report416.cs">
+    <Compile Include="Templates\PositionsReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report416.Designer.cs">
-      <DependentUpon>Report416.cs</DependentUpon>
+    <Compile Include="Templates\PositionsReport.Designer.cs">
+      <DependentUpon>PositionsReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report417.cs">
+    <Compile Include="Templates\EmployeeZonesReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report417.Designer.cs">
-      <DependentUpon>Report417.cs</DependentUpon>
+    <Compile Include="Templates\EmployeeZonesReport.Designer.cs">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report418.cs">
+    <Compile Include="Templates\EmployeeReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report418.Designer.cs">
-      <DependentUpon>Report418.cs</DependentUpon>
+    <Compile Include="Templates\EmployeeReport.Designer.cs">
+      <DependentUpon>EmployeeReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\Report424.cs">
+    <Compile Include="Templates\WorkingTimeReport.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Templates\Report424.Designer.cs">
-      <DependentUpon>Report424.cs</DependentUpon>
+    <Compile Include="Templates\WorkingTimeReport.Designer.cs">
+      <DependentUpon>WorkingTimeReport.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -347,213 +347,213 @@
     <EmbeddedResource Include="Templates\BaseReport.resx">
       <DependentUpon>BaseReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report402.resx">
-      <DependentUpon>Report402.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\EmployeeRootReport.resx">
+      <DependentUpon>EmployeeRootReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report423.resx">
-      <DependentUpon>Report423.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\DocumentsReport.resx">
+      <DependentUpon>DocumentsReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report431.resx">
-      <DependentUpon>Report431.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\DoorsReport.resx">
+      <DependentUpon>DoorsReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report422.resx">
-      <DependentUpon>Report422.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\SchedulesReport.resx">
+      <DependentUpon>SchedulesReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report421.resx">
-      <DependentUpon>Report421.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\DisciplineReport.resx">
+      <DependentUpon>DisciplineReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report401.resx">
-      <DependentUpon>Report401.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\EventsReport.resx">
+      <DependentUpon>EventsReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\EmptyReport.resx">
       <DependentUpon>EmptyReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report411.resx">
-      <DependentUpon>Report411.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\CardsReport.resx">
+      <DependentUpon>CardsReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report412.resx">
-      <DependentUpon>Report412.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\EmployeeAccessReport.resx">
+      <DependentUpon>EmployeeAccessReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report413.resx">
-      <DependentUpon>Report413.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\EmployeeDoorsReport.resx">
+      <DependentUpon>EmployeeDoorsReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report415.resx">
-      <DependentUpon>Report415.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\DepartmentsReport.resx">
+      <DependentUpon>DepartmentsReport.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report416.resx">
-      <DependentUpon>Report416.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\PositionsReport.resx">
+      <DependentUpon>PositionsReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report417.resx">
-      <DependentUpon>Report417.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\EmployeeZonesReport.resx">
+      <DependentUpon>EmployeeZonesReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report418.resx">
-      <DependentUpon>Report418.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\EmployeeReport.resx">
+      <DependentUpon>EmployeeReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\Report424.resx">
-      <DependentUpon>Report424.cs</DependentUpon>
+    <EmbeddedResource Include="Templates\WorkingTimeReport.resx">
+      <DependentUpon>WorkingTimeReport.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="DataSources\DataSet401.xsc">
-      <DependentUpon>DataSet401.xsd</DependentUpon>
+    <None Include="DataSources\EventsDataSet.xsc">
+      <DependentUpon>EventsDataSet.xsd</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataSources\DataSet401.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet401.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="DataSources\DataSet401.xss">
-      <DependentUpon>DataSet401.xsd</DependentUpon>
-    </None>
-    <None Include="DataSources\DataSet402.xsc">
-      <DependentUpon>DataSet402.xsd</DependentUpon>
-    </None>
-    <None Include="DataSources\DataSet402.xsd">
+    <None Include="DataSources\EventsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet402.Designer.cs</LastGenOutput>
+      <LastGenOutput>EventsDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet402.xss">
-      <DependentUpon>DataSet402.xsd</DependentUpon>
+    <None Include="DataSources\EventsDataSet.xss">
+      <DependentUpon>EventsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet411.xsc">
-      <DependentUpon>DataSet411.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeRootDataSet.xsc">
+      <DependentUpon>EmployeeRootDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet411.xsd">
+    <None Include="DataSources\EmployeeRootDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet411.Designer.cs</LastGenOutput>
+      <LastGenOutput>EmployeeRootDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet411.xss">
-      <DependentUpon>DataSet411.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeRootDataSet.xss">
+      <DependentUpon>EmployeeRootDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet412.xsc">
-      <DependentUpon>DataSet412.xsd</DependentUpon>
+    <None Include="DataSources\CardsDataSet.xsc">
+      <DependentUpon>CardsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet412.xsd">
+    <None Include="DataSources\CardsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet412.Designer.cs</LastGenOutput>
+      <LastGenOutput>CardsDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet412.xss">
-      <DependentUpon>DataSet412.xsd</DependentUpon>
+    <None Include="DataSources\CardsDataSet.xss">
+      <DependentUpon>CardsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet413.xsc">
-      <DependentUpon>DataSet413.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeAccessDataSet.xsc">
+      <DependentUpon>EmployeeAccessDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet413.xsd">
+    <None Include="DataSources\EmployeeAccessDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet413.Designer.cs</LastGenOutput>
+      <LastGenOutput>EmployeeAccessDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet413.xss">
-      <DependentUpon>DataSet413.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeAccessDataSet.xss">
+      <DependentUpon>EmployeeAccessDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet415.xsc">
-      <DependentUpon>DataSet415.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeDoorsDataSet.xsc">
+      <DependentUpon>EmployeeDoorsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet415.xsd">
+    <None Include="DataSources\EmployeeDoorsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet415.Designer.cs</LastGenOutput>
+      <LastGenOutput>EmployeeDoorsDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet415.xss">
-      <DependentUpon>DataSet415.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeDoorsDataSet.xss">
+      <DependentUpon>EmployeeDoorsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet416.xsc">
-      <DependentUpon>DataSet416.xsd</DependentUpon>
+    <None Include="DataSources\DepartmentsDataSet.xsc">
+      <DependentUpon>DepartmentsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet416.xsd">
+    <None Include="DataSources\DepartmentsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet416.Designer.cs</LastGenOutput>
+      <LastGenOutput>DepartmentsDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet416.xss">
-      <DependentUpon>DataSet416.xsd</DependentUpon>
+    <None Include="DataSources\DepartmentsDataSet.xss">
+      <DependentUpon>DepartmentsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet417.xsc">
-      <DependentUpon>DataSet417.xsd</DependentUpon>
+    <None Include="DataSources\PositionsDataSet.xsc">
+      <DependentUpon>PositionsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet417.xsd">
+    <None Include="DataSources\PositionsDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet417.Designer.cs</LastGenOutput>
+      <LastGenOutput>PositionsDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet417.xss">
-      <DependentUpon>DataSet417.xsd</DependentUpon>
+    <None Include="DataSources\PositionsDataSet.xss">
+      <DependentUpon>PositionsDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet418.xsc">
-      <DependentUpon>DataSet418.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeZonesDataSet.xsc">
+      <DependentUpon>EmployeeZonesDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet418.xsd">
+    <None Include="DataSources\EmployeeZonesDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet418.Designer.cs</LastGenOutput>
+      <LastGenOutput>EmployeeZonesDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet418.xss">
-      <DependentUpon>DataSet418.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeZonesDataSet.xss">
+      <DependentUpon>EmployeeZonesDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet421.xsc">
-      <DependentUpon>DataSet421.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeDataSet.xsc">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet421.xsd">
+    <None Include="DataSources\EmployeeDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet421.Designer.cs</LastGenOutput>
+      <LastGenOutput>EmployeeDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet421.xss">
-      <DependentUpon>DataSet421.xsd</DependentUpon>
+    <None Include="DataSources\EmployeeDataSet.xss">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet422.xsc">
-      <DependentUpon>DataSet422.xsd</DependentUpon>
+    <None Include="DataSources\DisciplineDataSet.xsc">
+      <DependentUpon>DisciplineDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet422.xsd">
+    <None Include="DataSources\DisciplineDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet422.Designer.cs</LastGenOutput>
+      <LastGenOutput>DisciplineDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet422.xss">
-      <DependentUpon>DataSet422.xsd</DependentUpon>
+    <None Include="DataSources\DisciplineDataSet.xss">
+      <DependentUpon>DisciplineDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet423.xsc">
-      <DependentUpon>DataSet423.xsd</DependentUpon>
+    <None Include="DataSources\SchedulesDataSet.xsc">
+      <DependentUpon>SchedulesDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet423.xsd">
+    <None Include="DataSources\SchedulesDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet423.Designer.cs</LastGenOutput>
+      <LastGenOutput>SchedulesDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet423.xss">
-      <DependentUpon>DataSet423.xsd</DependentUpon>
+    <None Include="DataSources\SchedulesDataSet.xss">
+      <DependentUpon>SchedulesDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet424.xsc">
-      <DependentUpon>DataSet424.xsd</DependentUpon>
+    <None Include="DataSources\DataSetDocuments.xsc">
+      <DependentUpon>DataSetDocuments.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet424.xsd">
+    <None Include="DataSources\DataSetDocuments.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet424.Designer.cs</LastGenOutput>
+      <LastGenOutput>DataSetDocuments.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet424.xss">
-      <DependentUpon>DataSet424.xsd</DependentUpon>
+    <None Include="DataSources\DataSetDocuments.xss">
+      <DependentUpon>DataSetDocuments.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet431.xsc">
-      <DependentUpon>DataSet431.xsd</DependentUpon>
+    <None Include="DataSources\WorkingTimeDataSet.xsc">
+      <DependentUpon>WorkingTimeDataSet.xsd</DependentUpon>
     </None>
-    <None Include="DataSources\DataSet431.xsd">
+    <None Include="DataSources\WorkingTimeDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet431.Designer.cs</LastGenOutput>
+      <LastGenOutput>WorkingTimeDataSet.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSources\DataSet431.xss">
-      <DependentUpon>DataSet431.xsd</DependentUpon>
+    <None Include="DataSources\WorkingTimeDataSet.xss">
+      <DependentUpon>WorkingTimeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DoorsDataSet.xsc">
+      <DependentUpon>DoorsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataSources\DoorsDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DoorsDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSources\DoorsDataSet.xss">
+      <DependentUpon>DoorsDataSet.xsd</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

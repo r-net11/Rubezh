@@ -141,7 +141,6 @@
     <Compile Include="Steps\ViewModels\ImportOrganisationStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\PtzStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\RandomStepViewModel.cs" />
-    <Compile Include="Steps\ViewModels\ControlCameraStepViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DirectionSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorSelectionViewModel.cs" />
     <Compile Include="ObjectSelection\ViewModels\DoorViewModel.cs" />
@@ -222,14 +221,13 @@
     <Compile Include="ObjectSelection\Views\SKDZoneSelectionView.xaml.cs">
       <DependentUpon>SKDZoneSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Steps\ViewModels\StartRecordStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\StopRecordStepViewModel.cs" />
     <Compile Include="Steps\Views\ChangeListStepView.xaml.cs">
       <DependentUpon>ChangeListStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\CheckPermissionStepView.xaml.cs">
       <DependentUpon>CheckPermissionStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Steps\Views\ControlCameraStepView.xaml.cs">
-      <DependentUpon>ControlCameraStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Steps\Views\ControlDelayStepView.xaml.cs">
       <DependentUpon>ControlDelayStepView.xaml</DependentUpon>
@@ -431,6 +429,12 @@
     </Compile>
     <Compile Include="Sounds\Views\SoundDetailsView.xaml.cs">
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\StartRecordStepView.xaml.cs">
+      <DependentUpon>StartRecordStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\StopRecordStepView.xaml.cs">
+      <DependentUpon>StopRecordStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
     <Compile Include="Validation\ProcedureStepValidationError.cs" />
@@ -655,10 +659,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Steps\Views\ControlCameraStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Steps\Views\ControlDirectionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -840,6 +840,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Sounds\Views\SoundDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\StartRecordStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\StopRecordStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

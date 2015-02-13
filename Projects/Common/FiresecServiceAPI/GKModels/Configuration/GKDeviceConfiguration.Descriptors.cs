@@ -92,6 +92,7 @@ namespace FiresecAPI.GK
 		{
 			foreach (var door in Doors)
 			{
+				door.PrepareInputOutputDependences();
 				door.KauDatabaseParent = null;
 				door.GkDatabaseParent = door.EnterDevice != null ? door.EnterDevice.GKParent : null;
 			}

@@ -47,7 +47,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var eventFilter = filter as ReportFilter401;
+			var eventFilter = filter as EventsReportFilter;
 			if (eventFilter == null)
 				return;
 			RootFilters.ForEach(item =>
@@ -71,7 +71,7 @@ namespace SKDModule.Reports.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			var eventFilter = filter as ReportFilter401;
+			var eventFilter = filter as EventsReportFilter;
 			if (eventFilter == null)
 				return;
 			eventFilter.JournalEventNameTypes = new List<JournalEventNameType>();

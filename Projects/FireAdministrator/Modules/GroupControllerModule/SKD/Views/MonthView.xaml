@@ -14,13 +14,13 @@
 			<ColumnDefinition Width="28" />
 		</Grid.ColumnDefinitions>
 		
-		<TextBlock Text="Пн" Grid.Column="0" Foreground="White" />
-		<TextBlock Text="Вт" Grid.Column="1" Foreground="White" />
-		<TextBlock Text="Ср" Grid.Column="2" Foreground="White" />
-		<TextBlock Text="Чт" Grid.Column="3" Foreground="White" />
-		<TextBlock Text="Пт" Grid.Column="4" Foreground="White" />
-		<TextBlock Text="Сб" Grid.Column="5" Foreground="White" />
-		<TextBlock Text="Вс" Grid.Column="6" Foreground="White" />
+		<TextBlock Text="Пн" Grid.Column="0" Foreground="{DynamicResource ForegroundColorLight}" />
+		<TextBlock Text="Вт" Grid.Column="1" Foreground="{DynamicResource ForegroundColorLight}" />
+		<TextBlock Text="Ср" Grid.Column="2" Foreground="{DynamicResource ForegroundColorLight}" />
+		<TextBlock Text="Чт" Grid.Column="3" Foreground="{DynamicResource ForegroundColorLight}" />
+		<TextBlock Text="Пт" Grid.Column="4" Foreground="{DynamicResource ForegroundColorLight}" />
+		<TextBlock Text="Сб" Grid.Column="5" Foreground="{DynamicResource ForegroundColorLight}" />
+		<TextBlock Text="Вс" Grid.Column="6" Foreground="{DynamicResource ForegroundColorLight}" />
 		
 		<ItemsControl Grid.Column="0" Grid.ColumnSpan="7" ItemsSource="{Binding Days}" Margin="-6,-8,0,0">
 			<ItemsControl.ItemsPanel>
@@ -49,7 +49,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Button Content="{Binding No}" Command="{Binding SelectCommand}" Foreground="White" >
+					<Button Content="{Binding No}" Command="{Binding SelectCommand}" Foreground="{DynamicResource ForegroundColorLight}" >
 						<Button.Style>
 							<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 								<Style.Triggers>

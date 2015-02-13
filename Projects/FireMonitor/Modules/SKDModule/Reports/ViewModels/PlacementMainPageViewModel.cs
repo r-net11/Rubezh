@@ -32,7 +32,7 @@ namespace SKDModule.Reports.ViewModels
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
-			var placementFilter = filter as ReportFilter417;
+			var placementFilter = filter as EmployeeZonesReportFilter;
 			if (placementFilter == null)
 				return;
 			UseCurrentDate = placementFilter.UseCurrentDate;
@@ -40,7 +40,7 @@ namespace SKDModule.Reports.ViewModels
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
-			var placementFilter = filter as ReportFilter417;
+			var placementFilter = filter as EmployeeZonesReportFilter;
 			if (placementFilter == null)
 				return;
 			placementFilter.UseCurrentDate = UseCurrentDate;

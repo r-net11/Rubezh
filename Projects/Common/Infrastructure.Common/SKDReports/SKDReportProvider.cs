@@ -8,22 +8,21 @@ namespace Infrastructure.Common.SKDReports
 {
 	public class SKDReportProvider : ISKDReportProvider
 	{
-		public SKDReportProvider(string name, string title, int index, SKDReportGroup? group = null)
+		public SKDReportProvider(string title, int index, SKDReportGroup? group = null, PermissionType? permission = null)
 		{
-			Name = name;
 			Title = title;
 			Index = index;
 			Group = group;
+			Permission = permission;
 		}
 
 		#region ISKDReportProvider Members
 
-		public string Name { get; set; }
-		public string Title { get; set; }
-		public PermissionType? Permission { get; set; }
-		public int Index { get; set; }
-		public string IconSource { get; set; }
-		public SKDReportGroup? Group { get; set; }
+		public string Title { get; private set; }
+		public PermissionType? Permission { get; private set; }
+		public int Index { get; private set; }
+		public string IconSource { get; private set; }
+		public SKDReportGroup? Group { get; private set; }
 
 		#endregion
 	}

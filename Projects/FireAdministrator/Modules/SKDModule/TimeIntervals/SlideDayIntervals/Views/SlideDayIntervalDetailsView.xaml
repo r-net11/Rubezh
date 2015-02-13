@@ -15,13 +15,13 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Наименование" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Описание" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Описание" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Первый день графика" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="{DynamicResource ForegroundColorLight}" Text="Первый день графика" />
 				<loya:Dameer Grid.Row="2" Grid.Column="1" Width="Auto" Margin="2" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDate}" />
 			</Grid>
 		</TabItem>

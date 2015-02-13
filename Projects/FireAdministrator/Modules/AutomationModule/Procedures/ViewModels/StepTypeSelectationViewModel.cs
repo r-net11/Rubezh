@@ -144,7 +144,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel("Управление Видео", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>
 								{
-									new StepTypeViewModel(ProcedureStepType.ControlCamera),
+									new StepTypeViewModel(ProcedureStepType.StartRecord),
+									new StepTypeViewModel(ProcedureStepType.StopRecord),
 									new StepTypeViewModel(ProcedureStepType.Ptz)
 								}),
 						}),
