@@ -16,6 +16,7 @@ namespace FiresecAPI.Automation
 			Height = 300;
 			MinWidth = 300;
 			MinHeight = 300;
+			AllowClose = true;
 		}
 
 		[DataMember]

@@ -623,6 +623,28 @@ namespace FiresecService
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.UID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 
+		public void SetJournalItemGuid(ProcedureStep procedureStep)
+		{
+			var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
+			if (JournalItem != null)
+			{
+				using (var journalTranslator = new JounalTranslator())
+				{
+					var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
+					Guid eventUID;
+					if (CheckGuid(eventUIDString))
+					{
+						eventUID = new Guid(eventUIDString);
+					}
+					else
+					{
+						return;
+					}
+					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
+				}
+			}
+		}
+
 		void StartRecord(ProcedureStep procedureStep)
 		{
 			var startRecordArguments = procedureStep.StartRecordArguments;
