@@ -15,7 +15,17 @@
                 </Grid.RowDefinitions>
 				<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
 					<DataGrid ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" UIBehavior.ShowSelectionMark="True"  UIBehavior.IsActiveSelectionMark="True">
-						<DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                                <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                            </InputBindingCollection>
+                        </DataGrid.Resources>
+                        <DataGrid.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+                        <DataGrid.Columns>
 							<DataGridTemplateColumn Header="Название" Width="*">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>

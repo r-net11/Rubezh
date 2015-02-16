@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 			{
 				Title = "Редактирование сокращённого дня";
 			}
-			Model = holiday;
+			Model = HolidayHelper.GetSingle(holiday.UID);
 			Name = holiday.Name;
 			Date = holiday.Date;
 

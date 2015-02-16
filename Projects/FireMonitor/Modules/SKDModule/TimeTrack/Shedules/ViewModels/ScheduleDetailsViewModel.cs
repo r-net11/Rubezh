@@ -142,7 +142,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 				Title = "Редактирование графика работы";
-			Model = model;
+			Model = ScheduleHelper.GetSingle(model.UID);
 			Name = Model.Name;
 			IsIgnoreHoliday = Model.IsIgnoreHoliday;
 			IsOnlyFirstEnter = Model.IsOnlyFirstEnter;

@@ -149,7 +149,7 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter = EmployeeFilterViewModel.Filter;
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
-			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;
+			Filter.EmployeeFilter.OrganisationUIDs = Organisations.Items.Where(x => x.IsChecked).Select(x => x.Organisation.UID).ToList();
 
 			Filter.TotalTimeTrackTypeFilters = new List<TimeTrackType>();
 			foreach (var timeTrackTypeFilterItem in Totals)

@@ -50,7 +50,7 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = "Редактирование графика работы";
-				Model = model;
+				Model = ScheduleSchemeHelper.GetSingle(model.UID);
 				Name = Model.Name;
 				Description = Model.Description;
 			}

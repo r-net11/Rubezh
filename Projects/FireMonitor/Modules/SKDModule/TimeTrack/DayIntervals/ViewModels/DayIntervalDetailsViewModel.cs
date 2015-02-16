@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 				Title = "Редактирование дневного графика";
-			Model = model;
+			Model = DayIntervalHelper.GetSingle(model.UID);
 			Name = Model.Name;
 			Description = Model.Description;
 			ConstantSlideTime = Model.SlideTime;

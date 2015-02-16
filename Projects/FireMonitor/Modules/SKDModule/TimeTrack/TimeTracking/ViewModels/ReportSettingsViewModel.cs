@@ -24,7 +24,8 @@ namespace SKDModule.ViewModels
 			DateTime = DateTime.Now;
 			FillViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
 			LeadViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
-			HRViewModel = new EmployeeSelectationViewModel(Guid.Empty, timeTrackFilter.EmployeeFilter);
+			var hrFilter = new EmployeeFilter { OrganisationUIDs = timeTrackFilter.EmployeeFilter.OrganisationUIDs };
+			HRViewModel = new EmployeeSelectationViewModel(Guid.Empty, hrFilter);
 		}
 
 		public EmployeeSelectationViewModel FillViewModel { get; private set; }
