@@ -480,6 +480,7 @@ namespace GKModule.Plans
 				}
 				ShowDeviceInZoneChanged(deviceInZones);
 			}
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		private bool IsDeviceInZonesChanged(List<ElementBase> items)
 		{
