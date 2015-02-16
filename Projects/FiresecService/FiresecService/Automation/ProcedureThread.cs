@@ -145,24 +145,7 @@ namespace FiresecService
 					break;
 
 				case ProcedureStepType.SetJournalItemGuid:
-					var setJournalItemGuidArguments = procedureStep.SetJournalItemGuidArguments;
-					if (JournalItem != null)
-					{
-						using (var journalTranslator = new JounalTranslator())
-						{
-							var eventUIDString = GetValue<String>(setJournalItemGuidArguments.ValueArgument);
-							Guid eventUID;
-							if (CheckGuid(eventUIDString))
-							{
-								eventUID = new Guid(eventUIDString);
-							}
-							else
-							{
-								break;
-							}
-							journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, Guid.Empty);
-						}
-					}
+					SetJournalItemGuid(procedureStep);
 					break;
 
 				case ProcedureStepType.Foreach:

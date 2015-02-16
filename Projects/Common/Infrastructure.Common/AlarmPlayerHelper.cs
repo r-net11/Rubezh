@@ -98,7 +98,7 @@ namespace Infrastructure.Common
 		public static void Play(string filePath, BeeperType speakertype, bool isContinious)
 		{
 			PlaySound(filePath, isContinious);
-			PlayPCSpeaker(speakertype, isContinious);
+			//PlayPCSpeaker(speakertype, isContinious);
 		}
 
 		public static void Stop()
