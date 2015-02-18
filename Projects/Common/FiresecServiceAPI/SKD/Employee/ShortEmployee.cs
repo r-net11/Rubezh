@@ -47,7 +47,7 @@ namespace FiresecAPI.SKD
 		public string CredentialsStartDate { get; set; }
 
 		[DataMember]
-		public int TabelNo { get; set; }
+		public string TabelNo { get; set; }
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }

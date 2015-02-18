@@ -152,7 +152,8 @@ namespace SKDModule.ViewModels
 					CredentialsStartDate = CredentialsStartDateString,
 					TextColumns = new List<TextColumn>(),
 					Phone = Employee.Phone,
-					Description = Employee.Description
+					Description = Employee.Description,
+					OrganisationName = _organisation.Name,
 				};
 				if (SelectedDepartment != null)
 					result.DepartmentName = SelectedDepartment.Name;
@@ -356,8 +357,8 @@ namespace SKDModule.ViewModels
 			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
 		}
 
-		int _tabelNo;
-		public int TabelNo
+		string _tabelNo;
+		public string TabelNo
 		{
 			get { return _tabelNo; }
 			set
@@ -779,6 +780,11 @@ namespace SKDModule.ViewModels
 			if(Employee.FirstName.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
+				return false;
+			}
+			if (Employee.TabelNo.Length > 50)
+			{
+				MessageBoxService.Show("Значение поля 'Табельный номер' не может быть длиннее 50 символов");
 				return false;
 			}
 			if (Employee.SecondName.Length > 50)

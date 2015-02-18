@@ -43,6 +43,12 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DayIntervals);
 		}
 
+		public void UpdateDayIntervals(DayInterval dayInterval)
+		{
+			var dayIntervals = SheduleDayIntervals.Where(x => x.SelectedDayInterval.UID == dayInterval.UID);
+
+		}
+
 		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
 		public ObservableCollection<DayInterval> DayIntervals
 		{

@@ -83,7 +83,7 @@
 						<DataGridTemplateColumn Width="*" Header="Дневной график">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedDayInterval.Name}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedDayIntervalName}" Style="{StaticResource IsDeletedTimeTrackStyle}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 							<DataGridTemplateColumn.CellEditingTemplate>

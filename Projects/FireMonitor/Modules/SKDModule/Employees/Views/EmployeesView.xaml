@@ -128,39 +128,39 @@
 						<StackPanel Grid.Column="0" Margin="5">
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Width="100" Margin="2" Text="Фамилия" />
-								<TextBlock Margin="2" Text="{Binding Model.LastName}" />
+								<TextBlock Margin="2" Text="{Binding LastName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Width="100" Margin="2" Text="Имя" />
-								<TextBlock Margin="2" Text="{Binding Model.FirstName}" />
+								<TextBlock Margin="2" Text="{Binding FirstName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Width="100" Margin="2" Text="Отчество" />
-								<TextBlock Margin="2" Text="{Binding Model.SecondName}" />
+								<TextBlock Margin="2" Text="{Binding SecondName}" />
 							</StackPanel>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Width="100" Margin="2" Text="Телефон" />
-								<TextBlock Margin="2" Text="{Binding Model.Phone}" />
+								<TextBlock Margin="2" Text="{Binding Phone}" />
 							</StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource BoolToVisibilityConverter}}" >
                                 <TextBlock Width="100" Margin="2" Text="Примечание" />
-                                <TextBlock Margin="2" Text="{Binding Model.Description}" />
+                                <TextBlock Margin="2" Text="{Binding Description}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
                                 <TextBlock Width="100" Margin="2" Text="Должность" />
-                                <TextBlock Margin="2" Text="{Binding Model.PositionName}" />
+                                <TextBlock Margin="2" Text="{Binding PositionName}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock Width="100" Margin="2" Text="Подразделение" />
-                                <TextBlock Margin="2" Text="{Binding Model.DepartmentName}" />
+                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock Width="100" Margin="2" Text="Организация" />
-                                <TextBlock Margin="2" Text="{Binding Model.OrganisationName}" />
+                                <TextBlock Margin="2" Text="{Binding OrganisationName}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding Model.IsDeleted, Converter={StaticResource BoolToVisibilityConverter}}" >
                                 <TextBlock Width="100" Margin="2" Text="Дата удаления" />
-                                <TextBlock Margin="2" Text="{Binding Model.RemovalDate}" />
+                                <TextBlock Margin="2" Text="{Binding RemovalDate}" />
                             </StackPanel>
                         </StackPanel>
 						<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />

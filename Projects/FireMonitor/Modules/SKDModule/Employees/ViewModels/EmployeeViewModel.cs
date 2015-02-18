@@ -23,6 +23,26 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsOrganisation ? "" : Model.PositionName; }
 		}
+		public string FirstName
+		{
+			get { return IsOrganisation ? "" : Model.FirstName; }
+		}
+		public string SecondName
+		{
+			get { return IsOrganisation ? "" : Model.SecondName; }
+		}
+		public string LastName
+		{
+			get { return IsOrganisation ? "" : Model.LastName; }
+		}
+		public string Phone
+		{
+			get { return IsOrganisation ? "" : Model.Phone; }
+		}
+		public string OrganisationName
+		{
+			get { return IsOrganisation ? "" : Model.OrganisationName; }
+		}
 		public bool IsDepartmentDeleted
 		{
 			get { return IsOrganisation ? false : Model.IsDepartmentDeleted; }
@@ -98,6 +118,13 @@ namespace SKDModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
+			OnPropertyChanged(() => FirstName);
+			OnPropertyChanged(() => SecondName);
+			OnPropertyChanged(() => LastName);
+			OnPropertyChanged(() => OrganisationName);
+			OnPropertyChanged(() => Phone);
+			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => RemovalDate);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => CredentialsStartDateString);

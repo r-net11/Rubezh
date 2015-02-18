@@ -55,7 +55,7 @@ namespace FiresecAPI.SKD
 		public PersonType Type { get; set; }
 
 		[DataMember]
-		public int TabelNo;
+		public string TabelNo;
 
 		[DataMember]
 		public DateTime CredentialsStartDate;

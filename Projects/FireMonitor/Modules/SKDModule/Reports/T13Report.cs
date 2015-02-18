@@ -121,7 +121,7 @@ namespace SKDModule.Reports
 				{
 					employee.No.ToString(),
 					employee.EmployeeFIO,
-					GetValue(employee.TabelNo),
+					employee.TabelNo,
 					GetValue(employee.FirstHalfDaysCount),
 					GetValue(employee.SecondHalfDaysCount),
 					GetValue(employee.TotalDaysCount),

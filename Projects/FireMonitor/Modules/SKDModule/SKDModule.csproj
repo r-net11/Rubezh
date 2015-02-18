@@ -123,8 +123,10 @@
       <DependentUpon>IsPositionDeletedTextBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\EditDayIntervalEvent.cs" />
+    <Compile Include="Events\EditDocumentEvent.cs" />
     <Compile Include="Events\EditEmployee2Event.cs" />
     <Compile Include="Events\NewOrganisationEvent.cs" />
+    <Compile Include="Events\RemoveDocumentEvent.cs" />
     <Compile Include="Events\ShowExportEvent.cs" />
     <Compile Include="Events\UpdateFilterEvent.cs" />
     <Compile Include="HR\ViewModels\EmployeesFilterItemViewModel.cs" />

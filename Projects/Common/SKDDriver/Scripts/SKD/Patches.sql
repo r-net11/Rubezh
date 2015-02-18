@@ -1346,3 +1346,9 @@ BEGIN
 	ALTER TABLE NightSettings DROP COLUMN EveningEndTime
 	INSERT INTO Patches (Id) VALUES ('DropEveningSettings')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_TabelNo_String')
+BEGIN
+	ALTER TABLE Employee ALTER COLUMN TabelNo nvarchar(50) NULL
+	INSERT INTO Patches (Id) VALUES ('Employee_TabelNo_String')
+END

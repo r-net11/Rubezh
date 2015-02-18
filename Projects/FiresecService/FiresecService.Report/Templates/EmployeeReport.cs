@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
+using System.Drawing.Printing;
+using DevExpress.XtraReports.UI;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using SKDDriver;
-using DevExpress.XtraReports.UI;
-using System.Drawing.Printing;
 
 namespace FiresecService.Report.Templates
 {
@@ -44,7 +40,9 @@ namespace FiresecService.Report.Templates
 				dataRow.FirstName = employee.Item.FirstName;
 				dataRow.LastName = employee.Item.LastName;
 				dataRow.Nationality = employee.Item.Citizenship;
-				dataRow.Number = employee.Item.TabelNo;
+				int number = -1;
+				int.TryParse(employee.Item.TabelNo, out number);
+				dataRow.Number = number;
 				dataRow.Organisation = employee.Organisation;
 				dataRow.Phone = employee.Item.Phone;
 				if (employee.Item.Photo != null)

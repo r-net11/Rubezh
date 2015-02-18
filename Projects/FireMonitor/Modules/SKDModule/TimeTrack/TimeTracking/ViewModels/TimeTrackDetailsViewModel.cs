@@ -4,9 +4,11 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -149,6 +151,7 @@ namespace SKDModule.ViewModels
 					Documents.Add(documentViewModel);
 					SelectedDocument = documentViewModel;
 					IsChanged = true;
+					ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(document);
 				}
 			}
 		}
@@ -169,6 +172,7 @@ namespace SKDModule.ViewModels
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
+				ServiceFactory.Events.GetEvent<EditDocumentEvent>().Publish(document);
 				SelectedDocument.Update();
 				IsChanged = true;
 			}
@@ -190,6 +194,7 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
+					ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Publish(SelectedDocument.Document);
 					Documents.Remove(SelectedDocument);
 					IsChanged = true;
 				}

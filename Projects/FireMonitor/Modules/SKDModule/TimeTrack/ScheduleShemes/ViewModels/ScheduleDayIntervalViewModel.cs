@@ -49,6 +49,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DayIntervals);
 			OnPropertyChanged(() => SelectedDayInterval);
+			OnPropertyChanged(() => SelectedDayIntervalName);
 		}
 
 		DayInterval _selectedDayInterval;
@@ -59,6 +60,11 @@ namespace SKDModule.ViewModels
 			{
 				SetDayInterval(value, _scheduleScheme.Model.Type == ScheduleSchemeType.Week && IsWorkDay(Model));
 			}
+		}
+
+		public string SelectedDayIntervalName
+		{
+			get { return _selectedDayInterval.Name; }
 		}
 
 		public void SetDayInterval(DayInterval dayInterval, bool isWithOthers)

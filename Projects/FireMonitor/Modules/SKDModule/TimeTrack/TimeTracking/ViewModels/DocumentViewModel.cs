@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
@@ -28,6 +24,12 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => ShortName);
 			OnPropertyChanged(() => StartDateTime);
 			OnPropertyChanged(() => EndDateTime);
+		}
+
+		public void Update(TimeTrackDocument timeTrackDocument)
+		{
+			Document = timeTrackDocument;
+			Update();
 		}
 
 		public string Name { get; private set; }

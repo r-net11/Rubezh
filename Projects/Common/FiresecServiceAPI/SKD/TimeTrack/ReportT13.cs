@@ -40,7 +40,7 @@ namespace FiresecAPI.SKD
 		public string EmployeeFIO { get; set; }
 		public Guid DepartmenuUID { get; set; }
 		public string DepartmentName { get; set; }
-		public int TabelNo { get; set; }
+		public string TabelNo { get; set; }
 
 		public int FirstHalfDaysCount { get; set; }
 		public int SecondHalfDaysCount { get; set; }
