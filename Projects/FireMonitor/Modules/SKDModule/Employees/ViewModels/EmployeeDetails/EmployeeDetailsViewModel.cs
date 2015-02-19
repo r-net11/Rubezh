@@ -653,7 +653,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee, SelectedDepartment);
+			var departmentSelectionViewModel = new DepartmentSelectionViewModel(Employee.OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty);
+			departmentSelectionViewModel.Initialize();
 			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
 			{
 				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
@@ -763,14 +764,14 @@ namespace SKDModule.ViewModels
 
 		bool IsLaunchEvent()
 		{
-			if ((Employee.Department == null && SelectedDepartment == null) ||
-				(Employee.Position == null && SelectedPosition == null))
+			if ((Employee.Department != null && SelectedDepartment == null) ||
+				(Employee.Position != null && SelectedPosition == null))
 				return true;
 			if((Employee.Department == null && SelectedDepartment != null) ||
 				(Employee.Position == null && SelectedPosition != null))
 				return true;
-			if ((Employee.Department.UID != SelectedDepartment.UID) ||
-				(Employee.Position.UID != SelectedPosition.UID))
+			if ((SelectedDepartment != null && Employee.Department.UID != SelectedDepartment.UID) ||
+				(SelectedPosition != null && Employee.Position.UID != SelectedPosition.UID))
 				return true;
 			return false;
 		}

@@ -46,7 +46,6 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.GetDepartmentList(new DepartmentFilter 
 				{ 
 					OrganisationUIDs = new List<Guid> { organisationUID },
-					UserUID = FiresecManager.CurrentUser.UID
 				});
 			return Common.ShowErrorIfExists(result);
 		}

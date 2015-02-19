@@ -218,6 +218,84 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
+		public OperationResult GenerateTestData()
+		{
+			try
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					var org = new DataAccess.Organisation { Name = "Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey="-1" };
+					Context.Organisations.InsertOnSubmit(org);
+					var posUIDs = new List<Guid>();
+					for (int j = 0; j < 10; j++)
+					{
+						var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+						Context.Positions.InsertOnSubmit(pos);
+						posUIDs.Add(pos.UID);
+					}
+					for (int j = 0; j < 10; j++)
+					{
+						var dept = new DataAccess.Department { Name = "Подразделение " + i + j + "0", OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+						Context.Departments.InsertOnSubmit(dept);
+						for (int k = 0; k < 100; k++)
+						{
+							var empl = new DataAccess.Employee
+							{
+								LastName = "Фамилия " + i + j + k + "0",
+								FirstName = "Имя " + i + j + k + "0",
+								SecondName = "Отчество " + i + j + k + "0",
+								DepartmentUID = dept.UID,
+								PositionUID = posUIDs.FirstOrDefault(),
+								OrganisationUID = org.UID,
+								UID = Guid.NewGuid(),
+								RemovalDate = new DateTime(1900, 1, 1),
+								BirthDate = new DateTime(1900, 1, 1),
+								CredentialsStartDate = new DateTime(1900, 1, 1),
+								DocumentGivenDate = new DateTime(1900, 1, 1),
+								DocumentValidTo = new DateTime(1900, 1, 1),
+								LastEmployeeDayUpdate = new DateTime(1900, 1, 1),
+								ScheduleStartDate = new DateTime(1900, 1, 1),
+								ExternalKey = "-1", 
+								Type = 0
+							};
+							Context.Employees.InsertOnSubmit(empl);
+						}
+						var dept2 = new DataAccess.Department { Name = "Подразделение " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+						Context.Departments.InsertOnSubmit(dept2);
+						for (int k = 0; k < 100; k++)
+						{
+							var empl = new DataAccess.Employee
+							{
+								LastName = "Фамилия " + i + j + k + "1",
+								FirstName = "Имя " + i + j + k + "1",
+								SecondName = "Отчество " + i + j + k + "1",
+								DepartmentUID = dept2.UID,
+								PositionUID = posUIDs.LastOrDefault(),
+								OrganisationUID = org.UID,
+								UID = Guid.NewGuid(),
+								RemovalDate = new DateTime(1900, 1, 1),
+								BirthDate = new DateTime(1900, 1, 1),
+								CredentialsStartDate = new DateTime(1900, 1, 1),
+								DocumentGivenDate = new DateTime(1900, 1, 1),
+								DocumentValidTo = new DateTime(1900, 1, 1),
+								LastEmployeeDayUpdate = new DateTime(1900, 1, 1),
+								ScheduleStartDate = new DateTime(1900, 1, 1),
+								ExternalKey = "-1",
+								Type = 0
+							};
+							Context.Employees.InsertOnSubmit(empl);
+						}
+					}
+				}
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public OperationResult GenerateEmployeeDays()
 		{
 			try

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
@@ -40,6 +41,7 @@ namespace SKDModule.ViewModels
 			}
 			CopyProperties();
 			ChiefViewModel = new EmployeeSelectationViewModel(Department.ChiefUID, new EmployeeFilter { DepartmentUIDs = new List<Guid> { Department.UID } });
+			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			return true;
 		}
 
@@ -62,6 +64,7 @@ namespace SKDModule.ViewModels
 			Name = Department.Name;
 			Description = Department.Description;
 			Phone = Department.Phone;
+			SelectedDepartment = Department.ParentDepartmentUID != null ? DepartmentHelper.GetSingleShort(Department.ParentDepartmentUID.Value) : null; 
 			if (Department.Photo != null)
 				PhotoData = Department.Photo.Data;
 		}
@@ -119,6 +122,23 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		ShortDepartment selectedDepartment;
+		public ShortDepartment SelectedDepartment
+		{
+			get { return selectedDepartment; }
+			private set
+			{
+				selectedDepartment = value;
+				OnPropertyChanged(() => SelectedDepartment);
+				OnPropertyChanged(() => HasSelectedDepartment);
+			}
+		}
+
+		public bool HasSelectedDepartment
+		{
+			get { return SelectedDepartment != null; }
+		}
+
 		protected override bool CanSave()
 		{
 			return true;
@@ -141,6 +161,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public RelayCommand SelectDepartmentCommand { get; private set; }
+		void OnSelectDepartment()
+		{
+			var departmentSelectionViewModel = new DepartmentParentSelectionViewModel(OrganisationUID, SelectedDepartment != null ? SelectedDepartment.UID : Guid.Empty, Department.UID);
+			departmentSelectionViewModel.Initialize();
+			if (DialogService.ShowModalWindow(departmentSelectionViewModel))
+			{
+				SelectedDepartment = departmentSelectionViewModel.SelectedDepartment != null ? departmentSelectionViewModel.SelectedDepartment.Department : null;
+			}
+		}
+
 		protected override bool Save()
 		{
 			Department.Name = Name;
@@ -149,6 +180,7 @@ namespace SKDModule.ViewModels
 				Department.Photo = new Photo();
 			Department.Photo.Data = PhotoData;
 			Department.ChiefUID = ChiefViewModel.SelectedEmployeeUID;
+			Department.ParentDepartmentUID = SelectedDepartment != null ? (Guid?)SelectedDepartment.UID : null;
 			Department.Phone = Phone;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.GK;
-using FiresecAPI.SKD;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -108,51 +105,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand SKDDataCommand { get; private set; }
 		void OnSKDData()
 		{
-			for (int i = 0; i < 10; i++)
-			{
-				var org = new OrganisationDetails { Name = "Организация " + i };
-				OrganisationHelper.Save(org, true);
-				var posUIDs = new List<Guid>();
-				for (int j = 0; j < 10; j++)
-				{
-					var pos = new Position { Name = "Должность " + i + j, OrganisationUID = org.UID };
-					PositionHelper.Save(pos, true);
-					posUIDs.Add(pos.UID);
-				}
-				for (int j = 0; j < 10; j++)
-				{
-					var dept = new Department { Name = "Подразделение " + i + j + "0", OrganisationUID = org.UID };
-					DepartmentHelper.Save(dept, true);
-					for (int k = 0; k < 10; k++)
-					{
-						var empl = new Employee
-						{
-							LastName = "Фамилия " + i + j + k + "0",
-							FirstName = "Имя " + i + j + k + "0",
-							SecondName = "Отчество " + i + j + k + "0",
-							Department = DepartmentHelper.GetSingleShort(dept.UID),
-							Position = PositionHelper.GetSingleShort(posUIDs.FirstOrDefault()),
-							OrganisationUID = org.UID
-						};
-						EmployeeHelper.Save(empl, true);
-					}
-					var dept2 = new Department { Name = "Подразделение " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID };
-					DepartmentHelper.Save(dept2, true);
-					for (int k = 0; k < 10; k++)
-					{
-						var empl = new Employee
-						{
-							LastName = "Фамилия " + i + j + k + "1",
-							FirstName = "Имя " + i + j + k + "1",
-							SecondName = "Отчество " + i + j + k + "1",
-							Department = DepartmentHelper.GetSingleShort(dept2.UID),
-							Position = PositionHelper.GetSingleShort(posUIDs.LastOrDefault()),
-							OrganisationUID = org.UID
-						};
-						EmployeeHelper.Save(empl, true);
-					}
-				}
-			}
+			FiresecManager.FiresecService.GenerateTestData();
 		}
 
 		public RelayCommand GenerateEmployeeDaysCommand { get; private set; }

@@ -1263,6 +1263,14 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult GenerateTestData()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.GenerateTestData();
+			}
+		}
+
 		public OperationResult SaveJournalVideoUID(Guid journalItemUID, Guid videoUID, Guid cameraUID)
 		{
 			using (var journalTranslator = new JounalTranslator())

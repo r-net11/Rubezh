@@ -11,6 +11,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
@@ -43,7 +44,27 @@
 						</TextBlock>
 				</StackPanel>
 
-				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
+                <Label Grid.Row="3" Grid.Column="0" Content="Родительское подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+                    <TextBlock VerticalAlignment="Center">
+							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
+								<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
+								<TextBlock>
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора родительского подразделения" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+                </StackPanel>
+
+                <Label Grid.Row="4" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>

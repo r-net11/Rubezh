@@ -135,7 +135,7 @@ namespace SKDModule.ViewModels
 					Employees.Add(viewModel);
 				}
 			}
-			else if (employeeListItemViewModel != null && GetParentUID(employee) != _parent.UID)
+			else if (employeeListItemViewModel != null && (GetParentUID(employee) != _parent.UID || GetParentUID(employee) == Guid.Empty)) 
 			{
 				Employees.Remove(employeeListItemViewModel);
 			}

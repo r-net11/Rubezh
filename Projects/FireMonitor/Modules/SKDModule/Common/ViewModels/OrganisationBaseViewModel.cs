@@ -253,6 +253,7 @@ namespace SKDModule.ViewModels
 		}
 
 		protected virtual void UpdateSelected() { }
+		protected virtual void UpdateParent() { }
 
 		public TViewModel ParentOrganisation
 		{
@@ -378,6 +379,7 @@ namespace SKDModule.ViewModels
 				{
 					SelectedItem.Update(model);
 					UpdateSelected();
+					UpdateParent();
 				}
 				else
 				{

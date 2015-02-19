@@ -282,6 +282,9 @@ namespace FiresecAPI
 		OperationResult GenerateEmployeeDays();
 
 		[OperationContract]
+		OperationResult GenerateTestData();
+
+		[OperationContract]
 		OperationResult SaveJournalVideoUID(Guid journaItemUID, Guid videoUID, Guid cameraUID);
 
 		[OperationContract]

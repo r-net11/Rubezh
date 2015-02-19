@@ -26,6 +26,9 @@ namespace SKDDriver
 			var uids = filter.UIDs;
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.UID));
+			var exceptUIDs = filter.ExceptUIDs;
+			if (exceptUIDs != null && exceptUIDs.Count != 0)
+				result = result.And(e => !exceptUIDs.Contains(e.UID));
 			return result;
 		}
 

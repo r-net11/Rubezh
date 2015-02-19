@@ -21,6 +21,7 @@ namespace SKDModule.ViewModels
 			Title = "Выбор должности";
 			OrganisationUID = employee.OrganisationUID;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			ClearCommand = new RelayCommand(OnClear);
 
 			Positions = new ObservableCollection<ShortPosition>();
 			var positions = PositionHelper.GetByOrganisation(OrganisationUID);
@@ -66,6 +67,13 @@ namespace SKDModule.ViewModels
 		bool CanAdd()
 		{
 			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit);
+		}
+
+		public RelayCommand ClearCommand { get; private set; }
+		void OnClear()
+		{
+			SelectedPosition = null;
+			Close();
 		}
 	}
 }

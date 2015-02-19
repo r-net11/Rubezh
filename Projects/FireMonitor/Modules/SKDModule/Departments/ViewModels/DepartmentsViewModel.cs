@@ -53,8 +53,7 @@ namespace SKDModule.ViewModels
 
 		void OnNewDepartment(ShortDepartment model)
 		{
-			var parent = Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) || 
-				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
+			var parent = GetParentItem(model);
 			if (parent != null)
 			{
 				var viewModel = new DepartmentViewModel();
@@ -65,7 +64,29 @@ namespace SKDModule.ViewModels
 
 		protected override DepartmentViewModel GetParentItem()
 		{
-			return SelectedItem;
+			return GetParentItem(SelectedItem.Model);
+		}
+
+		DepartmentViewModel GetParentItem(ShortDepartment model)
+		{
+			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
+				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
+		}
+
+		protected override void UpdateParent()
+		{
+			if (SelectedItem.Model.ParentDepartmentUID != SelectedItem.Parent.UID)
+			{
+				var model = SelectedItem.Model;
+				var newParent = GetParentItem(model);
+				newParent.AddChild(SelectedItem);
+			}
+			base.UpdateParent();
+		}
+
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			base.OnOrganisationUsersChanged(newOrganisation);
 		}
 
 		protected override IEnumerable<ShortDepartment> GetModels(DepartmentFilter filter)
