@@ -14,7 +14,6 @@ namespace FiresecAPI
 			Login = "adm";
 			Password = "";
 			AutoConnect = false;
-			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
 			UseStrazhBrand = false;
@@ -22,11 +21,6 @@ namespace FiresecAPI
 			DBServerName = "SQLEXPRESS";
 			//DBServerName = "FIRESECINSTANCE";
 			CreateNewDBOnOversize = true;
-
-			FS_RemoteAddress = "localhost";
-			FS_Port = 211;
-			FS_Login = "adm";
-			FS_Password = "";
 
 			ModuleItems = new List<string>();
 
@@ -68,21 +62,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool RunRevisor { get; set; }
-
-		[DataMember]
-		public bool DoNotOverrideFS1 { get; set; }
-
-		[DataMember]
-		public string FS_RemoteAddress { get; set; }
-
-		[DataMember]
-		public int FS_Port { get; set; }
-
-		[DataMember]
-		public string FS_Login { get; set; }
-
-		[DataMember]
-		public string FS_Password { get; set; }
 
 		[DataMember]
 		public bool Server_EnableRemoteConnections { get; set; }

@@ -16,14 +16,12 @@ namespace ManagementConsole
 			Login = GlobalSettingsHelper.GlobalSettings.Login;
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
+			Server_EnableRemoteConnections = GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections;
 			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
-			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
+			DBServerName = GlobalSettingsHelper.GlobalSettings.DBServerName;
+			CreateNewDBOnOversize = GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
-			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
-			FS_Port = GlobalSettingsHelper.GlobalSettings.FS_Port;
-			FS_Login = GlobalSettingsHelper.GlobalSettings.FS_Login;
-			FS_Password = GlobalSettingsHelper.GlobalSettings.FS_Password;
 
 			Modules = new List<ModuleViewModel>();
 			
@@ -120,17 +118,6 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _doNotOverrideFS1;
-		public bool DoNotOverrideFS1
-		{
-			get { return _doNotOverrideFS1; }
-			set
-			{
-				_doNotOverrideFS1 = value;
-				OnPropertyChanged("DoNotOverrideFS1");
-			}
-		}
-
 		bool _doNotAutoconnectAdm;
 		public bool DoNotAutoconnectAdm
 		{
@@ -153,47 +140,14 @@ namespace ManagementConsole
 			}
 		}
 
-		string _fS_RemoteAddress;
-		public string FS_RemoteAddress
+		bool _server_EnableRemoteConnections;
+		public bool Server_EnableRemoteConnections
 		{
-			get { return _fS_RemoteAddress; }
+			get { return _server_EnableRemoteConnections; }
 			set
 			{
-				_fS_RemoteAddress = value;
-				OnPropertyChanged("FS_RemoteAddress");
-			}
-		}
-
-		int _fS_Port;
-		public int FS_Port
-		{
-			get { return _fS_Port; }
-			set
-			{
-				_fS_Port = value;
-				OnPropertyChanged("FS_Port");
-			}
-		}
-
-		string _fS_Login;
-		public string FS_Login
-		{
-			get { return _fS_Login; }
-			set
-			{
-				_fS_Login = value;
-				OnPropertyChanged("FS_Login");
-			}
-		}
-
-		string _fS_Password;
-		public string FS_Password
-		{
-			get { return _fS_Password; }
-			set
-			{
-				_fS_Password = value;
-				OnPropertyChanged("FS_Password");
+				_server_EnableRemoteConnections = value;
+				OnPropertyChanged("Server_EnableRemoteConnections");
 			}
 		}
 
@@ -205,6 +159,28 @@ namespace ManagementConsole
 			{
 				_useHasp = value;
 				OnPropertyChanged("UseHasp");
+			}
+		}
+
+		string _dbServerName;
+		public string DBServerName
+		{
+			get { return _dbServerName; }
+			set
+			{
+				_dbServerName = value;
+				OnPropertyChanged("DBServerName");
+			}
+		}
+
+		bool _createNewDBOnOversize;
+		public bool CreateNewDBOnOversize
+		{
+			get { return _createNewDBOnOversize; }
+			set
+			{
+				_createNewDBOnOversize = value;
+				OnPropertyChanged("CreateNewDBOnOversize");
 			}
 		}
 
@@ -229,14 +205,11 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
-			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
-			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
-			GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress = FS_RemoteAddress;
-			GlobalSettingsHelper.GlobalSettings.FS_Port = FS_Port;
-			GlobalSettingsHelper.GlobalSettings.FS_Login = FS_Login;
-			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 
+			GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections = Server_EnableRemoteConnections;
 			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
+			GlobalSettingsHelper.GlobalSettings.DBServerName = DBServerName;
+			GlobalSettingsHelper.GlobalSettings.CreateNewDBOnOversize = CreateNewDBOnOversize;
 
 			GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)

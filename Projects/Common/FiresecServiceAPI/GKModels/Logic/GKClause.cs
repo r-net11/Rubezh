@@ -131,7 +131,7 @@ namespace FiresecAPI.GK
 							return "На охране";
 
 						case GKStateBit.Attention:
-							return "Сработка";
+							return "Тревога";
 					}
 					break;
 			}

@@ -78,7 +78,7 @@ namespace GKProcessor
 							JournalItem.JournalEventNameType = JournalEventNameType.Вход_пользователя_в_прибор;
 							JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
-							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
+							var bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							JournalItem.JournalObjectType = JournalObjectType.GKUser;

@@ -108,32 +108,6 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</TabItem>
-			<TabItem Header="FS1" DataContext="{Binding GlobalSettingsViewModel}">
-				<Grid Margin="2">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<TextBlock Grid.Row="0" Grid.Column="0" Text="Не перезаписывать Firesec-1" HorizontalAlignment="Right" Margin="2" />
-					<TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Margin="2" />
-					<TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
-					<TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль(максимум 1 символ)" HorizontalAlignment="Right" Margin="2" />
-
-					<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding DoNotOverrideFS1}" HorizontalAlignment="Left" Margin="2" />
-					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FS_RemoteAddress, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FS_Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding FS_Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-					<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding FS_Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				</Grid>
-			</TabItem>
 			<TabItem Header="Сброс">
 				<StackPanel Margin="2">
 					<Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
