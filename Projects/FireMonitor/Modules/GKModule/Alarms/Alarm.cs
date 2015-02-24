@@ -9,6 +9,7 @@ namespace GKModule
 		public GKZone Zone { get; set; }
 		public GKGuardZone GuardZone { get; set; }
 		public GKDirection Direction { get; set; }
+		public GKDoor Door { get; set; }
 
 		public Alarm(GKAlarmType alarmType, GKDevice device)
 		{
@@ -32,6 +33,12 @@ namespace GKModule
 		{
 			AlarmType = alarmType;
 			Direction = direction;
+		}
+
+		public Alarm(GKAlarmType alarmType, GKDoor door)
+		{
+			AlarmType = alarmType;
+			Door = door;
 		}
 
 		public Alarm Clone()

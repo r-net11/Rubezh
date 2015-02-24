@@ -211,7 +211,7 @@ namespace GKProcessor
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Сработка_1;
 							}
-							if (JournalItem.JournalObjectType == JournalObjectType.GKGuardZone)
+							if (JournalItem.JournalObjectType == JournalObjectType.GKGuardZone || JournalItem.JournalObjectType == JournalObjectType.GKDoor)
 							{
 								JournalItem.JournalEventNameType = JournalEventNameType.Тревога;
 							}

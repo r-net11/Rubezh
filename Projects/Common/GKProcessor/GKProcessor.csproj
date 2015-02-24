@@ -143,6 +143,7 @@
     <Compile Include="Drivers\RSR2\RSR2_RM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_2_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_OPK_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Shuv_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector2_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MVP_Helper.cs" />
