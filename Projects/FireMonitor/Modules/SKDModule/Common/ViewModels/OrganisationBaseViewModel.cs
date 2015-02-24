@@ -275,7 +275,7 @@ namespace SKDModule.ViewModels
 			{
 				var itemViewModel = new TViewModel();
 				itemViewModel.InitializeModel(SelectedItem.Organisation, model, this);
-				var parentViewModel = GetParentItem();
+				var parentViewModel = GetParentItem(model);
 				parentViewModel.AddChild(itemViewModel);
 				SelectedItem = itemViewModel;
 			}
@@ -287,7 +287,7 @@ namespace SKDModule.ViewModels
 
 		protected virtual bool IsAddViewModel(TModel model) { return true; }
 
-		protected virtual TViewModel GetParentItem()
+		protected virtual TViewModel GetParentItem(TModel model)
 		{
 			return SelectedItem.IsOrganisation ? SelectedItem : SelectedItem.Parent;
 		}

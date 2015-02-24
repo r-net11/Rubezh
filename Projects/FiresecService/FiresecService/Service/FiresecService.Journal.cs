@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
@@ -25,11 +23,15 @@ namespace FiresecService.Service
 				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
 				JournalObjectType = JournalObjectType.None,
 				ObjectUID = Guid.Empty,
-				ObjectName = objectName
+				ObjectName = objectName,
 			};
-			if (userName == null)
+			if (userName != null)
 			{
 				journalItem.UserName = userName;
+			}
+			else
+			{
+				journalItem.UserName = UserName;
 			}
 
 			AddCommonJournalItem(journalItem);

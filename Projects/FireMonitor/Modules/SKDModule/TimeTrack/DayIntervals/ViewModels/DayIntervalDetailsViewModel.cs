@@ -24,10 +24,13 @@ namespace SKDModule.ViewModels
 					OrganisationUID = organisation.UID,
 				};
 				model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
+				Model = model;
 			}
 			else
+			{
 				Title = "Редактирование дневного графика";
-			Model = DayIntervalHelper.GetSingle(model.UID);
+				Model = DayIntervalHelper.GetSingle(model.UID);
+			}
 			Name = Model.Name;
 			Description = Model.Description;
 			ConstantSlideTime = Model.SlideTime;

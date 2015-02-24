@@ -62,12 +62,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override DepartmentViewModel GetParentItem()
+		protected override DepartmentViewModel GetParentItem(ShortDepartment model)
 		{
-			return GetParentItem(SelectedItem.Model);
+			if (SelectedItem.IsOrganisation)
+				return SelectedItem;
+			return GetParentItemInternal(model);
 		}
 
-		DepartmentViewModel GetParentItem(ShortDepartment model)
+		DepartmentViewModel GetParentItemInternal(ShortDepartment model)
 		{
 			return Organisations.SelectMany(x => x.GetAllChildren()).FirstOrDefault(x => (model.ParentDepartmentUID != null && !x.IsOrganisation && x.Model.UID == model.ParentDepartmentUID) ||
 				(model.ParentDepartmentUID == null && x.IsOrganisation && x.Organisation.UID == model.OrganisationUID));
@@ -78,7 +80,7 @@ namespace SKDModule.ViewModels
 			if (SelectedItem.Model.ParentDepartmentUID != SelectedItem.Parent.UID)
 			{
 				var model = SelectedItem.Model;
-				var newParent = GetParentItem(model);
+				var newParent = GetParentItemInternal(model);
 				newParent.AddChild(SelectedItem);
 			}
 			base.UpdateParent();

@@ -134,15 +134,17 @@ namespace SKDModule.ViewModels
 			if (_isNew)
 			{
 				Title = "Новый график";
-				model = new Schedule()
+				Model = new Schedule()
 				{
 					Name = "Новый график работы",
 					OrganisationUID = Organisation.UID,
 				};
 			}
 			else
+			{
 				Title = "Редактирование графика работы";
-			Model = ScheduleHelper.GetSingle(model.UID);
+				Model = ScheduleHelper.GetSingle(model.UID);
+			}
 			Name = Model.Name;
 			IsIgnoreHoliday = Model.IsIgnoreHoliday;
 			IsOnlyFirstEnter = Model.IsOnlyFirstEnter;

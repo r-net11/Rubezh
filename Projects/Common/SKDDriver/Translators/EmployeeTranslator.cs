@@ -44,7 +44,7 @@ namespace SKDDriver
 			result.Department = DatabaseService.DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
 			result.Schedule = DatabaseService.ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
-			result.AdditionalColumns = DatabaseService.AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
+			result.AdditionalColumns = DatabaseService.AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID).Where(x => x.AdditionalColumnType != null).ToList();
 			result.Type = (PersonType)tableItem.Type;
 			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Position = DatabaseService.PositionTranslator.GetSingleShort(tableItem.PositionUID);

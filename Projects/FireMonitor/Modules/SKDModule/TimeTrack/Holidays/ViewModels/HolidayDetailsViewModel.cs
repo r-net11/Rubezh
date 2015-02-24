@@ -30,12 +30,14 @@ namespace SKDModule.ViewModels
 					OrganisationUID = Organisation.UID,
 					Date = new DateTime(holidaysViewModel.SelectedYear, DateTime.Today.Month, DateTime.Today.Day),
 				};
+				Model = holiday;
 			}
 			else
 			{
 				Title = "Редактирование сокращённого дня";
+				Model = HolidayHelper.GetSingle(holiday.UID);
 			}
-			Model = HolidayHelper.GetSingle(holiday.UID);
+			
 			Name = holiday.Name;
 			Date = holiday.Date;
 
