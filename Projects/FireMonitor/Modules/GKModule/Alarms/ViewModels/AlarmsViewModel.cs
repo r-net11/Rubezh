@@ -131,6 +131,31 @@ namespace GKModule.ViewModels
 				}
 			}
 
+			foreach (var door in GKManager.Doors)
+			{
+				foreach (var stateClass in door.State.StateClasses)
+				{
+					switch (stateClass)
+					{
+						case XStateClass.Fire2:
+							alarms.Add(new Alarm(GKAlarmType.Fire2, door));
+							break;
+
+						case XStateClass.Fire1:
+							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, door));
+							break;
+
+						case XStateClass.Attention:
+							alarms.Add(new Alarm(GKAlarmType.Attention, door));
+							break;
+
+						case XStateClass.Ignore:
+							alarms.Add(new Alarm(GKAlarmType.Ignore, door));
+							break;
+					}
+				}
+			}
+
 			foreach (var direction in GKManager.Directions)
 			{
 				foreach (var stateClass in direction.State.StateClasses)
@@ -292,6 +317,13 @@ namespace GKModule.ViewModels
 							}
 						}
 					}
+					foreach (var door in GKManager.Doors)
+					{
+						if (door.State.StateClasses.Contains(XStateClass.Fire1))
+						{
+							FiresecManager.FiresecService.GKReset(door);
+						}
+					}
 				}
 			}
 		}
@@ -323,6 +355,11 @@ namespace GKModule.ViewModels
 					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
 						result++;
 				}
+			}
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.State.StateClasses.Contains(XStateClass.Fire1))
+					result++;
 			}
 			return result;
 		}

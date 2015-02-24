@@ -212,7 +212,7 @@ namespace FiresecAPI.GK
 					var device = Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
 					if (device != null)
 					{
-						if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire)
+						if (device.Driver.DriverType == GKDriverType.RSR2_Bush_Drenazh || device.Driver.DriverType == GKDriverType.RSR2_Bush_Jokey || device.Driver.DriverType == GKDriverType.RSR2_Bush_Fire || device.Driver.DriverType == GKDriverType.RSR2_Bush_Shuv)
 						{
 							nsDeviceUIDs.Add(device.UID);
 							pumpStation.NSDevices.Add(device);

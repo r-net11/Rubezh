@@ -44,6 +44,8 @@ namespace GKModule.ViewModels
 					return Alarm.GuardZone.PresentationName;
 				if (Alarm.Direction != null)
 					return Alarm.Direction.PresentationName;
+				if (Alarm.Door != null)
+					return Alarm.Door.PresentationName;
 				return null;
 			}
 		}
@@ -60,6 +62,8 @@ namespace GKModule.ViewModels
 					return "/Controls;component/Images/GuardZone.png";
 				if (Alarm.Direction != null)
 					return "/Controls;component/Images/Blue_Direction.png";
+				if (Alarm.Door != null)
+					return "/Controls;component/Images/Door.png";
 				return null;
 			}
 		}
@@ -76,6 +80,8 @@ namespace GKModule.ViewModels
 					return Alarm.GuardZone.State.StateClass;
 				if (Alarm.Direction != null)
 					return Alarm.Direction.State.StateClass;
+				if (Alarm.Door != null)
+					return Alarm.Door.State.StateClass;
 				return XStateClass.Norm;
 			}
 		}
@@ -187,6 +193,10 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.Direction.UID);
 			}
+			if (Alarm.Door != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
+			}
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -208,6 +218,10 @@ namespace GKModule.ViewModels
 			{
 				ShowOnPlanHelper.ShowDirection(Alarm.Direction);
 			}
+			if (Alarm.Door != null)
+			{
+				ShowOnPlanHelper.ShowDoor(Alarm.Door);
+			}
 		}
 		bool CanShowOnPlan()
 		{
@@ -226,6 +240,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Direction != null)
 			{
 				return ShowOnPlanHelper.CanShowDirection(Alarm.Direction);
+			}
+			if (Alarm.Door != null)
+			{
+				return ShowOnPlanHelper.CanShowDoor(Alarm.Door);
 			}
 			return false;
 		}
@@ -261,6 +279,15 @@ namespace GKModule.ViewModels
 				{
 					FiresecManager.FiresecService.GKReset(Alarm.Device);
 				}
+				if (Alarm.Door != null)
+				{
+					switch (Alarm.AlarmType)
+					{
+						case GKAlarmType.GuardAlarm:
+							FiresecManager.FiresecService.GKReset(Alarm.Door);
+							break;
+					}
+				}
 			}
 		}
 		bool CanReset()
@@ -279,6 +306,10 @@ namespace GKModule.ViewModels
 				{
 					return Alarm.Device.State.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.State.StateClasses.Contains(XStateClass.Fire1);
 				}
+			}
+			if (Alarm.Door != null)
+			{
+				return (Alarm.AlarmType == GKAlarmType.GuardAlarm);
 			}
 			return false;
 		}
@@ -321,6 +352,13 @@ namespace GKModule.ViewModels
 					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
+					}
+				}
+				if (Alarm.Door != null)
+				{
+					if (Alarm.Door.State.StateClasses.Contains(XStateClass.Ignore))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Door);
 					}
 				}
 			}
@@ -412,7 +450,8 @@ namespace GKModule.ViewModels
 				GKDevice = Alarm.Device,
 				GKZone = Alarm.Zone,
 				GKGuardZone = Alarm.GuardZone,
-				GKDirection = Alarm.Direction
+				GKDirection = Alarm.Direction,
+				GKDoor = Alarm.Door
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
@@ -435,6 +474,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Direction != null)
 			{
 				DialogService.ShowWindow(new DirectionDetailsViewModel(Alarm.Direction));
+			}
+			if (Alarm.Door != null)
+			{
+				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
 			}
 		}
 		bool CanShowProperties()

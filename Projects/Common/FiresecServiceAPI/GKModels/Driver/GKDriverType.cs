@@ -99,6 +99,8 @@ namespace FiresecAPI.GK
 		RSR2_Bush_Jokey,
 		[Description("ППУ ПН R2")]
 		RSR2_Bush_Fire,
+		[Description("ППУ В R2")]
+		RSR2_Bush_Shuv,
 		[Description("БУЗ КВ R2")]
 		RSR2_Valve_KV,
 		[Description("БУЗ КВ-МВ R2")]
