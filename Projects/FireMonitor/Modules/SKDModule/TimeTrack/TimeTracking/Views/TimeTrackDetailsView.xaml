@@ -68,7 +68,10 @@
 						<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="Add"  />
 						<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="Edit"  />
 						<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="Delete"  />
-					</StackPanel>
+                        <ToolBarButton Command="{Binding AddFileCommand}" ToolTip="Добавить файл" ImageSource="Add"  />
+                        <ToolBarButton Command="{Binding OpenFileCommand}" ToolTip="Открыть файл" ImageSource="Edit"  />
+                        <ToolBarButton Command="{Binding RemoveFileCommand}" ToolTip="Удалить файл" ImageSource="Delete"  />
+                    </StackPanel>
 					<DataGrid Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>
 							<DataGridTemplateColumn Header="Название документа" Width="*">
@@ -102,7 +105,14 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-						</DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Файл" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FileName}" Margin="2 0" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
 					</DataGrid>
 				</Grid>
 			</TabItem>

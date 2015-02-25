@@ -41,5 +41,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeTrackDocumentType TimeTrackDocumentType { get; set; }
+
+		[DataMember]
+		public string FileName { get; set; }
 	}
 }

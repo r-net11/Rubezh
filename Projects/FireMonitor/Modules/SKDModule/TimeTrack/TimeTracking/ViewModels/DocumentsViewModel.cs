@@ -23,6 +23,9 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
+			OpenFileCommand = new RelayCommand(OnOpenFile, CanOpenFile);
+			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanRemoveFile);
 
 			Documents = new ObservableCollection<DocumentViewModel>();
 			if (timeTrackEmployeeResult.Documents != null)
@@ -151,6 +154,36 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Documents);
 				IsChanged = true;
 			}
+		}
+
+		public RelayCommand AddFileCommand { get; private set; }
+		void OnAddFile()
+		{
+			SelectedDocument.AddFile();
+		}
+		bool CanAddFile()
+		{
+			return SelectedDocument != null && !SelectedDocument.HasFile;
+		}
+
+		public RelayCommand OpenFileCommand { get; private set; }
+		void OnOpenFile()
+		{
+			SelectedDocument.OpenFile();
+		}
+		bool CanOpenFile()
+		{
+			return SelectedDocument != null && SelectedDocument.HasFile;
+		}
+
+		public RelayCommand RemoveFileCommand { get; private set; }
+		void OnRemoveFile()
+		{
+			SelectedDocument.RemoveFile();
+		}
+		bool CanRemoveFile()
+		{
+			return SelectedDocument != null && SelectedDocument.HasFile;
 		}
 
 		bool _IsChanged;

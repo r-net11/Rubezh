@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using LinqKit;
-using OperationResult = FiresecAPI.OperationResult;
-using FiresecAPI.SKD;
-using FiresecAPI;
 using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
@@ -39,7 +37,8 @@ namespace SKDDriver.Translators
 							DocumentCode = tableTimeTrackDocument.DocumentCode,
 							Comment = tableTimeTrackDocument.Comment,
 							DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
-							DocumentNumber = tableTimeTrackDocument.DocumentNumber
+							DocumentNumber = tableTimeTrackDocument.DocumentNumber,
+							FileName = tableTimeTrackDocument.FileName
 						};
 						timeTrackDocuments.Add(timeTrackDocument);
 					}
@@ -67,6 +66,7 @@ namespace SKDDriver.Translators
 				tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
 				tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
 				Context.TimeTrackDocuments.InsertOnSubmit(tableItem);
+				tableItem.FileName = timeTrackDocument.FileName;
 				Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -89,6 +89,7 @@ namespace SKDDriver.Translators
 					tableItem.Comment = timeTrackDocument.Comment;
 					tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
 					tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
+					tableItem.FileName = timeTrackDocument.FileName;
 					Context.SubmitChanges();
 				}
 				return new OperationResult();

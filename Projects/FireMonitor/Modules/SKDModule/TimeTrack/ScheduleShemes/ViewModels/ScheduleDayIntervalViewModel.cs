@@ -83,6 +83,7 @@ namespace SKDModule.ViewModels
 				_scheduleScheme.SheduleDayIntervals.Where(x => IsWorkDay(x.Model)).ForEach(x => x.SetDayInterval(dayInterval, false));
 			}
 			OnPropertyChanged(() => SelectedDayInterval);
+			OnPropertyChanged(() => SelectedDayIntervalName);
 		}
 
 		bool IsWorkDay(ScheduleDayInterval dayInterval)

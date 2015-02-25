@@ -102,9 +102,6 @@ namespace SKDDriver.DataAccess
     partial void InsertScheduleZone(ScheduleZone instance);
     partial void UpdateScheduleZone(ScheduleZone instance);
     partial void DeleteScheduleZone(ScheduleZone instance);
-    partial void InsertTimeTrackDocument(TimeTrackDocument instance);
-    partial void UpdateTimeTrackDocument(TimeTrackDocument instance);
-    partial void DeleteTimeTrackDocument(TimeTrackDocument instance);
     partial void InsertTimeTrackDocumentType(TimeTrackDocumentType instance);
     partial void UpdateTimeTrackDocumentType(TimeTrackDocumentType instance);
     partial void DeleteTimeTrackDocumentType(TimeTrackDocumentType instance);
@@ -117,6 +114,9 @@ namespace SKDDriver.DataAccess
     partial void InsertEmployee(Employee instance);
     partial void UpdateEmployee(Employee instance);
     partial void DeleteEmployee(Employee instance);
+    partial void InsertTimeTrackDocument(TimeTrackDocument instance);
+    partial void UpdateTimeTrackDocument(TimeTrackDocument instance);
+    partial void DeleteTimeTrackDocument(TimeTrackDocument instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -349,14 +349,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<TimeTrackDocument> TimeTrackDocuments
-		{
-			get
-			{
-				return this.GetTable<TimeTrackDocument>();
-			}
-		}
-		
 		public System.Data.Linq.Table<TimeTrackDocumentType> TimeTrackDocumentTypes
 		{
 			get
@@ -386,6 +378,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Employee>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TimeTrackDocument> TimeTrackDocuments
+		{
+			get
+			{
+				return this.GetTable<TimeTrackDocument>();
 			}
 		}
 	}
@@ -7374,236 +7374,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackDocument")]
-	public partial class TimeTrackDocument : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Guid _EmployeeUID;
-		
-		private System.DateTime _StartDateTime;
-		
-		private System.DateTime _EndDateTime;
-		
-		private int _DocumentCode;
-		
-		private string _Comment;
-		
-		private System.DateTime _DocumentDateTime;
-		
-		private int _DocumentNumber;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnEmployeeUIDChanging(System.Guid value);
-    partial void OnEmployeeUIDChanged();
-    partial void OnStartDateTimeChanging(System.DateTime value);
-    partial void OnStartDateTimeChanged();
-    partial void OnEndDateTimeChanging(System.DateTime value);
-    partial void OnEndDateTimeChanged();
-    partial void OnDocumentCodeChanging(int value);
-    partial void OnDocumentCodeChanged();
-    partial void OnCommentChanging(string value);
-    partial void OnCommentChanged();
-    partial void OnDocumentDateTimeChanging(System.DateTime value);
-    partial void OnDocumentDateTimeChanged();
-    partial void OnDocumentNumberChanging(int value);
-    partial void OnDocumentNumberChanged();
-    #endregion
-		
-		public TimeTrackDocument()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid EmployeeUID
-		{
-			get
-			{
-				return this._EmployeeUID;
-			}
-			set
-			{
-				if ((this._EmployeeUID != value))
-				{
-					this.OnEmployeeUIDChanging(value);
-					this.SendPropertyChanging();
-					this._EmployeeUID = value;
-					this.SendPropertyChanged("EmployeeUID");
-					this.OnEmployeeUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime StartDateTime
-		{
-			get
-			{
-				return this._StartDateTime;
-			}
-			set
-			{
-				if ((this._StartDateTime != value))
-				{
-					this.OnStartDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._StartDateTime = value;
-					this.SendPropertyChanged("StartDateTime");
-					this.OnStartDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime EndDateTime
-		{
-			get
-			{
-				return this._EndDateTime;
-			}
-			set
-			{
-				if ((this._EndDateTime != value))
-				{
-					this.OnEndDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndDateTime = value;
-					this.SendPropertyChanged("EndDateTime");
-					this.OnEndDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentCode", DbType="Int NOT NULL")]
-		public int DocumentCode
-		{
-			get
-			{
-				return this._DocumentCode;
-			}
-			set
-			{
-				if ((this._DocumentCode != value))
-				{
-					this.OnDocumentCodeChanging(value);
-					this.SendPropertyChanging();
-					this._DocumentCode = value;
-					this.SendPropertyChanged("DocumentCode");
-					this.OnDocumentCodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="NVarChar(100)")]
-		public string Comment
-		{
-			get
-			{
-				return this._Comment;
-			}
-			set
-			{
-				if ((this._Comment != value))
-				{
-					this.OnCommentChanging(value);
-					this.SendPropertyChanging();
-					this._Comment = value;
-					this.SendPropertyChanged("Comment");
-					this.OnCommentChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentDateTime", DbType="DateTime NOT NULL")]
-		public System.DateTime DocumentDateTime
-		{
-			get
-			{
-				return this._DocumentDateTime;
-			}
-			set
-			{
-				if ((this._DocumentDateTime != value))
-				{
-					this.OnDocumentDateTimeChanging(value);
-					this.SendPropertyChanging();
-					this._DocumentDateTime = value;
-					this.SendPropertyChanged("DocumentDateTime");
-					this.OnDocumentDateTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentNumber", DbType="Int NOT NULL")]
-		public int DocumentNumber
-		{
-			get
-			{
-				return this._DocumentNumber;
-			}
-			set
-			{
-				if ((this._DocumentNumber != value))
-				{
-					this.OnDocumentNumberChanging(value);
-					this.SendPropertyChanging();
-					this._DocumentNumber = value;
-					this.SendPropertyChanged("DocumentNumber");
-					this.OnDocumentNumberChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackDocumentType")]
 	public partial class TimeTrackDocumentType : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -9478,6 +9248,260 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Employee1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackDocument")]
+	public partial class TimeTrackDocument : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _EmployeeUID;
+		
+		private System.DateTime _StartDateTime;
+		
+		private System.DateTime _EndDateTime;
+		
+		private int _DocumentCode;
+		
+		private string _Comment;
+		
+		private System.DateTime _DocumentDateTime;
+		
+		private int _DocumentNumber;
+		
+		private string _FileName;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnEmployeeUIDChanging(System.Guid value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnStartDateTimeChanging(System.DateTime value);
+    partial void OnStartDateTimeChanged();
+    partial void OnEndDateTimeChanging(System.DateTime value);
+    partial void OnEndDateTimeChanged();
+    partial void OnDocumentCodeChanging(int value);
+    partial void OnDocumentCodeChanged();
+    partial void OnCommentChanging(string value);
+    partial void OnCommentChanged();
+    partial void OnDocumentDateTimeChanging(System.DateTime value);
+    partial void OnDocumentDateTimeChanged();
+    partial void OnDocumentNumberChanging(int value);
+    partial void OnDocumentNumberChanged();
+    partial void OnFileNameChanging(string value);
+    partial void OnFileNameChanged();
+    #endregion
+		
+		public TimeTrackDocument()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid EmployeeUID
+		{
+			get
+			{
+				return this._EmployeeUID;
+			}
+			set
+			{
+				if ((this._EmployeeUID != value))
+				{
+					this.OnEmployeeUIDChanging(value);
+					this.SendPropertyChanging();
+					this._EmployeeUID = value;
+					this.SendPropertyChanged("EmployeeUID");
+					this.OnEmployeeUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime StartDateTime
+		{
+			get
+			{
+				return this._StartDateTime;
+			}
+			set
+			{
+				if ((this._StartDateTime != value))
+				{
+					this.OnStartDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._StartDateTime = value;
+					this.SendPropertyChanged("StartDateTime");
+					this.OnStartDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDateTime
+		{
+			get
+			{
+				return this._EndDateTime;
+			}
+			set
+			{
+				if ((this._EndDateTime != value))
+				{
+					this.OnEndDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndDateTime = value;
+					this.SendPropertyChanged("EndDateTime");
+					this.OnEndDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentCode", DbType="Int NOT NULL")]
+		public int DocumentCode
+		{
+			get
+			{
+				return this._DocumentCode;
+			}
+			set
+			{
+				if ((this._DocumentCode != value))
+				{
+					this.OnDocumentCodeChanging(value);
+					this.SendPropertyChanging();
+					this._DocumentCode = value;
+					this.SendPropertyChanged("DocumentCode");
+					this.OnDocumentCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="NVarChar(100)")]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this.OnCommentChanging(value);
+					this.SendPropertyChanging();
+					this._Comment = value;
+					this.SendPropertyChanged("Comment");
+					this.OnCommentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime DocumentDateTime
+		{
+			get
+			{
+				return this._DocumentDateTime;
+			}
+			set
+			{
+				if ((this._DocumentDateTime != value))
+				{
+					this.OnDocumentDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DocumentDateTime = value;
+					this.SendPropertyChanged("DocumentDateTime");
+					this.OnDocumentDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentNumber", DbType="Int NOT NULL")]
+		public int DocumentNumber
+		{
+			get
+			{
+				return this._DocumentNumber;
+			}
+			set
+			{
+				if ((this._DocumentNumber != value))
+				{
+					this.OnDocumentNumberChanging(value);
+					this.SendPropertyChanging();
+					this._DocumentNumber = value;
+					this.SendPropertyChanged("DocumentNumber");
+					this.OnDocumentNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FileName", DbType="NVarChar(100)")]
+		public string FileName
+		{
+			get
+			{
+				return this._FileName;
+			}
+			set
+			{
+				if ((this._FileName != value))
+				{
+					this.OnFileNameChanging(value);
+					this.SendPropertyChanging();
+					this._FileName = value;
+					this.SendPropertyChanged("FileName");
+					this.OnFileNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

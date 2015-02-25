@@ -162,12 +162,7 @@ namespace SKDModule.ViewModels
 
 		void OnEditDayInterval(Guid dayInternalUID)
 		{
-			ReloadDayIntervals();
-			//if (!SelectedItem.IsOrganisation && SelectedItem.DayIntervals.Any(x => x.UID == dayInternalUID))
-			//{
-			//    SelectedItem.Initialize();
-			//    SelectedItem.SheduleDayIntervals.ForEach(x => x.Update());
-			//}
+			SelectedItem = Organisations.FirstOrDefault();
 		}
 	}
 }
