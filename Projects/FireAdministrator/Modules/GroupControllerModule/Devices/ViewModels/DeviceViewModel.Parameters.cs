@@ -238,6 +238,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
 		void OnSyncFromDeviceToSystem()
 		{
+			CheckShleif();
 			CopyFromDeviceToSystem(Device);
 			PropertiesViewModel.Update();
 			UpdateDeviceParameterMissmatch();

@@ -1,6 +1,4 @@
 ﻿using FiresecAPI.GK;
-using FiresecAPI.Models;
-using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -22,7 +20,10 @@ namespace GKModule.ViewModels
 		{
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOnInAutomaticCommand = new RelayCommand(OnTurnOnInAutomatic);
+			TurnOnNowInAutomaticCommand = new RelayCommand(OnTurnOnNowInAutomatic);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
+			TurnOffInAutomaticCommand = new RelayCommand(OnTurnOffInAutomatic);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -78,12 +79,39 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand TurnOnInAutomaticCommand { get; private set; }
+		void OnTurnOnInAutomatic()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOnInAutomatic(GuardZone);
+			}
+		}
+
+		public RelayCommand TurnOnNowInAutomaticCommand { get; private set; }
+		void OnTurnOnNowInAutomatic()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOnNowInAutomatic(GuardZone);
+			}
+		}
+
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				FiresecManager.FiresecService.GKTurnOff(GuardZone);
+			}
+		}
+
+		public RelayCommand TurnOffInAutomaticCommand { get; private set; }
+		void OnTurnOffInAutomatic()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOffInAutomatic(GuardZone);
 			}
 		}
 

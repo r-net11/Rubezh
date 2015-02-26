@@ -31,8 +31,9 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
+		public bool IsDisabled{ get; set; }
+		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Deivce; } }
-
 		[XmlIgnore]
 		public GKDriver Driver { get; set; }
 		[XmlIgnore]

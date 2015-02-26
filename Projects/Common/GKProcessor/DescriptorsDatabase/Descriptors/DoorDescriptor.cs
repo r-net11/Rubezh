@@ -32,16 +32,16 @@ namespace GKProcessor
 				if (Door.EnterDevice != null)
 				{
 					Formula.AddGetBit(GKStateBit.Attention, Door.EnterDevice, DatabaseType.Gk);
-					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.EnterDevice.GKDescriptorNo);
-					Formula.Add(FormulaOperationType.AND);
+					//Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.EnterDevice.GKDescriptorNo);
+					//Formula.Add(FormulaOperationType.AND);
 				}
 				if (Door.ExitDevice != null)
 				{
 					if (Door.ExitDevice.DriverType == GKDriverType.RSR2_CodeReader || Door.ExitDevice.DriverType == GKDriverType.RSR2_CardReader)
 					{
 						Formula.AddGetBit(GKStateBit.Attention, Door.ExitDevice, DatabaseType.Gk);
-						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.ExitDevice.GKDescriptorNo);
-						Formula.Add(FormulaOperationType.AND);
+						//Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.ExitDevice.GKDescriptorNo);
+						//Formula.Add(FormulaOperationType.AND);
 					}
 					else
 					{

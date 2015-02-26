@@ -410,6 +410,18 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно, "", gkBase, userName);
 		}
 
+		public static void GKTurnOnInAutomatic(GKBase gkBase, string userName)
+		{
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOn_InAutomatic, "Включить в автоматике");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_в_автоматическом_режиме, "", gkBase, userName);
+		}
+
+		public static void GKTurnOnNowInAutomatic(GKBase gkBase, string userName)
+		{
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOnNow_InAutomatic, "Включить немедленно в автоматике");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
+		}
+
 		public static void GKTurnOff(GKBase gkBase, string userName)
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOff_InManual, "Выключить");
@@ -420,6 +432,12 @@ namespace GKProcessor
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOffNow_InManual, "Выключить немедленно");
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно, "", gkBase, userName);
+		}
+
+		public static void GKTurnOffInAutomatic(GKBase gkBase, string userName)
+		{
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOff_InAutomatic, "Выключить в автоматике");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_в_автоматическом_режиме, "", gkBase, userName);
 		}
 
 		public static void GKStop(GKBase gkBase, string userName)

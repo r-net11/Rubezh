@@ -125,10 +125,10 @@ namespace FiresecAPI.GK
 					switch (stateBit)
 					{
 						case GKStateBit.On:
-							return "Не на охране";
+							return "На охране";
 
 						case GKStateBit.Off:
-							return "На охране";
+							return "Не на охране";
 
 						case GKStateBit.Attention:
 							return "Тревога";

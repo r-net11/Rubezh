@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Windows.Input;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
@@ -152,6 +151,7 @@ namespace GKModule.ViewModels
 		private DeviceViewModel AddDeviceInternal(GKDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
+			deviceViewModel.CheckShleif();
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
 
@@ -216,6 +216,9 @@ namespace GKModule.ViewModels
 		{
 			if (DevicesToCopy.Count > 0 && SelectedDevice != null)
 			{
+				if (SelectedDevice.IsDisabled || SelectedDevice.GetAllParents().Any(x => x.IsDisabled))
+					return false;
+
 				if (SelectedDevice.Device.DriverType == GKDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == GKDriverType.KAUIndicator)
 					return false;
 

@@ -384,6 +384,24 @@ namespace FiresecService.Service
 			}
 		}
 
+		public void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
+			{
+				GKProcessorManager.GKTurnOnInAutomatic(gkBase, UserName);
+			}
+		}
+
+		public void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			var xBase = GetGKBase(uid, objectType);
+			if (xBase != null)
+			{
+				GKProcessorManager.GKTurnOnNowInAutomatic(xBase, UserName);
+			}
+		}
+
 		public void GKTurnOff(Guid uid, GKBaseObjectType objectType)
 		{
 			var gkBase = GetGKBase(uid, objectType);
@@ -399,6 +417,15 @@ namespace FiresecService.Service
 			if (gkBase != null)
 			{
 				GKProcessorManager.GKTurnOffNow(gkBase, UserName);
+			}
+		}
+
+		public void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
+			{
+				GKProcessorManager.GKTurnOffInAutomatic(gkBase, UserName);
 			}
 		}
 

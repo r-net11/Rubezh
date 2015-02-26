@@ -44,9 +44,9 @@
 									</Grid.ToolTip>
 									<Grid.ContextMenu>
 										<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
-											<IconedMenuItem ImageSource="BTurnOff" Text="Поставить на охрану" Command="{Binding TurnOnCommand}" />
-											<IconedMenuItem ImageSource="BTurnOff" Text="Поставить на охрану немедленно" Command="{Binding TurnOnNowCommand}" />
-											<IconedMenuItem ImageSource="BResetIgnore" Text="Снять с охраны" Command="{Binding TurnOffCommand}" />
+											<IconedMenuItem ImageSource="BTurnOff" Text="Поставить на охрану" Command="{Binding TurnOnInAutomaticCommand}" />
+											<IconedMenuItem ImageSource="BTurnOff" Text="Поставить на охрану немедленно" Command="{Binding TurnOnNowInAutomaticCommand}" />
+											<IconedMenuItem ImageSource="BResetIgnore" Text="Снять с охраны" Command="{Binding TurnOffInAutomaticCommand}" />
 											<IconedMenuItem ImageSource="BReset" Text="Сбросить" Command="{Binding ResetCommand}" />
 											<IconedMenuItem ImageSource="map"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 											<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />

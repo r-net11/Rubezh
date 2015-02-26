@@ -161,6 +161,16 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.GKTurnOnNow(gkBase.UID, gkBase.ObjectType); }, "GKTurnOnNow");
 		}
 
+		public void GKTurnOnInAutomatic(GKBase gkBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOnInAutomatic(gkBase.UID, gkBase.ObjectType); }, "GKTurnOnInAutomatic");
+		}
+
+		public void GKTurnOnNowInAutomatic(GKBase gkBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOnNowInAutomatic(gkBase.UID, gkBase.ObjectType); }, "GKTurnOnNowInAutomatic");
+		}
+
 		public void GKTurnOff(GKBase gkBase)
 		{
 			SafeOperationCall(() => { FiresecService.GKTurnOff(gkBase.UID, gkBase.ObjectType); }, "GKTurnOff");
@@ -169,6 +179,11 @@ namespace FiresecClient
 		public void GKTurnOffNow(GKBase gkBase)
 		{
 			SafeOperationCall(() => { FiresecService.GKTurnOffNow(gkBase.UID, gkBase.ObjectType); }, "GKTurnOffNow");
+		}
+
+		public void GKTurnOffInAutomatic(GKBase gkBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOffInAutomatic(gkBase.UID, gkBase.ObjectType); }, "GKTurnOffInAutomatic");
 		}
 
 		public void GKStop(GKBase gkBase)
