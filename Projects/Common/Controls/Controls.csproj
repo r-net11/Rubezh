@@ -2528,9 +2528,6 @@
     <Resource Include="StepIcons\GenerateGuid.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="GKIcons\RSR2_Buz.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="StepIcons\Export.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2544,6 +2541,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_Bush_Shuv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_Buz_KV.png" />
+    <Resource Include="GKIcons\RSR2_Buz_KVDU.png" />
+    <Resource Include="GKIcons\RSR2_Buz_KVMV.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

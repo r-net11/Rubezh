@@ -51,6 +51,8 @@ namespace GKProcessor
 				}
 
 				var sendResult = SendManager.Send(device, (ushort)(bytes.Count), 28, 0, bytes);
+				if (sendResult.HasError) // Если не охранный ГК, то графики пытаются писаться очень долго!
+					return new OperationResult<bool> {Error = sendResult.Error, HasError = true};
 			}
 			return new OperationResult<bool>();
 		}

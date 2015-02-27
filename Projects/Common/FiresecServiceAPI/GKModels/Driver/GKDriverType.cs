@@ -131,8 +131,12 @@ namespace FiresecAPI.GK
 		RSR2_CardReader,
 		[Description("МР-4 R2")]
 		RSR2_RM_4,
-		[Description("Буз R2")]
-		RSR2_Buz,
+		[Description("Буз КВ R2")]
+		RSR2_Buz_KV,
+		[Description("Буз КВ-МВ R2")]
+		RSR2_Buz_KVMV,
+		[Description("Буз КВ-ДУ R2")]
+		RSR2_Buz_KVDU,
 		[Description("ИО-ПЗ R2")]
 		RSR2_GuardDetectorSound,
 	}

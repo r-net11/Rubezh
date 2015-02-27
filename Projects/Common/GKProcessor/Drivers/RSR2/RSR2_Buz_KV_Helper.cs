@@ -3,17 +3,17 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public static class RSR2_Buz_Helper
+	public static class RSR2_Buz_KV_Helper
 	{
 		public static GKDriver Create()
 		{
 			var driver = new GKDriver()
 			{
 				DriverTypeNo = 11,
-				DriverType = GKDriverType.RSR2_Buz,
+				DriverType = GKDriverType.RSR2_Buz_KV,
 				UID = new Guid("08E8C44C-16B7-469f-AEEA-C48D32240682"),
-				Name = "Блок управления задвижкой R2",
-				ShortName = "БУЗ R2",
+				Name = "Блок управления задвижкой КВ R2",
+				ShortName = "БУЗ КВ R2",
 				IsControlDevice = true,
 				HasZone = false,
 				IsPlaceable = true

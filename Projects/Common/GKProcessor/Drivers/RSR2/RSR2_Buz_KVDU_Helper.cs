@@ -3,38 +3,33 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public class RSR2_Valve_KVMV_Helper
+	public static class RSR2_Buz_KVDU_Helper
 	{
 		public static GKDriver Create()
 		{
 			var driver = new GKDriver()
 			{
-				DriverTypeNo = 0x09,
-				DriverType = GKDriverType.RSR2_Valve_KVMV,
-				UID = new Guid("38E9171D-A80B-4b6a-9C49-620D5B190976"),
-				Name = "Блок управления задвижкой КВ-МВ R2 (БАЭ)",
-				ShortName = "БУЗ КВ-МВ R2 (БАЭ)",
+				DriverTypeNo = 13,
+				DriverType = GKDriverType.RSR2_Buz_KVDU,
+				UID = new Guid("56D46127-12C2-4D6C-BA9B-99503E897909"),
+				Name = "Блок управления задвижкой КВ-ДУ R2",
+				ShortName = "БУЗ КВ-ДУ R2",
 				IsControlDevice = true,
-				HasLogic = true,
-				IgnoreHasLogic = true,
+				HasZone = false,
 				IsPlaceable = true
 			};
+
 			GKDriversHelper.AddControlAvailableStates(driver);
-			driver.AvailableStateBits.Add(GKStateBit.Off);
-			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
-			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
-			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
-			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(GKStateBit.TurnOff_InManual);
-			driver.AvailableCommandBits.Add(GKStateBit.Stop_InManual);
+			driver.AvailableCommandBits.Add(GKStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на открытие, с", 0, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Удержание открытия, мин", 0, 0, 720);
 			GKDriversHelper.AddIntProprety(driver, 2, "Питание, 0.1 В", 80, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог 1, Ом", 340, 0, 65535);
@@ -42,16 +37,17 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 5, "Порог 3, Ом", 2350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 4, Ом", 3350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 7, "Порог 5, Ом", 4500, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 8, "Время хода, с", 180, 1, 65535);
+
+			GKDriversHelper.AddIntProprety(driver, 8, "Время хода, с", 60, 1, 65535);
 
 			var property90 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "КВОткр",
-				Caption = "КВОткр",
+				Name = "КВ Откр",
+				Caption = "КВ Откр",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 1
+				Mask = 0x01
 			};
 			GKDriversHelper.AddPropertyParameter(property90, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property90, "Контакт НЗ", 1);
@@ -60,11 +56,11 @@ namespace GKProcessor
 			var property91 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "КВЗакр",
-				Caption = "КВЗакр",
+				Name = "КВ Закр",
+				Caption = "КВ Закр",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 2
+				Mask = 0x02
 			};
 			GKDriversHelper.AddPropertyParameter(property91, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property91, "Контакт НЗ", 2);
@@ -73,11 +69,11 @@ namespace GKProcessor
 			var property92 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "МВОткр",
-				Caption = "МВОткр",
+				Name = "МВ Откр",
+				Caption = "МВ Откр",
 				Default = 0,
 				IsLowByte = true,
-				Mask = 4
+				Mask = 0x04
 			};
 			GKDriversHelper.AddPropertyParameter(property92, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property92, "Контакт НЗ", 4);
@@ -86,11 +82,11 @@ namespace GKProcessor
 			var property93 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "МВЗакр",
-				Caption = "МВЗакр",
+				Name = "МВ Закр",
+				Caption = "МВ Закр",
 				Default = 0,
-				IsHieghByte = true,
-				Mask = 8
+				IsLowByte = true,
+				Mask = 0x08
 			};
 			GKDriversHelper.AddPropertyParameter(property93, "Контакт НР", 0);
 			GKDriversHelper.AddPropertyParameter(property93, "Контакт НЗ", 8);
@@ -99,8 +95,8 @@ namespace GKProcessor
 			var property94 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУОткр",
-				Caption = "ДУОткр",
+				Name = "ДУ Откр",
+				Caption = "ДУ Откр",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 16
@@ -112,10 +108,10 @@ namespace GKProcessor
 			var property95 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУЗакр",
-				Caption = "ДУЗакр",
+				Name = "ДУ Закр",
+				Caption = "ДУ Закр",
 				Default = 0,
-				IsHieghByte = true,
+				IsLowByte = true,
 				Mask = 32
 			};
 			GKDriversHelper.AddPropertyParameter(property95, "Контакт НР", 0);
@@ -125,8 +121,8 @@ namespace GKProcessor
 			var property96 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУСтоп",
-				Caption = "ДУСтоп",
+				Name = "ДУ Стоп",
+				Caption = "ДУ Стоп",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 64
@@ -141,45 +137,38 @@ namespace GKProcessor
 				Name = "ОГВ",
 				Caption = "ОГВ",
 				Default = 0,
-				IsHieghByte = true,
+				IsLowByte = true,
 				Mask = 128
 			};
-			GKDriversHelper.AddPropertyParameter(property97, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property97, "Есть", 128);
+			GKDriversHelper.AddPropertyParameter(property97, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property97, "Контакт НЗ", 128);
 			driver.Properties.Add(property97);
-
 
 			var property98 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "ДУ",
-				Caption = "ДУ",
+				Name = "Наличие ДУ",
+				Caption = "Наличие ДУ",
 				Default = 0,
 				IsHieghByte = true,
-				Mask = 1
+				Mask = 0x01
 			};
 			GKDriversHelper.AddPropertyParameter(property98, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property98, "Есть", 1);
+			GKDriversHelper.AddPropertyParameter(property98, "Есть", 0x01);
 			driver.Properties.Add(property98);
 
 			var property99 = new GKDriverProperty()
 			{
 				No = 9,
-				Name = "Режим после УД",
-				Caption = "Режим после УД",
+				Name = "Режим после удержания",
+				Caption = "Режим после удержания",
 				Default = 0,
 				IsHieghByte = true,
-				Mask = 2
+				Mask = 0x02
 			};
 			GKDriversHelper.AddPropertyParameter(property99, "Закрыто", 0);
-			GKDriversHelper.AddPropertyParameter(property99, "Открыто", 2);
-			driver.Properties.Add(property99);
-
-			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Неисправность" });
-			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "Задержка, с", IsDelay = true });
-			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Тип задержки" });
-			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "Тип задвижки" });
-			//driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "Уточнение неисправности" });
+			GKDriversHelper.AddPropertyParameter(property99, "Открыто", 0x02);
+			driver.Properties.Add(property98);
 
 			return driver;
 		}

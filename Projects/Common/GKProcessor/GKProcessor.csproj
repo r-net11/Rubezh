@@ -123,6 +123,8 @@
     <Compile Include="Drivers\RSR1\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\RSR1\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\RSR1\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Buz_KVDU_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Buz_KVMV_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_4_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_CardReader_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_CodeReader_Helper.cs" />
@@ -155,7 +157,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Valve_KVMV_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Valve_DU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_GuardDetectorSound_Helper.cs" />
-    <Compile Include="Drivers\RSR2\RSR2_Buz_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Buz_KV_Helper.cs" />
     <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="GKScheduleHelper.cs" />
