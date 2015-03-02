@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 			TurnOnNowInAutomaticCommand = new RelayCommand(OnTurnOnNowInAutomatic);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			TurnOffInAutomaticCommand = new RelayCommand(OnTurnOffInAutomatic);
+			TurnOffNowInAutomaticCommand = new RelayCommand(OnTurnOffNowInAutomatic);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -84,7 +85,10 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnInAutomatic(GuardZone);
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
+					FiresecManager.FiresecService.GKTurnOnInAutomatic(GuardZone);
+				else
+					FiresecManager.FiresecService.GKTurnOn(GuardZone);
 			}
 		}
 
@@ -93,7 +97,10 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOnNowInAutomatic(GuardZone);
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
+					FiresecManager.FiresecService.GKTurnOnNowInAutomatic(GuardZone);
+				else
+					FiresecManager.FiresecService.GKTurnOnNow(GuardZone);
 			}
 		}
 
@@ -111,7 +118,22 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKTurnOffInAutomatic(GuardZone);
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
+					FiresecManager.FiresecService.GKTurnOffInAutomatic(GuardZone);
+				else
+					FiresecManager.FiresecService.GKTurnOff(GuardZone);
+			}
+		}
+
+		public RelayCommand TurnOffNowInAutomaticCommand { get; private set; }
+		void OnTurnOffNowInAutomatic()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
+					FiresecManager.FiresecService.GKTurnOffNowInAutomatic(GuardZone);
+				else
+					FiresecManager.FiresecService.GKTurnOffNow(GuardZone);
 			}
 		}
 

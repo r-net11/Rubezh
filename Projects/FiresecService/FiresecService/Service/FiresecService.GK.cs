@@ -429,6 +429,15 @@ namespace FiresecService.Service
 			}
 		}
 
+		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			var gkBase = GetGKBase(uid, objectType);
+			if (gkBase != null)
+			{
+				GKProcessorManager.GKTurnOffNowInAutomatic(gkBase, UserName);
+			}
+		}
+
 		public void GKStop(Guid uid, GKBaseObjectType objectType)
 		{
 			var gkBase = GetGKBase(uid, objectType);

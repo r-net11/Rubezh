@@ -11,7 +11,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
@@ -34,7 +34,7 @@
 										<Style>
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ChiefViewModel.HasSelected}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора руководителя" />
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
 												</DataTrigger>
 											</Style.Triggers>
 										</Style>
@@ -44,9 +44,9 @@
 						</TextBlock>
 				</StackPanel>
 
-                <Label Grid.Row="3" Grid.Column="0" Content="Родительское подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
-                    <TextBlock VerticalAlignment="Center">
+				<Label Grid.Row="3" Grid.Column="0" Content="Родительское подразделение" HorizontalAlignment="Right" VerticalAlignment="Center" />
+				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+					<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
 								<TextBlock>
@@ -54,7 +54,7 @@
 										<Style>
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора родительского подразделения" />
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора" />
 												</DataTrigger>
 											</Style.Triggers>
 										</Style>
@@ -62,9 +62,9 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                </StackPanel>
+				</StackPanel>
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
+				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>

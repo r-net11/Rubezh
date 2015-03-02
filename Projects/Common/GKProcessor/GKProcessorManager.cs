@@ -440,6 +440,12 @@ namespace GKProcessor
 			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_в_автоматическом_режиме, "", gkBase, userName);
 		}
 
+		public static void GKTurnOffNowInAutomatic(GKBase gkBase, string userName)
+		{
+			Watcher.SendControlCommand(gkBase, GKStateBit.TurnOffNow_InAutomatic, "Выключить немедленно в автоматике");
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно_в_автоматическом_режиме, "", gkBase, userName);
+		}
+
 		public static void GKStop(GKBase gkBase, string userName)
 		{
 			Watcher.SendControlCommand(gkBase, GKStateBit.Stop_InManual, "Остановка пуска");

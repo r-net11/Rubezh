@@ -354,6 +354,11 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKTurnOffInAutomatic(uid, objectType); }, "GKTurnOffInAutomatic");
 		}
 
+		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOffNowInAutomatic(uid, objectType); }, "GKTurnOffNowInAutomatic");
+		}
+
 		public void GKStop(Guid uid, GKBaseObjectType objectType)
 		{
 			SafeOperationCall(() => { FiresecService.GKStop(uid, objectType); }, "GKStop");

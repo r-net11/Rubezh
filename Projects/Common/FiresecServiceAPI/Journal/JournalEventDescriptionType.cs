@@ -21,6 +21,9 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Выключить в автоматическом режиме", JournalEventNameType.Команда_оператора)]
 		Выключить_в_автоматическом_режиме,
 
+		[EventDescriptionAttribute("Выключить немедленно в автоматическом режиме", JournalEventNameType.Команда_оператора)]
+		Выключить_немедленно_в_автоматическом_режиме,
+
 		[EventDescriptionAttribute("Включить", JournalEventNameType.Команда_оператора)]
 		Включить,
 

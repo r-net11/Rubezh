@@ -2547,6 +2547,9 @@
     <Resource Include="GKIcons\RSR2_Buz_KVDU.png" />
     <Resource Include="GKIcons\RSR2_Buz_KVMV.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_AM_2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

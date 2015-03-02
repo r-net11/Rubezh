@@ -123,6 +123,7 @@
     <Compile Include="Drivers\RSR1\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\RSR1\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\RSR1\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_AM_2_Group_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVDU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Buz_KVMV_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_RM_4_Helper.cs" />
