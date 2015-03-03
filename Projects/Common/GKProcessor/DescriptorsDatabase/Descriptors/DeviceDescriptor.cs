@@ -112,6 +112,19 @@ namespace GKProcessor
 				}
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 			}
+
+			if (Device.IsInMPT)
+			{
+				var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.Bomb).Any(z => z.Device == Device)));
+				foreach (var deviceMPT in deviceMPTs)
+				{
+					if (deviceMPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+					{
+						Formula.AddClauseFormula(deviceMPT.SuspendLogic.OnClausesGroup, DatabaseType);
+						Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
+					}
+				}
+			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}

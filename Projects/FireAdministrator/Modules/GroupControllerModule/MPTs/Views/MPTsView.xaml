@@ -151,6 +151,26 @@
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие приостанова пуска" FontWeight="Bold" Width="200" Margin="2" />
+						<TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeSuspendLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding SuspendPresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding SuspendPresentationName}" Value="">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка" Width="200" Margin="2" />
 						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
 					</StackPanel>

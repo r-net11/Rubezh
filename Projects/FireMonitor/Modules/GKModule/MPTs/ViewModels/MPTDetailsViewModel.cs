@@ -175,7 +175,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXMPTEvent>().Publish(MPT.UID);
+			ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(MPT.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

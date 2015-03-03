@@ -372,6 +372,7 @@ namespace FireAdministrator.ViewModels
 				}
 				ReplaceLogic(mpt.StartLogic);
 				ReplaceLogic(mpt.StopLogic);
+				ReplaceLogic(mpt.StartLogic);
 			}
 
 			foreach (var delay in GKDeviceConfiguration.Delays)

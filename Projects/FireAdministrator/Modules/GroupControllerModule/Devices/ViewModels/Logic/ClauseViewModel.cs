@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 						StateTypes = new ObservableCollection<StateTypeViewModel>();
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
-						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
+						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
 						break;
 
 					case ClauseOperationType.AllDirections:

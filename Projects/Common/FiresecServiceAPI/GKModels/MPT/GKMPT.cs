@@ -15,6 +15,7 @@ namespace FiresecAPI.GK
 		{
 			StartLogic = new GKLogic();
 			StopLogic = new GKLogic();
+			SuspendLogic = new GKLogic();
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 10;
 			Devices = new List<GKDevice>();
@@ -63,6 +64,12 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKLogic StopLogic { get; set; }
+
+		/// <summary>
+		/// Логика приостановки
+		/// </summary>
+		[DataMember]
+		public GKLogic SuspendLogic { get; set; }
 
 		/// <summary>
 		/// Устройства МПТ

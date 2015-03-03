@@ -211,7 +211,7 @@ namespace GKProcessor
 				case GKStateBit.Fire1:
 					if (count > 0)
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, GuardZone, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Attention, GuardZone, DatabaseType);
 						Formula.Add(FormulaOperationType.OR);
 						Formula.AddPutBit(GKStateBit.Attention, GuardZone, DatabaseType);
 					}

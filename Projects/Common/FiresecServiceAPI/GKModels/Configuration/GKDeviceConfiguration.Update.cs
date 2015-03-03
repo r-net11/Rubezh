@@ -232,6 +232,7 @@ namespace FiresecAPI.GK
 			{
 				InvalidateInputObjectsBaseLogic(mpt, mpt.StartLogic);
 				InvalidateInputObjectsBaseLogic(mpt, mpt.StopLogic);
+				InvalidateInputObjectsBaseLogic(mpt, mpt.SuspendLogic);
 
 				var mptDevices = new List<GKMPTDevice>();
 				foreach (var mptDevice in mpt.MPTDevices)
