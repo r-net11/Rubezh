@@ -167,7 +167,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employee.SecondName;
 					break;
 				case PassCardTextPropertyType.StartDate:
-					elementTextProperty.Text = _card.EndDate.ToShortDateString();
+					elementTextProperty.Text = _card.StartDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.CardNumber:
 					elementTextProperty.Text = _card.Number.ToString();
