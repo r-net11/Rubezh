@@ -83,6 +83,13 @@ namespace GKProcessor
 
 					deviceDescriptor.Formula.AddGetBit(GKStateBit.Off, MPT, deviceDescriptor.DatabaseType);
 					deviceDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, mptDevice.Device, deviceDescriptor.DatabaseType);
+
+					if (MPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+					{
+						deviceDescriptor.Formula.AddClauseFormula(MPT.SuspendLogic.OnClausesGroup, DatabaseType);
+						deviceDescriptor.Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, mptDevice.Device, DatabaseType);
+					}
+
 					deviceDescriptor.Formula.Add(FormulaOperationType.END);
 				}
 			}
