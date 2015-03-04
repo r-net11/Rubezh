@@ -30,7 +30,13 @@ namespace SKDModule.ViewModels
 			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
 			ServiceFactory.Events.GetEvent<ChangeEmployeeGuestEvent>().Publish(null);
-		}	
+		}
+
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			base.OnOrganisationUsersChanged(newOrganisation);
+			InitializeAdditionalColumns();
+		}
 
 		public void InitializeAdditionalColumns()
 		{
@@ -178,7 +184,6 @@ namespace SKDModule.ViewModels
 		{
 			InitializeAdditionalColumns();
 		}
-
 
 		protected override FiresecAPI.Models.PermissionType Permission
 		{

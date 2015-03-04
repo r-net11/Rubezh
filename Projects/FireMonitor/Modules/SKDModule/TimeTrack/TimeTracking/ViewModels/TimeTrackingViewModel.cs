@@ -5,9 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using SKDModule.Model;
 
 namespace SKDModule.ViewModels
@@ -23,6 +25,9 @@ namespace SKDModule.ViewModels
 			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
+
 
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
@@ -56,7 +61,13 @@ namespace SKDModule.ViewModels
 			{
 				_selectedTimeTrack = value;
 				OnPropertyChanged(() => SelectedTimeTrack);
+				OnPropertyChanged(() => HasSelectedTimeTrack);
 			}
+		}
+
+		public bool HasSelectedTimeTrack
+		{
+			get { return SelectedTimeTrack != null; }
 		}
 
 		public int TotalDays { get; private set; }
@@ -176,6 +187,12 @@ namespace SKDModule.ViewModels
 		{
 			var documentTypesViewModel = new DocumentTypesViewModel();
 			DialogService.ShowModalWindow(documentTypesViewModel);
+		}
+
+		void OnUserChanged(UserChangedEventArgs args)
+		{
+			TimeTrackFilter.EmployeeFilter.UserUID = FiresecClient.FiresecManager.CurrentUser.UID;
+			UpdateGrid();
 		}
 	}
 }

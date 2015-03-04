@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using SKDModule.Events;
 using SKDModule.PassCardDesigner.ViewModels;
 
@@ -36,6 +37,8 @@ namespace SKDModule.ViewModels
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ChangeIsDeletedCommand = new RelayCommand(OnChangeIsDeleted);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -268,6 +271,25 @@ namespace SKDModule.ViewModels
 			EmployeeFilter.PersonType = SelectedPersonType;
 			EmployeeFilter.LogicalDeletationType = Filter.LogicalDeletationType;
 			EmployeesViewModel.Initialize(EmployeeFilter);
+		}
+		
+		void OnUserChanged(UserChangedEventArgs args)
+		{
+			PersonTypes = new ObservableCollection<PersonType>();
+			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees_View))
+				PersonTypes.Add(PersonType.Employee);
+			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests_View))
+				PersonTypes.Add(PersonType.Guest);
+			_selectedPersonType = PersonTypes.FirstOrDefault();
+			CanSelectPersonType = PersonTypes.Count == 2;
+			OnPropertyChanged(() => CanSelectEmployees);
+			OnPropertyChanged(() => CanSelectPositions);
+			OnPropertyChanged(() => CanSelectDepartments);
+			OnPropertyChanged(() => CanSelectAdditionalColumns);
+			OnPropertyChanged(() => CanSelectCards);
+			OnPropertyChanged(() => CanSelectAccessTemplates);
+			OnPropertyChanged(() => CanSelectPassCardTemplates);
+			OnPropertyChanged(() => CanSelectOrganisations);
 		}
 	}
 }

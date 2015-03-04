@@ -6,7 +6,7 @@
 
 	<TabControl>
 		<TabItem Header="Основные">
-			<Grid>
+            <Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -33,6 +33,6 @@
 				</ComboBox>
 				<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IsInGrid}" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
 			</Grid>
-		</TabItem>
+        </TabItem>
 	</TabControl>
 </UserControl>

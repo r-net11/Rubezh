@@ -54,5 +54,12 @@ namespace SKDModule.ViewModels
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_AdditionalColumns_Etit; }
 		}
+
+		protected override ShortAdditionalColumnType CopyModel(ShortAdditionalColumnType source)
+		{
+			var copy = base.CopyModel(source);
+			copy.DataType = source.DataType;
+			return copy;
+		}
 	}
 }

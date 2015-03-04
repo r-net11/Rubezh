@@ -60,7 +60,7 @@ namespace SKDModule.Views
 			{
 				var gridViewColumn = new GridViewColumn();
 				gridViewColumn.Header = employeesViewModel.AdditionalColumnNames[i];
-				gridViewColumn.Width = 150;
+				gridViewColumn.Width = 350;
 
 				var dataTemplate = new DataTemplate();
 				var txtElement = new FrameworkElementFactory(typeof(TextBlock));

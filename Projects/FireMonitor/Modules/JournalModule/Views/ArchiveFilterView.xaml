@@ -65,7 +65,7 @@
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
-				<tree:TreeList Focusable="True" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
+				<tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
 							<GridViewColumn Header="Наименование">
@@ -78,12 +78,13 @@
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
-						</GridView>
-					</tree:TreeList.View>
+                        </GridView>
+
+                    </tree:TreeList.View>
 				</tree:TreeList>
 			</TabItem>
 			<TabItem Header="Объект" DataContext="{Binding FilterObjectsViewModel}">
-				<tree:TreeList Focusable="True" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
+                <tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
 							<GridViewColumn Header="Наименование">

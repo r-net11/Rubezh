@@ -89,7 +89,7 @@ namespace Controls
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-				Filter = "All Graphics Types|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff"
+				Filter = "All Graphics Types|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff;*.gif"
 			};
 			if (openFileDialog.ShowDialog() == true)
 			{

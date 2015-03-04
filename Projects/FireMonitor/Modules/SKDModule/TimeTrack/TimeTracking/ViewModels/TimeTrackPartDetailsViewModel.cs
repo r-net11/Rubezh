@@ -90,6 +90,10 @@ namespace SKDModule.ViewModels
 			else
 				return PassJournalHelper.EditPassJournal(UID, SelectedZone.UID, enterDateTime, exitDateTime);
 		}
+		protected override bool CanSave()
+		{
+			return base.CanSave() && SelectedZone != null;
+		}
 
 		bool Validate()
 		{

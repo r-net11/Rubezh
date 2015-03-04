@@ -122,10 +122,12 @@ namespace SKDModule.ViewModels
 				if (!RootItems.Any(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID))
 				{
 					var organisationViewModel = new CardViewModel(newOrganisation);
-					RootItems.Add(organisationViewModel);
-					var cards = CardHelper.Get(new CardFilter());
-					if (cards == null)
+					var cardFilter = new CardFilter();
+					cardFilter.EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new System.Collections.Generic.List<Guid> { newOrganisation.UID } };
+					var cards = CardHelper.Get(cardFilter);
+					if (cards == null || cards.Count() == 0)
 						return;
+					RootItems.Add(organisationViewModel);
 					foreach (var card in cards.Where(x => x.OrganisationUID == newOrganisation.UID))
 					{
 						organisationViewModel.AddChild(new CardViewModel(card));

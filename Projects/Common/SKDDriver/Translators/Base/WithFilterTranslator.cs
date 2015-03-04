@@ -45,6 +45,9 @@ namespace SKDDriver
 			var result = new List<TableT>();
 			int skipCount = 0;
 			var itemsQuant = query.Skip(skipCount).Take(1000).ToList();
+			skipCount += 1000;
+			result.AddRange(itemsQuant);
+			itemsQuant = query.Skip(skipCount).Take(1000).ToList();
 			skipCount += 2000;
 			result.AddRange(itemsQuant);
 			while (itemsQuant.Count() == 2000)

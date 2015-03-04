@@ -39,6 +39,8 @@ namespace Controls.TreeList
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
 		public static bool GetCanUseSort(GridViewColumn element)
 		{
+			if (element == null)
+				return false;
 			return (bool)element.GetValue(CanUseSortProperty);
 		}
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]

@@ -108,7 +108,7 @@
 			</DataGrid.ItemsPanel>
 		</DataGrid>
 		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
+        <Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Visibility="{Binding ElementName=grid, Path=DataContext.HasSelectedTimeTrack, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />

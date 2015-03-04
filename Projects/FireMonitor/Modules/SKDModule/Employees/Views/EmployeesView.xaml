@@ -54,7 +54,7 @@
 		<Grid Grid.Row="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid DataContext="{Binding SelectedItem}">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" MinWidth="150" />
+					<ColumnDefinition Width="Auto" MinWidth="150" MaxWidth="500" />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
@@ -118,8 +118,8 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>
-				<GridSplitter Grid.Column="1" Width="5" VerticalAlignment="Stretch" Background="Transparent" />
-				<Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+                <Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width ="*" />
