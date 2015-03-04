@@ -48,7 +48,7 @@ namespace SKDDriver
 			skipCount += 1000;
 			result.AddRange(itemsQuant);
 			itemsQuant = query.Skip(skipCount).Take(1000).ToList();
-			skipCount += 2000;
+			skipCount += 1000;
 			result.AddRange(itemsQuant);
 			while (itemsQuant.Count() == 2000)
 			{

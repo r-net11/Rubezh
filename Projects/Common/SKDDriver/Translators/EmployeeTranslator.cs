@@ -227,7 +227,7 @@ namespace SKDDriver
 					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey="-1" };
 					Context.Organisations.InsertOnSubmit(org);
 					var posUIDs = new List<Guid>();
-					for (int j = 0; j < 1200; j++)
+					for (int j = 0; j < 2200; j++)
 					{
 						var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 						Context.Positions.InsertOnSubmit(pos);

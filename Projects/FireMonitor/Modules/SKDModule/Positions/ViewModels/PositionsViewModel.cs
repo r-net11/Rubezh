@@ -84,6 +84,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			base.OnOrganisationUsersChanged(newOrganisation);
+		}
 
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
