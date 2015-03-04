@@ -124,7 +124,7 @@ namespace JournalModule.ViewModels
 					if (MPT != null)
 					{
 						ObjectName = MPT.PresentationName;
-						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKMPTEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/BMPT.png";
@@ -189,7 +189,7 @@ namespace JournalModule.ViewModels
 							if (MPT != null)
 							{
 								ObjectName += " (" + MPT.PresentationName + ")";
-								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
+								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKMPTEvent>();
 								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKMPTDetailsEvent>();
 								ObjectImageSource = "/Controls;component/Images/BMPT.png";
 								break;

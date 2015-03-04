@@ -211,7 +211,7 @@ namespace GKModule
 			_delaysNavigationItem = new NavigationItem<ShowGKDelayEvent, Guid>(DelaysViewModel, "Задержки", "Watch", null, null, Guid.Empty);
 			_pimsNavigationItem = new NavigationItem<ShowGKPimEvent, Guid>(PimsViewModel, "ПИМ", "Pim_White", null, null, Guid.Empty);
 			_pumpStationsNavigationItem = new NavigationItem<ShowGKPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "PumpStation", null, null, Guid.Empty);
-			_mptsNavigationItem = new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty);
+			_mptsNavigationItem = new NavigationItem<ShowGKMPTEvent, Guid>(MPTsViewModel, "МПТ", "MPT", null, null, Guid.Empty);
 			_doorsNavigationItem = new NavigationItem<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty);
 
 			return new List<NavigationItem>

@@ -97,10 +97,22 @@ namespace FiresecAPI
 		void GKTurnOnNow(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
+		void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType);
+
+		[OperationContract]
+		void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType);
+
+		[OperationContract]
 		void GKTurnOff(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
 		void GKTurnOffNow(Guid uid, GKBaseObjectType objectType);
+
+		[OperationContract]
+		void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType);
+
+		[OperationContract]
+		void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType);
 
 		[OperationContract]
 		void GKStop(Guid uid, GKBaseObjectType objectType);

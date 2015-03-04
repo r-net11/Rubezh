@@ -41,6 +41,11 @@ namespace GKModule.Validation
 			var deviceAddresses = new HashSet<string>();
 			foreach (var device in GKManager.Devices)
 			{
+				if (device.IsDisabled && device.Children.Count > 0)
+				{
+					Errors.Add(new DeviceValidationError(device, "При кольцевой АЛС" + (device.IntAddress - 1) + "-" + device.IntAddress + " есть подключенные устройства на АЛС" + device.IntAddress, ValidationErrorLevel.CannotWrite));
+				}
+
 				if (device.DriverType == GKDriverType.System || device.DriverType == GKDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
 					continue;
 

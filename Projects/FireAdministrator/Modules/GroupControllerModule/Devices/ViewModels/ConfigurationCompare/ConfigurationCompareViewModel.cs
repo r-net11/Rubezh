@@ -332,6 +332,11 @@ namespace GKModule.ViewModels
 			{
 				mptsDifferences.Append("Не совпадают условия выключения");
 			}
+			bool suspendDiff = GKManager.GetPresentationLogic(object1.MPT.SuspendLogic) != GKManager.GetPresentationLogic(object2.MPT.SuspendLogic);
+			if (suspendDiff)
+			{
+				mptsDifferences.Append("Не совпадают условия приостановки");
+			}
 			bool delayDiff = object1.MPT.Delay != object2.MPT.Delay;
 			if (delayDiff)
 			{

@@ -117,11 +117,11 @@ namespace GKProcessor
 			AddGuardDevicesLogic(SetAlarmDevices, GKStateBit.Fire1);
 			AddGuardDevicesLogic(SetGuardDevices, GKStateBit.TurnOn_InAutomatic);
 			AddGuardDevicesLogic(ResetGuardDevices, GKStateBit.TurnOff_InAutomatic);
+			AddMissedLogic(SetAlarmDevices);
 			if (GuardZone.Pim != null && ChangeGuardDevices.Count > 0)
 			{
 				GuardZone.LinkGKBases(GuardZone.Pim);
 			}
-
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}
@@ -211,9 +211,9 @@ namespace GKProcessor
 				case GKStateBit.Fire1:
 					if (count > 0)
 					{
-						Formula.AddGetBit(GKStateBit.Fire1, GuardZone, DatabaseType);
+						Formula.AddGetBit(GKStateBit.Attention, GuardZone, DatabaseType);
 						Formula.Add(FormulaOperationType.OR);
-						Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);
+						Formula.AddPutBit(GKStateBit.Attention, GuardZone, DatabaseType);
 					}
 					break;
 				case GKStateBit.TurnOn_InAutomatic:
@@ -242,6 +242,23 @@ namespace GKProcessor
 					}
 					break;
 			}
+		}
+
+		private void AddMissedLogic(List<GKGuardZoneDevice> guardZoneDevices)
+		{
+			var count = 0;
+			Formula.AddGetBit(GKStateBit.TurningOn, GuardZone, DatabaseType);
+			foreach (var guardDevice in guardZoneDevices)
+			{
+				Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
+				if (count > 0)
+				{
+					Formula.Add(FormulaOperationType.OR);
+				}
+				count++;
+			}
+			Formula.Add(FormulaOperationType.AND);
+			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType);
 		}
 
 		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)

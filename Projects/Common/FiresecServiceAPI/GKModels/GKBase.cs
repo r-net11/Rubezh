@@ -78,6 +78,17 @@ namespace FiresecAPI.GK
 				LinkLogic(device, device.Logic.OnClausesGroup);
 				LinkLogic(device, device.Logic.OffClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
+				if (device.IsInMPT)
+				{
+					var deviceMPTs = new List<GKMPT>(GKManager.MPTs.FindAll(x => x.MPTDevices.FindAll(y => y.MPTDeviceType == GKMPTDeviceType.Bomb).Any(z => z.Device == device)));
+					foreach (var deviceMPT in deviceMPTs)
+					{
+						if (deviceMPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+						{
+							LinkLogic(device, deviceMPT.SuspendLogic.OnClausesGroup);
+						}
+					}
+				}
 			}
 
 			if (zone != null)
@@ -106,6 +117,7 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
 				LinkLogic(mpt, mpt.StopLogic.OnClausesGroup);
+				LinkLogic(mpt, mpt.SuspendLogic.OnClausesGroup);
 			}
 
 			if (delay != null)

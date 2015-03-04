@@ -252,7 +252,7 @@ namespace GKProcessor
 										var secondAdditionalDescription = bytes[32 + 17];
 										if (firstAdditionalDescription != 0 || secondAdditionalDescription != 0)
 										{
-											JournalItem.DescriptionText = firstAdditionalDescription.ToString() + " " + secondAdditionalDescription.ToString();
+											JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
 										}
 									}
 									break;

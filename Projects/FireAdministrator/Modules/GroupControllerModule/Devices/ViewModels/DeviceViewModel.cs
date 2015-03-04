@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
+using Common;
 using DeviceControls;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
@@ -56,8 +57,31 @@ namespace GKModule.ViewModels
 			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
 		}
 
+		public void CheckShleif()
+		{
+			if (Device != null && (Device.Driver.DriverType == GKDriverType.KAU_Shleif || Device.Driver.DriverType == GKDriverType.RSR2_KAU_Shleif) && (Device.IntAddress % 2 == 0))
+			{
+				var kauDevice = Device.Parent;
+				if (kauDevice == null)
+					return;
+				var alsProperty = kauDevice.Properties.FirstOrDefault(x => x.Name == "als" + (Device.IntAddress - 1).ToString() + (Device.IntAddress).ToString());
+				IsDisabled = alsProperty != null && alsProperty.Value != 0;
+			}
+		}
+
+		public bool IsDisabled
+		{
+			get { return Device.IsDisabled; }
+			set
+			{
+				Device.IsDisabled = value;
+				OnPropertyChanged(() => IsDisabled);
+			}
+		}
+
 		void OnChanged()
 		{
+			Children.ForEach(x => x.CheckShleif());
 			OnPropertyChanged(() => PresentationAddress);
 			OnPropertyChanged(() => PresentationZone);
 			OnPropertyChanged(() => EditingPresentationZone);
@@ -167,6 +191,8 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAdd()
 		{
+			if (IsDisabled || GetAllParents().Any(x => x.IsDisabled))
+				return false;
 			if (Device.AllParents.Any(x => x.DriverType == GKDriverType.RSR2_KAU))
 			{
 				if (Device.DriverType == GKDriverType.KAUIndicator)
@@ -189,6 +215,8 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAddToParent()
 		{
+			if (GetAllParents().Any(x => x.IsDisabled))
+				return false;
 			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
 		}
 

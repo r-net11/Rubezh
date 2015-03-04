@@ -59,6 +59,7 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_RM_2_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_RM_4_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_AM_4_Group_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_AM_2_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MDU_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_MAP4_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_MVK8_Helper.Create());
@@ -83,8 +84,9 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_Valve_KVMV_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_Valve_DU_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_GuardDetectorGuardSound_Helper.Create());
-			AddDriverToKau_RSR2(RSR2_Buz_Helper.Create());
-
+			AddDriverToKau_RSR2(RSR2_Buz_KV_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_Buz_KVMV_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_Buz_KVDU_Helper.Create());
 			var kauShleifDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif);
 			var mvpPartDriver = GKManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_MVP_Part);
 			foreach (var driver in kauShleifDriver.Children)

@@ -329,6 +329,16 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKTurnOnNow(uid, objectType); }, "GKTurnOnNow");
 		}
 
+		public void GKTurnOnInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOnInAutomatic(uid, objectType); }, "GKTurnOnInAutomatic");
+		}
+
+		public void GKTurnOnNowInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOnNowInAutomatic(uid, objectType); }, "GKTurnOnNowInAutomatic");
+		}
+
 		public void GKTurnOff(Guid uid, GKBaseObjectType objectType)
 		{
 			SafeOperationCall(() => { FiresecService.GKTurnOff(uid, objectType); }, "GKTurnOff");
@@ -337,6 +347,16 @@ namespace FiresecService.Service
 		public void GKTurnOffNow(Guid uid, GKBaseObjectType objectType)
 		{
 			SafeOperationCall(() => { FiresecService.GKTurnOffNow(uid, objectType); }, "GKTurnOffNow");
+		}
+
+		public void GKTurnOffInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOffInAutomatic(uid, objectType); }, "GKTurnOffInAutomatic");
+		}
+
+		public void GKTurnOffNowInAutomatic(Guid uid, GKBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOffNowInAutomatic(uid, objectType); }, "GKTurnOffNowInAutomatic");
 		}
 
 		public void GKStop(Guid uid, GKBaseObjectType objectType)

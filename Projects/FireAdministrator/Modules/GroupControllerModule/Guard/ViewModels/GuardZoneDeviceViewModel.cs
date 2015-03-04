@@ -24,6 +24,7 @@ namespace GKModule.ViewModels
 			switch (guardZoneDevice.Device.DriverType)
 			{
 				case GKDriverType.RSR2_GuardDetector:
+				case GKDriverType.RSR2_GuardDetectorSound:
 					ActionTypes.Add(GKGuardZoneDeviceActionType.SetAlarm);
 					break;
 

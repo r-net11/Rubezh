@@ -46,6 +46,8 @@ namespace GKModule.ViewModels
 					return Alarm.Direction.PresentationName;
 				if (Alarm.Door != null)
 					return Alarm.Door.PresentationName;
+				if (Alarm.Mpt != null)
+					return Alarm.Mpt.PresentationName;
 				return null;
 			}
 		}
@@ -64,6 +66,8 @@ namespace GKModule.ViewModels
 					return "/Controls;component/Images/Blue_Direction.png";
 				if (Alarm.Door != null)
 					return "/Controls;component/Images/Door.png";
+				if (Alarm.Mpt != null)
+					return "/Controls;component/Images/Mpt.png";
 				return null;
 			}
 		}
@@ -82,6 +86,8 @@ namespace GKModule.ViewModels
 					return Alarm.Direction.State.StateClass;
 				if (Alarm.Door != null)
 					return Alarm.Door.State.StateClass;
+				if (Alarm.Mpt != null)
+					return Alarm.Mpt.State.StateClass;
 				return XStateClass.Norm;
 			}
 		}
@@ -196,6 +202,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Door != null)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
+			}
+			if (Alarm.Mpt != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.Mpt.UID);
 			}
 		}
 
@@ -361,6 +371,14 @@ namespace GKModule.ViewModels
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Door);
 					}
 				}
+
+				if (Alarm.Mpt != null)
+				{
+					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
+					}
+				}
 			}
 		}
 		bool CanResetIgnore()
@@ -394,6 +412,12 @@ namespace GKModule.ViewModels
 				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
+
+			if (Alarm.Mpt != null)
+			{
+				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
 			return false;
 		}
 		public bool CanResetIgnoreCommand
@@ -420,6 +444,13 @@ namespace GKModule.ViewModels
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
 					}
 				}
+				if (Alarm.Mpt != null)
+				{
+					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
+					}
+				}
 			}
 		}
 		bool CanTurnOnAutomatic()
@@ -433,6 +464,10 @@ namespace GKModule.ViewModels
 				if (Alarm.Direction != null)
 				{
 					return Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff);
+				}
+				if (Alarm.Mpt != null)
+				{
+					return Alarm.Mpt.State.StateClasses.Contains(XStateClass.AutoOff);
 				}
 			}
 			return false;
@@ -451,7 +486,8 @@ namespace GKModule.ViewModels
 				GKZone = Alarm.Zone,
 				GKGuardZone = Alarm.GuardZone,
 				GKDirection = Alarm.Direction,
-				GKDoor = Alarm.Door
+				GKDoor = Alarm.Door,
+				GKMPT = Alarm.Mpt
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
@@ -478,6 +514,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Door != null)
 			{
 				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
+			}
+			if (Alarm.Mpt != null)
+			{
+				DialogService.ShowWindow(new MPTDetailsViewModel(Alarm.Mpt));
 			}
 		}
 		bool CanShowProperties()

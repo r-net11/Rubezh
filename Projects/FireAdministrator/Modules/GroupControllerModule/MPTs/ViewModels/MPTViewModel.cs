@@ -20,6 +20,7 @@ namespace GKModule.ViewModels
 			MPT = mpt;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
+			ChangeSuspendLogicCommand = new RelayCommand(OnChangeSuspendLogic);
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -191,6 +192,23 @@ namespace GKModule.ViewModels
 		public string StopPresentationName
 		{
 			get { return GKManager.GetPresentationLogic(MPT.StopLogic); }
+		}
+
+		public RelayCommand ChangeSuspendLogicCommand { get; private set; }
+		void OnChangeSuspendLogic()
+		{
+			var logicViewModel = new LogicViewModel(null, MPT.SuspendLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				MPT.SuspendLogic = logicViewModel.GetModel();
+				OnPropertyChanged(() => SuspendPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string SuspendPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(MPT.SuspendLogic); }
 		}
 
 		public int Delay

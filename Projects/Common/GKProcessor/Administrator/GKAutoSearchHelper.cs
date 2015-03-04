@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
-using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace GKProcessor
 {
@@ -27,7 +24,8 @@ namespace GKProcessor
 			{
 				if (progressCallback != null)
 					GKProcessorManager.StopProgress(progressCallback);
-				return result;
+				Error = "ГК с таким IP адресом не найден";
+				return null;
 			}
 
 			try

@@ -18,8 +18,20 @@ namespace FiresecAPI.Journal
 		[EventDescriptionAttribute("Включить немедленно", JournalEventNameType.Команда_оператора)]
 		Включить_немедленно,
 
+		[EventDescriptionAttribute("Выключить в автоматическом режиме", JournalEventNameType.Команда_оператора)]
+		Выключить_в_автоматическом_режиме,
+
+		[EventDescriptionAttribute("Выключить немедленно в автоматическом режиме", JournalEventNameType.Команда_оператора)]
+		Выключить_немедленно_в_автоматическом_режиме,
+
 		[EventDescriptionAttribute("Включить", JournalEventNameType.Команда_оператора)]
 		Включить,
+
+		[EventDescriptionAttribute("Включить немедленно в автоматическом режиме", JournalEventNameType.Команда_оператора)]
+		Включить_немедленно_в_автоматическом_режиме,
+
+		[EventDescriptionAttribute("Включить в автоматическом режиме", JournalEventNameType.Команда_оператора)]
+		Включить_в_автоматическом_режиме,
 
 		[EventDescriptionAttribute("Перевод в ручной режим", JournalEventNameType.Команда_оператора)]
 		Перевод_в_ручной_режим,

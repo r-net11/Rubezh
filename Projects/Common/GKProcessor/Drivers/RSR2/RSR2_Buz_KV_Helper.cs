@@ -3,17 +3,17 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public static class RSR2_Buz_Helper
+	public static class RSR2_Buz_KV_Helper
 	{
 		public static GKDriver Create()
 		{
 			var driver = new GKDriver()
 			{
 				DriverTypeNo = 11,
-				DriverType = GKDriverType.RSR2_Buz,
+				DriverType = GKDriverType.RSR2_Buz_KV,
 				UID = new Guid("08E8C44C-16B7-469f-AEEA-C48D32240682"),
-				Name = "Блок управления задвижкой R2",
-				ShortName = "БУЗ R2",
+				Name = "Блок управления задвижкой КВ R2",
+				ShortName = "БУЗ КВ R2",
 				IsControlDevice = true,
 				HasZone = false,
 				IsPlaceable = true
@@ -33,7 +33,7 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 1, "Удержание открытия, мин", 0, 0, 720);
 			GKDriversHelper.AddIntProprety(driver, 2, "Питание, 0.1 В", 80, 0, 100);
 			GKDriversHelper.AddIntProprety(driver, 3, "Порог 1, Ом", 340, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 4, "Порог 2, Ом", 660, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 4, "Порог 2, Ом", 1000, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 5, "Порог 3, Ом", 2350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 4, Ом", 3350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 7, "Порог 5, Ом", 4500, 0, 65535);
