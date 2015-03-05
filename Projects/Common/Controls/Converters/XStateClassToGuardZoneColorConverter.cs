@@ -36,8 +36,10 @@ namespace Controls.Converters
 
 				case XStateClass.Fire1:
 				case XStateClass.Fire2:
-				case XStateClass.Attention:
 					return Brushes.Red;
+
+				case XStateClass.Attention:
+					return Brushes.Orange;
 
 				default:
 					return Brushes.White;

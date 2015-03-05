@@ -36,10 +36,11 @@ namespace GKProcessor
 				for (byte i = 1; i < 128; i++)
 				{
 					if (progressCallback.IsCanceled)
-					{ Error = "Операция отменена"; return null; }
-
+					{
+						Error = "Операция отменена";
+						return null;
+					}
 					GKProcessorManager.DoProgress("Поиск КАУ с адресом " + i, progressCallback);
-
 					var kauDevice = new GKDevice();
 					kauDevice.Driver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU);
 					kauDevice.DriverUID = kauDevice.Driver.UID;
