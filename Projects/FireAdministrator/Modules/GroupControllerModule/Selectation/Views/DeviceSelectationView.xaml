@@ -28,7 +28,29 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="Auto" />
-			<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
+			<DataGridTemplateColumn Header="Примечание" Width="*" >
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Controls:EditorPresenter>
+							<Controls:EditorPresenter.ViewTemplate>
+								<ControlTemplate>
+									<TextBlock Text="{Binding Description}" />
+								</ControlTemplate>
+							</Controls:EditorPresenter.ViewTemplate>
+							<Controls:EditorPresenter.EditTemplate>
+								<ControlTemplate>
+									<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding DataContext.Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
+									<ControlTemplate.Triggers>
+										<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
+											<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
+										</Trigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+							</Controls:EditorPresenter.EditTemplate>
+						</Controls:EditorPresenter>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
 		</DataGrid.Columns>
 	</DataGrid>
 </UserControl>

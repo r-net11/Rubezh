@@ -41,7 +41,7 @@
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" ImageSource="leftLeft"  />
-			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" ImageSource="right"  />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" ImageSource="rightRight"  />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">

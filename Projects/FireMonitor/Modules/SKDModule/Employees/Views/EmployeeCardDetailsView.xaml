@@ -43,7 +43,7 @@
 					<TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="Пароль" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 
-					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}">
+					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
 						<StackPanel>
 							<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Начало действия" />
 							<Calendar Margin="2" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" DisplayDate="{Binding StartDate}" IsTodayHighlighted="False" SelectedDate="{Binding StartDate}" SelectionMode="SingleDate" />

@@ -20,7 +20,7 @@ namespace GKProcessor
 		{
 			Errors = new List<string>();
 
-			var progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, false, GKProgressClientType.Administrator);
 			try
 			{
 				DescriptorsManager.Create();
