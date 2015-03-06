@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Shapes;
 using Common;
@@ -100,6 +101,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
+			OnPropertyChanged(() => Description);
 		}
 
 		public string Address

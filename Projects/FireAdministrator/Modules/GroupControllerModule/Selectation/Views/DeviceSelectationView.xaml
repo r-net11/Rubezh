@@ -39,7 +39,7 @@
 							</Controls:EditorPresenter.ViewTemplate>
 							<Controls:EditorPresenter.EditTemplate>
 								<ControlTemplate>
-									<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+									<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="{DynamicResource ForegroundColorDark}" Text="{Binding DataContext.Description, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" />
 									<ControlTemplate.Triggers>
 										<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
 											<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />

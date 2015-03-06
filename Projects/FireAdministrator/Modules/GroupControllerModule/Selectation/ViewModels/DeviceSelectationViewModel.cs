@@ -30,5 +30,24 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
+
+		public string Description
+		{
+			get
+			{
+				return SelectedDevice != null ? SelectedDevice.Description : "";
+			}
+			set
+			{
+				if (SelectedDevice != null)
+				{
+					SelectedDevice.Description = value;
+					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedDevice);
+					if (device != null)
+						device.Update();
+				}
+				OnPropertyChanged(() => Description);
+			}
+		}
 	}
 }
