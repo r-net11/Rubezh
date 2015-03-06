@@ -38,21 +38,21 @@
 
 			            <Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
 			            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
-				            <TextBlock VerticalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center">
 					            <Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" />
-						            <TextBlock>
-							            <TextBlock.Style>
+						            <TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock.Style>
 								            <Style>
 									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding HasSelectedPosition}" Value="false">
-											            <Setter Property="TextBlock.Text" Value="Нажмите для выбора должности" />
+										            <DataTrigger Binding="{Binding SelectedPosition.IsDeleted}" Value="true">
+											            <Setter Property="TextBlock.Foreground" Value="Gray" />
 										            </DataTrigger>
 									            </Style.Triggers>
 								            </Style>
 							            </TextBlock.Style>
-						            </TextBlock>
-					            </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+							    </Hyperlink>
 				            </TextBlock>
 			            </StackPanel>
 
@@ -60,18 +60,18 @@
 			            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
 				            <TextBlock VerticalAlignment="Center">
 					            <Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
-						            <TextBlock>
-							            <TextBlock.Style>
+						            <TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock.Style>
 								            <Style>
 									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding HasSelectedDepartment}" Value="false">
-											            <Setter Property="TextBlock.Text" Value="Нажмите для выбора подразделения" />
+										            <DataTrigger Binding="{Binding SelectedDepartment.IsDeleted}" Value="true">
+											            <Setter Property="TextBlock.Foreground" Value="Gray" />
 										            </DataTrigger>
 									            </Style.Triggers>
 								            </Style>
 							            </TextBlock.Style>
-						            </TextBlock>
+                                    </TextBlock>
+                                    <TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 					            </Hyperlink>
 				            </TextBlock>
 			            </StackPanel>

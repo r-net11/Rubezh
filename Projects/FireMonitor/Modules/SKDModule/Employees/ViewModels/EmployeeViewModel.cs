@@ -17,11 +17,25 @@ namespace SKDModule.ViewModels
 		}
 		public string DepartmentName
 		{
-			get { return IsOrganisation ? "" : Model.DepartmentName; }
+			get 
+			{
+				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
+				if (!IsOrganisation && (isWithDeleted || !IsDepartmentDeleted))
+					return IsOrganisation ? "" : Model.DepartmentName;
+				else
+					return "";
+			}
 		}
 		public string PositionName
 		{
-			get { return IsOrganisation ? "" : Model.PositionName; }
+			get 
+			{
+				var isWithDeleted = (ParentViewModel as EmployeesViewModel).IsWithDeleted;
+				if (!IsOrganisation && (isWithDeleted || !IsPositionDeleted))
+					return Model.PositionName;
+				else
+					return "";
+			}
 		}
 		public string FirstName
 		{

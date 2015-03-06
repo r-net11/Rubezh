@@ -51,7 +51,8 @@ namespace SKDModule.ViewModels
 		protected abstract bool Add(TModel item);
 		protected abstract bool Restore(TModel model);
 		protected abstract PermissionType Permission { get; }
-		bool IsEditAllowed { get { return FiresecManager.CheckPermission(Permission); } } 
+		bool IsEditAllowed { get { return FiresecManager.CheckPermission(Permission); } }
+		public TFilter Filter { get { return _filter; } }
 		
 		protected TModel ShowDetails(Organisation organisation, TModel model = null)
 		{

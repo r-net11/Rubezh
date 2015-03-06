@@ -118,8 +118,8 @@
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>
-                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-                <Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
+				<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+				<Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width ="*" />
@@ -142,27 +142,27 @@
 								<TextBlock Width="100" Margin="2" Text="Телефон" />
 								<TextBlock Margin="2" Text="{Binding Phone}" />
 							</StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource BoolToVisibilityConverter}}" >
-                                <TextBlock Width="100" Margin="2" Text="Примечание" />
-                                <TextBlock Margin="2" Text="{Binding Description}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
-                                <TextBlock Width="100" Margin="2" Text="Должность" />
-                                <TextBlock Margin="2" Text="{Binding PositionName}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" >
-                                <TextBlock Width="100" Margin="2" Text="Подразделение" />
-                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" >
-                                <TextBlock Width="100" Margin="2" Text="Организация" />
-                                <TextBlock Margin="2" Text="{Binding OrganisationName}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding Model.IsDeleted, Converter={StaticResource BoolToVisibilityConverter}}" >
-                                <TextBlock Width="100" Margin="2" Text="Дата удаления" />
-                                <TextBlock Margin="2" Text="{Binding RemovalDate}" />
-                            </StackPanel>
-                        </StackPanel>
+							<StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource BoolToVisibilityConverter}}" >
+								<TextBlock Width="100" Margin="2" Text="Примечание" />
+								<TextBlock Margin="2" Text="{Binding Description}" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Visibility="{Binding IsGuest, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+								<TextBlock Width="100" Margin="2" Text="Должность" />
+								<TextBlock Margin="2" Text="{Binding PositionName}" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" >
+								<TextBlock Width="100" Margin="2" Text="Подразделение" />
+								<TextBlock Margin="2" Text="{Binding DepartmentName}" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" >
+								<TextBlock Width="100" Margin="2" Text="Организация" />
+								<TextBlock Margin="2" Text="{Binding OrganisationName}" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Visibility="{Binding Model.IsDeleted, Converter={StaticResource BoolToVisibilityConverter}}" >
+								<TextBlock Width="100" Margin="2" Text="Дата удаления" />
+								<TextBlock Margin="2" Text="{Binding RemovalDate}" />
+							</StackPanel>
+						</StackPanel>
 						<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
 					</Grid>
 				</Border>

@@ -20,16 +20,17 @@ namespace SKDModule.ViewModels
 		bool _isNew;
 		public ObservableCollection<Gender> Genders { get; private set; }
 		public ObservableCollection<EmployeeDocumentType> DocumentTypes { get; private set; }
+		bool _isWithDeleted;
 
 		public EmployeeDetailsViewModel() { }
 
 		public bool Initialize(Organisation organisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
 			var employeesViewModel = (parentViewModel as EmployeesViewModel);
-			return Initialize(organisation.UID, employee, employeesViewModel.PersonType);
+			return Initialize(organisation.UID, employee, employeesViewModel.PersonType, isWithDeleted: employeesViewModel.IsWithDeleted);
 		}
 
-		public bool Initialize(Guid organisationUID, ShortEmployee employee, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true)
+		public bool Initialize(Guid organisationUID, ShortEmployee employee, PersonType personType, bool canEditDepartment = true, bool canEditPosition = true, bool isWithDeleted = false)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
@@ -42,6 +43,7 @@ namespace SKDModule.ViewModels
 
 			CanEditDepartment = canEditDepartment;
 			_canEditPosition = canEditPosition;
+			_isWithDeleted = isWithDeleted;
 			
 			Genders = new ObservableCollection<Gender>();
 			foreach (Gender item in Enum.GetValues(typeof(Gender)))
@@ -189,7 +191,7 @@ namespace SKDModule.ViewModels
 
 		public bool HasSelectedDepartment
 		{
-			get { return SelectedDepartment != null; }
+			get { return SelectedDepartment != null && (_isWithDeleted || !SelectedDepartment.IsDeleted); }
 		}
 
 		ShortEmployee selectedEscort;
@@ -220,11 +222,9 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => HasSelectedPosition);
 			}
 		}
-
-
 		public bool HasSelectedPosition
 		{
-			get { return SelectedPosition != null; }
+			get { return SelectedPosition != null && (_isWithDeleted || !SelectedPosition.IsDeleted); }
 		}
 
 		ShortSchedule _selectedSchedule;

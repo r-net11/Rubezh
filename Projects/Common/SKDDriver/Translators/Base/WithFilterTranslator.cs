@@ -44,17 +44,15 @@ namespace SKDDriver
 			var query = GetQuery(filter);
 			var result = new List<TableT>();
 			int skipCount = 0;
-			var itemsQuant = query.Skip(skipCount).Take(1000).ToList();
-			skipCount += 1000;
-			result.AddRange(itemsQuant);
-			itemsQuant = query.Skip(skipCount).Take(1000).ToList();
-			skipCount += 1000;
-			result.AddRange(itemsQuant);
-			while (itemsQuant.Count() == 2000)
+			var itemsQuant = new List<TableT>();
+			bool isContinue = true;
+			while (isContinue)
 			{
 				itemsQuant = query.Skip(skipCount).Take(2000).ToList();
 				skipCount += 2000;
 				result.AddRange(itemsQuant);
+				if (itemsQuant.Count() < 2000)
+					isContinue = false;
 			}
 			return result;
 		}
