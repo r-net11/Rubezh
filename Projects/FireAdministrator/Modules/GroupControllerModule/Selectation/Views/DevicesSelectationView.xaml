@@ -41,7 +41,7 @@
 			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="leftLeft"  />
-			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="right"  />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="rightRight"  />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="False"
 					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">

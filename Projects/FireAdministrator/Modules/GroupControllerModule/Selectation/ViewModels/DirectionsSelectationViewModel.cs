@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 
 		public DirectionsSelectationViewModel(List<GKDirection> directions)
 		{
-			Title = "Выбор зон";
+			Title = "Выбор направлений";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);

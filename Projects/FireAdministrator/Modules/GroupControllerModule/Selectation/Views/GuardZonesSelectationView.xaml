@@ -46,7 +46,7 @@
 				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
 				<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
 				<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="leftLeft"  />
-				<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="right"  />
+				<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="rightRight"  />
 			</StackPanel>
 			<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
