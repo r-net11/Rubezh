@@ -12,7 +12,19 @@
 		<Views:DoorsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DaySchedulesViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:SKDZonesViewModel}">
+        <Views:SKDZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SKDZoneDetailsViewModel}">
+        <Views:SKDZoneDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SKDZonesMenuViewModel}">
+        <Views:SKDZonesMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DaySchedulesViewModel}">
 		<Views:DaySchedulesView />
 	</DataTemplate>
 

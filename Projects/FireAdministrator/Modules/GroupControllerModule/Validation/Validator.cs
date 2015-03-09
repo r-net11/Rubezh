@@ -23,6 +23,7 @@ namespace GKModule.Validation
 			ValidateCodes();
 			ValidateGuardZones();
 			ValidateDoors();
+			ValidateSKDZones();
 			ValidateDaySchedules();
 			ValidateSchedules();
 			ValidatePlans();

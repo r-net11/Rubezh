@@ -34,6 +34,7 @@ namespace GKModule
 		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		DoorsViewModel DoorsViewModel;
+		SKDZonesViewModel SKDZonesViewModel;
 		DaySchedulesViewModel DaySchedulesViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -55,6 +56,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(OnEditGKDirection);
 			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
+			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Subscribe(OnCreateSKDZone);
+			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Subscribe(OnEditSKDZone);
 
 			DevicesViewModel = new DevicesViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
@@ -66,6 +69,7 @@ namespace GKModule
 			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
+			SKDZonesViewModel = new SKDZonesViewModel();
 			DaySchedulesViewModel = new DaySchedulesViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -90,6 +94,7 @@ namespace GKModule
 			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
+			SKDZonesViewModel.Initialize();
 			DaySchedulesViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -125,6 +130,7 @@ namespace GKModule
 						new List<NavigationItem>()
 						{
 							new NavigationItemEx<ShowGKDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "DoorW", null, null, Guid.Empty),
+							new NavigationItemEx<ShowGKSKDZoneEvent, Guid>(SKDZonesViewModel, "Зоны", "Zones", null, null, Guid.Empty),
 							new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
 							new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
 						}),
@@ -214,6 +220,14 @@ namespace GKModule
 		private void OnEditGKDoor(Guid doorUID)
 		{
 			DoorsViewModel.EditDoor(doorUID);
+		}
+		private void OnCreateSKDZone(CreateSKDZoneEventArg createZoneEventArg)
+		{
+			SKDZonesViewModel.CreateZone(createZoneEventArg);
+		}
+		private void OnEditSKDZone(Guid zoneUID)
+		{
+			SKDZonesViewModel.EditZone(zoneUID);
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

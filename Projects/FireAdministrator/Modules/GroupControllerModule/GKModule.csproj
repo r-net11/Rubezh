@@ -120,6 +120,7 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKDoorEvent.cs" />
+    <Compile Include="Events\CreateSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\EditGKGuardZoneEvent.cs" />
     <Compile Include="Events\CreateGKDirectionEvent.cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Events\ShowGKScheduleEvent.cs" />
     <Compile Include="Events\CreateGKScheduleEvent.cs" />
     <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
+    <Compile Include="Events\ShowGKSKDZoneEvent.cs" />
+    <Compile Include="Events\EditGKSKDZoneEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
@@ -418,6 +421,10 @@
     <Compile Include="SKD\ViewModels\ScheduleViewModel.cs" />
     <Compile Include="SKD\ViewModels\SchedulePartViewModel.cs" />
     <Compile Include="SKD\ViewModels\SchedulePartsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SKDZoneDetailsViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SKDZonesMenuViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SKDZonesViewModel.cs" />
+    <Compile Include="SKD\ViewModels\SKDZoneViewModel.cs" />
     <Compile Include="SKD\Views\CalendarView.xaml.cs">
       <DependentUpon>CalendarView.xaml</DependentUpon>
     </Compile>
@@ -457,6 +464,15 @@
     <Compile Include="SKD\Views\SchedulesView.xaml.cs">
       <DependentUpon>SchedulesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SKD\Views\SKDZoneDetailsView.xaml.cs">
+      <DependentUpon>SKDZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\SKDZonesMenuView.xaml.cs">
+      <DependentUpon>SKDZonesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKD\Views\SKDZonesView.xaml.cs">
+      <DependentUpon>SKDZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\CodeValidationError.cs" />
     <Compile Include="Validation\Validator.Plans.cs" />
     <Compile Include="Validation\DayScheduleValidationError.cs" />
@@ -481,6 +497,8 @@
     <Compile Include="Validation\DoorValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\Validator.Schedules.cs" />
+    <Compile Include="Validation\SKDZoneValidationError.cs" />
+    <Compile Include="Validation\Validator.SKDZones.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
@@ -912,6 +930,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SKD\Views\SchedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\SKDZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\SKDZonesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKD\Views\SKDZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

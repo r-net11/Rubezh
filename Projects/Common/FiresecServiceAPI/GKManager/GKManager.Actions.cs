@@ -258,5 +258,16 @@ namespace FiresecClient
 			}
 			device.Properties = new List<GKProperty>();
 		}
+
+		public static void RemoveSKDZone(GKSKDZone zone)
+		{
+			SKDZones.Remove(zone);
+			zone.OnChanged();
+		}
+
+		public static void EditSKDZone(GKSKDZone zone)
+		{
+			zone.OnChanged();
+		}
 	}
 }
