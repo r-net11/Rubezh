@@ -177,7 +177,7 @@ namespace SKDModule.ViewModels
 			{
 				var condition = card.IsInStopList ? (Func<CardViewModel, bool>)(x => x.IsDeactivatedRootItem) : x => x.IsOrganisation && x.Organisation.UID == card.OrganisationUID;
 				var rootItem = RootItems.FirstOrDefault(condition);
-				if(rootItem != null)
+				if (rootItem != null)
 					rootItem.AddChild(new CardViewModel(card));
 			}
 			foreach (var rootItem in RootItems)

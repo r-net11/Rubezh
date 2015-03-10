@@ -21,7 +21,7 @@
 	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedCard}" Source="{Binding RootItemsArray}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Номер" Width="Auto" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
+                <GridViewColumn Header="Номер" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelNumberComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -33,7 +33,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Тип" Width="Auto" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
+                <GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource CardViewModelTypeComparer}" >
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding CardType}" Visibility="{Binding IsInStopList, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{StaticResource ActiveStyle}" MinWidth="150" />

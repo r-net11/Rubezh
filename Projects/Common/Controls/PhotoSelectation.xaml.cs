@@ -135,6 +135,11 @@ namespace Controls
 			}
 		}
 
+		void RemoveButton_Click(object sender, RoutedEventArgs e)
+		{
+			Data = null;
+		}
+
 		void ScannerButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxService.Show("NOT IMPLEMENTED YET");

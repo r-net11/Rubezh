@@ -159,7 +159,6 @@ namespace SKDDriver
 						Description = tableItem.Description,
 						IsDeleted = tableItem.IsDeleted,
 						Name = tableItem.Name,
-						Photo = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID).Result,
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
@@ -305,12 +304,9 @@ namespace SKDDriver
 			var saveUsersResult = SaveUsers(apiItem);
 			if (saveUsersResult.HasError)
 				return saveUsersResult;
-			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
-			{
-				var savePhotoResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
-				if (savePhotoResult.HasError)
-					return savePhotoResult;
-			}
+			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
 			try
 			{
 				if (apiItem == null)

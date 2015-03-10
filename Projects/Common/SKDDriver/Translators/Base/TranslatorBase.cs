@@ -157,8 +157,9 @@ namespace SKDDriver
 		{
 			try
 			{
-				var tableItem = Table.Where(x => x.UID.Equals(uid)).Single();
-				Table.DeleteOnSubmit(tableItem);
+				var tableItem = Table.Where(x => x.UID.Equals(uid)).FirstOrDefault();
+				if (tableItem != null)
+					Table.DeleteOnSubmit(tableItem);
 				Table.Context.SubmitChanges();
 			}
 			catch (Exception e)

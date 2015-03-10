@@ -13,6 +13,7 @@
 			<local:ToolBarButton ImageSource="Scanner"  ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" Visibility="Collapsed" />
 			<local:ToolBarButton ImageSource="Paste"  ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
 			<local:ToolBarButton ImageSource="Load"  ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
+            <local:ToolBarButton ImageSource="Close"  ToolTip="Очитстить фото" Click="RemoveButton_Click" IsEnabled="True" />
 		</StackPanel>
 	</Grid>
 </UserControl>

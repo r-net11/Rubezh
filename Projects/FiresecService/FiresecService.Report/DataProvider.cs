@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.Model;
 using SKDDriver;
-using Common;
 
 namespace FiresecService.Report
 {
@@ -78,6 +78,25 @@ namespace FiresecService.Report
 			if (uids.IsEmpty())
 				return new List<EmployeeInfo>();
 			LoadCache();
+			int partSize = 2000;
+			if (uids.Count() > partSize)
+			{
+				var uidList = uids.ToList();
+				var result = new List<EmployeeInfo>();
+				for (int i = 0; i < uidList.Count; i += partSize)
+				{
+					var uidSubList = uidList.GetRange(i, Math.Min(partSize, uidList.Count - i));
+					result.AddRange(GetEmployeesPart(uidSubList));
+				}
+				return result;
+			}
+			else
+			{
+				return GetEmployeesPart(uids);
+			}
+		}
+		List<EmployeeInfo> GetEmployeesPart(IEnumerable<Guid> uids)
+		{
 			var employeeFilter = new EmployeeFilter()
 			{
 				UIDs = uids.ToList(),

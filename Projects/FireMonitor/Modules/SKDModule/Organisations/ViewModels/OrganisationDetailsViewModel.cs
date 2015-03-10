@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (OrganisationsViewModel.Organisations.Any(x => x.Organisation.Name == Name && x.Organisation.UID != OrganisationDetails.UID))
+			if (OrganisationsViewModel.Organisations.Any(x => x.Organisation.Name == Name && x.Organisation.UID != OrganisationDetails.UID && !x.Organisation.IsDeleted))
 			{
 				MessageBoxService.ShowWarning("Название организации совпадает с введенным ранее");
 				return false;
@@ -130,7 +130,7 @@ namespace SKDModule.ViewModels
 
 			OrganisationDetails.Name = Name;
 			OrganisationDetails.Description = Description;
-			if (PhotoData != null && PhotoData.Length > 0)
+			if ((PhotoData != null && PhotoData.Length > 0) || OrganisationDetails.Photo != null)
 			{
 				OrganisationDetails.Photo = new Photo();
 				OrganisationDetails.Photo.Data = PhotoData;

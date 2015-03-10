@@ -1,4 +1,6 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Linq;
+using FiresecAPI;
+using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -18,5 +20,27 @@ namespace SKDDriver
 		{
 			tableItem.Data = apiItem.Data;
 		}
+
+		public OperationResult SaveOrDelete(Photo photo)
+		{
+			if (photo != null)
+			{
+				if (photo.Data != null && photo.Data.Count() > 0)
+				{
+					var photoSaveResult = DatabaseService.PhotoTranslator.Save(photo);
+					if (photoSaveResult.HasError)
+						return photoSaveResult;
+				}
+				else
+				{
+					var photoDeleteResult = DatabaseService.PhotoTranslator.Delete(photo.UID);
+					if (photoDeleteResult.HasError)
+						return photoDeleteResult;
+				}
+			}
+			return new OperationResult();
+		}
+
+		
 	}
 }

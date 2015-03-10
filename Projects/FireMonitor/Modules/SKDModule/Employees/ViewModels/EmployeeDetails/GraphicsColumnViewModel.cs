@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 	public class PhotoColumnViewModel : BaseViewModel, IGraphicsColumnViewModel
 	{
 		public string Name { get; private set; }
-		bool HasPhoto { get { return Photo != null && Photo.Data != null; } }
+		public bool HasPhoto { get { return Photo != null && Photo.Data != null; } }
 		public Photo Photo { get; private set; }
 
 		public byte[] Data

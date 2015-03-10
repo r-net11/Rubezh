@@ -138,12 +138,9 @@ namespace SKDDriver
 			var columnSaveResult = DatabaseService.AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
 			if (columnSaveResult.HasError)
 				return columnSaveResult;
-			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
-			{
-				var photoSaveResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
-				if (photoSaveResult.HasError)
-					return photoSaveResult;
-			}
+			var photoSaveResult = DatabaseService.PhotoTranslator.SaveOrDelete(apiItem.Photo);
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
 			return base.Save(apiItem);
 		}
 
@@ -227,12 +224,12 @@ namespace SKDDriver
 					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey="-1" };
 					Context.Organisations.InsertOnSubmit(org);
 					var posUIDs = new List<Guid>();
-					//for (int j = 0; j < 2200; j++)
-					//{
-					//    var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-					//    Context.Positions.InsertOnSubmit(pos);
-					//    posUIDs.Add(pos.UID);
-					//}
+					for (int j = 0; j < 2; j++)
+					{
+						var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+						Context.Positions.InsertOnSubmit(pos);
+						posUIDs.Add(pos.UID);
+					}
 					for (int j = 0; j < 1; j++)
 					{
 						var dept = new DataAccess.Department { Name = "Подразделение " + i + j + "0", OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
@@ -276,7 +273,7 @@ namespace SKDDriver
 						}
 						//var dept2 = new DataAccess.Department { Name = "Подразделение " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 						//Context.Departments.InsertOnSubmit(dept2);
-						//for (int k = 0; k < 100; k++)
+						//for (int k = 0; k < 500; k++)
 						//{
 						//    var empl = new DataAccess.Employee
 						//    {
