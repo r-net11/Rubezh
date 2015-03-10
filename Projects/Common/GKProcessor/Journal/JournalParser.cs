@@ -25,6 +25,7 @@ namespace GKProcessor
 		public int GKJournalRecordNo { get; private set; }
 		public ushort GKObjectNo { get; private set; }
 		public int ObjectState { get; private set; }
+		public JournalSourceType JournalSourceType { get; private set; }
 
 		public JournalParser(GKDevice gkControllerDevice, List<byte> bytes)
 		{
@@ -46,10 +47,10 @@ namespace GKProcessor
 			InitializeDateTime(bytes);
 
 			var ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
-			var source = (JournalSourceType)(int)(bytes[32 + 12]);
+			JournalSourceType = (JournalSourceType)(int)(bytes[32 + 12]);
 			var code = bytes[32 + 13];
 
-			switch (source)
+			switch (JournalSourceType)
 			{
 				case JournalSourceType.Controller:
 					switch (code)

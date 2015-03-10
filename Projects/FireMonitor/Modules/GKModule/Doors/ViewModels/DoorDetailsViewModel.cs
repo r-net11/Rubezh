@@ -178,7 +178,7 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Door);
-				FiresecManager.FiresecService.GKTurnOff(Door);
+				FiresecManager.FiresecService.GKTurnOffInAutomatic(Door);
 			}
 		}
 
@@ -200,7 +200,7 @@ namespace GKModule.ViewModels
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				FiresecManager.FiresecService.GKSetManualRegime(Door);
-				FiresecManager.FiresecService.GKTurnOn(Door);
+				FiresecManager.FiresecService.GKTurnOff(Door);
 			}
 		}
 

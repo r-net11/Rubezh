@@ -4,6 +4,7 @@ using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {

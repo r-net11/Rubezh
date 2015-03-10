@@ -208,7 +208,7 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
-		private void OnCreateDragObjectCommand(DataObject dataObject)
+		void OnCreateDragObjectCommand(DataObject dataObject)
 		{
 			DoorsViewModel.Current.SelectedDoor = this;
 			var plansElement = new ElementGKDoor
@@ -217,13 +217,13 @@ namespace GKModule.ViewModels
 			};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
-		private bool CanCreateDragObjectCommand(DataObject dataObject)
+		bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
 			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
-		private UIElement OnCreateDragVisual(IDataObject dataObject)
+		UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
 			ServiceFactory.Layout.SetRightPanelVisible(true);
 			var brush = PictureCacheSource.DoorPicture.GetDefaultBrush();
@@ -243,12 +243,12 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand<bool> AllowMultipleVizualizationCommand { get; private set; }
-		private void OnAllowMultipleVizualizationCommand(bool isAllow)
+		void OnAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			Door.AllowMultipleVizualization = isAllow;
 			Update();
 		}
-		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
+		bool CanAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			return Door.AllowMultipleVizualization != isAllow;
 		}
