@@ -145,7 +145,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasSKD; }
 		}
 
 		DateTime _startDate;
@@ -374,11 +374,6 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (EndDate < StartDate)
-			{
-				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
-				return false;
-			}
 			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
 			{
 				if (EndDate < DateTime.Now)
@@ -386,6 +381,12 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
 					return false;
 				}
+			}
+
+			if (EndDate < StartDate)
+			{
+				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
+				return false;
 			}
 
 			if(Number <= 0)
@@ -399,6 +400,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
 				return false;
 			}
+
 			if (!string.IsNullOrEmpty(Password))
 			{
 				foreach (char c in Password)

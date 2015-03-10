@@ -44,12 +44,12 @@
 					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 
 					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-						<StackPanel>
+						<StackPanel Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0 0 10 0">
 							<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Начало действия" />
 							<Calendar Margin="2" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" DisplayDate="{Binding StartDate}" IsTodayHighlighted="False" SelectedDate="{Binding StartDate}" SelectionMode="SingleDate" />
 						</StackPanel>
 
-						<StackPanel Margin="10 0 0 0">
+						<StackPanel >
 							<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Конец действия" />
 							<Calendar Margin="2" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" DisplayDate="{Binding EndDate}" IsEnabled="{Binding CanSelectEndDate}" IsTodayHighlighted="False" SelectedDate="{Binding EndDate}" SelectionMode="SingleDate" />
 						</StackPanel>

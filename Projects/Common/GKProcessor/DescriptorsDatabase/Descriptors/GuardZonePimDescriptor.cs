@@ -98,7 +98,7 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var guardDevice in guardZoneDevices)
 			{
-				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);

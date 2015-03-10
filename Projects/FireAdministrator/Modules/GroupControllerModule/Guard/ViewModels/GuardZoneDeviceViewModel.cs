@@ -1,8 +1,6 @@
 ﻿using FiresecAPI.GK;
-using FiresecClient;
 using Infrastructure.Common.TreeList;
 using System.Collections.ObjectModel;
-using System;
 using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
@@ -39,7 +37,7 @@ namespace GKModule.ViewModels
 			if (!ActionTypes.Contains(SelectedActionType))
 				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
 
-			IsCodeReader = guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader;
+			IsCodeReader = guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader;
 		}
 
 		public ObservableCollection<GKGuardZoneDeviceActionType> ActionTypes { get; private set; }

@@ -55,6 +55,7 @@ namespace GKProcessor
 						break;
 
 					case GKDriverType.RSR2_CodeReader:
+					case GKDriverType.RSR2_CardReader:
 						if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeReaderEnterType != GKCodeReaderEnterType.None)
 						{
 							if (guardZoneDevice.CodeReaderSettings.SetGuardSettings.CodeUIDs.Count > 0 || GuardZone.GuardZoneEnterMethod != GKGuardZoneEnterMethod.GlobalOnly)
@@ -131,7 +132,7 @@ namespace GKProcessor
 			var count = 0;
 			foreach (var guardDevice in guardZoneDevices)
 			{
-				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					GKCodeReaderSettingsPart settingsPart = null;
 					switch (commandStateBit)
@@ -256,6 +257,8 @@ namespace GKProcessor
 		private void AddMissedLogic(List<GKGuardZoneDevice> guardZoneDevices)
 		{
 			var count = 0;
+			if (guardZoneDevices.Count == 0)
+				return;
 			Formula.AddGetBit(GKStateBit.TurningOn, GuardZone, DatabaseType);
 			foreach (var guardDevice in guardZoneDevices)
 			{

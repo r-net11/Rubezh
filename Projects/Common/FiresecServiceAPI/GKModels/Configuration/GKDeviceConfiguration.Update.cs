@@ -387,13 +387,13 @@ namespace FiresecAPI.GK
 					var device = Devices.FirstOrDefault(x => x.UID == guardZoneDevice.DeviceUID);
 					if (device != null)
 					{
-						if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader)
+						if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound || device.DriverType == GKDriverType.RSR2_AM_1 || device.DriverType == GKDriverType.RSR2_MAP4 || device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
 						{
 							guardZoneDevice.Device = device;
 							guardZoneDevices.Add(guardZoneDevice);
 							device.GuardZone = guardZone;
 						}
-						if (device.DriverType == GKDriverType.RSR2_CodeReader)
+						if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
 						{
 							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.SetGuardSettings);
 							InvalidateGKCodeReaderSettingsPart(guardZoneDevice.CodeReaderSettings.ResetGuardSettings);

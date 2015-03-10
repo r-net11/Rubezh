@@ -83,7 +83,7 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Off, Device.GuardZone, DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Device, DatabaseType);
 			}
-			if (Device.DriverType == GKDriverType.RSR2_CodeReader && Device.GuardZone != null)
+			if ((Device.DriverType == GKDriverType.RSR2_CodeReader || Device.DriverType == GKDriverType.RSR2_CardReader) && Device.GuardZone != null)
 			{
 				Formula.AddGetBit(GKStateBit.On, Device.GuardZone, DatabaseType);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Device, DatabaseType);

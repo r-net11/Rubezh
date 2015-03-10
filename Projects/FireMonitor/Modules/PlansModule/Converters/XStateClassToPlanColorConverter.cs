@@ -14,11 +14,11 @@ namespace PlansModule.Converters
 			XStateClass stateType = (XStateClass)value;
 			switch (stateType)
 			{
-				case XStateClass.Attention:
 				case XStateClass.Fire1:
 				case XStateClass.Fire2:
 					return Brushes.Red;
-
+				case XStateClass.Attention:
+					return Brushes.Orange;
 				default:
 					return Brushes.Transparent;
 			}

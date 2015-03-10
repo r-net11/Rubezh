@@ -133,7 +133,7 @@ namespace FiresecAPI.GK
 					if (guardZoneDevice.ActionType != GKGuardZoneDeviceActionType.ChangeGuard)
 					{
 						guardZone.LinkGKBases(guardZoneDevice.Device);
-						if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader)
+						if (guardZoneDevice.Device.DriverType == GKDriverType.RSR2_GuardDetector || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardZoneDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 						{
 							guardZoneDevice.Device.LinkGKBases(guardZone);
 						}

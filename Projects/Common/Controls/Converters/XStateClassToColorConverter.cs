@@ -23,7 +23,7 @@ namespace Controls.Converters
 					return Brushes.Red;
 
 				case XStateClass.Attention:
-					return Brushes.Yellow;
+					return Brushes.Orange;
 
 				case XStateClass.Failure:
 					return Brushes.Pink;
