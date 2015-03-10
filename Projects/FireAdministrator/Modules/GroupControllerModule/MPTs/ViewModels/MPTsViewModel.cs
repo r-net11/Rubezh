@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using FiresecClient;
 using Infrastructure;
@@ -95,9 +94,12 @@ namespace GKModule.ViewModels
 				{
 					MPTViewModel.ChangeIsInMPT(mptDevice.Device, false);
 				}
+				var index = MPTs.IndexOf(SelectedMPT);
 				GKManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
-				SelectedMPT = MPTs.FirstOrDefault();
+				index = Math.Min(index, MPTs.Count - 1);
+				if (index > -1)
+					SelectedMPT = MPTs[index];
 				OnPropertyChanged(() => HasSelectedMPT);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

@@ -88,9 +88,12 @@ namespace FiltersModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = Filters.IndexOf(SelectedFilter);
 			FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.Filter);
 			Filters.Remove(SelectedFilter);
-			SelectedFilter = Filters.FirstOrDefault();
+			index = Math.Min(index, Filters.Count - 1);
+			if (index > -1)
+				SelectedFilter = Filters[index];
 			ServiceFactory.SaveService.FilterChanged = true;
 		}
 

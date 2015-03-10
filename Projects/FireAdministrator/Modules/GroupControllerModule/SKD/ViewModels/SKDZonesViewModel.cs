@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.Models;
-using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -99,13 +98,16 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var index = Zones.IndexOf(SelectedZone);
-			GKManager.RemoveSKDZone(SelectedZone.Zone);
-			Zones.Remove(SelectedZone);
-			index = Math.Min(index, Zones.Count - 1);
-			if (index > -1)
-				SelectedZone = Zones[index];
-			ServiceFactory.SaveService.GKChanged = true;
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName))
+			{
+				var index = Zones.IndexOf(SelectedZone);
+				GKManager.RemoveSKDZone(SelectedZone.Zone);
+				Zones.Remove(SelectedZone);
+				index = Math.Min(index, Zones.Count - 1);
+				if (index > -1)
+					SelectedZone = Zones[index];
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }

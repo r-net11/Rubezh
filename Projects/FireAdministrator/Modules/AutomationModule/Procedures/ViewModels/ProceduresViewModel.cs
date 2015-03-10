@@ -145,9 +145,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = Procedures.IndexOf(SelectedProcedure);
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
 			Procedures.Remove(SelectedProcedure);
-			SelectedProcedure = Procedures.FirstOrDefault();
+			index = Math.Min(index, Procedures.Count - 1);
+			if (index > -1)
+				SelectedProcedure = Procedures[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDelete()

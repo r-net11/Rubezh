@@ -148,9 +148,12 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName))
 			{
+				var index = Directions.IndexOf(SelectedDirection);
 				GKManager.RemoveDirection(SelectedDirection.Direction);
 				Directions.Remove(SelectedDirection);
-				SelectedDirection = Directions.FirstOrDefault();
+				index = Math.Min(index, Directions.Count - 1);
+				if (index > -1)
+					SelectedDirection = Directions[index];
 				ServiceFactory.SaveService.GKChanged = true;
 				GKPlanExtension.Instance.Cache.BuildSafe<GKDirection>();
 			}

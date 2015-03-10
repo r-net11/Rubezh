@@ -129,7 +129,7 @@ namespace FiresecAPI.GK
 		RSR2_CodeReader,
 		[Description("ИО-ИК R2")]
 		RSR2_GuardDetector,
-		[Description("Считыватель R2")]
+		[Description("Контроллер Wiegand")]
 		RSR2_CardReader,
 		[Description("МР-4 R2")]
 		RSR2_RM_4,

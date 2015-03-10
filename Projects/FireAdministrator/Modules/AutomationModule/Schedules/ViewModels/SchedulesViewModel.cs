@@ -71,9 +71,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = Schedules.IndexOf(SelectedSchedule);
 			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Remove(SelectedSchedule.Schedule);
 			Schedules.Remove(SelectedSchedule);
-			SelectedSchedule = Schedules.FirstOrDefault();
+			index = Math.Min(index, Schedules.Count - 1);
+			if (index > -1)
+				SelectedSchedule = Schedules[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

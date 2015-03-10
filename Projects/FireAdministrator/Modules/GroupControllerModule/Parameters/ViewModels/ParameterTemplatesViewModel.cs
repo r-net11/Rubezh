@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -82,9 +83,12 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = ParameterTemplates.IndexOf(SelectedParameterTemplate);
 			GKManager.ParameterTemplates.RemoveAll(x => x.UID == SelectedParameterTemplate.ParameterTemplate.UID);
 			ParameterTemplates.Remove(SelectedParameterTemplate);
-			SelectedParameterTemplate = ParameterTemplates.FirstOrDefault();
+			index = Math.Min(index, ParameterTemplates.Count - 1);
+			if (index > -1)
+				SelectedParameterTemplate = ParameterTemplates[index];
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		public RelayCommand EditCommand { get; private set; }
