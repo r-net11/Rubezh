@@ -9,8 +9,8 @@ namespace SKDDriver
 {
 	public class OrganisationSynchroniser : Synchroniser<ExportOrganisation, DataAccess.Organisation>
 	{
-		public OrganisationSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) {}
-		
+		public OrganisationSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+
 		public void Initialize()
 		{
 			ListSynchroniser = new OrgansiationListSynchroniser(_Table, _DatabaseService);
@@ -18,9 +18,9 @@ namespace SKDDriver
 
 		public override ExportOrganisation Translate(DataAccess.Organisation item)
 		{
-			return new ExportOrganisation 
-			{ 
-				Name = item.Name, 
+			return new ExportOrganisation
+			{
+				Name = item.Name,
 				Description = item.Description,
 				Phone = item.Phone,
 
@@ -128,8 +128,8 @@ namespace SKDDriver
 
 	public class OrgansiationListSynchroniser : OrganisationSynchroniser
 	{
-		public OrgansiationListSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) {}
-		
+		public OrgansiationListSynchroniser(Table<DataAccess.Organisation> table, SKDDatabaseService databaseService) : base(table, databaseService) { }
+
 		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(ExportFilter filter)
 		{
 			return base.IsInFilterList(filter);

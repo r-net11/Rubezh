@@ -57,7 +57,7 @@ namespace FiresecService.Report.Templates
 				{
 					var cardRow = dataSet.PassCards.NewPassCardsRow();
 					cardRow.DataRow = dataRow;
-					cardRow.Number = card.Number;
+					cardRow.Number = (int)card.Number;
 					dataSet.PassCards.AddPassCardsRow(cardRow);
 				}
 				foreach (var column in employee.Item.AdditionalColumns)

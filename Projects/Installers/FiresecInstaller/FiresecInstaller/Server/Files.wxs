@@ -59,7 +59,7 @@
 				<File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
 				<?endif ?>
 
-				<File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
+				<!--<File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />-->
 
 				<File Id="Server.Microsoft.Sqlserver.Batchparser.dll" Name="Microsoft.Sqlserver.Batchparser.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 				<File Id="Server.Microsoft.SqlServer.BatchParserClient.dll" Name="Microsoft.SqlServer.BatchParserClient.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />

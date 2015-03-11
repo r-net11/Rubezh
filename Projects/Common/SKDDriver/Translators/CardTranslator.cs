@@ -33,7 +33,7 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 			result.HolderUID = tableItem.EmployeeUID;
-			result.Number = tableItem.Number;
+			result.Number = (uint)tableItem.Number;
 			result.CardType = (CardType)tableItem.CardType;
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
@@ -64,7 +64,7 @@ namespace SKDDriver
 		protected override void TranslateBack(DataAccess.Card tableItem, SKDCard apiItem)
 		{
 			//base.TranslateBack(tableItem, apiItem);
-			tableItem.Number = apiItem.Number;
+			tableItem.Number = (int)apiItem.Number;
 			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.CardType = (int)apiItem.CardType;
 			tableItem.StartDate = TranslatiorHelper.CheckDate(apiItem.StartDate);

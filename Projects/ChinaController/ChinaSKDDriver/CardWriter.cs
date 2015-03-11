@@ -249,7 +249,7 @@ namespace ChinaSKDDriver
 							result = cardRecordNo == controllerCardItem.Card.Number.ToString();
 							if (!result)
 							{
-								result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
+								result = deviceProcessor.Wrapper.RemoveCard((int)controllerCardItem.Card.Number);
 								if (result)
 								{
 									cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
@@ -268,7 +268,7 @@ namespace ChinaSKDDriver
 							break;
 
 						case ControllerCardItem.ActionTypeEnum.Delete:
-							result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
+							result = deviceProcessor.Wrapper.RemoveCard((int)controllerCardItem.Card.Number);
 							break;
 					}
 

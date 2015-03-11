@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -46,21 +47,32 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public DayTimeTrackPartViewModel(Guid uid, TimeSpan enterTime, TimeSpan exitTime, SKDZone zone)
+		public DayTimeTrackPartViewModel(Guid uid, TimeSpan enterTime, TimeSpan exitTime, string zoneName)
 		{
 			UID = uid;
-			Update(enterTime, exitTime, zone);
+			Update(enterTime, exitTime, zoneName);
 		}
 
-		public void Update(TimeSpan enterTime, TimeSpan exitTime, SKDZone zone)
+		public void Update(TimeSpan enterTime, TimeSpan exitTime, string zoneName)
 		{
-			ZoneName = zone != null ? zone.Name : "<Нет в конфигурации>";
+			ZoneName = zoneName != null ? zoneName : "<Нет в конфигурации>";
 			EnterTimeSpan = enterTime;
 			ExitTimeSpan = exitTime;
 		}
 
 		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
-			: this(timeTrackPart.PassJournalUID, timeTrackPart.StartTime, timeTrackPart.EndTime, SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID)) { }
+		{
+			string zoneName = null;
+			var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+			if (strazhZone != null)
+				zoneName = strazhZone.PresentationName;
+			var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+			if (gkZone != null)
+				zoneName = gkZone.PresentationName;
+
+			UID = timeTrackPart.PassJournalUID;
+			Update(timeTrackPart.StartTime, timeTrackPart.EndTime, zoneName);
+		}
 
 		string GetTimeString(TimeSpan timeSpan)
 		{

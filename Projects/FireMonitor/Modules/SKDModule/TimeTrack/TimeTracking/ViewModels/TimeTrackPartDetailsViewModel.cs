@@ -5,6 +5,8 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -60,16 +62,27 @@ namespace SKDModule.ViewModels
 			var schedule = ScheduleHelper.GetSingle(employee.ScheduleUID);
 			if (schedule != null)
 			{
-				var zones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
-				Zones = new ObservableCollection<SKDZone>(zones);
+				Zones = new ObservableCollection<TimeTrackZone>();
+
+				var strazhZones = SKDManager.Zones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
+				foreach (var zone in strazhZones)
+				{
+					Zones.Add(new TimeTrackZone(zone));
+				}
+				var gkZones = GKManager.SKDZones.Where(x => schedule.Zones.Any(y => y.ZoneUID == x.UID));
+				foreach (var zone in gkZones)
+				{
+					Zones.Add(new TimeTrackZone(zone));
+				}
+				
 				SelectedZone = Zones.FirstOrDefault();
 			}
 		}
 
-		public ObservableCollection<SKDZone> Zones { get; private set; }
+		public ObservableCollection<TimeTrackZone> Zones { get; private set; }
 
-		SKDZone _SelectedZone;
-		public SKDZone SelectedZone
+		TimeTrackZone _SelectedZone;
+		public TimeTrackZone SelectedZone
 		{
 			get { return _SelectedZone; }
 			set
@@ -99,7 +112,7 @@ namespace SKDModule.ViewModels
 		{
 			if (EnterTime > ExitTime)
 			{
-				MessageBoxService.Show("Время входа не может бытьбольше времени выхода");
+				MessageBoxService.Show("Время входа не может быть больше времени выхода");
 				return false;
 			}
 			if (EnterTime == ExitTime)
@@ -116,4 +129,28 @@ namespace SKDModule.ViewModels
 		}
 	}
 
+	public class TimeTrackZone
+	{
+		public SKDZone SKDZone { get; private set; }
+		public GKSKDZone GKSKDZone { get; private set; }
+		public Guid UID { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+
+		public TimeTrackZone(SKDZone zone)
+		{
+			SKDZone = zone;
+			UID = zone.UID;
+			Name = zone.PresentationName;
+			Description = zone.Description;
+		}
+
+		public TimeTrackZone(GKSKDZone zone)
+		{
+			GKSKDZone = zone;
+			UID = zone.UID;
+			Name = zone.PresentationName;
+			Description = zone.Description;
+		}
+	}
 }

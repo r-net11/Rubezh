@@ -41,6 +41,7 @@ namespace GKProcessor
 				JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", GKJournalRecordNo.ToString()));
 
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
+			JournalItem.ObjectUID = gkControllerDevice.UID;
 			InitializeFromObjectUID();
 			var UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
@@ -138,7 +139,6 @@ namespace GKProcessor
 								}
 							}
 
-							JournalItem.EmployeeUID = Guid.Empty;
 							break;
 
 						default:
@@ -146,7 +146,6 @@ namespace GKProcessor
 							JournalItem.DescriptionText = code.ToString();
 							break;
 					}
-					JournalItem.ObjectUID = gkControllerDevice.UID;
 					break;
 
 				case JournalSourceType.Device:

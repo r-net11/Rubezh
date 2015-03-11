@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -15,8 +16,15 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == Model.ZoneUID);
-				return zone == null ? "<Нет в конфигурации>" : zone.Name;
+				var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == Model.ZoneUID);
+				if (strazhZone != null)
+					return strazhZone.PresentationName;
+
+				var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Model.ZoneUID);
+				if (gkZone != null)
+					return gkZone.PresentationName;
+
+				return "<Нет в конфигурации>";
 			}
 		}
 

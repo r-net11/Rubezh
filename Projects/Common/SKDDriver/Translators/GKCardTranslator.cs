@@ -16,9 +16,13 @@ namespace SKDDriver
 			Context = databaseService.Context;
 		}
 
-		public int GetGKNoByCardNo(string gkIPAddress, int cardNo)
+		public int GetGKNoByCardNo(string gkIPAddress, uint cardNo)
 		{
-			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.CardNo == cardNo);
+			foreach (var card in Context.GKCards)
+			{
+				System.Diagnostics.Trace.WriteLine(card.IPAddress + " " + (uint)card.CardNo);
+			}
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.CardNo == (int)cardNo);
 			if (gkCard != null)
 			{
 				return gkCard.GKNo;
@@ -36,9 +40,9 @@ namespace SKDDriver
 			return -1;
 		}
 
-		public int GetFreeGKNo(string gkIPAddress, int cardNo, out bool isNew)
+		public int GetFreeGKNo(string gkIPAddress, uint cardNo, out bool isNew)
 		{
-			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.CardNo == cardNo);
+			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && (uint)x.CardNo == cardNo);
 			if (gkCard != null)
 			{
 				isNew = false;
@@ -62,7 +66,7 @@ namespace SKDDriver
 			}
 		}
 
-		public void AddOrEdit(string gkIPAddress, int gkNo, int cardNo, string employeeName)
+		public void AddOrEdit(string gkIPAddress, int gkNo, uint cardNo, string employeeName)
 		{
 			if (string.IsNullOrEmpty(gkIPAddress))
 			{
@@ -71,7 +75,7 @@ namespace SKDDriver
 			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.GKNo == gkNo);
 			if (gkCard != null)
 			{
-				gkCard.CardNo = cardNo;
+				gkCard.CardNo = (int)cardNo;
 				gkCard.FIO = employeeName;
 				gkCard.IsActive = true;
 				Context.SubmitChanges();
@@ -83,7 +87,7 @@ namespace SKDDriver
 					UID = Guid.NewGuid(),
 					IPAddress = gkIPAddress,
 					GKNo = gkNo,
-					CardNo = cardNo,
+					CardNo = (int)cardNo,
 					FIO = employeeName,
 					IsActive = true
 				};
@@ -92,7 +96,7 @@ namespace SKDDriver
 			}
 		}
 
-		public void Remove(string gkIPAddress, int gkNo, int cardNo)
+		public void Remove(string gkIPAddress, int gkNo, uint cardNo)
 		{
 			if (string.IsNullOrEmpty(gkIPAddress))
 			{
@@ -101,7 +105,7 @@ namespace SKDDriver
 			var gkCard = Context.GKCards.FirstOrDefault(x => x.IPAddress == gkIPAddress && x.GKNo == gkNo);
 			if (gkCard != null)
 			{
-				gkCard.CardNo = cardNo;
+				gkCard.CardNo = (int)cardNo;
 				gkCard.FIO = "Удален";
 				gkCard.IsActive = false;
 			}

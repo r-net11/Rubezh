@@ -99,8 +99,8 @@ namespace SKDModule.ViewModels
 			SelectedCardType = Card.CardType;
 		}
 
-		int _number;
-		public int Number
+		uint _number;
+		public uint Number
 		{
 			get { return _number; }
 			set
@@ -312,7 +312,7 @@ namespace SKDModule.ViewModels
 						var cardNoString = journalDetalisationItem.Value;
 						int cardNo;
 						Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
-						Number = cardNo;
+						Number = (uint)cardNo;
 					}
 				}
 			}
@@ -377,7 +377,7 @@ namespace SKDModule.ViewModels
 			var cardNumberViewModel = new CardNumberViewModel();
 			if (DialogService.ShowModalWindow(cardNumberViewModel))
 			{
-				Number = cardNumberViewModel.Number;
+				Number = (uint)cardNumberViewModel.Number;
 			}
 		}
 

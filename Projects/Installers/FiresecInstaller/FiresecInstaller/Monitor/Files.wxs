@@ -92,7 +92,7 @@
 			<Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
 				<File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
         <File Id="Monitor.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Monitor.TargetDir)" />
+        <!--<File Id="Monitor.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Monitor.TargetDir)" />-->
         <File Id="Monitor.Vlc.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Vlc.DotNet.Wpf.dll" Name="Vlc.DotNet.Wpf.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>

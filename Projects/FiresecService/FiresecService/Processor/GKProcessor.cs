@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -7,6 +8,7 @@ using GKProcessor;
 using SKDDriver;
 using ChinaSKDDriver;
 using FiresecAPI.SKD;
+using SKDDriver.Translators;
 
 namespace FiresecService
 {
@@ -75,6 +77,21 @@ namespace FiresecService
 				foreach (var journalItem in gkCallbackResult.JournalItems)
 				{
 					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
+
+					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
+					{
+						var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+						if (door != null)
+						{
+							if (door.EnterZoneUID != Guid.Empty)
+							{
+								using (var passJournalTranslator = new PassJournalTranslator())
+								{
+									passJournalTranslator.AddPassJournal(journalItem.EmployeeUID, door.EnterZoneUID);
+								}
+							}
+						}
+					}
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);

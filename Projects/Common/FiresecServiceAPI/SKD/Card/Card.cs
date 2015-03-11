@@ -14,7 +14,7 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
-		public int Number { get; set; }
+		public uint Number { get; set; }
 
 		[DataMember]
 		public Guid? HolderUID { get; set; }

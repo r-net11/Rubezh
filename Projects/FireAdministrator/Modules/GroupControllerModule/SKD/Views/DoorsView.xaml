@@ -118,7 +118,7 @@
 								<TextBlock Margin="2">
 									<TextBlock.Style>
 										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding EnterZone.Name}" />
+											<Setter Property="TextBlock.Text" Value="{Binding EnterZone.PresentationName}" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding EnterZone}" Value="{x:Null}">
 													<Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны входа" />
@@ -137,7 +137,7 @@
 								<TextBlock Margin="2">
 									<TextBlock.Style>
 										<Style>
-											<Setter Property="TextBlock.Text" Value="{Binding ExitZone.Name}" />
+											<Setter Property="TextBlock.Text" Value="{Binding ExitZone.PresentationName}" />
 											<Style.Triggers>
 												<DataTrigger Binding="{Binding ExitZone}" Value="{x:Null}">
 													<Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны выхода" />

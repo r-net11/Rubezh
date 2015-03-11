@@ -42,6 +42,7 @@ namespace FireAdministrator
 			};
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Reports, 201, "Отчеты", "Панель отчетов", "BLevels.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Diagnostics, 202, "Диагностика", "Панель диагностики", "BBug.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.SKDHR, 203, "Картотека", "Панель картотека", "BLevels.png");
 		}
 		#endregion
 	}

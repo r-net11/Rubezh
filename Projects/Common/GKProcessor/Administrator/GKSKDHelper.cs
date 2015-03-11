@@ -69,7 +69,7 @@ namespace GKProcessor
 			bytes.Add(0);
 			var nameBytes = BytesHelper.StringDescriptionToBytes(employeeName);
 			bytes.AddRange(nameBytes);
-			bytes.AddRange(BytesHelper.IntToBytes(card.Number));			
+			bytes.AddRange(BytesHelper.IntToBytes((int)card.Number));			
 			bytes.Add((byte)card.GKLevel);
 			bytes.Add((byte)card.GKLevelSchedule);
 
