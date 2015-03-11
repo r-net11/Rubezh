@@ -59,11 +59,11 @@ namespace SKDModule.ViewModels
 		}
 		public bool IsDepartmentDeleted
 		{
-			get { return IsOrganisation ? false : Model.IsDepartmentDeleted; }
+			get { return IsOrganisation ? false : Model.IsDepartmentDeleted || IsOrganisationDeleted; }
 		}
 		public bool IsPositionDeleted
 		{
-			get { return IsOrganisation ? false : Model.IsPositionDeleted; }
+			get { return IsOrganisation ? false : Model.IsPositionDeleted || IsOrganisationDeleted; }
 		}
 		
 		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
@@ -138,7 +138,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => OrganisationName);
 			OnPropertyChanged(() => Phone);
 			OnPropertyChanged(() => Description);
-			OnPropertyChanged(() => RemovalDate);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => CredentialsStartDateString);
@@ -195,7 +194,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanAddCard()
 		{
-			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit);
+			return FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Cards_Etit) && !IsDeleted;
 		}
 
 		bool _isEmployeeSelected = true;

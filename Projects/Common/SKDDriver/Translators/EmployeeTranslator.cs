@@ -215,13 +215,14 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
+		#region TestData
 		public OperationResult GenerateTestData()
 		{
 			try
 			{
 				for (int i = 0; i < 1; i++)
 				{
-					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey="-1" };
+					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 					Context.Organisations.InsertOnSubmit(org);
 					var posUIDs = new List<Guid>();
 					for (int j = 0; j < 2; j++)
@@ -327,7 +328,7 @@ namespace SKDDriver
 						employeeDay.AllowedEarlyLeave = schedule.AllowedEarlyLeave;
 						employeeDay.Date = DateTime.Now;
 						var scheduleScheme = schedule.ScheduleScheme;
-						if(scheduleScheme != null)
+						if (scheduleScheme != null)
 						{
 							var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 							int dayNo = -1;
@@ -366,6 +367,7 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 		}
+		#endregion
 
 		public EmployeeSynchroniser Synchroniser;
 	}

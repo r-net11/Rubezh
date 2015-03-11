@@ -21,12 +21,15 @@ namespace SKDModule.ViewModels
 		public virtual bool CanEditPosition { get { return false; } }
 		protected IOrganisationElementViewModel _parent;
 		protected bool _isWithDeleted;
+		protected bool _isOrganisationDeleted;
 		public ObservableCollection<TItem> Employees { get; private set; }
+		public bool IsDeleted { get { return _parent.IsDeleted; } }
 		
 		public EmployeeListBaseViewModel(IOrganisationElementViewModel parent, bool isWithDeleted)
 		{
 			_parent = parent;
 			_isWithDeleted = isWithDeleted;
+			_isOrganisationDeleted = _parent.IsOrganisationDeleted;
 			var employeeModels = EmployeeHelper.Get(Filter);
 			if (employeeModels == null)
 				return;
@@ -35,6 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				var viewModel = new TItem();
 				viewModel.Initialize(employee);
+				viewModel.IsOrganisationDeleted = _isOrganisationDeleted;
 				Employees.Add(viewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
@@ -87,7 +91,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion(string.Format("Вы уверены?")))
+			if (MessageBoxService.ShowQuestion(string.Format("Вы действительно хотите открепить сотрудника?")))
 			{
 				var result = RemoveFromParent(SelectedEmployee.Employee);
 				if (!result)
@@ -99,7 +103,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedEmployee != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -115,7 +119,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedEmployee != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		protected abstract bool AddToParent(ShortEmployee employee);
@@ -158,9 +162,22 @@ namespace SKDModule.ViewModels
 	public class EmployeeListItemViewModel : BaseViewModel
 	{
 		public ShortEmployee Employee { get; private set; }
-		public bool IsDepartmentDeleted { get { return Employee.IsDepartmentDeleted; } }
-		public bool IsPositionDeleted { get { return Employee.IsPositionDeleted; } }
-		public bool IsDeleted { get { return Employee.IsDeleted; } }
+		public bool IsDepartmentDeleted { get { return Employee.IsDepartmentDeleted || IsOrganisationDeleted; } }
+		public bool IsPositionDeleted { get { return Employee.IsPositionDeleted || IsOrganisationDeleted; } }
+		public bool IsDeleted { get { return Employee.IsDeleted || IsOrganisationDeleted; } }
+		bool _isOrganisationDeleted;
+		public bool IsOrganisationDeleted
+		{
+			get { return _isOrganisationDeleted; }
+			set
+			{
+				_isOrganisationDeleted = value;
+				OnPropertyChanged(() => IsOrganisationDeleted);
+				OnPropertyChanged(() => IsDepartmentDeleted);
+				OnPropertyChanged(() => IsPositionDeleted);
+				OnPropertyChanged(() => IsDeleted);
+			}
+		}
 		
 		public EmployeeListItemViewModel() { }
 
@@ -177,5 +194,5 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => IsPositionDeleted);
 			OnPropertyChanged(() => IsDeleted);
 		}
-	}
+}
 }

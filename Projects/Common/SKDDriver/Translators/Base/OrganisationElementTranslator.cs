@@ -28,7 +28,7 @@ namespace SKDDriver
 			TranslateBackOrganisationElement<ApiT, TableT>(apiItem, tableItem);
 		}
 
-		public OperationResult MarkDeletedByOrganisation(Guid organisationUID, DateTime removalDate)
+		public virtual OperationResult MarkDeletedByOrganisation(Guid organisationUID, DateTime removalDate)
 		{
 			try
 			{

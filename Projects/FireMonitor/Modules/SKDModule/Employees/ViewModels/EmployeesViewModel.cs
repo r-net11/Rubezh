@@ -65,6 +65,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override void SetIsDeletedByOrganisation(EmployeeViewModel organisationViewModel)
+		{
+			foreach (var child in organisationViewModel.GetAllChildren(false))
+			{
+				var cardUIDs = child.Cards.Select(x => x.Card.UID);
+				foreach (var uid in cardUIDs)
+				{
+					ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
+				}
+				child.Cards.Clear();
+			}
+			base.SetIsDeletedByOrganisation(organisationViewModel);
+		}
+
 		protected override IEnumerable<ShortEmployee> GetModels(EmployeeFilter filter)
 		{
 			return EmployeeHelper.Get(filter);

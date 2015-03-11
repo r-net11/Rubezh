@@ -10,7 +10,12 @@ namespace SKDModule.ViewModels
 		public override void InitializeModel(Organisation organisation, ShortDepartment model, Infrastructure.Common.Windows.ViewModels.ViewPartViewModel parentViewModel)
 		{
 			base.InitializeModel(organisation, model, parentViewModel);
-			EmployeeListViewModel = new DepartmentEmployeeListViewModel(this, (parentViewModel as DepartmentsViewModel).IsWithDeleted);
+			InitializeEmployeeList();
+		}
+
+		public void InitializeEmployeeList()
+		{
+			EmployeeListViewModel = new DepartmentEmployeeListViewModel(this, (ParentViewModel as DepartmentsViewModel).IsWithDeleted);
 		}
 
 		public string Phone

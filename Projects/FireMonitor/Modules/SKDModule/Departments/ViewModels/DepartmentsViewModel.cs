@@ -232,5 +232,11 @@ namespace SKDModule.ViewModels
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Departments_Etit; }
 		}
+
+		protected override void SetIsDeletedByOrganisation(DepartmentViewModel organisationViewModel)
+		{
+			base.SetIsDeletedByOrganisation(organisationViewModel);
+			organisationViewModel.GetAllChildren().ForEach(x => x.InitializeEmployeeList());
+		}
 	}
 }

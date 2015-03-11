@@ -26,6 +26,8 @@ namespace FiresecClient.SKDHelpers
 		public static bool MarkDeleted(Guid uid, string name)
 		{
 			var operationResult = FiresecManager.FiresecService.MarkDeletedEmployee(uid, name);
+			if (operationResult != null && operationResult.HasError &&!operationResult.Error.Contains("Ошибка БД"))
+				return true;
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

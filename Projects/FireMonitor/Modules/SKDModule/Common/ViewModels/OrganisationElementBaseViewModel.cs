@@ -67,6 +67,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isOrganisationDeleted;
+		public bool IsOrganisationDeleted
+		{
+			get { return _isOrganisationDeleted; }
+			set
+			{
+				_isOrganisationDeleted = value;
+				OnPropertyChanged(() => IsOrganisationDeleted);
+			}
+		}
+
 		string _removalDate;
 		public string RemovalDate
 		{
@@ -131,6 +142,7 @@ namespace SKDModule.ViewModels
 	public interface IOrganisationElementViewModel
 	{
 		bool IsDeleted { get; set; }
+		bool IsOrganisationDeleted { get; set; }
 		Guid UID { get; }
 		Guid OrganisationUID { get; }
 		string Name { get; }

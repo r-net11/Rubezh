@@ -167,13 +167,24 @@ namespace SKDModule.ViewModels
 			{
 				if (IsWithDeleted)
 				{
-					organisationViewModel.GetAllChildren().ForEach(x => x.IsDeleted = true);
+					SetIsDeletedByOrganisation(organisationViewModel);
 				}
 				else
 				{
 					Organisations.Remove(organisationViewModel);
 				}
 			}
+		}
+		protected virtual void SetIsDeletedByOrganisation(TViewModel organisationViewModel)
+		{
+			organisationViewModel.GetAllChildren().ForEach(x => 
+			{
+				x.IsDeleted = true;
+				x.IsOrganisationDeleted = true;
+				if (x.RemovalDate == null || x.RemovalDate == "")
+					x.RemovalDate = DateTime.Now.ToString();
+				x.Update();
+			});
 		}
 
 		protected virtual void OnRestoreOrganisation(Guid organisationUID)

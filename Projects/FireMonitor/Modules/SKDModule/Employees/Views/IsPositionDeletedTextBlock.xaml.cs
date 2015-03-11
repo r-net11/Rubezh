@@ -3,9 +3,6 @@ using System.Windows.Controls;
 
 namespace SKDModule.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для IsPositionDeletedTextBlock.xaml
-	/// </summary>
 	public partial class IsPositionDeletedTextBlock : UserControl
 	{
 		public static readonly DependencyProperty TextProperty =

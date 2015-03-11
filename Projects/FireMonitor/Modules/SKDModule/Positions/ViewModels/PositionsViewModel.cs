@@ -60,6 +60,12 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override void SetIsDeletedByOrganisation(PositionViewModel organisationViewModel)
+		{
+			base.SetIsDeletedByOrganisation(organisationViewModel);
+			organisationViewModel.GetAllChildren().ForEach(x => x.InitializeEmployeeList());
+		}
+
 		protected override void Remove()
 		{
 			if (SelectedItem.EmployeeListViewModel.Employees.Count == 0 ||

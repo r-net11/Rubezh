@@ -62,6 +62,11 @@ namespace FiresecService.Service
 				}
 
 				var markdDletedOperationResult = databaseService.EmployeeTranslator.MarkDeleted(uid);
+				if (markdDletedOperationResult.HasError)
+				{
+					stringBuilder.AppendLine("Ошибка БД:");
+					stringBuilder.AppendLine(markdDletedOperationResult.Error);
+				}
 			}
 
 			if (stringBuilder.Length > 0)
@@ -354,7 +359,10 @@ namespace FiresecService.Service
 
 				var saveResult = databaseService.CardTranslator.Save(card);
 				if (saveResult.HasError)
+				{
+					errors.Add("Ошибка БД:");
 					errors.Add(saveResult.Error);
+				}
 
 				var gkSKDHelper = new GKSKDHelper();
 				foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
@@ -486,7 +494,31 @@ namespace FiresecService.Service
 			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Удаление);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.OrganisationTranslator.MarkDeleted(uid);
+				var errors = new List<string>();
+				var cards = databaseService.CardTranslator.Get(new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } } });
+				if (!cards.HasError)
+				{
+					foreach (var card in cards.Result)
+					{
+						var cardResult = DeleteCardFromEmployee(card);
+						if (cardResult.HasError)
+							errors.Add(cardResult.Error);
+					}
+					var markDeleledResult = databaseService.OrganisationTranslator.MarkDeleted(uid);
+					if (markDeleledResult.HasError)
+					{
+						errors.Add("Ошибка БД:");
+						errors.Add(markDeleledResult.Error);
+					}
+					if (errors.Count > 0)
+						return new OperationResult(String.Join("\n", errors));
+					else
+						return new OperationResult();
+				}
+				else
+				{
+					return new OperationResult(cards.Error);
+				}
 			}
 		}
 		public OperationResult SaveOrganisationDoors(Organisation organisation)

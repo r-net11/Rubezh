@@ -31,6 +31,7 @@ namespace Controls
 		{
 			InitializeComponent();
 			InitializeTime();
+			DataObject.AddCopyingHandler(TextBox, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
 		}
 
 		public TimeSpan TimeSpan

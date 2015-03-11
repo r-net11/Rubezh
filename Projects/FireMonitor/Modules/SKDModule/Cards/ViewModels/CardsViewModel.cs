@@ -76,10 +76,13 @@ namespace SKDModule.ViewModels
 		void OnBlockCard(Guid uid)
 		{
 			var card = RootItems.SelectMany(x => x.Children).FirstOrDefault(x => x.Card.UID == uid);
-			var parent = card.Parent;
-			parent.RemoveChild(card);
-			if (parent.Children.Count() == 0)
-				RootItems.Remove(parent);
+			if (card != null)
+			{
+				var parent = card.Parent;
+				parent.RemoveChild(card);
+				if (parent.Children.Count() == 0)
+					RootItems.Remove(parent);
+			}
 			var newCard = CardHelper.GetSingle(uid);
 			if (newCard == null)
 				return;
