@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
+using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -57,9 +58,15 @@ namespace SKDModule.ViewModels
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 			GKLevel = Card.GKLevel;
-			GKLevelSchedule = Card.GKLevelSchedule;
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
+
+			GKSchedules = new ObservableCollection<GKSchedule>();
+			foreach(var schedule in GKManager.DeviceConfiguration.Schedules)
+			{
+				GKSchedules.Add(schedule);
+			}
+			SelectedGKSchedule = GKSchedules.FirstOrDefault(x => x.No == Card.GKLevelSchedule);
 
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
 
@@ -186,14 +193,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _gkLevelSchedule;
-		public int GKLevelSchedule
+		public ObservableCollection<GKSchedule> GKSchedules { get; private set; }
+
+		GKSchedule _selectedGKSchedule;
+		public GKSchedule SelectedGKSchedule
 		{
-			get { return _gkLevelSchedule; }
+			get { return _selectedGKSchedule; }
 			set
 			{
-				_gkLevelSchedule = value;
-				OnPropertyChanged(() => GKLevelSchedule);
+				_selectedGKSchedule = value;
+				OnPropertyChanged(() => SelectedGKSchedule);
 			}
 		}
 
@@ -419,12 +428,6 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			if (GKLevelSchedule < 0 || GKLevelSchedule > 255)
-			{
-				MessageBoxService.ShowWarning("Номер графика должен быть в пределах от 0 до 255");
-				return false;
-			}
-
 			Card.Number = Number;
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
 			if (stopListCard != null)
@@ -452,7 +455,10 @@ namespace SKDModule.ViewModels
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.GKLevel = GKLevel;
-			Card.GKLevelSchedule = GKLevelSchedule;
+			if (SelectedGKSchedule != null)
+			{
+				Card.GKLevelSchedule = SelectedGKSchedule.No;
+			}
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();

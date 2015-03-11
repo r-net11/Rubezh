@@ -127,9 +127,12 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить задержку " + SelectedDelay.Delay.Name))
 			{
+				var index = Delays.IndexOf(SelectedDelay);
 				GKManager.Delays.Remove(SelectedDelay.Delay);
 				Delays.Remove(SelectedDelay);
-				SelectedDelay = Delays.FirstOrDefault();
+				index = Math.Min(index, Delays.Count - 1);
+				if (index > -1)
+					SelectedDelay = Delays[index];
 				OnPropertyChanged(() => HasSelectedDelay);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

@@ -106,10 +106,12 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = Instructions.IndexOf(SelectedInstruction);
 			GKManager.DeviceConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
 			Instructions.Remove(SelectedInstruction);
-			if (Instructions.IsNotNullOrEmpty())
-				SelectedInstruction = Instructions[0];
+			index = Math.Min(index, Instructions.Count - 1);
+			if (index > -1)
+				SelectedInstruction = Instructions[index];
 			ServiceFactory.SaveService.GKInstructionsChanged = true;
 		}
 

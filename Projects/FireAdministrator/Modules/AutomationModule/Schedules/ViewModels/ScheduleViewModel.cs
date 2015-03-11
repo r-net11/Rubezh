@@ -295,9 +295,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = ScheduleProcedures.IndexOf(SelectedScheduleProcedure);
 			Schedule.ScheduleProcedures.Remove(SelectedScheduleProcedure.ScheduleProcedure);
 			ScheduleProcedures.Remove(SelectedScheduleProcedure);
-			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault();
+			index = Math.Min(index, ScheduleProcedures.Count - 1);
+			if (index > -1)
+				SelectedScheduleProcedure = ScheduleProcedures[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleted()

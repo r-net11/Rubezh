@@ -12,8 +12,8 @@ namespace GKProcessor
 				DriverTypeNo = 0xE8,
 				DriverType = GKDriverType.RSR2_CardReader,
 				UID = new Guid("8DF7C57F-C788-4ce1-99F5-622A18AF4AF1"),
-				Name = "Считыватель R2",
-				ShortName = "Считыватель R2",
+				Name = "Контроллер Wiegand",
+				ShortName = "Контроллер Wiegand",
 				IsControlDevice = true,
 				HasZone = false,
 				IsPlaceable = true

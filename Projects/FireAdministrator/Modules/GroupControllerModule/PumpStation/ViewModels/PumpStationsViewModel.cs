@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using FiresecClient;
 using Infrastructure;
@@ -90,9 +89,12 @@ namespace GKModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить НС " + SelectedPumpStation.PumpStation.Name))
 			{
+				var index = PumpStations.IndexOf(SelectedPumpStation);
 				GKManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
-				SelectedPumpStation = PumpStations.FirstOrDefault();
+				index = Math.Min(index, PumpStations.Count - 1);
+				if (index > -1)
+					SelectedPumpStation = PumpStations[index];
 				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}

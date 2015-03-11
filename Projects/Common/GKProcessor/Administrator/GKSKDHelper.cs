@@ -73,11 +73,17 @@ namespace GKProcessor
 			bytes.Add((byte)card.GKLevel);
 			bytes.Add((byte)card.GKLevelSchedule);
 
+			bytes.Add(0);
+			bytes.Add(0);
+
+			var secondsPeriod = (new DateTime(card.EndDate.Year, card.EndDate.Month, card.EndDate.Day) - new DateTime(2000, 1, 1)).TotalSeconds;
+			bytes.AddRange(BytesHelper.IntToBytes((int)secondsPeriod));
+
 			foreach (var cardSchedule in cardSchedules)
 			{
 				bytes.AddRange(BytesHelper.ShortToBytes(cardSchedule.Device.GKDescriptorNo));
 			}
-			for (int i = 0; i < 70 - cardSchedules.Count; i++)
+			for (int i = 0; i < 68 - cardSchedules.Count; i++)
 			{
 				bytes.Add(0);
 				bytes.Add(0);
@@ -86,7 +92,7 @@ namespace GKProcessor
 			{
 				bytes.Add((byte)cardSchedule.ScheduleNo);
 			}
-			for (int i = 0; i < 70 - cardSchedules.Count; i++)
+			for (int i = 0; i < 68 - cardSchedules.Count; i++)
 			{
 				bytes.Add(0);
 			}

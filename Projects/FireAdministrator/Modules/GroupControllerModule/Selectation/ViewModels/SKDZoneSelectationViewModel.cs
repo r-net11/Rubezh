@@ -1,28 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.SKD;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
 	[SaveSizeAttribute]
 	public class SKDZoneSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public SKDZoneSelectationViewModel(SKDZone zone)
+		public SKDZoneSelectationViewModel(GKSKDZone zone)
 		{
 			Title = "Выбор зоны";
-			Zones = new ObservableCollection<SKDZone>(SKDManager.Zones);
+			Zones = new ObservableCollection<GKSKDZone>(GKManager.SKDZones);
 			if (zone != null)
 				SelectedZone = Zones.FirstOrDefault(x => x.UID == zone.UID);
 		}
 
-		public ObservableCollection<SKDZone> Zones { get; private set; }
+		public ObservableCollection<GKSKDZone> Zones { get; private set; }
 
-		SKDZone _selectedZone;
-		public SKDZone SelectedZone
+		GKSKDZone _selectedZone;
+		public GKSKDZone SelectedZone
 		{
 			get { return _selectedZone; }
 			set

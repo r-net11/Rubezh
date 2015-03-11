@@ -122,9 +122,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = Sounds.IndexOf(SelectedSound);
 			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Remove(SelectedSound.Sound);
 			Sounds.Remove(SelectedSound);
-			SelectedSound = Sounds.FirstOrDefault();
+			index = Math.Min(index, Sounds.Count - 1);
+			if (index > -1)
+				SelectedSound = Sounds[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

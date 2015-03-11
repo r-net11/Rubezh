@@ -78,7 +78,10 @@ namespace GKProcessor
 					if (descriptor != null)
 					{
 						CheckServiceRequired(descriptor.GKBase, journalParser.JournalItem);
-						descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
+						if (journalParser.JournalSourceType == JournalSourceType.Object)
+						{
+							descriptor.GKBase.InternalState.StateBits = GKStatesHelper.StatesFromInt(journalParser.ObjectState);
+						}
 						if (descriptor.GKBase.InternalState.StateClass == XStateClass.On)
 						{
 							descriptor.GKBase.InternalState.ZeroHoldDelayCount = 0;

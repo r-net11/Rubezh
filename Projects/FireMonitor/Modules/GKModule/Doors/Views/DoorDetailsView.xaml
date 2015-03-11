@@ -96,9 +96,9 @@
 						</StackPanel>
 						<StackPanel Grid.Column="1">
 							<StackPanel IsEnabled="{Binding IsControlRegime}">
-								<Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-								<Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-								<Button Content="Стоп немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+								<Button Content="Открыть" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
+                                <Button Content="Открыть немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
+								<Button Content="Закрыть немедленно" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
 							</StackPanel>
 							<Button Content="Сброс" Command="{Binding ResetCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
@@ -107,14 +107,12 @@
 			</TabItem>
 
 			<TabItem Header="Управление СКД" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid>
-					<StackPanel>
-						<Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="200" Height="50" Margin="2" />
-						<Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="200" Height="50" Margin="2" />
-						<Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="200" Height="50" Margin="2" />
-					</StackPanel>
-				</Grid>
-			</TabItem>
+                <StackPanel Background="White">
+                    <Button Content="Установить режим Норма" Command="{Binding SetRegimeNormCommand}" Width="250" Height="50" Margin="2" />
+                    <Button Content="Установить режим Всегда Открыто" Command="{Binding SetRegimeOpenCommand}" Width="250" Height="50" Margin="2" />
+                    <Button Content="Установить режим Всегда Закрыто" Command="{Binding SetRegimeCloseCommand}" Width="250" Height="50" Margin="2" />
+                </StackPanel>
+            </TabItem>
 		</TabControl>
 	</Grid>
 </UserControl>

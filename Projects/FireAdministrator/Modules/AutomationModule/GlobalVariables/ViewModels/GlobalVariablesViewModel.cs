@@ -83,9 +83,12 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			var index = GlobalVariables.IndexOf(SelectedGlobalVariable);
 			FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.Variable);
 			GlobalVariables.Remove(SelectedGlobalVariable);
-			SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
+			index = Math.Min(index, GlobalVariables.Count - 1);
+			if (index > -1)
+				SelectedGlobalVariable = GlobalVariables[index];
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

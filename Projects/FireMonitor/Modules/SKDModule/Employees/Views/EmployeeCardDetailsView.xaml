@@ -69,7 +69,16 @@
 					<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding GKLevel}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
 
 					<TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Text="График доступа" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding GKLevelSchedule}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding GKSchedules}" SelectedItem="{Binding SelectedGKSchedule}" Visibility="{Binding HasGK, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding No}" Margin="2" />
+                                    <TextBlock Text="{Binding Name}" Margin="2" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 				</Grid>
 
 				<Grid IsEnabled="{Binding IsNewCard}">
