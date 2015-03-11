@@ -123,18 +123,18 @@
 								</ItemsControl>
 							</WrapPanel>
 							<StackPanel Orientation="Horizontal" Margin="2">
-                                <TextBlock Text="Задержка на постановку, с: " />
-                                <TextBlock Text="{Binding Zone.SetDelay}" />
+								<TextBlock Text="Задержка на постановку, с: " />
+								<TextBlock Text="{Binding Zone.SetDelay}" />
 							</StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="2">
-                                <TextBlock Text="Задержка на снятие, с: " />
-                                <TextBlock Text="{Binding Zone.ResetDelay}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="2">
-                                <TextBlock Text="Задержка на вызов тревоги, с: " />
-                                <TextBlock Text="{Binding Zone.AlarmDelay}" />
-                            </StackPanel>
-                        </ItemsControl.Items>
+							<StackPanel Orientation="Horizontal" Margin="2">
+								<TextBlock Text="Задержка на снятие, с: " />
+								<TextBlock Text="{Binding Zone.ResetDelay}" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Margin="2">
+								<TextBlock Text="Задержка на вызов тревоги, с: " />
+								<TextBlock Text="{Binding Zone.AlarmDelay}" />
+							</StackPanel>
+						</ItemsControl.Items>
 					</ItemsControl>
 				</ScrollViewer>
 			</TabItem>
