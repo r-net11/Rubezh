@@ -416,6 +416,13 @@ namespace GKModule.ViewModels
 					differences.Append(". ");
 				differences.Append("Не совпадает удержание");
 			}
+
+			bool openLogicDiff = GKManager.GetPresentationLogic(object1.Door.OpenRegimeLogic) != GKManager.GetPresentationLogic(object2.Door.OpenRegimeLogic);
+			if (openLogicDiff)
+			{
+				differences.Append("Не совпадают условия перевода в режим Всегда Включено");
+			}
+
 			return differences.ToString() == "" ? null : differences.ToString();
 		}
 	}

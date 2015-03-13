@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				PumpStation.StartLogic = logicViewModel.GetModel();
-				OnPropertyChanged("StartPresentationName");
+				OnPropertyChanged(() => StartPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -127,7 +127,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				PumpStation.StopLogic = logicViewModel.GetModel();
-				OnPropertyChanged("StopPresentationName");
+				OnPropertyChanged(() => StopPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -144,7 +144,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(logicViewModel))
 			{
 				PumpStation.AutomaticOffLogic = logicViewModel.GetModel();
-				OnPropertyChanged("AutomaticOffPresentationName");
+				OnPropertyChanged(() => AutomaticOffPresentationName);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

@@ -42,7 +42,7 @@ namespace FireMonitor.Layout
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.EmptySpace, "Заглушка", "Exit.png", (p) => new EmptyPartViewModel());
+			yield return new LayoutPartPresenter(LayoutPartIdentities.EmptySpace, "Пространство", "Exit.png", (p) => new EmptyPartViewModel());
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Indicator, "Индикаторы", "Alarm.png", (p) => ((ToolbarViewModel)MonitorLayoutShellViewModel.Toolbar).AlarmGroups);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Navigation, "Навигатор", "Tree.png", (p) => new NavigationPartViewModel(MonitorLayoutShellViewModel));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Content, "Контейнер", "Layouts.png", (p) => new ContentPartViewModel(MonitorLayoutShellViewModel));

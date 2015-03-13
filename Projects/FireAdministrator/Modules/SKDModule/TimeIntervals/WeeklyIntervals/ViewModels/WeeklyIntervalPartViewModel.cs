@@ -28,9 +28,7 @@ namespace SKDModule.ViewModels
 			get { return _selectedDayInterval; }
 			set
 			{
-				if (value == null)
-					SelectedDayInterval = AvailableDayIntervals.FirstOrDefault();
-				else
+				if (value != null)
 				{
 					_selectedDayInterval = value;
 					OnPropertyChanged(() => SelectedDayInterval);

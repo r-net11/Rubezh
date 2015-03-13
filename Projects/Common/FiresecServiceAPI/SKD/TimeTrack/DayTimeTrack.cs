@@ -116,6 +116,14 @@ namespace FiresecAPI.SKD
 						EndTime = document.EndDateTime.TimeOfDay
 					};
 				}
+				if (document.StartDateTime.Date < Date && document.EndDateTime.Date == Date)
+				{
+					timeTrackPart = new TimeTrackPart()
+					{
+						StartTime = TimeSpan.Zero,
+						EndTime = document.EndDateTime.TimeOfDay
+					};
+				}
 				if (timeTrackPart != null)
 				{
 					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;

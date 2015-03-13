@@ -387,6 +387,7 @@ namespace FireAdministrator.ViewModels
 				door.ExitDeviceUID = ReplaceUID(door.ExitDeviceUID, GKDeviceUIDs);
 				door.LockDeviceUID = ReplaceUID(door.LockDeviceUID, GKDeviceUIDs);
 				door.LockControlDeviceUID = ReplaceUID(door.LockControlDeviceUID, GKDeviceUIDs);
+				ReplaceLogic(door.OpenRegimeLogic);
 			}
 
 			foreach (var plan in PlansConfiguration.AllPlans)

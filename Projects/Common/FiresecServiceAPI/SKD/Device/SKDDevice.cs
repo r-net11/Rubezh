@@ -18,7 +18,7 @@ namespace FiresecAPI.SKD
 			Properties = new List<SKDProperty>();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
-			DoorType = DoorType.OneWay;
+			DoorType = DoorType.TwoWay;
 		}
 
 		[XmlIgnore]
@@ -147,15 +147,12 @@ namespace FiresecAPI.SKD
 				var isEnabled = true;
 				if (Parent != null)
 				{
-					if (Parent.DoorType == DoorType.OneWay)
+					if (Parent.DoorType == DoorType.TwoWay)
 					{
 						if (DriverType == SKDDriverType.Button)
 						{
 							isEnabled = false;
 						}
-					}
-					else
-					{
 						if (Parent.DriverType == SKDDriverType.ChinaController_2)
 						{
 							if (DriverType == SKDDriverType.Lock || DriverType == SKDDriverType.LockControl)

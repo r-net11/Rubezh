@@ -75,7 +75,7 @@ namespace SKDDriver.Translators
 
 						foreach (var document in timeTrackEmployeeResult.Documents)
 						{
-							for (DateTime date = document.StartDateTime; date <= document.EndDateTime; date = date.AddDays(1))
+							for (DateTime date = document.StartDateTime; date < new DateTime(document.EndDateTime.Year, document.EndDateTime.Month, document.EndDateTime.Day).AddDays(1); date = date.AddDays(1))
 							{
 								var dayTimeTracks = timeTrackEmployeeResult.DayTimeTracks.FirstOrDefault(x => x.Date.Date == date.Date);
 								if (dayTimeTracks != null)

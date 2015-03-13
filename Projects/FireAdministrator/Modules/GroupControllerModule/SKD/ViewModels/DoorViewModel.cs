@@ -31,6 +31,7 @@ namespace GKModule.ViewModels
 			ChangeLockControlDeviceCommand = new RelayCommand(OnChangeLockControlDevice);
 			ChangeEnterZoneCommand = new RelayCommand(OnChangeEnterZone);
 			ChangeExitZoneCommand = new RelayCommand(OnChangeExitZone);
+			ChangeOpenRegimeLogicCommand = new RelayCommand(OnChangeOpenRegimeLogic);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
@@ -161,7 +162,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeLockControlDeviceCommand { get; private set; }
 		void OnChangeLockControlDevice()
 		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1));
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(LockControlDevice, GKManager.Devices.Where(x => x.DriverType == GKDriverType.RSR2_AM_1));
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				Door.LockControlDeviceUID = deviceSelectationViewModel.SelectedDevice != null ? deviceSelectationViewModel.SelectedDevice.UID : Guid.Empty;
@@ -192,6 +193,23 @@ namespace GKModule.ViewModels
 				Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public RelayCommand ChangeOpenRegimeLogicCommand { get; private set; }
+		void OnChangeOpenRegimeLogic()
+		{
+			var logicViewModel = new LogicViewModel(null, Door.OpenRegimeLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				Door.OpenRegimeLogic = logicViewModel.GetModel();
+				OnPropertyChanged(() => OpenRegimeLogicPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string OpenRegimeLogicPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic); }
 		}
 
 		public bool IsOnPlan

@@ -220,13 +220,14 @@ namespace GKProcessor
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
 					case FormulaOperationType.CMPKOD:
+					case FormulaOperationType.BR:
 						stackDepth -= 1;
 						break;
 
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:
 					case FormulaOperationType.NEG:
-					case FormulaOperationType.BR:
+					case FormulaOperationType.EXIT:
 						stackDepth += 0;
 						break;
 				}

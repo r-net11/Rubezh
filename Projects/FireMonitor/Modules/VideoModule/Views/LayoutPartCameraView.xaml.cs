@@ -24,9 +24,12 @@ namespace VideoModule.Views
 			var layoutPartCameraViewModel = DataContext as LayoutPartCameraViewModel;
 			if (layoutPartCameraViewModel != null)
 			{
-				myVlcControl.Media = new LocationMedia(layoutPartCameraViewModel.RviRTSP);
-				if (!myVlcControl.IsPlaying)
-					myVlcControl.Play();
+				if (layoutPartCameraViewModel.RviRTSP != null)
+				{
+					myVlcControl.Media = new LocationMedia(layoutPartCameraViewModel.RviRTSP);
+					if (!myVlcControl.IsPlaying)
+						myVlcControl.Play();
+				}
 			}
 		}
 	}

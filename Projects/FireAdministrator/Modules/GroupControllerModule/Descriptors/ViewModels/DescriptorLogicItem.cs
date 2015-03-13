@@ -40,6 +40,7 @@ namespace GKModule.ViewModels
 				case FormulaOperationType.OR:
 				case FormulaOperationType.SUB:
 				case FormulaOperationType.XOR:
+				case FormulaOperationType.EXIT:
 					FirstOperand = "";
 					SecondOperand = "";
 					break;
@@ -142,6 +143,7 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:
 					case FormulaOperationType.NEG:
+					case FormulaOperationType.EXIT:
 						return null;
 				}
 				return null;

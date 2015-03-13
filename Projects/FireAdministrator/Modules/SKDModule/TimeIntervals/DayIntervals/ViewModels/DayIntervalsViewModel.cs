@@ -28,7 +28,6 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			RegisterShortcuts();
-			IsRightPanelEnabled = true;
 			SetRibbonItems();
 		}
 

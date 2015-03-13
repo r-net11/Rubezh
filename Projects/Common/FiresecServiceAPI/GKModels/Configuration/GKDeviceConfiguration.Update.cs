@@ -450,6 +450,8 @@ namespace FiresecAPI.GK
 				door.LockControlDevice = Devices.FirstOrDefault(x => x.UID == door.LockControlDeviceUID);
 				if (door.LockControlDevice == null)
 					door.LockControlDeviceUID = Guid.Empty;
+
+				InvalidateInputObjectsBaseLogic(door, door.OpenRegimeLogic);
 			}
 		}
 

@@ -157,6 +157,7 @@ namespace FiresecAPI.GK
 					door.LockDevice.LinkGKBases(door);
 				if (door.LockControlDevice != null)
 					door.LinkGKBases(door.LockControlDevice);
+				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
 				door.LinkGKBases(door);
 			}
 		}

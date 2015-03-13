@@ -79,6 +79,9 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Проверка уровня доступа")]
 		ACS = 27,
 
+		[DescriptionAttribute("Выход")]
+		EXIT = 28,
+
 		[DescriptionAttribute("Переход")]
 		BR = 29,
 

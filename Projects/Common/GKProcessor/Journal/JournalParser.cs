@@ -141,6 +141,18 @@ namespace GKProcessor
 
 							break;
 
+						case 14:
+							JournalItem.JournalEventNameType = JournalEventNameType.Рабочий_график;
+							var scheduleNo = (uint)BytesHelper.SubstructInt(bytes, 32 + 24);
+							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
+							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
+							bytes1.AddRange(bytes2);
+							var scheduleName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count).TrimEnd(' ');
+							if (string.IsNullOrEmpty(scheduleName))
+								scheduleName = scheduleNo.ToString();
+							JournalItem.DescriptionText = scheduleName;
+							break;
+
 						default:
 							JournalItem.JournalEventNameType = JournalEventNameType.Неизвестный_код_события_контроллекра;
 							JournalItem.DescriptionText = code.ToString();

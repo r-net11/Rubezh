@@ -17,6 +17,7 @@ namespace FiresecAPI.GK
 		public GKDoor()
 		{
 			PlanElementUIDs = new List<Guid>();
+			OpenRegimeLogic = new GKLogic();
 		}
 
 		[XmlIgnore]
@@ -93,6 +94,12 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public Guid ExitZoneUID { get; set; }
+
+		/// <summary>
+		/// Логика перевода ТД в состояние Всегда Открыто
+		/// </summary>
+		[DataMember]
+		public GKLogic OpenRegimeLogic { get; set; }
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Door; } }
