@@ -20,6 +20,7 @@ namespace FiresecAPI.GK
 			Properties = new List<GKProperty>();
 			DeviceProperties = new List<GKProperty>();
 			ZoneUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 			Logic = new GKLogic();
 			NSLogic = new GKLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -46,7 +47,7 @@ namespace FiresecAPI.GK
 		[XmlIgnore]
 		public List<GKZone> Zones { get; set; }
 		[XmlIgnore]
-		public GKGuardZone GuardZone { get; set; }
+		public List<GKGuardZone> GuardZones { get; set; }
 		[XmlIgnore]
 		public List<GKDirection> Directions { get; set; }
 		[XmlIgnore]
@@ -96,10 +97,16 @@ namespace FiresecAPI.GK
 		public List<GKProperty> DeviceProperties { get; set; }
 
 		/// <summary>
-		/// Идентификатор зоны
+		/// Идентификаторы зон
 		/// </summary>
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		/// <summary>
+		/// Идентификаторы охранных зон
+		/// </summary>
+		[DataMember]
+		public List<Guid> GuardZoneUIDs { get; set; }
 
 		/// <summary>
 		/// Логика сработки

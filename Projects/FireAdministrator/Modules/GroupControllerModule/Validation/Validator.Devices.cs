@@ -228,7 +228,7 @@ namespace GKModule.Validation
 		{
 			if (device.DriverType == GKDriverType.RSR2_GuardDetector)
 			{
-				if (device.GuardZone == null)
+				if (device.GuardZones == null || device.GuardZones.Count == 0)
 				{
 					Errors.Add(new DeviceValidationError(device, string.Format("Охранное устройство не участвует в охранной зоне"), ValidationErrorLevel.Warning));
 				}

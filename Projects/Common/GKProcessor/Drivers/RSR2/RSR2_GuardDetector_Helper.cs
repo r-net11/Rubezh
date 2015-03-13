@@ -16,6 +16,7 @@ namespace GKProcessor
 				ShortName = "ИО-ИК R2",
 				IsControlDevice = true,
 				HasZone = false,
+				HasGuardZone = true,
 				IsPlaceable = true
 			};
 

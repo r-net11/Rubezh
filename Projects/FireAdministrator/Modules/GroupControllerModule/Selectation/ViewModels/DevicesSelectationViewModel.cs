@@ -181,6 +181,44 @@ namespace GKModule.ViewModels
 			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 		}
 
+		public string AvailableDeviceDescription
+		{
+			get
+			{
+				return SelectedAvailableDevice != null ? SelectedAvailableDevice.Description : "";
+			}
+			set
+			{
+				if (SelectedAvailableDevice != null)
+				{
+					SelectedAvailableDevice.Description = value;
+					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedAvailableDevice);
+					if (device != null)
+						device.Update();
+				}
+				OnPropertyChanged(() => AvailableDeviceDescription);
+			}
+		}
+
+		public string DeviceDescription
+		{
+			get
+			{
+				return SelectedDevice != null ? SelectedDevice.Description : "";
+			}
+			set
+			{
+				if (SelectedDevice != null)
+				{
+					SelectedDevice.Description = value;
+					var device = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == SelectedDevice);
+					if (device != null)
+						device.Update();
+				}
+				OnPropertyChanged(() => DeviceDescription);
+			}
+		}
+
 		protected override bool Save()
 		{
 			DevicesList = new List<GKDevice>();

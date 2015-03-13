@@ -55,6 +55,7 @@ namespace FiresecAPI.GK
 		public bool HasLogic { get; set; }
 		public bool IgnoreHasLogic { get; set; }
 		public bool HasZone { get; set; }
+		public bool HasGuardZone { get; set; }
 		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }
 		public bool IsGroupDevice { get; set; }

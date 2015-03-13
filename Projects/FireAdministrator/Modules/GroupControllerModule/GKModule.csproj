@@ -237,6 +237,7 @@
     <Compile Include="Plans\Views\GuardZonePropertiesView.xaml.cs">
       <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
