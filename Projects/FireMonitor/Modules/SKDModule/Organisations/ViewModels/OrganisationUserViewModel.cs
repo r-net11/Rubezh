@@ -44,8 +44,9 @@ namespace SKDModule.ViewModels
 					if (Organisation.UserUIDs.Contains(User.UID))
 						Organisation.UserUIDs.Remove(User.UID);
 				}
-				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(Organisation);
 				var saveResult = OrganisationHelper.SaveUsers(Organisation);
+				if(saveResult)
+					ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(Organisation);
 			}
 		}
 	}

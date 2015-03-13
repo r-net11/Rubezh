@@ -42,12 +42,12 @@ namespace SKDModule.ViewModels
 
 		protected override void AfterRemove()
 		{
-			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
+			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
 		}
 
 		protected override void AfterRestore()
 		{
-			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
+			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
 		}
 
 		protected override FiresecAPI.Models.PermissionType Permission

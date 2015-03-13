@@ -2,7 +2,7 @@
 
 namespace SKDModule.Events
 {
-	public class UpdateIsInGridEvent : CompositePresentationEvent<object>
+	public class EditAdditionalColumnEvent : CompositePresentationEvent<object>
 	{
 	}
 }

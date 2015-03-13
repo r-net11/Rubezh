@@ -1358,3 +1358,9 @@ BEGIN
 	ALTER TABLE TimeTrackDocument ADD [FileName] [nvarchar](100) NULL
 	INSERT INTO Patches (Id) VALUES ('TimeTrackDocument_FileName')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_TabelNo_String_40')
+BEGIN
+	ALTER TABLE Employee ALTER COLUMN TabelNo nvarchar(40) NULL
+	INSERT INTO Patches (Id) VALUES ('Employee_TabelNo_String_40')
+END

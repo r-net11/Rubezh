@@ -139,20 +139,14 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.Name = Name;
 			AdditionalColumnType.Description = Description;
 			AdditionalColumnType.DataType = DataType;
-			bool isIsInGridChanged = false;
-			if (IsTextType && AdditionalColumnType.IsInGrid != IsInGrid)
-			{
-				isIsInGridChanged = true;
-				ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
-				AdditionalColumnType.IsInGrid = IsInGrid;
-			}
+			AdditionalColumnType.IsInGrid = IsInGrid;
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
 			if (!DetailsValidateHelper.Validate(Model))
 				return false;
 			var saveResult = AdditionalColumnTypeHelper.Save(AdditionalColumnType, _isNew);
-			if(isIsInGridChanged)
+			if (saveResult)
 			{
-				ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Publish(null);
+				ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
 			}
 			return saveResult;
 		}

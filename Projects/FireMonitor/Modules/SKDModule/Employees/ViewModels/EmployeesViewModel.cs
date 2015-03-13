@@ -20,8 +20,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Subscribe(OnEditEmployee);
 			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Unsubscribe(OnUpdateAccessTemplate);
 			ServiceFactory.Events.GetEvent<UpdateAccessTemplateEvent>().Subscribe(OnUpdateAccessTemplate);
-			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Unsubscribe(OnUpdateIsInGrid);
-			ServiceFactory.Events.GetEvent<UpdateIsInGridEvent>().Subscribe(OnUpdateIsInGrid);
+			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Unsubscribe(OnUpdateIsInGrid);
+			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Subscribe(OnUpdateIsInGrid);
 		}
 
 		public override void Initialize(EmployeeFilter filter)

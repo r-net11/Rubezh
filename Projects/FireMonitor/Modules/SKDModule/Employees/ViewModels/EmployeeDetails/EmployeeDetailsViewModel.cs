@@ -239,6 +239,10 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => ScheduleString);
 			}
 		}
+		public bool HasSelectedSchedule
+		{
+			get { return SelectedSchedule != null && (_isWithDeleted || !SelectedSchedule.IsDeleted); }
+		}
 
 		DateTime _scheduleStartDate;
 		public DateTime ScheduleStartDate
@@ -250,11 +254,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => ScheduleStartDate);
 				OnPropertyChanged(() => ScheduleString);
 			}
-		}
-
-		public bool HasSelectedSchedule
-		{
-			get { return SelectedSchedule != null; }
 		}
 
 		public string ScheduleString
@@ -754,7 +753,7 @@ namespace SKDModule.ViewModels
 			}
 			Employee.Type = _personType;
 
-			if (!DetailsValidateHelper.Validate(Model))
+			if (!Validate())
 				return false;
 			var saveResult = EmployeeHelper.Save(Employee, _isNew);
 			if (saveResult && isLaunchEvent)
@@ -778,14 +777,16 @@ namespace SKDModule.ViewModels
 
 		bool Validate()
 		{
+			if (!DetailsValidateHelper.Validate(Model))
+				return false;
 			if(Employee.FirstName.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
 				return false;
 			}
-			if (Employee.TabelNo.Length > 50)
+			if (Employee.TabelNo.Length > 40)
 			{
-				MessageBoxService.Show("Значение поля 'Табельный номер' не может быть длиннее 50 символов");
+				MessageBoxService.Show("Значение поля 'Табельный номер' не может быть длиннее 40 символов");
 				return false;
 			}
 			if (Employee.SecondName.Length > 50)
@@ -823,7 +824,6 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
 				return false;
 			}
-
 			return true;
 		}	
 	}

@@ -103,29 +103,27 @@
 			            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 						            Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 
-			            <Label Grid.Row="7" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
-					            Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
-			            <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
-						            Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-				            <TextBlock VerticalAlignment="Center">
+                        <Label Grid.Row="7" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding CanEditSchedule, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditSchedule, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock VerticalAlignment="Center">
 					            <Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" />
-						            <TextBlock>
-							            <TextBlock.Style>
+						            <TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock.Style>
 								            <Style>
 									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding HasSelectedSchedule}" Value="false">
-											            <Setter Property="TextBlock.Text" Value="Нажмите для выбора графика работы" />
+										            <DataTrigger Binding="{Binding SelectedSchedule.IsDeleted}" Value="true">
+											            <Setter Property="TextBlock.Foreground" Value="Gray" />
 										            </DataTrigger>
 									            </Style.Triggers>
 								            </Style>
 							            </TextBlock.Style>
-						            </TextBlock>
+                                    </TextBlock>
+                                    <TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 					            </Hyperlink>
 				            </TextBlock>
-			            </StackPanel>
-						
-			            <Label Grid.Row="8" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </StackPanel>
+
+                        <Label Grid.Row="8" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right"  Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}" />
 			            <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 				            <Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
 					            <TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" Margin="2" />
