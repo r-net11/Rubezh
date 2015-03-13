@@ -90,6 +90,8 @@ namespace FiresecAPI
 		OperationResult EditPassJournal(Guid uid, Guid zoneUID, DateTime enterTime, DateTime exitTime);
 		[OperationContract]
 		OperationResult DeletePassJournal(Guid uid);
+		[OperationContract]
+		OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime);
 
 	}
 }

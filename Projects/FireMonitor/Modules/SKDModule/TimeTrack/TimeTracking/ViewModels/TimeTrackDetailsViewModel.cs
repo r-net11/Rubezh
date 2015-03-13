@@ -97,6 +97,7 @@ namespace SKDModule.ViewModels
 			{
 				DayTimeTrackParts.Add(new DayTimeTrackPartViewModel(timeTrackPartDetailsViewModel.UID, timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name));
 				IsChanged = true;
+				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
 		bool CanAddPart()
@@ -107,12 +108,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemovePartCommand { get; private set; }
 		void OnRemovePart()
 		{
-			var result = PassJournalHelper.DeletePassJournal(SelectedDayTimeTrackPart.UID);
+			var result = PassJournalHelper.DeleteAllPassJournalItems(SelectedDayTimeTrackPart.UID, DayTimeTrack.Date + SelectedDayTimeTrackPart.EnterTimeSpan, DayTimeTrack.Date + SelectedDayTimeTrackPart.ExitTimeSpan);
 			if (result)
 			{
 				DayTimeTrackParts.Remove(SelectedDayTimeTrackPart);
 				SelectedDayTimeTrackPart = DayTimeTrackParts.FirstOrDefault();
 				IsChanged = true;
+				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
 		bool CanEditRemovePart()
@@ -128,6 +130,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedDayTimeTrackPart.Update(timeTrackPartDetailsViewModel.EnterTime, timeTrackPartDetailsViewModel.ExitTime, timeTrackPartDetailsViewModel.SelectedZone.Name);
 				IsChanged = true;
+				ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Publish(ShortEmployee.UID);
 			}
 		}
 

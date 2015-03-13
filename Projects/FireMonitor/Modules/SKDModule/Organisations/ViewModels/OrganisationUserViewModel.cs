@@ -49,5 +49,11 @@ namespace SKDModule.ViewModels
 					ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(Organisation);
 			}
 		}
+
+		public void SetWithoutSave(bool value)
+		{
+			_isChecked = value;
+			OnPropertyChanged(() => IsChecked);
+		}
 	}
 }

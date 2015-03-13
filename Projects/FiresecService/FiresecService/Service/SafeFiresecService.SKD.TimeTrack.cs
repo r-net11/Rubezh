@@ -165,6 +165,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletePassJournal(uid));
 		}
+		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteAllPassJournalItems(uid, enterTime, exitTime));
+		}
 		
 		
 	}

@@ -1,11 +1,10 @@
 ﻿using System;
-using Common;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI.SKD;
-using OperationResult = FiresecAPI.OperationResult;
 using LinqKit;
-using System.Data.Linq.SqlClient;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
@@ -100,6 +99,26 @@ namespace SKDDriver.Translators
 				if (passJournalItem != null)
 				{
 					Context.PassJournals.DeleteOnSubmit(passJournalItem);
+				}
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		{
+			try
+			{
+				var passJournalItem = Context.PassJournals.FirstOrDefault(x => x.UID == uid);
+				if (passJournalItem != null)
+				{
+					var items = Context.PassJournals.Where(x => x.EmployeeUID == passJournalItem.EmployeeUID && x.ZoneUID == passJournalItem.ZoneUID &&
+						x.EnterTime >= enterTime && x.ExitTime != null && x.ExitTime.Value <= exitTime);
+					Context.PassJournals.DeleteAllOnSubmit(items);
 				}
 				Context.SubmitChanges();
 				return new OperationResult();

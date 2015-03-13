@@ -784,42 +784,42 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Значение поля 'Имя' не может быть длиннее 50 символов");
 				return false;
 			}
-			if (Employee.TabelNo.Length > 40)
+			if (Employee.TabelNo != null && Employee.TabelNo.Length > 40)
 			{
 				MessageBoxService.Show("Значение поля 'Табельный номер' не может быть длиннее 40 символов");
 				return false;
 			}
-			if (Employee.SecondName.Length > 50)
+			if (Employee.SecondName != null && Employee.SecondName.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Отчество' не может быть длиннее 50 символов");
 				return false;
 			}
-			if (Employee.LastName.Length > 50)
+			if (Employee.LastName != null && Employee.LastName.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Фамилия' не может быть длиннее 50 символов");
 				return false;
 			}
-			if (Employee.DocumentNumber.Length > 50)
+			if (Employee.DocumentNumber != null && Employee.DocumentNumber.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Номер документа' не может быть длиннее 50 символов");
 				return false;
 			}
-			if (Employee.Phone.Length > 50)
+			if (Employee.Phone != null && Employee.Phone.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Телефон' не может быть длиннее 50 символов");
 				return false;
 			}
-			if (Employee.DocumentGivenBy.Length > 4000)
+			if (Employee.DocumentGivenBy != null && Employee.DocumentGivenBy.Length > 4000)
 			{
 				MessageBoxService.Show("Значение поля 'Документ выдан' не может быть длиннее 4000 символов");
 				return false;
 			}
-			if (Employee.BirthPlace.Length > 4000)
+			if (Employee.BirthPlace != null && Employee.BirthPlace.Length > 4000)
 			{
 				MessageBoxService.Show("Значение поля 'Место рождения' не может быть длиннее 4000 символов");
 				return false;
 			}
-			if (Employee.Citizenship.Length > 4000)
+			if (Employee.Citizenship != null && Employee.Citizenship.Length > 4000)
 			{
 				MessageBoxService.Show("Значение поля 'Гражданство' не может быть длиннее 4000 символов");
 				return false;

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
-using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -33,6 +33,9 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => ExitTime);
 			}
 		}
+
+		public DateTime EnterDateTime { get { return _DayTimeTrack.Date.Date.Add(EnterTime); } }
+		public DateTime ExitDateTime { get { return _DayTimeTrack.Date.Date.Add(ExitTime); } }
 
 		public Guid UID { get; private set; }
 		DayTimeTrack _DayTimeTrack;
@@ -96,12 +99,10 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			var enterDateTime = _DayTimeTrack.Date.Date.Add(EnterTime);
-			var exitDateTime = _DayTimeTrack.Date.Date.Add(ExitTime);
 			if (_IsNew)
-				return PassJournalHelper.AddCustomPassJournal(UID, _Employee.UID, SelectedZone.UID, enterDateTime, exitDateTime);
+				return PassJournalHelper.AddCustomPassJournal(UID, _Employee.UID, SelectedZone.UID, EnterDateTime, ExitDateTime);
 			else
-				return PassJournalHelper.EditPassJournal(UID, SelectedZone.UID, enterDateTime, exitDateTime);
+				return PassJournalHelper.EditPassJournal(UID, SelectedZone.UID, EnterDateTime, ExitDateTime);
 		}
 		protected override bool CanSave()
 		{

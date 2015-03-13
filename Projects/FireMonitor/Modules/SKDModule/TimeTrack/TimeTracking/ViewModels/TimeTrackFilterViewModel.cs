@@ -107,13 +107,19 @@ namespace SKDModule.ViewModels
 		{
 			base.Save();
 
-			if (Period == TimeTrackingPeriod.Period && StartDate >= EndDate)
+			if (Period == TimeTrackingPeriod.Period && StartDate > EndDate)
 			{
 				MessageBoxService.ShowWarning("Дата окончания не может быть раньше даты начала");
 				return false;
 			}
 
 			if (Period == TimeTrackingPeriod.Period && StartDate.Date > DateTime.Now.Date)
+			{
+				MessageBoxService.ShowWarning("Указан несуществующий период");
+				return false;
+			}
+
+			if (Period == TimeTrackingPeriod.Period && EndDate.Date > DateTime.Now.Date)
 			{
 				MessageBoxService.ShowWarning("Указан несуществующий период");
 				return false;

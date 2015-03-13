@@ -550,5 +550,71 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Снятие с охраны", XStateClass.Off)]
 		Снятие_с_охраны,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
+		Удаление_сотрудника,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
+		Удаление_отдела,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление должности", XStateClass.Info)]
+		Удаление_должности,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление шаблона доступа", XStateClass.Info)]
+		Удаление_шаблона_доступа,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление организации", XStateClass.Info)]
+		Удаление_организации,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление дополнительной колонки", XStateClass.Info)]
+		Удаление_дополнительной_колонки,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление дневного графика", XStateClass.Info)]
+		Удаление_дневного_графика,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление графика работы", XStateClass.Info)]
+		Удаление_графика_работы,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление графика работы сотрудника", XStateClass.Info)]
+		Удаление_графика_работы_сотрудника,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление сокращённого дня", XStateClass.Info)]
+		Удаление_праздничного_дня,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление шаблона пропуска", XStateClass.Info)]
+		Удаление_шаблона_пропуска,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление сотрудника", XStateClass.Info)]
+		Восстановление_сотрудника,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление подразделения", XStateClass.Info)]
+		Восстановление_отдела,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление должности", XStateClass.Info)]
+		Восстановление_должности,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона доступа", XStateClass.Info)]
+		Восстановление_шаблона_доступа,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление организации", XStateClass.Info)]
+		Восстановление_организации,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление дополнительной колонки", XStateClass.Info)]
+		Восстановление_дополнительной_колонки,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление дневного графика", XStateClass.Info)]
+		Восстановление_дневного_графика,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы", XStateClass.Info)]
+		Восстановление_графика_работы,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление графика работы сотрудника", XStateClass.Info)]
+		Восстановление_графика_работы_сотрудника,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление сокращённого дня", XStateClass.Info)]
+		Восстановление_праздничного_дня,
+
+		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]
+		Восстановление_шаблона_пропуска,
 	}
 }

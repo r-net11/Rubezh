@@ -113,8 +113,11 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<TextBlock Grid.Row="0" Text="Данные о проходах были изменены. Обновите вкладку УРВ" Foreground="Red" FontWeight="Bold" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<DataGrid  Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
+            <StackPanel Grid.Row="0"  Orientation="Horizontal" Visibility="{Binding IsChanged, Converter={StaticResource BoolToVisibilityConverter}}" >
+                <Image Margin="2" Width="16" Source="/Controls;component/StateClassIcons/Attention.png" />
+                <TextBlock VerticalAlignment="Center" Foreground="White" FontWeight="Bold" Text="Данные о проходах были изменены. Обновите вкладку УРВ" />
+            </StackPanel>
+            <DataGrid  Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название документа" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

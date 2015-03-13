@@ -43,7 +43,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление);
 			var stringBuilder = new StringBuilder();
 			using (var databaseService = new SKDDatabaseService())
 			{
@@ -99,7 +99,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreEmployee(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_сотрудника, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_сотрудника, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.EmployeeTranslator.Restore(uid);
@@ -135,7 +135,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedDepartment(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_отдела, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.MarkDeleted(uid);
@@ -152,7 +152,7 @@ namespace FiresecService.Service
 
 		public OperationResult RestoreDepartment(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_отдела, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_отдела, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.Restore(uid);
@@ -188,7 +188,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedPosition(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_должности, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_должности, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PositionTranslator.MarkDeleted(uid);
@@ -196,7 +196,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestorePosition(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_должности, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_должности, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PositionTranslator.Restore(uid);
@@ -453,7 +453,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_шаблона_доступа, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AccessTemplateTranslator.MarkDeleted(uid);
@@ -462,7 +462,7 @@ namespace FiresecService.Service
 
 		public OperationResult RestoreAccessTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_доступа, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AccessTemplateTranslator.Restore(uid);
@@ -491,7 +491,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedOrganisation(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_организации, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var errors = new List<string>();
@@ -565,7 +565,7 @@ namespace FiresecService.Service
 
 		public OperationResult RestoreOrganisation(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_организации, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_организации, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.OrganisationTranslator.Restore(uid);
@@ -616,7 +616,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_дополнительной_колонки, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
@@ -624,7 +624,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreAdditionalColumnType(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_дополнительной_колонки, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.AdditionalColumnTypeTranslator.Restore(uid);
@@ -1266,7 +1266,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedPassCardTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_шаблона_пропуска, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.MarkDeleted(uid);
@@ -1274,7 +1274,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestorePassCardTemplate(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_шаблона_пропуска, name, JournalEventDescriptionType.Восстановление);
+			AddJournalMessage(JournalEventNameType.Восстановление_шаблона_пропуска, name);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.PassCardTemplateTranslator.Restore(uid);

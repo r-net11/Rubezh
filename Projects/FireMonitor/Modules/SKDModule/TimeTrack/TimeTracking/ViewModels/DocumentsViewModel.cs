@@ -42,6 +42,8 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<EditDocumentEvent>().Subscribe(OnEditDocument);
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Unsubscribe(OnRemoveDocument);
 			ServiceFactory.Events.GetEvent<RemoveDocumentEvent>().Subscribe(OnRemoveDocument);
+			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Unsubscribe(OnEditTimeTrackPart);
+			ServiceFactory.Events.GetEvent<EditTimeTrackPartEvent>().Subscribe(OnEditTimeTrackPart);
 		}
 
 		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
@@ -152,6 +154,14 @@ namespace SKDModule.ViewModels
 			{
 				Documents.Remove(viewModel);
 				OnPropertyChanged(() => Documents);
+				IsChanged = true;
+			}
+		}
+
+		void OnEditTimeTrackPart(Guid uid)
+		{
+			if (EmployeeUID == uid)
+			{
 				IsChanged = true;
 			}
 		}

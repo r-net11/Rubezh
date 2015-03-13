@@ -19,5 +19,10 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.DeletePassJournal(uid);
 			return Common.ShowErrorIfExists(result);
 		}
+		public static bool DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime)
+		{
+			var result = FiresecManager.FiresecService.DeleteAllPassJournalItems(uid, enterTime, exitTime);
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

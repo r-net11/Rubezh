@@ -127,7 +127,7 @@ namespace SKDModule.ViewModels
 				var currentUserViewModel = OrganisationUsersViewModel.Items.FirstOrDefault(x => x.User.UID == FiresecManager.CurrentUser.UID);
 				if (currentUserViewModel.User != null)
 				{
-					currentUserViewModel.IsChecked = true;
+					currentUserViewModel.SetWithoutSave(true);
 				}
 				ServiceFactory.Events.GetEvent<NewOrganisationEvent>().Publish(SelectedOrganisation.Organisation.UID);
 			}

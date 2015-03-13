@@ -139,7 +139,11 @@ namespace SKDModule.ViewModels
 			OrganisationDetails.HRChiefUID = HRChiefViewModel.SelectedEmployeeUID;
 			OrganisationDetails.Phone = Phone;
 			if (Validate())
+			{
+				if (IsNew)
+					OrganisationDetails.UserUIDs.Add(FiresecManager.CurrentUser.UID);
 				return OrganisationHelper.Save(OrganisationDetails, IsNew);
+			}
 			else
 				return false;
 		}

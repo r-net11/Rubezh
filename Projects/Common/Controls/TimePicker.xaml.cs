@@ -8,15 +8,15 @@ namespace Controls
 {
 	public partial class TimePicker : UserControl
 	{
-		private static readonly int HoursMax = 23;
-		private static readonly int MinutesMax = 59;
-		private static readonly int HoursMin = 0;
-		private static readonly int MinutesMin = 0;
+		static readonly int HoursMax = 23;
+		static readonly int MinutesMax = 59;
+		static readonly int HoursMin = 0;
+		static readonly int MinutesMin = 0;
 
 		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), 
 			new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
 
-		private static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+		static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			TimePicker timePicker = dp as TimePicker;
 			if (timePicker != null)
@@ -48,7 +48,7 @@ namespace Controls
 			Minutes = TimeSpan.Minutes;
 		}
 
-		private int Hours
+		int Hours
 		{
 			get
 			{
@@ -72,7 +72,7 @@ namespace Controls
 				TimeSpan = new TimeSpan(value, TimeSpan.Minutes, 0);
 			}
 		}
-		private int Minutes
+		int Minutes
 		{
 			get
 			{
@@ -100,7 +100,7 @@ namespace Controls
 			}
 		}
 
-		private bool IsDigitKey(Key key)
+		bool IsDigitKey(Key key)
 		{
 			if (
 				key == System.Windows.Input.Key.D0 ||
@@ -128,7 +128,7 @@ namespace Controls
 			return false;
 		}
 
-		private void SetValueAtIndex(int value, int caretIndex)
+		void SetValueAtIndex(int value, int caretIndex)
 		{
 			if (caretIndex == 2)
 				return;
@@ -146,23 +146,25 @@ namespace Controls
 			TextBox.CaretIndex = caretIndex;
 			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
-		private int GetValueAtIndex(int caretIndex)
+		int GetValueAtIndex(int caretIndex)
 		{
 			if (caretIndex == 2)
 				return -1;
 			return (int)Char.GetNumericValue(TextBox.Text.ToCharArray()[caretIndex]);
 		}
 
-		private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
+		void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
 		{
 			if (TextBox.Text.Length == 0)
 				return;
 			if (TextBox.SelectionStart >= TextBox.Text.Length)
 				TextBox.SelectionStart = TextBox.Text.Length - 1;
+			if (TextBox.CaretIndex == 2)
+				TextBox.CaretIndex = 3;
 			if (TextBox.SelectionLength != 1)
 				TextBox.SelectionLength = 1;
 		}
-		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		void TextBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			if (Hours > HoursMax)
 				Hours = HoursMax;
@@ -174,11 +176,11 @@ namespace Controls
 				Minutes = MinutesMin;
 			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
-		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+		void TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
-		private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+		void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
 			if (IsDigitKey(e.Key))
 			{
@@ -190,12 +192,16 @@ namespace Controls
 			switch (e.Key)
 			{
 				case (Key.Left):
-					if (TextBox.CaretIndex > 0)
+					if (TextBox.CaretIndex == 3)
+						TextBox.CaretIndex -= 2;
+					else if (TextBox.CaretIndex > 0)
 						TextBox.CaretIndex--;
 					e.Handled = true;
 					break;
 				case (Key.Right):
-					if (TextBox.CaretIndex < TextBox.Text.Length)
+					if (TextBox.CaretIndex == 1)
+						TextBox.CaretIndex += 2;
+					else if (TextBox.CaretIndex < TextBox.Text.Length)
 						TextBox.CaretIndex++;
 					e.Handled = true;
 					break;
@@ -218,21 +224,21 @@ namespace Controls
 					break;
 			}
 		}
-		private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
 		{
 			if (e.Text.Any(x => !Char.IsDigit(x)))
 				e.Handled = true;
 			return;
 		}
 
-		private void Inc_Click(object sender, RoutedEventArgs e)
+		void Inc_Click(object sender, RoutedEventArgs e)
 		{
 			if (TextBox.CaretIndex <= 2 && Hours < HoursMax)
 				Hours++;
 			else if (TextBox.CaretIndex > 2 && Minutes < MinutesMax)
 				Minutes++;
 		}
-		private void Dec_Click(object sender, RoutedEventArgs e)
+		void Dec_Click(object sender, RoutedEventArgs e)
 		{
 			if (TextBox.CaretIndex <= 2 && Hours > HoursMin)
 				Hours--;
