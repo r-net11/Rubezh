@@ -15,6 +15,7 @@ namespace GKProcessor
 				Name = "Контроллер Wiegand",
 				ShortName = "Контроллер Wiegand",
 				IsControlDevice = true,
+				HasGuardZone = true,
 				HasZone = false,
 				IsPlaceable = true
 			};

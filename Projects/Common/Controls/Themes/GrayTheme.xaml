@@ -55,6 +55,7 @@
 	<SolidColorBrush x:Key="ButtonBackgroundColor" Color="Green" />
 	<SolidColorBrush x:Key="ButtonBackgroundColorDark" Color="Green" />
 	<SolidColorBrush x:Key="ButtonBackgroundColorBlue" Color="Green" />
+	<SolidColorBrush x:Key="ButtonBackgroundColorRed" Color="Red" />
 	<SolidColorBrush x:Key="ForegroundColorLight" Color="White" />
 	<SolidColorBrush x:Key="ForegroundColorDark" Color="Black" />
 

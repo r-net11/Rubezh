@@ -89,6 +89,11 @@ namespace FiresecAPI.GK
 						}
 					}
 				}
+
+				foreach (var deviceGuardZone in device.GuardZones)
+				{
+					device.LinkGKBases(deviceGuardZone);
+				}
 			}
 
 			if (zone != null)

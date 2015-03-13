@@ -34,6 +34,7 @@ namespace GKProcessor
 					case GKDriverType.RSR2_MAP4:
 					case GKDriverType.RSR2_AM_1:
 					case GKDriverType.RSR2_GuardDetector:
+					case GKDriverType.RSR2_GuardDetectorSound:
 						switch (guardZoneDevice.ActionType)
 						{
 							case GKGuardZoneDeviceActionType.SetGuard:

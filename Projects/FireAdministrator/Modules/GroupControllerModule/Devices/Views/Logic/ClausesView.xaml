@@ -46,7 +46,7 @@
 								RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
 								Path=DataContext.RemoveCommand}"
 								CommandParameter="{Binding}"
-								Height="32" Width="32" Margin="2" Background="DarkGray" ImageSource="DeleteCross" />
+								Height="32" Width="32" Margin="2" Background="DarkGray" ImageSource="RedDeleteCross" />
 
 							<ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
 								<ComboBox.ItemTemplate>

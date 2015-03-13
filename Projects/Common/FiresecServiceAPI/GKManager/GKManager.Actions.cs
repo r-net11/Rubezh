@@ -85,6 +85,16 @@ namespace FiresecClient
 			}
 		}
 
+		public static void RemoveDeviceFromGuardZone(GKDevice device, GKGuardZone guardZone)
+		{
+			if (guardZone != null)
+			{
+				device.GuardZones.Remove(guardZone);
+				device.GuardZoneUIDs.Remove(guardZone.UID);
+				device.OnChanged();
+			}
+		}
+
 		public static void AddDevice(GKDevice device)
 		{
 			device.InitializeDefaultProperties();

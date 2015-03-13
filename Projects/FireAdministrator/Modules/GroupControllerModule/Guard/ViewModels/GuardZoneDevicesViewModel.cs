@@ -157,6 +157,7 @@ namespace GKModule.ViewModels
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
 				Zone.GuardZoneDevices.RemoveAll(x=>x.DeviceUID == deviceViewModel.GuardZoneDevice.Device.UID);
+				GKManager.RemoveDeviceFromGuardZone(deviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 
 			Initialize(Zone);
