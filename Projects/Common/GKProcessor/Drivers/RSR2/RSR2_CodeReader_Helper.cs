@@ -15,6 +15,7 @@ namespace GKProcessor
 				Name = "Наборник кодовый R2",
 				ShortName = "НК R2",
 				IsControlDevice = true,
+				HasGuardZone = true,
 				HasZone = false,
 				IsPlaceable = true
 			};

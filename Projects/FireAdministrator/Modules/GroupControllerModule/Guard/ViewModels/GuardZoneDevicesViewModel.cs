@@ -117,6 +117,7 @@ namespace GKModule.ViewModels
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
 				Zone.GuardZoneDevices.Add(availabledeviceViewModel.GuardZoneDevice);
+				GKManager.AddDeviceToGuardZone(availabledeviceViewModel.GuardZoneDevice.Device, Zone);
 			}
 
 			Initialize(Zone);

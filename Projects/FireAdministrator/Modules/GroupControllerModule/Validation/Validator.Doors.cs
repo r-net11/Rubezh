@@ -18,7 +18,7 @@ namespace GKModule.Validation
 			{
 				ValidateDoorHasNoDevices(door);
 				ValidateDoorHasWrongDevices(door);
-				ValidateLockLogic(door);
+				//ValidateLockLogic(door);
 				ValidateLockProperties(door);
 			}
 		}

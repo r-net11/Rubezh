@@ -25,6 +25,32 @@ namespace FiresecClient
 			device.OnChanged();
 		}
 
+		public static void ChangeDeviceGuardZones(GKDevice device, List<GKDeviceGuardZone> deviceGuardZones)
+		{
+			foreach (var guardZone in device.GuardZones)
+			{
+				guardZone.GuardZoneDevices.RemoveAll(x => x.Device == device);
+				guardZone.OnChanged();
+			}
+			device.GuardZones.Clear();
+			device.GuardZoneUIDs.Clear();
+			foreach (var deviceGuardZone in deviceGuardZones)
+			{
+				device.GuardZones.Add(deviceGuardZone.GuardZone);
+				device.GuardZoneUIDs.Add(deviceGuardZone.GuardZoneUID);
+
+				var gkGuardZoneDevice = new GKGuardZoneDevice();
+				gkGuardZoneDevice.Device = device;
+				gkGuardZoneDevice.DeviceUID = device.UID;
+				if (deviceGuardZone.ActionType != null)
+					gkGuardZoneDevice.ActionType = deviceGuardZone.ActionType.Value;
+				gkGuardZoneDevice.CodeReaderSettings = deviceGuardZone.CodeReaderSettings;
+				deviceGuardZone.GuardZone.GuardZoneDevices.Add(gkGuardZoneDevice);
+				deviceGuardZone.GuardZone.OnChanged();
+			}
+			device.OnChanged();
+		}
+
 		public static void AddDeviceToZone(GKDevice device, GKZone zone)
 		{
 			if (!device.Zones.Contains(zone))
@@ -33,6 +59,17 @@ namespace FiresecClient
 				device.ZoneUIDs.Add(zone.UID);
 			zone.Devices.Add(device);
 			zone.OnChanged();
+			device.OnChanged();
+		}
+
+		public static void AddDeviceToGuardZone(GKDevice device, GKGuardZone guardZone)
+		{
+			if (!device.GuardZones.Contains(guardZone))
+				device.GuardZones.Add(guardZone);
+			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
+				device.GuardZoneUIDs.Add(guardZone.UID);
+			guardZone.DeviceUIDs.Add(device.UID);
+			guardZone.OnChanged();
 			device.OnChanged();
 		}
 

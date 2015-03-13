@@ -87,8 +87,8 @@ namespace FiresecAPI.GK
 			{
 				device.ClearClauseDependencies();
 				device.Zones = new List<GKZone>();
+				device.GuardZones = new List<GKGuardZone>();
 				device.Directions = new List<GKDirection>();
-				device.GuardZone = null;
 				device.Door = null;
 			}
 			foreach (var zone in Zones)
@@ -391,7 +391,7 @@ namespace FiresecAPI.GK
 						{
 							guardZoneDevice.Device = device;
 							guardZoneDevices.Add(guardZoneDevice);
-							device.GuardZone = guardZone;
+							device.GuardZones.Add(guardZone);
 						}
 						if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
 						{
