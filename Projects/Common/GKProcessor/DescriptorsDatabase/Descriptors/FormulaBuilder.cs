@@ -100,6 +100,10 @@ namespace GKProcessor
 				{
 					gkBases.Add(delay);
 				}
+				foreach (var door in clause.Doors)
+				{
+					gkBases.Add(door);
+				}
 
 				var objectIndex = 0;
 				foreach (var gkBase in gkBases)

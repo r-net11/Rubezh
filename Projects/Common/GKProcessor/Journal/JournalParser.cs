@@ -32,9 +32,9 @@ namespace GKProcessor
 			JournalItem = new JournalItem();
 			JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 			
-			var gkIpAddress = GKManager.GetIpAddress(gkControllerDevice);
-			if (!string.IsNullOrEmpty(gkIpAddress))
-				JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
+			//var gkIpAddress = GKManager.GetIpAddress(gkControllerDevice);
+			//if (!string.IsNullOrEmpty(gkIpAddress))
+			//    JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 
 			GKJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
 			if (GKJournalRecordNo > 0)

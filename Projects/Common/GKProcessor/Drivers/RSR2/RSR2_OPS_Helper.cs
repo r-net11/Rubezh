@@ -48,9 +48,9 @@ namespace GKProcessor
 				IsLowByte = true,
 				Mask = 0x03
 			};
-			GKDriversHelper.AddPropertyParameter(property1, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property1, "Контакт НЗ", 1);
-			GKDriversHelper.AddPropertyParameter(property1, "Контакт переключается", 2);
+			GKDriversHelper.AddPropertyParameter(property1, "Не горит", 0);
+			GKDriversHelper.AddPropertyParameter(property1, "Горит", 1);
+			GKDriversHelper.AddPropertyParameter(property1, "Мерцание", 2);
 			driver.Properties.Add(property1);
 
 			var property2 = new GKDriverProperty()
@@ -62,9 +62,9 @@ namespace GKProcessor
 				IsLowByte = true,
 				Mask = 0x0C
 			};
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 4);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 8);
+			GKDriversHelper.AddPropertyParameter(property2, "Не горит", 0);
+			GKDriversHelper.AddPropertyParameter(property2, "Горит", 4);
+			GKDriversHelper.AddPropertyParameter(property2, "Мерцание", 8);
 			driver.Properties.Add(property2);
 
 			var property3 = new GKDriverProperty()

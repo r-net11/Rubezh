@@ -42,5 +42,11 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("во всех охранных зонах из")]
 		AllGuardZones,
+
+		[DescriptionAttribute("в любой ТД из")]
+		AnyDoor,
+
+		[DescriptionAttribute("во всех ТД из")]
+		AllDoors,
 	}
 }

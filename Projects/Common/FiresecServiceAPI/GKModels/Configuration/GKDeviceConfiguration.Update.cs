@@ -286,6 +286,7 @@ namespace FiresecAPI.GK
 				clause.Directions = new List<GKDirection>();
 				clause.MPTs = new List<GKMPT>();
 				clause.Delays = new List<GKDelay>();
+				clause.Doors = new List<GKDoor>();
 
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
@@ -370,6 +371,20 @@ namespace FiresecAPI.GK
 					}
 				}
 				clause.DelayUIDs = delayUIDs;
+
+				var doorUIDs = new List<Guid>();
+				foreach (var doorUID in clause.DoorUIDs)
+				{
+					var door = Doors.FirstOrDefault(x => x.UID == doorUID);
+					if (door != null)
+					{
+						doorUIDs.Add(doorUID);
+						clause.Doors.Add(door);
+						if (!gkBase.ClauseInputDoors.Contains(door))
+							gkBase.ClauseInputDoors.Add(door);
+					}
+				}
+				clause.DoorUIDs = doorUIDs;
 
 				if (clause.HasObjects())
 					result.Clauses.Add(clause);

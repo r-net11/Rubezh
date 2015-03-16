@@ -76,6 +76,7 @@ namespace FiresecAPI.GK
 				clause.GuardZones.ForEach(x => result.Add(x));
 				clause.Directions.ForEach(x => result.Add(x));
 				clause.Delays.ForEach(x => result.Add(x));
+				clause.Doors.ForEach(x => result.Add(x));
 				clause.MPTs.ForEach(x => result.Add(x));
 				clause.Devices.ForEach(x => result.Add(x));
 			}

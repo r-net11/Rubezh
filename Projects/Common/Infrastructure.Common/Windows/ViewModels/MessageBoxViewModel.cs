@@ -17,7 +17,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			if(GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
 			Title = title ?? "СТРАЖ";
 			else
-				Title = title ?? "Firesec";
+				Title = title ?? "Глобал";
 
 			if (title == null && isException)
 				Title = "Во время работы программы произошла ошибка";

@@ -153,6 +153,12 @@ namespace GKModule.ViewModels
 						clause.Delays = clauseViewModel.Delays.ToList();
 						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.UID).ToList();
 						break;
+
+					case ClauseOperationType.AllDoors:
+					case ClauseOperationType.AnyDoor:
+						clause.Doors = clauseViewModel.Doors.ToList();
+						clause.DoorUIDs = clauseViewModel.Doors.Select(x => x.UID).ToList();
+						break;
 				}
 				if (clause.HasObjects())
 					clauseGroup.Clauses.Add(clause);

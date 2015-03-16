@@ -247,6 +247,7 @@
     <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
     <Compile Include="Selectation\Views\GuardZonesSelectationView.xaml.cs">
       <DependentUpon>GuardZonesSelectationView.xaml</DependentUpon>
     </Compile>
@@ -403,6 +404,9 @@
     </Compile>
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\DoorsSelectationView.xaml.cs">
+      <DependentUpon>DoorsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SKD\ViewModels\CalendarViewModel.cs" />
     <Compile Include="SKD\ViewModels\DayScheduleDetailsViewModel.cs" />
@@ -875,6 +879,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\DelaysSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\DoorsSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

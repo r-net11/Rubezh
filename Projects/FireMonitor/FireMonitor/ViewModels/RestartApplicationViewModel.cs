@@ -14,7 +14,7 @@ namespace FireMonitor.ViewModels
 	{
 		public RestartApplicationViewModel()
 		{
-			Title = "Firesec";
+			Title = "Глобал";
 			TopMost = true;
 			AllowClose = false;
 			Sizable = false;

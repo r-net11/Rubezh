@@ -20,6 +20,7 @@ namespace GKModule.ViewModels
 		public List<GKDirection> Directions { get; set; }
 		public List<GKMPT> MPTs { get; set; }
 		public List<GKDelay> Delays { get; set; }
+		public List<GKDoor> Doors { get; set; }
 		GKDevice Device;
 
 		public ClauseViewModel(GKDevice device, GKClause clause)
@@ -31,6 +32,7 @@ namespace GKModule.ViewModels
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
 			SelectMPTsCommand = new RelayCommand(OnSelectMPTs);
 			SelectDelaysCommand = new RelayCommand(OnSelectDelays);
+			SelectDoorsCommand = new RelayCommand(OnSelectDoors);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
 			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
@@ -42,6 +44,7 @@ namespace GKModule.ViewModels
 			Directions = clause.Directions.ToList();
 			MPTs = clause.MPTs.ToList();
 			Delays = clause.Delays.ToList();
+			Doors = clause.Doors.ToList();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = StateTypes.FirstOrDefault(x => x.StateBit == clause.StateType);
@@ -136,6 +139,15 @@ namespace GKModule.ViewModels
 							new StateTypeViewModel(value, GKStateBit.Norm)
 						};
 						break;
+
+					case ClauseOperationType.AnyDoor:
+					case ClauseOperationType.AllDoors:
+						StateTypes = new ObservableCollection<StateTypeViewModel>()
+						{
+							new StateTypeViewModel(value, GKStateBit.On),
+							new StateTypeViewModel(value, GKStateBit.Fire1)
+						};
+						break;
 				}
 				if (StateTypes.Any(x => x.StateBit == oldSelectedStateType))
 				{
@@ -152,12 +164,14 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => PresenrationDirections);
 				OnPropertyChanged(() => PresenrationMPTs);
 				OnPropertyChanged(() => PresenrationDelays);
+				OnPropertyChanged(() => PresenrationDoors);
 				OnPropertyChanged(() => CanSelectDevices);
 				OnPropertyChanged(() => CanSelectZones);
 				OnPropertyChanged(() => CanSelectGuardZones);
 				OnPropertyChanged(() => CanSelectDirections);
 				OnPropertyChanged(() => CanSelectMPTs);
 				OnPropertyChanged(() => CanSelectDelays);
+				OnPropertyChanged(() => CanSelectDoors);
 			}
 		}
 
@@ -213,6 +227,15 @@ namespace GKModule.ViewModels
 			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Delays)); }
 		}
 
+		public string PresenrationDoors
+		{
+			get
+			{
+				var name = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Doors));
+				return name;
+			}
+		}
+
 		public bool CanSelectDevices
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
@@ -241,6 +264,11 @@ namespace GKModule.ViewModels
 		public bool CanSelectDelays
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDelays || SelectedClauseOperationType == ClauseOperationType.AnyDelay); }
+		}
+
+		public bool CanSelectDoors
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllDoors || SelectedClauseOperationType == ClauseOperationType.AnyDoor); }
 		}
 
 		public RelayCommand SelectDevicesCommand { get; private set; }
@@ -319,6 +347,17 @@ namespace GKModule.ViewModels
 			{
 				Delays = delaysSelectationViewModel.Delays;
 				OnPropertyChanged(() => PresenrationDelays);
+			}
+		}
+
+		public RelayCommand SelectDoorsCommand { get; private set; }
+		void OnSelectDoors()
+		{
+			var doorsSelectationViewModel = new DoorsSelectationViewModel(Doors);
+			if (DialogService.ShowModalWindow(doorsSelectationViewModel))
+			{
+				Doors = doorsSelectationViewModel.Doors;
+				OnPropertyChanged(() => PresenrationDoors);
 			}
 		}
 	}

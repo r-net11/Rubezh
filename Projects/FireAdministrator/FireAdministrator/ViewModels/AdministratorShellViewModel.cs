@@ -27,7 +27,7 @@ namespace FireAdministrator.ViewModels
 		public AdministratorShellViewModel()
 			: base(ClientType.Administrator)
 		{
-			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Администратор" : "Администратор ОПС FireSec";
+			Title = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Администратор" : "Администратор Глобал";
 			Height = 700;
 			Width = 1000;
 			MinWidth = 1000;
