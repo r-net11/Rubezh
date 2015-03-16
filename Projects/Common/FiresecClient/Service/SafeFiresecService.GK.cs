@@ -206,6 +206,11 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(device.UID); }, "GKStopMeasureMonitoring");
 		}
 
+		public OperationResult<uint> GKGetReaderCode(GKDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetReaderCode(device.UID); }, "GKGetReaderCode");
+		}
+
 		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 		}

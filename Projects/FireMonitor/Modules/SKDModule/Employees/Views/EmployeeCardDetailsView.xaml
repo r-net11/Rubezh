@@ -104,8 +104,8 @@
 						</ComboBox.ItemTemplate>
 					</ComboBox>
 
-					<CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Visibility="{Binding HasSKD, Converter={StaticResource BoolToVisibilityConverter}}">
+					<CheckBox Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Margin="2" />
+					<TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center">
 						<Hyperlink Command="{Binding ChangeReaderCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding IsNewCard}">
 							<TextBlock Text="{Binding ReaderName}" />
 						</Hyperlink>

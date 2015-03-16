@@ -374,6 +374,11 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
 		}
 
+		public OperationResult<uint> GKGetReaderCode(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetReaderCode(deviceUID); }, "GKGetReaderCode");
+		}
+
 		#endregion
 
 		#region Automation

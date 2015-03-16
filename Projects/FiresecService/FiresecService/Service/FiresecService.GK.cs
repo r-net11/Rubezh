@@ -492,6 +492,16 @@ namespace FiresecService.Service
 			}
 		}
 
+		public OperationResult<uint> GKGetReaderCode(Guid deviceUID)
+		{
+			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				GKProcessorManager.GKGetReaderCode(device);
+			}
+			return new OperationResult<uint>("Не найдено устройство в конфигурации");
+		}
+
 		#region Users
 		public OperationResult<bool> GKAddUser(Guid deviceUID)
 		{

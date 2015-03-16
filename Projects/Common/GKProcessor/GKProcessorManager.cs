@@ -470,6 +470,21 @@ namespace GKProcessor
 			}
 		}
 
+		public static OperationResult<uint> GKGetReaderCode(GKDevice device)
+		{
+			var sendResult = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(device.GKDescriptorNo));
+			if (!sendResult.HasError)
+			{
+				var bytesString = BytesHelper.BytesToString(sendResult.Bytes);
+				System.Diagnostics.Trace.WriteLine(bytesString);
+				return new OperationResult<uint>() { Result = 0 };
+			}
+			else
+			{
+				return new OperationResult<uint>(sendResult.Error);
+			}
+		}
+
 		public static bool GKAddUser(GKDevice device, string userName)
 		{
 			//AddGKMessage(JournalEventNameType.Синхронизация_времени, "", device, userName, true);

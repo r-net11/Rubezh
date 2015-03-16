@@ -122,5 +122,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKStopMeasureMonitoring(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<uint> GKGetReaderCode(Guid deviceUID);
 	}
 }

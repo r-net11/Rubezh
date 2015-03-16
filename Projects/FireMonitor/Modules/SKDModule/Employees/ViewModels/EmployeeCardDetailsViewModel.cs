@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
 using FiresecAPI.GK;
+using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -289,13 +290,48 @@ namespace SKDModule.ViewModels
 			{
 				_useReader = value;
 				OnPropertyChanged(() => UseReader);
-				if (value)
+				if (HasGK)
 				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+					if (value)
+					{
+						IsThreadPolling = true;
+						PollReaderThread = new Thread(OnPollReader);
+						PollReaderThread.Start();
+					}
+					else
+					{
+						IsThreadPolling = false;
+						PollReaderThread.Join(TimeSpan.FromSeconds(2));
+					}
 				}
-				else
 				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
+					if (value)
+					{
+						ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+					}
+					else
+					{
+						ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
+					}
+				}
+			}
+		}
+
+		Thread PollReaderThread;
+		bool IsThreadPolling = false;
+		void OnPollReader()
+		{
+			var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
+			if (readerDevice != null)
+			{
+				while (IsThreadPolling)
+				{
+					var operationResult = FiresecManager.FiresecService.GKGetReaderCode(readerDevice);
+					if (!operationResult.HasError && operationResult.Result > 0)
+					{
+						Number = operationResult.Result;
+					}
+					Thread.Sleep(TimeSpan.FromMilliseconds(500));
 				}
 			}
 		}
@@ -348,10 +384,21 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeReaderCommand { get; private set; }
 		void OnChangeReader()
 		{
-			var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
-			if (DialogService.ShowModalWindow(readerSelectationViewModel))
+			if (HasGK)
 			{
-				OnPropertyChanged(() => ReaderName);
+				var readerSelectationViewModel = new GKReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
+				if (DialogService.ShowModalWindow(readerSelectationViewModel))
+				{
+					OnPropertyChanged(() => ReaderName);
+				}
+			}
+			else
+			{
+				var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
+				if (DialogService.ShowModalWindow(readerSelectationViewModel))
+				{
+					OnPropertyChanged(() => ReaderName);
+				}
 			}
 		}
 
@@ -359,14 +406,29 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
-				if (readerDevice != null)
+				if (HasGK)
 				{
-					return readerDevice.Name;
+					var readerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
+					if (readerDevice != null)
+					{
+						return readerDevice.PresentationName;
+					}
+					else
+					{
+						return "Нажмите для выбора считывателя";
+					}
 				}
 				else
 				{
-					return "Нажмите для выбора считывателя";
+					var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
+					if (readerDevice != null)
+					{
+						return readerDevice.Name;
+					}
+					else
+					{
+						return "Нажмите для выбора считывателя";
+					}
 				}
 			}
 		}

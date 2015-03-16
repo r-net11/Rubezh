@@ -13,14 +13,14 @@ namespace GKModule.ViewModels
 	{
 		public SchedulePartsViewModel SchedulePartsViewModel { get; private set; }
 		public GKSchedule Schedule;
-		public bool CanChangeScheduleType { get; private set; }
+		public bool IsNew { get; private set; }
 
 		public ScheduleDetailsViewModel(GKSchedule schedule = null)
 		{
 			if (schedule == null)
 			{
 				Title = "Создание нового графика доступа";
-				CanChangeScheduleType = true;
+				IsNew = true;
 
 				Schedule = new GKSchedule()
 				{

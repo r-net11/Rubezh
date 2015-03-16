@@ -42,7 +42,7 @@
 				<loya:Dameer Grid.Row="3" Grid.Column="1" CustomFormat="dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" Width="Auto" Margin="2" />
 
 				<Label Grid.Row="4" Grid.Column="0" Content="Тип графика" HorizontalAlignment="Right" Margin="2" />
-				<ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding CanChangeScheduleType}" Margin="2">
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ScheduleTypes}" SelectedItem="{Binding SelectedScheduleType}" IsEnabled="{Binding IsNew}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -51,7 +51,7 @@
 				</ComboBox>
 
 				<Label Grid.Row="5" Grid.Column="0" Content="Тип периодичности" HorizontalAlignment="Right" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-				<ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding SchedulePeriodTypes}" SelectedItem="{Binding SelectedSchedulePeriodType}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding SchedulePeriodTypes}" SelectedItem="{Binding SelectedSchedulePeriodType}" IsEnabled="{Binding IsNew}" Visibility="{Binding IsAccessSchedule, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
