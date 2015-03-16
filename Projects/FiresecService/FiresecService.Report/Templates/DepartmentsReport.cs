@@ -1,17 +1,16 @@
-﻿using Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing.Printing;
+using System.Linq;
+using Common;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
-using SKDDriver;
-using DevExpress.XtraReports.UI;
-using System.Data;
-using System.Text;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 using FiresecService.Report.Model;
-using System.Drawing.Printing;
-using DevExpress.XtraPrinting;
+using SKDDriver;
 
 namespace FiresecService.Report.Templates
 {
@@ -59,7 +58,8 @@ namespace FiresecService.Report.Templates
 		}
 		protected override void ApplySort()
 		{
-			Detail.SortFields.Add(new GroupField("Tag", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
+			Detail.SortFields.Add(new GroupField("Level", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
+			Detail.SortFields.Add(new GroupField("ParentDepartment", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
 			Detail.SortFields.Add(new GroupField("Department", Filter.SortAscending ? XRColumnSortOrder.Ascending : XRColumnSortOrder.Descending));
 		}
 

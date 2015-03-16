@@ -244,16 +244,16 @@ namespace SKDModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "Ð¡ÐšÐ” ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°", "Tree.png", (p) => DevicesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "Ð¡ÐšÐ” Ð·Ð¾Ð½Ñ‹", "Tree.png", (p) => ZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDoors, "Ð¡ÐšÐ” Ñ‚Ð¾Ñ‡ÐºÐ¸ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð°", "Tree.png", (p) => DoorsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "ÐšÐ°Ñ€Ñ‚Ð¾Ñ‚ÐµÐºÐ°", "Levels.png", (p) => HRViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Ð’ÐµÑ€Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸Ñ", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, "Ð”Ð½ÐµÐ²Ð½Ñ‹Ðµ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ¸", "Tree.png", (p) => DayIntervalsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, "Ð“Ñ€Ð°Ñ„Ð¸ÐºÐ¸", "Tree.png", (p) => ScheduleSchemesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "ÐŸÑ€Ð°Ð·Ð´Ð½Ð¸Ñ‡Ð½Ñ‹Ðµ Ð´Ð½Ð¸", "Tree.png", (p) => HolidaysViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Ð“Ñ€Ð°Ñ„Ð¸ÐºÐ¸ Ñ€Ð°Ð±Ð¾Ñ‚", "Tree.png", (p) => SchedulesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Ð£Ñ‡ÐµÑ‚Ð° Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ³Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸", "Tree.png", (p) => TimeTrackingViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "ÑÊÄ óñòðîéñòâà", "Tree.png", (p) => DevicesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "ÑÊÄ çîíû", "Tree.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDoors, "ÑÊÄ òî÷êè äîñòóïà", "Tree.png", (p) => DoorsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Êàðòîòåêà", "Levels.png", (p) => HRViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Âåðèôèêàöèÿ", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, "Äíåâíûå ãðàôèêè", "Tree.png", (p) => DayIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, "Ãðàôèêè", "Tree.png", (p) => ScheduleSchemesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Ïðàçäíè÷íûå äíè", "Tree.png", (p) => HolidaysViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Ãðàôèêè ðàáîò", "Tree.png", (p) => SchedulesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Ó÷åòà ðàáî÷åãî âðåìåíè", "Tree.png", (p) => TimeTrackingViewModel);
 		}
 		#endregion
 
