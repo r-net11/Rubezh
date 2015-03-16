@@ -298,13 +298,23 @@ namespace GKProcessor
 												alsDevice = kauDevice.Children[8];
 												break;
 										}
-										var device1 = alsDevice.Children[firstIndex];
-										var device2 = alsDevice.Children[secondIndex];
-										if (device1 != null)
-											firstAdditionalDescription = device1.PresentationName;
-										if (device2 != null)
-											secondAdditionalDescription = device2.PresentationName;
-										JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
+										try
+										{
+											var device1 = firstIndex == 0 ? alsDevice : alsDevice.Children[firstIndex - 1];
+											var device2 = secondIndex == 0 ? alsDevice : alsDevice.Children[secondIndex - 1];
+											if (device1 != null)
+												firstAdditionalDescription = device1.PresentationName;
+											if (device2 != null)
+												secondAdditionalDescription = device2.PresentationName;
+										}
+										catch
+										{
+
+										}
+										finally
+										{
+											JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
+										}
 									}
 									break;
 							}
