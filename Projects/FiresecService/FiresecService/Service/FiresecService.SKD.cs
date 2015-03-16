@@ -43,7 +43,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid, string name)
 		{
-			//AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление);
+			AddJournalMessage(JournalEventNameType.Удаление_сотрудника, name, JournalEventDescriptionType.Удаление);
 			var stringBuilder = new StringBuilder();
 			using (var databaseService = new SKDDatabaseService())
 			{
