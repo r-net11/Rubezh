@@ -67,7 +67,7 @@
 									<Controls:EditorPresenter>
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
-												<Grid>
+												<Grid Visibility="{Binding GuardZoneDevice.Device.Driver.HasGuardZone, Converter={StaticResource BoolToVisibilityConverter}}">
 													<Grid VerticalAlignment="Center" Visibility="{Binding IsCodeReader, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 														<ComboBox VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding ActionTypes}" SelectedItem="{Binding SelectedActionType, UpdateSourceTrigger=PropertyChanged}">
 															<ComboBox.ItemTemplate>

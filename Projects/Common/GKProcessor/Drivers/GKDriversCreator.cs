@@ -61,6 +61,7 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_AM_4_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_AM_2_Group_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MDU_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_MDU24_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_MAP4_Helper.Create());
 			GKManager.DriversConfiguration.Drivers.Add(RSR2_MVK8_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MAP4_Group_Helper.Create());

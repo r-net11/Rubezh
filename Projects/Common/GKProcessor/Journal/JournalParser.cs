@@ -260,12 +260,51 @@ namespace GKProcessor
 									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15]);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
 									{
-										var firstAdditionalDescription = bytes[32 + 16];
-										var secondAdditionalDescription = bytes[32 + 17];
-										if (firstAdditionalDescription != 0 || secondAdditionalDescription != 0)
+										var firstAdditionalDescription = bytes[32 + 16].ToString();
+										var secondAdditionalDescription = bytes[32 + 17].ToString();
+										var firstIndex = Convert.ToInt32(firstAdditionalDescription);
+										var secondIndex = Convert.ToInt32(secondAdditionalDescription);
+										var kauDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+										var alsDevice = new GKDevice();
+										if (kauDevice != null)
+										switch (bytes[32 + 15])
 										{
-											JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
+											case 241:
+											case 245:
+												alsDevice = kauDevice.Children[1];
+												break;
+											case 246:
+												alsDevice = kauDevice.Children[2];
+												break;
+											case 242:
+											case 247:
+												alsDevice = kauDevice.Children[3];
+												break;
+											case 248:
+												alsDevice = kauDevice.Children[4];
+												break;
+											case 243:
+											case 249:
+												alsDevice = kauDevice.Children[5];
+												break;
+											case 250:
+												alsDevice = kauDevice.Children[6];
+												break;
+											case 244:
+											case 251:
+												alsDevice = kauDevice.Children[7];
+												break;
+											case 252:
+												alsDevice = kauDevice.Children[8];
+												break;
 										}
+										var device1 = alsDevice.Children[firstIndex];
+										var device2 = alsDevice.Children[secondIndex];
+										if (device1 != null)
+											firstAdditionalDescription = device1.PresentationName;
+										if (device2 != null)
+											secondAdditionalDescription = device2.PresentationName;
+										JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
 									}
 									break;
 							}

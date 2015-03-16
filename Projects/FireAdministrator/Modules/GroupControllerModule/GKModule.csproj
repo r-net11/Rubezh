@@ -244,6 +244,7 @@
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\GuardZonesWithFuncSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
@@ -340,6 +341,9 @@
     </Compile>
     <Compile Include="Selectation\Views\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\GuardZonesWithFuncSelectationView.xaml.cs">
+      <DependentUpon>GuardZonesWithFuncSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\Views\SKDZoneSelectationView.xaml.cs">
       <DependentUpon>SKDZoneSelectationView.xaml</DependentUpon>
@@ -751,6 +755,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Selectation\Views\DirectionsSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Selectation\Views\GuardZonesWithFuncSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

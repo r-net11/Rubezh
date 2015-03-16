@@ -36,4 +36,8 @@
 		<Views:SKDZoneSelectationView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:GuardZonesWithFuncSelectationViewModel}">
+		<Views:GuardZonesWithFuncSelectationView />
+	</DataTemplate>
+	
 </ResourceDictionary>
