@@ -138,7 +138,7 @@ namespace GKModule.ViewModels
 				TargetZones.Remove(zoneViewModel);
 			}
 			SelectedSourceZone = SourceZones.LastOrDefault();
-			OnPropertyChanged("TargetZones");
+			OnPropertyChanged(() => TargetZones);
 
 			index = Math.Min(index, TargetZones.Count - 1);
 			if (index > -1)

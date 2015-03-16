@@ -155,11 +155,11 @@ namespace FiresecAPI.GK
 		{
 			get
 			{
-				if (DriverType == GKDriverType.GK)
-				{
-					var ipAddress = GetGKIpAddress();
-					return ipAddress != null ? ipAddress : "";
-				}
+				//if (DriverType == GKDriverType.GK)
+				//{
+				//    var ipAddress = GetGKIpAddress();
+				//    return ipAddress != null ? ipAddress : "";
+				//}
 				if (!Driver.HasAddress)
 					return "";
 

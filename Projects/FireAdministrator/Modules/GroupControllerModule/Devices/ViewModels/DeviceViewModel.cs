@@ -419,7 +419,7 @@ namespace GKModule.ViewModels
 			}
 			if (Driver.HasGuardZone)
 			{
-				var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(Device, true);
+				var guardZonesSelectationViewModel = new GuardZonesWithFuncSelectationViewModel(Device, true);
 				if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 				{
 					GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());

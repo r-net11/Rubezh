@@ -66,68 +66,6 @@ namespace ManagementConsole
 			}
 		}
 
-		public bool IsFsAgentAuto
-		{
-			get
-			{
-				var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (registryKey.GetValue("FSAgentServer") == null)
-						return false;
-					registryKey.Close();
-				}
-				return true;
-			}
-			set
-			{
-				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (value)
-					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FSAgent\FSAgentServer.exe");
-						registryKey.SetValue("FSAgentServer", path);
-					}
-					else
-						registryKey.DeleteValue("FSAgentServer");
-					registryKey.Close();
-				}
-				OnPropertyChanged("IsFSAgentAuto");
-			}
-		}
-
-		public bool IsOpcServerAuto
-		{
-			get
-			{
-				var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (registryKey.GetValue("FiresecOPCServer") == null)
-						return false;
-					registryKey.Close();
-				}
-				return true;
-			}
-			set
-			{
-				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
-				if (registryKey != null)
-				{
-					if (value)
-					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\OPC\FiresecOPCServer.exe");
-						registryKey.SetValue("FiresecOPCServer", path);
-					}
-					else
-						registryKey.DeleteValue("FiresecOPCServer");
-					registryKey.Close();
-				}
-				OnPropertyChanged("IsOpcServerAuto");
-			}
-		}
-
 		public bool IsGKOpcServerAuto
 		{
 			get

@@ -34,9 +34,9 @@ namespace GKProcessor
 						JournalObjectType = JournalObjectType.None,
 						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,
 					};
-					var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
-					if (!string.IsNullOrEmpty(gkIpAddress))
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
+					//var gkIpAddress = GKManager.GetIpAddress(GkDatabase.RootDevice);
+					//if (!string.IsNullOrEmpty(gkIpAddress))
+					//    journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 					AddJournalItem(journalItem);
 
 					IsConnected = isConnected;

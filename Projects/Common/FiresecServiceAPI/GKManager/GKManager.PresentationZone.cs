@@ -74,6 +74,7 @@ namespace FiresecClient
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Directions)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.MPTs)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Delays)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Doors)));
 				index++;
 			}
 

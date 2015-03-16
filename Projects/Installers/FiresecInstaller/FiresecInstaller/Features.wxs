@@ -8,7 +8,7 @@
       <FeatureRef Id="Server.Features" />
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
-      <FeatureRef Id="ManagementConsole.Features" />
+      <!--<FeatureRef Id="ManagementConsole.Features" />-->
       <FeatureRef Id="OPC.Features" />
       <ComponentRef Id="Monitor.SKD_MODULE" />
 

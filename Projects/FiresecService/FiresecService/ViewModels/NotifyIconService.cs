@@ -29,7 +29,7 @@ namespace FiresecService.Service
 			menuItem2.Click += new EventHandler(onClose);
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
-			_notifyIcon.Text = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Сервер приложений" : "Сервер Firesec";
+			_notifyIcon.Text = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Сервер приложений" : "Сервер Глобал";
 		}
 		public static void Stop()
 		{

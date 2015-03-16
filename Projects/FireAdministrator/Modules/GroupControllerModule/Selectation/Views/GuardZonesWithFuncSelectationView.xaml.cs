@@ -7,9 +7,9 @@ using System.Windows.Media;
 
 namespace GKModule.Views
 {
-	public partial class GuardZonesSelectationView
+	public partial class GuardZonesWithFuncSelectationView
 	{
-		public GuardZonesSelectationView()
+		public GuardZonesWithFuncSelectationView()
 		{
 			InitializeComponent();
 		}

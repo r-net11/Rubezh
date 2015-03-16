@@ -33,6 +33,8 @@ namespace FiresecAPI.GK
 		public List<GKMPT> ClauseInputMPTs { get; set; }
 		[XmlIgnore]
 		public List<GKDelay> ClauseInputDelays { get; set; }
+		[XmlIgnore]
+		public List<GKDoor> ClauseInputDoors { get; set; }
 
 		public void ClearClauseDependencies()
 		{
@@ -42,6 +44,7 @@ namespace FiresecAPI.GK
 			ClauseInputDirections = new List<GKDirection>();
 			ClauseInputMPTs = new List<GKMPT>();
 			ClauseInputDelays = new List<GKDelay>();
+			ClauseInputDoors = new List<GKDoor>();
 		}
 
 		[XmlIgnore]
@@ -180,6 +183,8 @@ namespace FiresecAPI.GK
 						gkBase.LinkGKBases(mpt);
 					foreach (var delay in clause.Delays)
 						gkBase.LinkGKBases(delay);
+					foreach (var door in clause.Doors)
+						gkBase.LinkGKBases(door);
 				}
 			}
 			if (clauseGroup.ClauseGroups != null)

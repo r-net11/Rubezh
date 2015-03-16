@@ -67,7 +67,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedTargetZone = value;
-				OnPropertyChanged("SelectedTargetZone");
+				OnPropertyChanged(() => SelectedTargetZone);
 			}
 		}
 

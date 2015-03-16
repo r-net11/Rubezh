@@ -13,7 +13,7 @@ namespace Infrastructure.Common.BalloonTrayTip
 
 		public static void ShowFromFiresec(string text)
 		{
-			Show("Firesec", text);
+			Show("Глобал", text);
 		}
 
 		public static void ShowFromAdm(string text)

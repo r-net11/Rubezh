@@ -85,6 +85,8 @@ namespace FiresecAPI.GK
 		RSR2_AM_2,
 		[Description("МДУ-1 R2")]
 		RSR2_MDU,
+		[Description("МДУ24 R2")]
+		RSR2_MDU24,
 		[Description("МАП R2")]
 		RSR2_MAP4,
 		[Description("МВК R2")]

@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedTargetDirection = value;
-				OnPropertyChanged("SelectedTargetDirection");
+				OnPropertyChanged(() => SelectedTargetDirection);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 				SourceDirections.Remove(SourceDirectionViewModel);
 			}
 			SelectedTargetDirection = TargetDirections.LastOrDefault();
-			OnPropertyChanged("SourceDirections");
+			OnPropertyChanged(() => SourceDirections);
 
 			index = Math.Min(index, SourceDirections.Count - 1);
 			if (index > -1)

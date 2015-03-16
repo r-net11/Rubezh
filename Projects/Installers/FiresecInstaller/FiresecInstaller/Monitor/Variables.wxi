@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define MonitorName="Оперативная задача ОПС FireSec-2" ?>
-  <?define LayoutMonitorName="Оперативная задача ОПС FireSec-2 с макетами" ?>
+  <?define MonitorName="Оперативная задача Глобал" ?>
+  <?define MonitorDescription="Запускает оперативную задача Глобал" ?>
+  <?define LayoutMonitorName="Оперативная задача Глобал с макетами" ?>
+  <?define LayoutMonitorDescription="Запускает оперативную задачу Глобал с макетами" ?>
   <?define Monitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
   <?define Monitor.TargetFileName="FireMonitor.exe"?>
   <?define LayoutMonitor.TargetFileName="FireMonitor.Layout.exe"?>
