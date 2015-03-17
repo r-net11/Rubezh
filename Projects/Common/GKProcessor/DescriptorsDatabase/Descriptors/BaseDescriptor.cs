@@ -74,11 +74,13 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
+				if (GKBase.InputGKBases != null)
 				foreach (var inputGKBase in GKBase.InputGKBases)
 				{
 					var no = inputGKBase.GKDescriptorNo;
 					InputDependenses.AddRange(BitConverter.GetBytes(no));
 				}
+				if (GKBase.OutputGKBases != null)
 				foreach (var outputGKBase in GKBase.OutputGKBases)
 				{
 					var no = outputGKBase.GKDescriptorNo;

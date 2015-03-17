@@ -19,6 +19,8 @@ namespace FiresecAPI.GK
 			ClearDescriptor();
 			ClearClauseDependencies();
 			State = new GKState();
+			InputGKBases = new List<GKBase>();
+			OutputGKBases = new List<GKBase>();
 		}
 
 		[XmlIgnore]
@@ -80,6 +82,8 @@ namespace FiresecAPI.GK
 			{
 				LinkLogic(device, device.Logic.OnClausesGroup);
 				LinkLogic(device, device.Logic.OffClausesGroup);
+				LinkLogic(device, device.Logic.OnNowClausesGroup);
+				LinkLogic(device, device.Logic.OffNowClausesGroup);
 				LinkLogic(device, device.Logic.StopClausesGroup);
 				if (device.IsInMPT)
 				{
@@ -247,8 +251,12 @@ namespace FiresecAPI.GK
 		public GKDevice GetDataBaseParent()
 		{
 			PrepareInputOutputDependences();
-			var allDependentDevices = GetFullTree(this).Cast<GKDevice>().ToList();
-			var allDependentGuardZones = GetFullTree(this, true).Cast<GKGuardZone>().ToList();
+			var allDependentObjects = GetFullTree(this);
+			var allDependentDoors = allDependentObjects.Where(x => x is GKDoor).Cast<GKDoor>().ToList();
+			if (allDependentDoors.Count > 0)
+				return allDependentDoors.FirstOrDefault().GkDatabaseParent;
+			var allDependentDevices = allDependentObjects.Where(x => x is GKDevice).Cast<GKDevice>().ToList();
+			var allDependentGuardZones = allDependentObjects.Where(x => x is GKGuardZone).Cast<GKGuardZone>().ToList();
 			allDependentGuardZones.ForEach(x => allDependentDevices.AddRange(GetGuardZoneDependetnDevicesByCodes(x)));
 			var kauParents = allDependentDevices.Select(x => x.KAUParent).ToList();
 			kauParents = kauParents.Distinct().ToList();
@@ -266,15 +274,13 @@ namespace FiresecAPI.GK
 			var dependentZones = GKManager.GuardZones.FindAll(x => x.GetCodeUids().Intersect(currentZone.GetCodeUids()).Any());
 			var allDependentDevices = new List<GKDevice>();
 			dependentZones.ForEach(x => x.PrepareInputOutputDependences());
-			dependentZones.ForEach(x => allDependentDevices.AddRange(GetFullTree(x).Cast<GKDevice>().ToList()));
+			dependentZones.ForEach(x => allDependentDevices.AddRange(GetFullTree(x).Where(y => y is GKDevice).Cast<GKDevice>().ToList()));
 			return allDependentDevices.Select(x => x.KAUParent).Distinct().ToList();
 		}
 
-		List<GKBase> GetFullTree(GKBase gkBase, bool isGuardZone = false)
+		List<GKBase> GetFullTree(GKBase gkBase)
 		{
-			if (isGuardZone)
-				return GetAllDependentObjects(gkBase, new List<GKBase>()).Where(x => x is GKGuardZone).ToList();
-			return GetAllDependentObjects(gkBase, new List<GKBase>()).Where(x => x is GKDevice).ToList();
+			return GetAllDependentObjects(gkBase, new List<GKBase>()).ToList();
 		}
 
 		List<GKBase> GetAllDependentObjects(GKBase gkBase, List<GKBase> result)

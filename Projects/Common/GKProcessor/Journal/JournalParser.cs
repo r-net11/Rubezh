@@ -262,59 +262,28 @@ namespace GKProcessor
 									{
 										var firstAdditionalDescription = bytes[32 + 16].ToString();
 										var secondAdditionalDescription = bytes[32 + 17].ToString();
-										var firstIndex = Convert.ToInt32(firstAdditionalDescription);
-										var secondIndex = Convert.ToInt32(secondAdditionalDescription);
-										var kauDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-										var alsDevice = new GKDevice();
-										if (kauDevice != null)
-										switch (bytes[32 + 15])
+										if (JournalItem.JournalEventDescriptionType == JournalEventDescriptionType.ОЛС)
 										{
-											case 241:
-											case 245:
-												alsDevice = kauDevice.Children[1];
-												break;
-											case 246:
-												alsDevice = kauDevice.Children[2];
-												break;
-											case 242:
-											case 247:
-												alsDevice = kauDevice.Children[3];
-												break;
-											case 248:
-												alsDevice = kauDevice.Children[4];
-												break;
-											case 243:
-											case 249:
-												alsDevice = kauDevice.Children[5];
-												break;
-											case 250:
-												alsDevice = kauDevice.Children[6];
-												break;
-											case 244:
-											case 251:
-												alsDevice = kauDevice.Children[7];
-												break;
-											case 252:
-												alsDevice = kauDevice.Children[8];
-												break;
+											var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+											if (gkDevice != null)
+											{
+												var kauCount = gkDevice.AllChildren.FindAll(x => x.Driver.IsKauOrRSR2Kau).Count;
+												if (firstAdditionalDescription == "0")
+													firstAdditionalDescription = "ГК";
+												secondAdditionalDescription = bytes[32 + 17] > kauCount ? "ГК" : "КАУ " + bytes[32 + 17];
+											}
 										}
-										try
+										else
 										{
-											var device1 = firstIndex == 0 ? alsDevice : alsDevice.Children[firstIndex - 1];
-											var device2 = secondIndex == 0 ? alsDevice : alsDevice.Children[secondIndex - 1];
-											if (device1 != null)
-												firstAdditionalDescription = device1.PresentationName;
-											if (device2 != null)
-												secondAdditionalDescription = device2.PresentationName;
+											if (firstAdditionalDescription == "0")
+												firstAdditionalDescription = "КАУ";
+											if (secondAdditionalDescription == "0")
+												secondAdditionalDescription = "КАУ";
 										}
-										catch
-										{
+										if (JournalItem.JournalEventNameType == JournalEventNameType.Неисправность_устранена)
+											break;
 
-										}
-										finally
-										{
-											JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
-										}
+										JournalItem.DescriptionText = "устройства " + firstAdditionalDescription + "_" + secondAdditionalDescription;
 									}
 									break;
 							}

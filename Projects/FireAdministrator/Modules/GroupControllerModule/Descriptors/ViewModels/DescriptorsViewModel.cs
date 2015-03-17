@@ -83,6 +83,7 @@ namespace GKModule.ViewModels
 			foreach (var descriptorViewModel in Descriptors)
 			{
 				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
+				if (descriptorViewModel.Descriptor.GKBase.InputGKBases != null)
 				foreach (var inputBase in descriptorViewModel.Descriptor.GKBase.InputGKBases)
 				{
 					var inputDescriptor = SelectedDatabase.Descriptors.FirstOrDefault(x => x.GKBase.UID == inputBase.UID);
