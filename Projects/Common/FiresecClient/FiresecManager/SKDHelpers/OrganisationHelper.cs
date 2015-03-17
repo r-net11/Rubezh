@@ -31,7 +31,10 @@ namespace FiresecClient.SKDHelpers
 			var filter = new OrganisationFilter();
 			filter.UIDs.Add((Guid)uid);
 			var operationResult = FiresecManager.FiresecService.GetOrganisations(filter);
-			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+			var result = Common.ShowErrorIfExists(operationResult);
+			if (result != null)
+				return result.FirstOrDefault();
+			return null;
 		}
 
 		public static OrganisationDetails GetDetails(Guid uid)
@@ -83,7 +86,7 @@ namespace FiresecClient.SKDHelpers
 		{
 			return SaveHRChief(organisation.UID, chiefUID, organisation.Name);
 		}
-		
+
 		public static bool SaveChief(Guid uid, Guid chiefUID, string name)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisationChief(uid, chiefUID, name);
@@ -101,7 +104,5 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.IsAnyOrganisationItems(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
-
-		
 	}
 }

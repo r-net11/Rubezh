@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 		{
 			DevicesViewModel = devicesViewModel;
 			ShowControllerConfigurationCommand = new RelayCommand(OnShowControllerConfiguration, CanShowController);
-			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType, CanShowControllerDoorType);
+			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType);
 			ShowControllerPasswordCommand = new RelayCommand(OnShowControllerPassword, CanShowController);
 			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowController);
 			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowController);
@@ -86,10 +86,6 @@ namespace SKDModule.ViewModels
 					deviceViewModel.Update();
 				}
 			}
-		}
-		bool CanShowControllerDoorType()
-		{
-			return CanShowController() && SelectedDevice.Driver.CanChangeDoorType;
 		}
 
 		public RelayCommand ShowControllerPasswordCommand { get; private set; }

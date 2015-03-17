@@ -38,5 +38,4 @@ namespace AutomationModule.ViewModels
 			}
 		}
 	}
-
 }

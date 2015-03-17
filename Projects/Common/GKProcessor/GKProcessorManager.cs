@@ -475,9 +475,14 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(device.GKDescriptorNo));
 			if (!sendResult.HasError)
 			{
+				var code = BytesHelper.SubstructInt(sendResult.Bytes, 52);
+#if DEBUG
+				System.Diagnostics.Trace.WriteLine("");
 				var bytesString = BytesHelper.BytesToString(sendResult.Bytes);
 				System.Diagnostics.Trace.WriteLine(bytesString);
-				return new OperationResult<uint>() { Result = 0 };
+				System.Diagnostics.Trace.WriteLine(code);
+#endif
+				return new OperationResult<uint>() { Result = (uint)code };
 			}
 			else
 			{

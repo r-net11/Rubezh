@@ -64,7 +64,6 @@ namespace SKDModule.ViewModels
 				Driver = SelectedDriver,
 				DriverUID = SelectedDriver.UID,
 				Name = Name,
-				DoorType = SelectedDriver.DefaultDoorType,
 				Parent = ParentDevice
 			};
 

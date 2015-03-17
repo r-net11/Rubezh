@@ -12,7 +12,14 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Выбор организации";
 			Organisations = new ObservableCollection<OrganisationViewModel>();
-			OrganisationHelper.GetByCurrentUser().ToList().ForEach(x => Organisations.Add(new OrganisationViewModel(x)));
+			var userOrganisations = OrganisationHelper.GetByCurrentUser();
+			foreach (var userOrganisation in userOrganisations)
+			{
+				if (userOrganisation != null)
+				{
+					Organisations.Add(new OrganisationViewModel(userOrganisation));
+				}
+			}
 			if (organisation != null)
 				SelectedOrganisation = Organisations.FirstOrDefault(x => x.Organisation.UID == organisation.UID);
 			if (SelectedOrganisation == null)
