@@ -244,7 +244,7 @@ namespace FiresecService.Service
 					var gkSKDHelper = new GKSKDHelper();
 					foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 					{
-						var addGKResult = gkSKDHelper.AddOneCard(gkControllerDevice, card, getAccessTemplateOperationResult.Result, employeeOperationResult.Result.Name);
+						var addGKResult = gkSKDHelper.AddOneCard(gkControllerDevice, card, getAccessTemplateOperationResult.Result, employeeOperationResult.Result.FIO);
 						if (addGKResult.HasError)
 						{
 							errors.Add("Не удалось добавить карту в устройство " + gkControllerDevice.PresentationName);
@@ -302,7 +302,7 @@ namespace FiresecService.Service
 					var gkSKDHelper = new GKSKDHelper();
 					foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 					{
-						var addGKResult = gkSKDHelper.AddOneCard(gkControllerDevice, card, getAccessTemplateOperationResult.Result, employeeOperationResult.Result.Name);
+						var addGKResult = gkSKDHelper.AddOneCard(gkControllerDevice, card, getAccessTemplateOperationResult.Result, employeeOperationResult.Result.FIO);
 						if (addGKResult.HasError)
 						{
 							errors.Add("Не удалось изменить карту в устройстве " + gkControllerDevice.PresentationName);

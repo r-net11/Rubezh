@@ -60,7 +60,7 @@ namespace GKProcessor
 			bool isNew = true;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.Address, card.Number, out isNew);
+				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.GetGKIpAddress(), card.Number, out isNew);
 			}
 
 			var bytes = new List<byte>();
@@ -129,7 +129,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(device.Address, no, card.Number, employeeName);
+				skdDatabaseService.GKCardTranslator.AddOrEdit(device.GetGKIpAddress(), no, card.Number, employeeName);
 			}
 
 			return new OperationResult<bool>() { Result = true };
@@ -140,7 +140,7 @@ namespace GKProcessor
 			var no = 1;
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.Address, card.Number);
+				no = skdDatabaseService.GKCardTranslator.GetGKNoByCardNo(device.GetGKIpAddress(), card.Number);
 			}
 			if (no == -1)
 			{
@@ -171,7 +171,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.Remove(device.Address, no, card.Number);
+				skdDatabaseService.GKCardTranslator.Remove(device.GetGKIpAddress(), no, card.Number);
 			}
 
 			return new OperationResult<bool>() { Result = true };
@@ -203,12 +203,11 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.Actualize(device.Address, users);
+				skdDatabaseService.GKCardTranslator.Actualize(device.GetGKIpAddress(), users);
 			}
 
 			return users;
 		}
-
 
 		public bool RemoveGKUsers(GKDevice device)
 		{

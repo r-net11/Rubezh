@@ -6,6 +6,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecClient;
 using SKDDriver;
+using SKDDriver.Translators;
 
 namespace GKProcessor
 {
@@ -43,7 +44,7 @@ namespace GKProcessor
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			JournalItem.ObjectUID = gkControllerDevice.UID;
 			InitializeFromObjectUID();
-			var UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
+			var kauObjectNo = BytesHelper.SubstructShort(bytes, 54);
 
 			InitializeDateTime(bytes);
 
@@ -120,9 +121,27 @@ namespace GKProcessor
 							var gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
 							JournalItem.CardNo = gkCardNo;
 
+							var zoneUID = Guid.Empty;
+							var door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
+							if (door != null)
+							{
+								var readerDevice = GKManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == kauObjectNo);
+								if (readerDevice != null)
+								{
+									if (door.EnterDeviceUID == readerDevice.UID)
+									{
+										zoneUID = door.EnterZoneUID;
+									}
+									else if (door.ExitDeviceUID == readerDevice.UID)
+									{
+										zoneUID = door.ExitZoneUID;
+									}
+								}
+							}
+
 							using (var databaseService = new SKDDatabaseService())
 							{
-								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.Address, (int)gkCardNo);
+								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
 								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
 								if (!operationResult.HasError)
 								{
@@ -134,6 +153,14 @@ namespace GKProcessor
 										if (employee != null)
 										{
 											JournalItem.UserName = employee.Result.Name;
+
+											if (zoneUID != Guid.Empty)
+											{
+												using (var passJournalTranslator = new PassJournalTranslator())
+												{
+													passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
+												}
+											}
 										}
 									}
 								}

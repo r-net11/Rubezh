@@ -46,6 +46,8 @@ namespace FiresecClient
 			deviceTo.Logic.OnClausesGroup = deviceFrom.Logic.OnClausesGroup.Clone();
 			deviceTo.Logic.OffClausesGroup = deviceFrom.Logic.OffClausesGroup.Clone();
 			deviceTo.Logic.StopClausesGroup = deviceFrom.Logic.StopClausesGroup.Clone();
+			deviceTo.Logic.OnNowClausesGroup = deviceFrom.Logic.OnNowClausesGroup.Clone();
+			deviceTo.Logic.OffNowClausesGroup = deviceFrom.Logic.OffNowClausesGroup.Clone();
 
 			deviceTo.Children = new List<GKDevice>();
 			foreach (var childDevice in deviceFrom.Children)

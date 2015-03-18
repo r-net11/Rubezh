@@ -182,50 +182,24 @@ namespace FiresecAPI.GK
 
 			foreach (var delay in Delays)
 			{
-				result &= ValidateLogic(delay.Logic);
 			}
 			foreach (var mpt in MPTs)
 			{
-				result &= ValidateLogic(mpt.StartLogic);
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
 				}
 			}
 			foreach (var device in Devices)
 			{
-				result &= ValidateLogic(device.Logic);
-				result &= ValidateLogic(device.NSLogic);
 			}
 			foreach (var pumpStation in PumpStations)
 			{
-				result &= ValidateLogic(pumpStation.StartLogic);
-				result &= ValidateLogic(pumpStation.StopLogic);
-				result &= ValidateLogic(pumpStation.AutomaticOffLogic);
 			}
 			foreach (var parameterTemplate in ParameterTemplates)
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					result &= ValidateLogic(deviceParameterTemplate.GKDevice.Logic);
-					result &= ValidateLogic(deviceParameterTemplate.GKDevice.NSLogic);
 				}
-			}
-			return result;
-		}
-
-		bool ValidateLogic(GKLogic logic)
-		{
-			var result = true;
-
-			if (logic.OnClausesGroup == null)
-			{
-				logic.OnClausesGroup = new GKClauseGroup();
-				result = false;
-			}
-			if (logic.OffClausesGroup == null)
-			{
-				logic.OffClausesGroup = new GKClauseGroup();
-				result = false;
 			}
 			return result;
 		}
