@@ -18,6 +18,11 @@ namespace GKModule.ViewModels
 			get { return GuardZone.State; }
 		}
 
+		public bool IsOff
+		{
+			get { return StateClasses.Contains(XStateClass.Ignore); }
+		}
+
 		public GuardZoneViewModel(GKGuardZone guardZone)
 		{
 			TurnOnCommand = new RelayCommand(OnTurnOn);
@@ -53,6 +58,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => GuardZone);
 			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => IsOff);
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }

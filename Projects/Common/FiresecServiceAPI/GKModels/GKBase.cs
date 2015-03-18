@@ -40,6 +40,8 @@ namespace FiresecAPI.GK
 
 		public void ClearClauseDependencies()
 		{
+			InputGKBases = new List<GKBase>();
+			OutputGKBases = new List<GKBase>();
 			ClauseInputDevices = new List<GKDevice>();
 			ClauseInputZones = new List<GKZone>();
 			ClauseInputGuardZones = new List<GKGuardZone>();
