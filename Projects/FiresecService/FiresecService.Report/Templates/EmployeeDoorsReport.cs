@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
-using FiresecAPI.SKD;
-using FiresecAPI;
-using SKDDriver;
 using Common;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
@@ -24,7 +20,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Права доступа сотрудников/посетителей"; }
+			get { return "Права доступа сотрудников (посетителей)"; }
 		}
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{

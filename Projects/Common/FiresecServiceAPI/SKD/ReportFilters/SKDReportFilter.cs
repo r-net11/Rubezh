@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD.ReportFilters
@@ -28,6 +25,7 @@ namespace FiresecAPI.SKD.ReportFilters
 				periodFilter.DateTimeTo = DateTime.Today.AddDays(1).AddSeconds(-1);
 				periodFilter.PeriodType = ReportPeriodType.Day;
 			}
+			UserUID = Guid.Empty;
 		}
 
 		[DataMember]
@@ -36,6 +34,8 @@ namespace FiresecAPI.SKD.ReportFilters
 		public string User { get; set; }
 		[DataMember]
 		public DateTime Timestamp { get; set; }
+		[DataMember]
+		public Guid UserUID { get; set; }
 
 		[DataMember]
 		public string SortColumn { get; set; }

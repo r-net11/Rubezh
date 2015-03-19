@@ -1,14 +1,11 @@
 ﻿using System;
-using Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
-using SKDModule.ViewModels;
-using Infrastructure.Common.CheckBoxList;
 using System.Collections.ObjectModel;
+using Common;
+using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -36,7 +33,7 @@ namespace SKDModule.Reports.ViewModels
 			var organisationFilter = filter as IReportFilterOrganisation;
 			var uids = organisationFilter == null ? null : organisationFilter.Organisations;
 			if (!AllowMultiple && uids == null && _organisationsFilter.Organisations.Items.Count > 0)
-				uids = new List<Guid>() { _organisationsFilter.Organisations.Items.First().Organisation.UID };
+				uids = new List<Guid>();
 			_organisationsFilter.Initialize(uids);
 		}
 		public override void UpdateFilter(SKDReportFilter filter)

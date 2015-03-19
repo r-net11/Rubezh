@@ -1,17 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Common;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using System.Data;
+using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Text;
-using System.Collections.Generic;
 using FiresecService.Report.DataSources;
 using SKDDriver;
-using FiresecAPI.SKD;
 
 namespace FiresecService.Report.Templates
 {
@@ -32,7 +27,7 @@ namespace FiresecService.Report.Templates
 			var databaseService = new SKDDatabaseService();
 			dataProvider.LoadCache();
 			if (filter.Organisations.IsEmpty())
-				filter.Organisations = new List<Guid>() { dataProvider.Organisations.First(org => !org.Value.IsDeleted).Value.UID };
+				filter.Organisations = new List<Guid>() { dataProvider.Organisations.First(org => !org.Value.IsDeleted && org.Value.Item.UserUIDs.Any(y => y == filter.UserUID)).Value.UID };
 
 			var positionFilter = new PositionFilter()
 			{

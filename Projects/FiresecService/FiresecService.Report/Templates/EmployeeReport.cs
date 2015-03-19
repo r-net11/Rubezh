@@ -17,7 +17,7 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return "Справка о сотруднике/посетителе"; }
+			get { return "Справка о сотруднике (посетителе)"; }
 		}
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{

@@ -30,13 +30,7 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<DepartmentsReportFilter>();
 			var databaseService = new SKDDatabaseService();
 			dataProvider.LoadCache();
-			var organisationUID = filter.Organisations.IsEmpty() ? dataProvider.Organisations.First(org => !org.Value.IsDeleted).Value.UID : filter.Organisations.First();
-			var departments = dataProvider.Departments.Values.Where(item => item.OrganisationUID == organisationUID);
-			if (!filter.UseArchive)
-				departments = departments.Where(item => !item.IsDeleted);
-			if (!filter.Departments.IsEmpty())
-				departments = departments.Where(item => filter.Departments.Contains(item.UID));
-
+			var departments = GetDepartments(dataProvider, filter);
 			var uids = departments.Select(item => item.UID).ToList();
 			var employees = dataProvider.GetEmployees(departments.Where(item => item.Item.ChiefUID != Guid.Empty).Select(item => item.Item.ChiefUID));
 			var ds = new DepartmentsDataSet();
@@ -55,6 +49,33 @@ namespace FiresecService.Report.Templates
 				ds.Data.AddDataRow(row);
 			});
 			return ds;
+		}
+
+		private static IEnumerable<OrganisationBaseObjectInfo<Department>> GetDepartments(DataProvider dataProvider, DepartmentsReportFilter filter)
+		{
+			var organisationUID = Guid.Empty;
+			if (filter.Organisations.IsEmpty())
+			{
+				if(filter.Name == "По умолчанию")
+					organisationUID = dataProvider.Organisations.First(org => !org.Value.IsDeleted && org.Value.Item.UserUIDs.Any(y => y == filter.UserUID)).Key;
+			}
+			else
+			{
+				organisationUID = dataProvider.Organisations.FirstOrDefault(org => !org.Value.IsDeleted && 
+					org.Value.Item.UserUIDs.Any(y => y == filter.UserUID && org.Key == filter.Organisations.FirstOrDefault())).Key;
+			}
+			
+			IEnumerable<OrganisationBaseObjectInfo<Department>> departments = null;
+			if (organisationUID != Guid.Empty)
+			{
+				departments = dataProvider.Departments.Values.Where(item => item.OrganisationUID == organisationUID);
+
+				if (!filter.UseArchive)
+					departments = departments.Where(item => !item.IsDeleted);
+				if (!filter.Departments.IsEmpty())
+					departments = departments.Where(item => filter.Departments.Contains(item.UID));
+			}
+			return departments != null ? departments : new List<OrganisationBaseObjectInfo<Department>>();
 		}
 		protected override void ApplySort()
 		{
