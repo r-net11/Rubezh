@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ChinaSKDDriver
 {
@@ -73,16 +74,10 @@ namespace ChinaSKDDriver
 					return new OperationResult<bool>("Ошибка при удалении всех карт в контроллере");
 
 				var cardWriter = new CardWriter();
-				result = cardWriter.RewriteAllCards(device, cards, accessTemplates);
-				if(!result)
-					return new OperationResult<bool>("Операция отменена");
-
-				foreach (var controllerCardItem in cardWriter.ControllerCardItems)
+				var error = cardWriter.RewriteAllCards(device, cards, accessTemplates);
+				if (!string.IsNullOrEmpty(error))
 				{
-					if (controllerCardItem.HasError)
-					{
-						return new OperationResult<bool>("Ошибка при записи карты " + controllerCardItem.Card.Number);
-					}
+					return new OperationResult<bool>(error);
 				}
 				return new OperationResult<bool>() { Result = true };
 			}

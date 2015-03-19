@@ -137,7 +137,7 @@ namespace SKDModule.ViewModels
 				if (MessageBoxService.ShowQuestion("Сетевые настройки в контроллере были изменены. Изменить сетевые настройки в конфигурации?"))
 				{
 					var addressProperty = DeviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Address");
-					if (addressProperty == null)
+					if (addressProperty != null)
 					{
 						addressProperty.StringValue = Address;
 					}

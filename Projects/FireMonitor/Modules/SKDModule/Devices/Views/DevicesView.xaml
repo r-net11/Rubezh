@@ -30,7 +30,7 @@
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/Zone.png" Margin="2 0" />
 												<Image Source="{Binding Zone.State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2 0" />
-												<TextBlock HorizontalAlignment="Stretch" Text="{Binding Zone.PresentationName}" ToolTip="{Binding Zone.PresentationZone}" />
+												<TextBlock HorizontalAlignment="Stretch" Text="{Binding Zone.PresentationName}" ToolTip="{Binding Zone.PresentationName}" />
 											</StackPanel>
 										</Hyperlink>
 									</TextBlock>

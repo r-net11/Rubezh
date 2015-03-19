@@ -1043,6 +1043,13 @@ namespace FiresecService.Service
 						{
 							errors.Add(result.Error);
 						}
+						else if (device.State != null)
+						{
+							lockDevice.State.OpenAlwaysTimeIndex = 1;
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(lockDevice.State);
+							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+						}
 					}
 					else
 					{
@@ -1082,6 +1089,13 @@ namespace FiresecService.Service
 						if (result.HasError)
 						{
 							errors.Add(result.Error);
+						}
+						else if (device.State != null)
+						{
+							lockDevice.State.OpenAlwaysTimeIndex = 0;
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(lockDevice.State);
+							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
 						}
 					}
 					else
@@ -1185,7 +1199,15 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
-						return ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (!result.HasError && lockDevice.State != null)
+						{
+							lockDevice.State.OpenAlwaysTimeIndex = 1;
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(lockDevice.State);
+							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+						}
+						return result;
 					}
 					else
 					{
@@ -1219,7 +1241,15 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
-						return ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (!result.HasError && lockDevice.State != null)
+						{
+							lockDevice.State.OpenAlwaysTimeIndex = 0;
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(lockDevice.State);
+							ChinaSKDDriver.Processor.OnStatesChanged(skdStates);
+						}
+						return result;
 					}
 					else
 					{

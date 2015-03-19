@@ -140,10 +140,11 @@ namespace ChinaSKDDriver
 			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
-		public bool RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
+		public string RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
 		{
 			var progressCallback = Processor.StartProgress("Запись всех карт в контроллер " + device.Name, "", cards.Count(), true, GKProgressClientType.Administrator);
 
+			var stringBuilder = new StringBuilder();
 			foreach (var card in cards)
 			{
 				AccessTemplate accessTemplate = null;
@@ -163,13 +164,21 @@ namespace ChinaSKDDriver
 				}
 
 				if (progressCallback.IsCanceled)
-					return false;
+					return "Операция отменена";
 				Processor.DoProgress("Запись карты " + card.Number + " в контроллер " + device.Name, progressCallback);
 				ProcessControllerCardItems(ControllerCardItems, true);
+
+				foreach (var controllerCardItem in ControllerCardItems)
+				{
+					if (controllerCardItem.HasError)
+					{
+						stringBuilder.AppendLine("Ошибка при записи карты " + controllerCardItem.Card.Number + " в контроллер " + device.Name);
+					}
+				}
 			}
 
 			Processor.StopProgress(progressCallback);
-			return true;
+			return stringBuilder.ToString();
 		}
 
 		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems, bool showProgress)
