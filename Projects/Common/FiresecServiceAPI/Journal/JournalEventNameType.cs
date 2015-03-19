@@ -553,6 +553,9 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Рабочий график", XStateClass.TechnologicalRegime)]
 		Рабочий_график,
+
+		[EventName(JournalSubsystemType.SKD, "Удаление сотрудника", XStateClass.Info)]
+		Удаление_сотрудника,
 		
 		[EventName(JournalSubsystemType.SKD, "Удаление подразделения", XStateClass.Info)]
 		Удаление_отдела,
