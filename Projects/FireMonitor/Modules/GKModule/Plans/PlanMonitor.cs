@@ -16,6 +16,8 @@ namespace GKModule.Plans
 			Plan.ElementPolygonGKZones.ForEach(item => Initialize(item));
 			Plan.ElementRectangleGKGuardZones.ForEach(item => InitializeGuard(item));
 			Plan.ElementPolygonGKGuardZones.ForEach(item => InitializeGuard(item));
+			Plan.ElementRectangleGKSKDZones.ForEach(item => InitializeSKD(item));
+			Plan.ElementPolygonGKSKDZones.ForEach(item => InitializeSKD(item));
 			Plan.ElementRectangleGKDirections.ForEach(item => Initialize(item));
 			Plan.ElementPolygonGKDirections.ForEach(item => Initialize(item));
 			Plan.ElementGKDoors.ForEach(item => Initialize(item));
@@ -40,6 +42,11 @@ namespace GKModule.Plans
 		private void InitializeGuard(IElementZone element)
 		{
 			var zone = PlanPresenter.Cache.Get<GKGuardZone>(element.ZoneUID);
+			AddState(zone);
+		}
+		private void InitializeSKD(IElementZone element)
+		{
+			var zone = PlanPresenter.Cache.Get<GKSKDZone>(element.ZoneUID);
 			AddState(zone);
 		}
 		private void Initialize(IElementDirection element)

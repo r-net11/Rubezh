@@ -56,7 +56,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditGKDirectionEvent>().Subscribe(OnEditGKDirection);
 			ServiceFactory.Events.GetEvent<CreateGKDoorEvent>().Subscribe(OnCreateGKDoor);
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Subscribe(OnEditGKDoor);
-			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Subscribe(OnCreateSKDZone);
+			ServiceFactory.Events.GetEvent<CreateGKSKDZoneEvent>().Subscribe(OnCreateSKDZone);
 			ServiceFactory.Events.GetEvent<EditGKSKDZoneEvent>().Subscribe(OnEditSKDZone);
 
 			DevicesViewModel = new DevicesViewModel();
@@ -79,7 +79,7 @@ namespace GKModule
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel, DoorsViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel, SKDZonesViewModel, DoorsViewModel);
 		}
 
 		public override void Initialize()
@@ -221,7 +221,7 @@ namespace GKModule
 		{
 			DoorsViewModel.EditDoor(doorUID);
 		}
-		private void OnCreateSKDZone(CreateSKDZoneEventArg createZoneEventArg)
+		private void OnCreateSKDZone(CreateGKSKDZoneEventArg createZoneEventArg)
 		{
 			SKDZonesViewModel.CreateZone(createZoneEventArg);
 		}

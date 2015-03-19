@@ -19,8 +19,8 @@ namespace GKModule.Plans.Designer
 		{
 			foreach (var plan in plans)
 			{
-				foreach (var elementXDevice in plan.ElementGKDevices)
-					_map.Add(elementXDevice.UID, elementXDevice);
+				foreach (var elementGKDevice in plan.ElementGKDevices)
+					_map.Add(elementGKDevice.UID, elementGKDevice);
 				BuildMap(plan.Children);
 			}
 		}
@@ -32,9 +32,9 @@ namespace GKModule.Plans.Designer
 			foreach (var planElementUID in planElementUIDs)
 				if (_map.ContainsKey(planElementUID))
 				{
-					var elementXDevice = _map[planElementUID];
-					if (elementXDevice.DeviceUID == Guid.Empty)
-						GKPlanExtension.Instance.SetItem<GKDevice>(elementXDevice, device);
+					var elementGKDevice = _map[planElementUID];
+					if (elementGKDevice.DeviceUID == Guid.Empty)
+						GKPlanExtension.Instance.SetItem<GKDevice>(elementGKDevice, device);
 				}
 			foreach (var child in device.Children)
 				UpdateDeviceBinding(child);

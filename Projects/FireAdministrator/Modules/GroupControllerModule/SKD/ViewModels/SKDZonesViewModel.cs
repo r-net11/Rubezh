@@ -234,7 +234,7 @@ namespace GKModule.ViewModels
 			};
 		}
 
-		public void CreateZone(CreateSKDZoneEventArg createZoneEventArg)
+		public void CreateZone(CreateGKSKDZoneEventArg createZoneEventArg)
 		{
 			var zoneViewModel = OnAddZone();
 			createZoneEventArg.Zone = zoneViewModel == null ? null : zoneViewModel.Zone;

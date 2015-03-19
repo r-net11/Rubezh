@@ -120,7 +120,7 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateGKDoorEvent.cs" />
-    <Compile Include="Events\CreateSKDZoneEvent.cs" />
+    <Compile Include="Events\CreateGKSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKDoorEvent.cs" />
     <Compile Include="Events\EditGKGuardZoneEvent.cs" />
     <Compile Include="Events\CreateGKDirectionEvent.cs" />
@@ -229,13 +229,19 @@
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
     <Compile Include="Plans\InstrumentAdorners\XGuardZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XGuardZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\XSKDZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\XSKDZoneRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
       <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\GuardZonePropertiesView.xaml.cs">
       <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\SKDZonePropertiesView.xaml.cs">
+      <DependentUpon>SKDZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
@@ -735,6 +741,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\GuardZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\SKDZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

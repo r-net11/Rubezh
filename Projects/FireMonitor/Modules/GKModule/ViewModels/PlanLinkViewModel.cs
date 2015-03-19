@@ -23,6 +23,7 @@ namespace GKModule.ViewModels
 		public GKDevice Device { get; set; }
 		public GKZone Zone { get; set; }
 		public GKGuardZone GuardZone { get; set; }
+		public GKSKDZone SKDZone { get; set; }
 		public GKDirection Direction { get; set; }
 		public GKDoor Door { get; set; }
 
@@ -33,7 +34,8 @@ namespace GKModule.ViewModels
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
-		{			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(Plan.UID, ElementUID));
+		{
+			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(Plan.UID, ElementUID));
 		}
 	}
 }

@@ -4,11 +4,11 @@ using FiresecAPI.GK;
 
 namespace GKModule.Events
 {
-	public class CreateSKDZoneEvent : CompositePresentationEvent<CreateSKDZoneEventArg>
+	public class CreateGKSKDZoneEvent : CompositePresentationEvent<CreateGKSKDZoneEventArg>
 	{
 	}
 
-	public class CreateSKDZoneEventArg
+	public class CreateGKSKDZoneEventArg
 	{
 		public GKSKDZone Zone { get; set; }
 	}

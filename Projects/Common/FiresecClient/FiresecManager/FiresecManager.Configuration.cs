@@ -230,6 +230,20 @@ namespace FiresecClient
 						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
 							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
 					}
+					for (int i = plan.ElementRectangleGKSKDZones.Count(); i > 0; i--)
+					{
+						var elementRectangleGKSKDZone = plan.ElementRectangleGKSKDZones[i - 1];
+						elementRectangleGKSKDZone.UpdateZLayer();
+						if (gkDoorMap.ContainsKey(elementRectangleGKSKDZone.ZoneUID))
+							gkDoorMap[elementRectangleGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementRectangleGKSKDZone.UID);
+					}
+					for (int i = plan.ElementPolygonGKSKDZones.Count(); i > 0; i--)
+					{
+						var elementPolygonGKSKDZone = plan.ElementPolygonGKSKDZones[i - 1];
+						elementPolygonGKSKDZone.UpdateZLayer();
+						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
+							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
+					}
 					for (int i = plan.ElementGKDoors.Count(); i > 0; i--)
 					{
 						var elementGKDoor = plan.ElementGKDoors[i - 1];

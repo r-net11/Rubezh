@@ -17,6 +17,7 @@ namespace FiresecAPI.GK
 			PimStates = new List<GKState>();
 			GuardZoneStates = new List<GKState>();
 			DoorStates = new List<GKState>();
+			SKDZoneStates = new List<GKState>();
 			DeviceMeasureParameters = new List<GKDeviceMeasureParameters>();
 		}
 
@@ -46,6 +47,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<GKState> DoorStates { get; set; }
+
+		[DataMember]
+		public List<GKState> SKDZoneStates { get; set; }
 
 		[DataMember]
 		public List<GKDeviceMeasureParameters> DeviceMeasureParameters { get; set; }

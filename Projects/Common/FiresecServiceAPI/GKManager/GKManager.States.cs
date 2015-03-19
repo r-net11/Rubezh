@@ -46,6 +46,11 @@ namespace FiresecClient
 				door.InternalState = new GKDoorInternalState(door);
 				door.State = new GKState(door);
 			}
+			foreach (var skdZone in SKDZones)
+			{
+				skdZone.InternalState = new GKSKDZoneInternalState(skdZone);
+				skdZone.State = new GKState(skdZone);
+			}
 			foreach (var code in DeviceConfiguration.Codes)
 			{
 				code.InternalState = new GKCodeInternalState(code);

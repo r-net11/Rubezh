@@ -93,6 +93,7 @@ namespace GKProcessor
 				gkCallbackResult.GKStates.PimStates.Count +
 				gkCallbackResult.GKStates.GuardZoneStates.Count +
 				gkCallbackResult.GKStates.DoorStates.Count +
+				gkCallbackResult.GKStates.SKDZoneStates.Count +
 				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
@@ -352,6 +353,10 @@ namespace GKProcessor
 			foreach (var door in GKManager.Doors)
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, door);
+			}
+			foreach (var skdZone in GKManager.SKDZones)
+			{
+				Watcher.AddObjectStateToGKStates(gkStates, skdZone);
 			}
 			return gkStates;
 		}

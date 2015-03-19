@@ -20,7 +20,11 @@
 		<Views:DevicesInZoneView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:GKDoorPropertiesViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:SKDZonePropertiesViewModel}">
+        <Views:SKDZonePropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GKDoorPropertiesViewModel}">
 		<Views:GKDoorPropertiesView />
 	</DataTemplate>
 	

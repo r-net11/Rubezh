@@ -181,6 +181,15 @@ namespace GKModule
 					door.State.OnStateChanged();
 				}
 			}
+			foreach (var remoteSKDZoneState in gkStates.SKDZoneStates)
+			{
+				var skdZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == remoteSKDZoneState.UID);
+				if (skdZone != null)
+				{
+					remoteSKDZoneState.CopyTo(skdZone.State);
+					skdZone.State.OnStateChanged();
+				}
+			}
 			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
 			{
 				var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);

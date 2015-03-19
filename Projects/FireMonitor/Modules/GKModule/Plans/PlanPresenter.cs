@@ -25,15 +25,17 @@ namespace GKModule.Plans
 		{
 			Cache = new MapSource();
 			Cache.Add<GKZone>(() => GKManager.Zones);
-			Cache.Add<GKGuardZone>(() => GKManager.DeviceConfiguration.GuardZones);
+			Cache.Add<GKGuardZone>(() => GKManager.GuardZones);
+			Cache.Add<GKSKDZone>(() => GKManager.SKDZones);
 			Cache.Add<GKDevice>(() => GKManager.Devices);
 			Cache.Add<GKDirection>(() => GKManager.Directions);
 			Cache.Add<GKDoor>(() => GKManager.Doors);
 
-			ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
-			ServiceFactory.Events.GetEvent<ShowGKZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
-			ServiceFactory.Events.GetEvent<ShowGKGuardZoneOnPlanEvent>().Subscribe(OnShowXGuardZoneOnPlan);
-			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Subscribe(OnShowXDirectionOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKDeviceOnPlanEvent>().Subscribe(OnShowGKDeviceOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKZoneOnPlanEvent>().Subscribe(OnShowGKZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKGuardZoneOnPlanEvent>().Subscribe(OnShowGKGuardZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKSKDZoneOnPlanEvent>().Subscribe(OnShowGKSKDZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowGKDirectionOnPlanEvent>().Subscribe(OnShowGKDirectionOnPlan);
 			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Subscribe(OnShowGKDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -68,6 +70,10 @@ namespace GKModule.Plans
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
 				yield return element;
+			foreach (var element in plan.ElementRectangleGKSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
+				yield return element;
+			foreach (var element in plan.ElementPolygonGKSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHiddenZone))
+				yield return element;
 			foreach (var element in plan.ElementRectangleGKDirections.Where(x => x.DirectionUID != Guid.Empty))
 				yield return element;
 			foreach (var element in plan.ElementPolygonGKDirections.Where(x => x.DirectionUID != Guid.Empty))
@@ -84,6 +90,8 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new GKZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonGKGuardZone || presenterItem.Element is ElementRectangleGKGuardZone)
 				presenterItem.OverridePainter(new GKGuardZonePainter(presenterItem));
+			else if (presenterItem.Element is ElementPolygonGKSKDZone || presenterItem.Element is ElementRectangleGKSKDZone)
+				presenterItem.OverridePainter(new GKSKDZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleGKDirection || presenterItem.Element is ElementPolygonGKDirection)
 				presenterItem.OverridePainter(new GKDirectionPainter(presenterItem));
 			else if (presenterItem.Element is ElementGKDoor)
@@ -100,9 +108,9 @@ namespace GKModule.Plans
 		public void Initialize()
 		{
 			_monitors.Clear();
-			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
+			using (new TimeCounter("DevicePictureCache.LoadGKCache: {0}"))
 				PictureCacheSource.GKDevicePicture.LoadCache();
-			using (new TimeCounter("DevicePictureCache.LoadXDynamicCache: {0}"))
+			using (new TimeCounter("DevicePictureCache.LoadGKDynamicCache: {0}"))
 				PictureCacheSource.GKDevicePicture.LoadDynamicCache();
 		}
 
@@ -110,7 +118,7 @@ namespace GKModule.Plans
 		{
 		}
 
-		private void OnShowXDeviceOnPlan(GKDevice device)
+		private void OnShowGKDeviceOnPlan(GKDevice device)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementGKDevices)
@@ -120,7 +128,7 @@ namespace GKModule.Plans
 						return;
 					}
 		}
-		private void OnShowXZoneOnPlan(GKZone zone)
+		private void OnShowGKZoneOnPlan(GKZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
@@ -138,7 +146,7 @@ namespace GKModule.Plans
 					}
 			}
 		}
-		private void OnShowXGuardZoneOnPlan(GKGuardZone zone)
+		private void OnShowGKGuardZoneOnPlan(GKGuardZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
@@ -156,7 +164,25 @@ namespace GKModule.Plans
 					}
 			}
 		}
-		private void OnShowXDirectionOnPlan(GKDirection direction)
+		private void OnShowGKSKDZoneOnPlan(GKSKDZone zone)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				foreach (var element in plan.ElementRectangleGKSKDZones)
+					if (element.ZoneUID == zone.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+				foreach (var element in plan.ElementPolygonGKSKDZones)
+					if (element.ZoneUID == zone.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+			}
+		}
+		private void OnShowGKDirectionOnPlan(GKDirection direction)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{

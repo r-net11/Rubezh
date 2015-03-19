@@ -47,7 +47,7 @@ namespace SKDModule.Plans
 			_instruments = null;
 			Cache.Add<SKDDevice>(() => SKDManager.Devices);
 			Cache.Add<SKDZone>(() => SKDManager.Zones);
-			Cache.Add<SKDDoor>(() => SKDManager.SKDConfiguration.Doors);
+			Cache.Add<SKDDoor>(() => SKDManager.Doors);
 		}
 
 		public override void Initialize()

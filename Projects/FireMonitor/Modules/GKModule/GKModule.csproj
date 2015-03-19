@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\GKGuardZonePainter.cs" />
+    <Compile Include="Plans\Designer\GKSKDZonePainter.cs" />
     <Compile Include="Plans\ViewModels\GuardZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
@@ -144,6 +145,7 @@
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
@@ -261,6 +263,18 @@
     <Compile Include="Zones\Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SKDZones\ViewModels\SKDZoneDetailsViewModel.cs" />
+    <Compile Include="SKDZones\ViewModels\SKDZonesViewModel.cs" />
+    <Compile Include="SKDZones\ViewModels\SKDZoneViewModel.cs" />
+    <Compile Include="SKDZones\Views\SKDZoneDetailsView.xaml.cs">
+      <DependentUpon>SKDZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKDZones\Views\SKDZonesView.xaml.cs">
+      <DependentUpon>SKDZonesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SKDZones\Views\SKDZoneToolTipView.xaml.cs">
+      <DependentUpon>SKDZoneToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GuardZones\ViewModels\GuardZoneDetailsViewModel.cs" />
     <Compile Include="GuardZones\ViewModels\GuardZonesViewModel.cs" />
     <Compile Include="GuardZones\ViewModels\GuardZoneViewModel.cs" />
@@ -357,6 +371,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PumpStations\Views\PumpStationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKDZones\Views\SKDZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKDZones\Views\SKDZonesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SKDZones\Views\SKDZoneToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -33,5 +33,8 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Точка доступа")]
 		Door,
+
+		[DescriptionAttribute("Зона СКД")]
+		SKDZone,
 	}
 }

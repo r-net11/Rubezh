@@ -493,6 +493,10 @@ namespace GKProcessor
 				{
 					gkStates.DoorStates.Add(gkBase.State);
 				}
+				if (gkBase is GKSKDZone)
+				{
+					gkStates.SKDZoneStates.Add(gkBase.State);
+				}
 			}
 		}
 

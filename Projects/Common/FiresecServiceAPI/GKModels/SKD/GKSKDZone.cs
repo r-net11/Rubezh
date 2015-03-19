@@ -8,8 +8,11 @@ using System.Xml.Serialization;
 
 namespace FiresecAPI.GK
 {
+	/// <summary>
+	/// Зона СКД
+	/// </summary>
 	[DataContract]
-	public class GKSKDZone : ModelBase, IStateProvider, IPlanPresentable
+	public class GKSKDZone : GKBase, IPlanPresentable
 	{
 		public GKSKDZone()
 		{
@@ -18,21 +21,15 @@ namespace FiresecAPI.GK
 		}
 
 		[XmlIgnore]
-		public GKSKDZoneState State { get; set; }
-		[XmlIgnore]
 		public List<GKDevice> Devices { get; set; }
+
+		[XmlIgnore]
+		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.SKDZone; } }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
-
-		#region IStateProvider Members
-		IDeviceState<XStateClass> IStateProvider.StateClass
-		{
-			get { return State; }
-		}
-		#endregion
 	}
 }

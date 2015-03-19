@@ -137,6 +137,14 @@ namespace FiresecAPI.GK
 			BaseObjectType = GKBaseObjectType.GuardZone;
 		}
 
+		public GKState(GKSKDZone zone)
+			: this()
+		{
+			SKDZone = zone;
+			UID = zone.UID;
+			BaseObjectType = GKBaseObjectType.SKDZone;
+		}
+
 		public GKDevice Device { get; private set; }
 		public GKZone Zone { get; private set; }
 		public GKDirection Direction { get; private set; }
@@ -147,6 +155,7 @@ namespace FiresecAPI.GK
 		public GKGuardZone GuardZone { get; private set; }
 		public GKCode Code { get; private set; }
 		public GKDoor Door { get; private set; }
+		public GKSKDZone SKDZone { get; private set; }
 		public GKBaseObjectType BaseObjectType { get; private set; }
 
 		public void CopyTo(GKState state)
