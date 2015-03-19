@@ -78,20 +78,20 @@ namespace FiresecService
 				{
 					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 
-					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
-					{
-						var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-						if (door != null)
-						{
-							if (door.EnterZoneUID != Guid.Empty)
-							{
-								using (var passJournalTranslator = new PassJournalTranslator())
-								{
-									passJournalTranslator.AddPassJournal(journalItem.EmployeeUID, door.EnterZoneUID);
-								}
-							}
-						}
-					}
+					//if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
+					//{
+					//    var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+					//    if (door != null)
+					//    {
+					//        if (door.EnterZoneUID != Guid.Empty)
+					//        {
+					//            using (var passJournalTranslator = new PassJournalTranslator())
+					//            {
+					//                passJournalTranslator.AddPassJournal(journalItem.EmployeeUID, door.EnterZoneUID);
+					//            }
+					//        }
+					//    }
+					//}
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
@@ -118,7 +118,7 @@ namespace FiresecService
 								var card = operationResult.Result;
 								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 								var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
-								var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.Name : "";
+								var employeeName = employeeOperationResult.Result != null ? employeeOperationResult.Result.FIO : "";
 								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
 								{
 									var addGKResult = gkSKDHelper.AddOneCard(deviceState.Device, card, getAccessTemplateOperationResult.Result, employeeName);

@@ -21,8 +21,6 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string ShortName { get; set; }
-		public DoorType DefaultDoorType { get; set; }
-		public bool CanChangeDoorType { get; set; }
 
 		public List<SKDDriverProperty> Properties { get; set; }
 		public List<XStateClass> AvailableStateClasses { get; set; }

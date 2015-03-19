@@ -150,7 +150,7 @@
 						</TextBlock>
 					</StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для переврда в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
+                        <TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeOpenRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">

@@ -36,6 +36,19 @@ namespace GKModule.Plans.Designer
 			var contextMenu = new ContextMenu();
 			if (Item != null)
 			{
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Поставить на охрану",
+					"pack://application:,,,/Controls;component/Images/BTurnOff.png",
+					_guardZoneViewModel.TurnOnInAutomaticCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Поставить на охрану немедленно",
+					"pack://application:,,,/Controls;component/Images/BTurnOff.png",
+					_guardZoneViewModel.TurnOnNowInAutomaticCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Снять с охраны",
+					"pack://application:,,,/Controls;component/Images/BResetIgnore.png",
+					_guardZoneViewModel.TurnOffInAutomaticCommand));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Снять с охраны немедленно",
+					"pack://application:,,,/Controls;component/Images/BResetIgnore.png",
+					_guardZoneViewModel.TurnOffNowInAutomaticCommand));
 				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 				contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Показать связанные события",

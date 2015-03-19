@@ -55,6 +55,7 @@ namespace Infrastructure.Common
 		public static void Reset()
 		{
 			GlobalSettings = new GlobalSettings();
+			GlobalSettings.ModuleItems.Add("SettingsModule.dll");
 			Save();
 		}
 	}

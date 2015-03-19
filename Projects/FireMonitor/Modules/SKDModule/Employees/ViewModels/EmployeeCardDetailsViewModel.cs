@@ -294,14 +294,11 @@ namespace SKDModule.ViewModels
 				{
 					if (value)
 					{
-						IsThreadPolling = true;
-						PollReaderThread = new Thread(OnPollReader);
-						PollReaderThread.Start();
+						StartPollThread();
 					}
 					else
 					{
-						IsThreadPolling = false;
-						PollReaderThread.Join(TimeSpan.FromSeconds(2));
+						StopPollThread();
 					}
 				}
 				{
@@ -314,6 +311,23 @@ namespace SKDModule.ViewModels
 						ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
 					}
 				}
+			}
+		}
+
+		void StartPollThread()
+		{
+			StopPollThread();
+			IsThreadPolling = true;
+			PollReaderThread = new Thread(OnPollReader);
+			PollReaderThread.Start();
+		}
+
+		void StopPollThread()
+		{
+			IsThreadPolling = false;
+			if (PollReaderThread != null)
+			{
+				PollReaderThread.Join(TimeSpan.FromSeconds(2));
 			}
 		}
 
@@ -354,33 +368,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ChangeDeactivationControllerCommand { get; private set; }
-		void OnChangeDeactivationController()
-		{
-			var controllerSelectationViewModel = new ControllerSelectationViewModel(DeactivationControllerUID);
-			if (DialogService.ShowModalWindow(controllerSelectationViewModel))
-			{
-				DeactivationControllerUID = controllerSelectationViewModel.SelectedDevice.UID;
-				OnPropertyChanged(() => DeactivationControllerName);
-			}
-		}
-
-		public string DeactivationControllerName
-		{
-			get
-			{
-				var controllerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == DeactivationControllerUID);
-				if (controllerDevice != null)
-				{
-					return controllerDevice.Name;
-				}
-				else
-				{
-					return "Нажмите для выбора контроллера";
-				}
-			}
-		}
-
 		public RelayCommand ChangeReaderCommand { get; private set; }
 		void OnChangeReader()
 		{
@@ -390,6 +377,7 @@ namespace SKDModule.ViewModels
 				if (DialogService.ShowModalWindow(readerSelectationViewModel))
 				{
 					OnPropertyChanged(() => ReaderName);
+					UseReader = UseReader;
 				}
 			}
 			else
@@ -433,6 +421,33 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public RelayCommand ChangeDeactivationControllerCommand { get; private set; }
+		void OnChangeDeactivationController()
+		{
+			var controllerSelectationViewModel = new ControllerSelectationViewModel(DeactivationControllerUID);
+			if (DialogService.ShowModalWindow(controllerSelectationViewModel))
+			{
+				DeactivationControllerUID = controllerSelectationViewModel.SelectedDevice.UID;
+				OnPropertyChanged(() => DeactivationControllerName);
+			}
+		}
+
+		public string DeactivationControllerName
+		{
+			get
+			{
+				var controllerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == DeactivationControllerUID);
+				if (controllerDevice != null)
+				{
+					return controllerDevice.Name;
+				}
+				else
+				{
+					return "Нажмите для выбора контроллера";
+				}
+			}
+		}
+
 		public RelayCommand ShowUSBCardReaderCommand { get; private set; }
 		void OnShowUSBCardReader()
 		{
@@ -462,7 +477,7 @@ namespace SKDModule.ViewModels
 
 			if(Number <= 0)
 			{
-				MessageBoxService.ShowWarning("Не задан номер карты");
+				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
 				return false;
 			}
 
@@ -540,6 +555,12 @@ namespace SKDModule.ViewModels
 				return false;
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
+		}
+
+		public override void OnClosed()
+		{
+			StopPollThread();
+			base.OnClosed();
 		}
 
 		bool Validate()

@@ -273,7 +273,7 @@ namespace FiresecService.Service
 								if (employee != null)
 								{
 									gkSKDHelper = new GKSKDHelper();
-									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.Name);
+									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.FIO);
 								}
 							}
 						}
@@ -497,7 +497,7 @@ namespace FiresecService.Service
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GKProcessorManager.GKGetReaderCode(device);
+				return GKProcessorManager.GKGetReaderCode(device);
 			}
 			return new OperationResult<uint>("Не найдено устройство в конфигурации");
 		}

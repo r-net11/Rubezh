@@ -200,15 +200,16 @@ namespace GKProcessor
 				else
 				{
 					Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
-					if (commandStateBit == GKStateBit.Fire1)
-					{
-						if (count > 0)
-						{
-							Formula.Add(FormulaOperationType.OR);
-						}
-						count++;
-						Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
-					}
+				}
+				if (commandStateBit == GKStateBit.Fire1)
+				{
+					//if (count > 0)
+					//{
+					//    Formula.Add(FormulaOperationType.OR);
+					//}
+					//count++;
+					Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
+					Formula.Add(FormulaOperationType.OR);
 				}
 				if (count > 0)
 				{
@@ -247,6 +248,17 @@ namespace GKProcessor
 							if (count > 0 && ChangeGuardDevices.Count > 0)
 							{
 								Formula.Add(FormulaOperationType.OR);
+							}
+						}
+						if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
+						{
+							foreach (var setAlarmDevice in SetAlarmDevices)
+							{
+								Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Device, DatabaseType);
+								Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Device, DatabaseType);
+								Formula.Add(FormulaOperationType.OR);
+								Formula.Add(FormulaOperationType.COM);
+								Formula.Add(FormulaOperationType.AND);
 							}
 						}
 						Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);

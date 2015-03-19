@@ -18,6 +18,8 @@ namespace FiresecAPI.GK
 		{
 			PlanElementUIDs = new List<Guid>();
 			OpenRegimeLogic = new GKLogic();
+			Delay = 2;
+			Hold = 2;
 		}
 
 		[XmlIgnore]

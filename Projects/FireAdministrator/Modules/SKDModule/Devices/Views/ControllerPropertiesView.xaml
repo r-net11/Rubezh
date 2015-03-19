@@ -13,7 +13,7 @@
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Дата выпуска ПО" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding SoftwareBuildDate}" Margin="2" />
+                        <TextBlock Text="{Binding SoftwareBuildDate, StringFormat=dd-MM-yyyy}" Margin="2" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Версия ПО" Width="200" HorizontalAlignment="Right" Margin="2" />

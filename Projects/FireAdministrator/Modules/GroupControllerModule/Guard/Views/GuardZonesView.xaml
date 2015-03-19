@@ -61,6 +61,7 @@
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
 						<DataGridTextColumn Width="Auto" Binding="{Binding GuardZoneDevice.Device.DottedPresentationAddress}" Header="Адрес" />
+						<DataGridTextColumn Width="*" Binding="{Binding PresentationZone}" Header="Логика" />
 						<DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Функция">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>

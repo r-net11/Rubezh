@@ -14,6 +14,7 @@ namespace FiresecAPI.GK
 		public GKGuardZoneDevice()
 		{
 			CodeReaderSettings = new GKCodeReaderSettings();
+			Device = new GKDevice();
 		}
 
 		[XmlIgnore]

@@ -220,7 +220,8 @@ namespace SettingsModule.ViewModels
 			{
 				GlobalSettingsHelper.Reset();
 				ModulesViewModel = new ModulesViewModel();
-				OnPropertyChanged(() => "GlobalSettingsViewModel");
+				OnPropertyChanged(() => ModulesViewModel);
+				OnPropertyChanged(() => GlobalSettings);
 			}
 		}
 

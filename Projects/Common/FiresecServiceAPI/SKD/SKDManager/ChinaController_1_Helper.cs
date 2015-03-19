@@ -13,8 +13,6 @@ namespace FiresecAPI.SKD
 				Name = "Контроллер на одну дверь",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.ChinaController_1,
-				DefaultDoorType = DoorType.TwoWay,
-				CanChangeDoorType = false,
 				IsPlaceable = true
 			};
 			driver.Children.Add(SKDDriverType.Reader);

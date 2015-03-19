@@ -85,6 +85,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => PresentationAddress);
 			OnPropertyChanged(() => PresentationZone);
 			OnPropertyChanged(() => EditingPresentationZone);
+			OnPropertyChanged(() => GuardPresentationZone);
+			OnPropertyChanged(() => IsFireAndGuard);
 			OnPropertyChanged(() => IsParamtersEnabled);
 		}
 
@@ -150,6 +152,8 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => ShowOnPlan);
 				OnPropertyChanged(() => PresentationZone);
 				OnPropertyChanged(() => EditingPresentationZone);
+				OnPropertyChanged(() => GuardPresentationZone);
+				OnPropertyChanged(() => IsFireAndGuard);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -297,6 +301,18 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public string GuardPresentationZone
+		{
+			get
+			{
+				if (Device.IsNotUsed)
+					return null;
+				if (!(Driver.HasZone && Driver.HasGuardZone))
+					return null;
+				return GKManager.GetPresentationGuardZone(Device);
+			}
+		}
+
 		public string EditingPresentationZone
 		{
 			get
@@ -314,6 +330,11 @@ namespace GKModule.ViewModels
 				}
 				return presentationZone;
 			}
+		}
+
+		public bool IsFireAndGuard 
+		{
+			get { return Driver.HasZone && Driver.HasGuardZone; }
 		}
 
 		bool _isLogicGrayed;
@@ -537,6 +558,8 @@ namespace GKModule.ViewModels
 					OnPropertyChanged(() => Device);
 					OnPropertyChanged(() => Children);
 					OnPropertyChanged(() => EditingPresentationZone);
+					OnPropertyChanged(() => GuardPresentationZone);
+					OnPropertyChanged(() => IsFireAndGuard);
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged(() => PropertiesViewModel);
 					if (Device.KAURSR2Parent != null)

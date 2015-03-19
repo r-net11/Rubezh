@@ -99,7 +99,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Phone { get; set; }
 
-		public string Name { get { return FirstName + " " + SecondName + " " + LastName; } }
+		public string Name { get { return LastName + " " + FirstName + " " + SecondName; } }
 		public string FIO { get { return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : ""); } }
 	}
 

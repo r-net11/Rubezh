@@ -29,25 +29,30 @@ namespace FiresecClient
 
 			if (device.Driver.HasGuardZone)
 			{
-				var stringBuilder = new StringBuilder();
-				if (device.GuardZones == null)
-					device.GuardZones = new List<GKGuardZone>();
-				if (device.GuardZones.Count == 1)
-				{
-					stringBuilder.Append(device.GuardZones[0].PresentationName);
-				}
-				else if (device.GuardZones.Count > 1)
-				{
-					stringBuilder.Append("зоны: ");
-					stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones)));
-				}
-				return stringBuilder.ToString();
+				return GetPresentationGuardZone(device);
 			}
 
 			if (device.Driver.HasLogic && device.Logic != null)
 				return GetPresentationLogic(device.Logic);
 
 			return "";
+		}
+
+		public static string GetPresentationGuardZone(GKDevice device)
+		{
+			var stringBuilder = new StringBuilder();
+			if (device.GuardZones == null)
+				device.GuardZones = new List<GKGuardZone>();
+			if (device.GuardZones.Count == 1)
+			{
+				stringBuilder.Append(device.GuardZones[0].PresentationName);
+			}
+			else if (device.GuardZones.Count > 1)
+			{
+				stringBuilder.Append("зоны: ");
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones)));
+			}
+			return stringBuilder.ToString();
 		}
 
 		public static string GetPresentationLogic(GKLogic logic)

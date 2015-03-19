@@ -15,6 +15,7 @@ namespace FiresecAPI.GK
 	{
 		public GKGuardZone()
 		{
+			DeviceUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
 			GuardZoneDevices = new List<GKGuardZoneDevice>();
 			Pim = new GKPim();
