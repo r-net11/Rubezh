@@ -12,10 +12,16 @@ namespace Infrastructure.Common.CheckBoxList
 			{
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
-				if (ItemsList != null)
-					ItemsList.Update();
+				Update(value);
 			}
 		}
+
+		protected virtual void Update(bool value)
+		{
+			if (ItemsList != null)
+				ItemsList.Update();
+		}
+
 		public ICheckBoxItemList ItemsList { get; set; }
 	}
 }

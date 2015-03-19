@@ -5,6 +5,7 @@ using FiresecAPI.SKD.ReportFilters;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
+using Infrastructure.Events;
 
 namespace ReportsModule.ViewModels
 {
@@ -250,6 +251,7 @@ namespace ReportsModule.ViewModels
 			{
 				_useArchive = value;
 				OnPropertyChanged(() => UseArchive);
+				ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Publish(value);
 			}
 		}
 

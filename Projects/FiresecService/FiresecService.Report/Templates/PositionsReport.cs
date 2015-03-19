@@ -26,8 +26,20 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<PositionsReportFilter>();
 			var databaseService = new SKDDatabaseService();
 			dataProvider.LoadCache();
+			Guid organisationUID = Guid.Empty;
+			var organisations = dataProvider.Organisations.Where(org => org.Value.Item.UserUIDs.Any(y => y == filter.UserUID));
+			if (!filter.UseArchive)
+				organisations = organisations.Where(org => !org.Value.IsDeleted);
 			if (filter.Organisations.IsEmpty())
-				filter.Organisations = new List<Guid>() { dataProvider.Organisations.First(org => !org.Value.IsDeleted && org.Value.Item.UserUIDs.Any(y => y == filter.UserUID)).Value.UID };
+			{
+				if (filter.Name == "По умолчанию")
+					organisationUID = organisations.FirstOrDefault().Key;
+			}
+			else
+			{
+				organisationUID = organisations.FirstOrDefault(org => org.Key == filter.Organisations.FirstOrDefault()).Key;
+			}
+			filter.Organisations = new List<Guid>() { organisationUID };
 
 			var positionFilter = new PositionFilter()
 			{

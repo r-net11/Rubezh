@@ -246,6 +246,8 @@
     <Compile Include="Reports\Providers\CardsReportProvider.cs" />
     <Compile Include="Reports\T13Report.cs" />
     <Compile Include="Reports\ViewModels\CheckedItemViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportFilterOrganisationViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportOrganisationsFilterViewModel.cs" />
     <Compile Include="Reports\ViewModels\ScheduleSchemePageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DoorPageViewModel.cs" />
     <Compile Include="Reports\ViewModels\DisciplinaryFilterPageViewModel.cs" />

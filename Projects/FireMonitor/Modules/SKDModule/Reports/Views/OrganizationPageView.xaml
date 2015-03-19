@@ -16,7 +16,7 @@
 							<CheckBox Margin="2 0" VerticalAlignment="Center" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" />
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                                    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</CheckBox>
 						</DataTemplate>
@@ -28,7 +28,7 @@
 							<RadioButton Margin="2 0" VerticalAlignment="Center" GroupName="Organisation" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" />
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                                    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource IsDeletedStyle}" />
 								</StackPanel>
 							</RadioButton>
 						</DataTemplate>
@@ -37,7 +37,7 @@
 				<DataGridTemplateColumn Width="*" Header="Примечание">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" />
+                            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Description}" Style="{StaticResource IsDeletedStyle}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

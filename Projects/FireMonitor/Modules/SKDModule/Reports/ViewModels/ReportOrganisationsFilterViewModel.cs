@@ -9,24 +9,24 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationsFilterViewModel : BaseViewModel
+	public class ReportOrganisationsFilterViewModel : BaseViewModel
 	{
-		public CheckBoxItemList<FilterOrganisationViewModel> Organisations { get; private set; }
+		public CheckBoxItemList<ReportFilterOrganisationViewModel> Organisations { get; private set; }
 		public List<Guid> UIDs { get { return Organisations.Items.Where(x => x.IsChecked).Select(x => x.Organisation.UID).ToList(); } }
-		
-		public OrganisationsFilterViewModel(bool isWithDeleted = false)
+
+		public ReportOrganisationsFilterViewModel(bool isWithDeleted = false)
 		{
-			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
+			Organisations = new CheckBoxItemList<ReportFilterOrganisationViewModel>();
 			var filter = new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			if (isWithDeleted)
 				filter.LogicalDeletationType = LogicalDeletationType.All;
 			var organisations = OrganisationHelper.Get(filter);
 			if (organisations != null)
 			{
-				Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
+				Organisations = new CheckBoxItemList<ReportFilterOrganisationViewModel>();
 				foreach (var organisation in organisations)
 				{
-					Organisations.Add(new FilterOrganisationViewModel(organisation));
+					Organisations.Add(new ReportFilterOrganisationViewModel(organisation));
 				}
 			}
 		}
