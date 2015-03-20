@@ -48,5 +48,8 @@ namespace FiresecAPI.Journal
 
 		[DescriptionAttribute("Пользователи ГК")]
 		GKUser,
+
+		[DescriptionAttribute("Зоны СКД ГК")]
+		GKSKDZone,
 	}
 }

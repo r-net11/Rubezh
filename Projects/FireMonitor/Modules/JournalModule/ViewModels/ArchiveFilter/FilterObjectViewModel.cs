@@ -81,6 +81,10 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
+				case JournalObjectType.GKSKDZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
 				case JournalObjectType.GKDoor:
 					ImageSource = "/Controls;component/Images/Door.png";
 					break;
@@ -150,6 +154,13 @@ namespace JournalModule.ViewModels
 			Name = guardZone.PresentationName;
 			UID = guardZone.UID;
 			ImageSource = "/Controls;component/Images/GuardZone.png";
+		}
+
+		public FilterObjectViewModel(GKSKDZone skdZone)
+		{
+			Name = skdZone.PresentationName;
+			UID = skdZone.UID;
+			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
 		public FilterObjectViewModel(GKDoor door)

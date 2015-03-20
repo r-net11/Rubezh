@@ -9,6 +9,7 @@ using SKDDriver;
 using ChinaSKDDriver;
 using FiresecAPI.SKD;
 using SKDDriver.Translators;
+using System.Collections.Generic;
 
 namespace FiresecService
 {
@@ -77,21 +78,22 @@ namespace FiresecService
 				foreach (var journalItem in gkCallbackResult.JournalItems)
 				{
 					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
+				}
+			}
 
-					//if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
-					//{
-					//    var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-					//    if (door != null)
-					//    {
-					//        if (door.EnterZoneUID != Guid.Empty)
-					//        {
-					//            using (var passJournalTranslator = new PassJournalTranslator())
-					//            {
-					//                passJournalTranslator.AddPassJournal(journalItem.EmployeeUID, door.EnterZoneUID);
-					//            }
-					//        }
-					//    }
-					//}
+			foreach (var doorState in gkCallbackResult.GKStates.DoorStates)
+			{
+				if (doorState.Door != null)
+				{
+					var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == doorState.Door.EnterZoneUID || x.UID == doorState.Door.ExitZoneUID);
+					if (zone != null)
+					{
+						GKProcessorManager.CalculateSKDZone(zone);
+						if (!gkCallbackResult.GKStates.SKDZoneStates.Any(x => x.UID == zone.UID))
+						{
+							gkCallbackResult.GKStates.SKDZoneStates.Add(zone.State);
+						}
+					}
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);

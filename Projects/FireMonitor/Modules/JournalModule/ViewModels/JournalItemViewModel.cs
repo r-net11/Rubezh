@@ -37,6 +37,7 @@ namespace JournalModule.ViewModels
 		GKDelay Delay { get; set; }
 		GKPim Pim { get; set; }
 		GKGuardZone GuardZone { get; set; }
+		GKSKDZone GKSKDZone { get; set; }
 		GKDoor GKDoor { get; set; }
 		SKDDevice SKDDevice { get; set; }
 		SKDZone SKDZone { get; set; }
@@ -209,6 +210,17 @@ namespace JournalModule.ViewModels
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
+				case JournalObjectType.GKSKDZone:
+					GKSKDZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (GKSKDZone != null)
+					{
+						ObjectName = GKSKDZone.PresentationName;
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowGKSKDZoneDetailsEvent>();
+					}
+					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
 				case JournalObjectType.GKDoor:
 					GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (GKDoor != null)
@@ -354,6 +366,18 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowGuardZone(GuardZone);
 					}
 					break;
+				case JournalObjectType.GKSKDZone:
+					if (GKSKDZone != null)
+					{
+						ShowOnPlanHelper.ShowGKSKDZone(GKSKDZone);
+					}
+					break;
+				case JournalObjectType.GKDoor:
+					if (GKDoor != null)
+					{
+						ShowOnPlanHelper.ShowDoor(GKDoor);
+					}
+					break;
 				case JournalObjectType.SKDDevice:
 					if (SKDDevice != null)
 					{
@@ -403,6 +427,18 @@ namespace JournalModule.ViewModels
 					if (GuardZone != null)
 					{
 						return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
+					}
+					break;
+				case JournalObjectType.GKSKDZone:
+					if (GKSKDZone != null)
+					{
+						return ShowOnPlanHelper.CanShowGKSKDZone(GKSKDZone);
+					}
+					break;
+				case JournalObjectType.GKDoor:
+					if (GKDoor != null)
+					{
+						return ShowOnPlanHelper.CanShowDoor(GKDoor);
 					}
 					break;
 				case JournalObjectType.SKDDevice:

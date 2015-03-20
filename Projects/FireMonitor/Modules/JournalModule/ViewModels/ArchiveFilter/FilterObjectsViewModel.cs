@@ -168,6 +168,14 @@ namespace JournalModule.ViewModels
 				AddChild(gkGuardZonesViewModel, filterObjectViewModel);
 			}
 
+			var gkSKDZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKSKDZone);
+			AddChild(gkViewModel, gkSKDZonesViewModel);
+			foreach (var skdZone in FiresecClient.GKManager.SKDZones)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(skdZone);
+				AddChild(gkSKDZonesViewModel, filterObjectViewModel);
+			}
+
 			var gkDoorsViewModel = new FilterObjectViewModel(JournalObjectType.GKDoor);
 			AddChild(gkViewModel, gkDoorsViewModel);
 			foreach (var door in FiresecClient.GKManager.Doors)

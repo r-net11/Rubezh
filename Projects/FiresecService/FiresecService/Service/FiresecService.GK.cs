@@ -502,6 +502,24 @@ namespace FiresecService.Service
 			return new OperationResult<uint>("Не найдено устройство в конфигурации");
 		}
 
+		public void GKOpenSKDZone(Guid zoneUID)
+		{
+			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				GKProcessorManager.GKOpenSKDZone(zone);
+			}
+		}
+
+		public void GKCloseSKDZone(Guid zoneUID)
+		{
+			var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				GKProcessorManager.GKCloseSKDZone(zone);
+			}
+		}
+
 		#region Users
 		public OperationResult<bool> GKAddUser(Guid deviceUID)
 		{

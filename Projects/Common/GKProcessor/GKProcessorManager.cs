@@ -357,8 +357,33 @@ namespace GKProcessor
 			foreach (var skdZone in GKManager.SKDZones)
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, skdZone);
+				CalculateSKDZone(skdZone);
+				var zoneState = gkStates.SKDZoneStates.FirstOrDefault(x => x.UID == skdZone.UID);
+				if (zoneState != null)
+				{
+					zoneState.StateClasses = skdZone.State.StateClasses;
+					zoneState.StateClass = GKStatesHelper.GetMinStateClass(skdZone.State.StateClasses);
+				}
 			}
 			return gkStates;
+		}
+
+		public static void CalculateSKDZone(GKSKDZone zone)
+		{
+			var stateClasses = new HashSet<XStateClass>();
+			zone.State = new GKState(zone);
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.EnterZoneUID == zone.UID || door.ExitZoneUID == zone.UID)
+				{
+					foreach (var stateClass in door.State.StateClasses)
+					{
+						stateClasses.Add(stateClass);
+					}
+				}
+			}
+			zone.State.StateClasses = stateClasses.ToList();
+			zone.State.StateClass = GKStatesHelper.GetMinStateClass(zone.State.StateClasses);
 		}
 
 		public static void GKExecuteDeviceCommand(GKDevice device, GKStateBit stateBit, string userName)
@@ -481,17 +506,35 @@ namespace GKProcessor
 			if (!sendResult.HasError)
 			{
 				var code = BytesHelper.SubstructInt(sendResult.Bytes, 52);
-#if DEBUG
-				System.Diagnostics.Trace.WriteLine("");
-				var bytesString = BytesHelper.BytesToString(sendResult.Bytes);
-				System.Diagnostics.Trace.WriteLine(bytesString);
-				System.Diagnostics.Trace.WriteLine(code);
-#endif
 				return new OperationResult<uint>() { Result = (uint)code };
 			}
 			else
 			{
 				return new OperationResult<uint>(sendResult.Error);
+			}
+		}
+
+		public static void GKOpenSKDZone(GKSKDZone zone)
+		{
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.EnterZoneUID == zone.UID)
+				{
+					GKProcessorManager.AddGKMessage(JournalEventNameType.Открытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
+					Watcher.SendControlCommand(door, GKStateBit.TurnOn_InAutomatic, "Включить в автоматике");
+				}
+			}
+		}
+
+		public static void GKCloseSKDZone(GKSKDZone zone)
+		{
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.EnterZoneUID == zone.UID)
+				{
+					GKProcessorManager.AddGKMessage(JournalEventNameType.Закрытие_зоны_СКД, JournalEventDescriptionType.NULL, "", zone, null);
+					Watcher.SendControlCommand(door, GKStateBit.TurnOff_InAutomatic, "Включить в автоматике");
+				}
 			}
 		}
 
@@ -534,6 +577,10 @@ namespace GKProcessor
 				if (gkBase is GKGuardZone)
 				{
 					journalObjectType = JournalObjectType.GKGuardZone;
+				}
+				if (gkBase is GKSKDZone)
+				{
+					journalObjectType = JournalObjectType.GKSKDZone;
 				}
 				if (gkBase is GKDoor)
 				{

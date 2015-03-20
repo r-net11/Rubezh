@@ -81,13 +81,13 @@ namespace GKModule.Plans.Designer
 				case XStateClass.HasNoLicense:
 					return Colors.DarkGray;
 
-				case XStateClass.On:
-					return Colors.Blue;
-				case XStateClass.TurningOn:
-					return Colors.LightBlue;
-				case XStateClass.Norm:
 				case XStateClass.Off:
 					return Colors.Green;
+				case XStateClass.TurningOff:
+					return Colors.LightGreen;
+				case XStateClass.Norm:
+				case XStateClass.On:
+					return Colors.Blue;
 
 				case XStateClass.AutoOff:
 					return Colors.Gray;

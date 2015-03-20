@@ -22,7 +22,7 @@
 									<Setter Property="Margin" Value="0" />
 									<Setter Property="VerticalContentAlignment" Value="Center" />
 									<Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
+                                    <Setter Property="Background" Value="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" />
 									<Setter Property="BorderThickness" Value="1" />
 									<Setter Property="BorderBrush" Value="Transparent" />
 									<Setter Property="Foreground" Value="Black" />
@@ -42,7 +42,7 @@
 							</ListBox.ItemContainerStyle>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter}}">
+                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}">
 										<Grid.ToolTip>
                                             <Views:SKDZoneToolTipView />
 										</Grid.ToolTip>

@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.GKOpenSKDZone(SKDZone);
+				FiresecManager.FiresecService.GKOpenSKDZone(SKDZone);
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.GKCloseSKDZone(SKDZone);
+				FiresecManager.FiresecService.GKCloseSKDZone(SKDZone);
 			}
 		}
 
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 		{
 			var showArchiveEventArgs = new ShowArchiveEventArgs()
 			{
-				//GKSKDZone = SKDZone
+				GKSKDZone = SKDZone
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}

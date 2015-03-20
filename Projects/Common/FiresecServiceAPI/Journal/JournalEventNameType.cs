@@ -619,5 +619,11 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление шаблона пропуска", XStateClass.Info)]
 		Восстановление_шаблона_пропуска,
+
+		[EventName(JournalSubsystemType.GK, "Открытие зоны СКД", XStateClass.On)]
+		Открытие_зоны_СКД,
+
+		[EventName(JournalSubsystemType.GK, "Закрытие зоны СКД", XStateClass.Off)]
+		Закрытие_зоны_СКД,
 	}
 }

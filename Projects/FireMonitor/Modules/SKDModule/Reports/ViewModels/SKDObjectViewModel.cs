@@ -58,6 +58,10 @@ namespace SKDModule.Reports.ViewModels
 					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
+				case JournalObjectType.GKSKDZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
 				case JournalObjectType.GKDoor:
 					ImageSource = "/Controls;component/Images/Door.png";
 					break;
