@@ -297,6 +297,8 @@ namespace GKProcessor
 												var kauCount = gkDevice.AllChildren.FindAll(x => x.Driver.IsKauOrRSR2Kau).Count;
 												if (firstAdditionalDescription == "0")
 													firstAdditionalDescription = "ГК";
+												else
+													firstAdditionalDescription = "КАУ " + bytes[32 + 16];
 												secondAdditionalDescription = bytes[32 + 17] > kauCount ? "ГК" : "КАУ " + bytes[32 + 17];
 											}
 										}

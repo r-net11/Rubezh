@@ -44,8 +44,10 @@ namespace FiresecAPI.GK
 			set
 			{
 				_isLogicOnKau = value;
-				MainDelay.IsLogicOnKau = true;
-				Pim.IsLogicOnKau = true;
+				if (MainDelay != null)
+					MainDelay.IsLogicOnKau = true;
+				if (Pim != null)
+					Pim.IsLogicOnKau = true;
 			}
 		}
 		[XmlIgnore]

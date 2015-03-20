@@ -25,8 +25,8 @@ namespace GKModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			MPT = mpt;
 			MPTDetailsViewModel = new MPTDetailsViewModel(MPT);
-			State.StateChanged -= new System.Action(OnStateChanged);
-			State.StateChanged += new System.Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
 			Devices = new ObservableCollection<DeviceViewModel>();

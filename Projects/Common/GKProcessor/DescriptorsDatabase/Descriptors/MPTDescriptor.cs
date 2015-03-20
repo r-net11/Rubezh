@@ -37,15 +37,20 @@ namespace GKProcessor
 				return;
 			}
 
+			if (MPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+			{
+				Formula.AddClauseFormula(MPT.SuspendLogic.OnClausesGroup, DatabaseType);
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT, DatabaseType);
+			}
+
 			if (MPT.StartLogic.OnClausesGroup.GetObjects().Count > 0)
 			{
+				if (MPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+					Formula.Add(FormulaOperationType.COM);
 				Formula.AddClauseFormula(MPT.StartLogic.OnClausesGroup, DatabaseType);
-				//if (MPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
-				//{
-				//    Formula.AddClauseFormula(MPT.SuspendLogic.OnClausesGroup, DatabaseType);
-				//    Formula.Add(FormulaOperationType.COM);
-				//    Formula.Add(FormulaOperationType.AND);
-				//}
+				if (MPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
+					Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, MPT, DatabaseType);
 			}
 
@@ -59,12 +64,6 @@ namespace GKProcessor
 			SetRegime(GKMPTDeviceType.HandStop, GKStateBit.TurnOff_InManual);
 			SetRegime(GKMPTDeviceType.HandAutomaticOn, GKStateBit.SetRegime_Automatic);
 			SetRegime(GKMPTDeviceType.HandAutomaticOff, GKStateBit.SetRegime_Manual);
-
-			if (MPT.SuspendLogic.OnClausesGroup.GetObjects().Count > 0)
-			{
-				Formula.AddClauseFormula(MPT.SuspendLogic.OnClausesGroup, DatabaseType);
-				Formula.AddPutBit(GKStateBit.Stop_InManual, MPT, DatabaseType);
-			}
 
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
