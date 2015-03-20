@@ -113,8 +113,11 @@ namespace SKDModule.ViewModels
 			if (card != null)
 			{
 				var employee = EmployeeHelper.GetSingleShort(employeeUID);
-				card.Card.EmployeeName = employee.Name;
-				card.Update(card.Card);
+				if (employee != null)
+				{
+					card.Card.EmployeeName = employee.Name;
+					card.Update(card.Card);
+				}
 			}
 		}
 

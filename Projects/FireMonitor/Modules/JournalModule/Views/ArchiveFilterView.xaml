@@ -92,7 +92,8 @@
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-											<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" Margin="2" />
+                                            <CheckBox IsChecked="{Binding IsChecked}" />
+                                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" Margin="2" />
 										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>

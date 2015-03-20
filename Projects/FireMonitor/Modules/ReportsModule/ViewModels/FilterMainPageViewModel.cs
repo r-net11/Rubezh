@@ -5,6 +5,7 @@ using FiresecAPI.SKD.ReportFilters;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 
 namespace ReportsModule.ViewModels
@@ -72,6 +73,11 @@ namespace ReportsModule.ViewModels
 		public RelayCommand SaveFilterCommand { get; private set; }
 		private void OnSaveFilter()
 		{
+			if (FilterName.Length > 50)
+			{
+				MessageBoxService.Show("Название фильтра не может быть длиннее 50 символов");
+				return;
+			}
 			_isLoaded = false;
 			var filter = (SKDReportFilter)Activator.CreateInstance(_filterType);
 			_updateFilterAction(filter);
