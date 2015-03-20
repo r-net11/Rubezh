@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using FiresecClient;
 using Infrustructure.Plans.Interfaces;
 using System.Xml.Serialization;
 

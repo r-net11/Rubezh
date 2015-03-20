@@ -12,13 +12,17 @@ namespace GKProcessor
 				DriverTypeNo = 0x03,
 				DriverType = GKDriverType.RSR2_Bush_Fire,
 				UID = new Guid("6C9192C9-2841-46b6-B653-7834EFA41041"),
-				Name = "Прибор пожарный управлления Пожарным Насосом",
+				Name = "Прибор пожарный управления Пожарным Насосом",
 				ShortName = "ППУ ПН R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
 				IsPlaceable = true
 			};
+
+			driver.AvailableStateBits.Add(GKStateBit.Off);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddControlAvailableStates(driver);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);

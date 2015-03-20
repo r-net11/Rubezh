@@ -42,6 +42,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
+			ShowDoorCommand = new RelayCommand(OnShowDoor);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -88,6 +89,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => GuardPresentationZone);
 			OnPropertyChanged(() => IsFireAndGuard);
 			OnPropertyChanged(() => IsParamtersEnabled);
+			OnPropertyChanged(() => IsInDoor);
 		}
 
 		public void UpdateProperties()
@@ -103,6 +105,15 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => Description);
+		}
+
+		public bool IsInDoor
+		{
+			get
+			{
+				return GKManager.Doors.Any(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
+				   || x.LockDeviceUID == Device.UID || x.LockControlDeviceUID == Device.UID);
+			}
 		}
 
 		public string Address
@@ -653,6 +664,18 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public string DoorName
+		{
+			get
+			{
+				var door = GKManager.Doors.FirstOrDefault(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
+					|| x.LockDeviceUID == Device.UID || x.LockControlDeviceUID == Device.UID);
+				if (door != null)
+					return door.Name;
+				return null;
+			}
+		}
+
 		public RelayCommand ShowMPTCommand { get; private set; }
 		void OnShowMPT()
 		{
@@ -663,6 +686,15 @@ namespace GKModule.ViewModels
 		bool CanShowMPT()
 		{
 			return true;
+		}
+
+		public RelayCommand ShowDoorCommand { get; private set; }
+		void OnShowDoor()
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.EnterDeviceUID == Device.UID || x.ExitDeviceUID == Device.UID
+					|| x.LockDeviceUID == Device.UID || x.LockControlDeviceUID == Device.UID);
+			if (door != null)
+				ServiceFactoryBase.Events.GetEvent<ShowGKDoorEvent>().Publish(door.UID);
 		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }

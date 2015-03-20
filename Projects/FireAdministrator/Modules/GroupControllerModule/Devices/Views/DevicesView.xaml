@@ -318,6 +318,19 @@
 							</TextBlock>
 						</StackPanel>
 
+						<StackPanel Orientation="Horizontal" Visibility="{Binding IsInDoor, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="Точка доступа " />
+
+							<TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/Door.png" />
+										<TextBlock Text="{Binding DoorName}" Margin="2" />
+									</StackPanel>
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
+
 						<Grid IsEnabled="{Binding IsParamtersEnabled}">
 							<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 						</Grid>

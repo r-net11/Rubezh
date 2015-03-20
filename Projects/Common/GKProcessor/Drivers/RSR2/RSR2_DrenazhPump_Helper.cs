@@ -12,13 +12,17 @@ namespace GKProcessor
 				DriverTypeNo = 0xE0,
 				DriverType = GKDriverType.RSR2_Bush_Drenazh,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
-				Name = "Прибор пожарный управлления Дренажным Насосом",
+				Name = "Прибор пожарный управления Дренажным Насосом",
 				ShortName = "ППУ ДН R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
 				IsPlaceable = true
 			};
+
+			driver.AvailableStateBits.Add(GKStateBit.Off);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddControlAvailableStates(driver);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);

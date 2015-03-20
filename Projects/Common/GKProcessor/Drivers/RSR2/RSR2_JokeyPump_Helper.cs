@@ -12,13 +12,17 @@ namespace GKProcessor
 				DriverTypeNo = 0x02,
 				DriverType = GKDriverType.RSR2_Bush_Jokey,
 				UID = new Guid("0F6B6AEE-4D7A-4e9d-9C16-0072CDC40932"),
-				Name = "Прибор пожарный управлления Жокей Насосом",
+				Name = "Прибор пожарный управления Жокей Насосом",
 				ShortName = "ППУ ЖН R2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
 				IsPlaceable = true
 			};
+
+			driver.AvailableStateBits.Add(GKStateBit.Off);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOn);
+			driver.AvailableStateBits.Add(GKStateBit.TurningOff);
 			GKDriversHelper.AddControlAvailableStates(driver);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
