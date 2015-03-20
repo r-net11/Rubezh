@@ -72,13 +72,31 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
+			if (EnterDevice != null)
+				EnterDevice.OnChanged();
+			if (ExitDevice != null)
+				ExitDevice.OnChanged();
+			if (LockDevice != null)
+				LockDevice.OnChanged();
+			if (LockControlDevice != null)
+				LockControlDevice.OnChanged();
+
 			EnterDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.EnterDeviceUID);
 			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
 			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
 			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
 			EnterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
 			ExitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
-			
+
+			if (EnterDevice != null)
+				EnterDevice.OnChanged();
+			if (ExitDevice != null)
+				ExitDevice.OnChanged();
+			if (LockDevice != null)
+				LockDevice.OnChanged();
+			if (LockControlDevice != null)
+				LockControlDevice.OnChanged();
+
 			if (ExitDevice != null)
 			{
 				if (Door.DoorType == GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.RSR2_AM_1)
