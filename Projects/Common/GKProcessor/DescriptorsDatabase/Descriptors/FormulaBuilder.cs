@@ -120,6 +120,7 @@ namespace GKProcessor
 							case ClauseOperationType.AllDirections:
 							case ClauseOperationType.AllMPTs:
 							case ClauseOperationType.AllDelays:
+							case ClauseOperationType.AllDoors:
 								Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
@@ -129,6 +130,7 @@ namespace GKProcessor
 							case ClauseOperationType.AnyDirection:
 							case ClauseOperationType.AnyMPT:
 							case ClauseOperationType.AnyDelay:
+							case ClauseOperationType.AnyDoor:
 								Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}
