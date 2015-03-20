@@ -25,7 +25,7 @@ namespace Infrastructure.Client.Converters
 					printE.Graphics.DrawImageUnscaled(img, printE.PageSettings.Bounds);
 					printE.HasMorePages = false;
 				};
-				pdx.DefaultPageSettings.PaperSize = new PaperSize("", 1169, 827);
+				pdx.DefaultPageSettings.PaperSize = new PaperSize("", 1500, 8000);
 				pdx.DefaultPageSettings.Landscape = true;
 				pdx.PrinterSettings.PrinterName = "Microsoft XPS Document Writer";
 				pdx.PrinterSettings.PrintToFile = true;
