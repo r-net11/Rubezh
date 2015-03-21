@@ -425,26 +425,6 @@
     <Compile Include="Departments\Views\DepartmentDetailsView.xaml.cs">
       <DependentUpon>DepartmentDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
-    <Compile Include="Devices\ViewModels\PlanLinkViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
-      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DeviceStateView.xaml.cs">
-      <DependentUpon>DeviceStateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DevicesView.xaml.cs">
-      <DependentUpon>DevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DeviceView.xaml.cs">
-      <DependentUpon>DeviceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeDetailsViewModel.cs" />
     <Compile Include="PassCard\Views\PassCardView.xaml.cs">
       <DependentUpon>PassCardView.xaml</DependentUpon>
@@ -478,23 +458,6 @@
     <Compile Include="TimeTrack\Shedules\Views\ScheduleZoneDetailsView.xaml.cs">
       <DependentUpon>ScheduleZoneDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Plans\Designer\DoorPainter.cs" />
-    <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
-    <Compile Include="Plans\Designer\SKDZonePainter.cs" />
-    <Compile Include="Plans\PlanMonitor.cs" />
-    <Compile Include="Plans\PlanPresenter.cs" />
-    <Compile Include="Plans\ViewModels\SKDDoorTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\SKDDeviceTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
-    <Compile Include="Plans\Views\SKDDoorTooltipView.xaml.cs">
-      <DependentUpon>SKDDoorTooltipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\SKDDeviceTooltipView.xaml.cs">
-      <DependentUpon>SKDDeviceTooltipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
-      <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
@@ -517,15 +480,6 @@
       <DependentUpon>VerificationlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
-      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Zones\Views\ZonesView.xaml.cs">
-      <DependentUpon>ZonesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationViewModel.cs" />
@@ -587,15 +541,6 @@
     </Compile>
     <Compile Include="HR\Views\HRView.xaml.cs">
       <DependentUpon>HRView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
-    <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
-    <Compile Include="Doors\ViewModels\DoorViewModel.cs" />
-    <Compile Include="Doors\Views\DoorDetailsView.xaml.cs">
-      <DependentUpon>DoorDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Doors\Views\DoorsView.xaml.cs">
-      <DependentUpon>DoorsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -922,18 +867,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Plans\Views\SKDDoorTooltipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\SKDDeviceTooltipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\SKDZoneTooltipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Organisations\Views\OrganisationDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -986,18 +919,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Zones\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Zones\Views\ZoneDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Zones\Views\ZonesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Organisations\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1047,44 +968,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="HR\Views\HRView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\Views\DoorDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Doors\Views\DoorsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Devices\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Devices\Views\DeviceDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Devices\Views\DeviceStateView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Devices\Views\DevicesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Devices\Views\DeviceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

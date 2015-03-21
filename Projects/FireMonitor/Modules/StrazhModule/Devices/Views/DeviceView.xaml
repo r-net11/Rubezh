@@ -1,0 +1,42 @@
+<UserControl x:Class="StrazhModule.Views.DeviceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Views="clr-namespace:StrazhModule.Views">
+
+	<StackPanel Orientation="Horizontal">
+		<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+		<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource}" />
+		<TextBlock VerticalAlignment="Center" >
+			<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+				<TextBlock Text="{Binding Device.Name}">
+					<TextBlock.Style>
+						<Style TargetType="TextBlock">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding IsEnabled}" Value="False">
+									<Setter Property="TextBlock.Foreground" Value="Gray" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBlock.Style>
+				</TextBlock>
+			</Hyperlink>
+			<TextBlock.ContextMenu>
+				<ContextMenu>
+					<IconedMenuItem ImageSource="BTurnOn" Text="Открыть" Command="{Binding OpenCommand}" />
+					<IconedMenuItem ImageSource="BTurnOff" Text="Закрыть" Command="{Binding CloseCommand}" />
+					<IconedMenuItem ImageSource="BTurnOn" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
+					<IconedMenuItem ImageSource="BTurnOff" Text="Установить режим НОРМА" Command="{Binding CloseForeverCommand}" />
+					<IconedMenuItem ImageSource="map"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+					<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+					<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+				</ContextMenu>
+			</TextBlock.ContextMenu>
+			<TextBlock.ToolTip>
+				<StackPanel>
+					<TextBlock FontWeight="Bold" Text="{Binding Device.Name}" />
+					<Views:DeviceStateView />
+				</StackPanel>
+			</TextBlock.ToolTip>
+		</TextBlock>
+		<StackPanel.InputBindings>
+			<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
+		</StackPanel.InputBindings>
+	</StackPanel>
+</UserControl>

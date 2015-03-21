@@ -16,6 +16,45 @@ namespace SKDModule.ViewModels
 	{
 		public SKDDevice Device { get; private set; }
 
+		public VerificationViewModel(LayoutPartReferenceProperties layoutPartSKDVerificationProperties)
+		{
+			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReferenceUID);
+
+			if (Device != null)
+			{
+				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
+				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
+			}
+		}
+
+		public void OnNewJournal(List<JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (journalItem.ObjectUID == Device.UID &&
+					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
+				{
+					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
+					DateTime = journalItem.SystemDateTime.ToString();
+
+					if (journalItem.EmployeeUID != Guid.Empty)
+					{
+						var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
+						if (!operationResult.HasError && operationResult.Result != null)
+						{
+							Employee = operationResult.Result;
+							PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
+							Organisation = OrganisationHelper.GetSingle(Employee.OrganisationUID);
+							continue;
+						}
+					}
+					Employee = null;
+					PhotoColumnViewModel = null;
+					Organisation = null;
+				}
+			}
+		}
+
 		string _eventName;
 		public string EventName
 		{
@@ -68,45 +107,6 @@ namespace SKDModule.ViewModels
 			{
 				_organisation = value;
 				OnPropertyChanged(() => Organisation);
-			}
-		}
-
-		public VerificationViewModel(LayoutPartReferenceProperties layoutPartSKDVerificationProperties)
-		{
-			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReferenceUID);
-
-			if (Device != null)
-			{
-				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
-			}
-		}
-
-		public void OnNewJournal(List<JournalItem> journalItems)
-		{
-			foreach (var journalItem in journalItems)
-			{
-				if (journalItem.ObjectUID == Device.UID &&
-					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
-				{
-					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
-					DateTime = journalItem.SystemDateTime.ToString();
-
-					if (journalItem.EmployeeUID != Guid.Empty)
-					{
-						var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
-						if (!operationResult.HasError && operationResult.Result != null)
-						{
-							Employee = operationResult.Result;
-							PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
-							Organisation = OrganisationHelper.GetSingle(Employee.OrganisationUID);
-							continue;
-						}
-					}
-					Employee = null;
-					PhotoColumnViewModel = null;
-					Organisation = null;
-				}
 			}
 		}
 	}

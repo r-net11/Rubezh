@@ -105,6 +105,7 @@ namespace FiresecAPI
 			ModuleItems.Add("SecurityModule.dll");
 			ModuleItems.Add("GKModule.dll");
 			ModuleItems.Add("SKDModule.dll");
+			ModuleItems.Add("StrazhModule.dll");
 			ModuleItems.Add("VideoModule.dll");
 			ModuleItems.Add("AutomationModule.dll");
 			ModuleItems.Add("LayoutModule.dll");
@@ -114,13 +115,6 @@ namespace FiresecAPI
 			ModuleItems.Add("SoundsModule.dll");
 			ModuleItems.Add("SettingsModule.dll");
 			ModuleItems.Add("DiagnosticsModule.dll");
-
-			//ModuleItems.Add("DevicesModule.dll");
-			//ModuleItems.Add("LibraryModule.dll");
-			//ModuleItems.Add("NotificationModule.dll");
-			//ModuleItems.Add("AlarmModule.dll");
-			//ModuleItems.Add("OPCModule.dll");
-			//ModuleItems.Add("NotificationModule.dll");
 		}
 
 		public bool IsDebug

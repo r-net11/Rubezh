@@ -12,15 +12,6 @@ namespace SKDModule.Validation
 		{
 			SKDManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
-			ValidateDevices();
-			ValidateZones();
-			ValidateDoors();
-			ValidateTimeIntervals();
-			ValidateWeklyIntervals();
-			ValidateSlideDayIntervals();
-			ValidateSlideWeklyIntervals();
-			ValidateHolidays();
-			ValidatePlans();
 			return Errors;
 		}
 	}

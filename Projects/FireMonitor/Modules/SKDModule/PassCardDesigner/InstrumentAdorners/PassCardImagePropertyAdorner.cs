@@ -11,7 +11,6 @@ namespace SKDModule.PassCardDesigner.InstrumentAdorners
 {
 	public class PassCardImagePropertyAdorner : BaseRectangleAdorner
 	{
-		private ZonesViewModel _zonesViewModel;
 		public PassCardImagePropertyAdorner(CommonDesignerCanvas designerCanvas, Guid organisationUID)
 			: base(designerCanvas)
 		{
