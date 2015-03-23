@@ -90,9 +90,9 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasGuardZone)
 				{
-					if (device.GuardZoneUIDs.Contains(SelectedZone.GuardZone.UID))
+					if (SelectedZone.GuardZone.GuardZoneDevices.Any(x => x.DeviceUID == device.UID))
 					{
-						device.AllParents.ForEach(x => { devices.Add(x); });
+						device.AllParents.ForEach(x => devices.Add(x));
 						devices.Add(device);
 					}
 				}

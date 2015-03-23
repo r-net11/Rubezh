@@ -331,10 +331,6 @@ namespace FireAdministrator.ViewModels
 
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
 			{
-				for (int i = 0; i < guardZone.DeviceUIDs.Count; i++)
-				{
-					guardZone.DeviceUIDs[i] = ReplaceUID(guardZone.DeviceUIDs[i], GKDeviceUIDs);
-				}
 				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
 					guardZoneDevice.DeviceUID = ReplaceUID(guardZoneDevice.DeviceUID, GKDeviceUIDs);
