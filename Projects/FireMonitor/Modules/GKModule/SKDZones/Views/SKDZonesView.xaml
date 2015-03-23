@@ -5,9 +5,9 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" MinHeight="100" />
 		</Grid.RowDefinitions>
-		<Border Grid.Row="0" Margin="0 5 0 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5">
+        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Margin="0 5 0 0">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -89,23 +89,29 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-		<Grid Grid.Row="1" Margin="0, 5, 0, 0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-			<TreeList Focusable="True" Source="{Binding RootDevices}">
-				<TreeList.View>
-					<GridView>
-						<GridViewColumn Width="250" Header="Устройство">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<Views:DeviceView />
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<GridViewColumn DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" Width="100" />
-						<GridViewColumn DisplayMemberBinding="{Binding PresentationLogic}" Header="Логика" />
-						<GridViewColumn DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" Width="100" />
-					</GridView>
-				</TreeList.View>
-			</TreeList>
-		</Grid>
+        <Border Grid.Row="1" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" DataContext="{Binding SelectedZone}" Background="White" CornerRadius="5" Margin="0 5 0 0">
+            <StackPanel>
+                <StackPanel Visibility="{Binding HasEnterDoors, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5">
+                    <TextBlock Text="ТД, ведущие в зону" FontWeight="Bold" Margin="2" />
+                    <ItemsControl ItemsSource="{Binding EnterDoors}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PresentationName}" Margin="2" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+                <StackPanel Visibility="{Binding HasExitDoors, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5">
+                    <TextBlock Text="ТД, ведущие из зоны" FontWeight="Bold" Margin="2" />
+                    <ItemsControl ItemsSource="{Binding ExitDoors}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PresentationName}" Margin="2" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Border>
 	</Grid>
 </UserControl>

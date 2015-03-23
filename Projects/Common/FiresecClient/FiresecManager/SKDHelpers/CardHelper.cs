@@ -18,17 +18,17 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.GetCards(new CardFilter { UIDs = new List<Guid> { uid }, LogicalDeletationType = LogicalDeletationType.All });
 			return Common.ShowErrorIfExists(result).FirstOrDefault();
 		}
-		 
-		public static bool Add(SKDCard card)
+
+		public static bool Add(SKDCard card, string employeeName)
 		{
-			var result = FiresecManager.FiresecService.AddCard(card);
+			var result = FiresecManager.FiresecService.AddCard(card, employeeName);
 			Common.ShowErrorIfExists(result);
 			return result.Result;
 		}
 
-		public static bool Edit(SKDCard card, bool showError = true)
+		public static bool Edit(SKDCard card, string employeeName, bool showError = true)
 		{
-			var result = FiresecManager.FiresecService.EditCard(card);
+			var result = FiresecManager.FiresecService.EditCard(card, employeeName);
 			Common.ShowErrorIfExists(result, showError);
 			return result.Result;
 		}
@@ -41,9 +41,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool DeleteFromEmployee(SKDCard card, string reason)
+		public static bool DeleteFromEmployee(SKDCard card, string employeeName, string reason)
 		{
-			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, reason);
+			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, employeeName, reason);
 			Common.ShowErrorIfExists(result);
 			return result.Result;
 		}

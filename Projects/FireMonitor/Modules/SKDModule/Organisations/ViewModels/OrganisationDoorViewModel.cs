@@ -75,7 +75,7 @@ namespace SKDModule.ViewModels
 							foreach (var card in linkedCards)
 							{
 								card.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
-								CardHelper.Edit(card);
+								CardHelper.Edit(card, Organisation.Name);
 							}
 
 							foreach (var accessTemplate in linkedAccessTemplates)

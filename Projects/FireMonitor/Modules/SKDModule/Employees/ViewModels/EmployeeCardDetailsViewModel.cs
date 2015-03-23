@@ -550,7 +550,7 @@ namespace SKDModule.ViewModels
 				Card.AccessTemplateUID = null;
 			if (!Validate())
 				return false;
-			var saveResult = IsNewCard ? CardHelper.Add(Card) : CardHelper.Edit(Card);
+			var saveResult = IsNewCard ? CardHelper.Add(Card, _employee.Name) : CardHelper.Edit(Card, _employee.Name);
 			if (!saveResult)
 				return false;
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
