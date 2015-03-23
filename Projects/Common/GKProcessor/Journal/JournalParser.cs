@@ -304,10 +304,16 @@ namespace GKProcessor
 										}
 										else
 										{
-											if (firstAdditionalDescription == "0")
-												firstAdditionalDescription = "КАУ";
-											if (secondAdditionalDescription == "0")
-												secondAdditionalDescription = "КАУ";
+											var kauDevice = GKManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+											if (kauDevice != null)
+											{
+												var device1 = kauDevice.AllChildren.FirstOrDefault(x => x.IntAddress == bytes[32 + 16]);
+												var device2 = kauDevice.AllChildren.FirstOrDefault(x => x.IntAddress == bytes[32 + 17]);
+												if (device1 != null && device1.DriverType == GKDriverType.RSR2_KAU_Shleif)
+													firstAdditionalDescription = "КАУ";
+												if (device2 != null && device2.DriverType == GKDriverType.RSR2_KAU_Shleif)
+													secondAdditionalDescription = "КАУ";
+											}
 										}
 										if (JournalItem.JournalEventNameType == JournalEventNameType.Неисправность_устранена)
 											break;

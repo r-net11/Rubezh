@@ -18,20 +18,15 @@ namespace GKModule.ViewModels
 			get { return GuardZone.State; }
 		}
 
-		public bool IsOff
-		{
-			get { return StateClasses.Contains(XStateClass.Ignore); }
-		}
-
 		public GuardZoneViewModel(GKGuardZone guardZone)
 		{
-			TurnOnCommand = new RelayCommand(OnTurnOn);
-			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
-			TurnOnInAutomaticCommand = new RelayCommand(OnTurnOnInAutomatic);
-			TurnOnNowInAutomaticCommand = new RelayCommand(OnTurnOnNowInAutomatic);
-			TurnOffCommand = new RelayCommand(OnTurnOff);
-			TurnOffInAutomaticCommand = new RelayCommand(OnTurnOffInAutomatic);
-			TurnOffNowInAutomaticCommand = new RelayCommand(OnTurnOffNowInAutomatic);
+			TurnOnCommand = new RelayCommand(OnTurnOn, CanControl);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanControl);
+			TurnOnInAutomaticCommand = new RelayCommand(OnTurnOnInAutomatic, CanControl);
+			TurnOnNowInAutomaticCommand = new RelayCommand(OnTurnOnNowInAutomatic, CanControl);
+			TurnOffCommand = new RelayCommand(OnTurnOff, CanControl);
+			TurnOffInAutomaticCommand = new RelayCommand(OnTurnOffInAutomatic, CanControl);
+			TurnOffNowInAutomaticCommand = new RelayCommand(OnTurnOffNowInAutomatic, CanControl);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
@@ -58,7 +53,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => GuardZone);
 			OnPropertyChanged(() => StateClasses);
-			OnPropertyChanged(() => IsOff);
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
@@ -183,6 +177,11 @@ namespace GKModule.ViewModels
 		void OnShowProperties()
 		{
 			DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
+		}
+
+		public bool CanControl()
+		{
+			return !StateClasses.Contains(XStateClass.Ignore);
 		}
 	}
 }
