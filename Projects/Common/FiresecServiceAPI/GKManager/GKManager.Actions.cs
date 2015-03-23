@@ -68,7 +68,6 @@ namespace FiresecClient
 				device.GuardZones.Add(guardZone);
 			if (!device.GuardZoneUIDs.Contains(guardZone.UID))
 				device.GuardZoneUIDs.Add(guardZone.UID);
-			guardZone.DeviceUIDs.Add(device.UID);
 			guardZone.OnChanged();
 			device.OnChanged();
 		}

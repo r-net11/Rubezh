@@ -15,7 +15,6 @@ namespace FiresecAPI.GK
 	{
 		public GKGuardZone()
 		{
-			DeviceUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
 			GuardZoneDevices = new List<GKGuardZoneDevice>();
 			Pim = new GKPim();
@@ -94,13 +93,6 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public bool IsExtraProtected { get; set; }
-
-
-		/// <summary>
-		/// Идентификаторы устройств
-		/// </summary>
-		[DataMember]
-		public List<Guid> DeviceUIDs { get; set; }
 
 		/// <summary>
 		/// Устройства охранной зоны

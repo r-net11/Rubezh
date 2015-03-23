@@ -72,31 +72,14 @@ namespace GKModule.ViewModels
 		}
 		public void Update()
 		{
-			if (EnterDevice != null)
-				EnterDevice.OnChanged();
-			if (ExitDevice != null)
-				ExitDevice.OnChanged();
-			if (LockDevice != null)
-				LockDevice.OnChanged();
-			if (LockControlDevice != null)
-				LockControlDevice.OnChanged();
-
+			UpdateDoorDevices();
 			EnterDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.EnterDeviceUID);
 			ExitDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.ExitDeviceUID);
 			LockDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockDeviceUID);
 			LockControlDevice = GKManager.Devices.FirstOrDefault(x => x.UID == Door.LockControlDeviceUID);
 			EnterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.EnterZoneUID);
 			ExitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == Door.ExitZoneUID);
-
-			if (EnterDevice != null)
-				EnterDevice.OnChanged();
-			if (ExitDevice != null)
-				ExitDevice.OnChanged();
-			if (LockDevice != null)
-				LockDevice.OnChanged();
-			if (LockControlDevice != null)
-				LockControlDevice.OnChanged();
-
+			UpdateDoorDevices();
 			if (ExitDevice != null)
 			{
 				if (Door.DoorType == GKDoorType.OneWay && ExitDevice.DriverType != GKDriverType.RSR2_AM_1)
@@ -121,6 +104,18 @@ namespace GKModule.ViewModels
 				Door.PlanElementUIDs = new List<Guid>();
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
+		}
+
+		void UpdateDoorDevices()
+		{
+			if (EnterDevice != null)
+				EnterDevice.OnChanged();
+			if (ExitDevice != null)
+				ExitDevice.OnChanged();
+			if (LockDevice != null)
+				LockDevice.OnChanged();
+			if (LockControlDevice != null)
+				LockControlDevice.OnChanged();
 		}
 
 		public GKDevice EnterDevice { get; private set; }
