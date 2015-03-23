@@ -237,6 +237,8 @@
     <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="Models\Plans\ElementPolygonGKSKDZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleGKSKDZone.cs" />
+    <Compile Include="Models\Plans\ElementPolygonGKMPT.cs" />
+    <Compile Include="Models\Plans\ElementRectangleGKMPT.cs" />
     <Compile Include="Models\ServerTask\ServerTask.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackData.cs" />
     <Compile Include="AutomationCallback\AutomationCallbackResult.cs" />

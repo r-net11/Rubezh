@@ -13,6 +13,7 @@ namespace GKModule.ViewModels
 {
 	public class MPTViewModel : BaseViewModel
 	{
+		private VisualizationState _visualizetionState;
 		public GKMPT MPT { get; set; }
 
 		public MPTViewModel(GKMPT mpt)
@@ -158,6 +159,14 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => MPT);
+			_visualizetionState = MPT.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (MPT.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			OnPropertyChanged(() => MPT);
+		}
+
+		public void Update(GKMPT mpt)
+		{
+			MPT = mpt;
+			Update();
 		}
 
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
@@ -220,6 +229,11 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => Delay);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public VisualizationState VisualizationState
+		{
+			get { return _visualizetionState; }
 		}
 	}
 }

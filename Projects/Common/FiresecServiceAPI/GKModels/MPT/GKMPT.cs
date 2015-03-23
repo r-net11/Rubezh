@@ -2,6 +2,8 @@
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Common;
+using System;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
 {
@@ -9,7 +11,7 @@ namespace FiresecAPI.GK
 	/// Модуль пожаротушения ГК
 	/// </summary>
 	[DataContract]
-	public class GKMPT : GKBase
+	public class GKMPT : GKBase, IPlanPresentable
 	{
 		public GKMPT()
 		{
@@ -19,6 +21,7 @@ namespace FiresecAPI.GK
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 10;
 			Devices = new List<GKDevice>();
+			PlanElementUIDs = new List<Guid>();
 		}
 
 		bool _isLogicOnKau;
@@ -85,5 +88,8 @@ namespace FiresecAPI.GK
 		{
 			get { return "MПТ" + "." + No + "." + Name; }
 		}
+
+		[DataMember]
+		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

@@ -9,11 +9,11 @@ using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XSKDZoneRectangleAdorner : BaseRectangleAdorner
+	public class SKDZoneRectangleAdorner : BaseRectangleAdorner
 	{
 		SKDZonesViewModel _skdZonesViewModel;
 
-		public XSKDZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, SKDZonesViewModel skdZonesViewModel)
+		public SKDZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, SKDZonesViewModel skdZonesViewModel)
 			: base(designerCanvas)
 		{
 			_skdZonesViewModel = skdZonesViewModel;

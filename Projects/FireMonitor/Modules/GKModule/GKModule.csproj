@@ -123,6 +123,7 @@
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\GKGuardZonePainter.cs" />
     <Compile Include="Plans\Designer\GKSKDZonePainter.cs" />
+    <Compile Include="Plans\Designer\GKMPTPainter.cs" />
     <Compile Include="Plans\ViewModels\GuardZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
@@ -146,6 +147,7 @@
     </Compile>
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\MPTTooltipViewModel.cs" />
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />

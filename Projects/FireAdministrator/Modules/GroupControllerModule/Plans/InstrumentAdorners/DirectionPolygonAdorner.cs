@@ -11,10 +11,10 @@ using Infrustructure.Plans.InstrumentAdorners;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XDirectionPolygonAdorner : BasePolygonAdorner
+	public class DirectionPolygonAdorner : BasePolygonAdorner
 	{
 		private DirectionsViewModel _directionsViewModel;
-		public XDirectionPolygonAdorner(CommonDesignerCanvas designerCanvas, DirectionsViewModel directionsViewModel)
+		public DirectionPolygonAdorner(CommonDesignerCanvas designerCanvas, DirectionsViewModel directionsViewModel)
 			: base(designerCanvas)
 		{
 			_directionsViewModel = directionsViewModel;

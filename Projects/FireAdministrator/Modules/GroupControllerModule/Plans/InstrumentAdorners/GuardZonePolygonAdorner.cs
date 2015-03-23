@@ -11,14 +11,14 @@ using Infrustructure.Plans.InstrumentAdorners;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XSKDZonePolygonAdorner : BasePolygonAdorner
+	public class GuardZonePolygonAdorner : BasePolygonAdorner
 	{
-		SKDZonesViewModel _skdZonesViewModel;
+		GuardZonesViewModel _guardZonesViewModel;
 
-		public XSKDZonePolygonAdorner(CommonDesignerCanvas designerCanvas, SKDZonesViewModel skdZonesViewModel)
+		public GuardZonePolygonAdorner(CommonDesignerCanvas designerCanvas, GuardZonesViewModel guardZonesViewModel)
 			: base(designerCanvas)
 		{
-			_skdZonesViewModel = skdZonesViewModel;
+			_guardZonesViewModel = guardZonesViewModel;
 		}
 
 		protected override Shape CreateRubberband()
@@ -31,11 +31,11 @@ namespace GKModule.Plans.InstrumentAdorners
 		}
 		protected override ElementBaseShape CreateElement()
 		{
-			var element = new ElementPolygonGKSKDZone();
-			var propertiesViewModel = new SKDZonePropertiesViewModel(element, _skdZonesViewModel);
+			var element = new ElementPolygonGKGuardZone();
+			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			GKPlanExtension.Instance.SetItem<GKSKDZone>(element);
+			GKPlanExtension.Instance.SetItem<GKGuardZone>(element);
 			return element;
 		}
 	}
