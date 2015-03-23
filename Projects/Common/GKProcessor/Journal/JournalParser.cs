@@ -32,10 +32,10 @@ namespace GKProcessor
 		{
 			JournalItem = new JournalItem();
 			JournalItem.JournalObjectType = JournalObjectType.GKDevice;
-			
+
 			//var gkIpAddress = GKManager.GetIpAddress(gkControllerDevice);
 			//if (!string.IsNullOrEmpty(gkIpAddress))
-			//    JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
+			//	JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
 
 			GKJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
 			if (GKJournalRecordNo > 0)
@@ -282,7 +282,6 @@ namespace GKProcessor
 								case 0xD6:
 									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
 									break;
-
 								default:
 									JournalItem.JournalEventDescriptionType = JournalStringsHelper.ToFailure(bytes[32 + 15]);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
@@ -309,9 +308,9 @@ namespace GKProcessor
 											{
 												var device1 = kauDevice.AllChildren.FirstOrDefault(x => x.IntAddress == bytes[32 + 16]);
 												var device2 = kauDevice.AllChildren.FirstOrDefault(x => x.IntAddress == bytes[32 + 17]);
-												if (device1 != null && device1.DriverType == GKDriverType.RSR2_KAU_Shleif)
+												if (firstAdditionalDescription == "0" || (device1 != null && device1.DriverType == GKDriverType.RSR2_KAU_Shleif))
 													firstAdditionalDescription = "КАУ";
-												if (device2 != null && device2.DriverType == GKDriverType.RSR2_KAU_Shleif)
+												if (secondAdditionalDescription == "0" || (device2 == null || device2.DriverType == GKDriverType.RSR2_KAU_Shleif))
 													secondAdditionalDescription = "КАУ";
 											}
 										}
