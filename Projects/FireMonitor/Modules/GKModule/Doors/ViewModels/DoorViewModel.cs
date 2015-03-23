@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowExitDeviceCommand { get; private set; }
 		void OnShowExitDevice()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(ExitDevice.UID);
+			ServiceFactory.Events.GetEvent<ShowGKDeviceEvent>().Publish(ExitDevice.UID);
 		}
 		bool CanShowExitDevice()
 		{
