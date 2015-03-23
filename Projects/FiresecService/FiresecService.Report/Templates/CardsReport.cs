@@ -15,7 +15,15 @@ namespace FiresecService.Report.Templates
 			InitializeComponent();
 		}
 
-		public override string ReportTitle
+		/// <summary>
+		/// Альбомная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
+		/// </summary>
+		protected override bool ForcedLandscape
+		{
+			get { return true; }
+		}
+
+        public override string ReportTitle
 		{
 			get { return "Сведения о пропусках"; }
 		}
