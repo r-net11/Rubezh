@@ -55,7 +55,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-                        <TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Устройство на выход" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -74,7 +74,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-                        <TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Замок" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -93,7 +93,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-                        <TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Датчик контроля двери" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeLockControlDeviceCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -112,7 +112,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-                        <TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона входа" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeEnterZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -131,7 +131,7 @@
 						</TextBlock>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Visibility="{Binding Path=Door.DoorType, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static gk:GKDoorType.TwoWay}}">
-                        <TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
+						<TextBlock Width="300" Margin="5 2" FontWeight="Bold" Text="Зона выхода" />
 						<TextBlock Margin="2" VerticalAlignment="Center">
 							<Hyperlink Command="{Binding ChangeExitZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
@@ -149,9 +149,9 @@
 							</Hyperlink>
 						</TextBlock>
 					</StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
-                        <TextBlock VerticalAlignment="Center" Margin="2">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для перевода в режим всегда открыто" FontWeight="Bold" Width="300" Margin="5 2" />
+						<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeOpenRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">
 									<TextBlock.Style>
@@ -167,8 +167,8 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                    </StackPanel>
-                </StackPanel>
+					</StackPanel>
+				</StackPanel>
 			</Grid>
 		</Border>
 	</Grid>

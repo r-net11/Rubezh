@@ -30,7 +30,14 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+								<Image Width="16" VerticalAlignment="Center" Margin="2">
+									<Image.Source>
+										<MultiBinding Converter="{StaticResource XStateClassToIconConverter}" >
+											<Binding Path="StateClass" />
+											<Binding Path="IsStateImage" />
+										</MultiBinding>
+									</Image.Source>
+								</Image>
 								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
@@ -140,7 +147,14 @@
 
 					<TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2" />
 					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-						<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2 0" />
+						<Image Width="16" VerticalAlignment="Center" Margin="2 0">
+							<Image.Source>
+								<MultiBinding Converter="{StaticResource XStateClassToIconConverter}" >
+									<Binding Path="StateClass" />
+									<Binding Path="IsStateImage" />
+								</MultiBinding>
+							</Image.Source>
+						</Image>
 						<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 					</StackPanel>
 

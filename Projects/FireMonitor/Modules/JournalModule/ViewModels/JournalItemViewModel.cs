@@ -29,7 +29,7 @@ namespace JournalModule.ViewModels
 		CompositePresentationEvent<Guid> ShowObjectEvent;
 		CompositePresentationEvent<Guid> ShowObjectDetailsEvent;
 
-		GKDevice Device { get; set; }
+		public GKDevice Device { get; set; }
 		GKZone Zone { get; set; }
 		GKDirection Direction { get; set; }
 		GKPumpStation PumpStation { get; set; }
@@ -299,6 +299,11 @@ namespace JournalModule.ViewModels
 
 			//	}
 			//}
+		}
+
+		public bool IsStateImage
+		{
+			get { return JournalItem != null && JournalItem.ObjectName != null && JournalItem.ObjectName.EndsWith("АМ-R2"); }
 		}
 
 		public bool CanShow

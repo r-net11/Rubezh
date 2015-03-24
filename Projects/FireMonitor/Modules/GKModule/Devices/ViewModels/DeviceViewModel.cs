@@ -44,6 +44,7 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => IsStateImage);
 			OnPropertyChanged(() => DeviceStateViewModel);
 
 			if (Device.DriverType == GKDriverType.MPT)
@@ -67,6 +68,17 @@ namespace GKModule.ViewModels
 				if (Device.Driver.HasLogic)
 					return GKManager.GetPresentationZoneOrLogic(Device);
 				return null;
+			}
+		}
+
+		public bool IsStateImage
+		{
+			get
+			{
+				return State != null && (State.StateClass == XStateClass.Fire1 || State.StateClass == XStateClass.Fire2) &&
+				       (Device.Driver.IsAm || Device.Children.Count > 0 &&
+				        !Device.AllChildren.Any(
+					        x => !x.Driver.IsAm && (x.State.StateClass == XStateClass.Fire1 || x.State.StateClass == XStateClass.Fire2)));
 			}
 		}
 

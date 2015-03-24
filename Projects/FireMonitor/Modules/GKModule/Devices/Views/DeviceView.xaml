@@ -4,8 +4,15 @@
 			 xmlns:Views="clr-namespace:GKModule.Views">
 
 	<StackPanel Orientation="Horizontal">
-		<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" />
-		<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
+		<Image Width="16" Height="16" VerticalAlignment="Center" >
+			<Image.Source>
+				<MultiBinding Converter="{StaticResource XStateClassToIconConverter2}" >
+					<Binding Path="State.StateClass" />
+					<Binding Path="IsStateImage" />
+				</MultiBinding>
+			</Image.Source>
+		</Image>
+			<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
 		<TextBlock VerticalAlignment="Center">
 			<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 				<TextBlock Text="{Binding Device.ShortName}" />
