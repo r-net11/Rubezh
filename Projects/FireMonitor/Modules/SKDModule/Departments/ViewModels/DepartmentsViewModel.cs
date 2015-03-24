@@ -103,6 +103,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool MarkDeleted(ShortDepartment model)
 		{
+			model.ChildDepartmentNames = SelectedItem.GetAllChildren(false).Select(x => x.Name).ToList();
 			return DepartmentHelper.MarkDeleted(model);
 		}
 
@@ -190,7 +191,11 @@ namespace SKDModule.ViewModels
 			if (!SelectedItem.GetAllChildren().Any(x => x.EmployeeListViewModel.Employees != null && x.EmployeeListViewModel.Employees.Count > 0) ||
 				MessageBoxService.ShowQuestion("Существуют привязанные к подразделению сотрудники. Продожить?"))
 			{
-				var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+				var employeeUIDs = new List<Guid>();
+				foreach (var item in SelectedItem.GetAllChildren().Select(x => x.EmployeeListViewModel.Employees.Select(y => y.Employee.UID)))
+				{
+					employeeUIDs.AddRange(item);
+				}
 				base.Remove();
 				if (IsWithDeleted)
 				{

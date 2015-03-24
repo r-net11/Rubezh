@@ -15,7 +15,10 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(ShortDepartment item)
 		{
-			return MarkDeleted(item.UID, item.Name);
+			var names = new List<string>();
+			names.Add(item.Name);
+			names.AddRange(item.ChildDepartmentNames);
+			return MarkDeleted(item.UID, names);
 		}
 
 		public static bool Restore(ShortDepartment item)
@@ -23,9 +26,9 @@ namespace FiresecClient.SKDHelpers
 			return Restore(item.UID, item.Name);
 		}
 
-		public static bool MarkDeleted(Guid uid, string name)
+		public static bool MarkDeleted(Guid uid, List<string> names)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedDepartment(uid, name);
+			var result = FiresecManager.FiresecService.MarkDeletedDepartment(uid, names);
 			return Common.ShowErrorIfExists(result);
 		}
 

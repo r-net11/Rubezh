@@ -127,7 +127,10 @@ namespace SKDDriver
 				if (employees != null && !employees.HasError)
 				{
 					var employeeUIDs = employees.Result.Select(x => x.UID).ToList();
-					result = result.And(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
+					if(filter.DeactivationType == LogicalDeletationType.All)
+						result = result.And(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
+					else
+						result = result.And(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
 				}
 			}
 

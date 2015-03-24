@@ -133,9 +133,12 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedDepartment(Guid uid, string name)
+		public OperationResult MarkDeletedDepartment(Guid uid, List<string> names)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_отдела, name);
+			foreach (var name in names)
+			{
+				AddJournalMessage(JournalEventNameType.Удаление_отдела, name);	
+			}
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DepartmentTranslator.MarkDeleted(uid);
@@ -495,7 +498,7 @@ namespace FiresecService.Service
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var errors = new List<string>();
-				var cards = databaseService.CardTranslator.Get(new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } } });
+				var cards = databaseService.CardTranslator.Get(new CardFilter { EmployeeFilter = new EmployeeFilter { OrganisationUIDs = new List<Guid> { uid } }, DeactivationType = LogicalDeletationType.Active });
 				if (!cards.HasError)
 				{
 					foreach (var card in cards.Result)

@@ -57,9 +57,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartment(item, isNew));
 		}
-		public OperationResult MarkDeletedDepartment(Guid uid, string name)
+		public OperationResult MarkDeletedDepartment(Guid uid, List<string> names)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(uid, name));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(uid, names));
 		}
 		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
 		{

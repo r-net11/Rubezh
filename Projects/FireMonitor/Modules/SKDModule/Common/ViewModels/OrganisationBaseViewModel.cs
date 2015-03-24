@@ -198,6 +198,7 @@ namespace SKDModule.ViewModels
 					if (organisationViewModel != null)
 					{
 						organisationViewModel.IsDeleted = false;
+						organisationViewModel.RemovalDate = "";
 						var children = organisationViewModel.Children.ToList();
 						foreach (var child in children)
 						{
@@ -241,6 +242,7 @@ namespace SKDModule.ViewModels
 				{
 					var organisationViewModel = new TViewModel();
 					organisationViewModel.InitializeOrganisation(organisation, this);
+					Organisations.Add(organisationViewModel);
 					OnPropertyChanged(() => Organisations);
 				}
 			}

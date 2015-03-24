@@ -45,7 +45,7 @@ namespace FiresecAPI
 		OperationResult SaveDepartment(Department item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedDepartment(Guid uid, string name);
+		OperationResult MarkDeletedDepartment(Guid uid, List<string> names);
 
 		[OperationContract]
 		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name);

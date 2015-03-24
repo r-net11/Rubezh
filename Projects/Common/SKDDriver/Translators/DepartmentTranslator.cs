@@ -162,10 +162,12 @@ namespace SKDDriver
 			result.ChiefUID = tableItem.ChiefUID;
 			result.Phone = tableItem.Phone;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
-			
-			result.ChildDepartmentUIDs = new List<Guid>();
+
 			foreach (var department in Context.Departments.Where(x => x.ParentDepartmentUID == tableItem.UID))
+			{
 				result.ChildDepartmentUIDs.Add(department.UID);
+				result.ChildDepartmentNames.Add(department.Name);
+			}
 			
 			return result;
 		}
