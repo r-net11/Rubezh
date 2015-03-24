@@ -37,9 +37,9 @@ namespace AutomationModule.Plans
 			Cache.BuildAll();
 		}
 
-		public StateTypeName<XStateClass> GetStateTypeName(Plan plan)
+		public NamedStateClass GetNamedStateClass(Plan plan)
 		{
-			return new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
+			return new NamedStateClass();
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)

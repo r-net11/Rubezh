@@ -5,21 +5,22 @@ using System.Windows;
 using System.Windows.Media;
 using Common;
 using Infrustructure.Plans.Devices;
+using FiresecAPI.GK;
 
 namespace DeviceControls
 {
-	public abstract class BaseDevicePicture<TLibraryState, TLibraryFrame, TStateType, TDeviceState>
+	public abstract class BaseDevicePicture<TLibraryState, TLibraryFrame, TDeviceState>
 		where TLibraryFrame : ILibraryFrame
-		where TLibraryState : ILibraryState<TLibraryFrame, TStateType>
-		where TDeviceState : IDeviceState<TStateType>
+		where TLibraryState : ILibraryState<TLibraryFrame>
+		where TDeviceState : IDeviceState
 	{
 		protected Dictionary<Guid, Brush> Brushes { get; private set; }
-		protected Dictionary<Guid, Dictionary<TStateType, Brush>> DynamicBrushes { get; private set; }
+		protected Dictionary<Guid, Dictionary<XStateClass, Brush>> DynamicBrushes { get; private set; }
 
 		public BaseDevicePicture()
 		{
 			Brushes = new Dictionary<Guid, Brush>();
-			DynamicBrushes = new Dictionary<Guid, Dictionary<TStateType, Brush>>();
+			DynamicBrushes = new Dictionary<Guid, Dictionary<XStateClass, Brush>>();
 		}
 
 		public virtual void LoadCache()
@@ -31,12 +32,12 @@ namespace DeviceControls
 		public virtual void LoadDynamicCache()
 		{
 			DynamicBrushes.Clear();
-			DynamicBrushes.Add(Guid.Empty, new Dictionary<TStateType, Brush>());
+			DynamicBrushes.Add(Guid.Empty, new Dictionary<XStateClass, Brush>());
 			DynamicBrushes[Guid.Empty].Add(DefaultState, PictureCacheSource.EmptyBrush);
 			EnumerateLibrary().ForEach(item =>
 			{
 				if (!DynamicBrushes.ContainsKey(item.DriverId))
-					DynamicBrushes.Add(item.DriverId, new Dictionary<TStateType, Brush>());
+					DynamicBrushes.Add(item.DriverId, new Dictionary<XStateClass, Brush>());
 				item.States.ForEach(state =>
 				{
 					if (!DynamicBrushes[item.DriverId].ContainsKey(state.StateType))
@@ -45,7 +46,7 @@ namespace DeviceControls
 			});
 		}
 
-		private void RegisterBrush(ILibraryDevice<TLibraryState, TLibraryFrame, TStateType> libraryDevice)
+		private void RegisterBrush(ILibraryDevice<TLibraryState, TLibraryFrame, XStateClass> libraryDevice)
 		{
 			var frameworkElement = libraryDevice == null ? PictureCacheSource.EmptyPicture : GetDefaultPicture(libraryDevice);
 			var brush = new VisualBrush(frameworkElement);
@@ -76,18 +77,18 @@ namespace DeviceControls
 			Brush brush = null;
 			if (DynamicBrushes.ContainsKey(guid))
 			{
-				if (DynamicBrushes[guid].ContainsKey(deviceState.StateType))
-					brush = DynamicBrushes[guid][deviceState.StateType];
+				if (DynamicBrushes[guid].ContainsKey(deviceState.StateClass))
+					brush = DynamicBrushes[guid][deviceState.StateClass];
 				else if (DynamicBrushes[guid].ContainsKey(DefaultState))
 					brush = DynamicBrushes[guid][DefaultState];
 			}
 			return brush ?? PictureCacheSource.EmptyBrush;
 		}
 
-		protected abstract IEnumerable<ILibraryDevice<TLibraryState, TLibraryFrame, TStateType>> EnumerateLibrary();
-		protected abstract TStateType DefaultState { get; }
+		protected abstract IEnumerable<ILibraryDevice<TLibraryState, TLibraryFrame, XStateClass>> EnumerateLibrary();
+		protected abstract XStateClass DefaultState { get; }
 
-		protected virtual FrameworkElement GetDefaultPicture(ILibraryDevice<TLibraryState, TLibraryFrame, TStateType> libraryDevice)
+		protected virtual FrameworkElement GetDefaultPicture(ILibraryDevice<TLibraryState, TLibraryFrame, XStateClass> libraryDevice)
 		{
 			var state = libraryDevice.States.FirstOrDefault(x => x.StateType.Equals(DefaultState));
 			return state.Frames.Count > 0 ? Helper.GetVisual(state.Frames[0].Image) : PictureCacheSource.EmptyPicture;

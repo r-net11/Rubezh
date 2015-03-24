@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.GK;
 
 namespace Infrustructure.Plans.Devices
 {
-	public interface ILibraryState<TLibraryFrame, TStateType>
+	public interface ILibraryState<TLibraryFrame>
 		where TLibraryFrame : ILibraryFrame
 	{
 		List<TLibraryFrame> Frames { get; set; }
 		int Layer { get; set; }
-		TStateType StateType { get; }
+		XStateClass StateType { get; }
 	}
 }

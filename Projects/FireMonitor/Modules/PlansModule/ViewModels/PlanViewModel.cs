@@ -16,44 +16,44 @@ namespace PlansModule.ViewModels
 
 		public PlanViewModel(PlansViewModel plansViewModel, Plan plan)
 		{
-			_selfStateClass = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
-			_stateClass = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
+			_selfNamedStateClass = new NamedStateClass();
+			_namedStateClass = new NamedStateClass();
 			_plansViewModel = plansViewModel;
 			Plan = plan;
 			PlanFolder = plan as PlanFolder;
 		}
 
-		StateTypeName<XStateClass> _stateClass;
-		public StateTypeName<XStateClass> StateClass
+		NamedStateClass _namedStateClass;
+		public NamedStateClass NamedStateClass
 		{
-			get { return _stateClass; }
+			get { return _namedStateClass; }
 			set
 			{
-				_stateClass = value;
+				_namedStateClass = value;
 				ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(Plan.UID);
-				OnPropertyChanged(() => StateClass);
+				OnPropertyChanged(() => NamedStateClass);
 			}
 		}
 
-		StateTypeName<XStateClass> _selfStateClass;
-		public StateTypeName<XStateClass> SelfStateClass
+		NamedStateClass _selfNamedStateClass;
+		public NamedStateClass SelfNamedStateClass
 		{
-			get { return _selfStateClass; }
+			get { return _selfNamedStateClass; }
 			set
 			{
-				_selfStateClass = value;
-				OnPropertyChanged(() => SelfStateClass);
+				_selfNamedStateClass = value;
+				OnPropertyChanged(() => SelfNamedStateClass);
 				UpdateState();
 			}
 		}
 
 		void UpdateState()
 		{
-			StateClass = SelfStateClass;
+			NamedStateClass = SelfNamedStateClass;
 			foreach (var child in Children)
 			{
-				if (child.StateClass.StateType < StateClass.StateType)
-					StateClass = child.StateClass;
+				if (child.NamedStateClass.StateClass < NamedStateClass.StateClass)
+					NamedStateClass = child.NamedStateClass;
 			}
 			if (Parent != null)
 				Parent.UpdateState();
@@ -66,21 +66,21 @@ namespace PlansModule.ViewModels
 		}
 		void StateChanged()
 		{
-			var minStateTypeName = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
+			var minNamedStateClass = new NamedStateClass();
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
 			{
-				var presenterState = (StateTypeName<XStateClass>)planPresenter.GetStateTypeName(Plan);
-				if (presenterState.StateType < minStateTypeName.StateType)
+				var namedStateClass = (NamedStateClass)planPresenter.GetNamedStateClass(Plan);
+				if (namedStateClass.StateClass < minNamedStateClass.StateClass)
 				{
-					minStateTypeName = presenterState;
+					minNamedStateClass = namedStateClass;
 				}
 			}
-			if (minStateTypeName.StateType == XStateClass.No || minStateTypeName.StateType == XStateClass.Off)
+			if (minNamedStateClass.StateClass == XStateClass.No || minNamedStateClass.StateClass == XStateClass.Off)
 			{
-				minStateTypeName.StateType = XStateClass.Norm;
-				minStateTypeName.Name = "Норма";
+				minNamedStateClass.StateClass = XStateClass.Norm;
+				minNamedStateClass.Name = "Норма";
 			}
-			SelfStateClass = minStateTypeName;
+			SelfNamedStateClass = minNamedStateClass;
 		}
 
 		public bool IsFolder

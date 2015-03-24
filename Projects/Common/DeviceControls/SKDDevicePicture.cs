@@ -7,7 +7,7 @@ using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
-	public class SKDDevicePicture : BaseDevicePicture<SKDLibraryState, SKDLibraryFrame, XStateClass, SKDDeviceState>
+	public class SKDDevicePicture : BaseDevicePicture<SKDLibraryState, SKDLibraryFrame, SKDDeviceState>
 	{
 		internal SKDDevicePicture()
 		{

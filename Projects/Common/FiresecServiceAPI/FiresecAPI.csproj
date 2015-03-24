@@ -541,7 +541,6 @@
     <Compile Include="GKModels\States\GKDriverState.cs" />
     <Compile Include="GKModels\States\GKPimInternalState.cs" />
     <Compile Include="GKModels\States\GKPumpStationInternalState.cs" />
-    <Compile Include="GKModels\States\GKStateClass.cs" />
     <Compile Include="GKModels\States\GKStateBit.cs" />
     <Compile Include="GKModels\States\GKZoneInternalState.cs" />
     <Compile Include="GKModels\States\GKMPTInternalState.cs" />

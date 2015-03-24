@@ -7,7 +7,7 @@ namespace Infrastructure.Client.Plans.Presenter
 	public class StateTooltipViewModel<T> : BaseViewModel
 		where T : IStateProvider
 	{
-		public IDeviceState<XStateClass> State { get; protected set; }
+		public IDeviceState State { get; protected set; }
 		public T Item { get; protected set; }
 
 		public StateTooltipViewModel(T item)

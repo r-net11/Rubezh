@@ -173,7 +173,7 @@ namespace FiresecAPI.SKD
 
 		#region IStateProvider Members
 
-		IDeviceState<XStateClass> IStateProvider.StateClass
+		IDeviceState IStateProvider.StateClass
 		{
 			get { return State; }
 		}

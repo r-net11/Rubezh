@@ -7,7 +7,7 @@ using FiresecAPI.GK;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDoorState : IDeviceState<XStateClass>
+	public class SKDDoorState : IDeviceState
 	{
 		public SKDDoorState()
 		{
@@ -39,12 +39,12 @@ namespace FiresecAPI.SKD
 				StateChanged();
 		}
 
-		#region IDeviceState<XStateClass> Members
-		XStateClass IDeviceState<XStateClass>.StateType
+		#region IDeviceState Members
+		XStateClass IDeviceState.StateClass
 		{
 			get { return StateClass; }
 		}
-		string IDeviceState<XStateClass>.StateTypeName
+		string IDeviceState.Name
 		{
 			get { return StateClass.ToDescription(); }
 		}

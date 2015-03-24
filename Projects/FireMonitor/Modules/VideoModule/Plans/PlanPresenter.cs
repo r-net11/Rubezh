@@ -42,9 +42,9 @@ namespace VideoModule.Plans
 				_monitors.Add(plan, new PlanMonitor(plan, callBack));
 		}
 
-		public StateTypeName<XStateClass> GetStateTypeName(Plan plan)
+		public NamedStateClass GetNamedStateClass(Plan plan)
 		{
-			return _monitors.ContainsKey(plan) ? _monitors[plan].GetStateTypeName() : new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
+			return _monitors.ContainsKey(plan) ? _monitors[plan].GetNamedStateClass() : new NamedStateClass();
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)

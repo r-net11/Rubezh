@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDoor : ModelBase, IStateProvider, IDeviceState<XStateClass>, IPlanPresentable
+	public class SKDDoor : ModelBase, IStateProvider, IDeviceState, IPlanPresentable
 	{
 		public SKDDoor()
 		{
@@ -38,22 +38,22 @@ namespace FiresecAPI.SKD
 		public SKDDevice OutDevice { get; set; }
 
 		#region IStateProvider Members
-		IDeviceState<XStateClass> IStateProvider.StateClass
+		IDeviceState IStateProvider.StateClass
 		{
 			get { return State; }
 		}
-		string IDeviceState<XStateClass>.StateTypeName
+		string IDeviceState.Name
 		{
 			get { return State.StateClass.ToDescription(); }
 		}
 		#endregion
 
 		#region IDeviceState<XStateClass> Members
-		XStateClass IDeviceState<XStateClass>.StateType
+		XStateClass IDeviceState.StateClass
 		{
 			get { return State.StateClass; }
 		}
-		event Action IDeviceState<XStateClass>.StateChanged
+		event Action IDeviceState.StateChanged
 		{
 			add { }
 			remove { }

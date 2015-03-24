@@ -47,7 +47,7 @@ namespace Infrastructure.Client.Plans.Presenter
 
 		protected virtual Color GetStateColor()
 		{
-			switch (Helper.Item.StateClass.StateType)
+			switch (Helper.Item.StateClass.StateClass)
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:

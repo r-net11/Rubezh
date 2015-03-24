@@ -7,7 +7,7 @@ using FiresecAPI.GK;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class GKSKDZoneState : IDeviceState<XStateClass>
+	public class GKSKDZoneState : IDeviceState
 	{
 		public GKSKDZoneState()
 		{
@@ -40,11 +40,11 @@ namespace FiresecAPI.GK
 		}
 
 		#region IDeviceState<XStateClass> Members
-		XStateClass IDeviceState<XStateClass>.StateType
+		XStateClass IDeviceState.StateClass
 		{
 			get { return StateClass; }
 		}
-		string IDeviceState<XStateClass>.StateTypeName
+		string IDeviceState.Name
 		{
 			get { return StateClass.ToDescription(); }
 		}

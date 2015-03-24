@@ -7,7 +7,7 @@ using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
-	public class GKDevicePicture : BaseDevicePicture<GKLibraryState, GKLibraryFrame, XStateClass, GKState>
+	public class GKDevicePicture : BaseDevicePicture<GKLibraryState, GKLibraryFrame, GKState>
 	{
 		internal GKDevicePicture()
 		{

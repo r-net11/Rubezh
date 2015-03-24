@@ -94,7 +94,7 @@ namespace FiresecAPI.Models
 
 		//#region IStateProvider Members
 
-		IDeviceState<XStateClass> IStateProvider.StateClass
+		IDeviceState IStateProvider.StateClass
 		{
 			get { return CameraState; }
 		}

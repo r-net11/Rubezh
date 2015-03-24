@@ -6,7 +6,7 @@ using Common;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class GKState : IDeviceState<XStateClass>
+	public class GKState : IDeviceState
 	{
 		[DataMember]
 		public Guid UID { get; set; }
@@ -169,11 +169,11 @@ namespace FiresecAPI.GK
 		}
 
 		#region IDeviceState<XStateClass> Members
-		XStateClass IDeviceState<XStateClass>.StateType
+		XStateClass IDeviceState.StateClass
 		{
 			get { return StateClass; }
 		}
-		string IDeviceState<XStateClass>.StateTypeName
+		string IDeviceState.Name
 		{
 			get
 			{

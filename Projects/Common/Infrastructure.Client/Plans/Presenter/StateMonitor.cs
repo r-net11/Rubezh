@@ -9,19 +9,19 @@ namespace Infrastructure.Client.Plans.Presenter
 {
 	public class StateMonitor : BaseMonitor<Plan>
 	{
-		private List<IDeviceState<XStateClass>> _states;
+		private List<IDeviceState> _states;
 
 		public StateMonitor(Plan plan, Action callBack)
 			: base(plan, callBack)
 		{
-			_states = new List<IDeviceState<XStateClass>>();
+			_states = new List<IDeviceState>();
 		}
 
 		public void AddState(IStateProvider provider)
 		{
 			AddState(provider == null ? null : provider.StateClass);
 		}
-		public void AddState(IDeviceState<XStateClass> state)
+		public void AddState(IDeviceState state)
 		{
 			if (state != null)
 			{
@@ -30,19 +30,19 @@ namespace Infrastructure.Client.Plans.Presenter
 			}
 		}
 
-		public virtual StateTypeName<XStateClass> GetStateTypeName()
+		public virtual NamedStateClass GetNamedStateClass()
 		{
-			var stateTypeName = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
+			var namedStateClass = new NamedStateClass();
 			_states.ForEach(state =>
 			{
-				var stateClass = state.StateType;
-				if (stateClass < stateTypeName.StateType)
+				var stateClass = state.StateClass;
+				if (stateClass < namedStateClass.StateClass)
 				{
-					stateTypeName.StateType = stateClass;
-					stateTypeName.Name = state.StateTypeName;
+					namedStateClass.StateClass = stateClass;
+					namedStateClass.Name = state.Name;
 				}
 			});
-			return stateTypeName;
+			return namedStateClass;
 		}
 	}
 }

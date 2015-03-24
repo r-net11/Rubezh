@@ -29,7 +29,7 @@ namespace FiresecAPI.SKD
 		public bool AllowMultipleVizualization { get; set; }
 
 		#region IStateProvider Members
-		IDeviceState<XStateClass> IStateProvider.StateClass
+		IDeviceState IStateProvider.StateClass
 		{
 			get { return State; }
 		}

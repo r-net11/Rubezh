@@ -8,7 +8,7 @@ namespace FiresecAPI.GK
 	/// Состояние библиотеки устройств ГК
 	/// </summary>
 	[DataContract]
-	public class GKLibraryState : ILibraryState<GKLibraryFrame, XStateClass>
+	public class GKLibraryState : ILibraryState<GKLibraryFrame>
 	{
 		public GKLibraryState()
 		{
@@ -36,13 +36,13 @@ namespace FiresecAPI.GK
 
 		#region ILibraryState<SKDLibraryFrame,XStateClass> Members
 
-		List<GKLibraryFrame> ILibraryState<GKLibraryFrame, XStateClass>.Frames
+		List<GKLibraryFrame> ILibraryState<GKLibraryFrame>.Frames
 		{
 			get { return Frames; }
 			set { Frames = value; }
 		}
 
-		XStateClass ILibraryState<GKLibraryFrame, XStateClass>.StateType
+		XStateClass ILibraryState<GKLibraryFrame>.StateType
 		{
 			get { return StateClass; }
 		}

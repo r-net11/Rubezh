@@ -9,7 +9,7 @@ using FiresecAPI.GK;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class CameraState : IDeviceState<XStateClass>
+	public class CameraState : IDeviceState
 	{
 		[DataMember]
 		public Guid UID { get; set; }
@@ -37,11 +37,11 @@ namespace FiresecAPI.Models
 		public Camera Camera { get; private set; }
 
 		#region IDeviceState<XStateClass> Members
-		XStateClass IDeviceState<XStateClass>.StateType
+		XStateClass IDeviceState.StateClass
 		{
 			get { return StateClass; }
 		}
-		string IDeviceState<XStateClass>.StateTypeName
+		string IDeviceState.Name
 		{
 			get { return StateClass.ToDescription(); }
 		}
