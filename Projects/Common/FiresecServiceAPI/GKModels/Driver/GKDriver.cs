@@ -68,6 +68,11 @@ namespace FiresecAPI.GK
 			get { return DriverType == GKDriverType.KAU || DriverType == GKDriverType.RSR2_KAU; }
 		}
 
+		public bool IsAm
+		{
+			get { return DriverType == GKDriverType.RSR2_AM_1; }
+		}
+
 		public bool IsPump
 		{
 			get
@@ -79,7 +84,7 @@ namespace FiresecAPI.GK
 
 		public string ImageSource
 		{
-			get { return "/Controls;component/GKIcons/" + this.DriverType.ToString() + ".png"; }
+			get { return "/Controls;component/GKIcons/" + DriverType + ".png"; }
 		}
 	}
 }

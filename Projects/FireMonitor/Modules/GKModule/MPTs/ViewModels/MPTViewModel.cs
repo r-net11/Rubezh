@@ -75,5 +75,10 @@ namespace GKModule.ViewModels
 		{
 			get { return GKManager.GetPresentationLogic(MPT.StopLogic); }
 		}
+
+		public string SuspendPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(MPT.SuspendLogic); }
+		}
 	}
 }

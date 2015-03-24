@@ -135,6 +135,10 @@
 						<TextBlock Text="Условие для выключения" FontWeight="Bold" Width="250" Margin="5 2" />
 						<TextBlock Text="{Binding StopPresentationName}" VerticalAlignment="Center" Margin="2" />
 					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие приостанова пуска" FontWeight="Bold" Width="250" Margin="5 2" />
+						<TextBlock Text="{Binding SuspendPresentationName}" VerticalAlignment="Center" Margin="2" />
+					</StackPanel>
 				</StackPanel>
 			</Border>
 			<Views:MPTControlView Grid.Column="1" DataContext="{Binding MPTDetailsViewModel}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}" Margin="4 4 0 0" />

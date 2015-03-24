@@ -19,7 +19,7 @@ namespace FiresecAPI.GK
 			StopLogic = new GKLogic();
 			SuspendLogic = new GKLogic();
 			MPTDevices = new List<GKMPTDevice>();
-			Delay = 10;
+			Delay = 60;
 			Devices = new List<GKDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}

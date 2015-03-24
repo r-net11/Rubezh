@@ -90,6 +90,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
+						<DataGridTextColumn Width="*" Binding="{Binding GuardZoneDevice.Device.Description}" Header="Примечание" />
 					</DataGrid.Columns>
 				</DataGrid>
 

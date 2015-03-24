@@ -171,7 +171,7 @@
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Задержка" Width="200" Margin="2" />
+						<TextBlock Text="Задержка, с" Width="200" Margin="2" />
 						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
 					</StackPanel>
 				</StackPanel>
