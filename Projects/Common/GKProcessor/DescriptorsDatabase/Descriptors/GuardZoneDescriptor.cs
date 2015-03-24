@@ -237,12 +237,12 @@ namespace GKProcessor
 							GuardZonePimDescriptor.SetGuardZoneChangeLogic(GuardZone, ChangeGuardDevices, Formula, DatabaseType);
 							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim, DatabaseType);
+								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim, DatabaseType);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim, DatabaseType);
+								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim, DatabaseType);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (count > 0 && ChangeGuardDevices.Count > 0)
