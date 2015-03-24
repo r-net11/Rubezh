@@ -10,11 +10,12 @@ using System.Drawing.Printing;
 
 namespace FiresecService.Report.Templates
 {
-	public partial class BaseReport : DevExpress.XtraReports.UI.XtraReport, IFilteredReport
+	public abstract partial class BaseReport : DevExpress.XtraReports.UI.XtraReport, IFilteredReport
 	{
 		private float _topMargin;
 		private float _bottomMargin;
-		public BaseReport()
+
+	    protected BaseReport()
 		{
 			InitializeComponent();
 			_topMargin = TopMargin.HeightF;
@@ -44,6 +45,7 @@ namespace FiresecService.Report.Templates
 
 		protected override void OnBeforePrint(PrintEventArgs e)
 		{
+			Landscape = ForcedLandscape;
 			base.OnBeforePrint(e);
 			TopMargin.HeightF = _topMargin;
 			BottomMargin.HeightF = _bottomMargin;
@@ -99,7 +101,16 @@ namespace FiresecService.Report.Templates
 		}
 
 		protected DataSet DataSet { get; private set; }
-		protected virtual DataSet CreateDataSet(DataProvider dataProvider)
+
+		/// <summary>
+		/// Фиксированная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
+		/// </summary>
+		protected abstract bool ForcedLandscape
+		{
+			get;
+		}
+
+	    protected virtual DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			return new DataSet();
 		}

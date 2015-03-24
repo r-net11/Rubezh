@@ -13,6 +13,14 @@ namespace FiresecService.Report.Templates
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Портретная ориентация листа согласно требованиям http://172.16.6.113:26000/pages/viewpage.action?pageId=6948166
+		/// </summary>
+		protected override bool ForcedLandscape
+		{
+			get { return false; }
+		}
+
 		public override string ReportTitle
 		{
 			get { return "Маршрут сотрудника (посетителя)"; }

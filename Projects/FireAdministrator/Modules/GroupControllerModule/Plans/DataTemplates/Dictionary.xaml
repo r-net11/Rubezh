@@ -12,20 +12,24 @@
 		<Views:GuardZonePropertiesView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:SKDZonePropertiesViewModel}">
+        <Views:SKDZonePropertiesView />
+    </DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:DirectionPropertiesViewModel}">
 		<Views:DirectionPropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DevicesInZoneViewModel}">
-		<Views:DevicesInZoneView />
-	</DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:SKDZonePropertiesViewModel}">
-        <Views:SKDZonePropertiesView />
+    <DataTemplate DataType="{x:Type ViewModels:MPTPropertiesViewModel}">
+        <Views:MPTPropertiesView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:GKDoorPropertiesViewModel}">
 		<Views:GKDoorPropertiesView />
 	</DataTemplate>
-	
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicesInZoneViewModel}">
+        <Views:DevicesInZoneView />
+    </DataTemplate>
+
 </ResourceDictionary>

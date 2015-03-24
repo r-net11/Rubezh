@@ -13,7 +13,10 @@ namespace Infrastructure.Client.Plans.Presenter
 		public StateTooltipViewModel(T item)
 		{
 			Item = item;
-			State = item.StateClass;
+			if (item != null)
+			{
+				State = item.StateClass;
+			}
 		}
 
 		public virtual void OnStateChanged()

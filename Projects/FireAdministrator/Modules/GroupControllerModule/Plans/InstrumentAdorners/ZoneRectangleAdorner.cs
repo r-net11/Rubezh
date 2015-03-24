@@ -1,37 +1,27 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using FiresecAPI.Models;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XZonePolygonAdorner : BasePolygonAdorner
+	public class ZoneRectangleAdorner : BaseRectangleAdorner
 	{
 		ZonesViewModel _zonesViewModel;
 
-		public XZonePolygonAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
+		public ZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{
 			_zonesViewModel = zonesViewModel;
 		}
 
-		protected override Shape CreateRubberband()
+		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			return new Polygon();
-		}
-		protected override PointCollection Points
-		{
-			get { return ((Polygon)Rubberband).Points; }
-		}
-		protected override ElementBaseShape CreateElement()
-		{
-			var element = new ElementPolygonGKZone();
+			var element = new ElementRectangleGKZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;

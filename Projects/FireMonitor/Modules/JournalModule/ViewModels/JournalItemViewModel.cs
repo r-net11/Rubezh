@@ -360,6 +360,12 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowDirection(Direction);
 					}
 					break;
+				case JournalObjectType.GKMPT:
+					if (MPT != null)
+					{
+						ShowOnPlanHelper.ShowMPT(MPT);
+					}
+					break;
 				case JournalObjectType.GKGuardZone:
 					if (GuardZone != null)
 					{
@@ -421,6 +427,12 @@ namespace JournalModule.ViewModels
 					if (Direction != null)
 					{
 						return ShowOnPlanHelper.CanShowDirection(Direction);
+					}
+					break;
+				case JournalObjectType.GKMPT:
+					if (MPT != null)
+					{
+						return ShowOnPlanHelper.CanShowMPT(MPT);
 					}
 					break;
 				case JournalObjectType.GKGuardZone:

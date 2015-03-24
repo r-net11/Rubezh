@@ -11,11 +11,18 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Elements;
+using FiresecAPI.Models;
+using GKModule.Events;
+using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {
 	public class MPTsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		bool _lockSelection;
+
 		public MPTsViewModel()
 		{
 			Menu = new MPTsMenuViewModel(this);
@@ -23,6 +30,8 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			RegisterShortcuts();
+			IsRightPanelEnabled = true;
+			SubscribeEvents();
 			SetRibbonItems();
 		}
 
@@ -55,8 +64,12 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMPT = value;
+				if (value != null)
+					value.Update();
 				OnPropertyChanged(() => SelectedMPT);
 				OnPropertyChanged(() => HasSelectedMPT);
+				if (!_lockSelection && _selectedMPT != null && _selectedMPT.MPT.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedMPT.MPT.PlanElementUIDs);
 			}
 		}
 
@@ -73,6 +86,11 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			OnAddResult();
+		}
+
+		MPTDetailsViewModel OnAddResult()
+		{
 			var mptDetailsViewModel = new MPTDetailsViewModel();
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
@@ -83,6 +101,7 @@ namespace GKModule.ViewModels
 				OnPropertyChanged(() => HasSelectedMPT);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+			return mptDetailsViewModel;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -108,13 +127,40 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var mptDetailsViewModel = new MPTDetailsViewModel(SelectedMPT.MPT);
+			OnEdit(SelectedMPT.MPT);
+		}
+
+		void OnEdit(GKMPT mpt)
+		{
+			var mptDetailsViewModel = new MPTDetailsViewModel(mpt);
 			if (DialogService.ShowModalWindow(mptDetailsViewModel))
 			{
 				SelectedMPT.MPT = mptDetailsViewModel.MPT;
 				SelectedMPT.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public void CreateMPT(CreateGKMPTEventArg createMPTEventArg)
+		{
+			MPTDetailsViewModel result = OnAddResult();
+			if (result == null)
+			{
+				createMPTEventArg.Cancel = true;
+				createMPTEventArg.MPTUID = Guid.Empty;
+			}
+			else
+			{
+				createMPTEventArg.Cancel = false;
+				createMPTEventArg.MPTUID = result.MPT.UID;
+				createMPTEventArg.MPT = result.MPT;
+			}
+		}
+		public void EditMPT(Guid mptUID)
+		{
+			var mptViewModel = mptUID == Guid.Empty ? null : MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
+			if (mptViewModel != null)
+				OnEdit(mptViewModel.MPT);
 		}
 
 		public void Select(Guid mptUID)
@@ -141,6 +187,67 @@ namespace GKModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 		}
 
+		public void LockedSelect(Guid zoneUID)
+		{
+			_lockSelection = true;
+			Select(zoneUID);
+			_lockSelection = false;
+		}
+
+		void SubscribeEvents()
+		{
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
+			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+		}
+		private void OnMPTChanged(Guid mptUID)
+		{
+			var mpt = MPTs.FirstOrDefault(x => x.MPT.UID == mptUID);
+			if (mpt != null)
+			{
+				mpt.Update();
+				// TODO: FIX IT
+				if (!_lockSelection)
+					SelectedMPT = mpt;
+			}
+		}
+		private void OnElementChanged(List<ElementBase> elements)
+		{
+			Guid guid = Guid.Empty;
+			_lockSelection = true;
+			elements.ForEach(element =>
+			{
+				var elementMPT = GetElementMPT(element);
+				if (elementMPT != null)
+				{
+					OnMPTChanged(elementMPT.MPTUID);
+				}
+			});
+			_lockSelection = false;
+		}
+		private void OnElementSelected(ElementBase element)
+		{
+			var elementMPT = GetElementMPT(element);
+			if (elementMPT != null)
+			{
+				_lockSelection = true;
+				Select(elementMPT.MPTUID);
+				_lockSelection = false;
+			}
+		}
+		private IElementMPT GetElementMPT(ElementBase element)
+		{
+			IElementMPT elementMPT = element as ElementRectangleGKMPT;
+			if (elementMPT == null)
+				elementMPT = element as ElementPolygonGKMPT;
+			return elementMPT;
+		}
 
 		private void SetRibbonItems()
 		{

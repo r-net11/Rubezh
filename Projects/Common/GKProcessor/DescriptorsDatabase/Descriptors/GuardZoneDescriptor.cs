@@ -237,12 +237,12 @@ namespace GKProcessor
 							GuardZonePimDescriptor.SetGuardZoneChangeLogic(GuardZone, ChangeGuardDevices, Formula, DatabaseType);
 							if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim, DatabaseType);
+								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim, DatabaseType);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (commandStateBit == GKStateBit.TurnOff_InAutomatic)
 							{
-								Formula.AddGetBit(GKStateBit.On, GuardZone.Pim, DatabaseType);
+								Formula.AddGetBit(GKStateBit.Off, GuardZone.Pim, DatabaseType);
 								Formula.Add(FormulaOperationType.AND);
 							}
 							if (count > 0 && ChangeGuardDevices.Count > 0)
@@ -250,43 +250,53 @@ namespace GKProcessor
 								Formula.Add(FormulaOperationType.OR);
 							}
 						}
-						if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
-						{
-							foreach (var setAlarmDevice in SetAlarmDevices)
-							{
-								Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Device, DatabaseType);
-								Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Device, DatabaseType);
-								Formula.Add(FormulaOperationType.OR);
-								Formula.Add(FormulaOperationType.COM);
-								Formula.Add(FormulaOperationType.AND);
-							}
-						}
+                        if (commandStateBit == GKStateBit.TurnOn_InAutomatic)
+                        {
+                            foreach (var setAlarmDevice in SetAlarmDevices)
+                            {
+                                if (setAlarmDevice.Device.DriverType != GKDriverType.RSR2_CardReader)
+                                {
+                                    Formula.AddGetBit(GKStateBit.Fire1, setAlarmDevice.Device, DatabaseType);
+                                    Formula.AddGetBit(GKStateBit.Failure, setAlarmDevice.Device, DatabaseType);
+                                    Formula.Add(FormulaOperationType.OR);
+                                    Formula.Add(FormulaOperationType.COM);
+                                    Formula.Add(FormulaOperationType.AND);
+                                }
+                            }
+                        }
 						Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);
 					}
 					break;
 			}
 		}
 
-		private void AddMissedLogic(List<GKGuardZoneDevice> guardZoneDevices)
-		{
-			var count = 0;
-			if (guardZoneDevices.Count == 0)
-				return;
-			Formula.AddGetBit(GKStateBit.TurningOn, GuardZone, DatabaseType);
-			foreach (var guardDevice in guardZoneDevices)
-			{
-				Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
-				if (count > 0)
-				{
-					Formula.Add(FormulaOperationType.OR);
-				}
-				Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
-				Formula.Add(FormulaOperationType.OR);
-				count++;
-			}
-			Formula.Add(FormulaOperationType.AND);
-			Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType);
-		}
+        private void AddMissedLogic(List<GKGuardZoneDevice> guardZoneDevices)
+        {
+            var count = 0;
+            if (guardZoneDevices.Count == 0)
+                return;
+            Formula.AddGetBit(GKStateBit.TurningOn, GuardZone, DatabaseType);
+            Formula.Add(FormulaOperationType.BR, 2, 1);
+            Formula.Add(FormulaOperationType.EXIT);
+            foreach (var guardDevice in guardZoneDevices)
+            {
+                if (guardDevice.Device.DriverType != GKDriverType.RSR2_CardReader)
+                {
+                    Formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, DatabaseType);
+                    if (count > 0)
+                    {
+                        Formula.Add(FormulaOperationType.OR);
+                    }
+                    Formula.AddGetBit(GKStateBit.Failure, guardDevice.Device, DatabaseType);
+                    Formula.Add(FormulaOperationType.OR);
+                    count++;
+                }
+            }
+            if (count > 0)
+            {
+                Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, GuardZone, DatabaseType);
+            }
+        }
 
 		GKStateBit CodeReaderEnterTypeToStateBit(GKCodeReaderEnterType codeReaderEnterType)
 		{

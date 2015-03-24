@@ -327,6 +327,7 @@ namespace JournalModule.ViewModels
 					archiveFilter = ArchiveFilter;
 
 				archiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
+				archiveFilter.UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
 				archiveFilter.StartDate = ArchiveFirstDate;
 				archiveFilter.EndDate = DateTime.Now;
 

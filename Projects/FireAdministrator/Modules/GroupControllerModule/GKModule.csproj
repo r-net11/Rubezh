@@ -152,6 +152,8 @@
     <Compile Include="Events\ShowGKDaySchedulesEvent.cs" />
     <Compile Include="Events\ShowGKSKDZoneEvent.cs" />
     <Compile Include="Events\EditGKSKDZoneEvent.cs" />
+    <Compile Include="Events\CreateGKMPTEvent.cs" />
+    <Compile Include="Events\EditGKMPTEvent.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodeReaderSettingsViewModel.cs" />
     <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
@@ -227,13 +229,16 @@
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Plans\Designer\GKDoorPainter.cs" />
     <Compile Include="Plans\Designer\ElementDeviceUpdater.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XGuardZonePolygonAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XGuardZoneRectangleAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XSKDZonePolygonAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XSKDZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\GuardZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\GuardZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\SKDZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\MPTPolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\MPTRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\GKDoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\MPTPropertiesViewModel.cs" />
     <Compile Include="Plans\Views\GKDoorPropertiesView.xaml.cs">
       <DependentUpon>GKDoorPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +247,9 @@
     </Compile>
     <Compile Include="Plans\Views\SKDZonePropertiesView.xaml.cs">
       <DependentUpon>SKDZonePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
+      <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
@@ -367,10 +375,10 @@
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\Painter.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XDirectionPolygonAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XDirectionRectangleAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XZonePolygonAdorner.cs" />
-    <Compile Include="Plans\InstrumentAdorners\XZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\DirectionPolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\DirectionRectangleAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\ZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\ZoneRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
@@ -745,6 +753,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\SKDZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\MPTPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

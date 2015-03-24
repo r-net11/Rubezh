@@ -44,10 +44,12 @@ namespace FiresecAPI.Models
 			ElementPolygonGKZones = new List<ElementPolygonGKZone>();
 			ElementRectangleGKGuardZones = new List<ElementRectangleGKGuardZone>();
 			ElementPolygonGKGuardZones = new List<ElementPolygonGKGuardZone>();
-			ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
-			ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
 			ElementRectangleGKSKDZones = new List<ElementRectangleGKSKDZone>();
 			ElementPolygonGKSKDZones = new List<ElementPolygonGKSKDZone>();
+			ElementRectangleGKDirections = new List<ElementRectangleGKDirection>();
+			ElementPolygonGKDirections = new List<ElementPolygonGKDirection>();
+			ElementRectangleGKMPTs = new List<ElementRectangleGKMPT>();
+			ElementPolygonGKMPTs = new List<ElementPolygonGKMPT>();
 			ElementGKDoors = new List<ElementGKDoor>();
 
 			ElementSKDDevices = new List<ElementSKDDevice>();
@@ -111,6 +113,10 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementPolygonGKDirection> ElementPolygonGKDirections { get; set; }
 		[DataMember]
+		public List<ElementRectangleGKMPT> ElementRectangleGKMPTs { get; set; }
+		[DataMember]
+		public List<ElementPolygonGKMPT> ElementPolygonGKMPTs { get; set; }
+		[DataMember]
 		public List<ElementRectangleGKSKDZone> ElementRectangleGKSKDZones { get; set; }
 		[DataMember]
 		public List<ElementPolygonGKSKDZone> ElementPolygonGKSKDZones { get; set; }
@@ -141,10 +147,12 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementExtensions);
 				union.AddRange(ElementPolygonSKDZones);
 				union.AddRange(ElementPolygonGKDirections);
+				union.AddRange(ElementPolygonGKMPTs);
 				union.AddRange(ElementPolygonGKGuardZones);
 				union.AddRange(ElementPolygonGKZones);
 				union.AddRange(ElementRectangleSKDZones);
 				union.AddRange(ElementRectangleGKDirections);
+				union.AddRange(ElementRectangleGKMPTs);
 				union.AddRange(ElementRectangleGKGuardZones);
 				union.AddRange(ElementRectangleGKZones);
 				union.AddRange(ElementSKDDevices);

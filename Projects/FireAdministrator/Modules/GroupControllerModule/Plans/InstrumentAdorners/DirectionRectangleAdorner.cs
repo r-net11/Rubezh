@@ -9,23 +9,22 @@ using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XZoneRectangleAdorner : BaseRectangleAdorner
+	public class DirectionRectangleAdorner : BaseRectangleAdorner
 	{
-		ZonesViewModel _zonesViewModel;
-
-		public XZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
+		private DirectionsViewModel _directionsViewModel;
+		public DirectionRectangleAdorner(CommonDesignerCanvas designerCanvas, DirectionsViewModel directionsViewModel)
 			: base(designerCanvas)
 		{
-			_zonesViewModel = zonesViewModel;
+			_directionsViewModel = directionsViewModel;
 		}
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementRectangleGKZone();
-			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
+			var element = new ElementRectangleGKDirection();
+			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			GKPlanExtension.Instance.SetItem<GKZone>(element);
+			GKPlanExtension.Instance.SetItem<GKDirection>(element);
 			return element;
 		}
 	}

@@ -10,6 +10,8 @@ namespace FiresecAPI.SKD
 		public SKDDoorConfiguration()
 		{
 			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
+			UnlockHoldInterval = 2000;
+			CloseTimeout = 0;
 		}
 
 		[DataMember]

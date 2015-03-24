@@ -76,13 +76,13 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 
 		[OperationContract]
-		OperationResult<bool> AddCard(SKDCard item);
+		OperationResult<bool> AddCard(SKDCard item, string employeeName);
 
 		[OperationContract]
-		OperationResult<bool> EditCard(SKDCard item);
+		OperationResult<bool> EditCard(SKDCard item, string employeeName);
 
 		[OperationContract]
-		OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null);
+		OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, string reason = null);
 
 		[OperationContract]
 		OperationResult DeletedCard(Guid uid);

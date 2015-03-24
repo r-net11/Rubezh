@@ -51,16 +51,10 @@ namespace GKProcessor
 				Name = "Два контакта, нормально разомкнутые",
 				Value = 3
 			};
-			var property1Parameter5 = new GKDriverPropertyParameter()
-			{
-				Name = "Охранный",
-				Value = 4
-			};
 			property1.Parameters.Add(property1Parameter1);
 			property1.Parameters.Add(property1Parameter2);
 			property1.Parameters.Add(property1Parameter3);
 			property1.Parameters.Add(property1Parameter4);
-			property1.Parameters.Add(property1Parameter5);
 			driver.Properties.Add(property1);
 
 			var property2 = new GKDriverProperty()

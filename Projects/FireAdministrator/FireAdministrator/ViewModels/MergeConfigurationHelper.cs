@@ -173,6 +173,10 @@ namespace FireAdministrator.ViewModels
 			{
 				GKManager.Directions.Add(direction);
 			}
+			foreach (var mpt in GKDeviceConfiguration.MPTs)
+			{
+				GKManager.MPTs.Add(mpt);
+			}
 			foreach (var delay in GKDeviceConfiguration.Delays)
 			{
 				GKManager.DeviceConfiguration.Delays.Add(delay);
@@ -277,6 +281,12 @@ namespace FireAdministrator.ViewModels
 				GKDirectionUIDs.Add(direction.UID, uid);
 				direction.UID = uid;
 			}
+			foreach (var mpt in GKDeviceConfiguration.MPTs)
+			{
+				var uid = Guid.NewGuid();
+				GKMPTUIDs.Add(mpt.UID, uid);
+				mpt.UID = uid;
+			}
 			foreach (var delay in GKDeviceConfiguration.Delays)
 			{
 				var uid = Guid.NewGuid();
@@ -327,6 +337,13 @@ namespace FireAdministrator.ViewModels
 			foreach (var direction in GKDeviceConfiguration.Directions)
 			{
 				ReplaceLogic(direction.Logic);
+			}
+
+			foreach (var mpt in GKDeviceConfiguration.MPTs)
+			{
+				ReplaceLogic(mpt.StartLogic);
+				ReplaceLogic(mpt.StopLogic);
+				ReplaceLogic(mpt.SuspendLogic);
 			}
 
 			foreach (var guardZone in GKDeviceConfiguration.GuardZones)
@@ -444,6 +461,22 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
+				foreach (var element in plan.ElementRectangleGKMPTs)
+				{
+					if (element.MPTUID != Guid.Empty)
+						element.MPTUID = GKMPTUIDs[element.MPTUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementPolygonGKMPTs)
+				{
+					if (element.MPTUID != Guid.Empty)
+						element.MPTUID = GKMPTUIDs[element.MPTUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
 				foreach (var element in plan.ElementGKDoors)
 				{
 					if (element.DoorUID != Guid.Empty)
@@ -493,6 +526,16 @@ namespace FireAdministrator.ViewModels
 				{
 					var directionUID = clause.DirectionUIDs[i];
 					clause.DirectionUIDs[i] = GKDirectionUIDs[directionUID];
+				}
+				for (int i = 0; i < clause.MPTUIDs.Count; i++)
+				{
+					var mptUID = clause.MPTUIDs[i];
+					clause.MPTUIDs[i] = GKMPTUIDs[mptUID];
+				}
+				for (int i = 0; i < clause.DoorUIDs.Count; i++)
+				{
+					var doorUID = clause.DoorUIDs[i];
+					clause.DoorUIDs[i] = GKDoorUIDs[doorUID];
 				}
 			}
 		}

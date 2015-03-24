@@ -17,6 +17,10 @@ namespace ControllerSDK
 			try
 			{
 				var registryDataConfiguration = new ConnectionSettings();
+				registryDataConfiguration.Address = "172.16.6.41";
+				registryDataConfiguration.Login = "admin";
+				registryDataConfiguration.Password = "111111";
+
 				if (File.Exists(FileName))
 				{
 					using (var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

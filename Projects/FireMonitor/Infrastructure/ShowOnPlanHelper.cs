@@ -96,6 +96,23 @@ namespace Infrastructure
 			return false;
 		}
 
+		public static void ShowMPT(GKMPT mpt)
+		{
+			ServiceFactory.Events.GetEvent<ShowGKMPTOnPlanEvent>().Publish(mpt);
+		}
+		public static bool CanShowMPT(GKMPT mpt)
+		{
+			if (mpt != null)
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				{
+					if (plan.ElementRectangleGKMPTs.Any(x => x.MPTUID == mpt.UID))
+						return true;
+					if (plan.ElementPolygonGKMPTs.Any(x => x.MPTUID == mpt.UID))
+						return true;
+				}
+			return false;
+		}
+
 		public static void ShowDoor(GKDoor door)
 		{
 			ServiceFactory.Events.GetEvent<ShowGKDoorOnPlanEvent>().Publish(door);

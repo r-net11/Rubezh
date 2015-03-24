@@ -212,13 +212,13 @@ namespace FiresecService.Service
 				return databaseService.CardTranslator.Get(filter);
 			}
 		}
-		public OperationResult<bool> AddCard(SKDCard card)
+		public OperationResult<bool> AddCard(SKDCard card, string employeeName)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var errors = new List<string>();
 
-				AddJournalMessage(JournalEventNameType.Добавление_карты, card.Number.ToString());
+				AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName);
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
 					errors.Add(getAccessTemplateOperationResult.Error);
@@ -261,13 +261,13 @@ namespace FiresecService.Service
 					return new OperationResult<bool>() { Result = true };
 			}
 		}
-		public OperationResult<bool> EditCard(SKDCard card)
+		public OperationResult<bool> EditCard(SKDCard card, string employeeName)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var errors = new List<string>();
 
-				AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString());
+				AddJournalMessage(JournalEventNameType.Редактирование_карты, employeeName);
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
 					errors.Add(getAccessTemplateOperationResult.Error);
@@ -319,13 +319,13 @@ namespace FiresecService.Service
 					return new OperationResult<bool>() { Result = true };
 			}
 		}
-		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard card, string employeeName, string reason = null)
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
 				var errors = new List<string>();
 
-				AddJournalMessage(JournalEventNameType.Удаление_карты, card.Number.ToString());
+				AddJournalMessage(JournalEventNameType.Удаление_карты, employeeName);
 
 				card.AccessTemplateUID = null;
 				card.CardDoors = new List<CardDoor>();
@@ -500,7 +500,7 @@ namespace FiresecService.Service
 				{
 					foreach (var card in cards.Result)
 					{
-						var cardResult = DeleteCardFromEmployee(card);
+						var cardResult = DeleteCardFromEmployee(card, name);
 						if (cardResult.HasError)
 							errors.Add(cardResult.Error);
 					}

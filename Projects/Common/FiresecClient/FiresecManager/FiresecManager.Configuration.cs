@@ -109,6 +109,7 @@ namespace FiresecClient
 				GKManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				GKManager.MPTs.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				GKManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
@@ -142,6 +143,12 @@ namespace FiresecClient
 				{
 					if (!gkDirectionMap.ContainsKey(direction.UID))
 						gkDirectionMap.Add(direction.UID, direction);
+				}
+				var gkMPTMap = new Dictionary<Guid, GKMPT>();
+				foreach (var mpt in GKManager.MPTs)
+				{
+					if (!gkMPTMap.ContainsKey(mpt.UID))
+						gkMPTMap.Add(mpt.UID, mpt);
 				}
 				var gkDoorMap = new Dictionary<Guid, GKDoor>();
 				foreach (var door in GKManager.Doors)
@@ -218,18 +225,6 @@ namespace FiresecClient
 						if (gkGuardZoneMap.ContainsKey(guardZone.ZoneUID))
 							gkGuardZoneMap[guardZone.ZoneUID].PlanElementUIDs.Add(guardZone.UID);
 					}
-					foreach (var direction in plan.ElementRectangleGKDirections)
-					{
-						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
-						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
-							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
-					}
-					foreach (var direction in plan.ElementPolygonGKDirections)
-					{
-						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
-						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
-							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
-					}
 					for (int i = plan.ElementRectangleGKSKDZones.Count(); i > 0; i--)
 					{
 						var elementRectangleGKSKDZone = plan.ElementRectangleGKSKDZones[i - 1];
@@ -243,6 +238,30 @@ namespace FiresecClient
 						elementPolygonGKSKDZone.UpdateZLayer();
 						if (gkDoorMap.ContainsKey(elementPolygonGKSKDZone.ZoneUID))
 							gkDoorMap[elementPolygonGKSKDZone.ZoneUID].PlanElementUIDs.Add(elementPolygonGKSKDZone.UID);
+					}
+					foreach (var direction in plan.ElementRectangleGKDirections)
+					{
+						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
+						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
+							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
+					}
+					foreach (var direction in plan.ElementPolygonGKDirections)
+					{
+						UpdateDirectionType(direction, direction.DirectionUID != Guid.Empty && gkDirectionMap.ContainsKey(direction.DirectionUID) ? gkDirectionMap[direction.DirectionUID] : null);
+						if (gkDirectionMap.ContainsKey(direction.DirectionUID))
+							gkDirectionMap[direction.DirectionUID].PlanElementUIDs.Add(direction.UID);
+					}
+					foreach (var mpt in plan.ElementRectangleGKMPTs)
+					{
+						UpdateMPTType(mpt, mpt.MPTUID != Guid.Empty && gkMPTMap.ContainsKey(mpt.MPTUID) ? gkMPTMap[mpt.MPTUID] : null);
+						if (gkMPTMap.ContainsKey(mpt.MPTUID))
+							gkMPTMap[mpt.MPTUID].PlanElementUIDs.Add(mpt.UID);
+					}
+					foreach (var mpt in plan.ElementPolygonGKMPTs)
+					{
+						UpdateMPTType(mpt, mpt.MPTUID != Guid.Empty && gkMPTMap.ContainsKey(mpt.MPTUID) ? gkMPTMap[mpt.MPTUID] : null);
+						if (gkMPTMap.ContainsKey(mpt.MPTUID))
+							gkMPTMap[mpt.MPTUID].PlanElementUIDs.Add(mpt.UID);
 					}
 					for (int i = plan.ElementGKDoors.Count(); i > 0; i--)
 					{
@@ -315,15 +334,20 @@ namespace FiresecClient
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
-		private static void UpdateDirectionType(IElementDirection elementXDirection, GKDirection xdirection)
-		{
-			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
-			elementXDirection.BackgroundColor = xdirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
-		}
 		private static void UpdateSKDZoneType(IElementZone elementZone, SKDZone zone)
 		{
 			elementZone.SetZLayer(zone == null ? 50 : 60);
 			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
+		}
+		private static void UpdateDirectionType(IElementDirection elementGKDirection, GKDirection gkDirection)
+		{
+			elementGKDirection.SetZLayer(gkDirection == null ? 10 : 11);
+			elementGKDirection.BackgroundColor = gkDirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
+		}
+		private static void UpdateMPTType(IElementMPT elementGKMPT, GKMPT gkMPT)
+		{
+			elementGKMPT.SetZLayer(gkMPT == null ? 10 : 11);
+			elementGKMPT.BackgroundColor = gkMPT == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
 		}
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
 		{

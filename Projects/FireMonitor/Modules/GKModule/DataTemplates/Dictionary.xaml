@@ -104,7 +104,11 @@
 		<Views:DirectionToolTipView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MPTTooltipViewModel}">
+        <Views:MPTToolTipView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
 		<Views:ZoneToolTipView />
 	</DataTemplate>
 

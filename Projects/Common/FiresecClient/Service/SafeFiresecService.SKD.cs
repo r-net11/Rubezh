@@ -118,17 +118,17 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult<bool> AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard item, string employeeName)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddCard(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddCard(item, employeeName));
 		}
-		public OperationResult<bool> EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard item, string employeeName)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.EditCard(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.EditCard(item, employeeName));
 		}
-		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, string reason = null)
 		{
-			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, reason));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, employeeName, reason));
 		}
 		public OperationResult DeletedCard(Guid uid)
 		{

@@ -6,7 +6,6 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
 
-
 namespace SKDDriver
 {
 	public class OrganisationTranslator : IsDeletedTranslator<DataAccess.Organisation, Organisation, OrganisationFilter>
@@ -216,21 +215,6 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 			return new OperationResult();
-		}
-
-		void DeleteCardDoors(Guid organisationUID, List<Guid> newDoorUIDs)
-		{
-			var doorUIDsToDelete = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID).Select(x => x.DoorUID).ToList().Except(newDoorUIDs);
-			var cardDoorUIDsToDelete = new List<DataAccess.CardDoor>();
-			var cardDoors = Context.Cards.Where(x => !x.IsInStopList && x.Employee.OrganisationUID.Value == organisationUID).SelectMany(x => x.CardDoors);
-			foreach (var cardDoor in cardDoors)
-				if (doorUIDsToDelete.Any(x => x == cardDoor.DoorUID))
-					cardDoorUIDsToDelete.Add(cardDoor);
-			var accessTemplateDoors = Context.AccessTemplates.Where(x => !x.IsDeleted && x.OrganisationUID == organisationUID).SelectMany(x => x.CardDoors);
-			foreach (var cardDoor in accessTemplateDoors)
-				if (doorUIDsToDelete.Any(x => x == cardDoor.DoorUID))
-					cardDoorUIDsToDelete.Add(cardDoor);
-			Context.CardDoors.DeleteAllOnSubmit(cardDoorUIDsToDelete);
 		}
 
 		public OperationResult SaveUsers(Organisation apiItem)

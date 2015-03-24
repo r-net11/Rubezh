@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using Infrastructure.Events;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -35,6 +36,20 @@ namespace GKModule.ViewModels
 			SKDZone = skdZone;
 			State.StateChanged += OnStateChanged;
 			OnStateChanged();
+
+			EnterDoors = new ObservableCollection<GKDoor>();
+			ExitDoors = new ObservableCollection<GKDoor>();
+			foreach (var door in GKManager.Doors)
+			{
+				if (door.EnterZoneUID == skdZone.UID)
+				{
+					EnterDoors.Add(door);
+				}
+				if (door.ExitZoneUID == skdZone.UID)
+				{
+					ExitDoors.Add(door);
+				}
+			}
 		}
 
 		public List<XStateClass> StateClasses
@@ -53,6 +68,18 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => SKDZone);
 			OnPropertyChanged(() => StateClasses);
 			OnPropertyChanged(() => IsOff);
+		}
+
+		public ObservableCollection<GKDoor> EnterDoors { get; private set; }
+		public ObservableCollection<GKDoor> ExitDoors { get; private set; }
+
+		public bool HasEnterDoors
+		{
+			get { return EnterDoors.Count > 0; }
+		}
+		public bool HasExitDoors
+		{
+			get { return ExitDoors.Count > 0; }
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }

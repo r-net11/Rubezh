@@ -9,23 +9,22 @@ using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XGuardZoneRectangleAdorner : BaseRectangleAdorner
+	public class MPTRectangleAdorner : BaseRectangleAdorner
 	{
-		GuardZonesViewModel _guardZonesViewModel;
-
-		public XGuardZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, GuardZonesViewModel guardZonesViewModel)
+		private MPTsViewModel _mptsViewModel;
+		public MPTRectangleAdorner(CommonDesignerCanvas designerCanvas, MPTsViewModel mptsViewModel)
 			: base(designerCanvas)
 		{
-			_guardZonesViewModel = guardZonesViewModel;
+			_mptsViewModel = mptsViewModel;
 		}
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementRectangleGKGuardZone();
-			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
+			var element = new ElementRectangleGKMPT();
+			var propertiesViewModel = new MPTPropertiesViewModel(element, _mptsViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			GKPlanExtension.Instance.SetItem<GKGuardZone>(element);
+			GKPlanExtension.Instance.SetItem<GKMPT>(element);
 			return element;
 		}
 	}
