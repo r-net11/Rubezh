@@ -41,6 +41,10 @@ namespace FiresecAPI.Models
 		{
 			get { return StateClass; }
 		}
+		string IDeviceState<XStateClass>.StateTypeName
+		{
+			get { return StateClass.ToDescription(); }
+		}
 		#endregion
 	}
 }

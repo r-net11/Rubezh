@@ -94,7 +94,10 @@ namespace RviClient
 					Session = sessionUID
 				};
 				var perimeterOut = client.GetPerimeter(perimeterIn);
-				devices = perimeterOut.Devices.ToList();
+				if (perimeterOut.Devices != null)
+				{
+					devices = perimeterOut.Devices.ToList();
+				}
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()

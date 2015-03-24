@@ -40,12 +40,14 @@ namespace FiresecAPI.GK
 		}
 
 		#region IDeviceState<XStateClass> Members
-
 		XStateClass IDeviceState<XStateClass>.StateType
 		{
 			get { return StateClass; }
 		}
-
+		string IDeviceState<XStateClass>.StateTypeName
+		{
+			get { return StateClass.ToDescription(); }
+		}
 		#endregion
 	}
 }

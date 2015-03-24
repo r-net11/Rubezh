@@ -4,26 +4,27 @@ using Infrastructure;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
+using Common;
 
 namespace PlansModule.ViewModels
 {
 	public class PlanViewModel : TreeNodeViewModel<PlanViewModel>
 	{
-		private PlansViewModel _plansViewModel;
+		PlansViewModel _plansViewModel;
 		public Plan Plan { get; private set; }
 		public PlanFolder PlanFolder { get; private set; }
 
 		public PlanViewModel(PlansViewModel plansViewModel, Plan plan)
 		{
-			_selfStateClass = XStateClass.No;
-			_stateClass = XStateClass.No;
+			_selfStateClass = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
+			_stateClass = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
 			_plansViewModel = plansViewModel;
 			Plan = plan;
 			PlanFolder = plan as PlanFolder;
 		}
 
-		private XStateClass _stateClass;
-		public XStateClass StateClass
+		StateTypeName<XStateClass> _stateClass;
+		public StateTypeName<XStateClass> StateClass
 		{
 			get { return _stateClass; }
 			set
@@ -34,8 +35,8 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private XStateClass _selfStateClass;
-		public XStateClass SelfStateClass
+		StateTypeName<XStateClass> _selfStateClass;
+		public StateTypeName<XStateClass> SelfStateClass
 		{
 			get { return _selfStateClass; }
 			set
@@ -46,12 +47,12 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private void UpdateState()
+		void UpdateState()
 		{
 			StateClass = SelfStateClass;
 			foreach (var child in Children)
 			{
-				if (child.StateClass < StateClass)
+				if (child.StateClass.StateType < StateClass.StateType)
 					StateClass = child.StateClass;
 			}
 			if (Parent != null)
@@ -63,18 +64,23 @@ namespace PlansModule.ViewModels
 			planPresenter.SubscribeStateChanged(Plan, StateChanged);
 			StateChanged();
 		}
-		private void StateChanged()
+		void StateChanged()
 		{
-			var state = XStateClass.No;
+			var minStateTypeName = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
 			{
-				var presenterState = (XStateClass)planPresenter.GetState(Plan);
-				if (presenterState < state)
-					state = presenterState;
+				var presenterState = (StateTypeName<XStateClass>)planPresenter.GetStateTypeName(Plan);
+				if (presenterState.StateType < minStateTypeName.StateType)
+				{
+					minStateTypeName = presenterState;
+				}
 			}
-			if (state == XStateClass.No || state == XStateClass.Off)
-				state = XStateClass.Norm;
-			SelfStateClass = state;
+			if (minStateTypeName.StateType == XStateClass.No || minStateTypeName.StateType == XStateClass.Off)
+			{
+				minStateTypeName.StateType = XStateClass.Norm;
+				minStateTypeName.Name = "Норма";
+			}
+			SelfStateClass = minStateTypeName;
 		}
 
 		public bool IsFolder

@@ -1,5 +1,7 @@
 ﻿using System;
 using Common;
+using System.Net;
+using System.Linq;
 
 namespace Infrastructure.Common
 {
@@ -47,41 +49,11 @@ namespace Infrastructure.Common
 			}
 		}
 
-		public static string FSAgentServerAddress
-		{
-			get
-			{
-				var serviceAddress = "net.pipe://127.0.0.1/FSAgent/";
-				if (IsRemote)
-				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + (RemotePort + 1).ToString() + "/FSAgent/";
-				}
-				return serviceAddress;
-			}
-		}
-
-		public static string FS2ServerAddress
-		{
-			get
-			{
-				var serviceAddress = "net.pipe://127.0.0.1/FS2/";
-				if (IsRemote)
-				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + (RemotePort + 2).ToString() + "/FS2/";
-				}
-				return serviceAddress;
-			}
-		}
-
 		public static string ReportServerAddress
 		{
 			get
 			{
-				var serviceAddress = "net.pipe://127.0.0.1/ReportFiresecService/";
-				if (IsRemote)
-				{
-					serviceAddress = "net.tcp://" + RemoteAddress + ":" + ReportRemotePort.ToString() + "/ReportFiresecService/";
-				}
+				var serviceAddress = "net.tcp://" + GetIPAddress() + ":" + ReportRemotePort.ToString() + "/ReportFiresecService/";
 				return serviceAddress;
 			}
 		}
@@ -93,6 +65,23 @@ namespace Infrastructure.Common
 				if (string.IsNullOrEmpty(RemoteAddress))
 					return false;
 				return (RemoteAddress != "localhost" && RemoteAddress != "127.0.0.1");
+			}
+		}
+
+		public static string GetIPAddress()
+		{
+			try
+			{
+				var hostName = System.Net.Dns.GetHostName();
+				IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(hostName);
+				IPAddress[] addresses = ipEntry.AddressList;
+				var ipV6Address = addresses.FirstOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+				return ipV6Address.ToString();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecServiceManager.GetIPAddress");
+				return "localhost";
 			}
 		}
 	}

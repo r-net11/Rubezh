@@ -134,7 +134,7 @@ namespace FiresecAPI.GK
 		{
 			Door = door;
 			UID = door.UID;
-			BaseObjectType = GKBaseObjectType.GuardZone;
+			BaseObjectType = GKBaseObjectType.Door;
 		}
 
 		public GKState(GKSKDZone zone)
@@ -172,6 +172,42 @@ namespace FiresecAPI.GK
 		XStateClass IDeviceState<XStateClass>.StateType
 		{
 			get { return StateClass; }
+		}
+		string IDeviceState<XStateClass>.StateTypeName
+		{
+			get
+			{
+				switch (BaseObjectType)
+				{
+					case GKBaseObjectType.Deivce:
+						switch (StateClass)
+						{
+							case XStateClass.Fire1:
+								return "Сработка 1";
+							case XStateClass.Fire2:
+								return "Сработка 2";
+						}
+						break;
+
+					case GKBaseObjectType.GuardZone:
+						switch (StateClass)
+						{
+							case XStateClass.Fire1:
+								return "Тревога";
+						}
+						break;
+
+					case GKBaseObjectType.Door:
+						switch (StateClass)
+						{
+							case XStateClass.Fire1:
+								return "Тревога";
+						}
+						break;
+
+				}
+				return StateClass.ToDescription();
+			}
 		}
 		#endregion
 	}

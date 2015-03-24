@@ -177,7 +177,6 @@ namespace FiresecClient
 		public OperationResult<DateTime> GetCardsMinDate()
 		{
 			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetCardsMinDate());
-		}
-		
+		}		
 	}
 }

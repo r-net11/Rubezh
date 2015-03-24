@@ -42,6 +42,10 @@ namespace FiresecAPI.SKD
 		{
 			get { return State; }
 		}
+		string IDeviceState<XStateClass>.StateTypeName
+		{
+			get { return State.StateClass.ToDescription(); }
+		}
 		#endregion
 
 		#region IDeviceState<XStateClass> Members

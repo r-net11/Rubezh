@@ -50,7 +50,7 @@ namespace PlansModule.Designer
 			if (PlanTreeViewModel.Current != null)
 			{
 				if (_presenterItem.PlanViewModel != null)
-					color = GetStateColor(_presenterItem.PlanViewModel.StateClass);
+					color = GetStateColor(_presenterItem.PlanViewModel.StateClass.StateType);
 			}
 			return PainterCache.GetTransparentBrush(color);
 		}

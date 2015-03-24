@@ -58,7 +58,7 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				var ipAddress = GetIPAddress();
+				var ipAddress = ConnectionSettingsManager.GetIPAddress();
 				if (ipAddress != null)
 				{
 					var remoteAddress = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
@@ -76,7 +76,7 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				var ipAddress = GetIPAddress();
+				var ipAddress = ConnectionSettingsManager.GetIPAddress();
 				if (ipAddress != null)
 				{
 					var remoteAddress = "net.tcp://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FiresecService/";
@@ -94,23 +94,6 @@ namespace FiresecService.Service
 		{
 			if (ServiceHost != null && ServiceHost.State != CommunicationState.Closed && ServiceHost.State != CommunicationState.Closing)
 				ServiceHost.Close();
-		}
-
-		static string GetIPAddress()
-		{
-			try
-			{
-				var hostName = System.Net.Dns.GetHostName();
-				IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(hostName);
-				IPAddress[] addresses = ipEntry.AddressList;
-				var ipV6Address = addresses.FirstOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-				return ipV6Address.ToString();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecServiceManager.GetIPAddress");
-				return null;
-			}
 		}
 	}
 }

@@ -39,9 +39,9 @@ namespace PlansModule.Kursk
 				_monitors.Add(plan, new PlanMonitor(plan, callBack));
 		}
 
-		public XStateClass GetState(Plan plan)
+		public StateTypeName<XStateClass> GetStateTypeName(Plan plan)
 		{
-			return _monitors.ContainsKey(plan) ? _monitors[plan].GetState() : XStateClass.No;
+			return _monitors.ContainsKey(plan) ? _monitors[plan].GetStateTypeName() : new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)

@@ -30,19 +30,19 @@ namespace Infrastructure.Client.Plans.Presenter
 			}
 		}
 
-		public virtual XStateClass GetState()
+		public virtual StateTypeName<XStateClass> GetStateTypeName()
 		{
-			var result = XStateClass.No;
+			var stateTypeName = new StateTypeName<XStateClass>() { StateType = XStateClass.No, Name = "Нет" };
 			_states.ForEach(state =>
 			{
 				var stateClass = state.StateType;
-				var xstate = state as GKState;
-				if (xstate != null && xstate.Device != null && xstate.Device.DriverType == GKDriverType.AM1_T && stateClass == XStateClass.Fire2)
-					stateClass = XStateClass.Info;
-				if (stateClass < result)
-					result = stateClass;
+				if (stateClass < stateTypeName.StateType)
+				{
+					stateTypeName.StateType = stateClass;
+					stateTypeName.Name = state.StateTypeName;
+				}
 			});
-			return result;
+			return stateTypeName;
 		}
 	}
 }
