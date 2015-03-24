@@ -308,8 +308,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult ExportConfiguration(ConfigurationExportFilter filter);
-
-
 		#endregion
 	}
 }

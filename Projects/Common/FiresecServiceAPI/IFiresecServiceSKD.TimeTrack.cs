@@ -93,5 +93,10 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult DeleteAllPassJournalItems(Guid uid, DateTime enterTime, DateTime exitTime);
 
+		[OperationContract]
+		OperationResult<DateTime> GetPassJournalMinDate();
+		[OperationContract]
+		OperationResult<DateTime> GetCardsMinDate();
+
 	}
 }

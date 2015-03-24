@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD.ReportFilters;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
@@ -239,6 +240,19 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
+		DateTime _minDate;
+		public DateTime MinDate
+		{
+			get { return _minDate; }
+			set
+			{
+				_minDate = value;
+				OnPropertyChanged(() => MinDate);
+			}
+		}
+
+		public DateTime MaxDate { get { return DateTime.Now; } }
+
 		private bool _hasArchive;
 		public bool HasArchive
 		{
@@ -283,11 +297,14 @@ namespace ReportsModule.ViewModels
 				}
 				else
 					SelectedReportPeriod = periodFilter.PeriodType;
+				var minDate = filter is EventsReportFilter ? PassJournalHelper.GetMinJournalDate() : PassJournalHelper.GetMinPassJournalDate();
+				MinDate = minDate != null ? minDate.Value : new DateTime();
 			}
 			HasArchive = filter is IReportFilterArchive;
 			if (HasArchive)
 				UseArchive = ((IReportFilterArchive)filter).UseArchive;
 		}
+
 		public override void UpdateFilter(SKDReportFilter filter)
 		{
 			filter.PrintFilterName = PrintFilterName;

@@ -24,5 +24,15 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.DeleteAllPassJournalItems(uid, enterTime, exitTime);
 			return Common.ShowErrorIfExists(result);
 		}
+		public static DateTime? GetMinPassJournalDate()
+		{
+			var result = FiresecManager.FiresecService.GetPassJournalMinDate();
+			return Common.ShowErrorIfExists(result);
+		}
+		public static DateTime? GetMinJournalDate()
+		{
+			var result = FiresecManager.FiresecService.GetMinJournalDateTime();
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

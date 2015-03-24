@@ -59,5 +59,11 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.DeletedCard(uid);
 			return Common.ShowErrorIfExists(result);
 		}
+
+		public static DateTime? GetMinDate()
+		{
+			var result = FiresecManager.FiresecService.GetCardsMinDate();
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

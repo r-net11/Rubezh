@@ -57,6 +57,19 @@ namespace SKDDriver.Translators
 			}
 		}
 
+		public OperationResult<DateTime> GetMinDate()
+		{
+			try
+			{
+				var result = Context.Journals.Min(x => x.SystemDate);
+				return new OperationResult<DateTime> { Result = result };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<DateTime>(e.Message);
+			}
+		}
+
 		public void Dispose()
 		{
 			Context.Dispose();

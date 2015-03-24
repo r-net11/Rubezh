@@ -32,7 +32,8 @@ namespace SKDModule.Reports.ViewModels
 			_reportFilter = filter as IReportFilterDepartment;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
 			_organisationUID = organisations != null ? organisations.FirstOrDefault() : Guid.Empty;
-			_isWithDeleted = (filter as IReportFilterArchive).UseArchive;
+			var filterArchive = filter as IReportFilterArchive;
+			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			InitializeFilter();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
@@ -308,36 +309,73 @@ namespace SKDDriver.Translators
 
 		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastEnterPassJournal(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime? dateTime)
 		{
-			var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-			if (!employeeUIDs.IsEmpty())
-				filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-			if (!zoneUIDs.IsEmpty())
-				filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
-			if (dateTime.HasValue)
-				filter = filter.And(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
-			else
-				filter = filter.And(e => !e.ExitTime.HasValue);
-			return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
+			try
+			{
+				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
+				if (!employeeUIDs.IsEmpty())
+					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
+				if (!zoneUIDs.IsEmpty())
+					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
+				if (dateTime.HasValue)
+					filter = filter.And(e => e.EnterTime < dateTime && (!e.ExitTime.HasValue || e.ExitTime > dateTime));
+				else
+					filter = filter.And(e => !e.ExitTime.HasValue);
+				return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.EnterTime).First());
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
 		}
 		public IEnumerable<DataAccess.PassJournal> GetEmployeesLastExitPassJournal(IEnumerable<Guid> employeeUIDs, DateTime? dateTime)
 		{
-			var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-			if (!employeeUIDs.IsEmpty())
-				filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-			filter = filter.And(e => e.ExitTime.HasValue);
-			if (dateTime.HasValue)
-				filter = filter.And(e => e.ExitTime < dateTime);
-			return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
+			try
+			{
+				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
+				if (!employeeUIDs.IsEmpty())
+					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
+				filter = filter.And(e => e.ExitTime.HasValue);
+				if (dateTime.HasValue)
+					filter = filter.And(e => e.ExitTime < dateTime);
+				return Context.PassJournals.Where(filter).GroupBy(item => item.EmployeeUID).Select(gr => gr.OrderByDescending(item => item.ExitTime).First());
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
+
 		}
 		public IEnumerable<DataAccess.PassJournal> GetEmployeesRoot(IEnumerable<Guid> employeeUIDs, IEnumerable<Guid> zoneUIDs, DateTime startDateTime, DateTime endDateTime)
 		{
-			var filter = PredicateBuilder.True<DataAccess.PassJournal>();
-			if (!employeeUIDs.IsEmpty())
-				filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
-			if (!zoneUIDs.IsEmpty())
-				filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
-			filter = filter.And(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
-			return Context.PassJournals.Where(filter);
+			try
+			{
+				var filter = PredicateBuilder.True<DataAccess.PassJournal>();
+				if (!employeeUIDs.IsEmpty())
+					filter = filter.And(e => employeeUIDs.Contains(e.EmployeeUID));
+				if (!zoneUIDs.IsEmpty())
+					filter = filter.And(e => zoneUIDs.Contains(e.ZoneUID));
+				filter = filter.And(e => (e.EnterTime >= startDateTime && e.EnterTime <= endDateTime) || (e.ExitTime >= startDateTime && e.ExitTime <= endDateTime));
+				return Context.PassJournals.Where(filter);
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
+
+		public OperationResult<DateTime> GetMinDate()
+		{
+			try
+			{
+				if(Context.PassJournals.IsEmpty())
+					return new OperationResult<DateTime> { Result = new DateTime() };
+				var result = Context.PassJournals.Min(x => x.EnterTime);
+				return new OperationResult<DateTime> { Result = result };
+			}
+			catch(Exception e)
+			{
+				return new OperationResult<DateTime>(e.Message);
+			}
 		}
 	}
 }

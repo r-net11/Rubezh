@@ -78,13 +78,13 @@
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>
 							</GridViewColumn>
-                        </GridView>
+						</GridView>
 
-                    </tree:TreeList.View>
+					</tree:TreeList.View>
 				</tree:TreeList>
 			</TabItem>
 			<TabItem Header="Объект" DataContext="{Binding FilterObjectsViewModel}">
-                <tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
+				<tree:TreeList Focusable="False" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False" Margin="-5">
 					<tree:TreeList.View>
 						<GridView>
 							<GridViewColumn Header="Наименование">
@@ -92,8 +92,8 @@
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-                                            <CheckBox IsChecked="{Binding IsChecked}" />
-                                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" Margin="2" />
+											<CheckBox IsChecked="{Binding IsChecked}" />
+											<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" Margin="2" />
 										</StackPanel>
 									</DataTemplate>
 								</GridViewColumn.CellTemplate>

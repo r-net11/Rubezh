@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
+using SKDDriver.Translators;
 
 namespace FiresecService.Service
 {
@@ -316,6 +317,29 @@ namespace FiresecService.Service
 				return databaseService.PassJournalTranslator.DeleteAllPassJournalItems(uid, enterTime, exitTime);
 			}
 		}
+
+		public OperationResult<DateTime> GetPassJournalMinDate()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PassJournalTranslator.GetMinDate();
+			}
+		}
+		public OperationResult<DateTime> GetJournalMinDate()
+		{
+			using (var journalTranslator = new JounalTranslator())
+			{
+				return journalTranslator.GetMinDate();
+			}
+		}
+		public OperationResult<DateTime> GetCardsMinDate()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator.GetMinDate();
+			}
+		}
+		
 		
 		
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using SKDModule.Model;
@@ -82,6 +83,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public DateTime MinDate
+		{ 
+			get
+			{
+				var result = PassJournalHelper.GetMinPassJournalDate();
+				return result != null ? result.Value : new DateTime();
+			}
+		}
+		public DateTime MaxDate { get { return DateTime.Now; } }
+		
 		public ObservableCollection<TimeTrackingPeriod> Periods { get; private set; }
 
 		public bool IsFreePeriod

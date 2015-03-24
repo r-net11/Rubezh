@@ -30,7 +30,8 @@ namespace SKDModule.Reports.ViewModels
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			_reportFilter = filter as IReportFilterPosition;
-			_isWithDeleted = (filter as IReportFilterArchive).UseArchive;
+			var filterArchive = filter as IReportFilterArchive;
+			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
 			_organisationUID = organisations != null ? organisations.FirstOrDefault() : Guid.Empty;
 			InitializeFilter();

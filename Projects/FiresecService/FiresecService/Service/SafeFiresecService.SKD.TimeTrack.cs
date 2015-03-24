@@ -169,7 +169,18 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteAllPassJournalItems(uid, enterTime, exitTime));
 		}
-		
-		
+
+		public OperationResult<DateTime> GetPassJournalMinDate()
+		{
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetPassJournalMinDate());
+		}
+		public OperationResult<DateTime> GetJournalMinDate()
+		{
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetJournalMinDate());
+		}
+		public OperationResult<DateTime> GetCardsMinDate()
+		{
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetCardsMinDate());
+		}
 	}
 }

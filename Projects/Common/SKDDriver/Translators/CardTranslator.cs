@@ -187,6 +187,19 @@ namespace SKDDriver
 			}
 		}
 
+		public OperationResult<DateTime> GetMinDate()
+		{
+			try
+			{
+				var result = Table.Min(x => x.EndDate);
+				return new OperationResult<DateTime> { Result = result };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<DateTime>(e.Message);
+			}
+		}
+
 		#region Pending
 
 		public OperationResult AddPendingList(Guid cardUID, IEnumerable<Guid> controllerUIDs)
