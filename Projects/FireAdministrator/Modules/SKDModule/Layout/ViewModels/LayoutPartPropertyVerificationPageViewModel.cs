@@ -4,6 +4,8 @@ using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Services.Layout;
 using System;
+using FiresecAPI.GK;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -15,12 +17,21 @@ namespace SKDModule.ViewModels
 		{
 			_layoutPartVerificationViewModel = layoutPartFilterViewModel;
 
-			Devices = new ObservableCollection<SKDDevice>();
+			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in SKDManager.Devices)
 			{
 				if (device.DriverType == SKDDriverType.Reader)
 				{
-					Devices.Add(device);
+					var deviceViewModel = new DeviceViewModel(device);
+					Devices.Add(deviceViewModel);
+				}
+			}
+			foreach (var device in GKManager.Devices)
+			{
+				if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
+				{
+					var deviceViewModel = new DeviceViewModel(device);
+					Devices.Add(deviceViewModel);
 				}
 			}
 		}
@@ -35,10 +46,10 @@ namespace SKDModule.ViewModels
 			SelectedDevice = Devices.FirstOrDefault(x => x.UID == properties.ReferenceUID);
 		}
 
-		public ObservableCollection<SKDDevice> Devices { get; private set; }
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
-		SKDDevice _selectedDevice;
-		public SKDDevice SelectedDevice
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -57,8 +68,31 @@ namespace SKDModule.ViewModels
 			var properties = (LayoutPartReferenceProperties)_layoutPartVerificationViewModel.Properties;
 
 			properties.ReferenceUID = SelectedDevice == null ? Guid.Empty : SelectedDevice.UID;
-			_layoutPartVerificationViewModel.UpdateLayoutPart(SelectedDevice);
+			_layoutPartVerificationViewModel.UpdateLayoutPart(SelectedDevice.Name);
 			return true;
+		}
+	}
+
+	public class DeviceViewModel
+	{
+		SKDDevice SKDDevice { get; private set; }
+		GKDevice GKDevice { get; private set; }
+
+		public Guid UID { get; private set; }
+		public string Name { get; private set; }
+
+		public DeviceViewModel(SKDDevice skdDevice)
+		{
+			SKDDevice = skdDevice;
+			UID = skdDevice.UID;
+			Name = skdDevice.Name;
+		}
+
+		public DeviceViewModel(GKDevice gkDevice)
+		{
+			GKDevice = gkDevice;
+			UID = gkDevice.UID;
+			Name = gkDevice.PresentationName;
 		}
 	}
 }

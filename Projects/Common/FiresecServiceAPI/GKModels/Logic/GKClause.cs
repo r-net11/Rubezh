@@ -144,6 +144,15 @@ namespace FiresecAPI.GK
 							return "Тревога";
 					}
 					break;
+
+				case ClauseOperationType.AllDoors:
+				case ClauseOperationType.AnyDoor:
+					switch (stateBit)
+					{
+						case GKStateBit.Fire1:
+							return "Тревога";
+					}
+					break;
 			}
 
 			return stateBit.ToDescription();

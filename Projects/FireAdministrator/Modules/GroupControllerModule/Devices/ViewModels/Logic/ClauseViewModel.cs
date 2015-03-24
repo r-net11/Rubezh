@@ -80,26 +80,20 @@ namespace GKModule.ViewModels
 						StateTypes = new ObservableCollection<StateTypeViewModel>();
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Norm));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						//if (Device.DriverType != GKDriverType.MPT)
-						//{
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.On));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Off));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOn));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.TurningOff));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Failure));
-						//}
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
 						StateTypes = new ObservableCollection<StateTypeViewModel>();
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire2));
-						//if (Device.DriverType != GKDriverType.MPT)
-						//{
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Fire1));
 						StateTypes.Add(new StateTypeViewModel(value, GKStateBit.Attention));
-						//}
 						break;
 
 					case ClauseOperationType.AllGuardZones:

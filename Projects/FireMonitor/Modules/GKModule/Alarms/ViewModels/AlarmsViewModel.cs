@@ -127,6 +127,10 @@ namespace GKModule.ViewModels
 						case XStateClass.Fire1:
 							alarms.Add(new Alarm(GKAlarmType.GuardAlarm, gGuardZone));
 							break;
+
+						case XStateClass.Ignore:
+							alarms.Add(new Alarm(GKAlarmType.Ignore, gGuardZone));
+							break;
 					}
 				}
 			}
@@ -258,6 +262,14 @@ namespace GKModule.ViewModels
 					}
 				}
 
+				foreach (var guardZones in GKManager.GuardZones)
+				{
+					if (guardZones.State.StateClasses.Contains(XStateClass.Ignore))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(guardZones);
+					}
+				}
+
 				foreach (var direction in GKManager.Directions)
 				{
 					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
@@ -271,13 +283,6 @@ namespace GKModule.ViewModels
 		{
 			try
 			{
-				if (GKManager.Devices == null)
-					Logger.Error("AlarmsViewModel GKManager.Devices == null");
-				if (GKManager.Zones == null)
-					Logger.Error("AlarmsViewModel GKManager.Zones == null");
-				if (GKManager.Directions == null)
-					Logger.Error("AlarmsViewModel GKManager.Directions == null");
-
 				foreach (var device in GKManager.Devices)
 				{
 					if (!device.Driver.IsDeviceOnShleif)
@@ -290,6 +295,12 @@ namespace GKModule.ViewModels
 				foreach (var zone in GKManager.Zones)
 				{
 					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var guardZone in GKManager.GuardZones)
+				{
+					if (guardZone.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 
@@ -439,7 +450,7 @@ namespace GKModule.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex, "XAlarmsViewModel.ShortcutService_KeyPressed");
+				Logger.Error(ex, "AlarmsViewModel.ShortcutService_KeyPressed");
 			}
 		}
 	}

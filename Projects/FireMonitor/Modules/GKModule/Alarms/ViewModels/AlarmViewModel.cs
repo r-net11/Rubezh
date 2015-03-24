@@ -168,6 +168,35 @@ namespace GKModule.ViewModels
 						Plans.Add(alarmPlanViewModel);
 					}
 				}
+				if (Alarm.Mpt != null)
+				{
+					elementBase = plan.ElementRectangleGKMPTs.FirstOrDefault(x => x.MPTUID == Alarm.Mpt.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.MPT = Alarm.Mpt;
+						Plans.Add(alarmPlanViewModel);
+						continue;
+					}
+
+					elementBase = plan.ElementPolygonGKMPTs.FirstOrDefault(x => x.MPTUID == Alarm.Mpt.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.MPT = Alarm.Mpt;
+						Plans.Add(alarmPlanViewModel);
+					}
+				}
+				if (Alarm.Door != null)
+				{
+					elementBase = plan.ElementGKDoors.FirstOrDefault(x => x.DoorUID == Alarm.Door.UID);
+					if (elementBase != null)
+					{
+						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+						alarmPlanViewModel.Door = Alarm.Door;
+						Plans.Add(alarmPlanViewModel);
+					}
+				}
 			}
 		}
 
@@ -199,13 +228,13 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowGKDirectionEvent>().Publish(Alarm.Direction.UID);
 			}
-			if (Alarm.Door != null)
-			{
-				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
-			}
 			if (Alarm.Mpt != null)
 			{
 				ServiceFactory.Events.GetEvent<ShowGKMPTEvent>().Publish(Alarm.Mpt.UID);
+			}
+			if (Alarm.Door != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowGKDoorEvent>().Publish(Alarm.Door.UID);
 			}
 		}
 
@@ -227,6 +256,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Direction != null)
 			{
 				ShowOnPlanHelper.ShowDirection(Alarm.Direction);
+			}
+			if (Alarm.Mpt != null)
+			{
+				ShowOnPlanHelper.ShowMPT(Alarm.Mpt);
 			}
 			if (Alarm.Door != null)
 			{
@@ -250,6 +283,10 @@ namespace GKModule.ViewModels
 			if (Alarm.Direction != null)
 			{
 				return ShowOnPlanHelper.CanShowDirection(Alarm.Direction);
+			}
+			if (Alarm.Mpt != null)
+			{
+				return ShowOnPlanHelper.CanShowMPT(Alarm.Mpt);
 			}
 			if (Alarm.Door != null)
 			{
@@ -364,19 +401,20 @@ namespace GKModule.ViewModels
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
 					}
 				}
-				if (Alarm.Door != null)
-				{
-					if (Alarm.Door.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Door);
-					}
-				}
 
 				if (Alarm.Mpt != null)
 				{
 					if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Mpt);
+					}
+				}
+
+				if (Alarm.Door != null)
+				{
+					if (Alarm.Door.State.StateClasses.Contains(XStateClass.Ignore))
+					{
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Door);
 					}
 				}
 			}
@@ -407,17 +445,18 @@ namespace GKModule.ViewModels
 					return true;
 			}
 
+			if (Alarm.Mpt != null)
+			{
+				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+
 			if (Alarm.Direction != null)
 			{
 				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
-			if (Alarm.Mpt != null)
-			{
-				if (Alarm.Mpt.State.StateClasses.Contains(XStateClass.Ignore))
-					return true;
-			}
 			return false;
 		}
 		public bool CanResetIgnoreCommand
@@ -486,8 +525,8 @@ namespace GKModule.ViewModels
 				GKZone = Alarm.Zone,
 				GKGuardZone = Alarm.GuardZone,
 				GKDirection = Alarm.Direction,
+				GKMPT = Alarm.Mpt,
 				GKDoor = Alarm.Door,
-				GKMPT = Alarm.Mpt
 			};
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showArchiveEventArgs);
 		}
@@ -511,18 +550,18 @@ namespace GKModule.ViewModels
 			{
 				DialogService.ShowWindow(new DirectionDetailsViewModel(Alarm.Direction));
 			}
-			if (Alarm.Door != null)
-			{
-				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
-			}
 			if (Alarm.Mpt != null)
 			{
 				DialogService.ShowWindow(new MPTDetailsViewModel(Alarm.Mpt));
 			}
+			if (Alarm.Door != null)
+			{
+				DialogService.ShowWindow(new DoorDetailsViewModel(Alarm.Door));
+			}
 		}
 		bool CanShowProperties()
 		{
-			return Alarm.Device != null || Alarm.Direction != null || Alarm.Zone != null || Alarm.GuardZone != null;
+			return Alarm.Device != null || Alarm.Zone != null || Alarm.GuardZone != null || Alarm.Direction != null || Alarm.Mpt != null || Alarm.Door != null;
 		}
 		public bool CanShowPropertiesCommand
 		{

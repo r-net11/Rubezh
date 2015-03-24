@@ -82,20 +82,29 @@ namespace GKModule.ViewModels
 							return "Закрывается";
 					}
 				}
-				if (device.DriverType == GKDriverType.AM1_T)
+				if (device.DriverType == GKDriverType.RSR2_AM_1)
 				{
-					if (stateClass == XStateClass.Fire2)
+					if (stateClass == XStateClass.Norm)
 					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
+						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
 						if (property != null)
 						{
 							if (!string.IsNullOrEmpty(property.StringValue))
 								return property.StringValue;
 						}
 					}
-					if (stateClass == XStateClass.Norm)
+					if (stateClass == XStateClass.Fire1)
 					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
+						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 1");
+						if (property != null)
+						{
+							if (!string.IsNullOrEmpty(property.StringValue))
+								return property.StringValue;
+						}
+					}
+					if (stateClass == XStateClass.Fire2)
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки 2");
 						if (property != null)
 						{
 							if (!string.IsNullOrEmpty(property.StringValue))

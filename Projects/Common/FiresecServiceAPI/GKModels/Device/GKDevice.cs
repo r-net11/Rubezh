@@ -29,6 +29,7 @@ namespace FiresecAPI.GK
 			AllowMultipleVizualization = false;
 
 			Zones = new List<GKZone>();
+			GuardZones = new List<GKGuardZone>();
 			Directions = new List<GKDirection>();
 		}
 
