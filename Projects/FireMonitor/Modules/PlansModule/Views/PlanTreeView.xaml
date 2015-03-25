@@ -9,10 +9,10 @@
 				<GridViewColumn Header="Название">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Background="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToPlanColorConverter}}">
-                                <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Margin="2" />
+							<StackPanel VerticalAlignment="Center" Orientation="Horizontal" Background="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToPlanColorConverter}}">
+								<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding NamedStateClass.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Margin="2" />
 								<Image Name="Image" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" Margin="2" />
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Plan.Caption}" ToolTip="{Binding NamedStateClass.Name}" />
+								<TextBlock VerticalAlignment="Center" Text="{Binding Plan.Caption}" ToolTip="{Binding NamedStateClass.Name}" />
 							</StackPanel>
 							<DataTemplate.Triggers>
 								<DataTrigger Binding="{Binding IsFolder}" Value="True">

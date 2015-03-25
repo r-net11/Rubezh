@@ -119,7 +119,7 @@ namespace GKProcessor
 		bool FindDevicesOnShleif(GKDevice kauDevice, int shleifNo, GKProgressCallback progressCallback)
 		{
 			var shleifDevice = kauDevice.Children.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_KAU_Shleif && x.IntAddress == shleifNo + 1);
-			progressCallback = GKProcessorManager.StartProgress("Автопоиск на шлейфе " + (shleifNo + 1).ToString() + " устройста " + kauDevice.PresentationName, "", (int)(256), true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Автопоиск на АЛС " + (shleifNo + 1) + " устройста " + kauDevice.PresentationName, "", (int)(256), true, GKProgressClientType.Administrator);
 
 			var deviceGroups = new List<DeviceGroup>();
 			var devices = new List<GKDevice>();

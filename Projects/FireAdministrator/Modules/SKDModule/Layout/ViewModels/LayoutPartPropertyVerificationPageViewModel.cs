@@ -75,8 +75,8 @@ namespace SKDModule.ViewModels
 
 	public class DeviceViewModel
 	{
-		SKDDevice SKDDevice { get; private set; }
-		GKDevice GKDevice { get; private set; }
+		SKDDevice SKDDevice { get; set; }
+		GKDevice GKDevice { get; set; }
 
 		public Guid UID { get; private set; }
 		public string Name { get; private set; }
