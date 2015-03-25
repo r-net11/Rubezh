@@ -155,7 +155,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</TabItem>
-		<TabItem Header="Сброс">
+        <TabItem Header="Сброс" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Border Margin="2" Background="White" CornerRadius="5">
 				<StackPanel Margin="2">
 					<Button Width="300" Margin="2" Command="{Binding ResetDatabaseCommand}" Content="Сбросить базу данных" />

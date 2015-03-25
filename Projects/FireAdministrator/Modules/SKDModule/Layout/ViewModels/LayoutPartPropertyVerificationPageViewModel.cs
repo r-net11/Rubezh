@@ -80,11 +80,13 @@ namespace SKDModule.ViewModels
 
 		public Guid UID { get; private set; }
 		public string Name { get; private set; }
+		public string Address { get; private set; }
 
 		public DeviceViewModel(SKDDevice skdDevice)
 		{
 			SKDDevice = skdDevice;
 			UID = skdDevice.UID;
+			Address = skdDevice.Parent != null ? skdDevice.Parent.Address : "";
 			Name = skdDevice.Name;
 		}
 
@@ -92,7 +94,8 @@ namespace SKDModule.ViewModels
 		{
 			GKDevice = gkDevice;
 			UID = gkDevice.UID;
-			Name = gkDevice.PresentationName;
+			Name = gkDevice.Driver.ShortName;
+			Address = gkDevice.PresentationAddress;
 		}
 	}
 }

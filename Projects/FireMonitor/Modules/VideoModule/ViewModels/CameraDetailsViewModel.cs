@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Media;
-using DeviceControls;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using FiresecAPI;
 
 namespace VideoModule.ViewModels
 {
@@ -37,12 +33,10 @@ namespace VideoModule.ViewModels
 
 			if (Camera != null)
 				RviRTSP = Camera.RviRTSP;
-
-			var x = Camera.CameraState.StateClass;
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
-		private void OnShow()
+		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowCameraEvent>().Publish(Camera.UID);
 		}
@@ -82,7 +76,14 @@ namespace VideoModule.ViewModels
 		public RelayCommand SetPtzPresetCommand { get; private set; }
 		void OnSetPtzPreset()
 		{
-			RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
+			try
+			{
+				RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
+			}
+			catch
+			{
+				MessageBoxService.ShowWarning("Возникла ошибка при переводе в предустановку");
+			}
 		}
 
 		bool CanSetPtzPreset()
@@ -97,8 +98,8 @@ namespace VideoModule.ViewModels
 
 		public class PlanViewModel : BaseViewModel
 		{
-			private Plan Plan;
-			private Camera Camera;
+			Plan Plan;
+			Camera Camera;
 
 			public string Name
 			{
@@ -114,7 +115,7 @@ namespace VideoModule.ViewModels
 
 			public RelayCommand ShowOnPlanCommand { get; private set; }
 
-			private void OnShowOnPlan()
+			void OnShowOnPlan()
 			{
 				ShowCamera(Camera, Plan);
 			}

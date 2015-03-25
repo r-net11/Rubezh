@@ -11,22 +11,27 @@ namespace SKDModule.ViewModels
 {
 	public class LayoutPartVerificationViewModel : LayoutPartTitleViewModel
 	{
-		private LayoutPartReferenceProperties _properties;
+		LayoutPartReferenceProperties _properties;
 
 		public LayoutPartVerificationViewModel(LayoutPartReferenceProperties properties)
 		{
 			Title = "Верификация";
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
+			DeviceViewModel deviceViewModel = null;
 			var skdDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
 			if (skdDevice != null)
 			{
-				UpdateLayoutPart(skdDevice.Name);
+				deviceViewModel = new DeviceViewModel(skdDevice);
 			}
 			var gkDevice = GKManager.Devices.FirstOrDefault(x => x.UID == _properties.ReferenceUID);
 			if (gkDevice != null)
 			{
-				UpdateLayoutPart(gkDevice.PresentationName);
+				deviceViewModel = new DeviceViewModel(gkDevice);
+			}
+			if (deviceViewModel != null)
+			{
+				UpdateLayoutPart(deviceViewModel.Name + " " + deviceViewModel.Address);
 			}
 		}
 

@@ -39,7 +39,7 @@ namespace VideoModule.ViewModels
 				ChannelNumber = 1;
 				IsEditMode = false;
 			}
-			ShowCommand = new RelayCommand(OnShow);
+			ShowCommand = new RelayCommand(OnShow, CanShow);
 		}
 
 		int _left;
@@ -157,6 +157,9 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
+				if (IsPlaying)
+					return;
+
 				if (!VlcContext.IsInitialized)
 				{
 					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
@@ -173,12 +176,21 @@ namespace VideoModule.ViewModels
 				if (_vlcControl.IsPlaying)
 					_vlcControl.Stop();
 				_vlcControl.Play();
+
+				IsPlaying = true;
 			}
 			catch (Exception e)
 			{
 				MessageBoxService.ShowWarning(e.Message);
 			}
 		}
+
+		bool CanShow()
+		{
+			return !IsPlaying;
+		}
+
+		bool IsPlaying = false;
 
 		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
 		{

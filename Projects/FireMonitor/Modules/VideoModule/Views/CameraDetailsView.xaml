@@ -16,24 +16,40 @@
 			<StackPanel Grid.Column="0" Height="30">
 				<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 					<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-					<TextBlock Text="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+					<!--<TextBlock Text="{Binding Camera.CameraState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5 1 1 1" />-->
 				</StackPanel>
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">
 			<TabItem Header="Видео">
-				<Grid Background="Black">
-					<wpf:VlcControl x:Name="myVlcControl" />
-					<Grid>
-						<Grid.Background>
-							<VisualBrush Stretch="Uniform">
-								<VisualBrush.Visual>
-									<Image Source="{Binding ElementName=myVlcControl, Path=VideoSource}" />
-								</VisualBrush.Visual>
-							</VisualBrush >
-						</Grid.Background>
-					</Grid>
-				</Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="Black">
+                        <wpf:VlcControl x:Name="myVlcControl" />
+                        <Grid>
+                            <Grid.Background>
+                                <VisualBrush Stretch="Uniform">
+                                    <VisualBrush.Visual>
+                                        <Image Source="{Binding ElementName=myVlcControl, Path=VideoSource}" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush >
+                            </Grid.Background>
+                        </Grid>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                        <Button Content="Перевод в предустановку" Command="{Binding SetPtzPresetCommand}" Width="200" Margin="2" />
+                        <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding .}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
 			</TabItem>
 			<TabItem Header="Основные">
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -69,16 +85,6 @@
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
-							<StackPanel Orientation="Horizontal" Visibility="{Binding IsSetPtzPreset, Converter={StaticResource BoolToVisibilityConverter}}">
-								<Button Content="Начать обход" Command="{Binding SetPtzPresetCommand}" Width="100" Margin="2" />
-								<ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" Margin="2">
-									<ComboBox.ItemTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding .}" />
-										</DataTemplate>
-									</ComboBox.ItemTemplate>
-								</ComboBox>
-							</StackPanel>
 						</ItemsControl.Items>
 					</ItemsControl>
 				</ScrollViewer>

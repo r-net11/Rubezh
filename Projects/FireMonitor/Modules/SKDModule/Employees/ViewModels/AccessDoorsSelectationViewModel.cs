@@ -49,6 +49,18 @@ namespace SKDModule.ViewModels
 			{
 				_selectedDoor = value;
 				OnPropertyChanged(() => SelectedDoor);
+				HasSelectedDoor = value != null;
+			}
+		}
+
+		bool _hasSelectedDoor;
+		public bool HasSelectedDoor
+		{
+			get { return _hasSelectedDoor; }
+			set
+			{
+				_hasSelectedDoor = value;
+				OnPropertyChanged(() => HasSelectedDoor);
 			}
 		}
 

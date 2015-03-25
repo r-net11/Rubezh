@@ -20,7 +20,7 @@
 			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XGuardZoneStateClassToStringConverter}}" />
 		</StackPanel>-->
 		<StackPanel Orientation="Horizontal">
-			<ItemsControl ItemsSource="{Binding StateClasses}">
+            <ItemsControl ItemsSource="{Binding State.StateClasses}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

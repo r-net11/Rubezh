@@ -26,29 +26,31 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</Grid>
-		<Grid Grid.Row="1" Margin="2" DataContext="{Binding SelectedDoor}">
-			<StackPanel IsEnabled="{Binding IsChecked}">
-				<StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left" />
-					<ComboBox Margin="2" ItemsSource="{Binding EnterSchedules}" SelectedItem="{Binding SelectedEnterSchedule}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Margin="2" Text="{Binding Name}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</StackPanel>
-				<StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
-					<ComboBox Margin="2" ItemsSource="{Binding ExitSchedules}" SelectedItem="{Binding SelectedExitSchedule}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Margin="2" Text="{Binding Name}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</StackPanel>
-			</StackPanel>
-		</Grid>
+		<Grid Grid.Row="1" Margin="2" Visibility="{Binding HasSelectedDoor, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid DataContext="{Binding SelectedDoor}">
+                <StackPanel IsEnabled="{Binding IsChecked}">
+                    <StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left" />
+                        <ComboBox Margin="2" ItemsSource="{Binding EnterSchedules}" SelectedItem="{Binding SelectedEnterSchedule}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="2" Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left" />
+                        <ComboBox Margin="2" ItemsSource="{Binding ExitSchedules}" SelectedItem="{Binding SelectedExitSchedule}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="2" Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
 	</Grid>
 </UserControl>

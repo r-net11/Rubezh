@@ -14,25 +14,40 @@ namespace SKDModule.ViewModels
 {
 	public class VerificationViewModel : ViewPartViewModel
 	{
-		public SKDDevice Device { get; private set; }
+		Guid DeviceUID;
 
 		public VerificationViewModel(LayoutPartReferenceProperties layoutPartSKDVerificationProperties)
 		{
-			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReferenceUID);
-
-			if (Device != null)
-			{
-				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
-				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
-			}
+			DeviceUID = layoutPartSKDVerificationProperties.ReferenceUID;
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
 		}
 
 		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.ObjectUID == Device.UID &&
-					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
+				var isForVerification = false;
+				if (journalItem.ObjectUID == DeviceUID && journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен)
+				{
+					isForVerification = true;
+				}
+				if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
+				{
+					var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+					if (door != null)
+					{
+						if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Вход_Глобал && door.EnterDeviceUID == DeviceUID)
+						{
+							isForVerification = true;
+						}
+						if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Выход_Глобал && door.ExitDeviceUID == DeviceUID)
+						{
+							isForVerification = true;
+						}
+					}
+				}
+				if (isForVerification)
 				{
 					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 					DateTime = journalItem.SystemDateTime.ToString();
