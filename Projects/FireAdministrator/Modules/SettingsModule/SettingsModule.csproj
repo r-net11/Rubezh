@@ -99,6 +99,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="SettingsModule.cs" />
     <Compile Include="ViewModels\ErrorFilterViewModel.cs" />
     <Compile Include="ViewModels\ErrorsFilterViewModel.cs" />

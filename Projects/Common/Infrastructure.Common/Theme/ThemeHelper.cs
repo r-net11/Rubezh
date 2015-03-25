@@ -19,7 +19,16 @@ namespace Infrastructure.Common.Theme
 			{
 				CurrentTheme = RegistrySettingsHelper.GetString("Theme");
 				if (String.IsNullOrEmpty(CurrentTheme))
-					CurrentTheme = "BlueTheme";
+				{
+					if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+					{
+						CurrentTheme = "StrazhTheme";
+					}
+					else
+					{
+						CurrentTheme = "BlueTheme";
+					}
+				}
 				var themePath = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + CurrentTheme + ".xaml";
 
 				if (CurrentTheme == "TestTheme")
