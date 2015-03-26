@@ -42,59 +42,11 @@ namespace VideoModule.ViewModels
 			ShowCommand = new RelayCommand(OnShow, CanShow);
 		}
 
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
-		}
-
-		int _width;
-		public int Width
-		{
-			get { return _width; }
-			set
-			{
-				_width = value;
-				OnPropertyChanged(() => Width);
-			}
-		}
-
-		int _height;
-		public int Height
-		{
-			get { return _height; }
-			set
-			{
-				_height = value;
-				OnPropertyChanged(() => Height);
-			}
-		}
-
 		void CopyProperties()
 		{
 			Name = Camera.Name;
 			Address = Camera.Ip;
 			ChannelNumber = Camera.ChannelNumber + 1;
-			Left = Camera.Left;
-			Top = Camera.Top;
-			Width = Camera.Width;
-			Height = Camera.Height;
 		}
 
 		string _name;
@@ -208,10 +160,6 @@ namespace VideoModule.ViewModels
 		{
 			Camera.Name = Name;
 			Camera.Ip = Address;
-			Camera.Left = Left;
-			Camera.Top = Top;
-			Camera.Width = Width;
-			Camera.Height = Height;
 			return base.Save();
 		}
 	}

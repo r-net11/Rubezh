@@ -440,6 +440,12 @@ namespace AutomationModule.Validation
 						ValidateArgument(step, arguments.EventUIDArgument);
 						break;
 					}
+				case ProcedureStepType.RviAlarm:
+					{
+						var arguments = step.RviAlarmArguments;
+						ValidateArgument(step, arguments.NameArgument);
+						break;
+					}
 			}
 			foreach (var childStep in step.Children)
 				ValidateStep(childStep);

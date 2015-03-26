@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6ed03d11-43ed-42d0-a40b-0b96bc3c538c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
-	<GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
-	<EnableDataBinding>true</EnableDataBinding>
-	<ExcludedTypes />
-	<ImportXmlTypes>false</ImportXmlTypes>
-	<GenerateInternalTypes>false</GenerateInternalTypes>
-	<GenerateMessageContracts>false</GenerateMessageContracts>
-	<NamespaceMappings />
-	<CollectionMappings />
-	<GenerateSerializableTypes>true</GenerateSerializableTypes>
-	<Serializer>Auto</Serializer>
-	<UseSerializerForFaults>true</UseSerializerForFaults>
-	<ReferenceAllAssemblies>true</ReferenceAllAssemblies>
-	<ReferencedAssemblies />
-	<ReferencedDataContractTypes />
-	<ServiceContractMappings />
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-	<MetadataSource Address="net.tcp://172.16.5.7/Integration/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://172.16.5.7/Integration/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-	<MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="c946d889-cda8-4b02-8fd3-65fadb6eca55" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-	<MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bb30b58b-8144-455f-85e2-ca144e1eaa88" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-	<MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f3916c5c-a441-41c5-b647-ea67f059d68e" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-	<MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.xsd" MetadataType="Schema" ID="08698102-9c47-4e43-bfaa-7ad0dd6b319a" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-	<MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="38733c35-5c82-4ff0-b78f-4b856de21241" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
-	<MetadataFile FileName="RVI_VSS.IntegrationInterface.xsd" MetadataType="Schema" ID="89248335-7012-475f-ad14-c21cdbd78307" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="c946d889-cda8-4b02-8fd3-65fadb6eca55" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bb30b58b-8144-455f-85e2-ca144e1eaa88" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="f3916c5c-a441-41c5-b647-ea67f059d68e" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.xsd" MetadataType="Schema" ID="08698102-9c47-4e43-bfaa-7ad0dd6b319a" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd" MetadataType="Schema" ID="38733c35-5c82-4ff0-b78f-4b856de21241" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.xsd" MetadataType="Schema" ID="89248335-7012-475f-ad14-c21cdbd78307" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
+    <MetadataFile FileName="RVI_VSS.IntegrationInterface.XmlSchemas.Alarm.xsd" MetadataType="Schema" ID="dd5df7a9-ecfe-49ac-afd9-4e32edda32c6" SourceId="1" SourceUrl="net.tcp://172.16.5.7/Integration/mex" />
   </Metadata>
   <Extensions>
-	<ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
-	<ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
   </Extensions>
 </ReferenceGroup>

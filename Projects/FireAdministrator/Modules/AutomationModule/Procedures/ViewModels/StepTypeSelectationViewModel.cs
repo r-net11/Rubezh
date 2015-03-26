@@ -146,7 +146,8 @@ namespace AutomationModule.ViewModels
 								{
 									new StepTypeViewModel(ProcedureStepType.StartRecord),
 									new StepTypeViewModel(ProcedureStepType.StopRecord),
-									new StepTypeViewModel(ProcedureStepType.Ptz)
+									new StepTypeViewModel(ProcedureStepType.Ptz),
+									new StepTypeViewModel(ProcedureStepType.RviAlarm),
 								}),
 						}),
 					new StepTypeViewModel("Обмен данными", "/Controls;component/StepIcons/Export.png",

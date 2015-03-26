@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using SKDDriver.DataAccess;
+using FiresecClient;
 
 namespace FiresecService.Report.Templates
 {
@@ -41,7 +42,17 @@ namespace FiresecService.Report.Templates
 				var employees = dataProvider.GetEmployees(filter);
 				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(employees.Select(item => item.UID), filter.Zones, filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime);
 				var exitJournal = filter.Zones.IsEmpty() ? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastExitPassJournal(employees.Select(item => item.UID).Except(enterJournal.Select(item => item.EmployeeUID)), filter.UseCurrentDate ? (DateTime?)null : filter.ReportDateTime) : null;
-				var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
+
+				var zoneMap = new Dictionary<Guid, string>();
+				foreach (var zone in SKDManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.PresentationName);
+				}
+				foreach (var zone in GKManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.PresentationName);
+				}
+
 				foreach (var record in enterJournal)
 					AddRecord(dataProvider, dataSet, record, filter, true, zoneMap);
 				if (exitJournal != null)
@@ -51,7 +62,7 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
-		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, SKDZone> zoneMap)
+		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
 		{
 			var dataRow = ds.Data.NewDataRow();
 			var employee = dataProvider.GetEmployee(record.EmployeeUID);
@@ -62,7 +73,7 @@ namespace FiresecService.Report.Templates
 
 			dataRow.EnterDateTime = isEnter ? record.EnterTime : record.ExitTime.Value;
 			if (isEnter && zoneMap.ContainsKey(record.ZoneUID))
-				dataRow.Zone = zoneMap[record.ZoneUID].PresentationName;
+				dataRow.Zone = zoneMap[record.ZoneUID];
 			if (filter.UseCurrentDate)
 				dataRow.Period = filter.ReportDateTime - dataRow.EnterDateTime;
 			else

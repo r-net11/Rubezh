@@ -6,34 +6,14 @@
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" Content="Отступ слева" HorizontalAlignment="Right" />
-				<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Left}" Minimum="0" Maximum="10000" Margin="2" />
+                <Button Grid.Row="0" Command="{Binding ShowCommand}" Content="Предпросмотр" Width="150" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Отступ справа" HorizontalAlignment="Right" />
-				<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Top}" Minimum="0" Maximum="10000" Margin="2" />
-
-				<Label Grid.Row="2" Grid.Column="0" Content="Ширина" HorizontalAlignment="Right" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Width}" Minimum="100" Maximum="1000" Margin="2" />
-
-				<Label Grid.Row="3" Grid.Column="0" Content="Высота" HorizontalAlignment="Right" />
-				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Height}" Minimum="100" Maximum="1000" Margin="2" />
-
-				<Button Grid.Row="4" Grid.Column="1" Content="Предпросмотр" Margin="2" Command="{Binding ShowCommand}" />
-
-				<Border Grid.Row="5" Grid.Column="1" BorderThickness="2" BorderBrush="Black">
+				<Border Grid.Row="1" BorderThickness="2" BorderBrush="Black">
 					<Border.Background>
 						<VisualBrush Stretch="Uniform">
 							<VisualBrush.Visual>

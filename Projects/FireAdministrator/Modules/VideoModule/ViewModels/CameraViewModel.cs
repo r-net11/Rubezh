@@ -34,10 +34,7 @@ namespace VideoModule.ViewModels
 
 		public string PresentationAddress
 		{
-			get
-			{
-				return Camera.Ip;
-			}
+			get { return Camera.Ip; }
 		}
 
 		public void Update()

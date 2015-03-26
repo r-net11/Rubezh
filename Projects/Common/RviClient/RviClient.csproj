@@ -73,6 +73,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRuleCheckExistOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRuleExecuteOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRulesOut.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.PerimeterOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -111,6 +121,9 @@
     </None>
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.VideoRecordStopOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Alarm.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Service References\RVIServiceReference\RVI_VSS.IntegrationInterface.XmlSchemas.Common.xsd">
       <SubType>Designer</SubType>

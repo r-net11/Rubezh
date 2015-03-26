@@ -8,7 +8,8 @@ namespace AutomationModule.ViewModels
 		public ArgumentViewModel PathArgument { get; private set; }
 		public ArgumentViewModel ParametersArgument { get; private set; }
 
-		public RunProgramStepViewModel(StepViewModel stepViewModel) : base(stepViewModel)
+		public RunProgramStepViewModel(StepViewModel stepViewModel)
+			: base(stepViewModel)
 		{
 			RunProgramArguments = stepViewModel.Step.RunProgramArguments;
 			PathArgument = new ArgumentViewModel(RunProgramArguments.PathArgument, stepViewModel.Update, UpdateContent);
@@ -17,7 +18,7 @@ namespace AutomationModule.ViewModels
 
 		public override void UpdateContent()
 		{
-			PathArgument.Update(Procedure, ExplicitType.String, isList:false);
+			PathArgument.Update(Procedure, ExplicitType.String, isList: false);
 			ParametersArgument.Update(Procedure, ExplicitType.String, isList: false);
 		}
 

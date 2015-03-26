@@ -692,6 +692,13 @@ namespace FiresecService
 			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
 		}
 
+		public void RviAlarm(ProcedureStep procedureStep)
+		{
+			var rviAlarmArguments = procedureStep.RviAlarmArguments;
+			var name = GetValue<string>(rviAlarmArguments.NameArgument);
+			RviClient.RviClientHelper.AlarmRuleExecute(ConfigurationCashHelper.SystemConfiguration, name);
+		}
+
 		void ControlFireZone(ProcedureStep procedureStep)
 		{
 			var zoneUid = GetValue<Guid>(procedureStep.ControlGKFireZoneArguments.GKFireZoneArgument);

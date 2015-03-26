@@ -3,6 +3,9 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using System.Collections.Generic;
+using System;
+using FiresecClient;
 
 namespace FiresecService.Report.Templates
 {
@@ -31,7 +34,24 @@ namespace FiresecService.Report.Templates
 			var ds = new EmployeeRootDataSet();
 			var employees = dataProvider.GetEmployees(filter);
 			var passJournal = dataProvider.DatabaseService.PassJournalTranslator != null ? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
-			var zoneMap = passJournal != null ? SKDManager.Zones.ToDictionary(item => item.UID) : null;
+
+			var zoneMap = new Dictionary<Guid, string>();
+			if (passJournal != null)
+			{
+				foreach (var zone in SKDManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.PresentationName);
+				}
+				foreach (var zone in GKManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.PresentationName);
+				}
+			}
+			else
+			{
+				zoneMap = null;
+			}
+
 			foreach (var employee in employees)
 			{
 				var employeeRow = ds.Employee.NewEmployeeRow();
@@ -47,7 +67,7 @@ namespace FiresecService.Report.Templates
 						var row = ds.Data.NewDataRow();
 						row.EmployeeRow = employeeRow;
 						if (zoneMap.ContainsKey(pass.ZoneUID))
-							row.Zone = zoneMap[pass.ZoneUID].PresentationName;
+							row.Zone = zoneMap[pass.ZoneUID];
 						if (filter.DateTimeFrom <= pass.EnterTime && pass.EnterTime <= filter.DateTimeTo)
 						{
 							row.DateTime = pass.EnterTime;
