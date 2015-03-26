@@ -17,8 +17,15 @@ namespace FiresecAPI.GK
 			ChangeGuardSettings = new GKCodeReaderSettingsPart();
 			AlarmSettings = new GKCodeReaderSettingsPart();
 
+			AutomaticOnSettings = new GKCodeReaderSettingsPart();
+			AutomaticOffSettings = new GKCodeReaderSettingsPart();
+			StartSettings = new GKCodeReaderSettingsPart();
+			StopSettings = new GKCodeReaderSettingsPart();
+
 			SetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
 			ResetGuardSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndTwo;
+			AutomaticOnSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndOne;
+			AutomaticOffSettings.CodeReaderEnterType = GKCodeReaderEnterType.CodeAndTwo;
 		}
 
 		/// <summary>
@@ -34,7 +41,7 @@ namespace FiresecAPI.GK
 		public GKCodeReaderSettingsPart ResetGuardSettings { get; set; }
 
 		/// <summary>
-		/// Настройка на снятие с охраны
+		/// Настройка на изменение состояния
 		/// </summary>
 		[DataMember]
 		public GKCodeReaderSettingsPart ChangeGuardSettings { get; set; }
@@ -44,6 +51,30 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKCodeReaderSettingsPart AlarmSettings { get; set; }
+
+		/// <summary>
+		/// Настройка на постановку в автоматику
+		/// </summary>
+		[DataMember]
+		public GKCodeReaderSettingsPart AutomaticOnSettings { get; set; }
+
+		/// <summary>
+		/// Настройка на снятие с автоматики
+		/// </summary>
+		[DataMember]
+		public GKCodeReaderSettingsPart AutomaticOffSettings { get; set; }
+
+		/// <summary>
+		/// Настройка на пуск
+		/// </summary>
+		[DataMember]
+		public GKCodeReaderSettingsPart StartSettings { get; set; }
+
+		/// <summary>
+		/// Настройка на останов
+		/// </summary>
+		[DataMember]
+		public GKCodeReaderSettingsPart StopSettings { get; set; }
 	}
 
 	/// <summary>

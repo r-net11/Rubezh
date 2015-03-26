@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Common;
 using FiresecAPI.GK;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -72,13 +73,53 @@ namespace GKProcessor
 		void SetRegime(GKMPTDeviceType deviceType, GKStateBit stateBit)
 		{
 			var hasOR = false;
-			var handStartDevices = MPT.MPTDevices.Where(x => x.MPTDeviceType == deviceType).Select(x => x.Device).ToList();
-			foreach (var device in handStartDevices)
+			var mptDevices = MPT.MPTDevices.FindAll(x => x.MPTDeviceType == deviceType);
+			foreach (var mptDevice in mptDevices)
 			{
-				Formula.AddGetBit(GKStateBit.Fire1, device, DatabaseType);
-				if (hasOR)
-					Formula.Add(FormulaOperationType.OR);
-				hasOR = true;
+				if (mptDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || mptDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
+				{
+					GKCodeReaderSettingsPart settingsPart = null;
+					switch (stateBit)
+					{
+						case GKStateBit.TurnOn_InManual:
+							settingsPart = mptDevice.CodeReaderSettings.StartSettings;
+							break;
+
+						case GKStateBit.TurnOff_InManual:
+							settingsPart = mptDevice.CodeReaderSettings.StopSettings;
+							break;
+
+						case GKStateBit.SetRegime_Automatic:
+							settingsPart = mptDevice.CodeReaderSettings.AutomaticOnSettings;
+							break;
+
+						case GKStateBit.SetRegime_Manual:
+							settingsPart = mptDevice.CodeReaderSettings.AutomaticOffSettings;
+							break;
+					}
+					var codeIndex = 0;
+					foreach (var codeUID in settingsPart.CodeUIDs)
+					{
+						var code = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == codeUID);
+						Formula.Add(FormulaOperationType.KOD, 0,
+							DatabaseType == DatabaseType.Gk ? mptDevice.Device.GKDescriptorNo : mptDevice.Device.KAUDescriptorNo);
+						Formula.Add(FormulaOperationType.CMPKOD, 1,
+							DatabaseType == DatabaseType.Gk ? code.GKDescriptorNo : code.KAUDescriptorNo);
+						if (codeIndex > 0)
+						{
+							Formula.Add(FormulaOperationType.OR);
+						}
+						codeIndex++;
+						hasOR = true;
+					}
+				}
+				else
+				{
+					Formula.AddGetBit(GKStateBit.Fire1, mptDevice.Device, DatabaseType);
+					if (hasOR)
+						Formula.Add(FormulaOperationType.OR);
+					hasOR = true;
+				}
 			}
 			if (hasOR)
 				Formula.AddPutBit(stateBit, MPT, DatabaseType);
