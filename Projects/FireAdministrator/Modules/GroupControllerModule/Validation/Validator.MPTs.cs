@@ -43,7 +43,7 @@ namespace GKModule.Validation
 			var deviceUIDs = new HashSet<Guid>();
 			foreach (var mpt in GKManager.DeviceConfiguration.MPTs)
 			{
-				foreach(var device in mpt.Devices)
+				foreach(var device in mpt.Devices.FindAll(x => x.DriverType != GKDriverType.RSR2_CardReader && x.DriverType != GKDriverType.RSR2_CodeReader))
 					if (!deviceUIDs.Add(device.UID))
 					Errors.Add(new MPTValidationError(mpt, "Устройство " + device.PresentationName + " входит в состав различных МПТ", ValidationErrorLevel.CannotWrite));
 			}
@@ -80,7 +80,7 @@ namespace GKModule.Validation
 		void ValidateMPTSameDevices(GKMPT mpt)
 		{
 			var devices = new HashSet<GKDevice>();
-			foreach (var device in GetAllMPTDevices(mpt))
+            foreach (var device in GetAllMPTDevices(mpt).FindAll(x => x.DriverType != GKDriverType.RSR2_CardReader && x.DriverType != GKDriverType.RSR2_CodeReader))
 			{
 				if (!devices.Add(device))
 					Errors.Add(new MPTValidationError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite));
