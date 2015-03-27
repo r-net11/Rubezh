@@ -8,6 +8,45 @@ namespace FiresecClient
 {
 	public partial class GKManager
 	{
+		public static string GetPresentationZoneAndGuardZoneOrLogic(GKDevice device)
+		{
+			if (device.Driver.HasZone || device.Driver.HasGuardZone)
+			{
+				var stringBuilder = new StringBuilder();
+				if (device.Zones == null)
+					device.Zones = new List<GKZone>();
+				if (device.GuardZones == null)
+					device.GuardZones = new List<GKGuardZone>();
+
+				if (device.Zones.Count + device.GuardZones.Count == 1)
+				{
+					stringBuilder.Append(device.Zones.Count == 1 ? device.Zones[0].PresentationName : device.GuardZones[0].PresentationName);
+				}
+
+				else if (device.Zones.Count + device.GuardZones.Count > 1)
+				{
+					var allZones = new List<ModelBase>(device.Zones);
+					allZones.AddRange(new List<ModelBase>(device.GuardZones));
+					stringBuilder.Append("зоны: ");
+					if (device.Zones.Count > 0)
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones)));
+					if (device.GuardZones.Count > 0)
+					{
+						if (device.Zones.Count > 0)
+							stringBuilder.Append("; ");
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones)));
+					}
+				}
+				return stringBuilder.ToString();
+			}
+
+
+			if (device.Driver.HasLogic && device.Logic != null)
+				return GetPresentationLogic(device.Logic);
+
+			return "";
+		}
+
 		public static string GetPresentationZoneOrLogic(GKDevice device)
 		{
 			if (device.Driver.HasZone)
@@ -26,12 +65,6 @@ namespace FiresecClient
 				}
 				return stringBuilder.ToString();
 			}
-
-			if (device.Driver.HasGuardZone)
-			{
-				return GetPresentationGuardZone(device);
-			}
-
 			if (device.Driver.HasLogic && device.Logic != null)
 				return GetPresentationLogic(device.Logic);
 

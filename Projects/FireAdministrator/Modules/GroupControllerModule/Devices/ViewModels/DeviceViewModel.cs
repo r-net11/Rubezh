@@ -39,6 +39,7 @@ namespace GKModule.ViewModels
 			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
 			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+			ShowGuardZoneCommand = new RelayCommand(OnShowGuardZone, CanShowGuardZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
@@ -330,7 +331,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device.IsNotUsed)
 					return null;
-				var presentationZone = GKManager.GetPresentationZoneOrLogic(Device);
+				var presentationZone = GKManager.GetPresentationZoneAndGuardZoneOrLogic(Device);
 				IsLogicGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
@@ -441,20 +442,28 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			if (Driver.HasZone)
+			if (Driver.IsAm)
 			{
-				var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones, true);
-				if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-				{
-					GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
-				}
+				var anyZonesSelectionViewModel = new AnyZonesSelectionViewModel(Device);
+				DialogService.ShowModalWindow(anyZonesSelectionViewModel);
 			}
-			if (Driver.HasGuardZone)
+			else
 			{
-				var guardZonesSelectationViewModel = new GuardZonesWithFuncSelectationViewModel(Device, true);
-				if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
+				if (Driver.HasZone)
 				{
-					GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
+					var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones, true);
+					if (DialogService.ShowModalWindow(zonesSelectationViewModel))
+					{
+						GKManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
+					}
+				}
+				if (Driver.HasGuardZone)
+				{
+					var guardZonesSelectationViewModel = new GuardZonesWithFuncSelectationViewModel(Device, true);
+					if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
+					{
+						GKManager.ChangeDeviceGuardZones(Device, guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone).ToList());
+					}
 				}
 			}
 			OnPropertyChanged(() => PresentationZone);
@@ -497,7 +506,15 @@ namespace GKModule.ViewModels
 					ServiceFactoryBase.Events.GetEvent<ShowGKZoneEvent>().Publish(zone.UID);
 				}
 			}
+		}
+		bool CanShowZone()
+		{
+			return Driver.HasZone && Device.Zones.Count == 1;
+		}
 
+		public RelayCommand ShowGuardZoneCommand { get; private set; }
+		void OnShowGuardZone()
+		{
 			if (Driver.HasGuardZone)
 			{
 				var guardZone = Device.GuardZones.FirstOrDefault();
@@ -507,9 +524,9 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		bool CanShowZone()
+		bool CanShowGuardZone()
 		{
-			return ((Driver.HasZone && Device.Zones.Count == 1) || (Driver.HasGuardZone && Device.GuardZones.Count == 1));
+			return Driver.HasGuardZone && Device.GuardZones.Count == 1;
 		}
 
 		public RelayCommand ShowNSLogicCommand { get; private set; }

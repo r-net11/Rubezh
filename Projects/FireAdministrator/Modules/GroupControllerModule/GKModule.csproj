@@ -255,6 +255,7 @@
     <Compile Include="Plans\Views\MPTPropertiesView.xaml.cs">
       <DependentUpon>MPTPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
     <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
@@ -267,6 +268,9 @@
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
+    <Compile Include="Selectation\Views\AnyZonesSelectionView.xaml.cs">
+      <DependentUpon>AnyZonesSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Selectation\Views\GuardZonesSelectationView.xaml.cs">
       <DependentUpon>GuardZonesSelectationView.xaml</DependentUpon>
     </Compile>
@@ -775,6 +779,10 @@
     <Page Include="Selectation\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\AnyZonesSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Selectation\Views\GuardZonesSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
