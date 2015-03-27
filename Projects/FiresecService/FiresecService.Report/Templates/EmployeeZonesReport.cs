@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
+using FiresecClient;
 using FiresecService.Report.DataSources;
 using SKDDriver.DataAccess;
 
@@ -38,7 +39,15 @@ namespace FiresecService.Report.Templates
 			if (dataProvider.DatabaseService.PassJournalTranslator != null)
 			{
 				var employees = dataProvider.GetEmployees(filter);
-				var zoneMap = SKDManager.Zones.ToDictionary(item => item.UID);
+				var zoneMap = new Dictionary<Guid, string>();
+				foreach (var zone in SKDManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.PresentationName);
+				}
+				foreach (var zone in GKManager.Zones)
+				{
+					zoneMap.Add(zone.UID, zone.PresentationName);
+				}
 				var enterJournal = dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesLastEnterPassJournal(
 					employees.Select(item => item.UID), filter.Zones, filter.ReportDateTime);
 				foreach (var record in enterJournal)
@@ -47,7 +56,7 @@ namespace FiresecService.Report.Templates
 			return dataSet;
 		}
 
-		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, SKDZone> zoneMap)
+		private void AddRecord(DataProvider dataProvider, EmployeeZonesDataSet ds, PassJournal record, EmployeeZonesReportFilter filter, bool isEnter, Dictionary<Guid, string> zoneMap)
 		{
 			var dataRow = ds.Data.NewDataRow();
 			var employee = dataProvider.GetEmployee(record.EmployeeUID);
@@ -55,7 +64,7 @@ namespace FiresecService.Report.Templates
 			dataRow.Orgnisation = employee.Organisation;
 			dataRow.Department = employee.Department;
 			dataRow.Position = employee.Position;
-			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID].PresentationName : "Зона не найдена";
+			dataRow.Zone = zoneMap.ContainsKey(record.ZoneUID) ? zoneMap[record.ZoneUID] : "Зона не найдена";
 			dataRow.EnterDateTime = record.EnterTime;
 			if (record.ExitTime.HasValue)
 			{
