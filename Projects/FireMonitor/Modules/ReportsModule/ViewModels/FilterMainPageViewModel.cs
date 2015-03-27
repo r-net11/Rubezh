@@ -196,20 +196,20 @@ namespace ReportsModule.ViewModels
 					{
 						case ReportPeriodType.Day:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today;
-							DateTimeTo = DateTimeFrom.AddDays(1).AddSeconds(-1);
+							DateTimeFrom = DateTime.Today.AddDays(-1);
+							DateTimeTo = DateTime.Today.AddSeconds(-1);
 							_isLoaded = true;
 							break;
 						case ReportPeriodType.Week:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today.AddDays(DayOfWeek.Monday - DateTime.Today.DayOfWeek);
-							DateTimeTo = DateTimeFrom.AddDays(7).AddSeconds(-1);
+							DateTimeFrom = DateTime.Today.AddDays(1 - (int)DateTime.Today.DayOfWeek).AddDays(-7);
+							DateTimeTo = DateTimeFrom.AddDays(6);
 							_isLoaded = true;
 							break;
 						case ReportPeriodType.Month:
 							_isLoaded = false;
-							DateTimeFrom = DateTime.Today.AddDays(1 - DateTime.Today.Day);
-							DateTimeTo = DateTimeFrom.AddMonths(1).AddSeconds(-1);
+							DateTimeFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month -1, 1);
+							DateTimeTo = DateTimeFrom.AddDays(DateTime.DaysInMonth(DateTimeFrom.Year, DateTimeFrom.Month) - 1);
 							_isLoaded = true;
 							break;
 					}
@@ -317,7 +317,7 @@ namespace ReportsModule.ViewModels
 			{
 				periodFilter.PeriodType = SelectedReportPeriod;
 				periodFilter.DateTimeFrom = DateTimeFrom;
-				periodFilter.DateTimeTo = DateTimeTo;
+				periodFilter.DateTimeTo = DateTimeTo.Date.AddDays(1).AddSeconds(-1);
 			}
 			if (filter is IReportFilterArchive)
 				((IReportFilterArchive)filter).UseArchive = UseArchive;

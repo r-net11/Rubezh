@@ -20,9 +20,9 @@ namespace FiresecService.Service
 		public OperationResult SaveDayInterval(DayInterval item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика, item.Name, uid: item.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, item.Name, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DayIntervalTranslator.Save(item);
@@ -30,7 +30,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedDayInterval(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name);
+			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DayIntervalTranslator.MarkDeleted(uid);
@@ -38,7 +38,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreDayInterval(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name);
+			AddJournalMessage(JournalEventNameType.Восстановление_дневного_графика, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DayIntervalTranslator.Restore(uid);
@@ -54,7 +54,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveDayIntervalPart(DayIntervalPart item, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика, name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DayIntervalPartTranslator.Save(item);
@@ -62,7 +62,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RemoveDayIntervalPart(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name);
+			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.DayIntervalPartTranslator.Delete(uid);
@@ -79,9 +79,9 @@ namespace FiresecService.Service
 		public OperationResult SaveHoliday(Holiday item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_праздничного_дня, item.Name, uid: item.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_праздничного_дня, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.HolidayTranslator.Save(item);
@@ -89,7 +89,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedHoliday(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_праздничного_дня, name);
+			AddJournalMessage(JournalEventNameType.Удаление_праздничного_дня, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.HolidayTranslator.MarkDeleted(uid);
@@ -97,7 +97,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreHoliday(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_праздничного_дня, name);
+			AddJournalMessage(JournalEventNameType.Восстановление_праздничного_дня, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.HolidayTranslator.Restore(uid);
@@ -114,9 +114,9 @@ namespace FiresecService.Service
 		public OperationResult SaveScheduleScheme(ScheduleScheme item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы_сотрудника, item.Name);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы_сотрудника, item.Name, uid: item.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, item.Name, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleSchemeTranslator.Save(item);
@@ -124,7 +124,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedScheduleScheme(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name);
+			AddJournalMessage(JournalEventNameType.Удаление_графика_работы_сотрудника, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
@@ -132,7 +132,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreScheduleScheme(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы_сотрудника, name);
+			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы_сотрудника, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleSchemeTranslator.Restore(uid);
@@ -148,7 +148,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveSheduleDayInterval(ScheduleDayInterval item, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, name, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_графика_работы_сотрудника, name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleDayIntervalTranslator.Save(item);
@@ -173,9 +173,9 @@ namespace FiresecService.Service
 		public OperationResult SaveSchedule(Schedule item, bool isNew)
 		{
 			if (isNew)
-				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы, item.Name);
+				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_работы, item.Name, uid: item.UID);
 			else
-				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, item.Name, JournalEventDescriptionType.Редактирование);
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleTranslator.Save(item);
@@ -183,7 +183,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedSchedule(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_графика_работы, name);
+			AddJournalMessage(JournalEventNameType.Удаление_графика_работы, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleTranslator.MarkDeleted(uid);
@@ -198,7 +198,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult RestoreSchedule(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы, name);
+			AddJournalMessage(JournalEventNameType.Восстановление_графика_работы, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleTranslator.Restore(uid);
@@ -214,7 +214,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveScheduleZone(ScheduleZone item, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, name, JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, name, JournalEventDescriptionType.Редактирование, uid: item.ScheduleUID);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleZoneTranslator.Save(item);
@@ -222,7 +222,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedScheduleZone(Guid uid, string name)
 		{
-			AddJournalMessage(JournalEventNameType.Удаление_графика_работы, name);
+			AddJournalMessage(JournalEventNameType.Редактирование_графика_работы, name, uid: uid);
 			using (var databaseService = new SKDDatabaseService())
 			{
 				return databaseService.ScheduleZoneTranslator.Delete(uid);
@@ -236,20 +236,20 @@ namespace FiresecService.Service
 				return databaseService.TimeTrackDocumentTranslator.Get(employeeUID, startDateTime, endDateTime);
 			}
 		}
-		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		public OperationResult AddTimeTrackDocument(TimeTrackDocument item)
 		{
-			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, timeTrackDocument.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(timeTrackDocument);
+				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(item);
 			}
 		}
-		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument item)
 		{
-			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, timeTrackDocument.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование);
+			AddJournalMessage(JournalEventNameType.Внесение_оправдательного_документа, item.DocumentNumber.ToString(), JournalEventDescriptionType.Редактирование, uid: item.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(timeTrackDocument);
+				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(item);
 			}
 		}
 		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)

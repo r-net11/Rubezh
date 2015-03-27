@@ -29,5 +29,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public EmployeeFilter EmployeeFilter { get; set; }
+
+		[DataMember]
+		public bool IsWithInactive { get; set; }
 	}
 }

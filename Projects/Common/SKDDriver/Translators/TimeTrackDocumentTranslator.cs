@@ -22,7 +22,11 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var tableTimeTrackDocuments = Context.TimeTrackDocuments.Where(x => x.EmployeeUID == employeeUID && ((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) || (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime)));
+				var tableTimeTrackDocuments = Context.TimeTrackDocuments.Where(x => x.EmployeeUID == employeeUID && 
+					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) || 
+					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) || 
+					 (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
+					 (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
 				if (tableTimeTrackDocuments != null)
 				{
 					var timeTrackDocuments = new List<TimeTrackDocument>();

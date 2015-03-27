@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure;
@@ -10,7 +9,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class DepartmentPageViewModel : FilterContainerViewModel
+	public class DepartmentPageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage
 	{
 		public DepartmentPageViewModel()
 		{
@@ -18,20 +17,22 @@ namespace SKDModule.Reports.ViewModels
 			Filter = new DepartmentsFilterViewModel();
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
+			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
+			//ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
+			//ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
 		}
 
 		IReportFilterDepartment _reportFilter;
-		Guid _organisationUID;
+		public List<Guid> OrganisationUIDs { get; set; }
 		bool _isWithDeleted;
 		public DepartmentsFilterViewModel Filter { get; private set; }
+		OrganisationChangedSubscriber _OrganisationChangedSubscriber;
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
 			_reportFilter = filter as IReportFilterDepartment;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
-			_organisationUID = organisations != null ? organisations.FirstOrDefault() : Guid.Empty;
+			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
 			var filterArchive = filter as IReportFilterArchive;
 			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			InitializeFilter();
@@ -47,15 +48,35 @@ namespace SKDModule.Reports.ViewModels
 			_isWithDeleted = isWithDeleted;
 			InitializeFilter();
 		}
-		void OnOrganisationChanged(Guid organisationUID)
+		
+		public void InitializeFilter()
 		{
-			_organisationUID = organisationUID;
-			InitializeFilter();
+			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Departments, OrganisationUIDs, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
+		}
+	}
+
+	public interface IOrganisationItemsFilterPage
+	{
+		List<Guid> OrganisationUIDs { get; set; }
+		void InitializeFilter();
+	}
+
+	public class OrganisationChangedSubscriber
+	{
+		IOrganisationItemsFilterPage _parent;
+
+		public OrganisationChangedSubscriber(IOrganisationItemsFilterPage parent)
+		{
+			_parent = parent;
+			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
+			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
 		}
 
-		void InitializeFilter()
+		void OnOrganisationChanged(List<Guid> organisationUIDs)
 		{
-			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Departments, new List<Guid> { _organisationUID }, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
+			_parent.OrganisationUIDs = organisationUIDs;
+			_parent.InitializeFilter();
 		}
+
 	}
 }

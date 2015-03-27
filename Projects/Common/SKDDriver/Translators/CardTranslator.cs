@@ -141,7 +141,10 @@ namespace SKDDriver
 
 			if (filter.CardTypes.IsNotNullOrEmpty())
 			{
-				result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
+				if(filter.IsWithInactive)
+					result = result.And(e => (e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value)) || e.IsInStopList);
+				else
+					result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
 			}
 
 			return result;

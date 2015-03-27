@@ -1,16 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
-using SKDDriver;
-using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
@@ -95,11 +87,15 @@ namespace FiresecService.Report.Templates
 
 						var isHoliday = dayTimeTrack.IsHoliday;
 
-						foreach (var document in dayTimeTrack.Documents)
+						var document = timeTrackEmployeeResult.Documents.FirstOrDefault(x => (dayTimeTrack.Date >= x.StartDateTime && dayTimeTrack.Date <= x.EndDateTime) && x.TimeTrackDocumentType.ShortName == dayTimeTrack.LetterCode);
+						if (document != null)
 						{
+							dataRow.DocumentDate = document.DocumentDateTime;
+							dataRow.DocumentName = document.TimeTrackDocumentType.Name;
+							dataRow.DocumentNo = document.DocumentNumber.ToString();
 						}
-
-						if (absence.TimeSpan.TotalSeconds > 0 || late.TimeSpan.TotalSeconds > 0 || earlyLeave.TimeSpan.TotalSeconds > 0 || overtime.TimeSpan.TotalSeconds > 0)
+						
+						if (absence.TimeSpan.TotalSeconds > 0 || late.TimeSpan.TotalSeconds > 0 || earlyLeave.TimeSpan.TotalSeconds > 0 || overtime.TimeSpan.TotalSeconds > 0 || document != null)
 						{
 							dataSet.Data.Rows.Add(dataRow);
 						}

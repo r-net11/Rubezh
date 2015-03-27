@@ -65,6 +65,9 @@
 					<Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
 					<Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
+          <Directory Id="VLCLOCATION" Name="$(var.VLCName)" >
+            <Directory Id="Vlcplugins" Name="plugins" />
+          </Directory>
 				</Directory>
 			</Directory>
 			<Directory Id="ProgramMenuFolder">
@@ -101,6 +104,23 @@
 			<UIRef Id="WixUI_Wizard" />
 			<UIRef Id="WixUI_ErrorProgressText" />
 		</UI>
+
+    <DirectoryRef Id="VLCLOCATION">
+      <Component Id="VLC.Files"  Guid="78DC0DD3-A8A3-47DF-B08F-84FBD11C658B">
+        <File Id="libvlc.dll" Name="libvlc.dll" Source="$(var.VLCDLL.TargetDir)" />
+        <File Id="libvlccore.dll" Name="libvlccore.dll" Source="$(var.VLCDLL.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Vlcplugins" >
+      <Component Id="Vplugins.Files" Guid="B409E8ED-F13F-4D68-8D8E-B4D60D637BA5">
+        <File Id="libavcodec_plugin.dll" Name="libavcodec_plugin.dll" Source="$(var.VLCDLLPlugins.TargetDir)" />
+        <File Id="liblive555_plugin.dll" Name="liblive555_plugin.dll" Source="$(var.VLCDLLPlugins.TargetDir)" />
+        <File Id="libpacketizer_h264_plugin.dll" Name="libpacketizer_h264_plugin.dll" Source="$(var.VLCDLLPlugins.TargetDir)" />
+        <File Id="libswscale_plugin.dll" Name="libswscale_plugin.dll" Source="$(var.VLCDLLPlugins.TargetDir)" />
+        <File Id="libvmem_plugin.dll" Name="libvmem_plugin.dll" Source="$(var.VLCDLLPlugins.TargetDir)" />
+      </Component>
+    </DirectoryRef>
 
 	</Product>
 </Wix>

@@ -40,6 +40,8 @@
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />
       <ComponentRef Id="FscpAssociation" />
+      <ComponentRef Id="VLC.Files" />
+      <ComponentRef Id="Vplugins.Files" />
     </Feature>
   </Fragment>
 </Wix>

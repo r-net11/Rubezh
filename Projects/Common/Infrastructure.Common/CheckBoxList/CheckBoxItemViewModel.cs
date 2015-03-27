@@ -10,6 +10,8 @@ namespace Infrastructure.Common.CheckBoxList
 			get { return _isChecked; }
 			set
 			{
+				
+				ItemsList.BeforeChecked();
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
 				Update(value);
@@ -20,6 +22,12 @@ namespace Infrastructure.Common.CheckBoxList
 		{
 			if (ItemsList != null)
 				ItemsList.Update();
+		}
+
+		public void SetFromParent(bool value)
+		{
+			_isChecked = value;
+			OnPropertyChanged(() => IsChecked);
 		}
 
 		public ICheckBoxItemList ItemsList { get; set; }

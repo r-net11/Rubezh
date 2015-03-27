@@ -8,7 +8,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<ContentControl Content="{StaticResource ProxyElement}" Visibility="Collapsed" Grid.Row="0"/>
-		<DataGrid x:Name="Grid" ItemsSource="{Binding Organisations}" Grid.Row="0">
+		<DataGrid x:Name="Grid" ItemsSource="{Binding Organisations.Items}" Grid.Row="0">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Название" Visibility="{Binding Source={StaticResource ProxyElement}, Path=DataContext.AllowMultiple, Converter={StaticResource BoolToVisibilityConverter}}">
 					<DataGridTemplateColumn.CellTemplate>

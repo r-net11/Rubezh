@@ -11,7 +11,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public EmployeePageViewModel()
 		{
-			Title = "Сотрудник";
+			Title = "Сотрудники";
 			Filter = new EmployeesFilterViewModel();
 		}
 
@@ -36,6 +36,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => IsEmployee);
 				if (AllowVisitor)
 					Filter.Initialize(new List<Guid>(), FiresecAPI.SKD.LogicalDeletationType.Active, IsEmployee ? PersonType.Employee : PersonType.Guest);
+				Title = value ? "Сотрудники" : "Посетители";
 			}
 		}
 

@@ -55,6 +55,7 @@ namespace FiresecService.Report.Templates
 			if (filter.PassCardTemprorary)
 				cardFilter.CardTypes.Add(CardType.Temporary);
 			cardFilter.DeactivationType = filter.PassCardInactive ? (cardFilter.CardTypes.Count > 0 ? LogicalDeletationType.All : LogicalDeletationType.Deleted) : LogicalDeletationType.Active;
+			cardFilter.IsWithInactive = filter.PassCardInactive;
 			cardFilter.IsWithEndDate = filter.UseExpirationDate;
 			if (filter.UseExpirationDate)
 				switch (filter.ExpirationType)

@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
-using Infrastructure.Common.Services.Layout;
-using System;
-using FiresecAPI.GK;
 using FiresecClient;
+using Infrastructure.Common.Services.Layout;
 
 namespace SKDModule.ViewModels
 {
@@ -75,8 +75,8 @@ namespace SKDModule.ViewModels
 
 	public class DeviceViewModel
 	{
-		SKDDevice SKDDevice { get; private set; }
-		GKDevice GKDevice { get; private set; }
+		public SKDDevice SKDDevice { get; private set; }
+		public GKDevice GKDevice { get; private set; }
 
 		public Guid UID { get; private set; }
 		public string Name { get; private set; }

@@ -144,6 +144,7 @@ namespace FiresecService.Report
 			employeeFilter.LogicalDeletationType = withDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active;
 			employeeFilter.WithDeletedDepartments = withDeleted;
 			employeeFilter.WithDeletedPositions = withDeleted;
+			employeeFilter.UserUID = filter.UserUID;
 			if (filter is IReportFilterOrganisation)
 				employeeFilter.OrganisationUIDs = ((IReportFilterOrganisation)filter).Organisations ?? new List<Guid>();
 			if (filter is IReportFilterDepartment)

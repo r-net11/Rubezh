@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using Infrastructure;
@@ -10,7 +9,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Reports.ViewModels
 {
-	public class PositionPageViewModel : FilterContainerViewModel
+	public class PositionPageViewModel : FilterContainerViewModel, IOrganisationItemsFilterPage
 	{
 		public PositionPageViewModel()
 		{
@@ -18,14 +17,14 @@ namespace SKDModule.Reports.ViewModels
 			Filter = new PositionsFilterViewModel();
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
-			ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
+			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
 		}
 
 		IReportFilterPosition _reportFilter;
 		bool _isWithDeleted;
-		Guid _organisationUID;
+		public List<Guid> OrganisationUIDs { get; set; }
 		public PositionsFilterViewModel Filter { get; private set; }
+		OrganisationChangedSubscriber _OrganisationChangedSubscriber;
 
 		public override void LoadFilter(SKDReportFilter filter)
 		{
@@ -33,7 +32,7 @@ namespace SKDModule.Reports.ViewModels
 			var filterArchive = filter as IReportFilterArchive;
 			_isWithDeleted = filterArchive != null && filterArchive.UseArchive;
 			var organisations = (filter as IReportFilterOrganisation).Organisations;
-			_organisationUID = organisations != null ? organisations.FirstOrDefault() : Guid.Empty;
+			OrganisationUIDs = organisations != null ? organisations : new List<Guid>();
 			InitializeFilter();
 		}
 		public override void UpdateFilter(SKDReportFilter filter)
@@ -48,15 +47,10 @@ namespace SKDModule.Reports.ViewModels
 			_isWithDeleted = isWithDeleted;
 			InitializeFilter();
 		}
-		void OnOrganisationChanged(Guid organisationUID)
+		
+		public void InitializeFilter()
 		{
-			_organisationUID = organisationUID;
-			InitializeFilter();
-		}
-
-		void InitializeFilter()
-		{
-			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, new List<Guid> { _organisationUID }, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
+			Filter.Initialize(_reportFilter == null ? null : _reportFilter.Positions, OrganisationUIDs, _isWithDeleted ? LogicalDeletationType.All : LogicalDeletationType.Active);
 		}
 	}
 }

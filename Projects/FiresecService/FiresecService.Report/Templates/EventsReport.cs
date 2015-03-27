@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
-using FiresecService.Report.DataSources;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
-using SKDDriver;
+using Common;
 using FiresecAPI;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using System.Collections.Generic;
-using FiresecAPI.Journal;
-using Common;
-using System.Data.SqlClient;
-using Infrastructure.Common;
 using FiresecClient;
+using FiresecService.Report.DataSources;
+using Infrastructure.Common;
 
 namespace FiresecService.Report.Templates
 {
@@ -370,7 +365,8 @@ namespace FiresecService.Report.Templates
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					query += "EmployeeUID = '" + employeeUID + "'";
+					//query += "EmployeeUID = '" + employeeUID + "'";
+					query += "ObjectUID = '" + employeeUID + "'";
 				}
 				query += ")";
 			}

@@ -1,25 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using DevExpress.Xpf.Printing;
-using Infrastructure.Common.Windows;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
-using DevExpress.DocumentServices.ServiceModel.Client;
-using Infrastructure.Common.SKDReports;
-using Infrastructure.Common;
 using System.ServiceModel;
-using Common;
-using DevExpress.DocumentServices.ServiceModel.ServiceOperations;
-using DevExpress.DocumentServices.ServiceModel.DataContracts;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
-using DialogService = Infrastructure.Common.Windows.DialogService;
-using FiresecClient;
-using FiresecAPI.SKD.ReportFilters;
 using System.Windows.Threading;
+using Common;
+using DevExpress.DocumentServices.ServiceModel.Client;
+using DevExpress.Xpf.Printing;
+using FiresecAPI.SKD.ReportFilters;
+using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.SKDReports;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using DialogService = Infrastructure.Common.Windows.DialogService;
 
 namespace ReportsModule.ViewModels
 {
@@ -135,6 +127,8 @@ namespace ReportsModule.ViewModels
 						Model.ReportName = _reportProvider.GetType().Name;
 						var filter = _reportProvider is IFilteredSKDReportProvider ? ((IFilteredSKDReportProvider)_reportProvider).GetFilter() : null;
 						FilterName = filter == null ? null : filter.Name;
+						if (filter != null)
+							filter.UserUID = FiresecManager.CurrentUser.UID;
 						var filterPeriod = filter as IReportFilterPeriod;
 						IsPeriodReport = filterPeriod != null;
 						if (IsPeriodReport)

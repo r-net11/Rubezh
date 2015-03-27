@@ -28,6 +28,12 @@ namespace JournalModule.ViewModels
 			}
 		}
 
+		public void SetFromParent(bool value)
+		{
+			_isChecked = value;
+			OnPropertyChanged(() => IsChecked);
+		}
+
 		public ICheckBoxItemList ItemsList { get; set; }
 
 		public bool CanCheck

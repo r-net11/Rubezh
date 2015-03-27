@@ -15,4 +15,7 @@
   <?define SoundsFolder="Sounds"?>
   <?define XslFilesFolder="XslFiles"?>
   <?define xaml2svgFolder="xaml2svg"?>
+  <?define VLCName="VLC"?>
+  <?define VLCDLL.TargetDir="..\..\..\..\..\..\3rdParty\VLC\"?>
+  <?define VLCDLLPlugins.TargetDir="..\..\..\..\..\..\3rdParty\VLC\plugins\"?>
 </Include>
