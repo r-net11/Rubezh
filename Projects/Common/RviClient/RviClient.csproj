@@ -73,7 +73,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Service References\RVIServiceReference\RviClient.RVIServiceReference.AlarmRuleCheckExistOut.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

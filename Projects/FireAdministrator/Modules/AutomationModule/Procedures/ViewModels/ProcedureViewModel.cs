@@ -119,8 +119,6 @@ namespace AutomationModule.ViewModels
 
 		public void Update()
 		{
-			if (Procedure.PlanElementUIDs == null)
-				Procedure.PlanElementUIDs = new List<Guid>();
 			_visualizetionState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
@@ -129,7 +127,7 @@ namespace AutomationModule.ViewModels
 		{
 			get { return Procedure.PlanElementUIDs.Count > 0; }
 		}
-		private VisualizationState _visualizetionState;
+		VisualizationState _visualizetionState;
 		public VisualizationState VisualizationState
 		{
 			get { return _visualizetionState; }

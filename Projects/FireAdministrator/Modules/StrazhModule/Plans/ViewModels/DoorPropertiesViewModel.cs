@@ -14,26 +14,26 @@ namespace StrazhModule.Plans.ViewModels
 {
 	public class DoorPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementDoor _elementDoor;
-		private DoorsViewModel _doorsViewModel;
+		ElementDoor _elementDoor;
+		DoorsViewModel _doorsViewModel;
 
 		public DoorPropertiesViewModel(DoorsViewModel doorsViewModel, ElementDoor elementDoor)
 		{
 			Title = "Свойства фигуры: Точка доступа";
+			CreateCommand = new RelayCommand(OnCreate);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+
 			_elementDoor = elementDoor;
 			_doorsViewModel = doorsViewModel;
 
 			Doors = doorsViewModel.Doors;
-			CreateCommand = new RelayCommand(OnCreate);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			if (_elementDoor.DoorUID != Guid.Empty)
 				SelectedDoor = Doors.FirstOrDefault(x => x.Door.UID == _elementDoor.DoorUID);
-
 		}
 
 		public ObservableCollection<DoorViewModel> Doors { get; private set; }
 
-		private DoorViewModel _selectedDoor;
+		DoorViewModel _selectedDoor;
 		public DoorViewModel SelectedDoor
 		{
 			get { return _selectedDoor; }
@@ -45,7 +45,7 @@ namespace StrazhModule.Plans.ViewModels
 		}
 
 		public RelayCommand CreateCommand { get; private set; }
-		private void OnCreate()
+		void OnCreate()
 		{
 			Guid doorUID = _elementDoor.DoorUID;
 			var createDoorEventArg = new CreateDoorEventArg();
@@ -60,12 +60,12 @@ namespace StrazhModule.Plans.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditDoorEvent>().Publish(SelectedDoor.Door.UID);
 			SelectedDoor.Update(SelectedDoor.Door);
 		}
-		private bool CanEdit()
+		bool CanEdit()
 		{
 			return SelectedDoor != null;
 		}
@@ -80,7 +80,7 @@ namespace StrazhModule.Plans.ViewModels
 			_doorsViewModel.SelectedDoor = Update(_elementDoor.DoorUID);
 			return base.Save();
 		}
-		private DoorViewModel Update(Guid doorUID)
+		DoorViewModel Update(Guid doorUID)
 		{
 			var door = Doors.FirstOrDefault(x => x.Door.UID == doorUID);
 			if (door != null)

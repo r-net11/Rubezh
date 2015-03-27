@@ -44,16 +44,14 @@ namespace VideoModule.ViewModels
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
-		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
-
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		ObservableCollection<CameraViewModel> _cameras;
+		public ObservableCollection<CameraViewModel> Cameras
 		{
-			get { return _selectedDevice; }
+			get { return _cameras; }
 			set
 			{
-				_selectedDevice = value;
-				OnPropertyChanged(() => SelectedDevice);
+				_cameras = value;
+				OnPropertyChanged(() => Cameras);
 			}
 		}
 
@@ -74,6 +72,11 @@ namespace VideoModule.ViewModels
 			var devicesViewModel = new DeviceSelectionViewModel();
 			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
+				foreach (var camera in Cameras)
+				{
+					camera.Camera.OnChanged();
+				}
+
 				Cameras = new ObservableCollection<CameraViewModel>();
 				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 				{

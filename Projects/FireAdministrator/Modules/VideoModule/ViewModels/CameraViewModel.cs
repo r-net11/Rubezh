@@ -49,15 +49,9 @@ namespace VideoModule.ViewModels
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
 		}
-
 		public VisualizationState VisualizationState
 		{
-			get
-			{
-				if (IsOnPlan)
-					return Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single;
-				return VisualizationState.NotPresent;
-			}
+			get { return IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; }
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }

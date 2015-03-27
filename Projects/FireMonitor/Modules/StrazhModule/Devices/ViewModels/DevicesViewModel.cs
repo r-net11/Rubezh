@@ -97,7 +97,10 @@ namespace StrazhModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				AddDeviceInternal(childDevice, deviceViewModel);
+				if (childDevice.IsEnabled)
+				{
+					AddDeviceInternal(childDevice, deviceViewModel);
+				}
 			}
 			return deviceViewModel;
 		}

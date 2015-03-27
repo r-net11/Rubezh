@@ -54,7 +54,6 @@ namespace JournalModule.ViewModels
 			{
 				ArchiveFirstDate = DateTime.Now.AddYears(-10);
 			}
-			_isFilterOn = false;
 		}
 
 		ObservableCollection<ArchivePageViewModel> _pages;
@@ -116,8 +115,7 @@ namespace JournalModule.ViewModels
 			if (showArchiveEventArgs.SKDDoor != null)
 				ArchiveFilter.ObjectUIDs.Add(showArchiveEventArgs.SKDDoor.UID);
 
-			IsFilterOn = true;
-			OnPropertyChanged(() => IsFilterExists);
+			Update();
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -142,26 +140,6 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		bool _isFilterOn;
-		public bool IsFilterOn
-		{
-			get
-			{
-				return _isFilterOn;
-			}
-			set
-			{
-				_isFilterOn = value;
-				OnPropertyChanged(() => IsFilterOn);
-				Update();
-			}
-		}
-
-		public bool IsFilterExists
-		{
-			get { return ArchiveFilter != null; }
-		}
-
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
@@ -177,8 +155,7 @@ namespace JournalModule.ViewModels
 				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
 					ArchiveFilter = archiveFilterViewModel.GetModel();
-					OnPropertyChanged(() => IsFilterExists);
-					IsFilterOn = true;
+					Update();
 				}
 			}
 		}
@@ -198,8 +175,7 @@ namespace JournalModule.ViewModels
 				if (DialogService.ShowModalWindow(archiveSettingsViewModel))
 				{
 					ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Publish(null);
-					if (IsFilterOn == false)
-						Update();
+					Update();
 				}
 			}
 			catch (Exception e)
@@ -322,38 +298,37 @@ namespace JournalModule.ViewModels
 
 			try
 			{
-				var archiveFilter = new ArchiveFilter();
-				if (IsFilterOn)
-					archiveFilter = ArchiveFilter;
+				if (ArchiveFilter == null)
+					ArchiveFilter = new ArchiveFilter();
 
-				archiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
-				archiveFilter.UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
-				archiveFilter.StartDate = ArchiveFirstDate;
-				archiveFilter.EndDate = DateTime.Now;
+				ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
+				ArchiveFilter.UseDeviceDateTime = ClientSettings.ArchiveDefaultState.UseDeviceDateTime;
+				ArchiveFilter.StartDate = ArchiveFirstDate;
+				ArchiveFilter.EndDate = DateTime.Now;
 
 				switch (ClientSettings.ArchiveDefaultState.ArchiveDefaultStateType)
 				{
 					case ArchiveDefaultStateType.LastHours:
-						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-ClientSettings.ArchiveDefaultState.Count);
+						ArchiveFilter.StartDate = ArchiveFilter.EndDate.AddHours(-ClientSettings.ArchiveDefaultState.Count);
 						break;
 
 					case ArchiveDefaultStateType.LastDays:
-						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-ClientSettings.ArchiveDefaultState.Count);
+						ArchiveFilter.StartDate = ArchiveFilter.EndDate.AddDays(-ClientSettings.ArchiveDefaultState.Count);
 						break;
 
 					case ArchiveDefaultStateType.FromDate:
-						archiveFilter.StartDate = ClientSettings.ArchiveDefaultState.StartDate;
+						ArchiveFilter.StartDate = ClientSettings.ArchiveDefaultState.StartDate;
 						break;
 
 					case ArchiveDefaultStateType.RangeDate:
-						archiveFilter.StartDate = ClientSettings.ArchiveDefaultState.StartDate;
-						archiveFilter.EndDate = ClientSettings.ArchiveDefaultState.EndDate;
+						ArchiveFilter.StartDate = ClientSettings.ArchiveDefaultState.StartDate;
+						ArchiveFilter.EndDate = ClientSettings.ArchiveDefaultState.EndDate;
 						break;
 				}
 
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				ArchivePortionUID = Guid.NewGuid();
-				FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter, ArchivePortionUID);
+				FiresecManager.FiresecService.BeginGetFilteredArchive(ArchiveFilter, ArchivePortionUID);
 			}
 			catch (ThreadAbortException) { }
 			catch (Exception e)

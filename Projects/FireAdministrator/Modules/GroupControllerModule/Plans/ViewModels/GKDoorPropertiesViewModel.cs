@@ -15,8 +15,8 @@ namespace GKModule.Plans.ViewModels
 {
 	public class GKDoorPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementGKDoor _elementGKDoor;
-		private DoorsViewModel _doorsViewModel;
+		ElementGKDoor _elementGKDoor;
+		DoorsViewModel _doorsViewModel;
 
 		public GKDoorPropertiesViewModel(DoorsViewModel doorsViewModel, ElementGKDoor elementGKDoor)
 		{
@@ -34,7 +34,7 @@ namespace GKModule.Plans.ViewModels
 
 		public ObservableCollection<DoorViewModel> GKDoors { get; private set; }
 
-		private DoorViewModel _selectedGKDoor;
+		DoorViewModel _selectedGKDoor;
 		public DoorViewModel SelectedGKDoor
 		{
 			get { return _selectedGKDoor; }
@@ -46,7 +46,7 @@ namespace GKModule.Plans.ViewModels
 		}
 
 		public RelayCommand CreateCommand { get; private set; }
-		private void OnCreate()
+		void OnCreate()
 		{
 			var doorUID = _elementGKDoor.DoorUID;
 			var createGKDoorEventArg = new CreateGKDoorEventArg();
@@ -61,12 +61,12 @@ namespace GKModule.Plans.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditGKDoorEvent>().Publish(SelectedGKDoor.Door.UID);
 			SelectedGKDoor.Update(SelectedGKDoor.Door);
 		}
-		private bool CanEdit()
+		bool CanEdit()
 		{
 			return SelectedGKDoor != null;
 		}
@@ -81,7 +81,7 @@ namespace GKModule.Plans.ViewModels
 			_doorsViewModel.SelectedDoor = Update(_elementGKDoor.DoorUID);
 			return base.Save();
 		}
-		private DoorViewModel Update(Guid doorUID)
+		DoorViewModel Update(Guid doorUID)
 		{
 			var door = GKDoors.FirstOrDefault(x => x.Door.UID == doorUID);
 			if (door != null)

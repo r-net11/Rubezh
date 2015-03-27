@@ -3,8 +3,8 @@
 	<StackPanel Orientation="Horizontal">
 		<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 		<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource}" />
-		<TextBlock VerticalAlignment="Center" >
-			<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+		<TextBlock VerticalAlignment="Center">
+			<Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
 				<TextBlock Text="{Binding Device.Name}">
 					<TextBlock.Style>
 						<Style TargetType="TextBlock">

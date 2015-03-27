@@ -4,37 +4,28 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.ViewModels;
+using System;
 
 namespace VideoModule.Plans.ViewModels
 {
 	public class CameraPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementCamera _elementCamera;
-		private CamerasViewModel _camerasViewModel;
+		ElementCamera _elementCamera;
+		CamerasViewModel _camerasViewModel;
 
 		public CameraPropertiesViewModel(CamerasViewModel camerasViewModel, ElementCamera elementCamera)
 		{
 			Title = "Свойства фигуры: Камера";
 			_elementCamera = elementCamera;
 			_camerasViewModel = camerasViewModel;
-			Initialize();
-			SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == elementCamera.CameraUID);
-		}
 
-		public void Initialize()
-		{
-			Cameras = new ObservableCollection<CameraViewModel>();
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				var cameraViewModel = new CameraViewModel(_camerasViewModel, camera);
-				Cameras.Add(cameraViewModel);
-			}
-			SelectedCamera = Cameras.FirstOrDefault();
+			Cameras = camerasViewModel.Cameras;
+			SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == elementCamera.CameraUID);
 		}
 
 		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
 
-		private CameraViewModel _selectedCamera;
+		CameraViewModel _selectedCamera;
 		public CameraViewModel SelectedCamera
 		{
 			get { return _selectedCamera; }
@@ -47,8 +38,20 @@ namespace VideoModule.Plans.ViewModels
 
 		protected override bool Save()
 		{
+			Guid cameraUID = _elementCamera.CameraUID;
 			PlanExtension.Instance.SetItem(_elementCamera, SelectedCamera.Camera);
+
+			if (cameraUID != _elementCamera.CameraUID)
+				Update(cameraUID);
+			_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
 			return base.Save();
+		}
+		CameraViewModel Update(Guid cameraUID)
+		{
+			var camera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+			if (camera != null)
+				camera.Update();
+			return camera;
 		}
 
 		protected override bool CanSave()

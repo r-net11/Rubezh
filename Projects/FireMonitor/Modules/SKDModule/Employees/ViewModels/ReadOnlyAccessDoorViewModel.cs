@@ -15,6 +15,8 @@ namespace SKDModule.ViewModels
 		public string PresentationName { get; private set; }
 		public string EnerScheduleName { get; private set; }
 		public string ExitScheduleName { get; private set; }
+		public bool HasEnter { get; private set; }
+		public bool HasExit { get; private set; }
 
 		public ReadOnlyAccessDoorViewModel(SKDDoor door, CardDoor cardDoor)
 		{
@@ -25,14 +27,14 @@ namespace SKDModule.ViewModels
 			{
 				EnerScheduleName = enterSchedule.Name;
 			}
-			var exitSchedule = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == cardDoor.ExitScheduleNo);
-			if (exitSchedule != null)
+			else
 			{
-				ExitScheduleName = exitSchedule.Name;
+				EnerScheduleName = "График " + cardDoor.EnterScheduleNo + " деактивирован";
 			}
 
 			HasEnter = door.InDeviceUID != Guid.Empty;
-			HasExit = door.OutDeviceUID != Guid.Empty && door.DoorType == DoorType.TwoWay;
+			HasExit = false;
+			ExitScheduleName = "";
 		}
 
 		public ReadOnlyAccessDoorViewModel(GKDoor door, CardDoor cardDoor)
@@ -53,8 +55,5 @@ namespace SKDModule.ViewModels
 			HasEnter = door.EnterDeviceUID != Guid.Empty;
 			HasExit = door.ExitDeviceUID != Guid.Empty && door.DoorType == GKDoorType.TwoWay;
 		}
-
-		public bool HasEnter { get; private set; }
-		public bool HasExit { get; private set; }
 	}
 }

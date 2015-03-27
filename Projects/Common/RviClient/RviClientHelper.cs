@@ -346,6 +346,7 @@ namespace RviClient
 							Request = Guid.NewGuid(),
 							Session = sessionUID
 						};
+						alarmRuleExecuteIn.AlarmRuleGuid = alarmRule.Guid;
 						var alarmRuleExecuteOut = client.AlarmRuleExecute(alarmRuleExecuteIn);
 					}
 				}

@@ -100,8 +100,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => LockControlDevice);
 			OnPropertyChanged(() => EnterZone);
 			OnPropertyChanged(() => ExitZone);
-			if (Door.PlanElementUIDs == null)
-				Door.PlanElementUIDs = new List<Guid>();
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}

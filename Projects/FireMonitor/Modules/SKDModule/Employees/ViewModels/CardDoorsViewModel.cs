@@ -20,7 +20,6 @@ namespace SKDModule.ViewModels
 		{
 			CardDoors = cardDoors;
 			InitializeDoors();
-			SelectedDoor = Doors.FirstOrDefault();
 		}
 
 		void InitializeDoors()

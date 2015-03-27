@@ -3,7 +3,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
 			<TabItem Header="Соединения">
@@ -24,6 +23,5 @@
 		<Grid Grid.Row="1">
 			<TextBlock Margin="2" FontSize="11" FontWeight="Bold" Foreground="Orange" Text="{Binding LastLog}" />
 		</Grid>
-		<Button Grid.Row="2" Click="Button_Click" />
 	</Grid>
 </UserControl>

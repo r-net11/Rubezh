@@ -106,6 +106,8 @@ namespace StrazhModule.ViewModels
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.RemoveDoor(SelectedDoor.Door);
+				SelectedDoor.Door.OnChanged();
+
 				var organisations = OrganisationHelper.Get(new OrganisationFilter());
 				foreach (var organisation in organisations)
 				{

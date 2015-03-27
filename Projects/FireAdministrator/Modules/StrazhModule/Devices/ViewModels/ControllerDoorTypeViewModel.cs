@@ -57,8 +57,11 @@ namespace StrazhModule.ViewModels
 			}
 			else
 			{
-				SelectedDoorType = result.Result;
-				HasChanged = false;
+				if (SelectedDoorType != result.Result)
+				{
+					SelectedDoorType = result.Result;
+					HasChanged = true;
+				}
 			}
 		}
 
@@ -83,10 +86,7 @@ namespace StrazhModule.ViewModels
 			{
 				DeviceViewModel.Device.DoorType = SelectedDoorType;
 				ServiceFactory.SaveService.SKDChanged = true;
-			}
 
-			if (HasChanged)
-			{
 				if (!MessageBoxService.ShowConfirmation("Настройки не записаны в прибор. Вы уверены, что хотите закрыть окно без записи в контроллер?"))
 					return false;
 			}
