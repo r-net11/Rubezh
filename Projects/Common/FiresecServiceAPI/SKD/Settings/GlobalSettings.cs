@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -6,6 +8,23 @@ namespace FiresecAPI
 	[DataContract]
 	public class GlobalSettings
 	{
+		/// <summary>
+		/// Инициализация свойства UseStrazhBrand
+		/// Если в каталоге приложения есть библиотека "StrazhModule.dll", то UI подстраивается под бренд СТРАЖ
+		/// </summary>
+		private void InitializeUseStrazhBrandProperty()
+		{
+			try
+			{
+				string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StrazhModule.dll");
+				UseStrazhBrand = File.Exists(path);
+			}
+			catch (Exception)
+			{
+				UseStrazhBrand = false;
+			}
+		}
+
 		public GlobalSettings()
 		{
 			RemoteAddress = "localhost";
@@ -16,7 +35,8 @@ namespace FiresecAPI
 			AutoConnect = false;
 			Server_EnableRemoteConnections = false;
 
-			UseStrazhBrand = false;
+			InitializeUseStrazhBrandProperty();
+			//UseStrazhBrand = false;
 			UseHasp = false;
 			DBServerName = "SQLEXPRESS";
 			//DBServerName = "FIRESECINSTANCE";

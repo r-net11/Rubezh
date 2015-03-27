@@ -164,6 +164,9 @@ namespace FiresecAPI.Automation
 		StartRecord,
 
 		[DescriptionAttribute("Остановить запись")]
-		StopRecord
+		StopRecord,
+
+		[DescriptionAttribute("Вызвать тревогу в RVI Оператор")]
+		RviAlarm
 	}
 }

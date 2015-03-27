@@ -9,7 +9,7 @@ namespace Infrastructure.Common.SKDReports
 {
 	public abstract class FilterContainerViewModel : BaseViewModel
 	{
-		private string _title;
+		string _title;
 		public string Title
 		{
 			get { return _title; }
@@ -19,7 +19,7 @@ namespace Infrastructure.Common.SKDReports
 				OnPropertyChanged(() => Title);
 			}
 		}
-		private string _imageSource;
+		string _imageSource;
 		public string ImageSource
 		{
 			get { return _imageSource; }
@@ -29,7 +29,7 @@ namespace Infrastructure.Common.SKDReports
 				OnPropertyChanged(() => ImageSource);
 			}
 		}
-		
+
 		public abstract void LoadFilter(SKDReportFilter filter);
 		public abstract void UpdateFilter(SKDReportFilter filter);
 	}

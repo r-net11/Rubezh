@@ -28,16 +28,20 @@
 		<Views:DelaysSelectationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorsSelectationViewModel}">
-        <Views:DoorsSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DoorsSelectationViewModel}">
+		<Views:DoorsSelectationView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectationViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneSelectationViewModel}">
 		<Views:SKDZoneSelectationView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GuardZonesWithFuncSelectationViewModel}">
 		<Views:GuardZonesWithFuncSelectationView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:AnyZonesSelectionViewModel}">
+		<Views:AnyZonesSelectionView />
+	</DataTemplate>
+
 </ResourceDictionary>

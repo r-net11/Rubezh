@@ -13,6 +13,7 @@ namespace FiresecAPI.GK
 	{
 		public GKMPTDevice()
 		{
+			CodeReaderSettings = new GKCodeReaderSettings();
 			MPTDeviceType = GKMPTDeviceType.Unknown;
 		}
 
@@ -26,8 +27,21 @@ namespace FiresecAPI.GK
 		public Guid DeviceUID { get; set; }
 
 		/// <summary>
+		/// Тип действия
+		/// </summary>
+		[DataMember]
+		public GKGuardZoneDeviceActionType ActionType { get; set; }
+
+		/// <summary>
+		/// Настройки кодонаборника в МПТ
+		/// </summary>
+		[DataMember]
+		public GKCodeReaderSettings CodeReaderSettings { get; set; }
+
+		/// <summary>
 		/// Тип устройства МПТ
 		/// </summary>
+		/// 
 		[DataMember]
 		public GKMPTDeviceType MPTDeviceType { get; set; }
 
@@ -57,6 +71,8 @@ namespace FiresecAPI.GK
 				case GKMPTDeviceType.HandAutomaticOn:
 				case GKMPTDeviceType.HandAutomaticOff:
 					result.Add(GKDriverType.RSR2_AM_1);
+					result.Add(GKDriverType.RSR2_CardReader);
+					result.Add(GKDriverType.RSR2_CodeReader);
 					break;
 
 				case GKMPTDeviceType.Bomb:

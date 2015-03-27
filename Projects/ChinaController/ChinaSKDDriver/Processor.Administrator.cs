@@ -174,7 +174,7 @@ namespace ChinaSKDDriver
 					}
 
 					if (progressCallback.IsCanceled)
-						return new OperationResult<bool>("Операция обновления прибора " + deviceProcessor.Device.Name + " отменена");
+						return new OperationResult<bool>("Операция записи графиков прибора " + deviceProcessor.Device.Name + " отменена");
 					Processor.DoProgress("Запись графика " + i, progressCallback);
 
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);

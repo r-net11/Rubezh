@@ -8,11 +8,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans;
-using Infrastructure.Common.Windows;
-using FiresecAPI.AutomationCallback;
-using FiresecAPI.Automation;
-using Infrustructure.Plans.Elements;
-using System.Windows.Media;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel

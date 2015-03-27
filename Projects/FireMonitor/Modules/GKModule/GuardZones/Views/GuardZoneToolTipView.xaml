@@ -15,12 +15,12 @@
 			<TextBlock Text="{Binding GuardZone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<TextBlock Text="{Binding GuardZone.Description}" Visibility="{Binding GuardZone.Description, Converter={StaticResource StringToVisibilityConverter}}" />
-		<StackPanel Orientation="Horizontal">
+		<!--<StackPanel Orientation="Horizontal">
 			<Image Margin="0 0 2 0" Width="16" Height="16" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XGuardZoneStateClassToStringConverter}}" />
-		</StackPanel>
+		</StackPanel>-->
 		<StackPanel Orientation="Horizontal">
-			<ItemsControl ItemsSource="{Binding StateClasses}">
+            <ItemsControl ItemsSource="{Binding State.StateClasses}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

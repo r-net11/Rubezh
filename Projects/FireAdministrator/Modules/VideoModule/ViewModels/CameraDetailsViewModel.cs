@@ -39,51 +39,7 @@ namespace VideoModule.ViewModels
 				ChannelNumber = 1;
 				IsEditMode = false;
 			}
-			ShowCommand = new RelayCommand(OnShow);
-		}
-
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged(() => Left);
-			}
-		}
-
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged(() => Top);
-			}
-		}
-
-		int _width;
-		public int Width
-		{
-			get { return _width; }
-			set
-			{
-				_width = value;
-				OnPropertyChanged(() => Width);
-			}
-		}
-
-		int _height;
-		public int Height
-		{
-			get { return _height; }
-			set
-			{
-				_height = value;
-				OnPropertyChanged(() => Height);
-			}
+			ShowCommand = new RelayCommand(OnShow, CanShow);
 		}
 
 		void CopyProperties()
@@ -91,10 +47,6 @@ namespace VideoModule.ViewModels
 			Name = Camera.Name;
 			Address = Camera.Ip;
 			ChannelNumber = Camera.ChannelNumber + 1;
-			Left = Camera.Left;
-			Top = Camera.Top;
-			Width = Camera.Width;
-			Height = Camera.Height;
 		}
 
 		string _name;
@@ -157,6 +109,9 @@ namespace VideoModule.ViewModels
 		{
 			try
 			{
+				if (IsPlaying)
+					return;
+
 				if (!VlcContext.IsInitialized)
 				{
 					VlcContext.LibVlcDllsPath = FiresecManager.SystemConfiguration.RviSettings.DllsPath;
@@ -173,12 +128,21 @@ namespace VideoModule.ViewModels
 				if (_vlcControl.IsPlaying)
 					_vlcControl.Stop();
 				_vlcControl.Play();
+
+				IsPlaying = true;
 			}
 			catch (Exception e)
 			{
 				MessageBoxService.ShowWarning(e.Message);
 			}
 		}
+
+		bool CanShow()
+		{
+			return !IsPlaying;
+		}
+
+		bool IsPlaying = false;
 
 		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
 		{
@@ -196,10 +160,6 @@ namespace VideoModule.ViewModels
 		{
 			Camera.Name = Name;
 			Camera.Ip = Address;
-			Camera.Left = Left;
-			Camera.Top = Top;
-			Camera.Width = Width;
-			Camera.Height = Height;
 			return base.Save();
 		}
 	}

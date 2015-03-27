@@ -12,9 +12,11 @@ namespace GKModule.ViewModels
 {
 	public class CodeReaderSettingsViewModel : BaseViewModel
 	{
+		GKCodeReaderSettingsPart CodeReaderSettingsPart { get; set; }
 		public CodeReaderSettingsViewModel(GKCodeReaderSettingsPart codeReaderSettingsPart)
 		{
 			SelectCodeCommand = new RelayCommand(OnSelectCode);
+			CodeReaderSettingsPart = codeReaderSettingsPart;
 			EnterTypes = Enum.GetValues(typeof(GKCodeReaderEnterType)).Cast<GKCodeReaderEnterType>().ToList();
 			SelectedEnterType = EnterTypes.FirstOrDefault(x => x == codeReaderSettingsPart.CodeReaderEnterType);
 
@@ -51,6 +53,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(codesSelectationViewModel))
 			{
 				Codes = codesSelectationViewModel.Codes;
+				CodeReaderSettingsPart.CodeUIDs = Codes.Select(x => x.UID).ToList();
 			}
 			OnPropertyChanged(() => PresentationCode);
 		}

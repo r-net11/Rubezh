@@ -260,7 +260,11 @@
 		<Views:StopRecordStepView />
 	</DataTemplate>
 
-	<ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
+    <DataTemplate x:Key="rviAlarmTemplate">
+        <Views:RviAlarmStepView />
+    </DataTemplate>
+
+    <ViewModels:StepTypeTemplateSelector x:Key="stepTypeTemplateSelector"
 										 ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 										 ChangeListTemplate="{StaticResource changeListTemplate}"
 										 CheckPermissionTemplate="{StaticResource checkPermissionTemplate}"
@@ -305,5 +309,6 @@
 										 ImportOrganisationListTemplate="{StaticResource importOrganisationListTemplate}"
 										 PtzTemplate="{StaticResource ptzTemplate}"
 										 StartRecordTemplate="{StaticResource startRecordTemplate}"
-										 StopRecordTemplate="{StaticResource stopRecordTemplate}" />
+										 StopRecordTemplate="{StaticResource stopRecordTemplate}"
+                                         RviAlarmTemplate="{StaticResource rviAlarmTemplate}" />
 </ResourceDictionary>

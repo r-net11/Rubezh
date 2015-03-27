@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 			foreach (var device in GKManager.Devices)
 			{
 				if (GKMPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
-					if (!device.IsInMPT)
+					if (!device.IsInMPT || device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader)
 						devices.Add(device);
 			}
 

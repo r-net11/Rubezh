@@ -88,18 +88,6 @@ namespace JournalModule.ViewModels
 				if (JournalFilter.ObjectUIDs.Count > 0 && !JournalFilter.ObjectUIDs.Contains(journalItem.ObjectUID))
 					continue;
 
-				if (journalItem.JournalEventNameType == JournalEventNameType.Не_на_охране)
-				{
-					var setGuardJournalItem = JournalItems.FirstOrDefault(x => x.JournalItem.JournalEventNameType == JournalEventNameType.Постановка_на_охрану && x.JournalItem.ObjectUID == journalItem.ObjectUID);
-					if (setGuardJournalItem != null)
-					{
-						journalItem.DescriptionText = "Невзятие";
-					}
-				}
-
-				//if (journalItem.JournalEventNameType == JournalEventNameType.Не_на_охране && JournalItems.Count > 0 && JournalItems[0].JournalItem.JournalEventNameType == JournalEventNameType.Постановка_на_охрану)
-				//    journalItem.DescriptionText = "Невзятие";
-
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				if (JournalItems.Count > 0)
 					JournalItems.Insert(0, journalItemViewModel);

@@ -6,6 +6,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Border Grid.Row="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5">
@@ -54,7 +55,7 @@
 												<IconedMenuItem ImageSource="BTurnOff" Text="Отключить все устройства" Command="{Binding SetIgnoreAllCommand}" />
 												<IconedMenuItem ImageSource="BResetIgnore" Text="Снять отключение всех устройств" Command="{Binding ResetIgnoreAllCommand}" />
 												<IconedMenuItem ImageSource="BReset" Text="Сбросить" Command="{Binding ResetFireCommand}" />
-												<IconedMenuItem ImageSource="Map"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+												<IconedMenuItem ImageSource="BMap"  Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 												<IconedMenuItem ImageSource="BJournal" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 												<IconedMenuItem ImageSource="BSettings"  Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 											</ContextMenu>
@@ -93,8 +94,8 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-
-		<Grid Grid.Row="1" Margin="0, 5, 0, 0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+		<GridSplitter Grid.Row="1" Height="5" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="Transparent" />
+		<Grid Grid.Row="2" Margin="0, 5, 0, 0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<tree:TreeList Focusable="True" Source="{Binding RootDevices}">
 				<tree:TreeList.View>
 					<GridView>

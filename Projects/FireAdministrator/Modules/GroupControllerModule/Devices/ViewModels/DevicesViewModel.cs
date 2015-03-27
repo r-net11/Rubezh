@@ -198,7 +198,10 @@ namespace GKModule.ViewModels
 						var device = PasteDevice(pasteDevice);
 						device.UID = pasteDevice.UID;
 						if (device != null)
+						{
 							cache.UpdateDeviceBinding(device);
+							SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+						}
 					}
 					if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 					{

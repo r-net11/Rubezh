@@ -13,7 +13,7 @@ namespace SKDModule.Reports.ViewModels
 			Item = item;
 		}
 
-		private bool _isChecked;
+		bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }

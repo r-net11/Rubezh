@@ -3,9 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
-		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Свойства (Ctrl+E)" ImageSource="Edit"  />
-		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
+		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add" />
+		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Свойства (Ctrl+E)" ImageSource="Edit" />
+		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete" />
 		<Menu VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
 			<MenuItem>
 				<MenuItem.Header>
@@ -22,7 +22,6 @@
 			</MenuItem>
 			<Menu.Style>
 				<Style TargetType="{x:Type Menu}">
-					
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding HasMissmath}" Value="False">
 							<DataTrigger.Setters>

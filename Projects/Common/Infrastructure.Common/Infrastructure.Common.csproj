@@ -208,12 +208,10 @@
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ZipFileConfigurationHelper.cs" />
-    <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
-    <Compile Include="LoadHelper\FSAgentLoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigActualizeHelper.cs" />
     <Compile Include="GlobalSettingsHelper.cs" />
     <Compile Include="LicenseHelper.cs" />

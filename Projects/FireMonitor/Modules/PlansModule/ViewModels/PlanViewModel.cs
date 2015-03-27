@@ -1,4 +1,6 @@
-﻿using FiresecAPI.GK;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.TreeList;
@@ -69,7 +71,7 @@ namespace PlansModule.ViewModels
 			var minNamedStateClass = new NamedStateClass();
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
 			{
-				var namedStateClass = (NamedStateClass)planPresenter.GetNamedStateClass(Plan);
+				var namedStateClass = planPresenter.GetNamedStateClass(Plan);
 				if (namedStateClass.StateClass < minNamedStateClass.StateClass)
 				{
 					minNamedStateClass = namedStateClass;
@@ -82,6 +84,17 @@ namespace PlansModule.ViewModels
 			}
 			SelfNamedStateClass = minNamedStateClass;
 		}
+
+		//public bool IsStateImage
+		//{
+		//    get
+		//    {
+		//        return SelfNamedStateClass != null && (SelfNamedStateClass.StateClass == XStateClass.Fire1 || SelfNamedStateClass.StateClass == XStateClass.Fire2) &&
+		//               (devices.Count > 0 &&
+		//                !devices.Any(
+		//                    x => !x.Driver.IsAm && (x.State.StateClass == XStateClass.Fire1 || x.State.StateClass == XStateClass.Fire2)));
+		//    }
+		//}
 
 		public bool IsFolder
 		{

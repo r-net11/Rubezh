@@ -223,6 +223,7 @@
     <Compile Include="Models\Automation\StepArguments\StartRecordArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\StopRecordArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\UIArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\RviAlarmArguments.cs" />
     <Compile Include="Models\Automation\VariableScope.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ExplicitType.cs" />

@@ -132,6 +132,11 @@ namespace FiresecAPI.GK
 				LinkLogic(mpt, mpt.StartLogic.OnClausesGroup);
 				LinkLogic(mpt, mpt.StopLogic.OnClausesGroup);
 				LinkLogic(mpt, mpt.SuspendLogic.OnClausesGroup);
+				foreach (var mptDevice in mpt.MPTDevices.FindAll(x => x.MPTDeviceType == GKMPTDeviceType.HandStart || x.MPTDeviceType == GKMPTDeviceType.HandStop
+					|| x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOn || x.MPTDeviceType == GKMPTDeviceType.HandAutomaticOff || x.MPTDeviceType == GKMPTDeviceType.Bomb))
+				{
+					mpt.LinkGKBases(mptDevice.Device);
+				}
 			}
 
 			if (delay != null)

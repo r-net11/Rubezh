@@ -33,10 +33,6 @@ namespace GKProcessor
 			JournalItem = new JournalItem();
 			JournalItem.JournalObjectType = JournalObjectType.GKDevice;
 
-			//var gkIpAddress = GKManager.GetIpAddress(gkControllerDevice);
-			//if (!string.IsNullOrEmpty(gkIpAddress))
-			//	JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("IP-адрес ГК", gkIpAddress.ToString()));
-
 			GKJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
 			if (GKJournalRecordNo > 0)
 				JournalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Запись ГК", GKJournalRecordNo.ToString()));
@@ -130,10 +126,12 @@ namespace GKProcessor
 								{
 									if (door.EnterDeviceUID == readerDevice.UID)
 									{
+										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
 										zoneUID = door.EnterZoneUID;
 									}
 									else if (door.ExitDeviceUID == readerDevice.UID)
 									{
+										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
 										zoneUID = door.ExitZoneUID;
 									}
 								}

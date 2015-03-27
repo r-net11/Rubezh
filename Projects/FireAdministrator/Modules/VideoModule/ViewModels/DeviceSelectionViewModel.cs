@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using RviClient.RVIServiceReference;
 using RviClient;
+using Infrastructure.Common.Windows;
 
 namespace VideoModule.ViewModels
 {
@@ -18,7 +19,16 @@ namespace VideoModule.ViewModels
 			Title = "Устройства";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			var devices = RviClientHelper.GetDevices(FiresecManager.SystemConfiguration);
+			List<Device> devices = null;
+			try
+			{
+				devices = RviClientHelper.GetDevices(FiresecManager.SystemConfiguration);
+			}
+			catch
+			{
+				MessageBoxService.ShowWarning("Возникла ошибка при получении списка устройств");
+				return;
+			}
 			foreach (var device in devices)
 			{
 				foreach (var channel in device.Channels)

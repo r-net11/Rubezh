@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Common;
+using FiresecAPI.GK;
+using FiresecClient;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -17,16 +19,26 @@ namespace SKDModule.Reports.ViewModels
 		public ZonePageViewModel()
 		{
 			Title = "Зоны";
-			Zones = new ObservableCollection<CheckedItemViewModel<SKDZone>>(SKDManager.Zones.Select(item => new CheckedItemViewModel<SKDZone>(item)));
+			Zones = new ObservableCollection<CheckedItemViewModel<CommonZoneViewModel>>();
+			foreach (var zone in SKDManager.Zones)
+			{
+				var zoneViewModel = new CommonZoneViewModel(zone);
+				Zones.Add(new CheckedItemViewModel<CommonZoneViewModel>(zoneViewModel));
+			}
+			foreach (var zone in GKManager.SKDZones)
+			{
+				var zoneViewModel = new CommonZoneViewModel(zone);
+				Zones.Add(new CheckedItemViewModel<CommonZoneViewModel>(zoneViewModel));
+			}
 			SelectAllCommand = new RelayCommand(() => Zones.ForEach(item => item.IsChecked = true));
 			SelectNoneCommand = new RelayCommand(() => Zones.ForEach(item => item.IsChecked = false));
 		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
 		public RelayCommand SelectNoneCommand { get; private set; }
-		public ObservableCollection<CheckedItemViewModel<SKDZone>> Zones { get; private set; }
+		public ObservableCollection<CheckedItemViewModel<CommonZoneViewModel>> Zones { get; private set; }
 
-		private bool _withDirection;
+		bool _withDirection;
 		public bool WithDirection
 		{
 			get { return _withDirection; }
@@ -36,7 +48,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => WithDirection);
 			}
 		}
-		private bool _zoneIn;
+		bool _zoneIn;
 		public bool ZoneIn
 		{
 			get { return _zoneIn; }
@@ -46,7 +58,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => ZoneIn);
 			}
 		}
-		private bool _zoneOut;
+		bool _zoneOut;
 		public bool ZoneOut
 		{
 			get { return _zoneOut; }
@@ -84,6 +96,27 @@ namespace SKDModule.Reports.ViewModels
 				direction.ZoneIn = ZoneIn;
 				direction.ZoneOut = ZoneOut;
 			}
+		}
+	}
+
+	public class CommonZoneViewModel
+	{
+		public Guid UID { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+
+		public CommonZoneViewModel(SKDZone strazhZone)
+		{
+			UID = strazhZone.UID;
+			Name = strazhZone.Name;
+			Description = strazhZone.Description;
+		}
+
+		public CommonZoneViewModel(GKSKDZone gkZone)
+		{
+			UID = gkZone.UID;
+			Name = gkZone.Name;
+			Description = gkZone.Description;
 		}
 	}
 }

@@ -373,6 +373,10 @@ namespace FiresecService
 				case ProcedureStepType.StopRecord:
 					StopRecord(procedureStep);
 					break;
+
+				case ProcedureStepType.RviAlarm:
+					RviAlarm(procedureStep);
+					break;
 			}
 			return Result.Normal;
 		}

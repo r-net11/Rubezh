@@ -267,7 +267,7 @@
 								</Style>
 							</WrapPanel.Style>
 							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="Охранная Зона" />
-							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="{DynamicResource ForegroundColorLight}" Text="Зона или Логика не указана">
+							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="{DynamicResource ForegroundColorLight}" Text="Охранная зона не указана">
 								<TextBlock.Style>
 									<Style>
 										<Setter Property="TextBlock.Visibility" Value="Collapsed" />
@@ -280,7 +280,7 @@
 								</TextBlock.Style>
 							</TextBlock>
 							<TextBlock VerticalAlignment="Center">
-								<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+								<Hyperlink Command="{Binding ShowGuardZoneCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/Zone.png" />
 										<TextBlock Text="{Binding GuardPresentationZone}" TextWrapping="Wrap" Margin="2" />

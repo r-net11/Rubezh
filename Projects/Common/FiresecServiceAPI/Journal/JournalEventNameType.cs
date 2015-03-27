@@ -325,7 +325,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Проход запрещен", XStateClass.Attention)]
 		Проход_запрещен,
 
-		[EventName(JournalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Failure)]
+		[EventName(JournalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Attention)]
 		Дверь_не_закрыта,
 
 		[EventName(JournalSubsystemType.SKD, "Взлом", XStateClass.Attention)]

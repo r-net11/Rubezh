@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.GK;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
-using FiresecClient;
 using Infrastructure.Common.Services.Layout;
+using System;
+using FiresecAPI.GK;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -75,16 +75,18 @@ namespace SKDModule.ViewModels
 
 	public class DeviceViewModel
 	{
-		public SKDDevice SKDDevice { get; private set; }
-		public GKDevice GKDevice { get; private set; }
+		SKDDevice SKDDevice { get; set; }
+		GKDevice GKDevice { get; set; }
 
 		public Guid UID { get; private set; }
 		public string Name { get; private set; }
+		public string Address { get; private set; }
 
 		public DeviceViewModel(SKDDevice skdDevice)
 		{
 			SKDDevice = skdDevice;
 			UID = skdDevice.UID;
+			Address = skdDevice.Parent != null ? skdDevice.Parent.Address : "";
 			Name = skdDevice.Name;
 		}
 
@@ -92,7 +94,8 @@ namespace SKDModule.ViewModels
 		{
 			GKDevice = gkDevice;
 			UID = gkDevice.UID;
-			Name = gkDevice.PresentationName;
+			Name = gkDevice.Driver.ShortName;
+			Address = gkDevice.PresentationAddress;
 		}
 	}
 }

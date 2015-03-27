@@ -15,8 +15,8 @@
 			<TextBlock Text="{Binding PlanViewModel.Plan.Caption}" FontWeight="Bold" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-            <Image Margin="2" Width="16" Height="16" Source="{Binding PlanViewModel.NamedStateClass.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-            <TextBlock Text="{Binding PlanViewModel.NamedStateClass.Name}" />
+			<Image Margin="2" Width="16" Height="16" Source="{Binding PlanViewModel.NamedStateClass.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+			<TextBlock Text="{Binding PlanViewModel.NamedStateClass.Name}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

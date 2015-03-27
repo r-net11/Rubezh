@@ -82,7 +82,10 @@ namespace FiresecAPI.GK
 			{
 				code.PrepareInputOutputDependences();
 				var codeGuardZones = GKManager.GuardZones.Where(x => x.GetCodeUids().Contains(code.UID)).ToList();
-				var kauParents = codeGuardZones.Select(x => x.KauDatabaseParent).Distinct().ToList();
+				var codeMPTs = GKManager.MPTs.Where(x => x.GetCodeUids().Contains(code.UID)).ToList();
+				var allKauParents = codeGuardZones.Select(x => x.KauDatabaseParent).ToList();
+				allKauParents.AddRange(codeMPTs.Select(x => x.KauDatabaseParent).ToList());
+				var kauParents = allKauParents.Distinct().ToList();
 				code.KauDatabaseParent = kauParents.Count == 1 ? kauParents.FirstOrDefault() : null;
 				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
 			}

@@ -223,6 +223,7 @@
     </Compile>
     <Compile Include="Steps\ViewModels\StartRecordStepViewModel.cs" />
     <Compile Include="Steps\ViewModels\StopRecordStepViewModel.cs" />
+    <Compile Include="Steps\ViewModels\RviAlarmStepViewModel.cs" />
     <Compile Include="Steps\Views\ChangeListStepView.xaml.cs">
       <DependentUpon>ChangeListStepView.xaml</DependentUpon>
     </Compile>
@@ -435,6 +436,9 @@
     </Compile>
     <Compile Include="Steps\Views\StopRecordStepView.xaml.cs">
       <DependentUpon>StopRecordStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\Views\RviAlarmStepView.xaml.cs">
+      <DependentUpon>RviAlarmStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
     <Compile Include="Validation\ProcedureStepValidationError.cs" />
@@ -850,6 +854,10 @@
     <Page Include="Steps\Views\StopRecordStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Steps\Views\RviAlarmStepView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

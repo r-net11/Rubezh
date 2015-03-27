@@ -131,6 +131,10 @@ namespace GKModule.ViewModels
 						case XStateClass.Ignore:
 							alarms.Add(new Alarm(GKAlarmType.Ignore, gGuardZone));
 							break;
+
+						case XStateClass.Attention:
+							alarms.Add(new Alarm(GKAlarmType.Attention, gGuardZone));
+							break;
 					}
 				}
 			}

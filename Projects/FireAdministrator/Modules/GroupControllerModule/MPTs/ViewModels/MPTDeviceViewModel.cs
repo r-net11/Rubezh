@@ -1,21 +1,24 @@
 ﻿using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public partial class MPTDeviceViewModel : BaseViewModel
+	public class MPTDeviceViewModel : BaseViewModel
 	{
 		public GKMPTDevice MPTDevice { get; private set; }
+		public bool IsCodeReader { get; set; }
 
 		public MPTDeviceViewModel(GKMPTDevice mptDevice)
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(Device, false);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		GKDevice _device;
@@ -25,6 +28,9 @@ namespace GKModule.ViewModels
 			set
 			{
 				_device = value;
+				if (_device != null)
+					IsCodeReader = _device.DriverType == GKDriverType.RSR2_CodeReader || _device.DriverType == GKDriverType.RSR2_CardReader;
+				OnPropertyChanged(() => IsCodeReader);
 				OnPropertyChanged(() => Device);
 				OnPropertyChanged(() => Description);
 			}
@@ -54,6 +60,16 @@ namespace GKModule.ViewModels
 		public GKMPTDeviceType MPTDeviceType
 		{
 			get { return MPTDevice.MPTDeviceType; }
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			var mptCodeReaderDetailsViewModel = new MPTCodeReaderDetailsViewModel(MPTDevice.CodeReaderSettings, MPTDeviceType);
+			if (DialogService.ShowModalWindow(mptCodeReaderDetailsViewModel))
+			{
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		public string Description

@@ -727,7 +727,7 @@ namespace FiresecService.Service
 					if (result.HasError)
 					{
 						failedDeviceUIDs.Add(device.UID);
-						errors += result.Error + " (" + device.Name + ")\n";
+						errors += result.Error + "\n";
 					}
 				}
 			}

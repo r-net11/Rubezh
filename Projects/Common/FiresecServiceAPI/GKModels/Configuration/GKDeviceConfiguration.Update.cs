@@ -535,12 +535,12 @@ namespace FiresecAPI.GK
 					device.Children[12].PredefinedName = "Реле 3";
 					device.Children[13].PredefinedName = "Реле 4";
 					device.Children[14].PredefinedName = "Реле 5";
-					device.Children[15].PredefinedName = "Резерв 1";
-					device.Children[16].PredefinedName = "Резерв 2";
-					device.Children[17].PredefinedName = "Резерв 3";
-					device.Children[18].PredefinedName = "Резерв 4";
-					device.Children[19].PredefinedName = "Резерв 5";
-					device.Children[20].PredefinedName = "Резерв 6";
+					device.Children[15].PredefinedName = "Тревога";
+					device.Children[16].PredefinedName = "Резерв 1";
+					device.Children[17].PredefinedName = "Резерв 2";
+					device.Children[18].PredefinedName = "Резерв 3";
+					device.Children[19].PredefinedName = "Резерв 4";
+					device.Children[20].PredefinedName = "Резерв 5";
 
 				}
 			}
@@ -593,10 +593,10 @@ namespace FiresecAPI.GK
 						SetDeviceProperty(device, "Задержка на включение, с", 0);
 						SetDeviceProperty(device, "Время удержания, с", 2);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 1);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 1);
 						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
-						SetDeviceProperty(device, "Контроль", 0);
+						SetDeviceProperty(device, "Контроль", 2);
 						SetDeviceProperty(device, "Норма питания, 0.1В", 80);
 						break;
 
@@ -604,8 +604,8 @@ namespace FiresecAPI.GK
 						SetDeviceProperty(device, "Задержка на включение, с", 0);
 						SetDeviceProperty(device, "Время удержания, с", 2);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 1);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 1);
 						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
 						break;
 				}

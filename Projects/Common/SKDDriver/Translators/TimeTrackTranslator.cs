@@ -101,6 +101,7 @@ namespace SKDDriver.Translators
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == shortEmployee.UID && !x.IsDeleted);
 			if (employee == null)
 				return new TimeTrackEmployeeResult("Не найден сотрудник");
+
 			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID && !x.IsDeleted);
 			if (schedule == null)
 				return new TimeTrackEmployeeResult("Не найден график");
@@ -120,6 +121,12 @@ namespace SKDDriver.Translators
 			{
 				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 				{
+					if (employee.ScheduleStartDate > date)
+					{
+						timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack("До начала действия графика") { Date = date });
+						continue;
+					}
+
 					var dayTimeTrack = passJournalTranslator.GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
 					dayTimeTrack.NightSettings = nightSettings;
 					dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;

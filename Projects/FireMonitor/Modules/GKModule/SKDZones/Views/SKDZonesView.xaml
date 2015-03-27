@@ -7,7 +7,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" MinHeight="100" />
 		</Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Margin="0 5 0 0">
+		<Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" Margin="0 5 0 0">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -22,7 +22,7 @@
 									<Setter Property="Margin" Value="0" />
 									<Setter Property="VerticalContentAlignment" Value="Center" />
 									<Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" />
+									<Setter Property="Background" Value="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" />
 									<Setter Property="BorderThickness" Value="1" />
 									<Setter Property="BorderBrush" Value="Transparent" />
 									<Setter Property="Foreground" Value="Black" />
@@ -42,9 +42,9 @@
 							</ListBox.ItemContainerStyle>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}">
+									<Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}">
 										<Grid.ToolTip>
-                                            <Views:SKDZoneToolTipView />
+											<Views:SKDZoneToolTipView />
 										</Grid.ToolTip>
 										<Grid.ContextMenu>
 											<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
@@ -75,13 +75,13 @@
 					</ScrollViewer>
 				</Grid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
-                    <Label Margin="0" Content="{Binding SKDZone.PresentationName}" />
+					<Label Margin="0" Content="{Binding SKDZone.PresentationName}" />
 					<ItemsControl Margin="2" ItemsSource="{Binding State.StateClasses}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                    <TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" Margin="5 0" />
+									<TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" Margin="5 0" />
 								</StackPanel>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
@@ -89,29 +89,29 @@
 				</StackPanel>
 			</Grid>
 		</Border>
-        <Border Grid.Row="1" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" DataContext="{Binding SelectedZone}" Background="White" CornerRadius="5" Margin="0 5 0 0">
-            <StackPanel>
-                <StackPanel Visibility="{Binding HasEnterDoors, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5">
-                    <TextBlock Text="ТД, ведущие в зону" FontWeight="Bold" Margin="2" />
-                    <ItemsControl ItemsSource="{Binding EnterDoors}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PresentationName}" Margin="2" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-                <StackPanel Visibility="{Binding HasExitDoors, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5">
-                    <TextBlock Text="ТД, ведущие из зоны" FontWeight="Bold" Margin="2" />
-                    <ItemsControl ItemsSource="{Binding ExitDoors}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PresentationName}" Margin="2" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+		<Border Grid.Row="1" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" DataContext="{Binding SelectedZone}" Background="White" CornerRadius="5" Margin="0 5 0 0">
+			<StackPanel>
+				<StackPanel Visibility="{Binding HasEnterDoors, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5">
+					<TextBlock Text="ТД, ведущие в зону" FontWeight="Bold" Margin="2" />
+					<ItemsControl ItemsSource="{Binding EnterDoors}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding PresentationName}" Margin="2" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+				<StackPanel Visibility="{Binding HasExitDoors, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5">
+					<TextBlock Text="ТД, ведущие из зоны" FontWeight="Bold" Margin="2" />
+					<ItemsControl ItemsSource="{Binding ExitDoors}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding PresentationName}" Margin="2" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</StackPanel>
+		</Border>
 	</Grid>
 </UserControl>

@@ -55,6 +55,7 @@ namespace FiresecAPI.Automation
 			PtzArguments = new PtzArguments();
 			StartRecordArguments = new StartRecordArguments();
 			StopRecordArguments = new StopRecordArguments();
+			RviAlarmArguments = new RviAlarmArguments();
 		}
 
 		[XmlIgnore]
@@ -203,5 +204,8 @@ namespace FiresecAPI.Automation
 		
 		[DataMember]
 		public StopRecordArguments StopRecordArguments { get; set; }
+
+		[DataMember]
+		public RviAlarmArguments RviAlarmArguments { get; set; }
 	}
 }

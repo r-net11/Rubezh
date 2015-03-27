@@ -1,5 +1,4 @@
-﻿
-namespace FiresecAPI.SKD.ReportFilters
+﻿namespace FiresecAPI.SKD.ReportFilters
 {
 	public interface IReportFilterZoneWithDirection : IReportFilterZone
 	{

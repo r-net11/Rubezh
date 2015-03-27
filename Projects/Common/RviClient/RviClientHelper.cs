@@ -150,7 +150,6 @@ namespace RviClient
 					Session = sessionUID
 				};
 				var snapshotImageOut = client.GetSnapshotImage(snapshotImageIn);
-				//snapshotImageOut.
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()
@@ -274,7 +273,6 @@ namespace RviClient
 			}
 		}
 
-
 		public static void GetVideoFile(SystemConfiguration systemConfiguration, Guid eventUID, Guid cameraUid, string videoPath)
 		{
 			var camera = systemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
@@ -303,6 +301,54 @@ namespace RviClient
 					var videoFileStream = File.Create(videoPath);
 					CopyStream(stream, videoFileStream);
 			}
+
+				var sessionCloseIn = new SessionCloseIn();
+				sessionCloseIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var sessionCloseOut = client.SessionClose(sessionCloseIn);
+			}
+		}
+
+		public static void AlarmRuleExecute(SystemConfiguration systemConfiguration, string ruleName)
+		{
+			using (IntegrationClient client = CreateIntegrationClient(systemConfiguration))
+			{
+				var sessionUID = Guid.NewGuid();
+
+				var sessionInitialiazationIn = new SessionInitialiazationIn();
+				sessionInitialiazationIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				sessionInitialiazationIn.Login = systemConfiguration.RviSettings.Login;
+				sessionInitialiazationIn.Password = systemConfiguration.RviSettings.Password;
+				var sessionInitialiazationOut = client.SessionInitialiazation(sessionInitialiazationIn);
+
+				var alarmRulesIn = new AlarmRulesIn();
+				alarmRulesIn.Header = new HeaderRequest()
+				{
+					Request = Guid.NewGuid(),
+					Session = sessionUID
+				};
+				var alarmRulesOut = client.GetAlarmRules(alarmRulesIn);
+				if (alarmRulesOut != null && alarmRulesOut.AlarmRules != null)
+				{
+					var alarmRule = alarmRulesOut.AlarmRules.FirstOrDefault(x => x.Name == ruleName);
+					if (alarmRule != null)
+					{
+						var alarmRuleExecuteIn = new AlarmRuleExecuteIn();
+						alarmRuleExecuteIn.Header = new HeaderRequest()
+						{
+							Request = Guid.NewGuid(),
+							Session = sessionUID
+						};
+						var alarmRuleExecuteOut = client.AlarmRuleExecute(alarmRuleExecuteIn);
+					}
+				}
 
 				var sessionCloseIn = new SessionCloseIn();
 				sessionCloseIn.Header = new HeaderRequest()

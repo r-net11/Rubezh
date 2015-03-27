@@ -412,6 +412,12 @@ namespace FiresecAPI.Automation
 						InvalidateArgument(procedure, arguments.EventUIDArgument);
 						break;
 					}
+				case ProcedureStepType.RviAlarm:
+					{
+						var arguments = step.RviAlarmArguments;
+						InvalidateArgument(procedure, arguments.NameArgument);
+						break;
+					}
 			}
 		}
 

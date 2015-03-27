@@ -15,8 +15,6 @@ namespace FiresecAPI.Models
 		{
 			UID = Guid.NewGuid();
 			PlanElementUIDs = new List<Guid>();
-			Width = 300;
-			Height = 300;
 			AllowMultipleVizualization = false;
 			CameraState = new CameraState(this);
 		}
@@ -35,21 +33,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public int ChannelNumber { get; set; }
-
-		[DataMember]
-		public int Left { get; set; }
-
-		[DataMember]
-		public int Top { get; set; }
-
-		[DataMember]
-		public int Width { get; set; }
-
-		[DataMember]
-		public int Height { get; set; }
-
-		[DataMember]
-		public bool IgnoreMoveResize { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
