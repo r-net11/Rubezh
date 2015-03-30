@@ -157,6 +157,10 @@ namespace FiresecService.Service
 			{
 				gkBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
 			}
+			if (gkBase == null)
+			{
+				gkBase = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
+			}
 
 			if (gkBase != null)
 			{
@@ -180,6 +184,10 @@ namespace FiresecService.Service
 			if (gkBase == null)
 			{
 				gkBase = GKManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.UID == objectUID);
+			}
+			if (gkBase == null)
+			{
+				gkBase = GKManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUID);
 			}
 
 			if (gkBase != null)

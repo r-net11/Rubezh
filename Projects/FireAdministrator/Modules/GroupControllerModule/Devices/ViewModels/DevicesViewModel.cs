@@ -22,7 +22,6 @@ using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using KeyboardKey = System.Windows.Input.Key;
 using System.Xml.Serialization;
-using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -133,7 +132,7 @@ namespace GKModule.ViewModels
 
 		public DeviceViewModel[] RootDevices
 		{
-			get { return new DeviceViewModel[] { RootDevice }; }
+			get { return new[] { RootDevice }; }
 		}
 
 		void BuildTree()
