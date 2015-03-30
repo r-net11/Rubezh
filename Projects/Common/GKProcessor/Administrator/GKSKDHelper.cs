@@ -154,7 +154,7 @@ namespace GKProcessor
 			bytes.Add(1);
 			var nameBytes = BytesHelper.StringDescriptionToBytes("Удален");
 			bytes.AddRange(nameBytes);
-			bytes.AddRange(BytesHelper.IntToBytes(999999));
+			bytes.AddRange(BytesHelper.IntToBytes(-1));
 			bytes.Add(0);
 			bytes.Add(0);
 

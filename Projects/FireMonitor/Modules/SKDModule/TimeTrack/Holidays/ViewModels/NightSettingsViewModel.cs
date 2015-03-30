@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 		{
 			if (NightStartTime > NightEndTime)
 			{
-				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца");
+				MessageBoxService.ShowWarning("Начало ночного времени не должно быть больше конца");
 				return false;
 			}
 			return NightSettingsHelper.Save(NightSettings);

@@ -100,11 +100,19 @@ namespace GKProcessor
 
 						case 10:
 							JournalItem.JournalEventNameType = JournalEventNameType.Введен_новый_пользователь;
+							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
+							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
+							bytes1.AddRange(bytes2);
+							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
 						case 11:
 							JournalItem.JournalEventNameType = JournalEventNameType.Изменена_учетная_информация_пользователя;
+							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
+							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
+							bytes1.AddRange(bytes2);
+							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 

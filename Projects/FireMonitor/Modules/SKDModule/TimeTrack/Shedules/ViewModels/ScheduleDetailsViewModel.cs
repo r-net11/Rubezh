@@ -126,7 +126,6 @@ namespace SKDModule.ViewModels
 			return ScheduleHelper.Save(Model, _isNew);
 		}
 
-
 		public bool Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
 		{
 			Organisation = organisation;

@@ -141,7 +141,7 @@ namespace FiresecService
 										}
 									}
 								}
-								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Add)
+								if ((PendingCardAction)pendingCard.Action == PendingCardAction.Delete)
 								{
 									var removeGKCardResult = gkSKDHelper.RemoveOneCard(deviceState.Device, card);
 									if (!removeGKCardResult.HasError)
