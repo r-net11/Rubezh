@@ -59,15 +59,15 @@ namespace SKDModule.PassCardDesigner.ViewModels
 					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "MoveBack" , "Ниже"),
 				}
 			};
-			if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
-			{
+			//if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
+			//{
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"));
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"));
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"));
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"));
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"));
 				Menu.Items.Add(new MenuButtonViewModel(PassCardDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю"));
-			}
+			//}
 		}
 
 		#region IDetailsViewModel<ShortPassCardTemplate> Members
