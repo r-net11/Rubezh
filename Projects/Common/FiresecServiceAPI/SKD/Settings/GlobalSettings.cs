@@ -110,8 +110,8 @@ namespace FiresecAPI
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
 
-		[DataMember]
-		public bool Administrator_HidePlanAlignInstruments { get; set; }
+		//[DataMember]
+		//public bool Administrator_HidePlanAlignInstruments { get; set; }
 
 		[DataMember]
 		public ValidationErrorType IgnoredErrors { get; set; }

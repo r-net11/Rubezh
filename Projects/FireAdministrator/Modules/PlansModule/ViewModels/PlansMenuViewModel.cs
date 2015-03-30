@@ -34,15 +34,15 @@ namespace PlansModule.ViewModels
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "shapes-rotate-anticlockwise" , "Ниже"),
 				//new MenuButtonViewModel(context.PlanDesignerViewModel., "shapes-rotate-clockwise" , "Ниже"),
 			};
-			if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
-			{
+			//if (!GlobalSettingsHelper.GlobalSettings.Administrator_HidePlanAlignInstruments)
+			//{
 				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalLeftCommand, "shapes-align-hori-left", "Выровнять по левому краю"));
 				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalCenterCommand, "shapes-align-hori-center", "Выровнять по вертикали"));
 				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignHorizontalRightCommand, "shapes-align-hori-right", "Выровнять по правому краю"));
 				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalTopCommand, "shapes-align-verti-top", "Выровнять по верхнему краю"));
 				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalCenterCommand, "shapes-align-verti-middle", "Выровнять по горизонтали"));
 				Items.Add(new MenuButtonViewModel(context.PlanDesignerViewModel.AlignVerticalBottomCommand, "shapes-align-verti-bottom", "Выровнять по нижнему краю"));
-			}
+			//}
 		}
 	}
 }
