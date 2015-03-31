@@ -75,9 +75,7 @@ namespace GKProcessor
 			if (hasOpenRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 7);
-				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
@@ -89,9 +87,7 @@ namespace GKProcessor
 			if (hasCloseRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.CloseRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 7);
-				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
@@ -103,9 +99,7 @@ namespace GKProcessor
 			if (hasNormRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 7);
-				Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.BR, 1, 5);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
