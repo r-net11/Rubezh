@@ -44,7 +44,7 @@ namespace FiresecService.Report.Templates
 				{
 					zoneMap.Add(zone.UID, zone.PresentationName);
 				}
-				foreach (var zone in GKManager.Zones)
+				foreach (var zone in GKManager.SKDZones)
 				{
 					zoneMap.Add(zone.UID, zone.PresentationName);
 				}

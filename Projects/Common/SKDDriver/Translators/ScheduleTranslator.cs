@@ -70,7 +70,15 @@ namespace SKDDriver.Translators
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else
 				tableItem.ScheduleScheme = scheduleScheme;
-			DatabaseService.ScheduleZoneTranslator.Save(apiItem.Zones);
+			//DatabaseService.ScheduleZoneTranslator.Save(apiItem.Zones);
+		}
+
+		public override OperationResult Save(Schedule apiItem)
+		{
+			var zonesSaveResult = DatabaseService.ScheduleZoneTranslator.Save(apiItem.Zones);
+			if (zonesSaveResult.HasError)
+				return zonesSaveResult;
+			return base.Save(apiItem);
 		}
 
 		public string GetName(Guid? uid)
