@@ -168,16 +168,19 @@ namespace GKModule.ViewModels
 				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice);
 		}
 
+		private bool isCut;
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			DevicesToCopy = new List<GKDevice>() { GKManager.CopyDevice(SelectedDevice.Device, false) };
+			isCut = false;
+			DevicesToCopy = new List<GKDevice> { GKManager.CopyDevice(SelectedDevice.Device, false) };
 		}
-
+		
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
-			DevicesToCopy = new List<GKDevice>() { GKManager.CopyDevice(SelectedDevice.Device, true) };
+			isCut = true;
+			DevicesToCopy = new List<GKDevice> { GKManager.CopyDevice(SelectedDevice.Device, true) };
 			SelectedDevice.RemoveCommand.Execute();
 
 			GKManager.DeviceConfiguration.Update();
@@ -193,7 +196,7 @@ namespace GKModule.ViewModels
 				{
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						var pasteDevice = GKManager.CopyDevice(deviceToCopy, true);
+						var pasteDevice = GKManager.CopyDevice(deviceToCopy, isCut);
 						var device = PasteDevice(pasteDevice);
 						device.UID = pasteDevice.UID;
 						if (device != null)

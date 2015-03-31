@@ -168,6 +168,44 @@
 							</Hyperlink>
 						</TextBlock>
 					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для перевода в режим норма" FontWeight="Bold" Width="300" Margin="5 2" />
+						<TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeNormRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding NormRegimeLogicPresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding NormRegimeLogicPresentationName}" Value="">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Условие для перевода в режим всегда закрыто" FontWeight="Bold" Width="300" Margin="5 2" />
+						<TextBlock VerticalAlignment="Center" Margin="2">
+							<Hyperlink Command="{Binding ChangeCloseRegimeLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+								<TextBlock Margin="2">
+									<TextBlock.Style>
+										<Style>
+											<Setter Property="TextBlock.Text" Value="{Binding CloseRegimeLogicPresentationName}" />
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding CloseRegimeLogicPresentationName}" Value="">
+													<Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</Hyperlink>
+						</TextBlock>
+					</StackPanel>
 				</StackPanel>
 			</Grid>
 		</Border>

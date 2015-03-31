@@ -14,7 +14,6 @@ using Infrastructure.Common.Services;
 using Infrustructure.Plans.Painters;
 using System.Windows.Shapes;
 using FiresecAPI.Models;
-using FiresecAPI.SKD;
 
 namespace GKModule.ViewModels
 {
@@ -32,6 +31,8 @@ namespace GKModule.ViewModels
 			ChangeEnterZoneCommand = new RelayCommand(OnChangeEnterZone);
 			ChangeExitZoneCommand = new RelayCommand(OnChangeExitZone);
 			ChangeOpenRegimeLogicCommand = new RelayCommand(OnChangeOpenRegimeLogic);
+			ChangeNormRegimeLogicCommand = new RelayCommand(OnChangeNormRegimeLogic);
+			ChangeCloseRegimeLogicCommand = new RelayCommand(OnChangeCloseRegimeLogic);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			Update();
@@ -221,6 +222,40 @@ namespace GKModule.ViewModels
 		public string OpenRegimeLogicPresentationName
 		{
 			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic); }
+		}
+
+		public RelayCommand ChangeNormRegimeLogicCommand { get; private set; }
+		void OnChangeNormRegimeLogic()
+		{
+			var logicViewModel = new LogicViewModel(null, Door.NormRegimeLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				Door.NormRegimeLogic = logicViewModel.GetModel();
+				OnPropertyChanged(() => NormRegimeLogicPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string NormRegimeLogicPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic); }
+		}
+
+		public RelayCommand ChangeCloseRegimeLogicCommand { get; private set; }
+		void OnChangeCloseRegimeLogic()
+		{
+			var logicViewModel = new LogicViewModel(null, Door.CloseRegimeLogic);
+			if (DialogService.ShowModalWindow(logicViewModel))
+			{
+				Door.CloseRegimeLogic = logicViewModel.GetModel();
+				OnPropertyChanged(() => CloseRegimeLogicPresentationName);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string CloseRegimeLogicPresentationName
+		{
+			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic); }
 		}
 
 		public bool IsOnPlan

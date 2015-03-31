@@ -226,7 +226,9 @@ namespace GKModule.Validation
 
 		void ValidateGuardDevice(GKDevice device)
 		{
-			if (device.DriverType == GKDriverType.RSR2_GuardDetector)
+			if (device.Driver.IsAm && device.Zones.Count > 0)
+				Errors.Add(new DeviceValidationError(device, string.Format("Тревожный датчик участвует сразу в охранной и пожарной зоне"), ValidationErrorLevel.Warning));
+			if (device.DriverType == GKDriverType.RSR2_GuardDetector || device.DriverType == GKDriverType.RSR2_GuardDetectorSound)
 			{
 				if (device.GuardZones == null || device.GuardZones.Count == 0)
 				{
