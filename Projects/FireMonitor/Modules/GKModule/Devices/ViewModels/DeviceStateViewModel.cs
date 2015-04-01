@@ -10,13 +10,15 @@ namespace GKModule.ViewModels
 	public class DeviceStateViewModel : BaseViewModel
 	{
 		public GKState State { get; private set; }
+		public bool IsStateImage { get; private set; }
 
-		public DeviceStateViewModel(GKState deviceState)
+		public DeviceStateViewModel(GKState deviceState, bool isStateImage)
 		{
 			State = deviceState;
+			IsStateImage = isStateImage;
 			StateClasses = new ObservableCollection<GKStateClassViewModel>();
 			AdditionalStates = new ObservableCollection<GKAdditionalState>();
-			State.StateChanged += new Action(OnStateChanged);
+			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 		}
 

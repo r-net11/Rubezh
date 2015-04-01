@@ -22,7 +22,7 @@ namespace GKModule.Converters
 				if (direction != null)
 					directions.Add(direction);
 			}
-			return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(directions));
+			return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(directions), new List<ModelBase>(GKManager.Directions));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

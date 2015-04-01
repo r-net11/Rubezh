@@ -29,12 +29,12 @@ namespace FiresecClient
 					allZones.AddRange(new List<ModelBase>(device.GuardZones));
 					stringBuilder.Append("зоны: ");
 					if (device.Zones.Count > 0)
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones)));
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones), new List<ModelBase>(Zones)));
 					if (device.GuardZones.Count > 0)
 					{
 						if (device.Zones.Count > 0)
 							stringBuilder.Append("; ");
-						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones)));
+						stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones), new List<ModelBase>(GuardZones)));
 					}
 				}
 				return stringBuilder.ToString();
@@ -61,7 +61,7 @@ namespace FiresecClient
 				else if (device.Zones.Count > 1)
 				{
 					stringBuilder.Append("зоны: ");
-					stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones)));
+					stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.Zones), new List<ModelBase>(Zones)));
 				}
 				return stringBuilder.ToString();
 			}
@@ -83,7 +83,7 @@ namespace FiresecClient
 			else if (device.GuardZones.Count > 1)
 			{
 				stringBuilder.Append("зоны: ");
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(device.GuardZones), new List<ModelBase>(GuardZones)));
 			}
 			return stringBuilder.ToString();
 		}
@@ -107,12 +107,12 @@ namespace FiresecClient
 				stringBuilder.Append(GKClause.ClauseToString(clause.ClauseOperationType, clause.StateType) + " ");
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Zones)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.GuardZones)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Directions)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.MPTs)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Delays)));
-				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Doors)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Zones), new List<ModelBase>(Zones)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.GuardZones), new List<ModelBase>(GuardZones)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Directions), new List<ModelBase>(Directions)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.MPTs), new List<ModelBase>(MPTs)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Delays), new List<ModelBase>(Delays)));
+				stringBuilder.Append(GetCommaSeparatedObjects(new List<ModelBase>(clause.Doors), new List<ModelBase>(Doors)));
 				index++;
 			}
 
@@ -143,31 +143,31 @@ namespace FiresecClient
 			return stringBuilder.ToString();
 		}
 
-		public static string GetCommaSeparatedObjects(List<ModelBase> baseObject)
+		public static string GetCommaSeparatedObjects(List<ModelBase> baseObjects, List<ModelBase> allBaseObjects)
 		{
-			if (baseObject.Count == 1)
+			if (baseObjects.Count == 1)
 			{
-				return baseObject[0].PresentationName;
+				return baseObjects[0].PresentationName;
 			}
-			if (baseObject.Count() > 0)
+			if (baseObjects.Count() > 0)
 			{
-				var orderedDirections = baseObject.OrderBy(x => x.No).Select(x => x.No).ToList();
+				var orderedDirections = baseObjects.OrderBy(x => x.No).Select(x => x.No).ToList();
 				int prevDirectionNo = orderedDirections[0];
 				List<List<int>> groupOfDirections = new List<List<int>>();
 
 				for (int i = 0; i < orderedDirections.Count; i++)
 				{
 					var directionNo = orderedDirections[i];
-					var haveDirectionsBetween = Directions.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
-					if (haveDirectionsBetween)
+					var haveObjectsBetween = allBaseObjects.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
+					if (haveObjectsBetween)
 					{
-						groupOfDirections.Add(new List<int>() { directionNo });
+						groupOfDirections.Add(new List<int> { directionNo });
 					}
 					else
 					{
 						if (groupOfDirections.Count == 0)
 						{
-							groupOfDirections.Add(new List<int>() { directionNo });
+							groupOfDirections.Add(new List<int> { directionNo });
 						}
 						else
 						{
@@ -188,7 +188,10 @@ namespace FiresecClient
 					presenrationDirections.Append(directionGroup.First().ToString());
 					if (directionGroup.Count > 1)
 					{
-						presenrationDirections.Append(" - " + directionGroup.Last().ToString());
+						if (directionGroup.Count > 2)
+							presenrationDirections.Append(" - " + directionGroup.Last());
+						else
+							presenrationDirections.Append(", " + directionGroup.Last());
 					}
 				}
 

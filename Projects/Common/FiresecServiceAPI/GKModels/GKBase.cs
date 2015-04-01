@@ -99,13 +99,13 @@ namespace FiresecAPI.GK
 					}
 				}
 
-                if (!device.Driver.IsAm)
-                {
-                    foreach (var deviceGuardZone in device.GuardZones)
-                    {
-                        device.LinkGKBases(deviceGuardZone);
-                    }
-                }
+				if (!device.Driver.IsAm)
+				{
+					foreach (var deviceGuardZone in device.GuardZones)
+					{
+						device.LinkGKBases(deviceGuardZone);
+					}
+				}
 			}
 
 			if (zone != null)

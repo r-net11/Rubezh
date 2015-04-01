@@ -88,6 +88,14 @@ namespace FiresecAPI.GK
 				var kauParents = allKauParents.Distinct().ToList();
 				code.KauDatabaseParent = kauParents.Count == 1 ? kauParents.FirstOrDefault() : null;
 				code.GkDatabaseParent = GKManager.Devices.FirstOrDefault(x => x.DriverType == GKDriverType.GK);
+				if (code.KauDatabaseParent == null)
+				{
+					codeMPTs.ForEach(x =>
+					{
+						x.KauDatabaseParent = code.KauDatabaseParent;
+						x.IsLogicOnKau = false;
+					});
+				}
 			}
 		}
 

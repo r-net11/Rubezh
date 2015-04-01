@@ -75,9 +75,10 @@ namespace GKProcessor
 			if (hasOpenRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 5);
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.CONST, 1);
+				Formula.Add(FormulaOperationType.CONST, 1);
+				Formula.Add(FormulaOperationType.CONST, 1);
 				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 				Formula.AddPutBit(GKStateBit.TurnOn_InManual, Door, DatabaseType.Gk);
 				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door, DatabaseType.Gk);
@@ -87,9 +88,10 @@ namespace GKProcessor
 			if (hasCloseRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.CloseRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 5);
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.CONST, 1);
+				Formula.Add(FormulaOperationType.CONST, 1);
+				Formula.Add(FormulaOperationType.CONST, 1);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
 				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door, DatabaseType.Gk);
 				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door, DatabaseType.Gk);
@@ -99,9 +101,10 @@ namespace GKProcessor
 			if (hasNormRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 5);
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.Add(FormulaOperationType.DUP);
+				Formula.Add(FormulaOperationType.BR, 1, 6);
+				Formula.Add(FormulaOperationType.CONST, 1);
+				Formula.Add(FormulaOperationType.CONST, 1);
+				Formula.Add(FormulaOperationType.CONST, 1);
 				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
 				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door, DatabaseType.Gk);
 				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Door, DatabaseType.Gk);

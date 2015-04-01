@@ -112,6 +112,8 @@ namespace GKProcessor
 						codeIndex++;
 						hasOR = true;
 					}
+					if (hasOR && settingsPart.CodeUIDs.Count > 0)
+						Formula.Add(FormulaOperationType.OR);
 				}
 				else
 				{
