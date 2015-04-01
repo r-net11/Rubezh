@@ -234,7 +234,7 @@
 			// 
 			this.xrTableCell4.Dpi = 254F;
 			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Text = "Длительность прибывания";
+			this.xrTableCell4.Text = "Длительность пребывания";
 			this.xrTableCell4.Weight = 0.10056870156204056D;
 			// 
 			// xrTableCell5

@@ -19,7 +19,7 @@ namespace SKDModule.Reports.Providers
 			{
 				Columns = new Dictionary<string, string> 
 				{ 
-					{ "Employee", "Сотруднки (Посетитель)" },
+					{ "Employee", "Сотрудник (Посетитель)" },
 					{ "Number", "Табельный номер (Примечание)" },
 					{ "Organisation", "Организация" },
 					{ "Department", "Подразделение" },

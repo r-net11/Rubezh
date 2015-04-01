@@ -193,6 +193,12 @@ namespace ReportsModule.ViewModels
 		public RelayCommand<ZoomFitMode> FitPageSizeCommand { get; private set; }
 		private void OnFitPageSize(ZoomFitMode fitMode)
 		{
+			if (fitMode == ZoomFitMode.WholePage)
+			{
+				Model.ZoomMode = null;
+				Model.SetZoom(100);
+				return;
+			}
 			Model.ZoomMode = new ZoomFitModeItem(fitMode);
 		}
 		private bool CanFitPageSize(ZoomFitMode fitMode)
