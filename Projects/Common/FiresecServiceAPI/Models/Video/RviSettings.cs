@@ -11,8 +11,12 @@ namespace FiresecAPI.Models
 			Port = 8000;
 			Login = "strazh";
 			Password = "strazh12345";
-			DllsPath = @"C:\Program Files (x86)\VideoLAN\VLC\";
-			PluginsPath = @"C:\Program Files (x86)\VideoLAN\VLC\plugins\";
+			DllsPath = @"..\VLC\";
+			PluginsPath = @"..\VLC\plugins\";
+#if DEBUG
+			DllsPath = @"..\..\..\..\3rdParty\VLC\";
+			PluginsPath = @"..\..\..\..\3rdParty\VLC\plugins\";
+#endif
 		}
 
 		[DataMember]

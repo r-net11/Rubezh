@@ -10,7 +10,7 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.System, "Неизвестное событие", XStateClass.No)]
 		Неизвестное_событие,
 
-		[EventName(JournalSubsystemType.System, "Подтверждение тревоги", XStateClass.Fire1)]
+		[EventName(JournalSubsystemType.GK, "Подтверждение тревоги", XStateClass.Fire1)]
 		Подтверждение_тревоги,
 
 		[EventName(JournalSubsystemType.System, "Вход пользователя в систему", XStateClass.Info)]

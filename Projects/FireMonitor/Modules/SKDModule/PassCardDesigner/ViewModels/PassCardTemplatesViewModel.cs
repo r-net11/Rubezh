@@ -8,6 +8,11 @@ namespace SKDModule.PassCardDesigner.ViewModels
 {
 	public class PassCardTemplatesViewModel : OrganisationBaseViewModel<ShortPassCardTemplate, PassCardTemplateFilter, PassCardTemplateViewModel, PassCardTemplateDetailsViewModel>
 	{
+		public PassCardTemplatesViewModel():base()
+		{
+
+		}
+		
 		protected override IEnumerable<ShortPassCardTemplate> GetModels(PassCardTemplateFilter filter)
 		{
 			return PassCardTemplateHelper.Get(filter);

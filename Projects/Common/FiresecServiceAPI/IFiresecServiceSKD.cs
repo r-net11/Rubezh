@@ -45,13 +45,13 @@ namespace FiresecAPI
 		OperationResult SaveDepartment(Department item, bool isNew);
 
 		[OperationContract]
-		OperationResult MarkDeletedDepartment(Guid uid, List<string> names);
+		OperationResult MarkDeletedDepartment(ShortDepartment department);
 
 		[OperationContract]
 		OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name);
 		
 		[OperationContract]
-		OperationResult RestoreDepartment(Guid uid, string name);
+		OperationResult RestoreDepartment(ShortDepartment department);
 		#endregion
 
 		#region Position

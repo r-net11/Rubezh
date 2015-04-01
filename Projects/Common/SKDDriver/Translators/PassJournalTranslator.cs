@@ -62,6 +62,10 @@ namespace SKDDriver.Translators
 				passJournalItem.ZoneUID = zoneUID;
 				passJournalItem.EnterTime = enterTime;
 				passJournalItem.ExitTime = exitTime;
+				if (IsIntersection(passJournalItem))
+				{
+					return new OperationResult("Невозможно добавить пересекающийся интервал");
+				}
 				Context.PassJournals.InsertOnSubmit(passJournalItem);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -83,6 +87,10 @@ namespace SKDDriver.Translators
 					passJournalItem.EnterTime = enterTime;
 					passJournalItem.ExitTime = exitTime;
 				}
+				if (IsIntersection(passJournalItem))
+				{
+					return new OperationResult("Невозможно добавить пересекающийся интервал");
+				}
 				Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -90,6 +98,13 @@ namespace SKDDriver.Translators
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		bool IsIntersection(DataAccess.PassJournal passJournalItem)
+		{
+			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
+						(x.EnterTime <= passJournalItem.EnterTime && x.ExitTime >= passJournalItem.EnterTime ||
+							x.EnterTime <= passJournalItem.ExitTime && x.ExitTime >= passJournalItem.ExitTime));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)

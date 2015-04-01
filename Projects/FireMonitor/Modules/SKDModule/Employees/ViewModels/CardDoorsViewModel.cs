@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -14,6 +18,8 @@ namespace SKDModule.ViewModels
 		public CardDoorsViewModel(List<CardDoor> cardDoors)
 		{
 			Update(cardDoors);
+			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Unsubscribe(OnOrganisationDoorsChanged);
+			ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Subscribe(OnOrganisationDoorsChanged);
 		}
 
 		public void Update(List<CardDoor> cardDoors)
@@ -65,6 +71,13 @@ namespace SKDModule.ViewModels
 				_selectedDoor = value;
 				OnPropertyChanged(() => SelectedDoor);
 			}
+		}
+
+		void OnOrganisationDoorsChanged(Guid organisationUID)
+		{
+			var doorUIDs = OrganisationHelper.GetSingle(organisationUID).DoorUIDs;
+			var doorsToRemove = Doors.Where(x => !doorUIDs.Any(y => y == x.CardDoor.DoorUID)).ToList();
+			doorsToRemove.ForEach(x => Doors.Remove(x));
 		}
 	}
 }

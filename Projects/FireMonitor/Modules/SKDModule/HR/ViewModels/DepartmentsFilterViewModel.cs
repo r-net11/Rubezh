@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 
 		void AddChildren(DepartmentFilterItemViewModel parentViewModel, IEnumerable<ShortDepartment> models)
 		{
-			if (parentViewModel.Model.ChildDepartmentUIDs != null && parentViewModel.Model.ChildDepartmentUIDs.Count > 0)
+			if (parentViewModel.Model.ChildDepartments != null && parentViewModel.Model.ChildDepartments.Count > 0)
 			{
 				var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID);
 				foreach (var child in children)
@@ -121,7 +121,11 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var department in departments)
 			{
-				department.IsChecked = selected.Contains(department.Model.UID);
+				if(selected.Contains(department.Model.UID))
+				{
+					department.IsChecked = true;
+					department.ExpandToThis();
+				}
 				SetSelected(department.Children, selected);
 			}
 		}

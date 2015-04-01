@@ -57,17 +57,17 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartment(item, isNew));
 		}
-		public OperationResult MarkDeletedDepartment(Guid uid, List<string> names)
+		public OperationResult MarkDeletedDepartment(ShortDepartment item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(uid, names));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(item));
 		}
 		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartmentChief(uid, chiefUID, name));
 		}
-		public OperationResult RestoreDepartment(Guid uid, string name)
+		public OperationResult RestoreDepartment(ShortDepartment item)
 		{
-			return SafeContext.Execute(() => FiresecService.RestoreDepartment(uid, name));
+			return SafeContext.Execute(() => FiresecService.RestoreDepartment(item));
 		}
 		#endregion
 

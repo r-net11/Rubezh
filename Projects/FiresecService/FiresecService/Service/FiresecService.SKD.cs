@@ -133,15 +133,16 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.Save(item);
 			}
 		}
-		public OperationResult MarkDeletedDepartment(Guid uid, List<string> names)
+		public OperationResult MarkDeletedDepartment(ShortDepartment department)
 		{
-			foreach (var name in names)
+			AddJournalMessage(JournalEventNameType.Удаление_отдела, department.Name, uid: department.UID);	
+			foreach (var childDepartment in department.ChildDepartments)
 			{
-				AddJournalMessage(JournalEventNameType.Удаление_отдела, name, uid: uid);	
+				AddJournalMessage(JournalEventNameType.Удаление_отдела, childDepartment.Value, uid: childDepartment.Key);	
 			}
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DepartmentTranslator.MarkDeleted(uid);
+				return databaseService.DepartmentTranslator.MarkDeleted(department.UID);
 			}
 		}
 		public OperationResult SaveDepartmentChief(Guid uid, Guid chiefUID, string name)
@@ -153,12 +154,16 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult RestoreDepartment(Guid uid, string name)
+		public OperationResult RestoreDepartment(ShortDepartment department)
 		{
-			AddJournalMessage(JournalEventNameType.Восстановление_отдела, name, uid: uid);
+			AddJournalMessage(JournalEventNameType.Восстановление_отдела, department.Name, uid: department.UID);
+			foreach (var parent in department.ParentDepartments)
+			{
+				AddJournalMessage(JournalEventNameType.Восстановление_отдела, parent.Value, uid: parent.Key);
+			}
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DepartmentTranslator.Restore(uid);
+				return databaseService.DepartmentTranslator.Restore(department.UID);
 			}
 		}
 		#endregion

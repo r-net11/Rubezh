@@ -25,17 +25,22 @@ namespace SoundsModule.ViewModels
 
 			Sounds = new ObservableCollection<SoundViewModel>();
 			var stateClasses = new List<XStateClass>();
+
+			if (!GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+			{
+				stateClasses.Add(XStateClass.Fire1);
+				stateClasses.Add(XStateClass.Fire2);
+				stateClasses.Add(XStateClass.AutoOff);
+				stateClasses.Add(XStateClass.Failure);
+				stateClasses.Add(XStateClass.Ignore);
+				stateClasses.Add(XStateClass.TurningOff);
+				stateClasses.Add(XStateClass.TurningOn);
+			}
 			stateClasses.Add(XStateClass.Attention);
-			stateClasses.Add(XStateClass.Fire1);
-			stateClasses.Add(XStateClass.Fire2);
-			stateClasses.Add(XStateClass.AutoOff);
 			stateClasses.Add(XStateClass.ConnectionLost);
-			stateClasses.Add(XStateClass.Failure);
-			stateClasses.Add(XStateClass.Ignore);
 			stateClasses.Add(XStateClass.Off);
 			stateClasses.Add(XStateClass.On);
-			stateClasses.Add(XStateClass.TurningOff);
-			stateClasses.Add(XStateClass.TurningOn);
+			
 			foreach (var stateClass in stateClasses)
 			{
 				var newSound = new Sound() { StateClass = stateClass };

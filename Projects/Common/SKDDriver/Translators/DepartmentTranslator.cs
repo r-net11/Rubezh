@@ -165,8 +165,7 @@ namespace SKDDriver
 
 			foreach (var department in Context.Departments.Where(x => x.ParentDepartmentUID == tableItem.UID))
 			{
-				result.ChildDepartmentUIDs.Add(department.UID);
-				result.ChildDepartmentNames.Add(department.Name);
+				result.ChildDepartments.Add(department.UID, department.Name);
 			}
 			
 			return result;

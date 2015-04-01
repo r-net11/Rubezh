@@ -42,5 +42,21 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public PersonType PersonType { get; set; }
+
+		public bool IsNotEmpty
+		{
+			get
+			{
+				return (FirstName != null && FirstName != "") ||
+					(LastName != null && LastName != "") ||
+					(SecondName != null && SecondName != "") ||
+					DepartmentUIDs.IsNotNullOrEmpty() ||
+					PositionUIDs.IsNotNullOrEmpty() ||
+					ScheduleUIDs.IsNotNullOrEmpty() ||
+					OrganisationUIDs.IsNotNullOrEmpty() ||
+					UIDs.IsNotNullOrEmpty() ||
+					ExceptUIDs.IsNotNullOrEmpty();
+			}
+		}
 	}
 }

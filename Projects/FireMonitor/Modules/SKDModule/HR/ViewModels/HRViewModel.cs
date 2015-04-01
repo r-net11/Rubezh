@@ -230,6 +230,7 @@ namespace SKDModule.ViewModels
 			{
 				Filter = filterViewModel.Filter;
 				OnPropertyChanged(() => IsWithDeleted);
+				OnPropertyChanged(() => FilterImageSource);
 				InitializeFilters();
 			}
 		}
@@ -239,8 +240,8 @@ namespace SKDModule.ViewModels
 			IsWithDeleted = !IsWithDeleted;
 		}
 
+		public string FilterImageSource { get { return Filter.EmployeeFilter.IsNotEmpty ? "archive" : "filter"; } }
 		
-
 		void InitializeFilters()
 		{
 			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs, LogicalDeletationType = Filter.LogicalDeletationType };

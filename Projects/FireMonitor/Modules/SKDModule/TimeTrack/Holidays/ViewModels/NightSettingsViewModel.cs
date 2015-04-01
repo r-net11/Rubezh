@@ -1,7 +1,6 @@
 ﻿using System;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -40,11 +39,6 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (NightStartTime > NightEndTime)
-			{
-				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца");
-				return false;
-			}
 			return NightSettingsHelper.Save(NightSettings);
 		}
 	}

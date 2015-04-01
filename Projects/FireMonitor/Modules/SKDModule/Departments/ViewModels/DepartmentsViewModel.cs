@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 
 		void AddChildren(DepartmentViewModel parentViewModel, IEnumerable<ShortDepartment> models)
 		{
-			if (parentViewModel.Model.ChildDepartmentUIDs != null && parentViewModel.Model.ChildDepartmentUIDs.Count > 0)
+			if (parentViewModel.Model.ChildDepartments != null && parentViewModel.Model.ChildDepartments.Count > 0)
 			{
 				var children = models.Where(x => x.ParentDepartmentUID == parentViewModel.Model.UID);
 				foreach (var child in children)
@@ -103,12 +103,21 @@ namespace SKDModule.ViewModels
 
 		protected override bool MarkDeleted(ShortDepartment model)
 		{
-			model.ChildDepartmentNames = SelectedItem.GetAllChildren(false).Select(x => x.Name).ToList();
+			model.ChildDepartments = new Dictionary<Guid, string>();
+			foreach (var child in SelectedItem.GetAllChildren(false))
+			{
+				model.ChildDepartments.Add(child.UID, child.Name);
+			}
 			return DepartmentHelper.MarkDeleted(model);
 		}
 
 		protected override bool Restore(ShortDepartment model)
 		{
+			model.ParentDepartments = new Dictionary<Guid, string>();
+			foreach (var parent in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation))
+			{
+				model.ParentDepartments.Add(parent.UID, parent.Name);
+			}
 			return DepartmentHelper.Restore(model);
 		}
 
@@ -120,7 +129,7 @@ namespace SKDModule.ViewModels
 			department.Description = item.Description;
 			department.ParentDepartmentUID = item.ParentDepartmentUID;
 			department.OrganisationUID = item.OrganisationUID;
-			department.ChildDepartmentUIDs = item.ChildDepartmentUIDs;
+			department.ChildDepartmentUIDs = item.ChildDepartments.Select(x => x.Key).ToList();
 			return DepartmentHelper.Save(department, true);
 		}
 		 
@@ -175,13 +184,13 @@ namespace SKDModule.ViewModels
 		List<ShortDepartment> CopyChildren(ShortDepartment parent, IEnumerable<ShortDepartment> children)
 		{
 			var result = new List<ShortDepartment>();
-			parent.ChildDepartmentUIDs = new List<Guid>();
+			parent.ChildDepartments = new Dictionary<Guid,string>();
 			foreach (var item in children)
 			{
 				var shortDepartment = base.CopyModel(item);
 				shortDepartment.ParentDepartmentUID = parent.UID;
 				result.Add(shortDepartment);
-				parent.ChildDepartmentUIDs.Add(shortDepartment.UID);
+				parent.ChildDepartments.Add(shortDepartment.UID, shortDepartment.Name);
 			}
 			return result;
 		}
@@ -220,7 +229,11 @@ namespace SKDModule.ViewModels
 				child.IsDeleted = false;
 				SelectedItem.RemovalDate = "";
 			}
-			var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+			var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(y => y.Employee.UID).ToList();
+			foreach (var item in SelectedItem.GetAllParents().Where(x => !x.IsOrganisation).Select(x => x.EmployeeListViewModel.Employees.Select(y => y.Employee.UID)))
+			{
+				employeeUIDs.AddRange(item);
+			}
 			foreach (var uid in employeeUIDs)
 			{
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
