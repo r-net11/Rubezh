@@ -197,7 +197,7 @@ namespace GKProcessor
 				user.UserType = (GKUserType)sendResult.Bytes[3];
 				user.IsActive = sendResult.Bytes[4] == 0;
 				user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
-				user.Number = BytesHelper.SubstructInt(sendResult.Bytes, 37);
+				user.Number = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
 				users.Add(user);
 			}
 

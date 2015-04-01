@@ -85,13 +85,22 @@ namespace FiresecService
 			{
 				if (doorState.Door != null)
 				{
-					var zone = GKManager.SKDZones.FirstOrDefault(x => x.UID == doorState.Door.EnterZoneUID || x.UID == doorState.Door.ExitZoneUID);
-					if (zone != null)
+					var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == doorState.Door.EnterZoneUID);
+					if (enterZone != null)
 					{
-						GKProcessorManager.CalculateSKDZone(zone);
-						if (!gkCallbackResult.GKStates.SKDZoneStates.Any(x => x.UID == zone.UID))
+						GKProcessorManager.CalculateSKDZone(enterZone);
+						if (!gkCallbackResult.GKStates.SKDZoneStates.Any(x => x.UID == enterZone.UID))
 						{
-							gkCallbackResult.GKStates.SKDZoneStates.Add(zone.State);
+							gkCallbackResult.GKStates.SKDZoneStates.Add(enterZone.State);
+						}
+					}
+					var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == doorState.Door.ExitZoneUID);
+					if (exitZone != null)
+					{
+						GKProcessorManager.CalculateSKDZone(exitZone);
+						if (!gkCallbackResult.GKStates.SKDZoneStates.Any(x => x.UID == exitZone.UID))
+						{
+							gkCallbackResult.GKStates.SKDZoneStates.Add(exitZone.State);
 						}
 					}
 				}

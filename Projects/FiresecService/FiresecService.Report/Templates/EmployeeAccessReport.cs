@@ -9,6 +9,7 @@ using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
 using FiresecClient;
+using FiresecAPI.GK;
 
 namespace FiresecService.Report.Templates
 {
@@ -87,21 +88,35 @@ namespace FiresecService.Report.Templates
 						}
 					}
 				});
-				//GKManager.Doors.ForEach(door =>
-				//{
-				//    if (door != null && !zoneMap.ContainsKey(door.UID))
-				//    {
-				//        var zone1 = (filter.Zones.IsEmpty() || filter.Zones.Contains(door.EnterZoneUID)) ? door.InDevice.Zone : null;
-				//        var zone2 = (filter.Zones.IsEmpty() || filter.Zones.Contains(door.ExitZoneUID)) ? door.OutDevice.Zone : null;
-				//        if (zone1 != null || zone2 != null)
-				//        {
-				//            if (zone1 == zone2)
-				//                zone2 = null;
-				//            var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone2.UID, zone2.PresentationName));
-				//            zoneMap.Add(door.UID, value);
-				//        }
-				//    }
-				//});
+				GKManager.Doors.ForEach(door =>
+				{
+					if (door != null && !zoneMap.ContainsKey(door.UID))
+					{
+						GKSKDZone enterZone = null;
+						if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.EnterZoneUID))
+						{
+							enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
+						}
+						GKSKDZone exitZone = null;
+						if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.ExitZoneUID))
+						{
+							exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+						}
+
+						Tuple<Guid, string> enterZoneTuple = null;
+						if (enterZone != null)
+						{
+							enterZoneTuple = new Tuple<Guid, string>(enterZone.UID, enterZone.PresentationName);
+						}
+						Tuple<Guid, string> exitZoneTuple = null;
+						if (enterZone != null)
+						{
+							exitZoneTuple = new Tuple<Guid, string>(exitZone.UID, exitZone.PresentationName);
+						}
+						var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(enterZoneTuple, exitZoneTuple);
+						zoneMap.Add(door.UID, value);
+					}
+				});
 
 				foreach (var card in cardsResult.Result)
 				{

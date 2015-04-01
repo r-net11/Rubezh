@@ -13,7 +13,7 @@ namespace FiresecAPI.GK
 		public int GKNo { get; set; }
 
 		[DataMember]
-		public int Number { get; set; }
+		public uint Number { get; set; }
 
 		[DataMember]
 		public string FIO { get; set; }

@@ -186,6 +186,52 @@ namespace GKProcessor
 							JournalItem.DescriptionText = scheduleName;
 							break;
 
+						case 15:
+							JournalItem.JournalEventNameType = JournalEventNameType.Проход_пользователя_запрещен;
+							gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
+							JournalItem.CardNo = gkCardNo;
+
+							zoneUID = Guid.Empty;
+							door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
+							if (door != null)
+							{
+								var readerDevice = GKManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == kauObjectNo);
+								if (readerDevice != null)
+								{
+									if (door.EnterDeviceUID == readerDevice.UID)
+									{
+										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
+										zoneUID = door.EnterZoneUID;
+									}
+									else if (door.ExitDeviceUID == readerDevice.UID)
+									{
+										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
+										zoneUID = door.ExitZoneUID;
+									}
+								}
+							}
+
+							using (var databaseService = new SKDDatabaseService())
+							{
+								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
+								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
+								if (!operationResult.HasError)
+								{
+									var employeeUID = operationResult.Result;
+									JournalItem.EmployeeUID = employeeUID;
+									if (employeeUID != Guid.Empty)
+									{
+										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+										if (employee != null)
+										{
+											JournalItem.UserName = employee.Result.Name;
+										}
+									}
+								}
+							}
+
+							break;
+
 						default:
 							JournalItem.JournalEventNameType = JournalEventNameType.Неизвестный_код_события_контроллекра;
 							JournalItem.DescriptionText = code.ToString();

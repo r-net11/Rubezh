@@ -220,7 +220,8 @@ namespace SKDModule.ViewModels
 
 		public bool CanSetUserTime
 		{
-			get { return HasSKD && SelectedCardType == CardType.OneTime; }
+			//get { return HasSKD && SelectedCardType == CardType.OneTime; }
+			get { return false; }
 		}
 
 		Guid DeactivationControllerUID;

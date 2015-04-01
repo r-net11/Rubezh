@@ -122,7 +122,7 @@ namespace SKDDriver
 				gkCard.UID = Guid.NewGuid();
 				gkCard.IPAddress = gkIPAddress;
 				gkCard.GKNo = user.GKNo;
-				gkCard.CardNo = user.Number;
+				gkCard.CardNo = (int)user.Number;
 				gkCard.FIO = user.FIO;
 				gkCard.IsActive = user.IsActive;
 				Context.GKCards.InsertOnSubmit(gkCard);

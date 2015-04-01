@@ -10,6 +10,7 @@ using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecClient;
 using FiresecAPI.GK;
+using Infrastructure.Common;
 
 namespace FiresecService.Report.Templates
 {
@@ -111,8 +112,21 @@ namespace FiresecService.Report.Templates
 					}
 				}
 
-				var intervalMap = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.ToDictionary(item => item.ID);
-
+				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
+				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+				{
+					foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+					{
+						intervalMap.Add(interval.ID, interval.Name);
+					}
+				}
+				else
+				{
+					foreach (var interval in GKManager.DeviceConfiguration.Schedules)
+					{
+						intervalMap.Add(interval.No, interval.Name);
+					}
+				}
 
 				foreach (var card in cardsResult.Result)
 				{
@@ -147,9 +161,9 @@ namespace FiresecService.Report.Templates
 							dataRow.ZoneIn = door.EnterZoneName;
 							dataRow.ZoneOut = door.ExitZoneName;
 							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
-								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo].Name;
+								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
 							if (intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
-								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo].Name;
+								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo];
 							dataRow.AccessPoint = door.Name;
 							dataSet.Data.Rows.Add(dataRow);
 						}
