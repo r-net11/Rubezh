@@ -13,7 +13,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public PositionPageViewModel()
 		{
-			Title = "Должность";
+			Title = "Должности";
 			Filter = new PositionsFilterViewModel();
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);

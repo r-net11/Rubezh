@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementCamera elementBase = new ElementCamera();
+			var elementBase = new ElementCamera();
 			Copy(elementBase);
 			return elementBase;
 		}

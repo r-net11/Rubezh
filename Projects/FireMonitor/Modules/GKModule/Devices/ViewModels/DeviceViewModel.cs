@@ -26,8 +26,8 @@ namespace GKModule.ViewModels
 		public DeviceViewModel(GKDevice device)
 		{
 			Device = device;
-			DeviceStateViewModel = new DeviceStateViewModel(State);
-			State.StateChanged += new Action(OnStateChanged);
+			DeviceStateViewModel = new DeviceStateViewModel(State, device.Driver.IsAm);
+			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);

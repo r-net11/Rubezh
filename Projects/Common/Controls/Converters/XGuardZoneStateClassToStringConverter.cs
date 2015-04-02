@@ -20,6 +20,9 @@ namespace Controls.Converters
 				case XStateClass.TurningOn:
 					return "Ставится на охрану";
 
+				case XStateClass.TurningOff:
+					return "Снимается с охраны";
+
 				case XStateClass.Fire1:
 					return "Тревога";
 			}

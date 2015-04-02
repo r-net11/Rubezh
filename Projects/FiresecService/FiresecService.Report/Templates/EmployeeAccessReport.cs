@@ -8,6 +8,8 @@ using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
+using FiresecClient;
+using FiresecAPI.GK;
 
 namespace FiresecService.Report.Templates
 {
@@ -69,7 +71,8 @@ namespace FiresecService.Report.Templates
 					UIDs = cardsResult.Result.Where(item => item.AccessTemplateUID.HasValue && item.AccessTemplateUID != Guid.Empty).Select(item => item.AccessTemplateUID.Value).ToList()
 				};
 				var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
-				var zoneMap = new Dictionary<Guid, Tuple<SKDZone, SKDZone>>();
+
+				var zoneMap = new Dictionary<Guid, Tuple<Tuple<Guid, string>, Tuple<Guid, string>>>();
 				SKDManager.Doors.ForEach(door =>
 				{
 					if (door != null && !zoneMap.ContainsKey(door.UID))
@@ -80,9 +83,38 @@ namespace FiresecService.Report.Templates
 						{
 							if (zone1 == zone2)
 								zone2 = null;
-							var value = new Tuple<SKDZone, SKDZone>(zone1, zone2);
+							var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone2.UID, zone2.PresentationName));
 							zoneMap.Add(door.UID, value);
 						}
+					}
+				});
+				GKManager.Doors.ForEach(door =>
+				{
+					if (door != null && !zoneMap.ContainsKey(door.UID))
+					{
+						GKSKDZone enterZone = null;
+						if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.EnterZoneUID))
+						{
+							enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
+						}
+						GKSKDZone exitZone = null;
+						if (filter.Zones.IsEmpty() || filter.Zones.Contains(door.ExitZoneUID))
+						{
+							exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+						}
+
+						Tuple<Guid, string> enterZoneTuple = null;
+						if (enterZone != null)
+						{
+							enterZoneTuple = new Tuple<Guid, string>(enterZone.UID, enterZone.PresentationName);
+						}
+						Tuple<Guid, string> exitZoneTuple = null;
+						if (enterZone != null)
+						{
+							exitZoneTuple = new Tuple<Guid, string>(exitZone.UID, exitZone.PresentationName);
+						}
+						var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(enterZoneTuple, exitZoneTuple);
+						zoneMap.Add(door.UID, value);
 					}
 				});
 
@@ -104,7 +136,7 @@ namespace FiresecService.Report.Templates
 			}
 			return dataSet;
 		}
-		private void AddRow(EmployeeAccessDataSet ds, EmployeeInfo employee, SKDCard card, CardDoor door, AccessTemplate template, Dictionary<Guid, Tuple<SKDZone, SKDZone>> zoneMap, List<Guid> addedZones)
+		private void AddRow(EmployeeAccessDataSet ds, EmployeeInfo employee, SKDCard card, CardDoor door, AccessTemplate template, Dictionary<Guid, Tuple<Tuple<Guid, string>, Tuple<Guid, string>>> zoneMap, List<Guid> addedZones)
 		{
 			if (!zoneMap.ContainsKey(door.DoorUID))
 				return;
@@ -121,21 +153,21 @@ namespace FiresecService.Report.Templates
 			}
 			if (template != null)
 				dataRow.Template = template.Name;
-			if (zones.Item1 != null && !addedZones.Contains(zones.Item1.UID))
+			if (zones.Item1 != null && !addedZones.Contains(zones.Item1.Item1))
 			{
 				var row1 = ds.Data.NewDataRow();
 				row1.ItemArray = dataRow.ItemArray;
-				row1.Zone = zones.Item1.Name;
+				row1.Zone = zones.Item1.Item2;
 				ds.Data.AddDataRow(row1);
-				addedZones.Add(zones.Item1.UID);
+				addedZones.Add(zones.Item1.Item1);
 			}
-			if (zones.Item2 != null && !addedZones.Contains(zones.Item1.UID))
+			if (zones.Item2 != null && !addedZones.Contains(zones.Item2.Item1))
 			{
 				var row2 = ds.Data.NewDataRow();
 				row2.ItemArray = dataRow.ItemArray;
-				row2.Zone = zones.Item2.Name;
+				row2.Zone = zones.Item2.Item2;
 				ds.Data.AddDataRow(row2);
-				addedZones.Add(zones.Item2.UID);
+				addedZones.Add(zones.Item2.Item1);
 			}
 		}
 	}

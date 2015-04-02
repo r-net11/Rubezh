@@ -162,7 +162,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Buz_KV_Helper.cs" />
     <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
-    <Compile Include="GKScheduleHelper.cs" />
+    <Compile Include="Administrator\GKScheduleHelper.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="Journal\JournalParser.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />

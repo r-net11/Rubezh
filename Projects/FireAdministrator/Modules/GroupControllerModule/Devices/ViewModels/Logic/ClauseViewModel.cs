@@ -198,34 +198,34 @@ namespace GKModule.ViewModels
 
 		public string PresenrationZones
 		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Zones)); }
+			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Zones), new List<ModelBase>(GKManager.Zones)); }
 		}
 
 		public string PresenrationGuardZones
 		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(GuardZones)); }
+			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(GuardZones), new List<ModelBase>(GKManager.GuardZones)); }
 		}
 
 		public string PresenrationDirections
 		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Directions)); }
+			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Directions), new List<ModelBase>(GKManager.Directions)); }
 		}
 
 		public string PresenrationMPTs
 		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(MPTs)); }
+			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(MPTs), new List<ModelBase>(GKManager.MPTs)); }
 		}
 
 		public string PresenrationDelays
 		{
-			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Delays)); }
+			get { return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Delays), new List<ModelBase>(GKManager.Delays)); }
 		}
 
 		public string PresenrationDoors
 		{
 			get
 			{
-				var name = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Doors));
+				var name = GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Doors), new List<ModelBase>(GKManager.Doors));
 				return name;
 			}
 		}

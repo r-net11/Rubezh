@@ -46,14 +46,14 @@ namespace SKDModule.ViewModels
 				if (door.EnterZoneUID != Guid.Empty)
 				{
 					var enterZone = FiresecClient.GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
-					if (enterZone != null)
+					if (enterZone != null && !Zones.Any(x => x.ZoneUID == enterZone.UID))
 						Zones.Add(new SelectationScheduleZoneViewModel(enterZone, door.UID));
 				}
 
 				if (door.ExitZoneUID != Guid.Empty)
 				{
 					var exitZone = FiresecClient.GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
-					if (exitZone != null)
+					if (exitZone != null && !Zones.Any(x => x.ZoneUID == exitZone.UID))
 						Zones.Add(new SelectationScheduleZoneViewModel(exitZone, door.UID));
 				}
 			}

@@ -29,9 +29,14 @@ namespace SKDModule.ViewModels
 			{
 				deviceViewModel = new DeviceViewModel(gkDevice);
 			}
+
 			if (deviceViewModel != null)
 			{
-				UpdateLayoutPart(deviceViewModel.Name + " " + deviceViewModel.Address);
+				UpdateLayoutPart(deviceViewModel.NameAndAddress);
+			}
+			else
+			{
+				UpdateLayoutPart("Устройство не указано");
 			}
 		}
 

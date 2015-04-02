@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using FiresecAPI.GK;
 using FiresecClient;
+using GKProcessor;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -15,6 +19,9 @@ namespace GKModule.ViewModels
 
 		public GuardZoneDetailsViewModel(GKGuardZone zone = null)
 		{
+			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
+			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
+			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
 			if (zone == null)
 			{
 				Title = "Создание новой зоны";
@@ -214,6 +221,93 @@ namespace GKModule.ViewModels
 			Zone.AlarmDelay = AlarmDelay;
 			Zone.IsExtraProtected = IsExtraProtected;
 			return base.Save();
+		}
+
+		public RelayCommand ReadPropertiesCommand { get; private set; }
+		void OnReadProperties()
+		{
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+			    return;
+
+			var result = FiresecManager.FiresecService.GKGetSingleParameter(Zone);
+			if (!result.HasError && result.Result != null)
+			{
+				SetDelay = result.Result[0].Value;
+				ResetDelay = result.Result[1].Value;
+				AlarmDelay = result.Result[2].Value;
+				OnPropertyChanged(() => SetDelay);
+				OnPropertyChanged(() => ResetDelay);
+				OnPropertyChanged(() => AlarmDelay);
+			}
+			else
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public RelayCommand WritePropertiesCommand { get; private set; }
+		void OnWriteProperties()
+		{
+			Zone.Name = Name;
+			Zone.No = No;
+			Zone.Description = Description;
+			Zone.AlarmDelay = AlarmDelay;
+			Zone.ResetDelay = ResetDelay;
+			Zone.SetDelay = SetDelay;
+			Zone.SetAlarmLevel = SetAlarmLevel;
+			Zone.ResetGuardLevel = ResetGuardLevel;
+			Zone.SetGuardLevel = SetGuardLevel;
+
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+			    return;
+
+			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Zone);
+			if (baseDescriptor != null)
+			{
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(Zone, baseDescriptor.Parameters);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowError(result.Error);
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
+			}
+		}
+
+		public RelayCommand ResetPropertiesCommand { get; private set; }
+		void OnResetProperties()
+		{
+			SetDelay = 1;
+			ResetDelay = 1;
+			AlarmDelay = 1;
+		}
+
+		bool CompareLocalWithRemoteHashes()
+		{
+			if (Zone.GkDatabaseParent == null)
+			{
+				MessageBoxService.ShowError("Зона не относится ни к одному ГК");
+				return false;
+			}
+
+			var result = FiresecManager.FiresecService.GKGKHash(Zone.GkDatabaseParent);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				return false;
+			}
+
+			var localHash = GKFileInfo.CreateHash1(GKManager.DeviceConfiguration, Zone.GkDatabaseParent);
+			var remoteHash = result.Result;
+			if (GKFileInfo.CompareHashes(localHash, remoteHash))
+				return true;
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
+			return false;
 		}
 	}
 }

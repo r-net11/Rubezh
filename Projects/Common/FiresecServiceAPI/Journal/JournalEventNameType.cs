@@ -625,5 +625,8 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Закрытие зоны СКД", XStateClass.Off)]
 		Закрытие_зоны_СКД,
+
+		[EventName(JournalSubsystemType.GK, "Проход пользователя запрещен", XStateClass.Attention)]
+		Проход_пользователя_запрещен,
 	}
 }

@@ -469,6 +469,8 @@ namespace FiresecAPI.GK
 					door.LockControlDeviceUID = Guid.Empty;
 
 				InvalidateInputObjectsBaseLogic(door, door.OpenRegimeLogic);
+				InvalidateInputObjectsBaseLogic(door, door.NormRegimeLogic);
+				InvalidateInputObjectsBaseLogic(door, door.CloseRegimeLogic);
 			}
 		}
 
@@ -568,7 +570,7 @@ namespace FiresecAPI.GK
 			}
 		}
 
-		public void SetMPTDefaultProperty(GKDevice device)
+		public void SetMPTDefaultProperty(GKDevice device, GKMPTDeviceType mptDeviceType)
 		{
 			if (device != null)
 			{
@@ -582,31 +584,66 @@ namespace FiresecAPI.GK
 					case GKDriverType.RSR2_OPZ:
 					case GKDriverType.RSR2_OPK:
 						SetDeviceProperty(device, "Задержка на включение, с", 0);
-						SetDeviceProperty(device, "Время удержания, с", 65000);
+						SetDeviceProperty(device, "Время удержания, с", 0);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(device, "Состояние для модуля Выключено", 0);
-						SetDeviceProperty(device, "Состояние для режима Удержания", 8);
-						SetDeviceProperty(device, "Состояние для режима Включено", 32);
+						SetDeviceProperty(device, "Состояние для режима Удержания", 4);
+						if (mptDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDeviceType == GKMPTDeviceType.ExitBoard)
+						{
+							SetDeviceProperty(device, "Состояние для режима Включено", 32);
+						}
+						if (mptDeviceType == GKMPTDeviceType.Speaker || mptDeviceType == GKMPTDeviceType.AutomaticOffBoard)
+						{
+							SetDeviceProperty(device, "Состояние для режима Включено", 16);
+						}
 						break;
 
 					case GKDriverType.RSR2_MVK8:
 						SetDeviceProperty(device, "Задержка на включение, с", 0);
-						SetDeviceProperty(device, "Время удержания, с", 2);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 1);
-						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
-						SetDeviceProperty(device, "Контроль", 2);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 4);
+						SetDeviceProperty(device, "Контроль", 3);
 						SetDeviceProperty(device, "Норма питания, 0.1В", 80);
+						if (mptDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDeviceType == GKMPTDeviceType.ExitBoard)
+						{
+							SetDeviceProperty(device, "Время удержания, с", 0);
+							SetDeviceProperty(device, "Состояние контакта для режима Включено", 32);
+						}
+
+						if (mptDeviceType == GKMPTDeviceType.Bomb)
+						{
+							SetDeviceProperty(device, "Время удержания, с", 2);
+							SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						}
+
+						if (mptDeviceType == GKMPTDeviceType.Speaker || mptDeviceType == GKMPTDeviceType.AutomaticOffBoard)
+						{
+							SetDeviceProperty(device, "Время удержания, с", 0);
+							SetDeviceProperty(device, "Состояние контакта для режима Включено", 16);
+						}
 						break;
 
 					case GKDriverType.RSR2_RM_1:
 						SetDeviceProperty(device, "Задержка на включение, с", 0);
-						SetDeviceProperty(device, "Время удержания, с", 2);
 						SetDeviceProperty(device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 1);
-						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 4);
+						if (mptDeviceType == GKMPTDeviceType.DoNotEnterBoard || mptDeviceType == GKMPTDeviceType.ExitBoard)
+						{
+							SetDeviceProperty(device, "Время удержания, с", 0);
+							SetDeviceProperty(device, "Состояние контакта для режима Включено", 32);
+						}
+						if (mptDeviceType == GKMPTDeviceType.Bomb)
+						{
+							SetDeviceProperty(device, "Время удержания, с", 2);
+							SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						}
+						if (mptDeviceType == GKMPTDeviceType.Speaker || mptDeviceType == GKMPTDeviceType.AutomaticOffBoard)
+						{
+							SetDeviceProperty(device, "Время удержания, с", 0);
+							SetDeviceProperty(device, "Состояние контакта для режима Включено", 16);
+						}
 						break;
 				}
 			}

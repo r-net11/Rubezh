@@ -18,6 +18,8 @@ namespace FiresecAPI.GK
 		{
 			PlanElementUIDs = new List<Guid>();
 			OpenRegimeLogic = new GKLogic();
+			NormRegimeLogic = new GKLogic();
+			CloseRegimeLogic = new GKLogic();
 			Delay = 2;
 			Hold = 2;
 		}
@@ -102,6 +104,18 @@ namespace FiresecAPI.GK
 		/// </summary>
 		[DataMember]
 		public GKLogic OpenRegimeLogic { get; set; }
+
+		/// <summary>
+		/// Логика перевода ТД в состояние Норма
+		/// </summary>
+		[DataMember]
+		public GKLogic NormRegimeLogic { get; set; }
+
+		/// <summary>
+		/// Логика перевода ТД в состояние Всегда Закрыто
+		/// </summary>
+		[DataMember]
+		public GKLogic CloseRegimeLogic { get; set; }
 
 		[XmlIgnore]
 		public override GKBaseObjectType ObjectType { get { return GKBaseObjectType.Door; } }

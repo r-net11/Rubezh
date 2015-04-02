@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using FiresecAPI.GK;
@@ -12,6 +13,8 @@ namespace Controls.Converters
 		{
 			try
 			{
+				if (values.Any(x => x == DependencyProperty.UnsetValue))
+					return null;
 				var stateClass = (XStateClass)values[0];
 				if (stateClass == XStateClass.Norm)
 					return null;

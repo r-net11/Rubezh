@@ -110,8 +110,6 @@ namespace Infrastructure.Client.Plans
 			element.ItemUID = item == null ? Guid.Empty : item.UID;
 			if (item != null)
 			{
-				if (item.PlanElementUIDs == null)
-					item.PlanElementUIDs = new List<Guid>();
 				item.PlanElementUIDs.Add(element.UID);
 			}
 			UpdateElementProperties<TItem>(element, item);
@@ -127,10 +125,7 @@ namespace Infrastructure.Client.Plans
 		{
 			if (item != null)
 			{
-				if (item.PlanElementUIDs == null)
-					item.PlanElementUIDs = new List<Guid>();
-				else
-					item.PlanElementUIDs.Remove(element.UID);
+				item.PlanElementUIDs.Remove(element.UID);
 			}
 		}
 

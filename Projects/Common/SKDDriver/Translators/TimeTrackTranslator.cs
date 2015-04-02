@@ -121,7 +121,7 @@ namespace SKDDriver.Translators
 			{
 				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 				{
-					if (employee.ScheduleStartDate > date)
+					if (employee.ScheduleStartDate.Date > date.Date)
 					{
 						timeTrackEmployeeResult.DayTimeTracks.Add(new DayTimeTrack("До начала действия графика") { Date = date });
 						continue;

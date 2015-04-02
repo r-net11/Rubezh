@@ -9,6 +9,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using SKDModule.ViewModels;
 using SKDModule.Converters;
+using FiresecClient;
 
 namespace SKDModule.Views
 {
@@ -69,15 +70,16 @@ namespace SKDModule.Views
 
 				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackParts)
 				{
-					var zoneName = "";
-					var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
-					if (zone != null)
+					var zoneName = "<Нет в конфигурации>";
+					var strazhZone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+					if (strazhZone != null)
 					{
-						zoneName = zone.Name;
+						zoneName = strazhZone.Name;
 					}
-					else
+					var gkZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+					if (gkZone != null)
 					{
-						zoneName = "<Нет в конфигурации>";
+						zoneName = gkZone.Name;
 					}
 					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;

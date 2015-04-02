@@ -9,7 +9,6 @@ using DeviceControls;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -40,9 +39,9 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			Device = device;
-			DeviceStateViewModel = new DeviceStateViewModel(State);
-			State.StateChanged += new Action(OnStateChanged);
-			State.MeasureParametersChanged += new Action(OnMeasureParametersChanged);
+			DeviceStateViewModel = new DeviceStateViewModel(State, device.Driver.IsAm);
+			State.StateChanged += OnStateChanged;
+			State.MeasureParametersChanged += OnMeasureParametersChanged;
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();

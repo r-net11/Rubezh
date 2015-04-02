@@ -99,9 +99,12 @@ namespace FiresecAPI.GK
 					}
 				}
 
-				foreach (var deviceGuardZone in device.GuardZones)
+				if (!device.Driver.IsAm)
 				{
-					device.LinkGKBases(deviceGuardZone);
+					foreach (var deviceGuardZone in device.GuardZones)
+					{
+						device.LinkGKBases(deviceGuardZone);
+					}
 				}
 			}
 
@@ -172,6 +175,8 @@ namespace FiresecAPI.GK
 				if (door.LockControlDevice != null)
 					door.LinkGKBases(door.LockControlDevice);
 				LinkLogic(door, door.OpenRegimeLogic.OnClausesGroup);
+				LinkLogic(door, door.NormRegimeLogic.OnClausesGroup);
+				LinkLogic(door, door.CloseRegimeLogic.OnClausesGroup);
 				door.LinkGKBases(door);
 			}
 		}

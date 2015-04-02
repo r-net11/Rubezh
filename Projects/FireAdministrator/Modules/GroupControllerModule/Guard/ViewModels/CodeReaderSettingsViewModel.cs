@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.GK;
 using Infrastructure.Common;
@@ -64,7 +63,7 @@ namespace GKModule.ViewModels
 			{
 				if (Codes != null && Codes.Count > 0)
 				{
-					return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Codes));
+					return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(Codes), new List<ModelBase>(GKManager.DeviceConfiguration.Codes));
 				}
 				return "Нажмите для выбора кодов";
 			}

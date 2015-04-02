@@ -20,11 +20,11 @@ namespace GKModule.ViewModels
 			{
 				case GKMPTDeviceType.HandAutomaticOn:
 					CodeReaderSettingsPart = codeReaderSettings.AutomaticOnSettings;
-					CodeName = "Действие для постановки на автоматизацию";
+					CodeName = "Действие для постановки на автоматику";
 					break;
 				case GKMPTDeviceType.HandAutomaticOff:
 					CodeReaderSettingsPart = codeReaderSettings.AutomaticOffSettings;
-					CodeName = "Действие для снятия с автоматизации";
+					CodeName = "Действие для снятия с автоматики";
 					break;
 				case GKMPTDeviceType.HandStart:
 					CodeReaderSettingsPart = codeReaderSettings.StartSettings;

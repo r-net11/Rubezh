@@ -75,7 +75,7 @@
 			this.xrTableContent.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTableContent.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow2});
-			this.xrTableContent.SizeF = new System.Drawing.SizeF(2570F, 63.5F);
+			this.xrTableContent.SizeF = new System.Drawing.SizeF(2550F, 63.5F);
 			this.xrTableContent.StylePriority.UseBorders = false;
 			this.xrTableContent.StylePriority.UsePadding = false;
 			this.xrTableContent.StylePriority.UseTextAlignment = false;
@@ -184,7 +184,7 @@
 			this.xrTableHeader.Name = "xrTableHeader";
 			this.xrTableHeader.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow1});
-			this.xrTableHeader.SizeF = new System.Drawing.SizeF(2570F, 63.5F);
+			this.xrTableHeader.SizeF = new System.Drawing.SizeF(2550F, 63.5F);
 			this.xrTableHeader.StylePriority.UseBackColor = false;
 			this.xrTableHeader.StylePriority.UseBorders = false;
 			this.xrTableHeader.StylePriority.UseTextAlignment = false;
@@ -234,7 +234,7 @@
 			// 
 			this.xrTableCell4.Dpi = 254F;
 			this.xrTableCell4.Name = "xrTableCell4";
-			this.xrTableCell4.Text = "Длительность прибывания";
+			this.xrTableCell4.Text = "Длительность пребывания";
 			this.xrTableCell4.Weight = 0.10056870156204056D;
 			// 
 			// xrTableCell5

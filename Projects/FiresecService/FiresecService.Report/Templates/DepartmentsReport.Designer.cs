@@ -136,7 +136,7 @@
 			this.xrTableHeader.Padding = new DevExpress.XtraPrinting.PaddingInfo(3, 3, 3, 3, 254F);
 			this.xrTableHeader.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow3});
-			this.xrTableHeader.SizeF = new System.Drawing.SizeF(1699.999F, 63.5F);
+			this.xrTableHeader.SizeF = new System.Drawing.SizeF(1700F, 63.5F);
 			this.xrTableHeader.StylePriority.UseBorders = false;
 			this.xrTableHeader.StylePriority.UsePadding = false;
 			this.xrTableHeader.StylePriority.UseTextAlignment = false;

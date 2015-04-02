@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 						devices.Add(device);
 			}
 
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices);
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices, false);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				if (SelectedDevice.MPTDevice.Device != null)
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 				var selectedDevice = deviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
 				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.UID : Guid.Empty;
-				GKManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice);
+				GKManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice, SelectedDevice.MPTDeviceType);
 				GKManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = selectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);

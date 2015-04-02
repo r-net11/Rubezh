@@ -222,11 +222,16 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> AddCard(SKDCard card, string employeeName)
 		{
+			AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
+
 			using (var databaseService = new SKDDatabaseService())
 			{
+				var saveResult = databaseService.CardTranslator.Save(card);
+				if (saveResult.HasError)
+					return new OperationResult<bool>(saveResult.Error) { Result = false };
+
 				var errors = new List<string>();
 
-				AddJournalMessage(JournalEventNameType.Добавление_карты, employeeName, uid: card.EmployeeUID);
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
 					errors.Add(getAccessTemplateOperationResult.Error);
@@ -241,10 +246,6 @@ namespace FiresecService.Service
 				var pendingResult = databaseService.CardTranslator.AddPendingList(card.UID, failedControllerUIDs);
 				if (pendingResult.HasError)
 					errors.Add(pendingResult.Error);
-
-				var saveResult = databaseService.CardTranslator.Save(card);
-				if(saveResult.HasError)
-					errors.Add(saveResult.Error);
 
 				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 				if (!employeeOperationResult.HasError)
@@ -264,18 +265,23 @@ namespace FiresecService.Service
 				}
 
 				if (errors.Count > 0)
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return new OperationResult<bool>(String.Join("\n", errors)) { Result = true };
 				else
 					return new OperationResult<bool>() { Result = true };
 			}
 		}
 		public OperationResult<bool> EditCard(SKDCard card, string employeeName)
 		{
+			AddJournalMessage(JournalEventNameType.Редактирование_карты, employeeName, uid: card.EmployeeUID);
+
 			using (var databaseService = new SKDDatabaseService())
 			{
+				var saveResult = databaseService.CardTranslator.Save(card);
+				if (saveResult.HasError)
+					return new OperationResult<bool>(saveResult.Error) { Result = false };
+
 				var errors = new List<string>();
 
-				AddJournalMessage(JournalEventNameType.Редактирование_карты, employeeName, uid: card.EmployeeUID);
 				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
 				if (getAccessTemplateOperationResult.HasError)
 					errors.Add(getAccessTemplateOperationResult.Error);
@@ -300,10 +306,6 @@ namespace FiresecService.Service
 					errors.Add("Не найдена предыдущая карта");
 				}
 
-				var saveResult = databaseService.CardTranslator.Save(card);
-				if (saveResult.HasError)
-					errors.Add(saveResult.Error);
-
 				var employeeOperationResult = databaseService.EmployeeTranslator.GetSingle(card.HolderUID);
 				if (!employeeOperationResult.HasError)
 				{
@@ -322,7 +324,7 @@ namespace FiresecService.Service
 				}
 
 				if (errors.Count > 0)
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return new OperationResult<bool>(String.Join("\n", errors)) { Result = true };
 				else
 					return new OperationResult<bool>() { Result = true };
 			}
@@ -331,8 +333,6 @@ namespace FiresecService.Service
 		{
 			using (var databaseService = new SKDDatabaseService())
 			{
-				var errors = new List<string>();
-
 				AddJournalMessage(JournalEventNameType.Удаление_карты, employeeName, uid: card.EmployeeUID);
 
 				card.AccessTemplateUID = null;
@@ -344,6 +344,14 @@ namespace FiresecService.Service
 				card.StopReason = reason;
 				card.StartDate = DateTime.Now;
 				card.EndDate = DateTime.Now;
+
+				var saveResult = databaseService.CardTranslator.Save(card);
+				if (saveResult.HasError)
+				{
+					return new OperationResult<bool>(saveResult.Error) { Result = false };
+				}
+
+				var errors = new List<string>();
 
 				var operationResult = databaseService.CardTranslator.GetSingle(card.UID);
 				if (!operationResult.HasError && operationResult.Result != null)
@@ -365,13 +373,6 @@ namespace FiresecService.Service
 					errors.Add("Не найдена предидущая карта");
 				}
 
-				var saveResult = databaseService.CardTranslator.Save(card);
-				if (saveResult.HasError)
-				{
-					errors.Add("Ошибка БД:");
-					errors.Add(saveResult.Error);
-				}
-
 				var gkSKDHelper = new GKSKDHelper();
 				foreach (var gkControllerDevice in GKManager.DeviceConfiguration.RootDevice.Children)
 				{
@@ -386,7 +387,7 @@ namespace FiresecService.Service
 				}
 
 				if (errors.Count > 0)
-					return new OperationResult<bool>(String.Join("\n", errors));
+					return new OperationResult<bool>(String.Join("\n", errors)) { Result = true };
 				else
 					return new OperationResult<bool>() { Result = true };
 			}

@@ -8,6 +8,9 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using FiresecClient;
+using FiresecAPI.GK;
+using Infrastructure.Common;
 
 namespace FiresecService.Report.Templates
 {
@@ -79,13 +82,52 @@ namespace FiresecService.Report.Templates
 					UIDs = cardsResult.Result.Where(item => item.AccessTemplateUID.HasValue && item.AccessTemplateUID != Guid.Empty).Select(item => item.AccessTemplateUID.Value).ToList()
 				};
 				var accessTemplates = dataProvider.DatabaseService.AccessTemplateTranslator.Get(accessTemplateFilter);
-				IEnumerable<SKDDoor> doors = SKDManager.Doors;
-				if (!filter.Zones.IsEmpty())
-					doors = doors.Where(item =>
-						(filter.ZoneIn && item.InDevice != null && filter.Zones.Contains(item.InDevice.ZoneUID)) ||
-						(filter.ZoneOut && item.OutDevice != null && filter.Zones.Contains(item.OutDevice.ZoneUID)));
-				var doorMap = doors.ToDictionary(item => item.UID);
-				var intervalMap = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.ToDictionary(item => item.ID);
+
+
+				var doorMap = new Dictionary<Guid, CommonDoor>();
+				foreach (var door in SKDManager.Doors)
+				{
+					var commonDoor = new CommonDoor(door);
+					if (!filter.Zones.IsEmpty())
+					{
+						if ((filter.ZoneIn && door.InDevice != null && filter.Zones.Contains(door.InDevice.ZoneUID)) || (filter.ZoneOut && door.OutDevice != null && filter.Zones.Contains(door.OutDevice.ZoneUID)))
+							doorMap.Add(door.UID, commonDoor);
+					}
+					else
+					{
+						doorMap.Add(door.UID, commonDoor);
+					}
+				}
+				foreach (var door in GKManager.Doors)
+				{
+					var commonDoor = new CommonDoor(door);
+					if (!filter.Zones.IsEmpty())
+					{
+						if ((filter.ZoneIn && filter.Zones.Contains(door.EnterZoneUID)) || (filter.ZoneOut && filter.Zones.Contains(door.ExitZoneUID)))
+							doorMap.Add(door.UID, commonDoor);
+					}
+					else
+					{
+						doorMap.Add(door.UID, commonDoor);
+					}
+				}
+
+				Dictionary<int, string> intervalMap = new Dictionary<int,string>();
+				if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
+				{
+					foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+					{
+						intervalMap.Add(interval.ID, interval.Name);
+					}
+				}
+				else
+				{
+					foreach (var interval in GKManager.DeviceConfiguration.Schedules)
+					{
+						intervalMap.Add(interval.No, interval.Name);
+					}
+				}
+
 				foreach (var card in cardsResult.Result)
 				{
 					IEnumerable<CardDoor> cardDoors = card.CardDoors;
@@ -116,20 +158,45 @@ namespace FiresecService.Report.Templates
 								dataRow.Department = employee.Department;
 								dataRow.Position = employee.Position;
 							}
-							if (door.InDevice != null && door.InDevice.Zone != null)
-								dataRow.ZoneIn = door.InDevice.Zone.PresentationName;
-							if (door.OutDevice != null && door.OutDevice.Zone != null)
-								dataRow.ZoneOut = door.OutDevice.Zone.PresentationName;
+							dataRow.ZoneIn = door.EnterZoneName;
+							dataRow.ZoneOut = door.ExitZoneName;
 							if (intervalMap.ContainsKey(cardDoor.EnterScheduleNo))
-								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo].Name;
+								dataRow.Enter = intervalMap[cardDoor.EnterScheduleNo];
 							if (intervalMap.ContainsKey(cardDoor.ExitScheduleNo))
-								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo].Name;
-							dataRow.AccessPoint = door.PresentationName;
+								dataRow.Exit = intervalMap[cardDoor.ExitScheduleNo];
+							dataRow.AccessPoint = door.Name;
 							dataSet.Data.Rows.Add(dataRow);
 						}
 				}
 			}
 			return dataSet;
+		}
+	}
+
+	public class CommonDoor
+	{
+		public string Name { get; private set; }
+		public string EnterZoneName { get; private set; }
+		public string ExitZoneName { get; private set; }
+
+		public CommonDoor(SKDDoor door)
+		{
+			Name = door.PresentationName;
+			if (door.InDevice != null && door.InDevice.Zone != null)
+				EnterZoneName = door.InDevice.Zone.PresentationName;
+			if (door.OutDevice != null && door.OutDevice.Zone != null)
+				ExitZoneName = door.OutDevice.Zone.PresentationName;
+		}
+
+		public CommonDoor(GKDoor door)
+		{
+			Name = door.PresentationName;
+			var enterZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.EnterZoneUID);
+			if(enterZone != null)
+				EnterZoneName = enterZone.PresentationName;
+			var exitZone = GKManager.SKDZones.FirstOrDefault(x => x.UID == door.ExitZoneUID);
+			if (exitZone != null)
+				ExitZoneName = exitZone.PresentationName;
 		}
 	}
 }

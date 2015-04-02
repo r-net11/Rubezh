@@ -13,6 +13,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using VideoModule.Plans;
 
 namespace VideoModule.ViewModels
 {
@@ -20,6 +21,7 @@ namespace VideoModule.ViewModels
 	{
 		bool _lockSelection = false;
 		public static CamerasViewModel Current { get; private set; }
+
 		public CamerasViewModel()
 		{
 			Menu = new CamerasMenuViewModel(this);
@@ -72,17 +74,14 @@ namespace VideoModule.ViewModels
 			var devicesViewModel = new DeviceSelectionViewModel();
 			if (DialogService.ShowModalWindow(devicesViewModel))
 			{
-				foreach (var camera in Cameras)
+				foreach (var camera in devicesViewModel.GetCameras())
 				{
-					camera.Camera.OnChanged();
-				}
-
-				Cameras = new ObservableCollection<CameraViewModel>();
-				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-				{
+					camera.OnChanged();
+					FiresecManager.SystemConfiguration.Cameras.Add(camera);
 					Cameras.Add(new CameraViewModel(this, camera));
-					OnPropertyChanged(() => Cameras);
 				}
+				ServiceFactory.SaveService.CamerasChanged = true;
+				PlanExtension.Instance.Cache.BuildSafe<Camera>();
 			}
 		}
 
@@ -100,10 +99,10 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var dvrDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
-			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
+			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
+			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				SelectedCamera.Camera = dvrDetailsViewModel.Camera;
+				SelectedCamera.Camera = cameraDetailsViewModel.Camera;
 				SelectedCamera.Update();
 				SelectedCamera.Camera.OnChanged();
 				ServiceFactory.SaveService.CamerasChanged = true;

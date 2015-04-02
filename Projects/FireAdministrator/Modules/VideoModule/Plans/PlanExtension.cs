@@ -14,6 +14,7 @@ using VideoModule.Plans.Designer;
 using VideoModule.Plans.ViewModels;
 using VideoModule.ViewModels;
 using Infrastructure.Events;
+using Infrustructure.Plans.Interfaces;
 
 namespace VideoModule.Plans
 {
@@ -119,6 +120,8 @@ namespace VideoModule.Plans
 				var camera = item as Camera;
 				designerItem.Title = camera == null ? "Неизвестная камера" : camera.Name;
 			}
+			else
+				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

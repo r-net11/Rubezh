@@ -46,7 +46,6 @@ namespace GKProcessor
 			Formula.AddPutBit(GKStateBit.TurnOffNow_InAutomatic, Pim, DatabaseType);
 			Formula.AddGetBit(GKStateBit.Off, Pim, DatabaseType);
 			Formula.Add(FormulaOperationType.AND);
-			SetGuardZoneChangeLogic(PimGuardZone, GuardZoneDevices, Formula, DatabaseType);
 			Formula.AddPutBit(GKStateBit.TurnOnNow_InAutomatic, Pim, DatabaseType);
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

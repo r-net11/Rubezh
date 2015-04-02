@@ -91,6 +91,7 @@ namespace SKDModule.ViewModels
 			foreach (var scheduleZone in source.Zones)
 				copy.Zones.Add(new ScheduleZone()
 				{
+					UID = Guid.NewGuid(),
 					ScheduleUID = copy.UID,
 					ZoneUID = scheduleZone.ZoneUID,
 				});

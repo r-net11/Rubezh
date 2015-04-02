@@ -70,7 +70,12 @@ namespace FiresecAPI.GK
 
 		public bool IsAm
 		{
-			get { return DriverType == GKDriverType.RSR2_AM_1 || DriverType == GKDriverType.RSR2_AM_2 || DriverType == GKDriverType.RSR2_AM_4; }
+			get
+			{
+				return DriverType == GKDriverType.RSR2_AM_1 || DriverType == GKDriverType.RSR2_AM_2 || DriverType == GKDriverType.RSR2_AM_4
+				|| DriverType == GKDriverType.RSR2_CardReader || DriverType == GKDriverType.RSR2_CodeReader
+				|| DriverType == GKDriverType.RSR2_MAP4_Group || DriverType == GKDriverType.RSR2_MAP4;
+			}
 		}
 
 		public bool IsPump

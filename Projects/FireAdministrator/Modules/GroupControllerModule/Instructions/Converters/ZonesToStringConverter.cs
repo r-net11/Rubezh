@@ -22,7 +22,7 @@ namespace GKModule.Converters
 				if (zone != null)
 					zones.Add(zone);
 			}
-			return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones));
+			return GKManager.GetCommaSeparatedObjects(new List<ModelBase>(zones), new List<ModelBase>(GKManager.Zones));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

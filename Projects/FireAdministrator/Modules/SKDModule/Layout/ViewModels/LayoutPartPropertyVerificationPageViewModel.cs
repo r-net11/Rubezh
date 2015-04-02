@@ -61,14 +61,22 @@ namespace SKDModule.ViewModels
 
 		public override bool CanSave()
 		{
-			return SelectedDevice != null;
+			return true;
 		}
 		public override bool Save()
 		{
 			var properties = (LayoutPartReferenceProperties)_layoutPartVerificationViewModel.Properties;
 
-			properties.ReferenceUID = SelectedDevice == null ? Guid.Empty : SelectedDevice.UID;
-			_layoutPartVerificationViewModel.UpdateLayoutPart(SelectedDevice.Name);
+			if (SelectedDevice != null)
+			{
+				properties.ReferenceUID = SelectedDevice.UID;
+				_layoutPartVerificationViewModel.UpdateLayoutPart(SelectedDevice.NameAndAddress);
+			}
+			else
+			{
+				properties.ReferenceUID = Guid.Empty;
+				_layoutPartVerificationViewModel.UpdateLayoutPart("Устройство не указано");
+			}
 			return true;
 		}
 	}
@@ -81,6 +89,11 @@ namespace SKDModule.ViewModels
 		public Guid UID { get; private set; }
 		public string Name { get; private set; }
 		public string Address { get; private set; }
+
+		public string NameAndAddress
+		{
+			get { return Name + " " + Address; }
+		}
 
 		public DeviceViewModel(SKDDevice skdDevice)
 		{

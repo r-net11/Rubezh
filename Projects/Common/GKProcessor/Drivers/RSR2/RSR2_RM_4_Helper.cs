@@ -9,7 +9,7 @@ namespace GKProcessor
 		{
 			var driver = new GKDriver()
 			{
-				DriverType = GKDriverType.RSR2_RM_2,
+				DriverType = GKDriverType.RSR2_RM_4,
 				UID = new Guid("E3001BBB-18DA-437D-AB73-56C701F070D4"),
 				Name = "Модуль релейный РМ4-R2",
 				ShortName = "РМ4-R2",

@@ -100,11 +100,19 @@ namespace GKProcessor
 
 						case 10:
 							JournalItem.JournalEventNameType = JournalEventNameType.Введен_новый_пользователь;
+							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
+							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
+							bytes1.AddRange(bytes2);
+							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
 						case 11:
 							JournalItem.JournalEventNameType = JournalEventNameType.Изменена_учетная_информация_пользователя;
+							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
+							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
+							bytes1.AddRange(bytes2);
+							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
 							JournalItem.JournalObjectType = JournalObjectType.GKUser;
 							break;
 
@@ -176,6 +184,52 @@ namespace GKProcessor
 							if (string.IsNullOrEmpty(scheduleName))
 								scheduleName = scheduleNo.ToString();
 							JournalItem.DescriptionText = scheduleName;
+							break;
+
+						case 15:
+							JournalItem.JournalEventNameType = JournalEventNameType.Проход_пользователя_запрещен;
+							gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
+							JournalItem.CardNo = gkCardNo;
+
+							zoneUID = Guid.Empty;
+							door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
+							if (door != null)
+							{
+								var readerDevice = GKManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == kauObjectNo);
+								if (readerDevice != null)
+								{
+									if (door.EnterDeviceUID == readerDevice.UID)
+									{
+										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
+										zoneUID = door.EnterZoneUID;
+									}
+									else if (door.ExitDeviceUID == readerDevice.UID)
+									{
+										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
+										zoneUID = door.ExitZoneUID;
+									}
+								}
+							}
+
+							using (var databaseService = new SKDDatabaseService())
+							{
+								var cardNo = databaseService.GKCardTranslator.GetCardNoByGKNo(gkControllerDevice.GetGKIpAddress(), (int)gkCardNo);
+								var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(cardNo);
+								if (!operationResult.HasError)
+								{
+									var employeeUID = operationResult.Result;
+									JournalItem.EmployeeUID = employeeUID;
+									if (employeeUID != Guid.Empty)
+									{
+										var employee = databaseService.EmployeeTranslator.GetSingle(employeeUID);
+										if (employee != null)
+										{
+											JournalItem.UserName = employee.Result.Name;
+										}
+									}
+								}
+							}
+
 							break;
 
 						default:

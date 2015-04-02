@@ -122,6 +122,7 @@
     <Compile Include="Attach.cs" />
     <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
+    <Compile Include="Converters\BoolToSelectionModeConverter.cs" />
     <Compile Include="Converters\ConverterHelper.cs" />
     <Compile Include="Converters\EnumToItemsSourceConverter.cs" />
     <Compile Include="Converters\IfConverter.cs" />
@@ -2564,6 +2565,9 @@
   <ItemGroup>
     <Resource Include="StateClassIcons\State1.png" />
     <Resource Include="StateClassIcons\State2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_RM_4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
