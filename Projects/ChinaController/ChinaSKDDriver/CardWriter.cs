@@ -46,10 +46,6 @@ namespace ChinaSKDDriver
 				if (door != null)
 				{
 					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterScheduleNo);
-					//if (door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
-					//{
-					//	Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitScheduleNo);
-					//}
 				}
 			}
 			return controllerCardItems;
@@ -183,7 +179,6 @@ namespace ChinaSKDDriver
 
 		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems, bool showProgress)
 		{
-
 			foreach (var controllerCardItem in controllerCardItems)
 			{
 				var deviceProcessor = Processor.DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerCardItem.ControllerDevice.UID);
@@ -283,7 +278,15 @@ namespace ChinaSKDDriver
 
 					if (!result)
 					{
-						controllerCardItem.Error = "Ошибка при выполнении операции в приборе";
+						var operationName = "";
+						if(controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Add)
+							operationName = "добавления";
+						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Edit)
+							operationName = "редактирования";
+						if (controllerCardItem.ActionType == ControllerCardItem.ActionTypeEnum.Delete)
+							operationName = "удаления";
+
+						controllerCardItem.Error = "При операции " + operationName + " пропуска " + controllerCardItem.Card.Number + " на контроллере " + deviceProcessor.Device.Name + " возникла ошибка";
 					}
 				}
 				else
@@ -300,7 +303,7 @@ namespace ChinaSKDDriver
 			{
 				if (controllerCardItem.HasError)
 				{
-					stringBuilder.AppendLine(controllerCardItem.ControllerDevice.Name + ": " + controllerCardItem.Error);
+					stringBuilder.AppendLine(controllerCardItem.Error);
 				}
 			}
 			return stringBuilder.ToString();

@@ -28,7 +28,6 @@ namespace FiresecAPI.Models
 			base.Copy(element);
 			((ElementGKDoor)element).DoorUID = DoorUID;
 		}
-
 		public override void UpdateZLayer()
 		{
 			ZLayer = 70;

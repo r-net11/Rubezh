@@ -5,7 +5,7 @@ namespace VideoModule.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public DeviceViewModel(Device device, Channel channel, int streamNo)
+		public DeviceViewModel(Device device, Channel channel, int streamNo, bool isEnabled)
 		{
 			Device = device;
 			Channel = channel;
@@ -15,6 +15,7 @@ namespace VideoModule.ViewModels
 			DeviceIP = device.Ip;
 			ChannalNumber = channel.Number;
 			ChannalName = channel.Name;
+			IsEnabled = isEnabled;
 		}
 
 		public int StreamNo { get; private set; }
@@ -36,5 +37,7 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => IsChecked);
 			}
 		}
+
+		public bool IsEnabled { get; private set; }
 	}
 }

@@ -170,7 +170,9 @@ namespace StrazhModule.ViewModels
 			{
 				var doorConfiguration = result.Result;
 				if (doorConfiguration.DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN)
-					MessageBoxService.ShowWarning("Неизвестный метод открытия двери");
+				{
+					MessageBoxService.ShowWarning("Для замка на контроллере не установлен метод открытия двери");
+				}
 				Update(doorConfiguration);
 				HasChanged = false;
 			}

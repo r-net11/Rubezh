@@ -161,7 +161,7 @@ namespace FiresecService.Report.Templates
 				ds.Data.AddDataRow(row1);
 				addedZones.Add(zones.Item1.Item1);
 			}
-			if (zones.Item2 != null && !addedZones.Contains(zones.Item1.Item1))
+			if (zones.Item2 != null && !addedZones.Contains(zones.Item2.Item1))
 			{
 				var row2 = ds.Data.NewDataRow();
 				row2.ItemArray = dataRow.ItemArray;

@@ -20,6 +20,7 @@ namespace FiresecAPI.SKD
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
 			driver.AvailableStateClasses.Add(XStateClass.Off);
+			driver.AvailableStateClasses.Add(XStateClass.Attention);
 
 			return driver;
 		}

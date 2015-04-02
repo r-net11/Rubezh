@@ -50,6 +50,9 @@ namespace FiresecAPI.Models
 		public string RviRTSP { get; set; }
 
 		[DataMember]
+		public string RviChannelName { get; set; }
+
+		[DataMember]
 		public int CountPresets { get; set; }
 
 		[DataMember]

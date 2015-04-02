@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using RviClient.RVIServiceReference;
 using RviClient;
 using Infrastructure.Common.Windows;
+using FiresecAPI.Models;
 
 namespace VideoModule.ViewModels
 {
@@ -35,12 +36,8 @@ namespace VideoModule.ViewModels
 				{
 					foreach (var stream in channel.Streams)
 					{
-						var deviceViewModel = new DeviceViewModel(device, channel, stream.Number);
-						var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
-						if (camera != null)
-						{
-							deviceViewModel.IsChecked = true;
-						}
+						var existingCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Guid && x.RviChannelNo == channel.Number && x.StreamNo == stream.Number);
+						var deviceViewModel = new DeviceViewModel(device, channel, stream.Number, existingCamera == null);
 						Devices.Add(deviceViewModel);
 					}
 				}
@@ -51,37 +48,35 @@ namespace VideoModule.ViewModels
 
 		protected override bool Save()
 		{
-			var cameras = new List<FiresecAPI.Models.Camera>();
+			return true;
+		}
+
+		public List<Camera> GetCameras()
+		{
+			var cameras = new List<Camera>();
 			foreach (var device in Devices)
 			{
 				if (device.IsChecked)
 				{
-					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.RviDeviceUID == device.Device.Guid && x.RviChannelNo == device.Channel.Number && x.StreamNo == device.StreamNo);
-					if (camera == null)
-						camera = new FiresecAPI.Models.Camera();
-					if (device.Channel.Streams.Count() < device.StreamNo)
-						return true;
 					var stream = device.Channel.Streams[device.StreamNo - 1];
 					if (stream != null)
 					{
+						var camera = new Camera();
 						camera.Name = device.DeviceName;
 						camera.StreamNo = device.StreamNo;
 						camera.Ip = device.Device.Ip;
 						camera.RviDeviceUID = device.Device.Guid;
 						camera.RviChannelNo = device.Channel.Number;
 						camera.RviRTSP = stream.Rtsp;
+						camera.RviChannelName = device.Channel.Name;
 						camera.CountPresets = device.Channel.CountPresets;
 						camera.CountTemplateBypass = device.Channel.CountTemplateBypass;
 						camera.CountTemplatesAutoscan = device.Channel.CountTemplatesAutoscan;
-					}
-
-					if (!cameras.Contains(camera))
 						cameras.Add(camera);
+					}
 				}
 			}
-			FiresecManager.SystemConfiguration.Cameras = cameras;
-			ServiceFactory.SaveService.CamerasChanged = true;
-			return true;
+			return cameras;
 		}
 	}
 }
