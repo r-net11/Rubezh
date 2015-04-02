@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 		public bool CanCreateNew { get; private set; }
 		GKDevice Device { get; set; }
 
-		public GuardZonesSelectationViewModel(GKDevice device, bool canCreateNew = false)
+		public GuardZonesSelectationViewModel(List<GKGuardZone> guardZones, bool canCreateNew = false, GKDevice device = null)
 		{
 			Title = "Выбор охранных зон";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -31,15 +31,16 @@ namespace GKModule.ViewModels
 
 			Device = device;
 			DeviceGuardZones = new ObservableCollection<DeviceGuardZoneViewModel>();
-			foreach (var zone in device.GuardZones)
+			foreach (var zone in guardZones)
 			{
-				var guardZoneDevice = zone.GuardZoneDevices.FirstOrDefault(x => x.Device == device);
-				if (guardZoneDevice != null)
+				if (guardZones.Contains(zone))
 				{
 					var deviceGuardZone = new GKDeviceGuardZone();
 					deviceGuardZone.GuardZone = zone;
-					deviceGuardZone.ActionType = guardZoneDevice.ActionType;
 					DeviceGuardZones.Add(new DeviceGuardZoneViewModel(deviceGuardZone, device));
+					var guardZoneDevice = zone.GuardZoneDevices.FirstOrDefault(x => x.Device == device);
+					if (guardZoneDevice != null)
+						deviceGuardZone.ActionType = guardZoneDevice.ActionType;
 				}
 			}
 

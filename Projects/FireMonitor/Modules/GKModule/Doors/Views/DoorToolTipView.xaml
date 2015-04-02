@@ -16,8 +16,16 @@
 			<TextBlock Text="{Binding Door.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Margin="0 0 2 0" Width="16" Height="16" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToSKDStringConverter}}" />
+			<ItemsControl ItemsSource="{Binding StateClasses}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+							<TextBlock Text="{Binding ., Converter={StaticResource DoorStateClassToStringConverter}}" VerticalAlignment="Center" Margin="5 1 1 1" />
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

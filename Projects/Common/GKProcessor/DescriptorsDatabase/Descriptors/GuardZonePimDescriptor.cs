@@ -17,7 +17,8 @@ namespace GKProcessor
 			GuardZoneDevices = guardZoneDevices;
 			foreach (var guardDevice in GuardZoneDevices)
 			{
-				Pim.LinkGKBases(guardDevice.Device);
+				if (Pim != null)
+					Pim.LinkGKBases(guardDevice.Device);
 			}
 		}
 

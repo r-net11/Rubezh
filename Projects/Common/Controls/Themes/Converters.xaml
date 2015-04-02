@@ -58,6 +58,7 @@
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	<Converters:StringToResourceConverter x:Key="StringToResourceConverter" />
 	<Converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
+	<Converters:DoorStateClassToStringConverter x:Key="DoorStateClassToStringConverter" />
 
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />
