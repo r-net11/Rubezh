@@ -112,6 +112,11 @@ namespace Infrastructure.Client.Startup
 
 		private void StartupClosed(object sender, EventArgs e)
 		{
+			if (_viewModel != null && _viewModel.StartupSettingsWaitHandler != null)
+			{
+				_viewModel.StartupSettingsWaitHandler.Set();
+			}
+
 			if (IsActive)
 			{
 				MessageBoxService.ResetMessageBoxHandler();

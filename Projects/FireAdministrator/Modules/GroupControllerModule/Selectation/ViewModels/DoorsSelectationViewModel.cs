@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 				SourceDoors.Remove(doorViewModel);
 			}
 			SelectedTargetDoor = TargetDoors.LastOrDefault();
-			OnPropertyChanged("SourceDoors");
+			OnPropertyChanged(() => SourceDoors);
 
 			index = Math.Min(index, SourceDoors.Count - 1);
 			if (index > -1)

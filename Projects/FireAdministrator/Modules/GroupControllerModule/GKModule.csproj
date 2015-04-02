@@ -257,7 +257,6 @@
     </Compile>
     <Compile Include="Selectation\ViewModels\AnyZonesSelectionViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DeviceGuardZoneViewModel.cs" />
-    <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
@@ -268,6 +267,7 @@
     <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\SKDZoneSelectationViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DoorsSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\GuardZonesSelectationViewModel.cs" />
     <Compile Include="Selectation\Views\AnyZonesSelectionView.xaml.cs">
       <DependentUpon>AnyZonesSelectionView.xaml</DependentUpon>
     </Compile>

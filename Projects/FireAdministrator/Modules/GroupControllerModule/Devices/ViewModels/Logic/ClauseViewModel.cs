@@ -306,7 +306,7 @@ namespace GKModule.ViewModels
 			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(GuardZones);
 			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 			{
-				GuardZones = guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone.GuardZone).ToList();
+				GuardZones = guardZonesSelectationViewModel.GuardZones;
 				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}

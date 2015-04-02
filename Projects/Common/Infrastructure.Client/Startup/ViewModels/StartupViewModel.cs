@@ -210,15 +210,21 @@ namespace Infrastructure.Client.Startup.ViewModels
 		public RelayCommand SettingsCommand { get; private set; }
 		private void OnSettings()
 		{
-			var waitHandler = new AutoResetEvent(false);
+			StartupSettingsWaitHandler = new AutoResetEvent(false);
 			ApplicationService.BeginInvoke(() =>
 			{
-				waitHandler.WaitOne();
-				waitHandler.Dispose();
+				if (StartupSettingsWaitHandler != null)
+				{
+					StartupSettingsWaitHandler.WaitOne();
+					StartupSettingsWaitHandler.Dispose();
+				}
+				StartupSettingsWaitHandler = null;
 			});
 			DialogService.ShowModalWindow(new StartupSettingsViewModel());
-			waitHandler.Set();
+			StartupSettingsWaitHandler.Set();
 		}
+
+		public AutoResetEvent StartupSettingsWaitHandler { get; private set; }
 
 		private void SetConnected(bool isConnected)
 		{

@@ -10,6 +10,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 		public StartupSettingsViewModel()
 		{
 			Title = "Настройки подключения";
+			TopMost = true;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			RemotePort = GlobalSettingsHelper.GlobalSettings.RemotePort;
 			ReportRemotePort = GlobalSettingsHelper.GlobalSettings.ReportRemotePort;
@@ -29,7 +30,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 			return MonitorHelper.FindMonitor(StartupService.Instance.OwnerWindow.RestoreBounds);
 		}
 
-		private bool _autoConnect;
+		bool _autoConnect;
 		public bool AutoConnect
 		{
 			get { return _autoConnect; }
@@ -39,7 +40,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => AutoConnect);
 			}
 		}
-		private string _remoteAddress;
+		string _remoteAddress;
 		public string RemoteAddress
 		{
 			get { return _remoteAddress; }
@@ -49,7 +50,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => RemoteAddress);
 			}
 		}
-		private int _remotePort;
+		int _remotePort;
 		public int RemotePort
 		{
 			get { return _remotePort; }
@@ -59,7 +60,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => RemotePort);
 			}
 		}
-		private int _reportRemotePort;
+		int _reportRemotePort;
 		public int ReportRemotePort
 		{
 			get { return _reportRemotePort; }
@@ -69,7 +70,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => ReportRemotePort);
 			}
 		}
-		private string _login;
+		string _login;
 		public string Login
 		{
 			get { return _login; }
@@ -79,7 +80,7 @@ namespace Infrastructure.Client.Startup.ViewModels
 				OnPropertyChanged(() => Login);
 			}
 		}
-		private string _password;
+		string _password;
 		public string Password
 		{
 			get { return _password; }
