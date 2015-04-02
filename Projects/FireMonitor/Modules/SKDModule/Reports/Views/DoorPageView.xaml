@@ -23,8 +23,8 @@
 			</ListView.View>
 		</ListView>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<ToolBarButton Command="{Binding SelectAllCommand}" Background="{DynamicResource SelectAll}" ToolTip="Выделить всё" />
-			<ToolBarButton Command="{Binding SelectNoneCommand}" Background="{DynamicResource SelectNone}" ToolTip="Снять все выделения" />
+			<ToolBarButton Command="{Binding SelectAllCommand}" ImageSource="SelectAll" ToolTip="Выделить всё" />
+			<ToolBarButton Command="{Binding SelectNoneCommand}" ImageSource="SelectNone" ToolTip="Снять все выделения" />
 		</StackPanel>
 	</Grid>
 </UserControl>
