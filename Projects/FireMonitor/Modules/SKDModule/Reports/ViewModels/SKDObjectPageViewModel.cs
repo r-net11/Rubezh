@@ -17,7 +17,7 @@ namespace SKDModule.Reports.ViewModels
 	{
 		public SKDObjectPageViewModel()
 		{
-			Title = "Объекты СКД";
+			Title = "Объекты Страж";
 			BuildTree();
 			SelectAllCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = false; item.IsChecked = true; }));
 			SelectNoneCommand = new RelayCommand(() => RootFilters.ForEach(item => { item.IsChecked = true; item.IsChecked = false; }));

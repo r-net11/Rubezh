@@ -59,8 +59,6 @@
 				<File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
 				<?endif ?>
 
-				<!--<File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />-->
-
 				<File Id="Server.Microsoft.Sqlserver.Batchparser.dll" Name="Microsoft.Sqlserver.Batchparser.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 				<File Id="Server.Microsoft.SqlServer.BatchParserClient.dll" Name="Microsoft.SqlServer.BatchParserClient.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
 				<File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll" Name="Microsoft.SqlServer.ConnectionInfo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
@@ -135,6 +133,10 @@
 			<Component Id="AppData.Manual.pdf">
 				<File Id="Server.Manual.pdf" Name="Manual.pdf" Source="..\..\..\..\..\Deploy\Manual\" />
 			</Component>
+
+      <Component Id="Server.STRAZH_MODULE">
+        <File Id="AppData.StrazhSettings.xml" Name="StrazhSettings.xml" Source="..\..\..\..\..\Deploy\" />
+      </Component>
 		</DirectoryRef>
 
 	</Fragment>

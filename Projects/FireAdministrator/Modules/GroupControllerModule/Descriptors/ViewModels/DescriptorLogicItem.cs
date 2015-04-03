@@ -149,5 +149,10 @@ namespace GKModule.ViewModels
 				return null;
 			}
 		}
+
+		public bool IsPutBit
+		{
+			get { return FormulaOperation.FormulaOperationType == FormulaOperationType.PUTBIT; }
+		}
 	}
 }

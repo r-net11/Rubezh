@@ -95,6 +95,10 @@ namespace JournalModule.ViewModels
 			skdViewModel.IsExpanded = true;
 			RootFilters.Add(skdViewModel);
 
+			var videoViewModel = new FilterNameViewModel(JournalSubsystemType.Video);
+			videoViewModel.IsExpanded = true;
+			RootFilters.Add(videoViewModel);
+
 			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
 			{
 				var filterNameViewModel = new FilterNameViewModel(enumValue);
@@ -115,6 +119,10 @@ namespace JournalModule.ViewModels
 
 					case JournalSubsystemType.SKD:
 						skdViewModel.AddChild(filterNameViewModel);
+						break;
+
+					case JournalSubsystemType.Video:
+						videoViewModel.AddChild(filterNameViewModel);
 						break;
 				}
 			}

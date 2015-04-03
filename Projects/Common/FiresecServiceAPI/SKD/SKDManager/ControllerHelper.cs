@@ -10,7 +10,7 @@ namespace FiresecAPI.SKD
 			var driver = new SKDDriver()
 			{
 				UID = new Guid("93AFFD73-ACA8-421e-BA5B-1E5D3E5113B4"),
-				Name = "Контроллер СКД",
+				Name = "Контроллер Страж",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.Controller,
 				IsPlaceable = true

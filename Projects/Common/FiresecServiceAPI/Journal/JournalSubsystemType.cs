@@ -10,7 +10,7 @@ namespace FiresecAPI.Journal
 		[Description("ГК")]
 		GK,
 
-		[Description("СКД")]
+		[Description("Страж")]
 		SKD,
 
 		[Description("Видео")]

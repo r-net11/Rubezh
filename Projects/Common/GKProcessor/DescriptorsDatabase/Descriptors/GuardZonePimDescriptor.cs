@@ -63,7 +63,7 @@ namespace GKProcessor
 
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
 					formula.AddGetBit(stateBit, guardDevice.Device, databaseType);
-					var gotoFormulaOperation = formula.Add(FormulaOperationType.BR, 1, 100);
+					var gotoFormulaOperation = formula.Add(FormulaOperationType.BR, 1, 0);
 					var formulaNo = formula.FormulaOperations.Count;
 
 					switch (pimGuardZone.GuardZoneEnterMethod)
@@ -112,15 +112,19 @@ namespace GKProcessor
 							break;
 					}
 
+					if (count > 0)
+					{
+						formula.Add(FormulaOperationType.OR);
+					}
 					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo);
 				}
 				else
 				{
 					formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, databaseType);
-				}
-				if (count > 0)
-				{
-					formula.Add(FormulaOperationType.OR);
+					if (count > 0)
+					{
+						formula.Add(FormulaOperationType.OR);
+					}
 				}
 				count++;
 			}

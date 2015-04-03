@@ -9,7 +9,6 @@
   <?define BrandName="Глобал"?>
   <?define ServerName="FiresecService"?>
   <?define MonitorName="FireMonitor"?>
-  <?define ManagementConsoleName="ManagementConsole"?>
   <?define AdministratorName="FireAdministrator"?>
   <?define ConfigurationFolder="Configuration"?>
   <?define SoundsFolder="Sounds"?>

@@ -66,7 +66,7 @@ namespace StrazhModule.ViewModels
 			var result = FiresecManager.FiresecService.SKDRebootController(Device);
 			if (result.Result)
 			{
-				MessageBoxService.Show("Операция завершилась успешно");
+				MessageBoxService.Show("Выполняется перезагрузка контроллера. Контроллер будет доступен через несколько секунд");
 			}
 			else
 			{
