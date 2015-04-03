@@ -251,8 +251,9 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
-		public DateTime MaxDate { get { return DateTime.Now; } }
-
+		//public DateTime MaxDate { get { return DateTime.Now; } }
+		public DateTime MaxDate { get { return DateTime.Today.AddDays(1).AddSeconds(-1); } }
+		
 		private bool _hasArchive;
 		public bool HasArchive
 		{
