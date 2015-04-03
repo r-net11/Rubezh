@@ -24,7 +24,7 @@ namespace GKProcessor
 			}
 		}
 
-		public void Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, GKBase gkBase = null, string comment = null)
+		public FormulaOperation Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, GKBase gkBase = null, string comment = null)
 		{
 			var formulaOperation = new FormulaOperation()
 			{
@@ -35,6 +35,7 @@ namespace GKProcessor
 				Comment = comment
 			};
 			FormulaOperations.Add(formulaOperation);
+			return formulaOperation;
 		}
 
 		public void AddGetBitOff(GKStateBit stateBit, GKBase gkBase, DatabaseType dataBaseType)

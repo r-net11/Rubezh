@@ -136,21 +136,29 @@ namespace GKProcessor
 				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					GKCodeReaderSettingsPart settingsPart = null;
+					var level = 0;
 					switch (commandStateBit)
 					{
 						case GKStateBit.TurnOn_InAutomatic:
 							settingsPart = guardDevice.CodeReaderSettings.SetGuardSettings;
+							level = GuardZone.SetGuardLevel;
 							break;
 
 						case GKStateBit.TurnOff_InAutomatic:
 							settingsPart = guardDevice.CodeReaderSettings.ResetGuardSettings;
+							level = GuardZone.ResetGuardLevel;
 							break;
 
 						case GKStateBit.Fire1:
 							settingsPart = guardDevice.CodeReaderSettings.AlarmSettings;
+							level = -1;
 							break;
 					}
+
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
+					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
+					var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 1, 100);
+					var formulaNo = Formula.FormulaOperations.Count;
 
 					switch (GuardZone.GuardZoneEnterMethod)
 					{
@@ -170,7 +178,10 @@ namespace GKProcessor
 							break;
 
 						case GKGuardZoneEnterMethod.UserOnly:
-							Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
+							if (level >= 0)
+							{
+								Formula.Add(FormulaOperationType.ACS, (byte)level, guardDevice.Device.GKDescriptorNo);
+							}
 							break;
 
 						case GKGuardZoneEnterMethod.Both:
@@ -186,16 +197,18 @@ namespace GKProcessor
 								}
 								codeIndex++;
 							}
-							Formula.Add(FormulaOperationType.ACS, (byte)GuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
-							if (codeIndex > 0)
+							if (level >= 0)
 							{
-								Formula.Add(FormulaOperationType.OR);
+								Formula.Add(FormulaOperationType.ACS, (byte)level, guardDevice.Device.GKDescriptorNo);
+								if (codeIndex > 0)
+								{
+									Formula.Add(FormulaOperationType.OR);
+								}
 							}
 							break;
 					}
 
-					Formula.AddGetBit(stateBit, guardDevice.Device, DatabaseType);
-					Formula.Add(FormulaOperationType.AND);
+					gotoFormulaOperation.SecondOperand = (ushort)(Formula.FormulaOperations.Count - formulaNo);
 				}
 				else
 				{

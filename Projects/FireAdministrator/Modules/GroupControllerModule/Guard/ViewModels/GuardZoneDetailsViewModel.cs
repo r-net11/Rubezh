@@ -63,7 +63,6 @@ namespace GKModule.ViewModels
 			SelectedGuardZoneEnterMethod = Zone.GuardZoneEnterMethod;
 			SetGuardLevel = Zone.SetGuardLevel;
 			ResetGuardLevel = Zone.ResetGuardLevel;
-			SetAlarmLevel = Zone.SetAlarmLevel;
 			SetDelay = Zone.SetDelay;
 			ResetDelay = Zone.ResetDelay;
 			AlarmDelay = Zone.AlarmDelay;
@@ -138,17 +137,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		int _setAlarmLevel;
-		public int SetAlarmLevel
-		{
-			get { return _setAlarmLevel; }
-			set
-			{
-				_setAlarmLevel = value;
-				OnPropertyChanged(() => SetAlarmLevel);
-			}
-		}
-
 		int _setDelay;
 		public int SetDelay
 		{
@@ -215,7 +203,6 @@ namespace GKModule.ViewModels
 			Zone.GuardZoneEnterMethod = SelectedGuardZoneEnterMethod;
 			Zone.SetGuardLevel = SetGuardLevel;
 			Zone.ResetGuardLevel = ResetGuardLevel;
-			Zone.SetAlarmLevel = SetAlarmLevel;
 			Zone.SetDelay = SetDelay;
 			Zone.ResetDelay = ResetDelay;
 			Zone.AlarmDelay = AlarmDelay;
@@ -256,7 +243,6 @@ namespace GKModule.ViewModels
 			Zone.AlarmDelay = AlarmDelay;
 			Zone.ResetDelay = ResetDelay;
 			Zone.SetDelay = SetDelay;
-			Zone.SetAlarmLevel = SetAlarmLevel;
 			Zone.ResetGuardLevel = ResetGuardLevel;
 			Zone.SetGuardLevel = SetGuardLevel;
 
