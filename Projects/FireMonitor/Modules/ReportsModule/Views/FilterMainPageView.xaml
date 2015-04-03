@@ -58,10 +58,10 @@
                       DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
 -->
 			<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
-						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
+						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" AllowSpinOnMouseWheel="True"
 						  DateTime="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}"
 						  MinValue="{Binding MinDate, Mode=OneWay}"
-						  MaxValue="{Binding MaxDate, Mode=OneWay}" />
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" Margin="2" Padding="4,3" />
 <!--
 			<Calendar Grid.Row="2" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left" 
                       DisplayDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" 
@@ -71,7 +71,7 @@
 						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
 						  DateTime="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}"
 						  MinValue="{Binding MinDate, Mode=OneWay}"
-						  MaxValue="{Binding MaxDate, Mode=OneWay}" />
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" Padding="4,3" Margin="2" />
 
 		</Grid>
 		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />

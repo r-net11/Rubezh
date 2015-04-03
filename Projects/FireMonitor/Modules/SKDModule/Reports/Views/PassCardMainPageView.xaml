@@ -22,6 +22,6 @@
 -->
 		<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" IsEnabled="{Binding IsExpirationArbitrary}"
 					  Mask="dd.MM.yyyy" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
-					  DateTime="{Binding ExpirationDate}" />
+					  DateTime="{Binding ExpirationDate}" Margin="2" Padding="4,3" />
 	</Grid>
 </UserControl>
