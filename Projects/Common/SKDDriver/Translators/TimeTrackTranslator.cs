@@ -134,7 +134,19 @@ namespace SKDDriver.Translators
 					dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
 					dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
 
-					var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, date);
+					var realDate = date;
+					var ignoreHolidays = false;
+					var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+					if (holiday != null)
+					{
+						if (holiday.TransferDate.HasValue)
+						{
+							realDate = holiday.TransferDate.Value;
+							ignoreHolidays = true;
+						}
+					}
+
+					var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, realDate, ignoreHolidays);
 					dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackPart.TimeTrackParts;
 					dayTimeTrack.IsHoliday = plannedTimeTrackPart.IsHoliday;
 					dayTimeTrack.HolidayReduction = plannedTimeTrackPart.HolidayReduction;
@@ -147,7 +159,7 @@ namespace SKDDriver.Translators
 			return timeTrackEmployeeResult;
 		}
 
-		PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date)
+		PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date, bool ignoreHolidays)
 		{
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
@@ -216,22 +228,25 @@ namespace SKDDriver.Translators
 			if (dayInterval != null)
 				result.SlideTime = TimeSpan.FromSeconds(dayInterval.SlideTime);
 
-			if (!schedule.IsIgnoreHoliday)
+			if (!ignoreHolidays)
 			{
-				var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
-				if (holiday != null)
+				if (!schedule.IsIgnoreHoliday)
 				{
-					result.IsHoliday = true;
-				}
-				holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
-				if (holiday != null)
-				{
-					result.HolidayReduction = holiday.Reduction;
-				}
-				holiday = Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
-				if (holiday != null)
-				{
-					result.IsHoliday = true;
+					var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+					if (holiday != null)
+					{
+						result.IsHoliday = true;
+					}
+					holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+					if (holiday != null)
+					{
+						result.HolidayReduction = holiday.Reduction;
+					}
+					holiday = Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+					if (holiday != null)
+					{
+						result.IsHoliday = true;
+					}
 				}
 			}
 

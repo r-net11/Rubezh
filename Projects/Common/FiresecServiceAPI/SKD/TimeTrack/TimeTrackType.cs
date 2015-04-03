@@ -37,7 +37,7 @@ namespace FiresecAPI.SKD
 		[Description("Выходной")]
 		DayOff,
 
-		[Description("Сокращённый день")]
+		[Description("Праздничный день")]
 		Holiday,
 
 		[Description("Переработка по документу")]
