@@ -10,7 +10,7 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDoors}" SelectedItem="{Binding SelectedTargetDoor}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDoors}" SelectedItem="{Binding SelectedTargetDoor}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -27,23 +27,23 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" />
+								<Image Margin="1 0 0 0" Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные задкржки" Width="*" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные точки доступа" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" ImageSource="leftLeft"  />
-			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" ImageSource="rightRight"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные точки доступа" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные точки доступа" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все точки доступа" ImageSource="leftLeft"  />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все точки доступа" ImageSource="rightRight"  />
 		</StackPanel>
-        <DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDoors}" SelectedItem="{Binding SelectedSourceDoor}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDoors}" SelectedItem="{Binding SelectedSourceDoor}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -60,13 +60,13 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" />
+								<Image Margin="1 0 0 0" Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Задержки" Width="*" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Точки доступа" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>

@@ -160,6 +160,10 @@ namespace GKModule.ViewModels
 						case XStateClass.Ignore:
 							alarms.Add(new Alarm(GKAlarmType.Ignore, door));
 							break;
+
+						case XStateClass.AutoOff:
+							alarms.Add(new Alarm(GKAlarmType.AutoOff, door));
+							break;
 					}
 				}
 			}

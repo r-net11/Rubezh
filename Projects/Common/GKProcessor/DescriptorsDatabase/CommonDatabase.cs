@@ -61,7 +61,7 @@ namespace GKProcessor
 
 		public void AddPim(GKPim pim)
 		{
-			if (!Pims.Contains(pim))
+			if (!Pims.Contains(pim) && pim != null)
 			{
 				if (DatabaseType == DatabaseType.Gk)
 				{

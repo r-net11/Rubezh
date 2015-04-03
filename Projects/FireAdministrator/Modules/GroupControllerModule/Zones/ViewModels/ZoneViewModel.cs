@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -46,7 +44,7 @@ namespace GKModule.ViewModels
 		}
 		public bool IsOnPlan
 		{
-			get { return Zone.PlanElementUIDs.Count > 0; }
+			get { return Zone.PlanElementUIDs != null && Zone.PlanElementUIDs.Count > 0; }
 		}
 		public void Update(GKZone zone)
 		{
