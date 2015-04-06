@@ -104,8 +104,8 @@ namespace SKDDriver.Translators
 		{
 			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID && 
 				x.EmployeeUID == passJournalItem.EmployeeUID &&
-				(x.EnterTime <= passJournalItem.EnterTime && x.ExitTime >= passJournalItem.EnterTime ||
-					x.EnterTime <= passJournalItem.ExitTime && x.ExitTime >= passJournalItem.ExitTime));
+				(x.EnterTime < passJournalItem.EnterTime && x.ExitTime > passJournalItem.EnterTime ||
+					x.EnterTime < passJournalItem.ExitTime && x.ExitTime > passJournalItem.ExitTime));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)
@@ -250,7 +250,7 @@ namespace SKDDriver.Translators
 
 			return dayTimeTrack;
 		}
-
+		
 		public OperationResult SaveEmployeeDays(List<EmployeeDay> employeeDays)
 		{
 			try

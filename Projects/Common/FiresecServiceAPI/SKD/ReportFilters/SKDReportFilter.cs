@@ -54,6 +54,6 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool PrintUser { get; set; }
 
 		public bool IsDefault { get { return Name == DefaultFilterName; } }
-		string DefaultFilterName { get { return "По умалчанию"; } }
+		string DefaultFilterName { get { return "По умолчанию"; } }
 	}
 }

@@ -67,7 +67,7 @@ namespace FiresecService.Report.Templates
 				organisations = organisations.Where(org => !org.Value.IsDeleted);
 			if (filter.Organisations.IsEmpty())
 			{
-				if(filter.Name == "По умолчанию")
+				if(filter.IsDefault)
 					organisationUID = organisations.FirstOrDefault().Key;
 			}
 			else
