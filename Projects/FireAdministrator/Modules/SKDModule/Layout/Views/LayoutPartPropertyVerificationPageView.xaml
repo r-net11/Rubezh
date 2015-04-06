@@ -8,7 +8,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Адрес" Width="*">
+            <DataGridTemplateColumn Header="Адрес" Width="Auto">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Address}" Margin="2" />

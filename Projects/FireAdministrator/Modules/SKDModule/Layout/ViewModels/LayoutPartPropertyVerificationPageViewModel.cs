@@ -108,7 +108,9 @@ namespace SKDModule.ViewModels
 			GKDevice = gkDevice;
 			UID = gkDevice.UID;
 			Name = gkDevice.Driver.ShortName;
-			Address = gkDevice.PresentationAddress;
+			if (!string.IsNullOrEmpty(gkDevice.Description))
+				Name += " (" + gkDevice.Description + ")";
+			Address = gkDevice.DottedAddress;
 		}
 	}
 }

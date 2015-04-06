@@ -32,8 +32,12 @@ namespace ReportsModule.ViewModels
 
 		public void CreateClient()
 		{
-			var endpoint = new EndpointAddress(ConnectionSettingsManager.ReportServerAddress);
-			var binding = BindingHelper.CreateBindingFromAddress(ConnectionSettingsManager.ReportServerAddress);
+			var address = GlobalSettingsHelper.GlobalSettings.RemoteAddress;
+			if (string.IsNullOrEmpty(address) || address == "localhost" || address == "127.0.0.1")
+				address = ConnectionSettingsManager.GetIPAddress();
+			var reportServerAddress = "net.tcp://" + address + ":" + GlobalSettingsHelper.GlobalSettings.ReportRemotePort.ToString() + "/ReportFiresecService/";
+			var endpoint = new EndpointAddress(reportServerAddress);
+			var binding = BindingHelper.CreateBindingFromAddress(reportServerAddress);
 			var factory = new ReportServiceClientFactory(endpoint, binding);
 			Model = new XReportServicePreviewModel()
 			{
