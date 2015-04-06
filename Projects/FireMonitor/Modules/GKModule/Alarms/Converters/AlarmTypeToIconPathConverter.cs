@@ -17,7 +17,7 @@ namespace GKModule.Converters
 					break;
 
 				case GKAlarmType.GuardAlarm:
-					alarmName = "Alarm_Main_0_Fire1";
+					alarmName = "Shield";
 					break;
 
 				case GKAlarmType.Fire1:

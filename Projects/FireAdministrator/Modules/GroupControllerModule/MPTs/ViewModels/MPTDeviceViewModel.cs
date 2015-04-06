@@ -17,6 +17,7 @@ namespace GKModule.ViewModels
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
+			Device.OnChanged();
 			MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(Device, false);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
@@ -31,6 +32,7 @@ namespace GKModule.ViewModels
 				if (_device != null)
 				{
 					Device.Changed -= OnChanged;
+					Device.OnChanged();
 					Device.Changed += OnChanged;
 					IsCodeReader = _device.DriverType == GKDriverType.RSR2_CodeReader || _device.DriverType == GKDriverType.RSR2_CardReader;
 				}

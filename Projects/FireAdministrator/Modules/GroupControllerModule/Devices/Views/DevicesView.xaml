@@ -305,7 +305,7 @@
 							</TextBlock>
 						</WrapPanel>
 
-						<StackPanel Orientation="Horizontal" Visibility="{Binding Device.IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
+						<StackPanel Orientation="Horizontal" Visibility="{Binding IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock Width="120" Margin="2 2 5 2" Foreground="{DynamicResource ForegroundColorLight}" Text="МПТ " />
 							
 							<TextBlock VerticalAlignment="Center">

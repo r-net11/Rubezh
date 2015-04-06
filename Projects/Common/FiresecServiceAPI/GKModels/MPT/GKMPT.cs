@@ -20,7 +20,6 @@ namespace FiresecAPI.GK
 			SuspendLogic = new GKLogic();
 			MPTDevices = new List<GKMPTDevice>();
 			Delay = 60;
-			Devices = new List<GKDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
 
@@ -34,9 +33,6 @@ namespace FiresecAPI.GK
 				_isLogicOnKau = value;
 			}
 		}
-
-		[XmlIgnore]
-		public List<GKDevice> Devices { get; set; }
 
 		/// <summary>
 		/// Время задержки на включение

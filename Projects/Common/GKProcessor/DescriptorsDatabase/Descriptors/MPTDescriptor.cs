@@ -110,10 +110,11 @@ namespace GKProcessor
 							Formula.Add(FormulaOperationType.OR);
 						}
 						codeIndex++;
-						hasOR = true;
 					}
-					if (hasOR && settingsPart.CodeUIDs.Count > 0)
+					if (hasOR)
 						Formula.Add(FormulaOperationType.OR);
+					if (codeIndex > 0)
+						hasOR = true;
 				}
 				else
 				{

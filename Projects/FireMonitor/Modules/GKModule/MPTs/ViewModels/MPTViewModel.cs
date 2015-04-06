@@ -30,9 +30,9 @@ namespace GKModule.ViewModels
 			OnStateChanged();
 
 			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in MPT.Devices)
+			foreach (var mptDevice in MPT.MPTDevices)
 			{
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == mptDevice.DeviceUID);
 				Devices.Add(deviceViewModel);
 			}
 		}
