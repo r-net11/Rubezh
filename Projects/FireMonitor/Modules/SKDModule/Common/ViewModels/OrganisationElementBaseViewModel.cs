@@ -137,15 +137,23 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => IsDeleted);
 			OnPropertyChanged(() => RemovalDate);
 		}
+
+		public bool IsWithDeleted { get { return (ParentViewModel as IOrganisationBaseViewModel).IsWithDeleted; } }
 	}
 
 	public interface IOrganisationElementViewModel
 	{
 		bool IsDeleted { get; set; }
 		bool IsOrganisationDeleted { get; set; }
+		bool IsWithDeleted { get; }
 		Guid UID { get; }
 		Guid OrganisationUID { get; }
 		string Name { get; }
 		string Description { get; }
+	}
+
+	public interface IOrganisationBaseViewModel
+	{
+		bool IsWithDeleted { get; set; }
 	}
 }

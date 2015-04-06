@@ -28,41 +28,25 @@
 				<Label Grid.Row="2" Grid.Column="0" Content="Руководитель" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<TextBlock VerticalAlignment="Center">
-							<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding ChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
-								<TextBlock>
-									<TextBlock.Style>
-										<Style>
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding ChiefViewModel.HasSelected}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора руководителя" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
-								</TextBlock>
-							</Hyperlink>
-						</TextBlock>
+						<Hyperlink Command="{Binding ChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding ChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" 
+                                       Visibility="{Binding ChiefViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Text="Нажмите для выбора руководителя" TextDecorations="Underline" 
+                                       Visibility="{Binding ChiefViewModel.HasSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						</Hyperlink>
+					</TextBlock>
 				</StackPanel>
 
 				<Label Grid.Row="3" Grid.Column="0" Content="Руководитель отдела кадров" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 				<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsNew, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 					<TextBlock VerticalAlignment="Center">
-							<Hyperlink Command="{Binding HRChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding HRChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" />
-								<TextBlock>
-									<TextBlock.Style>
-										<Style>
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding HRChiefViewModel.HasSelected}" Value="false">
-													<Setter Property="TextBlock.Text" Value="Нажмите для выбора руководителя отдела кадров" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
-								</TextBlock>
-							</Hyperlink>
-						</TextBlock>
+                        <Hyperlink Command="{Binding HRChiefViewModel.SelectCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding HRChiefViewModel.SelectedEmployee.Name}" TextDecorations="Underline" 
+                                       Visibility="{Binding HRChiefViewModel.HasSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <TextBlock Text="Нажмите для выбора руководителя" TextDecorations="Underline" 
+                                       Visibility="{Binding HRChiefViewModel.HasSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+						</Hyperlink>
+					</TextBlock>
 				</StackPanel>
 
 				<Label Grid.Row="4" Grid.Column="0" Content="Телефон" Margin="2" HorizontalAlignment="Right" />

@@ -15,7 +15,7 @@ using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class OrganisationBaseViewModel<TModel, TFilter, TViewModel, TDetailsViewModel> : ViewPartViewModel, IEditingBaseViewModel
+	public abstract class OrganisationBaseViewModel<TModel, TFilter, TViewModel, TDetailsViewModel> : ViewPartViewModel, IEditingBaseViewModel, IOrganisationBaseViewModel
 		where TViewModel : OrganisationElementViewModel<TViewModel, TModel>, new()
 		where TModel : class, IOrganisationElement, new()
 		where TDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<TModel>, new()
@@ -329,7 +329,7 @@ namespace SKDModule.ViewModels
 			{
 				RemoveSelectedViewModel();
 			}
-			AfterRemove();
+			AfterRemove(model);
 		}
 		void RemoveSelectedViewModel()
 		{
@@ -352,7 +352,7 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedItem != null && !SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && IsEditAllowed;
 		}
-		protected virtual void AfterRemove() { }
+		protected virtual void AfterRemove(TModel model) { }
 		protected virtual string ItemRemovingName
 		{
 			get { return "запись"; }
@@ -375,13 +375,13 @@ namespace SKDModule.ViewModels
 				return;
 			SelectedItem.IsDeleted = false;
 			SelectedItem.RemovalDate = "";
-			AfterRestore();
+			AfterRestore(SelectedItem.Model);
 		}
 		bool CanRestore()
 		{
 			return SelectedItem != null && SelectedItem.IsDeleted && !SelectedItem.IsOrganisation && ParentOrganisation != null && !ParentOrganisation.IsDeleted && IsEditAllowed;
 		}
-		protected virtual void AfterRestore() { }
+		protected virtual void AfterRestore(TModel model) { }
 
 		public RelayCommand EditCommand { get; private set; }
 		protected virtual void OnEdit()

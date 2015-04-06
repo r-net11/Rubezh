@@ -42,8 +42,7 @@ namespace FiresecService.Report.Templates
 			}
 
 			var cardFilter = new CardFilter();
-			if (dataProvider.IsEmployeeFilter(filter))
-				cardFilter.EmployeeFilter = dataProvider.GetEmployeeFilter(filter);
+			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
 			if (filter.PassCardForcing)
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)

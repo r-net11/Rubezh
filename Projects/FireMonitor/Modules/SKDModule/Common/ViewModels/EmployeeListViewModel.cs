@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -119,7 +119,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return !_parent.IsDeleted && SelectedEmployee != null && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
+			return !_parent.IsDeleted && SelectedEmployee != null && !SelectedEmployee.IsDeleted && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_Edit);
 		}
 
 		protected abstract bool AddToParent(ShortEmployee employee);
@@ -153,7 +153,10 @@ namespace SKDModule.ViewModels
 				var shortEmployee = EmployeeHelper.GetSingleShort(employeeUID);
 				if (shortEmployee != null)
 				{
-					employeeListItemViewModel.Update(shortEmployee);
+					if (shortEmployee.IsDeleted && !_parent.IsWithDeleted)
+						Employees.Remove(employeeListItemViewModel);
+					else
+						employeeListItemViewModel.Update(shortEmployee);
 				}
 			}
 		}

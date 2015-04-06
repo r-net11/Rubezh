@@ -191,14 +191,14 @@ namespace SKDModule.ViewModels
 
 		public bool HasSelectedDepartment
 		{
-			get { return SelectedDepartment != null && (_isWithDeleted || !SelectedDepartment.IsDeleted); }
+			get { return SelectedDepartment != null && !SelectedDepartment.IsDeleted; }
 		}
 
 		ShortEmployee selectedEscort;
 		public ShortEmployee SelectedEscort
 		{
 			get { return selectedEscort; }
-			private set
+			private set 
 			{
 				selectedEscort = value;
 				OnPropertyChanged(() => SelectedEscort);
@@ -208,7 +208,7 @@ namespace SKDModule.ViewModels
 
 		public bool HasSelectedEscort
 		{
-			get { return SelectedEscort != null; }
+			get { return SelectedEscort != null && !SelectedEscort.IsDeleted; }
 		}
 
 		ShortPosition _selectedPosition;
@@ -224,7 +224,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool HasSelectedPosition
 		{
-			get { return SelectedPosition != null && (_isWithDeleted || !SelectedPosition.IsDeleted); }
+			get { return SelectedPosition != null && !SelectedPosition.IsDeleted; }
 		}
 
 		ShortSchedule _selectedSchedule;
@@ -241,7 +241,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool HasSelectedSchedule
 		{
-			get { return SelectedSchedule != null && (_isWithDeleted || !SelectedSchedule.IsDeleted); }
+			get { return SelectedSchedule != null && !SelectedSchedule.IsDeleted; }
 		}
 
 		DateTime _scheduleStartDate;

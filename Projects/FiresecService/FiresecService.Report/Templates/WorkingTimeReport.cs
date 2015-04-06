@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using FiresecAPI.SKD;
@@ -32,7 +31,7 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<WorkingTimeReportFilter>();
 
 			var employeeFilter = dataProvider.GetEmployeeFilter(filter);
-			var employees = dataProvider.GetEmployees(employeeFilter);
+			var employees = dataProvider.GetEmployees(employeeFilter, filter.IsDefault);
 			if (filter.IsSearch)
 			{
 				employeeFilter.FirstName = filter.FirstName;

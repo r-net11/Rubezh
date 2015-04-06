@@ -40,17 +40,7 @@
 			            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditPosition, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock VerticalAlignment="Center">
 					            <Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock.Style>
-								            <Style>
-									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding SelectedPosition.IsDeleted}" Value="true">
-											            <Setter Property="TextBlock.Foreground" Value="Gray" />
-										            </DataTrigger>
-									            </Style.Triggers>
-								            </Style>
-							            </TextBlock.Style>
-                                    </TextBlock>
+						            <TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <TextBlock Text="Нажмите для выбора должности" Visibility="{Binding HasSelectedPosition, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 							    </Hyperlink>
 				            </TextBlock>
@@ -60,17 +50,7 @@
 			            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding CanEditDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
 				            <TextBlock VerticalAlignment="Center">
 					            <Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock.Style>
-								            <Style>
-									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding SelectedDepartment.IsDeleted}" Value="true">
-											            <Setter Property="TextBlock.Foreground" Value="Gray" />
-										            </DataTrigger>
-									            </Style.Triggers>
-								            </Style>
-							            </TextBlock.Style>
-                                    </TextBlock>
+						            <TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <TextBlock Text="Нажмите для выбора подразделения" Visibility="{Binding HasSelectedDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 					            </Hyperlink>
 				            </TextBlock>
@@ -107,17 +87,7 @@
                         <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock VerticalAlignment="Center">
 					            <Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
-						            <TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock.Style>
-								            <Style>
-									            <Style.Triggers>
-										            <DataTrigger Binding="{Binding SelectedSchedule.IsDeleted}" Value="true">
-											            <Setter Property="TextBlock.Foreground" Value="Gray" />
-										            </DataTrigger>
-									            </Style.Triggers>
-								            </Style>
-							            </TextBlock.Style>
-                                    </TextBlock>
+						            <TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <TextBlock Text="Нажмите для выбора графика работы" Visibility="{Binding HasSelectedSchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 					            </Hyperlink>
 				            </TextBlock>
