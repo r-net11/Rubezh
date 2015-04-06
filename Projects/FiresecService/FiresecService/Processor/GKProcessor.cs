@@ -77,6 +77,7 @@ namespace FiresecService
 			{
 				foreach (var journalItem in gkCallbackResult.JournalItems)
 				{
+					ProcessPassJournal(journalItem);
 					FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 				}
 			}
@@ -108,6 +109,34 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 
 			ProcedureRunner.RunOnStateChanged();
+		}
+
+		static void ProcessPassJournal(JournalItem journalItem)
+		{
+			if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
+			{
+				Guid? zoneUID = null;
+				var door = GKManager.Doors.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+				if (door != null)
+				{
+					if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Вход_Глобал)
+					{
+						zoneUID = door.EnterZoneUID;
+					}
+					else if (journalItem.JournalEventDescriptionType == JournalEventDescriptionType.Выход_Глобал)
+					{
+						zoneUID = door.ExitZoneUID;
+					}
+				}
+
+				if (zoneUID.HasValue)
+				{
+					using (var passJournalTranslator = new PassJournalTranslator())
+					{
+						passJournalTranslator.AddPassJournal(journalItem.EmployeeUID, zoneUID.Value);
+					}
+				}
+			}
 		}
 
 		static void ChackPendingCards(GKCallbackResult gkCallbackResult)

@@ -36,13 +36,16 @@ namespace SKDDriver.Translators
 				{
 					exitPassJournal.ExitTime = DateTime.Now;
 				}
-				var enterPassJournal = new DataAccess.PassJournal();
-				enterPassJournal.UID = Guid.NewGuid();
-				enterPassJournal.EmployeeUID = employeeUID;
-				enterPassJournal.ZoneUID = zoneUID;
-				enterPassJournal.EnterTime = DateTime.Now;
-				enterPassJournal.ExitTime = null;
-				Context.PassJournals.InsertOnSubmit(enterPassJournal);
+				if (zoneUID != Guid.Empty)
+				{
+					var enterPassJournal = new DataAccess.PassJournal();
+					enterPassJournal.UID = Guid.NewGuid();
+					enterPassJournal.EmployeeUID = employeeUID;
+					enterPassJournal.ZoneUID = zoneUID;
+					enterPassJournal.EnterTime = DateTime.Now;
+					enterPassJournal.ExitTime = null;
+					Context.PassJournals.InsertOnSubmit(enterPassJournal);
+				}
 				Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -148,26 +151,26 @@ namespace SKDDriver.Translators
 
 		public void InvalidatePassJournal()
 		{
-			try
-			{
-				var hasChanges = false;
-				var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
-				foreach (var emptyExitPassJournal in emptyExitPassJournals)
-				{
-					var enterTime = emptyExitPassJournal.EnterTime;
-					var nowTime = DateTime.Now;
-					if (nowTime.Date > enterTime.Date)
-					{
-						emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
-						hasChanges = true;
-					}
-				}
-				if (hasChanges)
-				{
-					Context.SubmitChanges();
-				}
-			}
-			catch { }
+			//try
+			//{
+			//    var hasChanges = false;
+			//    var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
+			//    foreach (var emptyExitPassJournal in emptyExitPassJournals)
+			//    {
+			//        var enterTime = emptyExitPassJournal.EnterTime;
+			//        var nowTime = DateTime.Now;
+			//        if (nowTime.Date > enterTime.Date)
+			//        {
+			//            emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
+			//            hasChanges = true;
+			//        }
+			//    }
+			//    if (hasChanges)
+			//    {
+			//        Context.SubmitChanges();
+			//    }
+			//}
+			//catch { }
 		}
 
 		public void InsertPassJournalTestData()

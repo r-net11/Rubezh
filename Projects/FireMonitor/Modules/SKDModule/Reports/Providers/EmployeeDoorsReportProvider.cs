@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI.SKD.ReportFilters;
+using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
 using SKDModule.Reports.ViewModels;
 
@@ -32,7 +33,7 @@ namespace SKDModule.Reports.Providers
 				},
 				Pages = new List<FilterContainerViewModel>()
 				{
-					new PassCardTypePageViewModel(),
+					new PassCardTypePageViewModel() { IsActive = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand },
 					new ZonePageViewModel(),
 					new SchedulePageViewModel(),
 					new OrganizationPageViewModel(true),

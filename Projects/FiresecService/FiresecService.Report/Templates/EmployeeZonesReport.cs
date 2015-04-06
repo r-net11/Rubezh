@@ -71,6 +71,11 @@ namespace FiresecService.Report.Templates
 				dataRow.ExitDateTime = record.ExitTime.Value;
 				dataRow.Period = dataRow.ExitDateTime - dataRow.EnterDateTime;
 			}
+			else
+			{
+				dataRow.ExitDateTime = filter.ReportDateTime;
+				dataRow.Period = filter.ReportDateTime - dataRow.EnterDateTime;
+			}
 			ds.Data.Rows.Add(dataRow);
 		}
 

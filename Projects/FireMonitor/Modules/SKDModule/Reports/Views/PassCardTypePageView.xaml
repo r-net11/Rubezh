@@ -6,26 +6,16 @@
 		</Style>
 	</UserControl.Resources>
 	<Grid Margin="20">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="30" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Активные пропуска" IsChecked="{Binding PassCardActive}" />
-		<CheckBox Grid.Row="1" Grid.Column="1" Content="Постоянный" IsChecked="{Binding PassCardPermanent}" IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" />
-		<CheckBox Grid.Row="2" Grid.Column="1" Content="Временный" IsChecked="{Binding PassCardTemprorary}" IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" />
-		<CheckBox Grid.Row="3" Grid.Column="1" Content="Разовый" IsChecked="{Binding PassCardOnceOnly}" IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" />
-		<CheckBox Grid.Row="4" Grid.Column="1" Content="Принуждение" IsChecked="{Binding PassCardForcing}" IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" />
-		<CheckBox Grid.Row="5" Grid.Column="1" Content="Заблокированный" IsChecked="{Binding PassCardLocked}" IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" />
-		<CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Деактивированный" IsChecked="{Binding PassCardInactive}" Visibility="{Binding AllowInactive, Converter={StaticResource BoolToVisibilityConverter}}"/>
-	</Grid>
+        <StackPanel>
+		<CheckBox Content="Активные пропуска" IsChecked="{Binding PassCardActive}" />
+            <StackPanel IsEnabled="{Binding PassCardActive, Converter={StaticResource InverseBooleanConverter}}" Visibility="{Binding CanSelectActiveTypes, Converter={StaticResource BoolToVisibilityConverter}}" Margin="30 0 0 0">
+                <CheckBox Content="Постоянный" IsChecked="{Binding PassCardPermanent}" />
+                <CheckBox Content="Временный" IsChecked="{Binding PassCardTemprorary}" />
+                <CheckBox Content="Разовый" IsChecked="{Binding PassCardOnceOnly}" />
+                <CheckBox Content="Принуждение" IsChecked="{Binding PassCardForcing}" />
+                <CheckBox Content="Заблокированный" IsChecked="{Binding PassCardLocked}" />
+            </StackPanel>
+            <CheckBox Content="Деактивированный" IsChecked="{Binding PassCardInactive}" Visibility="{Binding AllowInactive, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

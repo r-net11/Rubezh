@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.SKD.ReportFilters;
+﻿using FiresecAPI.SKD.ReportFilters;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.SKDReports
 {
 	public abstract class FilterContainerViewModel : BaseViewModel
 	{
+		public FilterContainerViewModel()
+		{
+			IsActive = true;
+		}
+
 		string _title;
 		public string Title
 		{
@@ -29,6 +30,8 @@ namespace Infrastructure.Common.SKDReports
 				OnPropertyChanged(() => ImageSource);
 			}
 		}
+
+		public bool IsActive { get; set; }
 
 		public abstract void LoadFilter(SKDReportFilter filter);
 		public abstract void UpdateFilter(SKDReportFilter filter);
