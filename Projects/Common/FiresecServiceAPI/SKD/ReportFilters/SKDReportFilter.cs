@@ -8,7 +8,7 @@ namespace FiresecAPI.SKD.ReportFilters
 	{
 		public SKDReportFilter()
 		{
-			Name = "По умолчанию";
+			Name = DefaultFilterName;
 
 			PrintFilterName = true;
 			PrintFilterNameInHeader = false;
@@ -52,5 +52,8 @@ namespace FiresecAPI.SKD.ReportFilters
 		public bool PrintDate { get; set; }
 		[DataMember]
 		public bool PrintUser { get; set; }
+
+		public bool IsDefault { get { return Name == DefaultFilterName; } }
+		string DefaultFilterName { get { return "По умалчанию"; } }
 	}
 }

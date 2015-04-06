@@ -28,9 +28,8 @@ namespace FiresecService.Report.Templates
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<DisciplineReportFilter>();
-
 			var employeeFilter = dataProvider.GetEmployeeFilter(filter);
-			var employees = dataProvider.GetEmployees(employeeFilter);
+			var employees = dataProvider.GetEmployees(employeeFilter, filter.IsDefault);
 			var timeTrackResult = dataProvider.DatabaseService.TimeTrackTranslator.GetTimeTracks(employeeFilter, filter.DateTimeFrom, filter.DateTimeTo);
 
 			var dataSet = new DisciplineDataSet();

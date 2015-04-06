@@ -40,12 +40,12 @@ namespace SKDModule.ViewModels
 			get { return "дополнительную колонку"; }
 		}
 
-		protected override void AfterRemove()
+		protected override void AfterRemove(ShortAdditionalColumnType source)
 		{
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
 		}
 
-		protected override void AfterRestore()
+		protected override void AfterRestore(ShortAdditionalColumnType source)
 		{
 			ServiceFactory.Events.GetEvent<EditAdditionalColumnEvent>().Publish(null);
 		}

@@ -4,12 +4,12 @@ using System.Data;
 using System.Linq;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
+using FiresecClient;
 using FiresecService.Report.DataSources;
 using FiresecService.Report.Model;
-using FiresecClient;
-using FiresecAPI.GK;
 
 namespace FiresecService.Report.Templates
 {
@@ -46,8 +46,7 @@ namespace FiresecService.Report.Templates
 			}
 
 			var cardFilter = new CardFilter();
-			if (dataProvider.IsEmployeeFilter(filter))
-				cardFilter.EmployeeFilter = dataProvider.GetEmployeeFilter(filter);
+			cardFilter.EmployeeFilter = dataProvider.GetCardEmployeeFilter(filter);
 			if (filter.PassCardForcing)
 				cardFilter.CardTypes.Add(CardType.Duress);
 			if (filter.PassCardLocked)

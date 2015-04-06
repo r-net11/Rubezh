@@ -99,6 +99,18 @@ namespace SKDModule.ViewModels
 			return EmployeeHelper.Restore(model);
 		}
 
+		protected override void AfterRemove(ShortEmployee model)
+		{
+			base.AfterRemove(model);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
+		}
+
+		protected override void AfterRestore(ShortEmployee model)
+		{
+			base.AfterRestore(model);
+			ServiceFactory.Events.GetEvent<EditEmployee2Event>().Publish(model.UID);
+		}
+
 		public bool IsEmployeeSelected 
 		{
 			get { return SelectedItem != null && !SelectedItem.IsOrganisation; }

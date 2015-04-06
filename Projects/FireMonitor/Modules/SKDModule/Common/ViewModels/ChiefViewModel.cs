@@ -31,11 +31,11 @@ namespace SKDModule.ViewModels
 		}
 		public bool HasSelected
 		{
-			get { return SelectedEmployee != null; }
+			get { return SelectedEmployee != null && !SelectedEmployee.IsDeleted; }
 		}
 		public Guid SelectedEmployeeUID
 		{
-			get { return HasSelected ? SelectedEmployee.UID : Guid.Empty; }
+			get { return SelectedEmployee != null ? SelectedEmployee.UID : Guid.Empty; }
 		}
 
 		public RelayCommand SelectCommand { get; private set; }

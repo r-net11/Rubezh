@@ -4,8 +4,10 @@ using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -121,6 +123,17 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
+		protected override void AfterRemove(DayInterval model)
+		{
+			base.AfterRemove(model);
+			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(model.UID);
+		}
+
+		protected override void AfterRestore(DayInterval model)
+		{
+			base.AfterRestore(model);
+			ServiceFactory.Events.GetEvent<EditDayIntervalEvent>().Publish(model.UID);
+		}
 
 		protected override string ItemRemovingName
 		{

@@ -102,9 +102,10 @@ namespace SKDDriver.Translators
 
 		bool IsIntersection(DataAccess.PassJournal passJournalItem)
 		{
-			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID &&
-						(x.EnterTime <= passJournalItem.EnterTime && x.ExitTime >= passJournalItem.EnterTime ||
-							x.EnterTime <= passJournalItem.ExitTime && x.ExitTime >= passJournalItem.ExitTime));
+			return Context.PassJournals.Any(x => x.UID != passJournalItem.UID && 
+				x.EmployeeUID == passJournalItem.EmployeeUID &&
+				(x.EnterTime <= passJournalItem.EnterTime && x.ExitTime >= passJournalItem.EnterTime ||
+					x.EnterTime <= passJournalItem.ExitTime && x.ExitTime >= passJournalItem.ExitTime));
 		}
 
 		public OperationResult DeletePassJournal(Guid uid)

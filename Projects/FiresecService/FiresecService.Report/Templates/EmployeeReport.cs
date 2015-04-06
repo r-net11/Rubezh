@@ -56,7 +56,7 @@ namespace FiresecService.Report.Templates
 				if (employee.Item.Photo != null)
 					dataRow.Photo = employee.Item.Photo.Data;
 				dataRow.Position = employee.Position;
-				dataRow.Schedule = employee.Item.Schedule == null ? employee.Item.ScheduleName : employee.Item.Schedule.Name;
+				dataRow.Schedule = employee.Item.Schedule == null || employee.Item.Schedule.IsDeleted ? null : employee.Item.Schedule.Name;
 				dataRow.SecondName = employee.Item.SecondName;
 				dataRow.Sex = employee.Item.Gender.ToDescription();
 				dataRow.UID = employee.UID;

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD.ReportFilters
 {
 	[DataContract]
-	public class EmployeeDoorsReportFilter : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZoneWithDirection, IReportFilterSchedule
+	public class EmployeeDoorsReportFilter : SKDReportFilter, IReportFilterPassCardType, IReportFilterOrganisation, IReportFilterDepartment, IReportFilterPosition, IReportFilterEmployeeAndVisitor, IReportFilterZoneWithDirection, IReportFilterSchedule, IReportFilterEmployee
 	{
 		public EmployeeDoorsReportFilter()
 		{

@@ -119,11 +119,12 @@ namespace FiresecService.Report
 		{
 			var list = new List<EmployeeInfo>();
 			var employeeFilter = GetEmployeeFilter(filter);
-            return GetEmployees(employeeFilter);
+            return GetEmployees(employeeFilter, filter.IsDefault);
         }
-        public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter)
+        public List<EmployeeInfo> GetEmployees(EmployeeFilter employeeFilter, bool isDefault)
         {
-            LoadCache();
+			LoadCache();
+			CheckIfNoOrgansations(employeeFilter, isDefault);
             var employeesResult = DatabaseService.EmployeeTranslator.Get(employeeFilter);
 			if (employeesResult == null || employeesResult.Result == null)
 				return new List<EmployeeInfo>();
@@ -137,6 +138,25 @@ namespace FiresecService.Report
 			});
 			return employees;
 		}
+
+		void CheckIfNoOrgansations(EmployeeFilter employeeFilter, bool isDefault)
+		{
+			if (employeeFilter.OrganisationUIDs.Count == 1 && isDefault)
+			{
+				var organisation = Organisations.FirstOrDefault(x => x.Key == employeeFilter.OrganisationUIDs.FirstOrDefault()).Value.Item;
+				if (organisation == null || !organisation.UserUIDs.Any(x => x == employeeFilter.UserUID))
+					employeeFilter.OrganisationUIDs = new List<Guid>();
+			}
+		}
+
+		public EmployeeFilter GetCardEmployeeFilter(SKDReportFilter filter)
+		{
+			LoadCache();
+			var employeeFilter = GetEmployeeFilter(filter);
+			CheckIfNoOrgansations(employeeFilter, filter.IsDefault);
+			return employeeFilter;
+		}
+
 		public EmployeeFilter GetEmployeeFilter(SKDReportFilter filter)
 		{
 			var employeeFilter = new EmployeeFilter();
@@ -146,7 +166,9 @@ namespace FiresecService.Report
 			employeeFilter.WithDeletedPositions = withDeleted;
 			employeeFilter.UserUID = filter.UserUID;
 			if (filter is IReportFilterOrganisation)
+			{
 				employeeFilter.OrganisationUIDs = ((IReportFilterOrganisation)filter).Organisations ?? new List<Guid>();
+			}
 			if (filter is IReportFilterDepartment)
 				employeeFilter.DepartmentUIDs = ((IReportFilterDepartment)filter).Departments ?? new List<Guid>();
 			if (filter is IReportFilterPosition)
@@ -176,7 +198,8 @@ namespace FiresecService.Report
 			var employeeFilter = filter as IReportFilterEmployee;
 			if (employeeFilter == null)
 				return false;
-			return (!employeeFilter.IsSearch && !employeeFilter.Employees.IsEmpty()) || (employeeFilter.IsSearch && (!employeeFilter.LastName.IsEmpty() || !employeeFilter.FirstName.IsEmpty() || !employeeFilter.SecondName.IsEmpty()));
+			return (!employeeFilter.IsSearch && !employeeFilter.Employees.IsEmpty()) || 
+				(employeeFilter.IsSearch && (!employeeFilter.LastName.IsEmpty() || !employeeFilter.FirstName.IsEmpty() || !employeeFilter.SecondName.IsEmpty()));
 		}
 
 		#region IDisposable Members
@@ -194,13 +217,13 @@ namespace FiresecService.Report
 				return null;
 			return new EmployeeInfo()
 				 {
-					 Department = employee.Department == null ? null : employee.Department.Name,
+					 Department = employee.Department == null || employee.Department.IsDeleted ? null : employee.Department.Name,
 					 DepartmentUID = employee.Department == null ? (Guid?)null : employee.Department.UID,
 					 IsDeleted = employee.IsDeleted,
 					 Name = employee.FIO,
 					 Organisation = Organisations[employee.OrganisationUID].Name,
 					 OrganisationUID = employee.OrganisationUID,
-					 Position = employee.Position == null ? null : employee.Position.Name,
+					 Position = employee.Position == null || employee.Position.IsDeleted ? null : employee.Position.Name,
 					 PositionUID = employee.Position == null ? (Guid?)null : employee.Position.UID,
 					 UID = employee.UID,
 					 Item = employee,
