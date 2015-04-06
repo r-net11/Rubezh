@@ -192,9 +192,9 @@ namespace StrazhModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDoors, "СКД точки доступа", "Tree.png", (p) => DoorsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "Устройства Страж", "Tree.png", (p) => DevicesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "Зоны Страж", "Tree.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDoors, "Точки доступа Страж", "Tree.png", (p) => DoorsViewModel);
 		}
 		#endregion
 	}

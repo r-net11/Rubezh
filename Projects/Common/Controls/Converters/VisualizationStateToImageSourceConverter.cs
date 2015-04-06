@@ -23,7 +23,9 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var state = (VisualizationState)value;
-			return _map[state];
+			if (_map.ContainsKey(state))
+				return _map[state];
+			return null;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

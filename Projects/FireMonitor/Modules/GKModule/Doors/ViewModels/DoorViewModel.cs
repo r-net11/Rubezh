@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using GKModule.Events;
 
 namespace GKModule.ViewModels
 {
@@ -38,9 +36,20 @@ namespace GKModule.ViewModels
 			ExitDevice = Door.ExitDevice;
 		}
 
+		public List<XStateClass> StateClasses
+		{
+			get
+			{
+				var stateClasses = State.StateClasses.ToList();
+				stateClasses.Sort();
+				return stateClasses;
+			}
+		}
+
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => StateClasses);
 		}
 
 		public string PresentationName

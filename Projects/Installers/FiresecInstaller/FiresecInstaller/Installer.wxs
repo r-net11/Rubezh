@@ -40,7 +40,7 @@
 		<Property Id="INSTALL_HASP" Value="0" Secure="yes" />
 		<Property Id="INSTALL_OPC" Value="0" Secure="yes" />
 		<Property Id="INSTALL_GK" Value="0" Secure="yes" />
-		<Property Id="INSTALL_SKD" Value="1" Secure="yes" />
+		<Property Id="INSTALL_STRAZH" Value="1" Secure="yes" />
 		<Property Id="INSTALL_VIDEO" Value="0" Secure="yes" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -62,7 +62,6 @@
 						<Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
 						<Directory Id="Monitor.ru" Name="ru" />
 					</Directory>
-					<Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
 					<Directory Id="GKOPCLOCATION" Name="GKOPC" />
 					<Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
           <Directory Id="VLCLOCATION" Name="$(var.VLCName)" >

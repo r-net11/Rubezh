@@ -9,6 +9,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using FiresecAPI.Journal;
+using System;
 
 namespace VideoModule.ViewModels
 {
@@ -79,6 +81,19 @@ namespace VideoModule.ViewModels
 			try
 			{
 				RviClient.RviClientHelper.SetPtzPreset(FiresecManager.SystemConfiguration, Camera, SelectedPreset - 1);
+
+				var journalItem = new JournalItem()
+				{
+					SystemDateTime = DateTime.Now,
+					JournalEventNameType = JournalEventNameType.Перевод_в_предустановку,
+					JournalEventDescriptionType = JournalEventDescriptionType.NULL,
+					DescriptionText = SelectedPreset.ToString(),
+					JournalSubsystemType = JournalSubsystemType.Video,
+					JournalObjectType = JournalObjectType.VideoDevice,
+					ObjectUID = Camera.UID,
+					ObjectName = Camera.Name,
+				};
+				FiresecManager.FiresecService.AddJournalItem(journalItem);
 			}
 			catch
 			{

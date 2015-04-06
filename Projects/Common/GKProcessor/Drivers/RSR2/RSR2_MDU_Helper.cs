@@ -40,7 +40,7 @@ namespace GKProcessor
 				No = 0,
 				Name = "Задержка на включение, с",
 				Caption = "Задержка на включение, с",
-				Default = 10,
+				Default = 0,
 				DriverPropertyType = GKDriverPropertyTypeEnum.IntType,
 				Min = 0,
 				Max = 65535
@@ -92,11 +92,8 @@ namespace GKProcessor
 			property4.Parameters.Add(property4Parameter2);
 			driver.Properties.Add(property4);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 1, Name = "Отсчет задержки, с", IsDelay = true });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 2, Name = "АЦП концевик ОТКРЫТО" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "АЦП концевик ЗАКРЫТО" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 4, Name = "АЦП внешняя кнопка НОРМА" });
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 5, Name = "АЦП внешняя кнопка ЗАЩИТА" });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 1, Name = "Отсчет задержки, с", IsDelay = true });
+			driver.MeasureParameters.Add(new GKMeasureParameter { No = 3, Name = "Напряжение" });
 
 			return driver;
 		}

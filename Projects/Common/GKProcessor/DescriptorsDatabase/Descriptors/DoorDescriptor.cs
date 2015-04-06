@@ -27,6 +27,49 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+
+			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.Clauses.Count + Door.OpenRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			if (hasOpenRegimeLogic)
+			{
+				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.BR, 1, 7);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.TurnOn_InManual, Door, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
+
+			var hasCloseRegimeLogic = Door.CloseRegimeLogic.OnClausesGroup.Clauses.Count + Door.CloseRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			if (hasCloseRegimeLogic)
+			{
+				Formula.AddClauseFormula(Door.CloseRegimeLogic.OnClausesGroup, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.BR, 1, 7);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
+
+			var hasNormRegimeLogic = Door.NormRegimeLogic.OnClausesGroup.Clauses.Count + Door.NormRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
+			if (hasNormRegimeLogic)
+			{
+				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.BR, 1, 7);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.Add(FormulaOperationType.CONST, 0, 1);
+				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door, DatabaseType.Gk);
+				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.EXIT);
+			}
+
 			if (Door.EnterDevice != null || Door.ExitDevice != null)
 			{
 				if (Door.EnterDevice != null)
@@ -69,45 +112,6 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.OR);
 				Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
-			}
-
-			var hasOpenRegimeLogic = Door.OpenRegimeLogic.OnClausesGroup.Clauses.Count + Door.OpenRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
-			if (hasOpenRegimeLogic)
-			{
-				Formula.AddClauseFormula(Door.OpenRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 6);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
-				Formula.AddPutBit(GKStateBit.TurnOn_InManual, Door, DatabaseType.Gk);
-				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door, DatabaseType.Gk);
-			}
-
-			var hasCloseRegimeLogic = Door.CloseRegimeLogic.OnClausesGroup.Clauses.Count + Door.CloseRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
-			if (hasCloseRegimeLogic)
-			{
-				Formula.AddClauseFormula(Door.CloseRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 6);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
-				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door, DatabaseType.Gk);
-				Formula.AddPutBit(GKStateBit.SetRegime_Manual, Door, DatabaseType.Gk);
-			}
-
-			var hasNormRegimeLogic = Door.NormRegimeLogic.OnClausesGroup.Clauses.Count + Door.NormRegimeLogic.OnClausesGroup.ClauseGroups.Count > 0;
-			if (hasNormRegimeLogic)
-			{
-				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup, DatabaseType.Gk);
-				Formula.Add(FormulaOperationType.BR, 1, 6);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.Add(FormulaOperationType.CONST, 1);
-				Formula.AddPutBit(GKStateBit.TurnOff_InAutomatic, Door, DatabaseType.Gk);
-				Formula.AddPutBit(GKStateBit.TurnOff_InManual, Door, DatabaseType.Gk);
-				Formula.AddPutBit(GKStateBit.SetRegime_Automatic, Door, DatabaseType.Gk);
 			}
 
 			Formula.Add(FormulaOperationType.END);

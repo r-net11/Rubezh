@@ -490,6 +490,7 @@ namespace FireAdministrator.ViewModels
 			foreach (var device in GKDeviceConfiguration.Devices)
 			{
 				var uids = new List<Guid>();
+				if (device.PlanElementUIDs != null)
 				foreach (var planElementUID in device.PlanElementUIDs)
 				{
 					uids.Add(PlenElementUIDs[planElementUID]);

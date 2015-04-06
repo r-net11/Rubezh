@@ -118,7 +118,7 @@ namespace FiresecClient
 				SKDManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
+				SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 
 				var gkDeviceMap = new Dictionary<Guid, GKDevice>();
 				foreach (var device in GKManager.Devices)

@@ -1,4 +1,10 @@
-<UserControl x:Class="ReportsModule.Views.FilterMainPageView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI" xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended" xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer">
+<UserControl x:Class="ReportsModule.Views.FilterMainPageView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI"
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+			 xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+			 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 	<UserControl.Resources>
 		<IfConverter x:Key="AdditionalLinkText" FalseValue="Показать настройки отображения отчёта" TrueValue="Скрыть настройки отображения отчёта" />
 		<Style x:Key="label" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
@@ -46,14 +52,28 @@
 
 			<ComboBox Grid.Row="0" Grid.Column="1" Width="240" Margin="2" HorizontalAlignment="Left" ItemsSource="{Binding Source={x:Type API:ReportPeriodType}, Converter={StaticResource EnumToItemsSourceConverter}}" ItemTemplate="{StaticResource EnumDescriptionTemplate}" SelectedItem="{Binding SelectedReportPeriod}" />
 			
-            <Calendar Grid.Row="1" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left"
+<!--
+			<Calendar Grid.Row="1" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left"
                       DisplayDate="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}" 
                       DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
-
-            <Calendar Grid.Row="2" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left" 
+-->
+			<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" AllowSpinOnMouseWheel="True"
+						  DateTime="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}"
+						  MinValue="{Binding MinDate, Mode=OneWay}"
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" Margin="2" Padding="4,3" />
+<!--
+			<Calendar Grid.Row="2" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left" 
                       DisplayDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" 
                       DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
-        </Grid>
+-->
+			<dxe:DateEdit Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
+						  DateTime="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}"
+						  MinValue="{Binding MinDate, Mode=OneWay}"
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" Padding="4,3" Margin="2" />
+
+		</Grid>
 		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<ContentPresenter Grid.Row="3" Content="{Binding MainViewModel, Mode=OneTime}" />
 		<TextBlock Grid.Row="4" Visibility="{Binding IsAdditionalExpanded, Converter={StaticResource InversedBoolToVisibilityConverter}}">

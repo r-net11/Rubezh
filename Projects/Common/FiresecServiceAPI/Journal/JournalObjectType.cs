@@ -34,13 +34,13 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Точки доступа ГК")]
 		GKDoor,
 
-		[DescriptionAttribute("Устройства СКД")]
+		[DescriptionAttribute("Устройства Страж")]
 		SKDDevice,
 
-		[DescriptionAttribute("Зоны СКД")]
+		[DescriptionAttribute("Зоны Страж")]
 		SKDZone,
 
-		[DescriptionAttribute("Точки доступа СКД")]
+		[DescriptionAttribute("Точки доступа Страж")]
 		SKDDoor,
 
 		[DescriptionAttribute("Видеоустройства")]

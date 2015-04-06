@@ -101,8 +101,7 @@ namespace FiresecService.Service
 			{
 				journalItem.UserName = UserName;
 				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-				DBHelper.Add(journalItem);
-				FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+				AddCommonJournalItem(journalItem);
 			}
 			catch (Exception e)
 			{

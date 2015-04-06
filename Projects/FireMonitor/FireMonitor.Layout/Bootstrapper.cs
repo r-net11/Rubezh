@@ -98,7 +98,7 @@ namespace FireMonitor.Layout
 		{
 			_layout = null;
 			var ip = ConnectionSettingsManager.IsRemote ? FiresecManager.GetIP() : null;
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Contains(ip))).ToList();
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.HostNameOrAddressList.Count == 0 || layout.HostNameOrAddressList.Contains(ip))).ToList();
 			if (layouts.Count > 0)
 			{
 				if (_layoutID.HasValue)

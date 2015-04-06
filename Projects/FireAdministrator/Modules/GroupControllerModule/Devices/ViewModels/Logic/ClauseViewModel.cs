@@ -303,10 +303,10 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectGuardZonesCommand { get; private set; }
 		void OnSelectGuardZones()
 		{
-			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(Device);
+			var guardZonesSelectationViewModel = new GuardZonesSelectationViewModel(GuardZones);
 			if (DialogService.ShowModalWindow(guardZonesSelectationViewModel))
 			{
-				GuardZones = guardZonesSelectationViewModel.DeviceGuardZones.Select(x => x.DeviceGuardZone.GuardZone).ToList();
+				GuardZones = guardZonesSelectationViewModel.GuardZones;
 				OnPropertyChanged(() => PresenrationGuardZones);
 			}
 		}

@@ -76,7 +76,7 @@ namespace GKModule.Plans.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedDevice.Driver.IsPlaceable;
+			return SelectedDevice != null && SelectedDevice.Driver.IsPlaceable;
 		}
 
 		private DeviceViewModel Update(Guid deviceUID)

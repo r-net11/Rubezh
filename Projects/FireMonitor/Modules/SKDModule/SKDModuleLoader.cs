@@ -134,6 +134,7 @@ namespace SKDModule
 			if (GlobalSettingsHelper.GlobalSettings.UseStrazhBrand)
 			{
 				yield return new EventsReportProvider();
+				yield return new DoorsReportProvider();
 			}
 			yield return new EmployeeRootReportProvider();
 			yield return new CardsReportProvider();
@@ -147,7 +148,6 @@ namespace SKDModule
 			yield return new SchedulesReportProvider();
 			yield return new DocumentsReportProvider();
 			yield return new WorkingTimeReportProvider();
-			yield return new DoorsReportProvider();
 		}
 		#endregion
 	}

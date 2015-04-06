@@ -11,7 +11,6 @@ namespace GKModule.ViewModels
 	public class DeviceGuardZoneViewModel : BaseViewModel
 	{
 		public GKDeviceGuardZone DeviceGuardZone { get; private set; }
-		GKDevice Device { get; set; }
 		public bool IsCodeReader { get; private set; }
 		public int No { get; private set; }
 		public string Name { get; private set; }
@@ -19,13 +18,14 @@ namespace GKModule.ViewModels
 
 		public DeviceGuardZoneViewModel(GKDeviceGuardZone deviceGuardZone, GKDevice device)
 		{
-			Device = device;
 			DeviceGuardZone = deviceGuardZone;
-			IsCodeReader = device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader;
+			if (device != null)
+				IsCodeReader = device.DriverType == GKDriverType.RSR2_CardReader || device.DriverType == GKDriverType.RSR2_CodeReader;
 			No = deviceGuardZone.GuardZone.No;
 			Name = deviceGuardZone.GuardZone.Name;
 			Description = deviceGuardZone.GuardZone.Description;
 			ActionTypes = new ObservableCollection<GKGuardZoneDeviceActionType>();
+			if (device != null)
 			switch (device.DriverType)
 			{
 				case GKDriverType.RSR2_GuardDetector:

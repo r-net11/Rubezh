@@ -318,45 +318,6 @@
 
 	<SolidColorBrush x:Key="ThumbMouseOver" Color="#FFE5F2F6" />
 
-	<Style x:Key="ColorCanvasTextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="MaxWidth" Value="100" />
-		<Setter Property="Foreground" Value="White" />
-		<Setter Property="BorderBrush" Value="Transparent" />
-		<Setter Property="OverridesDefaultStyle" Value="True" />
-		<Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-		<Setter Property="AllowDrop" Value="true" />
-		<Setter Property="MaxLength" Value="3" />
-		<Setter Property="loc:TextBoxHelper.HighlightTextOnFocus" Value="True" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type TextBoxBase}">
-					<Border Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" Padding="2">
-						<ScrollViewer x:Name="PART_ContentHost" Margin="0" />
-					</Border>
-					<ControlTemplate.Triggers>
-						<Trigger Property="IsEnabled" Value="False">
-							<Setter TargetName="Border" Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
-							<Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" />
-							<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
-						</Trigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Style.Triggers>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="BorderBrush" Value="White" />
-			</Trigger>
-			<Trigger Property="IsFocused" Value="True">
-				<Setter Property="Foreground" Value="Black" />
-				<Setter Property="Background" Value="White" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
-
 	<Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="IsTabStop" Value="false" />
@@ -517,7 +478,7 @@
 										<Border Height="22" Margin="2,0,2,0" Background="{StaticResource CheckerBrush}" BorderBrush="#FFC9CACA" BorderThickness="1">
 											<Rectangle x:Name="SelectedColor" Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
 										</Border>
-										<TextBox x:Name="PART_HexadecimalTextBox" Grid.Column="1" Margin="2,0,2,0" VerticalAlignment="Center" MaxLength="9" Style="{StaticResource ColorCanvasTextBoxStyle}" />
+                                        <TextBlock x:Name="PART_HexadecimalTextBox" Grid.Column="1" Margin="2,0,2,0" VerticalAlignment="Center" Width="50" />
 									</Grid>
 								</Border>
 
@@ -547,7 +508,7 @@
 											TickFrequency="1"
 											Value="{Binding R,
 															RelativeSource={RelativeSource TemplatedParent}}" />
-									<TextBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_RSlider}" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Value, ElementName=PART_RSlider}" Width="25" />
 
 									<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="G" />
 									<Slider x:Name="PART_GSlider" Grid.Row="1" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
@@ -556,7 +517,7 @@
 											TickFrequency="1"
 											Value="{Binding G,
 															RelativeSource={RelativeSource TemplatedParent}}" />
-									<TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_GSlider}" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Text="{Binding Value, ElementName=PART_GSlider}" Width="25" />
 
 									<TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="B" />
 									<Slider x:Name="PART_BSlider" Grid.Row="2" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
@@ -565,7 +526,7 @@
 											TickFrequency="1"
 											Value="{Binding B,
 															RelativeSource={RelativeSource TemplatedParent}}" />
-									<TextBox Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_BSlider}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Text="{Binding Value, ElementName=PART_BSlider}" Width="25" />
 
 									<TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="A" Visibility="{Binding Path=UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 									<Slider x:Name="PART_OpacitySlider" Grid.Row="3" Grid.Column="1" Margin="4,6,4,6" VerticalAlignment="Center"
@@ -576,7 +537,7 @@
 																 Converter={StaticResource BooleanToVisibilityConverter}}"
 											Value="{Binding Path=A,
 															RelativeSource={RelativeSource TemplatedParent}}" />
-									<TextBox Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource ColorCanvasTextBoxStyle}" Text="{Binding Value, ElementName=PART_OpacitySlider}" Visibility="{Binding Path=UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    <TextBlock Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Text="{Binding Value, ElementName=PART_OpacitySlider}" Visibility="{Binding Path=UsingAlphaChannel, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="25" />
 								</Grid>
 							</Border>
 						</Grid>

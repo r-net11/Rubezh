@@ -65,12 +65,6 @@ namespace FiresecAPI.GK
 		public int ResetGuardLevel { get; set; }
 
 		/// <summary>
-		/// Минимальный уровень на вызов тревоги
-		/// </summary>
-		[DataMember]
-		public int SetAlarmLevel { get; set; }
-
-		/// <summary>
 		/// Задержка на постановку
 		/// </summary>
 		[DataMember]

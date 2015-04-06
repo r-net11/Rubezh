@@ -628,5 +628,9 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.GK, "Проход пользователя запрещен", XStateClass.Attention)]
 		Проход_пользователя_запрещен,
+
+		[EventName(JournalSubsystemType.Video, "Перевод в предустановку", XStateClass.On)]
+		Перевод_в_предустановку,
+
 	}
 }

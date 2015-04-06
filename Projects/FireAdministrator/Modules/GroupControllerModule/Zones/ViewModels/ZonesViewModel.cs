@@ -79,7 +79,7 @@ namespace GKModule.ViewModels
 					ZoneDevices.Clear();
 				}
 				OnPropertyChanged("SelectedZone");
-				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
+				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
 			}
 		}

@@ -115,7 +115,7 @@ namespace GKModule.ViewModels
 			}
 
 			BackgroundWorker = new BackgroundWorker();
-			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateMeasureParameters);
+			BackgroundWorker.DoWork += UpdateMeasureParameters;
 			BackgroundWorker.RunWorkerAsync();
 		}
 

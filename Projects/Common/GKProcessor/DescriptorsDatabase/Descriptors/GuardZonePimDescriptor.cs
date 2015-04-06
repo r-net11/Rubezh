@@ -17,7 +17,8 @@ namespace GKProcessor
 			GuardZoneDevices = guardZoneDevices;
 			foreach (var guardDevice in GuardZoneDevices)
 			{
-				Pim.LinkGKBases(guardDevice.Device);
+				if (Pim != null)
+					Pim.LinkGKBases(guardDevice.Device);
 			}
 		}
 
@@ -59,7 +60,11 @@ namespace GKProcessor
 				if (guardDevice.Device.DriverType == GKDriverType.RSR2_CodeReader || guardDevice.Device.DriverType == GKDriverType.RSR2_CardReader)
 				{
 					var settingsPart = guardDevice.CodeReaderSettings.ChangeGuardSettings;
+
 					var stateBit = CodeReaderEnterTypeToStateBit(settingsPart.CodeReaderEnterType);
+					formula.AddGetBit(stateBit, guardDevice.Device, databaseType);
+					var gotoFormulaOperation = formula.Add(FormulaOperationType.BR, 1, 0);
+					var formulaNo = formula.FormulaOperations.Count;
 
 					switch (pimGuardZone.GuardZoneEnterMethod)
 					{
@@ -82,7 +87,7 @@ namespace GKProcessor
 							break;
 
 						case GKGuardZoneEnterMethod.UserOnly:
-							formula.Add(FormulaOperationType.ACS, (byte)pimGuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
+							//formula.Add(FormulaOperationType.ACS, (byte)pimGuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
 							break;
 
 						case GKGuardZoneEnterMethod.Both:
@@ -102,21 +107,24 @@ namespace GKProcessor
 								codesCount++;
 							}
 
-							formula.Add(FormulaOperationType.ACS, (byte)pimGuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
-							formula.Add(FormulaOperationType.OR);
+							//formula.Add(FormulaOperationType.ACS, (byte)pimGuardZone.SetGuardLevel, guardDevice.Device.GKDescriptorNo);
+							//formula.Add(FormulaOperationType.OR);
 							break;
 					}
 
-					formula.AddGetBit(stateBit, guardDevice.Device, databaseType);
-					formula.Add(FormulaOperationType.AND);
+					if (count > 0)
+					{
+						formula.Add(FormulaOperationType.OR);
+					}
+					gotoFormulaOperation.SecondOperand = (ushort)(formula.FormulaOperations.Count - formulaNo);
 				}
 				else
 				{
 					formula.AddGetBit(GKStateBit.Fire1, guardDevice.Device, databaseType);
-				}
-				if (count > 0)
-				{
-					formula.Add(FormulaOperationType.OR);
+					if (count > 0)
+					{
+						formula.Add(FormulaOperationType.OR);
+					}
 				}
 				count++;
 			}

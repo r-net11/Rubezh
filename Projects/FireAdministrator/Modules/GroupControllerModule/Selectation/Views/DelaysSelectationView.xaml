@@ -33,15 +33,15 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные задкржки" Width="*" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные задержки" Width="*" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" ImageSource="leftLeft"  />
-			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" ImageSource="rightRight"  />
+			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задержки" ImageSource="left"  CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задержки" ImageSource="right"  CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+			<ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задержки" ImageSource="leftLeft"  />
+			<ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задержки" ImageSource="rightRight"  />
 		</StackPanel>
 		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">

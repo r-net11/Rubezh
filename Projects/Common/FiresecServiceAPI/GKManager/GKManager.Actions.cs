@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
 
@@ -112,6 +113,15 @@ namespace FiresecClient
 				direction.InputDevices.Remove(device);
 				direction.OutputDevices.Remove(device);
 				direction.OnChanged();
+			}
+			var deviceMPTs = MPTs.FindAll(x => x.MPTDevices.Any(y => y.DeviceUID == device.UID));
+			foreach (var deviceMPT in deviceMPTs)
+			{
+				foreach (var mptDevice in deviceMPT.MPTDevices.FindAll(x => x.DeviceUID == device.UID))
+				{
+					mptDevice.Device = null;
+					mptDevice.DeviceUID = Guid.Empty;
+				}
 			}
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);

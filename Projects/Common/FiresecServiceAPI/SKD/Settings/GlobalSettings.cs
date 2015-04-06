@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 
+
 namespace FiresecAPI
 {
 	[DataContract]
@@ -16,8 +17,8 @@ namespace FiresecAPI
 		{
 			try
 			{
-				string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StrazhModule.dll");
-				UseStrazhBrand = File.Exists(path);
+				var appDataFolderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Firesec2");
+				UseStrazhBrand = File.Exists(Path.Combine(appDataFolderName, "StrazhSettings.xml"));
 			}
 			catch (Exception)
 			{

@@ -5,8 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
-using GKModule.Events;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -16,59 +14,36 @@ namespace GKModule.ViewModels
 	[SaveSizeAttribute]
 	public class GuardZonesSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public ObservableCollection<DeviceGuardZoneViewModel> DeviceGuardZones { get; private set; }
-		public bool CanCreateNew { get; private set; }
-		GKDevice Device { get; set; }
+		public List<GKGuardZone> GuardZones { get; private set; }
 
-		public GuardZonesSelectationViewModel(GKDevice device, bool canCreateNew = false)
+		public GuardZonesSelectationViewModel(List<GKGuardZone> guardZones)
 		{
 			Title = "Выбор охранных зон";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
-			CreateNewCommand = new RelayCommand(OnCreateNew);
 
-			Device = device;
-			DeviceGuardZones = new ObservableCollection<DeviceGuardZoneViewModel>();
-			foreach (var zone in device.GuardZones)
-			{
-				var guardZoneDevice = zone.GuardZoneDevices.FirstOrDefault(x => x.Device == device);
-				if (guardZoneDevice != null)
-				{
-					var deviceGuardZone = new GKDeviceGuardZone();
-					deviceGuardZone.GuardZone = zone;
-					deviceGuardZone.ActionType = guardZoneDevice.ActionType;
-					DeviceGuardZones.Add(new DeviceGuardZoneViewModel(deviceGuardZone, device));
-				}
-			}
-
-			CanCreateNew = canCreateNew;
-			TargetZones = new ObservableCollection<DeviceGuardZoneViewModel>();
-			SourceZones = new ObservableCollection<DeviceGuardZoneViewModel>();
+			GuardZones = guardZones;
+			TargetZones = new ObservableCollection<GKGuardZone>();
+			SourceZones = new ObservableCollection<GKGuardZone>();
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
-				var deviceGuardZone = DeviceGuardZones.FirstOrDefault(x => x.DeviceGuardZone.GuardZone == guardZone);
-				if (deviceGuardZone != null)
-					TargetZones.Add(deviceGuardZone);
+				if (GuardZones.Contains(guardZone))
+					TargetZones.Add(guardZone);
 				else
-				{
-					var gkDeviceGuardZone = new GKDeviceGuardZone();
-					gkDeviceGuardZone.GuardZone = guardZone;
-					gkDeviceGuardZone.GuardZoneUID = guardZone.UID;
-					SourceZones.Add(new DeviceGuardZoneViewModel(gkDeviceGuardZone, device));
-				}
+					SourceZones.Add(guardZone);
 			}
 
 			SelectedTargetZone = TargetZones.FirstOrDefault();
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		public ObservableCollection<DeviceGuardZoneViewModel> SourceZones { get; private set; }
+		public ObservableCollection<GKGuardZone> SourceZones { get; private set; }
 
-		DeviceGuardZoneViewModel _selectedSourceZone;
-		public DeviceGuardZoneViewModel SelectedSourceZone
+		GKGuardZone _selectedSourceZone;
+		public GKGuardZone SelectedSourceZone
 		{
 			get { return _selectedSourceZone; }
 			set
@@ -78,10 +53,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<DeviceGuardZoneViewModel> TargetZones { get; private set; }
+		public ObservableCollection<GKGuardZone> TargetZones { get; private set; }
 
-		DeviceGuardZoneViewModel _selectedTargetZone;
-		public DeviceGuardZoneViewModel SelectedTargetZone
+		GKGuardZone _selectedTargetZone;
+		public GKGuardZone SelectedTargetZone
 		{
 			get { return _selectedTargetZone; }
 			set
@@ -98,17 +73,17 @@ namespace GKModule.ViewModels
 			var index = SourceZones.IndexOf(SelectedSourceZone);
 
 			SelectedSourceZones = (IList)parameter;
-			var deviceGuardZoneViewModels = new List<DeviceGuardZoneViewModel>();
+			var zoneViewModels = new List<GKGuardZone>();
 			foreach (var selectedZone in SelectedSourceZones)
 			{
-				var deviceGuardZoneViewModel = selectedZone as DeviceGuardZoneViewModel;
-				if (deviceGuardZoneViewModel != null)
-					deviceGuardZoneViewModels.Add(deviceGuardZoneViewModel);
+				var zoneViewModel = selectedZone as GKGuardZone;
+				if (zoneViewModel != null)
+					zoneViewModels.Add(zoneViewModel);
 			}
-			foreach (var deviceGuardZoneViewModel in deviceGuardZoneViewModels)
+			foreach (var zoneViewModel in zoneViewModels)
 			{
-				TargetZones.Add(deviceGuardZoneViewModel);
-				SourceZones.Remove(deviceGuardZoneViewModel);
+				TargetZones.Add(zoneViewModel);
+				SourceZones.Remove(zoneViewModel);
 			}
 			SelectedTargetZone = TargetZones.LastOrDefault();
 			OnPropertyChanged(() => SourceZones);
@@ -125,14 +100,14 @@ namespace GKModule.ViewModels
 			var index = TargetZones.IndexOf(SelectedTargetZone);
 
 			SelectedTargetZones = (IList)parameter;
-			var deviceGuardZoneViewModels = new List<DeviceGuardZoneViewModel>();
+			var zoneViewModels = new List<GKGuardZone>();
 			foreach (var selectedZone in SelectedTargetZones)
 			{
-				var deviceGuardZoneViewModel = selectedZone as DeviceGuardZoneViewModel;
-				if (deviceGuardZoneViewModel != null)
-					deviceGuardZoneViewModels.Add(deviceGuardZoneViewModel);
+				var zoneViewModel = selectedZone as GKGuardZone;
+				if (zoneViewModel != null)
+					zoneViewModels.Add(zoneViewModel);
 			}
-			foreach (var zoneViewModel in deviceGuardZoneViewModels)
+			foreach (var zoneViewModel in zoneViewModels)
 			{
 				SourceZones.Add(zoneViewModel);
 				TargetZones.Remove(zoneViewModel);
@@ -167,23 +142,6 @@ namespace GKModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		public RelayCommand CreateNewCommand { get; private set; }
-		void OnCreateNew()
-		{
-			var createZoneEventArg = new CreateGKGuardZoneEventArg();
-			ServiceFactory.Events.GetEvent<CreateGKGuardZoneEvent>().Publish(createZoneEventArg);
-			if (createZoneEventArg.Zone != null)
-			{
-				var deviceGuardZone = new GKDeviceGuardZone();
-				deviceGuardZone.GuardZone = createZoneEventArg.Zone;
-				TargetZones.Add(new DeviceGuardZoneViewModel(deviceGuardZone, Device));
-				if (TargetZones.Count == 1)
-				{
-					SaveCommand.Execute();
-				}
-			}
-		}
-
 		public bool CanAdd(object parameter)
 		{
 			return SelectedSourceZone != null;
@@ -206,7 +164,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			DeviceGuardZones = new ObservableCollection<DeviceGuardZoneViewModel>(TargetZones);
+			GuardZones = new List<GKGuardZone>(TargetZones);
 			return base.Save();
 		}
 	}
