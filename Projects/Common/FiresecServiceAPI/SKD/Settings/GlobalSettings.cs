@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 
 namespace FiresecAPI
@@ -37,10 +38,8 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			InitializeUseStrazhBrandProperty();
-			//UseStrazhBrand = false;
 			UseHasp = false;
 			DBServerName = "SQLEXPRESS";
-			//DBServerName = "FIRESECINSTANCE";
 			CreateNewDBOnOversize = true;
 
 			ModuleItems = new List<string>();
@@ -73,6 +72,7 @@ namespace FiresecAPI
 		public bool AutoConnect { get; set; }
 
 		[DataMember]
+		[XmlIgnore]
 		public bool UseStrazhBrand { get; set; }
 
 		[DataMember]
@@ -110,10 +110,6 @@ namespace FiresecAPI
 		public bool Monitor_HaspInfo_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
-
-		//[DataMember]
-		//public bool Administrator_HidePlanAlignInstruments { get; set; }
-
 		[DataMember]
 		public ValidationErrorType IgnoredErrors { get; set; }
 

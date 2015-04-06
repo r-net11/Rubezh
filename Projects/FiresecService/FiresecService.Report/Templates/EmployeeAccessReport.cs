@@ -108,7 +108,7 @@ namespace FiresecService.Report.Templates
 							enterZoneTuple = new Tuple<Guid, string>(enterZone.UID, enterZone.PresentationName);
 						}
 						Tuple<Guid, string> exitZoneTuple = null;
-						if (enterZone != null)
+						if (exitZone != null)
 						{
 							exitZoneTuple = new Tuple<Guid, string>(exitZone.UID, exitZone.PresentationName);
 						}
