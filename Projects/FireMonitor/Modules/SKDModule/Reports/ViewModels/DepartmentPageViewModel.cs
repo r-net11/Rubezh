@@ -18,8 +18,6 @@ namespace SKDModule.Reports.ViewModels
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Unsubscribe(OnUseArchive);
 			ServiceFactory.Events.GetEvent<SKDReportUseArchiveChangedEvent>().Subscribe(OnUseArchive);
 			_OrganisationChangedSubscriber = new OrganisationChangedSubscriber(this);
-			//ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Unsubscribe(OnOrganisationChanged);
-			//ServiceFactory.Events.GetEvent<SKDReportOrganisationChangedEvent>().Subscribe(OnOrganisationChanged);
 		}
 
 		IReportFilterDepartment _reportFilter;
