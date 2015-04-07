@@ -21,7 +21,6 @@ namespace GKProcessor
 				IsPlaceable = false,
 			};
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Число АУ на АЛС", 0, 0, 250);
 			return driver;
 		}
 	}

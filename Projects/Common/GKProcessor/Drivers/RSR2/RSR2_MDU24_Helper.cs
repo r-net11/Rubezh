@@ -92,7 +92,7 @@ namespace GKProcessor
 			property4.Parameters.Add(property4Parameter2);
 			driver.Properties.Add(property4);
 
-			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Напряжение" });
+			driver.MeasureParameters.Add(new GKMeasureParameter() { No = 3, Name = "Напряжение", Multiplier = 10 });
 
 			return driver;
 		}

@@ -298,7 +298,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSelect()
 		{
-			return Driver.DriverType == GKDriverType.KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_KAU_Shleif;
+			return Driver.DriverType == GKDriverType.KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_MVP_Part;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
