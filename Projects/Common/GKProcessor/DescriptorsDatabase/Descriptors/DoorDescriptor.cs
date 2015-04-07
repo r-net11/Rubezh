@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.GK;
 
@@ -18,8 +17,8 @@ namespace GKProcessor
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((ushort)0x104);
-			SetAddress((ushort)0);
+			DeviceType = BytesHelper.ShortToBytes(0x104);
+			SetAddress(0);
 			SetFormulaBytes();
 			SetPropertiesBytes();
 		}
@@ -60,6 +59,9 @@ namespace GKProcessor
 			if (hasNormRegimeLogic)
 			{
 				Formula.AddClauseFormula(Door.NormRegimeLogic.OnClausesGroup, DatabaseType.Gk);
+				Formula.AddGetBit(GKStateBit.Norm, Door, DatabaseType.Gk);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
 				Formula.Add(FormulaOperationType.BR, 1, 7);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
 				Formula.Add(FormulaOperationType.CONST, 0, 1);
@@ -78,7 +80,7 @@ namespace GKProcessor
 					Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 					Formula.Add(FormulaOperationType.AND);
 					Formula.Add(FormulaOperationType.BR, 1, 3);
-					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.EnterDevice.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, Door.EnterDevice.GKDescriptorNo);
 					Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 					Formula.Add(FormulaOperationType.EXIT);
 				}
@@ -90,7 +92,7 @@ namespace GKProcessor
 						Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 						Formula.Add(FormulaOperationType.AND);
 						Formula.Add(FormulaOperationType.BR, 1, 3);
-						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, (ushort)Door.ExitDevice.GKDescriptorNo);
+						Formula.Add(FormulaOperationType.ACS, (byte)Door.EnterLevel, Door.ExitDevice.GKDescriptorNo);
 						Formula.AddPutBit(GKStateBit.TurnOn_InAutomatic, Door, DatabaseType.Gk);
 						Formula.Add(FormulaOperationType.EXIT);
 					}
@@ -121,12 +123,12 @@ namespace GKProcessor
 		void SetPropertiesBytes()
 		{
 			var binProperties = new List<BinProperty>();
-			binProperties.Add(new BinProperty()
+			binProperties.Add(new BinProperty
 			{
 				No = 0,
 				Value = (ushort)(Door.Delay)
 			});
-			binProperties.Add(new BinProperty()
+			binProperties.Add(new BinProperty
 			{
 				No = 1,
 				Value = (ushort)(Door.Hold)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.SKD.ReportFilters;
+﻿using System.Collections.Generic;
 
 namespace Infrastructure.Common.SKDReports
 {

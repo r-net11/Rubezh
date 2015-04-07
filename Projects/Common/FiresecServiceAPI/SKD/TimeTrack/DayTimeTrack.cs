@@ -445,7 +445,7 @@ namespace FiresecAPI.SKD
 			return result;
 		}
 
-		List<TimeTrackPart> NormalizeTimeTrackParts(List<TimeTrackPart> timeTrackParts)
+		public static List<TimeTrackPart> NormalizeTimeTrackParts(List<TimeTrackPart> timeTrackParts)
 		{
 			if (timeTrackParts.Count == 0)
 				return new List<TimeTrackPart>();

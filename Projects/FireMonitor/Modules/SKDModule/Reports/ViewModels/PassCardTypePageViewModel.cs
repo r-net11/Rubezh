@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.SKD.ReportFilters;
+using Infrastructure.Common;
 using Infrastructure.Common.SKDReports;
-using FiresecAPI.SKD.ReportFilters;
 
 namespace SKDModule.Reports.ViewModels
 {
@@ -14,7 +11,12 @@ namespace SKDModule.Reports.ViewModels
 			Title = "Типы пропусков";
 		}
 
-		private bool _passCardActive;
+		public bool CanSelectActiveTypes
+		{
+			get { return GlobalSettingsHelper.GlobalSettings.UseStrazhBrand; }
+		}
+
+		bool _passCardActive;
 		public bool PassCardActive
 		{
 			get { return _passCardActive; }
@@ -32,7 +34,7 @@ namespace SKDModule.Reports.ViewModels
 				}
 			}
 		}
-		private bool _passCardInactive;
+		bool _passCardInactive;
 		public bool PassCardInactive
 		{
 			get { return _passCardInactive; }
@@ -42,7 +44,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => PassCardInactive);
 			}
 		}
-		private bool _passCardPermanent;
+		bool _passCardPermanent;
 		public bool PassCardPermanent
 		{
 			get { return _passCardPermanent; }
@@ -52,7 +54,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => PassCardPermanent);
 			}
 		}
-		private bool _passCardTemprorary;
+		bool _passCardTemprorary;
 		public bool PassCardTemprorary
 		{
 			get { return _passCardTemprorary; }
@@ -62,7 +64,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => PassCardTemprorary);
 			}
 		}
-		private bool _passCardOnceOnly;
+		bool _passCardOnceOnly;
 		public bool PassCardOnceOnly
 		{
 			get { return _passCardOnceOnly; }
@@ -72,7 +74,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => PassCardOnceOnly);
 			}
 		}
-		private bool _passCardForcing;
+		bool _passCardForcing;
 		public bool PassCardForcing
 		{
 			get { return _passCardForcing; }
@@ -82,7 +84,7 @@ namespace SKDModule.Reports.ViewModels
 				OnPropertyChanged(() => PassCardForcing);
 			}
 		}
-		private bool _passCardLocked;
+		bool _passCardLocked;
 		public bool PassCardLocked
 		{
 			get { return _passCardLocked; }
@@ -93,7 +95,7 @@ namespace SKDModule.Reports.ViewModels
 			}
 		}
 
-		private bool _allowInactive;
+		bool _allowInactive;
 		public bool AllowInactive
 		{
 			get { return _allowInactive; }

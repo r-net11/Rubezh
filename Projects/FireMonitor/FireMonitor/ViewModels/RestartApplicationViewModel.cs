@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Windows;
-using Infrastructure.Common.Windows;
 using System.Windows.Threading;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.ViewModels
 {
@@ -25,12 +19,9 @@ namespace FireMonitor.ViewModels
 			timer.Tick += (s, e) => Counter++;
 			timer.Interval = TimeSpan.FromSeconds(1);
 			timer.Start();
-#if DEBUG
-			Total = 10;
-#endif
 		}
 
-		private int _counter;
+		int _counter;
 		public int Counter
 		{
 			get { return _counter; }

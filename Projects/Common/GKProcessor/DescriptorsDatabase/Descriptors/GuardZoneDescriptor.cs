@@ -276,7 +276,10 @@ namespace GKProcessor
 								}
 							}
 						}
+						var gotoFormulaOperation = Formula.Add(FormulaOperationType.BR, 1, 3);
+						Formula.Add(FormulaOperationType.CONST, 0, 1);
 						Formula.AddPutBit(commandStateBit, GuardZone, DatabaseType);
+						Formula.Add(FormulaOperationType.EXIT);
 					}
 					break;
 			}

@@ -34,9 +34,9 @@ namespace SKDModule.ViewModels
 		{
 			var copy = base.CopyModel(source);
 			copy.Type = source.Type;
-			copy.Date = source.Date;
 			copy.Date = new DateTime(SelectedYear, source.Date.Month, source.Date.Day);
-			copy.TransferDate = source.TransferDate;
+			if(source.TransferDate != null)
+				copy.TransferDate =  new DateTime(SelectedYear, source.TransferDate.Value.Month, source.TransferDate.Value.Day);
 			copy.Reduction = source.Reduction;
 			return copy;
 		}

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Microsoft.Practices.Prism;
 
 namespace GKModule.ViewModels
 {
@@ -17,12 +19,15 @@ namespace GKModule.ViewModels
 		{
 			get { return Door.State; }
 		}
+		public DoorDetailsViewModel DoorDetailsViewModel { get; private set; }
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
 		public DoorViewModel(GKDoor door)
 		{
 			Door = door;
-			State.StateChanged -= new Action(OnStateChanged);
-			State.StateChanged += new Action(OnStateChanged);
+			DoorDetailsViewModel = new DoorDetailsViewModel(door);
+			State.StateChanged -= OnStateChanged;
+			State.StateChanged += OnStateChanged;
 			OnStateChanged();
 
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
@@ -32,6 +37,9 @@ namespace GKModule.ViewModels
 			ShowEnterDeviceCommand = new RelayCommand(OnShowEnterDevice, CanShowEnterDevice);
 			ShowExitDeviceCommand = new RelayCommand(OnShowExitDevice, CanShowExitDevice);
 
+			Devices = new ObservableCollection<DeviceViewModel>();
+			Devices.AddRange(DevicesViewModel.Current.AllDevices.FindAll(x => x.Device.UID == door.EnterDeviceUID
+				|| x.Device.UID == door.ExitDeviceUID || x.Device.UID == door.LockControlDeviceUID || x.Device.UID == door.LockDeviceUID));
 			EnterDevice = Door.EnterDevice;
 			ExitDevice = Door.ExitDevice;
 		}
@@ -114,7 +122,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showArchiveEventArgs = new ShowArchiveEventArgs()
+			var showArchiveEventArgs = new ShowArchiveEventArgs
 			{
 				GKDoor = Door
 			};
@@ -125,6 +133,21 @@ namespace GKModule.ViewModels
 		private void OnShowProperties()
 		{
 			DialogService.ShowWindow(new DoorDetailsViewModel(Door));
+		}
+
+		public string OpenRegimeLogicName
+		{
+			get { return GKManager.GetPresentationLogic(Door.OpenRegimeLogic); }
+		}
+
+		public string NormRegimeLogicName
+		{
+			get { return GKManager.GetPresentationLogic(Door.NormRegimeLogic); }
+		}
+
+		public string CloseRegimeLogicName
+		{
+			get { return GKManager.GetPresentationLogic(Door.CloseRegimeLogic); }
 		}
 
 		public bool IsBold { get; set; }

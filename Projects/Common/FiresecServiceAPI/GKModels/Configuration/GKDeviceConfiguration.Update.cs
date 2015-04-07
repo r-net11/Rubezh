@@ -113,7 +113,6 @@ namespace FiresecAPI.GK
 			foreach (var mpt in MPTs)
 			{
 				mpt.ClearClauseDependencies();
-				mpt.Devices = new List<GKDevice>();
 			}
 			foreach (var delay in Delays)
 			{
@@ -243,7 +242,6 @@ namespace FiresecAPI.GK
 						mptDevice.Device = device;
 						mptDevices.Add(mptDevice);
 						device.IsInMPT = true;
-						mpt.Devices.Add(device);
 					}
 				}
 				mpt.MPTDevices = mptDevices;

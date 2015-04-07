@@ -1,11 +1,11 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
-using FiresecService.Report.DataSources;
-using System.Collections.Generic;
-using System;
 using FiresecClient;
+using FiresecService.Report.DataSources;
 
 namespace FiresecService.Report.Templates
 {
@@ -33,7 +33,8 @@ namespace FiresecService.Report.Templates
 			var filter = GetFilter<EmployeeRootReportFilter>();
 			var ds = new EmployeeRootDataSet();
 			var employees = dataProvider.GetEmployees(filter);
-			var passJournal = dataProvider.DatabaseService.PassJournalTranslator != null ? dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
+			var passJournal = dataProvider.DatabaseService.PassJournalTranslator != null ? 
+				dataProvider.DatabaseService.PassJournalTranslator.GetEmployeesRoot(employees.Select(item => item.UID), filter.Zones, filter.DateTimeFrom, filter.DateTimeTo) : null;
 
 			var zoneMap = new Dictionary<Guid, string>();
 			if (passJournal != null)
@@ -58,25 +59,39 @@ namespace FiresecService.Report.Templates
 				employeeRow.Organisation = employee.Organisation;
 				ds.Employee.AddEmployeeRow(employeeRow);
 				if (passJournal != null)
-					foreach (var pass in passJournal.Where(item => item.EmployeeUID == employee.UID))
+				{
+					var dayPassJournals = passJournal.Where(item => item.EmployeeUID == employee.UID).GroupBy(x => x.EnterTime.Date);
+					var timeTrackParts = new List<TimeTrackPart>();
+					foreach (var item in dayPassJournals)
+					{
+						var timeTrackDayParts = new List<TimeTrackPart>();
+						foreach (var pass in item)
+						{
+							timeTrackDayParts.Add(new TimeTrackPart { StartTime = new TimeSpan(pass.EnterTime.Ticks), EndTime = new TimeSpan(pass.ExitTime.HasValue ? pass.ExitTime.Value.Ticks : 0), PassJournalUID = pass.UID, ZoneUID = pass.ZoneUID });
+						}
+						timeTrackDayParts = DayTimeTrack.NormalizeTimeTrackParts(timeTrackDayParts);
+						timeTrackParts.AddRange(timeTrackDayParts);
+					}
+					foreach (var pass in timeTrackParts)
 					{
 						var row = ds.Data.NewDataRow();
 						row.EmployeeRow = employeeRow;
 						if (zoneMap.ContainsKey(pass.ZoneUID))
 							row.Zone = zoneMap[pass.ZoneUID];
-						if (filter.DateTimeFrom <= pass.EnterTime && pass.EnterTime <= filter.DateTimeTo)
+						if (filter.DateTimeFrom.Ticks <= pass.StartTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
 						{
-							row.DateTime = pass.EnterTime;
+							row.DateTime = new DateTime(pass.StartTime.Ticks);
 							ds.Data.AddDataRow(row);
 						}
-						//if (pass.ExitTime.HasValue && filter.DateTimeFrom <= pass.ExitTime && pass.ExitTime <= filter.DateTimeTo)
-						//{
-						//	var row2 = ds.Data.NewDataRow();
-						//	row2.ItemArray = row.ItemArray;
-						//	row2.DateTime = pass.ExitTime.Value;
-						//	ds.Data.AddDataRow(row2);
-						//}
+						if (pass.EndTime.Ticks != 0 && filter.DateTimeFrom.Ticks <= pass.EndTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
+						{
+							var row2 = ds.Data.NewDataRow();
+							row2.ItemArray = row.ItemArray;
+							row2.DateTime = new DateTime(pass.EndTime.Ticks);
+							ds.Data.AddDataRow(row2);
+						}
 					}
+				}
 			}
 			return ds;
 		}
