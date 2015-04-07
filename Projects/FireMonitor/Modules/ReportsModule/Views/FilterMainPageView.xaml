@@ -4,6 +4,7 @@
 			 xmlns:API="clr-namespace:FiresecAPI.SKD.ReportFilters;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
 			 xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+			 xmlns:Converters="clr-namespace:ReportsModule.Converters"
 			 xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 	<UserControl.Resources>
 		<IfConverter x:Key="AdditionalLinkText" FalseValue="Показать настройки отображения отчёта" TrueValue="Скрыть настройки отображения отчёта" />
@@ -13,6 +14,7 @@
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="Margin" Value="2" />
 		</Style>
+		<Converters:ReportPeriodTypeToBoolConverter x:Key="ReportPeriodTypeToBoolConverter" />
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -58,20 +60,22 @@
                       DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
 -->
 			<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+						  IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
 						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" AllowSpinOnMouseWheel="True"
 						  DateTime="{Binding DateTimeFrom, UpdateSourceTrigger=PropertyChanged}"
 						  MinValue="{Binding MinDate, Mode=OneWay}"
-						  MaxValue="{Binding MaxDate, Mode=OneWay}" Margin="2" Padding="4,3" />
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" Margin="2" Padding="4,3" ShowClearButton="False" />
 <!--
 			<Calendar Grid.Row="2" Grid.Column="1" SelectionMode="SingleDate" HorizontalAlignment="Left" 
                       DisplayDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}" 
                       DisplayDateStart="{Binding MinDate, Mode=OneWay}" DisplayDateEnd="{Binding MaxDate, Mode=OneWay}" />
 -->
 			<dxe:DateEdit Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150"
+						  IsEnabled="{Binding SelectedReportPeriod, Converter={StaticResource ReportPeriodTypeToBoolConverter}}"
 						  Mask="dd.MM.yyyy HH:mm:ss" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
 						  DateTime="{Binding DateTimeTo, UpdateSourceTrigger=PropertyChanged}"
 						  MinValue="{Binding MinDate, Mode=OneWay}"
-						  MaxValue="{Binding MaxDate, Mode=OneWay}" Padding="4,3" Margin="2" />
+						  MaxValue="{Binding MaxDate, Mode=OneWay}" Padding="4,3" Margin="2" ShowClearButton="False" />
 
 		</Grid>
 		<CheckBox Grid.Row="2" VerticalAlignment="Center" Content="Отображать архивные сведения" Foreground="White" IsChecked="{Binding UseArchive}" Visibility="{Binding HasArchive, Converter={StaticResource BoolToVisibilityConverter}}" />

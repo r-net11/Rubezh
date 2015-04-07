@@ -16,12 +16,9 @@
 		<CheckBox Grid.Row="0" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Дата истечения" FlowDirection="RightToLeft" Foreground="White" IsChecked="{Binding UseExpirationDate}" />
 		<ComboBox Grid.Row="0" Grid.Column="1" Width="240" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseExpirationDate}" ItemsSource="{Binding Source={x:Type API:EndDateType}, Converter={StaticResource EnumToItemsSourceConverter}}" ItemTemplate="{StaticResource EnumDescriptionTemplate}" SelectedItem="{Binding ExpirationType}" />
 		<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" IsEnabled="{Binding IsExpirationArbitrary}" Text="Дата окончания действия" />
-		<!--<dxe:DateEdit Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Left" Margin="72,12,0,0" Name="dateEdit1" VerticalAlignment="Top" Width="150" />-->
-		<!--
-		<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy" Format="Custom" IsEnabled="{Binding IsExpirationArbitrary}" ShowCheckBox="False" Value="{Binding ExpirationDate}" />
--->
+		<!--<loya:Dameer Grid.Row="1" Grid.Column="1" Width="240" Margin="2,6,2,6" HorizontalAlignment="Left" CustomFormat="dd MMMM yyyy" Format="Custom" IsEnabled="{Binding IsExpirationArbitrary}" ShowCheckBox="False" Value="{Binding ExpirationDate}" />-->
 		<dxe:DateEdit Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" IsEnabled="{Binding IsExpirationArbitrary}"
 					  Mask="dd.MM.yyyy" MaskCulture="ru-RU" MaskUseAsDisplayFormat="True" ShowBorder="True" AllowSpinOnMouseWheel="True"
-					  DateTime="{Binding ExpirationDate}" Margin="2" Padding="4,3" />
+					  DateTime="{Binding ExpirationDate}" Margin="2" Padding="4,3" ShowClearButton="False" />
 	</Grid>
 </UserControl>
