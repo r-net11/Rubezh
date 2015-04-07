@@ -82,7 +82,7 @@ namespace FiresecService.Report.Templates
 						{
 							if (zone1 == zone2)
 								zone2 = null;
-							var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone2.UID, zone2.PresentationName));
+							var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone1.UID, zone1.PresentationName));
 							zoneMap.Add(door.UID, value);
 						}
 					}
