@@ -69,13 +69,13 @@ namespace FiresecService.Report.Templates
 							row.DateTime = pass.EnterTime;
 							ds.Data.AddDataRow(row);
 						}
-						if (pass.ExitTime.HasValue && filter.DateTimeFrom <= pass.ExitTime && pass.ExitTime <= filter.DateTimeTo)
-						{
-							var row2 = ds.Data.NewDataRow();
-							row2.ItemArray = row.ItemArray;
-							row2.DateTime = pass.ExitTime.Value;
-							ds.Data.AddDataRow(row2);
-						}
+						//if (pass.ExitTime.HasValue && filter.DateTimeFrom <= pass.ExitTime && pass.ExitTime <= filter.DateTimeTo)
+						//{
+						//	var row2 = ds.Data.NewDataRow();
+						//	row2.ItemArray = row.ItemArray;
+						//	row2.DateTime = pass.ExitTime.Value;
+						//	ds.Data.AddDataRow(row2);
+						//}
 					}
 			}
 			return ds;
