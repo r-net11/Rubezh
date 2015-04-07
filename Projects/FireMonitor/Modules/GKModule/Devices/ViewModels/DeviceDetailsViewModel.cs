@@ -58,6 +58,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => HasOnDelay);
 			OnPropertyChanged(() => HasHoldDelay);
 			OnPropertyChanged(() => HasOffDelay);
+			OnPropertyChanged(() => HasRunTime);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -82,6 +83,10 @@ namespace GKModule.ViewModels
 		public bool HasOffDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.TurningOff) && State.OffDelay > 0; }
+		}
+		public bool HasRunTime
+		{
+			get { return (Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24) && State.HoldDelay > 0; }
 		}
 
 		#region Measure Parameters
