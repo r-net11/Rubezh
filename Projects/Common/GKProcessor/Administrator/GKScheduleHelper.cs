@@ -12,11 +12,11 @@ namespace GKProcessor
 	{
 		public static OperationResult<bool> GKRewriteAllSchedules(GKDevice device)
 		{
-			var progressCallback = GKProcessorManager.StartProgress("Перезапись графиков в " + device.PresentationName, "Стирание графиков", 1, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Перезапись графиков в " + device.PresentationName, "Стирание графиков", 1, false, GKProgressClientType.Administrator);
 			var removeResult = GKRemoveAllSchedules(device);
 			if (removeResult.HasError)
 				return new OperationResult<bool>(removeResult.Error);
-			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", GKManager.DeviceConfiguration.Schedules.Count + 1, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.StartProgress("Запись графиков в " + device.PresentationName, "", GKManager.DeviceConfiguration.Schedules.Count + 1, false, GKProgressClientType.Administrator);
 			var emptySchedule = new GKSchedule();
 			emptySchedule.Name = "Никогда";
 			var setResult = GKSetSchedule(device, emptySchedule);

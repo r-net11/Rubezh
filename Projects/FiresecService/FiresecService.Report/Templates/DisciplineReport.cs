@@ -86,7 +86,7 @@ namespace FiresecService.Report.Templates
 
 						var isHoliday = dayTimeTrack.IsHoliday;
 
-						var document = timeTrackEmployeeResult.Documents.FirstOrDefault(x => (dayTimeTrack.Date >= x.StartDateTime && dayTimeTrack.Date <= x.EndDateTime) && x.TimeTrackDocumentType.ShortName == dayTimeTrack.LetterCode);
+						var document = timeTrackEmployeeResult.Documents.FirstOrDefault(x => (dayTimeTrack.Date >= x.StartDateTime.Date && dayTimeTrack.Date <= x.EndDateTime.Date) && x.TimeTrackDocumentType.ShortName == dayTimeTrack.LetterCode);
 						if (document != null)
 						{
 							dataRow.DocumentDate = document.DocumentDateTime;

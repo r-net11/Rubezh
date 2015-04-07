@@ -190,9 +190,7 @@ namespace GKProcessor
 				{
 					foreach (var measureParameter in Device.Driver.MeasureParameters)
 					{
-						double parameterValue = BytesHelper.SubstructShort(result.Bytes, 46 + measureParameter.No * 2);
-						if ((Device.DriverType == GKDriverType.MDU || Device.DriverType == GKDriverType.RSR2_MDU24) && measureParameter.No == 3)
-							parameterValue = parameterValue / 10;
+						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 46 + measureParameter.No * 2);
 						var stringValue = parameterValue.ToString();
 						if (measureParameter.Multiplier != null)
 						{

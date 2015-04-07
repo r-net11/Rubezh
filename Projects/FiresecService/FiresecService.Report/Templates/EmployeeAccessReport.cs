@@ -80,8 +80,6 @@ namespace FiresecService.Report.Templates
 						var zone2 = door.OutDevice != null && door.OutDevice.Zone != null && (filter.Zones.IsEmpty() || filter.Zones.Contains(door.OutDevice.Zone.UID)) ? door.OutDevice.Zone : null;
 						if (zone1 != null || zone2 != null)
 						{
-							if (zone1 == zone2)
-								zone2 = null;
 							var value = new Tuple<Tuple<Guid, string>, Tuple<Guid, string>>(new Tuple<Guid, string>(zone1.UID, zone1.PresentationName), new Tuple<Guid, string>(zone1.UID, zone1.PresentationName));
 							zoneMap.Add(door.UID, value);
 						}
