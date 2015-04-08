@@ -1,24 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
-using FiresecAPI.SKD;
-using FiresecClient;
-using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.SKDReports;
-using Infrastructure.Common.Windows;
 using Infrastructure.Designer;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Reports;
 using SKDModule.Reports.Providers;
@@ -124,7 +115,7 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDScheduleSchemes, "Графики", "Tree.png", (p) => ScheduleSchemesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSchedules, "Графики работ", "Tree.png", (p) => SchedulesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учета рабочего времени", "Tree.png", (p) => TimeTrackingViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учет рабочего времени", "Tree.png", (p) => TimeTrackingViewModel);
 		}
 		#endregion
 

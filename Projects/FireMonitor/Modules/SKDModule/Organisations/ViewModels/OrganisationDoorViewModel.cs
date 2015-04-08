@@ -43,6 +43,13 @@ namespace SKDModule.ViewModels
 				{
 					if (!Organisation.DoorUIDs.Contains(DoorUID))
 						Organisation.DoorUIDs.Add(DoorUID);
+					var saveResult = OrganisationHelper.SaveDoors(Organisation);
+					if (saveResult)
+					{
+						_isChecked = value;
+						OnPropertyChanged(() => IsChecked);
+						ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
+					}
 				}
 				else
 				{
@@ -62,16 +69,13 @@ namespace SKDModule.ViewModels
 
 					var schedules = ScheduleHelper.Get(new ScheduleFilter());
 					var hasLinkedSchedules = schedules.Any(x => x.OrganisationUID == Organisation.UID && x.Zones.Any(y => y.DoorUID == DoorUID));
-					
-					if (linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules)
+
+					var hasLinkedItems = linkedCards.Count > 0 || linkedAccessTemplates.Count > 0 || hasLinkedSchedules;
+					bool canRemove = false;
+					if (hasLinkedItems)
 					{
 						if (MessageBoxService.ShowQuestion("Существуют карты, шаблоны доступа или графики, привязанные к данной точке доступа\nВы уверены, что хотите снять права с точки доступа?"))
 						{
-							if (Organisation.DoorUIDs.Contains(DoorUID))
-							{
-								Organisation.DoorUIDs.Remove(DoorUID);
-							}
-
 							foreach (var card in linkedCards)
 							{
 								card.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
@@ -83,16 +87,27 @@ namespace SKDModule.ViewModels
 								accessTemplate.CardDoors.RemoveAll(x => x.DoorUID == DoorUID);
 								AccessTemplateHelper.Save(accessTemplate, false);
 							}
+
+							canRemove = true;
 						}
 					}
 
-					OnPropertyChanged(() => IsChecked);
+					if (!hasLinkedItems || canRemove)
+					{
+						if (Organisation.DoorUIDs.Contains(DoorUID))
+						{
+							Organisation.DoorUIDs.Remove(DoorUID);
+						}
+						var saveResult = OrganisationHelper.SaveDoors(Organisation);
+						if (saveResult)
+						{
+							_isChecked = value;
+							OnPropertyChanged(() => IsChecked);
+							ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
+						}
+					}
 				}
-				_isChecked = value;
-				OnPropertyChanged(() => IsChecked);
-				var saveResult = OrganisationHelper.SaveDoors(Organisation);
-				if(saveResult)
-					ServiceFactory.Events.GetEvent<UpdateOrganisationDoorsEvent>().Publish(Organisation.UID);
+				
 			}
 		}
 	}
