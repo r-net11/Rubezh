@@ -64,6 +64,9 @@
 			this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrTableCell14 = new DevExpress.XtraReports.UI.XRTableCell();
 			this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
+			this.GroupFooter1 = new DevExpress.XtraReports.UI.GroupFooterBand();
+			this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
+			this.xrSummary1 = new DevExpress.XtraReports.UI.XRSummary();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
@@ -405,11 +408,39 @@
 			this.xrControlStyle1.Name = "xrControlStyle1";
 			this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			// 
+			// GroupFooter1
+			// 
+			this.GroupFooter1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel1});
+			this.GroupFooter1.Dpi = 254F;
+			this.GroupFooter1.GroupUnion = DevExpress.XtraReports.UI.GroupFooterUnion.WithLastDetail;
+			this.GroupFooter1.HeightF = 65.00002F;
+			this.GroupFooter1.KeepTogether = true;
+			this.GroupFooter1.Name = "GroupFooter1";
+			// 
+			// xrLabel1
+			// 
+			this.xrLabel1.Dpi = 254F;
+			this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(25.0F, 5.000018F);
+			this.xrLabel1.Name = "xrLabel1";
+			this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 0, 0, 254F);
+			this.xrLabel1.SizeF = new System.Drawing.SizeF(2525F, 60F);
+			this.xrLabel1.StylePriority.UseFont = false;
+			this.xrLabel1.StylePriority.UsePadding = false;
+			this.xrLabel1.StylePriority.UseTextAlignment = false;
+			this.xrSummary1.FormatString = "Всего событий: {0}";
+			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
+			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+			this.xrLabel1.Summary = this.xrSummary1;
+			this.xrLabel1.Text = "Total";
+			this.xrLabel1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
+			// 
 			// DisciplineReport
 			// 
 			this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
             this.Detail,
-            this.GroupHeader1});
+            this.GroupHeader1,
+			this.GroupFooter1});
 			this.DataMember = "Data";
 			this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
 			this.ExportOptions.PrintPreview.ActionAfterExport = DevExpress.XtraPrinting.ActionAfterExport.Open;
@@ -465,5 +496,8 @@
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell26;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell27;
 		private DevExpress.XtraReports.UI.XRTableCell xrTableCell28;
+		private DevExpress.XtraReports.UI.GroupFooterBand GroupFooter1;
+		private DevExpress.XtraReports.UI.XRLabel xrLabel1;
+		private DevExpress.XtraReports.UI.XRSummary xrSummary1;
 	}
 }
