@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			float[] ColumnsWidth = { 200F };
+
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DepartmentsReport));
 			this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
 			this.xrTableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -78,7 +80,8 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Department.Description")});
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.Text = "xrTableCell1";
-			this.xrTableCell1.Weight = 0.66666666666666663D;
+			//this.xrTableCell1.Weight = 0.66666666666666663D;
+			this.xrTableCell1.WidthF = ColumnsWidth[0];
 			// 
 			// xrTableCell2
 			// 
@@ -162,8 +165,9 @@
 			// 
 			this.xrTableCell16.Dpi = 254F;
 			this.xrTableCell16.Name = "xrTableCell16";
-			this.xrTableCell16.Text = "Уровень в оргструктуре";
-			this.xrTableCell16.Weight = 0.20512820512820512D;
+			this.xrTableCell16.Text = "Уровень";
+			//this.xrTableCell16.Weight = 0.20512820512820512D;
+			this.xrTableCell16.WidthF = ColumnsWidth[0];
 			// 
 			// xrTableCell11
 			// 
@@ -256,7 +260,8 @@
 			this.xrTableCellLevel.Name = "xrTableCellLevel";
 			this.xrTableCellLevel.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 254F);
 			this.xrTableCellLevel.StylePriority.UsePadding = false;
-			this.xrTableCellLevel.Weight = 0.20512859637920672D;
+			//this.xrTableCellLevel.Weight = 0.20512859637920672D;
+			this.xrTableCellLevel.WidthF = ColumnsWidth[0];
 			this.xrTableCellLevel.BeforePrint += new System.Drawing.Printing.PrintEventHandler(this.xrTableCellLevel_BeforePrint);
 			// 
 			// xrTableCell6

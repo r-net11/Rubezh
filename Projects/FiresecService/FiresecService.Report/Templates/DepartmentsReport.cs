@@ -122,7 +122,7 @@ namespace FiresecService.Report.Templates
 		private void xrTableCellLevel_BeforePrint(object sender, PrintEventArgs e)
 		{
 			var level = GetCurrentColumnValue<int>("Level");
-			((XRTableCell)sender).Padding = new PaddingInfo((level - 1) * 3, 0, 0, 0);
+			((XRTableCell)sender).Padding = new PaddingInfo(level * 6, 0, 0, 0);
 		}
 	}
 }
