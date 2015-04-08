@@ -139,7 +139,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanEditProperties()
 		{
-			return SelectedDevice != null && SelectedDevice.Device!= null;// && SelectedDevice.Device.DriverType != GKDriverType.RSR2_AM_1;
+			return SelectedDevice != null && SelectedDevice.Device!= null;
 		}
 
 		public static void ChangeIsInMPT(GKDevice device, bool isInMPT)

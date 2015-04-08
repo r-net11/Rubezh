@@ -12,7 +12,7 @@ namespace FiresecAPI
 	{
 		/// <summary>
 		/// Инициализация свойства UseStrazhBrand
-		/// Если в каталоге приложения есть библиотека "StrazhModule.dll", то UI подстраивается под бренд СТРАЖ
+		/// Если в каталоге данных есть файл-флаг "StrazhSettings.xml", то UI подстраивается под бренд СТРАЖ
 		/// </summary>
 		private void InitializeUseStrazhBrandProperty()
 		{

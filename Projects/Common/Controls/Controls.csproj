@@ -1623,6 +1623,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\Shield.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="XamlImages\SKDW.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

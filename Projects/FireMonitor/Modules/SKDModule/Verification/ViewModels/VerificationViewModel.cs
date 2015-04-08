@@ -28,9 +28,9 @@ namespace SKDModule.ViewModels
 			foreach (var journalItem in journalItems)
 			{
 				var isForVerification = false;
-				if (journalItem.ObjectUID == DeviceUID && journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен)
+				if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен)
 				{
-					isForVerification = true;
+					isForVerification = journalItem.ObjectUID == DeviceUID;
 				}
 				if (journalItem.JournalEventNameType == JournalEventNameType.Проход_пользователя_разрешен)
 				{

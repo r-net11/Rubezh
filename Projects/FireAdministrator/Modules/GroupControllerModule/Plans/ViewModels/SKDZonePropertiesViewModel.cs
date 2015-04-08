@@ -60,8 +60,8 @@ namespace GKModule.Plans.ViewModels
 				GKPlanExtension.Instance.SetItem<GKSKDZone>(IElementZone, createSKDZoneEventArg.Zone.UID);
 			}
 			UpdateZones(zoneUID);
-			//if (!createSKDZoneEventArg.Cancel)
-			//    Close(true);
+			if (!createSKDZoneEventArg.Cancel)
+			    Close(true);
 		}
 
 		public RelayCommand EditCommand { get; private set; }

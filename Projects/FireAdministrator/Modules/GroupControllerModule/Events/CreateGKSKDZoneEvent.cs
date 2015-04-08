@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.SKD;
 using Microsoft.Practices.Prism.Events;
 using FiresecAPI.GK;
+using System;
 
 namespace GKModule.Events
 {
@@ -10,6 +11,8 @@ namespace GKModule.Events
 
 	public class CreateGKSKDZoneEventArg
 	{
+		public bool Cancel { get; set; }
+		public Guid ZoneUID { get; set; }
 		public GKSKDZone Zone { get; set; }
 	}
 }

@@ -92,7 +92,22 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			OnAddZone();
+			OnAddResult();
+		}
+		SKDZoneDetailsViewModel OnAddResult()
+		{
+			var zoneDetailsViewModel = new SKDZoneDetailsViewModel();
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				GKManager.SKDZones.Add(zoneDetailsViewModel.Zone);
+				var zoneViewModel = new SKDZoneViewModel(zoneDetailsViewModel.Zone);
+				Zones.Add(zoneViewModel);
+				SelectedZone = zoneViewModel;
+				ServiceFactory.SaveService.GKChanged = true;
+				GKPlanExtension.Instance.Cache.BuildSafe<GKSKDZone>();
+				return zoneDetailsViewModel;
+			}
+			return null;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -113,7 +128,17 @@ namespace GKModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			OnEdit(SelectedZone);
+			OnEdit(SelectedZone.Zone);
+		}
+		void OnEdit(GKSKDZone zone)
+		{
+			var zoneDetailsViewModel = new SKDZoneDetailsViewModel(zone);
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				GKManager.EditSKDZone(SelectedZone.Zone);
+				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		void RegisterShortcuts()
@@ -236,40 +261,24 @@ namespace GKModule.ViewModels
 
 		public void CreateZone(CreateGKSKDZoneEventArg createZoneEventArg)
 		{
-			var zoneViewModel = OnAddZone();
-			createZoneEventArg.Zone = zoneViewModel == null ? null : zoneViewModel.Zone;
+			SKDZoneDetailsViewModel result = OnAddResult();
+			if (result == null)
+			{
+				createZoneEventArg.Cancel = true;
+				createZoneEventArg.ZoneUID = Guid.Empty;
+			}
+			else
+			{
+				createZoneEventArg.Cancel = false;
+				createZoneEventArg.ZoneUID = result.Zone.UID;
+				createZoneEventArg.Zone = result.Zone;
+			}
 		}
 		public void EditZone(Guid zoneUID)
 		{
 			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zoneViewModel != null)
-				OnEdit(zoneViewModel);
-		}
-
-		void OnEdit(SKDZoneViewModel viewModel)
-		{
-			var zoneDetailsViewModel = new SKDZoneDetailsViewModel(SelectedZone.Zone);
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				GKManager.EditSKDZone(zoneDetailsViewModel.Zone);
-				SelectedZone.Update(zoneDetailsViewModel.Zone);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-		SKDZoneViewModel OnAddZone()
-		{
-			var zoneDetailsViewModel = new SKDZoneDetailsViewModel();
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				GKManager.SKDZones.Add(zoneDetailsViewModel.Zone);
-				var zoneViewModel = new SKDZoneViewModel(zoneDetailsViewModel.Zone);
-				Zones.Add(zoneViewModel);
-				SelectedZone = zoneViewModel;
-				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<GKSKDZone>();
-				return zoneViewModel;
-			}
-			return null;
+				OnEdit(zoneViewModel.Zone);
 		}
 	}
 }

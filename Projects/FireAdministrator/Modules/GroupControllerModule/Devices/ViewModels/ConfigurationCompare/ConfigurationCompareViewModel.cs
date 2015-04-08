@@ -316,7 +316,7 @@ namespace GKModule.ViewModels
 			var mptsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
 				mptsDifferences.Append("Не совпадает название");
-			if (object1.MPT.Devices.Any(nsDevice => object2.MPT.Devices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
+			if (object1.MPT.MPTDevices.Select(x => x.Device).Any(nsDevice => object2.MPT.MPTDevices.Select(x => x.Device).All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
 			{
 				if (mptsDifferences.Length != 0)
 					mptsDifferences.Append(". ");

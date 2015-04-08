@@ -146,6 +146,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\ReportPeriodTypeToBoolConverter.cs" />
     <Compile Include="DocumentPaginatorModel\DocumentPaginator.cs" />
     <Compile Include="DocumentPaginatorModel\FlowToXPSConverter.cs" />
     <Compile Include="DocumentPaginatorModel\PimpedPaginator.cs" />

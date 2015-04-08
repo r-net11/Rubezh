@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.ReportFilters;
 using FiresecService.Report.DataSources;
+using Infrastructure.Common;
 
 namespace FiresecService.Report.Templates
 {
@@ -23,7 +24,7 @@ namespace FiresecService.Report.Templates
 			get { return true; }
 		}
 
-        public override string ReportTitle
+		public override string ReportTitle
 		{
 			get { return "Сведения о пропусках"; }
 		}
@@ -91,7 +92,7 @@ namespace FiresecService.Report.Templates
 						dataRow.Department = employee.Department;
 						dataRow.Position = employee.Position;
 					}
-					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary))
+					if (!card.IsInStopList && (card.CardType == CardType.Duress || card.CardType == CardType.Temporary || !GlobalSettingsHelper.GlobalSettings.UseStrazhBrand))
 						dataRow.Period = card.EndDate;
 					dataSet.Data.Rows.Add(dataRow);
 				}

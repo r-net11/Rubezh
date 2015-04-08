@@ -83,13 +83,13 @@ namespace GKProcessor
 				if (mpt.GkDatabaseParent == gkControllerDevice)
 				{
 					stringBuilder.Append(mpt.PresentationName).Append("@");
-					if (mpt.Devices != null)
+					if (mpt.MPTDevices != null)
 					{
 						stringBuilder.Append("nsDevices:");
-						foreach (var device in mpt.Devices)
+						foreach (var mptDevice in mpt.MPTDevices)
 						{
-							if (device.GKParent == gkControllerDevice)
-								stringBuilder.Append(device.PresentationName).Append("@");
+							if (mptDevice.Device.GKParent == gkControllerDevice)
+								stringBuilder.Append(mptDevice.Device.PresentationName).Append("@");
 						}
 					}
 				}

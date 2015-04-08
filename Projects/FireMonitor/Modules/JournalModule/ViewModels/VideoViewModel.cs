@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		private VlcControl _vlcControl;
+		VlcControl _vlcControl;
 		public ImageSource Image
 		{
 			get
@@ -66,7 +66,7 @@ namespace JournalModule.ViewModels
 		}
 
 
-		private void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
+		void VlcControlOnPositionChanged(VlcControl sender, VlcEventArgs<float> vlcEventArgs)
 		{
 			OnPropertyChanged(() => Image);
 		}

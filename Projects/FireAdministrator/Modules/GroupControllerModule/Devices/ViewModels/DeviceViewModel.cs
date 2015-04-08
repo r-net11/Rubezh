@@ -91,6 +91,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsFireAndGuard);
 			OnPropertyChanged(() => IsParamtersEnabled);
 			OnPropertyChanged(() => IsInDoor);
+			OnPropertyChanged(() => MPTName);
+			OnPropertyChanged(() => IsInMPT);
 		}
 
 		public void UpdateProperties()
@@ -106,6 +108,11 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 			OnPropertyChanged(() => Description);
+		}
+
+		public bool IsInMPT
+		{
+			get { return Device != null && Device.IsInMPT; }
 		}
 
 		public bool IsInDoor
@@ -291,7 +298,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSelect()
 		{
-			return Driver.DriverType == GKDriverType.KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_KAU_Shleif;
+			return Driver.DriverType == GKDriverType.KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_KAU_Shleif || Driver.DriverType == GKDriverType.RSR2_MVP_Part;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -674,10 +681,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var mpt = GKManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
-				if (mpt != null)
-					return mpt.Name;
-				return null;
+				var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == Device.UID));
+				return mpt != null ? mpt.Name : null;
 			}
 		}
 
@@ -696,7 +701,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowMPTCommand { get; private set; }
 		void OnShowMPT()
 		{
-			var mpt = GKManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
+			var mpt = GKManager.MPTs.FirstOrDefault(x => x.MPTDevices.Any(y => y.DeviceUID == Device.UID));
 			if (mpt != null)
 				ServiceFactoryBase.Events.GetEvent<ShowGKMPTEvent>().Publish(mpt.UID);
 		}

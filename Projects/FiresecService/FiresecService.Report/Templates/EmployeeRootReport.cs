@@ -83,13 +83,6 @@ namespace FiresecService.Report.Templates
 							row.DateTime = new DateTime(pass.StartTime.Ticks);
 							ds.Data.AddDataRow(row);
 						}
-						if (pass.EndTime.Ticks != 0 && filter.DateTimeFrom.Ticks <= pass.EndTime.Ticks && pass.EndTime.Ticks <= filter.DateTimeTo.Ticks)
-						{
-							var row2 = ds.Data.NewDataRow();
-							row2.ItemArray = row.ItemArray;
-							row2.DateTime = new DateTime(pass.EndTime.Ticks);
-							ds.Data.AddDataRow(row2);
-						}
 					}
 				}
 			}

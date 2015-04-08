@@ -125,7 +125,6 @@ namespace GKProcessor
 							var gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
 							JournalItem.CardNo = gkCardNo;
 
-							var zoneUID = Guid.Empty;
 							var door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 							if (door != null)
 							{
@@ -135,12 +134,10 @@ namespace GKProcessor
 									if (door.EnterDeviceUID == readerDevice.UID)
 									{
 										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
-										zoneUID = door.EnterZoneUID;
 									}
 									else if (door.ExitDeviceUID == readerDevice.UID)
 									{
 										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
-										zoneUID = door.ExitZoneUID;
 									}
 								}
 							}
@@ -159,14 +156,6 @@ namespace GKProcessor
 										if (employee != null)
 										{
 											JournalItem.UserName = employee.Result.Name;
-
-											if (zoneUID != Guid.Empty)
-											{
-												using (var passJournalTranslator = new PassJournalTranslator())
-												{
-													passJournalTranslator.AddPassJournal(employeeUID, zoneUID);
-												}
-											}
 										}
 									}
 								}
@@ -191,7 +180,6 @@ namespace GKProcessor
 							gkCardNo = BytesHelper.SubstructInt(bytes, 32 + 24);
 							JournalItem.CardNo = gkCardNo;
 
-							zoneUID = Guid.Empty;
 							door = GKManager.Doors.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 							if (door != null)
 							{
@@ -201,12 +189,10 @@ namespace GKProcessor
 									if (door.EnterDeviceUID == readerDevice.UID)
 									{
 										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Вход_Глобал;
-										zoneUID = door.EnterZoneUID;
 									}
 									else if (door.ExitDeviceUID == readerDevice.UID)
 									{
 										JournalItem.JournalEventDescriptionType = JournalEventDescriptionType.Выход_Глобал;
-										zoneUID = door.ExitZoneUID;
 									}
 								}
 							}
