@@ -428,7 +428,7 @@
 			this.xrLabel1.StylePriority.UseFont = false;
 			this.xrLabel1.StylePriority.UsePadding = false;
 			this.xrLabel1.StylePriority.UseTextAlignment = false;
-			this.xrSummary1.FormatString = "Всего событий: {0}";
+			this.xrSummary1.FormatString = "Всего записей: {0}";
 			this.xrSummary1.Func = DevExpress.XtraReports.UI.SummaryFunc.Count;
 			this.xrSummary1.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
 			this.xrLabel1.Summary = this.xrSummary1;

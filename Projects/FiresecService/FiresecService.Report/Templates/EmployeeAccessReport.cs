@@ -30,8 +30,15 @@ namespace FiresecService.Report.Templates
 
 		public override string ReportTitle
 		{
-			get { return @"Доступ в зоны сотрудников (посетителей)"; }
+			get { return "Доступ в зоны " + (GetFilter<EmployeeAccessReportFilter>().IsEmployee ? "сотрудников" : "посетителей"); }
 		}
+
+		public override void ApplyFilter(SKDReportFilter filter)
+		{
+			base.ApplyFilter(filter);
+			Name = ReportTitle;
+		}
+
 		protected override DataSet CreateDataSet(DataProvider dataProvider)
 		{
 			var filter = GetFilter<EmployeeAccessReportFilter>();

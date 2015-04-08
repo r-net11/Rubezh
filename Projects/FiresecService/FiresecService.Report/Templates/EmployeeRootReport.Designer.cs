@@ -179,7 +179,8 @@
 			this.xrTableCell1.Dpi = 254F;
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.StylePriority.UseTextAlignment = false;
-			this.xrTableCell1.Weight = 0.29D;
+			//this.xrTableCell1.Weight = 0.29D;
+			this.xrTableCell1.WidthF = 60F;
 			// 
 			// xrTableCell2
 			// 
@@ -197,7 +198,6 @@
 			this.xrTableCell3.Dpi = 254F;
 			this.xrTableCell3.Name = "xrTableCell3";
 			//this.xrTableCell3.Weight = 0.29D;
-			this.xrTableCell3.Weight = 0.71D;// 
 			//
 			// xrTableCell4
 			// 
@@ -260,7 +260,8 @@
 			this.xrTableCell5.Dpi = 254F;
 			this.xrTableCell5.Name = "xrTableCell5";
 			this.xrTableCell5.Text = "Дата/время прохода";
-			this.xrTableCell5.Weight = 0.29D;
+			//this.xrTableCell5.Weight = 0.29D;
+			this.xrTableCell5.WidthF = 60F;
 			// 
 			// xrTableCell6
 			// 
@@ -275,7 +276,6 @@
 			this.xrTableCell7.Name = "xrTableCell7";
 			this.xrTableCell7.Text = "Зона";
 			//this.xrTableCell7.Weight = 0.29D;
-			this.xrTableCell7.Weight = 0.71D;
 			// 
 			// xrTableCell8
 			// 
