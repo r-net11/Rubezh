@@ -131,7 +131,8 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlGKFireZone),
 									new StepTypeViewModel(ProcedureStepType.ControlGKGuardZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDirection),
-									new StepTypeViewModel(ProcedureStepType.ControlDelay)
+									new StepTypeViewModel(ProcedureStepType.ControlDelay),
+									new StepTypeViewModel(ProcedureStepType.ControlGKDoor)
 								}),
 							new StepTypeViewModel("Управление СКД", "/Controls;component/StepIcons/Control.png",
 								new List<StepTypeViewModel>

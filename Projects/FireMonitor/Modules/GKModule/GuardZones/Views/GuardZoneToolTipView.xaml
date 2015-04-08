@@ -16,7 +16,7 @@
 		</StackPanel>
 		<TextBlock Text="{Binding GuardZone.Description}" Visibility="{Binding GuardZone.Description, Converter={StaticResource StringToVisibilityConverter}}" />
 		<StackPanel Orientation="Horizontal">
-			<ItemsControl ItemsSource="{Binding StateClasses}">
+			<ItemsControl ItemsSource="{Binding State.StateClasses}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

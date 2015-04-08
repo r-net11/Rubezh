@@ -175,12 +175,15 @@ namespace GKProcessor
 			foreach (var deviceGroup in deviceGroups)
 			{
 				var firstDeviceInGroup = deviceGroup.Devices.FirstOrDefault();
-				if (deviceGroup.Devices.Count > 1)
+				if (deviceGroup.Devices.Count > 1 && firstDeviceInGroup != null)
 				{
 					GKDriver groupDriver = null;
 					if (firstDeviceInGroup.Driver.DriverType == GKDriverType.RSR2_AM_1)
 					{
-						groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_AM_4);
+						if (deviceGroup.Devices.Count == 2)
+							groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_AM_2);
+						else
+							groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_AM_4);
 					}
 					if (firstDeviceInGroup.Driver.DriverType == GKDriverType.RSR2_MAP4)
 					{
@@ -192,22 +195,28 @@ namespace GKProcessor
 					}
 					if (firstDeviceInGroup.Driver.DriverType == GKDriverType.RSR2_RM_1)
 					{
-						groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_2);
+						if (deviceGroup.Devices.Count == 2)
+							groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_2);
+						else
+							groupDriver = GKManager.Drivers.FirstOrDefault(x => x.DriverType == GKDriverType.RSR2_RM_4);
 					}
 
 					var groupDevice = new GKDevice();
 					groupDevice.Driver = groupDriver;
-					groupDevice.DriverUID = groupDriver.UID;
+					if (groupDriver != null)
+						groupDevice.DriverUID = groupDriver.UID;
 					groupDevice.IntAddress = firstDeviceInGroup.IntAddress;
 					foreach (var deviceInGroup in deviceGroup.Devices)
 					{
 						groupDevice.Children.Add(deviceInGroup);
 					}
-					shleifDevice.Children.Add(groupDevice);
+					if (shleifDevice != null)
+						shleifDevice.Children.Add(groupDevice);
 				}
 				else
 				{
-					shleifDevice.Children.Add(firstDeviceInGroup);
+					if (shleifDevice != null)
+						shleifDevice.Children.Add(firstDeviceInGroup);
 				}
 			}
 			return true;

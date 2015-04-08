@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 						devices.Add(device);
 			}
 
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices, false);
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				if (SelectedDevice.MPTDevice.Device != null)

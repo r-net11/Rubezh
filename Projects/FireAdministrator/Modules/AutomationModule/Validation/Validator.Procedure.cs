@@ -214,6 +214,13 @@ namespace AutomationModule.Validation
 					}
 					break;
 
+				case ProcedureStepType.ControlGKDoor:
+					{
+						var controlGKDoorArguments = step.ControlGKDoorArguments;
+						ValidateArgument(step, controlGKDoorArguments.DoorArgument);
+					}
+					break;
+
 				case ProcedureStepType.ControlDelay:
 					{
 						var controlDelayArguments = step.ControlDelayArguments;

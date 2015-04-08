@@ -726,12 +726,22 @@ namespace FiresecService
 				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.Reset)
 				FiresecServiceManager.SafeFiresecService.GKReset(zoneUid, GKBaseObjectType.GuardZone);
-			if (guardZoneCommandType == GuardZoneCommandType.TurnOff)
-				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.TurnOn)
 				FiresecServiceManager.SafeFiresecService.GKTurnOn(zoneUid, GKBaseObjectType.GuardZone);
 			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNow)
 				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zoneUid, GKBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(zoneUid, GKBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOffNow)
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNow(zoneUid, GKBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOnInAutomatic)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOnNowInAutomatic)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNowInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOffInAutomatic)
+				FiresecServiceManager.SafeFiresecService.GKTurnOffInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
+			if (guardZoneCommandType == GuardZoneCommandType.TurnOffNowInAutomatic)
+				FiresecServiceManager.SafeFiresecService.GKTurnOffNowInAutomatic(zoneUid, GKBaseObjectType.GuardZone);
 		}
 
 		void ControlDirection(ProcedureStep procedureStep)
@@ -766,6 +776,21 @@ namespace FiresecService
 			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.OpenForever)
 				FiresecServiceManager.SafeFiresecService.SKDOpenDoorForever(door.UID);
 			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.CloseForever)
+				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
+		}
+
+		void ControlGKDoor(ProcedureStep procedureStep)
+		{
+			var door = GKManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlGKDoorArguments.DoorArgument.ExplicitValue.UidValue);
+			if (door == null)
+				return;
+			if (procedureStep.ControlGKDoorArguments.DoorCommandType == DoorCommandType.Open)
+				FiresecServiceManager.SafeFiresecService.SKDOpenDoor(door.UID);
+			if (procedureStep.ControlGKDoorArguments.DoorCommandType == DoorCommandType.Close)
+				FiresecServiceManager.SafeFiresecService.SKDCloseDoor(door.UID);
+			if (procedureStep.ControlGKDoorArguments.DoorCommandType == DoorCommandType.OpenForever)
+				FiresecServiceManager.SafeFiresecService.SKDOpenDoorForever(door.UID);
+			if (procedureStep.ControlGKDoorArguments.DoorCommandType == DoorCommandType.CloseForever)
 				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
 		}
 

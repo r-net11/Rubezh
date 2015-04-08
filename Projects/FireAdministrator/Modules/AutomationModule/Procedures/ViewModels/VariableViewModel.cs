@@ -38,7 +38,7 @@ namespace AutomationModule.ViewModels
 			{
 				if (Variable.ExplicitType == ExplicitType.Object)
 					return Variable.ExplicitType.ToDescription() + " \\ " + Variable.ObjectType.ToDescription();
- 				if (Variable.ExplicitType == ExplicitType.Enum)
+				if (Variable.ExplicitType == ExplicitType.Enum)
 					return Variable.ExplicitType.ToDescription() + " \\ " + Variable.EnumType.ToDescription();
 				return Variable.ExplicitType.ToDescription();
 			}

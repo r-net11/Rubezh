@@ -18,7 +18,7 @@ namespace AutomationModule.ViewModels
 			Step = step;
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if ((step.ProcedureStepType == ProcedureStepType.ControlDirection)
-				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice)
+				|| (step.ProcedureStepType == ProcedureStepType.ControlDoor) || (step.ProcedureStepType == ProcedureStepType.ControlGKDevice) || (step.ProcedureStepType == ProcedureStepType.ControlGKDoor)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlGKFireZone) || (step.ProcedureStepType == ProcedureStepType.ControlGKGuardZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlSKDDevice) || (step.ProcedureStepType == ProcedureStepType.ControlSKDZone)
 				|| (step.ProcedureStepType == ProcedureStepType.ControlDelay) || (step.ProcedureStepType == ProcedureStepType.Ptz)
@@ -110,6 +110,10 @@ namespace AutomationModule.ViewModels
 
 				case ProcedureStepType.ControlDoor:
 					Content = new ControlDoorStepViewModel(this);
+					break;
+
+				case ProcedureStepType.ControlGKDoor:
+					Content = new ControlGKDoorStepViewModel(this);
 					break;
 
 				case ProcedureStepType.ControlSKDZone:

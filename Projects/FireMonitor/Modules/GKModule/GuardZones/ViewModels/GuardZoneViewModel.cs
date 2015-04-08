@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.GK;
+﻿using FiresecAPI.GK;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -38,21 +36,11 @@ namespace GKModule.ViewModels
 			OnStateChanged();
 		}
 
-		public List<XStateClass> StateClasses
-		{
-			get
-			{
-				var stateClasses = State.StateClasses.ToList();
-				stateClasses.Sort();
-				return stateClasses;
-			}
-		}
-
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => GuardZone);
-			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => State.StateClasses);
 		}
 
 		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
@@ -181,7 +169,7 @@ namespace GKModule.ViewModels
 
 		public bool CanControl()
 		{
-			return !StateClasses.Contains(XStateClass.Ignore);
+			return State != null && !State.StateClasses.Contains(XStateClass.Ignore);
 		}
 	}
 }

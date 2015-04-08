@@ -1527,6 +1527,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="XamlImages\rubezhLogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="XamlImages\Save.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -164,6 +164,7 @@
     <Compile Include="Models\Automation\StepArguments\ChangeListArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\CheckPermissionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDelayArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlGKDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlPlanArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlVisualArguments.cs" />

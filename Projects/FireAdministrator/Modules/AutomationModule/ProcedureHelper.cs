@@ -173,6 +173,16 @@ namespace AutomationModule
 				}
 			}
 
+			if (objectType == ObjectType.GKDoor)
+			{
+				var doorSelectationViewModel = new GKDoorSelectionViewModel(currentExplicitValue.GKDoor);
+				if (DialogService.ShowModalWindow(doorSelectationViewModel))
+				{
+					currentExplicitValue.UidValue = doorSelectationViewModel.SelectedDoor != null ? doorSelectationViewModel.SelectedDoor.GKDoor.UID : Guid.Empty;
+					return true;
+				}
+			}
+
 			if (objectType == ObjectType.Direction)
 			{
 				var directionSelectationViewModel = new DirectionSelectionViewModel(currentExplicitValue.Direction);

@@ -44,20 +44,10 @@ namespace GKModule.ViewModels
 			ExitDevice = Door.ExitDevice;
 		}
 
-		public List<XStateClass> StateClasses
-		{
-			get
-			{
-				var stateClasses = State.StateClasses.ToList();
-				stateClasses.Sort();
-				return stateClasses;
-			}
-		}
-
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
-			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => State.StateClasses);
 		}
 
 		public string PresentationName

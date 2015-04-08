@@ -56,6 +56,7 @@ namespace FiresecAPI.Automation
 			StartRecordArguments = new StartRecordArguments();
 			StopRecordArguments = new StopRecordArguments();
 			RviAlarmArguments = new RviAlarmArguments();
+			ControlGKDoorArguments = new ControlGKDoorArguments();
 		}
 
 		[XmlIgnore]
@@ -207,5 +208,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RviAlarmArguments RviAlarmArguments { get; set; }
+		
+		[DataMember]
+		public ControlGKDoorArguments ControlGKDoorArguments { get; set; }
 	}
 }

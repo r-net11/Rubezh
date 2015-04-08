@@ -21,13 +21,6 @@
 			</StackPanel>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 				<StackPanel TextBlock.Foreground="Red">
-					<StackPanel Visibility="{Binding HasRunTime, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Text="Время хода" Foreground="White" Margin="2" />
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
-							<TextBlock Text="Сек" FontSize="24" Margin="2" />
-						</StackPanel>
-					</StackPanel>
 					<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
 						<StackPanel Orientation="Horizontal">
@@ -36,7 +29,8 @@
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Margin="2" Foreground="White" Text="Удержание" />
+						<TextBlock Margin="2" Foreground="White" Text="Удержание" Visibility="{Binding HasRunTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+						<TextBlock Margin="2" Foreground="White" Text="Время хода" Visibility="{Binding HasRunTime, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
 							<TextBlock Text="Сек" FontSize="24" Margin="2" />

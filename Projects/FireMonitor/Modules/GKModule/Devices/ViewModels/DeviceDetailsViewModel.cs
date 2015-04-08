@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		}
 		public bool HasRunTime
 		{
-			get { return (Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24) && State.HoldDelay > 0; }
+			get { return Device.DriverType == GKDriverType.RSR2_MDU || Device.DriverType == GKDriverType.RSR2_MDU24; }
 		}
 
 		#region Measure Parameters
@@ -242,7 +242,7 @@ namespace GKModule.ViewModels
 		public override void OnClosed()
 		{
 			CancelBackgroundWorker = true;
-			State.StateChanged -= new Action(OnStateChanged);
+			State.StateChanged -= OnStateChanged;
 		}
 	}
 

@@ -16,7 +16,7 @@
 			<TextBlock Text="{Binding Door.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<ItemsControl ItemsSource="{Binding StateClasses}">
+			<ItemsControl ItemsSource="{Binding State.StateClasses}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

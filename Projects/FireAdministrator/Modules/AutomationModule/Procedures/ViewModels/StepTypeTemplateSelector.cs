@@ -25,6 +25,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlSKDZoneTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
 		public DataTemplate ControlDoorTemplate { get; set; }
+		public DataTemplate ControlGKDoorTemplate { get; set; }
 		public DataTemplate GetObjectPropertyTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgramTemplate { get; set; }
@@ -94,6 +95,8 @@ namespace AutomationModule.ViewModels
 				return ControlDirectionTemplate;
 			if (item is ControlDoorStepViewModel)
 				return ControlDoorTemplate;
+			if (item is ControlGKDoorStepViewModel)
+				return ControlGKDoorTemplate;
 			if (item is ControlDelayStepViewModel)
 				return ControlDelayTemplate;
 			if (item is GetObjectPropertyStepViewModel)

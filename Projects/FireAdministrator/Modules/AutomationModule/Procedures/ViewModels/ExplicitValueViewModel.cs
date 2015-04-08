@@ -25,6 +25,7 @@ namespace AutomationModule.ViewModels
 		public SKDZone SKDZone { get; private set; }
 		public Camera Camera { get; private set; }
 		public SKDDoor SKDDoor { get; private set; }
+		public GKDoor GKDoor { get; private set; }
 		public GKDirection Direction { get; private set; }
 		public Organisation Organisation { get; private set; }
 		public ExplicitValue ExplicitValue { get; private set; }
@@ -65,6 +66,7 @@ namespace AutomationModule.ViewModels
 			SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == uidValue);
 			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == uidValue);
 			SKDDoor = SKDManager.Doors.FirstOrDefault(x => x.UID == uidValue);
+			GKDoor = GKManager.Doors.FirstOrDefault(x => x.UID == uidValue);
 			Direction = GKManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == uidValue);
 			Delay = GKManager.DeviceConfiguration.Delays.FirstOrDefault(x => x.UID == uidValue);
 			Organisation = OrganisationHelper.GetSingle(uidValue);
@@ -89,6 +91,8 @@ namespace AutomationModule.ViewModels
 					return Camera.PresentationName;
 				if (SKDDoor != null)
 					return SKDDoor.PresentationName;
+				if (GKDoor != null)
+					return GKDoor.PresentationName;
 				if (Direction != null)
 					return Direction.PresentationName;
 				if (Delay != null)
@@ -255,12 +259,12 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (Delay == null) && (Organisation == null));
+				return ((Device == null) && (Zone == null) && (GuardZone == null) && (SKDDevice == null) && (SKDZone == null) && (Camera == null) && (Direction == null) && (SKDDoor == null) && (GKDoor == null) && (Delay == null) && (Organisation == null));
 			}
 			set
 			{
 				if (value)
-					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; Delay = null; Organisation = null;
+					Device = null; Zone = null; GuardZone = null; SKDDevice = null; SKDZone = null; Camera = null; Direction = null; SKDDoor = null; GKDoor = null; Delay = null; Organisation = null;
 			}
 		}
 

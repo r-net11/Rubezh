@@ -83,6 +83,7 @@ namespace AutomationModule.ViewModels
 			get
 			{
 				return (((ObjectType == ObjectType.Door) && (ExplicitValue.SKDDoor == null))
+						|| ((ObjectType == ObjectType.GKDoor) && (ExplicitValue.GKDoor == null))
 						|| ((ObjectType == ObjectType.Device) && (ExplicitValue.Device == null))
 						|| ((ObjectType == ObjectType.Delay) && (ExplicitValue.Delay == null))
 						|| ((ObjectType == ObjectType.Direction) && (ExplicitValue.Direction == null))
