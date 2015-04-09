@@ -88,6 +88,15 @@ namespace JournalModule.ViewModels
 				if (JournalFilter.ObjectUIDs.Count > 0 && !JournalFilter.ObjectUIDs.Contains(journalItem.ObjectUID))
 					continue;
 
+				var existingJournalItem = JournalItems.FirstOrDefault(x => x.JournalItem.UID == journalItem.UID);
+				if (existingJournalItem != null)
+				{
+					existingJournalItem.JournalItem.VideoUID = journalItem.VideoUID;
+					existingJournalItem.JournalItem.CameraUID = journalItem.CameraUID;
+					existingJournalItem.OnPropertyChanged(() => existingJournalItem.ShowVideoCommand);
+					continue;
+				}
+
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				if (JournalItems.Count > 0)
 					JournalItems.Insert(0, journalItemViewModel);

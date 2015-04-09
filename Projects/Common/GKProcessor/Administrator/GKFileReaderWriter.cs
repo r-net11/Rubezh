@@ -79,8 +79,6 @@ namespace GKProcessor
 			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkControllerDevice.PresentationName, null, bytesList.Count / 256, false, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
-				if (progressCallback.IsCanceled)
-				{ Error = "Операция отменена"; return; }
 				GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));

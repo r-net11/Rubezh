@@ -190,11 +190,19 @@ namespace GKProcessor
 				{
 					foreach (var measureParameter in Device.Driver.MeasureParameters)
 					{
-						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 46 + measureParameter.No * 2);
-						var stringValue = parameterValue.ToString();
+						string stringValue = "";
+						ushort parameterValue = BytesHelper.SubstructShort(result.Bytes, 46 + measureParameter.No * 2);
+						if (measureParameter.HasNegativeValue)
+						{
+							stringValue = ((short)parameterValue).ToString();
+						}
+						else
+						{
+							stringValue = parameterValue.ToString();
+						}
 						if (measureParameter.Multiplier != null)
 						{
-							var doubleValue = (ushort)(parameterValue / (double)measureParameter.Multiplier);
+							var doubleValue = (double)(parameterValue / (double)measureParameter.Multiplier);
 							stringValue = doubleValue.ToString();
 						}
 						var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);

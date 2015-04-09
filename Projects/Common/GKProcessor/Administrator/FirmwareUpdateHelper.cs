@@ -53,8 +53,6 @@ namespace GKProcessor
 				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
-				if (ProgressCallback.IsCanceled)
-				{ Error = "Операция обновления прибора " + device.PresentationName + " отменена"; return; }
 				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));

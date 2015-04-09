@@ -648,8 +648,8 @@ namespace FiresecService
 		void StartRecord(ProcedureStep procedureStep)
 		{
 			var startRecordArguments = procedureStep.StartRecordArguments;
-			var cameraUid = GetValue<Guid>(startRecordArguments.CameraArgument);
-			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+			var cameraUID = GetValue<Guid>(startRecordArguments.CameraArgument);
+			var camera = ConfigurationCashHelper.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
 			if (camera == null)
 				return;
 			var eventUIDString = GetValue<String>(startRecordArguments.EventUIDArgument);
@@ -666,8 +666,11 @@ namespace FiresecService
 			{
 				using (var journalTranslator = new JounalTranslator())
 				{
-					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUid);
+					journalTranslator.SaveVideoUID(JournalItem.UID, eventUID, cameraUID);
 				}
+				JournalItem.VideoUID = eventUID;
+				JournalItem.CameraUID = cameraUID;
+				FiresecService.Service.FiresecService.NotifyNewJournalItems(new List<JournalItem>() { JournalItem });
 			}
 			var timeout = GetValue<int>(startRecordArguments.TimeoutArgument);
 			RviClient.RviClientHelper.VideoRecordStart(ConfigurationCashHelper.SystemConfiguration, camera, eventUID, timeout);

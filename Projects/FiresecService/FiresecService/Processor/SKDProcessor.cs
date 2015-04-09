@@ -74,7 +74,7 @@ namespace FiresecService
 			{
 				var cardNoString = journalDetalisationItem.Value;
 				Int32.TryParse(cardNoString, System.Globalization.NumberStyles.HexNumber, null, out cardNo);
-				journalItem.JournalDetalisationItems.Remove(journalDetalisationItem);
+				//journalItem.JournalDetalisationItems.Remove(journalDetalisationItem);
 			}
 
 			if (cardNo > 0)
