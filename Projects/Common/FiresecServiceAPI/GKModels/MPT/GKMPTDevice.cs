@@ -15,7 +15,6 @@ namespace FiresecAPI.GK
 		{
 			CodeReaderSettings = new GKCodeReaderSettings();
 			MPTDeviceType = GKMPTDeviceType.Unknown;
-			Device = new GKDevice();
 		}
 
 		[XmlIgnore]

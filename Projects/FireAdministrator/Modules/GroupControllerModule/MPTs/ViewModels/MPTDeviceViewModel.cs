@@ -17,7 +17,6 @@ namespace GKModule.ViewModels
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
-			Device.OnChanged();
 			MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(Device, false);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
