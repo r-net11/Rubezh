@@ -33,6 +33,7 @@ namespace SettingsModule.ViewModels
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 		}
 
+		public string ServerAutoLabel { get { return "Сервер приложений" + (GlobalSettings.UseStrazhBrand ? String.Empty : " Глобал"); } }
 		public bool IsServerAuto
 		{
 			get

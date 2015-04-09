@@ -71,8 +71,8 @@
 		<TabItem Header="Автозапуск">
 			<StackPanel Margin="2">
 				<TextBlock Margin="2" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" />
-				<CheckBox Content="Сервер приложений Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
-                <CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" />
+				<CheckBox Content="{Binding ServerAutoLabel}" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsServerAuto}" Margin="5 5 5 1" />
+				<CheckBox Content="OPC Сервер ГК Глобал" FontSize="12" Foreground="{DynamicResource ForegroundColorLight}" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" Visibility="{Binding GlobalSettings.UseStrazhBrand, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 			</StackPanel>
 		</TabItem>
 		<TabItem Header="Логи">
