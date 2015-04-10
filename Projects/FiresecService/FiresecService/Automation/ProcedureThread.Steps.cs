@@ -692,7 +692,8 @@ namespace FiresecService
 			if (camera == null)
 				return;
 			var ptzNumber = GetValue<int>(ptzArguments.PtzNumberArgument);
-			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
+			//RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber - 1);
+			RviClient.RviClientHelper.SetPtzPreset(ConfigurationCashHelper.SystemConfiguration, camera, ptzNumber);
 		}
 
 		public void RviAlarm(ProcedureStep procedureStep)
