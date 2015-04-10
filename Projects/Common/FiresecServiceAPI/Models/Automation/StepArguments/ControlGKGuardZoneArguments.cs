@@ -32,26 +32,26 @@ namespace FiresecAPI.Automation
 		
 		[Description("Поставить на охрану")]
 		TurnOn,
+
+		[Description("Снять с охраны")]
+		TurnOff,
 		
 		[Description("Поставить на охрану немедленно")]
 		TurnOnNow,
 
-		[Description("Снять с охраны")]
-		TurnOff,
-
 		[Description("Снять с охраны немедленно")]
 		TurnOffNow,
 
-		[Description("Поставить на охрану (авт)")]
+		[Description("Поставить на охрану в автоматическом режиме")]
 		TurnOnInAutomatic,
 
-		[Description("Поставить на охрану немедленно (авт)")]
-		TurnOnNowInAutomatic,
-
-		[Description("Снять с охраны (авт)")]
+		[Description("Снять с охраны в автоматическом режиме")]
 		TurnOffInAutomatic,
 
-		[Description("Снять с охраны немедленно (авт)")]
+		[Description("Поставить на охрану немедленно в автоматическом режиме")]
+		TurnOnNowInAutomatic,
+
+		[Description("Снять с охраны немедленно в автоматическом режиме")]
 		TurnOffNowInAutomatic,
 		
 		[Description("Сбросить")]

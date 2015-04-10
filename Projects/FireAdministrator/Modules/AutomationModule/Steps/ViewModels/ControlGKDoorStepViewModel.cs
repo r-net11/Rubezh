@@ -13,15 +13,15 @@ namespace AutomationModule.ViewModels
 			: base(stepViewModel)
 		{
 			ControlGKDoorArguments = stepViewModel.Step.ControlGKDoorArguments;
-			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
+			Commands = ProcedureHelper.GetEnumObs<GKDoorCommandType>();
 			DoorArgument = new ArgumentViewModel(ControlGKDoorArguments.DoorArgument, stepViewModel.Update, null);
 			SelectedCommand = ControlGKDoorArguments.DoorCommandType;
 		}
 
-		public ObservableCollection<DoorCommandType> Commands { get; private set; }
+		public ObservableCollection<GKDoorCommandType> Commands { get; private set; }
 
-		DoorCommandType _selectedCommand;
-		public DoorCommandType SelectedCommand
+		GKDoorCommandType _selectedCommand;
+		public GKDoorCommandType SelectedCommand
 		{
 			get { return _selectedCommand; }
 			set
