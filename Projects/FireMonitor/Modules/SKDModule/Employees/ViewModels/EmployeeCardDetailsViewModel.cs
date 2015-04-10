@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -12,8 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SKDModule.Events;
-using FiresecAPI.GK;
-using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -83,11 +83,11 @@ namespace SKDModule.ViewModels
 			}
 
 			SelectedAccessTemplate = AvailableAccessTemplates.FirstOrDefault(x => x.UID == Card.AccessTemplateUID);
+			var cards = CardHelper.Get(new CardFilter());
+			Cards = cards != null ? new ObservableCollection<SKDCard>(cards) : new ObservableCollection<SKDCard>();
+
 			StopListCards = new ObservableCollection<SKDCard>();
-			var stopListCards = CardHelper.GetStopListCards();
-			if (stopListCards == null)
-				return;
-			foreach (var item in stopListCards)
+			foreach (var item in cards.Where(x => x.IsInStopList))
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
@@ -261,6 +261,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<SKDCard> Cards { get; private set; }
 		public ObservableCollection<SKDCard> StopListCards { get; private set; }
 
 		SKDCard _selectedStopListCard;
@@ -461,50 +462,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
-			{
-				if (EndDate < DateTime.Now)
-				{
-					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
-					return false;
-				}
-			}
-
-			if (EndDate < StartDate)
-			{
-				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
-				return false;
-			}
-
-			if(Number <= 0)
-			{
-				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
-				return false;
-			}
-
-			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
-			{
-				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
-				return false;
-			}
-
-			if (!string.IsNullOrEmpty(Password))
-			{
-				foreach (char c in Password)
-				{
-					if (!Char.IsDigit(c))
-					{
-						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
-						return false;
-					}
-				}
-			}
-
-			if (GKLevel < 0 || GKLevel > 255)
-			{
-				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
-				return false;
-			}
+			
 
 			Card.Number = Number;
 			var stopListCard = StopListCards.FirstOrDefault(x => x.Number == Card.Number);
@@ -569,6 +527,57 @@ namespace SKDModule.ViewModels
 			if (Card.Password != null && Card.Password.Length > 50)
 			{
 				MessageBoxService.Show("Значение поля 'Пароль' не может быть длиннее 50 символов");
+				return false;
+			}
+
+			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
+			{
+				if (EndDate < DateTime.Now)
+				{
+					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
+					return false;
+				}
+			}
+
+			if (EndDate < StartDate)
+			{
+				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
+				return false;
+			}
+
+			if (Number <= 0 || Number > Int32.MaxValue)
+			{
+				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 ... 2147483647");
+				return false;
+			}
+
+			if(Cards.Any(x => x.Number == Card.Number && x.UID != Card.UID))
+			{
+				MessageBoxService.ShowWarning("Невозможно добавить карту с повторяющимся номером");
+				return false;
+			}
+
+			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
+			{
+				MessageBoxService.ShowWarning("Количество проходов для разого пропуска должно быть задано в пределах от 1 до " + Int16.MaxValue.ToString());
+				return false;
+			}
+
+			if (!string.IsNullOrEmpty(Password))
+			{
+				foreach (char c in Password)
+				{
+					if (!Char.IsDigit(c))
+					{
+						MessageBoxService.ShowWarning("Пароль может содержать только цифры");
+						return false;
+					}
+				}
+			}
+
+			if (GKLevel < 0 || GKLevel > 255)
+			{
+				MessageBoxService.ShowWarning("Уровень доступа должен быть в пределах от 0 до 255");
 				return false;
 			}
 			return true;
