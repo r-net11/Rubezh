@@ -1,28 +1,21 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FireAdministrator.Properties;
-using System.Windows.Interop;
-using System.Windows.Forms;
-using System.Windows.Shapes;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using FiresecAPI.Models;
 
 namespace FireAdministrator.ViewModels
 {
 	public class AdministratorShellViewModel : ShellViewModel
 	{
-		private MenuViewModel _menu;
-		private RibbonMenuItemViewModel _showToolbar;
-		private RibbonMenuItemViewModel _showMenu;
+		MenuViewModel _menu;
+		RibbonMenuItemViewModel _showToolbar;
+		RibbonMenuItemViewModel _showMenu;
 
 		public AdministratorShellViewModel()
 			: base(ClientType.Administrator)
@@ -35,7 +28,7 @@ namespace FireAdministrator.ViewModels
 			ShowToolbarCommand = new RelayCommand(OnShowToolbar, CanShowMenu);
 			ShowMenuCommand = new RelayCommand(OnShowMenu, CanShowMenu);
 			_menu = new MenuViewModel();
-			_menu.LogoSource = "Logo";
+			_menu.LogoSource = GlobalSettingsHelper.GlobalSettings.UseStrazhBrand ? "Logo" : "rubezhLogo";
 			Toolbar = _menu;
 			RibbonContent = new RibbonMenuViewModel();
 			AddRibbonItem();
@@ -81,7 +74,7 @@ namespace FireAdministrator.ViewModels
 			base.OnClosed();
 		}
 
-		private void AddRibbonItem()
+		void AddRibbonItem()
 		{
 			_showToolbar = new RibbonMenuItemViewModel("", ShowToolbarCommand, "BToolbar");
 			_showMenu = new RibbonMenuItemViewModel("", ShowMenuCommand, "BMenu");
@@ -105,23 +98,23 @@ namespace FireAdministrator.ViewModels
 		}
 
 		public RelayCommand ShowToolbarCommand { get; private set; }
-		private void OnShowToolbar()
+		void OnShowToolbar()
 		{
 			_menu.IsMenuVisible = !_menu.IsMenuVisible;
 			UpdateToolbarTitle();
 		}
 		public RelayCommand ShowMenuCommand { get; private set; }
-		private void OnShowMenu()
+		void OnShowMenu()
 		{
 			_menu.IsMainMenuVisible = !_menu.IsMainMenuVisible;
 			UpdateToolbarTitle();
 		}
-		private bool CanShowMenu()
+		bool CanShowMenu()
 		{
 			return ToolbarVisible;
 		}
 
-		private void UpdateToolbarTitle()
+		void UpdateToolbarTitle()
 		{
 			_showToolbar.Text = _menu.IsMenuVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
 			_showMenu.Text = _menu.IsMainMenuVisible ? "Скрыть панель меню" : "Показать панель меню";
