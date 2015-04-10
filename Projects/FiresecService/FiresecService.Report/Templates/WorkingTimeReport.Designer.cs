@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			float[] columnsWidth = { 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 230F, 240F, 200F, 200F };
+
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingTimeReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
 			this.xrTable2 = new DevExpress.XtraReports.UI.XRTable();
@@ -208,7 +210,8 @@
 			this.xrTableCell32.Dpi = 254F;
 			this.xrTableCell32.FormattingRules.Add(this.BalanceRule);
 			this.xrTableCell32.Name = "xrTableCell32";
-			this.xrTableCell32.Weight = 0.099961060292622028D;
+			//this.xrTableCell32.Weight = 0.099961060292622028D;
+			this.xrTableCell32.WidthF = columnsWidth[9];
 			// 
 			// BalanceRule
 			// 
@@ -225,7 +228,8 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentOvertime", "{0:n2}")});
 			this.xrTableCell33.Dpi = 254F;
 			this.xrTableCell33.Name = "xrTableCell33";
-			this.xrTableCell33.Weight = 0.1058179902748243D;
+			//this.xrTableCell33.Weight = 0.1058179902748243D;
+			this.xrTableCell33.WidthF = columnsWidth[10];
 			// 
 			// xrTableCell34
 			// 
@@ -233,7 +237,8 @@
             new DevExpress.XtraReports.UI.XRBinding("Text", null, "Data.DocumentAbsence", "{0:n2}")});
 			this.xrTableCell34.Dpi = 254F;
 			this.xrTableCell34.Name = "xrTableCell34";
-			this.xrTableCell34.Weight = 0.093468012160803415D;
+			//this.xrTableCell34.Weight = 0.093468012160803415D;
+			this.xrTableCell34.WidthF = columnsWidth[11];
 			// 
 			// xrTableCell35
 			// 
@@ -242,7 +247,8 @@
 			this.xrTableCell35.Dpi = 254F;
 			this.xrTableCell35.FormattingRules.Add(this.TotalBalanceRule);
 			this.xrTableCell35.Name = "xrTableCell35";
-			this.xrTableCell35.Weight = 0.10840631247977531D;
+			//this.xrTableCell35.Weight = 0.10840631247977531D;
+			this.xrTableCell35.WidthF = columnsWidth[12];
 			// 
 			// TotalBalanceRule
 			// 
@@ -358,7 +364,8 @@
 			this.xrTableCell25.StylePriority.UsePadding = false;
 			this.xrTableCell25.StylePriority.UseTextAlignment = false;
 			this.xrTableCell25.Text = "Баланс отработанного времени, ч.";
-			this.xrTableCell25.Weight = 0.099961053069526615D;
+			//this.xrTableCell25.Weight = 0.099961053069526615D;
+			this.xrTableCell25.WidthF = columnsWidth[9];
 			// 
 			// xrTableCell7
 			// 
@@ -367,8 +374,9 @@
 			this.xrTableCell7.RowSpan = 2;
 			this.xrTableCell7.StylePriority.UsePadding = false;
 			this.xrTableCell7.StylePriority.UseTextAlignment = false;
-			this.xrTableCell7.Text = "Сверхурочные по оправдательным документам, ч.";
-			this.xrTableCell7.Weight = 0.10581776997041421D;
+			this.xrTableCell7.Text = "Сверхурочные по документам, ч.";
+			//this.xrTableCell7.Weight = 0.10581776997041421D;
+			this.xrTableCell7.WidthF = columnsWidth[10];
 			// 
 			// xrTableCell27
 			// 
@@ -377,8 +385,9 @@
 			this.xrTableCell27.RowSpan = 2;
 			this.xrTableCell27.StylePriority.UsePadding = false;
 			this.xrTableCell27.StylePriority.UseTextAlignment = false;
-			this.xrTableCell27.Text = "Отсутствие по оправдательным документам, ч.";
-			this.xrTableCell27.Weight = 0.093468241494082838D;
+			this.xrTableCell27.Text = "Отсутствие по документам, ч.";
+			//this.xrTableCell27.Weight = 0.093468241494082838D;
+			this.xrTableCell27.WidthF = columnsWidth[11];
 			// 
 			// xrTableCell29
 			// 
@@ -388,7 +397,8 @@
 			this.xrTableCell29.StylePriority.UsePadding = false;
 			this.xrTableCell29.StylePriority.UseTextAlignment = false;
 			this.xrTableCell29.Text = "Итоговый баланс, ч.";
-			this.xrTableCell29.Weight = 0.10840623844304737D;
+			//this.xrTableCell29.Weight = 0.10840623844304737D;
+			this.xrTableCell29.WidthF = columnsWidth[12];
 			// 
 			// xrTableRow3
 			// 
@@ -490,28 +500,32 @@
 			this.xrTableCell26.Dpi = 254F;
 			this.xrTableCell26.Name = "xrTableCell26";
 			this.xrTableCell26.Text = "xrTableCell26";
-			this.xrTableCell26.Weight = 0.080653168154036309D;
+			//this.xrTableCell26.Weight = 0.080653168154036309D;
+			this.xrTableCell26.WidthF = columnsWidth[9];
 			// 
 			// xrTableCell18
 			// 
 			this.xrTableCell18.Dpi = 254F;
 			this.xrTableCell18.Name = "xrTableCell18";
 			this.xrTableCell18.Text = "xrTableCell18";
-			this.xrTableCell18.Weight = 0.085378603225821664D;
+			//this.xrTableCell18.Weight = 0.085378603225821664D;
+			this.xrTableCell18.WidthF = columnsWidth[10];
 			// 
 			// xrTableCell28
 			// 
 			this.xrTableCell28.Dpi = 254F;
 			this.xrTableCell28.Name = "xrTableCell28";
 			this.xrTableCell28.Text = "xrTableCell28";
-			this.xrTableCell28.Weight = 0.075414377726532686D;
+			//this.xrTableCell28.Weight = 0.075414377726532686D;
+			this.xrTableCell28.WidthF = columnsWidth[11];
 			// 
 			// xrTableCell30
 			// 
 			this.xrTableCell30.Dpi = 254F;
 			this.xrTableCell30.Name = "xrTableCell30";
 			this.xrTableCell30.Text = "xrTableCell30";
-			this.xrTableCell30.Weight = 0.087467277314690131D;
+			//this.xrTableCell30.Weight = 0.087467277314690131D;
+			this.xrTableCell30.WidthF = columnsWidth[12];
 			// 
 			// xrControlStyle1
 			// 

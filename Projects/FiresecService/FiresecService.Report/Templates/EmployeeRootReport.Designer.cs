@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			float[] ColumnsWidth = { 600F, 1100F };
+			float[] columnsWidth = { 600F, 1100F };
 
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeeRootReport));
 			this.Detail = new DevExpress.XtraReports.UI.DetailBand();
@@ -182,7 +182,7 @@
 			this.xrTableCell1.Name = "xrTableCell1";
 			this.xrTableCell1.StylePriority.UseTextAlignment = false;
 			//this.xrTableCell1.Weight = 0.29D;
-			this.xrTableCell1.WidthF = ColumnsWidth[0];
+			this.xrTableCell1.WidthF = columnsWidth[0];
 			// 
 			// xrTableCell2
 			// 
@@ -200,7 +200,7 @@
 			this.xrTableCell3.Dpi = 254F;
 			this.xrTableCell3.Name = "xrTableCell3";
 			//this.xrTableCell3.Weight = 0.29D;
-			this.xrTableCell3.WidthF = ColumnsWidth[1];
+			this.xrTableCell3.WidthF = columnsWidth[1];
 			//
 			// xrTableCell4
 			// 
@@ -264,7 +264,7 @@
 			this.xrTableCell5.Name = "xrTableCell5";
 			this.xrTableCell5.Text = "Дата/время прохода";
 			//this.xrTableCell5.Weight = 0.29D;
-			this.xrTableCell5.WidthF = ColumnsWidth[0];
+			this.xrTableCell5.WidthF = columnsWidth[0];
 			// 
 			// xrTableCell6
 			// 
@@ -279,7 +279,7 @@
 			this.xrTableCell7.Name = "xrTableCell7";
 			this.xrTableCell7.Text = "Зона";
 			//this.xrTableCell7.Weight = 0.29D;
-			this.xrTableCell7.WidthF = ColumnsWidth[1];
+			this.xrTableCell7.WidthF = columnsWidth[1];
 			// 
 			// xrTableCell8
 			// 
