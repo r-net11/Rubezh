@@ -75,6 +75,7 @@ namespace SKDModule.Reports.ViewModels
 			if (eventFilter == null)
 				return;
 			eventFilter.JournalEventNameTypes = new List<JournalEventNameType>();
+			eventFilter.JournalEventSubsystemTypes = new List<JournalSubsystemType>();
 			foreach (var rootFilter in RootFilters)
 				if (rootFilter.IsChecked)
 					eventFilter.JournalEventSubsystemTypes.Add(rootFilter.JournalSubsystemType);
