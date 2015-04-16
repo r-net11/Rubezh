@@ -134,7 +134,7 @@ namespace SKDModule.ViewModels
 				report.EmployeeRepors.Add(employeeReport);
 
 				employeeReport.No = report.EmployeeRepors.Count;
-				employeeReport.EmployeeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
+				employeeReport.EmployeeFIO = String.IsNullOrEmpty(timeTrackEmployeeResult.ShortEmployee.PositionName) ? timeTrackEmployeeResult.ShortEmployee.FIO : String.Format("{0}, {1}", timeTrackEmployeeResult.ShortEmployee.FIO, timeTrackEmployeeResult.ShortEmployee.PositionName);
 				employeeReport.TabelNo = timeTrackEmployeeResult.ShortEmployee.TabelNo;
 				employeeReport.DepartmentName = timeTrackEmployeeResult.ShortEmployee.DepartmentName;
 

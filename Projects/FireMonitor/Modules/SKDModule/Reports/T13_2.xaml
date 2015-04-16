@@ -1,7 +1,7 @@
-﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" FontSize="9" PageHeight="21cm" PagePadding="1.3cm,1.8cm,1.3cm,1cm" PageWidth="29.7cm" TextAlignment="Center">
+﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" FontSize="9" PageHeight="21cm" PagePadding="1.3cm,1.8cm,1.3cm,1cm" PageWidth="29.7cm" TextAlignment="Center" FontFamily="Times New Roman">
 	<FlowDocument.Resources>
 		<Style TargetType="{x:Type TableCell}">
-			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderThickness" Value="0.5" />
 			<Setter Property="BorderBrush" Value="Black" />
 		</Style>
 	</FlowDocument.Resources>
@@ -14,27 +14,27 @@
 	<xrd:ReportHint Hint="MoveRegular" />
 	<xrd:ReportHint Hint="SimpleClone" />
 
-	<xrd:SplitTable BorderThickness="1" RowsOnFirstPage="2" RowsOnLatPage="2" RowsOnPage="3" TableHeaderOnEachPage="true" TableName="Data" TextAlignment="Center" FontSize="9">
+	<xrd:SplitTable BorderThickness="0.5" TableHeaderOnEachPage="true" TableName="Data" TextAlignment="Center" FontSize="9">
 		<xrd:SplitTable.Columns>
 			<TableColumn Width="0.5*" />
-			<TableColumn Width="2*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
-			<TableColumn Width="0.5*" />
+			<TableColumn Width="1.5*" />
+			<TableColumn Width="1.0*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
+			<TableColumn Width="0.3*" />
 			<TableColumn Width="1*" />
 			<TableColumn Width="1*" />
 			<TableColumn Width="0.5*" />
@@ -98,7 +98,7 @@
 								<TableCell />
 							</TableRow>
 							<TableRow FontSize="7">
-								<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
+								<TableCell BorderThickness="0,0.5,0,0" ColumnSpan="2">
 									<Paragraph FontSize="7">(наименование организации)</Paragraph>
 								</TableCell>
 								<TableCell BorderThickness="0" />
@@ -113,10 +113,10 @@
 								<TableCell BorderThickness="0" />
 							</TableRow>
 							<TableRow FontSize="7">
-								<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
+								<TableCell BorderThickness="0,0.5,0,0" ColumnSpan="2">
 									<Paragraph FontSize="7">(структурное подразделение)</Paragraph>
 								</TableCell>
-								<TableCell BorderThickness="0,1,0,0" ColumnSpan="2" />
+								<TableCell BorderThickness="0,0.5,0,0" ColumnSpan="2" />
 							</TableRow>
 						</TableRowGroup>
 					</Table>
@@ -154,7 +154,7 @@
 								</TableCell>
 							</TableRow>
 							<TableRow>
-								<TableCell BorderThickness="1">
+								<TableCell BorderThickness="0.5">
 									<Paragraph FontSize="8">с</Paragraph>
 								</TableCell>
 								<TableCell>
@@ -268,13 +268,13 @@
 					</TableCell>
 					<TableCell Padding="0,9,0,0" RowSpan="4">
 						<Paragraph>
-							Половину месяца
+							половину месяца
 							<LineBreak />
 							(I, II)
 						</Paragraph>
 					</TableCell>
 					<TableCell Padding="0,18,0,0" RowSpan="4">
-						<Paragraph>Месяц</Paragraph>
+						<Paragraph>месяц</Paragraph>
 					</TableCell>
 					<TableCell ColumnSpan="6">
 						<Paragraph>код вида оплаты</Paragraph>
@@ -975,15 +975,15 @@
 								</Paragraph>
 							</TableCell>
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1">
+							<TableCell BorderThickness="0,0,0,0.5">
 								<Paragraph>
 									<xrd:InlineDocumentValue PropertyName="FillPosition" />
 								</Paragraph>
 							</TableCell>
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1" />
+							<TableCell BorderThickness="0,0,0,0.5" />
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1">
+							<TableCell BorderThickness="0,0,0,0.5">
 								<Paragraph>
 									<LineBreak />
 									<xrd:InlineDocumentValue PropertyName="FillName" />
@@ -998,15 +998,15 @@
 								</Paragraph>
 							</TableCell>
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1">
+							<TableCell BorderThickness="0,0,0,0.5">
 								<Paragraph>
 									<xrd:InlineDocumentValue PropertyName="LeadPosition" />
 								</Paragraph>
 							</TableCell>
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1" />
+							<TableCell BorderThickness="0,0,0,0.5" />
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1">
+							<TableCell BorderThickness="0,0,0,0.5">
 								<Paragraph>
 									<LineBreak />
 									<xrd:InlineDocumentValue PropertyName="LeadName" />
@@ -1056,7 +1056,7 @@
 								</Paragraph>
 							</TableCell>
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1">
+							<TableCell BorderThickness="0,0,0,0.5">
 								<Paragraph>
 									<LineBreak />
 									<LineBreak />
@@ -1064,9 +1064,9 @@
 								</Paragraph>
 							</TableCell>
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1" />
+							<TableCell BorderThickness="0,0,0,0.5" />
 							<TableCell />
-							<TableCell BorderThickness="0,0,0,1">
+							<TableCell BorderThickness="0,0,0,0.5">
 								<Paragraph>
 									<LineBreak />
 									<LineBreak />
