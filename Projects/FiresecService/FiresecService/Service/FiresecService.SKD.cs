@@ -393,11 +393,12 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult DeletedCard(Guid uid)
+		public OperationResult DeletedCard(SKDCard card)
 		{
+			AddJournalMessage(JournalEventNameType.Редактирование_карты, card.Number.ToString(), uid: card.UID);
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.CardTranslator.Delete(uid);
+				return databaseService.CardTranslator.Delete(card.UID);
 			}
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)

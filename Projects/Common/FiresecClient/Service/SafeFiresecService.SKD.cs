@@ -130,9 +130,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, employeeName, reason));
 		}
-		public OperationResult DeletedCard(Guid uid)
+		public OperationResult DeletedCard(SKDCard card)
 		{
-			return SafeContext.Execute(() => FiresecService.DeletedCard(uid));
+			return SafeContext.Execute(() => FiresecService.DeletedCard(card));
 		}
 		public OperationResult SaveCardTemplate(SKDCard item)
 		{

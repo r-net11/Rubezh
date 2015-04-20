@@ -73,6 +73,7 @@ namespace FiresecAPI.SKD
 		public string LetterCode { get; set; }
 		public string Tooltip { get; set; }
 		public List<TimeTrackTotal> Totals { get; set; }
+		bool IsCrossNight { get { return false; } }
 
 		public void Calculate()
 		{

@@ -233,7 +233,7 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить карту?"))
 			{
-				CardHelper.Delete(SelectedCard.Card.UID);
+				CardHelper.Delete(SelectedCard.Card);
 				var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
 				parent.RemoveChild(SelectedCard);
 				SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();

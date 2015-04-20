@@ -48,7 +48,14 @@ namespace FiresecAPI.SKD
 
 		public TimeSpan Delta
 		{
-			get { return EndTime - StartTime; }
+			get 
+			{
+				var result = EndTime - StartTime; 
+				var isCrossNight = EndTime >= new TimeSpan(23, 59, 00);
+				if (isCrossNight)
+					result += new TimeSpan(0, 1, 0);
+				return result;
+			}
 		}
 	}
 }

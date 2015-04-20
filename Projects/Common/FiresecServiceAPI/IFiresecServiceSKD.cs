@@ -85,7 +85,7 @@ namespace FiresecAPI
 		OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string employeeName, string reason = null);
 
 		[OperationContract]
-		OperationResult DeletedCard(Guid uid);
+		OperationResult DeletedCard(SKDCard card);
 
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
