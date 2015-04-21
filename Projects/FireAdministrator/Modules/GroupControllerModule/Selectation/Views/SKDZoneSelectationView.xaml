@@ -27,7 +27,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+			<DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
 			<DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
 		</DataGrid.Columns>
 	</DataGrid>

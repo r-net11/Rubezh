@@ -4,7 +4,7 @@
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		MinHeight="400" MinWidth="600">
 
-	<Grid Grid.Row="0">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="50" />
@@ -33,7 +33,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные задержки" Width="*" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Задержки" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
@@ -66,7 +66,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Name}" Header="Задержки" Width="*" />
+				<DataGridTextColumn Binding="{Binding Name}" Header="Задержки" />
 				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>

@@ -28,7 +28,10 @@
 					<DataGridTemplateColumn Header="Наименование" Width="*" SortMemberPath="Name">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Name}" Margin="5 0 0 0" />
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Source="/Controls;component/Images/BBriefcase.png" />
+									<TextBlock Text="{Binding Name}" Margin="2 0" />
+								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 						<DataGridTemplateColumn.CellEditingTemplate>
