@@ -467,7 +467,6 @@
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Update.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceConfiguration.Descriptors.cs" />
     <Compile Include="GKModels\Configuration\GKDeviceLibraryConfiguration.cs" />
-    <Compile Include="GKModels\Configuration\GKHashConfiguration.cs" />
     <Compile Include="GKModels\Delay\DelayRegime.cs" />
     <Compile Include="GKModels\Delay\GKDelay.cs" />
     <Compile Include="GKModels\Device\GKDeviceParameterTemplate.cs" />

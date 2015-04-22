@@ -16,7 +16,7 @@ namespace GKModule.Validation
 
 			foreach (var guardZone in GKManager.GuardZones)
 			{
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateDifferentGK(guardZone);
 				ValidateGuardZoneHasNoDevices(guardZone);
 				ValidateGuardZoneCodesCount(guardZone);

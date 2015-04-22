@@ -49,7 +49,7 @@ namespace FiresecClient
 			ChannelFactory.Open();
 
 			IFiresecService firesecService = ChannelFactory.CreateChannel();
-			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(10);
+			(firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
 			return firesecService;
 		}
 

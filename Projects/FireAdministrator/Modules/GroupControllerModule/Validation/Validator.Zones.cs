@@ -16,7 +16,7 @@ namespace GKModule.Validation
 
 			foreach (var zone in GKManager.Zones)
 			{
-				if (IsManyGK())
+				if (IsManyGK)
 					ValidateDifferentGK(zone);
 				//ValidateZoneHasNoDevices(zone);
 				ValidateEmpty(zone);

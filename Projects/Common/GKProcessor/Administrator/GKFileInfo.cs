@@ -15,7 +15,6 @@ namespace GKProcessor
 		public byte MinorVersion { get; private set; }
 		public byte MajorVersion { get; private set; }
 		public List<byte> Hash1 { get; set; }
-		public List<byte> Hash2 { get; set; }
 		public int DescriptorsCount { get; set; }
 		public long FileSize { get; set; }
 		public DateTime Date { get; set; }
@@ -33,7 +32,6 @@ namespace GKProcessor
 			if (gkDatabase != null)
 				DescriptorsCount = gkDatabase.Descriptors.Count();
 			Hash1 = CreateHash1(deviceConfiguration, gkControllerDevice);
-			Hash2 = CreateHash2(deviceConfiguration);
 			InitializeFileBytes(deviceConfiguration);
 			InitializeInfoBlock();
 		}
@@ -122,28 +120,16 @@ namespace GKProcessor
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
-		public static List<byte> CreateHash2(GKDeviceConfiguration deviceConfiguration)
-		{
-			deviceConfiguration.UpdateConfiguration();
-			var hashConfiguration = new GKHashConfiguration(deviceConfiguration);
-			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration, true);
-			configMemoryStream.Position = 0;
-			var configBytes = configMemoryStream.ToArray();
-			return SHA256.Create().ComputeHash(configBytes).ToList();
-		}
 		void InitializeFileBytes(GKDeviceConfiguration deviceConfiguration)
 		{
-			//ZipFileConfigurationHelper.SaveToZipFile("configFileToGK", deviceConfiguration);
 			var fileStream = File.OpenRead(Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp"));
 			FileSize = fileStream.Length;
 			FileBytes = File.ReadAllBytes(fileStream.Name).ToList();
 			fileStream.Close();
-			//File.Delete("configFileToGK");
 		}
 		void InitializeInfoBlock()
 		{
 			InfoBlock = new List<byte>(256) { MinorVersion, MajorVersion };
-			InfoBlock.AddRange(Hash2);
 			InfoBlock.AddRange(Hash1);
 			InfoBlock.AddRange(BitConverter.GetBytes(DescriptorsCount));
 			InfoBlock.AddRange(BitConverter.GetBytes(FileSize));
@@ -162,11 +148,10 @@ namespace GKProcessor
 					InfoBlock = bytes,
 					MinorVersion = bytes[0],
 					MajorVersion = bytes[1],
-					Hash2 = bytes.GetRange(2, 32),
-					Hash1 = bytes.GetRange(34, 32),
-					DescriptorsCount = BitConverter.ToInt32(bytes.GetRange(66, 4).ToArray(), 0),
-					FileSize = BitConverter.ToInt64(bytes.GetRange(70, 8).ToArray(), 0),
-					Date = DateTime.FromBinary(BitConverter.ToInt64(bytes.GetRange(78, 8).ToArray(), 0)),
+					Hash1 = bytes.GetRange(2, 32),
+					DescriptorsCount = BitConverter.ToInt32(bytes.GetRange(34, 4).ToArray(), 0),
+					FileSize = BitConverter.ToInt64(bytes.GetRange(38, 8).ToArray(), 0),
+					Date = DateTime.FromBinary(BitConverter.ToInt64(bytes.GetRange(46, 8).ToArray(), 0)),
 					FileBytes = new List<byte>()
 				};
 			}

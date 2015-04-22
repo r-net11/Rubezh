@@ -8,7 +8,7 @@
 				<VisualBrush.Visual>
 					<Image Source="{Binding Image}" />
 				</VisualBrush.Visual>
-			</VisualBrush >
+			</VisualBrush>
 		</Border.Background>
 	</Border>
 </UserControl>

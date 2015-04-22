@@ -9,40 +9,24 @@ namespace Infrastructure.Common
 {
 	public class ZipSerializeHelper
 	{
-		public static MemoryStream Serialize<T>(T configuration, bool useXml)
+		public static MemoryStream Serialize<T>(T configuration)
 			where T : VersionedConfiguration
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 };
 			var memoryStream = new MemoryStream();
 
-			if (useXml)
-			{
-				var xmlSerializer = new XmlSerializer(configuration.GetType());
-				xmlSerializer.Serialize(memoryStream, configuration);
-			}
-			else
-			{
-				var dataContractSerializer = new DataContractSerializer(configuration.GetType());
-				dataContractSerializer.WriteObject(memoryStream, configuration);
-			}
+			var xmlSerializer = new XmlSerializer(configuration.GetType());
+			xmlSerializer.Serialize(memoryStream, configuration);
 			return memoryStream;
 		}
 
-		public static T DeSerialize<T>(MemoryStream memoryStream, bool useXml)
+		public static T DeSerialize<T>(Stream stream)
 			 where T : VersionedConfiguration, new()
 		{
 			T configuration = null;
-			if (useXml)
-			{
-				var xmlSerializer = new XmlSerializer(typeof(T));
-				configuration = (T)xmlSerializer.Deserialize(memoryStream);
-			}
-			else
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(T));
-				configuration = (T)dataContractSerializer.ReadObject(memoryStream);
-			}
+			var xmlSerializer = new XmlSerializer(typeof(T));
+			configuration = (T)xmlSerializer.Deserialize(stream);
 			configuration.ValidateVersion();
 			configuration.AfterLoad();
 			return configuration;

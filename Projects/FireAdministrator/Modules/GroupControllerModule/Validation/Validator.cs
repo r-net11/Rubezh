@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using System.Diagnostics;
 
 namespace GKModule.Validation
 {
@@ -12,6 +13,7 @@ namespace GKModule.Validation
 
 		public List<IValidationError> Validate()
 		{
+			IsManyGK = GKManager.Devices.Where(x => x.DriverType == GKDriverType.GK).Count() > 1;
 			GKManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateDevices();
@@ -30,10 +32,7 @@ namespace GKModule.Validation
 			return Errors;
 		}
 
-		bool IsManyGK()
-		{
-			return GKManager.Devices.Where(x=>x.DriverType == GKDriverType.GK).Count() > 1;
-		}
+		bool IsManyGK { get; set; }
 
 		static bool AreDevicesInSameGK(List<GKDevice> devices)
 		{
