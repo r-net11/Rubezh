@@ -204,10 +204,12 @@ namespace GKProcessor
 					case FormulaOperationType.GETBYTE:
 					case FormulaOperationType.GETWORD:
 					case FormulaOperationType.ACS:
+					case FormulaOperationType.TSTP:
 						stackDepth += 1;
 						break;
 
 					case FormulaOperationType.KOD:
+					case FormulaOperationType.ACSP:
 						stackDepth += 2;
 						break;
 
@@ -229,6 +231,10 @@ namespace GKProcessor
 					case FormulaOperationType.CMPKOD:
 					case FormulaOperationType.BR:
 						stackDepth -= 1;
+						break;
+
+					case FormulaOperationType.PUTP:
+						stackDepth -= 2;
 						break;
 
 					case FormulaOperationType.COM:

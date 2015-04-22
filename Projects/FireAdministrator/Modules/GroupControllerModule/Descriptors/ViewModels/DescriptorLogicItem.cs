@@ -41,11 +41,13 @@ namespace GKModule.ViewModels
 				case FormulaOperationType.SUB:
 				case FormulaOperationType.XOR:
 				case FormulaOperationType.EXIT:
+				case FormulaOperationType.PUTP:
 					FirstOperand = "";
 					SecondOperand = "";
 					break;
 
 				case FormulaOperationType.CONST:
+				case FormulaOperationType.TSTP:
 					FirstOperand = "";
 					break;
 
@@ -88,6 +90,10 @@ namespace GKModule.ViewModels
 			{
 				FirstOperand = FormulaOperation.FirstOperand.ToString();
 			}
+			if (FormulaOperation.FormulaOperationType == FormulaOperationType.ACSP)
+			{
+				FirstOperand = FormulaOperation.FirstOperand.ToString();
+			}
 			if (FormulaOperation.FormulaOperationType == FormulaOperationType.BR)
 			{
 				StateIcon = null;
@@ -121,6 +127,10 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.GETBIT:
 					case FormulaOperationType.GETBYTE:
 					case FormulaOperationType.GETWORD:
+					case FormulaOperationType.ACS:
+					case FormulaOperationType.TSTP:
+					case FormulaOperationType.KOD:
+					case FormulaOperationType.ACSP:
 						return "/Controls;component/Images/BArrowUp.png";
 
 					case FormulaOperationType.ADD:
@@ -138,6 +148,9 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.PUTWORD:
 					case FormulaOperationType.SUB:
 					case FormulaOperationType.XOR:
+					case FormulaOperationType.CMPKOD:
+					case FormulaOperationType.BR:
+					case FormulaOperationType.PUTP:
 						return "/Controls;component/Images/BArrowDown.png";
 
 					case FormulaOperationType.COM:
