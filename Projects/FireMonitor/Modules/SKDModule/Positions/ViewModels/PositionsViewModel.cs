@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -63,15 +64,15 @@ namespace SKDModule.ViewModels
 		protected override void SetIsDeletedByOrganisation(PositionViewModel organisationViewModel)
 		{
 			base.SetIsDeletedByOrganisation(organisationViewModel);
-			organisationViewModel.GetAllChildren().ForEach(x => x.InitializeEmployeeList());
+			UpdateSelected();
 		}
 
 		protected override void Remove()
 		{
-			if (SelectedItem.EmployeeListViewModel.Employees.Count == 0 ||
+			if (EmployeeListViewModel.Employees.Count == 0 ||
 				MessageBoxService.ShowQuestion("Существуют привязанные к должности сотрудники. Продожить?"))
 			{
-				var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+				var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
 				base.Remove();
 				foreach (var uid in employeeUIDs)
 				{
@@ -83,7 +84,7 @@ namespace SKDModule.ViewModels
 		protected override void Restore()
 		{
 			base.Restore();
-			var employeeUIDs = SelectedItem.EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
+			var employeeUIDs = EmployeeListViewModel.Employees.Select(x => x.Employee.UID);
 			foreach (var uid in employeeUIDs)
 			{
 				ServiceFactory.Events.GetEvent<EditEmployeeEvent>().Publish(uid);
@@ -98,6 +99,23 @@ namespace SKDModule.ViewModels
 		protected override FiresecAPI.Models.PermissionType Permission
 		{
 			get { return FiresecAPI.Models.PermissionType.Oper_SKD_Positions_Etit; }
+		}
+
+		protected override void UpdateSelected()
+		{
+			base.UpdateSelected();
+			if (EmployeeListViewModel == null)
+				EmployeeListViewModel = new PositionEmployeeListViewModel(SelectedItem, IsWithDeleted); 
+			else
+				EmployeeListViewModel.Initialize(SelectedItem, IsWithDeleted);
+			OnPropertyChanged(() => IsShowEmployeeList);
+		}
+
+		public PositionEmployeeListViewModel EmployeeListViewModel { get; private set; }
+
+		public bool IsShowEmployeeList
+		{
+			get { return !SelectedItem.IsOrganisation && FiresecManager.CheckPermission(FiresecAPI.Models.PermissionType.Oper_SKD_Employees_View); }
 		}
 	}
 }

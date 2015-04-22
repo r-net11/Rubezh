@@ -52,6 +52,12 @@ namespace FiresecAPI
 		
 		[OperationContract]
 		OperationResult RestoreDepartment(ShortDepartment department);
+
+		[OperationContract]
+		OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid);
+
+		[OperationContract]
+		OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid);
 		#endregion
 
 		#region Position

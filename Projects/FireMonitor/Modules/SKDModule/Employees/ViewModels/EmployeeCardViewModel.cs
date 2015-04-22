@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -8,11 +9,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using SKDModule.PassCard.ViewModels;
-using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeCardViewModel : BaseViewModel
+	public class EmployeeCardViewModel : BaseViewModel, ICardDoorsParent
 	{
 		public Organisation Organisation { get; private set; }
 		public SKDCard Card { get; private set; }
@@ -64,7 +64,7 @@ namespace SKDModule.ViewModels
 		public void SetCardDoors()
 		{
 			var cardDoors = GetCardDoors();
-			CardDoorsViewModel = new CardDoorsViewModel(cardDoors);
+			CardDoorsViewModel = new CardDoorsViewModel(cardDoors, this);
 			OnPropertyChanged(() => CardDoorsViewModel);
 		}
 
@@ -132,6 +132,12 @@ namespace SKDModule.ViewModels
 				_isCardSelected = value;
 				OnPropertyChanged(() => IsCardSelected);
 			}
+		}
+
+		public void UpdateCardDoors(IEnumerable<System.Guid> doorUIDs)
+		{
+			Card.CardDoors.RemoveAll(x => doorUIDs.Any(y => y == x.DoorUID));
+			CardHelper.Edit(Card, EmployeeViewModel.Model.Name, true);
 		}
 	}
 }

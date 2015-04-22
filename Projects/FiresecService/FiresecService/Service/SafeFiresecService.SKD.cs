@@ -68,6 +68,14 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.RestoreDepartment(department));
 		}
+		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetChildEmployeeUIDs(uid));
+		}
+		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetParentEmployeeUIDs(uid));
+		}
 		#endregion
 
 		#region Position

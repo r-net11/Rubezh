@@ -74,6 +74,7 @@ namespace SKDDriver
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
 			result.Description = tableItem.Description;
+			result.Cards = new List<SKDCard>();
 			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
@@ -81,24 +82,47 @@ namespace SKDDriver
 			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID);
 			result.Phone = tableItem.Phone;
 			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
-			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
+			var position = _positions != null ? _positions.FirstOrDefault(x => x.UID == tableItem.PositionUID) : Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
 			{
 				result.PositionName = position.Name;
 				result.IsPositionDeleted = position.IsDeleted;
 			}
-			var department = Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
+			var department = _departments != null ? _departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID) : Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
 			if (department != null)
 			{
 				result.DepartmentName = department.Name;
 				result.IsDepartmentDeleted = department.IsDeleted;
 			}
-			var organisation = Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
+			var organisation = _organisations != null ? _organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID) : Context.Organisations.FirstOrDefault(x => x.UID == tableItem.OrganisationUID);
 			if (organisation != null)
 				result.OrganisationName = organisation.Name;
-			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID);
+			var schedule = _schedules != null ? _schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID) : Context.Schedules.FirstOrDefault(x => x.UID == tableItem.ScheduleUID);
 			result.ScheduleUID = schedule != null ? schedule.UID : Guid.Empty;
 			return result;
+		}
+
+		List<DataAccess.Department> _departments;
+		List<DataAccess.Position> _positions;
+		List<DataAccess.Organisation> _organisations;
+		List<DataAccess.Schedule> _schedules;
+
+		protected override void BeforeGetList()
+		{
+			base.BeforeGetList();
+			_departments = Context.Departments.ToList();
+			_positions = Context.Positions.ToList();
+			_organisations = Context.Organisations.ToList();
+			_schedules = Context.Schedules.ToList();
+		}
+
+		protected override void AfterGetList()
+		{
+			base.AfterGetList();
+			_departments = null;
+			_positions = null;
+			_organisations = null;
+			_schedules = null;
 		}
 
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)
@@ -225,78 +249,46 @@ namespace SKDDriver
 					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 					Context.Organisations.InsertOnSubmit(org);
 					var posUIDs = new List<Guid>();
-					for (int j = 0; j < 2; j++)
+					for (int j = 0; j < 1000; j++)
 					{
 						var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 						Context.Positions.InsertOnSubmit(pos);
 						posUIDs.Add(pos.UID);
 					}
-					for (int j = 0; j < 1; j++)
+					var deptUIDs = new List<Guid>();
+					for (int j = 0; j < 100; j++)
 					{
-						var dept = new DataAccess.Department { Name = "Подразделение " + i + j + "0", OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+						var dept = CreateDept("Подразделение " + i + j, org.UID);
+						deptUIDs.Add(dept.UID);
 						Context.Departments.InsertOnSubmit(dept);
-						for (int k = 0; k < 1; k++)
+						for (int k = 0; k < 2; k++)
 						{
-							var empl = new DataAccess.Employee
+							var dept2 = CreateDept("Подразделение " + i + j + k, org.UID, dept.UID);
+							deptUIDs.Add(dept2.UID);
+							Context.Departments.InsertOnSubmit(dept2);
+							for (int m = 0; m < 2; m++)
 							{
-								LastName = "Фамилия " + i + j + k + "0",
-								FirstName = "Имя " + i + j + k + "0",
-								SecondName = "Отчество " + i + j + k + "0",
-								DepartmentUID = dept.UID,
-								PositionUID = posUIDs.FirstOrDefault(),
-								OrganisationUID = org.UID,
-								UID = Guid.NewGuid(),
-								RemovalDate = new DateTime(1900, 1, 1),
-								BirthDate = new DateTime(1900, 1, 1),
-								CredentialsStartDate = new DateTime(1900, 1, 1),
-								DocumentGivenDate = new DateTime(1900, 1, 1),
-								DocumentValidTo = new DateTime(1900, 1, 1),
-								LastEmployeeDayUpdate = new DateTime(1900, 1, 1),
-								ScheduleStartDate = new DateTime(1900, 1, 1),
-								ExternalKey = "-1",
-								Type = 0
-							};
-							Context.Employees.InsertOnSubmit(empl);
-							for (int m = 0; m < 2700; m++)
-							{
-								var card = new DataAccess.Card
+								var dept3 = CreateDept("Подразделение " + i + j + k + m, org.UID, dept2.UID);
+								deptUIDs.Add(dept3.UID);
+								Context.Departments.InsertOnSubmit(dept3);
+								for (int n = 0; n < 2; n++)
 								{
-									EmployeeUID = empl.UID,
-									Number = m,
-									UID = Guid.NewGuid(),
-									EndDate = new DateTime(1900, 1, 1),
-									StartDate = new DateTime(1900, 1, 1),
-									ExternalKey = "-1",
-									CardType = 1
-								};
-								Context.Cards.InsertOnSubmit(card);
+									var dept4 = CreateDept("Подразделение " + i + j + k + m + n, org.UID, dept3.UID);
+									deptUIDs.Add(dept4.UID);
+									Context.Departments.InsertOnSubmit(dept4);
+								}
 							}
 						}
-						//var dept2 = new DataAccess.Department { Name = "Подразделение " + i + j + "1", OrganisationUID = org.UID, ParentDepartmentUID = dept.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-						//Context.Departments.InsertOnSubmit(dept2);
-						//for (int k = 0; k < 500; k++)
-						//{
-						//    var empl = new DataAccess.Employee
-						//    {
-						//        LastName = "Фамилия " + i + j + k + "1",
-						//        FirstName = "Имя " + i + j + k + "1",
-						//        SecondName = "Отчество " + i + j + k + "1",
-						//        DepartmentUID = dept2.UID,
-						//        PositionUID = posUIDs.LastOrDefault(),
-						//        OrganisationUID = org.UID,
-						//        UID = Guid.NewGuid(),
-						//        RemovalDate = new DateTime(1900, 1, 1),
-						//        BirthDate = new DateTime(1900, 1, 1),
-						//        CredentialsStartDate = new DateTime(1900, 1, 1),
-						//        DocumentGivenDate = new DateTime(1900, 1, 1),
-						//        DocumentValidTo = new DateTime(1900, 1, 1),
-						//        LastEmployeeDayUpdate = new DateTime(1900, 1, 1),
-						//        ScheduleStartDate = new DateTime(1900, 1, 1),
-						//        ExternalKey = "-1",
-						//        Type = 0
-						//    };
-						//    Context.Employees.InsertOnSubmit(empl);
-						//}
+					}
+					for (int j = 0; j < 500; j++)
+					{
+						var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
+						Context.Employees.InsertOnSubmit(empl);
+					}
+					for (int j = 0; j < 500; j++)
+					{
+						var empl = CreateEmpl("Сотрудник " + i + j + "1", org.UID, deptUIDs.LastOrDefault(), posUIDs.LastOrDefault());
+						Context.Employees.InsertOnSubmit(empl);
 					}
 				}
 				Context.SubmitChanges();
@@ -306,6 +298,34 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
+		}
+
+		DataAccess.Department CreateDept(string name, Guid orgUID, Guid? parentUID = null)
+		{
+			return new DataAccess.Department { Name = name, OrganisationUID = orgUID, UID = Guid.NewGuid(), ParentDepartmentUID = parentUID, RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+		}
+
+		DataAccess.Employee CreateEmpl(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
+		{
+			return new DataAccess.Employee
+			{
+				LastName = "Фамилия " + no,
+				FirstName = "Имя " + no,
+				SecondName = "Отчество " + no,
+				DepartmentUID = deptUID,
+				PositionUID = posUID,
+				OrganisationUID = orgUID,
+				UID = Guid.NewGuid(),
+				RemovalDate = new DateTime(1900, 1, 1),
+				BirthDate = new DateTime(1900, 1, 1),
+				CredentialsStartDate = new DateTime(1900, 1, 1),
+				DocumentGivenDate = new DateTime(1900, 1, 1),
+				DocumentValidTo = new DateTime(1900, 1, 1),
+				LastEmployeeDayUpdate = new DateTime(1900, 1, 1),
+				ScheduleStartDate = new DateTime(1900, 1, 1),
+				ExternalKey = "-1",
+				Type = 0
+			};
 		}
 
 		public OperationResult GenerateEmployeeDays()

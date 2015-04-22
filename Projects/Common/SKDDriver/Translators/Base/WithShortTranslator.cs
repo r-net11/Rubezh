@@ -22,6 +22,7 @@ namespace SKDDriver
 		{
 			try
 			{
+				BeforeGetList();
 				var result = new List<TShort>();
 				foreach (var tableItem in GetTableItems(filter))
 				{
@@ -30,6 +31,7 @@ namespace SKDDriver
 				}
 				var operationResult = new OperationResult<IEnumerable<TShort>>();
 				operationResult.Result = result;
+				AfterGetList();
 				return operationResult;
 			}
 			catch (Exception e)
@@ -37,6 +39,9 @@ namespace SKDDriver
 				return new OperationResult<IEnumerable<TShort>>(e.Message);
 			}
 		}
+		
+		protected virtual void BeforeGetList() { }
+		protected virtual void AfterGetList() { }
 
 		public TShort GetSingleShort(Guid? uid)
 		{

@@ -15,7 +15,7 @@
 			<ToolBarButton Command="{Binding CopyCommand}" ImageSource="Copy"  ToolTip="Копировать" />
 			<ToolBarButton Command="{Binding PasteCommand}" ImageSource="Paste"  ToolTip="Вставить" />
 			<ToolBarButton Command="{Binding RestoreCommand}" ImageSource="Redo"  ToolTip="Восстановить" Visibility="{Binding IsWithDeleted, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="Settings2"  ToolTip="Настройки ночного времени" />
+            <ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="Settings2"  ToolTip="Настройки ночных интервалов" />
 		</StackPanel>
 
 		<Grid Grid.Row="1">

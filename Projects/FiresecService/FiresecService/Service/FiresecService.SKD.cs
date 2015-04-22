@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using ChinaSKDDriver;
@@ -18,10 +19,16 @@ namespace FiresecService.Service
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+			OperationResult<IEnumerable<ShortEmployee>> result;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.EmployeeTranslator.GetList(filter);
+				result = databaseService.EmployeeTranslator.GetList(filter);
 			}
+			stopwatch.Stop();
+			Trace.WriteLine("Server GetEmployeeList " + stopwatch.Elapsed);
+			return result;
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
@@ -110,10 +117,16 @@ namespace FiresecService.Service
 		#region Department
 		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+			OperationResult<IEnumerable<ShortDepartment>> result;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.DepartmentTranslator.GetList(filter);
+				result = databaseService.DepartmentTranslator.GetList(filter);
 			}
+			stopwatch.Stop();
+			Trace.WriteLine("Server GetDepartmentList " + stopwatch.Elapsed);
+			return result;
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
 		{
@@ -166,15 +179,33 @@ namespace FiresecService.Service
 				return databaseService.DepartmentTranslator.Restore(department.UID);
 			}
 		}
+
+		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.GetChildEmployeeUIDs(uid);
+			}
+		}
+
+		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.GetParentEmployeeUIDs(uid);
+			}
+		}
 		#endregion
 
 		#region Position
 		public OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
+			OperationResult<IEnumerable<ShortPosition>> result;
 			using (var databaseService = new SKDDatabaseService())
 			{
-				return databaseService.PositionTranslator.GetList(filter);
+				result = databaseService.PositionTranslator.GetList(filter);
 			}
+			return result;
 		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{

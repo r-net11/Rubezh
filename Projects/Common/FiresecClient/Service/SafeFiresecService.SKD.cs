@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
@@ -12,7 +13,12 @@ namespace FiresecClient
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+			var result = SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
+			stopwatch.Stop();
+			Trace.WriteLine("Client GetEmployeeList " + stopwatch.Elapsed);
+			return result;
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
@@ -68,6 +74,14 @@ namespace FiresecClient
 		public OperationResult RestoreDepartment(ShortDepartment item)
 		{
 			return SafeContext.Execute(() => FiresecService.RestoreDepartment(item));
+		}
+		public OperationResult<IEnumerable<Guid>> GetChildEmployeeUIDs(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetChildEmployeeUIDs(uid));
+		}
+		public OperationResult<IEnumerable<Guid>> GetParentEmployeeUIDs(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Guid>>>(() => FiresecService.GetParentEmployeeUIDs(uid));
 		}
 		#endregion
 
