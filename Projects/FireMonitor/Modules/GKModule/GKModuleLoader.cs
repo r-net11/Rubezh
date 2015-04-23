@@ -37,6 +37,8 @@ namespace GKModule
 		static MPTsViewModel MPTsViewModel;
 		static DoorsViewModel DoorsViewModel;
 		static AlarmsViewModel AlarmsViewModel;
+		static DaySchedulesViewModel DaySchedulesViewModel;
+		static SchedulesViewModel SchedulesViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _guardZonesNavigationItem;
 		NavigationItem _skdZonesNavigationItem;
@@ -70,6 +72,8 @@ namespace GKModule
 			MPTsViewModel = new MPTsViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
+			DaySchedulesViewModel = new DaySchedulesViewModel();
+			SchedulesViewModel = new SchedulesViewModel();
 			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Unsubscribe(OnShowAlarms);
 			ServiceFactory.Events.GetEvent<ShowGKAlarmsEvent>().Subscribe(OnShowAlarms);
 			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Unsubscribe(OnShowGKDebug);
@@ -217,6 +221,8 @@ namespace GKModule
 			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			DoorsViewModel.Initialize();
 			_doorsNavigationItem.IsVisible = GKManager.DeviceConfiguration.Doors.Count > 0;
+			DaySchedulesViewModel.Initialize();
+			SchedulesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -247,6 +253,12 @@ namespace GKModule
 						_mptsNavigationItem,
 						_skdZonesNavigationItem,
 						_doorsNavigationItem,
+						new NavigationItem("СКД", "tree",
+							new List<NavigationItem>()
+							{
+								new NavigationItem<ShowGKDaySchedulesEvent, Guid>(DaySchedulesViewModel, "Дневные графики", "ShedulesDaylyW", null, null, Guid.Empty),
+								new NavigationItem<ShowGKScheduleEvent, Guid>(SchedulesViewModel, "Графики", "ShedulesW", null, null, Guid.Empty),
+							}),
 					})
 			};
 		}
