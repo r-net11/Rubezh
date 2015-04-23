@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using System.IO;
 
 namespace FiresecAPI
 {
@@ -19,7 +20,7 @@ namespace FiresecAPI
 		OperationResult<GKDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
+		Stream GKReadConfigurationFromGKFile(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID);

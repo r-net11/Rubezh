@@ -48,12 +48,6 @@ namespace FiresecService.Service
 			}
 			stream.Close();
 
-			//using (var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") }))
-			//{
-			//    var fileInfo = new FileInfo(configFileName);
-			//    var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
-			//    zipFile.ExtractAll(unzipFolderPath);
-			//}
 			return configFileName;
 		}
 

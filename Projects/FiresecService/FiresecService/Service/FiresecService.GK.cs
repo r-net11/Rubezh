@@ -9,6 +9,7 @@ using GKProcessor;
 using FiresecAPI.Journal;
 using SKDDriver;
 using FiresecAPI.SKD;
+using System.IO;
 
 namespace FiresecService.Service
 {
@@ -51,7 +52,7 @@ namespace FiresecService.Service
 			return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
 		{
 			var device = GKManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
@@ -59,7 +60,8 @@ namespace FiresecService.Service
 				DescriptorsManager.Create();
 				return GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName);
 			}
-			return new OperationResult<GKDeviceConfiguration>("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
+			return Stream.Null;
+			//return new OperationResult<Stream("Не найдено устройство в конфигурации. Предварительно необходимо применить конфигурацию");
 		}
 
 		public OperationResult<GKDeviceConfiguration> GKAutoSearch(Guid deviceUID)

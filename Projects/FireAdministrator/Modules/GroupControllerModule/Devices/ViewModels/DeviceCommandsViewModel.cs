@@ -15,6 +15,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using System.IO;
+using Ionic.Zip;
+using System.Text;
 
 namespace GKModule.Models
 {
@@ -211,19 +214,48 @@ namespace GKModule.Models
 		{
 			var thread = new Thread(() =>
 			{
-				var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
+				var stream = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
 
 				ApplicationService.Invoke(new Action(() =>
 				{
-					if (!result.HasError)
+					if (stream != Stream.Null)
 					{
+						var folderName = AppDataFolderHelper.GetLocalFolder("GKFile");
+						var configFileName = Path.Combine(folderName, "Config.fscp");
+						if (Directory.Exists(folderName))
+							Directory.Delete(folderName, true);
+						Directory.CreateDirectory(folderName);
+
+						var configFileStream = File.Create(configFileName);
+						FiresecManager.CopyStream(stream, configFileStream);
+						configFileStream.Close();
+
+						if (new FileInfo(configFileName).Length == 0)
+						{
+							MessageBoxService.ShowError("Ошибка при чтении конфигурации");
+							return;
+						}
+
+						var zipFile = ZipFile.Read(configFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+						var fileInfo = new FileInfo(configFileName);
+						var unzipFolderPath = Path.Combine(fileInfo.Directory.FullName, "Unzip");
+						zipFile.ExtractAll(unzipFolderPath);
+						zipFile.Dispose();
+						var configurationFileName = Path.Combine(unzipFolderPath, "GKDeviceConfiguration.xml");
+						if (!File.Exists(configurationFileName))
+						{
+							MessageBoxService.ShowError("Ошибка при распаковке файла");
+							return;
+						}
+						var deviceConfiguration = ZipSerializeHelper.DeSerialize<GKDeviceConfiguration>(configurationFileName, true);
+
 						ConfigurationCompareViewModel configurationCompareViewModel = null;
 						WaitHelper.Execute(() =>
 						{
 							DescriptorsManager.Create();
-							result.Result.UpdateConfiguration();
-							result.Result.PrepareDescriptors();
-							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
+							deviceConfiguration.UpdateConfiguration();
+							deviceConfiguration.PrepareDescriptors();
+							configurationCompareViewModel = new ConfigurationCompareViewModel(GKManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true);
 						});
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
@@ -237,7 +269,7 @@ namespace GKModule.Models
 					else
 					{
 						LoadingService.Close();
-						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
+						MessageBoxService.ShowWarning("Ошибка при чтении конфигурационного файла");
 					}
 				}));
 			});

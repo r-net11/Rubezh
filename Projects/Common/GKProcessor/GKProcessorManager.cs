@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using FiresecAPI.Journal;
+using System.IO;
 
 namespace GKProcessor
 {
@@ -209,14 +210,19 @@ namespace GKProcessor
 			return new OperationResult<GKDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
-		public static OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(GKDevice device, string userName)
+		public static Stream GKReadConfigurationFromGKFile(GKDevice device, string userName)
 		{
 			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, JournalEventDescriptionType.NULL, "", device, userName);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
-			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
+			var filePath = gkFileReaderWriter.ReadConfigFileFromGK(device);
 			ResumeMonitoring(device);
-			return new OperationResult<GKDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
+			if (filePath != null)
+			{
+				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+			}
+			return Stream.Null;
+			//return new OperationResult<Stream> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = new FileStream(filePath, FileMode.Open, FileAccess.Read) };
 		}
 
 		public static OperationResult<GKDeviceConfiguration> GKAutoSearch(GKDevice device, string userName)

@@ -199,7 +199,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		public Stream GKReadConfigurationFromGKFile(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
 		}

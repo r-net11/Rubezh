@@ -14,7 +14,7 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public GKDeviceConfiguration ReadConfigFileFromGK(GKDevice gkControllerDevice)
+		public string ReadConfigFileFromGK(GKDevice gkControllerDevice)
 		{
 			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkControllerDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
@@ -51,10 +51,16 @@ namespace GKProcessor
 				if (allbytes.Count == 0)
 				{ Error = "Конфигурационный файл отсутствует"; return null; }
 
-				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
-				if (ZipFileConfigurationHelper.Error != null)
-				{ Error = ZipFileConfigurationHelper.Error; return null; }
-				return deviceConfiguration;
+				var folderName = AppDataFolderHelper.GetFolder("TempServer");
+				var configFileName = Path.Combine(folderName, "ConfigFromGK.fscp");
+				if (Directory.Exists(folderName))
+					Directory.Delete(folderName, true);
+				Directory.CreateDirectory(folderName);
+				var fileStream = new FileStream(configFileName, FileMode.CreateNew, FileAccess.ReadWrite);
+				fileStream.Write(allbytes.ToArray(), 0, allbytes.Count);
+				fileStream.Close();
+
+				return configFileName;
 			}
 			catch (Exception e)
 			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); Error = "Непредвиденная ошибка"; return null; }

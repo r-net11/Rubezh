@@ -5,6 +5,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using GKProcessor;
 using Infrastructure.Common;
+using System.IO;
 
 namespace FiresecClient
 {
@@ -25,7 +26,7 @@ namespace FiresecClient
 			return SafeOperationCall(() => FiresecService.GKReadConfiguration(device.UID), "GKReadConfiguration");
 		}
 
-		public OperationResult<GKDeviceConfiguration> GKReadConfigurationFromGKFile(GKDevice device)
+		public Stream GKReadConfigurationFromGKFile(GKDevice device)
 		{
 			return SafeOperationCall(() => FiresecService.GKReadConfigurationFromGKFile(device.UID), "GKReadConfigurationFromGKFile");
 		}

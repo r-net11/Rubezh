@@ -207,7 +207,6 @@
     <Compile Include="Windows\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
