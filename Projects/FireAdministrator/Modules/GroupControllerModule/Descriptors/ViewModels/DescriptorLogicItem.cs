@@ -51,6 +51,21 @@ namespace GKModule.ViewModels
 					FirstOperand = "";
 					break;
 
+				case FormulaOperationType.PUTMEMB:
+				case FormulaOperationType.GETMEMB:
+					FirstOperand = "";
+					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
+					if (descriptorViewModel != null)
+					{
+						DescriptorIcon = descriptorViewModel.ImageSource;
+						SecondOperand = descriptorViewModel.Descriptor.GKBase.PresentationName;
+					}
+					else
+					{
+						SecondOperand = "<Не найдено в конфигурации>";
+					}
+					break;
+
 				default:
 					IsBold = true;
 
@@ -60,7 +75,7 @@ namespace GKModule.ViewModels
 					var stateTypeToStringConverter = new EnumToDescriptionConverter();
 					FirstOperand = (string)stateTypeToStringConverter.Convert((GKStateBit)FormulaOperation.FirstOperand, null, null, null);
 
-					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
+					descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => ((x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Gk && x.Descriptor.GKBase.GKDescriptorNo == FormulaOperation.SecondOperand) || (x.Descriptor.DatabaseType == GKProcessor.DatabaseType.Kau && x.Descriptor.GKBase.KAUDescriptorNo == FormulaOperation.SecondOperand)));
 					if (descriptorViewModel != null)
 					{
 						DescriptorIcon = descriptorViewModel.ImageSource;
@@ -131,7 +146,8 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.TSTP:
 					case FormulaOperationType.KOD:
 					case FormulaOperationType.ACSP:
-						return "/Controls;component/Images/BArrowUp.png";
+					case FormulaOperationType.GETMEMB:
+						return "/Controls;component/Images/RedArrowUp.png";
 
 					case FormulaOperationType.ADD:
 					case FormulaOperationType.AND:
@@ -151,7 +167,8 @@ namespace GKModule.ViewModels
 					case FormulaOperationType.CMPKOD:
 					case FormulaOperationType.BR:
 					case FormulaOperationType.PUTP:
-						return "/Controls;component/Images/BArrowDown.png";
+					case FormulaOperationType.PUTMEMB:
+						return "/Controls;component/Images/GreenArrowDown.png";
 
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:

@@ -32,9 +32,7 @@
 					<DataGridTemplateColumn Width="*" MinWidth="250" Header="Наименование" SortMemberPath="Direction.Name">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
-								</StackPanel>
+								<TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

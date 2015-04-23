@@ -38,7 +38,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" />
+					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" Width="*" />
 					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 				</DataGrid.Columns>
 			</DataGrid>
@@ -65,22 +65,13 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
+									<Image Margin="1 0 0 0" Source="/Controls;component/Images/GuardZone.png" VerticalAlignment="Center" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Зоны" SortMemberPath="Name" Width="Auto" CanUserResize="False">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Source="/Controls;component/Images/GuardZone.png" VerticalAlignment="Center" />
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" />
+					<DataGridTextColumn Binding="{Binding Name}" Header="Зоны" Width="*" />
 					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 				</DataGrid.Columns>
 			</DataGrid>

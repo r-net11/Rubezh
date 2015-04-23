@@ -98,6 +98,12 @@ namespace FiresecAPI.GK
 		END = 31,
 
 		[DescriptionAttribute("Проверка уровня доступа")]
-		ACSP = 32
+		ACSP = 32,
+
+		[DescriptionAttribute("Сохранить местоположение в точку доступа")]
+		GETMEMB = 33,
+
+		[DescriptionAttribute("Считать местоположение из точки доступа")]
+		PUTMEMB = 34
 	}
 }

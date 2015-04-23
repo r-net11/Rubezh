@@ -38,7 +38,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" />
+					<DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" Width="*" />
 					<DataGridTemplateColumn Width="Auto" MinWidth="150" Header="Функция">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
@@ -99,7 +99,7 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Name}" Header="Зоны" />
+					<DataGridTextColumn Binding="{Binding Name}" Header="Зоны" Width="*" />
 					<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
 				</DataGrid.Columns>
 			</DataGrid>

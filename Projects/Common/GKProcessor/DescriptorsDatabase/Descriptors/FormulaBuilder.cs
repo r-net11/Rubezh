@@ -210,6 +210,7 @@ namespace GKProcessor
 
 					case FormulaOperationType.KOD:
 					case FormulaOperationType.ACSP:
+					case FormulaOperationType.GETMEMB:
 						stackDepth += 2;
 						break;
 
@@ -234,6 +235,7 @@ namespace GKProcessor
 						break;
 
 					case FormulaOperationType.PUTP:
+					case FormulaOperationType.PUTMEMB:
 						stackDepth -= 2;
 						break;
 

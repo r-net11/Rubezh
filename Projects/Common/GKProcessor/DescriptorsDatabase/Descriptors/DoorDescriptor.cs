@@ -84,6 +84,15 @@ namespace GKProcessor
 				Formula.AddGetBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.OR);
 				Formula.AddPutBit(GKStateBit.Fire1, Door, DatabaseType.Gk);
+				if (GlobalSettingsHelper.GlobalSettings.AntipassbackOn)
+				{
+					Formula.AddGetBit(GKStateBit.On, Door, DatabaseType.Gk);
+					Formula.AddGetBit(GKStateBit.Fire1, Door.LockControlDevice, DatabaseType.Gk);
+					Formula.Add(FormulaOperationType.AND);
+					Formula.Add(FormulaOperationType.BR, 1, 2);
+					Formula.Add(FormulaOperationType.GETMEMB, 0, (byte)Door.GKDescriptorNo);
+					Formula.Add(FormulaOperationType.PUTP);
+				}
 			}
 
 			if (Door.EnterDevice != null || Door.ExitDevice != null)
@@ -103,14 +112,14 @@ namespace GKProcessor
 			var device = enterDevice ? Door.EnterDevice : Door.ExitDevice;
 			if (device.DriverType == GKDriverType.RSR2_CodeReader || device.DriverType == GKDriverType.RSR2_CardReader)
 			{
-				int operationCount = 6;
+				int operationCount = 4;
 				var zone1 = GKManager.SKDZones.FirstOrDefault(x => x.UID == (enterDevice ? Door.ExitZoneUID : Door.EnterZoneUID));
 				var zone2 = GKManager.SKDZones.FirstOrDefault(x => x.UID == (enterDevice ? Door.EnterZoneUID : Door.ExitZoneUID));
 
 				if (zone1 != null)
-					operationCount++;
-				if (zone2 != null)
 					operationCount += 2;
+				if (zone2 != null)
+					operationCount += 3;
 				Formula.AddGetBit(GKStateBit.Attention, device, DatabaseType.Gk);
 				Formula.AddGetBit(GKStateBit.Off, Door, DatabaseType.Gk);
 				Formula.Add(FormulaOperationType.AND);
@@ -121,16 +130,16 @@ namespace GKProcessor
 				if (GlobalSettingsHelper.GlobalSettings.AntipassbackOn)
 				{
 					Formula.Add(FormulaOperationType.ACSP, (byte) Door.EnterLevel, device.GKDescriptorNo);
-					Formula.Add(FormulaOperationType.BR, 1, (byte) (operationCount - 2));
+					Formula.Add(FormulaOperationType.BR, 1, (byte) (operationCount - 3));
 					if (zone1 != null)
 					{
 						Formula.Add(FormulaOperationType.TSTP, 0, (byte) zone1.No);
-						Formula.Add(FormulaOperationType.BR, 1, (byte)(operationCount - 4));
+						Formula.Add(FormulaOperationType.BR, 1, (byte)(operationCount - 5));
 					}
 					if (zone2 != null)
 					{
 						Formula.Add(FormulaOperationType.CONST, 0, (byte) zone2.No);
-						Formula.Add(FormulaOperationType.PUTP);
+						Formula.Add(FormulaOperationType.PUTMEMB, 0, (byte)Door.GKDescriptorNo);
 						Formula.Add(FormulaOperationType.CONST, 0, 1);
 					}
 				}
