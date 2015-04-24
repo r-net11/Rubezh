@@ -1364,3 +1364,9 @@ BEGIN
 	ALTER TABLE Employee ALTER COLUMN TabelNo nvarchar(40) NULL
 	INSERT INTO Patches (Id) VALUES ('Employee_TabelNo_String_40')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GKCardType')
+BEGIN
+	ALTER TABLE Card ADD GKCardType int NOT NULL DEFAULT -1
+	INSERT INTO Patches (Id) VALUES ('GKCardType')
+END

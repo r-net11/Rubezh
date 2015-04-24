@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 
@@ -47,6 +48,7 @@ namespace SKDDriver
 			result.UserTime = tableItem.UserTime;
 			result.GKLevel = tableItem.GKLevel;
 			result.GKLevelSchedule = tableItem.GKLevelSchedule;
+			result.GKCardType = (GKCardType)tableItem.GKCardType;
 			if (tableItem.EmployeeUID.HasValue)
 			{
 				result.EmployeeUID = tableItem.EmployeeUID.Value;
@@ -78,6 +80,7 @@ namespace SKDDriver
 			tableItem.UserTime = apiItem.UserTime;
 			tableItem.GKLevel = (byte)apiItem.GKLevel;
 			tableItem.GKLevelSchedule = (byte)apiItem.GKLevelSchedule;
+			tableItem.GKCardType = (int)apiItem.GKCardType;
 			if (tableItem.ExternalKey == null)
 				tableItem.ExternalKey = "-1";
 		}
