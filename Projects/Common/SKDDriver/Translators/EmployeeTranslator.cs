@@ -75,11 +75,11 @@ namespace SKDDriver
 			result.LastName = tableItem.LastName;
 			result.Description = tableItem.Description;
 			result.Cards = new List<SKDCard>();
-			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID);
+			result.Cards = DatabaseService.CardTranslator.GetAllByEmployee<DataAccess.Card>(tableItem.UID, _cards);
 			result.Type = (PersonType)tableItem.Type;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate.ToString("d MMM yyyy");
 			result.TabelNo = tableItem.TabelNo;
-			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID);
+			result.TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID, _additionalColumnTypeUIDs, _additionalColumns);
 			result.Phone = tableItem.Phone;
 			result.LastEmployeeDayUpdate = tableItem.LastEmployeeDayUpdate;
 			var position = _positions != null ? _positions.FirstOrDefault(x => x.UID == tableItem.PositionUID) : Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
@@ -106,6 +106,9 @@ namespace SKDDriver
 		List<DataAccess.Position> _positions;
 		List<DataAccess.Organisation> _organisations;
 		List<DataAccess.Schedule> _schedules;
+		List<Guid> _additionalColumnTypeUIDs;
+		List<DataAccess.AdditionalColumn> _additionalColumns;
+		List<DataAccess.Card> _cards;
 
 		protected override void BeforeGetList()
 		{
@@ -114,6 +117,9 @@ namespace SKDDriver
 			_positions = Context.Positions.ToList();
 			_organisations = Context.Organisations.ToList();
 			_schedules = Context.Schedules.ToList();
+			_additionalColumnTypeUIDs = DatabaseService.AdditionalColumnTypeTranslator.GetTextColumnTypes();
+			_additionalColumns = Context.AdditionalColumns.ToList();
+			_cards = Context.Cards.ToList();
 		}
 
 		protected override void AfterGetList()
@@ -123,6 +129,9 @@ namespace SKDDriver
 			_positions = null;
 			_organisations = null;
 			_schedules = null;
+			_additionalColumns = null;
+			_additionalColumnTypeUIDs = null;
+			_cards = null;
 		}
 
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)
@@ -167,6 +176,12 @@ namespace SKDDriver
 				return photoSaveResult;
 			return base.Save(apiItem);
 		}
+
+		public Expression<Func<DataAccess.Employee, bool>> GetFilterExpression(EmployeeFilter filter)
+		{
+			return IsInFilter(filter);
+		}
+
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)
 		{
@@ -248,46 +263,46 @@ namespace SKDDriver
 				{
 					var org = new DataAccess.Organisation { Name = "Тестовая Организация " + i, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 					Context.Organisations.InsertOnSubmit(org);
-					var posUIDs = new List<Guid>();
-					for (int j = 0; j < 1000; j++)
+					//var posUIDs = new List<Guid>();
+					//for (int j = 0; j < 1000; j++)
+					//{
+					//    var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
+					//    Context.Positions.InsertOnSubmit(pos);
+					//    posUIDs.Add(pos.UID);
+					//}
+					//var deptUIDs = new List<Guid>();
+					//for (int j = 0; j < 100; j++)
+					//{
+					//    var dept = CreateDept("Подразделение " + i + j, org.UID);
+					//    deptUIDs.Add(dept.UID);
+					//    Context.Departments.InsertOnSubmit(dept);
+					//    for (int k = 0; k < 2; k++)
+					//    {
+					//        var dept2 = CreateDept("Подразделение " + i + j + k, org.UID, dept.UID);
+					//        deptUIDs.Add(dept2.UID);
+					//        Context.Departments.InsertOnSubmit(dept2);
+					//        for (int m = 0; m < 2; m++)
+					//        {
+					//            var dept3 = CreateDept("Подразделение " + i + j + k + m, org.UID, dept2.UID);
+					//            deptUIDs.Add(dept3.UID);
+					//            Context.Departments.InsertOnSubmit(dept3);
+					//            for (int n = 0; n < 2; n++)
+					//            {
+					//                var dept4 = CreateDept("Подразделение " + i + j + k + m + n, org.UID, dept3.UID);
+					//                deptUIDs.Add(dept4.UID);
+					//                Context.Departments.InsertOnSubmit(dept4);
+					//            }
+					//        }
+					//    }
+					//}
+					//for (int j = 0; j < 500; j++)
+					//{
+					//    var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
+					//    Context.Employees.InsertOnSubmit(empl);
+					//}
+					for (int j = 0; j < 15535; j++)
 					{
-						var pos = new DataAccess.Position { Name = "Должность " + i + j, OrganisationUID = org.UID, UID = Guid.NewGuid(), RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
-						Context.Positions.InsertOnSubmit(pos);
-						posUIDs.Add(pos.UID);
-					}
-					var deptUIDs = new List<Guid>();
-					for (int j = 0; j < 100; j++)
-					{
-						var dept = CreateDept("Подразделение " + i + j, org.UID);
-						deptUIDs.Add(dept.UID);
-						Context.Departments.InsertOnSubmit(dept);
-						for (int k = 0; k < 2; k++)
-						{
-							var dept2 = CreateDept("Подразделение " + i + j + k, org.UID, dept.UID);
-							deptUIDs.Add(dept2.UID);
-							Context.Departments.InsertOnSubmit(dept2);
-							for (int m = 0; m < 2; m++)
-							{
-								var dept3 = CreateDept("Подразделение " + i + j + k + m, org.UID, dept2.UID);
-								deptUIDs.Add(dept3.UID);
-								Context.Departments.InsertOnSubmit(dept3);
-								for (int n = 0; n < 2; n++)
-								{
-									var dept4 = CreateDept("Подразделение " + i + j + k + m + n, org.UID, dept3.UID);
-									deptUIDs.Add(dept4.UID);
-									Context.Departments.InsertOnSubmit(dept4);
-								}
-							}
-						}
-					}
-					for (int j = 0; j < 500; j++)
-					{
-						var empl = CreateEmpl("Сотрудник " + i + j + "0", org.UID, deptUIDs.FirstOrDefault(), posUIDs.FirstOrDefault());
-						Context.Employees.InsertOnSubmit(empl);
-					}
-					for (int j = 0; j < 500; j++)
-					{
-						var empl = CreateEmpl("Сотрудник " + i + j + "1", org.UID, deptUIDs.LastOrDefault(), posUIDs.LastOrDefault());
+						var empl = CreateEmployee(i + j + "1", org.UID);
 						Context.Employees.InsertOnSubmit(empl);
 					}
 				}
@@ -300,12 +315,12 @@ namespace SKDDriver
 			}
 		}
 
-		DataAccess.Department CreateDept(string name, Guid orgUID, Guid? parentUID = null)
+		DataAccess.Department CreateDepartment(string name, Guid orgUID, Guid? parentUID = null)
 		{
 			return new DataAccess.Department { Name = name, OrganisationUID = orgUID, UID = Guid.NewGuid(), ParentDepartmentUID = parentUID, RemovalDate = new DateTime(1900, 1, 1), ExternalKey = "-1" };
 		}
 
-		DataAccess.Employee CreateEmpl(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
+		DataAccess.Employee CreateEmployee(string no, Guid orgUID, Guid? deptUID = null, Guid? posUID = null)
 		{
 			return new DataAccess.Employee
 			{

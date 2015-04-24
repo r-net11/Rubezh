@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 			ShortEmployee = timeTrackEmployeeResult.ShortEmployee;
 			ScheduleName = timeTrackEmployeeResult.ScheduleName;
 			if (timeTrackEmployeeResult.DayTimeTracks == null)
-				timeTrackEmployeeResult.DayTimeTracks = new List<DayTimeTrack>();
+			    timeTrackEmployeeResult.DayTimeTracks = new List<DayTimeTrack>();
 
 			DayTracks = new ObservableCollection<DayTrackViewModel>();
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)

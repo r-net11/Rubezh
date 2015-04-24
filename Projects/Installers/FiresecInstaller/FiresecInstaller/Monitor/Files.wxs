@@ -28,6 +28,7 @@
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.DiagnosticsModule.dll" Name="DiagnosticsModule.dll" Source="$(var.Monitor.TargetDir)" />
 
         <File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />

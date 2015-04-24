@@ -67,17 +67,21 @@ namespace SKDDriver
 		public List<TextColumn> GetTextColumns(Guid employeeUID)
 		{
 			var textColumnTypes = DatabaseService.AdditionalColumnTypeTranslator.GetTextColumnTypes();
-				var textColumns = new List<TextColumn>();
-				var tableItems = from x in Table where x.EmployeeUID == employeeUID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
-				foreach (var item in tableItems)
+			return GetTextColumns(employeeUID, textColumnTypes, Table);
+		}
+
+		public List<TextColumn> GetTextColumns(Guid employeeUID, List<Guid> textColumnTypes, IEnumerable<DataAccess.AdditionalColumn> tableItems)
+		{
+			var textColumns = new List<TextColumn>();
+			foreach (var item in (from x in tableItems where x.EmployeeUID == employeeUID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x))
+			{
+				textColumns.Add(new TextColumn
 				{
-					textColumns.Add(new TextColumn
-						{
-							ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value),
-							Text = item.TextData
-						});
-				}
-				return textColumns;
+					ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value),
+					Text = item.TextData
+				});
+			}
+			return textColumns;
 		}
 
 		public override OperationResult Save(IEnumerable<AdditionalColumn> apiItems)

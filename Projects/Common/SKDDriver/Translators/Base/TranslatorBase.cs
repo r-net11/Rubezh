@@ -117,12 +117,19 @@ namespace SKDDriver
 		public List<ApiT> GetAllByEmployee<T>(Guid uid)
 			where T : class, DataAccess.ILinkedToEmployee, TableT
 		{
+			return GetAllByEmployee<T>(uid, Context.GetTable<T>());
+		}
+
+		public List<ApiT> GetAllByEmployee<T>(Guid uid, IEnumerable<T> tableItems)
+			where T : class, DataAccess.ILinkedToEmployee, TableT
+		{
 			var result = new List<ApiT>();
 			var table = Context.GetTable<T>();
-			foreach (var tableItem in table.Where(x => x.EmployeeUID.Equals(uid)))
+			foreach (var tableItem in tableItems.Where(x => x.EmployeeUID.Equals(uid)))
 				result.Add(Translate(tableItem));
 			return result;
 		}
+		
 
 		public List<ApiT> GetByEmployee<T>(Guid uid)
 			where T : class, DataAccess.ILinkedToEmployee, DataAccess.IIsDeletedDatabaseElement, TableT

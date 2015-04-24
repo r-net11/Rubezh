@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using ChinaSKDDriver;
@@ -19,15 +18,11 @@ namespace FiresecService.Service
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			OperationResult<IEnumerable<ShortEmployee>> result;
 			using (var databaseService = new SKDDatabaseService())
 			{
 				result = databaseService.EmployeeTranslator.GetList(filter);
 			}
-			stopwatch.Stop();
-			Trace.WriteLine("Server GetEmployeeList " + stopwatch.Elapsed);
 			return result;
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
@@ -117,15 +112,11 @@ namespace FiresecService.Service
 		#region Department
 		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			OperationResult<IEnumerable<ShortDepartment>> result;
 			using (var databaseService = new SKDDatabaseService())
 			{
 				result = databaseService.DepartmentTranslator.GetList(filter);
 			}
-			stopwatch.Stop();
-			Trace.WriteLine("Server GetDepartmentList " + stopwatch.Elapsed);
 			return result;
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)

@@ -27,7 +27,8 @@ namespace FiresecService.Service
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			return SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+			var result = SafeContext.Execute<OperationResult<TimeTrackResult>>(() => FiresecService.GetTimeTracks(filter, startDate, endDate));
+			return result;
 		}
 		public OperationResult SaveEmployeeDepartment(Guid uid, Guid departmentUid, string name)
 		{

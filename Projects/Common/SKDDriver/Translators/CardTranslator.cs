@@ -121,19 +121,6 @@ namespace SKDDriver
 					break;
 			}
 
-			if (filter.EmployeeFilter != null)
-			{
-				var employees = DatabaseService.EmployeeTranslator.GetList(filter.EmployeeFilter);
-				if (employees != null && !employees.HasError)
-				{
-					var employeeUIDs = employees.Result.Select(x => x.UID).ToList();
-					if(filter.DeactivationType == LogicalDeletationType.All)
-						result = result.And(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
-					else
-						result = result.And(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
-				}
-			}
-
 			if (filter.IsWithEndDate)
 			{
 				result = result.And(e => e.EndDate <= filter.EndDate);
@@ -147,6 +134,20 @@ namespace SKDDriver
 					result = result.And(e => e.CardType != null && filter.CardTypes.Contains((CardType)e.CardType.Value));
 			}
 
+			return result;
+		}
+
+		public override IEnumerable<DataAccess.Card> GetTableItems(CardFilter filter)
+		{
+			var result = base.GetTableItems(filter);
+			if(filter.EmployeeFilter != null)
+			{
+				var employeeUIDs = DatabaseService.EmployeeTranslator.GetTableItems(filter.EmployeeFilter).Select(x => x.UID);
+				if(filter.DeactivationType == LogicalDeletationType.All)
+					result = result.Where(e => e.IsInStopList || (e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value)));
+			    else
+			        result = result.Where(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
+			}
 			return result;
 		}
 

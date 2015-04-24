@@ -37,7 +37,7 @@ namespace SKDDriver
 			var result = Table.Where(IsInFilter(filter));
 			return result;
 		}
-		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
+		public virtual IEnumerable<TableT> GetTableItems(FilterT filter)
 		{
 			if (filter == null)
 				return new List<TableT>();

@@ -20,11 +20,16 @@ namespace SKDDriver.Translators
 
 		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
+			return Get(employeeUID, startDateTime, endDateTime, Context.TimeTrackDocuments);
+		}
+
+		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime, IEnumerable<DataAccess.TimeTrackDocument> tableItems)
+		{
 			try
 			{
-				var tableTimeTrackDocuments = Context.TimeTrackDocuments.Where(x => x.EmployeeUID == employeeUID && 
-					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) || 
-					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) || 
+				var tableTimeTrackDocuments = tableItems.Where(x => x.EmployeeUID == employeeUID &&
+					((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) ||
+					 (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime) ||
 					 (startDateTime >= x.StartDateTime.Date && startDateTime <= x.EndDateTime.Date) ||
 					 (endDateTime >= x.StartDateTime.Date && endDateTime <= x.EndDateTime.Date)));
 				if (tableTimeTrackDocuments != null)
@@ -55,6 +60,9 @@ namespace SKDDriver.Translators
 				return new OperationResult<List<TimeTrackDocument>>(e.Message);
 			}
 		}
+
+
+
 
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{

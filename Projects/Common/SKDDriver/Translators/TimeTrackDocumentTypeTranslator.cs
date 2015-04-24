@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using LinqKit;
-using OperationResult = FiresecAPI.OperationResult;
-using FiresecAPI.SKD;
-using FiresecAPI;
 using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI;
+using FiresecAPI.SKD;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
@@ -22,9 +20,14 @@ namespace SKDDriver.Translators
 
 		public OperationResult<List<TimeTrackDocumentType>> Get(Guid organisationUID)
 		{
+			return Get(organisationUID, Context.TimeTrackDocumentTypes);
+		}
+
+		public OperationResult<List<TimeTrackDocumentType>> Get(Guid organisationUID, IEnumerable<DataAccess.TimeTrackDocumentType> tableItems)
+		{
 			try
 			{
-				var tableTimeTrackDocumentTypes = Context.TimeTrackDocumentTypes.Where(x => x.OrganisationUID == organisationUID);
+				var tableTimeTrackDocumentTypes = tableItems.Where(x => x.OrganisationUID == organisationUID);
 				if (tableTimeTrackDocumentTypes != null)
 				{
 					var timeTrackDocumentTypes = new List<TimeTrackDocumentType>();
