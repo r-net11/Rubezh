@@ -238,25 +238,6 @@ namespace FiresecService.Service
 			return new OperationResult<List<GKUser>>("Не найден ГК в конфигурации");
 		}
 
-		public OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID)
-		{
-			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
-			if (gkControllerDevice != null)
-			{
-				var gkSKDHelper = new GKSKDHelper();
-				try
-				{
-					var users = gkSKDHelper.RemoveGKUsers(gkControllerDevice);
-					return new OperationResult<bool>() { Result = users };
-				}
-				catch (Exception e)
-				{
-					return new OperationResult<bool>(e.Message);
-				}
-			}
-			return new OperationResult<bool>("Не найден ГК в конфигурации");
-		}
-
 		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
 		{
 			var gkControllerDevice = GKManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
@@ -266,13 +247,14 @@ namespace FiresecService.Service
 				{
 					var gkSKDHelper = new GKSKDHelper();
 					gkSKDHelper.RemoveGKUsers(gkControllerDevice);
-					gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
+					//gkSKDHelper.ActualizeGKUsers(gkControllerDevice);
 
 					using (var databaseService = new SKDDatabaseService())
 					{
 						var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
 						if (!cardsResult.HasError)
 						{
+							int gkCardNo = 1;
 							foreach (var card in cardsResult.Result)
 							{
 								var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
@@ -283,7 +265,8 @@ namespace FiresecService.Service
 								if (employee != null)
 								{
 									gkSKDHelper = new GKSKDHelper();
-									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.FIO);
+									gkSKDHelper.AddOneCard(gkControllerDevice, card, accessTemplate, employee.FIO, gkCardNo);
+									gkCardNo++;
 								}
 							}
 						}

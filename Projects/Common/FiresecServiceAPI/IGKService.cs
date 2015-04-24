@@ -59,9 +59,6 @@ namespace FiresecAPI
 		OperationResult<List<GKUser>> GKActualizeUsers(Guid gkDeviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID);
-
-		[OperationContract]
 		OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID);
 
 		[OperationContract]

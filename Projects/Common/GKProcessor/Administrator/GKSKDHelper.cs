@@ -13,7 +13,7 @@ namespace GKProcessor
 {
 	public class GKSKDHelper
 	{
-		public OperationResult<bool> AddOneCard(GKDevice device, SKDCard card, AccessTemplate accessTemplate, string employeeName)
+		public OperationResult<bool> AddOneCard(GKDevice device, SKDCard card, AccessTemplate accessTemplate, string employeeName, int gkCardNo = 0)
 		{
 			var cardSchedules = new List<GKCardSchedule>();
 
@@ -56,16 +56,20 @@ namespace GKProcessor
 
 			cardSchedules = cardSchedules.OrderBy(x => x.Device.GKDescriptorNo).ToList();
 
-			var no = 1;
-			bool isNew = true;
-			using (var skdDatabaseService = new SKDDatabaseService())
+			var isNew = false;
+			if (gkCardNo == 0)
 			{
-				no = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.GetGKIpAddress(), card.Number, out isNew);
+				isNew = true;
+				gkCardNo = 1;
+				using (var skdDatabaseService = new SKDDatabaseService())
+				{
+					gkCardNo = skdDatabaseService.GKCardTranslator.GetFreeGKNo(device.GetGKIpAddress(), card.Number, out isNew);
+				}
 			}
 
 			var bytes = new List<byte>();
-			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
-			bytes.Add(0);
+			bytes.AddRange(BytesHelper.ShortToBytes((ushort)(gkCardNo)));
+			bytes.Add((byte)card.GKCardType);
 			bytes.Add(0);
 			var nameBytes = BytesHelper.StringDescriptionToBytes(employeeName);
 			bytes.AddRange(nameBytes);
@@ -129,7 +133,7 @@ namespace GKProcessor
 
 			using (var skdDatabaseService = new SKDDatabaseService())
 			{
-				skdDatabaseService.GKCardTranslator.AddOrEdit(device.GetGKIpAddress(), no, card.Number, employeeName);
+				skdDatabaseService.GKCardTranslator.AddOrEdit(device.GetGKIpAddress(), gkCardNo, card.Number, employeeName);
 			}
 
 			return new OperationResult<bool>() { Result = true };
@@ -194,7 +198,7 @@ namespace GKProcessor
 
 				var user = new GKUser();
 				user.GKNo = BytesHelper.SubstructShort(sendResult.Bytes, 1);
-				user.UserType = (GKUserType)sendResult.Bytes[3];
+				user.CardType = (GKCardType)sendResult.Bytes[3];
 				user.IsActive = sendResult.Bytes[4] == 0;
 				user.FIO = BytesHelper.BytesToStringDescription(sendResult.Bytes, 5);
 				user.Number = (uint)BytesHelper.SubstructInt(sendResult.Bytes, 37);
@@ -223,30 +227,26 @@ namespace GKProcessor
 					break;
 				}
 
-				var userType = (GKUserType)sendResult.Bytes[3];
-				if (userType == 0)
+				bytes = new List<byte>();
+				bytes.Add(0);
+				bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
+				bytes.Add(0);
+				bytes.Add(1);
+				var nameBytes = BytesHelper.StringDescriptionToBytes("-");
+				bytes.AddRange(nameBytes);
+				bytes.AddRange(BytesHelper.IntToBytes(-1));
+				bytes.Add(0);
+				bytes.Add(0);
+
+				for (int i = 0; i < 256 - 42; i++)
 				{
-					bytes = new List<byte>();
 					bytes.Add(0);
-					bytes.AddRange(BytesHelper.ShortToBytes((ushort)(no)));
-					bytes.Add(0);
-					bytes.Add(1);
-					var nameBytes = BytesHelper.StringDescriptionToBytes("Удален");
-					bytes.AddRange(nameBytes);
-					bytes.AddRange(BytesHelper.IntToBytes(999999));
-					bytes.Add(0);
-					bytes.Add(0);
+				}
 
-					for (int i = 0; i < 256 - 42; i++)
-					{
-						bytes.Add(0);
-					}
-
-					sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
-					if (sendResult.HasError || sendResult.Bytes.Count == 256)
-					{
-						//return new OperationResult<bool>(sendResult.Error);
-					}
+				sendResult = SendManager.Send(device, (ushort)(bytes.Count), 26, 0, bytes);
+				if (sendResult.HasError || sendResult.Bytes.Count == 256)
+				{
+					break;
 				}
 			}
 

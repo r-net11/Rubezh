@@ -102,24 +102,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		DateTime _selectedHoliday;
-		public DateTime SelectedHoliday
-		{
-			get { return _selectedHoliday; }
-			set
-			{
-				_selectedHoliday = value;
-				if (Schedule != null)
-				{
-					if (Schedule.Holidays.Contains(_selectedHoliday))
-						Schedule.Holidays.Remove(_selectedHoliday);
-					else
-						Schedule.Holidays.Add(_selectedHoliday);
-				}
-				OnPropertyChanged(() => SelectedHoliday);
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{

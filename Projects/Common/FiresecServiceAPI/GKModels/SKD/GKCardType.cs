@@ -17,7 +17,7 @@ namespace FiresecAPI.GK
 		Administrator = 2,
 
 		[Description("Инсталлятор")]
-		Installer = 3,
+		Installator = 3,
 
 		[Description("Изготовитель")]
 		Manufactor = 4,

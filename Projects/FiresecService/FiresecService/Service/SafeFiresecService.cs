@@ -265,11 +265,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKActualizeUsers(gkDeviceUID); }, "GKActualizeUsers");
 		}
 
-		public OperationResult<bool> GKRemoveUsers(Guid gkDeviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKRemoveUsers(gkDeviceUID); }, "GKRemoveUsers");
-		}
-
 		public OperationResult<bool> GKRewriteUsers(Guid gkDeviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKRewriteUsers(gkDeviceUID); }, "GKRewriteUsers");

@@ -22,6 +22,6 @@ namespace FiresecAPI.GK
 		public bool IsActive { get; set; }
 
 		[DataMember]
-		public GKUserType UserType { get; set; }
+		public GKCardType CardType { get; set; }
 	}
 }

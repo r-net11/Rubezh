@@ -504,6 +504,7 @@ namespace SKDModule.ViewModels
 			
 			Card.Password = Password;
 			Card.CardType = SelectedCardType;
+			Card.GKCardType = SelectedGKCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.GKLevel = GKLevel;

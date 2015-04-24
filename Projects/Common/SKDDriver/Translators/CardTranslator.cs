@@ -43,12 +43,13 @@ namespace SKDDriver
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
-			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty ;
+			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty;
 			result.Password = tableItem.Password;
 			result.UserTime = tableItem.UserTime;
 			result.GKLevel = tableItem.GKLevel;
 			result.GKLevelSchedule = tableItem.GKLevelSchedule;
-			result.GKCardType = (GKCardType)tableItem.GKCardType;
+			if (tableItem.GKCardType != -1)
+				result.GKCardType = (GKCardType)tableItem.GKCardType;
 			if (tableItem.EmployeeUID.HasValue)
 			{
 				result.EmployeeUID = tableItem.EmployeeUID.Value;
