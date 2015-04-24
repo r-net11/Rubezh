@@ -24,13 +24,13 @@ namespace SKDModule.ViewModels
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		public bool IsNewCard { get; private set; }
 		public bool HasGK { get; private set; }
-		public bool HasSKD { get; private set; }
+		public bool HasStrazh { get; private set; }
 		ShortEmployee _employee;
 		
 		public EmployeeCardDetailsViewModel(Organisation organisation, ShortEmployee employee, SKDCard card = null)
 		{
 			HasGK = GKManager.Devices.Count > 1;
-			HasSKD = SKDManager.Devices.Count > 1;
+			HasStrazh = SKDManager.Devices.Count > 1;
 			_employee = employee;
 
 			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
@@ -91,13 +91,25 @@ namespace SKDModule.ViewModels
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 
-			CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			if (_employee.Type == PersonType.Guest)
 			{
-				CardTypes.Remove(CardType.Constant);
-				CardTypes.Remove(CardType.Duress);
+				CardTypes = new ObservableCollection<CardType>() { CardType.Temporary, CardType.OneTime, CardType.Blocked };
+			}
+			else
+			{
+				CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			}
 			SelectedCardType = Card.CardType;
+
+			if (_employee.Type == PersonType.Guest)
+			{
+				GKCardTypes = new ObservableCollection<GKCardType>() { GKCardType.Employee };
+			}
+			else
+			{
+				GKCardTypes = new ObservableCollection<GKCardType>(Enum.GetValues(typeof(GKCardType)).OfType<GKCardType>());
+			}
+			SelectedGKCardType = Card.GKCardType;
 		}
 
 		uint _number;
@@ -122,16 +134,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<CardType> _cardTypes;
-		public ObservableCollection<CardType> CardTypes
-		{
-			get { return _cardTypes; }
-			set
-			{
-				_cardTypes = value;
-				OnPropertyChanged(() => CardTypes);
-			}
-		}
+		public ObservableCollection<CardType> CardTypes { get; private set; }
 
 		CardType _selectedCardType;
 		public CardType SelectedCardType
@@ -151,9 +154,22 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<GKCardType> GKCardTypes { get; private set; }
+
+		GKCardType _selectedGKCardType;
+		public GKCardType SelectedGKCardType
+		{
+			get { return _selectedGKCardType; }
+			set
+			{
+				_selectedGKCardType = value;
+				OnPropertyChanged(() => SelectedGKCardType);
+			}
+		}
+
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasSKD; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress || !HasStrazh; }
 		}
 
 		DateTime _startDate;
@@ -581,37 +597,6 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 			return true;
-		}
-
-		bool CheckChar(char c)
-		{
-			switch(c)
-			{
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'a':
-				case 'A':
-				case 'b':
-				case 'B':
-				case 'c':
-				case 'C':
-				case 'd':
-				case 'D':
-				case 'e':
-				case 'E':
-				case 'f':
-				case 'F':
-					return true;
-			}
-			return false;
 		}
 	}
 }
