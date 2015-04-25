@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using FiresecAPI.GK;
 using FiresecClient;
-using Infrastructure;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {
@@ -27,7 +25,10 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Schedules = new ObservableCollection<ScheduleViewModel>();
-			foreach (var schedule in GKManager.DeviceConfiguration.Schedules.OrderBy(x => x.No))
+			var schedules = GKScheduleHelper.GetSchedules();
+			if (schedules == null)
+				return;
+			foreach (var schedule in schedules.OrderBy(x => x.No))
 			{
 				var scheduleViewModel = new ScheduleViewModel(schedule);
 				Schedules.Add(scheduleViewModel);
@@ -96,10 +97,13 @@ namespace GKModule.ViewModels
 						}
 					}
 				}
-				GKManager.DeviceConfiguration.Schedules.Add(schedule);
-				var scheduleViewModel = new ScheduleViewModel(schedule);
-				Schedules.Add(scheduleViewModel);
-				SelectedSchedule = scheduleViewModel;
+				var saveScheduleResult = GKScheduleHelper.SaveSchedule(schedule, true);
+				if (saveScheduleResult)
+				{
+					var scheduleViewModel = new ScheduleViewModel(schedule);
+					Schedules.Add(scheduleViewModel);
+					SelectedSchedule = scheduleViewModel;
+				}
 			}
 		}
 
@@ -109,12 +113,15 @@ namespace GKModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить график работ " + SelectedSchedule.Schedule.PresentationName))
 			{
 				var index = Schedules.IndexOf(SelectedSchedule);
-				GKManager.DeviceConfiguration.Schedules.Remove(SelectedSchedule.Schedule);
-				SelectedSchedule.Schedule.OnChanged();
-				Schedules.Remove(SelectedSchedule);
-				index = Math.Min(index, Schedules.Count - 1);
-				if (index > -1)
-					SelectedSchedule = Schedules[index];
+				var deleteScheduleResult = GKScheduleHelper.DeleteSchedule(SelectedSchedule.Schedule);
+				if (deleteScheduleResult)
+				{
+					SelectedSchedule.Schedule.OnChanged();
+					Schedules.Remove(SelectedSchedule);
+					index = Math.Min(index, Schedules.Count - 1);
+					if (index > -1)
+						SelectedSchedule = Schedules[index];
+				}
 			}
 		}
 
@@ -124,8 +131,13 @@ namespace GKModule.ViewModels
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel(SelectedSchedule.Schedule);
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
-				SelectedSchedule.Update(scheduleDetailsViewModel.Schedule);
-				scheduleDetailsViewModel.Schedule.OnChanged();
+				var schedule = scheduleDetailsViewModel.Schedule;
+				var saveScheduleResult = GKScheduleHelper.SaveSchedule(schedule, false);
+				if (saveScheduleResult)
+				{
+					SelectedSchedule.Update(schedule);
+					scheduleDetailsViewModel.Schedule.OnChanged();
+				}
 			}
 		}
 

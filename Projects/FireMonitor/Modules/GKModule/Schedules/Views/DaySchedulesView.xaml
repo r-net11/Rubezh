@@ -18,27 +18,39 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<DataGrid Grid.Column="0" ItemsSource="{Binding DaySchedules}" SelectedItem="{Binding SelectedDaySchedule}">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="Наименование">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
-								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource ActiveStyle}" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="*" Header="Описание">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Description}" Style="{StaticResource ActiveStyle}" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <ToolBarButton Command="{Binding AddCommand}"  ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
+                <ToolBarButton Command="{Binding EditCommand}"  ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit"  />
+                <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
+            </StackPanel>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding DaySchedules}" SelectedItem="{Binding SelectedDaySchedule}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="*" Header="Наименование">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
+                                    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" Style="{StaticResource ActiveStyle}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" Header="Описание">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}" Style="{StaticResource ActiveStyle}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+		
 		<Grid Grid.Column="1" DataContext="{Binding SelectedDaySchedule}" IsEnabled="{Binding IsEnabled}" Margin="4 0 0 0">
 			<Grid DataContext="{Binding DaySchedulePartsViewModel}">
 				<Grid.RowDefinitions>

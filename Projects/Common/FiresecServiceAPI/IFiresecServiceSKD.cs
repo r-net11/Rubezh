@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 
 namespace FiresecAPI
@@ -295,6 +296,28 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult SaveJournalCameraUID(Guid journaItemUID, Guid CameraUID);
+
+		#region GKSchedule
+		[OperationContract]
+		OperationResult<List<GKSchedule>> GetGKSchedules();
+
+		[OperationContract]
+		OperationResult SaveGKSchedule(GKSchedule item, bool isNew);
+
+		[OperationContract]
+		OperationResult DeleteGKSchedule(GKSchedule item);
+		#endregion
+
+		#region GKDaySchedule
+		[OperationContract]
+		OperationResult<List<GKDaySchedule>> GetGKDaySchedules();
+
+		[OperationContract]
+		OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew);
+
+		[OperationContract]
+		OperationResult DeleteGKDaySchedule(GKDaySchedule item);
+		#endregion
 
 		#region Export
 		[OperationContract]

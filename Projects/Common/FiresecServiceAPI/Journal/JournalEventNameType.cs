@@ -485,6 +485,12 @@ namespace FiresecAPI.Journal
 		[EventName(JournalSubsystemType.SKD, "Редактирование шаблона пропуска", XStateClass.Info)]
 		Редактирование_шаблона_пропуска,
 
+		[EventName(JournalSubsystemType.GK, "Редактирование графика ГК", XStateClass.Info)]
+		Редактирование_графика_ГК,
+
+		[EventName(JournalSubsystemType.GK, "Редактирование дневного графика ГК", XStateClass.Info)]
+		Редактирование_дневного_графика_ГК,
+
 		[EventName(JournalSubsystemType.SKD, "Добавление нового сотрудника", XStateClass.Info)]
 		Добавление_нового_сотрудника,
 
@@ -520,6 +526,12 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
 		Внесение_оправдательного_документа,
+
+		[EventName(JournalSubsystemType.GK, "Добавление нового графика ГК", XStateClass.Info)]
+		Добавление_нового_графика_ГК,
+
+		[EventName(JournalSubsystemType.GK, "Добавление нового дневного графика ГК", XStateClass.Info)]
+		Добавление_нового_дневного_графика_ГК,
 
 		[EventName(JournalSubsystemType.GK, "Открыто", XStateClass.On)]
 		Открыто,
@@ -586,6 +598,12 @@ namespace FiresecAPI.Journal
 
 		[EventName(JournalSubsystemType.SKD, "Удаление шаблона пропуска", XStateClass.Info)]
 		Удаление_шаблона_пропуска,
+
+		[EventName(JournalSubsystemType.GK, "Удаление графика ГК", XStateClass.Info)]
+		Удаление_графика_ГК,
+
+		[EventName(JournalSubsystemType.GK, "Удаление дневного графика ГК", XStateClass.Info)]
+		Удаление_дневного_графика_ГК,
 
 		[EventName(JournalSubsystemType.SKD, "Восстановление сотрудника", XStateClass.Info)]
 		Восстановление_сотрудника,

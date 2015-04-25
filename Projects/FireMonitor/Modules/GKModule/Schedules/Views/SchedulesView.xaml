@@ -9,23 +9,38 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
-		<XDataGrid Grid.Column="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="№" SortMemberPath="Schedule.No" Width="Auto" CanUserResize="False">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/Shedule.png" Margin="2 0" />
-								<TextBlock VerticalAlignment="Center" Text="{Binding Schedule.No}" Margin="2 0 5 0" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" Binding="{Binding Schedule.Name}" Header="Наименование" />
-				<DataGridTextColumn Width="*" Binding="{Binding Schedule.Description}" Header="Примечание" />
-			</DataGrid.Columns>
-		</XDataGrid>
+        <Grid Grid.Column="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" >
+                <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="Add"  />
+                <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="Edit"  />
+                <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="Delete"  />
 
+                <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedSchedule}">
+                    <ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать" ImageSource="ParametersWrite"  />
+                </StackPanel>
+            </StackPanel>
+
+            <XDataGrid Grid.Row="1" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" CanUserSortColumns="True">
+			    <DataGrid.Columns>
+				    <DataGridTemplateColumn Header="№" SortMemberPath="Schedule.No" Width="Auto" CanUserResize="False">
+					    <DataGridTemplateColumn.CellTemplate>
+						    <DataTemplate>
+							    <StackPanel Orientation="Horizontal">
+								    <Image Source="/Controls;component/Images/Shedule.png" Margin="2 0" />
+								    <TextBlock VerticalAlignment="Center" Text="{Binding Schedule.No}" Margin="2 0 5 0" />
+							    </StackPanel>
+						    </DataTemplate>
+					    </DataGridTemplateColumn.CellTemplate>
+				    </DataGridTemplateColumn>
+				    <DataGridTextColumn Width="*" Binding="{Binding Schedule.Name}" Header="Наименование" />
+				    <DataGridTextColumn Width="*" Binding="{Binding Schedule.Description}" Header="Примечание" />
+			    </DataGrid.Columns>
+		    </XDataGrid>
+        </Grid>
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
 		<Grid Grid.Column="2" DataContext="{Binding SelectedSchedule}" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.IsHolidaySchedule, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 			<Grid.RowDefinitions>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
@@ -13,11 +13,7 @@ namespace FiresecClient
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
 			var result = SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
-			stopwatch.Stop();
-			Trace.WriteLine("Client GetEmployeeList " + stopwatch.Elapsed);
 			return result;
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
@@ -460,6 +456,40 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveJournalCameraUID(journalItemUID, CameraUID));
 		}
+
+		#region GKSchedule
+		public OperationResult<List<GKSchedule>> GetGKSchedules()
+		{
+			return SafeContext.Execute<OperationResult<List<GKSchedule>>>(() => FiresecService.GetGKSchedules());
+		}
+
+		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGKSchedule(item, isNew));
+		}
+
+		public OperationResult DeleteGKSchedule(GKSchedule item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteGKSchedule(item));
+		}
+		#endregion
+
+		#region GKDaySchedule
+		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
+		{
+			return SafeContext.Execute<OperationResult<List<GKDaySchedule>>>(() => FiresecService.GetGKDaySchedules());
+		}
+
+		public OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGKDaySchedule(item, isNew));
+		}
+
+		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteGKDaySchedule(item));
+		}
+		#endregion
 
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)

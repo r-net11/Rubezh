@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ChinaSKDDriver;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -1380,6 +1381,69 @@ namespace FiresecService.Service
 				return journalTranslator.SaveCameraUID(journalItemUID, CameraUID);
 			}
 		}
+
+
+		#region GKSchedule
+		public OperationResult<List<GKSchedule>> GetGKSchedules()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.GKScheduleTranslator.GetSchedules();
+			}
+		}
+			
+		public OperationResult SaveGKSchedule(GKSchedule item, bool isNew)
+		{
+			if (isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_нового_графика_ГК, item.Name, uid: item.UID);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.GKScheduleTranslator.SaveSchedule(item);
+			}
+		}
+
+		public OperationResult DeleteGKSchedule(GKSchedule item)
+		{
+			AddJournalMessage(JournalEventNameType.Удаление_графика_ГК, item.Name, uid: item.UID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.GKScheduleTranslator.DeleteSchedule(item);
+			}
+		}
+		#endregion
+
+		#region GKDaySchedule
+		public OperationResult<List<GKDaySchedule>> GetGKDaySchedules()
+		{
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.GKScheduleTranslator.GetDaySchedules();
+			}
+		}
+
+		public OperationResult SaveGKDaySchedule(GKDaySchedule item, bool isNew)
+		{
+			if (isNew)
+				AddJournalMessage(JournalEventNameType.Добавление_нового_дневного_графика_ГК, item.Name, uid: item.UID);
+			else
+				AddJournalMessage(JournalEventNameType.Редактирование_дневного_графика_ГК, item.Name, JournalEventDescriptionType.Редактирование, uid: item.UID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.GKScheduleTranslator.SaveDaySchedule(item);
+			}
+		}
+
+		public OperationResult DeleteGKDaySchedule(GKDaySchedule item)
+		{
+			AddJournalMessage(JournalEventNameType.Удаление_дневного_графика_ГК, item.Name, uid: item.UID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.GKScheduleTranslator.DeleteDaySchedule(item);
+			}
+		}
+		#endregion
 
 		#region Export
 		public OperationResult ExportOrganisation(ExportFilter filter)
